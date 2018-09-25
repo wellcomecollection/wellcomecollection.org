@@ -115,7 +115,15 @@ app.prepare().then(async () => {
   });
   router.get('/series/:id', async ctx => {
     const {toggles} = ctx;
-    await app.render(ctx.req, ctx.res, '/series', {
+    await app.render(ctx.req, ctx.res, '/article-series', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get('/events/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/event', {
       id: ctx.params.id,
       toggles
     });
