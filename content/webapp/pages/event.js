@@ -26,6 +26,7 @@ import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBac
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getEvent } from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   event: UiEvent

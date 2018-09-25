@@ -174,7 +174,7 @@ const fetchLinks = [].concat(
 type EventQueryProps = {|
   id: string
 |}
-export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?UiEvent> {
+export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
