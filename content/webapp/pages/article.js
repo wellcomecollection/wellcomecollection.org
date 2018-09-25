@@ -185,6 +185,7 @@ export class ArticlePage extends Component<Props, State> {
                 id: series.schedule[partOfSerial].title,
                 publishDate: new Date(series.schedule[partOfSerial].publishDate),
                 partNumber: partOfSerial + 1,
+                url: `/series/${series.id}`,
                 ...series.schedule[partOfSerial]
               }: ArticleScheduleItem);
 
