@@ -10,10 +10,16 @@ import type {MultiContent} from '../../../model/multi-content';
 type Props = {|
   title?: string,
   summary?: ?string,
-  items: $ReadOnlyArray<MultiContent>
+  items: $ReadOnlyArray<MultiContent>,
+  showPosition?: boolean
 |}
 
-const SearchResults = ({ items, title, summary }: Props) => (
+const SearchResults = ({
+  items,
+  title,
+  summary,
+  showPosition = false
+}: Props) => (
   <Fragment>
     {title && <div className='grid'>
       <div className={grid({s: 12})}>
@@ -39,6 +45,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='PagePromo'
               url={`/pages/${item.id}`}
               title={item.title || ''}
+              partNumber={null}
               labels={{labels: []}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
@@ -53,6 +60,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
+              partNumber={null}
               labels={{labels: [{url: null, text: 'Event series'}]}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
@@ -67,6 +75,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
+              partNumber={null}
               labels={{labels: [{url: null, text: 'Book'}]}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
@@ -77,7 +86,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
           }
 
           {item.type === 'articles' &&
-            <ArticleCard article={item} />
+            <ArticleCard article={item} showPosition={showPosition} />
           }
 
           {item.type === 'events' &&
@@ -89,6 +98,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='InstallationPromo'
               url={`/installations/${item.id}`}
               title={item.title || ''}
+              partNumber={null}
               labels={{labels: [{url: null, text: 'Installation'}]}}
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}

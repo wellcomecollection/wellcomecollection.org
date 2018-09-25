@@ -9,6 +9,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
+import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -92,27 +93,7 @@ export class ArticlePage extends Component<Props, State> {
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
     const TitleTopper = !partOfSerial ? null
-      : <div className={classNames({
-        [font({s: 'WB7'})]: true
-      })}>Part
-        <span
-          className={classNames({
-            'bg-purple': true,
-            [spacing({s: 1}, {margin: ['left']})]: true
-          })}
-          style={{
-            transform: 'rotateZ(-6deg)',
-            width: '24px',
-            height: '24px',
-            display: 'inline-block',
-            borderRadius: '3px',
-            textAlign: 'center'
-          }}>
-          <span className={'font-white'} style={{transform: 'rotateZ(6deg) scale(1.2)'}}>
-            {partOfSerial}
-          </span>
-        </span>
-      </div>;
+      : <PartNumberIndicator n={partOfSerial} />;
 
     const genericFields = {
       id: article.id,

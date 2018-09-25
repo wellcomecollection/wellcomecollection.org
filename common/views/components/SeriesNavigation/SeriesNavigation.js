@@ -13,13 +13,15 @@ type Props = {|
 |}
 
 const SeriesNavigation = ({ series, items }: Props) => {
+  const showPosition = !!(series.schedule && series.schedule.length > 0);
   return (
     <Fragment>
       <SearchResults
         key={series.id}
         title={`Read more from ${series.title}`}
         summary={series.promoText}
-        items={items} />
+        items={items}
+        showPosition={showPosition} />
       <PrimaryLink
         name={`More from ${series.title}`}
         url={`/${series.type === 'article-series' ? 'series' : 'event-series'}/${series.id}`}

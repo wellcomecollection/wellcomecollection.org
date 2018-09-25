@@ -4,14 +4,23 @@ import Image from '../Image/Image';
 import type {Article} from '../../../model/articles';
 
 type Props = {|
-  article: Article
+  article: Article,
+  showPosition: boolean
 |}
 
-const ArticleCard = ({ article }: Props) => {
+const ArticleCard = ({ article, showPosition }: Props) => {
+  const partOfSerial = showPosition ? article.series
+    .map(series => {
+      const titles = series.schedule.map(item => item.title);
+      const positionInSerial = titles.indexOf(article.title);
+      return positionInSerial + 1;
+    }).find(_ => _) : null;
+
   return (<CompactCard
     promoType='ArticlePromo'
     url={`/articles/${article.id}`}
     title={article.title || ''}
+    partNumber={partOfSerial}
     labels={{labels: [{url: null, text: 'Article'}]}}
     description={article.promoText}
     urlOverride={article.promo && article.promo.link}
