@@ -4,6 +4,7 @@ import {spacing, grid, classNames} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
+import ArticleCard from '../ArticleCard/ArticleCard';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -76,17 +77,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
           }
 
           {item.type === 'articles' &&
-            <CompactCard
-              promoType='ArticlePromo'
-              url={`/articles/${item.id}`}
-              title={item.title || ''}
-              labels={{labels: [{url: null, text: 'Article'}]}}
-              description={item.promoText}
-              urlOverride={item.promo && item.promo.link}
-              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              DateInfo={null}
-              StatusIndicator={null}
-            />
+            <ArticleCard article={item} />
           }
 
           {item.type === 'events' &&

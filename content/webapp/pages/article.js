@@ -193,14 +193,24 @@ export class ArticlePage extends Component<Props, State> {
         contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
-          // Overkill? Should this happen on the API?
-          const dedupedArticles = articles.filter(
-            a => a.id !== article.id
-          ).slice(0, 2);
-          return <SeriesNavigation
-            key={series.id}
-            series={series}
-            items={dedupedArticles} />;
+          if (partOfSerial && series.schedule && series.schedule.length > 0) {
+            const nextUp = partOfSerial - 1 === series.schedule.length ? articles[0]
+              : articles[partOfSerial] ? articles[partOfSerial] : null;
+
+            return nextUp && <SeriesNavigation
+              key={series.id}
+              series={series}
+              items={([nextUp]: Article[])} />;
+          } else {
+            // Overkill? Should this happen on the API?
+            const dedupedArticles = articles.filter(
+              a => a.id !== article.id
+            ).slice(0, 2);
+            return <SeriesNavigation
+              key={series.id}
+              series={series}
+              items={dedupedArticles} />;
+          }
         })}
       </BasePage>
     );
