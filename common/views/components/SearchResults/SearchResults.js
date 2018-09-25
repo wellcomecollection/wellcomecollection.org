@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, grid, classNames} from '../../../utils/classnames';
+import {formatDate} from '../../../utils/format-date';
 import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
@@ -87,6 +88,27 @@ const SearchResults = ({
 
           {item.type === 'articles' &&
             <ArticleCard article={item} showPosition={showPosition} />
+          }
+
+          {item.type === 'article-schedule-items' &&
+            <CompactCard
+              promoType='InstallationPromo'
+              url={''}
+              title={item.title}
+              partNumber={item.partNumber}
+              labels={{labels: [{url: null, text: 'Story'}]}}
+              description={`Available ${formatDate(item.publishDate)}`}
+              urlOverride={null}
+              Image={<Image
+                contentUrl={'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7ca32858-e347-4282-acaf-c55572961736_transparent.gif'}
+                width={16}
+                height={9}
+                alt={''}
+                extraClasses={'bg-purple'}
+              />}
+              DateInfo={null}
+              StatusIndicator={null}
+            />
           }
 
           {item.type === 'events' &&

@@ -5,11 +5,12 @@ import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import type {EventSeries} from '../../../model/event-series';
 import type {ArticleSeries} from '../../../model/article-series';
 import type {Article} from '../../../model/articles';
+import type {ArticleScheduleItem} from '../../../model/article-schedule-items';
 import type {UiEvent} from '../../../model/events';
 
 type Props = {|
   series: ArticleSeries | EventSeries,
-  items: Article[] | UiEvent[]
+  items: Article[] | UiEvent[] | ArticleScheduleItem[]
 |}
 
 const SeriesNavigation = ({ series, items }: Props) => {

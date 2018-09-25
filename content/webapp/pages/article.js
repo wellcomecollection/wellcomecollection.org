@@ -17,6 +17,7 @@ import {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
+import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
 
@@ -178,10 +179,23 @@ export class ArticlePage extends Component<Props, State> {
             const nextUp = partOfSerial - 1 === series.schedule.length ? articles[0]
               : articles[partOfSerial] ? articles[partOfSerial] : null;
 
-            return nextUp && <SeriesNavigation
+            const nextUpNotPublished = nextUp ? null
+              : ({
+                type: 'article-schedule-items',
+                id: series.schedule[partOfSerial].title,
+                publishDate: new Date(series.schedule[partOfSerial].publishDate),
+                partNumber: partOfSerial + 1,
+                ...series.schedule[partOfSerial]
+              }: ArticleScheduleItem);
+
+            return nextUp ? <SeriesNavigation
               key={series.id}
               series={series}
-              items={([nextUp]: Article[])} />;
+              items={([nextUp]: Article[])} />
+              : nextUpNotPublished ? <SeriesNavigation
+                key={series.id}
+                series={series}
+                items={([nextUpNotPublished]: ArticleScheduleItem[])} /> : null;
           } else {
             // Overkill? Should this happen on the API?
             const dedupedArticles = articles.filter(
