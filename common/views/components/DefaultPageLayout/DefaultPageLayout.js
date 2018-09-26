@@ -5,11 +5,11 @@ import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
-import {museumLd} from '../../../utils/json-ld';
+import {museumLd, objToJsonLd} from '../../../utils/json-ld';
 import Footer from '../Footer/Footer';
-import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 import {wellcomeCollection} from '../../../model/organization';
-
+import moment from 'moment';
+import type {GroupedVenues, OverrideType, OpeningHours} from '../../../model/opening-hours';
 import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
@@ -19,6 +19,31 @@ export type JsonLdObject = {
 }
 type jsonData = {
   data: JsonLdObject
+};
+
+const galleryOpeningTimes = function(galleryHours: ?OpeningHours) {
+  if (galleryHours) {
+    return {
+      openingHoursSpecification: galleryHours && galleryHours.regular.map(
+        openingHoursDay =>  {
+          const specObject = objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false);
+          delete specObject.note;
+          return specObject;
+        }
+      ),
+      specialOpeningHoursSpecification: galleryHours.exceptional && galleryHours.exceptional.map(
+        openingHoursDate => {
+          const specObject = {
+            opens: openingHoursDate.opens,
+            closes: openingHoursDate.closes,
+            validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
+            validThrough: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY')
+          };
+          return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+        }
+      )
+    };
+  }
 };
 
 const JsonLd = ({
@@ -200,6 +225,9 @@ class DefaultPageLayout extends Component<Props> {
       oEmbedUrl
     } = this.props;
 
+    const galleryVenue = openingTimes.groupedVenues.galleriesLibrary && openingTimes.groupedVenues.galleriesLibrary.hours.find(v => v.name === 'Galleries');
+    const galleryVenueHours = galleryVenue && galleryVenue.openingHours;
+
     return (
       <div>
         <Head>
@@ -234,7 +262,7 @@ class DefaultPageLayout extends Component<Props> {
           {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
           <NastyJs />
           <JsonLd data={pageJsonLd} />
-          <JsonLd data={museumLd(wellcomeCollection)} />
+          <JsonLd data={museumLd(Object.assign({}, wellcomeCollection, galleryOpeningTimes(galleryVenueHours)))} />
           <script dangerouslySetInnerHTML={{ __html: `
             window.WC = {
               featuresCohort: ${JSON.stringify(featuresCohort)},
