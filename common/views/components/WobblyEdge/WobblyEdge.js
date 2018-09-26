@@ -75,6 +75,9 @@ class WobblyEdge extends React.Component<Props, State> {
     const innerPoints = [...Array(totalPoints)].reduce((acc, curr, index) => {
       const xMean = 100 / totalPoints * index;
       const xShift = (100 / totalPoints) / 2;
+
+      if (index === 0) return [];
+
       const x = randomIntFromInterval((xMean - xShift), (xMean + xShift - 1));
       const y = randomIntFromInterval((100 - intensity), 100);
 
