@@ -3,6 +3,7 @@ import {Component, Fragment} from 'react';
 import SearchResults from '../SearchResults/SearchResults';
 import {grid} from '../../../utils/classnames';
 import {search} from '../../../services/prismic/search';
+import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
   title: ?string,
@@ -19,11 +20,6 @@ class AsyncSearchResults extends Component<Props, State> {
   async componentDidMount() {
     const searchResponse = await search(null, this.props.query);
     this.setState({ items: searchResponse.results });
-
-    // const url = `/async/search?query=${encodeURIComponent(this.props.query)}`;
-    // const componentHtml = await fetch(url).then(resp => resp.json()).then(json => json.html);
-    // const Comp = <div dangerouslySetInnerHTML={{__html: componentHtml}}></div>;
-    // this.setState({FetchedComponent: Comp});
   }
   render () {
     return (
