@@ -28,6 +28,19 @@ function convertImageToImageProps(image: Image): ImageProps {
   };
 }
 
+function convertArticleToPromo(article: Article, {sizes, weight}): ElementProps<typeof Promo> {
+  return {
+    sizes,
+    url: `/articles/${article.id}`,
+    contentType: 'article',
+    image: convertImageToImageProps(article.image),
+    title: article.title,
+    weight: weight,
+    description: article.promoText,
+    series: article.series
+  };
+}
+
 export class StoriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const articleResults = await getArticles(context.req, { predicates: [] });
@@ -53,6 +66,8 @@ export class StoriesPage extends Component<Props> {
 
     if (articleResults.results.length > 0) {
       const firstArticle = articleResults.results[0];
+      const secondFourArticles = articleResults.results.slice(1, 5);
+
       return (
         <Fragment>
           <div className={classNames({
@@ -95,15 +110,10 @@ export class StoriesPage extends Component<Props> {
                 <div className={classNames({
                   [grid({s: 12, m: 12, l: 12, xl: 12})]: true
                 })}>
-                  <Promo
-                    sizes='(min-width: 1420px) 812px, (min-width: 600px) 58.5vw, calc(100vw - 36px)'
-                    url={`/articles/${firstArticle.id}`}
-                    contentType={'article'}
-                    image={convertImageToImageProps(firstArticle.image)}
-                    title={firstArticle.title}
-                    weight={'featured'}
-                    description={firstArticle.promoText}
-                    series={firstArticle.series} />
+                  <Promo {...convertArticleToPromo(firstArticle, {
+                    weight: 'featured',
+                    sizes: '(min-width: 1420px) 812px, (min-width: 600px) 58.5vw, calc(100vw - 36px)'
+                  })} />
                 </div>
               </div>
             </div>
@@ -114,6 +124,18 @@ export class StoriesPage extends Component<Props> {
                 'divider--pumice': true,
                 [spacing({s: 3}, {margin: ['bottom']})]: true
               })} />
+            </div>
+            <div className='container container--scroll container--scroll-cream touch-scroll'>
+              <div className='grid grid--dividers grid--scroll grid--theme-4'>
+                {secondFourArticles.map(article =>
+                  <div className='grid__cell' key={article.id}>
+                    <Promo {...convertArticleToPromo(article, {
+                      weight: 'default',
+                      sizes: '(min-width: 1340px) 282px, (min-width: 600px) calc(47.22vw - 37px), calc(75vw - 18px)'
+                    })} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
