@@ -43,7 +43,7 @@ export function parseBook(document: PrismicDocument): Book {
   };
 }
 
-export async function getBook(req: Request, id: string): Promise<?Book> {
+export async function getBook(req: ?Request, id: string): Promise<?Book> {
   const document = await getDocument(req, id, {
     fetchLinks: contributorsFields.concat(peopleFields, organisationsFields)
   });
