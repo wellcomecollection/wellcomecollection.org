@@ -2,7 +2,7 @@
 import Prismic from 'prismic-javascript';
 import {getEvents} from './events';
 import type {EventSeries} from '../../model/event-series';
-import type {PrismicDocument} from './types';
+import type {PrismicDocument, PrismicQueryOpts} from './types';
 import {
   parseGenericFields,
   parseBackgroundTexture,
@@ -23,14 +23,20 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
   };
 }
 
-type EventSeriesProps = {| id: string |}
-export async function getEventSeries(req: Request, {
-  id
+type EventSeriesProps = {|
+  id: string,
+  ...PrismicQueryOpts
+|}
+
+export async function getEventSeries(req: ?Request, {
+  id,
+  ...opts
 }: EventSeriesProps) {
   const events = await getEvents(req, {
     page: 1,
     predicates: [Prismic.Predicates.at('my.events.series.series', id)],
-    order: 'desc'
+    order: 'desc',
+    ...opts
   });
 
   if (events && events.results.length > 0) {

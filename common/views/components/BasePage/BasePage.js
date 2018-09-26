@@ -39,7 +39,7 @@ const BasePage = ({
           <Layout8>
             {children}
             {contributorProps && contributorProps.contributors.length > 0 &&
-              <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
+              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
                 <Contributors {...contributorProps} />
               </div>
             }

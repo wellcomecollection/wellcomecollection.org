@@ -69,7 +69,7 @@ const Contributors = ({
       }
 
       {contributors.map(({contributor, role, description}) => (
-        <div className={spacing({s: 2}, {margin: ['top']})} key={contributor.id}>
+        <div className={spacing({s: 4}, {margin: ['top']})} key={contributor.id}>
           {/*
             we don't show the role if there is only 1 as it will be
             displayed in the title
