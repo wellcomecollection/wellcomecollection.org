@@ -129,6 +129,13 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+  router.get('/stories', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/stories', {
+      toggles
+    });
+    ctx.respond = false;
+  });
 
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res);
