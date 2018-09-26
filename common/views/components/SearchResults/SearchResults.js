@@ -52,7 +52,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
-              labels={{labels: [{url: null, text: 'Event series'}]}}
+              labels={{labels: item.labels}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
@@ -66,7 +66,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
-              labels={{labels: [{url: null, text: 'Book'}]}}
+              labels={{labels: item.labels}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
@@ -80,7 +80,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='ArticlePromo'
               url={`/articles/${item.id}`}
               title={item.title || ''}
-              labels={{labels: [{url: null, text: 'Article'}]}}
+              labels={{labels: item.labels}}
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
@@ -98,7 +98,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='InstallationPromo'
               url={`/installations/${item.id}`}
               title={item.title || ''}
-              labels={{labels: [{url: null, text: 'Installation'}]}}
+              labels={{labels: item.labels}}
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}

@@ -539,6 +539,9 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     promoImage: promo && promo.image,
     image,
     squareImage,
-    widescreenImage
+    widescreenImage,
+    // we pass an empty array here to be overriden by each content type
+    // TODO: find a way to enforce this.
+    labels: []
   };
 }

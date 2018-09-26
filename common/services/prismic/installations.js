@@ -19,10 +19,12 @@ import {
 export function parseInstallationDoc(document: PrismicDocument): UiInstallation {
   const data = document.data;
   const genericFields = parseGenericFields(document);
+  const labels = [{ url: null, text: 'Installation' }];
 
   return {
     ...genericFields,
     type: 'installations',
+    labels,
     description: parseDescription(data.description),
     start: parseTimestamp(data.start),
     end: data.end && parseTimestamp(data.end),
