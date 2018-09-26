@@ -8,7 +8,7 @@ import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -17,6 +17,7 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {articleLd} from '@weco/common/utils/json-ld';
 
 type Props = {|
   article: Article
@@ -43,7 +44,8 @@ export class ArticlePage extends Component<Props, State> {
         canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
         imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
         siteSection: 'stories',
-        analyticsCategory: 'editorial'
+        analyticsCategory: 'editorial',
+        pageJsonLd: articleLd(article)
       };
     } else {
       return {statusCode: 404};
@@ -51,7 +53,9 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const seriesPromises = this.props.article.series.map(series => getArticleSeries(null, { id: series.id }));
+    const seriesPromises = this.props.article.series.map(series =>
+      getArticleSeries(null, { id: series.id, pageSize: 3 })
+    );
     const listOfSeries = await Promise.all(seriesPromises);
     this.setState({ listOfSeries });
   }
@@ -176,16 +180,20 @@ export class ArticlePage extends Component<Props, State> {
     return (
       <BasePage
         id={article.id}
+        isCreamy={true}
         Header={Header}
-        Body={<Body body={article.body} isCreamy={true} />}
+        Body={<Body body={article.body} />}
         contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
-          return <SearchResults
+          // Overkill? Should this happen on the API?
+          const dedupedArticles = articles.filter(
+            a => a.id !== article.id
+          ).slice(0, 2);
+          return <SeriesNavigation
             key={series.id}
-            title={`Read more from ${series.title}`}
-            summary={series.promoText}
-            items={articles} />;
+            series={series}
+            items={dedupedArticles} />;
         })}
       </BasePage>
     );

@@ -9,7 +9,11 @@ import {
 } from './parsers';
 import {parseArticleSeries} from './article-series';
 import type {Article} from '../../model/articles';
-import type {PrismicDocument,  PaginatedResults} from './types';
+import type {
+  PrismicDocument,
+  PaginatedResults,
+  PrismicQueryOpts
+} from './types';
 
 const graphQuery = `{
   articles {
@@ -84,23 +88,21 @@ export async function getArticle(req: ?Request, id: string): Promise<?Article> {
 }
 
 type ArticleQueryProps = {|
-  page: number,
   predicates: Prismic.Predicates[],
-  order: 'asc' | 'desc'
+  ...PrismicQueryOpts
 |}
 
 export async function getArticles(req: ?Request, {
-  page = 1,
   predicates = [],
-  order = 'desc'
+  ...opts
 }: ArticleQueryProps): Promise<PaginatedResults<Article>> {
   const orderings = '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
   const paginatedResults = await getDocuments(req, [
     Prismic.Predicates.at('document.type', 'articles')
   ].concat(predicates), {
     orderings,
-    page,
-    graphQuery
+    graphQuery,
+    ...opts
   });
 
   const articles = paginatedResults.results.map(doc => {

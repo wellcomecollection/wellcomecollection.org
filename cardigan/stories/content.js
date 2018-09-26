@@ -76,7 +76,7 @@ export const imageGallery = () => {
 export const quote = () => ({
   text: [{
     type: 'paragraph',
-    text: 'Said Hamlet to Ophelia,\nI\'ll draw a sketch of thee,\nWhat kind of pencil shall I use?\n2B or not 2B?',
+    text: `Said Hamlet to Ophelia,\nI'll draw a sketch of thee,\nWhat kind of pencil shall I use?\n2B or not 2B?`,
     spans: []
   }],
   citation: [{
