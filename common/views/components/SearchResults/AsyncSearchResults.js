@@ -1,26 +1,29 @@
 // @flow
 import {Component, Fragment} from 'react';
-import fetch from 'isomorphic-unfetch';
-import type {Node} from 'react';
+import SearchResults from '../SearchResults/SearchResults';
 import {grid} from '../../../utils/classnames';
+import {search} from '../../../services/prismic/search';
 
 type Props = {|
   title: ?string,
   query: string
 |}
 
-type State = {| FetchedComponent: ?Node |}
+type State = {| items: MultiContent[] |}
 
 class AsyncSearchResults extends Component<Props, State> {
   state = {
-    FetchedComponent: null
+    items: []
   }
 
   async componentDidMount() {
-    const url = `/async/search?query=${encodeURIComponent(this.props.query)}`;
-    const componentHtml = await fetch(url).then(resp => resp.json()).then(json => json.html);
-    const Comp = <div dangerouslySetInnerHTML={{__html: componentHtml}}></div>;
-    this.setState({FetchedComponent: Comp});
+    const searchResponse = await search(null, this.props.query);
+    this.setState({ items: searchResponse.results });
+
+    // const url = `/async/search?query=${encodeURIComponent(this.props.query)}`;
+    // const componentHtml = await fetch(url).then(resp => resp.json()).then(json => json.html);
+    // const Comp = <div dangerouslySetInnerHTML={{__html: componentHtml}}></div>;
+    // this.setState({FetchedComponent: Comp});
   }
   render () {
     return (
@@ -31,7 +34,7 @@ class AsyncSearchResults extends Component<Props, State> {
           </div>
         </div>
 
-        {!this.state.FetchedComponent &&
+        {!(this.state.items && this.state.items.length > 0) &&
           <div
             data-component='ContentListItems'
             className='async-content component-list-placeholder'
@@ -40,7 +43,8 @@ class AsyncSearchResults extends Component<Props, State> {
             data-modifiers={[]}>
           </div>
         }
-        {this.state.FetchedComponent}
+
+        {this.state.items && this.state.items.length > 0 && <SearchResults items={this.state.items} />}
       </Fragment>
     );
   }
