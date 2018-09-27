@@ -1,6 +1,12 @@
 //* @define captioned-image
 .captioned-image {
   margin: 0;
+  display: inline-block;
+
+  .image {
+    max-height: 70vh;
+    width: auto;
+  }
 }
 
 .captioned-image--has-border-bottom {
@@ -51,5 +57,5 @@
 }
 
 .captioned-image__image-container {
-  position: relative;
+  display: inline-block;
 }

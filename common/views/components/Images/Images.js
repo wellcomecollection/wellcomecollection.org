@@ -81,7 +81,7 @@ export const CaptionedImage = ({
   const uiImageProps = {...image, sizesQueries, maxHeightRestricted};
   return (
     <figure className={`captioned-image ${extraClasses}`}>
-      <div className='captioned-image__image-container'>
+      <div className='captioned-image__image-container relative'>
         {/* https://github.com/facebook/flow/issues/2405 */}
         {/* $FlowFixMe */}
         <UiImage {...uiImageProps} />

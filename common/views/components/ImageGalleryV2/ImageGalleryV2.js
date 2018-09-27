@@ -4,6 +4,7 @@ import {font, spacing, classNames} from '../../../utils/classnames';
 import {CaptionedImage} from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Button from '../Buttons/Button/Button';
+import Icon from '../Icon/Icon';
 import Layout8 from '../Layout8/Layout8';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
@@ -46,7 +47,15 @@ class ImageGallery extends Component<Props, State> {
     return (
       <Fragment>
         <Layout8>
-          <h2 className='h2'>{title || 'In pictures'}</h2>
+
+          <span className={classNames({
+            'flex flex--v-top flex--h-center': true,
+            [spacing({s: 4}, {margin: ['bottom']})]: true
+          })}>
+            <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
+            <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
+          </span>
+
         </Layout8>
         <div className={classNames({
           [spacing({s: 10}, {margin: ['bottom']})]: true,
@@ -59,8 +68,6 @@ class ImageGallery extends Component<Props, State> {
                 <Fragment>
                   <div className='image-gallery-v2__wobbly-edge absolute'>
                     <WobblyEdge
-                      intensity={20}
-                      isValley={true}
                       background='cream' />
                   </div>
                 </Fragment>
