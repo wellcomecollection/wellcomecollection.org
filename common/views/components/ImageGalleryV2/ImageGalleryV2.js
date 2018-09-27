@@ -2,9 +2,8 @@
 import {Fragment, Component} from 'react';
 import {font, spacing, classNames} from '../../../utils/classnames';
 import {CaptionedImage} from '../Images/Images';
-import Icon from '../Icon/Icon';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-import Control from '../Buttons/Control/Control';
+import Button from '../Buttons/Button/Button';
 import Layout8 from '../Layout8/Layout8';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
@@ -30,6 +29,10 @@ class ImageGallery extends Component<Props, State> {
     });
   }
 
+  itemsToShow = () => {
+    return this.state.isActive ? this.props.items : [this.props.items[0]];
+  }
+
   componentDidMount() {
     this.setState({
       isActive: false
@@ -43,10 +46,6 @@ class ImageGallery extends Component<Props, State> {
     return (
       <Fragment>
         <Layout8>
-          <span className='flex flex--v-center'>
-            <Icon name='gallery' extraClasses={spacing({s: 1}, {margin: ['right']})} />
-            <span className={font({s: 'HNL5', m: 'HNL4'})}>{items.length} images</span>
-          </span>
           <h2 className='h2'>{title || 'In pictures'}</h2>
         </Layout8>
         <div className={classNames({
@@ -69,8 +68,13 @@ class ImageGallery extends Component<Props, State> {
               <div
                 onClick={this.showAllImages}
                 className={`image-gallery-v2__inner`}>
-                {items.map((captionedImage, i) => (
-                  <div className={spacing({s: 10}, {margin: ['bottom']})} key={captionedImage.image.contentUrl}>
+                {this.itemsToShow().map((captionedImage, i) => (
+                  <div
+                    className={classNames({
+                      [spacing({s: 10}, {margin: ['bottom']})]: isActive
+                    })}
+                    key={captionedImage.image.contentUrl}>
+
                     <CaptionedImage
                       image={captionedImage.image}
                       caption={captionedImage.caption}
@@ -83,13 +87,14 @@ class ImageGallery extends Component<Props, State> {
                         </div>
                       }>
                     </CaptionedImage>
+
                   </div>
                 ))}
               </div>
               {!isActive &&
-                <Control
-                  type='dark'
-                  icon='plus'
+                <Button
+                  type='primary'
+                  icon='gallery'
                   clickHandler={this.showAllImages}
                   extraClasses='image-gallery-v2__button absolute'
                   text={`${items.length} images`} />
