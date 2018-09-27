@@ -72,32 +72,31 @@ class ImageGallery extends Component<Props, State> {
                   </div>
                 </Fragment>
               }
-              <div
-                onClick={this.showAllImages}
-                className={`image-gallery-v2__inner`}>
-                {this.itemsToShow().map((captionedImage, i) => (
-                  <div
-                    className={classNames({
-                      [spacing({s: 10}, {margin: ['bottom']})]: isActive
-                    })}
-                    key={captionedImage.image.contentUrl}>
 
-                    <CaptionedImage
-                      image={captionedImage.image}
-                      caption={captionedImage.caption}
-                      preCaptionNode={
-                        <div className={classNames({
-                          [font({s: 'HNM5', m: 'HNM4'})]: true,
-                          [spacing({s: 2}, {margin: ['bottom']})]: true
-                        })}>
-                          <span className='visually-hidden'>slide </span>{i + 1} of {items.length}
-                        </div>
-                      }>
-                    </CaptionedImage>
+              {this.itemsToShow().map((captionedImage, i) => (
+                <div
+                  onClick={!isActive && this.showAllImages}
+                  className={classNames({
+                    [spacing({s: 10}, {margin: ['bottom']})]: isActive
+                  })}
+                  key={captionedImage.image.contentUrl}>
 
-                  </div>
-                ))}
-              </div>
+                  <CaptionedImage
+                    image={captionedImage.image}
+                    caption={captionedImage.caption}
+                    preCaptionNode={
+                      <div className={classNames({
+                        [font({s: 'HNM5', m: 'HNM4'})]: true,
+                        [spacing({s: 2}, {margin: ['bottom']})]: true
+                      })}>
+                        <span className='visually-hidden'>slide </span>{i + 1} of {items.length}
+                      </div>
+                    }>
+                  </CaptionedImage>
+
+                </div>
+              ))}
+
               {!isActive &&
                 <Button
                   type='primary'

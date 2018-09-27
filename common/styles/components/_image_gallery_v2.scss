@@ -3,21 +3,9 @@ $image-gallery-v2-clip-height-m: 200px;
 $image-gallery-v2-transition-properties: 400ms ease;
 
 .image-gallery-v2 {
-  .captioned-image {
-    margin-left: 50%;
-    transform: translateX(-50%);
-    max-width: 100%;
-  }
-
-  img {
-    max-height: 70vh;
-    width: auto;
-  }
-
   .caption {
     display: none;
     max-width: 55em;
-    transition: opacity $image-gallery-v2-transition-properties;
   }
 
   .tasl {
@@ -26,7 +14,7 @@ $image-gallery-v2-transition-properties: 400ms ease;
 
   &.is-active {
     .caption {
-      display: inherit;
+      display: block;
     }
 
     .tasl {
@@ -45,8 +33,6 @@ $image-gallery-v2-transition-properties: 400ms ease;
   }
 
   .captioned-image__image-container {
-    max-width: 100%;
-
     &:before {
       content: '';
       position: absolute;
@@ -78,10 +64,6 @@ $image-gallery-v2-transition-properties: 400ms ease;
   }
 
   transition: all $image-gallery-v2-transition-properties;
-}
-
-.image-gallery-v2__inner {
-  overflow: hidden;
 }
 
 .image-gallery-v2__wobbly-edge {

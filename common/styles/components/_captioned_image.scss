@@ -2,44 +2,12 @@
 .captioned-image {
   margin: 0;
   display: inline-block;
+  width: 100%;
 
   .image {
     max-height: 70vh;
     width: auto;
-  }
-}
-
-.captioned-image--has-border-bottom {
-  border-bottom: 1px solid color('pumice');
-}
-
-.captioned-image--bleed {
-  @include bleed(map-get($gutter-width, 'small'));
-
-  @include respond-to('medium') {
-    @include bleed(map-get($gutter-width, 'medium'));
-  }
-
-  @include respond-to('large') {
-    @include bleed(map-get($gutter-width, 'large'));
-  }
-}
-
-.captioned-image--full {
-  margin-bottom: 0;
-
-  .image {
-    margin-bottom: 0;
-  }
-
-  .image--clip-mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    clip-path: polygon(0% 100%, 0% 67%, 100% 67%, 100% 100%);
-    filter: grayscale(1);
+    max-width: 100%;
   }
 }
 

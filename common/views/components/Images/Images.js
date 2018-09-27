@@ -92,3 +92,26 @@ export const CaptionedImage = ({
     </figure>
   );
 };
+
+// export class CaptionedImage extends Component<UiCaptionedImageProps> {
+//   componentDidMount() {
+//     console.log('yep');
+//   }
+
+//   render() {
+//     const { caption, uiImageProps, preCaptionNode, extraClasses } = this.props;
+
+//     return (
+//       <figure className={`captioned-image ${extraClasses}`}>
+//         <div className='captioned-image__image-container relative'>
+//           {/* https://github.com/facebook/flow/issues/2405 */}
+//           {/* $FlowFixMe */}
+//           <UiImage {...uiImageProps} />
+//         </div>
+//         <Caption
+//           caption={caption}
+//           preCaptionNode={preCaptionNode} />
+//       </figure>
+//     );
+//   }
+// }
