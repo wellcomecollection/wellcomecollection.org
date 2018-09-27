@@ -166,7 +166,8 @@ const PageWrapper = (Comp: NextComponent) => {
           pageJsonLd={{'@type': 'WebPage'}}
           siteSection='error'
           analyticsCategory='error'
-          openingTimes={openingTimes}>
+          openingTimes={openingTimes}
+          globalAlert={globalAlert}>
           <ErrorPage errorStatus={this.props.statusCode} />
         </DefaultPageLayout>;
       }

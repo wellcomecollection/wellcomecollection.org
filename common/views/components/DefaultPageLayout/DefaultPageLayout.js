@@ -8,6 +8,7 @@ import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
 import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
+import type {GlobalAlert} from '../../../model/global-alert';
 import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
@@ -129,7 +130,7 @@ type Props = {|
     groupedVenues: GroupedVenues,
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
-  globalAlert: any, // TODO
+  globalAlert: GlobalAlert,
   oEmbedUrl?: string
 |}
 

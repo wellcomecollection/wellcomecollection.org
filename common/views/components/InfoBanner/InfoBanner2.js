@@ -9,7 +9,13 @@ type Props = {|
   text: string
 |}
 
-class InfoBanner extends React.Component<Props> {
+type State = {|
+  showInfoBanner: boolean
+|}
+
+class InfoBanner extends React.Component<Props, State> {
+  hideInfoBanner: Function;
+
   constructor(props: Props) {
     super(props);
     this.state = {
