@@ -3,6 +3,7 @@ import {Component} from 'react';
 import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import ErrorPage from '../BasePage/ErrorPage';
+import {fetchGlobalAlert} from '../../../services/prismic/global-alert';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
 import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
@@ -60,6 +61,7 @@ type Props = {|
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
   toggles: any,
+  globalAlert: any, // TODO
   statusCode: ?number,
   oEmbedUrl?: string
 |}
@@ -104,14 +106,20 @@ const PageWrapper = (Comp: NextComponent) => {
         ? context.query.toggles
         : clientStore && clientStore.get('toggles');
 
+      const globalAlert = context.req
+        ? await fetchGlobalAlert()
+        : clientStore && clientStore.get('globalAlert');
+
       if (serverStore) {
         serverStore.set('openingTimes', openingTimes);
         serverStore.set('toggles', toggles);
+        serverStore.set('globalAlert', globalAlert);
       }
 
       return {
         openingTimes,
         toggles,
+        globalAlert,
         ...(Comp.getInitialProps ? await Comp.getInitialProps(context) : null)
       };
     }
@@ -126,6 +134,10 @@ const PageWrapper = (Comp: NextComponent) => {
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
       }
+
+      if (clientStore && !clientStore.get('globalAlert')) {
+        clientStore.set('globalAlert', props.globalAlert);
+      }
     }
 
     render() {
@@ -139,6 +151,7 @@ const PageWrapper = (Comp: NextComponent) => {
         siteSection,
         analyticsCategory,
         openingTimes,
+        globalAlert,
         oEmbedUrl,
         ...props
       } = this.props;
@@ -169,6 +182,7 @@ const PageWrapper = (Comp: NextComponent) => {
           siteSection={siteSection}
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}
+          globalAlert={globalAlert}
           oEmbedUrl={oEmbedUrl}>
           <Comp {...props} />
         </DefaultPageLayout>
