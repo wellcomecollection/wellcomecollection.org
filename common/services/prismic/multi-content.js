@@ -41,7 +41,7 @@ export function parseMultiContent(documents: PrismicDocument[]): MultiContent[] 
 }
 
 export async function getMultiContent(
-  req: Request,
+  req: ?Request,
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<PaginatedResults<MultiContent>> {
   const {types, type, id, ids, tags, tag, pageSize, orderings} = structuredSearchQuery;
