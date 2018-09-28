@@ -12,10 +12,12 @@ type Props = {|
 const Quote = ({text, citation, isPullOrReview}: Props) => (
   <blockquote
     className={classNames({
-      'quote no-margin': true,
+      'quote': true,
       'quote--pull': isPullOrReview,
       [font({s: 'HNL3', m: 'HNL2'})]: isPullOrReview,
-      [spacing({s: isPullOrReview ? 5 : 3}, {padding: ['left']})]: true
+      [spacing({s: 3}, {padding: ['left']})]: true,
+      [spacing({s: 5}, {margin: ['bottom']})]: true,
+      [spacing({s: 0}, {margin: ['left']})]: true
     })}>
     <PrismicHtmlBlock html={text} />
     {citation &&
