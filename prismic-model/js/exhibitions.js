@@ -24,16 +24,45 @@ const Exhibitions = {
     place
   },
   Contributors: contributorsWithTitle(),
-  Exhibits: {
+  'In this exhibition': {
     exhibits: list('Exhibits', {
       item: link('Exhibit', 'document', ['installations'])
+    }),
+    events: list('Events', {
+      item: link('Event', 'document', ['events'])
+    })
+  },
+  'About this exhibition': {
+    articles: list('Articles', {
+      item: link('Article', 'document', ['articles'])
+    }),
+    books: list('Books', {
+      item: link('Book', 'document', ['books'])
     })
   },
   Promo: {
     promo
   },
-  // When we get a better relational model up, this will be deprecated
-  'Related promos': {
+  Resources: {
+    resources: list('Resources', {
+      resource: link('Resource', 'document', ['exhibition-resources'])
+    })
+  },
+  Migration: {
+    drupalPromoImage: link('Drupal promo image', 'web'),
+    drupalNid: text('Drupal node ID'),
+    drupalPath: text('Drupal path')
+  },
+  Deprecated: {
+    description,
+    intro: {
+      'type': 'StructuredText',
+      'config': {
+        'label': 'Intro',
+        'multi': 'heading2'
+      }
+    },
+    textAndCaptionsDocument: link('Text and captions document', 'media'),
     'promoList': {
       'type': 'Group',
       'config': {
@@ -85,27 +114,6 @@ const Exhibitions = {
         }
       }
     }
-  },
-  Resources: {
-    resources: list('Resources', {
-      resource: link('Resource', 'document', ['exhibition-resources'])
-    })
-  },
-  Migration: {
-    drupalPromoImage: link('Drupal promo image', 'web'),
-    drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path')
-  },
-  Deprecated: {
-    description,
-    intro: {
-      'type': 'StructuredText',
-      'config': {
-        'label': 'Intro',
-        'multi': 'heading2'
-      }
-    },
-    textAndCaptionsDocument: link('Text and captions document', 'media')
   }
 };
 

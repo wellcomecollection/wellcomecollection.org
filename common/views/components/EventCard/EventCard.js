@@ -1,5 +1,4 @@
 // @flow
-import LabelsList from '../LabelsList/LabelsList';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -11,14 +10,6 @@ type Props = {|
 |}
 
 const EventCard = ({ event }: Props) => {
-  const labels = [event.format ? {
-    url: null,
-    text: event.format.title
-  } : null].concat(event.audiences.map(audience => ({
-    url: null,
-    text: audience.title
-  }))).filter(Boolean);
-  const LabelsComponent = <LabelsList labels={labels} />;
   const DateRangeComponent = EventDateRange({event});
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
@@ -31,9 +22,9 @@ const EventCard = ({ event }: Props) => {
     url={`/events/${event.id}`}
     title={event.title}
     promoType={'EventPromo'}
+    labels={{labels: event.labels}}
     description={null}
     urlOverride={event.promo && event.promo.link}
-    Tags={LabelsComponent}
     Image={ImageComponent}
     DateInfo={DateRangeComponent}
     StatusIndicator={StatusIndicatorComponent}

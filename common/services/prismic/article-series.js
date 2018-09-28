@@ -3,7 +3,7 @@ import Prismic from 'prismic-javascript';
 import {getDocument} from './api';
 import {getArticles} from './articles';
 import {parseGenericFields, isStructuredText, asText} from './parsers';
-import type {PrismicDocument} from './types';
+import type {PrismicDocument, PrismicQueryOpts} from './types';
 import type {ArticleSeries} from '../../model/article-series';
 import type {Article} from '../../model/articles';
 
@@ -15,10 +15,12 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     weight: 'default',
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
+  const labels = [{ url: null, text: 'Story series' }];
 
   return {
     ...genericFields,
     type: 'article-series',
+    labels,
     schedule: data.schedule ? data.schedule
       .filter(({title}) => isStructuredText(title))
       .map(item => {
@@ -33,19 +35,23 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   };
 }
 
-type ArticleSeriesProps = {| id: string |}
+type ArticleSeriesProps = {|
+  id: string,
+  ...PrismicQueryOpts
+|}
 type ArticleSeriesWithArticles = {|
   series: ArticleSeries,
   articles: Article[]
 |}
 
 export async function getArticleSeries(req: ?Request, {
-  id
+  id,
+  ...opts
 }: ArticleSeriesProps): Promise<?ArticleSeriesWithArticles> {
   const articles = await getArticles(req, {
     page: 1,
     predicates: [Prismic.Predicates.at('my.articles.series.series', id)],
-    order: 'desc'
+    ...opts
   });
 
   if (articles && articles.results.length > 0) {

@@ -27,13 +27,14 @@ const InstallationPage = ({
     promoText: installation.promoText,
     image: installation.image,
     squareImage: installation.squareImage,
-    widescreenImage: installation.widescreenImage
+    widescreenImage: installation.widescreenImage,
+    labels: installation.labels
   });
 
   const breadcrumbs = { items: [{ text: 'Installations' }] };
   const Header = <PageHeader
     breadcrumbs={breadcrumbs}
-    labels={null}
+    labels={{labels: installation.labels}}
     title={installation.title}
     FeaturedMedia={FeaturedMedia}
     Background={<HeaderBackground hasWobblyEdge={true} />}

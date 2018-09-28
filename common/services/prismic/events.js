@@ -32,7 +32,12 @@ import {isPast} from '../../utils/dates';
 import {getPeriodPredicates} from './utils';
 import type {UiEvent, EventFormat} from '../../model/events';
 import type {Team} from '../../model/team';
-import type {PrismicDocument, PrismicApiSearchResponse, PaginatedResults} from './types';
+import type {
+  PrismicDocument,
+  PrismicApiSearchResponse,
+  PaginatedResults,
+  PrismicQueryOpts
+} from './types';
 import type {Period} from '../../model/periods';
 
 const startField = 'my.events.times.startDateTime';
@@ -130,7 +135,7 @@ export function parseEventDoc(
     };
   });
 
-  return {
+  const event = {
     type: 'events',
     ...genericFields,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
@@ -154,6 +159,32 @@ export function parseEventDoc(
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance
   };
+
+  const eventFormat = event.format ? [{
+    url: null,
+    text: event.format.title
+  }] : [{ url: null, text: 'Event' }];
+  const eventAudiences = event.audiences ? event.audiences.map(a => ({
+    url: null,
+    text: a.title
+  })) : [];
+  const eventInterpretations = event.interpretations ? event.interpretations.map(i => ({
+    url: null,
+    text: i.interpretationType.title
+  })) : [];
+  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
+    url: null,
+    text: 'Relaxed performance'
+  }] : [];
+
+  const labels = [
+    ...eventFormat,
+    ...eventAudiences,
+    ...eventInterpretations,
+    ...relaxedPerformanceLabel
+  ];
+
+  return {...event, labels};
 }
 
 const fetchLinks = [].concat(
@@ -174,7 +205,7 @@ const fetchLinks = [].concat(
 type EventQueryProps = {|
   id: string
 |}
-export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?UiEvent> {
+export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks
   });
@@ -189,18 +220,18 @@ export async function getEvent(req: Request, {id}: EventQueryProps): Promise<?Ui
 }
 
 type EventsQueryProps = {|
-  page: number,
   predicates: Prismic.Predicates[],
+  period?: Period,
   order: 'asc' | 'desc',
-  period?: Period
+  ...PrismicQueryOpts
 |}
 
-export async function getEvents(req: Request,  {
-  page = 1,
+export async function getEvents(req: ?Request,  {
   predicates = [],
   order = 'desc',
-  period
-}: EventsQueryProps): Promise<?PaginatedResults<UiEvent>> {
+  period,
+  ...opts
+}: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
       ...eventsFields
@@ -287,7 +318,7 @@ export async function getEvents(req: Request,  {
     Prismic.Predicates.at('document.type', 'events')
   ].concat(predicates, dateRangePredicates), {
     orderings,
-    page,
+    page: opts.page,
     graphQuery
   });
 

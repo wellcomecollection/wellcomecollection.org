@@ -27,7 +27,7 @@ const SearchResults = ({ items, title, summary }: Props) => (
       </div>
     }
     <div className={`
-        ${spacing({s: 11}, {margin: ['top']})}
+        ${spacing({s: 4}, {margin: ['top']})}
       `}>
       {items.map(item => (
         <div className={
@@ -38,10 +38,10 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='PagePromo'
               url={`/pages/${item.id}`}
               title={item.title || ''}
+              labels={{labels: []}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -52,10 +52,10 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
+              labels={{labels: item.labels}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -66,10 +66,10 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
+              labels={{labels: item.labels}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -80,10 +80,10 @@ const SearchResults = ({ items, title, summary }: Props) => (
               promoType='ArticlePromo'
               url={`/articles/${item.id}`}
               title={item.title || ''}
+              labels={{labels: item.labels}}
               description={item.promoText}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
-              Tags={null}
               DateInfo={null}
               StatusIndicator={null}
             />
@@ -91,6 +91,20 @@ const SearchResults = ({ items, title, summary }: Props) => (
 
           {item.type === 'events' &&
             <EventCard event={item} />
+          }
+
+          {item.type === 'installations' &&
+            <CompactCard
+              promoType='InstallationPromo'
+              url={`/installations/${item.id}`}
+              title={item.title || ''}
+              labels={{labels: item.labels}}
+              description={item.promoText}
+              urlOverride={item.promo && item.promo.link}
+              Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
+              DateInfo={null}
+              StatusIndicator={null}
+            />
           }
         </div>
       ))}

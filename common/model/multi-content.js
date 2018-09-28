@@ -6,5 +6,13 @@ import type {Page} from './pages';
 import type {EventSeries} from './event-series';
 import type {Book} from './books';
 import type {UiEvent} from './events';
+import type {Installation} from './installations';
 import type {Article} from './articles';
-export type MultiContent = | Page | EventSeries | Book | UiEvent | Article;
+
+export type MultiContent =
+  | Page
+  | EventSeries
+  | Book
+  | UiEvent
+  | Article
+  | Installation;

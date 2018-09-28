@@ -16,7 +16,7 @@ type Props = {|
   showContributorsTitle: boolean
 |}
 
-const Page = ({
+const EventSeriesPage = ({
   events,
   series
 }: Props) => {
@@ -31,7 +31,8 @@ const Page = ({
     promoText: series.promoText,
     image: series.image,
     squareImage: series.squareImage,
-    widescreenImage: series.widescreenImage
+    widescreenImage: series.widescreenImage,
+    labels: series.labels
   });
 
   const breadcrumbs = {
@@ -41,7 +42,7 @@ const Page = ({
   };
   const Header = <PageHeader
     breadcrumbs={breadcrumbs}
-    labels={null}
+    labels={{labels: series.labels}}
     title={series.title}
     FeaturedMedia={FeaturedMedia}
     Background={<HeaderBackground hasWobblyEdge={true} />}
@@ -88,4 +89,4 @@ const Page = ({
   );
 };
 
-export default Page;
+export default EventSeriesPage;

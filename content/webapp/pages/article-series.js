@@ -62,7 +62,8 @@ export class ArticleSeriesPage extends Component<Props> {
       promoText: series.promoText,
       image: series.image,
       squareImage: series.squareImage,
-      widescreenImage: series.widescreenImage
+      widescreenImage: series.widescreenImage,
+      labels: series.labels
     };
 
     const standfirst = series.body.find(slice => slice.type === 'standfirst');
@@ -70,7 +71,7 @@ export class ArticleSeriesPage extends Component<Props> {
     const FeaturedMedia = getFeaturedMedia(genericFields);
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
-      labels={null}
+      labels={{labels: series.labels}}
       title={series.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={null}
@@ -81,8 +82,9 @@ export class ArticleSeriesPage extends Component<Props> {
     return (
       <BasePage
         id={series.id}
+        isCreamy={true}
         Header={Header}
-        Body={<Body body={series.body} isCreamy={true} />}
+        Body={<Body body={series.body} />}
       >
         {articles.length > 0 &&
           <SearchResults items={articles} />

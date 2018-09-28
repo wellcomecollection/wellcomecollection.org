@@ -1,15 +1,22 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import type {PrismicFragment, PrismicDocument, PaginatedResults} from './types';
-import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
-import {getDocument, getDocuments} from './api';
+import {getDocument, getDocuments, getTypeByIds} from './api';
+import {parseMultiContent} from './multi-content';
 import {
+  exhibitionFields,
+  exhibitionResourcesFields,
+  installationFields,
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
+  placesFields,
+  interpretationTypesFields,
+  audiencesFields,
+  eventSeriesFields,
+  organisationsFields,
   peopleFields,
   contributorsFields,
-  placesFields,
-  installationFields,
-  exhibitionFields,
-  exhibitionResourcesFields
+  eventPoliciesFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -27,11 +34,18 @@ import {
   parseGenericFields,
   parseBoolean
 } from './parsers';
-import {parseInstallationDoc} from './installations';
+import { parseInstallationDoc } from './installations';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
 import type {Period} from '../../model/periods';
 import type {Resource} from '../../model/resource';
+import type {
+  PrismicFragment,
+  PrismicDocument,
+  PaginatedResults
+} from './types';
+import type {UiExhibition, UiExhibit, ExhibitionFormat} from '../../model/exhibitions';
+import type {MultiContent} from '../../model/multi-content';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
@@ -74,8 +88,12 @@ function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
 function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const genericFields = parseGenericFields(document);
   const data = document.data;
-  const promo = document.data.promo;
-
+  const promo = data.promo;
+  const exhibits = data.exhibits ? data.exhibits.map(i => i.item.id) : [];
+  const events = data.events ? data.events.map(i => i.item.id) : [];
+  const articles = data.articles ? data.articles.map(i => i.item.id) : [];
+  const books = data.books ? data.books.map(i => i.item.id) : [];
+  const relatedIds = [...exhibits, ...events, ...articles, ...books].filter(Boolean);
   const promoThin = promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare = promo && parseImagePromo(promo, 'square', breakpoints.small);
 
@@ -114,7 +132,6 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       copyrightHolder: null,
       copyrightLink: null }
   }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
-  const promoList = document.data.promoList || [];
 
   const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
@@ -131,8 +148,9 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   // As we store the intro as an H2 in the model, incorrectly, we then convert
   // it here to a paragraph
   const intro = data.intro && data.intro[0] && [Object.assign({}, data.intro[0], {type: 'paragraph'})];
+  const promoList = document.data.promoList || [];
 
-  return {
+  const exhibition = {
     ...genericFields,
     type: 'exhibitions',
     format: format,
@@ -164,8 +182,18 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     relatedBooks: promoList.filter(x => x.type === 'book').map(parsePromoListItem),
     relatedEvents: promoList.filter(x => x.type === 'event').map(parsePromoListItem),
     relatedGalleries: promoList.filter(x => x.type === 'gallery').map(parsePromoListItem),
-    relatedArticles: promoList.filter(x => x.type === 'article').map(parsePromoListItem)
+    relatedArticles: promoList.filter(x => x.type === 'article').map(parsePromoListItem),
+    relatedIds
   };
+
+  const labels = exhibition.isPermanent
+    ? [{
+      text: 'Permanent exhibition',
+      url: null
+    }]
+    : [{ url: null, text: 'Exhibition' }];
+
+  return {...exhibition, labels};
 }
 
 type Order = 'desc' | 'asc';
@@ -246,7 +274,7 @@ function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExh
     .concat(groupedResults.comingUp);
 }
 
-export async function getExhibition(req: Request, id: string): Promise<?UiExhibition> {
+export async function getExhibition(req: ?Request, id: string): Promise<?UiExhibition> {
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(
       contributorsFields,
@@ -260,6 +288,40 @@ export async function getExhibition(req: Request, id: string): Promise<?UiExhibi
     const exhibition = parseExhibitionDoc(document);
     return exhibition;
   }
+}
+
+type ExhibitionRelatedContent = {|
+  exhibitionOfs: MultiContent[],
+  exhibitionAbouts: MultiContent[]
+|}
+
+// TODO better naming
+export async function getExhibitionRelatedContent(req: ?Request, ids: string[]): Promise<ExhibitionRelatedContent> {
+  const fetchLinks = [].concat(
+    eventAccessOptionsFields,
+    teamsFields,
+    eventFormatsFields,
+    placesFields,
+    interpretationTypesFields,
+    audiencesFields,
+    eventSeriesFields,
+    organisationsFields,
+    peopleFields,
+    contributorsFields,
+    eventSeriesFields,
+    eventPoliciesFields,
+    contributorsFields
+  );
+  const types = ['events', 'installations', 'articles', 'books'];
+  const extraContent = await getTypeByIds(req, types, ids, {fetchLinks});
+  const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
+    return !(doc.type === 'events' && doc.isPast);
+  });
+
+  return {
+    exhibitionOfs: parsedContent.filter(doc => doc.type === 'installations' || doc.type === 'events'),
+    exhibitionAbouts: parsedContent.filter(doc => doc.type === 'books' || doc.type === 'articles')
+  };
 }
 
 type ExhibitQuery = {| ids: string[] |}
