@@ -30,7 +30,7 @@ const EventbriteButton = ({event}: Props) => {
               text={ticketButtonText} />
             <iframe
               className={`js-eventbrite-widget-${event.eventbriteId || ''}`}
-              src={`https://eventbrite.com/tickets-external?eid=${event.eventbriteId || ''}&ref=etckt`}
+              src={`/eventbrite/widget/${event.eventbriteId || ''}`}
               frameBorder='0'
               width='100%'
               vspace='0'
