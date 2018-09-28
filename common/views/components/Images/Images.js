@@ -17,16 +17,19 @@ export type UiImageProps = {|
   sizesQueries: string,
   extraClasses?: string,
   isFull?: boolean,
-  showTasl?: boolean
+  showTasl?: boolean,
 |}
 
 export class UiImage extends Component<UiImageProps> {
+  // TODO: set width of the image to 'auto' once the image has been lazy-loaded
+  // and set the parent captioned-image__image-container to inline block, then
+  // then trigger getImageSize() again
+
   setImgRef = el => {
     this.imgRef = el;
   }
 
   getImageSize = () => {
-    console.log(this.imgRef.width);
     this.props.setComputedImageWidth(this.imgRef.width);
   }
 
@@ -34,7 +37,6 @@ export class UiImage extends Component<UiImageProps> {
     if (this.imgRef.complete && this.imgRef.width > 0) {
       this.getImageSize();
     } else {
-      console.log('checking');
       setTimeout(this.checkImageActuallyReady, 1);
     }
   }

@@ -6,7 +6,7 @@
 
   .image {
     max-height: 70vh;
-    // width: auto;
+    // width: auto; // TODO: handle this in CaptionedImage/UiImage component
     max-width: 100%;
   }
 }
@@ -25,5 +25,5 @@
 }
 
 .captioned-image__image-container {
-  // display: inline-block;
+  // display: inline-block; // TODO: handle this in CaptionedImage/UiImage component
 }
