@@ -26,13 +26,21 @@ export class UiImage extends Component<UiImageProps> {
   }
 
   getImageSize = () => {
-    this.props.setComputedImageWidth(this.imgRef.offsetWidth);
+    console.log(this.imgRef.width);
+    this.props.setComputedImageWidth(this.imgRef.width);
+  }
+
+  checkImageActuallyReady = () => {
+    if (this.imgRef.complete && this.imgRef.width > 0) {
+      this.getImageSize();
+    } else {
+      console.log('checking');
+      setTimeout(this.checkImageActuallyReady, 1);
+    }
   }
 
   componentDidMount() {
-    if (this.imgRef.complete) {
-      this.getImageSize();
-    }
+    this.checkImageActuallyReady();
 
     window.addEventListener('resize', this.getImageSize);
   }
@@ -93,12 +101,6 @@ export type UiCaptionedImageProps = {|
 |}
 
 export class CaptionedImage extends Component<UiCaptionedImageProps> {
-  componentDidMount() {
-    this.setState({
-      isActive: true
-    });
-  }
-
   state = {
     isActive: false,
     computedImageWidth: null
@@ -106,7 +108,8 @@ export class CaptionedImage extends Component<UiCaptionedImageProps> {
 
   setComputedImageWidth = (width) => {
     this.setState({
-      computedImageWidth: width
+      computedImageWidth: width,
+      isActive: true
     });
   }
 
@@ -118,8 +121,7 @@ export class CaptionedImage extends Component<UiCaptionedImageProps> {
     return (
       <figure
         style={{
-          position: 'relative',
-          left: isActive && '50%',
+          marginLeft: isActive && '50%',
           transform: isActive && `translateX(${computedImageWidth / -2}px)`
         }}
         className={`captioned-image ${extraClasses}`}>
