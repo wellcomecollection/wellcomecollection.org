@@ -61,74 +61,11 @@ function InfoBar(cost, eventbriteId, bookingEnquiryTeam) {
   );
 }
 
-function DatesShowHide(event) {
+function topDate(event) {
   return (
-    <div>
+    <Fragment>
       {event.selectedDate ? formatDayDate(event.selectedDate) : event.upcomingDate && formatDayDate(event.upcomingDate)}
-      {event.times && event.times.length > 1 &&
-        <Fragment>
-          <div className='js-show-hide drawer inline'>
-            <a
-              className={[
-                'primary-link',
-                'flex-inline',
-                'flex-v-center',
-                'plain-link',
-                'js-show-hide-trigger',
-                spacing({s: 2}, {margin: ['left']}),
-                font({s: 'HNM4'})].join(' ')} href={'#'}>More dates
-              <Icon name='chevron' extraClasses='icon--green' />
-            </a>
-            <div className={`js-show-hide-drawer drawer__body ${spacing({s: 2}, {padding: ['top']})}`}>
-              {DateInfo(event)}
-            </div>
-          </div>
-          {event.eventbriteId &&
-            <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${spacing({s: 2}, {margin: ['top']})}`}>
-              {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-                : (
-                  <div className='js-eventbrite-ticket-button' data-eventbrite-ticket-id={event.eventbriteId}>
-                    <Button
-                      type='primary'
-                      url={`https://www.eventbrite.com/e/${event.eventbriteId}/`}
-                      eventTracking={JSON.stringify({
-                        category: 'component',
-                        action: 'booking-tickets:click',
-                        label: 'event-page'
-                      })}
-                      icon='ticket'
-                      text='Book free tickets' />
-                    <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-                  </div>
-                )
-              }
-            </div>
-          }
-        </Fragment>
-      }
-
-      {event.bookingEnquiryTeam &&
-        <div className={`border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-          {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-            : (
-              <Button
-                type='primary'
-                url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                eventTracking={JSON.stringify({
-                  category: 'component',
-                  action: 'booking-tickets:click',
-                  label: 'event-page (email to book)'
-                })}
-                icon='email'
-                text='Email to book' />
-            )}
-          <SecondaryLink
-            url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-            text={event.bookingEnquiryTeam.email}
-            extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
-        </div>
-      }
-    </div>
+    </Fragment>
   );
 };
 
@@ -157,7 +94,7 @@ const EventPage = ({ event }: Props) => {
     Background={<WobblyBackground />}
     TagBar={null}
     LabelBar={<Labels labels={(eventFormat.concat(eventAudiences, eventInterpretations))} />}
-    DateInfo={DatesShowHide(event)}
+    DateInfo={topDate(event)}
     InfoBar={InfoBar(event.cost, event.eventbriteId, event.bookingEnquiryTeam)}
     Description={null}
     FeaturedMedia={FeaturedMedia}
