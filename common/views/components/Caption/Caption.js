@@ -6,12 +6,15 @@ import type {HTMLString} from '../../../services/prismic/types';
 
 type Props = {|
   caption: HTMLString,
-  preCaptionNode?: Node
+  preCaptionNode?: Node,
+  width: ?number
 |}
 
-const Caption = ({caption, preCaptionNode}: Props) => {
+const Caption = ({caption, preCaptionNode, width}: Props) => {
   return (
-    <figcaption className={`caption flex-inline plain-text ${font({s: 'LR3', m: 'LR2'})} ${spacing({s: 3}, {padding: ['top', 'bottom']})}`}>
+    <figcaption
+      style={{width: `${width}px`}}
+      className={`caption plain-text ${font({s: 'LR3', m: 'LR2'})} ${spacing({s: 3}, {padding: ['top', 'bottom']})}`}>
       <div className={`overflow-hidden ${spacing({s: 3, m: 4, l: 5}, {padding: ['right']})}`}
         tabIndex='0'>
         {preCaptionNode}

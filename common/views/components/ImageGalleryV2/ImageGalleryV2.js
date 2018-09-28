@@ -75,7 +75,7 @@ class ImageGallery extends Component<Props, State> {
 
               {this.itemsToShow().map((captionedImage, i) => (
                 <div
-                  onClick={!isActive && this.showAllImages}
+                  onClick={!isActive ? this.showAllImages : undefined}
                   className={classNames({
                     [spacing({s: 10}, {margin: ['bottom']})]: isActive
                   })}

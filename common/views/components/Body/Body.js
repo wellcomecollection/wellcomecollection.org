@@ -36,7 +36,8 @@ const Body = ({ body }: Props) => {
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
         .map((slice, i) =>
           <div className={classNames({
-            'body-part': true
+            'body-part': true,
+            'overflow-hidden': true
           })} key={`slice${i}`}>
             {slice.type === 'standfirst' &&
               <Layout8>

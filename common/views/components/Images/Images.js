@@ -1,5 +1,5 @@
 // @flow
-import {Fragment} from 'react';
+import {Fragment, Component} from 'react';
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {classNames} from '../../../utils/classnames';
 import {imageSizes} from '../../../utils/image-sizes';
@@ -17,50 +17,72 @@ export type UiImageProps = {|
   sizesQueries: string,
   extraClasses?: string,
   isFull?: boolean,
-  showTasl?: boolean,
-  maxHeightRestricted?: boolean
+  showTasl?: boolean
 |}
 
-export const UiImage = ({
-  contentUrl,
-  width,
-  height,
-  alt,
-  tasl,
-  sizesQueries,
-  extraClasses = '',
-  isFull = false,
-  showTasl = true,
-  maxHeightRestricted = false
-}: UiImageProps) => {
-  return (
-    <Fragment>
-      <noscript dangerouslySetInnerHTML={{__html: `
+export class UiImage extends Component<UiImageProps> {
+  setImgRef = el => {
+    this.imgRef = el;
+  }
+
+  getImageSize = () => {
+    this.props.setComputedImageWidth(this.imgRef.offsetWidth);
+  }
+
+  componentDidMount() {
+    if (this.imgRef.complete) {
+      this.getImageSize();
+    }
+
+    window.addEventListener('resize', this.getImageSize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.getImageSize);
+  }
+
+  render() {
+    const {
+      contentUrl,
+      width,
+      height,
+      alt,
+      tasl,
+      sizesQueries,
+      extraClasses = '',
+      isFull = false,
+      showTasl = true
+    } = this.props;
+    return (
+      <Fragment>
+        <noscript dangerouslySetInnerHTML={{__html: `
           <img width=${width}
             height=${height || ''}
             class='image image--noscript'
             src=${convertImageUri(contentUrl, 640, false)}
             alt=${alt} />`}} />
 
-      <img width={width}
-        height={height}
-        className={classNames({
-          'image': true,
-          'lazy-image': true,
-          'lazyload': true,
-          [extraClasses || '']: true,
-          'image-max-height-restricted': maxHeightRestricted
-        })}
-        src={convertImageUri(contentUrl, 30, false)}
-        data-srcset={imageSizes(width).map(size => {
-          return `${convertImageUri(contentUrl, size, false)} ${size}w`;
-        })}
-        sizes={sizesQueries}
-        alt={alt} />
-      {showTasl && <Tasl {...tasl} isFull={isFull} />}
-    </Fragment>
-  );
-};
+        <img width={width}
+          height={height}
+          onLoad={this.getImageSize}
+          ref={this.setImgRef}
+          className={classNames({
+            'lazy-image': true,
+            'lazyload': true,
+            'image': true,
+            [extraClasses || '']: true
+          })}
+          src={convertImageUri(contentUrl, 30, false)}
+          data-srcset={imageSizes(width).map(size => {
+            return `${convertImageUri(contentUrl, size, false)} ${size}w`;
+          })}
+          sizes={sizesQueries}
+          alt={alt} />
+        {showTasl && <Tasl {...tasl} isFull={isFull} />}
+      </Fragment>
+    );
+  }
+}
 
 export type UiCaptionedImageProps = {|
   ...CaptionedImageProps,
@@ -70,48 +92,47 @@ export type UiCaptionedImageProps = {|
   maxHeightRestricted?: boolean
 |}
 
-export const CaptionedImage = ({
-  image,
-  caption,
-  sizesQueries,
-  extraClasses = '',
-  preCaptionNode,
-  maxHeightRestricted = false
-}: UiCaptionedImageProps) => {
-  const uiImageProps = {...image, sizesQueries, maxHeightRestricted};
-  return (
-    <figure className={`captioned-image ${extraClasses}`}>
-      <div className='captioned-image__image-container relative'>
-        {/* https://github.com/facebook/flow/issues/2405 */}
-        {/* $FlowFixMe */}
-        <UiImage {...uiImageProps} />
-      </div>
-      <Caption
-        caption={caption}
-        preCaptionNode={preCaptionNode} />
-    </figure>
-  );
-};
+export class CaptionedImage extends Component<UiCaptionedImageProps> {
+  componentDidMount() {
+    this.setState({
+      isActive: true
+    });
+  }
 
-// export class CaptionedImage extends Component<UiCaptionedImageProps> {
-//   componentDidMount() {
-//     console.log('yep');
-//   }
+  state = {
+    isActive: false,
+    computedImageWidth: null
+  }
 
-//   render() {
-//     const { caption, uiImageProps, preCaptionNode, extraClasses } = this.props;
+  setComputedImageWidth = (width) => {
+    this.setState({
+      computedImageWidth: width
+    });
+  }
 
-//     return (
-//       <figure className={`captioned-image ${extraClasses}`}>
-//         <div className='captioned-image__image-container relative'>
-//           {/* https://github.com/facebook/flow/issues/2405 */}
-//           {/* $FlowFixMe */}
-//           <UiImage {...uiImageProps} />
-//         </div>
-//         <Caption
-//           caption={caption}
-//           preCaptionNode={preCaptionNode} />
-//       </figure>
-//     );
-//   }
-// }
+  render() {
+    const { caption, preCaptionNode, extraClasses, image, sizesQueries, maxHeightRestricted } = this.props;
+    const { isActive, computedImageWidth } = this.state;
+    const uiImageProps = {...image, sizesQueries, maxHeightRestricted};
+
+    return (
+      <figure
+        style={{
+          position: 'relative',
+          left: isActive && '50%',
+          transform: isActive && `translateX(${computedImageWidth / -2}px)`
+        }}
+        className={`captioned-image ${extraClasses}`}>
+        <div className='captioned-image__image-container relative'>
+          {/* https://github.com/facebook/flow/issues/2405 */}
+          {/* $FlowFixMe */}
+          <UiImage {...uiImageProps} setComputedImageWidth={this.setComputedImageWidth} />
+        </div>
+        <Caption
+          width={computedImageWidth}
+          caption={caption}
+          preCaptionNode={preCaptionNode} />
+      </figure>
+    );
+  }
+}
