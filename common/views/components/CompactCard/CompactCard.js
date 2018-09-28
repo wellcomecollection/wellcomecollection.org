@@ -47,7 +47,7 @@ const CompactCard = ({
         [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
       })}>
-      {labels.labels.length &&
+      {labels.labels.length !== 0 &&
         <div className={conditionalClassNames({
           [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
           [spacing({s: 1}, {margin: ['bottom']})]: true
