@@ -104,3 +104,59 @@ module "pages_listener" {
   priority = "100"
   path = "/pages/*"
 }
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "101"
+  path = "/visit-us"
+}
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "102"
+  path = "/what-we-do"
+}
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "103"
+  path = "/press"
+}
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "104"
+  path = "/venue-hire"
+}
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "105"
+  path = "/access"
+}
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "106"
+  path = "/youth"
+}
+module "pages_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "107"
+  path = "/schools"
+}
