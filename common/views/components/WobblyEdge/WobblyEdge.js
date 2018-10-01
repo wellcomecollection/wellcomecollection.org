@@ -37,7 +37,7 @@ class WobblyEdge extends React.Component<Props, State> {
     };
   }
 
-  updatePoints = debounce(() => {
+  updatePoints = () => {
     if (!this.state.isActive) {
       this.setState({
         styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
@@ -55,17 +55,19 @@ class WobblyEdge extends React.Component<Props, State> {
         isActive: false
       });
     }, 150);
-  }, 500);
+  }
+
+  debounceUpdatePoints = debounce(this.updatePoints, 500);
 
   componentDidMount() {
     if (this.props.isStatic) return;
 
-    window.addEventListener('scroll', this.updatePoints);
+    window.addEventListener('scroll', this.debounceUpdatePoints);
     this.updatePoints();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.updatePoints);
+    window.removeEventListener('scroll', this.debounceUpdatePoints);
   }
 
   makePolygonPoints(totalPoints: number, intensity: number): string {

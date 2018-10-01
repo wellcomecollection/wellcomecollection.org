@@ -31,7 +31,6 @@ export class UiImage extends Component<UiImageProps> {
 
   getImageSize = () => {
     this.props.setComputedImageWidth(this.imgRef.width);
-    console.log('yo');
   }
 
   debouncedGetImageSize = debounce(this.getImageSize, 200);
