@@ -182,23 +182,36 @@ export class ArticlePage extends Component<Props, State> {
                 ...series.schedule[partOfSerial]
               }: ArticleScheduleItem);
 
-            return nextUp ? <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={([nextUp]: Article[])} />
-              : nextUpNotPublished ? <SeriesNavigation
-                key={series.id}
-                series={series}
-                items={([nextUpNotPublished]: ArticleScheduleItem[])} /> : null;
+            return nextUp
+              ? (
+                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                  <SeriesNavigation
+                    key={series.id}
+                    series={series}
+                    items={([nextUp]: Article[])} />
+                </div>
+              )
+              : nextUpNotPublished ? (
+                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                  <SeriesNavigation
+                    key={series.id}
+                    series={series}
+                    items={([nextUpNotPublished]: ArticleScheduleItem[])} />
+                </div>
+              ) : null;
           } else {
             // Overkill? Should this happen on the API?
             const dedupedArticles = articles.filter(
               a => a.id !== article.id
             ).slice(0, 2);
-            return <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={dedupedArticles} />;
+            return (
+              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                <SeriesNavigation
+                  key={series.id}
+                  series={series}
+                  items={dedupedArticles} />
+              </div>
+            );
           }
         })}
       </BasePage>
