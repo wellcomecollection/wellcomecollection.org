@@ -71,7 +71,7 @@ const EventScheduleItem = ({
               </div>
             }
 
-            {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
+            {isNotLinked && !event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
               <div className={spacing({s: 4}, {top: ['bottom']})}>
                 <Message text='Just turn up' />
               </div>
