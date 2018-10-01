@@ -136,7 +136,7 @@ const PageHeader = ({
             </div>
           }
 
-          {labels &&
+          {labels && labels.labels.length > 0 &&
             <div className={classNames({
               [spacing({s: 2, m: 3}, {margin: ['top']})]: true
             })}>

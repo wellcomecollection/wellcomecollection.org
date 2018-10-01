@@ -76,14 +76,6 @@ export class ArticlePage extends Component<Props, State> {
       })))
     };
 
-    // TODO: do this properly
-    const labels = {
-      labels: [{
-        url: null,
-        text: 'Essay'
-      }]
-    };
-
     const partOfSerial = article.series
       .map(series => {
         const titles = series.schedule.map(item => item.title);
@@ -107,7 +99,8 @@ export class ArticlePage extends Component<Props, State> {
       promoText: article.promoText,
       image: article.image,
       squareImage: article.squareImage,
-      widescreenImage: article.widescreenImage
+      widescreenImage: article.widescreenImage,
+      labels: article.labels
     };
     const standfirst = article.body.find(slice => slice.type === 'standfirst');
     const ContentTypeInfo = standfirst &&
@@ -156,7 +149,7 @@ export class ArticlePage extends Component<Props, State> {
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
-      labels={labels}
+      labels={{labels: article.labels}}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={null}

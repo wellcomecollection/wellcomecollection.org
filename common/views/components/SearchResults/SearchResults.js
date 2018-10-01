@@ -35,7 +35,7 @@ const SearchResults = ({
       </div>
     }
     <div className={`
-        ${spacing({s: 11}, {margin: ['top']})}
+        ${spacing({s: 4}, {margin: ['top']})}
       `}>
       {items.map(item => (
         <div className={
@@ -61,8 +61,7 @@ const SearchResults = ({
               promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
-              partNumber={null}
-              labels={{labels: [{url: null, text: 'Event series'}]}}
+              labels={{labels: item.labels}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
@@ -76,8 +75,7 @@ const SearchResults = ({
               promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
-              partNumber={null}
-              labels={{labels: [{url: null, text: 'Book'}]}}
+              labels={{labels: item.labels}}
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
@@ -92,13 +90,12 @@ const SearchResults = ({
 
           {item.type === 'article-schedule-items' &&
             <CompactCard
-              promoType='InstallationPromo'
-              url={item.url}
-              title={item.title}
-              partNumber={item.partNumber}
+              promoType='ArticlePromo'
+              url={`/articles/${item.id}`}
+              title={item.title || ''}
               labels={{labels: [{url: null, text: 'Story'}]}}
               description={`Available ${formatDate(item.publishDate)}`}
-              urlOverride={null}
+              urlOverride={item.promo && item.promo.link}
               Image={<Image
                 contentUrl={'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7ca32858-e347-4282-acaf-c55572961736_transparent.gif'}
                 width={16}
@@ -118,12 +115,12 @@ const SearchResults = ({
           {item.type === 'installations' &&
             <CompactCard
               promoType='InstallationPromo'
-              url={`/installations/${item.id}`}
-              title={item.title || ''}
-              partNumber={null}
-              labels={{labels: [{url: null, text: 'Installation'}]}}
+              url={item.url}
+              title={item.title}
+              partNumber={item.partNumber}
+              labels={{labels: item.labels}}
               description={item.promoText}
-              urlOverride={item.promo && item.promo.link}
+              urlOverride={null}
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               DateInfo={null}
               StatusIndicator={null}

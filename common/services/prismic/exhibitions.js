@@ -150,7 +150,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const intro = data.intro && data.intro[0] && [Object.assign({}, data.intro[0], {type: 'paragraph'})];
   const promoList = document.data.promoList || [];
 
-  return {
+  const exhibition = {
     ...genericFields,
     type: 'exhibitions',
     format: format,
@@ -185,6 +185,15 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     relatedArticles: promoList.filter(x => x.type === 'article').map(parsePromoListItem),
     relatedIds
   };
+
+  const labels = exhibition.isPermanent
+    ? [{
+      text: 'Permanent exhibition',
+      url: null
+    }]
+    : [{ url: null, text: 'Exhibition' }];
+
+  return {...exhibition, labels};
 }
 
 type Order = 'desc' | 'asc';
