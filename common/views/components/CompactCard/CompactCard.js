@@ -4,6 +4,7 @@ import {grid, font, spacing, conditionalClassNames} from '../../../utils/classna
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
@@ -14,6 +15,7 @@ type Props = {|
   description: ?string,
   urlOverride: ?string,
   extraClasses?: string,
+  partNumber: ?number,
   Image: ?Element<typeof ImageType>,
   DateInfo: ?Element<typeof DateRange>,
   StatusIndicator: ?Element<typeof StatusIndicator>
@@ -27,6 +29,7 @@ const CompactCard = ({
   description,
   urlOverride,
   extraClasses,
+  partNumber,
   Image,
   DateInfo,
   StatusIndicator
@@ -61,6 +64,7 @@ const CompactCard = ({
         </div>
       }
       <div className={grid(textGridSizes)}>
+        {partNumber && <PartNumberIndicator n={partNumber} />}
         <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
           {title}
         </div>

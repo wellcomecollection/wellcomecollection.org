@@ -9,6 +9,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
+import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -16,6 +17,7 @@ import {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
+import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
 
@@ -84,27 +86,7 @@ export class ArticlePage extends Component<Props, State> {
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
     const TitleTopper = !partOfSerial ? null
-      : <div className={classNames({
-        [font({s: 'WB7'})]: true
-      })}>Part
-        <span
-          className={classNames({
-            'bg-purple': true,
-            [spacing({s: 1}, {margin: ['left']})]: true
-          })}
-          style={{
-            transform: 'rotateZ(-6deg)',
-            width: '24px',
-            height: '24px',
-            display: 'inline-block',
-            borderRadius: '3px',
-            textAlign: 'center'
-          }}>
-          <span className={'font-white'} style={{transform: 'rotateZ(6deg) scale(1.2)'}}>
-            {partOfSerial}
-          </span>
-        </span>
-      </div>;
+      : <PartNumberIndicator n={partOfSerial} />;
 
     const genericFields = {
       id: article.id,
@@ -186,19 +168,38 @@ export class ArticlePage extends Component<Props, State> {
         contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
-          // Overkill? Should this happen on the API?
-          const dedupedArticles = articles.filter(
-            a => a.id !== article.id
-          ).slice(0, 2);
-          return (
-            <div
+          if (partOfSerial && series.schedule && series.schedule.length > 0) {
+            const nextUp = partOfSerial - 1 === series.schedule.length ? articles[0]
+              : articles[partOfSerial] ? articles[partOfSerial] : null;
+
+            const nextUpNotPublished = nextUp ? null
+              : ({
+                type: 'article-schedule-items',
+                id: series.schedule[partOfSerial].title,
+                publishDate: new Date(series.schedule[partOfSerial].publishDate),
+                partNumber: partOfSerial + 1,
+                url: `/series/${series.id}`,
+                ...series.schedule[partOfSerial]
+              }: ArticleScheduleItem);
+
+            return nextUp ? <SeriesNavigation
               key={series.id}
-              className={`${spacing({s: 6}, {margin: ['top']})}`}>
-              <SeriesNavigation
+              series={series}
+              items={([nextUp]: Article[])} />
+              : nextUpNotPublished ? <SeriesNavigation
+                key={series.id}
                 series={series}
-                items={dedupedArticles} />
-            </div>
-          );
+                items={([nextUpNotPublished]: ArticleScheduleItem[])} /> : null;
+          } else {
+            // Overkill? Should this happen on the API?
+            const dedupedArticles = articles.filter(
+              a => a.id !== article.id
+            ).slice(0, 2);
+            return <SeriesNavigation
+              key={series.id}
+              series={series}
+              items={dedupedArticles} />;
+          }
         })}
       </BasePage>
     );
