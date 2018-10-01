@@ -103,9 +103,11 @@
     "@zeit/next-bundle-analyzer" "^0.1.1"
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-env "^1.6.1"
+    cookie-cutter "^0.2.0"
     cookies "^0.7.1"
     fontfaceobserver "^2.0.13"
     immutable "^3.8.2"
+    isomorphic-unfetch "^2.1.1"
     jest "^22.4.3"
     lazysizes "^4.0.1"
     lodash.debounce "^4.0.8"
@@ -1726,6 +1728,10 @@ content-type@^1.0.4, content-type@~1.0.4:
 convert-source-map@1.5.1, convert-source-map@^1.4.0, convert-source-map@^1.5.0, convert-source-map@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.5.1.tgz#b8278097b9bc229365de5c62cf5fcaed8b5599e5"
+
+cookie-cutter@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/cookie-cutter/-/cookie-cutter-0.2.0.tgz#5988f598b68c060a00ec8524ad6e6aa193e72244"
 
 cookie-signature@1.0.6:
   version "1.0.6"
@@ -3578,7 +3584,7 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isomorphic-unfetch@^2.0.0:
+isomorphic-unfetch@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-2.1.1.tgz#c321770bcd682c5c8550f31146fc7dd21ac33e7b"
   dependencies:
