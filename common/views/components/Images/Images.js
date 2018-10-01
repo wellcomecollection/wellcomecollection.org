@@ -111,7 +111,7 @@ export type UiCaptionedImageProps = {|
   sizesQueries: string,
   extraClasses?: string,
   preCaptionNode?: Node,
-  maxHeightRestricted?: boolean
+  setTitleStyle?: () => void
 |}
 
 export class CaptionedImage extends Component<UiCaptionedImageProps> {
@@ -122,6 +122,7 @@ export class CaptionedImage extends Component<UiCaptionedImageProps> {
   }
 
   setComputedImageWidth = (width) => {
+    this.props.setTitleStyle && this.props.setTitleStyle(width);
     this.setState({
       computedImageWidth: width,
       isActive: true
@@ -135,9 +136,9 @@ export class CaptionedImage extends Component<UiCaptionedImageProps> {
   }
 
   render() {
-    const { caption, preCaptionNode, extraClasses, image, sizesQueries, maxHeightRestricted } = this.props;
+    const { caption, preCaptionNode, extraClasses, image, sizesQueries } = this.props;
     const { isActive, computedImageWidth, isWidthAuto } = this.state;
-    const uiImageProps = {...image, sizesQueries, maxHeightRestricted};
+    const uiImageProps = {...image, sizesQueries};
 
     return (
       <figure

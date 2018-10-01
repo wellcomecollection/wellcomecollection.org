@@ -5,7 +5,7 @@ import {CaptionedImage} from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Button from '../Buttons/Button/Button';
 import Icon from '../Icon/Icon';
-import Layout8 from '../Layout8/Layout8';
+import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 
@@ -26,7 +26,8 @@ class ImageGallery extends Component<Props, State> {
 
   showAllImages = () => {
     this.setState({
-      isActive: true
+      isActive: true,
+      titleStyle: null
     });
   }
 
@@ -40,23 +41,30 @@ class ImageGallery extends Component<Props, State> {
     });
   }
 
+  setTitleStyle = (value) => {
+    this.setState({
+      titleStyle: {
+        transform: `translateX(calc((100vw - ${value}px) / 2))`,
+        maxWidth: value
+      }
+    });
+  }
+
   render() {
     const { title, items } = this.props;
-    const { isActive } = this.state;
+    const { isActive, titleStyle } = this.state;
 
     return (
       <Fragment>
-        <Layout8>
-
-          <span className={classNames({
-            'flex flex--v-top flex--h-center': true,
+        <span
+          style={titleStyle}
+          className={classNames({
+            'flex flex--v-top': true,
             [spacing({s: 4}, {margin: ['bottom']})]: true
           })}>
-            <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
-            <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
-          </span>
-
-        </Layout8>
+          <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
+          <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
+        </span>
         <div className={classNames({
           [spacing({s: 10}, {margin: ['bottom']})]: true,
           'image-gallery-v2 row relative': true,
@@ -84,6 +92,7 @@ class ImageGallery extends Component<Props, State> {
                   <CaptionedImage
                     image={captionedImage.image}
                     caption={captionedImage.caption}
+                    setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
                     preCaptionNode={
                       <div className={classNames({
                         [font({s: 'HNM5', m: 'HNM4'})]: true,

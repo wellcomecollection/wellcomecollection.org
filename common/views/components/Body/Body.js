@@ -55,20 +55,12 @@ const Body = ({ body }: Props) => {
               </Layout8>
             }
 
-            {slice.type === 'picture' && slice.weight === 'default' &&
+            {slice.type === 'picture' &&
               <Layout10>
-                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
+                <CaptionedImage
+                  {...slice.value}
+                  sizesQueries={''} />
               </Layout10>
-            }
-            {slice.type === 'picture' && slice.weight === 'standalone' &&
-              <Layout12>
-                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
-              </Layout12>
-            }
-            {slice.type === 'picture' && slice.weight === 'supporting' &&
-              <Layout8>
-                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
-              </Layout8>
             }
 
             {slice.type === 'imageGallery' &&
