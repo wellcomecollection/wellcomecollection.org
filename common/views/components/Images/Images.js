@@ -16,27 +16,41 @@ export type UiImageProps = {|
   extraClasses?: string,
   isFull?: boolean,
   showTasl?: boolean,
+  setComputedImageWidth?: (value: number) => void,
+  setLazyLoaded?: () => void
 |}
 
-export class UiImage extends Component<UiImageProps> {
+type UiImageState = {|
+  isEnhanced: boolean,
+  isWidthAuto: boolean,
+  imgRef: any // FIXME: better Flow
+|}
+
+export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
     isEnhanced: false,
-    isWidthAuto: true
+    isWidthAuto: true,
+    imgRef: null
   }
 
-  setImgRef = el => {
-    this.imgRef = el;
-    this.imgRef.addEventListener('lazyloaded', this.handleLazyLoaded);
+  setImgRef = (el: any) => { // FIXME: better Flow
+    this.setState({
+      imgRef: el
+    });
+
+    el.addEventListener('lazyloaded', this.handleLazyLoaded);
   }
 
   getImageSize = () => {
-    this.props.setComputedImageWidth(this.imgRef.width);
+    this.state.imgRef &&
+      this.props.setComputedImageWidth &&
+      this.props.setComputedImageWidth(this.state.imgRef.width);
   }
 
   debouncedGetImageSize = debounce(this.getImageSize, 200);
 
   handleLazyLoaded = () => {
-    this.props.setLazyLoaded(); // Inform parent
+    this.props.setLazyLoaded && this.props.setLazyLoaded(); // Inform parent
     this.setState({
       isWidthAuto: true // Fix aspect ratio
     });
@@ -111,17 +125,23 @@ export type UiCaptionedImageProps = {|
   sizesQueries: string,
   extraClasses?: string,
   preCaptionNode?: Node,
-  setTitleStyle?: () => void
+  setTitleStyle?: (value: number) => void
 |}
 
-export class CaptionedImage extends Component<UiCaptionedImageProps> {
+type UiCaptionedImageState = {|
+  isActive: boolean,
+  computedImageWidth: ?number,
+  isWidthAuto: boolean
+|}
+
+export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptionedImageState> {
   state = {
     isActive: false,
     computedImageWidth: null,
     isWidthAuto: false
   }
 
-  setComputedImageWidth = (width) => {
+  setComputedImageWidth = (width: number) => {
     this.props.setTitleStyle && this.props.setTitleStyle(width);
     this.setState({
       computedImageWidth: width,
@@ -144,9 +164,9 @@ export class CaptionedImage extends Component<UiCaptionedImageProps> {
       <figure
         style={{
           marginLeft: isActive && isWidthAuto && '50%',
-          transform: isActive && isWidthAuto && `translateX(${computedImageWidth / -2}px)`
+          transform: isActive && isWidthAuto && computedImageWidth && `translateX(${computedImageWidth / -2}px)`
         }}
-        className={`captioned-image ${extraClasses}`}>
+        className={`captioned-image ${extraClasses || ''}`}>
         <div
           style={{
             display: isWidthAuto && 'inline-block'

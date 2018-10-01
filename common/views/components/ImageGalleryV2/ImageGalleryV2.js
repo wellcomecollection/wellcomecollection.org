@@ -15,18 +15,19 @@ type Props = {|
 |}
 
 type State = {|
-  isActive: boolean
+  isActive: boolean,
+  titleStyle: ? {|transform: string, maxWidth: string|}
 |}
 
 class ImageGallery extends Component<Props, State> {
   state = {
-    isActive: true
+    isActive: true,
+    titleStyle: null
   }
 
   showAllImages = () => {
     this.setState({
-      isActive: true,
-      titleStyle: null
+      isActive: true
     });
   }
 
@@ -40,11 +41,11 @@ class ImageGallery extends Component<Props, State> {
     });
   }
 
-  setTitleStyle = (value) => {
+  setTitleStyle = (value: number) => {
     this.setState({
       titleStyle: {
         transform: `translateX(calc((100vw - ${value}px) / 2))`,
-        maxWidth: value
+        maxWidth: `${value}px`
       }
     });
   }
@@ -92,6 +93,7 @@ class ImageGallery extends Component<Props, State> {
                     image={captionedImage.image}
                     caption={captionedImage.caption}
                     setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
+                    sizesQueries={'(max-width: 600px) 100vw, ' + (captionedImage.image.width / captionedImage.image.height) * 640 + 'px'}
                     preCaptionNode={
                       <div className={classNames({
                         [font({s: 'HNM5', m: 'HNM4'})]: true,
