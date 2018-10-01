@@ -8,6 +8,7 @@ import type {Node} from 'react';
 import type {ImageType} from '../../../model/image';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
+import debounce from 'lodash.debounce';
 
 export type UiImageProps = {|
   ...ImageType,
@@ -18,9 +19,6 @@ export type UiImageProps = {|
 |}
 
 export class UiImage extends Component<UiImageProps> {
-  // TODO: set width of the image to 'auto' once the image has been lazy-loaded
-  // and set the parent captioned-image__image-container to inline block, then
-  // then trigger getImageSize() again
   state = {
     isEnhanced: false,
     isWidthAuto: true
@@ -28,48 +26,35 @@ export class UiImage extends Component<UiImageProps> {
 
   setImgRef = el => {
     this.imgRef = el;
+    this.imgRef.addEventListener('lazyloaded', this.handleLazyLoaded);
   }
 
   getImageSize = () => {
     this.props.setComputedImageWidth(this.imgRef.width);
+    console.log('yo');
   }
 
-  checkImageLazyLoaded = () => {
-    // TODO: this should be determined based on a lazy-image event that fires after it
-    // has done its thing, rather than doing this polling
-    if (this.state.isEnhanced && this.imgRef.classList.contains('lazyloaded')) {
-      this.setState({
-        isWidthAuto: true
-      });
-      this.props.setLazyLoaded();
-      this.getImageSize();
-    } else {
-      setTimeout(this.checkImageLazyLoaded, 10);
-    }
-  }
+  debouncedGetImageSize = debounce(this.getImageSize, 200);
 
-  checkImageActuallyReady = () => {
-    if (this.state.isEnhanced && this.imgRef.complete) {
-      this.getImageSize();
-    } else {
-      setTimeout(this.checkImageActuallyReady, 0);
-    }
+  handleLazyLoaded = () => {
+    this.props.setLazyLoaded(); // Inform parent
+    this.setState({
+      isWidthAuto: true // Fix aspect ratio
+    });
+    this.getImageSize(); // Update centre based on new aspect ratio
   }
 
   componentDidMount() {
-    this.checkImageActuallyReady();
-    this.checkImageLazyLoaded();
     this.setState({
       isEnhanced: true,
       isWidthAuto: false
     });
 
-    // TODO: debounce
-    window.addEventListener('resize', this.getImageSize);
+    window.addEventListener('resize', this.debouncedGetImageSize);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.getImageSize);
+    window.removeEventListener('resize', this.debouncedGetImageSize);
   }
 
   render() {
