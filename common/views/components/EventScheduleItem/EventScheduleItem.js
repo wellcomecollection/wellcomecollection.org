@@ -4,6 +4,7 @@ import {grid, font, spacing} from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '../LabelsList/LabelsList';
+import Message from '../Message/Message';
 import {formatTime, formatDayDate, isTimePast, isDatePast} from '../../../utils/format-date';
 import type {UiEvent} from '../../../model/events';
 
@@ -67,6 +68,12 @@ const EventScheduleItem = ({
             {!isDatePast(event.dateRange.lastDate) && event.bookingEnquiryTeam && !waitForTicketSales &&
               <div className={spacing({s: 2}, {margin: ['top']})}>
                 <EventBookingButton event={event} />
+              </div>
+            }
+
+            {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
+              <div className={spacing({s: 4}, {top: ['bottom']})}>
+                <Message text='Just turn up' />
               </div>
             }
           </div>
