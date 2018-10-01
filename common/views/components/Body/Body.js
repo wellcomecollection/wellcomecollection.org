@@ -11,7 +11,6 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
-import Layout12 from '../Layout12/Layout12';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
