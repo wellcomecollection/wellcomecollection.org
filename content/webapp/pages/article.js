@@ -55,7 +55,10 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const seriesPromises = this.props.article.series.map(series =>
+    // GOTCHA: we only take the first of the series list as the data is being
+    // used a little bit badly, but we don't have capacity to implement a
+    // better solution
+    const seriesPromises = this.props.article.series.slice(0, 1).map(series =>
       getArticleSeries(null, { id: series.id, pageSize: 3 })
     );
     const listOfSeries = await Promise.all(seriesPromises);
@@ -69,11 +72,15 @@ export class ArticlePage extends Component<Props, State> {
       items: [{
         url: '/stories',
         text: 'Stories'
-      }].concat(article.series.map(series => ({
-        url: `/series/${series.id}`,
-        text: series.title || '',
-        prefix: `Part of`
-      })))
+      }]
+      // GOTCHA: we only take the first of the series list as the data is being
+      // used a little bit badly, but we don't have capacity to implement a
+      // better solution
+        .concat(article.series.slice(0, 1).map(series => ({
+          url: `/series/${series.id}`,
+          text: series.title || '',
+          prefix: `Part of`
+        })))
     };
 
     const partOfSerial = article.series
