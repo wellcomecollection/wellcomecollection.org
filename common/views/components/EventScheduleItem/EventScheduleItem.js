@@ -46,6 +46,14 @@ const EventScheduleItem = ({
 
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
+            {!isNotLinked &&
+              <div className={spacing({s: 2}, {margin: ['top']})}>
+                <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                  <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
+                </p>
+              </div>
+            }
+
             {event.ticketSalesStart && waitForTicketSales &&
               <Fragment>
                 <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['top', 'bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
@@ -53,14 +61,6 @@ const EventScheduleItem = ({
                   <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
                 </div>
               </Fragment>
-            }
-
-            {!isNotLinked &&
-              <div className={spacing({s: 2}, {margin: ['top']})}>
-                <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                  <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
-                </p>
-              </div>
             }
 
             {!isDatePast(event.dateRange.lastDate) && event.eventbriteId && !waitForTicketSales &&
