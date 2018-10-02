@@ -55,6 +55,14 @@ const EventScheduleItem = ({
               </Fragment>
             }
 
+            {!isNotLinked &&
+              <div className={spacing({s: 2}, {margin: ['top']})}>
+                <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                  <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
+                </p>
+              </div>
+            }
+
             {!isDatePast(event.dateRange.lastDate) && event.eventbriteId && !waitForTicketSales &&
               <EventbriteButton event={event} />
             }
@@ -68,14 +76,6 @@ const EventScheduleItem = ({
             {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
               <div className={spacing({s: 2}, {margin: ['top']})}>
                 <Message text='Just turn up' />
-              </div>
-            }
-
-            {!isNotLinked &&
-              <div className={spacing({s: 2}, {margin: ['top']})}>
-                <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                  <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
-                </p>
               </div>
             }
           </div>
