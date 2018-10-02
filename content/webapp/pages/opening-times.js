@@ -177,7 +177,8 @@ export class StoriesPage extends Component<Props> {
                           <Fragment>{formatDate(period.periodStart)}</Fragment>
                         }
                       </h3>
-                      {period.venues.map((venue, modified) => {
+                      {Object.keys(period.venues).map(venue => {
+                        const modified = period.venues[venue];
                         return (
                           <p key={venue} className={spacing({s: 1}, {margin: ['bottom']})}>
                             {venue} will be closed on
