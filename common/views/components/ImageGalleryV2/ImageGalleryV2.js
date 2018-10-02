@@ -41,6 +41,8 @@ class ImageGallery extends Component<Props, State> {
     });
   }
 
+  // We want the image gallery title to be aligned with the first image
+  // So we adjust the translateX and width accordingly
   setTitleStyle = (value: number) => {
     this.setState({
       titleStyle: {

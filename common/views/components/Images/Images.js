@@ -28,8 +28,8 @@ type UiImageState = {|
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
-    isEnhanced: false,
-    isWidthAuto: true,
+    isEnhanced: false, // Flag for JS availability (show everything by default)
+    isWidthAuto: true, // Start with `width: auto` on the image to allow aspect ratio to be calculated from width/height attributes
     imgRef: null
   }
 
@@ -58,8 +58,16 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
   }
 
   componentDidMount() {
+    // In order for the image to take up 100% of the available horizontal
+    // space, we remove `width: auto`. This is necessary for as long as the
+    // parent container is not `display: inline-block`, and this is goverened
+    // by whether the 'lazyloaded' event has fired on the img element, which
+    // determines that the correct image is available at the the desired size.
+    // At that point, setting `display: inline-block` on the parent container
+    // ensures the TASL information button is correctly contained within the
+    // image.
     this.setState({
-      isEnhanced: true,
+      isEnhanced: true, // JS available
       isWidthAuto: false
     });
 
