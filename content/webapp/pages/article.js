@@ -173,15 +173,9 @@ export class ArticlePage extends Component<Props, State> {
               : articles[partOfSerial] ? articles[partOfSerial] : null;
 
             const nextUpNotPublished = nextUp ? null
-              : ({
-                type: 'article-schedule-items',
-                id: series.schedule[partOfSerial].title,
-                publishDate: new Date(series.schedule[partOfSerial].publishDate),
-                partNumber: partOfSerial + 1,
-                url: `/series/${series.id}`,
-                ...series.schedule[partOfSerial]
-              }: ArticleScheduleItem);
+              : series.schedule[partOfSerial];
 
+            console.info(nextUpNotPublished);
             return nextUp
               ? (
                 <div className={`${spacing({s: 6}, {margin: ['top']})}`}>

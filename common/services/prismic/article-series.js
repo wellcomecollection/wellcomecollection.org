@@ -23,10 +23,13 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     labels,
     schedule: data.schedule ? data.schedule
       .filter(({title}) => isStructuredText(title))
-      .map(item => {
+      .map((item, i) => {
         return {
+          type: 'article-schedule-items',
+          id: `${document.id}_${i}`,
           title: asText(item.title),
-          publishDate: item.publishDate
+          publishDate: new Date(item.publishDate),
+          partNumber: i
         };
       }) : [],
     body,
