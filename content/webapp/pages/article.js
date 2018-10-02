@@ -9,6 +9,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
+import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -16,6 +17,7 @@ import {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
+import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
 
@@ -74,14 +76,6 @@ export class ArticlePage extends Component<Props, State> {
       })))
     };
 
-    // TODO: do this properly
-    const labels = {
-      labels: [{
-        url: null,
-        text: 'Essay'
-      }]
-    };
-
     const partOfSerial = article.series
       .map(series => {
         const titles = series.schedule.map(item => item.title);
@@ -92,27 +86,7 @@ export class ArticlePage extends Component<Props, State> {
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
     const TitleTopper = !partOfSerial ? null
-      : <div className={classNames({
-        [font({s: 'WB7'})]: true
-      })}>Part
-        <span
-          className={classNames({
-            'bg-purple': true,
-            [spacing({s: 1}, {margin: ['left']})]: true
-          })}
-          style={{
-            transform: 'rotateZ(-6deg)',
-            width: '24px',
-            height: '24px',
-            display: 'inline-block',
-            borderRadius: '3px',
-            textAlign: 'center'
-          }}>
-          <span className={'font-white'} style={{transform: 'rotateZ(6deg) scale(1.2)'}}>
-            {partOfSerial}
-          </span>
-        </span>
-      </div>;
+      : <PartNumberIndicator n={partOfSerial} />;
 
     const genericFields = {
       id: article.id,
@@ -125,7 +99,8 @@ export class ArticlePage extends Component<Props, State> {
       promoText: article.promoText,
       image: article.image,
       squareImage: article.squareImage,
-      widescreenImage: article.widescreenImage
+      widescreenImage: article.widescreenImage,
+      labels: article.labels
     };
     const standfirst = article.body.find(slice => slice.type === 'standfirst');
     const ContentTypeInfo = standfirst &&
@@ -138,26 +113,22 @@ export class ArticlePage extends Component<Props, State> {
         </div>
         <div className={classNames({
           'flex': true,
-          'flex--h-baseline': true,
-          [font({s: 'HNM5'})]: true
+          'flex--h-baseline': true
         })}>
           <p className={classNames({
             [spacing({s: 1}, {margin: ['top']})]: true,
             [spacing({s: 1}, {margin: ['right']})]: true,
-            [spacing({s: 0}, {margin: ['bottom']})]: true
+            [spacing({s: 0}, {margin: ['bottom']})]: true,
+            [font({s: 'HNL5'})]: true
           })}>
-            <span className={classNames({
-              [font({s: 'HNB5'})]: true
-            })}>By </span>
+            <span>By </span>
             {article.contributors.map(({ contributor }, i, arr) => (
               <Fragment key={contributor.id}>
-                <a
-                  className={'plain-link font-green'}
-                  href={`/${contributor.type}/${contributor.id}`}>
-                  {contributor.name}
-                </a>
-
-                {i < arr.length - 1 && ', '}
+                <span className={classNames({
+                  [font({s: 'HNM5'})]: true
+                })}>{contributor.name}</span>
+                {arr.length > 1 && i < arr.length - 2  && ', '}
+                {arr.length > 1 && i === arr.length - 2 && ' and '}
               </Fragment>
             ))}
           </p>
@@ -174,7 +145,7 @@ export class ArticlePage extends Component<Props, State> {
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
-      labels={labels}
+      labels={{labels: article.labels}}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={null}
@@ -193,14 +164,38 @@ export class ArticlePage extends Component<Props, State> {
         contributorProps={{contributors: article.contributors}}
       >
         {this.state.listOfSeries.map(({series, articles}) => {
-          // Overkill? Should this happen on the API?
-          const dedupedArticles = articles.filter(
-            a => a.id !== article.id
-          ).slice(0, 2);
-          return <SeriesNavigation
-            key={series.id}
-            series={series}
-            items={dedupedArticles} />;
+          if (partOfSerial && series.schedule && series.schedule.length > 0) {
+            const nextUp = partOfSerial - 1 === series.schedule.length ? articles[0]
+              : articles[partOfSerial] ? articles[partOfSerial] : null;
+
+            const nextUpNotPublished = nextUp ? null
+              : ({
+                type: 'article-schedule-items',
+                id: series.schedule[partOfSerial].title,
+                publishDate: new Date(series.schedule[partOfSerial].publishDate),
+                partNumber: partOfSerial + 1,
+                url: `/series/${series.id}`,
+                ...series.schedule[partOfSerial]
+              }: ArticleScheduleItem);
+
+            return nextUp ? <SeriesNavigation
+              key={series.id}
+              series={series}
+              items={([nextUp]: Article[])} />
+              : nextUpNotPublished ? <SeriesNavigation
+                key={series.id}
+                series={series}
+                items={([nextUpNotPublished]: ArticleScheduleItem[])} /> : null;
+          } else {
+            // Overkill? Should this happen on the API?
+            const dedupedArticles = articles.filter(
+              a => a.id !== article.id
+            ).slice(0, 2);
+            return <SeriesNavigation
+              key={series.id}
+              series={series}
+              items={dedupedArticles} />;
+          }
         })}
       </BasePage>
     );

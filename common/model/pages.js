@@ -1,12 +1,9 @@
 // @flow
-import type {ImagePromo} from './image-promo';
+import type {GenericContentFields} from './generic-content-fields';
 
 export type Page = {|
   type: 'pages',
-  id: string,
-  title: string,
-  promo: ?ImagePromo,
-  body: any[],
+  ...GenericContentFields,
   datePublished: ?Date,
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later

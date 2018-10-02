@@ -50,6 +50,10 @@ export async function getBook(req: ?Request, id: string): Promise<?Book> {
 
   if (document && document.type === 'books') {
     const book = parseBook(document);
-    return book;
+    const labels = [{
+      url: null,
+      text: 'Book'
+    }];
+    return {...book, labels};
   }
 }
