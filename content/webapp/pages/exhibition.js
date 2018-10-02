@@ -119,6 +119,7 @@ export class ExhibitionPage extends Component<Props, State> {
         }
         FeaturedMedia={maybeFeaturedMedia}
         HeroPicture={maybeHeroPicture}
+        isFree={true}
       />
     );
 
@@ -230,7 +231,7 @@ export class ExhibitionPage extends Component<Props, State> {
             !isPast(exhibition.end) && (
             <InfoBox title='Visit us' items={infoItems}>
               <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-                <a href='/access'>Accessibility at Wellcome</a>
+                <a href='/access'>All our accessibility services</a>
               </p>
             </InfoBox>
           )}
