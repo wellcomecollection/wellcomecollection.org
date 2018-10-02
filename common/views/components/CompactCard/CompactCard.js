@@ -4,6 +4,7 @@ import {grid, font, spacing, conditionalClassNames} from '../../../utils/classna
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
+import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import {default as ImageType} from '../Image/Image';
 
@@ -16,7 +17,7 @@ type Props = {|
   urlOverride: ?string,
   extraClasses?: string,
   partNumber: ?number,
-  Image: ?Element<typeof ImageType>,
+  Image: ?Element<typeof ImageType | typeof ImagePlaceholder>,
   DateInfo: ?Element<typeof DateRange>,
   StatusIndicator: ?Element<typeof StatusIndicator>
 |}
