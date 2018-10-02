@@ -7,7 +7,7 @@ import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import {
@@ -103,15 +103,10 @@ export class ArticlePage extends Component<Props, State> {
       widescreenImage: article.widescreenImage,
       labels: article.labels
     };
-    const standfirst = article.body.find(slice => slice.type === 'standfirst');
-    const ContentTypeInfo = standfirst &&
+
+    const ContentTypeInfo = (
       <Fragment>
-        <div className={classNames({
-          'first-para-no-margin': true,
-          [spacing({s: 1}, {margin: ['top']})]: true
-        })}>
-          <PrismicHtmlBlock html={standfirst.value} />
-        </div>
+        {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
         <div className={classNames({
           'flex': true,
           'flex--h-baseline': true
@@ -140,7 +135,8 @@ export class ArticlePage extends Component<Props, State> {
             <HTMLDate date={new Date(article.datePublished)} />
           </div>
         </div>
-      </Fragment>;
+      </Fragment>
+    );
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;

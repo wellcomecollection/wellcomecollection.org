@@ -64,6 +64,11 @@ export default {
           citation: structuredText('Citation', 'single')
         }
       }),
+      standfirst: slice('Standfirst', {
+        nonRepeat: {
+          text: structuredText('Standfirst', 'single')
+        }
+      }),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)')

@@ -1,7 +1,8 @@
 // @flow
-import {Fragment, Component} from 'react';
+import {Component} from 'react';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
@@ -67,8 +68,7 @@ export class ArticleSeriesPage extends Component<Props> {
       labels: series.labels
     };
 
-    const standfirst = series.body.find(slice => slice.type === 'standfirst');
-    const ContentTypeInfo = standfirst && <Fragment></Fragment>;
+    const ContentTypeInfo = series.standfirst && <PageHeaderStandfirst html={series.standfirst} />;
     const FeaturedMedia = getFeaturedMedia(genericFields);
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}

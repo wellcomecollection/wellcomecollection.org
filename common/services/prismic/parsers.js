@@ -529,6 +529,7 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const {image, squareImage, widescreenImage} = promoImages;
   const body = data.body ? parseBody(data.body) : [];
   const standfirst = body.find(slice => slice.type === 'standfirst');
+
   return {
     id: doc.id,
     title: parseTitle(data.title),
