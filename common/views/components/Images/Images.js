@@ -16,20 +16,19 @@ export type UiImageProps = {|
   extraClasses?: string,
   isFull?: boolean,
   showTasl?: boolean,
+  isWidthAuto?: boolean,
   setComputedImageWidth?: (value: number) => void,
-  setLazyLoaded?: () => void
+  setIsWidthAuto?: (value: boolean) => void
 |}
 
 type UiImageState = {|
   isEnhanced: boolean,
-  isWidthAuto: boolean,
   imgRef: any // FIXME: better Flow
 |}
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
     isEnhanced: false, // Flag for JS availability (show everything by default)
-    isWidthAuto: true, // Start with `width: auto` on the image to allow aspect ratio to be calculated from width/height attributes
     imgRef: null
   }
 
@@ -50,10 +49,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
   debouncedGetImageSize = debounce(this.getImageSize, 200);
 
   handleLazyLoaded = () => {
-    this.props.setLazyLoaded && this.props.setLazyLoaded(); // Inform parent
-    this.setState({
-      isWidthAuto: true // Fix aspect ratio
-    });
+    this.props.setIsWidthAuto && this.props.setIsWidthAuto(true);
     this.getImageSize(); // Update centre based on new aspect ratio
   }
 
@@ -67,9 +63,9 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     // ensures the TASL information button is correctly contained within the
     // image.
     this.setState({
-      isEnhanced: true, // JS available
-      isWidthAuto: false
+      isEnhanced: true // JS available
     });
+    this.props.setIsWidthAuto && this.props.setIsWidthAuto(false);
 
     window.addEventListener('resize', this.debouncedGetImageSize);
   }
@@ -88,7 +84,8 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
       sizesQueries,
       extraClasses = '',
       isFull = false,
-      showTasl = true
+      showTasl = true,
+      isWidthAuto = true
     } = this.props;
     return (
       <Fragment>
@@ -106,7 +103,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             onLoad={this.getImageSize}
             ref={this.setImgRef}
             style={{
-              width: this.state.isWidthAuto && 'auto'
+              width: isWidthAuto && 'auto'
             }}
             className={classNames({
               'lazy-image': true,
@@ -149,17 +146,17 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
     isWidthAuto: false
   }
 
+  setIsWidthAuto = (value: boolean) => {
+    this.setState({
+      isWidthAuto: value
+    });
+  }
+
   setComputedImageWidth = (width: number) => {
     this.props.setTitleStyle && this.props.setTitleStyle(width);
     this.setState({
       computedImageWidth: width,
       isActive: true
-    });
-  }
-
-  setLazyLoaded = () => {
-    this.setState({
-      isWidthAuto: true
     });
   }
 
@@ -184,8 +181,9 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
           {/* $FlowFixMe */}
           <UiImage
             {...uiImageProps}
-            setComputedImageWidth={this.setComputedImageWidth}
-            setLazyLoaded={this.setLazyLoaded} />
+            setIsWidthAuto={this.setIsWidthAuto}
+            isWidthAuto={isWidthAuto}
+            setComputedImageWidth={this.setComputedImageWidth}  />
         </div>
         <Caption
           width={computedImageWidth}
