@@ -4,6 +4,7 @@ import {grid, font, spacing} from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '../LabelsList/LabelsList';
+import Message from '../Message/Message';
 import {formatTime, formatDayDate, isTimePast, isDatePast} from '../../../utils/format-date';
 import type {UiEvent} from '../../../model/events';
 
@@ -46,9 +47,11 @@ const EventScheduleItem = ({
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
             {!isNotLinked &&
-              <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
-              </p>
+              <div className={spacing({s: 2}, {margin: ['top']})}>
+                <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                  <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
+                </p>
+              </div>
             }
 
             {event.ticketSalesStart && waitForTicketSales &&
@@ -67,6 +70,12 @@ const EventScheduleItem = ({
             {!isDatePast(event.dateRange.lastDate) && event.bookingEnquiryTeam && !waitForTicketSales &&
               <div className={spacing({s: 2}, {margin: ['top']})}>
                 <EventBookingButton event={event} />
+              </div>
+            }
+
+            {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
+              <div className={spacing({s: 2}, {margin: ['top']})}>
+                <Message text='Just turn up' />
               </div>
             }
           </div>
