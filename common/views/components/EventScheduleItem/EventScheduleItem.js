@@ -16,14 +16,6 @@ const EventScheduleItem = ({
   event,
   isNotLinked
 }: Props) => {
-  const format = event.format ? [{text: event.format.title, url: null}] : [];
-  const interpretationTypes = event.interpretations.map(i => {
-    return {
-      text: i.interpretationType.title,
-      url: null
-    };
-  });
-  const labels = format.concat(interpretationTypes);
   const waitForTicketSales = event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
   return (
     <li className={`${spacing({l: 0}, {padding: ['left']})} ${spacing({s: 4, l: 6}, {padding: ['bottom']})} ${spacing({s: 4}, {margin: ['bottom']})} border-color-smoke border-bottom-width-1`}>
@@ -41,9 +33,9 @@ const EventScheduleItem = ({
         </div>
         <div className={`${grid({s: 12, m: 12, l: 9, xl: 10})}`}>
           <div>
-            {labels.length > 0 &&
+            {event.labels.length > 0 &&
               <div className={spacing({s: 1}, {margin: ['bottom']})}>
-                <LabelsList labels={labels} />
+                <LabelsList labels={event.labels} />
               </div>
             }
             <h3 className={`${font({s: 'WB6', l: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>{event.title}</h3>

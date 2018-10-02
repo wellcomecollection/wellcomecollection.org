@@ -8,6 +8,7 @@ import type {Book} from './books';
 import type {UiEvent} from './events';
 import type {Installation} from './installations';
 import type {Article} from './articles';
+import type {ArticleScheduleItem} from './article-schedule-items';
 
 export type MultiContent =
   | Page
@@ -15,4 +16,5 @@ export type MultiContent =
   | Book
   | UiEvent
   | Article
-  | Installation;
+  | Installation
+  | ArticleScheduleItem;

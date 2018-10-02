@@ -16,7 +16,7 @@ export type StructuredSearchQuery = {|
   'article-series': string[],
 |}
 
-export async function search(req: Request, stringQuery: string) {
+export async function search(req: ?Request, stringQuery: string) {
   const query = parseQuery(stringQuery);
   return getMultiContent(req, query);
 }

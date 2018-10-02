@@ -9,6 +9,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
+import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import {UiImage} from '@weco/common/views/components/Images/Images';
@@ -245,12 +246,9 @@ class EventPage extends Component<Props> {
           }
 
           {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
-            <Fragment>
-              <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
-                {/* TODO: work out why the second method below will fail Flow without a null check */}
-                <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
-              </div>
-            </Fragment>
+            <div className={spacing({s: 4}, {margin: ['bottom']})}>
+              <Message text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${event.ticketSalesStart ? formatTime(event.ticketSalesStart) : ''}`} />
+            </div>
           }
 
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) &&
@@ -282,11 +280,9 @@ class EventPage extends Component<Props> {
             }
 
             {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
-              <Fragment>
-                <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
-                  <span>Just turn up</span>
-                </div>
-              </Fragment>
+              <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                <Message text='Just turn up' />
+              </div>
             }
           </Fragment>
           }

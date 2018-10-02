@@ -10,9 +10,11 @@ import type {Place} from '../../model/places';
 export function parsePlaceDoc(document: PrismicDocument): Place {
   const data = document.data;
   const genericFields = parseGenericFields(document);
+  const labels = [{url: null, text: 'Place'}];
 
   return {
     ...genericFields,
+    labels,
     level: data.level && parseNumber(data.level),
     capacity: data.capacity && parseNumber(data.capacity),
     information: data.locationInformation

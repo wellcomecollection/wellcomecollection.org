@@ -8,6 +8,7 @@ import Icon from '../Icon/Icon';
 import Button from '../Buttons/Button/Button';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
+import Message from '../Message/Message';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../InfoBox/InfoBox';
 import {UiImage} from '../Images/Images';
@@ -86,24 +87,6 @@ const EventPage = ({ event }: Props) => {
   };
 
   const FeaturedMedia = image && <UiImage tasl={tasl} {...image} />;
-  const eventFormat = event.format ? [{url: null, text: event.format.title}] : [];
-  const eventAudiences = event.audiences ? event.audiences.map(a => {
-    return {
-      url: null,
-      text: a.title
-    };
-  }) : [];
-  const eventInterpretations = event.interpretations ? event.interpretations.map(i => {
-    return {
-      url: null,
-      text: i.interpretationType.title
-    };
-  }) : [];
-  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
-    url: null,
-    text: 'Relaxed performance'
-  }] : [];
-
   const breadcrumbs = {
     items: [{
       url: '/events',
@@ -114,17 +97,10 @@ const EventPage = ({ event }: Props) => {
       prefix: 'Part of'
     })))
   };
-  const labels = {
-    labels: eventFormat.concat(
-      eventAudiences,
-      eventInterpretations,
-      relaxedPerformanceLabel
-    )
-  };
   const Header = <PageHeader
     asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
     breadcrumbs={breadcrumbs}
-    labels={labels}
+    labels={{labels: event.labels}}
     title={event.title}
     FeaturedMedia={FeaturedMedia}
     Background={<HeaderBackground
@@ -193,12 +169,9 @@ const EventPage = ({ event }: Props) => {
         }
 
         {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
-          <Fragment>
-            <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
-              {/* TODO: work out why the second method below will fail Flow without a null check */}
-              <span>Booking opens {formatDayDate(event.ticketSalesStart)} {event.ticketSalesStart && formatTime(event.ticketSalesStart)}</span>
-            </div>
-          </Fragment>
+          <div className={spacing({s: 4}, {margin: ['bottom']})}>
+            <Message text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${event.ticketSalesStart ? formatTime(event.ticketSalesStart) : ''}`} />
+          </div>
         }
 
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) &&
@@ -230,11 +203,9 @@ const EventPage = ({ event }: Props) => {
             }
 
             {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
-              <Fragment>
-                <div className={`bg-yellow inline-block ${spacing({s: 4}, {padding: ['left', 'right'], margin: ['bottom']})} ${spacing({s: 2}, {padding: ['top', 'bottom']})} ${font({s: 'HNM4'})}`}>
-                  <span>Just turn up</span>
-                </div>
-              </Fragment>
+              <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                <Message text='Just turn up' />
+              </div>
             }
           </Fragment>
         }

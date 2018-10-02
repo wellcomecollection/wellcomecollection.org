@@ -2,12 +2,10 @@
 import {sized} from '../../../utils/style';
 import {spacing} from '../../../utils/classnames';
 import Label from '../../components/Label/Label';
+import type {Label as LabelType} from '../../../model/labels';
 
 type Props = {|
-  labels: {
-    url: ?string,
-    text: string
-  }[]
+  labels: LabelType[]
 |}
 
 const LabelsList = ({labels}: Props) => (

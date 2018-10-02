@@ -63,7 +63,6 @@ export class ExhibitionPage extends Component<Props, State> {
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
     const extraContent = await getExhibitionRelatedContent(null, ids);
-    console.info(extraContent);
     this.setState({
       exhibitionOfs: extraContent.exhibitionOfs,
       exhibitionAbouts: extraContent.exhibitionAbouts
@@ -81,14 +80,6 @@ export class ExhibitionPage extends Component<Props, State> {
         }
       ]
     };
-    const labels = exhibition.isPermanent
-      ? [
-        {
-          text: 'Permanent exhibition',
-          url: ''
-        }
-      ]
-      : null;
 
     const genericFields = {
       id: exhibition.id,
@@ -101,7 +92,8 @@ export class ExhibitionPage extends Component<Props, State> {
       promoText: exhibition.promoText,
       image: exhibition.image,
       squareImage: exhibition.squareImage,
-      widescreenImage: exhibition.widescreenImage
+      widescreenImage: exhibition.widescreenImage,
+      labels: exhibition.labels
     };
     const DateInfo = exhibition.end ? (
       <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} />
@@ -115,7 +107,7 @@ export class ExhibitionPage extends Component<Props, State> {
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
-        labels={labels ? {labels} : null}
+        labels={{labels: exhibition.labels}}
         title={exhibition.title}
         Background={null}
         ContentTypeInfo={

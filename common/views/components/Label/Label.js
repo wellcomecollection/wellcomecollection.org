@@ -1,11 +1,9 @@
 // @flow
 import {font, spacing} from '../../../utils/classnames';
+import type {Label as LabelType} from '../../../model/labels';
 
 export type Props = {|
-  label: {
-    url: ?string,
-    text: string
-  }
+  label: LabelType
 |}
 
 const Label = ({label}: Props) => {
