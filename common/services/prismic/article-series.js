@@ -33,6 +33,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
         };
       }) : [],
     body,
+    color: data.color,
     // Amazing old crap fields
     title: data.name
   };
