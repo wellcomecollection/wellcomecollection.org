@@ -113,22 +113,19 @@ export class ArticlePage extends Component<Props, State> {
         </div>
         <div className={classNames({
           'flex': true,
-          'flex--h-baseline': true,
-          [font({s: 'HNM5'})]: true
+          'flex--h-baseline': true
         })}>
           <p className={classNames({
             [spacing({s: 1}, {margin: ['top']})]: true,
             [spacing({s: 1}, {margin: ['right']})]: true,
-            [spacing({s: 0}, {margin: ['bottom']})]: true
+            [spacing({s: 0}, {margin: ['bottom']})]: true,
+            [font({s: 'HNL5'})]: true
           })}>
-            <span className={classNames({
-              [font({s: 'HNL5'})]: true
-            })}>By </span>
-
+            <span>By </span>
             {article.contributors.map(({ contributor }, i, arr) => (
               <Fragment key={contributor.id}>
                 <span className={classNames({
-                  [font({s: 'HNB5'})]: true
+                  [font({s: 'HNM5'})]: true
                 })}>{contributor.name}</span>
                 {arr.length > 1 && i < arr.length - 2  && ', '}
                 {arr.length > 1 && i === arr.length - 2 && ' and '}
