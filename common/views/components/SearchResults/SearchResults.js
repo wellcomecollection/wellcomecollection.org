@@ -6,6 +6,7 @@ import Image from '../Image/Image';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
 import ArticleCard from '../ArticleCard/ArticleCard';
+import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -99,13 +100,7 @@ const SearchResults = ({
               labels={{labels: [{url: null, text: 'Story'}]}}
               description={`Available ${formatDate(item.publishDate)}`}
               urlOverride={null}
-              Image={<Image
-                contentUrl={'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7ca32858-e347-4282-acaf-c55572961736_transparent.gif'}
-                width={16}
-                height={9}
-                alt={''}
-                extraClasses={'bg-purple'}
-              />}
+              Image={<ImagePlaceholder />}
               DateInfo={null}
               StatusIndicator={null}
             />
