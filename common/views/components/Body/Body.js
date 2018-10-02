@@ -4,7 +4,7 @@ import {spacing, classNames} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
-import ImageGallery from '../ImageGallery/ImageGallery';
+import ImageGalleryV2 from '../ImageGalleryV2/ImageGalleryV2';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -38,7 +38,8 @@ const Body = ({ body }: Props) => {
         .filter(slice => slice.type !== 'standfirst')
         .map((slice, i) =>
           <div className={classNames({
-            'body-part': true
+            'body-part': true,
+            'overflow-hidden': true
           })} key={`slice${i}`}>
             {slice.type === 'standfirst' &&
               <Layout8>
@@ -56,23 +57,34 @@ const Body = ({ body }: Props) => {
               </Layout8>
             }
 
+            {/* TODO: use one layout for all image weights if/when it's established
+            that width isn't an adequate means to illustrate a difference */}
             {slice.type === 'picture' && slice.weight === 'default' &&
               <Layout10>
-                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
+                <CaptionedImage
+                  {...slice.value}
+                  sizesQueries={''} />
               </Layout10>
             }
             {slice.type === 'picture' && slice.weight === 'standalone' &&
               <Layout12>
-                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
+                <CaptionedImage
+                  {...slice.value}
+                  sizesQueries={''} />
               </Layout12>
             }
             {slice.type === 'picture' && slice.weight === 'supporting' &&
               <Layout8>
-                <CaptionedImage {...slice.value} sizesQueries={''} maxHeightRestricted={true} />
+                <CaptionedImage
+                  {...slice.value}
+                  sizesQueries={''} />
               </Layout8>
             }
 
-            {slice.type === 'imageGallery' && <ImageGallery {...slice.value} />}
+            {slice.type === 'imageGallery' &&
+              <ImageGalleryV2 {...slice.value} />
+            }
+
             {slice.type === 'quote' &&
               <Layout8>
                 <Quote {...slice.value} />

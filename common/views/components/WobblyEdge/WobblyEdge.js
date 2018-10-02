@@ -37,7 +37,7 @@ class WobblyEdge extends React.Component<Props, State> {
     };
   }
 
-  updatePoints = debounce(() => {
+  updatePoints = () => {
     if (!this.state.isActive) {
       this.setState({
         styleObject: prefixedPropertyStyleObject('clipPath', this.makePolygonPoints(this.points, this.intensity)),
@@ -55,17 +55,19 @@ class WobblyEdge extends React.Component<Props, State> {
         isActive: false
       });
     }, 150);
-  }, 500);
+  }
+
+  debounceUpdatePoints = debounce(this.updatePoints, 500);
 
   componentDidMount() {
     if (this.props.isStatic) return;
 
-    window.addEventListener('scroll', this.updatePoints);
+    window.addEventListener('scroll', this.debounceUpdatePoints);
     this.updatePoints();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.updatePoints);
+    window.removeEventListener('scroll', this.debounceUpdatePoints);
   }
 
   makePolygonPoints(totalPoints: number, intensity: number): string {
@@ -75,6 +77,9 @@ class WobblyEdge extends React.Component<Props, State> {
     const innerPoints = [...Array(totalPoints)].reduce((acc, curr, index) => {
       const xMean = 100 / totalPoints * index;
       const xShift = (100 / totalPoints) / 2;
+
+      if (index === 0) return [];
+
       const x = randomIntFromInterval((xMean - xShift), (xMean + xShift - 1));
       const y = randomIntFromInterval((100 - intensity), 100);
 
