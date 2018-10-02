@@ -36,8 +36,8 @@ const galleryOpeningTimes = function(galleryHours: ?OpeningHours) {
           const specObject = {
             opens: openingHoursDate.opens,
             closes: openingHoursDate.closes,
-            validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
-            validThrough: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY')
+            validFrom: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD'),
+            validThrough: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD')
           };
           return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
         }
