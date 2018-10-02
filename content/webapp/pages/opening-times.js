@@ -177,7 +177,8 @@ export class StoriesPage extends Component<Props> {
                           <Fragment>{formatDate(period.periodStart)}</Fragment>
                         }
                       </h3>
-                      {period.venues.map((venue, modified) => {
+                      {Object.keys(period.venues).map(venue => {
+                        const modified = period.venues[venue];
                         return (
                           <p key={venue} className={spacing({s: 1}, {margin: ['bottom']})}>
                             {venue} will be closed on
@@ -186,7 +187,14 @@ export class StoriesPage extends Component<Props> {
                                 <Fragment key={i}>
                                   {modified.length > 2 && (i > 1 && i < modified.length) && ', '}
                                   {modified.length >= 2 && i === modified.length && ' and '}
-                                  {formatDayMonth(item.exceptionalDate.overrideDate)}
+                                  {
+                                    item.exceptionalDate.overrideDate &&
+                                    formatDayMonth(item.exceptionalDate.overrideDate)
+                                  }
+                                  {
+                                    !item.exceptionalDate.overrideDate &&
+                                    formatDayMonth(item.exceptionalDate)
+                                  }
                                 </Fragment>
                               );
                             })}

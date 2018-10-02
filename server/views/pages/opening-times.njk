@@ -88,7 +88,11 @@
                   {% for item in modified %}
                     {{-', ' if (modified.length > 2 and (loop.index > 1 and loop.index < modified.length)) }}
                     {{' and ' if modified.length >= 2 and loop.index === modified.length }}
-                    {{item.exceptionalDate.overrideDate | formatDayMonth -}}
+                    {% if item.exceptionalDate.overrideDate %}
+                      {{item.exceptionalDate.overrideDate | formatDayMonth -}}
+                    {% else %}
+                      {{item.exceptionalDate | formatDayMonth -}}
+                    {% endif -%}
                   {% endfor %}
                 </p>
               {% endfor %}
