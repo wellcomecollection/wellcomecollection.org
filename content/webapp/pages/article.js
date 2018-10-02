@@ -175,7 +175,6 @@ export class ArticlePage extends Component<Props, State> {
             const nextUpNotPublished = nextUp ? null
               : series.schedule[partOfSerial];
 
-            console.info(nextUpNotPublished);
             return nextUp
               ? (
                 <div className={`${spacing({s: 6}, {margin: ['top']})}`}>

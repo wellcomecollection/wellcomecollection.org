@@ -29,7 +29,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
           id: `${document.id}_${i}`,
           title: asText(item.title),
           publishDate: new Date(item.publishDate),
-          partNumber: i
+          partNumber: i + 1
         };
       }) : [],
     body,
@@ -60,7 +60,7 @@ export async function getArticleSeries(req: ?Request, {
   if (articles && articles.results.length > 0) {
     const series = articles.results[0].series.find(series => series.id === id);
     // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
-    // which  are 6 parts long
+    // which are 6 parts long
     const reverse = series && series.schedule.length > 0;
     const articleList = reverse ? articles.results.slice().reverse() : articles.results;
 
