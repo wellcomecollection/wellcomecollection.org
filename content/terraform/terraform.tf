@@ -104,7 +104,7 @@ module "pages_listener" {
   priority = "100"
   path = "/pages/*"
 }
-module "pages_listener" {
+module "visit_us_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
@@ -112,7 +112,7 @@ module "pages_listener" {
   priority = "101"
   path = "/visit-us"
 }
-module "pages_listener" {
+module "Whats_we_do_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
@@ -120,7 +120,7 @@ module "pages_listener" {
   priority = "102"
   path = "/what-we-do"
 }
-module "pages_listener" {
+module "press_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
@@ -128,7 +128,7 @@ module "pages_listener" {
   priority = "103"
   path = "/press"
 }
-module "pages_listener" {
+module "venue_hire_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
@@ -136,7 +136,7 @@ module "pages_listener" {
   priority = "104"
   path = "/venue-hire"
 }
-module "pages_listener" {
+module "access_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
@@ -144,7 +144,7 @@ module "pages_listener" {
   priority = "105"
   path = "/access"
 }
-module "pages_listener" {
+module "youth_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
@@ -152,7 +152,7 @@ module "pages_listener" {
   priority = "106"
   path = "/youth"
 }
-module "pages_listener" {
+module "schools_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
