@@ -21,7 +21,7 @@ export function parsePlaceDoc(document: PrismicDocument): Place {
   };
 }
 
-export async function getPlace(req: Request, id: string): Promise<?Place> {
+export async function getPlace(req: ?Request, id: string): Promise<?Place> {
   const document = await getDocument(req, id, {});
 
   if (document && document.type === 'places') {
