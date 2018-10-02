@@ -95,6 +95,7 @@ export class ArticlePage extends Component<Props, State> {
       contributorsTitle: article.contributorsTitle,
       promo: article.promo,
       body: article.body,
+      standfirst: article.standfirst,
       promoImage: article.promoImage,
       promoText: article.promoText,
       image: article.image,

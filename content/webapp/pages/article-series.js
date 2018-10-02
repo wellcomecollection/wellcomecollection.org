@@ -58,6 +58,7 @@ export class ArticleSeriesPage extends Component<Props> {
       contributorsTitle: series.contributorsTitle,
       promo: series.promo,
       body: series.body,
+      standfirst: series.standfirst,
       promoImage: series.promoImage,
       promoText: series.promoText,
       image: series.image,

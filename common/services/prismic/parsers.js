@@ -527,13 +527,15 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     }).find(_ => _) : {}; // just get the first one;
 
   const {image, squareImage, widescreenImage} = promoImages;
-
+  const body = data.body ? parseBody(data.body) : [];
+  const standfirst = body.find(slice => slice.type === 'standfirst');
   return {
     id: doc.id,
     title: parseTitle(data.title),
     contributorsTitle: asText(data.contributorsTitle),
     contributors: contributors ? parseContributors(contributors) : [],
-    body: data.body ? parseBody(data.body) : [],
+    body: body,
+    standfirst: standfirst && standfirst.value,
     promo: promo,
     promoText: promo && promo.caption,
     promoImage: promo && promo.image,

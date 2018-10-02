@@ -4,7 +4,6 @@ import promo from './parts/promo';
 import list from './parts/list';
 import link from './parts/link';
 import number from './parts/number';
-import structuredText from './parts/structured-text';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 
@@ -12,7 +11,6 @@ const Article = {
   Article: {
     title,
     format: link('Format', 'document', ['article-formats']),
-    summary: structuredText('Summary'),
     body: articleBody
   },
   Promo: {
