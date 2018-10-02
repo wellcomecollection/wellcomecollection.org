@@ -8,7 +8,7 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
-  url: string,
+  url: ?string,
   title: string,
   promoType: string,
   labels: ElementProps<typeof LabelsList>,
@@ -37,8 +37,10 @@ const CompactCard = ({
   const textGridSizes = Image
     ? {s: 7, m: 7, l: 8, xl: 8}
     : {s: 12, m: 12, l: 12, xl: 12};
+
+  const Tag = url ? 'a' : 'div';
   return (
-    <a
+    <Tag
       data-component={promoType}
       data-track-event={JSON.stringify({
         category: 'component',
@@ -83,7 +85,7 @@ const CompactCard = ({
         </span>
         }
       </div>
-    </a>
+    </Tag>
   );
 };
 

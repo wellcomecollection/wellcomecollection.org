@@ -94,7 +94,7 @@ const SearchResults = ({
           {item.type === 'article-schedule-items' &&
             <CompactCard
               promoType='ArticlePromo'
-              url={`/articles/${item.id}`}
+              url={null}
               title={item.title || ''}
               partNumber={item.partNumber}
               labels={{labels: [{url: null, text: 'Story'}]}}
