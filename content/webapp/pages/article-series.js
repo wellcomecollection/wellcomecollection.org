@@ -81,11 +81,6 @@ export class ArticleSeriesPage extends Component<Props> {
       HeroPicture={null}
     />;
 
-    const items = [
-      ...articles,
-      ...series.schedule.slice(articles.length)
-    ];
-
     return (
       <BasePage
         id={series.id}
@@ -93,7 +88,7 @@ export class ArticleSeriesPage extends Component<Props> {
         Body={<Body body={series.body} />}
       >
         {articles.length > 0 &&
-          <SearchResults items={items} showPosition={true} />
+          <SearchResults items={series.items} showPosition={true} />
         }
       </BasePage>
     );

@@ -17,25 +17,28 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   }].concat(genericFields.body) : genericFields.body;
   const labels = [{ url: null, text: 'Serial' }];
 
+  const schedule = data.schedule ? data.schedule
+    .filter(({title}) => isStructuredText(title))
+    .map((item, i) => {
+      return {
+        type: 'article-schedule-items',
+        id: `${document.id}_${i}`,
+        title: asText(item.title),
+        publishDate: new Date(item.publishDate),
+        partNumber: i + 1
+      };
+    }) : [];
+
   return {
     ...genericFields,
     type: 'article-series',
     labels,
-    schedule: data.schedule ? data.schedule
-      .filter(({title}) => isStructuredText(title))
-      .map((item, i) => {
-        return {
-          type: 'article-schedule-items',
-          id: `${document.id}_${i}`,
-          title: asText(item.title),
-          publishDate: new Date(item.publishDate),
-          partNumber: i + 1
-        };
-      }) : [],
+    schedule,
     body,
     color: data.color,
     // Amazing old crap fields
-    title: data.name
+    title: data.name,
+    items: []
   };
 }
 
@@ -58,15 +61,21 @@ export async function getArticleSeries(req: ?Request, {
     ...opts
   });
 
-  if (articles && articles.results.length > 0) {
+  if (articles && articles.results && articles.results.length > 0) {
     const series = articles.results[0].series.find(series => series.id === id);
     // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
     // which are 6 parts long
     const reverse = series && series.schedule.length > 0;
     const articleList = reverse ? articles.results.slice().reverse() : articles.results;
+    const trimmedSchedule = series && series.schedule.slice(articles.results.length);
+    const items = [
+      ...articleList || [],
+      ...trimmedSchedule || []
+    ];
+    const seriesWithItems = {...series, items};
 
     return series && {
-      series,
+      series: seriesWithItems,
       articles: articleList
     };
   } else {
