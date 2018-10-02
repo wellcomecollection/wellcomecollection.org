@@ -149,7 +149,6 @@ app.prepare().then(async () => {
     ctx.respond = false;
   });
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
-  pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
   pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
   pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
   pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
