@@ -34,6 +34,8 @@ const Body = ({ body }: Props) => {
     })}>
       {body
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
+        // The standfirst is now put into the header, and used exclusively by articles
+        .filter(slice => slice.type !== 'standfirst')
         .map((slice, i) =>
           <div className={classNames({
             'body-part': true

@@ -4,11 +4,12 @@ import {grid, font, spacing, conditionalClassNames} from '../../../utils/classna
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
+import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import {default as ImageType} from '../Image/Image';
 
 type Props = {|
-  url: string,
+  url: ?string,
   title: string,
   promoType: string,
   labels: ElementProps<typeof LabelsList>,
@@ -16,7 +17,7 @@ type Props = {|
   urlOverride: ?string,
   extraClasses?: string,
   partNumber: ?number,
-  Image: ?Element<typeof ImageType>,
+  Image: ?Element<typeof ImageType | typeof ImagePlaceholder>,
   DateInfo: ?Element<typeof DateRange>,
   StatusIndicator: ?Element<typeof StatusIndicator>
 |}
@@ -37,8 +38,10 @@ const CompactCard = ({
   const textGridSizes = Image
     ? {s: 7, m: 7, l: 8, xl: 8}
     : {s: 12, m: 12, l: 12, xl: 12};
+
+  const Tag = url ? 'a' : 'div';
   return (
-    <a
+    <Tag
       data-component={promoType}
       data-track-event={JSON.stringify({
         category: 'component',
@@ -83,7 +86,7 @@ const CompactCard = ({
         </span>
         }
       </div>
-    </a>
+    </Tag>
   );
 };
 

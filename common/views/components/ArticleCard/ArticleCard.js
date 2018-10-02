@@ -21,7 +21,7 @@ const ArticleCard = ({ article, showPosition }: Props) => {
     url={`/articles/${article.id}`}
     title={article.title || ''}
     partNumber={partOfSerial}
-    labels={{labels: [{url: null, text: 'Article'}]}}
+    labels={{labels: article.labels}}
     description={article.promoText}
     urlOverride={article.promo && article.promo.link}
     Image={article.promo && article.promo.image && <Image {...article.promo.image} />}

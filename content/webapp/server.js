@@ -148,6 +148,14 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+  router.get('/places/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/place', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
   router.get('/pages/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/page', {
@@ -158,15 +166,13 @@ app.prepare().then(async () => {
   });
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
-  pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
   pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
   pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
   pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
   pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
   pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
   pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
-
-
+  
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;

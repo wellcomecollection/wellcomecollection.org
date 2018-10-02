@@ -7,7 +7,7 @@ import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import {
@@ -55,7 +55,10 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const seriesPromises = this.props.article.series.map(series =>
+    // GOTCHA: we only take the first of the series list as the data is being
+    // used a little bit badly, but we don't have capacity to implement a
+    // better solution
+    const seriesPromises = this.props.article.series.slice(0, 1).map(series =>
       getArticleSeries(null, { id: series.id, pageSize: 3 })
     );
     const listOfSeries = await Promise.all(seriesPromises);
@@ -69,11 +72,15 @@ export class ArticlePage extends Component<Props, State> {
       items: [{
         url: '/stories',
         text: 'Stories'
-      }].concat(article.series.map(series => ({
-        url: `/series/${series.id}`,
-        text: series.title || '',
-        prefix: `Part of`
-      })))
+      }]
+      // GOTCHA: we only take the first of the series list as the data is being
+      // used a little bit badly, but we don't have capacity to implement a
+      // better solution
+        .concat(article.series.slice(0, 1).map(series => ({
+          url: `/series/${series.id}`,
+          text: series.title || '',
+          prefix: `Part of`
+        })))
     };
 
     const partOfSerial = article.series
@@ -95,6 +102,7 @@ export class ArticlePage extends Component<Props, State> {
       contributorsTitle: article.contributorsTitle,
       promo: article.promo,
       body: article.body,
+      standfirst: article.standfirst,
       promoImage: article.promoImage,
       promoText: article.promoText,
       image: article.image,
@@ -102,15 +110,10 @@ export class ArticlePage extends Component<Props, State> {
       widescreenImage: article.widescreenImage,
       labels: article.labels
     };
-    const standfirst = article.body.find(slice => slice.type === 'standfirst');
-    const ContentTypeInfo = standfirst &&
+
+    const ContentTypeInfo = (
       <Fragment>
-        <div className={classNames({
-          'first-para-no-margin': true,
-          [spacing({s: 1}, {margin: ['top']})]: true
-        })}>
-          <PrismicHtmlBlock html={standfirst.value} />
-        </div>
+        {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
         <div className={classNames({
           'flex': true,
           'flex--h-baseline': true
@@ -139,7 +142,8 @@ export class ArticlePage extends Component<Props, State> {
             <HTMLDate date={new Date(article.datePublished)} />
           </div>
         </div>
-      </Fragment>;
+      </Fragment>
+    );
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
@@ -178,23 +182,36 @@ export class ArticlePage extends Component<Props, State> {
                 ...series.schedule[partOfSerial]
               }: ArticleScheduleItem);
 
-            return nextUp ? <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={([nextUp]: Article[])} />
-              : nextUpNotPublished ? <SeriesNavigation
-                key={series.id}
-                series={series}
-                items={([nextUpNotPublished]: ArticleScheduleItem[])} /> : null;
+            return nextUp
+              ? (
+                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                  <SeriesNavigation
+                    key={series.id}
+                    series={series}
+                    items={([nextUp]: Article[])} />
+                </div>
+              )
+              : nextUpNotPublished ? (
+                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                  <SeriesNavigation
+                    key={series.id}
+                    series={series}
+                    items={([nextUpNotPublished]: ArticleScheduleItem[])} />
+                </div>
+              ) : null;
           } else {
             // Overkill? Should this happen on the API?
             const dedupedArticles = articles.filter(
               a => a.id !== article.id
             ).slice(0, 2);
-            return <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={dedupedArticles} />;
+            return (
+              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                <SeriesNavigation
+                  key={series.id}
+                  series={series}
+                  items={dedupedArticles} />
+              </div>
+            );
           }
         })}
       </BasePage>

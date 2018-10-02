@@ -152,6 +152,19 @@
               }
             }
           },
+          "standfirst": {
+            "type": "Slice",
+            "fieldset": "Standfirst",
+            "non-repeat": {
+              "text": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Standfirst"
+                }
+              }
+            }
+          },
           "embed": {
             "type": "Slice",
             "fieldset": "Embed",
