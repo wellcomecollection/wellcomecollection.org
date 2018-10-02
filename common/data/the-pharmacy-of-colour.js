@@ -8,6 +8,7 @@ const data = ({
   start: new Date('2018-07-23T23:00:00+0000'),
   end: new Date('2018-09-15T23:00:00+0000'),
   body: [],
+  standfirst: null,
   contributors: [],
   contributorsTitle: null,
   place: null,

@@ -4,6 +4,7 @@ import type {ImagePromo} from './image-promo';
 import type {Picture} from './picture';
 import type {ImageType} from './image';
 import type {Label} from './labels';
+import type {HTMLString} from '../services/prismic/types';
 
 export type Body = any[];
 
@@ -15,7 +16,8 @@ export type GenericContentFields = {|
   contributorsTitle: ?string,
   contributors: Contributor[],
   promo: ?ImagePromo,
-  body: any[],
+  body: Body,
+  standfirst: ?HTMLString,
   promoText: ?string,
   promoImage: ?Picture,
   image: ?ImageType,

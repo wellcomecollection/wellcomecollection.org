@@ -23,6 +23,7 @@ const InstallationPage = ({
     contributorsTitle: installation.contributorsTitle,
     promo: installation.promo,
     body: installation.body,
+    standfirst: installation.standfirst,
     promoImage: installation.promoImage,
     promoText: installation.promoText,
     image: installation.image,

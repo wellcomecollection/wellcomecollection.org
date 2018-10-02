@@ -88,6 +88,7 @@ export class ExhibitionPage extends Component<Props, State> {
       contributorsTitle: exhibition.contributorsTitle,
       promo: exhibition.promo,
       body: exhibition.body,
+      standfirst: exhibition.standfirst,
       promoImage: exhibition.promoImage,
       promoText: exhibition.promoText,
       image: exhibition.image,

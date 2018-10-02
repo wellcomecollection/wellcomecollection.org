@@ -18,13 +18,6 @@
         ]
       }
     },
-    "summary": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em",
-        "label": "Summary"
-      }
-    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
