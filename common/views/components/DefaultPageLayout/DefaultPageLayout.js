@@ -3,10 +3,12 @@ import {Component} from 'react';
 import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
+import InfoBanner from '../InfoBanner/InfoBanner2';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
 import Footer from '../Footer/Footer';
 import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
+import type {GlobalAlert} from '../../../model/global-alert';
 import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
@@ -128,6 +130,7 @@ type Props = {|
     groupedVenues: GroupedVenues,
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
+  globalAlert: GlobalAlert,
   oEmbedUrl?: string
 |}
 
@@ -194,6 +197,7 @@ class DefaultPageLayout extends Component<Props> {
       featureFlags,
       isPreview,
       openingTimes,
+      globalAlert,
       oEmbedUrl
     } = this.props;
 
@@ -248,6 +252,7 @@ class DefaultPageLayout extends Component<Props> {
         <div className={isPreview ? 'is-preview' : undefined}>
           <a className='skip-link' href='#main'>Skip to main content</a>
           <Header siteSection={siteSection} links={navLinks} />
+          <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
           <div id='main' className='main' role='main'>
             {children}
           </div>

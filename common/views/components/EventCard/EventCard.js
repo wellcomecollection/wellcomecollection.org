@@ -21,6 +21,7 @@ const EventCard = ({ event }: Props) => {
   return <CompactCard
     url={`/events/${event.id}`}
     title={event.title}
+    partNumber={null}
     promoType={'EventPromo'}
     labels={{labels: event.labels}}
     description={null}
