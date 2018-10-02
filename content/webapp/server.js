@@ -140,6 +140,14 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+  router.get('/books/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/book', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
   router.get('/places/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/place', {
@@ -156,6 +164,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
   pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
   pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
