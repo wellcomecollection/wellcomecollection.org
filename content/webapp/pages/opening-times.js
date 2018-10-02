@@ -186,7 +186,14 @@ export class StoriesPage extends Component<Props> {
                                 <Fragment key={i}>
                                   {modified.length > 2 && (i > 1 && i < modified.length) && ', '}
                                   {modified.length >= 2 && i === modified.length && ' and '}
-                                  {formatDayMonth(item.exceptionalDate.overrideDate)}
+                                  {
+                                    item.exceptionalDate.overrideDate &&
+                                    formatDayMonth(item.exceptionalDate.overrideDate)
+                                  }
+                                  {
+                                    !item.exceptionalDate.overrideDate &&
+                                    formatDayMonth(item.exceptionalDate)
+                                  }
                                 </Fragment>
                               );
                             })}
