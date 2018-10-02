@@ -11,6 +11,7 @@ type Props = {
 const ticketButtonText = 'Check for tickets';
 const ticketButtonLoadingText = 'Loading…';
 
+// FIXME: add back to button extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}
 const EventbriteButton = ({event}: Props) => {
   return (
     <div className={spacing({s: 4}, {margin: ['bottom']})}>
@@ -19,7 +20,6 @@ const EventbriteButton = ({event}: Props) => {
           <Fragment>
             <Button
               type='primary'
-              extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}
               url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
               trackingEvent={{
                 category: 'component',

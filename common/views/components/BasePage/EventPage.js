@@ -86,24 +86,6 @@ const EventPage = ({ event }: Props) => {
   };
 
   const FeaturedMedia = image && <UiImage tasl={tasl} {...image} />;
-  const eventFormat = event.format ? [{url: null, text: event.format.title}] : [];
-  const eventAudiences = event.audiences ? event.audiences.map(a => {
-    return {
-      url: null,
-      text: a.title
-    };
-  }) : [];
-  const eventInterpretations = event.interpretations ? event.interpretations.map(i => {
-    return {
-      url: null,
-      text: i.interpretationType.title
-    };
-  }) : [];
-  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
-    url: null,
-    text: 'Relaxed performance'
-  }] : [];
-
   const breadcrumbs = {
     items: [{
       url: '/events',
@@ -114,17 +96,10 @@ const EventPage = ({ event }: Props) => {
       prefix: 'Part of'
     })))
   };
-  const labels = {
-    labels: eventFormat.concat(
-      eventAudiences,
-      eventInterpretations,
-      relaxedPerformanceLabel
-    )
-  };
   const Header = <PageHeader
     asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
     breadcrumbs={breadcrumbs}
-    labels={labels}
+    labels={{labels: event.labels}}
     title={event.title}
     FeaturedMedia={FeaturedMedia}
     Background={<HeaderBackground

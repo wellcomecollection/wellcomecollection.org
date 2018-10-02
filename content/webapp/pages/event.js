@@ -24,9 +24,10 @@ import {
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getEvent } from '@weco/common/services/prismic/events';
+import {getEvent} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {eventLd} from '@weco/common/utils/json-ld';
 
 type Props = {|
   event: UiEvent
@@ -111,7 +112,8 @@ class EventPage extends Component<Props> {
         imageUrl: event.image && convertImageUri(event.image.contentUrl, 800),
         siteSection: 'stories',
         category: 'public-programme',
-        inSection: 'whatson'
+        inSection: 'whatson',
+        pageJsonLd: eventLd(event)
       };
     } else {
       return {statusCode: 404};

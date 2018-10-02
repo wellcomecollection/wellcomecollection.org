@@ -10,24 +10,6 @@ type Props = {|
 |}
 
 const EventCard = ({ event }: Props) => {
-  const formatLabel = [event.format ? {
-    url: null,
-    text: event.format.title
-  } : null];
-  const audienceLabels = event.audiences.map(audience => ({
-    url: null,
-    text: audience.title
-  }));
-  const interpretationLabels = event.interpretations.map(interpretation => ({
-    url: null,
-    text: interpretation.interpretationType.title
-  }));
-  const labels = [
-    ...formatLabel,
-    ...audienceLabels,
-    ...interpretationLabels
-  ].filter(Boolean);
-
   const DateRangeComponent = EventDateRange({event});
   const ImageComponent = event.promo && event.promo.image && <Image {...event.promo.image} />;
 
@@ -39,8 +21,9 @@ const EventCard = ({ event }: Props) => {
   return <CompactCard
     url={`/events/${event.id}`}
     title={event.title}
+    partNumber={null}
     promoType={'EventPromo'}
-    labels={{labels}}
+    labels={{labels: event.labels}}
     description={null}
     urlOverride={event.promo && event.promo.link}
     Image={ImageComponent}

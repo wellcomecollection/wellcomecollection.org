@@ -51,7 +51,7 @@ const BookPage = ({ book }: Props) => {
   };
   const Header = <PageHeader
     breadcrumbs={breadcrumbs}
-    labels={null}
+    labels={{labels: book.labels}}
     title={book.title}
     FeaturedMedia={FeaturedMedia}
     ContentTypeInfo={

@@ -23,6 +23,24 @@ export function contentLd(content) {
   }, 'Article');
 }
 
+export function articleLd(article) {
+  objToJsonLd({
+    contributor: article.contributors.map(({contributor, role, description}) => {
+      const type = contributor.type === 'person' ? 'Person' : 'Organization';
+      return objToJsonLd({
+        name: contributor.name,
+        image: contributor.image && contributor.image.contentUrl
+      }, type, false);
+    }),
+    dateCreated: article.datePublished,
+    datePublished: article.datePublished,
+    headline: article.title,
+    // TODO: isPartOf
+    publisher: orgLd(wellcomeCollection),
+    url: `https://wellcomecollection.org/articles/${article.id}`
+  }, 'Article');
+}
+
 export function exhibitionLd(exhibition) {
   return objToJsonLd({
     name: exhibition.title,
