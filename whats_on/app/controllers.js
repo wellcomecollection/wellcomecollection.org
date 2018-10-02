@@ -101,9 +101,11 @@ export async function renderInstallation(ctx, next) {
 
 export async function renderExhibitions(ctx, next) {
   const {period} = ctx.params;
+  const {page = 1} = ctx.query;
   const paginatedResults = await getExhibitions(ctx.request, {
     order: 'desc',
-    period
+    period,
+    page
   });
   if (paginatedResults) {
     ctx.render('pages/exhibitions', {
@@ -115,7 +117,8 @@ export async function renderExhibitions(ctx, next) {
         contentType: 'listing',
         canonicalUri: 'https://wellcomecollection.org/exhibitions'
       }),
-      paginatedResults
+      paginatedResults,
+      period
     });
   }
 }

@@ -200,14 +200,16 @@ type Order = 'desc' | 'asc';
 type GetExhibitionsProps = {|
   predicates: Prismic.Predicates[],
   order: Order,
-  period?: Period
+  period?: Period,
+  page?: number
 |}
 export async function getExhibitions(
   req: Request,
   {
     predicates = [],
     order = 'asc',
-    period
+    period,
+    page = 1
   }: GetExhibitionsProps = {}
 ): Promise<PaginatedResults<UiExhibition>> {
   const orderings = `[my.exhibitions.isPermanent desc,${endField}${order === 'desc' ? ' desc' : ''}]`;
@@ -230,7 +232,8 @@ export async function getExhibitions(
         exhibitionFields,
         exhibitionResourcesFields
       ),
-      orderings
+      orderings,
+      page
     }
   );
 
