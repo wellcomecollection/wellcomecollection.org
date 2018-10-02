@@ -19,6 +19,7 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {commaAnd} from '@weco/common/utils/comma-and';
 import {articleLd} from '@weco/common/utils/json-ld';
 
 type Props = {|
@@ -122,19 +123,15 @@ export class ArticlePage extends Component<Props, State> {
             [spacing({s: 0}, {margin: ['bottom']})]: true
           })}>
             <span className={classNames({
-              [font({s: 'HNB5'})]: true
+              [font({s: 'HNL5'})]: true
             })}>By </span>
-            {article.contributors.map(({ contributor }, i, arr) => (
-              <Fragment key={contributor.id}>
-                <a
-                  className={'plain-link font-green'}
-                  href={`/${contributor.type}/${contributor.id}`}>
-                  {contributor.name}
-                </a>
-
-                {i < arr.length - 1 && ', '}
-              </Fragment>
-            ))}
+            <span className={classNames({
+              [font({s: 'HNB5'})]: true
+            })}>
+              {commaAnd(article.contributors.map(({ contributor }, i, arr) => (
+                contributor.name
+              )))}
+            </span>
           </p>
           <div className={classNames({
             'font-pewter': true,
