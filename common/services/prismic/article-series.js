@@ -15,7 +15,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     weight: 'default',
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
-  const labels = [{ url: null, text: 'Story series' }];
+  const labels = [{ url: null, text: 'Serial' }];
 
   return {
     ...genericFields,

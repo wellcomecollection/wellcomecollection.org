@@ -79,7 +79,10 @@ export function parseArticle(document: PrismicDocument): Article {
     article.series.find(series => series.schedule.length > 0) ? {url: null, text: 'Serial'} : null
   ].filter(Boolean);
 
-  return {...article, labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]};
+  return {
+    ...article,
+    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]
+  };
 }
 
 export async function getArticle(req: ?Request, id: string): Promise<?Article> {

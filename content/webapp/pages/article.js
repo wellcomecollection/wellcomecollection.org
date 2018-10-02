@@ -55,7 +55,10 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const seriesPromises = this.props.article.series.map(series =>
+    // GOTCHA: we only take the first of the series list as the data is being
+    // used a little bit badly, but we don't have capacity to implement a
+    // better solution
+    const seriesPromises = this.props.article.series.slice(0, 1).map(series =>
       getArticleSeries(null, { id: series.id, pageSize: 3 })
     );
     const listOfSeries = await Promise.all(seriesPromises);
@@ -69,11 +72,15 @@ export class ArticlePage extends Component<Props, State> {
       items: [{
         url: '/stories',
         text: 'Stories'
-      }].concat(article.series.map(series => ({
-        url: `/series/${series.id}`,
-        text: series.title || '',
-        prefix: `Part of`
-      })))
+      }]
+      // GOTCHA: we only take the first of the series list as the data is being
+      // used a little bit badly, but we don't have capacity to implement a
+      // better solution
+        .concat(article.series.slice(0, 1).map(series => ({
+          url: `/series/${series.id}`,
+          text: series.title || '',
+          prefix: `Part of`
+        })))
     };
 
     const partOfSerial = article.series
@@ -175,23 +182,36 @@ export class ArticlePage extends Component<Props, State> {
                 ...series.schedule[partOfSerial]
               }: ArticleScheduleItem);
 
-            return nextUp ? <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={([nextUp]: Article[])} />
-              : nextUpNotPublished ? <SeriesNavigation
-                key={series.id}
-                series={series}
-                items={([nextUpNotPublished]: ArticleScheduleItem[])} /> : null;
+            return nextUp
+              ? (
+                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                  <SeriesNavigation
+                    key={series.id}
+                    series={series}
+                    items={([nextUp]: Article[])} />
+                </div>
+              )
+              : nextUpNotPublished ? (
+                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                  <SeriesNavigation
+                    key={series.id}
+                    series={series}
+                    items={([nextUpNotPublished]: ArticleScheduleItem[])} />
+                </div>
+              ) : null;
           } else {
             // Overkill? Should this happen on the API?
             const dedupedArticles = articles.filter(
               a => a.id !== article.id
             ).slice(0, 2);
-            return <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={dedupedArticles} />;
+            return (
+              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+                <SeriesNavigation
+                  key={series.id}
+                  series={series}
+                  items={dedupedArticles} />
+              </div>
+            );
           }
         })}
       </BasePage>

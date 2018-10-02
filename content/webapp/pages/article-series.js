@@ -6,6 +6,7 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
+import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import {
   default as PageHeader,
   getFeaturedMedia
@@ -75,7 +76,7 @@ export class ArticleSeriesPage extends Component<Props> {
       labels={{labels: series.labels}}
       title={series.title}
       ContentTypeInfo={ContentTypeInfo}
-      Background={null}
+      Background={<HeaderBackground hasWobblyEdge={true} />}
       FeaturedMedia={FeaturedMedia}
       HeroPicture={null}
     />;
@@ -83,12 +84,11 @@ export class ArticleSeriesPage extends Component<Props> {
     return (
       <BasePage
         id={series.id}
-        isCreamy={true}
         Header={Header}
         Body={<Body body={series.body} />}
       >
         {articles.length > 0 &&
-          <SearchResults items={articles} />
+          <SearchResults items={articles} showPosition={true} />
         }
       </BasePage>
     );
