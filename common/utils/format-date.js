@@ -70,3 +70,11 @@ export function formatAndDedupeOnTime(d1: Date, d2: Date): string[] {
 export function joinDateStrings(dateStrings: string[]): string {
   return dateStrings.join('–');
 };
+
+export function formatYear(date: Date): string {
+  return london(date).format('YYYY');
+}
+
+export function formatDayMonth(date: Date): string {
+  return london(date).format('D MMMM');
+}
