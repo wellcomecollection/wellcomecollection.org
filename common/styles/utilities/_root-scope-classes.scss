@@ -423,22 +423,6 @@
   width: auto;
 }
 
-.image-ls-overlay {
-  position: relative;
-}
-.image-ls-overlay::after {
-  content: "";
-  background: url(https://prismic-io.s3.amazonaws.com/wellcomecollection%2F805ad61b-fba6-4dc1-b2d3-55dbcda0c9f1_ls_svg.svg);
-  opacity: 0.5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-}
-
-
 // This is for when we receive content from a CMS,
 // making it easier to style the first node
 .first-para-bold p:first-of-type {
