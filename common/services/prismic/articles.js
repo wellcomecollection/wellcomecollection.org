@@ -39,6 +39,7 @@ const graphQuery = `{
       series {
         name
         description
+        color
         schedule {
           ...scheduleFields
         }

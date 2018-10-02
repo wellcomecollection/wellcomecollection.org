@@ -1,15 +1,22 @@
 // @flow
 import {classNames, spacing, font} from '../../../utils/classnames';
+import type {ColorSelection} from '../../../model/color-selections';
 
-type Props = {| n: number |};
+type Props = {|
+  number: number,
+  color: ?ColorSelection
+|};
 
-const PartNumberIndicator = ({n}: Props) => (
+const PartNumberIndicator = ({
+  number,
+  color
+}: Props) => (
   <div className={classNames({
     [font({s: 'WB7'})]: true
   })}>Part
     <span
       className={classNames({
-        'bg-purple': true,
+        [`bg-${color || 'purple'}`]: true,
         [spacing({s: 1}, {margin: ['left']})]: true
       })}
       style={{
@@ -21,7 +28,7 @@ const PartNumberIndicator = ({n}: Props) => (
         textAlign: 'center'
       }}>
       <span className={'font-white'} style={{transform: 'rotateZ(6deg) scale(1.2)'}}>
-        {n}
+        {number}
       </span>
     </span>
   </div>

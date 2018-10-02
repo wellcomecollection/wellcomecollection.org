@@ -16,7 +16,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
   const labels = [{ url: null, text: 'Serial' }];
-
+  const color = data.color;
   const schedule = data.schedule ? data.schedule
     .filter(({title}) => isStructuredText(title))
     .map((item, i) => {
@@ -25,7 +25,8 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
         id: `${document.id}_${i}`,
         title: asText(item.title),
         publishDate: new Date(item.publishDate),
-        partNumber: i + 1
+        partNumber: i + 1,
+        color
       };
     }) : [];
 
@@ -72,7 +73,15 @@ export async function getArticleSeries(req: ?Request, {
       ...articleList || [],
       ...trimmedSchedule || []
     ];
-    const seriesWithItems = {...series, items};
+    const seriesWithItems = {
+      ...series,
+      items: items.map(item => {
+        return item.type === 'article-schedule-item' || item.type === 'articles' ? {
+          ...item,
+          color: series && series.color
+        } : item;
+      })
+    };
 
     return series && {
       series: seriesWithItems,
