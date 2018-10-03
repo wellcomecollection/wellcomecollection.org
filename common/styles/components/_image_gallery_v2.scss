@@ -65,11 +65,13 @@ $image-gallery-v2-transition-properties: 400ms ease;
 
   transition: all $image-gallery-v2-transition-properties;
 
-  &.image-gallery-v2--standalone:before {
-    top: 0;
-
-    @include respond-to('medium') {
+  &.image-gallery-v2--standalone {
+    &:before {
       top: 0;
+
+      @include respond-to('medium') {
+        top: 0;
+      }
     }
   }
 }

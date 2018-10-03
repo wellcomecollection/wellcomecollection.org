@@ -188,7 +188,7 @@ export class ArticlePage extends Component<Props, State> {
     return (
       <BasePage
         id={article.id}
-        isCreamy={!isImageGallery}
+        isCreamy={true}
         Header={Header}
         Body={<Body body={article.body} />}
         Siblings={Siblings}

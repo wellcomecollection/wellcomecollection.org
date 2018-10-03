@@ -78,7 +78,10 @@ class ImageGallery extends Component<Props, State> {
           'is-active font-white': isActive
         })}>
           <Layout12>
-            <div className={`relative`}>
+            <div className={classNames({
+              'relative': true,
+              [spacing({s: 5, m: 10}, {padding: ['top']})]: isStandalone
+            })}>
               {isStandalone &&
                 <div className='absolute image-gallery-v2__standalone-wobbly-edge'>
                   <WobblyEdge
