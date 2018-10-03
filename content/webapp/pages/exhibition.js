@@ -17,7 +17,8 @@ import Contributors from '@weco/common/views/components/Contributors/Contributor
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
-import {font} from '@weco/common/utils/classnames';
+import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
+import {font, spacing, grid} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {MultiContent} from '@weco/common/model/multi-content';
@@ -243,6 +244,29 @@ export class ExhibitionPage extends Component<Props, State> {
               title={`About this exhibition`} />
           }
         </Fragment>
+
+        {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}
+        {
+          exhibition.relatedBooks &&
+            exhibition.relatedBooks.length > 0 &&
+            <Fragment>
+              <h2 className='h2'>From the bookshop</h2>
+              <div className={`
+              ${spacing({s: 4}, {margin: ['top']})} grid
+            `}>
+                {exhibition.relatedBooks.map(item => (
+                  <div key={item.title} className={grid({s: 12, m: 6, l: 6, xl: 6})}>
+                    <BookPromo
+                      url={item.url}
+                      title={item.title}
+                      subtitle={null}
+                      image={item.image}
+                      description={item.description} />
+                  </div>
+                ))}
+              </div>
+            </Fragment>
+        }
       </BasePage>
     );
   }
