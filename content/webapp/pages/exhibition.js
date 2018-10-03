@@ -113,7 +113,7 @@ export class ExhibitionPage extends Component<Props, State> {
         Background={null}
         ContentTypeInfo={
           <Fragment>
-            {DateInfo}
+            {!exhibition.isPermanent && DateInfo}
             <StatusIndicator start={exhibition.start} end={exhibition.end || new Date()} />
           </Fragment>
         }
