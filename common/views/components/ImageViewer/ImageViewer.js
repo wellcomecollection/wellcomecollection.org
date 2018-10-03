@@ -5,11 +5,11 @@ import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-i
 import Control from '../Buttons/Control/Control';
 
 const commonBtnTracking = (id: string, action: string, title: string): string => {
-  return JSON.stringify({
+  return {
     category: 'component',
     action: action,
     label: `id:${id},title:${title}`
-  });
+  };
 };
 
 type Props = {|
