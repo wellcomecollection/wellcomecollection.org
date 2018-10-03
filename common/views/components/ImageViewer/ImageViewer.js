@@ -4,12 +4,12 @@ import {spacing} from '../../../utils/classnames';
 import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import Control from '../Buttons/Control/Control';
 
-const commonBtnTracking = (id: string, action: string, title: string): string => {
-  return JSON.stringify({
+const commonBtnTracking = (id: string, action: string, title: string): Object => {
+  return {
     category: 'component',
     action: action,
     label: `id:${id},title:${title}`
-  });
+  };
 };
 
 type Props = {|

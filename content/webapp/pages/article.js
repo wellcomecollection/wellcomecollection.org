@@ -59,7 +59,7 @@ export class ArticlePage extends Component<Props, State> {
     // used a little bit badly, but we don't have capacity to implement a
     // better solution
     const seriesPromises = this.props.article.series.slice(0, 1).map(series =>
-      getArticleSeries(null, { id: series.id, pageSize: 3 })
+      getArticleSeries(null, { id: series.id, pageSize: 6 })
     );
     const listOfSeries = await Promise.all(seriesPromises);
     this.setState({ listOfSeries });
@@ -83,17 +83,17 @@ export class ArticlePage extends Component<Props, State> {
         })))
     };
 
-    const partOfSerial = article.series
+    const inSerial = article.series
       .map(series => {
         const titles = series.schedule.map(item => item.title);
-        const positionInSerial = titles.indexOf(article.title);
-        return positionInSerial + 1;
+        const index = titles.indexOf(article.title);
+        return {series, position: index + 1};
       }).find(_ => _);
 
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
-    const TitleTopper = !partOfSerial ? null
-      : <PartNumberIndicator n={partOfSerial} />;
+    const TitleTopper = !inSerial ? null
+      : <PartNumberIndicator number={inSerial.position} color={inSerial.series.color} />;
 
     const genericFields = {
       id: article.id,
@@ -162,61 +162,38 @@ export class ArticlePage extends Component<Props, State> {
       TitleTopper={TitleTopper}
     />;
 
+    const Siblings = this.state.listOfSeries.map(({series, articles}) => {
+      if (inSerial) {
+        const nextUp = inSerial.position - 1 === series.schedule.length ? series.items[0]
+          : series.items[inSerial.position] ? series.items[inSerial.position] : null;
+
+        return nextUp && <SeriesNavigation
+          key={series.id}
+          series={series}
+          items={([nextUp]: $ReadOnlyArray<Article | ArticleScheduleItem>)} />;
+      } else {
+        // Overkill? Should this happen on the API?
+        const dedupedArticles = articles.filter(
+          a => a.id !== article.id
+        ).slice(0, 2);
+        return (
+          <SeriesNavigation
+            key={series.id}
+            series={series}
+            items={dedupedArticles} />
+        );
+      }
+    }).filter(Boolean);
+
     return (
       <BasePage
         id={article.id}
         isCreamy={!isImageGallery}
         Header={Header}
         Body={<Body body={article.body} />}
+        Siblings={Siblings}
         contributorProps={{contributors: article.contributors}}
       >
-        {this.state.listOfSeries.map(({series, articles}) => {
-          if (partOfSerial && series.schedule && series.schedule.length > 0) {
-            const nextUp = partOfSerial - 1 === series.schedule.length ? articles[0]
-              : articles[partOfSerial] ? articles[partOfSerial] : null;
-
-            const nextUpNotPublished = nextUp ? null
-              : ({
-                type: 'article-schedule-items',
-                id: series.schedule[partOfSerial].title,
-                publishDate: new Date(series.schedule[partOfSerial].publishDate),
-                partNumber: partOfSerial + 1,
-                url: `/series/${series.id}`,
-                ...series.schedule[partOfSerial]
-              }: ArticleScheduleItem);
-
-            return nextUp
-              ? (
-                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                  <SeriesNavigation
-                    key={series.id}
-                    series={series}
-                    items={([nextUp]: Article[])} />
-                </div>
-              )
-              : nextUpNotPublished ? (
-                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                  <SeriesNavigation
-                    key={series.id}
-                    series={series}
-                    items={([nextUpNotPublished]: ArticleScheduleItem[])} />
-                </div>
-              ) : null;
-          } else {
-            // Overkill? Should this happen on the API?
-            const dedupedArticles = articles.filter(
-              a => a.id !== article.id
-            ).slice(0, 2);
-            return (
-              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                <SeriesNavigation
-                  key={series.id}
-                  series={series}
-                  items={dedupedArticles} />
-              </div>
-            );
-          }
-        })}
       </BasePage>
     );
   }

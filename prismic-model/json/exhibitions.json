@@ -38,6 +38,16 @@
               "name": "standalone",
               "display": "Standalone"
             }
+          ],
+          "quote": [
+            {
+              "name": "pull",
+              "display": "Pull"
+            },
+            {
+              "name": "review",
+              "display": "Review"
+            }
           ]
         },
         "choices": {
@@ -359,13 +369,13 @@
     },
     "events": {
       "type": "Group",
-      "fieldset": "Events",
+      "fieldset": "Gallery tours",
       "config": {
         "fields": {
           "item": {
             "type": "Link",
             "config": {
-              "label": "Event",
+              "label": "Gallery tour",
               "select": "document",
               "customtypes": [
                 "events"
@@ -389,24 +399,6 @@
               "select": "document",
               "customtypes": [
                 "articles"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "books": {
-      "type": "Group",
-      "fieldset": "Books",
-      "config": {
-        "fields": {
-          "item": {
-            "type": "Link",
-            "config": {
-              "label": "Book",
-              "select": "document",
-              "customtypes": [
-                "books"
               ]
             }
           }

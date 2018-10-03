@@ -31,9 +31,9 @@ export const MainMedia = ({
   const uiImageProps = {...image, sizesQueries, isFull: true};
 
   return (
-    <figure className={`captioned-image ${extraClasses}`}>
-      <div className='captioned-image__image-container'>
-        <UiImage {...uiImageProps} />
+    <figure className={`captioned-image ${extraClasses} shame-block`}>
+      <div className='captioned-image__image-container relative'>
+        <UiImage extraClasses='shame-no-max-height' {...uiImageProps} />
         {chapterIndicatorProps && <ChapterIndicator {...chapterIndicatorProps} />}
       </div>
 

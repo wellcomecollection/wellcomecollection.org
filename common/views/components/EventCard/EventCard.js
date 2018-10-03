@@ -22,6 +22,7 @@ const EventCard = ({ event }: Props) => {
     url={`/events/${event.id}`}
     title={event.title}
     partNumber={null}
+    color={null}
     promoType={'EventPromo'}
     labels={{labels: event.labels}}
     description={null}

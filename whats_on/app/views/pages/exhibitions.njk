@@ -26,12 +26,15 @@
 
   {% componentV2 'list-header', {name: pageConfig.title, description: pageDescription, total: paginatedResults.results.length} %}
 
-  {% if paginatedExhibitions.pagination.pageCount > 1  %}
+  {% if paginatedResults.totalPages > 1  %}
     <div class="css-grid__container">
       <div class="css-grid">
         <div class="{{ {s:12, m:12, l:12, xl:12} | cssGridClasses }}">
           <div class="{{ {s:5, m:5, l:5} | spacingClasses({padding: ['top']}) }}  {{ {s:5, m:5, l:5} | spacingClasses({padding: ['bottom']}) }} flex flex--v-center font-pewter {{ {s:'LR3', m:'LR2'} | fontClasses }}">
-            {{ paginatedExhibitions.pagination.range.beginning }} - {{ paginatedExhibitions.pagination.range.end }}
+            {{ (paginatedResults.pageSize * paginatedResults.currentPage) - (paginatedResults.pageSize - 1) }}
+             -
+            {{ paginatedResults.pageSize * paginatedResults.currentPage if paginatedResults.currentPage < paginatedResults.totalPages }}
+            {{ paginatedResults.totalResults if paginatedResults.currentPage === paginatedResults.totalPages }}
           </div>
           {% componentV2 'divider', null, {'keyline': true, 'pumice': true} %}
         </div>
@@ -57,9 +60,16 @@
 
   <div class="css-grid__container  {{ {s:2, m:2, l:2} | spacingClasses({padding: ['top']}) }} {{ {s:3, m:3, l:3} | spacingClasses({padding: ['bottom']}) }} ">
     <div class="css-grid">
-      {% if paginatedExhibitions.pagination.pageCount > 1  %}
+      {% if paginatedResults.totalPages > 1  %}
         <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} text-align-right">
-          {% componentJsx 'Pagination', paginatedExhibitions.pagination %}
+          {% componentJsx 'Pagination', {
+            currentPage: paginatedResults.currentPage,
+            pageCount: paginatedResults.totalPages,
+            prevPage: paginatedResults.currentPage - 1 if paginatedResults.currentPage > 1,
+            nextPage: paginatedResults.currentPage + 1 if paginatedResults.currentPage < paginatedResults.totalPages,
+            prevQueryString: '/exhibitions' + ('/' + period if period) + '?page=' + (paginatedResults.currentPage - 1 if paginatedResults.currentPage > 1),
+            nextQueryString: '/exhibitions' + ('/' + period if period) + '?page=' + (paginatedResults.currentPage + 1 if paginatedResults.currentPage < paginatedResults.totalPages)
+          } %}
         </div>
       {% endif %}
 

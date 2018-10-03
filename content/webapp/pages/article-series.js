@@ -88,7 +88,7 @@ export class ArticleSeriesPage extends Component<Props> {
         Body={<Body body={series.body} />}
       >
         {articles.length > 0 &&
-          <SearchResults items={articles} showPosition={true} />
+          <SearchResults items={series.items} showPosition={true} />
         }
       </BasePage>
     );

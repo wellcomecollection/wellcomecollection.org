@@ -1,5 +1,5 @@
 .lazy-image.lazy-image {
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity $transition-properties;
 
   .enhanced & {
@@ -8,5 +8,13 @@
 
   &.lazyloaded {
     opacity: 1;
+
+    .captioned-image & {
+      opacity: 1;
+    }
+  }
+
+  .captioned-image & {
+    opacity: 0;
   }
 }

@@ -490,7 +490,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           weight: getWeight(slice.slice_label),
           value: {
             text: slice.primary.text,
-            citation: slice.primary.citation
+            citation: slice.primary.citation,
+            isPullOrReview: slice.slice_label === 'pull' || slice.slice_label === 'review'
           }
         };
 

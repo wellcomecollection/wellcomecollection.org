@@ -47,6 +47,16 @@ export default {
           name: 'standalone',
           display: 'Standalone'
         }
+      ],
+      quote: [
+        {
+          name: 'pull',
+          display: 'Pull'
+        },
+        {
+          name: 'review',
+          display: 'Review'
+        }
       ]
     },
     choices: {
