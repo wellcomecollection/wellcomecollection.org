@@ -3,6 +3,7 @@ import structuredText from './structured-text';
 import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import gifVideoSlice from './gif-video-slice';
+import iframeSlice from './iframe-slice';
 import title from './title';
 import link from './link';
 import text from './text';
@@ -70,6 +71,7 @@ export default {
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
       gifVideo: gifVideoSlice(),
+      iframe: iframeSlice(),
       quote: slice('Quote', {
         nonRepeat: {
           text: structuredText('Quote'),
