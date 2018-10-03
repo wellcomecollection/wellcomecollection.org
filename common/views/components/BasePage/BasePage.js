@@ -33,7 +33,8 @@ const BasePage = ({
     <article data-wio-id={id}>
       <Fragment>{Header}</Fragment>
       <div className={classNames({
-        'bg-cream': isCreamy
+        'bg-cream': isCreamy,
+        [spacing({s: 6}, {padding: ['bottom']})]: true
       })}>
         <div className='basic-page'>
           <Fragment>{Body}</Fragment>
@@ -45,6 +46,14 @@ const BasePage = ({
           </Layout8>
         }
 
+        {contributorProps && contributorProps.contributors.length > 0 &&
+          <Layout8>
+            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+              <Contributors {...contributorProps} />
+            </div>
+          </Layout8>
+        }
+
         {Siblings.length > 0 &&
           <Layout8>
             {Children.map(Siblings, (child, i) => (
@@ -52,14 +61,6 @@ const BasePage = ({
                 {Siblings}
               </div>
             ))}
-          </Layout8>
-        }
-
-        {contributorProps && contributorProps.contributors.length > 0 &&
-          <Layout8>
-            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-              <Contributors {...contributorProps} />
-            </div>
           </Layout8>
         }
       </div>
