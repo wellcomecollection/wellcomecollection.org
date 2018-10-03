@@ -35,9 +35,9 @@
               <div class="{{ {s: 1} | spacingClasses({margin: ['bottom']}) }}">
                 {% set caption = bodyPart.value.caption | prismicAsText %}
                 {% if bodyPart.value.caption and caption !== '' %}
-                  {% componentJsx 'CaptionedImage', bodyPart.value | objectAssign({ sizesQueries: sizes }) %}
+                  {% componentJsx 'CaptionedImage', bodyPart.value | objectAssign({ sizesQueries: sizes, shameNoMaxHeight: true }) %}
                 {% else %}
-                  {% componentJsx 'UiImage', bodyPart.value.image | objectAssign({ sizesQueries: sizes }) %}
+                  {% componentJsx 'UiImage', bodyPart.value.image | objectAssign({ sizesQueries: sizes, extraClasses: 'shame-no-max-height' }) %}
                 {% endif %}
               </div>
             </div>
