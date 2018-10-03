@@ -160,6 +160,71 @@
               }
             }
           },
+          "gifVideo": {
+            "type": "Slice",
+            "fieldset": "Gif video",
+            "non-repeat": {
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
+              },
+              "tasl": {
+                "type": "Text",
+                "config": {
+                  "label": "TASL",
+                  "placeholder": "title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink"
+                }
+              },
+              "video": {
+                "type": "Link",
+                "config": {
+                  "label": "Video",
+                  "select": "media",
+                  "customtypes": [],
+                  "placeholder": "Video"
+                }
+              },
+              "playbackRate": {
+                "type": "Select",
+                "config": {
+                  "label": "Playback rate",
+                  "options": [
+                    "0.1",
+                    "0.25",
+                    "0.5",
+                    "0.75",
+                    "1",
+                    "1.25",
+                    "1.5",
+                    "1.75",
+                    "2"
+                  ]
+                }
+              }
+            }
+          },
+          "iframe": {
+            "type": "Slice",
+            "fieldset": "Iframe",
+            "non-repeat": {
+              "iframeSrc": {
+                "type": "Text",
+                "config": {
+                  "label": "iframe src",
+                  "placeholder": "iframe src"
+                }
+              },
+              "previewImage": {
+                "type": "Image",
+                "config": {
+                  "label": "Preview image"
+                }
+              }
+            }
+          },
           "quote": {
             "type": "Slice",
             "fieldset": "Quote",
