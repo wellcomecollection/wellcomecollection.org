@@ -2,6 +2,7 @@
 import structuredText from './structured-text';
 import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
+import gifVideoSlice from './gif-video-slice';
 import title from './title';
 import link from './link';
 import text from './text';
@@ -68,6 +69,7 @@ export default {
       // These should probably be called captionedImage etc, but legacy says no
       editorialImage: captionedImageSlice(),
       editorialImageGallery: captionedImageGallerySlice(),
+      gifVideo: gifVideoSlice(),
       quote: slice('Quote', {
         nonRepeat: {
           text: structuredText('Quote'),
