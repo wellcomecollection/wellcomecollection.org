@@ -4,7 +4,7 @@ import {spacing} from '../../../utils/classnames';
 import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import Control from '../Buttons/Control/Control';
 
-const commonBtnTracking = (id: string, action: string, title: string): string => {
+const commonBtnTracking = (id: string, action: string, title: string): Object => {
   return {
     category: 'component',
     action: action,
