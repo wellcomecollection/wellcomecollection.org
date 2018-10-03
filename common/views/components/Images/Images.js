@@ -22,13 +22,11 @@ export type UiImageProps = {|
 |}
 
 type UiImageState = {|
-  isEnhanced: boolean,
   imgRef: any // FIXME: better Flow
 |}
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
-    isEnhanced: false, // Flag for JS availability (show everything by default)
     imgRef: null
   }
 
@@ -37,7 +35,17 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
       imgRef: el
     });
 
-    el.addEventListener('lazyloaded', this.handleLazyLoaded);
+    this.handleElWhenAvailable(el);
+  }
+
+  // TODO: this should be accomplished with an e.g. `isEnhanced` state boolean
+  // once we're fully React, instead of polling.
+  handleElWhenAvailable(el) {
+    if (el) {
+      return el.addEventListener('lazyloaded', this.handleLazyLoaded);
+    } else {
+      setTimeout(this.handleElWhenAvailable, 10);
+    }
   }
 
   getImageSize = () => {
@@ -62,9 +70,6 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     // At that point, setting `display: inline-block` on the parent container
     // ensures the TASL information button is correctly contained within the
     // image.
-    this.setState({
-      isEnhanced: true // JS available
-    });
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(false);
 
     window.addEventListener('resize', this.debouncedGetImageSize);
@@ -85,7 +90,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
       extraClasses = '',
       isFull = false,
       showTasl = true,
-      isWidthAuto = true
+      isWidthAuto = false
     } = this.props;
     return (
       <Fragment>
@@ -97,27 +102,25 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             src=${convertImageUri(contentUrl, 640, false)}
             alt=${alt} />`}} />
 
-        {this.state.isEnhanced &&
-          <img width={width}
-            height={height}
-            onLoad={this.getImageSize}
-            ref={this.setImgRef}
-            style={{
-              width: isWidthAuto && 'auto'
-            }}
-            className={classNames({
-              'lazy-image': true,
-              'lazyload': true,
-              'image': true,
-              [extraClasses || '']: true
-            })}
-            src={convertImageUri(contentUrl, 30, false)}
-            data-srcset={imageSizes(width).map(size => {
-              return `${convertImageUri(contentUrl, size, false)} ${size}w`;
-            })}
-            sizes={sizesQueries}
-            alt={alt} />
-        }
+        <img width={width}
+          height={height}
+          onLoad={this.getImageSize}
+          ref={this.setImgRef}
+          style={{
+            width: isWidthAuto && 'auto'
+          }}
+          className={classNames({
+            'lazy-image': true,
+            'lazyload': true,
+            'image': true,
+            [extraClasses || '']: true
+          })}
+          src={convertImageUri(contentUrl, 30, false)}
+          data-srcset={imageSizes(width).map(size => {
+            return `${convertImageUri(contentUrl, size, false)} ${size}w`;
+          })}
+          sizes={sizesQueries}
+          alt={alt} />
 
         {showTasl && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
