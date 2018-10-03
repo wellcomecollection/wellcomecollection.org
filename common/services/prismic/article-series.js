@@ -16,22 +16,30 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
   const labels = [{ url: null, text: 'Serial' }];
+  const color = data.color;
+  const schedule = data.schedule ? data.schedule
+    .filter(({title}) => isStructuredText(title))
+    .map((item, i) => {
+      return {
+        type: 'article-schedule-items',
+        id: `${document.id}_${i}`,
+        title: asText(item.title),
+        publishDate: new Date(item.publishDate),
+        partNumber: i + 1,
+        color
+      };
+    }) : [];
 
   return {
     ...genericFields,
     type: 'article-series',
     labels,
-    schedule: data.schedule ? data.schedule
-      .filter(({title}) => isStructuredText(title))
-      .map(item => {
-        return {
-          title: asText(item.title),
-          publishDate: item.publishDate
-        };
-      }) : [],
+    schedule,
     body,
+    color: data.color,
     // Amazing old crap fields
-    title: data.name
+    title: data.name,
+    items: []
   };
 }
 
@@ -54,15 +62,29 @@ export async function getArticleSeries(req: ?Request, {
     ...opts
   });
 
-  if (articles && articles.results.length > 0) {
+  if (articles && articles.results && articles.results.length > 0) {
     const series = articles.results[0].series.find(series => series.id === id);
     // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
-    // which  are 6 parts long
+    // which are 6 parts long
     const reverse = series && series.schedule.length > 0;
     const articleList = reverse ? articles.results.slice().reverse() : articles.results;
+    const trimmedSchedule = series && series.schedule.slice(articles.results.length);
+    const items = [
+      ...articleList || [],
+      ...trimmedSchedule || []
+    ];
+    const seriesWithItems = {
+      ...series,
+      items: items.map(item => {
+        return item.type === 'article-schedule-item' || item.type === 'articles' ? {
+          ...item,
+          color: series && series.color
+        } : item;
+      })
+    };
 
     return series && {
-      series,
+      series: seriesWithItems,
       articles: articleList
     };
   } else {

@@ -1,4 +1,5 @@
 // @flow
+import type {ColorSelection} from './color-selections';
 
 export type ArticleScheduleItem = {|
   type: 'article-schedule-items',
@@ -6,5 +7,6 @@ export type ArticleScheduleItem = {|
   title: string,
   url: string,
   publishDate: Date,
-  partNumber: number
+  partNumber: number,
+  color: ?ColorSelection
 |}

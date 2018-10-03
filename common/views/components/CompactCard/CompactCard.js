@@ -7,6 +7,7 @@ import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import {default as ImageType} from '../Image/Image';
+import type {ColorSelection} from '../../../model/color-selections';
 
 type Props = {|
   url: ?string,
@@ -17,6 +18,7 @@ type Props = {|
   urlOverride: ?string,
   extraClasses?: string,
   partNumber: ?number,
+  color: ?ColorSelection,
   Image: ?Element<typeof ImageType | typeof ImagePlaceholder>,
   DateInfo: ?Element<typeof DateRange>,
   StatusIndicator: ?Element<typeof StatusIndicator>
@@ -31,6 +33,7 @@ const CompactCard = ({
   urlOverride,
   extraClasses,
   partNumber,
+  color,
   Image,
   DateInfo,
   StatusIndicator
@@ -67,7 +70,7 @@ const CompactCard = ({
         </div>
       }
       <div className={grid(textGridSizes)}>
-        {partNumber && <PartNumberIndicator n={partNumber} />}
+        {partNumber && <PartNumberIndicator number={partNumber} color={color} />}
         <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
           {title}
         </div>

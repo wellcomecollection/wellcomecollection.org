@@ -10,7 +10,7 @@ import type {UiEvent} from '../../../model/events';
 
 type Props = {|
   series: ArticleSeries | EventSeries,
-  items: Article[] | UiEvent[] | ArticleScheduleItem[]
+  items: $ReadOnlyArray<Article | UiEvent | ArticleScheduleItem>
 |}
 
 const SeriesNavigation = ({ series, items }: Props) => {
