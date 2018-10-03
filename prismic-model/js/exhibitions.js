@@ -28,16 +28,13 @@ const Exhibitions = {
     exhibits: list('Exhibits', {
       item: link('Exhibit', 'document', ['installations'])
     }),
-    events: list('Events', {
-      item: link('Event', 'document', ['events'])
+    events: list('Gallery tours', {
+      item: link('Gallery tour', 'document', ['events'])
     })
   },
   'About this exhibition': {
     articles: list('Articles', {
       item: link('Article', 'document', ['articles'])
-    }),
-    books: list('Books', {
-      item: link('Book', 'document', ['books'])
     })
   },
   Promo: {
