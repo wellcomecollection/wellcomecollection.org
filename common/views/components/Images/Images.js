@@ -101,7 +101,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           onLoad={this.getImageSize}
           ref={this.setImgRef}
           style={{
-            width: isWidthAuto && 'auto'
+            width: isWidthAuto ? 'auto' : undefined
           }}
           className={classNames({
             'lazy-image': true,
@@ -127,7 +127,8 @@ export type UiCaptionedImageProps = {|
   sizesQueries: string,
   extraClasses?: string,
   preCaptionNode?: ReactNode,
-  setTitleStyle?: (value: number) => void
+  setTitleStyle?: (value: number) => void,
+  shameNoMaxHeight?: boolean // FIXME: remove once we're totally React
 |}
 
 type UiCaptionedImageState = {|
@@ -158,20 +159,33 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
   }
 
   render() {
-    const { caption, preCaptionNode, extraClasses, image, sizesQueries } = this.props;
-    const { isActive, computedImageWidth, isWidthAuto } = this.state;
+    const {
+      caption,
+      preCaptionNode,
+      extraClasses,
+      image,
+      sizesQueries,
+      shameNoMaxHeight
+    } = this.props;
+    const {
+      isActive,
+      computedImageWidth,
+      isWidthAuto
+    } = this.state;
     const uiImageProps = {...image, sizesQueries};
 
     return (
       <figure
         style={{
-          marginLeft: isActive && isWidthAuto && '50%',
-          transform: isActive && isWidthAuto && computedImageWidth && `translateX(${computedImageWidth / -2}px)`
+          marginLeft: (isActive && isWidthAuto) ? '50%' : undefined,
+          transform: (isActive && isWidthAuto && computedImageWidth)
+            ? `translateX(${computedImageWidth / -2}px)`
+            : undefined
         }}
         className={`captioned-image ${extraClasses || ''}`}>
         <div
           style={{
-            display: isWidthAuto && 'inline-block'
+            display: isWidthAuto ? 'inline-block' : undefined
           }}
           className='captioned-image__image-container relative'>
           {/* https://github.com/facebook/flow/issues/2405 */}
@@ -180,7 +194,8 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
             {...uiImageProps}
             setIsWidthAuto={this.setIsWidthAuto}
             isWidthAuto={isWidthAuto}
-            setComputedImageWidth={this.setComputedImageWidth}  />
+            setComputedImageWidth={this.setComputedImageWidth}
+            extraClasses={shameNoMaxHeight ? 'shame-no-max-height' : ''}  />
         </div>
         <Caption
           width={computedImageWidth}
