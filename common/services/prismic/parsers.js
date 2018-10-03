@@ -504,8 +504,10 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 
           return {
             type: 'soundcloudEmbed',
+            weight: getWeight(slice.slice_label),
             value: {
-              embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`
+              embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+              caption: slice.primary.caption
             }
           };
         }
@@ -516,7 +518,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             type: 'videoEmbed',
             weight: getWeight(slice.slice_label),
             value: {
-              embedUrl: `${embedUrl}?rel=0`
+              embedUrl: `${embedUrl}?rel=0`,
+              caption: slice.primary.caption
             }
           };
         }
