@@ -81,7 +81,8 @@ export default {
       }),
       embed: slice('Embed', {
         nonRepeat: {
-          embed: embed('Embed (Youtube, Vimeo etc)')
+          embed: embed('Embed (Youtube, Vimeo etc)'),
+          caption: structuredText('Caption', 'single')
         }
       }),
       map: slice('Map', {

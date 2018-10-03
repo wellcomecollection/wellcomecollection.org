@@ -184,6 +184,13 @@
                 "config": {
                   "label": "Embed (Youtube, Vimeo etc)"
                 }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,hyperlink,strong,em",
+                  "label": "Caption"
+                }
               }
             }
           },

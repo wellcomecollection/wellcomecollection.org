@@ -181,6 +181,14 @@ export default {
           'embed': {
             'type': 'Embed',
             'fieldset': 'Embed'
+          },
+          'caption': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Caption',
+              'single': 'hyperlink, bold, em',
+              'placeholder': 'Caption'
+            }
           }
         }
       },
@@ -192,24 +200,6 @@ export default {
             'type': 'Text',
             'config': {
               'label': 'iframe src'
-            }
-          }
-        }
-      },
-      'youtubeVideoEmbed': {
-        'type': 'Slice',
-        'fieldset': 'YouTube video',
-        'non-repeat': {
-          'embed': {
-            'type': 'Embed',
-            'fieldset': 'YouTube embed'
-          },
-          'caption': {
-            'type': 'StructuredText',
-            'config': {
-              'label': 'Caption',
-              'single': 'hyperlink, bold, em',
-              'placeholder': 'Caption'
             }
           }
         }
@@ -241,6 +231,24 @@ export default {
           'embed': {
             'type': 'Embed',
             'fieldset': 'Twitter embed'
+          }
+        }
+      },
+      'youtubeVideoEmbed': {
+        'type': 'Slice',
+        'fieldset': '[Deprecated] YouTube video (please use embed)',
+        'non-repeat': {
+          'embed': {
+            'type': 'Embed',
+            'fieldset': 'YouTube embed'
+          },
+          'caption': {
+            'type': 'StructuredText',
+            'config': {
+              'label': 'Caption',
+              'single': 'hyperlink, bold, em',
+              'placeholder': 'Caption'
+            }
           }
         }
       },
