@@ -159,43 +159,38 @@ export class ArticlePage extends Component<Props, State> {
       TitleTopper={TitleTopper}
     />;
 
+    const Siblings = this.state.listOfSeries.map(({series, articles}) => {
+      if (inSerial) {
+        const nextUp = inSerial.position - 1 === series.schedule.length ? series.items[0]
+          : series.items[inSerial.position] ? series.items[inSerial.position] : null;
+
+        return nextUp && <SeriesNavigation
+          key={series.id}
+          series={series}
+          items={([nextUp]: $ReadOnlyArray<Article | ArticleScheduleItem>)} />;
+      } else {
+        // Overkill? Should this happen on the API?
+        const dedupedArticles = articles.filter(
+          a => a.id !== article.id
+        ).slice(0, 2);
+        return (
+          <SeriesNavigation
+            key={series.id}
+            series={series}
+            items={dedupedArticles} />
+        );
+      }
+    }).filter(Boolean);
+
     return (
       <BasePage
         id={article.id}
         isCreamy={true}
         Header={Header}
         Body={<Body body={article.body} />}
+        Siblings={Siblings}
         contributorProps={{contributors: article.contributors}}
       >
-        {this.state.listOfSeries.map(({series, articles}) => {
-          if (inSerial) {
-            const nextUp = inSerial.position - 1 === series.schedule.length ? series.items[0]
-              : series.items[inSerial.position] ? series.items[inSerial.position] : null;
-
-            return nextUp
-              ? (
-                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                  <SeriesNavigation
-                    key={series.id}
-                    series={series}
-                    items={([nextUp]: $ReadOnlyArray<Article | ArticleScheduleItem>)} />
-                </div>
-              ) : null;
-          } else {
-            // Overkill? Should this happen on the API?
-            const dedupedArticles = articles.filter(
-              a => a.id !== article.id
-            ).slice(0, 2);
-            return (
-              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                <SeriesNavigation
-                  key={series.id}
-                  series={series}
-                  items={dedupedArticles} />
-              </div>
-            );
-          }
-        })}
       </BasePage>
     );
   }
