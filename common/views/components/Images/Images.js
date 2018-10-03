@@ -4,7 +4,7 @@ import {convertImageUri} from '../../../utils/convert-image-uri';
 import {classNames} from '../../../utils/classnames';
 import {imageSizes} from '../../../utils/image-sizes';
 import Tasl from '../Tasl/Tasl';
-import type {Node} from 'react';
+import type {Node as ReactNode} from 'react';
 import type {ImageType} from '../../../model/image';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
@@ -22,22 +22,24 @@ export type UiImageProps = {|
 |}
 
 type UiImageState = {|
-  isEnhanced: boolean,
   imgRef: any // FIXME: better Flow
 |}
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
-    isEnhanced: false, // Flag for JS availability (show everything by default)
     imgRef: null
   }
 
-  setImgRef = (el: any) => { // FIXME: better Flow
+  setImgRef = (el: ?Node) => {
     this.setState({
       imgRef: el
     });
 
-    el.addEventListener('lazyloaded', this.handleLazyLoaded);
+    // TODO: this should be accomplished with an e.g. `isEnhanced` state boolean
+    // once we're fully React, instead of polling.
+    if (el) {
+      el.addEventListener('lazyloaded', this.handleLazyLoaded);
+    }
   }
 
   getImageSize = () => {
@@ -62,9 +64,6 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     // At that point, setting `display: inline-block` on the parent container
     // ensures the TASL information button is correctly contained within the
     // image.
-    this.setState({
-      isEnhanced: true // JS available
-    });
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(false);
 
     window.addEventListener('resize', this.debouncedGetImageSize);
@@ -85,7 +84,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
       extraClasses = '',
       isFull = false,
       showTasl = true,
-      isWidthAuto = true
+      isWidthAuto = false
     } = this.props;
     return (
       <Fragment>
@@ -97,27 +96,25 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             src=${convertImageUri(contentUrl, 640, false)}
             alt=${alt} />`}} />
 
-        {this.state.isEnhanced &&
-          <img width={width}
-            height={height}
-            onLoad={this.getImageSize}
-            ref={this.setImgRef}
-            style={{
-              width: isWidthAuto && 'auto'
-            }}
-            className={classNames({
-              'lazy-image': true,
-              'lazyload': true,
-              'image': true,
-              [extraClasses || '']: true
-            })}
-            src={convertImageUri(contentUrl, 30, false)}
-            data-srcset={imageSizes(width).map(size => {
-              return `${convertImageUri(contentUrl, size, false)} ${size}w`;
-            })}
-            sizes={sizesQueries}
-            alt={alt} />
-        }
+        <img width={width}
+          height={height}
+          onLoad={this.getImageSize}
+          ref={this.setImgRef}
+          style={{
+            width: isWidthAuto && 'auto'
+          }}
+          className={classNames({
+            'lazy-image': true,
+            'lazyload': true,
+            'image': true,
+            [extraClasses || '']: true
+          })}
+          src={convertImageUri(contentUrl, 30, false)}
+          data-srcset={imageSizes(width).map(size => {
+            return `${convertImageUri(contentUrl, size, false)} ${size}w`;
+          })}
+          sizes={sizesQueries}
+          alt={alt} />
 
         {showTasl && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
@@ -129,7 +126,7 @@ export type UiCaptionedImageProps = {|
   ...CaptionedImageProps,
   sizesQueries: string,
   extraClasses?: string,
-  preCaptionNode?: Node,
+  preCaptionNode?: ReactNode,
   setTitleStyle?: (value: number) => void
 |}
 

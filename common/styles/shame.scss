@@ -5,3 +5,13 @@
     max-width: 100%;
   }
 }
+
+.captioned-image {
+  &.shame-block {
+    display: block;
+  }
+
+  .shame-no-max-height {
+    max-height: none;
+  }
+}
