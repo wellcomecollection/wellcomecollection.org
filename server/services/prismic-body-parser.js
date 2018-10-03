@@ -151,6 +151,14 @@ function parseBodyPart(slice) {
         }
       };
 
+    case 'embed':
+      return {
+        type: 'embed',
+        value: {
+          embed: slice.primary.embed
+        }
+      };
+
     default:
       break;
   }
