@@ -4,7 +4,7 @@ import {convertImageUri} from '../../../utils/convert-image-uri';
 import {classNames} from '../../../utils/classnames';
 import {imageSizes} from '../../../utils/image-sizes';
 import Tasl from '../Tasl/Tasl';
-import type {Node} from 'react';
+import type {Node as ReactNode} from 'react';
 import type {ImageType} from '../../../model/image';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
@@ -30,21 +30,15 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     imgRef: null
   }
 
-  setImgRef = (el: any) => { // FIXME: better Flow
+  setImgRef = (el: ?Node) => {
     this.setState({
       imgRef: el
     });
 
-    this.handleElWhenAvailable(el);
-  }
-
-  // TODO: this should be accomplished with an e.g. `isEnhanced` state boolean
-  // once we're fully React, instead of polling.
-  handleElWhenAvailable(el) {
+    // TODO: this should be accomplished with an e.g. `isEnhanced` state boolean
+    // once we're fully React, instead of polling.
     if (el) {
-      return el.addEventListener('lazyloaded', this.handleLazyLoaded);
-    } else {
-      setTimeout(this.handleElWhenAvailable, 10);
+      el.addEventListener('lazyloaded', this.handleLazyLoaded);
     }
   }
 
@@ -132,7 +126,7 @@ export type UiCaptionedImageProps = {|
   ...CaptionedImageProps,
   sizesQueries: string,
   extraClasses?: string,
-  preCaptionNode?: Node,
+  preCaptionNode?: ReactNode,
   setTitleStyle?: (value: number) => void
 |}
 
