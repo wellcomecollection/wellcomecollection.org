@@ -1,13 +1,14 @@
 // @flow
 type LinkType = | 'web' | 'document' | 'media';
 
-export default function (label: string, linkType: ?LinkType, linkMask: string[] = []) {
+export default function (label: string, linkType: ?LinkType, linkMask: string[] = [], placeHolder: ?string) {
   return {
     'type': 'Link',
     'config': {
       'label': label,
       'select': linkType,
-      'customtypes': linkMask
+      'customtypes': linkMask,
+      'placeholder': placeHolder
     }
   };
 }
