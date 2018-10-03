@@ -9,6 +9,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Map from '../Map/Map';
+import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
@@ -112,6 +113,13 @@ const Body = ({ body }: Props) => {
             {slice.type === 'map' &&
               <Layout8>
                 <Map {...slice.value} />
+              </Layout8>
+            }
+
+            {/* deprecated */}
+            {slice.type === 'deprecatedImageList' &&
+              <Layout8>
+                <DeprecatedImageList {...slice.value} />
               </Layout8>
             }
           </div>
