@@ -147,22 +147,25 @@ export class ArticlePage extends Component<Props, State> {
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
+    // TODO: use an ID instead of a string in case this changes
+    const isImageGallery = article.format && article.format.title === 'Image gallery';
+
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
       labels={{labels: article.labels}}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={null}
-      FeaturedMedia={maybeFeaturedMedia}
-      HeroPicture={maybeHeroPicture}
-      heroImageBgColor={'cream'}
+      FeaturedMedia={!isImageGallery && maybeFeaturedMedia}
+      HeroPicture={!isImageGallery && maybeHeroPicture}
+      heroImageBgColor={isImageGallery ? 'white' : 'cream'}
       TitleTopper={TitleTopper}
     />;
 
     return (
       <BasePage
         id={article.id}
-        isCreamy={true}
+        isCreamy={!isImageGallery}
         Header={Header}
         Body={<Body body={article.body} />}
         contributorProps={{contributors: article.contributors}}

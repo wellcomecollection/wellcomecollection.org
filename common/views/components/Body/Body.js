@@ -82,7 +82,9 @@ const Body = ({ body }: Props) => {
             }
 
             {slice.type === 'imageGallery' &&
-              <ImageGalleryV2 {...slice.value} />
+              <ImageGalleryV2
+                isStandalone={slice.weight === 'standalone'}
+                {...slice.value} />
             }
 
             {slice.type === 'quote' &&

@@ -11,7 +11,8 @@ import type {CaptionedImage as CaptionedImageProps} from '../../../model/caption
 type Props = {|
   id: string,
   title: ?string,
-  items: CaptionedImageProps[]
+  items: CaptionedImageProps[],
+  isStandalone: boolean
 |}
 
 type State = {|
@@ -36,7 +37,8 @@ class ImageGallery extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.setState({
+    console.log(this.props.isStandalone);
+    !this.props.isStandalone && this.setState({
       isActive: false
     });
   }
@@ -53,27 +55,37 @@ class ImageGallery extends Component<Props, State> {
   }
 
   render() {
-    const { title, items } = this.props;
+    const { title, items, isStandalone } = this.props;
     const { isActive, titleStyle } = this.state;
 
     return (
       <Fragment>
-        <span
-          style={titleStyle}
-          className={classNames({
-            'flex flex--v-top': true,
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>
-          <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
-          <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
-        </span>
+        {!isStandalone &&
+          <span
+            style={titleStyle}
+            className={classNames({
+              'flex flex--v-top': true,
+              [spacing({s: 4}, {margin: ['bottom']})]: true
+            })}>
+            <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
+            <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
+          </span>
+        }
         <div className={classNames({
           [spacing({s: 10}, {margin: ['bottom']})]: true,
+          'image-gallery-v2--standalone': isStandalone,
           'image-gallery-v2 row relative': true,
           'is-active font-white': isActive
         })}>
           <Layout12>
             <div className={`relative`}>
+              {isStandalone &&
+                <div className='absolute image-gallery-v2__standalone-wobbly-edge'>
+                  <WobblyEdge
+                    extraClasses='wobbly-edge--rotated'
+                    background='white' />
+                </div>
+              }
               {!isActive &&
                 <Fragment>
                   <div className='image-gallery-v2__wobbly-edge absolute'>
