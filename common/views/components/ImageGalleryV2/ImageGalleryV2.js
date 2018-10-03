@@ -37,7 +37,6 @@ class ImageGallery extends Component<Props, State> {
   }
 
   componentDidMount() {
-    console.log(this.props.isStandalone);
     !this.props.isStandalone && this.setState({
       isActive: false
     });
