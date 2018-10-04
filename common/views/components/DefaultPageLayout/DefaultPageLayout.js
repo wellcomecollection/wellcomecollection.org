@@ -3,6 +3,7 @@ import {Component} from 'react';
 import Head from 'next/head';
 import NastyJs from '../Header/NastyJs';
 import Header from '../Header/Header';
+import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import InfoBanner from '../InfoBanner/InfoBanner2';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
@@ -288,6 +289,7 @@ class DefaultPageLayout extends Component<Props> {
           <div id='main' className='main' role='main'>
             {children}
           </div>
+          <NewsletterPromo />
           {openingTimes &&
             <Footer
               openingHoursId='footer'
