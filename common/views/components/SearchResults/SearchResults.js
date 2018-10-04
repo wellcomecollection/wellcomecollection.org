@@ -36,7 +36,7 @@ const SearchResults = ({
       </div>
     }
     <div className={`
-        ${spacing({s: 4}, {margin: ['top']})}
+        ${spacing({s: 2}, {margin: ['top']})}
       `}>
       {items.map(item => (
         <div className={
