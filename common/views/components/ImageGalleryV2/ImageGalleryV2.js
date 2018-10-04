@@ -7,7 +7,7 @@ import Button from '../Buttons/Button/Button';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
-import {repeatingLs} from '../../../utils/backgrounds';
+import {repeatingLsBlack} from '../../../utils/backgrounds';
 
 type Props = {|
   id: string,
@@ -77,16 +77,13 @@ class ImageGallery extends Component<Props, State> {
           'image-gallery-v2 row relative': true,
           'is-active font-white': isActive
         })}>
-          {isStandalone &&
-            <div className='absolute'
-              style={{
-                top: 0,
-                bottom: 0,
-                width: `100%`,
-                background: `url(${repeatingLs}) no-repeat top center`,
-                opacity: `0.03`
-              }} />
-          }
+          <div className='absolute'
+            style={{
+              top: 0,
+              bottom: 0,
+              width: `100%`,
+              background: `url(${repeatingLsBlack}) no-repeat top center`,
+              opacity: `0.1`            }} />
           <Layout12>
             <div className={classNames({
               'relative': true,
