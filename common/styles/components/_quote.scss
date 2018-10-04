@@ -3,25 +3,6 @@
 .quote {
   border-left: 12px solid color('pumice');
 
-  &.quote--pull {
-    border-color: color('transparent');
-    position: relative;
-
-    &:before {
-      font-family: $wellcome-bold;
-      position: absolute;
-      content: '\201c';
-      color: color('teal');
-      left: -12px;
-      top: 0;
-      // stylelint-disable sh-waqar/declaration-use-variable
-      // Decorative quotes – not defined as part of the typography styles
-      font-size: 2.3em;
-      // stylelint-enable sh-waqar/declaration-use-variable
-      line-height: 1;
-    }
-  }
-
   p {
     &:first-child {
       margin-top: 0;
@@ -29,6 +10,29 @@
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+}
+
+.quote--pull {
+  border-color: color('transparent');
+  position: relative;
+
+  &:before {
+    font-family: $wellcome-bold;
+    position: absolute;
+    content: '\201c';
+    color: color('teal');
+    left: -12px;
+    top: 0;
+    // stylelint-disable sh-waqar/declaration-use-variable
+    // Decorative quotes – not defined as part of the typography styles
+    font-size: 2.3em;
+    // stylelint-enable sh-waqar/declaration-use-variable
+    line-height: 1;
+
+    @include respond-to('medium') {
+      left: -18px;
     }
   }
 }
