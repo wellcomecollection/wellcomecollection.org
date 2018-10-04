@@ -60,6 +60,7 @@ function parseResourceTypeList(fragment: PrismicFragment[], labelKey: string): R
 
 function parseResourceType(fragment: PrismicFragment): Resource {
   return {
+    id: fragment.id,
     title: asText(fragment.title),
     description: fragment.description,
     icon: fragment.icon
