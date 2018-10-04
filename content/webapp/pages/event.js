@@ -111,9 +111,8 @@ class EventPage extends Component<Props> {
         type: 'event',
         canonicalUrl: `https://wellcomecollection.org/events/${event.id}`,
         imageUrl: event.image && convertImageUri(event.image.contentUrl, 800),
-        siteSection: 'stories',
+        siteSection: 'whatson',
         category: 'public-programme',
-        inSection: 'whatson',
         pageJsonLd: eventLd(event)
       };
     } else {
