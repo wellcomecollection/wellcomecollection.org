@@ -65,13 +65,15 @@ const graphQuery = `{
 }`;
 
 export function parseArticle(document: PrismicDocument): Article {
+  const {data} = document;
+  const datePublished = data.publishDate || document.first_publication_date;
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
-    format: isDocumentLink(document.data.format) ? parseLabelType(document.data.format) : null,
-    summary: document.data.summary,
-    datePublished: new Date(document.first_publication_date),
-    series: parseSingleLevelGroup(document.data.series, 'series').map(series => {
+    format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
+    summary: data.summary,
+    datePublished: new Date(datePublished),
+    series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     })
   };

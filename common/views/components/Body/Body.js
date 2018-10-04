@@ -108,9 +108,19 @@ const Body = ({ body }: Props) => {
             }
             {slice.type === 'videoEmbed' &&
               <Layout8>
-                <VideoEmbed {...slice.value} />
+                <div className={classNames({
+                  [spacing({s: 6}, {margin: ['bottom']})]: true
+                })}>
+                  <VideoEmbed {...slice.value} />
+                </div>
               </Layout8>
             }
+            {slice.type === 'soundcloudEmbed' &&
+              <Layout8>
+                <iframe width='100%' height='20' frameBorder='none' src={slice.value.embedUrl} />
+              </Layout8>
+            }
+
             {slice.type === 'map' &&
               <Layout8>
                 <Map {...slice.value} />

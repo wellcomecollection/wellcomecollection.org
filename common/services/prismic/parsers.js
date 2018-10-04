@@ -499,13 +499,40 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
       case 'embed':
         const embed = slice.primary.embed;
 
+        if (embed.provider_name === 'Vimeo') {
+          const embedUrl = slice.primary.embed.html.match(/src="([-a-zA-Z0-9://.?=_]+)?/)[1];
+          return {
+            type: 'videoEmbed',
+            weight: getWeight(slice.slice_label),
+            value: {
+              embedUrl: `${embedUrl}?rel=0`,
+              caption: slice.primary.caption
+            }
+          };
+        }
+
+        if (embed.provider_name === 'SoundCloud') {
+          const apiUrl = embed.html.match(/url=([^&]*)&/);
+          const secretToken = embed.html.match(/secret_token=([^"]*)"/);
+
+          return {
+            type: 'soundcloudEmbed',
+            weight: getWeight(slice.slice_label),
+            value: {
+              embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+              caption: slice.primary.caption
+            }
+          };
+        }
+
         if (embed.provider_name === 'YouTube') {
           const embedUrl = slice.primary.embed.html.match(/src="([-a-zA-Z0-9://.?=_]+)?/)[1];
           return {
             type: 'videoEmbed',
             weight: getWeight(slice.slice_label),
             value: {
-              embedUrl: `${embedUrl}?rel=0`
+              embedUrl: `${embedUrl}?rel=0`,
+              caption: slice.primary.caption
             }
           };
         }
