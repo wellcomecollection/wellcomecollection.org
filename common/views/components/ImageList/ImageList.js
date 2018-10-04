@@ -93,7 +93,10 @@ class ImageGallery extends Component<Props, State> {
                       className={classNames({
                         [spacing({s: 10}, {margin: ['bottom']})]: isActive
                       })}
-                      key={captionedImage.image.contentUrl}>
+                      key={captionedImage.image.contentUrl}
+                      style={{
+                        cursor: !isActive ? 'pointer' : 'default'
+                      }}>
 
                       <CaptionedImage
                         image={captionedImage.image}
