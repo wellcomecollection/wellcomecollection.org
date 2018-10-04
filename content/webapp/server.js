@@ -73,7 +73,7 @@ function pageVanityUrl(router, app, url, pageId) {
   router.get(url, async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/page', {
-      pageId,
+      id: pageId,
       toggles
     });
     ctx.respond = false;
@@ -172,7 +172,7 @@ app.prepare().then(async () => {
   pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
   pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
   pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
-  
+
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
