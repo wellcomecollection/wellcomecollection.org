@@ -83,7 +83,7 @@ class ImageGallery extends Component<Props, State> {
                 top: 0,
                 bottom: 0,
                 width: `100%`,
-                background: `url(${repeatingLs}) repeat center center`,
+                background: `url(${repeatingLs}) no-repeat top center`,
                 opacity: `0.03`
               }} />
           }
