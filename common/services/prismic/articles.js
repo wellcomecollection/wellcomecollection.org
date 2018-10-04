@@ -37,11 +37,23 @@ const graphQuery = `{
     }
     series {
       series {
-        name
-        description
-        color
+        ...seriesFields
         schedule {
           ...scheduleFields
+        }
+        contributors {
+          ...contributorsFields
+          role {
+            ...roleFields
+          }
+          contributor {
+            ... on people {
+              ...peopleFields
+            }
+            ... on organisations {
+              ...organisationsFields
+            }
+          }
         }
         promo {
           ... on editorialImage {

@@ -86,6 +86,7 @@ export class ArticleSeriesPage extends Component<Props> {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} />}
+        contributorProps={{ contributors: series.contributors }}
       >
         {articles.length > 0 &&
           <SearchResults items={series.items} showPosition={true} />
