@@ -4,7 +4,7 @@ import {spacing, classNames} from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import {CaptionedImage} from '../Images/Images';
 import Quote from '../Quote/Quote';
-import ImageList from '../ImageList/ImageList';
+import ImageGalleryV2 from '../ImageGalleryV2/ImageGalleryV2';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -82,7 +82,7 @@ const Body = ({ body }: Props) => {
             }
 
             {slice.type === 'imageGallery' &&
-              <ImageList {...slice.value} />
+              <ImageGalleryV2 {...slice.value} />
             }
 
             {slice.type === 'quote' &&
