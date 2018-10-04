@@ -76,6 +76,9 @@ class ImageGallery extends Component<Props, State> {
           'image-gallery-v2 row relative': true,
           'is-active font-white': isActive
         })}>
+          {isStandalone &&
+            <div className='image-gallery-v2__background-pattern absolute' />
+          }
           <Layout12>
             <div className={classNames({
               'relative': true,
