@@ -20,6 +20,7 @@ import type {Article} from '@weco/common/model/articles';
 import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
+import {ContentFormatIds} from '@weco/common/model/content-format-id';
 
 type Props = {|
   article: Article
@@ -147,8 +148,7 @@ export class ArticlePage extends Component<Props, State> {
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
-    // TODO: use an ID instead of a string in case this changes
-    const isImageGallery = article.format && article.format.title === 'Image gallery';
+    const isImageGallery = article.format && article.format.id === ContentFormatIds.ImageGallery;
 
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
