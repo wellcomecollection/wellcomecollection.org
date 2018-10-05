@@ -77,13 +77,14 @@ class ImageGallery extends Component<Props, State> {
           'image-gallery-v2 row relative': true,
           'is-active font-white': isActive
         })}>
-          <div className='absolute'
-            style={{
-              top: 0,
-              bottom: 0,
-              width: `100%`,
-              background: `url(${repeatingLsBlack}) no-repeat top center`,
-              opacity: `0.1`            }} />
+          <div className={classNames({
+            'absolute image-gallery-v2__background': true,
+            'image-gallery-v2__background--standalone': isStandalone
+          })}
+          style={{
+            bottom: 0,
+            width: `100%`,
+            background: `url(${repeatingLsBlack}) no-repeat top center`}} />
           <Layout12>
             <div className={classNames({
               'relative': true,
