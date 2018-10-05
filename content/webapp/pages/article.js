@@ -146,7 +146,8 @@ export class ArticlePage extends Component<Props, State> {
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
-    const isImageGallery = article.format && article.format.id === ContentFormatIds.ImageGallery;
+    const isImageGallery = article.format &&
+      (article.format.id === ContentFormatIds.ImageGallery || article.format.id === ContentFormatIds.Comic);
 
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}

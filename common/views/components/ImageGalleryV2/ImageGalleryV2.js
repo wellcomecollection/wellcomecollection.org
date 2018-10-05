@@ -125,16 +125,15 @@ class ImageGallery extends Component<Props, State> {
                         caption={captionedImage.caption}
                         setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
                         sizesQueries={'(max-width: 600px) 100vw, ' + (captionedImage.image.width / captionedImage.image.height) * 640 + 'px'}
-                        preCaptionNode={
+                        preCaptionNode={items.length > 1 ? (
                           <div className={classNames({
                             [font({s: 'HNM5', m: 'HNM4'})]: true,
                             [spacing({s: 2}, {margin: ['bottom']})]: true
                           })}>
                             <span className='visually-hidden'>slide </span>{i + 1} of {items.length}
                           </div>
-                        }>
+                        ) : undefined}>
                       </CaptionedImage>
-
                     </div>
                   ))}
 
