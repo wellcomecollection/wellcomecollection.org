@@ -64,6 +64,22 @@ $image-gallery-v2-transition-properties: 400ms ease;
   }
 
   transition: all $image-gallery-v2-transition-properties;
+
+  &.image-gallery-v2--standalone {
+    &:before {
+      top: 0;
+
+      @include respond-to('medium') {
+        top: 0;
+      }
+    }
+  }
+}
+
+.image-gallery-v2__standalone-wobbly-edge {
+  top: 0;
+  width: 100%;
+  z-index: 2;
 }
 
 .image-gallery-v2__wobbly-edge {

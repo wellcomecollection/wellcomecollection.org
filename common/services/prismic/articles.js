@@ -82,7 +82,7 @@ export function parseArticle(document: PrismicDocument): Article {
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
-    format: isDocumentLink(data.format) ? parseLabelType(data.format.data) : null,
+    format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
     summary: data.summary,
     datePublished: new Date(datePublished),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {

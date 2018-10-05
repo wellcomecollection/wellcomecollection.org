@@ -343,13 +343,14 @@ export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string
     .map(label => label[labelKey])
     .filter(Boolean)
     .filter(label => label.isBroken === false)
-    .map(label => parseLabelType(label.data));
+    .map(label => parseLabelType(label));
 }
 
 export function parseLabelType(fragment: PrismicFragment): LabelField {
   return {
-    title: asText(fragment.title),
-    description: fragment.description
+    id: fragment.id,
+    title: asText(fragment.data.title),
+    description: fragment.data.description
   };
 }
 

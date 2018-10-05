@@ -7,11 +7,13 @@ import Button from '../Buttons/Button/Button';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
+import {repeatingLsBlack} from '../../../utils/backgrounds';
 
 type Props = {|
   id: string,
   title: ?string,
-  items: CaptionedImageProps[]
+  items: CaptionedImageProps[],
+  isStandalone: boolean
 |}
 
 type State = {|
@@ -36,7 +38,7 @@ class ImageGallery extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.setState({
+    !this.props.isStandalone && this.setState({
       isActive: false
     });
   }
@@ -53,27 +55,47 @@ class ImageGallery extends Component<Props, State> {
   }
 
   render() {
-    const { title, items } = this.props;
+    const { title, items, isStandalone } = this.props;
     const { isActive, titleStyle } = this.state;
 
     return (
       <Fragment>
-        <span
-          style={titleStyle}
-          className={classNames({
-            'flex flex--v-top': true,
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>
-          <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
-          <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
-        </span>
+        {!isStandalone &&
+          <span
+            style={titleStyle}
+            className={classNames({
+              'flex flex--v-top': true,
+              [spacing({s: 4}, {margin: ['bottom']})]: true
+            })}>
+            <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
+            <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
+          </span>
+        }
         <div className={classNames({
           [spacing({s: 10}, {margin: ['bottom']})]: true,
+          'image-gallery-v2--standalone': isStandalone,
           'image-gallery-v2 row relative': true,
           'is-active font-white': isActive
         })}>
+          <div className='absolute'
+            style={{
+              top: 0,
+              bottom: 0,
+              width: `100%`,
+              background: `url(${repeatingLsBlack}) no-repeat top center`,
+              opacity: `0.1`            }} />
           <Layout12>
-            <div className={`relative`}>
+            <div className={classNames({
+              'relative': true,
+              [spacing({s: 5, m: 10}, {padding: ['top']})]: isStandalone
+            })}>
+              {isStandalone &&
+                <div className='absolute image-gallery-v2__standalone-wobbly-edge'>
+                  <WobblyEdge
+                    extraClasses='wobbly-edge--rotated'
+                    background='white' />
+                </div>
+              }
               {!isActive &&
                 <Fragment>
                   <div className='image-gallery-v2__wobbly-edge absolute'>
