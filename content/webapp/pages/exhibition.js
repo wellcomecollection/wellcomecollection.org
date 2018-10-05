@@ -126,6 +126,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     // Info box content
     const admissionObject = {
+      id: null,
       title: null,
       description: [
         {
@@ -139,6 +140,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
     const todaysHoursObject = {
+      id: null,
       title: null,
       description: [
         {
@@ -160,6 +162,7 @@ export class ExhibitionPage extends Component<Props, State> {
     };
 
     const placeObject = exhibition.place && {
+      id: null,
       title: null,
       description: [
         {
@@ -173,6 +176,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     const resourcesItems = exhibition.resources.map(resource => {
       return {
+        id: null,
         title: null,
         description: resource.description,
         icon: resource.icon
@@ -181,6 +185,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     const accessibilityItems = [
       {
+        id: null,
         title: null,
         description: [
           {
@@ -192,6 +197,7 @@ export class ExhibitionPage extends Component<Props, State> {
         icon: 'a11y'
       },
       {
+        id: null,
         title: null,
         description: [
           {
