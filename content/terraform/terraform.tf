@@ -95,6 +95,7 @@ module "content" {
   healthcheck_path                   = "/management/healthcheck"
   alb_priority                       = "700"
 }
+
 module "visit_us_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
@@ -102,4 +103,13 @@ module "visit_us_listener" {
   target_group_arn = "${module.content.target_group_arn}"
   priority = "101"
   path = "/visit-us"
+}
+
+module "installations_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "110"
+  path = "/installations/*"
 }

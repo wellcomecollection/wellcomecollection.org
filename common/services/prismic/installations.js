@@ -32,7 +32,7 @@ export function parseInstallationDoc(document: PrismicDocument): UiInstallation 
   };
 }
 
-export async function getInstallation(req: Request, id: string): Promise<?UiInstallation> {
+export async function getInstallation(req: ?Request, id: string): Promise<?UiInstallation> {
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(contributorsFields, placesFields, organisationsFields)
   });
