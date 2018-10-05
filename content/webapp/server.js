@@ -164,6 +164,14 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+  router.get('/installations/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/installation', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
   pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
