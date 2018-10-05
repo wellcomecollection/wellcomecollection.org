@@ -76,6 +76,24 @@ $image-gallery-v2-transition-properties: 400ms ease;
   }
 }
 
+.image-gallery-v2__background {
+  top: $image-gallery-v2-clip-height-s;
+  opacity: 0;
+  transition: opacity $image-gallery-v2-transition-properties;
+
+  @include respond-to('medium') {
+    top: $image-gallery-v2-clip-height-m;
+  }
+
+  .image-gallery-v2.is-active & {
+    opacity: 0.1;
+  }
+
+  .image-gallery-v2--standalone & {
+    top: 0;
+  }
+}
+
 .image-gallery-v2__standalone-wobbly-edge {
   top: 0;
   width: 100%;
