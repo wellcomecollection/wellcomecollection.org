@@ -19,6 +19,7 @@
     "lazysizes": "^4.0.1",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
+    "lodash.throttle": "^4.1.1",
     "lscache": "^1.1.0",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
