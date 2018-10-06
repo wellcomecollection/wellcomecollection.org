@@ -9,6 +9,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
+import Iframe from '../Iframe/Iframe';
 import Map from '../Map/Map';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
@@ -130,6 +131,12 @@ const Body = ({ body }: Props) => {
               <Layout8>
                 <GifVideo {...slice.value} />
               </Layout8>
+            }
+
+            {slice.type === 'iframe' &&
+              <Layout10>
+                <Iframe {...slice.value} />
+              </Layout10>
             }
           </div>
         )}
