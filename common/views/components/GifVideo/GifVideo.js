@@ -6,11 +6,13 @@ import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import Tasl from '../Tasl/Tasl';
 import Caption from '../Caption/Caption';
+import type {HTMLString} from '../../../services/prismic/types';
+import type {Tasl as TaslType} from '../../../model/tasl';
 type Props = {|
   playbackRate: number,
   videoUrl: string,
-  caption: any, // TODO
-  tasl: any // TODO
+  caption: ?HTMLString,
+  tasl: ?TaslType
 |}
 
 type State = {|
@@ -137,7 +139,7 @@ class GifVideo extends Component<Props, State> {
                 'gif-video__text--is-playing': isPlaying
               })}></span>
             </button>}
-            {(tasl.title || tasl.sourceName || tasl.copyrightHolder || tasl.license) &&
+            {(tasl && (tasl.title || tasl.sourceName || tasl.copyrightHolder || tasl.license)) &&
             <Tasl {...tasl} />}
           </div>
           {caption && <Caption caption={caption} />}
