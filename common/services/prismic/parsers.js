@@ -495,6 +495,18 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           }
         };
 
+      case 'gifVideo':
+        return {
+          type: 'gifVideo',
+          weight: slice.slice_label,
+          value: {
+            caption: parseRichText(slice.primary.caption),
+            videoUrl: slice.primary.video && slice.primary.video.url,
+            playbackRate: slice.primary.playbackRate || 1,
+            tasl: parseTaslFromString(slice.primary.tasl)
+          }
+        };
+
       case 'embed':
         const embed = slice.primary.embed;
 
