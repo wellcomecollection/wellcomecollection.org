@@ -1,5 +1,6 @@
 // @flow
 import {classNames} from '../../../utils/classnames';
+import {trackGaEvent} from '../../../utils/tracking';
 import React, {Component, Fragment} from 'react';
 import {UiImage} from '../Images/Images';
 import Icon from '../Icon/Icon';
@@ -11,25 +12,24 @@ type Props = {|
 |}
 
 type State = {|
-  // iframeLoading: boolean,
   iframeShowing: boolean
 |}
 
 class Iframe extends Component<Props, State> {
   state = {
-    // iframeLoading: false,
     iframeShowing: false
   }
 
   iframeRef = React.createRef();
 
-  // updateIframeLoadedState = () => {
-  //   this.setState({
-  //     iframeLoaded: !this.state.iframeLoaded
-  //   });
-  // }
-
   toggleIframeDisplay = () => {
+    if (!this.state.iframeShowing) {
+      trackGaEvent({
+        category: 'component',
+        action: 'launch-iframe:click',
+        label: `iframeSrc:${this.props.src}`
+      });
+    }
     this.setState(prevState => ({
       iframeShowing: !prevState.iframeShowing
     }));
@@ -60,7 +60,7 @@ class Iframe extends Component<Props, State> {
             data-track-event={`${JSON.stringify(eventObject)}`}
             onClick={this.toggleIframeDisplay}>
             <span className='iframe-container__overlay absolute'></span>
-            <span className='iframe-container__launch absolute btn btn--primary js-iframe-launch'>Launch</span>
+            <span aria-live='polite' className='iframe-container__launch absolute btn btn--primary js-iframe-launch'>Launch</span>
           </button>}
           <UiImage {...imageObject} />
           {this.state.iframeShowing && <button className={classNames({
@@ -81,7 +81,7 @@ class Iframe extends Component<Props, State> {
           allowFullScreen
           mozallowfullscreen='true'
           webkitallowfullscreen='true'
-        /* onmousewheel='' TODO causes error in React */
+          onmousewheel='true'
         ></iframe>}
       </div>
     );
@@ -89,6 +89,4 @@ class Iframe extends Component<Props, State> {
 };
 
 export default Iframe;
-// TODO loading - loaded...
-// TODO add tracking
 // TODO test in IE11
