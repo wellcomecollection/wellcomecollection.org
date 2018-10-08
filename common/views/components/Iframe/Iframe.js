@@ -48,6 +48,10 @@ class Iframe extends Component<Props, State> {
   //  {% componentJsx 'UiImage', model.image | objectAssign({ sizesQueries: '(min-width: 600px) calc(98.5vw - 75px), calc(100vw - 36px)' }) %}
   render() {
     const { image, src } = this.props;
+    const imageObject = {
+      ...image,
+      sizesQueries: '(min-width: 600px) calc(98.5vw - 75px), calc(100vw - 36px)'
+    };
     const eventObject = {
       category: 'component',
       action: 'launch-iframe:click',
@@ -65,7 +69,7 @@ class Iframe extends Component<Props, State> {
             data-track-event={`${JSON.stringify(eventObject)}`}>
             <div className='iframe-container__overlay absolute'></div>
             <span className='iframe-container__launch absolute btn btn--primary js-iframe-launch'>Launch</span>
-            <UiImage {...image} />
+            <UiImage {...imageObject} />
           </button>
           <button className='iframe-container__close icon-rounder plain-button pointer no-padding absolute is-hidden js-iframe-close'>
             <Icon name='clear' title='Close' extraClasses='icon--white' />
