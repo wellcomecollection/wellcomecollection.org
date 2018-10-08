@@ -23,7 +23,7 @@ const ArticleSeries = {
     },
     commissionedLength: number('Commissioned length'),
     color: select('Colour', [ 'turquoise', 'red', 'orange', 'purple' ]),
-    description: structuredText('Description'),
+    description: structuredText('[Deprecated] Description. Please use featured text'),
     body
   },
   Contributors: contributorsWithTitle(),

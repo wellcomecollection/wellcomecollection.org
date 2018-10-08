@@ -10,9 +10,9 @@ import type {Article} from '../../model/articles';
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
   const genericFields = parseGenericFields(document);
-  const body = data.description ? [{
+  const body = data.body.length === 0 && data.description ? [{
     type: 'text',
-    weight: 'default',
+    weight: 'featured',
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
   const labels = [{ url: null, text: 'Serial' }];
