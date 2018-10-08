@@ -44,8 +44,6 @@ const IframeElement = (image, src) => {
 
 class Iframe extends Component<Props, State> {
   // TODO remove 'data-track-event' once we're completely moved over to using Nextjs
-  // TODO sizesQueries on image
-  //  {% componentJsx 'UiImage', model.image | objectAssign({ sizesQueries: '(min-width: 600px) calc(98.5vw - 75px), calc(100vw - 36px)' }) %}
   render() {
     const { image, src } = this.props;
     const imageObject = {
