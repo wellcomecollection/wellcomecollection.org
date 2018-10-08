@@ -536,6 +536,22 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             }
           };
         }
+        break;
+
+      // Deprecated
+      case 'imageList':
+        return {
+          type: 'deprecatedImageList',
+          weight: getWeight(slice.slice_label),
+          value: {
+            items: slice.items.map(item => ({
+              title: parseTitle(item.title),
+              subtitle: parseTitle(item.subtitle),
+              image: parseCaptionedImage(item),
+              description: parseStructuredText(item.description)
+            }))
+          }
+        };
     }
   }).filter(Boolean);
 }
