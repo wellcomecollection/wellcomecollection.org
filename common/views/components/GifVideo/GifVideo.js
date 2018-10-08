@@ -113,6 +113,7 @@ class GifVideo extends Component<Props, State> {
     }
 
     // TODO remove 'data-track-label' and 'data-playback-rate' once we're completely moved over to using Nextjs
+    // TODO remove 'js-...' classes once we're completely moved over to using Nextjs
     render() {
       const { playbackRate, videoUrl, caption, tasl } = this.props;
       const { canPlay, isPlaying } = this.state;

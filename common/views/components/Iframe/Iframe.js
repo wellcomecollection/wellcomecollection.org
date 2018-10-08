@@ -1,49 +1,42 @@
 // @flow
 import {classNames} from '../../../utils/classnames';
-import {Component, Fragment} from 'react';
+import React, {Component, Fragment} from 'react';
 import {UiImage} from '../Images/Images';
 import Icon from '../Icon/Icon';
 import type {ImageType} from '../../../model/image';
 
 type Props = {|
- image: ImageType,
- src: string
+  image: ImageType,
+  src: string
 |}
 
 type State = {|
-
-  |}
-
-const IframeElement = (image, src) => {
-  if (image.contentUrl) {
-    return (
-      <iframe className='iframe-container__iframe absolute js-iframe'
-        data-src={src}
-        frameBorder='0'
-        scrolling='no'
-        allowvr
-        allowFullScreen
-        mozallowfullscreen='true'
-        webkitallowfullscreen='true'
-        onmousewheel=''></iframe>
-    );
-  } else {
-    return (
-      <iframe className='iframe-container__iframe absolute js-iframe'
-        src={src}
-        frameBorder='0'
-        scrolling='no'
-        allowvr
-        allowFullScreen
-        mozallowfullscreen='true'
-        webkitallowfullscreen='true'
-        onmousewheel=''></iframe>
-    );
-  }
-};
+  // iframeLoading: boolean,
+  iframeShowing: boolean
+|}
 
 class Iframe extends Component<Props, State> {
+  state = {
+    // iframeLoading: false,
+    iframeShowing: false
+  }
+
+  iframeRef = React.createRef();
+
+  // updateIframeLoadedState = () => {
+  //   this.setState({
+  //     iframeLoaded: !this.state.iframeLoaded
+  //   });
+  // }
+
+  toggleIframeDisplay = () => {
+    this.setState(prevState => ({
+      iframeShowing: !prevState.iframeShowing
+    }));
+  }
+
   // TODO remove 'data-track-event' once we're completely moved over to using Nextjs
+  // TODO remove 'js-...' classes once we're completely moved over to using Nextjs
   render() {
     const { image, src } = this.props;
     const imageObject = {
@@ -63,61 +56,39 @@ class Iframe extends Component<Props, State> {
       })}>
         {image.contentUrl &&
         <Fragment>
-          <button className='iframe-container__trigger plain-button no-padding no-visible-focus absolute js-iframe-trigger'
-            data-track-event={`${JSON.stringify(eventObject)}`}>
-            <div className='iframe-container__overlay absolute'></div>
+          {!this.state.iframeShowing && <button className='iframe-container__trigger plain-button no-padding no-visible-focus absolute js-iframe-trigger'
+            data-track-event={`${JSON.stringify(eventObject)}`}
+            onClick={this.toggleIframeDisplay}>
+            <span className='iframe-container__overlay absolute'></span>
             <span className='iframe-container__launch absolute btn btn--primary js-iframe-launch'>Launch</span>
-            <UiImage {...imageObject} />
-          </button>
-          <button className='iframe-container__close icon-rounder plain-button pointer no-padding absolute is-hidden js-iframe-close'>
+          </button>}
+          <UiImage {...imageObject} />
+          {this.state.iframeShowing && <button className={classNames({
+            'iframe-container__close icon-rounder plain-button pointer no-padding absolute js-iframe-close': true,
+            'is-hidden': !this.state.iframeShowing
+          })}
+          onClick={this.toggleIframeDisplay}>
             <Icon name='clear' title='Close' extraClasses='icon--white' />
-          </button>
+          </button>}
         </Fragment>
         }
-        <IframeElement {...image} src={src} />
+        {this.state.iframeShowing && <iframe className='iframe-container__iframe absolute js-iframe'
+          ref={this.iframeRef}
+          src={src}
+          frameBorder='0'
+          scrolling='no'
+          allowvr='true'
+          allowFullScreen
+          mozallowfullscreen='true'
+          webkitallowfullscreen='true'
+        /* onmousewheel='' TODO causes error in React */
+        ></iframe>}
       </div>
     );
   }
 };
 
 export default Iframe;
-
-// export default (el) => {
-//   const iframeTrigger = el.querySelector('.js-iframe-trigger');
-//   const originalIframe = el.querySelector('.js-iframe');
-//   const launch = el.querySelector('.js-iframe-launch');
-//   const originalLaunchText = launch.innerHTML;
-//   const close = el.querySelector('.js-iframe-close');
-
-//   iframeTrigger.addEventListener('click', loadIframe);
-//   close.addEventListener('click', unloadIframe);
-
-//   function loadIframe(event) {
-//     const iframe = el.querySelector('.js-iframe');
-//     const iframeSrc = iframe.getAttribute('data-src');
-
-//     launch.innerHTML = 'Loading…';
-
-//     iframe.setAttribute('src', iframeSrc);
-//     iframe.addEventListener('load', hideTrigger);
-//   }
-
-//   function unloadIframe(event) {
-//     const iframe = el.querySelector('.js-iframe');
-
-//     iframe.removeEventListener('load', hideTrigger);
-
-//     close.classList.add('is-hidden');
-//     launch.innerHTML = originalLaunchText;
-//     iframeTrigger.classList.remove('is-hidden');
-
-//     el.removeChild(iframe);
-//     originalIframe.setAttribute('src', ''); // IE 11 requires this to unload the iframe properly
-//     el.appendChild(originalIframe);
-//   }
-
-//   function hideTrigger() {
-//     iframeTrigger.classList.add('is-hidden');
-//     close.classList.remove('is-hidden');
-//   }
-// };
+// TODO loading - loaded...
+// TODO add tracking
+// TODO test in IE11
