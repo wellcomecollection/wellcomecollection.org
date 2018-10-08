@@ -50,7 +50,7 @@ class Iframe extends Component<Props, State> {
     const { image, src } = this.props;
     const imageObject = {
       ...image,
-      sizesQueries: '(min-width: 600px) calc(98.5vw - 75px), calc(100vw - 36px)'
+      sizesQueries: '(min-width: 1420px) 1010px, (min-width: 600px) 73vw, calc(100vw - 36px)'
     };
     const eventObject = {
       category: 'component',
