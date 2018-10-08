@@ -19,7 +19,8 @@ import camelize from '../../../utils/camelize';
 import {
   formatDayDate,
   isTimePast,
-  formatTime
+  formatTime,
+  isDatePast
 } from '../../../utils/format-date';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
@@ -48,11 +49,11 @@ function DateList(event) {
       {event.times.map((eventTime, index) => {
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div className={`${event.isPast ? 'font-pewter' : ''}`}>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
               <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
-            {event.isPast
+            {isDatePast(eventTime.range.endDateTime)
               ? <Fragment>{EventStatus('Past', 'marble')}</Fragment>
               : <Fragment>
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
