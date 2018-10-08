@@ -110,6 +110,7 @@ export class ArticlePage extends Component<Props, State> {
       labels: article.labels
     };
 
+    console.info(article.standfirst);
     const ContentTypeInfo = (
       <Fragment>
         {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}

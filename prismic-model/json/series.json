@@ -29,7 +29,7 @@
       "type": "StructuredText",
       "config": {
         "multi": "paragraph,hyperlink,strong,em",
-        "label": "[Deprecated] Description. Please use featured text"
+        "label": "[Deprecated] Description. Please use standfirst slice"
       }
     },
     "body": {

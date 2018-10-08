@@ -10,11 +10,7 @@ import type {Article} from '../../model/articles';
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
   const genericFields = parseGenericFields(document);
-  const body = data.body.length === 0 && data.description ? [{
-    type: 'text',
-    weight: 'featured',
-    value: data.description
-  }].concat(genericFields.body) : genericFields.body;
+  const standfirst = genericFields.standfirst || data.description || null;
   const labels = [{ url: null, text: 'Serial' }];
   const color = data.color;
   const schedule = data.schedule ? data.schedule
@@ -35,7 +31,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     type: 'article-series',
     labels,
     schedule,
-    body,
+    standfirst,
     color: data.color,
     // Amazing old crap fields
     title: data.name,
