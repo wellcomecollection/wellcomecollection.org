@@ -57,7 +57,7 @@ class Iframe extends Component<Props, State> {
     return (
       <div className={classNames({
         'iframe-container relative': true,
-        'js-iframe-container': image.contentUrl
+        'js-iframe-container': Boolean(image.contentUrl)
       })}>
         {image.contentUrl &&
         <Fragment>
@@ -72,7 +72,7 @@ class Iframe extends Component<Props, State> {
           </button>
         </Fragment>
         }
-        <IframeElement {...image} {...src}/>
+        <IframeElement {...image} src={src} />
       </div>
     );
   }
