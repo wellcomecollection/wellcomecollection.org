@@ -124,7 +124,7 @@ export function parseEventDoc(
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })) || [];
 
-  const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === 0);
+  const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === times.length - 1);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
