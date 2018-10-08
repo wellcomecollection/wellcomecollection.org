@@ -89,4 +89,3 @@ class Iframe extends Component<Props, State> {
 };
 
 export default Iframe;
-// TODO test in IE11
