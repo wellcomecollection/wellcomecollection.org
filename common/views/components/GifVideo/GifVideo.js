@@ -98,6 +98,9 @@ class GifVideo extends Component<Props, State> {
       setTimeout(() => { this.autoControlGif(); }, 0); // TODO - fix properly - canPlay is still false without setTimeout
     };
 
+    debounceAutoControl = debounce(this.autoControlGif, 500);
+    throttleAutoControl = throttle(this.autoControlGif, 100)
+
     componentDidMount() {
       const video = this.videoRef.current;
       if (video) {
@@ -108,8 +111,13 @@ class GifVideo extends Component<Props, State> {
           video.addEventListener('canplaythrough', () => { this.initVideoGif(video); });
         }
       }
-      window.addEventListener('resize', debounce(this.autoControlGif, 500));
-      window.addEventListener('scroll', throttle(this.autoControlGif, 100));
+      window.addEventListener('resize', this.debounceAutoControl);
+      window.addEventListener('scroll', this.throttleAutoControl);
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.debounceAutoControl);
+      window.removeEventListener('scroll', this.throttleAutoControl);
     }
 
     // TODO remove 'data-track-label' and 'data-playback-rate' once we're completely moved over to using Nextjs
