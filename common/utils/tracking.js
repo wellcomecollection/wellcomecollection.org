@@ -19,7 +19,7 @@ const maybeTrackEvent = (hasAnalytics) => {
     };
     return actuallyTrackEvent;
   } else {
-    const noop = () => {};
+    const noop = ({ category, action, label }: GaEvent) => {};
     return noop;
   }
 };
