@@ -15,7 +15,6 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     weight: 'default',
     value: data.description
   }].concat(genericFields.body) : genericFields.body;
-  const labels = [{ url: null, text: 'Serial' }];
   const color = data.color;
   const schedule = data.schedule ? data.schedule
     .filter(({title}) => isStructuredText(title))
@@ -29,6 +28,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
         color
       };
     }) : [];
+  const labels = [{ url: null, text: schedule.length > 0 ? 'Serial' : 'Series' }];
 
   return {
     ...genericFields,
