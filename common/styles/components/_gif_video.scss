@@ -1,7 +1,11 @@
-.gif-video__video {
-  width: 100%;
+.gif-video {
+  transition: transform 400ms ease;
 }
 
+.gif-video__video {
+  max-height: 80vh;
+  max-width: 100%;
+}
 .gif-video__play-pause {
   background: transparent;
   border: 0;
