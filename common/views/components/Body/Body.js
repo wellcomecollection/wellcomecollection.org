@@ -140,6 +140,7 @@ const Body = ({ body }: Props) => {
               <Layout10>
                 <Iframe {...slice.value} />
               </Layout10>
+            }
 
             {/* deprecated */}
             {slice.type === 'deprecatedImageList' &&
