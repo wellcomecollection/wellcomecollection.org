@@ -64,9 +64,12 @@ export type Audience = {|
 |}
 
 /* eslint-disable no-use-before-define */
+// TODO instead of having upcomingStart and upcomingEnd on model, create helper functions that return the new data structure,
 export type UiEvent = {|
   ...Event,
   type: 'events',
+  upcomingStart: ?Date,
+  upcomingEnd: ?Date,
   dateRange: {
     firstDate: Date,
     lastDate: Date,

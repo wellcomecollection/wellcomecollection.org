@@ -12,6 +12,7 @@ const ticketButtonText = 'Check for tickets';
 const ticketButtonLoadingText = 'Loading…';
 
 // FIXME: add back to button extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}
+// FIXME: iframe is set to display none, don't when we fix EB
 const EventbriteButton = ({event}: Props) => {
   return (
     <div className={spacing({s: 4}, {margin: ['bottom']})}>
@@ -38,7 +39,8 @@ const EventbriteButton = ({event}: Props) => {
               marginHeight='5'
               marginWidth='5'
               scrolling='auto'
-              height='1'>
+              height='1'
+              style={{ display: 'none' }}>
             </iframe>
             <script dangerouslySetInnerHTML={{ __html: `
               (function() {

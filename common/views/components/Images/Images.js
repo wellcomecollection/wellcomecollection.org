@@ -6,7 +6,7 @@ import {imageSizes} from '../../../utils/image-sizes';
 import Tasl from '../Tasl/Tasl';
 import type {Node as ReactNode} from 'react';
 import type {ImageType} from '../../../model/image';
-import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
+import type {CaptionedImage as CaptionedImageType} from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
 import debounce from 'lodash.debounce';
 
@@ -123,7 +123,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
 }
 
 export type UiCaptionedImageProps = {|
-  ...CaptionedImageProps,
+  ...CaptionedImageType,
   sizesQueries: string,
   extraClasses?: string,
   preCaptionNode?: ReactNode,

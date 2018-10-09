@@ -11,7 +11,6 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
   const genericFields = parseGenericFields(document);
   const standfirst = genericFields.standfirst || data.description || null;
-  const labels = [{ url: null, text: 'Serial' }];
   const color = data.color;
   const schedule = data.schedule ? data.schedule
     .filter(({title}) => isStructuredText(title))
@@ -25,6 +24,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
         color
       };
     }) : [];
+  const labels = [{ url: null, text: schedule.length > 0 ? 'Serial' : 'Series' }];
 
   return {
     ...genericFields,
@@ -33,8 +33,6 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     schedule,
     standfirst,
     color: data.color,
-    // Amazing old crap fields
-    title: data.name,
     items: []
   };
 }

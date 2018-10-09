@@ -496,6 +496,28 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           }
         };
 
+      case 'iframe':
+        return {
+          type: 'iframe',
+          weight: slice.slice_label,
+          value: {
+            src: slice.primary.iframeSrc,
+            image: parseImage(slice.primary.previewImage)
+          }
+        };
+
+      case 'gifVideo':
+        return {
+          type: 'gifVideo',
+          weight: slice.slice_label,
+          value: {
+            caption: parseRichText(slice.primary.caption),
+            videoUrl: slice.primary.video && slice.primary.video.url,
+            playbackRate: slice.primary.playbackRate || 1,
+            tasl: parseTaslFromString(slice.primary.tasl)
+          }
+        };
+
       case 'embed':
         const embed = slice.primary.embed;
 
@@ -536,6 +558,22 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             }
           };
         }
+        break;
+
+      // Deprecated
+      case 'imageList':
+        return {
+          type: 'deprecatedImageList',
+          weight: getWeight(slice.slice_label),
+          value: {
+            items: slice.items.map(item => ({
+              title: parseTitle(item.title),
+              subtitle: parseTitle(item.subtitle),
+              image: parseCaptionedImage(item),
+              description: parseStructuredText(item.description)
+            }))
+          }
+        };
     }
   }).filter(Boolean);
 }

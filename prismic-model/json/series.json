@@ -7,10 +7,12 @@
         "useAsTitle": true
       }
     },
-    "commissionedLength": {
-      "type": "Number",
+    "title": {
+      "type": "StructuredText",
       "config": {
-        "label": "Commissioned length"
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
       }
     },
     "color": {
@@ -475,10 +477,16 @@
     }
   },
   "Deprecated": {
+    "commissionedLength": {
+      "type": "Number",
+      "config": {
+        "label": "[Deprecated] Commissioned length"
+      }
+    },
     "wordpressSlug": {
       "type": "Text",
       "config": {
-        "label": "Wordpress slug"
+        "label": "[Deprecated] Wordpress slug"
       }
     }
   }
