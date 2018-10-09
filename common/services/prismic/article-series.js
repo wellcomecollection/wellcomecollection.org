@@ -37,8 +37,6 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     schedule,
     body,
     color: data.color,
-    // Amazing old crap fields
-    title: data.name,
     items: []
   };
 }
