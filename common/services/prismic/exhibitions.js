@@ -262,7 +262,7 @@ function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExh
       acc.permanent.push(result);
     } else if (london(result.start).isAfter(london())) {
       acc.comingUp.push(result);
-    } else if (london(result.end).isBefore(london())) {
+    } else if (result.end && london(result.end).isBefore(london())) {
       acc.past.push(result);
     } else {
       acc.current.push(result);
