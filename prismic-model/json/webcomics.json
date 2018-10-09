@@ -75,12 +75,6 @@
                 "series"
               ]
             }
-          },
-          "positionInSeries": {
-            "type": "Number",
-            "config": {
-              "label": "Position in series"
-            }
           }
         }
       }

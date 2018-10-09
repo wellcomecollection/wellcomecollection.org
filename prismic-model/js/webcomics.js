@@ -2,7 +2,6 @@
 import title from './parts/title';
 import list from './parts/list';
 import link from './parts/link';
-import number from './parts/number';
 import promo from './parts/promo';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 
@@ -19,8 +18,7 @@ export default {
   Contributors: contributorsWithTitle(),
   Series: {
     series: list('Series', {
-      series: link('Series', 'document', ['series']),
-      positionInSeries: number('Position in series')
+      series: link('Series', 'document', ['series'])
     })
   },
   Promo: {
