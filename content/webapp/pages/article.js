@@ -60,7 +60,10 @@ export class ArticlePage extends Component<Props, State> {
     // used a little bit badly, but we don't have capacity to implement a
     // better solution
     const seriesPromises = this.props.article.series.slice(0, 1).map(series =>
-      getArticleSeries(null, { id: series.id, pageSize: 6 })
+      getArticleSeries(null, {
+        id: series.id,
+        pageSize: 6
+      })
     );
     const listOfSeries = await Promise.all(seriesPromises);
     this.setState({ listOfSeries });

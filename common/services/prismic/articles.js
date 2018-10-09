@@ -5,7 +5,8 @@ import {
   parseGenericFields,
   parseSingleLevelGroup,
   parseLabelType,
-  isDocumentLink
+  isDocumentLink,
+  checkAndParseImage
 } from './parsers';
 import {parseArticleSeries} from './article-series';
 import type {Article} from '../../model/articles';
@@ -16,6 +17,22 @@ import type {
 } from './types';
 
 const graphQuery = `{
+  webcomics {
+    ...webcomicsFields
+    series {
+      series {
+        ...seriesFields
+      }
+    }
+    promo {
+      ... on editorialImage {
+        non-repeat {
+          caption
+          image
+        }
+      }
+    }
+  }
   articles {
     ...articlesFields
     format {
@@ -76,14 +93,13 @@ const graphQuery = `{
   }
 }`;
 
-export function parseArticle(document: PrismicDocument): Article {
+function parseArticleDoc(document: PrismicDocument): Article {
   const {data} = document;
   const datePublished = data.publishDate || document.first_publication_date;
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
     format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
-    summary: data.summary,
     datePublished: new Date(datePublished),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
@@ -100,9 +116,59 @@ export function parseArticle(document: PrismicDocument): Article {
   };
 }
 
+function parseWebcomicDoc(document: PrismicDocument): Article {
+  const {data} = document;
+  const datePublished = data.publishDate || document.first_publication_date;
+  const article = {
+    type: 'articles',
+    ...parseGenericFields(document),
+    format: {
+      id: 'W7d_ghAAALWY3Ujc',
+      title: 'Comic',
+      description: null
+    },
+    datePublished: new Date(datePublished),
+    series: parseSingleLevelGroup(data.series, 'series').map(series => {
+      return parseArticleSeries(series);
+    })
+  };
+  const labels = [
+    article.format ? {url: null, text: article.format.title || ''} : null,
+    article.series.find(series => series.schedule.length > 0) ? {url: null, text: 'Serial'} : null
+  ].filter(Boolean);
+  const body = data.image ? [
+    {
+      type: 'imageGallery',
+      weight: 'standalone',
+      value: {
+        title: null,
+        items: [{
+          image: checkAndParseImage(data.image),
+          caption: null
+        }]
+      }
+    },
+    ...article.body
+  ] : article.body;
+
+  return {
+    ...article,
+    body,
+    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]
+  };
+}
+
+export function parseArticle(document: PrismicDocument): Article {
+  if (document.type === 'webcomics') {
+    return parseWebcomicDoc(document);
+  } else {
+    return parseArticleDoc(document);
+  }
+}
+
 export async function getArticle(req: ?Request, id: string): Promise<?Article> {
   const document = await getDocument(req, id, { graphQuery });
-  return document && document.type === 'articles' ? parseArticle(document) : null;
+  return document && (document.type === 'articles' || document.type === 'webcomics') ? parseArticle(document) : null;
 }
 
 type ArticleQueryProps = {|
@@ -116,7 +182,7 @@ export async function getArticles(req: ?Request, {
 }: ArticleQueryProps): Promise<PaginatedResults<Article>> {
   const orderings = '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
   const paginatedResults = await getDocuments(req, [
-    Prismic.Predicates.at('document.type', 'articles')
+    Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
   ].concat(predicates), {
     orderings,
     graphQuery,
