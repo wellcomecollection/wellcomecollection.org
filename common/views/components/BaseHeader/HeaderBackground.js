@@ -1,4 +1,6 @@
 // @flow
+import WobblyEdge from '../WobblyEdge/WobblyEdge';
+
 type Props = {|
   backgroundTexture?: string,
   hasWobblyEdge?: boolean,
@@ -29,10 +31,7 @@ const HeaderBackground = ({
     <div className='absolute overflow-hidden full-width bg-cream' style={styles}>
       {hasWobblyEdge &&
         <div className='absolute full-width' style={{ bottom: 0 }}>
-          <div className='wobbly-edge wobbly-edge--white js-wobbly-edge'
-            data-is-valley='true'
-            data-max-intensity='100'>
-          </div>
+          <WobblyEdge isValley={true} intensity={100} background={'white'} />
         </div>
       }
     </div>

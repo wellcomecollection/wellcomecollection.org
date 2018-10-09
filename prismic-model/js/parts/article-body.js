@@ -46,6 +46,10 @@ export default {
         'name': 'standalone',
         'display': 'Standalone'
       } ],
+      'editorialImageGallery': [ {
+        'name': 'standalone',
+        'display': 'Standalone'
+      } ],
       'quoteV2': [ {
         'name': 'pull',
         'display': 'Pull'

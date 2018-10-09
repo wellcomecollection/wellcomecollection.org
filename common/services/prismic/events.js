@@ -124,7 +124,14 @@ export function parseEventDoc(
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })) || [];
 
-  const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === 0);
+  const upcomingDates = times.filter(t => {
+    return london(t.range.startDateTime).isSameOrAfter(london());
+  });
+  const hasUpcoming = Boolean(upcomingDates.length > 0);
+  const upcomingStart = hasUpcoming ? upcomingDates[0].range.startDateTime : times[0].range.startDateTime;
+  const upcomingEnd = hasUpcoming ? upcomingDates[0].range.endDateTime : times[0].range.endDateTime;
+
+  const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === times.length - 1);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
@@ -155,6 +162,8 @@ export function parseEventDoc(
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
     times: times,
+    upcomingStart: upcomingStart || null,
+    upcomingEnd: upcomingEnd || null,
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance

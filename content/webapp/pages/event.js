@@ -111,9 +111,8 @@ class EventPage extends Component<Props> {
         type: 'event',
         canonicalUrl: `https://wellcomecollection.org/events/${event.id}`,
         imageUrl: event.image && convertImageUri(event.image.contentUrl, 800),
-        siteSection: 'stories',
+        siteSection: 'whatson',
         category: 'public-programme',
-        inSection: 'whatson',
         pageJsonLd: eventLd(event)
       };
     } else {
@@ -291,16 +290,19 @@ class EventPage extends Component<Props> {
             <Fragment>
               <InfoBox title='Need to know' items={[
                 (event.place && {
+                  id: null,
                   title: 'Location',
                   description: event.place.information
                 }),
                 (event.bookingInformation && {
+                  id: null,
                   title: 'Extra information',
                   description: event.bookingInformation
                 })
               ]
                 .concat(event.policies.map(policy => ({...policy})))
                 .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
+                  id: null,
                   icon: camelize(interpretationType.title),
                   title: interpretationType.title,
                   description: isPrimary
