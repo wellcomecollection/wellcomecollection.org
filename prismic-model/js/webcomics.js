@@ -18,7 +18,7 @@ export default {
   Contributors: contributorsWithTitle(),
   Series: {
     series: list('Series', {
-      series: link('Series', 'document', ['series'])
+      series: link('Series', 'document', ['webcomic-series'])
     })
   },
   Promo: {

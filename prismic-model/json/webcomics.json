@@ -72,7 +72,7 @@
               "label": "Series",
               "select": "document",
               "customtypes": [
-                "series"
+                "webcomic-series"
               ]
             }
           }
