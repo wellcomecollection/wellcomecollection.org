@@ -7,7 +7,8 @@ import {
   getExhibitions,
   getExhibition,
   getExhibitionExhibits,
-  getExhibitExhibition
+  getExhibitExhibition,
+  putPermanentAfterCurrentExhibitions
 } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -45,6 +46,10 @@ export async function renderWhatsOn(ctx, next) {
     exhibitionsPromise, eventsPromise
   ]);
   const dateRange = getMomentsForPeriod(period);
+  const reorderedExhibitions = Object.assign({},
+    exhibitions,
+    {results: putPermanentAfterCurrentExhibitions(exhibitions.results)}
+  );
 
   ctx.render('pages/whats-on', {
     pageConfig: createPageConfig({
@@ -59,7 +64,7 @@ export async function renderWhatsOn(ctx, next) {
       }
     }),
     events,
-    exhibitions,
+    exhibitions: reorderedExhibitions,
     pharmacyOfColourData,
     dateRange,
     listHeader: getListHeader(ctx.intervalCache.get('collectionOpeningTimes')),

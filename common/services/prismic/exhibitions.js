@@ -239,7 +239,6 @@ export async function getExhibitions(
   );
 
   const uiExhibitions: UiExhibition[] = paginatedResults.results.map(parseExhibitionDoc);
-  const exhibitionsWithPermAfterCurrent = putPermanentAfterCurrentExhibitions(uiExhibitions);
 
   // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
   // battles with spreading.
@@ -248,11 +247,11 @@ export async function getExhibitions(
     pageSize: paginatedResults.pageSize,
     totalResults: paginatedResults.totalResults,
     totalPages: paginatedResults.totalPages,
-    results: exhibitionsWithPermAfterCurrent
+    results: uiExhibitions
   };
 }
 
-function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExhibition[] {
+export function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExhibition[] {
   // We order the list this way as, from a user's perspective, seeing the
   // temporary exhibitions is more urgent, so they're at the front of the list,
   // but there's no good way to express that ordering through Prismic's ordering
