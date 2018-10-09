@@ -54,9 +54,13 @@ export async function getArticleSeries(req: ?Request, {
   id,
   ...opts
 }: ArticleSeriesProps): Promise<?ArticleSeriesWithArticles> {
+  // GOTCHA: This is for body squabbles where we have the `webcomics` type.
+  // This will have to remain like this until we figure out how to migrate it.
+  const seriesField = id === 'WleP3iQAACUAYEoN'
+    ? 'my.webcomics.series.series' : 'my.articles.series.series';
   const articles = await getArticles(req, {
-    page: 1,
-    predicates: [Prismic.Predicates.at('my.articles.series.series', id)],
+    page: opts.page || 1,
+    predicates: [Prismic.Predicates.at(seriesField, id)],
     ...opts
   });
 
