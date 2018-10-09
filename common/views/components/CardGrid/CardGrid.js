@@ -56,7 +56,7 @@ const CardGrid = ({
               // $FlowFixMe
               <EventPromo
                 id={item.id}
-                url={`/events/${item.id}`}p
+                url={`/events/${item.id}`}
                 title={item.title}
                 description={item.promoText || ''}
                 bookingType={null}
