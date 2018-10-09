@@ -10,11 +10,7 @@ import type {Article} from '../../model/articles';
 export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
   const {data} = document;
   const genericFields = parseGenericFields(document);
-  const body = data.description ? [{
-    type: 'text',
-    weight: 'default',
-    value: data.description
-  }].concat(genericFields.body) : genericFields.body;
+  const standfirst = genericFields.standfirst || data.description || null;
   const color = data.color;
   const schedule = data.schedule ? data.schedule
     .filter(({title}) => isStructuredText(title))
@@ -35,7 +31,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     type: 'article-series',
     labels,
     schedule,
-    body,
+    standfirst,
     color: data.color,
     items: []
   };

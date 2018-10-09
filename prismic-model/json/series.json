@@ -31,7 +31,7 @@
       "type": "StructuredText",
       "config": {
         "multi": "paragraph,hyperlink,strong,em",
-        "label": "Description"
+        "label": "[Deprecated] Description. Please use standfirst slice"
       }
     },
     "body": {
