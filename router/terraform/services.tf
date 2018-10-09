@@ -9,7 +9,7 @@ module "router" {
   listener_https_arn = "${module.router_alb.listener_https_arn}"
   listener_http_arn  = "${module.router_alb.listener_http_arn}"
   is_config_managed  = false
-  alb_priority       = "100"
+  alb_priority       = "1000"
 
   desired_count = 2
 

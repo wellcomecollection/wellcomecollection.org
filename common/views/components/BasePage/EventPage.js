@@ -19,7 +19,8 @@ import camelize from '../../../utils/camelize';
 import {
   formatDayDate,
   isTimePast,
-  formatTime
+  formatTime,
+  isDatePast
 } from '../../../utils/format-date';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
@@ -48,11 +49,11 @@ function DateList(event) {
       {event.times.map((eventTime, index) => {
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div className={`${event.isPast ? 'font-pewter' : ''}`}>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
               <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
-            {event.isPast
+            {isDatePast(eventTime.range.endDateTime)
               ? <Fragment>{EventStatus('Past', 'marble')}</Fragment>
               : <Fragment>
                 {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
@@ -214,16 +215,19 @@ const EventPage = ({ event }: Props) => {
           <Fragment>
             <InfoBox title='Need to know' items={[
               (event.place && {
+                id: null,
                 title: 'Location',
                 description: event.place.information
               }),
               (event.bookingInformation && {
+                id: null,
                 title: 'Extra information',
                 description: event.bookingInformation
               })
             ]
               .concat(event.policies.map(policy => ({...policy})))
               .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
+                id: null,
                 icon: camelize(interpretationType.title),
                 title: interpretationType.title,
                 description: isPrimary

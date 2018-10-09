@@ -126,6 +126,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     // Info box content
     const admissionObject = {
+      id: null,
       title: null,
       description: [
         {
@@ -139,6 +140,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
     const todaysHoursObject = {
+      id: null,
       title: null,
       description: [
         {
@@ -160,6 +162,7 @@ export class ExhibitionPage extends Component<Props, State> {
     };
 
     const placeObject = exhibition.place && {
+      id: null,
       title: null,
       description: [
         {
@@ -173,6 +176,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     const resourcesItems = exhibition.resources.map(resource => {
       return {
+        id: null,
         title: null,
         description: resource.description,
         icon: resource.icon
@@ -181,6 +185,7 @@ export class ExhibitionPage extends Component<Props, State> {
 
     const accessibilityItems = [
       {
+        id: null,
         title: null,
         description: [
           {
@@ -192,6 +197,7 @@ export class ExhibitionPage extends Component<Props, State> {
         icon: 'a11y'
       },
       {
+        id: null,
         title: null,
         description: [
           {
@@ -224,24 +230,29 @@ export class ExhibitionPage extends Component<Props, State> {
           {
             this.state.exhibitionOfs &&
             this.state.exhibitionOfs.length > 0 &&
-            <SearchResults
-              items={this.state.exhibitionOfs}
-              title={`In this exhibition`} />
+            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+              <SearchResults
+                items={this.state.exhibitionOfs}
+                title={`In this exhibition`} />
+            </div>
           }
-          {exhibition.end &&
-            !isPast(exhibition.end) && (
-            <InfoBox title='Visit us' items={infoItems}>
-              <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-                <a href='/access'>All our accessibility services</a>
-              </p>
-            </InfoBox>
+          {exhibition.end && !isPast(exhibition.end) && (
+            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+              <InfoBox title='Visit us' items={infoItems}>
+                <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+                  <a href='/access'>All our accessibility services</a>
+                </p>
+              </InfoBox>
+            </div>
           )}
           {
             this.state.exhibitionAbouts &&
             this.state.exhibitionAbouts.length > 0 &&
-            <SearchResults
-              items={this.state.exhibitionAbouts}
-              title={`About this exhibition`} />
+            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+              <SearchResults
+                items={this.state.exhibitionAbouts}
+                title={`About this exhibition`} />
+            </div>
           }
         </Fragment>
 
@@ -249,7 +260,7 @@ export class ExhibitionPage extends Component<Props, State> {
         {
           exhibition.relatedBooks &&
             exhibition.relatedBooks.length > 0 &&
-            <Fragment>
+            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
               <h2 className='h2'>From the bookshop</h2>
               <div className={`
               ${spacing({s: 4}, {margin: ['top']})} grid
@@ -265,7 +276,7 @@ export class ExhibitionPage extends Component<Props, State> {
                   </div>
                 ))}
               </div>
-            </Fragment>
+            </div>
         }
       </BasePage>
     );

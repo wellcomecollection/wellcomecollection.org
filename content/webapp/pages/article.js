@@ -20,6 +20,7 @@ import type {Article} from '@weco/common/model/articles';
 import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
+import {ContentFormatIds} from '@weco/common/model/content-format-id';
 
 type Props = {|
   article: Article
@@ -83,17 +84,15 @@ export class ArticlePage extends Component<Props, State> {
         })))
     };
 
-    const inSerial = article.series
-      .map(series => {
-        const titles = series.schedule.map(item => item.title);
-        const index = titles.indexOf(article.title);
-        return {series, position: index + 1};
-      }).find(_ => _);
+    // Check if the article is in a serial, and where
+    const serial = article.series.find(series => series.schedule.length > 0);
+    const titlesInSerial = serial && serial.schedule.map(item => item.title);
+    const positionInSerial = titlesInSerial && titlesInSerial.indexOf(article.title) + 1;
 
     // We can abstract this out as a component if we see it elsewhere.
     // Not too confident it's going to be used like this for long.
-    const TitleTopper = !inSerial ? null
-      : <PartNumberIndicator number={inSerial.position} color={inSerial.series.color} />;
+    const TitleTopper = serial && positionInSerial &&
+      <PartNumberIndicator number={positionInSerial} color={serial.color} />;
 
     const genericFields = {
       id: article.id,
@@ -147,22 +146,25 @@ export class ArticlePage extends Component<Props, State> {
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
     const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
+    const isImageGallery = article.format &&
+      (article.format.id === ContentFormatIds.ImageGallery || article.format.id === ContentFormatIds.Comic);
+
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
       labels={{labels: article.labels}}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={null}
-      FeaturedMedia={maybeFeaturedMedia}
-      HeroPicture={maybeHeroPicture}
-      heroImageBgColor={'cream'}
+      FeaturedMedia={isImageGallery ? null : maybeFeaturedMedia}
+      HeroPicture={isImageGallery ? null : maybeHeroPicture}
+      heroImageBgColor={isImageGallery ? 'white' : 'cream'}
       TitleTopper={TitleTopper}
     />;
 
     const Siblings = this.state.listOfSeries.map(({series, articles}) => {
-      if (inSerial) {
-        const nextUp = inSerial.position - 1 === series.schedule.length ? series.items[0]
-          : series.items[inSerial.position] ? series.items[inSerial.position] : null;
+      if (series.schedule.length > 0 && positionInSerial) {
+        const nextUp = positionInSerial - 1 === series.schedule.length ? series.items[0]
+          : series.items[positionInSerial] ? series.items[positionInSerial] : null;
 
         return nextUp && <SeriesNavigation
           key={series.id}

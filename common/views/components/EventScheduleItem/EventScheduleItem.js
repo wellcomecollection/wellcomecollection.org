@@ -47,7 +47,7 @@ const EventScheduleItem = ({
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL5', m: 'HNL4'})}`} dangerouslySetInnerHTML={{__html: event.promoText}} />
 
             {!isNotLinked &&
-              <div className={spacing({s: 2}, {margin: ['top']})}>
+              <div className={spacing({s: 2}, {margin: ['top', 'bottom']})}>
                 <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
                   <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
                 </p>

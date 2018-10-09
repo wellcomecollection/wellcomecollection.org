@@ -11,6 +11,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import Map from '../Map/Map';
+import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
@@ -31,8 +32,7 @@ type Props = {|
 const Body = ({ body }: Props) => {
   return (
     <div className={classNames({
-      'basic-body': true,
-      [spacing({s: 3}, {padding: ['top']})]: true
+      'basic-body': true
     })}>
       {body
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -41,6 +41,7 @@ const Body = ({ body }: Props) => {
         .map((slice, i) =>
           <div className={classNames({
             'body-part': true,
+            [spacing({s: 3}, {padding: ['top']})]: i === 0 && slice.type !== 'imageGallery',
             'overflow-hidden': true
           })} key={`slice${i}`}>
             {slice.type === 'standfirst' &&
@@ -84,7 +85,9 @@ const Body = ({ body }: Props) => {
             }
 
             {slice.type === 'imageGallery' &&
-              <ImageGalleryV2 {...slice.value} />
+              <ImageGalleryV2
+                isStandalone={slice.weight === 'standalone'}
+                {...slice.value} />
             }
 
             {slice.type === 'quote' &&
@@ -137,6 +140,12 @@ const Body = ({ body }: Props) => {
               <Layout10>
                 <Iframe {...slice.value} />
               </Layout10>
+
+            {/* deprecated */}
+            {slice.type === 'deprecatedImageList' &&
+              <Layout8>
+                <DeprecatedImageList {...slice.value} />
+              </Layout8>
             }
           </div>
         )}
