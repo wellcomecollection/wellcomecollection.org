@@ -131,19 +131,18 @@ class GifVideo extends Component<Props, State> {
       window.removeEventListener('scroll', this.throttleAutoControl);
       window.removeEventListener('resize', this.debouncedSetVidoSize);
     }
-    // TODO remove 'data-track-label' and 'data-playback-rate' once we're completely moved over to using Nextjs
-    // TODO remove 'js-...' classes once we're completely moved over to using Nextjs
+
     render() {
-      const { playbackRate, videoUrl, caption, tasl } = this.props;
+      const { videoUrl, caption, tasl } = this.props;
       const { canPlay, isPlaying, computedVideoWidth } = this.state;
       return (
         <figure style={{
           marginLeft: '50%',
           transform: computedVideoWidth && `translateX(${computedVideoWidth / -2}px)`
         }}
-        className='js-gif-video gif-video no-margin' data-playback-rate={playbackRate}>
+        className='gif-video no-margin'>
           <div className='gif-video__inner relative inline-block'>
-            <video ref={this.videoRef} className='gif-video__video block js-gif-video__video'
+            <video ref={this.videoRef} className='gif-video__video block'
               preload='metadata'
               muted
               loop
@@ -152,14 +151,13 @@ class GifVideo extends Component<Props, State> {
               <p>{'Your browser doesn\'t support video'}</p>
             </video>
             {canPlay && <button className={classNames({
-              'no-margin no-padding plain-button gif-video__play-pause absolute js-gif-video__play-pause': true
+              'no-margin no-padding plain-button gif-video__play-pause absolute': true
             })}
             aria-label='play/pause button'
-            data-track-label='{videoUrl}'
             onClick={this.manualControlGif}>
               <span className={classNames({
                 [font({s: 'LR3'})]: true,
-                'js-gif-video__text gif-video__text block': true,
+                'gif-video__text block': true,
                 'gif-video__text--is-playing': isPlaying
               })}></span>
             </button>}
