@@ -79,8 +79,8 @@ export type UiEvent = {|
 |}
 
 export type EventSchedule = {|
-    event: UiEvent,
-    isNotLinked: boolean
+  event: UiEvent,
+  isNotLinked: boolean
 |}[]
 
 export type Event = {|
@@ -137,3 +137,7 @@ export type EventPromo = {|
   dateString?: ?string,
   timeString?: ?string
 |}
+
+export function isEventFullyBooked(event: UiEvent): boolean {
+  return event.times.every(({isFullyBooked}) => isFullyBooked);
+}

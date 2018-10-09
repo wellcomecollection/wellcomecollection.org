@@ -9,7 +9,11 @@ type Props = {|
   statusOverride?: ?string
 |}
 
-const StatusIndicator = ({ start, end, statusOverride }: Props) => {
+const StatusIndicator = ({
+  start,
+  end,
+  statusOverride
+}: Props) => {
   const {color, text} = statusOverride ? {color: 'marble', text: statusOverride} : formatDateRangeWithMessage({start, end});
   return (
     <span className={`flex flex--v-center ${font({s: 'HNL5'})}`}>
