@@ -34,7 +34,7 @@ export function parsePage(document: PrismicDocument): Page {
   return {
     type: 'pages',
     ...genericFields,
-    promo: promo || drupalisedPromo,
+    promo: promo && promo.image ? promo : drupalisedPromo,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     siteSection: siteSection,
     drupalPromoImage: drupalPromoImage,
