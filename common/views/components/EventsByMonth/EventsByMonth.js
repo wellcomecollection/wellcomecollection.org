@@ -97,26 +97,8 @@ const EventsByMonth = ({
                   [cssGrid({s: 12, m: 6, l: 4, xl: 4})]: true
                 })}>
                   <EventPromo
-                    id={event.id}
-                    url={'/events/' + event.id}
-                    title={event.title}
-                    start={event.upcomingStart}
-                    end={event.upcomingEnd}
-                    isMultiDate={event.times.length > 1}
-                    isFullyBooked={false}
-                    hasNotFullyBookedTimes={false}
-                    format={event.format}
-                    image={event.promoImage}
-                    interpretations={event.interpretations}
-                    eventbriteId={event.eventbriteId}
-                    dateString={null}
-                    timeString={null}
-                    audience={event.audiences.length > 0 ? event.audiences[0] : null}
-                    schedule={event.schedule}
-                    series={event.series}
+                    event={event}
                     position={i}
-                    bookingType={null}
-                    description={null}
                   />
                 </div>
               ))}

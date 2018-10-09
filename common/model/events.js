@@ -1,4 +1,5 @@
 // @flow
+import {isDatePast} from '../utils/format-date';
 import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
@@ -139,5 +140,11 @@ export type EventPromo = {|
 |}
 
 export function isEventFullyBooked(event: UiEvent): boolean {
-  return event.times.every(({isFullyBooked}) => isFullyBooked);
+  if (event.id === 'tours') {
+    console.info(event.times);
+  }
+  return event.times.length > 0 && event.times
+    .every(({isFullyBooked, range}) => {
+      return isDatePast(range.endDateTime) || isFullyBooked;
+    });
 }

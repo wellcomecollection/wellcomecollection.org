@@ -51,31 +51,11 @@ const CardGrid = ({
                 statusOverride={item.statusOverride}
                 position={i} />
             }
-            {item.type === 'events' &&
+            {item.id !== 'tours' && item.type === 'events' &&
               // TODO: (remove Picture type)
               // $FlowFixMe
               <EventPromo
-                id={item.id}
-                url={`/events/${item.id}`}
-                title={item.title}
-                description={item.promoText || ''}
-                bookingType={null}
-                start={item.upcomingStart}
-                end={item.upcomingEnd}
-                format={item.format}
-                isMultiDate={item.times.length > 1}
-                isFullyBooked={false}
-                hasNotFullyBookedTimes={false}
-                // TODO: (remove Picture type)
-                // $FlowFixMe
-                image={item.promoImage}
-                interpretations={item.interpretations}
-                eventbriteId={item.eventbriteId}
-                dateString={null}
-                timeString={null}
-                audience={item.audiences.length > 0 ? item.audiences[0] : null}
-                series={item.series}
-                schedule={[]}
+                event={item}
                 position={i} />
             }
           </div>

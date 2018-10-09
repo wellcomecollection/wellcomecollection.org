@@ -53,24 +53,8 @@
         {% for event in paginatedResults.results %}
           <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses}}">
             {% componentJsx 'EventPromo', {
-              id: event.id,
-              url: '/events/' + event.id,
-              title: event.title,
-              start: event.upcomingStart,
-              end: event.upcomingEnd,
-              isMultiDate: event.times.length > 1,
-              isFullyBooked: false,
-              hasNotFullyBookedTimes: null,
-              format: event.format,
-              image: event.promoImage,
-              interpretations: event.interpretations,
-              eventbriteId: event.eventbriteId,
-              dateString: null,
-              timeString: null,
-              audience: event.audiences[0] if event.audiences.length > 0 else null,
-              schedule: event.schedule,
-              series: event.series,
-              position: loop.index
+              position: loop.index,
+              event: event
             } %}
           </div>
         {% endfor %}
