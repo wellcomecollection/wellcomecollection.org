@@ -102,7 +102,7 @@ class GifVideo extends Component<Props, State> {
 
     setVideoSize = () => {
       this.setState({
-        computedVideoWidth: this.videoRef.current.clientWidth
+        computedVideoWidth: this.videoRef && this.videoRef.current && this.videoRef.current.clientWidth
       });
     }
 
@@ -139,7 +139,7 @@ class GifVideo extends Component<Props, State> {
       return (
         <figure style={{
           marginLeft: '50%',
-          transform: `translateX(${computedVideoWidth / -2}px)`
+          transform: computedVideoWidth && `translateX(${computedVideoWidth / -2}px)`
         }}
         className='js-gif-video gif-video no-margin' data-playback-rate={playbackRate}>
           <div className='gif-video__inner relative inline-block'>
