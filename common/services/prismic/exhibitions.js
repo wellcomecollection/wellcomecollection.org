@@ -262,6 +262,8 @@ function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExh
       acc.permanent.push(result);
     } else if (london(result.start).isAfter(london())) {
       acc.comingUp.push(result);
+    } else if (london(result.end).isBefore(london())) {
+      acc.past.push(result);
     } else {
       acc.current.push(result);
     }
@@ -270,12 +272,16 @@ function putPermanentAfterCurrentExhibitions(exhibitions: UiExhibition[]): UiExh
   }, {
     current: [],
     permanent: [],
-    comingUp: []
+    comingUp: [],
+    past: []
   });
 
-  return groupedResults.current
-    .concat(groupedResults.permanent)
-    .concat(groupedResults.comingUp);
+  return [
+    ...groupedResults.current,
+    ...groupedResults.permanent,
+    ...groupedResults.comingUp,
+    ...groupedResults.past
+  ];
 }
 
 export async function getExhibition(req: ?Request, id: string): Promise<?UiExhibition> {
