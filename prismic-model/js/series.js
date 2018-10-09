@@ -21,7 +21,8 @@ const ArticleSeries = {
         useAsTitle: true
       }
     },
-    commissionedLength: number('Commissioned length'),
+    // TODO: deprecate name
+    title: title,
     color: select('Colour', [ 'turquoise', 'red', 'orange', 'purple' ]),
     description: structuredText('Description'),
     body
@@ -37,7 +38,8 @@ const ArticleSeries = {
     promo
   },
   Deprecated: {
-    wordpressSlug: text('Wordpress slug')
+    commissionedLength: number('[Deprecated] Commissioned length'),
+    wordpressSlug: text('[Deprecated] Wordpress slug')
   }
 };
 
