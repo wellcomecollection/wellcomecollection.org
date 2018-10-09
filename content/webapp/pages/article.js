@@ -94,6 +94,7 @@ export class ArticlePage extends Component<Props, State> {
     const TitleTopper = serial && positionInSerial &&
       <PartNumberIndicator number={positionInSerial} color={serial.color} />;
 
+    console.info(article.body);
     const genericFields = {
       id: article.id,
       title: article.title,

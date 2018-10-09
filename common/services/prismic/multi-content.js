@@ -33,6 +33,7 @@ export function parseMultiContent(documents: PrismicDocument[]): MultiContent[] 
       case 'events':
         return parseEventDoc(document);
       case 'articles':
+      case 'webcomics':
         return parseArticle(document);
       case 'installations':
         return parseInstallationDoc(document);

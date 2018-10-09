@@ -132,7 +132,7 @@ class ImageGallery extends Component<Props, State> {
                           })}>
                             <span className='visually-hidden'>slide </span>{i + 1} of {items.length}
                           </div>
-                        ) : undefined}>
+                        ) : null}>
                       </CaptionedImage>
                     </div>
                   ))}
