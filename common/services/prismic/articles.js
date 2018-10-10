@@ -25,6 +25,20 @@ const graphQuery = `{
         ...seriesFields
       }
     }
+    contributors {
+      ...contributorsFields
+      role {
+        ...roleFields
+      }
+      contributor {
+        ... on people {
+          ...peopleFields
+        }
+        ... on organisations {
+          ...organisationsFields
+        }
+      }
+    }
     promo {
       ... on editorialImage {
         non-repeat {
