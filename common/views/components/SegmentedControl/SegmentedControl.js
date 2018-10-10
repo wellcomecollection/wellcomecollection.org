@@ -102,7 +102,8 @@ class SegmentedControl extends Component<Props, State> {
                   })}>
                   <a
                     onClick={(e) => {
-                      e.preventDefault();
+                      const url = e.target.href;
+                      const isHash = url.startsWith('#');
                       trackEvent({
                         category: 'component',
                         action: 'whats-on-daterange-picker:click',
@@ -112,7 +113,12 @@ class SegmentedControl extends Component<Props, State> {
                       this.setState({
                         isActive: false
                       });
-                      return false;
+
+                      // Assume we want to
+                      if (isHash) {
+                        e.preventDefault();
+                        return false;
+                      }
                     }}
                     data-track-event={JSON.stringify({
                       category: 'component',
