@@ -1,4 +1,5 @@
 // @flow
+// We use this in routing, so we use standard JS
 export const Periods = {
   Today: 'today',
   ThisWeekend: 'this-weekend',
