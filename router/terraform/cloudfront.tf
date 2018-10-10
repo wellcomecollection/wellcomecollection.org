@@ -73,6 +73,27 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
+  # Make sure that the next assets always outlive the HTML
+  cache_behavior {
+    target_origin_id       = "origin"
+    path_pattern           = "/_next/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 86400
+    default_ttl            = 86400
+    max_ttl                = 31536000
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
   cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/events/*"

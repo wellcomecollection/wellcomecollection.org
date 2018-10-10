@@ -111,7 +111,8 @@ export async function renderExhibitions(ctx, next) {
     ctx.render('pages/exhibitions', {
       pageConfig: createPageConfig({
         path: '/exhibitions',
-        title: 'Exhibitions',
+        // TODO: it might be better to add this as a value on the enum, but bah.
+        title: `${period === 'past' ? 'Past e' : 'E'}xhibitions`,
         inSection: 'whatson',
         category: 'public-programme',
         contentType: 'listing',
@@ -197,7 +198,7 @@ export async function renderEvents(ctx, next) {
     ctx.render('pages/events', {
       pageConfig: createPageConfig({
         path: '/events',
-        title: 'Events',
+        title: `${period === 'past' ? 'Past e' : 'E'}vents`,
         inSection: 'whatson',
         category: 'public-programme',
         contentType: 'listing',

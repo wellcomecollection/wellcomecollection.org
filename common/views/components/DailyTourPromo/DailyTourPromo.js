@@ -64,8 +64,8 @@ export const data = {
   squareImage: null,
   widescreenImage: null,
   ticketSalesStart: null,
-  upcomingEnd: null,
-  upcomingStart: null,
+  displayEnd: null,
+  displayStart: null,
   standfirst: null
 };
 

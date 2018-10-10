@@ -1,7 +1,16 @@
 // @flow
-import ArticleSeries from './series';
 import title from './parts/title';
+import structuredText from './parts/structured-text';
+import promo from './parts/promo';
+import contributorsWithTitle from './parts/contributorsWithTitle';
 
 export default {
-  'Webcomic series': Object.assign({}, ArticleSeries['Article series'], { title })
+  '[Deprecated] Webcomic series': {
+    title: title,
+    description: structuredText('Description')
+  },
+  Contributors: contributorsWithTitle(),
+  Promo: {
+    promo
+  }
 };

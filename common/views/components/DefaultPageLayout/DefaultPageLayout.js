@@ -91,8 +91,8 @@ export const OpenGraph = ({
   <meta key='og:title' property='og:title' content={title} />,
   <meta key='og:description' property='og:description' content={striptags(description)} />,
   // we add itemprop="image" as it's required for WhatsApp
-  <meta key='og:image' property='og:image' content={imageUrl} itemProp='image' />,
-  <meta key='og:image:width' property='og:image:width' content='1200' />,
+  imageUrl ? <meta key='og:image' property='og:image' content={imageUrl} itemProp='image' /> : null,
+  imageUrl ? <meta key='og:image:width' property='og:image:width' content='1200' /> : null,
 
   publishedTime ? <meta key='og:article:published_time' property='og:article:published_time' content={formatDate(publishedTime)} /> : null,
   modifiedTime ? <meta key='og:article:modified_time' property='og:article:modified_time' content={formatDate(modifiedTime)} /> : null,
