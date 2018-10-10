@@ -140,9 +140,6 @@ export type EventPromo = {|
 |}
 
 export function isEventFullyBooked(event: UiEvent): boolean {
-  if (event.id === 'tours') {
-    console.info(event.times);
-  }
   return event.times.length > 0 && event.times
     .every(({isFullyBooked, range}) => {
       return isDatePast(range.endDateTime) || isFullyBooked;
