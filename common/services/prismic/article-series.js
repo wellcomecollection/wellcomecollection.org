@@ -1,5 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
+import {london} from '../../utils/format-date';
 import {getDocument} from './api';
 import {getArticles} from './articles';
 import {parseGenericFields, isStructuredText, asText} from './parsers';
@@ -19,7 +20,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
         type: 'article-schedule-items',
         id: `${document.id}_${i}`,
         title: asText(item.title),
-        publishDate: new Date(item.publishDate),
+        publishDate: london(item.publishDate).toDate(),
         partNumber: i + 1,
         color
       };

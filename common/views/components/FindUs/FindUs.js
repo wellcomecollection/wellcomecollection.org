@@ -27,7 +27,7 @@ const FindUs = () => (
     <p style={{marginLeft: '38px'}} className={classNames({
       [spacing({ s: 3 }, {margin: ['bottom']})]: true,
       'block': true
-    })}><abrr title='telephone number'>T</abrr>: <a className='find-us__link' href={`tel:${wellcomeCollection.telephone}`}>+44 (0)20 7611 2222</a></p>
+    })}><abbr title='telephone number'>T</abbr>: <a className='find-us__link' href={`tel:${wellcomeCollection.telephone}`}>+44 (0)20 7611 2222</a></p>
 
     <a href='https://www.google.co.uk/maps/dir//Wellcome+Collection,+Euston+Road,+London/@51.5258128,-0.136211,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x48761b25f10b008f:0xed51ac6f865b038a!2m2!1d-0.133945!2d51.525851' className='find-us__link block'>
       <div className='find-us__map-container'>
