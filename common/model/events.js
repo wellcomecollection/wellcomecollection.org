@@ -68,8 +68,8 @@ export type Audience = {|
 export type UiEvent = {|
   ...Event,
   type: 'events',
-  displayStart: ?Date,
-  displayEnd: ?Date,
+  displayStart: Date,
+  displayEnd: Date,
   dateRange: {
     firstDate: Date,
     lastDate: Date,
