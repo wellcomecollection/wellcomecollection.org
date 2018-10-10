@@ -30,7 +30,7 @@ import isEmptyObj from '../../utils/is-empty-object';
 import {london, formatDayDate} from '../../utils/format-date';
 import {isPast} from '../../utils/dates';
 import {getPeriodPredicates} from './utils';
-import type {UiEvent, EventFormat} from '../../model/events';
+import type {UiEvent, EventFormat, EventTime} from '../../model/events';
 import type {Team} from '../../model/team';
 import type {
   PrismicDocument,
@@ -73,6 +73,13 @@ function determineDateRange(times) {
     lastDate: endTimes[endTimes.length - 1],
     repeats: times.length
   };
+}
+
+function determineDisplayTime(times: EventTime[]): EventTime {
+  const upcomingDates = times.filter(t => {
+    return london(t.range.startDateTime).isSameOrAfter(london());
+  });
+  return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
 export function parseEventDoc(
@@ -124,13 +131,7 @@ export function parseEventDoc(
       isFullyBooked: parseBoolean(frag.isFullyBooked)
     })) || [];
 
-  const upcomingDates = times.filter(t => {
-    return london(t.range.startDateTime).isSameOrAfter(london());
-  });
-  const hasUpcoming = Boolean(upcomingDates.length > 0);
-  const upcomingStart = hasUpcoming ? upcomingDates[0].range.startDateTime : times[0].range.startDateTime;
-  const upcomingEnd = hasUpcoming ? upcomingDates[0].range.endDateTime : times[0].range.endDateTime;
-
+  const displayTime = determineDisplayTime(times);
   const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === times.length - 1);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
@@ -162,8 +163,8 @@ export function parseEventDoc(
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
     times: times,
-    upcomingStart: upcomingStart || null,
-    upcomingEnd: upcomingEnd || null,
+    displayStart: displayTime.range.startDateTime || null,
+    displayEnd: displayTime.range.endDateTime || null,
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance
@@ -335,12 +336,16 @@ export async function getEvents(req: ?Request,  {
     return parseEventDoc(doc, null);
   });
 
+  const eventsOrderedByDisplayDate = [...events].sort((a, b) => {
+    return a.displayStart - b.displayStart;
+  });
+
   return {
     currentPage: paginatedResults.currentPage,
     pageSize: paginatedResults.pageSize,
     totalResults: paginatedResults.totalResults,
     totalPages: paginatedResults.totalPages,
-    results: events
+    results: eventsOrderedByDisplayDate
   };
 }
 
