@@ -62,7 +62,9 @@ const EventPromo = ({
           </h2>
 
           {!isPast &&
-           <EventDateRange event={event} />
+            <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+              <EventDateRange event={event} splitTime={true} />
+            </p>
           }
 
           {!isPast && dateString &&

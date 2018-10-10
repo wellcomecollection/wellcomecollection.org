@@ -22,14 +22,22 @@ const TimeRange = ({start, end}: DateRangeProps) => (
   </Fragment>
 );
 
-const DateRange = ({start, end}: DateRangeProps) => {
+type Props = {|
+  ...DateRangeProps,
+  splitTime?: boolean
+|}
+const DateRange = ({start, end, splitTime}: Props) => {
   const isSameDay = london(start).isSame(end, 'day');
 
   return (
     <Fragment>
       {isSameDay &&
         <Fragment>
-          <HTMLDayDate date={start} />, <TimeRange start={start} end={end} />
+          <HTMLDayDate date={start} />
+          {splitTime ? '' : ', '}
+          <span className={splitTime ? 'block' : null}>
+            <TimeRange start={start} end={end} />
+          </span>
         </Fragment>
       }
       {!isSameDay &&
