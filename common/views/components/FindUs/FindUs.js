@@ -24,7 +24,7 @@ const FindUs = () => (
         </p>
       </span>
     </a>
-    <p style={{marginLeft: '38px;'}} className={classNames({
+    <p style={{marginLeft: '38px'}} className={classNames({
       [spacing({ s: 3 }, {margin: ['bottom']})]: true,
       'block': true
     })}><abrr title='telephone number'>T</abrr>: <a className='find-us__link' href={`tel:${wellcomeCollection.telephone}`}>+44 (0)20 7611 2222</a></p>
