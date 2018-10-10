@@ -26,19 +26,17 @@
 }
 
 .find-us__link {
-  display: block;
   text-decoration: none;
+  transition: color 200ms ease;
+
+  &:hover,
+  &:focus {
+    color: color('green');
+  }
 }
 
 .find-us__address {
   display: flex;
-  margin-bottom: 1.2rem;
-  transition: color 200ms ease;
-
-  .find-us:hover &,
-  .find-us:focus & {
-    color: color('green');
-  }
 }
 
 .find-us__street,
