@@ -10,7 +10,7 @@ import type {Installation} from '../../../model/installations';
 
 type EvExIn = UiEvent | UiExhibition | Installation; // TODO: This should be MultiContent
 type Props = {|
-  items: EvExIn[]
+  items: $ReadOnlyArray<EvExIn>
 |}
 
 const CardGrid = ({

@@ -4,6 +4,18 @@ const next = require('next');
 const Cookies = require('cookies');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
 
+// FIXME: Find a way to import this.
+// We can't because it's not a standard es6 module (import and flowtype)
+const Periods = {
+  Today: 'today',
+  ThisWeekend: 'this-weekend',
+  CurrentAndComingUp: 'current-and-coming-up',
+  Past: 'past',
+  ComingUp: 'coming-up',
+  ThisWeek: 'this-week'
+};
+const periodPaths = Object.keys(Periods).map(key => Periods[key]).join('|');
+
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -108,6 +120,23 @@ app.prepare().then(async () => {
   server.use(getToggles);
 
   // Next routing
+  // TODO: As we have this pattern all over the shop we might want to abstract
+  // it out for ease... although copy / paste is not bad
+  router.get('/exhibitions', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/exhibitions', {
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get(`/exhibitions/:period(${periodPaths})`, async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/exhibitions', {
+      period: ctx.params.period,
+      toggles
+    });
+    ctx.respond = false;
+  });
   router.get('/exhibitions/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/exhibition', {
@@ -116,6 +145,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/articles/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/article', {

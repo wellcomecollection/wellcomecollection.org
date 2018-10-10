@@ -4,10 +4,10 @@ import {font, spacing} from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 export type Props = {|
-  prevPage?: number,
+  prevPage?: ?number,
   currentPage: number,
   pageCount: number,
-  nextPage?: number,
+  nextPage?: ?number,
   nextQueryString?: string,
   prevQueryString?: string,
   range?: {beginning: number, end: number}

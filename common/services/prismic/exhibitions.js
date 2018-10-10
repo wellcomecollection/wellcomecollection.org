@@ -199,16 +199,16 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
 
 type Order = 'desc' | 'asc';
 type GetExhibitionsProps = {|
-  predicates: Prismic.Predicates[],
-  order: Order,
+  predicates?: Prismic.Predicates[],
+  order?: Order,
   period?: Period,
   page?: number
 |}
 export async function getExhibitions(
-  req: Request,
+  req: ?Request,
   {
     predicates = [],
-    order = 'asc',
+    order = 'desc',
     period,
     page = 1
   }: GetExhibitionsProps = {}
