@@ -1,4 +1,5 @@
 // @flow
+import {isDatePast} from '../utils/format-date';
 import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
@@ -79,8 +80,8 @@ export type UiEvent = {|
 |}
 
 export type EventSchedule = {|
-    event: UiEvent,
-    isNotLinked: boolean
+  event: UiEvent,
+  isNotLinked: boolean
 |}[]
 
 export type Event = {|
@@ -137,3 +138,10 @@ export type EventPromo = {|
   dateString?: ?string,
   timeString?: ?string
 |}
+
+export function isEventFullyBooked(event: UiEvent): boolean {
+  return event.times.length > 0 && event.times
+    .every(({isFullyBooked, range}) => {
+      return isDatePast(range.endDateTime) || isFullyBooked;
+    });
+}
