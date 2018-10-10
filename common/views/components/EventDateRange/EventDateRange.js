@@ -12,7 +12,7 @@ const EventDateRange = ({event}: Props) => {
     end: range.endDateTime
   }));
   const earliestFutureDateRange = getEarliestFutureDateRange(dateRanges);
-  const dateRange = earliestFutureDateRange || dateRanges.length > 0 ? dateRanges[0] : null;
+  const dateRange = earliestFutureDateRange || (dateRanges.length > 0 ? dateRanges[0] : null);
   const DateInfo = dateRange && <DateRange {...dateRange} />;
 
   return DateInfo;
