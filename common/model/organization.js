@@ -22,7 +22,8 @@ export type Organization = {|
   address: PostalAddress,
   alternateUrl?: string,
   publicAccess: boolean,
-  isAccessibleForFree: boolean
+  isAccessibleForFree: boolean,
+  telephone: string
 |}
 
 export const wellcomeCollectionAddress = {
@@ -69,5 +70,6 @@ export const wellcomeCollection: Organization = {
   ),
   address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
   isAccessibleForFree: true,
-  publicAccess: true
+  publicAccess: true,
+  telephone: '+4420 7611 2222'
 };
