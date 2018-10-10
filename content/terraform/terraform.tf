@@ -185,5 +185,5 @@ module "events_listener" {
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
   priority = "112"
-  path = "/exhibitions/*"
+  path = "/events/*"
 }
