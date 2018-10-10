@@ -1,5 +1,6 @@
 // @flow
 import {Component, Fragment} from 'react';
+import Prismic from 'prismic-javascript';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
@@ -25,13 +26,17 @@ import {
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import {getEvent} from '@weco/common/services/prismic/events';
+import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {eventLd} from '@weco/common/utils/json-ld';
 
 type Props = {|
   event: UiEvent
+|}
+
+type State = {|
+  scheduledIn: ?UiEvent
 |}
 
 function EventStatus(text, color) {
@@ -98,7 +103,11 @@ function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
   return {...jsonEvent, times, schedule};
 }
 
-class EventPage extends Component<Props> {
+class EventPage extends Component<Props, State> {
+  state = {
+    scheduledIn: null
+  }
+
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {id} = context.query;
     const event = await getEvent(context.req, {id});
@@ -120,9 +129,24 @@ class EventPage extends Component<Props> {
     }
   }
 
+  async componentDidMount() {
+    const scheduledIn = await getEvents(null, {
+      predicates: [
+        Prismic.Predicates.at('my.events.schedule.event', this.props.event.id)
+      ]
+    });
+
+    if (scheduledIn && scheduledIn.results.length > 0) {
+      this.setState({
+        scheduledIn: scheduledIn.results[0]
+      });
+    }
+  }
+
   render() {
     const jsonEvent = this.props.event;
     const event = convertJsonToDates(jsonEvent);
+    const {scheduledIn} = this.state;
 
     const image = event.promo && event.promo.image;
     const tasl = image && {
@@ -157,15 +181,24 @@ class EventPage extends Component<Props> {
     }] : [];
 
     const breadcrumbs = {
-      items: [{
-        url: '/events',
-        text: 'Events'
-      }].concat(event.series.map(series => ({
-        url: `/event-series/${series.id}`,
-        text: series.title || '',
-        prefix: 'Part of'
-      })))
+      items: [
+        {
+          url: '/events',
+          text: 'Events'
+        },
+        ...event.series.map(series => ({
+          url: `/event-series/${series.id}`,
+          text: series.title || '',
+          prefix: 'Part of'
+        })),
+        scheduledIn ? {
+          url: `/events/${scheduledIn.id}`,
+          text: scheduledIn.title || '',
+          prefix: 'Part of'
+        } : null
+      ].filter(Boolean)
     };
+
     const labels = {
       labels: eventFormat.concat(
         eventAudiences,
