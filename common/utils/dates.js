@@ -5,11 +5,11 @@ import type {DateRange} from '../model/date-range';
 export function getEarliestFutureDateRange(dateRanges: DateRange[]): ?DateRange {
   return dateRanges
     .sort((a, b) => a.start - b.start)
-    .find(range => range.start > london().toDate());
+    .find(range => london(range.start).isSameOrAfter(london(), 'day'));
 }
 
 export function isPast(date: Date): boolean {
-  return london(date).isBefore(london());
+  return london(date).isBefore(london(), 'day');
 }
 
 export function getNextWeekendDateRange(date: Date): DateRange {
