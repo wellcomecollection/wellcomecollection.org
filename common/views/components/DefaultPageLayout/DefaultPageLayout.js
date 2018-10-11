@@ -203,7 +203,7 @@ class DefaultPageLayout extends Component<Props> {
     }).install();
 
     // Prismic preview and validation warnings
-    if (window.location.host === 'preview.wellcomecollection.org') {
+    if (document.cookie.match('isPreview=true;')) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.prismic.io/api/v2'
       };

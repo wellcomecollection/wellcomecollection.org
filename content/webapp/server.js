@@ -223,6 +223,9 @@ app.prepare().then(async () => {
         case 'books'            : return `/books/${doc.id}`;
       }
     }, '/');
+    ctx.cookies.set('isPreview', 'true', {
+      httpOnly: false
+    });
     ctx.redirect(url);
   });
 

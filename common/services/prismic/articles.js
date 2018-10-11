@@ -110,7 +110,7 @@ const graphQuery = `{
 
 function parseArticleDoc(document: PrismicDocument): Article {
   const {data} = document;
-  const datePublished = data.publishDate || document.first_publication_date;
+  const datePublished = data.publishDate || document.first_publication_date || undefined;
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
