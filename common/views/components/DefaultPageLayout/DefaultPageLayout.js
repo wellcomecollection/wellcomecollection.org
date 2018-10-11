@@ -209,7 +209,7 @@ class DefaultPageLayout extends Component<Props> {
       };
       const prismicScript = document.createElement('script');
       prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
-      document.head.appendChild(prismicScript);
+      document.head && document.head.appendChild(prismicScript);
       (function () {
         var validationBar = document.createElement('div');
         validationBar.style.position = 'fixed';
@@ -220,13 +220,13 @@ class DefaultPageLayout extends Component<Props> {
         validationBar.style.bottom = '0';
         validationBar.style.right = '0';
         validationBar.style.fontSize = '12px';
-        validationBar.style.zIndex = 2147483000;
+        validationBar.style.zIndex = '2147483000';
 
         window.addEventListener('load', function() {
           var validationFails = [];
 
           var descriptionEl = document.querySelector('meta[name="description"]');
-          if (descriptionEl && !descriptionEl.content) {
+          if (descriptionEl && !descriptionEl.getAttribute('content')) {
             validationFails.push(`
               <b>Warning:</b>
               This piece of content is missing its description.
@@ -236,7 +236,7 @@ class DefaultPageLayout extends Component<Props> {
           }
 
           var imageEl = document.querySelector('meta[property="og:image"]');
-          if (imageEl && !imageEl.content) {
+          if (imageEl && !imageEl.getAttribute('content')) {
             validationFails.push(`
               <b>Warning:</b>
               This piece of content is missing its promo image.
@@ -252,7 +252,7 @@ class DefaultPageLayout extends Component<Props> {
               div.innerHTML = validationFail;
               validationBar.appendChild(div);
             });
-            document.body.appendChild(validationBar);
+            document.body && document.body.appendChild(validationBar);
           }
         });
       })();
