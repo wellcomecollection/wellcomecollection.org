@@ -41,3 +41,11 @@ output "alb_listener_https_arn" {
 output "alb_listener_http_arn" {
   value = "${module.router_alb.listener_http_arn}"
 }
+
+output "alb_id" {
+  value = "${module.router_alb.id}"
+}
+
+output "alb_dns_name" {
+  value = "${module.router_alb.dns_name}"
+}
