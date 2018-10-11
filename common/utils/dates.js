@@ -1,11 +1,12 @@
 // @flow
 import {london} from './format-date';
 import type {DateRange} from '../model/date-range';
+import type Moment from 'moment';
 
-export function getEarliestFutureDateRange(dateRanges: DateRange[]): ?DateRange {
+export function getEarliestFutureDateRange(dateRanges: DateRange[], fromDate: ?Moment = london()): ?DateRange {
   return dateRanges
     .sort((a, b) => a.start - b.start)
-    .find(range => london(range.start).isSameOrAfter(london(), 'day'));
+    .find(range => london(range.start).isSameOrAfter(fromDate) && london(range.start).isSameOrAfter(london()));
 }
 
 export function isPast(date: Date): boolean {
