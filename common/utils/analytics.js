@@ -1,5 +1,6 @@
 import ReactGA from 'react-ga';
 import Router from 'next/router';
+import throttle from 'lodash.throttle';
 
 type AnalyticsCategory = 'collections' | 'editorial' | 'public-programme';
 type Props = {|
@@ -91,4 +92,45 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
     window.performance.clearMarks();
     window.performance.clearMeasures();
   };
+
+  // Setup scroll tracking
+  const startTime = new Date().getTime();
+  const scrollCache = [];
+  window.addEventListener('scroll', throttle(() => {
+    const el = document.getElementById('main');
+    if (el) {
+      const timing = new Date().getTime() - startTime;
+      const elHeight = el.offsetHeight + el.offsetTop;
+      const winHeight = window.innerHeight;
+      const scrollDistance = window.pageYOffset + winHeight;
+      const marks = {
+        '25%': parseInt(elHeight * 0.25, 10),
+        '50%': parseInt(elHeight * 0.5, 10),
+        '75%': parseInt(elHeight * 0.75, 10),
+        '100%': elHeight
+      };
+      Object.keys(marks).forEach((mark) => {
+        const val = marks[mark];
+
+        if (scrollCache.indexOf(mark) === -1 && scrollDistance >= val) {
+          scrollCache.push(mark);
+
+          ReactGA.event({
+            category: 'Scroll Depth',
+            action: 'Percentage',
+            label: mark,
+            value: 1,
+            nonInteraction: true
+          });
+
+          ReactGA.timing({
+            category: 'Scroll Timing',
+            action: 'Scroll Timing',
+            variable: `Scrolled ${mark}`,
+            value: timing
+          });
+        }
+      });
+    }
+  }, 100));
 };
