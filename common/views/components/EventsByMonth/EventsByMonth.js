@@ -1,6 +1,6 @@
 // @flow
 import {london} from '../../../utils/format-date';
-// import {getEarliestFutureDateRange} from '../../../utils/dates';
+import {getEarliestFutureDateRange} from '../../../utils/dates';
 import {classNames, cssGrid, spacing} from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import EventPromo from '../EventPromo/EventPromo';
@@ -21,6 +21,7 @@ function getMonthsInDateRange({start, end}, acc = []) {
     return acc;
   }
 }
+
 const monthsIndex = {
   'January': 0,
   'February': 1,
@@ -62,6 +63,17 @@ const EventsByMonth = ({
     url: `#${month}`,
     text: month
   }));
+
+  // Need to order the events for each month based on their earliest future date range
+  Object.keys(eventsInMonths).map(month => {
+    eventsInMonths[month].sort((a, b) => {
+      const aTimes = a.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+      const bTimes = b.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+      const aEarliestFuture = getEarliestFutureDateRange(aTimes, london({M: monthsIndex[month]})) || {};
+      const bEarliestFuture = getEarliestFutureDateRange(bTimes, london({M: monthsIndex[month]})) || {};
+      return aEarliestFuture.start - bEarliestFuture.start;
+    });
+  });
 
   return (
     <div className={classNames({
