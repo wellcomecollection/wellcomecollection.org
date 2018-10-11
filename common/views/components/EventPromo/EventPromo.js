@@ -1,94 +1,48 @@
 // @flow
-import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
-import {isDatePast, formatDayDate, formatTime, london} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
-import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import DateRange from '../DateRange/DateRange';
-import type {EventPromo as EventPromoProps} from '../../../model/events';
+import EventDateRange from '../EventDateRange/EventDateRange';
+import {isEventFullyBooked} from '../../../model/events';
+import type {UiEvent} from '../../../model/events';
+import Moment from 'moment';
 
 type Props = {|
-  ...EventPromoProps,
+  event: UiEvent,
   position?: number,
+  dateString?: string,
+  timeString?: string,
+  fromDate?: Moment
 |}
 
 const EventPromo = ({
-  id,
-  title,
-  url,
-  start,
-  end,
-  isMultiDate,
-  isFullyBooked,
-  hasNotFullyBookedTimes,
-  format,
-  image,
-  interpretations,
-  eventbriteId,
+  event,
+  position = 0,
   dateString,
   timeString,
-  audience,
-  schedule,
-  series,
-  position = 0
+  fromDate
 }: Props) => {
-  const isPast = end && isDatePast(end);
-  const eventInterpretations = interpretations && interpretations.map(interpretation => {
-    return {
-      url: null,
-      text: interpretation.interpretationType.title
-    };
-  });
-  const labels = [
-    (format && {url: null, text: format.title}),
-    (audience && {url: null, text: audience.title}),
-    ...eventInterpretations
-  ].filter(Boolean);
-
-  type DateProps = {|
-    start: Date,
-    end: Date
-  |}
-
-  const DisplayDates = ({start, end}: DateProps) => {
-    const showDateRange = !isMultiDate && !london(start).isSame(end, 'day');
-    if (showDateRange) {
-      return (
-        <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-          <DateRange start={start} end={end} />
-        </p>
-      );
-    } else {
-      return (
-        <Fragment>
-          <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-            <time dateTime={start}>{formatDayDate(start)}</time>
-          </p>
-          <p className={`${font({s: 'HNL4'})} no-margin no-padding`}>
-            <time dateTime={start}>{formatTime(start)}</time>&mdash;<time dateTime={end}>{formatTime(end)}</time>
-          </p>
-        </Fragment>
-      );
-    }
-  };
+  const fullyBooked = isEventFullyBooked(event);
+  const isPast = event.isPast;
 
   return (
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
-      data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${id}, position : ${position}`})}
-      id={id}
-      href={url}
+      data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${event.id}, position : ${position}`})}
+      id={event.id}
+      href={event.promo && event.promo.link || `/events/${event.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
       <div className='relative'>
-        {image && <UiImage {...image}
+        {/* FIXME: Image type tidy */}
+        {/* $FlowFixMe */}
+        {event.promoImage && <UiImage {...event.promoImage}
           sizesQueries='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'
           showTasl={false} />}
 
-        {(labels.length > 0) &&
+        {event.labels.length > 0 &&
           <div style={{position: 'absolute', bottom: 0}}>
-            <LabelsList labels={labels} />
+            <LabelsList labels={event.labels} />
           </div>
         }
       </div>
@@ -107,26 +61,28 @@ const EventPromo = ({
             ${spacing({s: 0}, {margin: ['top']})}
             ${spacing({s: 1}, {margin: ['bottom']})}
           `}>
-            {title}
+            {event.title}
           </h2>
 
-          {start && end && !isPast &&
-           <DisplayDates start={start} end={end} />
+          {!isPast &&
+            <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
+              <EventDateRange event={event} splitTime={true} fromDate={fromDate} />
+            </p>
           }
 
-          {dateString &&
+          {!isPast && dateString &&
             <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
               {dateString}
             </p>
           }
 
-          {timeString &&
+          {!isPast && timeString &&
             <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
               {timeString}
             </p>
           }
 
-          {isFullyBooked && !isPast &&
+          {!isPast && fullyBooked &&
             <div className={`${font({s: 'HNL5'})} flex flex--v-center`}>
               <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
                 <Icon name='statusIndicator' extraClasses={'icon--red icon--match-text'} />
@@ -135,28 +91,29 @@ const EventPromo = ({
             </div>
           }
 
-          {start && end && isPast &&
-            <StatusIndicator start={start} end={end} />
-          }
-
-          {eventbriteId && !isFullyBooked && !isPast &&
-            <div
-              data-eventbrite-ticket-id={eventbriteId}
-              className='flex flex--h-space-between flex--wrap js-eventbrite-ticket-status'></div>
-          }
-
-          {schedule.length > 0 && !isPast &&
+          {!isPast && event.schedule && event.schedule.length > 0 &&
             <p className={`${font({s: 'HNM5'})} no-padding no-margin`}>
-              {`${schedule.length} ${schedule.length > 1 ? 'events' : 'event'}`}
+              {`${event.schedule.length} ${event.schedule.length > 1 ? 'events' : 'event'}`}
             </p>
           }
 
-          {isMultiDate && !isPast && <p className={`${font({s: 'HNM5'})}`}>See all dates/times</p>}
+          {!isPast && event.times.length > 1 &&
+            <p className={`${font({s: 'HNM5'})}`}>See all dates/times</p>
+          }
+
+          {isPast &&
+            <div className={`${font({s: 'HNL5'})} flex flex--v-center`}>
+              <span className={`${spacing({s: 1}, {margin: ['right']})} flex flex--v-center`}>
+                <Icon name='statusIndicator' extraClasses={'icon--marble icon--match-text'} />
+              </span>
+              Past
+            </div>
+          }
         </div>
 
-        {series.length > 0 &&
+        {event.series.length > 0 &&
           <div className={spacing({s: 4}, {margin: ['top']})}>
-            {series.map((series) => (
+            {event.series.map((series) => (
               <p key={series.title} className={`${font({s: 'HNM5'})} no-margin`}>
                 <span className={font({s: 'HNL5'})}>Part of</span>{' '}{series.title}
               </p>

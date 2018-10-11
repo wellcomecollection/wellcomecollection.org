@@ -4,7 +4,7 @@ import 'moment-timezone';
 import moment from 'moment';
 import type Moment from 'moment';
 
-export function london(d?: Date | string | Moment) {
+export function london(d?: Date | string | Moment |{M: string}) {
   // $FlowFixMe
   return moment.tz(d, 'Europe/London');
 }

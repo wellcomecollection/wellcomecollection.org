@@ -41,7 +41,7 @@ export class Page extends Component<Props> {
 
   render() {
     const {page} = this.props;
-    const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
+    const DateInfo = page.datePublished && <HTMLDate date={new Date(page.datePublished)} />;
 
     const hasFeaturedMedia = page.body.length > 1 &&
     (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');

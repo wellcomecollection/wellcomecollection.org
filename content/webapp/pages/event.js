@@ -21,6 +21,7 @@ import camelize from '@weco/common/utils/camelize';
 import {
   formatDayDate,
   isTimePast,
+  isDatePast,
   formatTime
 } from '@weco/common/utils/format-date';
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
@@ -30,6 +31,7 @@ import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {eventLd} from '@weco/common/utils/json-ld';
+import {isEventFullyBooked} from '@weco/common/model/events';
 
 type Props = {|
   event: UiEvent
@@ -39,6 +41,7 @@ type State = {|
   scheduledIn: ?UiEvent
 |}
 
+// TODO: Probably use the StatusIndicator?
 function EventStatus(text, color) {
   return (
     <div className='flex'>
@@ -62,14 +65,9 @@ function DateList(event) {
               <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
-            {event.isPast
+            {isDatePast(eventTime.range.endDateTime)
               ? <Fragment>{EventStatus('Past', 'marble')}</Fragment>
-              : <Fragment>
-                {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
-                  ? <Fragment>{EventStatus('Full', 'red')}</Fragment>
-                  : <Fragment>{/* {EventStatus('Available', 'green')} */}</Fragment>
-                }
-              </Fragment>
+              : eventTime.isFullyBooked ? EventStatus('Full', 'red') : null
             }
           </div>
         );
@@ -226,19 +224,20 @@ class EventPage extends Component<Props, State> {
               [spacing({s: 0, m: 2}, {margin: ['left']})]: true
             })}>
               {!event.isPast &&
-              <SecondaryLink
-                url='#dates'
-                text={`See all dates`}
-                icon={'arrowSmall'}
-                trackingEvent={{
-                  category: 'component',
-                  action: 'date-times-jump-link:click',
-                  label: event.id
-                }} />
+                <SecondaryLink
+                  url='#dates'
+                  text={`See all dates`}
+                  icon={'arrowSmall'}
+                  trackingEvent={{
+                    category: 'component',
+                    action: 'date-times-jump-link:click',
+                    label: event.id
+                  }} />
               }
             </div>
           </div>
-          {event.isPast && <Fragment>{EventStatus('Past', 'marble')}</Fragment>}
+          {event.isPast && EventStatus('Past', 'marble')}
+          {!event.isPast && isEventFullyBooked(event) && EventStatus('Fully booked', 'red')}
         </Fragment>
       }
       HeroPicture={null}

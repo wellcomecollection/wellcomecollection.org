@@ -1,5 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
+import {london} from '../../utils/format-date';
 import {getDocument, getDocuments} from './api';
 import {
   parseGenericFields,
@@ -22,6 +23,20 @@ const graphQuery = `{
     series {
       series {
         ...seriesFields
+      }
+    }
+    contributors {
+      ...contributorsFields
+      role {
+        ...roleFields
+      }
+      contributor {
+        ... on people {
+          ...peopleFields
+        }
+        ... on organisations {
+          ...organisationsFields
+        }
       }
     }
     promo {
@@ -100,7 +115,7 @@ function parseArticleDoc(document: PrismicDocument): Article {
     type: 'articles',
     ...parseGenericFields(document),
     format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
-    datePublished: new Date(datePublished),
+    datePublished: london(datePublished).toDate(),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     })

@@ -152,12 +152,10 @@ async function getPreviewSession(token) {
   return new Promise((resolve, reject) => {
     prismic.previewSession(token, (doc) => {
       switch (doc.type) {
-        case 'articles'    : return `/preview/articles/${doc.id}`;
-        case 'webcomics'   : return `/preview/articles/${doc.id}`;
+        case 'articles'    : return `/articles/${doc.id}`;
+        case 'webcomics'   : return `/articles/${doc.id}`;
         case 'exhibitions' : return `/exhibitions/${doc.id}`;
         case 'events' : return `/events/${doc.id}`;
-        // We don't use a `/preview` prefix here.
-        // It's just a way for editors to get to the content via Prismic
         case 'series' : return `/series/${doc.id}`;
         case 'webcomic-series' : return `/webcomic-series/${doc.id}`;
         case 'event-series' : return `/event-series/${doc.id}`;

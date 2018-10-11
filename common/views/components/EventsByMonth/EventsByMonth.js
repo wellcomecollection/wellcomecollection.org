@@ -1,5 +1,6 @@
 // @flow
 import {london} from '../../../utils/format-date';
+import {getEarliestFutureDateRange} from '../../../utils/dates';
 import {classNames, cssGrid, spacing} from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import EventPromo from '../EventPromo/EventPromo';
@@ -20,6 +21,21 @@ function getMonthsInDateRange({start, end}, acc = []) {
     return acc;
   }
 }
+
+const monthsIndex = {
+  'January': 0,
+  'February': 1,
+  'March': 2,
+  'April': 3,
+  'May': 4,
+  'June': 5,
+  'July': 6,
+  'August': 7,
+  'September': 8,
+  'October': 9,
+  'November': 10,
+  'December': 11
+};
 
 const EventsByMonth = ({
   events
@@ -47,6 +63,17 @@ const EventsByMonth = ({
     url: `#${month}`,
     text: month
   }));
+
+  // Need to order the events for each month based on their earliest future date range
+  Object.keys(eventsInMonths).map(month => {
+    eventsInMonths[month].sort((a, b) => {
+      const aTimes = a.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+      const bTimes = b.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+      const aEarliestFuture = getEarliestFutureDateRange(aTimes, london({M: monthsIndex[month]})) || {};
+      const bEarliestFuture = getEarliestFutureDateRange(bTimes, london({M: monthsIndex[month]})) || {};
+      return aEarliestFuture.start - bEarliestFuture.start;
+    });
+  });
 
   return (
     <div className={classNames({
@@ -97,26 +124,9 @@ const EventsByMonth = ({
                   [cssGrid({s: 12, m: 6, l: 4, xl: 4})]: true
                 })}>
                   <EventPromo
-                    id={event.id}
-                    url={'/events/' + event.id}
-                    title={event.title}
-                    start={event.upcomingStart}
-                    end={event.upcomingEnd}
-                    isMultiDate={event.times.length > 1}
-                    isFullyBooked={false}
-                    hasNotFullyBookedTimes={false}
-                    format={event.format}
-                    image={event.promoImage}
-                    interpretations={event.interpretations}
-                    eventbriteId={event.eventbriteId}
-                    dateString={null}
-                    timeString={null}
-                    audience={event.audiences.length > 0 ? event.audiences[0] : null}
-                    schedule={event.schedule}
-                    series={event.series}
+                    event={event}
                     position={i}
-                    bookingType={null}
-                    description={null}
+                    fromDate={london({M: monthsIndex[month]})}
                   />
                 </div>
               ))}

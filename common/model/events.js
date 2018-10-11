@@ -1,4 +1,5 @@
 // @flow
+import {isDatePast} from '../utils/format-date';
 import type {GenericContentFields} from './generic-content-fields';
 import type {HTMLString} from './content-blocks';
 import type {BackgroundTexture} from './background-texture';
@@ -64,12 +65,12 @@ export type Audience = {|
 |}
 
 /* eslint-disable no-use-before-define */
-// TODO instead of having upcomingStart and upcomingEnd on model, create helper functions that return the new data structure,
+// TODO instead of having displayStart and displayEnd on model, create helper functions that return the new data structure
 export type UiEvent = {|
   ...Event,
   type: 'events',
-  upcomingStart: ?Date,
-  upcomingEnd: ?Date,
+  displayStart: Date,
+  displayEnd: Date,
   dateRange: {
     firstDate: Date,
     lastDate: Date,
@@ -79,8 +80,8 @@ export type UiEvent = {|
 |}
 
 export type EventSchedule = {|
-    event: UiEvent,
-    isNotLinked: boolean
+  event: UiEvent,
+  isNotLinked: boolean
 |}[]
 
 export type Event = {|
@@ -137,3 +138,10 @@ export type EventPromo = {|
   dateString?: ?string,
   timeString?: ?string
 |}
+
+export function isEventFullyBooked(event: UiEvent): boolean {
+  return event.times.length > 0 && event.times
+    .every(({isFullyBooked, range}) => {
+      return isDatePast(range.endDateTime) || isFullyBooked;
+    });
+}

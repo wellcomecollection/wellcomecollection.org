@@ -166,7 +166,7 @@ export class ArticlePage extends Component<Props, State> {
 
     const Siblings = this.state.listOfSeries.map(({series, articles}) => {
       if (series.schedule.length > 0 && positionInSerial) {
-        const nextUp = positionInSerial - 1 === series.schedule.length ? series.items[0]
+        const nextUp = positionInSerial === series.schedule.length ? series.items[0]
           : series.items[positionInSerial] ? series.items[positionInSerial] : null;
 
         return nextUp && <SeriesNavigation

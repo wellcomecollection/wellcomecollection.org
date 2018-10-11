@@ -187,3 +187,34 @@ module "events_listener" {
   priority = "112"
   path = "/events/*"
 }
+
+module "articles_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "113"
+  # TODO: (wordpress)
+  # We're supporting wordpress articles for the time being
+  path = "/articles/W*"
+}
+
+module "article_series_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "114"
+  # TODO: (wordpress)
+  # We're supporting wordpress articles for the time being
+  path = "/series/W*"
+}
+
+module "preview_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "120"
+  path = "/preview"
+}

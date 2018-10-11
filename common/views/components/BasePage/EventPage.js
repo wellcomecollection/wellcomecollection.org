@@ -22,6 +22,7 @@ import {
   formatTime,
   isDatePast
 } from '../../../utils/format-date';
+import {isEventFullyBooked} from '../../../model/events';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import HeaderBackground from '../BaseHeader/HeaderBackground';
 import PageHeader from '../PageHeader/PageHeader';
@@ -55,12 +56,7 @@ function DateList(event) {
 
             {isDatePast(eventTime.range.endDateTime)
               ? <Fragment>{EventStatus('Past', 'marble')}</Fragment>
-              : <Fragment>
-                {(eventTime.isFullyBooked && !(event.eventbriteId || event.bookingEnquiryTeam))/* TODO: || isEventTimeFullyBookedAtEventbrite */
-                  ? <Fragment>{EventStatus('Full', 'red')}</Fragment>
-                  : <Fragment>{/* {EventStatus('Available', 'green')} */}</Fragment>
-                }
-              </Fragment>
+              : eventTime.isFullyBooked ? EventStatus('Full', 'red') : null
             }
           </div>
         );
@@ -131,6 +127,7 @@ const EventPage = ({ event }: Props) => {
           </div>
         </div>
         {event.isPast && <Fragment>{EventStatus('Past', 'marble')}</Fragment>}
+        {!event.isPast && isEventFullyBooked(event) && EventStatus('Fully booked', 'red')}
       </Fragment>
     }
     HeroPicture={null}
