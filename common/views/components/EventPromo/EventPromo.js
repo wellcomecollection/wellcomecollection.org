@@ -6,19 +6,22 @@ import Icon from '../Icon/Icon';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import {isEventFullyBooked} from '../../../model/events';
 import type {UiEvent} from '../../../model/events';
+import Moment from 'moment';
 
 type Props = {|
   event: UiEvent,
   position?: number,
   dateString?: string,
   timeString?: string,
+  fromDate?: Moment
 |}
 
 const EventPromo = ({
   event,
   position = 0,
   dateString,
-  timeString
+  timeString,
+  fromDate
 }: Props) => {
   const fullyBooked = isEventFullyBooked(event);
   const isPast = event.isPast;
@@ -63,7 +66,7 @@ const EventPromo = ({
 
           {!isPast &&
             <p className={`${font({s: 'HNL4'})} no-padding no-margin`}>
-              <EventDateRange event={event} splitTime={true} />
+              <EventDateRange event={event} splitTime={true} fromDate={fromDate} />
             </p>
           }
 
