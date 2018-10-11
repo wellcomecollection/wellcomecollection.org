@@ -204,11 +204,12 @@ app.prepare().then(async () => {
     ctx.respond = false;
   });
 
-  router.get('/prev', async ctx => {
+  router.get('/preview', async ctx => {
     const token = ctx.request.query.token;
-    const api = await Prismic.getApi('https://wellcomecollection.prismic.io', {req: ctx.request});
-    const doc = await api.previewSession(token, (doc) => { console.info(doc); });
-    const url = (function() {
+    const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2', {
+      req: ctx.request
+    });
+    const url = await api.previewSession(token, (doc) => {
       switch (doc.type) {
         case 'articles'         : return `/articles/${doc.id}`;
         case 'webcomics'        : return `/articles/${doc.id}`;
@@ -221,8 +222,8 @@ app.prepare().then(async () => {
         case 'pages'            : return `/pages/${doc.id}`;
         case 'books'            : return `/books/${doc.id}`;
       }
-    }());
-    ctx.redirect(302, url);
+    }, '/');
+    ctx.redirect(url);
   });
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');

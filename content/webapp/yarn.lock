@@ -124,6 +124,7 @@
     lazysizes "^4.0.1"
     lodash.debounce "^4.0.8"
     lodash.groupby "^4.6.0"
+    lodash.throttle "^4.1.1"
     lscache "^1.1.0"
     moment "^2.20.1"
     moment-timezone "^0.5.14"
@@ -1980,6 +1981,7 @@ convert-source-map@1.5.1, convert-source-map@^1.4.0, convert-source-map@^1.5.0, 
 cookie-cutter@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/cookie-cutter/-/cookie-cutter-0.2.0.tgz#5988f598b68c060a00ec8524ad6e6aa193e72244"
+  integrity sha1-WYj1mLaMBgoA7IUkrW5qoZPnIkQ=
 
 cookie-signature@1.0.6:
   version "1.0.6"
@@ -5219,6 +5221,11 @@ lodash.tail@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.tail/-/lodash.tail-4.1.1.tgz#d2333a36d9e7717c8ad2f7cacafec7c32b444664"
   integrity sha1-0jM6NtnncXyK0vfKyv7HwytERmQ=
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -6760,6 +6767,14 @@ prismic-javascript@2.0.0-beta.0:
   version "2.0.0-beta.0"
   resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-2.0.0-beta.0.tgz#8ab766dfe34d69a7dc8ca047204cc8e344690a34"
   integrity sha512-nre+7AvyQb7ulR6LmBsMyT1M4Ms00UQoaMgYGLICHLZ85xoPJKivdxyWnrbgsGO/yepxnu8C5b+2GpLvje08iA==
+  dependencies:
+    cross-fetch "^2.2.0"
+    promise-polyfill "8.0.0"
+
+prismic-javascript@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-1.5.0.tgz#d11a3489c73a643e9f5f6c1d9c6b552091d67656"
+  integrity sha512-S6Ng6PocjBC7FrhfmkrlOsHWPL3011rhsrHbBedVK6iHqYljFiAegh1Bti0eqGwXh3rhkVFGURrQlubidNOEsg==
   dependencies:
     cross-fetch "^2.2.0"
     promise-polyfill "8.0.0"
