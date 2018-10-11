@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
 const Cookies = require('cookies');
+const Prismic = require('prismic-javascript');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
 
 // FIXME: Find a way to import this.
@@ -201,6 +202,27 @@ app.prepare().then(async () => {
       toggles
     });
     ctx.respond = false;
+  });
+
+  router.get('/prev', async ctx => {
+    const token = ctx.request.query.token;
+    const api = await Prismic.getApi('https://wellcomecollection.prismic.io', {req: ctx.request});
+    const doc = await api.previewSession(token, (doc) => { console.info(doc); });
+    const url = (function() {
+      switch (doc.type) {
+        case 'articles'         : return `/articles/${doc.id}`;
+        case 'webcomics'        : return `/articles/${doc.id}`;
+        case 'exhibitions'      : return `/exhibitions/${doc.id}`;
+        case 'events'           : return `/events/${doc.id}`;
+        case 'series'           : return `/series/${doc.id}`;
+        case 'webcomic-series'  : return `/webcomic-series/${doc.id}`;
+        case 'event-series'     : return `/event-series/${doc.id}`;
+        case 'installations'    : return `/installations/${doc.id}`;
+        case 'pages'            : return `/pages/${doc.id}`;
+        case 'books'            : return `/books/${doc.id}`;
+      }
+    }());
+    ctx.redirect(302, url);
   });
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
