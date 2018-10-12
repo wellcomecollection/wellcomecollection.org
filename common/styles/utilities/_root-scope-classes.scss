@@ -471,4 +471,9 @@
   color: color('black');
   float: left;
   line-height: $spacing-unit * 8;
+  padding-right: $spacing-unit;
+
+  @include respond-to('medium') {
+    line-height: $spacing-unit * 10;
+  }
 }
