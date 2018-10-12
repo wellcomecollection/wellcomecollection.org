@@ -24,7 +24,7 @@ export function contentLd(content) {
 }
 
 export function articleLd(article) {
-  objToJsonLd({
+  return objToJsonLd({
     contributor: article.contributors.map(({contributor, role, description}) => {
       const type = contributor.type === 'person' ? 'Person' : 'Organization';
       return objToJsonLd({
