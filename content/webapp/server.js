@@ -206,6 +206,9 @@ app.prepare().then(async () => {
   });
 
   router.get('/preview', async ctx => {
+    // Kill any cookie we had set, as it think it is causing issues.
+    ctx.cookies.set(Prismic.previewCookie);
+
     const token = ctx.request.query.token;
     const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2', {
       req: ctx.request
