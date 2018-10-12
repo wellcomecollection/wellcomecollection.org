@@ -3,19 +3,23 @@ import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
 const {Elements} = PrismicDOM.RichText;
 
-type HtmlSeriliser = (
+export type HtmlSeriliser = (
   type: string,
-  element: string,
+  element: Object, // There are so many types here
   content: string,
   children: string[]
-) => string
+) => ?string
 
 export const dropCapSerialiser: HtmlSeriliser = (
   type,
   element,
   content,
-  children
+  children,
+  i
 ) => {
+  if (type === Elements.paragraph && i === 0) {
+    return `<p>Fatness ${children.join('')}</p>`;
+  }
   return defaultSerializer(type, element, content, children);
 };
 

@@ -36,7 +36,8 @@ const Body = ({ body }: Props) => {
     })}>
       {body
         .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
-        // The standfirst is now put into the header, and used exclusively by articles
+        // The standfirst is now put into the header
+        // and used exclusively by articles / article series
         .filter(slice => slice.type !== 'standfirst')
         .map((slice, i) =>
           <div className={classNames({
@@ -44,13 +45,6 @@ const Body = ({ body }: Props) => {
             [spacing({s: 3}, {padding: ['top']})]: i === 0 && slice.type !== 'imageGallery',
             'overflow-hidden': true
           })} key={`slice${i}`}>
-            {slice.type === 'standfirst' &&
-              <Layout8>
-                <div className='body-text'>
-                  <FeaturedText html={slice.value} />
-                </div>
-              </Layout8>
-            }
             {slice.type === 'text' &&
               <Layout8>
                 <div className='body-text'>
