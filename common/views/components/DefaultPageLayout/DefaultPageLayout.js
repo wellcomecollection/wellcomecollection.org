@@ -203,7 +203,8 @@ class DefaultPageLayout extends Component<Props> {
     }).install();
 
     // Prismic preview and validation warnings
-    if (document.cookie.match('isPreview=true;')) {
+    const isPreview = document.cookie.match('isPreview=true');
+    if (isPreview) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.prismic.io/api/v2'
       };
