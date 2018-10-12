@@ -1,5 +1,6 @@
 // @flow
 import {font, classNames, spacing} from '../../../utils/classnames';
+import {breadcrumbsLd} from '../../../utils/json-ld';
 
 export type Breadcrumbs = {|
   text: string,
@@ -36,6 +37,10 @@ const Breadcrumb = ({ items }: Props) => (
         </BoldOrSpanTag>
       );
     })}
+    <script
+      type='application/ld+json'
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd({ items })) }}>
+    </script>
   </div>
 );
 export default Breadcrumb;

@@ -52,8 +52,12 @@ const galleryOpeningTimes = function(galleryHours: ?OpeningHours) {
 const JsonLd = ({
   data
 }: jsonData) => {
-  return (<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}>
-  </script>);
+  return (
+    <script
+      type='application/ld+json'
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}>
+    </script>
+  );
 };
 
 export type OgType = 'article' | 'website';

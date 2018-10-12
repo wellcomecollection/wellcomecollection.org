@@ -165,6 +165,18 @@ export function eventPromoLd(eventPromo: EventPromo) {
   }, 'Event');
 }
 
+export function breadcrumbsLd(breadcrumbs) {
+  return objToJsonLd({
+    itemListElement: breadcrumbs.items.map(({url, text}, i) => {
+      return objToJsonLd({
+        position: i,
+        name: text,
+        item: url
+      }, 'ListItem', false);
+    })
+  }, 'BreadcrumbList');
+}
+
 function orgLd(org) {
   return org && objToJsonLd({
     name: org.name,
