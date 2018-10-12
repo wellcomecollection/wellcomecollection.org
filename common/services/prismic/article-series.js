@@ -65,26 +65,30 @@ export async function getArticleSeries(req: ?Request, {
     const series = articles.results[0].series.find(series => series.id === id);
     // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
     // which are 6 parts long
-    const reverse = series && series.schedule.length > 0;
-    const articleList = reverse ? articles.results.slice().reverse() : articles.results;
-    const trimmedSchedule = series && series.schedule.slice(articles.results.length);
-    const items = [
-      ...articleList || [],
-      ...trimmedSchedule || []
-    ];
+    const titles = articles.results.map(article => article.title);
+    const schedule = series && series.schedule.length > 0 ? series.schedule.map(scheduleItem => {
+      const index = titles.indexOf(scheduleItem.title);
+      if (index !== -1 && articles.results[index]) {
+        return articles.results[index];
+      }
+
+      return scheduleItem;
+    }) : [];
+
     const seriesWithItems = {
       ...series,
-      items: items.map(item => {
+      // Add some colour
+      items: schedule.length > 0 ? schedule.map(item => {
         return item.type === 'article-schedule-item' || item.type === 'articles' ? {
           ...item,
           color: series && series.color
         } : item;
-      })
+      }) : articles.results
     };
 
     return series && {
       series: seriesWithItems,
-      articles: articleList
+      articles: articles.results
     };
   } else {
     // TODO: (perf) we shouldn't really be doing two calls here, but it's for
