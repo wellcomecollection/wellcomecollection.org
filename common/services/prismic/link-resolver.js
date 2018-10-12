@@ -1,7 +1,13 @@
 // @flow
-// We haven't typed this explicitly as it's used in non-babled places
-// But flow will infer a return type of string.
-function linkResolver(doc) {
+// We use comments types here as we use this in non-babeled places
+/*::
+type Doc = {|
+  id: string,
+  type: string
+|}
+*/
+
+function linkResolver(doc /* :Doc */) /* :string */ {
   switch (doc.type) {
     case 'articles'         : return `/articles/${doc.id}`;
     case 'webcomics'        : return `/articles/${doc.id}`;
