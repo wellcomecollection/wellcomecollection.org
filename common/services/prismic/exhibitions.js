@@ -145,7 +145,7 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
   const promoImage = drupalPromoImage || (
-    promo && promo.length > 0 && parsePromoToCaptionedImage(data.promo)
+    promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null
   );
   // As we store the intro as an H2 in the model, incorrectly, we then convert
   // it here to a paragraph
@@ -165,12 +165,12 @@ function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     statusOverride: statusOverride,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
-    promo: {
+    promo: promoImage && {
       id,
       format,
       url,
       title,
-      image: promoImage.image,
+      image: promoImage && promoImage.image,
       squareImage: promoSquare && promoSquare.image,
       description: (promoThin && promoThin.caption) || '',
       start,
