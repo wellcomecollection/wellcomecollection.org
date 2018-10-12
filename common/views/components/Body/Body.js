@@ -15,6 +15,7 @@ import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
+import {dropCapSerialiser} from '../../../services/prismic/html-serialisers';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -49,7 +50,11 @@ const Body = ({ body }: Props) => {
               <Layout8>
                 <div className='body-text'>
                   {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
-                  {slice.weight !== 'featured' && <PrismicHtmlBlock html={slice.value} />}
+                  {slice.weight !== 'featured' &&
+                    i === 0
+                    ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
+                    : <PrismicHtmlBlock html={slice.value} />
+                  }
                 </div>
               </Layout8>
             }

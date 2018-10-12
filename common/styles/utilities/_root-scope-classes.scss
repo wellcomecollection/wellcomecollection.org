@@ -466,3 +466,9 @@
 .clearfix {
   @include clearfix;
 }
+
+.drop-cap {
+  color: color('black');
+  float: left;
+  line-height: $spacing-unit * 8;
+}
