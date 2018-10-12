@@ -171,7 +171,7 @@ export function breadcrumbsLd(breadcrumbs) {
       return objToJsonLd({
         position: i,
         name: text,
-        item: url
+        item: `https://wellcomecollection.org${url}`
       }, 'ListItem', false);
     })
   }, 'BreadcrumbList');
