@@ -155,14 +155,22 @@ class EventPage extends Component<Props> {
     }] : [];
 
     const breadcrumbs = {
-      items: [{
-        url: '/events',
-        text: 'Events'
-      }].concat(event.series.map(series => ({
-        url: `/event-series/${series.id}`,
-        text: series.title || '',
-        prefix: 'Part of'
-      })))
+      items: [
+        {
+          url: '/events',
+          text: 'Events'
+        },
+        ...event.series.map(series => ({
+          url: `/event-series/${series.id}`,
+          text: series.title || '',
+          prefix: 'Part of'
+        })),
+        {
+          url: `/events/${event.id}`,
+          text: event.title,
+          isHidden: true
+        }
+      ]
     };
     const labels = {
       labels: eventFormat.concat(

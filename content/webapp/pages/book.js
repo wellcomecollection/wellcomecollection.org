@@ -69,10 +69,17 @@ export class ArticleSeriesPage extends Component<Props> {
     // $FlowFixMe
     const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-h-auto width-auto max-height-70vh' {...book.cover} />;
     const breadcrumbs = {
-      items: [{
-        text: 'Books',
-        url: '/books'
-      }]
+      items: [
+        {
+          text: 'Books',
+          url: '/books'
+        },
+        {
+          url: `/books/${book.id}`,
+          text: book.title,
+          isHidden: true
+        }
+      ]
     };
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}

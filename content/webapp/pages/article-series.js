@@ -50,10 +50,17 @@ export class ArticleSeriesPage extends Component<Props> {
   render() {
     const {series, articles} = this.props;
     const breadcrumbs = {
-      items: [{
-        url: '/stories',
-        text: 'Stories'
-      }]
+      items: [
+        {
+          url: '/stories',
+          text: 'Stories'
+        },
+        {
+          url: `/series/${series.id}`,
+          text: series.title,
+          isHidden: true
+        }
+      ]
     };
 
     const genericFields = {

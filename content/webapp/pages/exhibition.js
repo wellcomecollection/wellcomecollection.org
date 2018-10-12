@@ -78,6 +78,10 @@ export class ExhibitionPage extends Component<Props, State> {
         {
           url: '/exhibitions',
           text: 'Exhibitions'
+        }, {
+          url: `/exhibitions/${exhibition.id}`,
+          text: exhibition.title,
+          isHidden: true
         }
       ]
     };

@@ -58,7 +58,18 @@ class InstallationPage extends Component<Props> {
       widescreenImage: installation.widescreenImage,
       labels: installation.labels
     });
-    const breadcrumbs = { items: [{ text: 'Installations' }] };
+    const breadcrumbs = {
+      items: [
+        {
+          text: 'Installations'
+        },
+        {
+          url: `/installations/${installation.id}`,
+          text: installation.title,
+          isHidden: true
+        }
+      ]
+    };
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
       labels={{labels: installation.labels}}

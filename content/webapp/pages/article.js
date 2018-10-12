@@ -73,18 +73,25 @@ export class ArticlePage extends Component<Props, State> {
     const article = this.props.article;
 
     const breadcrumbs = {
-      items: [{
-        url: '/stories',
-        text: 'Stories'
-      }]
-      // GOTCHA: we only take the first of the series list as the data is being
-      // used a little bit badly, but we don't have capacity to implement a
-      // better solution
-        .concat(article.series.slice(0, 1).map(series => ({
+      items: [
+        {
+          url: '/stories',
+          text: 'Stories'
+        },
+        // GOTCHA: we only take the first of the series list as the data is being
+        // used a little bit badly, but we don't have capacity to implement a
+        // better solution
+        ...article.series.slice(0, 1).map(series => ({
           url: `/series/${series.id}`,
           text: series.title || '',
           prefix: `Part of`
-        })))
+        })),
+        {
+          url: `/articles/${article.id}`,
+          text: article.title,
+          isHidden: true
+        }
+      ]
     };
 
     // Check if the article is in a serial, and where
