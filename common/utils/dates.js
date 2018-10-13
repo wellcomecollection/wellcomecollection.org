@@ -6,7 +6,7 @@ import type Moment from 'moment';
 export function getEarliestFutureDateRange(dateRanges: DateRange[], fromDate: ?Moment = london()): ?DateRange {
   return dateRanges
     .sort((a, b) => a.start - b.start)
-    .find(range => london(range.start).isSameOrAfter(fromDate) && london(range.start).isSameOrAfter(london()));
+    .find(range => london(range.start).isSameOrAfter(fromDate, 'day') && london(range.start).isSameOrAfter(london(), 'day'));
 }
 
 export function isPast(date: Date): boolean {
