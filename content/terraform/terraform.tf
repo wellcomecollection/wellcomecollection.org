@@ -92,7 +92,7 @@ module "content" {
   primary_container_port             = "80"
   secondary_container_port           = "3000"
   host_name                          = "content.wellcomecollection.org"
-  healthcheck_path                   = "/management/healthcheck"
+  healthcheck_path                   = "/content/management/healthcheck"
   alb_priority                       = "700"
 }
 
