@@ -181,7 +181,7 @@ class EventPage extends Component<Props, State> {
     const breadcrumbs = {
       items: [
         {
-          url: '/events',
+          url: '/events/current-and-coming-up',
           text: 'Events'
         },
         ...event.series.map(series => ({
