@@ -138,10 +138,10 @@ const DateRange = ({
             </time>
           </Fragment>
         }
-        {period === 'today' &&
+        {period === 'current-and-coming-up' &&
           <Fragment>
-            From
-            <time dateTime={fromDate}>formatDate(fromDate)</time>
+            From{' '}
+            <time dateTime={fromDate}>{formatDate(fromDate)}</time>
           </Fragment>
         }
       </p>
