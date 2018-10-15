@@ -181,7 +181,7 @@ class EventPage extends Component<Props, State> {
     const breadcrumbs = {
       items: [
         {
-          url: '/events/current-and-coming-up',
+          url: '/events',
           text: 'Events'
         },
         ...event.series.map(series => ({
@@ -193,7 +193,12 @@ class EventPage extends Component<Props, State> {
           url: `/events/${scheduledIn.id}`,
           text: scheduledIn.title || '',
           prefix: 'Part of'
-        } : null
+        } : null,
+        {
+          url: `/events/${event.id}`,
+          text: event.title,
+          isHidden: true
+        }
       ].filter(Boolean)
     };
 
