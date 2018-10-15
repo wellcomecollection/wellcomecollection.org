@@ -11,7 +11,8 @@ type Ticket = {|
   onSaleStatus: OnSaleStatus,
   ticketType: TicketType,
   saleStarts: string, // This isn't a date, as we want it in the display format
-  cost: ?number // in pence
+  cost: ?number, // in pence,
+  isSoldOut: boolean
 |};
 
 async function getEventbriteEventTickets(id: string) {
@@ -28,7 +29,14 @@ async function getEventbriteEventTickets(id: string) {
         : ticketClassName.startsWith('comp ') ? 'comp' : 'standard';
     const saleStarts = formatTimeDate(new Date(ticketClass.sales_start));
     const cost = ticketClass.cost && ticketClass.cost.value;
-    return ({onSaleStatus, ticketType, saleStarts, eventbriteId: ticketClass.event_id, cost}: Ticket);
+    return ({
+      isSoldOut: onSaleStatus === 'sold_out',
+      onSaleStatus,
+      ticketType,
+      saleStarts,
+      eventbriteId: ticketClass.event_id,
+      cost
+    }: Ticket);
   }).filter(ticket => ticket.ticketType === 'standard'); // we only want to show standard tickets for now...
 
   return tickets;
@@ -69,6 +77,40 @@ export async function renderEventbriteButton(ctx, next) {
 
     return next();
   }
+}
+
+export async function getEventsInfo(ctx, next) {
+  // expects ids to come in as id:boolean,id:boolean,id:boolean
+  const ids = ctx.query.ids || '';
+  const eventIds = ids.split(',');
+
+  const eventsRequestPromises = eventIds.map(async (id) => {
+    const eventResponse = await superagent.get(`${eventbriteApiRoot}/events/${id}/?token=${eventbritePersonalOauthToken}`);
+    const event = eventResponse.body;
+
+    if (event.is_series === false) {
+      const eventTickets = await superagent.get(`${eventbriteApiRoot}/events/${id}/ticket_classes/?token=${eventbritePersonalOauthToken}`);
+
+      const tickets = eventTickets.body.ticket_classes.filter(ticketClass => {
+        const ticketClassName = ticketClass.name.toLowerCase();
+        const ignore = ticketClassName.startsWith('waiting list') ||
+          ticketClassName.startsWith('comp ');
+        return !ignore;
+      }).map(ticketClass => {
+        const isFullyBooked = ticketClass.on_sale_status === 'SOLD_OUT';
+        const bookingOpens = new Date(ticketClass.sales_start);
+
+        return {isFullyBooked, bookingOpens};
+      });
+      return tickets.find(_ => _);
+    } else {
+      // TODO: deal with multi type events
+    }
+  }).filter(Boolean);
+
+  const responses = await Promise.all(eventsRequestPromises);
+
+  ctx.body = responses;
 }
 
 export async function renderEventbriteWidget(ctx, next) {
