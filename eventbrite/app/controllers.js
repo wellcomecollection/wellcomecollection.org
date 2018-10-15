@@ -110,7 +110,7 @@ export async function getEventsInfo(ctx, next) {
 
   const responses = await Promise.all(eventsRequestPromises);
 
-  ctx.body = responses;
+  ctx.body = {results: responses};
 }
 
 export async function renderEventbriteWidget(ctx, next) {
