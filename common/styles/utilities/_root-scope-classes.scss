@@ -474,6 +474,7 @@
   padding-right: $spacing-unit;
 
   @include respond-to('medium') {
-    line-height: $spacing-unit * 10;
+    line-height: $spacing-unit * 11;
+    margin-bottom: -$spacing-unit;
   }
 }

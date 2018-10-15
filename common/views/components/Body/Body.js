@@ -35,15 +35,18 @@ const Body = ({
   body,
   isDropCapped
 }: Props) => {
+  const filteredBody = body
+    .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
+    // The standfirst is now put into the header
+    // and used exclusively by articles / article series
+    .filter(slice => slice.type !== 'standfirst');
+
+  const firstTextSliceIndex = filteredBody.map(slice => slice.type).indexOf('text');
   return (
     <div className={classNames({
       'basic-body': true
     })}>
-      {body
-        .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
-        // The standfirst is now put into the header
-        // and used exclusively by articles / article series
-        .filter(slice => slice.type !== 'standfirst')
+      {filteredBody
         .map((slice, i) =>
           <div className={classNames({
             'body-part': true,
@@ -55,7 +58,7 @@ const Body = ({
                 <div className='body-text'>
                   {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
                   {slice.weight !== 'featured' &&
-                    i === 0 && isDropCapped
+                    firstTextSliceIndex === i && isDropCapped
                     ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
                     : <PrismicHtmlBlock html={slice.value} />
                   }
