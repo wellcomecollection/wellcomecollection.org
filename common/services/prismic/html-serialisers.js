@@ -1,8 +1,8 @@
 // @flow
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
-import {font} from '../../utils/classnames';
-const {Elements} = PrismicDOM.RichText;
+import { font } from '../../utils/classnames';
+const { Elements } = PrismicDOM.RichText;
 
 export type HtmlSeriliser = (
   type: string,
@@ -10,7 +10,7 @@ export type HtmlSeriliser = (
   content: string,
   children: string[],
   i: number
-) => ?string
+) =>?string
 
 export const dropCapSerialiser: HtmlSeriliser = (
   type,
@@ -21,9 +21,12 @@ export const dropCapSerialiser: HtmlSeriliser = (
 ) => {
   if (type === Elements.paragraph && i === 0) {
     const firstLetter = children[0].charAt(0);
-    const restOfLetters = children[0].substr(1);
+    const restOfLetters = [
+      ...children[0].substr(1),
+      ...children.slice(1)
+    ];
 
-    return `<p><span class="drop-cap ${font({s: 'WB3', m: 'WB2'})}">${firstLetter}</span>${restOfLetters}</p>`;
+    return `<p><span class="drop-cap ${font({ s: 'WB3', m: 'WB2' })}">${firstLetter}</span>${restOfLetters.join('')}</p>`;
   }
   return defaultSerializer(type, element, content, children, i);
 };
