@@ -1,37 +1,42 @@
 // @flow
 import { Component } from 'react';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import { exhibitionLd } from '@weco/common/utils/json-ld';
+import { getEvents } from '@weco/common/services/prismic/events';
+import { eventLd } from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { GetInitialPropsProps } from '@weco/common/views/components/PageWrapper/PageWrapper';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
+import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
   displayTitle: string,
-  exhibitions: PaginatedResults<UiExhibition>
+  events: PaginatedResults<UiEvent>
 |}
 
-const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
+const pageDescription = 'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const { page = 1 } = context.query;
-    const { period } = context.query;
-    const exhibitions = await getExhibitions(context.req, { page, period });
-    if (exhibitions) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
+    const {period = 'current-and-coming-up'} = context.query;
+    const events = await getEvents(context.req, {
+      page,
+      pageSize: 100,
+      period,
+      order: period === 'past' ? 'desc' : 'asc'
+    });
+    if (events) {
+      const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {
-        exhibitions,
+        events,
         title,
         displayTitle: title,
         description: pageDescription,
         type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/exhibitions`,
+        canonicalUrl: `https://wellcomecollection.org/events${period ? `/${period}` : ''}`,
         imageUrl: null,
         siteSection: 'whatson',
         analyticsCategory: 'public-programme',
-        pageJsonLd: exhibitions.results.map(exhibition => exhibitionLd(exhibition))
+        pageJsonLd: events.results.map(event => eventLd(event))
       };
     } else {
       return { statusCode: 404 };
@@ -39,7 +44,7 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 
   render() {
-    const { exhibitions, displayTitle } = this.props;
+    const { events, displayTitle } = this.props;
 
     return (
       <LayoutPaginatedResults
@@ -49,7 +54,7 @@ export class ArticleSeriesPage extends Component<Props> {
           text: pageDescription,
           spans: []
         }]}
-        paginatedResults={exhibitions}
+        paginatedResults={events}
       />
     );
   }
