@@ -19,6 +19,16 @@ data "terraform_remote_state" "infra" {
   }
 }
 
+data "terraform_remote_state" "router" {
+  backend = "s3"
+
+  config {
+    bucket = "wellcomecollection-infra"
+    key    = "build-state/router.tfstate"
+    region = "eu-west-1"
+  }
+}
+
 provider "aws" {
   version = "~> 1.0"
   region  = "eu-west-1"

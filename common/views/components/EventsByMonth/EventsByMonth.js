@@ -1,6 +1,7 @@
 // @flow
 import {Component} from 'react';
 import {london} from '../../../utils/format-date';
+import {getEarliestFutureDateRange} from '../../../utils/dates';
 import {classNames, cssGrid, spacing} from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import EventPromo from '../EventPromo/EventPromo';
@@ -13,7 +14,7 @@ type Props = {|
 
 // recursive - TODO: make tail recursive?
 function getMonthsInDateRange({start, end}, acc = []) {
-  if (start.isBefore(end, 'month') || start.isSame(end, 'month')) {
+  if (start.isSameOrBefore(end, 'month')) {
     const newAcc = acc.concat([start.format('MMMM')]);
     const newStart = start.add(1, 'month');
     return getMonthsInDateRange({start: newStart, end}, newAcc);
@@ -30,6 +31,20 @@ class EventsByMonth extends Component<Props> {
     const {events} = this.props;
     const {activeId} = this.state;
 
+    const monthsIndex = {
+      'January': 0,
+      'February': 1,
+      'March': 2,
+      'April': 3,
+      'May': 4,
+      'June': 5,
+      'July': 6,
+      'August': 7,
+      'September': 8,
+      'October': 9,
+      'November': 10,
+      'December': 11
+    };
     const eventsInMonths = events.filter(event => event.times.length > 0).map(event => {
       const firstRange = event.times[0];
       const lastRange = event.times[event.times.length - 1];
@@ -41,18 +56,43 @@ class EventsByMonth extends Component<Props> {
       return {event, months};
     }).reduce((acc, {event, months}) => {
       months.forEach(month => {
-        if (!acc[month]) {
-          acc[month] = [];
+        // Only add if it has a time in the month that is the same or after today
+        const hasDateInMonthRemaining = event.times.find(time => {
+          const end = london(time.range.endDateTime);
+          return end.isSame(london({M: monthsIndex[month]}), 'month') && end.isSameOrAfter(london(), 'day');
+        });
+        if (hasDateInMonthRemaining) {
+          if (!acc[month]) {
+            acc[month] = [];
+          }
+          acc[month].push(event);
         }
-        acc[month].push(event);
       });
       return acc;
     }, {});
-    const months = Object.keys(eventsInMonths).map(month => ({
+
+    // Order months correctly
+    const orderedMonths = {};
+    Object.keys(eventsInMonths).sort((a, b) => {
+      return monthsIndex[a] - monthsIndex[b];
+    }).map(key => orderedMonths[key] = eventsInMonths[key]);
+
+    const months = Object.keys(orderedMonths).map(month => ({
       id: month,
       url: `#${month}`,
       text: month
     }));
+
+    // Need to order the events for each month based on their earliest future date range
+    Object.keys(eventsInMonths).map(month => {
+      eventsInMonths[month].sort((a, b) => {
+        const aTimes = a.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+        const bTimes = b.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+        const aEarliestFuture = getEarliestFutureDateRange(aTimes, london({M: monthsIndex[month]})) || {};
+        const bEarliestFuture = getEarliestFutureDateRange(bTimes, london({M: monthsIndex[month]})) || {};
+        return aEarliestFuture.start - bEarliestFuture.start;
+      });
+    });
 
     return (
       <div className={classNames({})}>
@@ -107,6 +147,7 @@ class EventsByMonth extends Component<Props> {
                     <EventPromo
                       event={event}
                       position={i}
+                      fromDate={london({M: monthsIndex[month]})}
                     />
                   </div>
                 ))}

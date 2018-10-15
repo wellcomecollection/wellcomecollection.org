@@ -2,6 +2,8 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
 const Cookies = require('cookies');
+const Prismic = require('prismic-javascript');
+const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
 
 // FIXME: Find a way to import this.
@@ -216,6 +218,24 @@ app.prepare().then(async () => {
       toggles
     });
     ctx.respond = false;
+  });
+  router.get('/preview', async ctx => {
+    // Kill any cookie we had set, as it think it is causing issues.
+    ctx.cookies.set(Prismic.previewCookie);
+
+    const token = ctx.request.query.token;
+    const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2', {
+      req: ctx.request
+    });
+    const url = await api.previewSession(token, linkResolver, '/');
+    ctx.cookies.set('isPreview', 'true', {
+      httpOnly: false
+    });
+    ctx.redirect(url);
+  });
+  router.get('/content/management/healthcheck', async ctx => {
+    ctx.status = 200;
+    ctx.body = 'ok';
   });
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');

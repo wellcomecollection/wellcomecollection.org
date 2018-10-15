@@ -32,6 +32,7 @@ $is-next: true;
 // Components
 @import 'components/back-to-top';
 @import 'components/body_text';
+@import 'components/book_promo';
 @import 'components/buttons';
 @import 'components/control';
 @import 'components/captioned_image';
@@ -52,8 +53,8 @@ $is-next: true;
 @import 'components/lazyload';
 @import 'components/opening_hours';
 @import 'components/page_description';
+@import 'components/prismic_toolbar';
 @import 'components/promo';
-@import 'components/book_promo';
 @import 'components/quote';
 @import 'components/scroll_to_info';
 @import 'components/search_box';

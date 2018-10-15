@@ -37,6 +37,7 @@ export async function renderWhatsOn(ctx, next) {
     order: 'asc'
   });
   const eventsPromise = getEvents(ctx.request, {
+    pageSize: 100,
     period,
     order: 'asc'
   });
@@ -188,11 +189,13 @@ export async function renderExhibitExhibitionLink(ctx, next) {
 
 export async function renderEvents(ctx, next) {
   const {page = 1} = ctx.query;
-  const {period} = ctx.params;
+  const {period = 'current-and-coming-up'} = ctx.params;
   const paginatedResults = await getEvents(ctx.request, {
     page,
+    pageSize: 100,
     seriesId: null,
-    period
+    period: period,
+    order: period === 'past' ? 'desc' : 'asc'
   });
   if (paginatedResults) {
     ctx.render('pages/events', {

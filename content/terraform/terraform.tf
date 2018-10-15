@@ -92,7 +92,7 @@ module "content" {
   primary_container_port             = "80"
   secondary_container_port           = "3000"
   host_name                          = "content.wellcomecollection.org"
-  healthcheck_path                   = "/management/healthcheck"
+  healthcheck_path                   = "/content/management/healthcheck"
   alb_priority                       = "700"
 }
 
@@ -177,4 +177,44 @@ module "exhibitions_listener" {
   target_group_arn = "${module.content.target_group_arn}"
   priority = "111"
   path = "/exhibitions/*"
+}
+
+module "articles_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "113"
+  # TODO: (wordpress)
+  # We're supporting wordpress articles for the time being
+  path = "/articles/W*"
+}
+
+module "article_series_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "114"
+  # TODO: (wordpress)
+  # We're supporting wordpress articles for the time being
+  path = "/series/W*"
+}
+
+module "preview_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "120"
+  path = "/preview"
+}
+
+module "management_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "121"
+  path = "/content/management*"
 }
