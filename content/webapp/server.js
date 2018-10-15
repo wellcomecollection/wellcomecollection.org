@@ -204,7 +204,6 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
-
   router.get('/preview', async ctx => {
     // Kill any cookie we had set, as it think it is causing issues.
     ctx.cookies.set(Prismic.previewCookie);
@@ -218,6 +217,10 @@ app.prepare().then(async () => {
       httpOnly: false
     });
     ctx.redirect(url);
+  });
+  router.get('/content/management/healthcheck', async ctx => {
+    ctx.status = 200;
+    ctx.body = 'ok';
   });
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');

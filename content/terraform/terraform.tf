@@ -209,3 +209,12 @@ module "preview_listener" {
   priority = "120"
   path = "/preview"
 }
+
+module "management_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "120"
+  path = "/content/management*"
+}
