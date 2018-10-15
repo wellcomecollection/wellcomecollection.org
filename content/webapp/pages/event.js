@@ -61,7 +61,7 @@ function DateList(event) {
       {event.times.map((eventTime, index) => {
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div className={`${event.isPast ? 'font-pewter' : ''}`}>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
               <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
