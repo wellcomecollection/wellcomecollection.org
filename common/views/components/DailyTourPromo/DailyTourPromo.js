@@ -57,6 +57,7 @@ export const data = {
   }],
   promo: {
     image: image,
+    link: '/pages/Wuw19yIAAK1Z3Sma',
     caption: null
   },
   promoImage: {...image, minWidth: null},

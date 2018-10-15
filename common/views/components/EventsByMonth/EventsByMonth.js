@@ -13,7 +13,7 @@ type Props = {|
 
 // recursive - TODO: make tail recursive?
 function getMonthsInDateRange({start, end}, acc = []) {
-  if (start.isBefore(end, 'month') || start.isSame(end, 'month')) {
+  if (start.isSameOrBefore(end, 'month')) {
     const newAcc = acc.concat([start.format('MMMM')]);
     const newStart = start.add(1, 'month');
     return getMonthsInDateRange({start: newStart, end}, newAcc);
@@ -51,14 +51,28 @@ const EventsByMonth = ({
     return {event, months};
   }).reduce((acc, {event, months}) => {
     months.forEach(month => {
-      if (!acc[month]) {
-        acc[month] = [];
+      // Only add if it has a time in the month that is the same or after today
+      const hasDateInMonthRemaining = event.times.find(time => {
+        const end = london(time.range.endDateTime);
+        return end.isSame(london({M: monthsIndex[month]}), 'month') && end.isSameOrAfter(london(), 'day');
+      });
+      if (hasDateInMonthRemaining) {
+        if (!acc[month]) {
+          acc[month] = [];
+        }
+        acc[month].push(event);
       }
-      acc[month].push(event);
     });
     return acc;
   }, {});
-  const months = Object.keys(eventsInMonths).map(month => ({
+
+  // Order months correctly
+  const orderedMonths = {};
+  Object.keys(eventsInMonths).sort((a, b) => {
+    return monthsIndex[a] - monthsIndex[b];
+  }).map(key => orderedMonths[key] = eventsInMonths[key]);
+
+  const months = Object.keys(orderedMonths).map(month => ({
     id: month,
     url: `#${month}`,
     text: month

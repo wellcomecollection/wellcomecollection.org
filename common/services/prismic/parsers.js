@@ -13,11 +13,13 @@ import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
+import type { HtmlSeriliser } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
+import linkResolver from './link-resolver';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -36,20 +38,6 @@ const placeHolderImage = ({
   crops: {}
 }: ImageType);
 
-const linkResolver = (doc) => {
-  switch (doc.type) {
-    case 'articles'      : return `/articles/${doc.id}`;
-    case 'webcomics'     : return `/articles/${doc.id}`;
-    case 'exhibitions'   : return `/exhibitions/${doc.id}`;
-    case 'events'        : return `/events/${doc.id}`;
-    case 'event-series'  : return `/event-series/${doc.id}`;
-    case 'series'        : return `/series/${doc.id}`;
-    case 'installations' : return `/installations/${doc.id}`;
-    case 'pages'         : return `/pages/${doc.id}`;
-    case 'books'         : return `/books/${doc.id}`;
-  }
-};
-
 function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
   return maybeContent ? asHtml(maybeContent) === null : false;
 }
@@ -58,11 +46,11 @@ export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
 
-export function asHtml(maybeContent: ?HTMLString) {
+export function asHtml(maybeContent: ?HTMLString, htmlSerialiser?: HtmlSeriliser) {
   // Prismic can send us empty html elements which can lead to unwanted UI in templates.
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !maybeContent || (asText(maybeContent) || '').trim() === '';
-  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver).trim();
+  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver, htmlSerialiser).trim();
 }
 
 function isMissingOrEmpty(maybeContent: any) {
@@ -349,8 +337,8 @@ export function parseLabelTypeList(fragment: PrismicFragment[], labelKey: string
 export function parseLabelType(fragment: PrismicFragment): LabelField {
   return {
     id: fragment.id,
-    title: asText(fragment.data.title),
-    description: fragment.data.description
+    title: fragment.data && asText(fragment.data.title),
+    description: fragment.data && fragment.data.description
   };
 }
 

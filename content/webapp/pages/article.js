@@ -192,7 +192,10 @@ export class ArticlePage extends Component<Props, State> {
         id={article.id}
         isCreamy={true}
         Header={Header}
-        Body={<Body body={article.body} />}
+        Body={<Body
+          body={article.body}
+          isDropCapped={true}
+        />}
         Siblings={Siblings}
         contributorProps={{contributors: article.contributors}}
       >

@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const next = require('next');
 const Cookies = require('cookies');
 const Prismic = require('prismic-javascript');
+const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
 
 // FIXME: Find a way to import this.
@@ -205,24 +206,17 @@ app.prepare().then(async () => {
   });
 
   router.get('/preview', async ctx => {
+    // Kill any cookie we had set, as it think it is causing issues.
+    ctx.cookies.set(Prismic.previewCookie);
+
     const token = ctx.request.query.token;
     const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2', {
       req: ctx.request
     });
-    const url = await api.previewSession(token, (doc) => {
-      switch (doc.type) {
-        case 'articles'         : return `/articles/${doc.id}`;
-        case 'webcomics'        : return `/articles/${doc.id}`;
-        case 'exhibitions'      : return `/exhibitions/${doc.id}`;
-        case 'events'           : return `/events/${doc.id}`;
-        case 'series'           : return `/series/${doc.id}`;
-        case 'webcomic-series'  : return `/webcomic-series/${doc.id}`;
-        case 'event-series'     : return `/event-series/${doc.id}`;
-        case 'installations'    : return `/installations/${doc.id}`;
-        case 'pages'            : return `/pages/${doc.id}`;
-        case 'books'            : return `/books/${doc.id}`;
-      }
-    }, '/');
+    const url = await api.previewSession(token, linkResolver, '/');
+    ctx.cookies.set('isPreview', 'true', {
+      httpOnly: false
+    });
     ctx.redirect(url);
   });
 

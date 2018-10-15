@@ -116,7 +116,7 @@
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-env "^1.6.1"
     cookie-cutter "^0.2.0"
-    cookies "^0.7.1"
+    cookies "^0.7.2"
     fontfaceobserver "^2.0.13"
     immutable "^3.8.2"
     isomorphic-unfetch "^2.1.1"
@@ -130,7 +130,7 @@
     moment-timezone "^0.5.14"
     next "^5.1.0"
     openseadragon "^2.3.1"
-    prismic-dom "^2.0.6"
+    prismic-dom "^2.1.0"
     prismic-javascript "2.0.0-beta.0"
     raven-js "^3.26.3"
     react "^16.2.0"
@@ -2004,6 +2004,14 @@ cookies@^0.7.1, cookies@~0.7.1:
   integrity sha1-fIphX1SBxhq58WyDNzG8uPZjuZs=
   dependencies:
     depd "~1.1.1"
+    keygrip "~1.0.2"
+
+cookies@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/cookies/-/cookies-0.7.2.tgz#52736976126658af7713d7f858f7d21f99dab486"
+  integrity sha512-J2JjH9T3PUNKPHknprxgCrCaZshIfxW2j49gq1E1CP5Micj1LppWAR2y9EHSQAzEiX84zOsScWNwUZ0b/ChlMw==
+  dependencies:
+    depd "~1.1.2"
     keygrip "~1.0.2"
 
 copy-concurrently@^1.0.0:
@@ -6749,7 +6757,7 @@ pretty-format@^23.5.0:
     ansi-regex "^3.0.0"
     ansi-styles "^3.2.0"
 
-prismic-dom@^2.0.6:
+prismic-dom@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/prismic-dom/-/prismic-dom-2.1.0.tgz#a614d371e3895be454f06473ed3c3e59bf1340df"
   integrity sha512-SHXaVYiGC0IehnnTjLXWMAG2FBPRsNpMU04iGI05ByLZRJR1P2PKegQL/BjpnfHpCuucdEZxvehqsOMwA/ZGvg==

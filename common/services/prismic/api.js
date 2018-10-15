@@ -7,7 +7,8 @@ import type {
   PaginatedResults,
   DocumentType
 } from './types';
-const dev = process.env.NODE_ENV !== 'production';
+import Cookies from 'cookies';
+
 const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
 
@@ -20,12 +21,9 @@ function periodicallyUpdatePrismic() {
 }
 periodicallyUpdatePrismic();
 
-export function isPreview(req: Request): boolean {
-  // TODO: (flow) turns out we're not using the right request object here, which has
-  // the host property
-  // $FlowFixMe
-  const isPreview = Boolean(req.host) && Boolean(req.host.match('preview.wellcomecollection.org')) || dev;
-  return isPreview;
+export function isPreview(req: ?Request): boolean {
+  const cookies = req && new Cookies(req);
+  return cookies ? Boolean(cookies.get('isPreview')) : false;
 }
 
 export async function getPrismicApi(req: ?Request) {
