@@ -179,6 +179,15 @@ module "exhibitions_listener" {
   path = "/exhibitions/*"
 }
 
+module "events_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "112"
+  path = "/events/*"
+}
+
 module "articles_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
