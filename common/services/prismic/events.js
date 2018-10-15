@@ -230,7 +230,7 @@ export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?U
 }
 
 type EventsQueryProps = {|
-  predicates: Prismic.Predicates[],
+  predicates?: Prismic.Predicates[],
   period?: Period,
   order: 'asc' | 'desc',
   ...PrismicQueryOpts

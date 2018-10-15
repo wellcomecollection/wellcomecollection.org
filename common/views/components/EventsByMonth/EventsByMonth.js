@@ -12,6 +12,10 @@ type Props = {|
   events: UiEvent[]
 |}
 
+type State = {|
+  activeId: ?string
+|}
+
 // recursive - TODO: make tail recursive?
 function getMonthsInDateRange({start, end}, acc = []) {
   if (start.isSameOrBefore(end, 'month')) {
@@ -23,7 +27,7 @@ function getMonthsInDateRange({start, end}, acc = []) {
   }
 }
 
-class EventsByMonth extends Component<Props> {
+class EventsByMonth extends Component<Props, State> {
   state = {
     activeId: null
   }
@@ -106,7 +110,6 @@ class EventsByMonth extends Component<Props> {
               })}>
                 <SegmentedControl
                   id='monthControls'
-                  isTabControl={true}
                   activeId={months[0].id}
                   items={months}
                   onActiveIdChange={(id) => {

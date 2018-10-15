@@ -1,6 +1,5 @@
-// @flow
 import type {Promo} from '../model/promo';
-import type {EventPromo} from '../content-model/events';
+import type {EventPromo} from '../model/events';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',

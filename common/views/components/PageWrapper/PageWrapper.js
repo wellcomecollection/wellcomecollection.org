@@ -42,7 +42,7 @@ async function fetchOpeningTimes(req: Request) {
   };
 
   return {
-    openingTimes,
+    collectionOpeningTimes: openingTimes,
     groupedVenues: groupedVenues,
     upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
   };
@@ -58,6 +58,8 @@ type Props = {|
   siteSection: SiteSection,
   analyticsCategory: string,
   openingTimes: {
+    // TODO: Flow fix
+    collectionOpeningTimes: any,
     groupedVenues: GroupedVenues,
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },

@@ -29,18 +29,20 @@ import InstallationPromo from '@weco/common/views/components/InstallationPromo/I
 import Divider from '@weco/common/views/components/Divider/Divider';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
+import type {UiEvent} from '@weco/common/model/events';
+import type {Period} from '@weco/common/model/periods';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
-  events: PaginatedResults<UiEvents>,
+  events: PaginatedResults<UiEvent>,
   period: string,
   dateRange: any[],
   tryTheseTooPromos: any[],
   eatShopPromos: any[]
 |}
 
-export function getListHeader(collectionOpeningTimes: any) {
+export function getListHeader(collectionOpeningTimes: any = {}) {
   const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
   return {
     todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),
@@ -110,7 +112,10 @@ const DateRange = ({
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  const listHeader = getListHeader(pageStore('openingTimes').openingTimes);
+  const openingTimes = pageStore('openingTimes');
+  // $FlowFixMe
+  const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
+  const listHeader = getListHeader(collectionOpeningTimes);
 
   return (
     <Fragment>
@@ -160,13 +165,15 @@ const DateRange = ({
 };
 
 type HeaderProps = {|
-  todayOpeningHours: any,
   activeId: string
 |}
 const Header = ({
   activeId
 }: HeaderProps) => {
-  const listHeader = getListHeader(pageStore('openingTimes').openingTimes);
+  const openingTimes = pageStore('openingTimes');
+  // $FlowFixMe
+  const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
+  const listHeader = getListHeader(collectionOpeningTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
 
   return (
@@ -249,11 +256,11 @@ const pageDescription = 'Discover all of the exhibitions, events and more on off
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const period = context.query.period || 'current-and-coming-up';
-    const exhibitionsPromise = getExhibitions(context.request, {
+    const exhibitionsPromise = getExhibitions(context.req, {
       period,
       order: 'asc'
     });
-    const eventsPromise = getEvents(context.request, {
+    const eventsPromise = getEvents(context.req, {
       period,
       order: 'asc'
     });
@@ -302,9 +309,10 @@ export class ArticleSeriesPage extends Component<Props> {
         ...exhibition
       };
     });
+
     return (
       <Fragment>
-        <Header />
+        <Header activeId={period} />
 
         <div className={classNames({
           [spacing({s: 2, m: 4}, {margin: ['top']})]: true
@@ -317,7 +325,7 @@ export class ArticleSeriesPage extends Component<Props> {
               })}>
                 <Layout12>
                   <div className={classNames({
-                    [classNames({s: 0}, {margin: ['top', 'bottom']})]: true
+                    [spacing({s: 0}, {margin: ['top', 'bottom']})]: true
                   })}>
                     <DateRange
                       dateRange={dateRange}
@@ -410,6 +418,7 @@ export class ArticleSeriesPage extends Component<Props> {
                     key={promo.title}
                     className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
                     <FacilityPromo
+                      id={promo.id}
                       title={promo.title}
                       url={promo.url}
                       description={promo.description}
@@ -454,6 +463,7 @@ export class ArticleSeriesPage extends Component<Props> {
                     key={promo.id}
                     className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
                     <FacilityPromo
+                      id={promo.id}
                       title={promo.title}
                       url={promo.url}
                       description={promo.description}

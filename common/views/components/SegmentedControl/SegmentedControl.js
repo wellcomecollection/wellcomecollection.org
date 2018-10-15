@@ -7,9 +7,13 @@ import {trackEvent} from '../../../utils/ga';
 type Props = {|
   id: string,
   items: {| id: string, text: string, url: string |}[],
-  isTabControl: boolean,
   activeId: ?string,
-  onActiveIdChange: () => void
+  onActiveIdChange?: (id: string) => void
+|}
+
+type State = {|
+  activeId: ?string,
+  isActive: boolean
 |}
 
 class SegmentedControl extends Component<Props, State> {
@@ -18,7 +22,7 @@ class SegmentedControl extends Component<Props, State> {
     isActive: false
   }
 
-  setActiveId(id) {
+  setActiveId(id: string) {
     this.setState({
       activeId: id
     });
@@ -29,7 +33,9 @@ class SegmentedControl extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.setActiveId(this.props.items[0].id);
+    this.setActiveId(
+      this.props.activeId || this.props.items[0].id
+    );
   }
 
   render() {
@@ -161,14 +167,20 @@ class SegmentedControl extends Component<Props, State> {
               })}>
               <a
                 onClick={(e) => {
-                  e.preventDefault();
+                  const url = e.target.href;
+                  const isHash = url.startsWith('#');
                   trackEvent({
                     category: 'component',
                     action: 'whats-on-daterange-picker:click',
                     label: 'title:' + item.text
                   });
                   this.setActiveId(item.id);
-                  return false;
+
+                  // Assume we want to
+                  if (isHash) {
+                    e.preventDefault();
+                    return false;
+                  }
                 }}
                 data-track-event={JSON.stringify({
                   category: 'component',
