@@ -27,10 +27,14 @@ type BodySlice = {|
 export type BodyType = BodySlice[]
 
 type Props = {|
-  body: BodyType
+  body: BodyType,
+  isDropCapped?: boolean
 |}
 
-const Body = ({ body }: Props) => {
+const Body = ({
+  body,
+  isDropCapped
+}: Props) => {
   return (
     <div className={classNames({
       'basic-body': true
@@ -51,7 +55,7 @@ const Body = ({ body }: Props) => {
                 <div className='body-text'>
                   {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
                   {slice.weight !== 'featured' &&
-                    i === 0
+                    i === 0 && isDropCapped
                     ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
                     : <PrismicHtmlBlock html={slice.value} />
                   }

@@ -1,5 +1,6 @@
 // @flow
 import {Component, Fragment} from 'react';
+import Prismic from 'prismic-javascript';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
@@ -26,7 +27,7 @@ import {
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import {getEvent} from '@weco/common/services/prismic/events';
+import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {eventLd} from '@weco/common/utils/json-ld';
@@ -34,6 +35,10 @@ import {isEventFullyBooked} from '@weco/common/model/events';
 
 type Props = {|
   event: UiEvent
+|}
+
+type State = {|
+  scheduledIn: ?UiEvent
 |}
 
 // TODO: Probably use the StatusIndicator?
@@ -56,7 +61,7 @@ function DateList(event) {
       {event.times.map((eventTime, index) => {
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div className={`${event.isPast ? 'font-pewter' : ''}`}>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
               <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
@@ -96,7 +101,11 @@ function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
   return {...jsonEvent, times, schedule};
 }
 
-class EventPage extends Component<Props> {
+class EventPage extends Component<Props, State> {
+  state = {
+    scheduledIn: null
+  }
+
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {id} = context.query;
     const event = await getEvent(context.req, {id});
@@ -118,9 +127,24 @@ class EventPage extends Component<Props> {
     }
   }
 
+  async componentDidMount() {
+    const scheduledIn = await getEvents(null, {
+      predicates: [
+        Prismic.Predicates.at('my.events.schedule.event', this.props.event.id)
+      ]
+    });
+
+    if (scheduledIn && scheduledIn.results.length > 0) {
+      this.setState({
+        scheduledIn: scheduledIn.results[0]
+      });
+    }
+  }
+
   render() {
     const jsonEvent = this.props.event;
     const event = convertJsonToDates(jsonEvent);
+    const {scheduledIn} = this.state;
 
     const image = event.promo && event.promo.image;
     const tasl = image && {
@@ -165,13 +189,19 @@ class EventPage extends Component<Props> {
           text: series.title || '',
           prefix: 'Part of'
         })),
+        scheduledIn ? {
+          url: `/events/${scheduledIn.id}`,
+          text: scheduledIn.title || '',
+          prefix: 'Part of'
+        } : null,
         {
           url: `/events/${event.id}`,
           text: event.title,
           isHidden: true
         }
-      ]
+      ].filter(Boolean)
     };
+
     const labels = {
       labels: eventFormat.concat(
         eventAudiences,

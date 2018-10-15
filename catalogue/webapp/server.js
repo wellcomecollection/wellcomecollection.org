@@ -105,7 +105,6 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
-
   router.get('/works/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/work', {
@@ -116,7 +115,6 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
-
   router.get('/works', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/works', {
@@ -125,6 +123,10 @@ app.prepare().then(async () => {
       toggles
     });
     ctx.respond = false;
+  });
+  router.get('/works/management/healthcheck', async ctx => {
+    ctx.status = 200;
+    ctx.body = 'ok';
   });
 
   router.get('*', async ctx => {

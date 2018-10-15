@@ -77,7 +77,7 @@ function determineDateRange(times) {
 
 function determineDisplayTime(times: EventTime[]): EventTime {
   const upcomingDates = times.filter(t => {
-    return london(t.range.startDateTime).isSameOrAfter(london());
+    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
   });
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
@@ -232,13 +232,13 @@ export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?U
 type EventsQueryProps = {|
   predicates: Prismic.Predicates[],
   period?: Period,
-  order: 'asc' | 'desc',
+  order?: 'asc' | 'desc',
   ...PrismicQueryOpts
 |}
 
 export async function getEvents(req: ?Request,  {
   predicates = [],
-  order = 'desc',
+  order = 'asc',
   period,
   ...opts
 }: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
@@ -329,6 +329,7 @@ export async function getEvents(req: ?Request,  {
   ].concat(predicates, dateRangePredicates), {
     orderings,
     page: opts.page,
+    pageSize: opts.pageSize,
     graphQuery
   });
 
@@ -340,12 +341,19 @@ export async function getEvents(req: ?Request,  {
     return a.displayStart - b.displayStart;
   });
 
+  // Prismic uses the first date in times to determine past events,
+  // so we need to remove the ones that still have more dates in the future
+  const eventsWithoutIncorrectPast = events.filter(event => {
+    const hasFutureDates = event.times.find(time => london(time.range.startDateTime).isSameOrAfter(london(), 'day'));
+    return !hasFutureDates;
+  });
+
   return {
     currentPage: paginatedResults.currentPage,
     pageSize: paginatedResults.pageSize,
     totalResults: paginatedResults.totalResults,
     totalPages: paginatedResults.totalPages,
-    results: eventsOrderedByDisplayDate
+    results: order === 'desc' ? eventsWithoutIncorrectPast : eventsOrderedByDisplayDate
   };
 }
 
