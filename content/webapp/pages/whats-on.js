@@ -1,9 +1,9 @@
 // @flow
 import {Component, Fragment} from 'react';
-import {classNames, font, spacing, grid} from '@weco/common/utils/classnames';
+import {classNames, font, spacing, grid, cssGrid} from '@weco/common/utils/classnames';
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
 import {getEvents} from '@weco/common/services/prismic/events';
-import {london} from '@weco/common/utils/format-date';
+import {london, formatDay, formatDate} from '@weco/common/utils/format-date';
 import {convertJsonToDates} from './event';
 import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';
 import {
@@ -14,7 +14,7 @@ import {
   dailyTourPromo
 } from '@weco/common/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
@@ -26,12 +26,18 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 import InstallationPromo from '@weco/common/views/components/InstallationPromo/InstallationPromo';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
 type Props = {|
-  exhibitions: PaginatedResults<UiExhibition>
+  exhibitions: PaginatedResults<UiExhibition>,
+  events: PaginatedResults<UiEvents>,
+  period: string,
+  dateRange: any[],
+  tryTheseTooPromos: any[],
+  eatShopPromos: any[]
 |}
 
 export function getListHeader(collectionOpeningTimes: any) {
@@ -90,14 +96,79 @@ function getWeekendToDate(today) {
   }
 }
 
-const DateRange = ({dateRange}) => {
-  return (<div></div>);
+type DateRangeProps = {|
+  dateRange: any,
+  period: string,
+  cafePromo: any,
+  shopPromo: any
+|}
+const DateRange = ({
+  dateRange,
+  period,
+  cafePromo,
+  shopPromo
+}: DateRangeProps) => {
+  const fromDate = dateRange[0];
+  const toDate = dateRange[1];
+  const listHeader = getListHeader(pageStore('openingTimes').openingTimes);
+
+  return (
+    <Fragment>
+      <p className={classNames({
+        [font({s: 'HNM4', m: 'HNM4'})]: true,
+        [spacing({s: 0}, {margin: ['top']})]: true,
+        [spacing({s: 1}, {margin: ['bottom']})]: true
+      })}>
+        {period === 'today' &&
+          <time dateTime={fromDate}>{formatDate(fromDate)}</time>
+        }
+        {period === 'this-weekend' &&
+          <Fragment>
+            <time dateTime={fromDate}>
+              {formatDay(fromDate)}
+            </time>
+            &ndash;
+            <time dateTime={toDate}>
+              {formatDay(toDate)}
+            </time>
+          </Fragment>
+        }
+        {period === 'today' &&
+          <Fragment>
+            From
+            <time dateTime={fromDate}>formatDate(fromDate)</time>
+          </Fragment>
+        }
+      </p>
+      {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) && period === 'today' &&
+        <Fragment>
+          <p className={classNames({
+            [font({s: 'WB6', m: 'WB5', l: 'WB4'})]: true,
+            [spacing({s: 2}, {margin: ['bottom']})]: true
+          })}>
+            Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a> and <a href={shopPromo.url}>shop</a> are open for your visit.
+          </p>
+          <div className={classNames({
+            [spacing({s: 3, m: 4, l: 5}, {margin: ['top', 'bottom']})]: true
+          })}>
+            <Divider extraClasses={'divider--dashed'} />
+          </div>
+        </Fragment>
+      }
+    </Fragment>
+  );
 };
 
+type HeaderProps = {|
+  todayOpeningHours: any,
+  activeId: string
+|}
 const Header = ({
-  todayOpeningHours,
   activeId
-}) => {
+}: HeaderProps) => {
+  const listHeader = getListHeader(pageStore('openingTimes').openingTimes);
+  const todayOpeningHours = listHeader.todayOpeningHours;
+
   return (
     <div className={classNames({
       'row': true,
@@ -220,7 +291,8 @@ export class ArticleSeriesPage extends Component<Props> {
     const {
       period,
       dateRange,
-      tryTheseTooPromos
+      tryTheseTooPromos,
+      eatShopPromos
     } = this.props;
     const events = this.props.events.results.map(convertJsonToDates);
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
@@ -247,7 +319,12 @@ export class ArticleSeriesPage extends Component<Props> {
                   <div className={classNames({
                     [classNames({s: 0}, {margin: ['top', 'bottom']})]: true
                   })}>
-                    {/* include './date_range.njk' */}
+                    <DateRange
+                      dateRange={dateRange}
+                      period={period}
+                      cafePromo={eatShopPromos[0]}
+                      shopPromo={eatShopPromos[1]}
+                    />
                     <div className='flex flex--v-center flex--h-space-between'>
                       <h2 className='h1'>Exhibitions</h2>
                       <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
@@ -287,7 +364,12 @@ export class ArticleSeriesPage extends Component<Props> {
                   <div className={classNames({
                     [spacing({s: 0}, {margin: ['top', 'bottom']})]: true
                   })}>
-                    {/* include './date_range.njk' */}
+                    <DateRange
+                      dateRange={dateRange}
+                      period={period}
+                      cafePromo={eatShopPromos[0]}
+                      shopPromo={eatShopPromos[1]}
+                    />
                     <div className='flex flex--v-center flex--h-space-between'>
                       <h2 className='h1'>Exhibitions and Events</h2>
                       <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
@@ -314,13 +396,19 @@ export class ArticleSeriesPage extends Component<Props> {
 
         <SectionHeader title={'Try these too'} />
         <div className='css-grid__container'>
-          <div className="css-grid {{ {s:2, m:4} | spacingClasses({margin: ['top', 'bottom']}) }}">
-            <div className='{{ {s: 12, m: 12, l: 12, xl: 12} | cssGridClasses }} css-grid__scroll-container container--scroll touch-scroll'>
+          <div className={classNames({
+            'css-grid': true,
+            [spacing({s: 2, m: 4}, {margin: ['top', 'bottom']})]: true
+          })}>
+            <div className={classNames({
+              'css-grid__scroll-container container--scroll touch-scroll': true,
+              [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+            })}>
               <div className='css-grid grid--scroll'>
                 {tryTheseTooPromos.map(promo => (
                   <div
                     key={promo.title}
-                    className='{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}'>
+                    className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
                     <FacilityPromo
                       title={promo.title}
                       url={promo.url}
@@ -332,7 +420,8 @@ export class ArticleSeriesPage extends Component<Props> {
                   </div>
                 ))}
 
-                <div className='{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}'>
+                <div
+                  className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
                   <InstallationPromo
                     id={pharmacyOfColourData.id}
                     title={pharmacyOfColourData.title}
@@ -343,6 +432,37 @@ export class ArticleSeriesPage extends Component<Props> {
                     position={2}
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <SectionHeader title='Eat and shop' />
+
+        <div className='css-grid__container'>
+          <div className={classNames({
+            'css-grid': true,
+            [spacing({s: 2, m: 4}, {margin: ['top', 'bottom']})]: true
+          })}>
+            <div className={classNames({
+              'css-grid__scroll-container container--scroll touch-scroll': true,
+              [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+            })}>
+              <div className='css-grid grid--scroll'>
+                {eatShopPromos.map(promo =>
+                  <div
+                    key={promo.id}
+                    className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
+                    <FacilityPromo
+                      title={promo.title}
+                      url={promo.url}
+                      description={promo.description}
+                      imageProps={promo.image}
+                      metaText={promo.metaText}
+                      metaIcon={promo.metaIcon}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

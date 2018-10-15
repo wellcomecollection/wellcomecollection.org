@@ -4,6 +4,7 @@ import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-h
 import type {Period} from '@weco/common/model/periods';
 
 export function getListHeader(collectionOpeningTimes: any) {
+  console.info(collectionOpeningTimes);
   const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
   return {
     todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),

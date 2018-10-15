@@ -42,6 +42,7 @@ async function fetchOpeningTimes(req: Request) {
   };
 
   return {
+    openingTimes,
     groupedVenues: groupedVenues,
     upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
   };
