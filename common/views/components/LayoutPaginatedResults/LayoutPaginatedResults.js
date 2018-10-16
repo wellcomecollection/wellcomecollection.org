@@ -1,21 +1,22 @@
 // @flow
-import {Fragment} from 'react';
+import { Fragment } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
 import Layout12 from '../Layout12/Layout12';
 import Divider from '../Divider/Divider';
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import {classNames, spacing, font, grid} from '../../../utils/classnames';
-import type {Period} from '../../../model/periods';
-import type {UiExhibition} from '../../../model/exhibitions';
-import type {Book} from '../../../model/books';
-import type {PaginatedResults, HTMLString} from '../../../services/prismic/types';
+import { classNames, spacing, font, grid } from '../../../utils/classnames';
+import type { Period } from '../../../model/periods';
+import type { UiExhibition } from '../../../model/exhibitions';
+import type { UiEvent } from '../../../model/events';
+import type { Book } from '../../../model/books';
+import type { PaginatedResults, HTMLString } from '../../../services/prismic/types';
 
 type Props = {|
   title: string,
   description: ?HTMLString,
-  paginatedResults: | PaginatedResults<UiExhibition> | PaginatedResults<Book>,
   paginationRoot: string,
+  paginatedResults: PaginatedResults<UiExhibition> | PaginatedResults<UiEvent> | PaginatedResults<Book>,
   period?: Period
 |}
 

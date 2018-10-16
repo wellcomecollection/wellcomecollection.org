@@ -9,6 +9,7 @@ import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
 import {PageBackgroundContext} from '../BasePage/BasePage';
 import {repeatingLsBlack} from '../../../utils/backgrounds';
+import {breakpoints} from '../../../utils/breakpoints';
 
 type Props = {|
   id: string,
@@ -124,7 +125,10 @@ class ImageGallery extends Component<Props, State> {
                         image={captionedImage.image}
                         caption={captionedImage.caption}
                         setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
-                        sizesQueries={'(max-width: 600px) 100vw, ' + (captionedImage.image.width / captionedImage.image.height) * 640 + 'px'}
+                        sizesQueries={`
+                          (min-width: ${breakpoints.xlarge}) calc(${breakpoints.xlarge} - 120px),
+                          calc(100vw - 84px)
+                        `}
                         preCaptionNode={items.length > 1 ? (
                           <div className={classNames({
                             [font({s: 'HNM5', m: 'HNM4'})]: true,

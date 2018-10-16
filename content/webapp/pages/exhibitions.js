@@ -1,12 +1,13 @@
 // @flow
-import {Component} from 'react';
-import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
+import { Component } from 'react';
+import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
+import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
-import type {UiExhibition} from '@weco/common/model/exhibitions';
-import type {Period} from '@weco/common/model/periods';
-import type {PaginatedResults} from '@weco/common/services/prismic/types';
+import type { GetInitialPropsProps } from '@weco/common/views/components/PageWrapper/PageWrapper';
+import type { UiExhibition } from '@weco/common/model/exhibitions';
+import type { Period } from '@weco/common/model/periods';
+import type { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -17,9 +18,9 @@ type Props = {|
 const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
 export class ExhibitionsListPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {page = 1} = context.query;
-    const {period} = context.query;
-    const exhibitions = await getExhibitions(context.req, {page, period});
+    const { page = 1 } = context.query;
+    const { period } = context.query;
+    const exhibitions = await getExhibitions(context.req, { page, period });
     if (exhibitions) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {
@@ -32,15 +33,16 @@ export class ExhibitionsListPage extends Component<Props> {
         canonicalUrl: `https://wellcomecollection.org/exhibitions`,
         imageUrl: null,
         siteSection: 'whatson',
-        analyticsCategory: 'public-programme'
+        analyticsCategory: 'public-programme',
+        pageJsonLd: exhibitions.results.map(exhibition => exhibitionLd(exhibition))
       };
     } else {
-      return {statusCode: 404};
+      return { statusCode: 404 };
     }
   }
 
   render() {
-    const {exhibitions, period, displayTitle} = this.props;
+    const { exhibitions, period, displayTitle } = this.props;
 
     return (
       <LayoutPaginatedResults

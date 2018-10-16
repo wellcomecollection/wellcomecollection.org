@@ -152,6 +152,30 @@ app.prepare().then(async () => {
     ctx.respond = false;
   });
 
+  router.get('/events', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/events', {
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get(`/events/:period(${periodPaths})`, async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/events', {
+      period: ctx.params.period,
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get('/events/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/event', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
+
   router.get('/articles/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/article', {
@@ -183,6 +207,14 @@ app.prepare().then(async () => {
       id: ctx.params.id,
       toggles,
       page
+    });
+    ctx.respond = false;
+  });
+  router.get('/event-series/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/event-series', {
+      id: ctx.params.id,
+      toggles
     });
     ctx.respond = false;
   });
@@ -236,7 +268,20 @@ app.prepare().then(async () => {
     ctx.status = 200;
     ctx.body = 'ok';
   });
-
+  router.get('/opening-times', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/opening-times', {
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get('/newsletter', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/newsletter', {
+      toggles
+    });
+    ctx.respond = false;
+  });
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
   pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
   pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
