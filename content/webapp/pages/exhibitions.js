@@ -9,8 +9,8 @@ import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
-  displayTitle: string,
-  exhibitions: PaginatedResults<UiExhibition>
+  exhibitions: PaginatedResults<UiExhibition>,
+  displayTitle: string
 |}
 
 const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';

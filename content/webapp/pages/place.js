@@ -54,9 +54,16 @@ export class ArticleSeriesPage extends Component<Props> {
     /* $FlowFixMe */
     const FeaturedMedia = place.promo && <UiImage tasl={tasl} {...image} />;
     const breadcrumbs = {
-      items: [{
-        text: 'Places'
-      }]
+      items: [
+        {
+          text: 'Places'
+        },
+        {
+          url: `/places/${place.id}`,
+          text: place.title,
+          isHidden: true
+        }
+      ]
     };
     const Header = (<PageHeader
       breadcrumbs={breadcrumbs}
