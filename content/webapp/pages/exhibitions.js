@@ -8,7 +8,8 @@ import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
 type Props = {|
-  exhibitions: PaginatedResults<UiExhibition>
+  exhibitions: PaginatedResults<UiExhibition>,
+  displayTitle: string
 |}
 
 const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
@@ -18,9 +19,11 @@ export class ArticleSeriesPage extends Component<Props> {
     const {period} = context.query;
     const exhibitions = await getExhibitions(context.req, {page, period});
     if (exhibitions) {
+      const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {
         exhibitions,
-        title: 'Exhibitions',
+        title,
+        displayTitle: title,
         description: pageDescription,
         type: 'website',
         canonicalUrl: `https://wellcomecollection.org/exhibitions`,
@@ -34,11 +37,11 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 
   render() {
-    const {exhibitions} = this.props;
+    const {exhibitions, displayTitle} = this.props;
 
     return (
       <LayoutPaginatedResults
-        title={'Exhibitions'}
+        title={displayTitle}
         description={[{
           type: 'paragraph',
           text: pageDescription,
