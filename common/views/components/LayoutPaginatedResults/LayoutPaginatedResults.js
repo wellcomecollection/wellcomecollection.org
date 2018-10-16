@@ -8,12 +8,13 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import {classNames, spacing, font, grid} from '../../../utils/classnames';
 import type {Period} from '../../../model/periods';
 import type {UiExhibition} from '../../../model/exhibitions';
+import type {Book} from '../../../model/books';
 import type {PaginatedResults, HTMLString} from '../../../services/prismic/types';
 
 type Props = {|
   title: string,
   description: ?HTMLString,
-  paginatedResults: PaginatedResults<UiExhibition>,
+  paginatedResults: | PaginatedResults<UiExhibition> | PaginatedResults<Book>,
   period?: Period
 |}
 

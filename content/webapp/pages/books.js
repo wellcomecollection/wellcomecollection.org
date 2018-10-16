@@ -1,32 +1,31 @@
 // @flow
 import {Component} from 'react';
-import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
+import {getBooks} from '@weco/common/services/prismic/books';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
-import type {UiExhibition} from '@weco/common/model/exhibitions';
+import type {Book} from '@weco/common/model/books';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
 type Props = {|
-  exhibitions: PaginatedResults<UiExhibition>
+  books: PaginatedResults<Book>
 |}
 
-const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
-export class ExhibitionsListPage extends Component<Props> {
+const pageDescription = 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.';
+export class BooksListPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {page = 1} = context.query;
-    const {period} = context.query;
-    const exhibitions = await getExhibitions(context.req, {page, period});
-    if (exhibitions) {
+    const books = await getBooks(context.req, {page});
+    if (books) {
       return {
-        exhibitions,
-        title: 'Exhibitions',
+        books,
+        title: 'Books',
         description: pageDescription,
         type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/exhibitions`,
+        canonicalUrl: `https://wellcomecollection.org/books`,
         imageUrl: null,
-        siteSection: 'whatson',
-        analyticsCategory: 'public-programme'
+        siteSection: 'books',
+        analyticsCategory: 'books'
       };
     } else {
       return {statusCode: 404};
@@ -34,20 +33,20 @@ export class ExhibitionsListPage extends Component<Props> {
   }
 
   render() {
-    const {exhibitions} = this.props;
+    const {books} = this.props;
 
     return (
       <LayoutPaginatedResults
-        title={'Exhibitions'}
+        title={'Books'}
         description={[{
           type: 'paragraph',
           text: pageDescription,
           spans: []
         }]}
-        paginatedResults={exhibitions}
+        paginatedResults={books}
       />
     );
   }
 };
 
-export default PageWrapper(ExhibitionsListPage);
+export default PageWrapper(BooksListPage);
