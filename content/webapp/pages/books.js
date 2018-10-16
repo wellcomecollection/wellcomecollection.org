@@ -44,6 +44,7 @@ export class BooksListPage extends Component<Props> {
           spans: []
         }]}
         paginatedResults={books}
+        paginationRoot={'books'}
       />
     );
   }

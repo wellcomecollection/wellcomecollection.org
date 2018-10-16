@@ -45,6 +45,7 @@ export class ExhibitionsListPage extends Component<Props> {
           spans: []
         }]}
         paginatedResults={exhibitions}
+        paginationRoot={'exhibitions'}
       />
     );
   }

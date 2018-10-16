@@ -15,6 +15,7 @@ type Props = {|
   title: string,
   description: ?HTMLString,
   paginatedResults: | PaginatedResults<UiExhibition> | PaginatedResults<Book>,
+  paginationRoot: string,
   period?: Period
 |}
 
@@ -22,6 +23,7 @@ const LayoutPaginatedResults = ({
   title,
   description,
   paginatedResults,
+  paginationRoot,
   period
 }: Props) => (
   <Fragment>
@@ -30,7 +32,6 @@ const LayoutPaginatedResults = ({
       'bg-cream': true,
       'plain-text': true,
       [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
-
     })}>
       <div className='container'>
         <div className='grid'>
@@ -97,10 +98,10 @@ const LayoutPaginatedResults = ({
             <Pagination
               currentPage={paginatedResults.currentPage}
               pageCount={paginatedResults.totalPages}
-              prevPage={paginatedResults.currentPage > 1 ? paginatedResults.currentPage - 1 : 0}
-              nextPage={paginatedResults.currentPage < paginatedResults.totalPages ? paginatedResults.currentPage + 1 : 0}
-              prevQueryString={'/exhibitions' + (period ? `/${period}` : '') + (paginatedResults.currentPage > 1 ? `?page=${paginatedResults.currentPage - 1}` : '')}
-              nextQueryString={'/exhibitions' + (period ? `/${period}` : '') + (paginatedResults.currentPage < paginatedResults.totalPages ? `?page=${paginatedResults.currentPage + 1}` : '')}
+              prevPage={paginatedResults.currentPage > 1 ? paginatedResults.currentPage - 1 : null}
+              nextPage={paginatedResults.currentPage < paginatedResults.totalPages ? paginatedResults.currentPage + 1 : null}
+              prevQueryString={`/${paginationRoot}` + (period ? `/${period}` : '') + (paginatedResults.currentPage > 1 ? `?page=${paginatedResults.currentPage - 1}` : '')}
+              nextQueryString={`/${paginationRoot}` + (period ? `/${period}` : '') + (paginatedResults.currentPage < paginatedResults.totalPages ? `?page=${paginatedResults.currentPage + 1}` : '')}
             />
           </div>
         </Layout12>
