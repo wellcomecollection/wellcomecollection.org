@@ -161,6 +161,23 @@ module "schools_listener" {
   path = "/schools"
 }
 
+module "opening_times_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "108"
+  path = "/opening-times"
+}
+ module "newsletter_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "109"
+  path = "/newsletter"
+}
+
 module "installations_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
@@ -176,7 +193,7 @@ module "exhibitions_listener" {
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
   priority = "111"
-  path = "/exhibitions/*"
+  path = "/exhibitions*"
 }
 
 module "events_listener" {
@@ -208,6 +225,15 @@ module "article_series_listener" {
   # TODO: (wordpress)
   # We're supporting wordpress articles for the time being
   path = "/series/W*"
+}
+
+module "book_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "117"
+  path = "/books/*"
 }
 
 module "preview_listener" {
