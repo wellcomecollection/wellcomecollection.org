@@ -52,6 +52,8 @@
 }
 
 .segmented-control__list {
+  display: flex;
+
   .enhanced & {
     display: none;
 
