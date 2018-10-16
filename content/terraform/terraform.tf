@@ -227,6 +227,17 @@ module "article_series_listener" {
   path = "/series/W*"
 }
 
+module "event_series_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "115"
+  path = "/event-series/*"
+}
+
+# TODO: Books listener
+
 module "book_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
