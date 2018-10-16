@@ -92,7 +92,7 @@ export function exhibitionPromoLd(exhibitionPromo) {
 }
 
 export function workLd(content) {
-  const creators = content.creators.map(c => {
+  const creators = (content.creators || []).map(c => {
     return {
       '@type': 'Person',
       name: c.label
