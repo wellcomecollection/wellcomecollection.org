@@ -69,6 +69,17 @@
               position: 2
             } %}
           </div>
+          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
+            {% componentJsx 'InstallationPromo', {
+              id: ourVoiceOurWayData.id,
+              title: ourVoiceOurWayData.title,
+              description: ourVoiceOurWayData.promoText,
+              image: ourVoiceOurWayData.promoImage,
+              start: ourVoiceOurWayData.start,
+              end: ourVoiceOurWayData.end,
+              position: 3
+            } %}
+          </div>
         </div>
       </div>
     </div>
