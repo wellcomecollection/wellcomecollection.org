@@ -27,8 +27,7 @@ export class EventSeriesPage extends Component<Props> {
     const {id} = context.query;
     const seriesAndEvents = await getEventSeries(context.req, {
       id,
-      pageSize: 100,
-      order: 'asc'
+      pageSize: 100
     });
 
     if (seriesAndEvents) {
@@ -37,7 +36,7 @@ export class EventSeriesPage extends Component<Props> {
         series,
         events,
         title: series.title,
-        description: series.promoText,
+        description: series.promoText || '',
         type: 'webpage',
         canonicalUrl: `https://wellcomecollection.org/events-series/${series.id}`,
         imageUrl: series.image && convertImageUri(series.image.contentUrl, 800),
