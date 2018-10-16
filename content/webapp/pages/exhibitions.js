@@ -5,10 +5,12 @@ import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
+import type {Period} from '@weco/common/model/periods';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
 type Props = {|
-  exhibitions: PaginatedResults<UiExhibition>
+  exhibitions: PaginatedResults<UiExhibition>,
+  period: ?Period
 |}
 
 const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
@@ -20,6 +22,7 @@ export class ExhibitionsListPage extends Component<Props> {
     if (exhibitions) {
       return {
         exhibitions,
+        period,
         title: 'Exhibitions',
         description: pageDescription,
         type: 'website',
@@ -34,7 +37,7 @@ export class ExhibitionsListPage extends Component<Props> {
   }
 
   render() {
-    const {exhibitions} = this.props;
+    const {exhibitions, period} = this.props;
 
     return (
       <LayoutPaginatedResults
@@ -45,7 +48,7 @@ export class ExhibitionsListPage extends Component<Props> {
           spans: []
         }]}
         paginatedResults={exhibitions}
-        paginationRoot={'exhibitions'}
+        paginationRoot={`exhibitions${(period ? `/${period}` : '')}`}
       />
     );
   }

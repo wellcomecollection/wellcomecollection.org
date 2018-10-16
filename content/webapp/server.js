@@ -126,16 +126,20 @@ app.prepare().then(async () => {
   // it out for ease... although copy / paste is not bad
   router.get('/exhibitions', async ctx => {
     const {toggles} = ctx;
+    const {page} = ctx.query;
     await app.render(ctx.req, ctx.res, '/exhibitions', {
-      toggles
+      toggles,
+      page
     });
     ctx.respond = false;
   });
   router.get(`/exhibitions/:period(${periodPaths})`, async ctx => {
     const {toggles} = ctx;
+    const {page} = ctx.query;
     await app.render(ctx.req, ctx.res, '/exhibitions', {
       period: ctx.params.period,
-      toggles
+      toggles,
+      page
     });
     ctx.respond = false;
   });
@@ -169,6 +173,16 @@ app.prepare().then(async () => {
     await app.render(ctx.req, ctx.res, '/event', {
       id: ctx.params.id,
       toggles
+    });
+    ctx.respond = false;
+  });
+  router.get('/books', async ctx => {
+    const {toggles} = ctx;
+    const {page} = ctx.query;
+    await app.render(ctx.req, ctx.res, '/books', {
+      id: ctx.params.id,
+      toggles,
+      page
     });
     ctx.respond = false;
   });
