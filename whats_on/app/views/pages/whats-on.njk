@@ -60,17 +60,6 @@
 
           <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
             {% componentJsx 'InstallationPromo', {
-              id: pharmacyOfColourData.id,
-              title: pharmacyOfColourData.title,
-              description: pharmacyOfColourData.promoText,
-              image: pharmacyOfColourData.promoImage,
-              start: pharmacyOfColourData.start,
-              end: pharmacyOfColourData.end,
-              position: 2
-            } %}
-          </div>
-          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
-            {% componentJsx 'InstallationPromo', {
               id: ourVoiceOurWayData.id,
               title: ourVoiceOurWayData.title,
               description: ourVoiceOurWayData.promoText,
@@ -80,6 +69,18 @@
               position: 3
             } %}
           </div>
+          <div class="{{ {s: 12, m: 6, l: 4, xl:4} | cssGridClasses }}">
+            {% componentJsx 'InstallationPromo', {
+              id: pharmacyOfColourData.id,
+              title: pharmacyOfColourData.title,
+              description: pharmacyOfColourData.promoText,
+              image: pharmacyOfColourData.promoImage,
+              start: pharmacyOfColourData.start,
+              end: pharmacyOfColourData.end,
+              position: 2
+            } %}
+          </div>
+
         </div>
       </div>
     </div>
