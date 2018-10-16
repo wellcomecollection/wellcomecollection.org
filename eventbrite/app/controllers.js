@@ -94,23 +94,52 @@ export async function getEventsInfo(ctx, next) {
       const tickets = eventTickets.body.ticket_classes.filter(ticketClass => {
         const ticketClassName = ticketClass.name.toLowerCase();
         const ignore = ticketClassName.startsWith('waiting list') ||
-          ticketClassName.startsWith('comp ');
+          ticketClassName.startsWith('comp');
         return !ignore;
       }).map(ticketClass => {
         const isFullyBooked = ticketClass.on_sale_status === 'SOLD_OUT';
         const bookingOpens = new Date(ticketClass.sales_start);
+        const salesEnded = new Date(ticketClass.sales_end) < new Date();
 
-        return {isFullyBooked, bookingOpens};
+        return {
+          isFullyBooked,
+          bookingOpens,
+          salesEnded
+        };
       });
       return tickets.find(_ => _);
     } else {
-      // TODO: deal with multi type events
+      const eventsInSeriesResponse = await superagent.get(`${eventbriteApiRoot}/series/${id}/events/?token=${eventbritePersonalOauthToken}`);
+      const eventsInSeries = eventsInSeriesResponse.body.events;
+      const eventsInSeriesTickets = eventsInSeries.map(event => event.id).map(async (id) => {
+        const eventTickets = await superagent.get(`${eventbriteApiRoot}/events/${id}/ticket_classes/?token=${eventbritePersonalOauthToken}`);
+        const tickets = eventTickets.body.ticket_classes.filter(ticketClass => {
+          const ticketClassName = ticketClass.name.toLowerCase();
+          const ignore = ticketClassName.startsWith('waiting list') ||
+            ticketClassName.startsWith('comp');
+          return !ignore;
+        }).map(ticketClass => {
+          const isFullyBooked = ticketClass.on_sale_status === 'SOLD_OUT';
+          const bookingOpens = new Date(ticketClass.sales_start);
+          const salesEnded = new Date(ticketClass.sales_end) < new Date();
+
+          return {
+            isFullyBooked,
+            bookingOpens,
+            salesEnded
+          };
+        });
+        return tickets.find(_ => _);
+      });
+
+      const eventsTickets = await Promise.all(eventsInSeriesTickets);
+      return eventsTickets;
     }
   }).filter(Boolean);
 
   const responses = await Promise.all(eventsRequestPromises);
 
-  ctx.body = {results: responses};
+  ctx.body = {results: responses.filter(Boolean)};
 }
 
 export async function renderEventbriteWidget(ctx, next) {
