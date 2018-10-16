@@ -162,8 +162,8 @@ export class StoriesPage extends Component<Props> {
           {openingHours.exceptionalClosedDates.length > 0 &&
             <Fragment>
               <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
-                <h2 className="{{ {s:'WB6', m:'WB5'} | fontClasses }} no-margin" id='exceptional'>
-                  Closure dates for
+                <h2 className={`${font({s: 'WB6', m: 'WB5'})} no-margin`} id='exceptional'>
+                  Closure dates for{' '}
                   {openingHours.exceptionalClosedDates[0].periodStart ? formatYear(openingHours.exceptionalClosedDates[0].periodStart) : ' the coming year'}
                 </h2>
                 {openingHours.exceptionalClosedDates.map(period => {
@@ -181,12 +181,12 @@ export class StoriesPage extends Component<Props> {
                         const modified = period.venues[venue];
                         return (
                           <p key={venue} className={spacing({s: 1}, {margin: ['bottom']})}>
-                            {venue} will be closed on
+                            {venue} will be closed on{' '}
                             {modified.map((item, i) => {
                               return (
                                 <Fragment key={i}>
-                                  {modified.length > 2 && (i > 1 && i < modified.length) && ', '}
-                                  {modified.length >= 2 && i === modified.length && ' and '}
+                                  {modified.length > 2 && (i >= 1 && i < modified.length - 1) && ', '}
+                                  {modified.length >= 2 && i === modified.length - 1 && ' and '}
                                   {
                                     item.exceptionalDate.overrideDate &&
                                     formatDayMonth(item.exceptionalDate.overrideDate)

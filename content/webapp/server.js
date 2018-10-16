@@ -230,7 +230,20 @@ app.prepare().then(async () => {
     ctx.status = 200;
     ctx.body = 'ok';
   });
-
+  router.get('/opening-times', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/opening-times', {
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get('/newsletter', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/newsletter', {
+      toggles
+    });
+    ctx.respond = false;
+  });
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
   pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
   pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
