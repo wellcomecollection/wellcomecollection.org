@@ -58,9 +58,9 @@ const Body = ({
                 <div className='body-text'>
                   {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
                   {slice.weight !== 'featured' &&
-                    firstTextSliceIndex === i && isDropCapped
-                    ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
-                    : <PrismicHtmlBlock html={slice.value} />
+                    (firstTextSliceIndex === i && isDropCapped
+                      ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
+                      : <PrismicHtmlBlock html={slice.value} />)
                   }
                 </div>
               </Layout8>
