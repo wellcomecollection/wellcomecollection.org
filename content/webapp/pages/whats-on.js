@@ -218,7 +218,7 @@ const Header = ({
                   </div>
                 }
                 <SecondaryLink
-                  url={'https://wellcomecollection.org/opening-times'}
+                  url={'/opening-times'}
                   text={'Full opening times'}
                 />
               </div>

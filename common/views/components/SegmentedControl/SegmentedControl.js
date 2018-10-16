@@ -8,7 +8,8 @@ type Props = {|
   id: string,
   items: {| id: string, text: string, url: string |}[],
   activeId: ?string,
-  onActiveIdChange?: (id: string) => void
+  onActiveIdChange?: (id: string) => void,
+  extraClasses?: string
 |}
 
 type State = {|
@@ -41,13 +42,15 @@ class SegmentedControl extends Component<Props, State> {
   render() {
     const {
       id,
-      items
+      items,
+      extraClasses
     } = this.props;
     const {activeId, isActive} = this.state;
 
     return (
       <div className={classNames({
-        'segmented-control': true
+        'segmented-control': true,
+        [extraClasses || '']: Boolean(extraClasses)
       })}>
         <div className={classNames({
           'segmented-control__drawer': true,
