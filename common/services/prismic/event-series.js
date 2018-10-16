@@ -37,11 +37,11 @@ export async function getEventSeries(req: ?Request, {
   const events = await getEvents(req, {
     page: 1,
     predicates: [Prismic.Predicates.at('my.events.series.series', id)],
-    order: 'desc',
+    order: 'asc',
     ...opts
   });
 
-  if (events && events.results.length > 0) {
+  if (events && events.results && events.results.length > 0) {
     const series = events.results[0].series.find(series => series.id === id);
 
     return series && {
@@ -49,7 +49,7 @@ export async function getEventSeries(req: ?Request, {
       events: events.results
     };
   } else {
-    // TODO: (perf) we shoulnd't really be doing two calls here, but it's for
+    // TODO: (perf) we shouldn't really be doing two calls here, but it's for
     // when a series has no events attached.
     const document = await getDocument(req, id, {});
     return document && { series: parseEventSeries(document), events: [] };
