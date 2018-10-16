@@ -27,6 +27,7 @@ import {dailyTourPromo} from '../../server/data/facility-promos';
 import uuidv4 from 'uuid/v4';
 import {getEvents} from '../../common/services/prismic/events';
 import pharmacyOfColourData from '../../common/data/the-pharmacy-of-colour';
+import ourVoiceOurWayData from '../../common/data/our-voice-our-way';
 
 export const renderOpeningTimes = async(ctx, next) => {
   const path = ctx.request.url;
@@ -90,6 +91,7 @@ export async function renderHomepage(ctx, next) {
     events,
     exhibitions,
     pharmacyOfColourData,
+    ourVoiceOurWayData,
     storiesPromos,
     dailyTourPromo
   });

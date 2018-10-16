@@ -26,6 +26,7 @@ import {
   dailyTourPromo
 } from '../../server/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
+import ourVoiceOurWayData from '@weco/common/data/our-voice-our-way';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import { getListHeader, getMomentsForPeriod } from './utils';
 const {createPageConfig} = model;
@@ -62,6 +63,7 @@ export async function renderWhatsOn(ctx, next) {
     events,
     exhibitions,
     pharmacyOfColourData,
+    ourVoiceOurWayData,
     dateRange,
     listHeader: getListHeader(ctx.intervalCache.get('collectionOpeningTimes')),
     tryTheseTooPromos: [readingRoomPromo],
