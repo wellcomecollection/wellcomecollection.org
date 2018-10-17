@@ -7,4 +7,4 @@ For example, a portrait image in a 12 column container will _try_ to go as wide 
 
 In order to ensure that images retain their aspect ratio while not growing larger than the viewport, they necessarily have their `width` property set to `auto` (rather than our default for images, which is `100%`). This necessitates that the image is _at least_ as wide as the area that it needs to fill.
 
-This shouldn't be a problem in terms of content creation (we upload larger-than-necessary resize multiple responsive widths on the server) but it does mean careful attention should be paid to the `sizes` attribute that determines which responsive image is most appropriate for the browser to serve at various breakpoints.
+This shouldn't be a problem in terms of content creation (we upload larger-than-necessary and resize multiple responsive widths on the server) but it does mean careful attention should be paid to the `sizes` attribute that determines which responsive image is most appropriate for the browser to serve at various breakpoints.
