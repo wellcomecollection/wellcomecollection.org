@@ -55,7 +55,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     // ensures the TASL information button is correctly contained within the
     // image.
     this.setState({ imgRef: this.imgRef.current });
-    this.imgRef.current.addEventListener('lazyloaded', this.handleLazyLoaded);
+    this.imgRef.current && this.imgRef.current.addEventListener('lazyloaded', this.handleLazyLoaded);
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(false);
 
     window.addEventListener('resize', this.debouncedGetImageSize);
@@ -63,7 +63,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedGetImageSize);
-    this.imgRef.current.removeEventListener('lazyloaded', this.handleLazyLoaded);
+    this.imgRef.current && this.imgRef.current.removeEventListener('lazyloaded', this.handleLazyLoaded);
   }
 
   render() {
