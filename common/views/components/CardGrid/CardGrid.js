@@ -5,6 +5,7 @@ import EventPromo from '../EventPromo/EventPromo';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
+import StoryPromo from '../StoryPromo/StoryPromo';
 import type {UiExhibition} from '../../../model/exhibitions';
 import type {UiEvent} from '../../../model/events';
 import type {Installation} from '../../../model/installations';
@@ -66,6 +67,14 @@ const CardGrid = ({
                 event={item}
                 position={i} />
             }
+            {item.type === 'articles' &&
+              // TODO: (remove Picture type)
+              // $FlowFixMe
+              <StoryPromo
+                item={item}
+                position={i}
+                showPosition={true} />
+            }
             {item.type === 'books' &&
               <BookPromo
                 url={`/books/${item.id}`}
@@ -74,7 +83,16 @@ const CardGrid = ({
                 description={item.promoText}
                 image={item.cover} />
             }
-
+            {item.type === 'installations' &&
+              <InstallationPromo
+                id={item.id}
+                description={item.promoText}
+                start={item.start}
+                end={item.end}
+                image={item.promoImage}
+                title={item.title}
+              />
+            }
           </div>
         ))}
       </div>
