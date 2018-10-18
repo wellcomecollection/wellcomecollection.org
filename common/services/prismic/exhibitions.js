@@ -86,7 +86,7 @@ function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   }).filter(Boolean);
 }
 
-function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
+export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const genericFields = parseGenericFields(document);
   const data = document.data;
   const promo = data.promo;
