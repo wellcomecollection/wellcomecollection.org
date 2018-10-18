@@ -8,6 +8,7 @@ import { parseBook } from './books';
 import { parseEventDoc } from './events';
 import { parseArticle } from './articles';
 import { parseInstallationDoc } from './installations';
+import { parseExhibitionDoc } from './exhibitions';
 import {
   pagesFields,
   interpretationTypesFields,
@@ -37,6 +38,8 @@ export function parseMultiContent(documents: PrismicDocument[]): MultiContent[] 
         return parseArticle(document);
       case 'installations':
         return parseInstallationDoc(document);
+      case 'exhibitions':
+        return parseExhibitionDoc(document);
     }
   }).filter(Boolean);
 }

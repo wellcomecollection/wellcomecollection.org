@@ -7,10 +7,13 @@ import {
   parseSingleLevelGroup,
   parseLabelType,
   isDocumentLink,
-  checkAndParseImage
+  checkAndParseImage,
+  asText
 } from './parsers';
+import {parseMultiContent} from './multi-content';
 import {parseArticleSeries} from './article-series';
 import type {Article} from '../../model/articles';
+import type {MultiContent} from '../../model/multi-content';
 import type {
   PrismicDocument,
   PaginatedResults,
@@ -33,9 +36,6 @@ const graphQuery = `{
       contributor {
         ... on people {
           ...peopleFields
-        }
-        ... on organisations {
-          ...organisationsFields
         }
       }
     }
@@ -106,7 +106,16 @@ const graphQuery = `{
       }
     }
   }
-}`;
+}`.replace(/\n(\s+)/g, '\n');
+
+function parseContentLink(document: PrismicDocument): ?MultiContent {
+  if (!document || document.isBroken !== false) {
+    return;
+  }
+
+  const parsedDocuments = parseMultiContent([document]);
+  return parsedDocuments.length > 0 ? parsedDocuments[0] : null;
+}
 
 function parseArticleDoc(document: PrismicDocument): Article {
   const {data} = document;
@@ -127,7 +136,13 @@ function parseArticleDoc(document: PrismicDocument): Article {
 
   return {
     ...article,
-    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]
+    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
+    outroResearchLinkText: asText(data.outroResearchLinkText),
+    outroResearchItem: parseContentLink(data.outroResearchItem),
+    outroReadLinkText: asText(data.outroReadLinkText),
+    outroReadItem: parseContentLink(data.outroReadItem),
+    outroVisitLinkText: asText(data.outroVisitLinkText),
+    outroVisitItem: parseContentLink(data.outroVisitItem)
   };
 }
 
@@ -169,7 +184,13 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
   return {
     ...article,
     body,
-    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]
+    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
+    outroResearchLinkText: null,
+    outroResearchItem: null,
+    outroReadLinkText: null,
+    outroReadItem: null,
+    outroVisitLinkText: null,
+    outroVisitItem: null
   };
 }
 
