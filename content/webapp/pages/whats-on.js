@@ -286,7 +286,7 @@ export class WhatsOnPage extends Component<Props> {
         description: pageDescription,
         type: 'website',
         canonicalUrl: `https://wellcomecollection.org/whats-on`,
-        imageUrl: null,
+        imageUrl: exhibitions.results[0].promoImage,
         siteSection: 'whatson',
         analyticsCategory: 'public-programme'
       };
@@ -345,8 +345,8 @@ export class WhatsOnPage extends Component<Props> {
                 <Layout12>
                   <div className={spacing({s: 3}, { margin: ['top'] })}>
                     <PrimaryLink
-                      name={'View past exhibitions'}
-                      url={'/exhibitions/past'} />
+                      name={'View all exhibitions'}
+                      url={'/exhibitions'} />
                   </div>
                 </Layout12>
 
@@ -357,7 +357,7 @@ export class WhatsOnPage extends Component<Props> {
                 <EventsByMonth events={events} />
                 <Layout12>
                   <div className={spacing({s: 3}, { margin: ['top'] })}>
-                    <PrimaryLink name={'View past events'} url={'/events/past'} />
+                    <PrimaryLink name={'View all events'} url={'/events'} />
                   </div>
                 </Layout12>
               </div>
@@ -394,9 +394,9 @@ export class WhatsOnPage extends Component<Props> {
                 [spacing({s: 4}, {margin: ['top']})]: true
               })}>
                 <Layout12>
-                  <PrimaryLink name={'View past exhibitions'} url={'/exhibitions/past'} />
+                  <PrimaryLink name={'View all exhibitions'} url={'/exhibitions'} />
                   <br />
-                  <PrimaryLink name={'View all events'} url={'/events/past'} />
+                  <PrimaryLink name={'View all events'} url={'/events'} />
                 </Layout12>
               </div>
             </Fragment>
