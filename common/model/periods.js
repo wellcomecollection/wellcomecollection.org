@@ -5,7 +5,8 @@ export const Periods = {
   CurrentAndComingUp: 'current-and-coming-up',
   Past: 'past',
   ComingUp: 'coming-up',
-  ThisWeek: 'this-week'
+  ThisWeek: 'this-week',
+  NextSevenDays: 'next-seven-days'
 };
 
 export type Period = $Values<typeof Periods>;

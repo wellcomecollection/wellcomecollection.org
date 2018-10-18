@@ -208,7 +208,7 @@ export async function getArticle(req: ?Request, id: string): Promise<?Article> {
 }
 
 type ArticleQueryProps = {|
-  predicates: Prismic.Predicates[],
+  predicates?: Prismic.Predicates[],
   ...PrismicQueryOpts
 |}
 

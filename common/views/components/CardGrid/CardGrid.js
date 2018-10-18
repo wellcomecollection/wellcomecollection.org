@@ -83,16 +83,6 @@ const CardGrid = ({
                 description={item.promoText}
                 image={item.cover} />
             }
-            {item.type === 'installations' &&
-              <InstallationPromo
-                id={item.id}
-                description={item.promoText}
-                start={item.start}
-                end={item.end}
-                image={item.promoImage}
-                title={item.title}
-              />
-            }
           </div>
         ))}
       </div>

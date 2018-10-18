@@ -1,6 +1,7 @@
 // @flow
 import type {Installation} from '../model/installations';
 const data = ({
+  'type': 'installations',
   'id': 'W5Y-NyYAACMALAdp',
   'title': 'Our Voice, Our Way',
   'contributorsTitle': '',
@@ -98,7 +99,6 @@ const data = ({
     'url': null,
     'text': 'Installation'
   }],
-  'type': 'installations',
   'start': new Date('2018-10-24T09:00:00.000Z'),
   'end': new Date('2018-10-28T18:00:00.000Z'),
   'place': null
