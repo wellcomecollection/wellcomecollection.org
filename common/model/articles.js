@@ -12,10 +12,10 @@ export type Article = {|
   datePublished: Date,
   series: ArticleSeries[],
   color?: ?ColorSelection,
-  outroResearchTitle: ?string,
+  outroResearchLinkText: ?string,
   outroResearchItem: ?MultiContent,
-  outroReadTitle: ?string,
+  outroReadLinkText: ?string,
   outroReadItem: ?MultiContent,
-  outroVisitTitle: ?string,
+  outroVisitLinkText: ?string,
   outroVisitItem: ?MultiContent
 |}

@@ -596,7 +596,7 @@
     }
   },
   "βeta": {
-    "outroResearchTitle": {
+    "outroResearchLinkText": {
       "type": "StructuredText",
       "config": {
         "label": "Outro: Research heading",
@@ -610,7 +610,7 @@
         "customtypes": []
       }
     },
-    "outroReadTitle": {
+    "outroReadLinkText": {
       "type": "StructuredText",
       "config": {
         "label": "Outro: Read heading",
@@ -624,7 +624,7 @@
         "customtypes": []
       }
     },
-    "outroVisitTitle": {
+    "outroVisitLinkText": {
       "type": "StructuredText",
       "config": {
         "label": "Outro: Visit heading",

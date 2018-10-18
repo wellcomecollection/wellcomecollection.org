@@ -25,11 +25,11 @@ const Article = {
     })
   },
   βeta: {
-    outroResearchTitle: heading('Outro: Research heading'),
+    outroResearchLinkText: heading('Outro: Research heading'),
     outroResearchItem: link('Outro: Research item'),
-    outroReadTitle: heading('Outro: Read heading'),
+    outroReadLinkText: heading('Outro: Read heading'),
     outroReadItem: link('Outro: Read item'),
-    outroVisitTitle: heading('Outro: Visit heading'),
+    outroVisitLinkText: heading('Outro: Visit heading'),
     outroVisitItem: link('Outro: Visit item')
   },
   Migration: {

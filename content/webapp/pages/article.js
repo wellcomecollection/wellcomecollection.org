@@ -194,7 +194,6 @@ export class ArticlePage extends Component<Props, State> {
       }
     }).filter(Boolean);
 
-    console.info(article.outroResearchTitle);
     return (
       <BasePage
         id={article.id}

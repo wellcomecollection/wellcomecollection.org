@@ -197,11 +197,11 @@ function parseArticleDoc(document: PrismicDocument): Article {
   return {
     ...article,
     labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
-    outroResearchTitle: asText(data.outroResearchTitle),
+    outroResearchLinkText: asText(data.outroResearchLinkText),
     outroResearchItem: parseContentLink(data.outroResearchItem),
-    outroReadTitle: asText(data.outroReadTitle),
+    outroReadLinkText: asText(data.outroReadLinkText),
     outroReadItem: parseContentLink(data.outroReadItem),
-    outroVisitTitle: asText(data.outroVisitTitle),
+    outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: parseContentLink(data.outroVisitItem)
   };
 }
@@ -245,11 +245,11 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
     ...article,
     body,
     labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
-    outroResearchTitle: null,
+    outroResearchLinkText: null,
     outroResearchItem: null,
-    outroReadTitle: null,
+    outroReadLinkText: null,
     outroReadItem: null,
-    outroVisitTitle: null,
+    outroVisitLinkText: null,
     outroVisitItem: null
   };
 }
@@ -281,7 +281,7 @@ export async function getArticles(req: ?Request, {
     Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
   ].concat(predicates), {
     orderings,
-    graphQuery: graphQuery,
+    graphQuery,
     ...opts
   });
 
