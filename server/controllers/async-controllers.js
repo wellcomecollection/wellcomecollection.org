@@ -77,6 +77,13 @@ const SeriesTransporter = ({series}: any) => {
               })}
               href={`/series/${series.id}`}>{series.title}</a>
           </h2>
+          <div className={classNames({
+            [spacing({s: 2}, {margin: ['top']})]: true
+          })}>
+            <p className={classNames({
+              'no-margin': true
+            })}>{series.promoText}</p>
+          </div>
         </div>
       </Layout12>
       <CardGrid items={series.items} />
