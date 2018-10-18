@@ -35,8 +35,8 @@ export function parseQuery(query: string): StructuredSearchQuery {
       'article-series'
     ]
   });
-  const arrayedStructuredQuery = Object.entries(structuredQuery).reduce((acc, entry) => {
-    const [key, value] = entry;
+  const arrayedStructuredQuery = Object.keys(structuredQuery).reduce((acc, key) => {
+    const value = structuredQuery[key];
     if (typeof value === 'string') {
       acc[key] = [value];
     } else {
