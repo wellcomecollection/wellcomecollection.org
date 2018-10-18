@@ -346,7 +346,9 @@ class DefaultPageLayout extends Component<Props> {
         <div className={isPreview ? 'is-preview' : undefined}>
           <a className='skip-link' href='#main'>Skip to main content</a>
           <Header siteSection={siteSection} links={navLinks} />
-          <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
+          {globalAlert.isShown &&
+            <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
+          }
           <div id='main' className='main' role='main'>
             {children}
           </div>
