@@ -67,7 +67,7 @@ const SeriesTransporter = ({series}: any) => {
         })}>
           <h2 className={classNames({
             'h1': true,
-            'font-purple': true,
+            [`font-${series.color}`]: true,
             'plain-link': true,
             'no-margin': true
           })}>
