@@ -3,7 +3,7 @@ import {Fragment, Component} from 'react';
 import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
@@ -193,6 +193,10 @@ export class ArticlePage extends Component<Props, State> {
         );
       }
     }).filter(Boolean);
+
+    const toggles = pageStore('toggles');
+    const showOutro = toggles.outro || false;
+    console.info(showOutro);
 
     return (
       <BasePage
