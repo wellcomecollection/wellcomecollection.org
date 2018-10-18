@@ -1,6 +1,6 @@
 // @flow
 import {classNames, font, spacing} from '../../../utils/classnames';
-import type {MultiContent} from '../../../multi-content';
+import type {MultiContent} from '../../../model/multi-content';
 
 type ContentItem = {|
   title: ?string,
