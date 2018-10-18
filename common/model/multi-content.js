@@ -9,6 +9,7 @@ import type {UiEvent} from './events';
 import type {Installation} from './installations';
 import type {Article} from './articles';
 import type {ArticleScheduleItem} from './article-schedule-items';
+import type {UiExhibition} from './exhibitions';
 
 export type MultiContent =
   | Page
@@ -17,4 +18,5 @@ export type MultiContent =
   | UiEvent
   | Article
   | Installation
-  | ArticleScheduleItem;
+  | ArticleScheduleItem
+  | UiExhibition;
