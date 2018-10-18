@@ -14,6 +14,7 @@ import {
   dailyTourPromo
 } from '@weco/common/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
+import ourVoiceOurWayData from '@weco/common/data/our-voice-our-way';
 import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
@@ -253,7 +254,7 @@ const Header = ({
 };
 
 const pageDescription = 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
-export class ArticleSeriesPage extends Component<Props> {
+export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const period = context.query.period || 'current-and-coming-up';
     const exhibitionsPromise = getExhibitions(context.req, {
@@ -441,6 +442,18 @@ export class ArticleSeriesPage extends Component<Props> {
                     position={2}
                   />
                 </div>
+                <div
+                  className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
+                  <InstallationPromo
+                    id={ourVoiceOurWayData.id}
+                    title={ourVoiceOurWayData.title}
+                    description={ourVoiceOurWayData.promoText}
+                    image={ourVoiceOurWayData.promoImage}
+                    start={ourVoiceOurWayData.start}
+                    end={ourVoiceOurWayData.end}
+                    position={2}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -482,4 +495,4 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default PageWrapper(WhatsOnPage);

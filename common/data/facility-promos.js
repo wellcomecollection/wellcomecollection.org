@@ -20,6 +20,7 @@ export const readingRoomPromo: Promo = {
 
 export const cafePromo: Promo = {
   type: 'promo',
+  id: 'cafePromo',
   contentType: 'place',
   title: 'Café',
   url: 'https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe',
@@ -35,6 +36,7 @@ export const cafePromo: Promo = {
 
 export const libraryPromo: Promo = {
   type: 'promo',
+  id: 'libraryPromo',
   contentType: 'place',
   title: 'Library',
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm',
@@ -52,6 +54,7 @@ export const libraryPromo: Promo = {
 
 export const restaurantPromo: Promo = {
   type: 'promo',
+  id: 'restaurantPromo',
   contentType: 'place',
   title: 'Restaurant',
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Snk',
@@ -67,6 +70,7 @@ export const restaurantPromo: Promo = {
 
 export const shopPromo: Promo = {
   type: 'promo',
+  id: 'shopPromo',
   contentType: 'place',
   title: 'Shop',
   url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
