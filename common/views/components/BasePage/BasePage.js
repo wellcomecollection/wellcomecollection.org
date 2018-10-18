@@ -21,7 +21,7 @@ type Props = {|
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
   Siblings?: Element<typeof SeriesNavigation>[],
-  outroProps?: ElementProps<typeof Outro>
+  outroProps?: ?ElementProps<typeof Outro>
 |}
 
 const BasePage = ({
@@ -67,6 +67,12 @@ const BasePage = ({
                   {Siblings}
                 </div>
               ))}
+            </Layout8>
+          }
+
+          {outroProps &&
+            <Layout8>
+              <Outro {...outroProps} />
             </Layout8>
           }
         </div>

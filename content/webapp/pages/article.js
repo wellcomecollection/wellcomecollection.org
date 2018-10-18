@@ -196,7 +196,6 @@ export class ArticlePage extends Component<Props, State> {
 
     const toggles = pageStore('toggles');
     const showOutro = toggles.outro || false;
-    console.info(showOutro);
 
     return (
       <BasePage
@@ -209,6 +208,14 @@ export class ArticlePage extends Component<Props, State> {
         />}
         Siblings={Siblings}
         contributorProps={{contributors: article.contributors}}
+        outroProps={showOutro ? {
+          researchLinkText: article.outroResearchLinkText,
+          researchItem: article.outroResearchItem,
+          readLinkText: article.outroReadLinkText,
+          readItem: article.outroReadItem,
+          visitLinkText: article.outroVisitLinkText,
+          visitItem: article.outroVisitItem
+        } : null}
       >
       </BasePage>
     );

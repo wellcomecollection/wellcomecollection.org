@@ -3,20 +3,20 @@ import {classNames, font, spacing} from '../../../utils/classnames';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
-  researchTitle: ?string,
+  researchLinkText: ?string,
   researchItem: ?MultiContent,
-  readTitle: ?string,
+  readLinkText: ?string,
   readItem: ?MultiContent,
-  visitTitle: ?string,
+  visitLinkText: ?string,
   visitItem: ?MultiContent
 |}
 
 const Outro = ({
-  researchTitle,
+  researchLinkText,
   researchItem,
-  readTitle,
+  readLinkText,
   readItem,
-  visitTitle,
+  visitLinkText,
   visitItem
 }: Props) => {
   return (
@@ -51,7 +51,7 @@ const Outro = ({
               'body-text': true
             })}>
               <a href={`${researchItem.type}/${researchItem.id}`}>
-                {researchTitle || researchItem.title}
+                {researchLinkText || researchItem.title}
               </a>
             </div>
           </li>
@@ -70,7 +70,7 @@ const Outro = ({
               'body-text': true
             })}>
               <a href={`${readItem.type}/${readItem.id}`}>
-                {readTitle || readItem.title}
+                {readLinkText || readItem.title}
               </a>
             </div>
           </li>
@@ -89,7 +89,7 @@ const Outro = ({
               'body-text': true
             })}>
               <a href={`${visitItem.type}/${visitItem.id}`}>
-                {visitTitle || visitItem.title}
+                {visitLinkText || visitItem.title}
               </a>
             </div>
           </li>
