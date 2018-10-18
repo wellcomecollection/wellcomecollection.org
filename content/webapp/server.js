@@ -121,6 +121,21 @@ app.prepare().then(async () => {
   // Next routing
   // TODO: As we have this pattern all over the shop we might want to abstract
   // it out for ease... although copy / paste is not bad
+  router.get('/whats-on', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/whats-on', {
+      toggles
+    });
+    ctx.respond = false;
+  });
+  router.get(`/whats-on/:period(${periodPaths})`, async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/whats-on', {
+      period: ctx.params.period,
+      toggles
+    });
+    ctx.respond = false;
+  });
   router.get('/exhibitions', async ctx => {
     const {toggles} = ctx;
     const {page} = ctx.query;

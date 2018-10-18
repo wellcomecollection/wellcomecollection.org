@@ -8,7 +8,7 @@ import type {Installation} from '../../../model/installations';
 type Props = {|
   exhibitions: UiExhibition[],
   events: UiEvent[],
-  extras: (UiExhibition | UiEvent | Installation)[]
+  extras?: (UiExhibition | UiEvent | Installation)[]
 |}
 
 const ExhibitionsAndEvents = ({exhibitions, events, extras = []}: Props) => {
