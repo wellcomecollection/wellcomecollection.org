@@ -4,8 +4,11 @@ import promo from './parts/promo';
 import list from './parts/list';
 import link from './parts/link';
 import number from './parts/number';
+import embed from './parts/embed';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import structuredText from './parts/structured-text';
+import text from './parts/text';
 
 const Article = {
   Article: {
@@ -23,7 +26,16 @@ const Article = {
       positionInSeries: number('Position in series')
     })
   },
-  Migration: {
+  'β': {
+    onwardItems: list('Series', {
+      heading: link('Heading', 'document', ['content-blocks']),
+      item: link('Item', 'document', []),
+      embed: embed('Embed'),
+      link: text('Position in series'),
+      linkText: structuredText('Position in series', 'single')
+    })
+  },
+  Deprecated: {
     'publishDate': {
       'config': {
         'label': 'Override publish date'

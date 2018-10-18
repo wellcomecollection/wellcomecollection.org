@@ -595,7 +595,54 @@
       }
     }
   },
-  "Migration": {
+  "β": {
+    "onwardItems": {
+      "type": "Group",
+      "fieldset": "Series",
+      "config": {
+        "fields": {
+          "heading": {
+            "type": "Link",
+            "config": {
+              "label": "Heading",
+              "select": "document",
+              "customtypes": [
+                "content-blocks"
+              ]
+            }
+          },
+          "item": {
+            "type": "Link",
+            "config": {
+              "label": "Item",
+              "select": "document",
+              "customtypes": []
+            }
+          },
+          "embed": {
+            "type": "Embed",
+            "config": {
+              "label": "Embed"
+            }
+          },
+          "link": {
+            "type": "Text",
+            "config": {
+              "label": "Position in series"
+            }
+          },
+          "linkText": {
+            "type": "StructuredText",
+            "config": {
+              "single": "paragraph,hyperlink,strong,em",
+              "label": "Position in series"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Deprecated": {
     "publishDate": {
       "config": {
         "label": "Override publish date"

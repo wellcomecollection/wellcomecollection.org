@@ -387,33 +387,7 @@
       }
     }
   },
-  "βeta": {
-    "uniquePath": {
-      "type": "Text",
-      "config": {
-        "label": "uID"
-      }
-    },
-    "tags": {
-      "type": "Group",
-      "fieldset": "Part of",
-      "config": {
-        "fields": {
-          "tag": {
-            "type": "Link",
-            "config": {
-              "label": "Content",
-              "select": "document",
-              "customtypes": [
-                "pages"
-              ]
-            }
-          }
-        }
-      }
-    }
-  },
-  "Migration": {
+  "Deprecated": {
     "drupalPromoImage": {
       "type": "Link",
       "config": {

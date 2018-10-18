@@ -4,7 +4,6 @@ import body from './parts/body';
 import promo from './parts/promo';
 import link from './parts/link';
 import text from './parts/text';
-import list from './parts/list';
 import timestamp from './parts/timestamp';
 
 const Page = {
@@ -16,17 +15,9 @@ const Page = {
   Promo: {
     promo
   },
-  'βeta': {
-    uniquePath: text('uID'),
-    tags: list('Part of', {
-      tag: link('Content', 'document', [
-        'pages'
-      ])
-    })
-  },
 
   // TODO: (drupal migration) Remove this
-  Migration: {
+  Deprecated: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
     drupalPath: text('Drupal path')
