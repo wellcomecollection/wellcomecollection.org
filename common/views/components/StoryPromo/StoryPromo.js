@@ -49,7 +49,7 @@ const EventPromo = ({
         `}>
 
         <div>
-          {showPosition && <PartNumberIndicator number={position + 1} />}
+          {showPosition && <PartNumberIndicator number={position + 1} color={item.color} />}
           <h2 className={`
             promo-link__title
             ${font({s: 'WB5'})}
