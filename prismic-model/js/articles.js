@@ -6,7 +6,7 @@ import link from './parts/link';
 import number from './parts/number';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import heading from './parts/heading';
+import singleLineText from './parts/single-line-text';
 
 const Article = {
   Article: {
@@ -25,12 +25,12 @@ const Article = {
     })
   },
   βeta: {
-    outroResearchLinkText: heading('Outro: Research link text'),
     outroResearchItem: link('Outro: Research item'),
-    outroReadLinkText: heading('Outro: Read link text'),
+    outroResearchLinkText: singleLineText('Outro: Research link text'),
     outroReadItem: link('Outro: Read item'),
-    outroVisitLinkText: heading('Outro: Visit link text'),
-    outroVisitItem: link('Outro: Visit item')
+    outroReadLinkText: singleLineText('Outro: Read link text'),
+    outroVisitItem: link('Outro: Visit item'),
+    outroVisitLinkText: singleLineText('Outro: Visit link text')
   },
   Migration: {
     'publishDate': {

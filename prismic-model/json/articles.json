@@ -596,13 +596,6 @@
     }
   },
   "βeta": {
-    "outroResearchLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Research heading",
-        "single": "heading1"
-      }
-    },
     "outroResearchItem": {
       "type": "Link",
       "config": {
@@ -610,11 +603,11 @@
         "customtypes": []
       }
     },
-    "outroReadLinkText": {
+    "outroResearchLinkText": {
       "type": "StructuredText",
       "config": {
-        "label": "Outro: Read heading",
-        "single": "heading1"
+        "label": "Outro: Research link text",
+        "single": "paragraph"
       }
     },
     "outroReadItem": {
@@ -624,11 +617,11 @@
         "customtypes": []
       }
     },
-    "outroVisitLinkText": {
+    "outroReadLinkText": {
       "type": "StructuredText",
       "config": {
-        "label": "Outro: Visit heading",
-        "single": "heading1"
+        "label": "Outro: Read link text",
+        "single": "paragraph"
       }
     },
     "outroVisitItem": {
@@ -636,6 +629,13 @@
       "config": {
         "label": "Outro: Visit item",
         "customtypes": []
+      }
+    },
+    "outroVisitLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Visit link text",
+        "single": "paragraph"
       }
     }
   },
