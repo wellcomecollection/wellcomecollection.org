@@ -5,7 +5,7 @@ import {exhibitionLd} from '@weco/common/utils/json-ld';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
-import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
 import {

@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {getPlace} from '@weco/common/services/prismic/places';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
-import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';

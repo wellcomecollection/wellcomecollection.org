@@ -5,13 +5,11 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 import { withInfo } from '@storybook/addon-info';
 
 function loadStories() {
-  const pages = require.context('../stories/pages', true, /\.js$/);
   const components = require.context('../stories/components', true, /\.js$/);
   const global = require.context('../stories/global', true, /\.js$/);
   const docs = require.context('../stories/docs', true, /\.js$/);
   const wip = require.context('../stories/wip', true, /\.js$/);
 
-  pages.keys().forEach((filename) => pages(filename));
   components.keys().forEach((filename) => components(filename));
   global.keys().forEach((filename) => global(filename));
   docs.keys().forEach((filename) => docs(filename));

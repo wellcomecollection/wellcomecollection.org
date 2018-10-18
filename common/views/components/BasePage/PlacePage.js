@@ -2,7 +2,7 @@
 import BasePage from './BasePage';
 import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
+import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import {UiImage} from '../Images/Images';
 import type {Place} from '../../../model/places';
 

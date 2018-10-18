@@ -25,7 +25,7 @@ import {
   formatTime
 } from '@weco/common/utils/format-date';
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
-import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
