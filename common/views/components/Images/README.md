@@ -1,5 +1,11 @@
-## Captioned image heights
-Captioned images should go as wide as they can within their container, but no taller than 80% of the viewport height.
+## Purpose
+
+To display images in an accessible and performant manner, with a contextual caption to help tell the story of why the image is placed where it is. Also contains the attribution of the image.
+
+
+### Note on image heights
+
+Captioned images will go as wide as they can within their container, but no taller than 80% of the viewport height.
 
 They will retain their aspect ratio and they will be centered (using JavaScript) within their container.
 
