@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {getSeries} from '../services/wordpress';
+import {getArticleSeries} from '../services/prismic';
 import {PromoListFactory} from '../model/promo-list';
 import {getForwardFill} from '../model/series';
 import {getSeriesColor} from '../data/series';
 import {createNumberedList} from '../model/numbered-list';
-import {getArticleSeries} from '../services/prismic';
 import {search} from '../../common/services/prismic/search';
+import {classNames, spacing} from '../../common/utils/classnames';
+import {getArticleSeries as getArticleSeriesProperly} from '../../common/services/prismic/article-series';
+import Layout12 from '../../common/views/components/Layout12/Layout12';
 import SearchResults from '../../common/views/components/SearchResults/SearchResults';
+import CardGrid from '../../common/views/components/CardGrid/CardGrid';
 
 // Performance alert: we're having to make a call to wordpress and then if that
 // fails, we have 2 API calls to Prismic in 'getArticleSeries' in order to get
@@ -51,20 +55,43 @@ export const seriesNav = async(ctx, next) => {
   return next();
 };
 
+const SeriesTransporter = ({series}: any) => {
+  return (
+    <div>
+      <Layout12>
+        <div className={classNames({
+          [spacing({s: 4}, {margin: ['top', 'bottom']})]: true,
+          [spacing({s: 4}, {padding: ['bottom']})]: true,
+          'border-bottom-width-1': true,
+          'border-color-pumice': true
+        })}>
+          <h2 className={classNames({
+            'h1': true,
+            'font-purple': true,
+            'plain-link': true,
+            'no-margin': true
+          })}>
+            <a
+              className={classNames({
+                'plain-link': true
+              })}
+              href={`/series/${series.id}`}>{series.title}</a>
+          </h2>
+        </div>
+      </Layout12>
+      <CardGrid items={series.items} />
+    </div>
+  );
+};
+
 export const seriesTransporter = async(ctx, next) => {
   const {id} = ctx.params;
-  const seriesData = await getSeriesData(ctx);
-
-  ctx.render('components/numbered-list/numbered-list', Object.assign({}, seriesData, {
-    modifiers: ['transporter'],
-    data: {
-      classes: ['js-numbered-list-transporter'],
-      sliderId: `transporter--${id}`
-    }
-  }));
+  const seriesAndArticles = await getArticleSeriesProperly(ctx.request, {id});
 
   ctx.body = {
-    html: ctx.body
+    html: ReactDOMServer.renderToString(
+      React.createElement(SeriesTransporter, {series: seriesAndArticles.series})
+    )
   };
 
   return next();
