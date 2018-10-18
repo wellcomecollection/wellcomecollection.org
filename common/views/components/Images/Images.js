@@ -1,5 +1,5 @@
 // @flow
-import {Fragment, Component} from 'react';
+import {Fragment, Component, createRef} from 'react';
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {classNames} from '../../../utils/classnames';
 import {imageSizes} from '../../../utils/image-sizes';
@@ -30,17 +30,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     imgRef: null
   }
 
-  setImgRef = (el: ?Node) => {
-    this.setState({
-      imgRef: el
-    });
-
-    // TODO: this should be accomplished with an e.g. `isEnhanced` state boolean
-    // once we're fully React, instead of polling.
-    if (el) {
-      el.addEventListener('lazyloaded', this.handleLazyLoaded);
-    }
-  }
+  imgRef = createRef();
 
   getImageSize = () => {
     this.state.imgRef &&
@@ -64,6 +54,8 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     // At that point, setting `display: inline-block` on the parent container
     // ensures the TASL information button is correctly contained within the
     // image.
+    this.setState({ imgRef: this.imgRef.current });
+    this.imgRef.current && this.imgRef.current.addEventListener('lazyloaded', this.handleLazyLoaded);
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(false);
 
     window.addEventListener('resize', this.debouncedGetImageSize);
@@ -71,6 +63,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedGetImageSize);
+    this.imgRef.current && this.imgRef.current.removeEventListener('lazyloaded', this.handleLazyLoaded);
   }
 
   render() {
@@ -99,7 +92,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
         <img width={width}
           height={height}
           onLoad={this.getImageSize}
-          ref={this.setImgRef}
+          ref={this.imgRef}
           style={{
             width: isWidthAuto ? 'auto' : undefined
           }}
