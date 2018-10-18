@@ -195,7 +195,11 @@ export class ArticlePage extends Component<Props, State> {
     }).filter(Boolean);
 
     const toggles = pageStore('toggles');
-    const showOutro = toggles.outro || false;
+    const showOutro = toggles.outro && (
+      article.outroResearchItem ||
+      article.outroReadItem ||
+      article.outroVIsitItem
+    );
 
     return (
       <BasePage
