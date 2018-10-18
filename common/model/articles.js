@@ -3,7 +3,7 @@ import type {ArticleSeries} from './article-series';
 import type {GenericContentFields} from './generic-content-fields';
 import type {LabelField} from './label-field';
 import type {ColorSelection} from './color-selections';
-import type {ContentLink} from './content-link';
+import type {MultiContent} from './multi-content';
 
 export type Article = {|
   type: 'articles',
@@ -12,7 +12,10 @@ export type Article = {|
   datePublished: Date,
   series: ArticleSeries[],
   color?: ?ColorSelection,
-  outroResearch: ?ContentLink,
-  outroRead: ?ContentLink,
-  outroVisit: ?ContentLink
+  outroResearchTitle: ?string,
+  outroResearchItem: ?MultiContent,
+  outroReadTitle: ?string,
+  outroReadItem: ?MultiContent,
+  outroVisitTitle: ?string,
+  outroVisitItem: ?MultiContent
 |}

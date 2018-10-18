@@ -603,7 +603,7 @@
         "single": "heading1"
       }
     },
-    "outroResearch": {
+    "outroResearchItem": {
       "type": "Link",
       "config": {
         "label": "Outro: Research item",
@@ -617,7 +617,7 @@
         "single": "heading1"
       }
     },
-    "outroRead": {
+    "outroReadItem": {
       "type": "Link",
       "config": {
         "label": "Outro: Read item",
@@ -631,7 +631,7 @@
         "single": "heading1"
       }
     },
-    "outroVisit": {
+    "outroVisitItem": {
       "type": "Link",
       "config": {
         "label": "Outro: Visit item",

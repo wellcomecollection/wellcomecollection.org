@@ -1,16 +1,22 @@
 // @flow
 import {classNames, font, spacing} from '../../../utils/classnames';
-import type {ContentLink} from '../../../model/content-link';
+import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
-  researchItem: ?ContentLink,
-  readItem: ?ContentLink,
-  visitItem: ?ContentLink
+  researchTitle: ?string,
+  researchItem: ?MultiContent,
+  readTitle: ?string,
+  readItem: ?MultiContent,
+  visitTitle: ?string,
+  visitItem: ?MultiContent
 |}
 
 const Outro = ({
+  researchTitle,
   researchItem,
+  readTitle,
   readItem,
+  visitTitle,
   visitItem
 }: Props) => {
   return (
@@ -44,8 +50,8 @@ const Outro = ({
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${researchItem.item.type}/${researchItem.item.id}`}>
-                {researchItem.title || researchItem.item.title}
+              <a href={`${researchItem.type}/${researchItem.id}`}>
+                {researchTitle || researchItem.title}
               </a>
             </div>
           </li>
@@ -63,8 +69,8 @@ const Outro = ({
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${readItem.item.type}/${readItem.item.id}`}>
-                {readItem.title || readItem.item.title}
+              <a href={`${readItem.type}/${readItem.id}`}>
+                {readTitle || readItem.title}
               </a>
             </div>
           </li>
@@ -82,8 +88,8 @@ const Outro = ({
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${visitItem.item.type}/${visitItem.item.id}`}>
-                {visitItem.title || visitItem.item.title}
+              <a href={`${visitItem.type}/${visitItem.id}`}>
+                {visitTitle || visitItem.title}
               </a>
             </div>
           </li>

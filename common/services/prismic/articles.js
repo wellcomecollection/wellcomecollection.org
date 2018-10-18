@@ -7,11 +7,13 @@ import {
   parseSingleLevelGroup,
   parseLabelType,
   isDocumentLink,
-  checkAndParseImage
+  checkAndParseImage,
+  asText
 } from './parsers';
 import {parseMultiContent} from './multi-content';
 import {parseArticleSeries} from './article-series';
 import type {Article} from '../../model/articles';
+import type {MultiContent} from '../../model/multi-content';
 import type {
   PrismicDocument,
   PaginatedResults,
@@ -95,7 +97,7 @@ const graphQuery = `{
         }
       }
     }
-    outroResearch {
+    outroResearchItem {
       ... on events {
         title
       }
@@ -115,7 +117,7 @@ const graphQuery = `{
         title
       }
     }
-    outroRead {
+    outroReadItem {
       ... on events {
         title
       }
@@ -135,7 +137,7 @@ const graphQuery = `{
         title
       }
     }
-    outroVisit {
+    outroVisitItem {
       ... on events {
         title
       }
@@ -166,12 +168,13 @@ const graphQuery = `{
   }
 }`.replace(/\n(\s+)/g, '\n');
 
-function parseContentLink(document: PrismicDocument): ContentLink {
+function parseContentLink(document: PrismicDocument): ?MultiContent {
   if (document.isBroken !== false) {
     return;
   }
 
-  return parseMultiContent([document]);
+  const parsedDocuments = parseMultiContent([document]);
+  return parsedDocuments.length > 0 ? parsedDocuments[0] : null;
 }
 
 function parseArticleDoc(document: PrismicDocument): Article {
@@ -194,9 +197,12 @@ function parseArticleDoc(document: PrismicDocument): Article {
   return {
     ...article,
     labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
-    outroResearch: parseContentLink(data.outroResearch),
-    outroRead: parseContentLink(data.outroRead),
-    outroVisit: parseContentLink(data.outroVisit)
+    outroResearchTitle: asText(data.outroResearchTitle),
+    outroResearchItem: parseContentLink(data.outroResearchItem),
+    outroReadTitle: asText(data.outroReadTitle),
+    outroReadItem: parseContentLink(data.outroReadItem),
+    outroVisitTitle: asText(data.outroVisitTitle),
+    outroVisitItem: parseContentLink(data.outroVisitItem)
   };
 }
 
@@ -238,7 +244,13 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
   return {
     ...article,
     body,
-    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]
+    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
+    outroResearchTitle: null,
+    outroResearchItem: null,
+    outroReadTitle: null,
+    outroReadItem: null,
+    outroVisitTitle: null,
+    outroVisitItem: null
   };
 }
 
