@@ -1,8 +1,7 @@
 // @flow
 import {Component} from 'react';
-import {getArticleSeries} from '@weco/common/services/prismic/article-series';
+import {getEventSeries} from '@weco/common/services/prismic/event-series';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
@@ -12,35 +11,39 @@ import {
   getFeaturedMedia
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {ArticleSeries} from '@weco/common/model/article-series';
-import type {Article} from '@weco/common/model/articles';
+import {spacing} from '@weco/common/utils/classnames';
+import {eventLd} from '@weco/common/utils/json-ld';
+import {convertJsonToDates} from './event';
+import type {EventSeries} from '@weco/common/model/event-series';
+import type {UiEvent} from '@weco/common/model/events';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
-  series: ArticleSeries,
-  articles: Article[]
+  series: EventSeries,
+  events: UiEvent[]
 |}
 
-export class ArticleSeriesPage extends Component<Props> {
+export class EventSeriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {id} = context.query;
-    const seriesAndArticles = await getArticleSeries(context.req, {
+    const seriesAndEvents = await getEventSeries(context.req, {
       id,
       pageSize: 100
     });
 
-    if (seriesAndArticles) {
-      const {series, articles} = seriesAndArticles;
+    if (seriesAndEvents) {
+      const {series, events} = seriesAndEvents;
       return {
         series,
-        articles,
+        events,
         title: series.title,
-        description: series.promoText,
-        type: 'article-series',
-        canonicalUrl: `https://wellcomecollection.org/series/${series.id}`,
+        description: series.promoText || '',
+        type: 'webpage',
+        canonicalUrl: `https://wellcomecollection.org/events-series/${series.id}`,
         imageUrl: series.image && convertImageUri(series.image.contentUrl, 800),
-        siteSection: 'stories',
-        analyticsCategory: 'editorial'
+        siteSection: 'whatson',
+        analyticsCategory: 'public-programme',
+        jsonPageLd: events.map(eventLd)
       };
     } else {
       return {statusCode: 404};
@@ -48,15 +51,18 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 
   render() {
-    const {series, articles} = this.props;
+    const {series} = this.props;
+    const jsonEvents = this.props.events;
+    const events = jsonEvents.map(convertJsonToDates);
+
     const breadcrumbs = {
       items: [
         {
-          url: '/stories',
-          text: 'Stories'
+          url: '/events',
+          text: 'Events'
         },
         {
-          url: `/series/${series.id}`,
+          url: `/events-series/${series.id}`,
           text: series.title,
           isHidden: true
         }
@@ -79,17 +85,26 @@ export class ArticleSeriesPage extends Component<Props> {
       labels: series.labels
     };
 
-    const ContentTypeInfo = series.standfirst && <PageHeaderStandfirst html={series.standfirst} />;
     const FeaturedMedia = getFeaturedMedia(genericFields);
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
       labels={{labels: series.labels}}
       title={series.title}
-      ContentTypeInfo={ContentTypeInfo}
+      ContentTypeInfo={null}
       Background={<HeaderBackground hasWobblyEdge={true} />}
       FeaturedMedia={FeaturedMedia}
       HeroPicture={null}
     />;
+
+    const upcomingEvents = events.filter(event => {
+      const lastStartTime = event.times.length > 0 ? event.times[event.times.length - 1].range.startDateTime : null;
+      const inTheFuture = lastStartTime ? new Date(lastStartTime) > new Date() : false;
+      return inTheFuture;
+    }).sort((a, b) => a.dateRange.firstDate - b.dateRange.firstDate);
+    const upcomingEventsIds = upcomingEvents.map(event => event.id);
+    const pastEvents = events.filter(event => upcomingEventsIds.indexOf(event.id) === -1)
+      .sort((a, b) => b.dateRange.firstDate - a.dateRange.firstDate)
+      .slice(0, 3);
 
     return (
       <BasePage
@@ -98,12 +113,21 @@ export class ArticleSeriesPage extends Component<Props> {
         Body={<Body body={series.body} />}
         contributorProps={{ contributors: series.contributors }}
       >
-        {articles.length > 0 &&
-          <SearchResults items={series.items} showPosition={true} />
+        {upcomingEvents.length > 0 &&
+          <SearchResults items={upcomingEvents} title={`What's next`} />
+        }
+        {upcomingEvents.length === 0 &&
+          <h2 className='h2'>No events scheduled at the moment, check back soon…</h2>
+        }
+
+        {pastEvents.length > 0 &&
+        <div className={spacing({s: 8}, {margin: ['top']})}>
+          <SearchResults items={pastEvents} title={`What we've done before`} />
+        </div>
         }
       </BasePage>
     );
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default PageWrapper(EventSeriesPage);

@@ -6,7 +6,7 @@ import LabelsList from '../LabelsList/LabelsList';
 import {UiImage} from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
+import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import FreeSticker from '../FreeSticker/FreeSticker';
 import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';

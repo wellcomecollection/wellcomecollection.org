@@ -1,10 +1,12 @@
 // @flow
 import {font, classNames, spacing} from '../../../utils/classnames';
+import {breadcrumbsLd} from '../../../utils/json-ld';
 
 export type Breadcrumbs = {|
   text: string,
   url?: string,
-  prefix?: string
+  prefix?: string,
+  isHidden?: boolean
 |}[]
 
 type Props = {|
@@ -16,7 +18,7 @@ const Breadcrumb = ({ items }: Props) => (
     'plain-text': true,
     'flex': true
   })}>
-    {items.map(({text, url, prefix}, i) => {
+    {items.filter(({isHidden}) => !isHidden).map(({text, url, prefix}, i) => {
       const BoldOrSpanTag = prefix ? 'b' : 'span';
       const LinkOrSpanTag = url ? 'a' : 'span';
       return (
@@ -36,6 +38,10 @@ const Breadcrumb = ({ items }: Props) => (
         </BoldOrSpanTag>
       );
     })}
+    <script
+      type='application/ld+json'
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd({ items })) }}>
+    </script>
   </div>
 );
 export default Breadcrumb;

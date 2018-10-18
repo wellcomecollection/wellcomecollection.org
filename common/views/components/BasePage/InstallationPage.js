@@ -5,7 +5,7 @@ import {default as PageHeader, getFeaturedMedia} from '../PageHeader/PageHeader'
 import Body from '../Body/Body';
 import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import Contributors from '../Contributors/Contributors';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
+import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import type {UiInstallation} from '../../../model/installations';
 
 type Props = {|

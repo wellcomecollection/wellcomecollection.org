@@ -24,6 +24,10 @@ export function contentLd(content) {
 }
 
 export function articleLd(article) {
+  // We've left the role off of a lot of articles
+  const authorByRole = article.contributors.find(({role}) => role && role.title === 'Author');
+  const author = authorByRole || article.contributors[0];
+
   return objToJsonLd({
     contributor: article.contributors.map(({contributor, role, description}) => {
       const type = contributor.type === 'person' ? 'Person' : 'Organization';
@@ -35,6 +39,11 @@ export function articleLd(article) {
     dateCreated: article.datePublished,
     datePublished: article.datePublished,
     headline: article.title,
+    author: author && author.contributor && objToJsonLd({
+      name: author.contributor.name,
+      image: author.contributor.image && author.contributor.image.contentUrl
+    }, 'Person', false),
+    image: article.promoImage && article.promoImage.contentUrl,
     // TODO: isPartOf
     publisher: orgLd(wellcomeCollection),
     url: `https://wellcomecollection.org/articles/${article.id}`
@@ -83,7 +92,7 @@ export function exhibitionPromoLd(exhibitionPromo) {
 }
 
 export function workLd(content) {
-  const creators = content.creators.map(c => {
+  const creators = (content.creators || []).map(c => {
     return {
       '@type': 'Person',
       name: c.label
@@ -163,6 +172,18 @@ export function eventPromoLd(eventPromo: EventPromo) {
     description: eventPromo.description,
     image: eventPromo && convertImageUri(eventPromo.image.contentUrl, 1920, false)
   }, 'Event');
+}
+
+export function breadcrumbsLd(breadcrumbs) {
+  return objToJsonLd({
+    itemListElement: breadcrumbs.items.map(({url, text}, i) => {
+      return objToJsonLd({
+        position: i,
+        name: text,
+        item: `https://wellcomecollection.org${url}`
+      }, 'ListItem', false);
+    })
+  }, 'BreadcrumbList');
 }
 
 function orgLd(org) {

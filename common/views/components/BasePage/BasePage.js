@@ -3,9 +3,10 @@ import {Children, Fragment, createContext} from 'react';
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
+import PageHeader from '../PageHeader/PageHeader';
+import Outro from '../Outro/Outro';
 import {spacing, classNames} from '../../../utils/classnames';
 import type {Node, Element, ElementProps} from 'react';
-import type BaseHeader from '../BaseHeader/BaseHeader';
 import type Body from '../Body/Body';
 
 export const PageBackgroundContext = createContext('white');
@@ -14,12 +15,13 @@ export const PageBackgroundContext = createContext('white');
 type Props = {|
   id: string,
   isCreamy?: boolean,
-  Header: BaseHeader,
+  Header: Element<typeof PageHeader>,
   Body: Body,
   // This is used for content type specific components e.g. InfoBox
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
-  Siblings?: Element<typeof SeriesNavigation>[]
+  Siblings?: Element<typeof SeriesNavigation>[],
+  outroProps?: ?ElementProps<typeof Outro>
 |}
 
 const BasePage = ({
@@ -29,7 +31,8 @@ const BasePage = ({
   Body,
   children,
   contributorProps,
-  Siblings = []
+  Siblings = [],
+  outroProps
 }: Props) => {
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
@@ -64,6 +67,12 @@ const BasePage = ({
                   {Siblings}
                 </div>
               ))}
+            </Layout8>
+          }
+
+          {outroProps &&
+            <Layout8>
+              <Outro {...outroProps} />
             </Layout8>
           }
         </div>

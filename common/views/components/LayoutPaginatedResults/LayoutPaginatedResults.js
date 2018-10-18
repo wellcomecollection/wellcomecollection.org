@@ -1,19 +1,22 @@
 // @flow
-import {Fragment} from 'react';
+import { Fragment } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
 import Layout12 from '../Layout12/Layout12';
 import Divider from '../Divider/Divider';
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import {classNames, spacing, font, grid} from '../../../utils/classnames';
-import type {Period} from '../../../model/periods';
-import type {UiExhibition} from '../../../model/exhibitions';
-import type {PaginatedResults, HTMLString} from '../../../services/prismic/types';
+import { classNames, spacing, font, grid } from '../../../utils/classnames';
+import type { Period } from '../../../model/periods';
+import type { UiExhibition } from '../../../model/exhibitions';
+import type { UiEvent } from '../../../model/events';
+import type { Book } from '../../../model/books';
+import type { PaginatedResults, HTMLString } from '../../../services/prismic/types';
 
 type Props = {|
   title: string,
   description: ?HTMLString,
-  paginatedResults: PaginatedResults<UiExhibition>,
+  paginationRoot: string,
+  paginatedResults: PaginatedResults<UiExhibition> | PaginatedResults<UiEvent> | PaginatedResults<Book>,
   period?: Period
 |}
 
@@ -21,6 +24,7 @@ const LayoutPaginatedResults = ({
   title,
   description,
   paginatedResults,
+  paginationRoot,
   period
 }: Props) => (
   <Fragment>
@@ -29,7 +33,6 @@ const LayoutPaginatedResults = ({
       'bg-cream': true,
       'plain-text': true,
       [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
-
     })}>
       <div className='container'>
         <div className='grid'>
@@ -96,10 +99,10 @@ const LayoutPaginatedResults = ({
             <Pagination
               currentPage={paginatedResults.currentPage}
               pageCount={paginatedResults.totalPages}
-              prevPage={paginatedResults.currentPage > 1 ? paginatedResults.currentPage - 1 : 0}
-              nextPage={paginatedResults.currentPage < paginatedResults.totalPages ? paginatedResults.currentPage + 1 : 0}
-              prevQueryString={'/exhibitions' + (period ? `/${period}` : '') + (paginatedResults.currentPage > 1 ? `?page=${paginatedResults.currentPage - 1}` : '')}
-              nextQueryString={'/exhibitions' + (period ? `/${period}` : '') + (paginatedResults.currentPage < paginatedResults.totalPages ? `?page=${paginatedResults.currentPage + 1}` : '')}
+              prevPage={paginatedResults.currentPage > 1 ? paginatedResults.currentPage - 1 : null}
+              nextPage={paginatedResults.currentPage < paginatedResults.totalPages ? paginatedResults.currentPage + 1 : null}
+              prevQueryString={`/${paginationRoot}` + (period ? `/${period}` : '') + (paginatedResults.currentPage > 1 ? `?page=${paginatedResults.currentPage - 1}` : '')}
+              nextQueryString={`/${paginationRoot}` + (period ? `/${period}` : '') + (paginatedResults.currentPage < paginatedResults.totalPages ? `?page=${paginatedResults.currentPage + 1}` : '')}
             />
           </div>
         </Layout12>

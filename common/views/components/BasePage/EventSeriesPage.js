@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import BasePage from './BasePage';
 import {default as PageHeader, getFeaturedMedia} from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
+import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import Contributors from '../Contributors/Contributors';
 import SearchResults from '../SearchResults/SearchResults';
 import { spacing } from '../../../utils/classnames';

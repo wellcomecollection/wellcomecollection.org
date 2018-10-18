@@ -24,7 +24,7 @@ import {
 } from '../../../utils/format-date';
 import {isEventFullyBooked} from '../../../model/events';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import HeaderBackground from '../BaseHeader/HeaderBackground';
+import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import PageHeader from '../PageHeader/PageHeader';
 
 type Props = {|

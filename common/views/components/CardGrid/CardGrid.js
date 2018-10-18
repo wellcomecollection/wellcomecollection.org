@@ -4,13 +4,21 @@ import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
+import BookPromo from '../BookPromo/BookPromo';
 import type {UiExhibition} from '../../../model/exhibitions';
 import type {UiEvent} from '../../../model/events';
 import type {Installation} from '../../../model/installations';
+import type {Book} from '../../../model/books';
 
-type EvExIn = UiEvent | UiExhibition | Installation; // TODO: This should be MultiContent
+// TODO: This should be MultiContent
+type ContentTypes =
+  | UiEvent
+  | UiExhibition
+  | Installation
+  | Book;
+
 type Props = {|
-  items: $ReadOnlyArray<EvExIn>
+  items: $ReadOnlyArray<ContentTypes>
 |}
 
 const CardGrid = ({
@@ -58,6 +66,15 @@ const CardGrid = ({
                 event={item}
                 position={i} />
             }
+            {item.type === 'books' &&
+              <BookPromo
+                url={`/books/${item.id}`}
+                title={item.title}
+                subtitle={item.subtitle}
+                description={item.promoText}
+                image={item.cover} />
+            }
+
           </div>
         ))}
       </div>

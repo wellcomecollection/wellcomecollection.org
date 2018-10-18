@@ -5,7 +5,7 @@ import {exhibitionLd} from '@weco/common/utils/json-ld';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
-import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
 import {
@@ -58,7 +58,18 @@ class InstallationPage extends Component<Props> {
       widescreenImage: installation.widescreenImage,
       labels: installation.labels
     });
-    const breadcrumbs = { items: [{ text: 'Installations' }] };
+    const breadcrumbs = {
+      items: [
+        {
+          text: 'Installations'
+        },
+        {
+          url: `/installations/${installation.id}`,
+          text: installation.title,
+          isHidden: true
+        }
+      ]
+    };
     const Header = <PageHeader
       breadcrumbs={breadcrumbs}
       labels={{labels: installation.labels}}

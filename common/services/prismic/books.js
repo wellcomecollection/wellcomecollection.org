@@ -1,7 +1,6 @@
 // @flow
-import type {PrismicDocument} from './types';
-import type {Book} from '../../model/books';
-import {getDocument} from './api';
+import Prismic from 'prismic-javascript';
+import {getDocument, getDocuments} from './api';
 import {
   parseGenericFields,
   parseTimestamp,
@@ -14,6 +13,8 @@ import {
   peopleFields,
   organisationsFields
 } from './fetch-links';
+import type {Book} from '../../model/books';
+import type {PrismicDocument, PrismicQueryOpts, PaginatedResults} from './types';
 
 export function parseBook(document: PrismicDocument): Book {
   const data = document.data;
@@ -56,4 +57,34 @@ export async function getBook(req: ?Request, id: string): Promise<?Book> {
     }];
     return {...book, labels};
   }
+}
+
+type ArticleQueryProps = {|
+  predicates?: Prismic.Predicates[],
+  ...PrismicQueryOpts
+|}
+
+export async function getBooks(req: ?Request, {
+  predicates = [],
+  ...opts
+}: ArticleQueryProps): Promise<PaginatedResults<Book>> {
+  const orderings = '[my.books.datePublished desc, document.first_publication_date desc]';
+  const paginatedResults = await getDocuments(req, [
+    Prismic.Predicates.any('document.type', ['books'])
+  ].concat(predicates), {
+    orderings,
+    ...opts
+  });
+
+  const books = paginatedResults.results.map(doc => {
+    return parseBook(doc);
+  });
+
+  return {
+    currentPage: paginatedResults.currentPage,
+    pageSize: paginatedResults.pageSize,
+    totalResults: paginatedResults.totalResults,
+    totalPages: paginatedResults.totalPages,
+    results: books
+  };
 }

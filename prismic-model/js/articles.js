@@ -6,6 +6,7 @@ import link from './parts/link';
 import number from './parts/number';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import singleLineText from './parts/single-line-text';
 
 const Article = {
   Article: {
@@ -22,6 +23,14 @@ const Article = {
       series: link('Series', 'document', ['series']),
       positionInSeries: number('Position in series')
     })
+  },
+  βeta: {
+    outroResearchItem: link('Outro: Research item'),
+    outroResearchLinkText: singleLineText('Outro: Research link text'),
+    outroReadItem: link('Outro: Read item'),
+    outroReadLinkText: singleLineText('Outro: Read link text'),
+    outroVisitItem: link('Outro: Visit item'),
+    outroVisitLinkText: singleLineText('Outro: Visit link text')
   },
   Migration: {
     'publishDate': {

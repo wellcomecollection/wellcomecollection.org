@@ -3,7 +3,7 @@ import {Fragment, Component} from 'react';
 import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
@@ -73,18 +73,25 @@ export class ArticlePage extends Component<Props, State> {
     const article = this.props.article;
 
     const breadcrumbs = {
-      items: [{
-        url: '/stories',
-        text: 'Stories'
-      }]
-      // GOTCHA: we only take the first of the series list as the data is being
-      // used a little bit badly, but we don't have capacity to implement a
-      // better solution
-        .concat(article.series.slice(0, 1).map(series => ({
+      items: [
+        {
+          url: '/stories',
+          text: 'Stories'
+        },
+        // GOTCHA: we only take the first of the series list as the data is being
+        // used a little bit badly, but we don't have capacity to implement a
+        // better solution
+        ...article.series.slice(0, 1).map(series => ({
           url: `/series/${series.id}`,
           text: series.title || '',
           prefix: `Part of`
-        })))
+        })),
+        {
+          url: `/articles/${article.id}`,
+          text: article.title,
+          isHidden: true
+        }
+      ]
     };
 
     // Check if the article is in a serial, and where
@@ -187,6 +194,13 @@ export class ArticlePage extends Component<Props, State> {
       }
     }).filter(Boolean);
 
+    const toggles = pageStore('toggles');
+    const showOutro = toggles.outro && (
+      article.outroResearchItem ||
+      article.outroReadItem ||
+      article.outroVisitItem
+    );
+
     return (
       <BasePage
         id={article.id}
@@ -198,6 +212,14 @@ export class ArticlePage extends Component<Props, State> {
         />}
         Siblings={Siblings}
         contributorProps={{contributors: article.contributors}}
+        outroProps={showOutro ? {
+          researchLinkText: article.outroResearchLinkText,
+          researchItem: article.outroResearchItem,
+          readLinkText: article.outroReadLinkText,
+          readItem: article.outroReadItem,
+          visitLinkText: article.outroVisitLinkText,
+          visitItem: article.outroVisitItem
+        } : null}
       >
       </BasePage>
     );

@@ -595,6 +595,50 @@
       }
     }
   },
+  "βeta": {
+    "outroResearchItem": {
+      "type": "Link",
+      "config": {
+        "label": "Outro: Research item",
+        "customtypes": []
+      }
+    },
+    "outroResearchLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Research link text",
+        "single": "paragraph"
+      }
+    },
+    "outroReadItem": {
+      "type": "Link",
+      "config": {
+        "label": "Outro: Read item",
+        "customtypes": []
+      }
+    },
+    "outroReadLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Read link text",
+        "single": "paragraph"
+      }
+    },
+    "outroVisitItem": {
+      "type": "Link",
+      "config": {
+        "label": "Outro: Visit item",
+        "customtypes": []
+      }
+    },
+    "outroVisitLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Visit link text",
+        "single": "paragraph"
+      }
+    }
+  },
   "Migration": {
     "publishDate": {
       "config": {
