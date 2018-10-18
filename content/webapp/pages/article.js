@@ -198,7 +198,7 @@ export class ArticlePage extends Component<Props, State> {
     const showOutro = toggles.outro && (
       article.outroResearchItem ||
       article.outroReadItem ||
-      article.outroVIsitItem
+      article.outroVisitItem
     );
 
     return (
