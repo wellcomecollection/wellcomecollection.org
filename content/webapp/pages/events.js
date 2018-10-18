@@ -7,10 +7,12 @@ import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginate
 import type { GetInitialPropsProps } from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import type { Period } from '@weco/common/model/periods';
 
 type Props = {|
   displayTitle: string,
-  events: PaginatedResults<UiEvent>
+  events: PaginatedResults<UiEvent>,
+  period: ?Period
 |}
 
 const pageDescription = 'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
@@ -29,6 +31,7 @@ export class ArticleSeriesPage extends Component<Props> {
       return {
         events,
         title,
+        period,
         displayTitle: title,
         description: pageDescription,
         type: 'website',
@@ -44,7 +47,7 @@ export class ArticleSeriesPage extends Component<Props> {
   }
 
   render() {
-    const { events, displayTitle } = this.props;
+    const { events, displayTitle, period } = this.props;
 
     return (
       <LayoutPaginatedResults
@@ -55,6 +58,7 @@ export class ArticleSeriesPage extends Component<Props> {
           spans: []
         }]}
         paginatedResults={events}
+        paginationRoot={`events${(period ? `/${period}` : '')}`}
       />
     );
   }
