@@ -1,17 +1,18 @@
 // @flow
 export type PrismicDocument = {|
-  id: string;
-  uid ?: string;
-  type: string;
-  href: string;
-  tags: string[];
-  slug: string;
-  slugs: string[];
-  lang?: string;
-  alternateLanguages: string[];
-  first_publication_date: Date;
-  last_publication_date: Date;
-  data: any;
+  id: string,
+  uid ?: string,
+  type: string,
+  href: string,
+  tags: string[],
+  slug: string,
+  slugs: string[],
+  lang?: string,
+  alternateLanguages: string[],
+  first_publication_date: Date,
+  last_publication_date: Date,
+  data: any,
+  isBroken: ?boolean
 |}
 
 export type PrismicApiSearchResponse = {|

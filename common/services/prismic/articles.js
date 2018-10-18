@@ -9,6 +9,7 @@ import {
   isDocumentLink,
   checkAndParseImage
 } from './parsers';
+import {parseMultiContent} from './multi-content';
 import {parseArticleSeries} from './article-series';
 import type {Article} from '../../model/articles';
 import type {
@@ -33,9 +34,6 @@ const graphQuery = `{
       contributor {
         ... on people {
           ...peopleFields
-        }
-        ... on organisations {
-          ...organisationsFields
         }
       }
     }
@@ -97,6 +95,66 @@ const graphQuery = `{
         }
       }
     }
+    outroResearch {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
+    outroRead {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
+    outroVisit {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
     promo {
       ... on editorialImage {
         non-repeat {
@@ -106,7 +164,15 @@ const graphQuery = `{
       }
     }
   }
-}`;
+}`.replace(/\n(\s+)/g, '\n');
+
+function parseContentLink(document: PrismicDocument): ContentLink {
+  if (document.isBroken !== false) {
+    return;
+  }
+
+  return parseMultiContent([document]);
+}
 
 function parseArticleDoc(document: PrismicDocument): Article {
   const {data} = document;
@@ -127,7 +193,10 @@ function parseArticleDoc(document: PrismicDocument): Article {
 
   return {
     ...article,
-    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}]
+    labels: labels.length > 0 ? labels : [{url: null, text: 'Story'}],
+    outroResearch: parseContentLink(data.outroResearch),
+    outroRead: parseContentLink(data.outroRead),
+    outroVisit: parseContentLink(data.outroVisit)
   };
 }
 
@@ -200,7 +269,7 @@ export async function getArticles(req: ?Request, {
     Prismic.Predicates.any('document.type', ['articles', 'webcomics'])
   ].concat(predicates), {
     orderings,
-    graphQuery,
+    graphQuery: graphQuery,
     ...opts
   });
 

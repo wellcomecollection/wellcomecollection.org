@@ -1,16 +1,11 @@
 // @flow
 import {classNames, font, spacing} from '../../../utils/classnames';
-import type {MultiContent} from '../../../model/multi-content';
-
-type ContentItem = {|
-  title: ?string,
-  item: MultiContent
-|}
+import type {ContentLink} from '../../../model/content-link';
 
 type Props = {|
-  researchItem: ?ContentItem,
-  readItem: ?ContentItem,
-  visitItem: ?ContentItem
+  researchItem: ?ContentLink,
+  readItem: ?ContentLink,
+  visitItem: ?ContentLink
 |}
 
 const Outro = ({
