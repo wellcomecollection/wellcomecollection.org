@@ -5,7 +5,7 @@ import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
-import HeaderBackground from '@weco/common/views/components/BaseHeader/HeaderBackground';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import {
   default as PageHeader,
   getFeaturedMedia
