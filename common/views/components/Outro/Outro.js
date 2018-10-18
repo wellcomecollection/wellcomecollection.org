@@ -31,7 +31,6 @@ const Outro = ({
       <ul className={classNames({
         'no-margin': true,
         'no-padding': true,
-        'body-text': true,
         'plain-list': true
       })}>
         {researchItem &&
@@ -42,9 +41,13 @@ const Outro = ({
               [font({s: 'HNM3'})]: true,
               'no-margin': true
             })}>Research for yourself</h3>
-            <a href={`${researchItem.item.type}/${researchItem.item.id}`}>
-              {researchItem.title || researchItem.item.title}
-            </a>
+            <div className={classNames({
+              'body-text': true
+            })}>
+              <a href={`${researchItem.item.type}/${researchItem.item.id}`}>
+                {researchItem.title || researchItem.item.title}
+              </a>
+            </div>
           </li>
 
         }
@@ -57,9 +60,13 @@ const Outro = ({
               [font({s: 'HNM3'})]: true,
               'no-margin': true
             })}>Ready for something in-depth?</h3>
-            <a href={`${readItem.item.type}/${readItem.item.id}`}>
-              {readItem.title || readItem.item.title}
-            </a>
+            <div className={classNames({
+              'body-text': true
+            })}>
+              <a href={`${readItem.item.type}/${readItem.item.id}`}>
+                {readItem.title || readItem.item.title}
+              </a>
+            </div>
           </li>
 
         }
@@ -72,9 +79,13 @@ const Outro = ({
               [font({s: 'HNM3'})]: true,
               'no-margin': true
             })}>Mark your calendars</h3>
-            <a href={`${visitItem.item.type}/${visitItem.item.id}`}>
-              {visitItem.title || visitItem.item.title}
-            </a>
+            <div className={classNames({
+              'body-text': true
+            })}>
+              <a href={`${visitItem.item.type}/${visitItem.item.id}`}>
+                {visitItem.title || visitItem.item.title}
+              </a>
+            </div>
           </li>
 
         }
