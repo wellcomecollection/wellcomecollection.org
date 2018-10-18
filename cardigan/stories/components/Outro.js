@@ -21,7 +21,7 @@ const OutroExample = () => {
       }
     }}
     visitItem={{
-      title: 'Living with Buildings opends 5 Oct',
+      title: 'Living with Buildings opens 5 Oct',
       item: {
         type: 'exhibitions',
         id: '123',
