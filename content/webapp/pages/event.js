@@ -82,7 +82,7 @@ function showTicketSalesStart(dateTime) {
 
 // Convert dates back to Date types because it's serialised through
 // `getInitialProps`
-function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
+export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
   const times = jsonEvent.times.map(time => {
     return {
       ...time,
