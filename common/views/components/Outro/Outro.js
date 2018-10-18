@@ -25,8 +25,13 @@ const Outro = ({
         height: '6px',
         background: 'black'
       }} className={classNames({
-        [spacing({s: 2}, {margin: ['bottom']})]: true
+        [spacing({s: 0}, {margin: ['bottom']})]: true
       })}></div>
+      <h2
+        className={classNames({
+          'h1': true,
+          [spacing({s: 2}, {margin: ['top']})]: true
+        })}>Try these next</h2>
 
       <ul className={classNames({
         'no-margin': true,
