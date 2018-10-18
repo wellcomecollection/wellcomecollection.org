@@ -13,6 +13,7 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {spacing} from '@weco/common/utils/classnames';
 import {eventLd} from '@weco/common/utils/json-ld';
+import {convertJsonToDates} from './event';
 import type {EventSeries} from '@weco/common/model/event-series';
 import type {UiEvent} from '@weco/common/model/events';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -50,7 +51,10 @@ export class EventSeriesPage extends Component<Props> {
   }
 
   render() {
-    const {series, events} = this.props;
+    const {series} = this.props;
+    const jsonEvents = this.props.events;
+    const events = jsonEvents.map(convertJsonToDates);
+
     const breadcrumbs = {
       items: [
         {
