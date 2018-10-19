@@ -30,25 +30,13 @@ class ImageGallery extends Component<Props, State> {
     titleStyle: null
   }
 
-  trackOpenGalleryEvent = (el: string) => {
+  showAllImages = () => {
     ReactGA.event({
       category: 'component',
-      action: `image-gallery-${el}:click`,
-      label: `opened-image-gallery:${this.props.id}`
+      action: `ImageGallery:click`,
+      label: `image-gallery:${this.props.id}`
     });
-  }
 
-  handleButtonClick = () => {
-    this.trackOpenGalleryEvent('button');
-    this.showAllImages();
-  }
-
-  handleImageClick = () => {
-    this.trackOpenGalleryEvent('image');
-    this.showAllImages();
-  }
-
-  showAllImages = () => {
     this.setState({
       isActive: true
     });
@@ -131,7 +119,7 @@ class ImageGallery extends Component<Props, State> {
 
                   {this.itemsToShow().map((captionedImage, i) => (
                     <div
-                      onClick={!isActive ? this.handleImageClick : undefined}
+                      onClick={!isActive ? this.showAllImages : undefined}
                       className={classNames({
                         [spacing({s: 10}, {margin: ['bottom']})]: isActive
                       })}
@@ -164,7 +152,7 @@ class ImageGallery extends Component<Props, State> {
                     <Button
                       type='primary'
                       icon='gallery'
-                      clickHandler={this.handleButtonClick}
+                      clickHandler={this.showAllImages}
                       extraClasses='image-gallery-v2__button absolute'
                       text={`${items.length} images`} />
                   }
