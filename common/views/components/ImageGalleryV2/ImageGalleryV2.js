@@ -10,6 +10,7 @@ import type {CaptionedImage as CaptionedImageProps} from '../../../model/caption
 import {PageBackgroundContext} from '../BasePage/BasePage';
 import {repeatingLsBlack} from '../../../utils/backgrounds';
 import {breakpoints} from '../../../utils/breakpoints';
+import ReactGA from 'react-ga';
 
 type Props = {|
   id: string,
@@ -27,6 +28,24 @@ class ImageGallery extends Component<Props, State> {
   state = {
     isActive: true,
     titleStyle: null
+  }
+
+  trackOpenGalleryEvent = (el: string) => {
+    ReactGA.event({
+      category: 'component',
+      action: `image-gallery-${el}:click`,
+      label: `opened-image-gallery:${this.props.id}`
+    });
+  }
+
+  handleButtonClick = () => {
+    this.trackOpenGalleryEvent('button');
+    this.showAllImages();
+  }
+
+  handleImageClick = () => {
+    this.trackOpenGalleryEvent('image');
+    this.showAllImages();
   }
 
   showAllImages = () => {
@@ -112,7 +131,7 @@ class ImageGallery extends Component<Props, State> {
 
                   {this.itemsToShow().map((captionedImage, i) => (
                     <div
-                      onClick={!isActive ? this.showAllImages : undefined}
+                      onClick={!isActive ? this.handleImageClick : undefined}
                       className={classNames({
                         [spacing({s: 10}, {margin: ['bottom']})]: isActive
                       })}
@@ -145,7 +164,7 @@ class ImageGallery extends Component<Props, State> {
                     <Button
                       type='primary'
                       icon='gallery'
-                      clickHandler={this.showAllImages}
+                      clickHandler={this.handleButtonClick}
                       extraClasses='image-gallery-v2__button absolute'
                       text={`${items.length} images`} />
                   }
