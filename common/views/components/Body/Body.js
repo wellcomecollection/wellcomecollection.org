@@ -49,118 +49,115 @@ const Body = ({
       'basic-body': true
     })}>
       {filteredBody
-        .map((slice, i) => {
-          return (
-            <div className={classNames({
-              'body-part': true,
-              [spacing({s: 3}, {padding: ['top']})]: i === 0 && slice.type !== 'imageGallery',
-              'overflow-hidden': true
-            })} key={`slice${i}`}>
-              {slice.type === 'text' &&
-                <Layout8>
-                  <div className='body-text'>
-                    {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
-                    {slice.weight !== 'featured' &&
-                      (firstTextSliceIndex === i && isDropCapped
-                        ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
-                        : <PrismicHtmlBlock html={slice.value} />)
-                    }
-                  </div>
-                </Layout8>
-              }
+        .map((slice, i) => (
+          <div className={classNames({
+            'body-part': true,
+            [spacing({s: 3}, {padding: ['top']})]: i === 0 && slice.type !== 'imageGallery',
+            'overflow-hidden': true
+          })} key={`slice${i}`}>
+            {slice.type === 'text' &&
+              <Layout8>
+                <div className='body-text'>
+                  {slice.weight === 'featured' && <FeaturedText html={slice.value} />}
+                  {slice.weight !== 'featured' &&
+                    (firstTextSliceIndex === i && isDropCapped
+                      ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerialiser} />
+                      : <PrismicHtmlBlock html={slice.value} />)
+                  }
+                </div>
+              </Layout8>
+            }
 
-              {/* TODO: use one layout for all image weights if/when it's established
-              that width isn't an adequate means to illustrate a difference */}
-              {slice.type === 'picture' && slice.weight === 'default' &&
-                <Layout10>
-                  <CaptionedImage
-                    {...slice.value}
-                    sizesQueries={''} />
-                </Layout10>
-              }
-              {slice.type === 'picture' && slice.weight === 'standalone' &&
-                <Layout12>
-                  <CaptionedImage
-                    {...slice.value}
-                    sizesQueries={''} />
-                </Layout12>
-              }
-              {slice.type === 'picture' && slice.weight === 'supporting' &&
-                <Layout8>
-                  <CaptionedImage
-                    {...slice.value}
-                    sizesQueries={''} />
-                </Layout8>
-              }
-
-              {slice.type === 'imageGallery' &&
-                <ImageGalleryV2
-                  isStandalone={slice.weight === 'standalone'}
+            {/* TODO: use one layout for all image weights if/when it's established
+            that width isn't an adequate means to illustrate a difference */}
+            {slice.type === 'picture' && slice.weight === 'default' &&
+              <Layout10>
+                <CaptionedImage
                   {...slice.value}
-                  id={imageGalleryIdCount++} />
-              }
+                  sizesQueries={''} />
+              </Layout10>
+            }
+            {slice.type === 'picture' && slice.weight === 'standalone' &&
+              <Layout12>
+                <CaptionedImage
+                  {...slice.value}
+                  sizesQueries={''} />
+              </Layout12>
+            }
+            {slice.type === 'picture' && slice.weight === 'supporting' &&
+              <Layout8>
+                <CaptionedImage
+                  {...slice.value}
+                  sizesQueries={''} />
+              </Layout8>
+            }
 
-              {slice.type === 'quote' &&
-                <Layout8>
-                  <Quote {...slice.value} />
-                </Layout8>
-              }
+            {slice.type === 'imageGallery' &&
+              <ImageGalleryV2
+                isStandalone={slice.weight === 'standalone'}
+                {...slice.value}
+                id={imageGalleryIdCount++} />
+            }
 
-              {slice.type === 'contentList' &&
-                <Layout8>
-                  <AsyncSearchResults
-                    title={slice.value.title}
-                    query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
-                  />
-                </Layout8>
-              }
-              {slice.type === 'searchResults' &&
-                <Layout8>
-                  <AsyncSearchResults {...slice.value} />
-                </Layout8>
-              }
-              {slice.type === 'videoEmbed' &&
-                <Layout8>
-                  <div className={classNames({
-                    [spacing({s: 6}, {margin: ['bottom']})]: true
-                  })}>
-                    <VideoEmbed {...slice.value} />
-                  </div>
-                </Layout8>
-              }
-              {slice.type === 'soundcloudEmbed' &&
-                <Layout8>
-                  <iframe width='100%' height='20' frameBorder='none' src={slice.value.embedUrl} />
-                </Layout8>
-              }
+            {slice.type === 'quote' &&
+              <Layout8>
+                <Quote {...slice.value} />
+              </Layout8>
+            }
 
-              {slice.type === 'map' &&
-                <Layout8>
-                  <Map {...slice.value} />
-                </Layout8>
-              }
+            {slice.type === 'contentList' &&
+              <Layout8>
+                <AsyncSearchResults
+                  title={slice.value.title}
+                  query={slice.value.items.map(({id}) => `id:${id}`).join(' ')}
+                />
+              </Layout8>
+            }
+            {slice.type === 'searchResults' &&
+              <Layout8>
+                <AsyncSearchResults {...slice.value} />
+              </Layout8>
+            }
+            {slice.type === 'videoEmbed' &&
+              <Layout8>
+                <div className={classNames({
+                  [spacing({s: 6}, {margin: ['bottom']})]: true
+                })}>
+                  <VideoEmbed {...slice.value} />
+                </div>
+              </Layout8>
+            }
+            {slice.type === 'soundcloudEmbed' &&
+              <Layout8>
+                <iframe width='100%' height='20' frameBorder='none' src={slice.value.embedUrl} />
+              </Layout8>
+            }
 
-              {slice.type === 'gifVideo' &&
-                <Layout8>
-                  <GifVideo {...slice.value} />
-                </Layout8>
-              }
+            {slice.type === 'map' &&
+              <Layout8>
+                <Map {...slice.value} />
+              </Layout8>
+            }
 
-              {slice.type === 'iframe' &&
-                <Layout10>
-                  <Iframe {...slice.value} />
-                </Layout10>
-              }
+            {slice.type === 'gifVideo' &&
+              <Layout8>
+                <GifVideo {...slice.value} />
+              </Layout8>
+            }
 
-              {/* deprecated */}
-              {slice.type === 'deprecatedImageList' &&
-                <Layout8>
-                  <DeprecatedImageList {...slice.value} />
-                </Layout8>
-              }
-            </div>
-          );
-        }
+            {slice.type === 'iframe' &&
+              <Layout10>
+                <Iframe {...slice.value} />
+              </Layout10>
+            }
+
+            {/* deprecated */}
+            {slice.type === 'deprecatedImageList' &&
+              <Layout8>
+                <DeprecatedImageList {...slice.value} />
+              </Layout8>
+            }
+          </div>)
         )}
     </div>
   );
