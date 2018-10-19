@@ -14,7 +14,6 @@ export function getPeriodPredicates(
   const startOfDay = moment().startOf('day');
   const endOfDay = moment().endOf('day');
   const weekendDateRange = getNextWeekendDateRange(now);
-
   const predicates =
     period === 'coming-up' ? [
       Predicates.dateAfter(startField, endOfDay.toDate())
@@ -29,8 +28,8 @@ export function getPeriodPredicates(
       Predicates.dateBefore(startField, weekendDateRange.end),
       Predicates.dateAfter(endField, weekendDateRange.start)
     ] : period === 'this-week' ? [
-      Predicates.dateBefore(startField, now.endOf('week')),
-      Predicates.dateAfter(startField, now.startOf('week'))
+      Predicates.dateBefore(startField, now.endOf('week').toDate()),
+      Predicates.dateAfter(startField, now.startOf('week').toDate())
     ] : period === 'next-seven-days' ? [
       Predicates.dateBefore(startField, now.add(6, 'days').endOf('day').toDate()),
       Predicates.dateAfter(endField, startOfDay.toDate())

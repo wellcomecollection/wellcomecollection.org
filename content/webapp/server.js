@@ -119,8 +119,13 @@ app.prepare().then(async () => {
   server.use(getToggles);
 
   // Next routing
-  // TODO: As we have this pattern all over the shop we might want to abstract
-  // it out for ease... although copy / paste is not bad
+  router.get('/', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/homepage', {
+      toggles
+    });
+    ctx.respond = false;
+  });
   router.get('/whats-on', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/whats-on', {
