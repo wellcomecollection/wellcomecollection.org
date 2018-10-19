@@ -68,35 +68,8 @@
 
   {% for section in curatedList.data.section %}
     {% if section.slice_type === 'series' %}
-      {% if section.value.data.wordpressSlug %}
-        {# Deprecated: Digital stories (Wordpress) #}
-        <div class="row {{ {s:2} | spacingClasses({padding:['top']}) }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} relative">
-          <div class="container container--scroll-xl">
-            <div class="grid grid--no-gutters">
-              <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-                {% set asyncContentEndpoint = '/series-transporter/' + section.value.data.wordpressSlug %}
-                {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-explore": true}' } %}
-              </div>
-            </div>
-          </div>
-          <div class="{{ {s:4} | spacingClasses({margin:['top']}) }}">
-            <div class="container container--no-collapse">
-              {% componentV2 'divider', null, {'thick': true, 'black': true} %}
-            </div>
-          </div>
-        </div>
-      {% else %}
-        <div class="row {{ {s:2} | spacingClasses({padding:['top']}) }} {{ {s:4} | spacingClasses({margin: ['bottom']}) }} relative">
-          <div class="container container--scroll-xl">
-            <div class="grid grid--no-gutters">
-              <div class="{{ {s: 12, m: 12, l: 12, xl: 12} | gridClasses }}">
-                {% set asyncContentEndpoint = '/series-transporter/' + section.value.id %}
-                {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-explore": true}' } %}
-              </div>
-            </div>
-          </div>
-        </div>
-      {% endif %}
+      {% set asyncContentEndpoint = '/series-transporter/' + section.value.id %}
+      {% component 'async', { endpoint: asyncContentEndpoint, component: 'series-transporter', modifiers: '{"in-explore": true}' } %}
     {% endif %}
   {% endfor %}
 
