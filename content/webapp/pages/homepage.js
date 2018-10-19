@@ -47,8 +47,6 @@ export class HomePage extends Component<Props> {
       exhibitionsPromise, eventsPromise, articlesPromise
     ]);
 
-    console.info(exhibitions.results.length);
-
     if (events && exhibitions && articles) {
       return {
         exhibitions,
