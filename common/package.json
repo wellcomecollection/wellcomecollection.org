@@ -24,7 +24,7 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "next": "^5.1.0",
-    "openseadragon": "^2.3.1",
+    "openseadragon": "^2.4.0",
     "prismic-dom": "^2.1.0",
     "prismic-javascript": "2.0.0-beta.0",
     "raven-js": "^3.26.3",
