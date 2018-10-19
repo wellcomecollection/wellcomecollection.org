@@ -27,7 +27,7 @@ const Contributor = ({
   return (
     <div className='grid'>
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
-        <div style={{width: '78px'}} className={spacing({ s: 2 }, { margin: ['right'] })}>
+        <div style={{minWidth: '78px'}} className={spacing({ s: 2 }, { margin: ['right'] })}>
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' &&
             <Image {...imageProps} extraClasses={'width-inherit'} />
