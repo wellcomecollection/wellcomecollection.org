@@ -10,6 +10,7 @@ import type {CaptionedImage as CaptionedImageProps} from '../../../model/caption
 import {PageBackgroundContext} from '../BasePage/BasePage';
 import {repeatingLsBlack} from '../../../utils/backgrounds';
 import {breakpoints} from '../../../utils/breakpoints';
+import ReactGA from 'react-ga';
 
 type Props = {|
   id: string,
@@ -30,6 +31,12 @@ class ImageGallery extends Component<Props, State> {
   }
 
   showAllImages = () => {
+    ReactGA.event({
+      category: 'component',
+      action: `ImageGallery:open`,
+      label: `image-gallery:${this.props.id}`
+    });
+
     this.setState({
       isActive: true
     });

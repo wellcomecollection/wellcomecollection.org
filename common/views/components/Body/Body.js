@@ -42,12 +42,14 @@ const Body = ({
     .filter(slice => slice.type !== 'standfirst');
 
   const firstTextSliceIndex = filteredBody.map(slice => slice.type).indexOf('text');
+  let imageGalleryIdCount = 1;
+
   return (
     <div className={classNames({
       'basic-body': true
     })}>
       {filteredBody
-        .map((slice, i) =>
+        .map((slice, i) => (
           <div className={classNames({
             'body-part': true,
             [spacing({s: 3}, {padding: ['top']})]: i === 0 && slice.type !== 'imageGallery',
@@ -93,7 +95,8 @@ const Body = ({
             {slice.type === 'imageGallery' &&
               <ImageGalleryV2
                 isStandalone={slice.weight === 'standalone'}
-                {...slice.value} />
+                {...slice.value}
+                id={imageGalleryIdCount++} />
             }
 
             {slice.type === 'quote' &&
@@ -154,7 +157,7 @@ const Body = ({
                 <DeprecatedImageList {...slice.value} />
               </Layout8>
             }
-          </div>
+          </div>)
         )}
     </div>
   );
