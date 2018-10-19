@@ -97,6 +97,66 @@ const graphQuery = `{
         }
       }
     }
+    outroResearchItem {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
+    outroReadItem {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
+    outroVisitItem {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
     promo {
       ... on editorialImage {
         non-repeat {
