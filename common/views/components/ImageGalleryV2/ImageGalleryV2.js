@@ -33,7 +33,7 @@ class ImageGallery extends Component<Props, State> {
   showAllImages = () => {
     ReactGA.event({
       category: 'component',
-      action: `ImageGallery:click`,
+      action: `ImageGallery:open`,
       label: `image-gallery:${this.props.id}`
     });
 
