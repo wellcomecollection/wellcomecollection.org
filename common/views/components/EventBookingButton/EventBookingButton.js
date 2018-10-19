@@ -3,6 +3,7 @@
 import type {UiEvent} from '../../../model/events';
 import {Fragment} from 'react';
 import Button from '../Buttons/Button/Button';
+import Message from '../Message/Message';
 import {spacing, font} from '../../../utils/classnames';
 
 type Props = {|
@@ -10,14 +11,12 @@ type Props = {|
 |}
 
 function getButtonMarkup(event) {
+  console.log('argah');
   if (!event.eventbriteId) return;
 
   if (event.isCompletelySoldOut) {
     return (
-      <Button
-        type='primary'
-        text='Fully booked'
-        icon='ticketAvailable' />
+      <Message text={`Fully booked`} />
     );
   } else {
     return (
@@ -37,12 +36,7 @@ function getBookingEnquiryMarkup(event) {
 
   if (event.isCompletelySoldOut) {
     return (
-      <Fragment>
-        <Button
-          type='primary'
-          disabled={true}
-          text='Fully booked' />
-      </Fragment>
+      <Message text={`Fully booked`} />
     );
   } else {
     return (
