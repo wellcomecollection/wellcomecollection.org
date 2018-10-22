@@ -39,7 +39,7 @@ export async function getWorks({ query, page, version = 1 }: GetWorksProps): Obj
   const url = `${rootUri}/v${version}/works?includes=${includeString}&include=${includeString}`;
   const res = await fetch(
     `${url}&pageSize=100` +
-    (query ? `&query=${query}` : '') +
+    (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '')
   );
   const json = await res.json();
