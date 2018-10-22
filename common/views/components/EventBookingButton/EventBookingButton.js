@@ -11,7 +11,6 @@ type Props = {|
 |}
 
 function getButtonMarkup(event) {
-  console.log('argah');
   if (!event.eventbriteId) return;
 
   if (event.isCompletelySoldOut) {
