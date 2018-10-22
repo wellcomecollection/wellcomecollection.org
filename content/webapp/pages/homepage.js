@@ -55,10 +55,10 @@ export class HomePage extends Component<Props> {
         title: 'The free museum and library for the incurably curious',
         description: pageDescription,
         type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/whats-on`,
+        canonicalUrl: `https://wellcomecollection.org/`,
         imageUrl: pageImage,
-        siteSection: 'whatson',
-        analyticsCategory: 'public-programme',
+        siteSection: 'index',
+        analyticsCategory: 'editorial',
         pageJsonLd: [
           ...exhibitions.results.map(exhibitionLd),
           ...events.results.map(eventLd),
