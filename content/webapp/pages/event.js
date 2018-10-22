@@ -295,7 +295,7 @@ class EventPage extends Component<Props, State> {
 
             {event.bookingEnquiryTeam &&
               <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
-                {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
+                {event.isCompletelySoldOut ? <Message text={`Fully booked`} />
                   : (
                     <Button
                       type='primary'
