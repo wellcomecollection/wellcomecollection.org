@@ -30,7 +30,7 @@ export async function getEventsInfo(ctx, next) {
           salesEnded
         };
       });
-      return tickets.find(_ => _);
+      return tickets[0];
     } else {
       const eventsInSeriesResponse = await superagent.get(`${eventbriteApiRoot}/series/${id}/events/?token=${eventbritePersonalOauthToken}`);
       const eventsInSeries = eventsInSeriesResponse.body.events;
@@ -52,7 +52,7 @@ export async function getEventsInfo(ctx, next) {
             salesEnded
           };
         });
-        return tickets.find(_ => _);
+        return tickets[0];
       });
 
       const eventsTickets = await Promise.all(eventsInSeriesTickets);
