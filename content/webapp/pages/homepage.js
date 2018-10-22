@@ -52,7 +52,7 @@ export class HomePage extends Component<Props> {
         exhibitions,
         events,
         articles,
-        title: 'The free museum and library for the incurably curious',
+        title: null,
         description: pageDescription,
         type: 'website',
         canonicalUrl: `https://wellcomecollection.org/`,

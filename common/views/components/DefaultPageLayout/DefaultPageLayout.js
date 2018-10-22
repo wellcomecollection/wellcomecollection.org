@@ -150,7 +150,7 @@ type Props = {|
   children: React.Node,
   type: OgType,
   canonicalUrl: string,
-  title: string,
+  title: ?string,
   description: string,
   imageUrl: string,
   pageJsonLd: JsonLdObject,
@@ -299,7 +299,11 @@ class DefaultPageLayout extends Component<Props> {
         <Head>
           <meta charSet='utf-8' />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
-          <title>{`${title} | Wellcome Collection`}</title>
+          <title>
+            {title ? `${title} | ` : ''}
+            Wellcome Collection
+            {!title ? ' | The free museum and library for the incurably curious' : ''}
+          </title>
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta name='theme-color' content='#000000'/>
 
