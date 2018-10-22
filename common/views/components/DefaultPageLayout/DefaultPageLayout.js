@@ -275,7 +275,6 @@ class DefaultPageLayout extends Component<Props> {
 
   render() {
     const {
-      title,
       type,
       canonicalUrl,
       description,
@@ -293,17 +292,15 @@ class DefaultPageLayout extends Component<Props> {
 
     const galleryVenue = openingTimes.groupedVenues.galleriesLibrary && openingTimes.groupedVenues.galleriesLibrary.hours.find(v => v.name === 'Galleries');
     const galleryVenueHours = galleryVenue && galleryVenue.openingHours;
-
+    const title = this.props.title
+      ? `${this.props.title} | Wellcome Collection`
+      : 'Wellcome Collection | The free museum and library for the incurably curious';
     return (
       <div>
         <Head>
           <meta charSet='utf-8' />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
-          <title>
-            {title ? `${title} | ` : ''}
-            Wellcome Collection
-            {!title ? ' | The free museum and library for the incurably curious' : ''}
-          </title>
+          <title>{title}</title>
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           <meta name='theme-color' content='#000000'/>
 
