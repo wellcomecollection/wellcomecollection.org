@@ -126,6 +126,10 @@ jobs:
             node pa11y_report.js
             aws s3 cp --only-show-errors ./pa11y_report.html s3://dash.wellcomecollection.org/pa11y/report.${CIRCLE_SHA1}.html
             aws s3 cp --only-show-errors ./pa11y_report.html s3://dash.wellcomecollection.org/pa11y/report.latest.html
+      - run:
+          name: Dash index
+          command: |
+            aws s3 cp --only-show-errors ./dash/webapp/index.html s3://dash.wellcomecollection.org/index.html
       - save_cache:
           key: root_modules_circleci_node_8_{{ checksum "package.json" }}
           paths:
