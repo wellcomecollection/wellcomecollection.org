@@ -25,7 +25,7 @@ const EventPromo = ({
         label: `id : ${item.id}, position : ${position}`}
       )}
       id={item.id}
-      href={item.promo && item.promo.link || `/items/${item.id}`}
+      href={item.promo && item.promo.link || `/articles/${item.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
       <div className='relative'>
         {/* FIXME: Image type tidy */}
