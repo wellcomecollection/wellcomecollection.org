@@ -27,6 +27,7 @@ h6 {
   font-size: 1em;
   // stylelint-enable sh-waqar/declaration-use-variable
   margin-bottom: 0.6em;
+  font-weight: normal;
 }
 
 a {
@@ -118,4 +119,22 @@ hr {
 
 .secondary-link {
   @include default-link;
+}
+
+.spaced-text {
+  p,
+  ul {
+    margin-bottom: 0;
+  }
+
+  // All elements with a preceding sibling get margin-top
+  // https://alistapart.com/article/axiomatic-css-and-lobotomized-owls
+  * + * {
+    margin-top: 1.6em;
+  }
+
+  // …but not as much margin-top for list items
+  li + li {
+    margin-top: 0.3em;
+  }
 }

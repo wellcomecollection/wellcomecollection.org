@@ -5,9 +5,10 @@ import Layout8 from '../Layout8/Layout8';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
-import {spacing, classNames} from '../../../utils/classnames';
+import {classNames} from '../../../utils/classnames';
 import type {Node, Element, ElementProps} from 'react';
 import type Body from '../Body/Body';
+import SpacingSection from '../SpacingSection/SpacingSection';
 
 export const PageBackgroundContext = createContext('white');
 
@@ -39,40 +40,47 @@ const BasePage = ({
       <article data-wio-id={id}>
         <Fragment>{Header}</Fragment>
         <div className={classNames({
-          'bg-cream': isCreamy,
-          [spacing({s: 6}, {padding: ['bottom']})]: true
+          'bg-cream': isCreamy
         })}>
-          <div className='basic-page'>
-            <Fragment>{Body}</Fragment>
-          </div>
+          <SpacingSection>
+            <div className='basic-page'>
+              <Fragment>{Body}</Fragment>
+            </div>
+          </SpacingSection>
 
           {children &&
-            <Layout8>
-              {children}
-            </Layout8>
+            <SpacingSection>
+              <Layout8>
+                {children}
+              </Layout8>
+            </SpacingSection>
           }
 
           {contributorProps && contributorProps.contributors.length > 0 &&
-            <Layout8>
-              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+            <SpacingSection>
+              <Layout8>
                 <Contributors {...contributorProps} />
-              </div>
-            </Layout8>
+              </Layout8>
+            </SpacingSection>
           }
 
           {Siblings.length > 0 &&
-            <Layout8>
+            <Fragment>
               {Children.map(Siblings, (child, i) => (
-                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                  {Siblings}
-                </div>
+                <SpacingSection>
+                  <Layout8>
+                    {Siblings}
+                  </Layout8>
+                </SpacingSection>
               ))}
-            </Layout8>
+            </Fragment>
           }
 
           {outroProps &&
             <Layout8>
-              <Outro {...outroProps} />
+              <SpacingSection>
+                <Outro {...outroProps} />
+              </SpacingSection>
             </Layout8>
           }
         </div>

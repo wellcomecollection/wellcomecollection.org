@@ -154,7 +154,8 @@ const PageHeader = ({
 
       {HeroPicture &&
         <div className={classNames({
-          'relative': true
+          'relative': true,
+          [spacing({s: 10}, {padding: ['bottom']})]: true
         })} style={{height: '100%'}}>
           <div
             style={{

@@ -421,7 +421,6 @@
   max-width: 100%;
   width: auto;
   margin: 0 auto;
-  width: auto;
 }
 
 // This is for when we receive content from a CMS,
@@ -477,4 +476,12 @@
     line-height: $spacing-unit * 11;
     margin-bottom: -$spacing-unit;
   }
+}
+
+.spacing-component + .spacing-component {
+  padding-top: $spacing-unit * 8;
+}
+
+.spacing-section {
+  padding-bottom: $spacing-unit * 13;
 }
