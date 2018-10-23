@@ -169,6 +169,14 @@ const graphQuery = `{
 }`.replace(/\n(\s+)/g, '\n');
 
 function parseContentLink(document: PrismicDocument): ?MultiContent {
+  if (document.link_type === 'Web') {
+    return document.url ? {
+      type: 'weblinks',
+      id: document.url,
+      url: document.url
+    } : null;
+  }
+
   if (!document || document.isBroken !== false) {
     return;
   }
