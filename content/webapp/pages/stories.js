@@ -10,6 +10,7 @@ import Promo from '@weco/common/views/components/Promo/Promo';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleSeries} from '@weco/common/model/article-series';
@@ -145,6 +146,46 @@ export class BooksListPage extends Component<Props> {
           </div>
         </div>
         <SerialisedSeries series={series} />
+
+        <SectionHeader
+          title='You may have missed'
+          linkText='More articles'
+          linkUrl='/articles'
+        />
+        <div className={classNames({
+          'row': true,
+          [spacing({s: 4}, {padding: ['top']})]: true
+        })}>
+          <div className='container container--scroll touch-scroll'>
+            <div className='grid grid--scroll grid--dividers grid--theme-6'>
+              {articles.slice(5, 11).map(article => {
+                const articleIsSerial = article.series.find(series => series.schedule.length > 0);
+                return (
+                  <div className='grid__cell' key={article.id}>
+                    {/* $FlowFixMe */}
+                    <Promo
+                      sizes='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(75vw - 18px)'
+                      url={`/articles/${article.id}`}
+                      contentType={article.format && article.format.title || (articleIsSerial ? 'Serial' : 'Story')}
+                      image={article.image}
+                      title={article.title}
+                      weight={'featured'}
+                      description={article.promoText}
+                      series={article.series}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        <div className='container'>
+          <div className={classNames({
+            [spacing({s: 3}, {margin: ['bottom', 'top']})]: true
+          })}>
+            <Divider extraClasses={'divider--dashed'} />
+          </div>
+        </div>
       </Fragment>
     );
   }
