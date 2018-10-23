@@ -119,6 +119,9 @@ const graphQuery = `{
       ... on installations {
         title
       }
+      ... on pages {
+        title
+      }
     }
     outroReadItem {
       ... on events {
@@ -142,6 +145,9 @@ const graphQuery = `{
       ... on installations {
         title
       }
+      ... on pages {
+        title
+      }
     }
     outroVisitItem {
       ... on events {
@@ -163,6 +169,9 @@ const graphQuery = `{
         title
       }
       ... on installations {
+        title
+      }
+      ... on pages {
         title
       }
     }
