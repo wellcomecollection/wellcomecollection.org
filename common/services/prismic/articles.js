@@ -97,6 +97,66 @@ const graphQuery = `{
         }
       }
     }
+    outroResearchItem {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
+    outroReadItem {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
+    outroVisitItem {
+      ... on events {
+        title
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+    }
     promo {
       ... on editorialImage {
         non-repeat {
@@ -109,6 +169,14 @@ const graphQuery = `{
 }`.replace(/\n(\s+)/g, '\n');
 
 function parseContentLink(document: PrismicDocument): ?MultiContent {
+  if (document.link_type === 'Web') {
+    return document.url ? {
+      type: 'weblinks',
+      id: document.url,
+      url: document.url
+    } : null;
+  }
+
   if (!document || document.isBroken !== false) {
     return;
   }

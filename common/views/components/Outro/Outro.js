@@ -45,14 +45,22 @@ const Outro = ({
           })}>
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
-              'no-margin': true
+              'no-margin': true,
+              'font-weight-normal': true
             })}>Research for yourself</h3>
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${researchItem.type}/${researchItem.id}`}>
-                {researchLinkText || researchItem.title}
-              </a>
+              {researchItem.type !== 'weblinks' &&
+                <a href={`/${researchItem.type}/${researchItem.id}`}>
+                  {researchLinkText || researchItem.title}
+                </a>
+              }
+              {researchItem.type === 'weblinks' &&
+                <a href={`${researchItem.url}`}>
+                  {researchLinkText}
+                </a>
+              }
             </div>
           </li>
 
@@ -64,14 +72,22 @@ const Outro = ({
           })}>
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
-              'no-margin': true
+              'no-margin': true,
+              'font-weight-normal': true
             })}>Ready for something in-depth?</h3>
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${readItem.type}/${readItem.id}`}>
-                {readLinkText || readItem.title}
-              </a>
+              {readItem.type !== 'weblinks' &&
+                <a href={`/${readItem.type}/${readItem.id}`}>
+                  {readLinkText || readItem.title}
+                </a>
+              }
+              {readItem.type === 'weblinks' &&
+                <a href={`${readItem.url}`}>
+                  {readLinkText}
+                </a>
+              }
             </div>
           </li>
 
@@ -83,14 +99,22 @@ const Outro = ({
           })}>
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
-              'no-margin': true
+              'no-margin': true,
+              'font-weight-normal': true
             })}>Mark your calendars</h3>
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${visitItem.type}/${visitItem.id}`}>
-                {visitLinkText || visitItem.title}
-              </a>
+              {visitItem.type !== 'weblinks' &&
+                <a href={`/${visitItem.type}/${visitItem.id}`}>
+                  {visitLinkText || visitItem.title}
+                </a>
+              }
+              {visitItem.type === 'weblinks' &&
+                <a href={`${visitItem.url}`}>
+                  {visitLinkText}
+                </a>
+              }
             </div>
           </li>
 
