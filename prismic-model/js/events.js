@@ -41,11 +41,13 @@ const Events = {
     ticketSalesStart: timestamp('Ticket sales start'),
     bookingEnquiryTeam: link('Booking enquiry team', 'document', ['teams']),
     eventbriteEvent: embed('Eventbrite event'),
-    bookingInformation: structuredText('Event specific booking information'),
+    // This is what it was labelled on the UI,
+    // so that's what we're calling it here
+    bookingInformation: structuredText('Extra information'),
     policies: list('Policies', {
       policy: link('Policy', 'document', ['event-policies'])
     }),
-    hasEarlyRegistration: boolean('Drop in'),
+    hasEarlyRegistration: boolean('Early registration'),
     cost: text('Cost')
   },
   Schedule: {
