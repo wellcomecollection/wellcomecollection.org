@@ -30,7 +30,9 @@ const Contributor = ({
         <div style={{minWidth: '78px'}} className={spacing({ s: 2 }, { margin: ['right'] })}>
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' &&
-            <Image {...imageProps} extraClasses={'width-inherit'} />
+            <div style={{width: '72px'}}>
+              <Image {...imageProps} extraClasses={'width-inherit'} />
+            </div>
           }
         </div>
         <div>
