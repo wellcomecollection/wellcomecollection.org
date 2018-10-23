@@ -21,11 +21,13 @@ type ContentTypes =
   | Article;
 
 type Props = {|
-  items: $ReadOnlyArray<ContentTypes>
+  items: $ReadOnlyArray<ContentTypes>,
+  hidePromoText?: boolean
 |}
 
 const CardGrid = ({
-  items
+  items,
+  hidePromoText
 }: Props) => {
   return (
     <div className='css-grid__container'>
@@ -74,7 +76,8 @@ const CardGrid = ({
               // $FlowFixMe
               <StoryPromo
                 item={item}
-                position={i} />
+                position={i}
+                hidePromoText={hidePromoText} />
             }
             {item.type === 'books' &&
               <BookPromo

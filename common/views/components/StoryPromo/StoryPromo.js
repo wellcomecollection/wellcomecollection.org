@@ -8,12 +8,14 @@ import type { Article } from '../../../model/articles';
 
 type Props = {|
   item: Article,
-  position: number
+  position: number,
+  hidePromoText?: boolean
 |}
 
 const EventPromo = ({
   item,
-  position
+  position,
+  hidePromoText = false
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
@@ -65,13 +67,15 @@ const EventPromo = ({
           `}>
             {item.title}
           </h2>
-          <div className={classNames({
-            'inline-block': true,
-            [font({s: 'HNL4'})]: true,
-            [spacing({s: 1}, {margin: ['bottom']})]: true
-          })}>
-            {item.promoText}
-          </div>
+          {!hidePromoText &&
+            <div className={classNames({
+              'inline-block': true,
+              [font({s: 'HNL4'})]: true,
+              [spacing({s: 1}, {margin: ['bottom']})]: true
+            })}>
+              {item.promoText}
+            </div>
+          }
         </div>
 
         <div>
