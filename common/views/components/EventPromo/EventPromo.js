@@ -30,7 +30,6 @@ const EventPromo = ({
     <a data-component='EventPromo'
       data-component-state={JSON.stringify({ position: position })}
       data-track-event={JSON.stringify({category: 'component', action: 'EventPromo:click', label: `id : ${event.id}, position : ${position}`})}
-      id={event.id}
       href={event.promo && event.promo.link || `/events/${event.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
       <div className='relative'>
