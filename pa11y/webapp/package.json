@@ -1,9 +1,12 @@
 {
   "name": "@weco/pa11y",
   "scripts": {
-    "dev": "next"
+    "dev": "next",
+    "build": "next build",
+    "export": "next export"
   },
   "dependencies": {
+    "@babel/preset-flow": "^7.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "mkdirp-promise": "^5.0.1",
     "next": "^7.0.2",
