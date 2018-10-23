@@ -40,11 +40,14 @@ export function getFeaturedMedia(
   };
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
   const FeaturedMedia = hasFeaturedVideo
-    ? <VideoEmbed {...body[0].value} /> : isPicture && widescreenImage && squareImage
+    ? <VideoEmbed {...body[0].value} />
+    : isPicture && widescreenImage && squareImage
       ? <Picture
         images={[{...widescreenImage, minWidth: breakpoints.medium}, {...squareImage, minWidth: null}]}
         isFull={true} />
-      : image && tasl ? <UiImage tasl={tasl} {...widescreenImage} sizesQueries='' /> : null;
+      : widescreenImage && tasl
+        ? <UiImage tasl={tasl} {...widescreenImage} sizesQueries='' />
+        : image && tasl ? <UiImage tasl={tasl} {...image} sizesQueries='' /> : null;
 
   return FeaturedMedia;
 }
