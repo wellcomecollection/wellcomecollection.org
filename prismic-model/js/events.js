@@ -45,7 +45,7 @@ const Events = {
     policies: list('Policies', {
       policy: link('Policy', 'document', ['event-policies'])
     }),
-    isDropIn: boolean('Drop in'),
+    hasEarlyRegistration: boolean('Drop in'),
     cost: text('Cost')
   },
   Schedule: {

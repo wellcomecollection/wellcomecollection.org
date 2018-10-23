@@ -105,7 +105,6 @@ export function parseEventDoc(doc: PrismicDoc, scheduleDocs?: PrismicDoc): UiEve
     identifiers: identifiers,
     title: asText(doc.data.title),
     format: format,
-    isDropIn: Boolean(doc.data.isDropIn), // the value from Prismic could be null || "yes"
     times: times,
     description: asHtml(doc.data.description),
     interpretations: interpretations,

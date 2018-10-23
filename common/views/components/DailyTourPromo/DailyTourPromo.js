@@ -50,7 +50,7 @@ export const data = {
     repeats: 0
   },
   image: image,
-  isDropIn: false,
+  hasEarlyRegistration: false,
   labels: [{
     url: null,
     text: 'Gallery tour'

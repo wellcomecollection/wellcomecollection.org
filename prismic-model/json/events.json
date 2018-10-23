@@ -498,7 +498,7 @@
         }
       }
     },
-    "isDropIn": {
+    "hasEarlyRegistration": {
       "type": "Select",
       "config": {
         "label": "Drop in",
