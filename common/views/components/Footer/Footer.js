@@ -46,7 +46,8 @@ const Footer = ({
           <OpeningHours
             extraClasses={extraClasses}
             groupedVenues={groupedVenues}
-            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods} />
+            upcomingExceptionalOpeningPeriods={upcomingExceptionalOpeningPeriods}
+            idPrefix='footer-' />
         </div>
       </div>
       <div className='grid'>
