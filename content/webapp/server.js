@@ -126,6 +126,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/whats-on', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/whats-on', {
@@ -141,6 +142,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/exhibitions', async ctx => {
     const {toggles} = ctx;
     const {page} = ctx.query;
@@ -193,6 +195,14 @@ app.prepare().then(async () => {
     ctx.respond = false;
   });
 
+  router.get('/articles', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/articles', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
   router.get('/articles/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/article', {
@@ -201,6 +211,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/series/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/article-series', {
@@ -209,14 +220,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
-  router.get('/events/:id', async ctx => {
-    const {toggles} = ctx;
-    await app.render(ctx.req, ctx.res, '/event', {
-      id: ctx.params.id,
-      toggles
-    });
-    ctx.respond = false;
-  });
+
   router.get('/books', async ctx => {
     const {toggles} = ctx;
     const {page} = ctx.query;
@@ -224,14 +228,6 @@ app.prepare().then(async () => {
       id: ctx.params.id,
       toggles,
       page
-    });
-    ctx.respond = false;
-  });
-  router.get('/event-series/:id', async ctx => {
-    const {toggles} = ctx;
-    await app.render(ctx.req, ctx.res, '/event-series', {
-      id: ctx.params.id,
-      toggles
     });
     ctx.respond = false;
   });
@@ -243,6 +239,16 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
+  router.get('/event-series/:id', async ctx => {
+    const {toggles} = ctx;
+    await app.render(ctx.req, ctx.res, '/event-series', {
+      id: ctx.params.id,
+      toggles
+    });
+    ctx.respond = false;
+  });
+
   router.get('/places/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/place', {
@@ -251,6 +257,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/pages/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/page', {
@@ -259,6 +266,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/installations/:id', async ctx => {
     const {toggles} = ctx;
     await app.render(ctx.req, ctx.res, '/installation', {
