@@ -19,3 +19,12 @@ export type Article = {|
   outroVisitLinkText: ?string,
   outroVisitItem: ?MultiContent
 |}
+
+export function getPositionInSeries(article: Article): ?number {
+  const serialisedSeries = article.series.find(series => series.schedule.length > 0);
+  if (serialisedSeries) {
+    const titles = serialisedSeries.schedule.map(item => item.title);
+    const index = titles.indexOf(article.title);
+    return index > -1 ? index + 1 : null;
+  }
+}

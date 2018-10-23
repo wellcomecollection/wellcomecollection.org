@@ -10,13 +10,15 @@ import type {UiExhibition} from '../../../model/exhibitions';
 import type {UiEvent} from '../../../model/events';
 import type {Installation} from '../../../model/installations';
 import type {Book} from '../../../model/books';
+import type {Article} from '../../../model/articles';
 
 // TODO: This should be MultiContent
 type ContentTypes =
   | UiEvent
   | UiExhibition
   | Installation
-  | Book;
+  | Book
+  | Article;
 
 type Props = {|
   items: $ReadOnlyArray<ContentTypes>
@@ -72,8 +74,7 @@ const CardGrid = ({
               // $FlowFixMe
               <StoryPromo
                 item={item}
-                position={i}
-                showPosition={true} />
+                position={i} />
             }
             {item.type === 'books' &&
               <BookPromo
