@@ -224,35 +224,33 @@ export class ExhibitionPage extends Component<Props, State> {
 
     return (
       <BasePage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
-        <Fragment>
-          {exhibition.contributors.length > 0 && (
-            <Contributors
-              titleOverride={exhibition.contributorsTitle}
-              contributors={exhibition.contributors}
-            />
-          )}
-          {
-            this.state.exhibitionOfs &&
-            this.state.exhibitionOfs.length > 0 &&
-            <SearchResults
-              items={this.state.exhibitionOfs}
-              title={`In this exhibition`} />
-          }
-          {exhibition.end && !isPast(exhibition.end) && (
-            <InfoBox title='Visit us' items={infoItems}>
-              <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-                <a href='/access'>All our accessibility services</a>
-              </p>
-            </InfoBox>
-          )}
-          {
-            this.state.exhibitionAbouts &&
-            this.state.exhibitionAbouts.length > 0 &&
-            <SearchResults
-              items={this.state.exhibitionAbouts}
-              title={`About this exhibition`} />
-          }
-        </Fragment>
+        {exhibition.contributors.length > 0 && (
+          <Contributors
+            titleOverride={exhibition.contributorsTitle}
+            contributors={exhibition.contributors}
+          />
+        )}
+        {
+          this.state.exhibitionOfs &&
+          this.state.exhibitionOfs.length > 0 &&
+          <SearchResults
+            items={this.state.exhibitionOfs}
+            title={`In this exhibition`} />
+        }
+        {exhibition.end && !isPast(exhibition.end) && (
+          <InfoBox title='Visit us' items={infoItems}>
+            <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+              <a href='/access'>All our accessibility services</a>
+            </p>
+          </InfoBox>
+        )}
+        {
+          this.state.exhibitionAbouts &&
+          this.state.exhibitionAbouts.length > 0 &&
+          <SearchResults
+            items={this.state.exhibitionAbouts}
+            title={`About this exhibition`} />
+        }
 
         {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}
         {

@@ -9,6 +9,7 @@ import {classNames} from '../../../utils/classnames';
 import type {Node, Element, ElementProps} from 'react';
 import type Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
+import SpacingComponent from '../SpacingComponent/SpacingComponent';
 
 export const PageBackgroundContext = createContext('white');
 
@@ -49,19 +50,19 @@ const BasePage = ({
           </SpacingSection>
 
           {children &&
-            <Fragment>
+            <SpacingSection>
               {Children.map(children, (child, i) => (
                 <Fragment>
                   {child &&
-                    <SpacingSection>
+                    <SpacingComponent>
                       <Layout8>
                         {child}
                       </Layout8>
-                    </SpacingSection>
+                    </SpacingComponent>
                   }
                 </Fragment>
               ))}
-            </Fragment>
+            </SpacingSection>
           }
 
           {contributorProps && contributorProps.contributors.length > 0 &&
@@ -73,27 +74,29 @@ const BasePage = ({
           }
 
           {Siblings.length > 0 &&
-            <Fragment>
+            <SpacingSection>
               {Children.map(Siblings, (child, i) => (
                 <Fragment>
                   {child &&
-                    <SpacingSection>
+                    <SpacingComponent>
                       <Layout8>
                         {child}
                       </Layout8>
-                    </SpacingSection>
+                    </SpacingComponent>
                   }
                 </Fragment>
               ))}
-            </Fragment>
+            </SpacingSection>
           }
 
           {outroProps &&
-            <Layout8>
-              <SpacingSection>
-                <Outro {...outroProps} />
-              </SpacingSection>
-            </Layout8>
+            <SpacingSection>
+              <Layout8>
+                <SpacingSection>
+                  <Outro {...outroProps} />
+                </SpacingSection>
+              </Layout8>
+            </SpacingSection>
           }
         </div>
       </article>
