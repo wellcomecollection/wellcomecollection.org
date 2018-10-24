@@ -1,6 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
+import {trackGaEvent} from '../../../utils/tracking';
 import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -19,10 +20,14 @@ const ExhibitionPromo = ({
   return (
     <a data-component='ExhibitionPromo'
       data-component-state={JSON.stringify({ position: position })}
-      data-track-event={JSON.stringify({category: 'component', action: 'ExhibitionPromo:click', label: `id : ${id}, position : ${position}`})}
       id={id}
       href={url}
-      className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>
+      className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
+      onClick={() => trackGaEvent({
+        category: 'component',
+        action: 'ExhibitionPromo:click',
+        label: `id : ${id}, position : ${position}`
+      })}>
       <div className='relative'>
         {image && image.contentUrl && <UiImage {...image}
           sizesQueries='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'
