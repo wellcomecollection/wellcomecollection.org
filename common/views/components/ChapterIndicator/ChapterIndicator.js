@@ -26,7 +26,7 @@ function buildMarkup(showSingle, commissionedLength, position, showTotal, color)
       : `data:image/gif;base64,R0lGODlhAQAEAIAAA${colorDataUris['white']}`;
 
     return (
-      <img key={index} className={`chapter-indicator__bar ${(index < position) || showTotal ? 'chapter-indicator__bar--filled' : ''}`}
+      <img key={index} alt='' className={`chapter-indicator__bar ${(index < position) || showTotal ? 'chapter-indicator__bar--filled' : ''}`}
         src={srcUrl} />
     );
   });
