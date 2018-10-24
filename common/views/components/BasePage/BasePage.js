@@ -38,7 +38,7 @@ const BasePage = ({
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
-        <Fragment>{Header}</Fragment>
+        <SpacingSection>{Header}</SpacingSection>
         <div className={classNames({
           'bg-cream': isCreamy
         })}>
