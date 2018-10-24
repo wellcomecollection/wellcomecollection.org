@@ -1,5 +1,6 @@
 // @flow
 import {classNames, font, spacing} from '../../../utils/classnames';
+import {trackComponentAction} from '../../../utils/ga';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -10,6 +11,12 @@ type Props = {|
   visitLinkText: ?string,
   visitItem: ?MultiContent
 |}
+
+function trackAction(action: string) {
+  return () => {
+    trackComponentAction('Outro', action, {});
+  };
+}
 
 const Outro = ({
   researchLinkText,
@@ -50,9 +57,20 @@ const Outro = ({
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${researchItem.type}/${researchItem.id}`}>
-                {researchLinkText || researchItem.title}
-              </a>
+              {researchItem.type !== 'weblinks' &&
+                <a
+                  href={`/${researchItem.type}/${researchItem.id}`}
+                  onClick={trackAction('researchItemClick')}>
+                  {researchLinkText || researchItem.title}
+                </a>
+              }
+              {researchItem.type === 'weblinks' &&
+                <a
+                  href={`${researchItem.url}`}
+                  onClick={trackAction('researchItemClick')}>
+                  {researchLinkText}
+                </a>
+              }
             </div>
           </li>
 
@@ -69,9 +87,20 @@ const Outro = ({
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${readItem.type}/${readItem.id}`}>
-                {readLinkText || readItem.title}
-              </a>
+              {readItem.type !== 'weblinks' &&
+                <a
+                  href={`/${readItem.type}/${readItem.id}`}
+                  onClick={trackAction('readItemClick')}>
+                  {readLinkText || readItem.title}
+                </a>
+              }
+              {readItem.type === 'weblinks' &&
+                <a
+                  href={`${readItem.url}`}
+                  onClick={trackAction('readItemClick')}>
+                  {readLinkText}
+                </a>
+              }
             </div>
           </li>
 
@@ -88,9 +117,20 @@ const Outro = ({
             <div className={classNames({
               'body-text': true
             })}>
-              <a href={`${visitItem.type}/${visitItem.id}`}>
-                {visitLinkText || visitItem.title}
-              </a>
+              {visitItem.type !== 'weblinks' &&
+                <a
+                  href={`/${visitItem.type}/${visitItem.id}`}
+                  onClick={trackAction('visitItemClick')}>
+                  {visitLinkText || visitItem.title}
+                </a>
+              }
+              {visitItem.type === 'weblinks' &&
+                <a
+                  href={`${visitItem.url}`}
+                  onClick={trackAction('visitItemClick')}>
+                  {visitLinkText}
+                </a>
+              }
             </div>
           </li>
 

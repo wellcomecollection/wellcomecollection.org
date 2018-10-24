@@ -10,6 +10,7 @@ import type {Installation} from './installations';
 import type {Article} from './articles';
 import type {ArticleScheduleItem} from './article-schedule-items';
 import type {UiExhibition} from './exhibitions';
+import type {Weblink} from './weblinks';
 
 export type MultiContent =
   | Page
@@ -19,4 +20,5 @@ export type MultiContent =
   | Article
   | Installation
   | ArticleScheduleItem
-  | UiExhibition;
+  | UiExhibition
+  | Weblink;

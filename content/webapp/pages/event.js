@@ -61,7 +61,7 @@ function DateList(event) {
       {event.times.map((eventTime, index) => {
         return (
           <div key={index} className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing({s: 2}, {padding: ['top', 'bottom']})}`}>
-            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''}`}>
+            <div className={`${isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''} flex-1`}>
               <DateRange start={eventTime.range.startDateTime} end={eventTime.range.endDateTime} />
             </div>
 
@@ -314,7 +314,18 @@ class EventPage extends Component<Props, State> {
             }
 
             {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
-              <Message text='Just turn up' />
+              <Fragment>
+                {!event.hasEarlyRegistration &&
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    <Message text='Just turn up' />
+                  </div>
+                }
+                {event.hasEarlyRegistration &&
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    <Message text='Arrive early to register' />
+                  </div>
+                }
+              </Fragment>
             }
           </Fragment>
         }

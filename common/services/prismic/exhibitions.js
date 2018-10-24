@@ -134,7 +134,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       copyrightLink: null }
   }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
 
-  const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
+  const sizeInKb = isDocumentLink(document.data.textAndCaptionsDocument) ? Math.round(document.data.textAndCaptionsDocument.size / 1024) : null;
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
