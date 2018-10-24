@@ -4,13 +4,14 @@ import {getArticles} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {articleLd} from '@weco/common/utils/json-ld';
-import {classNames, spacing, grid} from '@weco/common/utils/classnames';
+import {classNames, spacing, grid, font} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import Promo from '@weco/common/views/components/Promo/Promo';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleSeries} from '@weco/common/model/article-series';
@@ -57,8 +58,8 @@ const SerialisedSeries = ({series}: any) => {
   );
 };
 
-const pageDescription = 'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
-export class BooksListPage extends Component<Props> {
+const pageDescription = 'Dive into a story no matter where in the world you are.';
+export class StoriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {page = 1} = context.query;
     const articlesPromise = getArticles(context.req, {page});
@@ -93,6 +94,46 @@ export class BooksListPage extends Component<Props> {
 
     return (
       <Fragment>
+        <div className={classNames({
+          'row': true,
+          'bg-cream': true,
+          'plain-text': true,
+          [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
+        })}>
+          <div className='container'>
+            <div className='grid'>
+              <div className={classNames({
+                [grid({s: 12, m: 12, l: 7, xl: 8})]: true
+              })}>
+                <h1 className={classNames({
+                  'no-margin': true,
+                  [font({s: 'WB6', m: 'WB5', l: 'WB4'})]: true
+                })}>Stories</h1>
+
+                <div className={classNames({
+                  'first-para-no-margin': true,
+                  [spacing({s: 2}, {margin: ['top']})]: true
+                })}>
+                  {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}
+                  <PrismicHtmlBlock html={[{
+                    type: 'paragraph',
+                    text: 'Dive into a story no matter where in the world you are. (Want to write for us? Here\'s how.)',
+                    spans: [{
+                      start: 57,
+                      end: 89,
+                      type: 'hyperlink',
+                      data: {
+                        link_type: 'Web',
+                        url: 'https://wellcomecollection.org/pages/Wvl00yAAAB8A3y8p'
+                      }
+                    }]
+                  }]} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className={classNames({
           'row bg-cream row--has-wobbly-background': true,
           [spacing({s: 10}, {padding: ['top']})]: true
@@ -191,4 +232,4 @@ export class BooksListPage extends Component<Props> {
   }
 };
 
-export default PageWrapper(BooksListPage);
+export default PageWrapper(StoriesPage);
