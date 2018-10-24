@@ -51,11 +51,15 @@ const BasePage = ({
           {children &&
             <Fragment>
               {Children.map(children, (child, i) => (
-                <SpacingSection>
-                  <Layout8>
-                    {child}
-                  </Layout8>
-                </SpacingSection>
+                <Fragment>
+                  {child &&
+                    <SpacingSection>
+                      <Layout8>
+                        {child}
+                      </Layout8>
+                    </SpacingSection>
+                  }
+                </Fragment>
               ))}
             </Fragment>
           }
@@ -71,11 +75,15 @@ const BasePage = ({
           {Siblings.length > 0 &&
             <Fragment>
               {Children.map(Siblings, (child, i) => (
-                <SpacingSection>
-                  <Layout8>
-                    {child}
-                  </Layout8>
-                </SpacingSection>
+                <Fragment>
+                  {child &&
+                    <SpacingSection>
+                      <Layout8>
+                        {child}
+                      </Layout8>
+                    </SpacingSection>
+                  }
+                </Fragment>
               ))}
             </Fragment>
           }
