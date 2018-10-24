@@ -111,7 +111,7 @@ const PageHeader = ({
           </div>
         }
 
-        <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
+        <div className={spacing({s: 3, m: 4}, {padding: ['top']})}>
           <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
             {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
             {asyncBreadcrumbsRoute &&
@@ -155,7 +155,8 @@ const PageHeader = ({
 
       {HeroPicture &&
         <div className={classNames({
-          'relative': true
+          'relative': true,
+          [spacing({s: 3, m: 4}, {padding: ['top']})]: true
         })} style={{height: '100%'}}>
           <div
             style={{
