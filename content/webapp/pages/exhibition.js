@@ -234,29 +234,23 @@ export class ExhibitionPage extends Component<Props, State> {
           {
             this.state.exhibitionOfs &&
             this.state.exhibitionOfs.length > 0 &&
-            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-              <SearchResults
-                items={this.state.exhibitionOfs}
-                title={`In this exhibition`} />
-            </div>
+            <SearchResults
+              items={this.state.exhibitionOfs}
+              title={`In this exhibition`} />
           }
           {exhibition.end && !isPast(exhibition.end) && (
-            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-              <InfoBox title='Visit us' items={infoItems}>
-                <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-                  <a href='/access'>All our accessibility services</a>
-                </p>
-              </InfoBox>
-            </div>
+            <InfoBox title='Visit us' items={infoItems}>
+              <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+                <a href='/access'>All our accessibility services</a>
+              </p>
+            </InfoBox>
           )}
           {
             this.state.exhibitionAbouts &&
             this.state.exhibitionAbouts.length > 0 &&
-            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-              <SearchResults
-                items={this.state.exhibitionAbouts}
-                title={`About this exhibition`} />
-            </div>
+            <SearchResults
+              items={this.state.exhibitionAbouts}
+              title={`About this exhibition`} />
           }
         </Fragment>
 
@@ -264,7 +258,7 @@ export class ExhibitionPage extends Component<Props, State> {
         {
           exhibition.relatedBooks &&
             exhibition.relatedBooks.length > 0 &&
-            <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+            <Fragment>
               <h2 className='h2'>From the bookshop</h2>
               <div className={`
               ${spacing({s: 4}, {margin: ['top']})} grid
@@ -280,7 +274,7 @@ export class ExhibitionPage extends Component<Props, State> {
                   </div>
                 ))}
               </div>
-            </div>
+            </Fragment>
         }
       </BasePage>
     );
