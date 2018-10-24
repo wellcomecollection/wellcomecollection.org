@@ -155,7 +155,7 @@ export function parseEventDoc(
     format: document.data.format && parseEventFormat(document.data.format),
     interpretations,
     policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
-    isDropIn: Boolean(document.data.isDropIn),
+    hasEarlyRegistration: Boolean(document.data.hasEarlyRegistration),
     series,
     schedule,
     backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
