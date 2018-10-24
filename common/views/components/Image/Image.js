@@ -28,7 +28,7 @@ const Image = (props: Props) => (
         height=${props.height || ''}
         className='image image--noscript'
         src=${convertImageUri(props.contentUrl, 640, false)}
-        alt=${props.alt} />`}} />
+        alt=${props.alt || ''} />`}} />
 
     {props.clipPathClass ? (
       <Fragment>
@@ -73,7 +73,7 @@ const Img = ({
       sizes={sizesQueries}
       data-copyright={copyright}
       onClick={clickHandler}
-      alt={alt}
+      alt={alt || ''}
       style={style} />
   );
 };
