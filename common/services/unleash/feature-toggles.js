@@ -17,8 +17,10 @@ class UserEnabled extends Strategy {
     super('UserEnabled');
   }
 
-  isEnabled(_, { enabled }) {
-    return enabled;
+  isEnabled({ isPublic }, { isUserEnabled }) {
+    // Unleash support numbers not booleans...
+    // And sends them as strings....
+    return isUserEnabled || parseInt(isPublic, 10) === 1;
   }
 }
 
