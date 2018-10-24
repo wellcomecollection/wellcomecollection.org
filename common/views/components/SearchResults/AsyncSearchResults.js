@@ -26,7 +26,7 @@ class AsyncSearchResults extends Component<Props, State> {
       <Fragment>
         <div className='grid'>
           <div className={grid({s: 12})}>
-            <h2 className='h2'>{this.props.title}</h2>
+            {this.props.title && <h2 className='h2'>{this.props.title}</h2>}
           </div>
         </div>
 
