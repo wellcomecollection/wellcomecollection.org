@@ -45,10 +45,7 @@ function getToggles(ctx, next) {
 
   ctx.toggles = {
     apiV2: isEnabled('apiV2', {
-      enabled: userEnabledToggles.apiV2 === true
-    }),
-    catalogueApiStaging: isEnabled('catalogueApiStaging', {
-      enabled: userEnabledToggles.catalogueApiStaging === true
+      isUserEnabled: userEnabledToggles.apiV2 === true
     })
   };
 
