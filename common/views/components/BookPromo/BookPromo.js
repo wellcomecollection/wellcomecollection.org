@@ -30,7 +30,7 @@ const BookPromo = ({
       onClick={() => trackGaEvent({
         category: 'component',
         action: 'BookPromo:click',
-        label: `title : ${title}`
+        label: `title:${title}`
       })}>
       <div className={`book-promo__image-container ${spacing({s: 4}, {margin: ['right', 'bottom']})}`}>
         {image && image.contentUrl && <UiImage

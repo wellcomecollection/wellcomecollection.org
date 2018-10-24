@@ -31,7 +31,7 @@ const WorkPromo = ({
         onClick={() => trackGaEvent({
           category: 'component',
           action: 'WorkPromo:click',
-          label: `id : ${id}`
+          label: `id:${id}`
         })}>
         <div className={`promo__image-container promo__image-container--constrained`}>
           <Image

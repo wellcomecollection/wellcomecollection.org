@@ -26,7 +26,7 @@ const ExhibitionPromo = ({
       onClick={() => trackGaEvent({
         category: 'component',
         action: 'ExhibitionPromo:click',
-        label: `id : ${id}, position : ${position}`
+        label: `id:${id}, position:${position}`
       })}>
       <div className='relative'>
         {image && image.contentUrl && <UiImage {...image}
