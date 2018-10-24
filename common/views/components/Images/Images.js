@@ -82,12 +82,12 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     return (
       <Fragment>
         <noscript dangerouslySetInnerHTML={{__html: `
-          <img width=${width}
-            height=${height || ''}
+          <img width='${width}'
+            height='${height || ''}'
             class='image image--noscript'
             style='width: auto;'
             src=''
-            alt=${alt || ''} />`}} />
+            alt='${alt || ''}' />`}} />
 
         <img width={width}
           height={height}

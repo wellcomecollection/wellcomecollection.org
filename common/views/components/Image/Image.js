@@ -24,11 +24,11 @@ export type Props = {|
 const Image = (props: Props) => (
   <Fragment>
     <noscript dangerouslySetInnerHTML={{__html: `
-      <img width=${props.width}
-        height=${props.height || ''}
+      <img width='${props.width}'
+        height='${props.height || ''}'
         className='image image--noscript'
-        src=${convertImageUri(props.contentUrl, 640, false)}
-        alt=${props.alt || ''} />`}} />
+        src='${convertImageUri(props.contentUrl, 640, false)}'
+        alt='${props.alt || ''}' />`}} />
 
     {props.clipPathClass ? (
       <Fragment>
