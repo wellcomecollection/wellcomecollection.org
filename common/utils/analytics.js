@@ -68,7 +68,6 @@ export default ({
     ReactGA.set({'dimension7': referringComponentListString});
   }
   if (pageState) {
-    console.info(pageState);
     ReactGA.set({'dimension8': pageState});
   };
 
