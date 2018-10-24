@@ -1,5 +1,6 @@
 // @flow
 import {classNames, font, spacing} from '../../../utils/classnames';
+import {trackComponentAction} from '../../../utils/ga';
 import type {MultiContent} from '../../../model/multi-content';
 
 type Props = {|
@@ -10,6 +11,12 @@ type Props = {|
   visitLinkText: ?string,
   visitItem: ?MultiContent
 |}
+
+function trackAction(action: string) {
+  return () => {
+    trackComponentAction('Outro', action, {});
+  };
+}
 
 const Outro = ({
   researchLinkText,
@@ -52,12 +59,16 @@ const Outro = ({
               'body-text': true
             })}>
               {researchItem.type !== 'weblinks' &&
-                <a href={`/${researchItem.type}/${researchItem.id}`}>
+                <a
+                  href={`/${researchItem.type}/${researchItem.id}`}
+                  onClick={trackAction('researchItemClick')}>
                   {researchLinkText || researchItem.title}
                 </a>
               }
               {researchItem.type === 'weblinks' &&
-                <a href={`${researchItem.url}`}>
+                <a
+                  href={`${researchItem.url}`}
+                  onClick={trackAction('researchItemClick')}>
                   {researchLinkText}
                 </a>
               }
@@ -79,12 +90,16 @@ const Outro = ({
               'body-text': true
             })}>
               {readItem.type !== 'weblinks' &&
-                <a href={`/${readItem.type}/${readItem.id}`}>
+                <a
+                  href={`/${readItem.type}/${readItem.id}`}
+                  onClick={trackAction('readItemClick')}>
                   {readLinkText || readItem.title}
                 </a>
               }
               {readItem.type === 'weblinks' &&
-                <a href={`${readItem.url}`}>
+                <a
+                  href={`${readItem.url}`}
+                  onClick={trackAction('readItemClick')}>
                   {readLinkText}
                 </a>
               }
@@ -106,12 +121,16 @@ const Outro = ({
               'body-text': true
             })}>
               {visitItem.type !== 'weblinks' &&
-                <a href={`/${visitItem.type}/${visitItem.id}`}>
+                <a
+                  href={`/${visitItem.type}/${visitItem.id}`}
+                  onClick={trackAction('visitItemClick')}>
                   {visitLinkText || visitItem.title}
                 </a>
               }
               {visitItem.type === 'weblinks' &&
-                <a href={`${visitItem.url}`}>
+                <a
+                  href={`${visitItem.url}`}
+                  onClick={trackAction('visitItemClick')}>
                   {visitLinkText}
                 </a>
               }
