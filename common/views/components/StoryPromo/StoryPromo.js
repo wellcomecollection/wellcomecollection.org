@@ -27,7 +27,7 @@ const EventPromo = ({
         label: `id : ${item.id}, position : ${position}`}
       )}
       id={item.id}
-      href={item.promo && item.promo.link || `/items/${item.id}`}
+      href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({
         'plain-link': true,
         'promo-link': true,

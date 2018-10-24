@@ -1,5 +1,6 @@
 
 import {spacing, font} from '../../../utils/classnames';
+import {trackGaEvent} from '../../../utils/tracking';
 import UiImage from '../Image/Image';
 import Icon from '../Icon/Icon';
 import type {Image} from '../../../model';
@@ -24,10 +25,13 @@ const BookPromo = ({
   return (
     <PromoTag
       data-component='BookPromo'
-      data-track-event={`${JSON.stringify({category: 'component', action: 'BookPromo:click'})}`}
       href={url}
       className={`book-promo ${spacing({s: 10}, {margin: ['top']})} ${spacing({s: 4, m: 5}, {margin: ['bottom']})} ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} rounded-diagonal`}
-    >
+      onClick={() => trackGaEvent({
+        category: 'component',
+        action: 'BookPromo:click',
+        label: `title:${title}`
+      })}>
       <div className={`book-promo__image-container ${spacing({s: 4}, {margin: ['right', 'bottom']})}`}>
         {image && image.contentUrl && <UiImage
           contentUrl={image.contentUrl}
