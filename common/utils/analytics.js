@@ -7,7 +7,7 @@ type Props = {|
   category: AnalyticsCategory,
   contentType: ?string,
   pageState: ?Object,
-  featuresCohort: ?string,
+  featuresCohort: ?string
 |}
 
 function testLocalStorage() { // Test localStorage i/o
@@ -25,7 +25,12 @@ function testLocalStorage() { // Test localStorage i/o
 
 const hasWorkingLocalStorage = testLocalStorage();
 
-export default ({ category, contentType, pageState, featuresCohort }: Props) => {
+export default ({
+  category,
+  contentType,
+  pageState,
+  featuresCohort
+}: Props) => {
   const referringComponentListString = hasWorkingLocalStorage && window.localStorage.getItem('wc_referring_component_list');
   window.localStorage.removeItem('wc_referring_component_list');
 
@@ -63,6 +68,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
     ReactGA.set({'dimension7': referringComponentListString});
   }
   if (pageState) {
+    console.info(pageState);
     ReactGA.set({'dimension8': pageState});
   };
 

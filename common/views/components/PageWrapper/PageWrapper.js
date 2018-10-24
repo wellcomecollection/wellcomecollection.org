@@ -14,6 +14,9 @@ const isServer = typeof window === 'undefined';
 const clientStore = isServer ? null : new Map();
 const serverStore = isServer ? new Map() : null;
 
+// Don't use this as an import, it only get's set once `getIntialProps` has run,
+// So Should rather be used in the components getInitialProps, where we pass it
+// to. Left for legacy reasons.
 export function pageStore(prop: string) {
   const val = isServer
     ? serverStore && serverStore.get(prop)
@@ -66,7 +69,8 @@ type Props = {|
   toggles: any,
   globalAlert: any, // TODO
   statusCode: ?number,
-  oEmbedUrl?: string
+  oEmbedUrl?: string,
+  pageState: ?Object
 |}
 
 // TODO: Make this universally available
@@ -90,10 +94,17 @@ type GetInitialPropsServerProps = {|
   err: Error
 |}
 
-export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
+export type GetInitialPropsProps =
+  | GetInitialPropsServerProps
+  | GetInitialPropsClientProps;
+
+// TODO: (Type)
+export type ExtraProps = {
+  toggles?: any
+};
 
 type NextComponent = {
-  getInitialProps?: (props: GetInitialPropsProps) => any
+  getInitialProps?: (props: GetInitialPropsProps, extraProps: ExtraProps) => any,
 } & $Subtype<ComponentType<any>>
 
 const PageWrapper = (Comp: NextComponent) => {
@@ -119,11 +130,14 @@ const PageWrapper = (Comp: NextComponent) => {
         serverStore.set('globalAlert', globalAlert);
       }
 
+      const initialProps = Comp.getInitialProps
+        ? await Comp.getInitialProps(context, { toggles }) : {};
+
       return {
         openingTimes,
         toggles,
         globalAlert,
-        ...(Comp.getInitialProps ? await Comp.getInitialProps(context) : null)
+        ...initialProps
       };
     }
 
@@ -156,6 +170,7 @@ const PageWrapper = (Comp: NextComponent) => {
         openingTimes,
         globalAlert,
         oEmbedUrl,
+        pageState,
         ...props
       } = this.props;
 
@@ -170,7 +185,8 @@ const PageWrapper = (Comp: NextComponent) => {
           siteSection='error'
           analyticsCategory='error'
           openingTimes={openingTimes}
-          globalAlert={globalAlert}>
+          globalAlert={globalAlert}
+          pageState={null}>
           <ErrorPage errorStatus={this.props.statusCode} />
         </DefaultPageLayout>;
       }
@@ -187,7 +203,8 @@ const PageWrapper = (Comp: NextComponent) => {
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}
           globalAlert={globalAlert}
-          oEmbedUrl={oEmbedUrl}>
+          oEmbedUrl={oEmbedUrl}
+          pageState={pageState}>
           <Comp {...props} />
         </DefaultPageLayout>
       );
