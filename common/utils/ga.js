@@ -20,7 +20,6 @@ export type GaEvent = {|
 |}
 
 export function trackEvent(gaEvent: GaEvent) {
-  console.info(gaEvent);
   ReactGA.event(gaEvent);
 }
 
