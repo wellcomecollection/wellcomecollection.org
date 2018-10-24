@@ -316,9 +316,18 @@ class EventPage extends Component<Props, State> {
             }
 
             {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
-              <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                <Message text='Just turn up' />
-              </div>
+              <Fragment>
+                {!event.hasEarlyRegistration &&
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    <Message text='Just turn up' />
+                  </div>
+                }
+                {event.hasEarlyRegistration &&
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    <Message text='Arrive early to register' />
+                  </div>
+                }
+              </Fragment>
             }
           </Fragment>
           }

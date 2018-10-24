@@ -477,7 +477,7 @@
       "type": "StructuredText",
       "config": {
         "multi": "paragraph,hyperlink,strong,em",
-        "label": "Event specific booking information"
+        "label": "Extra information"
       }
     },
     "policies": {
@@ -498,10 +498,10 @@
         }
       }
     },
-    "isDropIn": {
+    "hasEarlyRegistration": {
       "type": "Select",
       "config": {
-        "label": "Drop in",
+        "label": "Early registration",
         "options": [
           "yes"
         ]

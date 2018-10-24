@@ -116,6 +116,12 @@ const graphQuery = `{
       ... on event-series {
         title
       }
+      ... on installations {
+        title
+      }
+      ... on pages {
+        title
+      }
     }
     outroReadItem {
       ... on events {
@@ -134,6 +140,12 @@ const graphQuery = `{
         title
       }
       ... on event-series {
+        title
+      }
+      ... on installations {
+        title
+      }
+      ... on pages {
         title
       }
     }
@@ -156,6 +168,12 @@ const graphQuery = `{
       ... on event-series {
         title
       }
+      ... on installations {
+        title
+      }
+      ... on pages {
+        title
+      }
     }
     promo {
       ... on editorialImage {
@@ -168,7 +186,11 @@ const graphQuery = `{
   }
 }`.replace(/\n(\s+)/g, '\n');
 
-function parseContentLink(document: PrismicDocument): ?MultiContent {
+function parseContentLink(document: ?PrismicDocument): ?MultiContent {
+  if (!document) {
+    return;
+  }
+
   if (document.link_type === 'Web') {
     return document.url ? {
       type: 'weblinks',
@@ -177,7 +199,7 @@ function parseContentLink(document: PrismicDocument): ?MultiContent {
     } : null;
   }
 
-  if (!document || document.isBroken !== false) {
+  if (document.isBroken !== false) {
     return;
   }
 
