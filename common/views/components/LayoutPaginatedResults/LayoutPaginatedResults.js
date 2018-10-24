@@ -10,13 +10,20 @@ import type { Period } from '../../../model/periods';
 import type { UiExhibition } from '../../../model/exhibitions';
 import type { UiEvent } from '../../../model/events';
 import type { Book } from '../../../model/books';
+import type { Article } from '../../../model/articles';
 import type { PaginatedResults, HTMLString } from '../../../services/prismic/types';
+
+type PaginatedResultsTypes =
+  | PaginatedResults<UiExhibition>
+  | PaginatedResults<UiEvent>
+  | PaginatedResults<Book>
+  | PaginatedResults<Article>;
 
 type Props = {|
   title: string,
   description: ?HTMLString,
   paginationRoot: string,
-  paginatedResults: PaginatedResults<UiExhibition> | PaginatedResults<UiEvent> | PaginatedResults<Book>,
+  paginatedResults: PaginatedResultsTypes,
   period?: Period
 |}
 

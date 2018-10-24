@@ -83,7 +83,7 @@ const Outro = ({
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
               'no-margin': true
-            })}>Ready for something in-depth?</h3>
+            })}>Read another story</h3>
             <div className={classNames({
               'body-text': true
             })}>
@@ -113,7 +113,7 @@ const Outro = ({
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
               'no-margin': true
-            })}>Mark your calendars</h3>
+            })}>Plan a visit</h3>
             <div className={classNames({
               'body-text': true
             })}>
