@@ -60,7 +60,8 @@ function getToggles(ctx, next) {
   ctx.toggles = {
     outro: isEnabled('outro', {
       isUserEnabled: userEnabledToggles.outro === true
-    })
+    }),
+    outroAB: isEnabled('outroAB')
   };
 
   return next();
