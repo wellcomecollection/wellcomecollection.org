@@ -96,7 +96,7 @@ const Index = ({resultsList}: any) => {
 
 Index.getInitialProps = async () => {
   const url = dev
-    ? 'http://localhost:3000/static/.dist/report.json' : 'https://dash.wellcomecollection.org/pa11y/json/report.latest.json';
+    ? 'http://localhost:3000/static/.dist/report.json' : 'https://dash.wellcomecollection.org/pa11y/static/.dist/report.json';
   const results = await fetch(url);
   const json = await results.json();
 
