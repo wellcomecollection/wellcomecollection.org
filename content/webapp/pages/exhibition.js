@@ -54,6 +54,7 @@ export class ExhibitionPage extends Component<Props, State> {
         description: exhibition.promoText,
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
         pageJsonLd: exhibitionLd(exhibition),
+        siteSection: 'whatson',
         exhibition
       };
     } else {
