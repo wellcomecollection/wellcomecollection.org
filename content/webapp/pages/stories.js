@@ -58,7 +58,7 @@ const SerialisedSeries = ({series}: any) => {
   );
 };
 
-const pageDescription = 'Dive into a story no matter where in the world you are.';
+const pageDescription = 'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 export class StoriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {page = 1} = context.query;
@@ -117,7 +117,7 @@ export class StoriesPage extends Component<Props> {
                   {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}
                   <PrismicHtmlBlock html={[{
                     type: 'paragraph',
-                    text: 'Dive into a story no matter where in the world you are. (Want to write for us? Here\'s how.)',
+                    text: 'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are. (Want to write for us? Here\'s how.)',
                     spans: [{
                       start: 57,
                       end: 89,
