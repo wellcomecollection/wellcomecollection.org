@@ -5,6 +5,7 @@ const Cookies = require('cookies');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
+const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -93,26 +94,6 @@ function pageVanityUrl(router, app, url, pageId) {
   });
 }
 
-let globalAlert = {isShow: false, text: null};
-async function getAndSetGlobalAlert() {
-  try {
-    const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2');
-    const document = await api.getSingle('global-alert');
-    globalAlert = {
-      text: document.data.text,
-      isShown: document.data.isShown && document.data.isShown === 'show'
-    };
-    throw new Error('Kapow');
-  } catch (e) {
-    // TODO: Alert to sentry
-  }
-}
-setInterval(getAndSetGlobalAlert, 60000);
-function setGobalAlert(ctx, next) {
-  ctx.globalAlert = globalAlert;
-  return next();
-}
-
 app.prepare().then(async () => {
   const server = new Koa();
   const router = new Router();
@@ -141,7 +122,12 @@ app.prepare().then(async () => {
   server.use(getToggles);
 
   // server cached values
-  server.use(setGobalAlert);
+  server.use(withGlobalAlert);
+  router.get('/alert', async ctx => {
+    const {globalAlert} = ctx;
+    ctx.status = 200;
+    ctx.body = globalAlert;
+  });
 
   // Next routing
   router.get('/', async ctx => {
