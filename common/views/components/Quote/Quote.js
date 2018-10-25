@@ -16,8 +16,7 @@ const Quote = ({text, citation, isPullOrReview}: Props) => (
       'quote--pull': isPullOrReview,
       [font({s: 'HNL3', m: 'HNL2'})]: isPullOrReview,
       [spacing({s: 3}, {padding: ['left']})]: true,
-      [spacing({s: 5}, {margin: ['bottom']})]: true,
-      [spacing({s: 0}, {margin: ['left']})]: true
+      [spacing({s: 0}, {margin: ['left', 'top', 'bottom']})]: true
     })}>
     <PrismicHtmlBlock html={text} />
     {citation &&

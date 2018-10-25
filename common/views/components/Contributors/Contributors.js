@@ -1,6 +1,7 @@
 // @flow
 import {spacing} from '../../../utils/classnames';
 import Contributor from '../Contributor/Contributor';
+import {Fragment} from 'react';
 import type {Contributor as ContributorType} from '../../../model/contributors';
 
 type Props = {|
@@ -60,7 +61,7 @@ const Contributors = ({
   );
 
   return (
-    <div className={`${spacing({s: 2}, {padding: ['top']})} border-top-width-1 border-color-pumice`}>
+    <Fragment>
       {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
       {!titleOverride && !excludeTitle &&
         <h2 className='h2'>
@@ -80,7 +81,7 @@ const Contributors = ({
             description={description} />
         </div>
       ))}
-    </div>
+    </Fragment>
   );
 };
 

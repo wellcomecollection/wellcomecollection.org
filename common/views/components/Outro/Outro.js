@@ -52,8 +52,7 @@ const Outro = ({
           })}>
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
-              'no-margin': true,
-              'font-weight-normal': true
+              'no-margin': true
             })}>Research for yourself</h3>
             <div className={classNames({
               'body-text': true
@@ -83,8 +82,7 @@ const Outro = ({
           })}>
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
-              'no-margin': true,
-              'font-weight-normal': true
+              'no-margin': true
             })}>Read another story</h3>
             <div className={classNames({
               'body-text': true
@@ -114,8 +112,7 @@ const Outro = ({
           })}>
             <h3 className={classNames({
               [font({s: 'HNM3'})]: true,
-              'no-margin': true,
-              'font-weight-normal': true
+              'no-margin': true
             })}>Plan a visit</h3>
             <div className={classNames({
               'body-text': true

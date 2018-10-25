@@ -5,9 +5,11 @@ import Layout8 from '../Layout8/Layout8';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
-import {spacing, classNames} from '../../../utils/classnames';
+import {classNames} from '../../../utils/classnames';
 import type {Node, Element, ElementProps} from 'react';
 import type Body from '../Body/Body';
+import SpacingSection from '../SpacingSection/SpacingSection';
+import SpacingComponent from '../SpacingComponent/SpacingComponent';
 
 export const PageBackgroundContext = createContext('white');
 
@@ -37,43 +39,64 @@ const BasePage = ({
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
-        <Fragment>{Header}</Fragment>
+        <SpacingSection>{Header}</SpacingSection>
         <div className={classNames({
-          'bg-cream': isCreamy,
-          [spacing({s: 6}, {padding: ['bottom']})]: true
+          'bg-cream': isCreamy
         })}>
-          <div className='basic-page'>
-            <Fragment>{Body}</Fragment>
-          </div>
+          <SpacingSection>
+            <div className='basic-page'>
+              <Fragment>{Body}</Fragment>
+            </div>
+          </SpacingSection>
 
           {children &&
-            <Layout8>
-              {children}
-            </Layout8>
+            <SpacingSection>
+              {Children.map(children, (child, i) => (
+                <Fragment>
+                  {child &&
+                    <SpacingComponent>
+                      <Layout8>
+                        {child}
+                      </Layout8>
+                    </SpacingComponent>
+                  }
+                </Fragment>
+              ))}
+            </SpacingSection>
           }
 
           {contributorProps && contributorProps.contributors.length > 0 &&
-            <Layout8>
-              <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
+            <SpacingSection>
+              <Layout8>
                 <Contributors {...contributorProps} />
-              </div>
-            </Layout8>
+              </Layout8>
+            </SpacingSection>
           }
 
           {Siblings.length > 0 &&
-            <Layout8>
+            <SpacingSection>
               {Children.map(Siblings, (child, i) => (
-                <div className={`${spacing({s: 6}, {margin: ['top']})}`}>
-                  {Siblings}
-                </div>
+                <Fragment>
+                  {child &&
+                    <SpacingComponent>
+                      <Layout8>
+                        {child}
+                      </Layout8>
+                    </SpacingComponent>
+                  }
+                </Fragment>
               ))}
-            </Layout8>
+            </SpacingSection>
           }
 
           {outroProps &&
-            <Layout8>
-              <Outro {...outroProps} />
-            </Layout8>
+            <SpacingSection>
+              <Layout8>
+                <SpacingSection>
+                  <Outro {...outroProps} />
+                </SpacingSection>
+              </Layout8>
+            </SpacingSection>
           }
         </div>
       </article>

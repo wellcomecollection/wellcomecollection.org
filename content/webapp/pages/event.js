@@ -255,46 +255,44 @@ class EventPage extends Component<Props, State> {
         Header={Header}
         Body={<Body body={event.body} />}
       >
+
+        {event.contributors.length > 0 &&
+          <Contributors
+            titlePrefix='About your'
+            titleOverride={event.contributorsTitle}
+            contributors={event.contributors} />
+        }
+
         <Fragment>
-          {event.contributors.length > 0 &&
-            <div className={`${spacing({s: 4}, {margin: ['bottom']})}`}>
-              <Contributors
-                titlePrefix='About your'
-                titleOverride={event.contributorsTitle}
-                contributors={event.contributors} />
-            </div>
-          }
-
-          <div className={spacing({s: 4}, {margin: ['bottom']})}>
-            <div className={`body-text border-bottom-width-1 border-color-pumice`}>
-              <h2 id='dates'>Dates</h2>
-              {DateList(event)}
-            </div>
+          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
+            <h2 id='dates'>Dates</h2>
+            {DateList(event)}
           </div>
+        </Fragment>
 
-          {event.schedule && event.schedule.length > 0 &&
-            <div className={spacing({s: 4}, {margin: ['bottom']})}>
-              <h2 className='h2'>Events</h2>
-              <ul className='plain-list no-marin no-padding'>
-                {event.schedule && <EventSchedule schedule={event.schedule} />}
-              </ul>
-            </div>
-          }
+        {event.schedule && event.schedule.length > 0 &&
+          <Fragment>
+            <h2 className='h2'>Events</h2>
+            <ul className='plain-list no-marin no-padding'>
+              {event.schedule && <EventSchedule schedule={event.schedule} />}
+            </ul>
+          </Fragment>
+        }
 
-          {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
-            <div className={spacing({s: 4}, {margin: ['bottom']})}>
-              <Message text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${event.ticketSalesStart ? formatTime(event.ticketSalesStart) : ''}`} />
-            </div>
-          }
+        {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
+          <Fragment>
+            <Message text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${event.ticketSalesStart ? formatTime(event.ticketSalesStart) : ''}`} />
+          </Fragment>
+        }
 
-          {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) &&
+        {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) &&
           <Fragment>
             {event.eventbriteId &&
               <EventbriteButton event={event} />
             }
 
             {event.bookingEnquiryTeam &&
-              <div className={`${spacing({s: 2}, {padding: ['top', 'bottom']})} ${spacing({s: 4}, {margin: ['bottom']})}`}>
+              <Fragment>
                 {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
                   : (
                     <Button
@@ -312,7 +310,7 @@ class EventPage extends Component<Props, State> {
                   url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   text={event.bookingEnquiryTeam.email}
                   extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
-              </div>
+              </Fragment>
             }
 
             {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
@@ -330,50 +328,49 @@ class EventPage extends Component<Props, State> {
               </Fragment>
             }
           </Fragment>
+        }
+
+        {!event.isPast &&
+          <Fragment>
+            <InfoBox title='Need to know' items={[
+              (event.place && {
+                id: null,
+                title: 'Location',
+                description: event.place.information
+              }),
+              (event.bookingInformation && {
+                id: null,
+                title: 'Extra information',
+                description: event.bookingInformation
+              })
+            ]
+              .concat(event.policies.map(policy => ({...policy})))
+              .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
+                id: null,
+                icon: camelize(interpretationType.title),
+                title: interpretationType.title,
+                description: isPrimary
+                  ? interpretationType.primaryDescription
+                  : interpretationType.description
+              }))).filter(Boolean)}>
+              <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+                <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+              </p>
+            </InfoBox>
+          </Fragment>
+        }
+
+        {event.audiences.map((audience) => { //  TODO remove?
+          if (audience.description) {
+            return (
+              <div className={`body-text`} key={audience.title}>
+                <h2>For {audience.title}</h2>
+                <PrismicHtmlBlock html={audience.description} />
+              </div>
+            );
           }
+        })}
 
-          {!event.isPast &&
-            <Fragment>
-              <InfoBox title='Need to know' items={[
-                (event.place && {
-                  id: null,
-                  title: 'Location',
-                  description: event.place.information
-                }),
-                (event.bookingInformation && {
-                  id: null,
-                  title: 'Extra information',
-                  description: event.bookingInformation
-                })
-              ]
-                .concat(event.policies.map(policy => ({...policy})))
-                .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
-                  id: null,
-                  icon: camelize(interpretationType.title),
-                  title: interpretationType.title,
-                  description: isPrimary
-                    ? interpretationType.primaryDescription
-                    : interpretationType.description
-                }))).filter(Boolean)}>
-                <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-                  <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
-                </p>
-              </InfoBox>
-            </Fragment>
-          }
-
-          {event.audiences.map((audience) => { //  TODO remove?
-            if (audience.description) {
-              return (
-                <div className={`body-text ${spacing({s: 4}, {margin: ['bottom']})}`} key={audience.title}>
-                  <h2>For {audience.title}</h2>
-                  <PrismicHtmlBlock html={audience.description} />
-                </div>
-              );
-            }
-          })}
-
-        </Fragment>
       </BasePage>
     );
   }
