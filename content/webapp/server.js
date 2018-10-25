@@ -123,11 +123,6 @@ app.prepare().then(async () => {
 
   // server cached values
   server.use(withGlobalAlert);
-  router.get('/alert', async ctx => {
-    const {globalAlert} = ctx;
-    ctx.status = 200;
-    ctx.body = globalAlert;
-  });
 
   // Next routing
   router.get('/', async ctx => {
