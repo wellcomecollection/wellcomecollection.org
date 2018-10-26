@@ -18,6 +18,7 @@ import {
   audiencesFields,
   articleSeriesFields
 } from './fetch-links';
+import { parseArticleSeries } from './article-series';
 import type {MultiContent} from '../../model/multi-content';
 import type {StructuredSearchQuery} from './search';
 import type {PaginatedResults, PrismicDocument} from './types';
@@ -40,6 +41,8 @@ export function parseMultiContent(documents: PrismicDocument[]): MultiContent[] 
         return parseInstallationDoc(document);
       case 'exhibitions':
         return parseExhibitionDoc(document);
+      case 'series':
+        return parseArticleSeries(document);
     }
   }).filter(Boolean);
 }

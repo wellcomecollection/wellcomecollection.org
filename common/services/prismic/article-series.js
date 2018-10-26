@@ -29,7 +29,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
 
   return {
     ...genericFields,
-    type: 'article-series',
+    type: 'series',
     labels,
     schedule,
     standfirst,
