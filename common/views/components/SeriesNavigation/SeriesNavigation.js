@@ -25,7 +25,7 @@ const SeriesNavigation = ({ series, items }: Props) => {
         showPosition={showPosition} />
       <PrimaryLink
         name={`More from ${series.title}`}
-        url={`/${series.type === 'article-series' ? 'series' : series.type}/${series.id}`}
+        url={`/${series.type}/${series.id}`}
       />
     </Fragment>
   );
