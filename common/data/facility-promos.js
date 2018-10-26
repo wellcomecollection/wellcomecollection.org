@@ -86,7 +86,7 @@ export const shopPromo: Promo = {
 
 export const dailyTourPromo: EventPromo = {
   id: 'tours',
-  title: 'Daily guided tours and discussions',
+  title: 'Daily Guided Tours and Discussions',
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma',
   start: null,
   end: null,
