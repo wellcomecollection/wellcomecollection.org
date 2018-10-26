@@ -485,9 +485,3 @@
 .spacing-section {
   padding-bottom: $spacing-unit * 13;
 }
-
-  // We use noscript to show images in non js environments
-  // If they are showing then we don't want to show the lazyload image - which would display thte alt text
-  noscript + .image {
-    display: none;
-  }
