@@ -120,7 +120,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
             action: 'Percentage',
             label: mark,
             value: 1,
-            nonInteraction: true
+            nonInteraction: false
           });
 
           ReactGA.timing({
