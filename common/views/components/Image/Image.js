@@ -26,7 +26,7 @@ const Image = (props: Props) => (
     <noscript dangerouslySetInnerHTML={{__html: `
       <img width='${props.width}'
         height='${props.height || ''}'
-        className='image image--noscript'
+        class='image image--noscript'
         src='${convertImageUri(props.contentUrl, 640, false)}'
         alt='${props.alt || ''}' />`}} />
 
