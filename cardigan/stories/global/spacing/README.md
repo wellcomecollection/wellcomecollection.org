@@ -22,8 +22,9 @@ Components _within_ these sections are wrapped in a `<SpacingComponent />`. This
 
 We don't apply this top margin to the first `<SpacingComponent />`, since we don't want to add it to the bottom-margin added by a preceding `<SpacingSection />`.
 
-We handle spacing in body copy and `<SpacingComponent />`s in a similar way[^1]. The main difference being that in body copy we use `em` units.
+We handle spacing in body copy and `<SpacingComponent />`s in a similar way*. The main difference being that in body copy we use `em` units.
 
 These are units that are relative to the size of the type, so this enables us to keep the spacing hierarchy consistent when we change the font size (e.g. at different breakpoints) without having to change an absolute pixel value for spacing at the same time.
 
-[^1]: [Axiomatic CSS and Lobotomized Owls](https://alistapart.com/article/axiomatic-css-and-lobotomized-owls)
+*: [Axiomatic CSS and Lobotomized Owls](https://alistapart.com/article/axiomatic-css-and-lobotomized-owls)
+
