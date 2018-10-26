@@ -39,7 +39,7 @@
     moment "^2.20.1"
     moment-timezone "^0.5.14"
     next "^5.1.0"
-    openseadragon "^2.3.1"
+    openseadragon "^2.4.0"
     prismic-dom "^2.1.0"
     prismic-javascript "2.0.0-beta.0"
     raven-js "^3.26.3"
@@ -6069,10 +6069,10 @@ opener@^1.4.3:
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
   integrity sha1-XG2ixdflgx6P+jlklQ+NZnSskLg=
 
-openseadragon@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.3.1.tgz#efdcfee19d8b3c46d00d7f7dda787c7057f68364"
-  integrity sha1-79z+4Z2LPEbQDX992nh8cFf2g2Q=
+openseadragon@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/openseadragon/-/openseadragon-2.4.0.tgz#d0b28b37a953602c82432a0dbd8a3779dadf756f"
+  integrity sha512-e2fsoEiCDkmwc3vyrv396lkYu4c9CGlpbSX4kYE07eW0ZlEF5DnLbeY2PhqPTskkC1jlsPu2TGZwaZ9VhaAn/w==
 
 optimist@^0.6.1:
   version "0.6.1"
