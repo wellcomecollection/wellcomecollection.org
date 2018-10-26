@@ -479,9 +479,29 @@
 }
 
 .spacing-component + .spacing-component {
-  margin-top: $spacing-unit * 8;
+  margin-top: $spacing-unit * 6;
+
+  @include respond-to('medium') {
+    margin-top: $spacing-unit * 8;
+  }
 }
 
 .spacing-section {
-  padding-bottom: $spacing-unit * 13;
+  padding-bottom: $spacing-unit * 9;
+
+  @include respond-to('medium') {
+    padding-bottom: $spacing-unit * 13;
+  }
+}
+
+// TODO: move this back into PageHeader if/when we
+// use e.g. styled JSX with media query support
+.hero-picture-bg {
+  height: 50%;
+  width: 100%;
+  bottom: $spacing-unit * -9;
+
+  @include respond-to('medium') {
+    bottom: $spacing-unit * -13;
+  }
 }
