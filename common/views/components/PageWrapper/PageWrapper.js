@@ -204,7 +204,7 @@ const PageWrapper = (Comp: NextComponent) => {
 
       const pageStateWithToggles = {
         ...pageState,
-        ...(Object.keys(flattenedToggles).length > 0 ? {toggles: this.props.toggles} : {})
+        ...(Object.keys(flattenedToggles).length > 0 ? flattenedToggles : {})
       };
 
       return (
