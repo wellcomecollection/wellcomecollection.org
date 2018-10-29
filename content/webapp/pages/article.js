@@ -53,7 +53,7 @@ export class ArticlePage extends Component<Props, State> {
 
       // We're using the user enabled, and A/B test here for editors
       // TODO: Think about sticky A/B
-      const showOutro = hasOutro && (Boolean(toggles.outroAB) || Boolean(toggles.outro));
+      const showOutro = hasOutro && (Boolean(toggles.outro));
 
       return {
         article,

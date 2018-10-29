@@ -171,7 +171,7 @@ const PageWrapper = (Comp: NextComponent) => {
         globalAlert,
         oEmbedUrl,
         pageState,
-        toggles,
+        toggles = {},
         ...props
       } = this.props;
 

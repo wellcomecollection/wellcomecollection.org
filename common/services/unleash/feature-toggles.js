@@ -17,9 +17,13 @@ class ABTest extends Strategy {
     super('ABTest');
   }
 
-  isEnabled({ percentage }) {
+  isEnabled({ percentage }, { isUserEnabled }) {
     // Unleash support numbers not booleans...
     // And sends them as strings....
+    if (isUserEnabled === true) {
+      return true;
+    }
+
     const chance = percentage / 100;
     const coinToss = Math.random() < chance;
     return coinToss;
