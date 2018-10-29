@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackGaEvent} from '../../../utils/tracking';
+import {trackEvent} from '../../../utils/ga';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
@@ -31,7 +31,7 @@ const EventPromo = ({
       data-component-state={JSON.stringify({ position: position })}
       href={event.promo && event.promo.link || `/events/${event.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
-      onClick={() => trackGaEvent({
+      onClick={() => trackEvent({
         category: 'component',
         action: 'EventPromo:click',
         label: `id:${event.id}, position:${position}`
