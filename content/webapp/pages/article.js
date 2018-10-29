@@ -40,7 +40,7 @@ export class ArticlePage extends Component<Props, State> {
 
   static getInitialProps = async (
     context: GetInitialPropsProps,
-    { toggles }: ExtraProps
+    { toggles = {} }: ExtraProps
   ) => {
     const {id} = context.query;
     const article = await getArticle(context.req, id);
@@ -51,7 +51,9 @@ export class ArticlePage extends Component<Props, State> {
         article.outroReadItem ||
         article.outroVisitItem);
 
-      const showOutro = hasOutro && Boolean(toggles && toggles.outro);
+      // We're using the user enabled, and A/B test here for editors
+      // TODO: Think about sticky A/B
+      const showOutro = hasOutro && (Boolean(toggles.outroAB) || Boolean(toggles.outro));
 
       return {
         article,
