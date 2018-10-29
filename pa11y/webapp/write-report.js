@@ -7,9 +7,15 @@ const writeFile = promisify(fs.writeFile);
 console.info('Pa11y: Starting report');
 const urls = [
   'https://wellcomecollection.org',
-  'https://wellcomecollection.org/stories',
+  'https://wellcomecollection.org/visit-us',
   'https://wellcomecollection.org/whats-on',
-  'https://wellcomecollection.org/works'
+  'https://wellcomecollection.org/stories',
+  'https://wellcomecollection.org/articles/WyjHUicAACvGnmJI',
+  'https://wellcomecollection.org/articles/W8ivQRAAAJFijw1h',
+  'https://wellcomecollection.org/works',
+  'https://wellcomecollection.org/works?query=health',
+  'https://wellcomecollection.org/works/cjwep3ze?query=health&page=1',
+  'https://wellcomecollection.org/what-we-do'
 ];
 
 const promises = urls.map(url => pa11y(url));

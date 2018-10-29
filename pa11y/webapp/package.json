@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "export": "next export"
+    "export": "next export",
+    "write-report": "node write-report.js"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",

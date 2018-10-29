@@ -7,7 +7,7 @@ import type {ColorSelection} from './color-selections';
 type ItemType = Article | ArticleScheduleItem;
 
 export type ArticleSeries = {|
-  type: 'article-series',
+  type: 'series',
   ...GenericContentFields,
   schedule: ArticleScheduleItem[],
   color: ColorSelection,

@@ -421,7 +421,6 @@
   max-width: 100%;
   width: auto;
   margin: 0 auto;
-  width: auto;
 }
 
 // This is for when we receive content from a CMS,
@@ -479,6 +478,18 @@
   }
 }
 
-.font-weight-normal {
-  font-weight: 400;
+.spacing-component + .spacing-component {
+  margin-top: $spacing-unit * 6;
+
+  @include respond-to('medium') {
+    margin-top: $spacing-unit * 8;
+  }
+}
+
+.spacing-section {
+  padding-bottom: $spacing-unit * 9;
+
+  @include respond-to('medium') {
+    padding-bottom: $spacing-unit * 13;
+  }
 }

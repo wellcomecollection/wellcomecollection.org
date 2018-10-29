@@ -4,6 +4,7 @@
 // TODO: Find a way to enforce ☝️
 import type {Page} from './pages';
 import type {EventSeries} from './event-series';
+import type {ArticleSeries} from './article-series';
 import type {Book} from './books';
 import type {UiEvent} from './events';
 import type {Installation} from './installations';
@@ -21,4 +22,5 @@ export type MultiContent =
   | Installation
   | ArticleScheduleItem
   | UiExhibition
-  | Weblink;
+  | Weblink
+  | ArticleSeries;

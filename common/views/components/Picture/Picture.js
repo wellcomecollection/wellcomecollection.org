@@ -37,7 +37,7 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
         {lastImage && lastImage.contentUrl && lastImage.width && <img
           className='image block'
           src={convertImageUri(lastImage.contentUrl, lastImage.width, false)}
-          alt={lastImage.alt} />}
+          alt={lastImage.alt || ''} />}
       </picture>
       {tasl && <Tasl {...tasl} isFull={isFull} />}
     </figure>
@@ -84,7 +84,7 @@ export const PictureFromImages = ({
           width={lastImage.width}
           className='image lazy-image lazyload'
           data-src={convertImageUri(lastImage.contentUrl, lastImage.width, false)}
-          alt={lastImage.alt} />}
+          alt={lastImage.alt || ''} />}
       </picture>
       {lastImage && <Tasl {...lastImage.tasl} isFull={isFull} />}
     </figure>

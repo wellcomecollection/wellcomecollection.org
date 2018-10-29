@@ -125,7 +125,7 @@ export default ({
             action: 'Percentage',
             label: mark,
             value: 1,
-            nonInteraction: true
+            nonInteraction: false
           });
 
           ReactGA.timing({
