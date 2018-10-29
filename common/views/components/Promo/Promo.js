@@ -1,6 +1,7 @@
 // @flow
 
 import {spacing, font} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import {striptags} from '../../../utils/striptags';
 import {truncate} from '../../../utils/truncate';
 import Icon from '../Icon/Icon';
@@ -81,7 +82,12 @@ const Promo = ({
         action: 'ArticlePromo:click'})
       }`}
       href={url}
-      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'featured' ? 'promo--lead' : ''}`}>
+      className={`promo promo--${contentType} ${!url ? 'promo--surrogate' : ''} ${weight === 'featured' ? 'promo--lead' : ''}`}
+      onClick={() => trackEvent({
+        category: 'component',
+        action: 'ArticlePromo:click',
+        label: `id:${id || ''}`
+      })}>
       <div className={`promo__image-container ${spacing({s: 2}, {margin: ['bottom']})}`}>
         {image
           ? <Image
