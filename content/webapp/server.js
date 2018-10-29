@@ -25,7 +25,9 @@ const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
 
 function withToggles(ctx, next) {
-  const {userEnabledToggles} = ctx;
+  const {
+    userEnabledToggles = {}
+  } = ctx;
 
   ctx.toggles = {
     outro: isEnabled('outro', {
