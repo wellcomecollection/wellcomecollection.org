@@ -56,6 +56,5 @@ function init(options) {
 
 module.exports = {
   initialize: init,
-  ActiveForUserInCohort,
   isEnabled
 };

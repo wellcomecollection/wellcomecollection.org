@@ -1,10 +1,10 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
-const Cookies = require('cookies');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
+const withUserEnabledToggles = require('@weco/common/koa-middleware/withUserEnabledToggles');
 const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
 
 // FIXME: Find a way to import this.
@@ -24,44 +24,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
 
-function setUserEnabledToggles(ctx, next) {
-  const togglesRequest = ctx.query.toggles;
-
-  if (togglesRequest) {
-    const cookies = new Cookies(ctx.req, ctx.res);
-    const toggles = togglesRequest.split(',').reduce((acc, toggle) => {
-      const toggleParts = toggle.split(':');
-      const key = toggleParts[0];
-      delete acc[key];
-
-      return toggleParts[1] === 'true' ? Object.assign({}, acc, {
-        [key]: true
-      }) : acc;
-    }, {});
-
-    if (Object.keys(toggles).length > 0) {
-      const togglesCookie = cookies.get('toggles');
-      let previousToggles = {};
-      try {
-        previousToggles = JSON.parse(togglesCookie);
-      } catch (e) {}
-      const mergedToggles = Object.assign({}, previousToggles, toggles);
-      cookies.set('toggles', JSON.stringify(mergedToggles));
-    } else {
-      cookies.set('toggles');
-    }
-  }
-  return next();
-}
-
-function getToggles(ctx, next) {
-  const cookies = new Cookies(ctx.req, ctx.res);
-  // Leaving this here as we might need it for `ActiveForUserInCohort`
-  // const cohort = cookies.get('WC_featuresCohort');
-  let userEnabledToggles = {};
-  try {
-    userEnabledToggles = JSON.parse(cookies.get('toggles'));
-  } catch (e) {}
+function withToggles(ctx, next) {
+  const {userEnabledToggles} = ctx;
 
   ctx.toggles = {
     outro: isEnabled('outro', {
@@ -69,20 +33,6 @@ function getToggles(ctx, next) {
     })
   };
 
-  return next();
-}
-
-function setCohortCookie(ctx, next) {
-  const cohort = ctx.query.cohort;
-  if (cohort) {
-    const cookies = new Cookies(ctx.req, ctx.res);
-    cookies.set('WC_featuresCohort', cohort, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      overwrite: true,
-      path: '/',
-      domain: dev ? null : 'wellcomecollection.org'
-    });
-  }
   return next();
 }
 
@@ -121,9 +71,8 @@ app.prepare().then(async () => {
   }
 
   // Feature toggles
-  server.use(setCohortCookie);
-  server.use(setUserEnabledToggles);
-  server.use(getToggles);
+  server.use(withUserEnabledToggles);
+  server.use(withToggles);
 
   // server cached values
   server.use(withGlobalAlert);
