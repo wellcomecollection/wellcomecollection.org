@@ -6,7 +6,7 @@ import {getEvents} from '@weco/common/services/prismic/events';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertJsonToDates} from './event';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-import ourVoiceOurWayData from '@weco/common/data/our-voice-our-way';
+
 import {
   exhibitionLd,
   eventLd,
@@ -105,7 +105,7 @@ export class HomePage extends Component<Props> {
         <ExhibitionsAndEvents
           exhibitions={exhibitions}
           events={events}
-          extras={[ourVoiceOurWayData, pharmacyOfColourData]}
+          extras={[pharmacyOfColourData]}
         />
 
         <SectionHeader
