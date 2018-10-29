@@ -1,6 +1,6 @@
 // @flow
 import {font} from '../../../utils/classnames';
-import {trackGaEvent} from '../../../utils/tracking';
+import {trackEvent} from '../../../utils/ga';
 import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
 import NextLink from 'next/link';
@@ -28,7 +28,7 @@ const WorkPromo = ({
         id={id}
         data-component='WorkPromo'
         className={`promo promo--work`}
-        onClick={() => trackGaEvent({
+        onClick={() => trackEvent({
           category: 'component',
           action: 'WorkPromo:click',
           label: `id:${id}`

@@ -1,7 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
-import {trackGaEvent} from '../../../utils/tracking';
+import {trackEvent} from '../../../utils/ga';
 import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -23,7 +23,7 @@ const ExhibitionPromo = ({
       id={id}
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
-      onClick={() => trackGaEvent({
+      onClick={() => trackEvent({
         category: 'component',
         action: 'ExhibitionPromo:click',
         label: `id:${id}, position:${position}`
