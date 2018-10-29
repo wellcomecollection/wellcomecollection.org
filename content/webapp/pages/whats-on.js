@@ -14,7 +14,6 @@ import {
   dailyTourPromo
 } from '@weco/common/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-import ourVoiceOurWayData from '@weco/common/data/our-voice-our-way';
 import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
@@ -439,18 +438,6 @@ export class WhatsOnPage extends Component<Props> {
                     image={pharmacyOfColourData.promoImage}
                     start={pharmacyOfColourData.start}
                     end={pharmacyOfColourData.end}
-                    position={2}
-                  />
-                </div>
-                <div
-                  className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
-                  <InstallationPromo
-                    id={ourVoiceOurWayData.id}
-                    title={ourVoiceOurWayData.title}
-                    description={ourVoiceOurWayData.promoText}
-                    image={ourVoiceOurWayData.promoImage}
-                    start={ourVoiceOurWayData.start}
-                    end={ourVoiceOurWayData.end}
                     position={2}
                   />
                 </div>
