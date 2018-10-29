@@ -85,8 +85,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           <img width='${width}'
             height='${height || ''}'
             class='image image--noscript'
-            style='width: auto;'
-            src=''
+            src=${convertImageUri(contentUrl, 640, false)}
             alt='${alt || ''}' />`}} />
 
         <img width={width}
