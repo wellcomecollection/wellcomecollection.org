@@ -165,10 +165,18 @@ app.prepare().then(async () => {
     ctx.respond = false;
   });
 
+  router.get('/stories', async ctx => {
+    const {toggles, globalAlert} = ctx;
+    await app.render(ctx.req, ctx.res, '/stories', {
+      toggles,
+      globalAlert
+    });
+    ctx.respond = false;
+  });
+
   router.get('/articles', async ctx => {
     const {toggles, globalAlert} = ctx;
     await app.render(ctx.req, ctx.res, '/articles', {
-      id: ctx.params.id,
       toggles,
       globalAlert
     });
