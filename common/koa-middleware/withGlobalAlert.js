@@ -9,7 +9,6 @@ async function getAndSetGlobalAlert() {
       text: document.data.text,
       isShown: document.data.isShown && document.data.isShown === 'show'
     };
-    throw new Error('Kapow');
   } catch (e) {
     // TODO: Alert to sentry
   }
