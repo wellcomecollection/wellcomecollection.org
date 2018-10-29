@@ -46,11 +46,13 @@ export class ArticlePage extends Component<Props, State> {
     const article = await getArticle(context.req, id);
 
     if (article) {
-      const showOutro = Boolean(toggles && toggles.outro && (
+      const hasOutro = Boolean(
         article.outroResearchItem ||
         article.outroReadItem ||
-        article.outroVisitItem
-      ));
+        article.outroVisitItem);
+
+      const showOutro = hasOutro && Boolean(toggles && toggles.outro);
+
       return {
         article,
         showOutro,
@@ -62,7 +64,7 @@ export class ArticlePage extends Component<Props, State> {
         siteSection: 'stories',
         analyticsCategory: 'editorial',
         pageJsonLd: articleLd(article),
-        pageState: {hasOutro: showOutro}
+        pageState: {hasOutro}
       };
     } else {
       return {statusCode: 404};

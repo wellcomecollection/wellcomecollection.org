@@ -191,6 +191,11 @@ const PageWrapper = (Comp: NextComponent) => {
         </DefaultPageLayout>;
       }
 
+      const pageStateWithToggles = {
+        ...pageState,
+        ...(this.props.toggles ? {toggles: this.props.toggles} : {})
+      };
+
       return (
         <DefaultPageLayout
           title={title}
@@ -204,7 +209,7 @@ const PageWrapper = (Comp: NextComponent) => {
           openingTimes={openingTimes}
           globalAlert={globalAlert}
           oEmbedUrl={oEmbedUrl}
-          pageState={pageState}>
+          pageState={pageStateWithToggles}>
           <Comp {...props} />
         </DefaultPageLayout>
       );
