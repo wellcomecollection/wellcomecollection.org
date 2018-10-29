@@ -27,15 +27,18 @@ function setUserEnabledToggles(ctx, next) {
   const togglesRequest = ctx.query.toggles;
 
   if (togglesRequest) {
+    const cookies = new Cookies(ctx.req, ctx.res);
     const toggles = togglesRequest.split(',').reduce((acc, toggle) => {
       const toggleParts = toggle.split(':');
-      return Object.assign({}, acc, {
-        [toggleParts[0]]: Boolean(toggleParts[1])
-      });
+      const key = toggleParts[0];
+      delete acc[key];
+
+      return toggleParts[1] === 'true' ? Object.assign({}, acc, {
+        [key]: true
+      }) : acc;
     }, {});
 
     if (Object.keys(toggles).length > 0) {
-      const cookies = new Cookies(ctx.req, ctx.res);
       const togglesCookie = cookies.get('toggles');
       let previousToggles = {};
       try {
@@ -43,6 +46,8 @@ function setUserEnabledToggles(ctx, next) {
       } catch (e) {}
       const mergedToggles = Object.assign({}, previousToggles, toggles);
       cookies.set('toggles', JSON.stringify(mergedToggles));
+    } else {
+      cookies.set('toggles');
     }
   }
   return next();
@@ -60,8 +65,7 @@ function getToggles(ctx, next) {
   ctx.toggles = {
     outro: isEnabled('outro', {
       isUserEnabled: userEnabledToggles.outro === true
-    }),
-    outroAB: isEnabled('outroAB')
+    })
   };
 
   return next();

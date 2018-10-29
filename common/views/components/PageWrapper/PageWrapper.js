@@ -171,6 +171,7 @@ const PageWrapper = (Comp: NextComponent) => {
         globalAlert,
         oEmbedUrl,
         pageState,
+        toggles,
         ...props
       } = this.props;
 
@@ -191,9 +192,19 @@ const PageWrapper = (Comp: NextComponent) => {
         </DefaultPageLayout>;
       }
 
+      // We flatten the toggles to make the page state easier to grep in GA
+      // and "Flat is better than nested."
+      const flattenedToggles = Object.keys(toggles).reduce((acc, key) => {
+        const val = toggles[key];
+        return {
+          ...acc,
+          [`toggle:${key}`]: val
+        };
+      }, {});
+
       const pageStateWithToggles = {
         ...pageState,
-        ...(this.props.toggles ? {toggles: this.props.toggles} : {})
+        ...(Object.keys(flattenedToggles).length > 0 ? {toggles: this.props.toggles} : {})
       };
 
       return (
