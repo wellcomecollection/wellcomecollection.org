@@ -27,7 +27,7 @@ data "archive_file" "ab_testing_zip" {
 
   source {
     filename = "index.js"
-    content = "${file("${path.module}/../webapp/index.js")}"
+    content = "${file("${path.module}/../webapp/ab_testing.js")}"
   }
 }
 

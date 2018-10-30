@@ -182,7 +182,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   ordered_cache_behavior {
     target_origin_id       = "origin"
-    path_pattern           = "/ab_testing*"
+    path_pattern           = "/articles/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
@@ -191,7 +191,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     max_ttl                = 86400
 
     lambda_function_association {
-      event_type = "origin-request"
+      event_type = "origin-response"
       lambda_arn = "${aws_lambda_function.ab_testing_lambda.qualified_arn}"
     }
 
@@ -200,7 +200,11 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       headers      = ["Host"]
 
       cookies {
-        forward = "none"
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",           # feature toggles
+        ]
       }
     }
   }
