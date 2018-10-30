@@ -1,5 +1,5 @@
 'use strict';
-
+// TODO: Flow comment doc
 // Potential format for a test
 // const outroTest = {
 //   segments: {
@@ -12,58 +12,55 @@
 // };
 
 // Taken from https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-redirect-to-signin-page
-function parseCookies(cookieHeader) {
-  const parsedCookie = {};
-  if (cookieHeader[0]) {
-    cookieHeader[0].value.split(';').forEach((cookie) => {
-      if (cookie) {
-        const parts = cookie.split('=');
-        parsedCookie[parts[0].trim()] = parts[1].trim();
+function parseToggleCookies(cookieHeader) {
+  const cookies = cookieHeader && cookieHeader[0] ? cookieHeader[0].value.split(';').map(cookie => {
+    if (cookie) {
+      const parts = cookie.split('=');
+      const key = parts[0].trim();
+      const value = parts[1].trim();
+      if (key.match('toggle_')) {
+        return {key, value};
       }
-    });
-  }
-  return parsedCookie;
+    }
+  }).filter(Boolean) : [];
+  return cookies;
 }
 
 exports.request = (event, context, callback) => {
   const request = event.Records[0].cf.request;
-  const cookieHeader = request.headers.cookie || [];
-  const cookies = parseCookies(cookieHeader);
-
-  let prevToggles = {};
-  let newToggles = {};
-  try {
-    prevToggles = JSON.parse(cookies.toggles);
-  } catch (e) {}
+  const toggleCookies = parseToggleCookies(request.headers.cookie);
+  const newToggles = [];
 
   // Run outro test
   // Should run, and isn't already set
-  if (request.uri.match(/^\/articles\/*/) && !('outro' in prevToggles)) {
+  const hasOutro = Boolean(toggleCookies.find(cookie => cookie.key === 'toggle_outro'));
+  if (request.uri.match(/^\/articles\/*/) && !hasOutro) {
     console.log('Request: Setting outro toggle');
     // Flip the dice
     if (Math.random() < 0.5) {
-      newToggles.outro = true;
+      newToggles.push({ key: 'toggle_outro', value: true });
     } else {
-      newToggles.outro = false;
+      newToggles.push({ key: 'toggle_outro', value: false });
     }
   }
   // End bespoke tests
 
-  if (Object.keys(newToggles).length > 0) {
+  if (newToggles.length > 0) {
+    // We can technically send multiple Cookie headers down the pipes, but not
+    // sure I want to be messing with that just yet
     console.log('Request: Setting toggled header and cookies');
-    const toggles = Object.assign({}, prevToggles, newToggles);
-    const togglesCookie = `toggles=${JSON.stringify(toggles)}; Path=/;`;
-    // TODO: This doens't take into account any other cookie
-    // But we also don't set any other cookies
+    const togglesCookieString = newToggles.map(cookie => `${cookie.key}=${cookie.value}`).join(';');
     const newCookieHeader = [{
       key: 'Cookie',
-      value: togglesCookie
+      value: request.headers.cookie && request.headers.cookie[0]
+        ? request.headers.cookie[0].value + '; ' + togglesCookieString
+        : togglesCookieString
     }];
     request.headers.cookie = newCookieHeader;
     // To be read by the response
     request.headers['x-toggled'] = [{
       key: 'X-toggled',
-      value: 'true'
+      value: togglesCookieString
     }];
   }
 
@@ -75,19 +72,12 @@ exports.response = (event, context, callback) => {
   const request = event.Records[0].cf.request;
   const response = event.Records[0].cf.response;
 
-  if (request.headers['x-toggled']) {
-    console.log('Response: trying to set set-cookie header');
-    const cookieHeader = request.headers.cookie || [];
-    const cookies = parseCookies(cookieHeader);
-    let toggles = {};
-    try {
-      toggles = JSON.parse(cookies.toggles);
-    } catch (e) {}
+  console.log('Response: trying to set set-cookie header');
+  const toggleCookies = parseToggleCookies(request.headers['x-toggled']);
 
-    if (Object.keys(toggles).length > 0) {
-      console.log('Response: setting set-cookie header');
-      response.headers['set-cookie'] = [{ key: 'Set-Cookie', value: `toggles=${JSON.stringify(toggles)}; Path=/;` }];
-    }
+  if (toggleCookies.length > 0) {
+    console.log('Response: setting set-cookie header');
+    response.headers[`set-cookie`] = toggleCookies.map(cookie => ({ key: 'Set-Cookie', value: `${cookie.key}=${cookie.value}; Path=/;` }));
   }
 
   console.log('Response: goodbye');

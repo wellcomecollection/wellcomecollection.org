@@ -25,13 +25,13 @@
             "cookie": [
               {
                 "key": "Cookie",
-                "value": "toggles={\"nooutro\":true,\"outro\":false}; Path=/;"
+                "value": "toggle_outro=true; toggle_noutro=false;"
               }
             ],
             "x-toggled": [
               {
                 "key": "X-toggled",
-                "value": "true"
+                "value": "toggle_outro=true;"
               }
             ]
           }

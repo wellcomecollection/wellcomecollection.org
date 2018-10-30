@@ -25,7 +25,7 @@
             "cookie": [
               {
                 "key": "Cookie",
-                "value": "toggles={\"nooutro\":true}; Path=/;"
+                "value": "toggle_noutro=false; nothingtodowiththis=10"
               }
             ]
           }

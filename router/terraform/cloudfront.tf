@@ -209,6 +209,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
         whitelisted_names = [
           "toggles",           # feature toggles
+          "toggle_*",           # feature toggles
         ]
       }
     }
