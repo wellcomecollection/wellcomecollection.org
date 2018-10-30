@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const next = require('next');
 const Cookies = require('cookies');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
+const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -93,31 +94,37 @@ app.prepare().then(async () => {
   server.use(setUserEnabledToggles);
   server.use(getToggles);
 
+  // server cached values
+  server.use(withGlobalAlert);
+
   // Next routing
   router.get('/embed/works/:id', async ctx => {
-    const {toggles} = ctx;
+    const {toggles, globalAlert} = ctx;
     await app.render(ctx.req, ctx.res, '/embed', {
       id: ctx.params.id,
-      toggles
+      toggles,
+      globalAlert
     });
     ctx.respond = false;
   });
   router.get('/works/:id', async ctx => {
-    const {toggles} = ctx;
+    const {toggles, globalAlert} = ctx;
     await app.render(ctx.req, ctx.res, '/work', {
       page: ctx.query.page,
       query: ctx.query.query,
       id: ctx.params.id,
-      toggles
+      toggles,
+      globalAlert
     });
     ctx.respond = false;
   });
   router.get('/works', async ctx => {
-    const {toggles} = ctx;
+    const {toggles, globalAlert} = ctx;
     await app.render(ctx.req, ctx.res, '/works', {
       page: ctx.query.page,
       query: ctx.query.query,
-      toggles
+      toggles,
+      globalAlert
     });
     ctx.respond = false;
   });
