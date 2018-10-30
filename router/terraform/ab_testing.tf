@@ -31,15 +31,24 @@ data "archive_file" "ab_testing_zip" {
   }
 }
 
-resource "aws_lambda_function" "ab_testing_lambda" {
+resource "aws_lambda_function" "ab_testing_request_lambda" {
   provider = "aws.us-east-1"
-  function_name = "ab_testing"
+  function_name = "ab_testing_request"
   filename = "${data.archive_file.ab_testing_zip.output_path}"
   source_code_hash = "${data.archive_file.ab_testing_zip.output_base64sha256}"
   role = "${aws_iam_role.ab_testing_lambda_role.arn}"
   runtime = "nodejs8.10"
-  handler = "index.handler"
-  memory_size = 128
-  timeout = 3
+  handler = "index.request"
+  publish = true
+}
+
+resource "aws_lambda_function" "ab_testing_response_lambda" {
+  provider = "aws.us-east-1"
+  function_name = "ab_testing_response"
+  filename = "${data.archive_file.ab_testing_zip.output_path}"
+  source_code_hash = "${data.archive_file.ab_testing_zip.output_base64sha256}"
+  role = "${aws_iam_role.ab_testing_lambda_role.arn}"
+  runtime = "nodejs8.10"
+  handler = "index.response"
   publish = true
 }

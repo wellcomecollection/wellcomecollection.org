@@ -12,10 +12,10 @@
 // };
 
 // Taken from https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-redirect-to-signin-page
-function parseCookies(headers) {
+function parseCookies(cookieHeader) {
   const parsedCookie = {};
-  if (headers.cookie) {
-    headers.cookie[0].value.split(';').forEach((cookie) => {
+  if (cookieHeader[0]) {
+    cookieHeader[0].value.split(';').forEach((cookie) => {
       if (cookie) {
         const parts = cookie.split('=');
         parsedCookie[parts[0].trim()] = parts[1].trim();
@@ -25,11 +25,10 @@ function parseCookies(headers) {
   return parsedCookie;
 }
 
-exports.handler = (event, context, callback) => {
+exports.request = (event, context, callback) => {
   const request = event.Records[0].cf.request;
-  const response = event.Records[0].cf.response;
-  const headers = request.headers;
-  const cookies = parseCookies(headers);
+  const cookieHeader = request.headers.cookie || [];
+  const cookies = parseCookies(cookieHeader);
 
   let prevToggles = {};
   let newToggles = {};
@@ -51,7 +50,41 @@ exports.handler = (event, context, callback) => {
 
   if (Object.keys(newToggles).length > 0) {
     const toggles = Object.assign({}, prevToggles, newToggles);
-    response.headers['set-cookie'] = [{ key: 'Set-Cookie', value: `toggles=${JSON.stringify(toggles)}; Path=/;` }];
+    const togglesCookie = `toggles=${JSON.stringify(toggles)}; Path=/;`;
+    // TODO: This doens't take into account any other cookie
+    // But we also don't set any other cookies
+    const newCookieHeader = [{
+      key: 'Cookie',
+      value: togglesCookie
+    }];
+    request.headers.cookie = newCookieHeader;
+    // To be read by the response
+    request.headers['x-toggled'] = [{
+      key: 'X-toggled',
+      value: 'true'
+    }];
+  }
+
+  console.log(JSON.stringify(request.headers));
+  request.uri = '/';
+  callback(null, request);
+};
+
+exports.response = (event, context, callback) => {
+  const request = event.Records[0].cf.request;
+  const response = event.Records[0].cf.response;
+
+  if (request.headers['x-toggled']) {
+    const cookieHeader = request.headers.cookie || [];
+    const cookies = parseCookies(cookieHeader);
+    let toggles = {};
+    try {
+      toggles = JSON.parse(cookies.toggles);
+    } catch (e) {}
+
+    if (Object.keys(toggles).length > 0) {
+      response.headers['set-cookie'] = [{ key: 'Set-Cookie', value: `toggles=${JSON.stringify(toggles)}; Path=/;` }];
+    }
   }
 
   callback(null, response);
