@@ -39,6 +39,7 @@ exports.request = (event, context, callback) => {
   // Run outro test
   // Should run, and isn't already set
   if (request.uri.match(/^\/articles\/*/) && !('outro' in prevToggles)) {
+    console.log('Request: Setting outro toggle');
     // Flip the dice
     if (Math.random() < 0.5) {
       newToggles.outro = true;
@@ -49,6 +50,7 @@ exports.request = (event, context, callback) => {
   // End bespoke tests
 
   if (Object.keys(newToggles).length > 0) {
+    console.log('Request: Setting toggled header and cookies');
     const toggles = Object.assign({}, prevToggles, newToggles);
     const togglesCookie = `toggles=${JSON.stringify(toggles)}; Path=/;`;
     // TODO: This doens't take into account any other cookie
@@ -65,8 +67,7 @@ exports.request = (event, context, callback) => {
     }];
   }
 
-  console.log(JSON.stringify(request.headers));
-  request.uri = '/';
+  console.log('Request: goodbye');
   callback(null, request);
 };
 
@@ -75,6 +76,7 @@ exports.response = (event, context, callback) => {
   const response = event.Records[0].cf.response;
 
   if (request.headers['x-toggled']) {
+    console.log('Response: trying to set set-cookie header');
     const cookieHeader = request.headers.cookie || [];
     const cookies = parseCookies(cookieHeader);
     let toggles = {};
@@ -83,9 +85,11 @@ exports.response = (event, context, callback) => {
     } catch (e) {}
 
     if (Object.keys(toggles).length > 0) {
+      console.log('Response: setting set-cookie header');
       response.headers['set-cookie'] = [{ key: 'Set-Cookie', value: `toggles=${JSON.stringify(toggles)}; Path=/;` }];
     }
   }
 
+  console.log('Response: goodbye');
   callback(null, response);
 };

@@ -182,7 +182,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
   ordered_cache_behavior {
     target_origin_id       = "origin"
-    path_pattern           = "/ab_testing"
+    path_pattern           = "/articles/*"
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
