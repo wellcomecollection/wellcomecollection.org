@@ -164,7 +164,8 @@ type Props = {|
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
   globalAlert: GlobalAlert,
-  oEmbedUrl?: string
+  oEmbedUrl?: string,
+  pageState: Object
 |}
 
 class DefaultPageLayout extends Component<Props> {

@@ -3,7 +3,7 @@ import {Fragment, Component} from 'react';
 import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
-import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import BasePage from '@weco/common/views/components/BasePage/BasePage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
@@ -18,12 +18,16 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import type {
+  GetInitialPropsProps,
+  ExtraProps
+} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {ContentFormatIds} from '@weco/common/model/content-format-id';
 
 type Props = {|
-  article: Article
+  article: Article,
+  showOutro: boolean
 |}
 
 type State = {|
@@ -34,11 +38,20 @@ export class ArticlePage extends Component<Props, State> {
     listOfSeries: []
   }
 
-  static getInitialProps = async (context: GetInitialPropsProps) => {
+  static getInitialProps = async (
+    context: GetInitialPropsProps,
+    { toggles = {} }: ExtraProps
+  ) => {
     const {id} = context.query;
     const article = await getArticle(context.req, id);
 
     if (article) {
+      const hasOutro = Boolean(
+        article.outroResearchItem ||
+        article.outroReadItem ||
+        article.outroVisitItem
+      );
+
       return {
         article,
         title: article.title,
@@ -48,7 +61,9 @@ export class ArticlePage extends Component<Props, State> {
         imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
         siteSection: 'stories',
         analyticsCategory: 'editorial',
-        pageJsonLd: articleLd(article)
+        pageJsonLd: articleLd(article),
+        pageState: {hasOutro},
+        showOutro: hasOutro && toggles.outro
       };
     } else {
       return {statusCode: 404};
@@ -70,7 +85,10 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   render() {
-    const article = this.props.article;
+    const {
+      article,
+      showOutro
+    } = this.props;
 
     const breadcrumbs = {
       items: [
@@ -193,13 +211,6 @@ export class ArticlePage extends Component<Props, State> {
         );
       }
     }).filter(Boolean);
-
-    const toggles = pageStore('toggles');
-    const showOutro = toggles.outro && (
-      article.outroResearchItem ||
-      article.outroReadItem ||
-      article.outroVisitItem
-    );
 
     return (
       <BasePage

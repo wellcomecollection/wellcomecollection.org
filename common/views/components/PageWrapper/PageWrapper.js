@@ -64,6 +64,7 @@ type Props = {|
     upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
   },
   toggles: any,
+  pageState?: ?Object,
   globalAlert: any, // TODO
   statusCode: ?number,
   oEmbedUrl?: string
@@ -90,10 +91,15 @@ type GetInitialPropsServerProps = {|
   err: Error
 |}
 
+// TODO: (Type)
+export type ExtraProps = {
+  toggles?: any
+};
+
 export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
 
 type NextComponent = {
-  getInitialProps?: (props: GetInitialPropsProps) => any
+  getInitialProps?: (props: GetInitialPropsProps, extraProps: ExtraProps) => any
 } & $Subtype<ComponentType<any>>
 
 const PageWrapper = (Comp: NextComponent) => {
@@ -123,7 +129,7 @@ const PageWrapper = (Comp: NextComponent) => {
         openingTimes,
         toggles,
         globalAlert,
-        ...(Comp.getInitialProps ? await Comp.getInitialProps(context) : null)
+        ...(Comp.getInitialProps ? await Comp.getInitialProps(context, {toggles}) : null)
       };
     }
 
@@ -156,8 +162,25 @@ const PageWrapper = (Comp: NextComponent) => {
         openingTimes,
         globalAlert,
         oEmbedUrl,
+        pageState,
+        toggles = {},
         ...props
       } = this.props;
+
+      // We flatten the toggles to make the page state easier to grep in GA
+      // and "Flat is better than nested."
+      const flattenedToggles = Object.keys(toggles).reduce((acc, key) => {
+        const val = toggles[key];
+        return {
+          ...acc,
+          [`toggle:${key}`]: val
+        };
+      }, {});
+
+      const pageStateWithToggles = {
+        ...(pageState || {}),
+        ...(Object.keys(flattenedToggles).length > 0 ? flattenedToggles : {})
+      };
 
       if (this.props.statusCode && this.props.statusCode !== 200) {
         return <DefaultPageLayout
@@ -170,7 +193,8 @@ const PageWrapper = (Comp: NextComponent) => {
           siteSection='error'
           analyticsCategory='error'
           openingTimes={openingTimes}
-          globalAlert={globalAlert}>
+          globalAlert={globalAlert}
+          pageState={{}}>
           <ErrorPage errorStatus={this.props.statusCode} />
         </DefaultPageLayout>;
       }
@@ -187,7 +211,8 @@ const PageWrapper = (Comp: NextComponent) => {
           analyticsCategory={analyticsCategory}
           openingTimes={openingTimes}
           globalAlert={globalAlert}
-          oEmbedUrl={oEmbedUrl}>
+          oEmbedUrl={oEmbedUrl}
+          pageState={pageStateWithToggles}>
           <Comp {...props} />
         </DefaultPageLayout>
       );
