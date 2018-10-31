@@ -7,7 +7,7 @@ import ErrorPage from '../BasePage/ErrorPage';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
 import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
-import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
+import type {GroupedVenues, OverrideType, CollectionOpeningTimes} from '../../../model/opening-hours';
 
 const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
@@ -57,10 +57,9 @@ type Props = {|
   siteSection: SiteSection,
   analyticsCategory: string,
   openingTimes: {
-    // TODO: Flow fix
-    collectionOpeningTimes: any,
+    collectionOpeningTimes: CollectionOpeningTimes,
     groupedVenues: GroupedVenues,
-    upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
+    upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[]
   },
   toggles: any,
   globalAlert: any, // TODO

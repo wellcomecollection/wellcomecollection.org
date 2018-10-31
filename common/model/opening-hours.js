@@ -67,6 +67,19 @@ export type GroupedVenues = {
   }
 };
 
+export type CollectionOpeningTimes = {
+  placesOpeningHours: PlacesOpeningHours,
+  upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[],
+  exceptionalOpeningHours: ?periodModifiedHours[],
+  exceptionalClosedDates: ?{
+    periodStart: Moment,
+    periodEnd: Moment,
+    Venues: {
+      [string]: ExceptionalVenueHours[]
+    }
+  }
+}
+
 export const galleryOpeningHours: OpeningHours = { // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
   regular: [
     {dayOfWeek: 'Monday'},

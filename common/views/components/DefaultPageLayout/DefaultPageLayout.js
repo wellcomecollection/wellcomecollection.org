@@ -161,7 +161,7 @@ type Props = {|
   isPreview?: boolean,
   openingTimes: {
     groupedVenues: GroupedVenues,
-    upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
+    upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[]
   },
   globalAlert: GlobalAlert,
   oEmbedUrl?: string

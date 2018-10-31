@@ -6,7 +6,7 @@ async function getAndSetOpeningTimes() {
     const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2');
     openingTimes = await api.query([Prismic.Predicates.any('document.type', ['collection-venue'])]);
   } catch (e) {
-    // TODO: Alert to sentry
+
   }
 }
 
