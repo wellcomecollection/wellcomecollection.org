@@ -228,39 +228,39 @@ class DefaultPageLayout extends Component<Props> {
         validationBar.style.fontSize = '12px';
         validationBar.style.zIndex = '2147483000';
 
-        window.addEventListener('load', function() {
-          var validationFails = [];
+        var validationFails = [];
 
-          var descriptionEl = document.querySelector('meta[name="description"]');
-          if (descriptionEl && !descriptionEl.getAttribute('content')) {
-            validationFails.push(`
-              <b>Warning:</b>
-              This piece of content is missing its description.
-              This helps with search engine results and sharing on social channels.
-              (If this is from Prismic, it's the promo text).
-            `);
-          }
+        var descriptionEl = document.querySelector('meta[name="description"]');
+        if (descriptionEl && !descriptionEl.getAttribute('content')) {
+          validationFails.push(`
+            <b>Warning:</b>
+            This piece of content is missing its description.
+            This helps with search engine results and sharing on social channels.
+            (If this is from Prismic, it's the promo text).
+          `);
+        }
 
-          var imageEl = document.querySelector('meta[property="og:image"]');
-          if (imageEl && !imageEl.getAttribute('content')) {
-            validationFails.push(`
-              <b>Warning:</b>
-              This piece of content is missing its promo image.
-              This is the image that will be shown across our site,
-              as well as on social media.
-            `);
-          }
+        var imageEl = document.querySelector('meta[property="og:image"]');
+        if (imageEl && !imageEl.getAttribute('content')) {
+          validationFails.push(`
+            <b>Warning:</b>
+            This piece of content is missing its promo image.
+            This is the image that will be shown across our site,
+            as well as on social media.
+          `);
+        }
 
-          if (validationFails.length > 0) {
-            validationFails.forEach(function(validationFail) {
-              var div = document.createElement('div');
-              div.style.marginBottom = '6px';
-              div.innerHTML = validationFail;
-              validationBar.appendChild(div);
-            });
-            document.body && document.body.appendChild(validationBar);
-          }
-        });
+        console.info(validationFails);
+
+        if (validationFails.length > 0) {
+          validationFails.forEach(function(validationFail) {
+            var div = document.createElement('div');
+            div.style.marginBottom = '6px';
+            div.innerHTML = validationFail;
+            validationBar.appendChild(div);
+          });
+          document.body && document.body.appendChild(validationBar);
+        }
       })();
     }
   }
@@ -311,7 +311,9 @@ class DefaultPageLayout extends Component<Props> {
           <title>{title}</title>
           <script src={`https://cdn.polyfill.io/v2/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
           <meta name='viewport' content='width=device-width, initial-scale=1' />
-          <meta name='theme-color' content='#000000'/>
+          <meta name='theme-color' content='#000000' />
+          <meta name='description' content={description || ''} />
+          <meta property='og:image' content={imageUrl || ''} />
 
           <OpenGraph
             type={type}
