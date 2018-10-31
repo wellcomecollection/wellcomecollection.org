@@ -37,8 +37,6 @@ function setUserEnabledToggles(ctx, next) {
 
 function getToggles(ctx, next) {
   const cookies = new Cookies(ctx.req, ctx.res);
-  // Leaving this here as we might need it for `ActiveForUserInCohort`
-  // const cohort = cookies.get('WC_featuresCohort');
   let userEnabledToggles = {};
   try {
     userEnabledToggles = JSON.parse(cookies.get('toggles'));
@@ -50,20 +48,6 @@ function getToggles(ctx, next) {
     })
   };
 
-  return next();
-}
-
-function setCohortCookie(ctx, next) {
-  const cohort = ctx.query.cohort;
-  if (cohort) {
-    const cookies = new Cookies(ctx.req, ctx.res);
-    cookies.set('WC_featuresCohort', cohort, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      overwrite: true,
-      path: '/',
-      domain: dev ? null : 'wellcomecollection.org'
-    });
-  }
   return next();
 }
 
@@ -90,7 +74,6 @@ app.prepare().then(async () => {
   }
 
   // Feature toggles
-  server.use(setCohortCookie);
   server.use(setUserEnabledToggles);
   server.use(getToggles);
 
