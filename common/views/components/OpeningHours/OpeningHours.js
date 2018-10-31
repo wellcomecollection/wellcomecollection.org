@@ -94,7 +94,7 @@ class OpeningHours extends Component<Props, State> {
             . Please check our <a href='/opening-times#exceptional'>modified opening times</a> for details before you travel.
           </p>
         }
-        {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours.length > 1 &&
+        {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours && groupedVenues[Object.keys(groupedVenues)[0]].hours.length > 1 &&
           <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
             <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`} role='tablist'>
               {groupedVenues && Object.keys(groupedVenues).map((key) => (
