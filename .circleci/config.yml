@@ -145,6 +145,29 @@ jobs:
         name: Deploy
         command: |
           aws s3 sync ./out s3://dash.wellcomecollection.org/pa11y --only-show-errors
+  deploy_toggles:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: ~/wellcomecollection.org/toggles/webapp
+    steps:
+    - add_ssh_keys
+    - restore_cache:
+        key: repo_{{ .Environment.CIRCLE_SHA1 }}
+    - run:
+        name: Install awscli
+        command: sudo apt-get install awscli
+    - run:
+        name: Yarn install
+        command: yarn
+    - run:
+        name: Build next app
+        command: |
+            yarn build
+            yarn export
+    - run:
+        name: Deploy
+        command: |
+          aws s3 sync ./out s3://dash.wellcomecollection.org/toggles --only-show-errors
   install_server_modules:
     docker:
       - image: circleci/node:8.11.3
@@ -383,6 +406,13 @@ workflows:
           requires:
             - checkout_code
       - deploy_pa11y:
+          requires:
+            - checkout_code
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_toggles:
           requires:
             - checkout_code
           filters:
