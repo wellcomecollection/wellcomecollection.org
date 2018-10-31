@@ -30,7 +30,6 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
   window.localStorage.removeItem('wc_referring_component_list');
 
   if (!window.GA_INITIALIZED) {
-    console.info(category, contentType, pageState, featuresCohort);
     // We will have two trackers, one that has been used on the v1 site, and v2 site (UA-55614-6)
     // The other is just for the v2 site UA-55614-24
 
