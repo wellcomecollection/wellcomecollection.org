@@ -110,7 +110,7 @@ const PageWrapper = (Comp: NextComponent) => {
         isShown: globalAlertData.isShown === 'show'
       };
 
-      const openingTimes = parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes));
+      const openingTimes = context.req ? parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes)) : clientStore && clientStore.get('openingTimes');
 
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
@@ -135,6 +135,10 @@ const PageWrapper = (Comp: NextComponent) => {
 
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
+      }
+
+      if (clientStore && !clientStore.get('openingTimes')) {
+        clientStore.set('openingTimes', props.openingTimes);
       }
     }
 
