@@ -1,27 +1,23 @@
-const Cookies = require('cookies');
+const parseCookies = function(req) {
+  return (req.headers.cookie || '').split(';').map(cookieString => {
+    const keyVal = cookieString.split('=');
+    const key = keyVal[0].trim();
+    const value = keyVal[1].trim();
+
+    return {key, value};
+  });
+};
 
 function withToggles(ctx, next) {
-  // Any cookies set from anywhere
-  // But normally from the lambdas@edge
-  const cookies = new Cookies(ctx.req, ctx.res);
-  const togglesCookie = cookies.get('toggles');
-  let toggles = {};
-  try {
-    toggles = JSON.parse(togglesCookie);
-  } catch (e) {}
-
-  // Have we set any via the URL?
-  const togglesQuery = ctx.query.toggles;
-  const urlToggles = togglesQuery ? togglesQuery.split(',').reduce((acc, toggle) => {
-    const toggleParts = toggle.split(':');
-    const key = toggleParts[0];
-    const val = toggleParts[1];
+  const cookies = parseCookies(ctx.req);
+  const togglesCookies = cookies.filter(cookie => cookie.key.startsWith('toggle_'));
+  const toggles = togglesCookies.reduce((acc, cookie) => {
     return Object.assign({}, acc, {
-      [key]: val === 'true'
+      [cookie.key]: cookie.value === 'true'
     });
-  }, {}) : {};
+  }, {});
 
-  ctx.toggles = Object.assign({}, toggles, urlToggles);
+  ctx.toggles = toggles;
 
   return next();
 }
