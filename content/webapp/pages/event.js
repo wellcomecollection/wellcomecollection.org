@@ -83,6 +83,11 @@ function showTicketSalesStart(dateTime) {
 // Convert dates back to Date types because it's serialised through
 // `getInitialProps`
 export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
+  const dateRange = {
+    ...jsonEvent.dateRange,
+    firstDate: new Date(jsonEvent.dateRange.firstDate),
+    lastDate: new Date(jsonEvent.dateRange.lastDate)
+  };
   const times = jsonEvent.times.map(time => {
     return {
       ...time,
@@ -98,7 +103,12 @@ export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
     event: convertJsonToDates(item.event)
   }));
 
-  return {...jsonEvent, times, schedule};
+  return {
+    ...jsonEvent,
+    times,
+    schedule,
+    dateRange
+  };
 }
 
 class EventPage extends Component<Props, State> {
