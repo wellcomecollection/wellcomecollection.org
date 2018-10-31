@@ -30,6 +30,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
   window.localStorage.removeItem('wc_referring_component_list');
 
   if (!window.GA_INITIALIZED) {
+    console.info(category, contentType, pageState, featuresCohort);
     // We will have two trackers, one that has been used on the v1 site, and v2 site (UA-55614-6)
     // The other is just for the v2 site UA-55614-24
 
@@ -63,7 +64,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
     ReactGA.set({'dimension7': referringComponentListString});
   }
   if (pageState) {
-    ReactGA.set({'dimension8': pageState});
+    ReactGA.set({'dimension8': JSON.stringify(pageState)});
   };
 
   ReactGA.plugin.require('GTM-NXMJ6D9');
