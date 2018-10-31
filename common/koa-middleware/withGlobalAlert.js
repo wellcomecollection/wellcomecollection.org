@@ -1,14 +1,16 @@
 const Prismic = require('prismic-javascript');
 
-let globalAlert = {isShow: false, text: null};
+let globalAlert = {
+  text: [ { type: 'paragraph',
+    text: null,
+    spans: null } ],
+  isShown: 'hide'
+};
 async function getAndSetGlobalAlert() {
   try {
     const api = await Prismic.getApi('https://wellcomecollection.prismic.io/api/v2');
     const document = await api.getSingle('global-alert');
-    globalAlert = {
-      text: document.data.text,
-      isShown: document.data.isShown && document.data.isShown === 'show'
-    };
+    globalAlert = document.data;
   } catch (e) {
     // TODO: Alert to sentry
   }

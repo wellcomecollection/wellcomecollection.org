@@ -1,9 +1,9 @@
 // @flow
 import {Component} from 'react';
+import {asHtml} from '../../../services/prismic/parsers';
 import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import ErrorPage from '../BasePage/ErrorPage';
-import {fetchGlobalAlert} from '../../../services/prismic/global-alert';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
 import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
@@ -105,6 +105,11 @@ type NextComponent = {
 const PageWrapper = (Comp: NextComponent) => {
   return class Global extends Component<Props> {
     static async getInitialProps(context: GetInitialPropsProps) {
+      const globalAlertData = context.query.globalAlert;
+      const globalAlert = {
+        text: asHtml(globalAlertData.text),
+        isShown: globalAlertData.isShown === 'show'
+      };
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
       const openingTimes = context.req
@@ -115,14 +120,9 @@ const PageWrapper = (Comp: NextComponent) => {
         ? context.query.toggles
         : clientStore && clientStore.get('toggles');
 
-      const globalAlert = context.req
-        ? await fetchGlobalAlert()
-        : clientStore && clientStore.get('globalAlert');
-
       if (serverStore) {
         serverStore.set('openingTimes', openingTimes);
         serverStore.set('toggles', toggles);
-        serverStore.set('globalAlert', globalAlert);
       }
 
       return {
@@ -142,10 +142,6 @@ const PageWrapper = (Comp: NextComponent) => {
 
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
-      }
-
-      if (clientStore && !clientStore.get('globalAlert')) {
-        clientStore.set('globalAlert', props.globalAlert);
       }
     }
 
