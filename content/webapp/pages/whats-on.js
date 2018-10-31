@@ -42,8 +42,8 @@ type Props = {|
   eatShopPromos: any[]
 |}
 
-export function getListHeader(collectionOpeningTimes: any = {}) {
-  const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
+function getListHeader(collectionOpeningTimes: any = {}) {
+  const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours.length > 1 && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
   return {
     todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),
     name: 'What\'s on',
