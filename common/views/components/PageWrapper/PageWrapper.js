@@ -1,7 +1,7 @@
 // @flow
 import {Component} from 'react';
 import {asHtml} from '../../../services/prismic/parsers';
-import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
+import {parseVenuesToOpeningHours} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import ErrorPage from '../BasePage/ErrorPage';
 import type Moment from 'moment';
@@ -22,8 +22,7 @@ export function pageStore(prop: string) {
   return val || {};
 }
 
-async function fetchOpeningTimes(req: Request) {
-  const openingTimes = await getCollectionOpeningTimes(req);
+function parseOpeningHours(openingTimes) {
   const galleriesLibrary = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
   });
@@ -104,19 +103,20 @@ const PageWrapper = (Comp: NextComponent) => {
         text: asHtml(globalAlertData.text),
         isShown: globalAlertData.isShown === 'show'
       };
+
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
-      const openingTimes = context.req
-        ? await fetchOpeningTimes(context.req)
-        : clientStore && clientStore.get('openingTimes');
-
       const toggles = context.req
         ? context.query.toggles
         : clientStore && clientStore.get('toggles');
 
+      const openingTimes = context.req
+        ? parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes))
+        : clientStore && clientStore.get('openingTimes');
+
       if (serverStore) {
-        serverStore.set('openingTimes', openingTimes);
         serverStore.set('toggles', toggles);
+        serverStore.set('openingTimes', openingTimes);
       }
 
       return {
@@ -130,12 +130,11 @@ const PageWrapper = (Comp: NextComponent) => {
     constructor(props: Props) {
       super(props);
 
-      if (clientStore && !clientStore.get('openingTimes')) {
-        clientStore.set('openingTimes', props.openingTimes);
-      }
-
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
+      }
+      if (clientStore && !clientStore.get('openingTimes')) {
+        clientStore.set('openingTimes', props.openingTimes);
       }
     }
 
