@@ -62,7 +62,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
   if (referringComponentListString) {
     ReactGA.set({'dimension7': referringComponentListString});
   }
-  if (pageState) {
+  if (pageState && Object.keys(pageState) > 0) {
     ReactGA.set({'dimension8': JSON.stringify(pageState)});
   };
 
