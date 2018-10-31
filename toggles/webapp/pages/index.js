@@ -38,6 +38,11 @@ const Header = () => {
   );
 };
 
+const aYear = 31536000;
+function setCookie(name, value) {
+  const expiration = value ? ` Max-Age=${aYear}` : `Expires=${new Date('1970-01-01').toString()}`;
+  document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
+}
 const IndexPage = () => {
   return (
     <div style={{
@@ -51,10 +56,16 @@ const IndexPage = () => {
         <h2>A/B tests</h2>
         <ul>
           <li>
-            Outro
-            <button onClick>On</button>
-            <button>Off</button>
-            <button>Leave</button>
+            <span style={{marginRight: '6px'}}>Outro</span>
+            <button onClick={() => {
+              setCookie('outro', 'true');
+            }}>On</button>
+            <button onClick={() => {
+              setCookie('outro', 'false');
+            }}>Off</button>
+            <button onClick={() => {
+              setCookie('outro');
+            }}>Leave</button>
           </li>
         </ul>
         <h2>Feature toggles</h2>

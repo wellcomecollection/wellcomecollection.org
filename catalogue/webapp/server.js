@@ -37,8 +37,6 @@ function setUserEnabledToggles(ctx, next) {
 
 function getToggles(ctx, next) {
   const cookies = new Cookies(ctx.req, ctx.res);
-  // Leaving this here as we might need it for `ActiveForUserInCohort`
-  // const cohort = cookies.get('WC_featuresCohort');
   let userEnabledToggles = {};
   try {
     userEnabledToggles = JSON.parse(cookies.get('toggles'));
