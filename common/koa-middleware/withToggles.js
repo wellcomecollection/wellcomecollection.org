@@ -17,7 +17,7 @@ function withToggles(ctx, next) {
   const togglesCookies = cookies.filter(cookie => cookie.key.startsWith('toggle_'));
   const toggles = togglesCookies.reduce((acc, cookie) => {
     return Object.assign({}, acc, {
-      [cookie.key]: cookie.value === 'true'
+      [cookie.key.replace('toggle_', '')]: cookie.value === 'true'
     });
   }, {});
 

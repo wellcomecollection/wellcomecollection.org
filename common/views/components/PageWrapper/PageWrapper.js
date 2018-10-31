@@ -169,7 +169,7 @@ const PageWrapper = (Comp: NextComponent) => {
         const val = toggles[key];
         return {
           ...acc,
-          [`toggle:${key}`]: val
+          [`toggle_${key}`]: val
         };
       }, {});
 
