@@ -10,20 +10,24 @@ import type {UiExhibition} from '../../../model/exhibitions';
 import type {UiEvent} from '../../../model/events';
 import type {Installation} from '../../../model/installations';
 import type {Book} from '../../../model/books';
+import type {Article} from '../../../model/articles';
 
 // TODO: This should be MultiContent
 type ContentTypes =
   | UiEvent
   | UiExhibition
   | Installation
-  | Book;
+  | Book
+  | Article;
 
 type Props = {|
-  items: $ReadOnlyArray<ContentTypes>
+  items: $ReadOnlyArray<ContentTypes>,
+  hidePromoText?: boolean
 |}
 
 const CardGrid = ({
-  items
+  items,
+  hidePromoText
 }: Props) => {
   return (
     <div className='css-grid__container'>
@@ -73,7 +77,7 @@ const CardGrid = ({
               <StoryPromo
                 item={item}
                 position={i}
-                showPosition={true} />
+                hidePromoText={hidePromoText} />
             }
             {item.type === 'books' &&
               <BookPromo

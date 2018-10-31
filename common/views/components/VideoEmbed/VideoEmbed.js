@@ -11,6 +11,7 @@ const VideoEmbed = ({ embedUrl, caption }: Props) => (
   <figure className='no-margin'>
     <div className='iframe-container relative'>
       <iframe
+        title='Video'
         allowFullScreen='allowfullscreen'
         mozallowfullscreen='mozallowfullscreen'
         msallowfullscreen='msallowfullscreen'

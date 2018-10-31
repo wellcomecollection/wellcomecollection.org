@@ -82,12 +82,11 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     return (
       <Fragment>
         <noscript dangerouslySetInnerHTML={{__html: `
-          <img width=${width}
-            height=${height || ''}
+          <img width='${width}'
+            height='${height || ''}'
             class='image image--noscript'
-            style="width: auto;"
             src=${convertImageUri(contentUrl, 640, false)}
-            alt=${alt} />`}} />
+            alt='${alt || ''}' />`}} />
 
         <img width={width}
           height={height}
@@ -107,7 +106,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             return `${convertImageUri(contentUrl, size, false)} ${size}w`;
           })}
           sizes={sizesQueries}
-          alt={alt} />
+          alt={alt || ''} />
 
         {showTasl && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>

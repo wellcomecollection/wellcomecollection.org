@@ -6,7 +6,7 @@ import {getEvents} from '@weco/common/services/prismic/events';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertJsonToDates} from './event';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-import ourVoiceOurWayData from '@weco/common/data/our-voice-our-way';
+
 import {
   exhibitionLd,
   eventLd,
@@ -52,13 +52,13 @@ export class HomePage extends Component<Props> {
         exhibitions,
         events,
         articles,
-        title: 'The free museum and library for the incurably curious',
+        title: null,
         description: pageDescription,
         type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/whats-on`,
+        canonicalUrl: `https://wellcomecollection.org/`,
         imageUrl: pageImage,
-        siteSection: 'whatson',
-        analyticsCategory: 'public-programme',
+        siteSection: 'index',
+        analyticsCategory: 'editorial',
         pageJsonLd: [
           ...exhibitions.results.map(exhibitionLd),
           ...events.results.map(eventLd),
@@ -105,7 +105,7 @@ export class HomePage extends Component<Props> {
         <ExhibitionsAndEvents
           exhibitions={exhibitions}
           events={events}
-          extras={[ourVoiceOurWayData, pharmacyOfColourData]}
+          extras={[pharmacyOfColourData]}
         />
 
         <SectionHeader

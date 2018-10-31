@@ -66,15 +66,13 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
         whitelisted_names = [
           "toggles",           # feature toggles
-          "WC_featuresCohort", # feature toggles
-          "*SESS*",            # Drupal
         ]
       }
     }
   }
 
   # Make sure that the next assets always outlive the HTML
-  cache_behavior {
+  ordered_cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/_next/*"
     allowed_methods        = ["HEAD", "GET"]
@@ -94,7 +92,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
-  cache_behavior {
+  ordered_cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/events/*"
     allowed_methods        = ["HEAD", "GET"]
@@ -117,13 +115,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
         whitelisted_names = [
           "toggles",           # feature toggles
-          "WC_featuresCohort", # feature toggles
         ]
       }
     }
   }
 
-  cache_behavior {
+  ordered_cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/eventbrite/*"
     allowed_methods        = ["HEAD", "GET"]
@@ -143,48 +140,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
-  # TODO: Deprecate
-  cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/articles/preview/*"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/preview/*"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  cache_behavior {
+  ordered_cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/preview"
     allowed_methods        = ["HEAD", "GET"]
@@ -204,27 +160,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
-  cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/flags"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  cache_behavior {
+  ordered_cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/management/*"
     allowed_methods        = ["HEAD", "GET"]
@@ -244,88 +180,40 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
-  # This is all for Drupal...
-  cache_behavior {
+  ordered_cache_behavior {
     target_origin_id       = "origin"
-    path_pattern           = "/system/ajax"
-    allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["HEAD", "GET", "OPTIONS"]
+    path_pattern           = "/articles/*"
+    allowed_methods        = ["HEAD", "GET"]
+    cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
 
+    lambda_function_association {
+      event_type = "origin-request"
+      lambda_arn = "${aws_lambda_function.ab_testing_request_lambda.qualified_arn}"
+    }
+
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = "${aws_lambda_function.ab_testing_response_lambda.qualified_arn}"
+    }
+
     forwarded_values {
-      query_string = true
-      headers      = ["*"]
+      query_string = false
+      headers      = ["Host"]
 
       cookies {
-        forward = "all"
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",           # feature toggles
+          "toggle_*",           # feature toggles
+        ]
       }
     }
   }
-
-  cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/admin/*"
-    allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["HEAD", "GET", "OPTIONS"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/user"
-    allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["HEAD", "GET", "OPTIONS"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/node/*"
-    allowed_methods        = ["HEAD", "GET", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["HEAD", "GET", "OPTIONS"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  # End Drupal...
 
   viewer_certificate {
     acm_certificate_arn      = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"

@@ -81,12 +81,11 @@ const CompactCard = ({
         }
         {StatusIndicator}
         {description &&
-        <span className={[
-          spacing({s: 2}, {margin: ['top']}),
-          font({s: 'HNL4'})
-        ].join(' ')}>
-          {description}
-        </span>
+        <div className='spaced-text'>
+          <p className={font({s: 'HNL4'})}>
+            {description}
+          </p>
+        </div>
         }
       </div>
     </Tag>

@@ -14,6 +14,7 @@ import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {breakpoints} from '../../../utils/breakpoints';
 import type {Node, Element, ElementProps} from 'react';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
+import {sized} from '../../../utils/style';
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -40,11 +41,14 @@ export function getFeaturedMedia(
   };
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
   const FeaturedMedia = hasFeaturedVideo
-    ? <VideoEmbed {...body[0].value} /> : isPicture && widescreenImage && squareImage
+    ? <VideoEmbed {...body[0].value} />
+    : isPicture && widescreenImage && squareImage
       ? <Picture
         images={[{...widescreenImage, minWidth: breakpoints.medium}, {...squareImage, minWidth: null}]}
         isFull={true} />
-      : image && tasl ? <UiImage tasl={tasl} {...widescreenImage} sizesQueries='' /> : null;
+      : widescreenImage && tasl
+        ? <UiImage tasl={tasl} {...widescreenImage} sizesQueries='' />
+        : image && tasl ? <UiImage tasl={tasl} {...image} sizesQueries='' /> : null;
 
   return FeaturedMedia;
 }
@@ -110,7 +114,7 @@ const PageHeader = ({
           </div>
         }
 
-        <div className={spacing({s: 3, m: 4}, {padding: ['top', 'bottom']})}>
+        <div className={spacing({s: 3, m: 4}, {padding: ['top']})}>
           <div className={spacing({s: 2, m: 3}, {margin: ['bottom']})}>
             {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
             {asyncBreadcrumbsRoute &&
@@ -154,13 +158,14 @@ const PageHeader = ({
 
       {HeroPicture &&
         <div className={classNames({
-          'relative': true
+          'relative': true,
+          [spacing({s: 3, m: 4}, {padding: ['top']})]: true
         })} style={{height: '100%'}}>
           <div
             style={{
               height: '50%',
               width: '100%',
-              bottom: 0
+              bottom: `-${sized(13)}`
             }}
             className={classNames({
               [`bg-${heroImageBgColor}`]: true,

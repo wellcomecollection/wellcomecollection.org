@@ -25,6 +25,7 @@ $image-gallery-v2-transition-properties: 400ms ease;
     }
 
     .captioned-image__image-container {
+      background: color('charcoal');
       &:hover:before {
         opacity: 0;
       }

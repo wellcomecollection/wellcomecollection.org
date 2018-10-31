@@ -10,7 +10,8 @@ import type Moment from 'moment';
 type Props = {|
   extraClasses?: string,
   groupedVenues: GroupedVenues,
-  upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[]
+  upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[],
+  idPrefix?: string
 |}
 
 type State = {|
@@ -19,7 +20,7 @@ type State = {|
 
 class OpeningHours extends Component<Props, State> {
   state = {
-    activePlace: this.props && this.props.groupedVenues && Object.keys(this.props.groupedVenues)[0]
+    activePlace: this.props && this.props.groupedVenues && `${this.props.idPrefix || ''}${Object.keys(this.props.groupedVenues)[0]}`
   };
 
   updateActivePlace = (event: any) => {
@@ -34,7 +35,8 @@ class OpeningHours extends Component<Props, State> {
     const {
       upcomingExceptionalOpeningPeriods,
       extraClasses,
-      groupedVenues
+      groupedVenues,
+      idPrefix
     } = this.props;
 
     return (
@@ -96,31 +98,34 @@ class OpeningHours extends Component<Props, State> {
           <div className={`opening-hours ${extraClasses || ''} js-opening-hours js-tabs`}>
             <ul className={`plain-list opening-hours__tablist ${font({s: 'HNM5'})} ${spacing({s: 0}, {margin: ['top', 'left', 'bottom', 'right'], padding: ['top', 'left', 'bottom', 'right']})} js-tablist`} role='tablist'>
               {groupedVenues && Object.keys(groupedVenues).map((key) => (
-                <li key={key} className={`opening-hours__tabitem js-tabitem ${key === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
-                  <a data-panel-id={key}
-                    className='opening-hours__tablink js-tablink' href={`#${key}`}
+                <li key={key} className={`opening-hours__tabitem js-tabitem ${`${idPrefix || ''}${key}` === this.state.activePlace ? 'opening-hours__tabitem--is-current' : ''}`}>
+                  <a data-panel-id={`${idPrefix || ''}${key}`}
+                    className='opening-hours__tablink js-tablink' href={`#${idPrefix || ''}${key}`}
                     aria-selected={key === this.state.activePlace}
                     role='tab'
                     onClick={this.updateActivePlace}>{groupedVenues[key].title}</a>
                 </li>
               ))}
             </ul>
-            {groupedVenues && Object.keys(groupedVenues).map((key) => (
-              <div key={key} id={key} className={`js-tabpanel opening-hours__panel ${key === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
-                <div className='js-tabfocus'>
-                  <div className='is-hidden-m is-hidden-l is-hidden-xl'>
-                    {groupedVenues[key].hours && groupedVenues[key].hours.map((place) => (
-                      <OpeningHoursTable
-                        key={place.id}
-                        place={place} />
-                    ))}
-                  </div>
-                  <div className='is-hidden-s'>
-                    <OpeningHoursTableGrouped venues={groupedVenues[key].hours} />
+            {groupedVenues && Object.keys(groupedVenues).map((key) => {
+              const id = `${idPrefix || ''}${key}`;
+              return (
+                <div key={id} id={id} className={`js-tabpanel opening-hours__panel ${id === this.state.activePlace ? 'opening-hours__panel--is-visible' : ''} ${extraClasses || ''}`}>
+                  <div className='js-tabfocus'>
+                    <div className='is-hidden-m is-hidden-l is-hidden-xl'>
+                      {groupedVenues[key].hours && groupedVenues[key].hours.map((place) => (
+                        <OpeningHoursTable
+                          key={place.id}
+                          place={place} />
+                      ))}
+                    </div>
+                    <div className='is-hidden-s'>
+                      <OpeningHoursTableGrouped venues={groupedVenues[key].hours} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         }
       </Fragment>

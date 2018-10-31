@@ -6,22 +6,14 @@ type GaEvent = {|
   label: string
 |};
 
-const maybeTrackEvent = (hasAnalytics) => {
-  if (hasAnalytics) {
-    const actuallyTrackEvent = ({ category, action, label }: GaEvent) => {
-      // $FlowFixMe
-      ga('send', {
-        hitType: 'event',
-        eventCategory: category,
-        eventAction: action,
-        eventLabel: label
-      });
-    };
-    return actuallyTrackEvent;
-  } else {
-    const noop = ({ category, action, label }: GaEvent) => {};
-    return noop;
+export const trackGaEvent = ({ category, action, label }: GaEvent) => {
+  if (typeof window !== 'undefined' && window && window.ga) {
+    // $FlowFixMe
+    ga('send', {
+      hitType: 'event',
+      eventCategory: category,
+      eventAction: action,
+      eventLabel: label
+    });
   }
 };
-
-export const trackGaEvent = maybeTrackEvent(typeof window !== 'undefined' && window && window.ga);

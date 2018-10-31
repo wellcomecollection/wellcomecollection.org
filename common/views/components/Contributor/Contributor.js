@@ -1,5 +1,5 @@
 // @flow
-import {font, grid, spacing} from '../../../utils/classnames';
+import {font, grid, spacing, classNames} from '../../../utils/classnames';
 import Image from '../Image/Image';
 import Avatar from '../Avatar/Avatar';
 import LinkLabels from '../LinkLabels/LinkLabels';
@@ -30,19 +30,27 @@ const Contributor = ({
         <div style={{minWidth: '78px'}} className={spacing({ s: 2 }, { margin: ['right'] })}>
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' &&
-            <Image {...imageProps} extraClasses={'width-inherit'} />
+            <div style={{width: '72px'}}>
+              <Image {...imageProps} extraClasses={'width-inherit'} />
+            </div>
           }
         </div>
         <div>
           {contributor.type === 'organisations' && contributor.url &&
-            <div className={font({s: 'HNM3'})}>
+            <h3 className={classNames({
+              [font({s: 'HNM3'})]: true,
+              'no-margin': true
+            })}>
               <a className='plain-link' href={contributor.url}>{contributor.name}</a>
-            </div>
+            </h3>
           }
           {!contributor.url &&
-            <div className={font({s: 'HNM3'})}>
+            <h3 className={classNames({
+              [font({s: 'HNM3'})]: true,
+              'no-margin': true
+            })}>
               {contributor.name}
-            </div>
+            </h3>
           }
           {role && role.title &&
             <div className={'font-pewter ' + font({s: 'HNM4'})}>
@@ -57,7 +65,10 @@ const Contributor = ({
           }
 
           {descriptionToRender &&
-            <div className={[spacing({s: 1}, {margin: ['top']}), font({s: 'HNL4'})].join(' ')}>
+            <div className={classNames({
+              [spacing({s: 1}, {margin: ['top']})]: true,
+              [font({s: 'HNL4'})]: true,
+              'spaced-text': true})}>
               <PrismicHtmlBlock html={descriptionToRender} />
             </div>
           }

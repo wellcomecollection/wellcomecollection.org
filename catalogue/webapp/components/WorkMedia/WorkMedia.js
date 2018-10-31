@@ -21,7 +21,7 @@ const WorkMedia = ({
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
   return (
     <div>
-      <div id={`work-media-${id}`} className='row bg-black work-media js-work-media'>
+      <div id={`work-media-${id}`} className='row bg-black font-white work-media js-work-media'>
         <Control
           type='dark'
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right'

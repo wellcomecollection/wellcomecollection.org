@@ -12,17 +12,9 @@ export default function WeDoc(css: string) {
     }
 
     render() {
-      const polyfillFeatures = [
-        'default',
-        'Array.prototype.find',
-        'Array.prototype.includes',
-        'WeakMap'
-      ];
       return (
         <html id='top' lang='en'>
           <Head>
-            <script src={`https://cdn.polyfill.io/v2/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
-            <script dangerouslySetInnerHTML={{ __html: `` }}></script>
             <style dangerouslySetInnerHTML={{ __html: css }} />
           </Head>
           <body>

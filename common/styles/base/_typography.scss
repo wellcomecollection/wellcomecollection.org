@@ -26,7 +26,8 @@ h6 {
   // stylelint-disable sh-waqar/declaration-use-variable
   font-size: 1em;
   // stylelint-enable sh-waqar/declaration-use-variable
-  margin-bottom: 0.6em;
+  margin: 0 0 0.6em;
+  font-weight: normal;
 }
 
 a {
@@ -62,8 +63,6 @@ hr {
   @include respond-to('medium') {
     @include font('WB3');
   }
-
-  margin-top: 0;
 }
 
 %h1,
@@ -72,10 +71,6 @@ hr {
 
   @include respond-to('medium') {
     @include font('WB4');
-  }
-
-  &:first-child {
-    margin-top: 0;
   }
 }
 
@@ -86,8 +81,6 @@ hr {
   @include respond-to('medium') {
     @include font('WB5');
   }
-
-  margin-top: 0;
 }
 
 %h3,
@@ -97,8 +90,6 @@ hr {
   @include respond-to('medium') {
     @include font('WB6');
   }
-
-  margin-top: 0;
 }
 
 .primary-link { // Applied to the PrimaryLink component
@@ -118,4 +109,22 @@ hr {
 
 .secondary-link {
   @include default-link;
+}
+
+.spaced-text {
+  p,
+  ul {
+    margin-bottom: 0;
+  }
+
+  // All elements with a preceding sibling get margin-top
+  // https://alistapart.com/article/axiomatic-css-and-lobotomized-owls
+  * + * {
+    margin-top: 1.6em;
+  }
+
+  // …but not as much margin-top for list items
+  li + li {
+    margin-top: 0.3em;
+  }
 }

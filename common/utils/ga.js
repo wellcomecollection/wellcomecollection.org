@@ -22,3 +22,18 @@ export type GaEvent = {|
 export function trackEvent(gaEvent: GaEvent) {
   ReactGA.event(gaEvent);
 }
+
+export function trackComponentAction(
+  name: string,
+  action: string,
+  labels: {[key]: string}
+) {
+  trackEvent({
+    category: 'component',
+    action: `${name}:${action}`,
+    label: Object.keys(labels).map(key => {
+      const val = labels[key];
+      return `${key}:${val}`;
+    }).join(', ')
+  });
+}

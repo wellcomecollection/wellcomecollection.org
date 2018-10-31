@@ -16,7 +16,8 @@ import {
   organisationsFields,
   peopleFields,
   contributorsFields,
-  eventPoliciesFields
+  eventPoliciesFields,
+  articleSeriesFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -134,7 +135,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       copyrightLink: null }
   }] : [promoThin, promoSquare].filter(Boolean).map(p => p.image).filter(Boolean);
 
-  const sizeInKb = Math.round(document.data.textAndCaptionsDocument.size / 1024);
+  const sizeInKb = isDocumentLink(document.data.textAndCaptionsDocument) ? Math.round(document.data.textAndCaptionsDocument.size / 1024) : null;
   const textAndCaptionsDocument = isDocumentLink(document.data.textAndCaptionsDocument) ? Object.assign({}, document.data.textAndCaptionsDocument, {sizeInKb}) : null;
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
@@ -306,7 +307,6 @@ type ExhibitionRelatedContent = {|
   exhibitionAbouts: MultiContent[]
 |}
 
-// TODO better naming
 export async function getExhibitionRelatedContent(req: ?Request, ids: string[]): Promise<ExhibitionRelatedContent> {
   const fetchLinks = [].concat(
     eventAccessOptionsFields,
@@ -321,7 +321,8 @@ export async function getExhibitionRelatedContent(req: ?Request, ids: string[]):
     contributorsFields,
     eventSeriesFields,
     eventPoliciesFields,
-    contributorsFields
+    contributorsFields,
+    articleSeriesFields
   );
   const types = ['events', 'installations', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, {fetchLinks});

@@ -202,7 +202,7 @@ module "events_listener" {
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
   priority = "112"
-  path = "/events/*"
+  path = "/events*"
 }
 
 module "articles_listener" {
@@ -245,6 +245,33 @@ module "books_listener" {
   path = "/books*"
 }
 
+module "homepage_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "117"
+  path = "/"
+}
+
+module "whats_on_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "118"
+  path = "/whats-on*"
+}
+
+module "stories_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "119"
+  path = "/stories"
+}
+
 module "preview_listener" {
   source = "../../shared-infra/terraform/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
@@ -261,4 +288,16 @@ module "management_listener" {
   target_group_arn = "${module.content.target_group_arn}"
   priority = "121"
   path = "/content/management*"
+}
+
+module "articles_list_listener" {
+  source = "../../shared-infra/terraform/service_alb_listener"
+  alb_listener_https_arn = "${local.alb_listener_https_arn}"
+  alb_listener_http_arn = "${local.alb_listener_http_arn}"
+  target_group_arn = "${module.content.target_group_arn}"
+  priority = "130"
+  # TODO: (wordpress)
+  # We're supporting wordpress articles for the time being,
+  # we'll be able to deprecate this for `/articles*`
+  path = "/articles"
 }

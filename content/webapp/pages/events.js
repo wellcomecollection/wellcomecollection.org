@@ -8,6 +8,7 @@ import type { GetInitialPropsProps } from '@weco/common/views/components/PageWra
 import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
+import {convertJsonToDates} from './event';
 
 type Props = {|
   displayTitle: string,
@@ -48,6 +49,11 @@ export class ArticleSeriesPage extends Component<Props> {
 
   render() {
     const { events, displayTitle, period } = this.props;
+    const convertedEvents = events.results.map(convertJsonToDates);
+    const convertedPaginatedResults = ({
+      ...events,
+      results: convertedEvents
+    }: PaginatedResults<UiEvent>);
 
     return (
       <LayoutPaginatedResults
@@ -57,7 +63,7 @@ export class ArticleSeriesPage extends Component<Props> {
           text: pageDescription,
           spans: []
         }]}
-        paginatedResults={events}
+        paginatedResults={convertedPaginatedResults}
         paginationRoot={`events${(period ? `/${period}` : '')}`}
       />
     );

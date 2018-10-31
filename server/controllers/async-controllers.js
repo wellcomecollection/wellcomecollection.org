@@ -86,7 +86,7 @@ const SeriesTransporter = ({series}: any) => {
           </div>
         </div>
       </Layout12>
-      <CardGrid items={series.items} />
+      <CardGrid items={series.items} hidePromoText={true} />
     </div>
   );
 };
@@ -97,7 +97,9 @@ export const seriesTransporter = async(ctx, next) => {
 
   ctx.body = {
     html: ReactDOMServer.renderToString(
-      React.createElement(SeriesTransporter, {series: seriesAndArticles.series})
+      React.createElement(SeriesTransporter, {
+        series: seriesAndArticles.series
+      })
     )
   };
 

@@ -3,6 +3,7 @@ import title from './parts/title';
 import list from './parts/list';
 import link from './parts/link';
 import promo from './parts/promo';
+import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 
 export default {
@@ -13,7 +14,8 @@ export default {
       config: {
         label: 'Webcomic'
       }
-    }
+    },
+    body
   },
   Contributors: contributorsWithTitle(),
   Series: {

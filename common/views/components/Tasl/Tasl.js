@@ -107,6 +107,7 @@ const Tasl = withToggler(({
           className='tasl__button plain-button js-show-hide-trigger absolute'>
           <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
             <Icon name='information' title='information' extraClasses='icon--white' />
+            <span className='visually-hidden'>information</span>
           </span>
           <span className='tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black'>
             <Icon name='cross' title='close' extraClasses='icon--white' />
@@ -125,6 +126,7 @@ const Tasl = withToggler(({
           className='tasl__button absolute plain-button js-show-hide-trigger'>
           <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
             <Icon name='information' title='information' extraClasses='icon--white' />
+            <span className='visually-hidden'>information</span>
           </span>
           <span className='tasl__icon tasl__icon--close flex--v-center flex--h-center bg-transparent-black'>
             <Icon name='cross' title='close' extraClasses='icon--white' />

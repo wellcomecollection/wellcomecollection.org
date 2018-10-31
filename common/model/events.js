@@ -87,7 +87,7 @@ export type EventSchedule = {|
 export type Event = {|
   ...GenericContentFields,
   format: ?EventFormat,
-  isDropIn: boolean,
+  hasEarlyRegistration: boolean,
   ticketSalesStart: ?Date,
   times: EventTime[],
   series: EventSeries[],

@@ -83,7 +83,6 @@ class ImageGallery extends Component<Props, State> {
               </span>
             }
             <div className={classNames({
-              [spacing({s: 10}, {margin: ['bottom']})]: true,
               'image-gallery-v2--standalone': isStandalone,
               'image-gallery-v2 row relative': true,
               'is-active font-white': isActive

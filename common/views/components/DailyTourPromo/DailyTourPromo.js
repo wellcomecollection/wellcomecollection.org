@@ -21,7 +21,7 @@ const image = {
 export const data = {
   type: 'events',
   id: 'tours',
-  title: 'Daily guided tours and discussions',
+  title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],
   place: null,
@@ -50,7 +50,7 @@ export const data = {
     repeats: 0
   },
   image: image,
-  isDropIn: false,
+  hasEarlyRegistration: false,
   labels: [{
     url: null,
     text: 'Gallery tour'

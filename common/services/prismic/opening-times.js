@@ -3,7 +3,17 @@ import Prismic from 'prismic-javascript';
 import {getDocuments} from './api';
 import {isDatePast, london} from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
-import type {Day, OverrideType, ExceptionalPeriod, OverrideDate, ExceptionalVenueHours, PlacesOpeningHours, ExceptionalOpeningHoursDay, Venue, periodModifiedHours} from '../../model/opening-hours';
+import type {
+  Day,
+  OverrideType,
+  ExceptionalPeriod,
+  OverrideDate,
+  ExceptionalVenueHours,
+  PlacesOpeningHours,
+  ExceptionalOpeningHoursDay,
+  Venue,
+  periodModifiedHours
+} from '../../model/opening-hours';
 import type {PrismicFragment} from '../../services/prismic/types';
 import type Moment from 'moment';
 

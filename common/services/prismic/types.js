@@ -12,7 +12,9 @@ export type PrismicDocument = {|
   first_publication_date: Date,
   last_publication_date: Date,
   data: any,
-  isBroken: ?boolean
+  isBroken: ?boolean,
+  link_type?: string,
+  url?: string
 |}
 
 export type PrismicApiSearchResponse = {|

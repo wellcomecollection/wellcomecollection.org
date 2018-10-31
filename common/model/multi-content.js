@@ -4,12 +4,14 @@
 // TODO: Find a way to enforce ☝️
 import type {Page} from './pages';
 import type {EventSeries} from './event-series';
+import type {ArticleSeries} from './article-series';
 import type {Book} from './books';
 import type {UiEvent} from './events';
 import type {Installation} from './installations';
 import type {Article} from './articles';
 import type {ArticleScheduleItem} from './article-schedule-items';
 import type {UiExhibition} from './exhibitions';
+import type {Weblink} from './weblinks';
 
 export type MultiContent =
   | Page
@@ -19,4 +21,6 @@ export type MultiContent =
   | Article
   | Installation
   | ArticleScheduleItem
-  | UiExhibition;
+  | UiExhibition
+  | Weblink
+  | ArticleSeries;

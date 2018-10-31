@@ -89,7 +89,6 @@ export type Event = {|
   identifiers: Array<Identifier>,
   title: string,
   format: ?EventFormat,
-  isDropIn: boolean,
   times: Array<EventTime>,
   description: ?HTMLString,
   series: Array<EventSeries>,
@@ -156,7 +155,6 @@ export const eventExample = ({
       '<a href="mailto:access@wellcomecollection.org">access@wellcomecollection.org</a>\n' +
       'or call 020 7611 222'
   },
-  isDropIn: true,
   times: [
     {
       isFullyBooked: false,

@@ -24,11 +24,13 @@ class AsyncSearchResults extends Component<Props, State> {
   render () {
     return (
       <Fragment>
-        <div className='grid'>
-          <div className={grid({s: 12})}>
-            <h2 className='h2'>{this.props.title}</h2>
+        {this.props.title &&
+          <div className='grid'>
+            <div className={grid({s: 12})}>
+              <h2 className='h2'>{this.props.title}</h2>
+            </div>
           </div>
-        </div>
+        }
 
         {!(this.state.items && this.state.items.length > 0) &&
           <div
