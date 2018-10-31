@@ -105,13 +105,14 @@ type NextComponent = {
 const PageWrapper = (Comp: NextComponent) => {
   return class Global extends Component<Props> {
     static async getInitialProps(context: GetInitialPropsProps) {
-      const globalAlertData = context.query.globalAlert;
-      const globalAlert = {
-        text: asHtml(globalAlertData.text),
-        isShown: globalAlertData.isShown === 'show'
-      };
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
+
+      const globalAlert = context.req ? {
+        text: asHtml(context.query.globalAlert.text),
+        isShown: context.query.globalAlert.isShown === 'show'
+      } : clientStore && clientStore.get('openingTimes');
+
       const openingTimes = context.req
         ? await fetchOpeningTimes(context.req)
         : clientStore && clientStore.get('openingTimes');
