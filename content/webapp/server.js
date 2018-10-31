@@ -6,6 +6,7 @@ const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
 const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
+const withOpeningTimes = require('@weco/common/koa-middleware/withOpeningTimes');
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -84,11 +85,12 @@ function setCohortCookie(ctx, next) {
 
 function pageVanityUrl(router, app, url, pageId) {
   router.get(url, async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/page', {
       id: pageId,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
@@ -123,196 +125,217 @@ app.prepare().then(async () => {
 
   // server cached values
   server.use(withGlobalAlert);
+  server.use(withOpeningTimes);
 
   // Next routing
   router.get('/', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/homepage', {
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/whats-on', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/whats-on', {
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get(`/whats-on/:period(${periodPaths})`, async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/whats-on', {
       period: ctx.params.period,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/exhibitions', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     const {page} = ctx.query;
     await app.render(ctx.req, ctx.res, '/exhibitions', {
       page,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get(`/exhibitions/:period(${periodPaths})`, async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     const {page} = ctx.query;
     await app.render(ctx.req, ctx.res, '/exhibitions', {
       period: ctx.params.period,
       page,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get('/exhibitions/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/exhibition', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/events', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/events', {
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get(`/events/:period(${periodPaths})`, async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/events', {
       period: ctx.params.period,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get('/events/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/event', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/articles', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/articles', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get('/articles/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/article', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/series/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/article-series', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/books', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     const {page} = ctx.query;
     await app.render(ctx.req, ctx.res, '/books', {
       page,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get('/books/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/book', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/event-series/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/event-series', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/places/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/place', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/pages/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/page', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/installations/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/installation', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/opening-times', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/opening-times', {
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
 
   router.get('/newsletter', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/newsletter', {
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
