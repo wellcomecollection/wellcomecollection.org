@@ -6,7 +6,7 @@
     "app:build": "webpack",
     "app:dev": "../node_modules/.bin/nodemon --config ./nodemon.json --exec babel-node --inspect=4000 app.js",
     "optimise:svg": "node ./optimise-svgs.js",
-    "test": "ava && flow",
+    "test": "flow",
     "test:accessibility": "pa11y",
     "test:browsers": "node ./browserstack/browserstack.js",
     "test:typecheck-watch": "flow-bro watch",
