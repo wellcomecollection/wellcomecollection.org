@@ -1,6 +1,7 @@
 // @flow
 import type {Element, ElementProps} from 'react';
 import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
@@ -46,15 +47,16 @@ const CompactCard = ({
   return (
     <Tag
       data-component={promoType}
-      data-track-event={JSON.stringify({
-        category: 'component',
-        action: `${promoType}:click`
-      })}
       href={urlOverride || url}
       className={conditionalClassNames({
         'grid plain-link': true,
         [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
+      })}
+      onClick={() => trackEvent({
+        category: 'component',
+        action: `${promoType}:click`,
+        label: `title:${title}`
       })}>
       {labels.labels.length > 0 &&
         <div className={conditionalClassNames({
