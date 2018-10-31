@@ -4,6 +4,7 @@ const next = require('next');
 const Cookies = require('cookies');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
 const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
+const withOpeningTimes = require('@weco/common/koa-middleware/withOpeningTimes');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -96,35 +97,39 @@ app.prepare().then(async () => {
 
   // server cached values
   server.use(withGlobalAlert);
+  server.use(withOpeningTimes);
 
   // Next routing
   router.get('/embed/works/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/embed', {
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get('/works/:id', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/work', {
       page: ctx.query.page,
       query: ctx.query.query,
       id: ctx.params.id,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
   router.get('/works', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/works', {
       page: ctx.query.page,
       query: ctx.query.query,
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
