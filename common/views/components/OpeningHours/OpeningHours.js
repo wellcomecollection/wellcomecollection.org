@@ -41,7 +41,7 @@ class OpeningHours extends Component<Props, State> {
 
     return (
       <Fragment>
-        {groupedVenues && !(groupedVenues[Object.keys(groupedVenues)[0]].hours.length > 1) &&
+        {groupedVenues && !(groupedVenues[Object.keys(groupedVenues)[0]].hours && groupedVenues[Object.keys(groupedVenues)[0]].hours.length > 1) &&
           <p className={spacing({s: 2}, {margin: ['bottom']})}>
             <a className={font({s: 'HNL6', m: 'HNL5'})} href='https://wellcomecollection.org/opening-times'>
               Opening times
