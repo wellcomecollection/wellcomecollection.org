@@ -1,6 +1,11 @@
 const parseCookies = function(req) {
-  return (req.headers.cookie || '').split(';').map(cookieString => {
+  if (!req.headers.cookie) {
+    return [];
+  }
+
+  return (req.headers.cookie).split(';').map(cookieString => {
     const keyVal = cookieString.split('=');
+    console.info(keyVal, cookieString);
     const key = keyVal[0].trim();
     const value = keyVal[1].trim();
 
