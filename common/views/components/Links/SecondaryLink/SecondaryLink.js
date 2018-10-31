@@ -30,7 +30,6 @@ const SecondaryLink = ({
   return (
     <NextLink href={url}>
       <a
-        data-track-event={trackingEvent && JSON.stringify(trackingEvent)}
         onClick={handleClick}
         className={conditionalClassNames({
           'secondary-link': true,

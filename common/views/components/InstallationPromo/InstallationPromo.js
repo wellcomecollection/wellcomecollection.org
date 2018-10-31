@@ -1,5 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import Image from '../Image/Image';
 import type {Picture} from '../../../model/picture';
 
@@ -16,12 +17,10 @@ type Props = {|
 const InstallationPromo = ({ id, title, description, image, start, end, position = 0 }: Props) => {
   return (
     <a
-      data-component='InstallationPromo'
-      data-component-state={JSON.stringify({ position: position })}
-      data-track-event={JSON.stringify({
+      onClick={() => trackEvent({
         category: 'component',
-        action: 'InstallationPromo:click',
-        label: `id: ${id}, position: ${position}`
+        action: `InstallationPromo:click`,
+        label: `title:${title}, position:${position}`
       })}
       id={id}
       href={`/installations/${id}`}
