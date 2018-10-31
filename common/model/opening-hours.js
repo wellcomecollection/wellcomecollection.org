@@ -74,7 +74,7 @@ export type CollectionOpeningTimes = {
   exceptionalClosedDates: ?{
     periodStart: Moment,
     periodEnd: Moment,
-    Venues: {
+    venues: {
       [string]: ExceptionalVenueHours[]
     }
   }

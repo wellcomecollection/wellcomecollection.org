@@ -91,7 +91,8 @@ type GetInitialPropsServerProps = {|
 
 // TODO: (Type)
 export type ExtraProps = {
-  toggles?: any
+  toggles?: any,
+  openingTimes: any
 };
 
 export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
@@ -109,26 +110,23 @@ const PageWrapper = (Comp: NextComponent) => {
         isShown: globalAlertData.isShown === 'show'
       };
 
+      const openingTimes = parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes));
+
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
       const toggles = context.req
         ? context.query.toggles
         : clientStore && clientStore.get('toggles');
 
-      const openingTimes = context.req
-        ? parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes))
-        : clientStore && clientStore.get('openingTimes');
-
       if (serverStore) {
         serverStore.set('toggles', toggles);
-        serverStore.set('openingTimes', openingTimes);
       }
 
       return {
         openingTimes,
         toggles,
         globalAlert,
-        ...(Comp.getInitialProps ? await Comp.getInitialProps(context, {toggles}) : null)
+        ...(Comp.getInitialProps ? await Comp.getInitialProps(context, {toggles, openingTimes}) : null)
       };
     }
 
@@ -137,9 +135,6 @@ const PageWrapper = (Comp: NextComponent) => {
 
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
-      }
-      if (clientStore && !clientStore.get('openingTimes')) {
-        clientStore.set('openingTimes', props.openingTimes);
       }
     }
 
