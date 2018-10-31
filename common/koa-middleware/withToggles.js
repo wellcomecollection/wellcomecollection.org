@@ -5,7 +5,6 @@ const parseCookies = function(req) {
 
   return (req.headers.cookie).split(';').map(cookieString => {
     const keyVal = cookieString.split('=');
-    console.info(keyVal, cookieString);
     const key = keyVal[0].trim();
     const value = keyVal[1].trim();
 
@@ -18,7 +17,7 @@ function withToggles(ctx, next) {
   const togglesCookies = cookies.filter(cookie => cookie.key.startsWith('toggle_'));
   const toggles = togglesCookies.reduce((acc, cookie) => {
     return Object.assign({}, acc, {
-      [cookie.key]: cookie.value === 'true'
+      [cookie.key.replace('toggle_', '')]: cookie.value === 'true'
     });
   }, {});
 

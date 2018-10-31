@@ -197,54 +197,6 @@ jobs:
           paths:
             -  ~/wellcomecollection.org/dist
             -  ~/wellcomecollection.org/server/views/partials/critical.css.njk
-  build_whats_on_webapp:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org/whats_on/app
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: server_modules_circleci_node_8_{{ checksum "../../server/package.json" }}
-      - restore_cache:
-          keys:
-            - common_modules_circleci_node_8_{{ checksum "package.json" }}
-            - common_modules_circleci_node_8_
-      - restore_cache:
-          key: built_dist_{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install modules
-          command: yarn install
-      - run:
-          name: Test
-          command: yarn test
-      - run:
-          name: Build prod config
-          command: pushd ../../ && ./build_prod_config.py && popd
-      - run:
-          name: Build
-          command: yarn app:build
-      - save_cache:
-          key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - .dist
-  deploy_whats_on_webapp:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: built_whats_on_webapp_{{ .Environment.CIRCLE_SHA1 }}
-      - add_ssh_keys
-      - setup_remote_docker
-      - run:
-          name: Deploy
-          command: |
-            docker login --username $DOCKER_USER --password $DOCKER_PASS
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml build
-            CONTAINER_TAG=${CIRCLE_SHA1} docker-compose --file ./build/whats_on_webapp.yml push
   build_eventbrite_webapp:
     docker:
       - image: circleci/node:8.11.3
@@ -443,13 +395,6 @@ workflows:
       - build_client:
           requires:
             - checkout_code
-      - build_whats_on_webapp:
-          requires:
-            - checkout_code
-            - root_tests
-            - build_client
-            - install_server_modules
-            - install_common_modules
       - build_eventbrite_webapp:
           requires:
             - checkout_code
@@ -464,13 +409,6 @@ workflows:
             - build_client
             - install_server_modules
             - install_common_modules
-      - deploy_whats_on_webapp:
-          requires:
-            - build_whats_on_webapp
-          filters:
-            branches:
-              only:
-                - master
       - deploy_eventbrite_webapp:
           requires:
             - build_eventbrite_webapp
