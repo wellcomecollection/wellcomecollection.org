@@ -144,10 +144,11 @@ app.prepare().then(async () => {
   });
 
   router.get('/stories', async ctx => {
-    const {toggles, globalAlert} = ctx;
+    const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/stories', {
       toggles,
-      globalAlert
+      globalAlert,
+      openingTimes
     });
     ctx.respond = false;
   });
