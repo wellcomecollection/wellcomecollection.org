@@ -73,6 +73,7 @@ const Promo = ({
   const seriesTitle =  series && getSeriesTitle(series);
   const commissionedSeries = series && series.find(item => item.commissionedLength);
   const iconName = getIconForContentType(contentType);
+  const sixteenNineCrop = image && image.crops && image.crops['16:9'];
 
   return (
     <PromoTag id={id}
@@ -88,7 +89,7 @@ const Promo = ({
         {image
           ? <Image
             width={image.width}
-            contentUrl={image.contentUrl}
+            contentUrl={sixteenNineCrop ? sixteenNineCrop.contentUrl : image.contentUrl}
             lazyload={true}
             sizesQueries={sizes}
             clipPathClass={series && commissionedSeries && positionInSeries && url ? 'promo__clip-path--chapters-third' : ''}
