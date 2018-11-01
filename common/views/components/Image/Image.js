@@ -4,6 +4,12 @@ import {convertImageUri} from '../../../utils/convert-image-uri';
 import {imageSizes} from '../../../utils/image-sizes';
 import {Fragment} from 'react';
 
+type ImageCrops = {|
+  '16:9': {contentUrl: string},
+  '32:15': {contentUrl: string},
+  'square': {contentUrl: string}
+|}
+
 export type Props = {|
   contentUrl: string,
   width: number,
@@ -18,6 +24,7 @@ export type Props = {|
   clickHandler?: () => void,
   zoomable?: boolean,
   extraClasses?: string,
+  crops?: ImageCrops,
   style?: { [string]: any } // TODO: find flowtype for this
 |}
 
