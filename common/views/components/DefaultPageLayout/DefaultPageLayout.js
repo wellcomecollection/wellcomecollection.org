@@ -170,8 +170,8 @@ type Props = {|
 
 class DefaultPageLayout extends Component<Props> {
   componentDidMount() {
-    const { analyticsCategory, featuresCohort } = this.props;
-    analytics({analyticsCategory, featuresCohort});
+    const { analyticsCategory, featuresCohort, pageState } = this.props;
+    analytics({analyticsCategory, featuresCohort, pageState});
 
     // $FlowFixMe
     const lazysizes = require('lazysizes');
@@ -270,8 +270,8 @@ class DefaultPageLayout extends Component<Props> {
   }
 
   componentDidUpdate() {
-    const { analyticsCategory, featuresCohort } = this.props;
-    analytics({analyticsCategory, featuresCohort});
+    const { analyticsCategory, featuresCohort, pageState } = this.props;
+    analytics({analyticsCategory, featuresCohort, pageState});
   }
 
   render() {

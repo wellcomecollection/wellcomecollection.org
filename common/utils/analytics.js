@@ -62,8 +62,8 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
   if (referringComponentListString) {
     ReactGA.set({'dimension7': referringComponentListString});
   }
-  if (pageState) {
-    ReactGA.set({'dimension8': pageState});
+  if (pageState && Object.keys(pageState) > 0) {
+    ReactGA.set({'dimension8': JSON.stringify(pageState)});
   };
 
   ReactGA.plugin.require('GTM-NXMJ6D9');

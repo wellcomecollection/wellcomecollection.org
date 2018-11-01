@@ -104,16 +104,19 @@ type NextComponent = {
 const PageWrapper = (Comp: NextComponent) => {
   return class Global extends Component<Props> {
     static async getInitialProps(context: GetInitialPropsProps) {
-      const globalAlertData = context.query.globalAlert;
-      const globalAlert = {
-        text: asHtml(globalAlertData.text),
-        isShown: globalAlertData.isShown === 'show'
-      };
-
-      const openingTimes = context.req ? parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes)) : clientStore && clientStore.get('openingTimes');
 
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
+
+      const globalAlert = context.req ? {
+        text: asHtml(context.query.globalAlert.text),
+        isShown: context.query.globalAlert.isShown === 'show'
+      } : clientStore && clientStore.get('globalAlert');
+
+      const openingTimes = context.req
+        ? parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes))
+        : clientStore && clientStore.get('openingTimes');
+
       const toggles = context.req
         ? context.query.toggles
         : clientStore && clientStore.get('toggles');
@@ -135,6 +138,10 @@ const PageWrapper = (Comp: NextComponent) => {
 
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
+      }
+      
+      if (clientStore && !clientStore.get('globalAlert')) {
+        clientStore.set('globalAlert', props.globalAlert);
       }
 
       if (clientStore && !clientStore.get('openingTimes')) {
