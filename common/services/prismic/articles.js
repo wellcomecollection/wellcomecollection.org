@@ -110,6 +110,9 @@ const graphQuery = `{
       ... on articles {
         title
       }
+      ... on webcomics {
+        title
+      }
       ... on series {
         title
       }
@@ -136,6 +139,9 @@ const graphQuery = `{
       ... on articles {
         title
       }
+      ... on webcomics {
+        title
+      }
       ... on series {
         title
       }
@@ -160,6 +166,9 @@ const graphQuery = `{
         title
       }
       ... on articles {
+        title
+      }
+      ... on webcomics {
         title
       }
       ... on series {
