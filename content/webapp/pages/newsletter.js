@@ -3,13 +3,17 @@ import {Component} from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {spacing, grid} from '@weco/common/utils/classnames';
+import parseQueryString from '@weco/common/utils/parse-query-string';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 type Props = {|
   result: ?string
 |}
 export class NewsletterPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {result} = context.query;
+    const { asPath } = context;
+    const queries = parseQueryString(asPath);
+    const { result } = queries;
+
     return {
       title: 'Newsletter',
       description: 'Sign up for news and information from Wellcome Collection',
@@ -22,7 +26,8 @@ export class NewsletterPage extends Component<Props> {
     };
   }
   render() {
-    const {result} = this.props;
+    const { result } = this.props;
+
     return (
       <div className={spacing({s: 4}, {margin: ['top']})}>
         <div className={`row ${spacing({s: 8}, {padding: ['bottom']})}`}>
