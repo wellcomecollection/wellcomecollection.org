@@ -14,7 +14,7 @@ import {
   dailyTourPromo
 } from '@weco/common/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {default as PageWrapper} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
@@ -27,7 +27,7 @@ import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEv
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 import InstallationPromo from '@weco/common/views/components/InstallationPromo/InstallationPromo';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import type {GetInitialPropsProps, ExtraProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {UiEvent} from '@weco/common/model/events';
 import type {Period} from '@weco/common/model/periods';
@@ -39,11 +39,12 @@ type Props = {|
   period: string,
   dateRange: any[],
   tryTheseTooPromos: any[],
-  eatShopPromos: any[]
+  eatShopPromos: any[],
+  openingTimesFudge: any // TODO
 |}
 
-export function getListHeader(collectionOpeningTimes: any = {}) {
-  const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
+function getListHeader(collectionOpeningTimes: any = {}) {
+  const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours.length > 1 && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
   return {
     todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),
     name: 'What\'s on',
@@ -97,22 +98,23 @@ function getWeekendToDate(today) {
     return london(today).day(7);
   }
 }
-
 type DateRangeProps = {|
   dateRange: any,
   period: string,
   cafePromo: any,
-  shopPromo: any
+  shopPromo: any,
+  openingTimes: any // TODO
 |}
 const DateRange = ({
   dateRange,
   period,
   cafePromo,
-  shopPromo
+  shopPromo,
+  openingTimes
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  const openingTimes = pageStore('openingTimes');
+
   // $FlowFixMe
   const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
   const listHeader = getListHeader(collectionOpeningTimes);
@@ -165,13 +167,13 @@ const DateRange = ({
 };
 
 type HeaderProps = {|
-  activeId: string
+  activeId: string,
+  openingTimes: any // TODO
 |}
 const Header = ({
-  activeId
+  activeId,
+  openingTimes
 }: HeaderProps) => {
-  const openingTimes = pageStore('openingTimes');
-  // $FlowFixMe
   const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
   const listHeader = getListHeader(collectionOpeningTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
@@ -254,7 +256,10 @@ const Header = ({
 
 const pageDescription = 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
 export class WhatsOnPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
+  static getInitialProps = async (
+    context: GetInitialPropsProps,
+    {openingTimes}: ExtraProps
+  ) => {
     const period = context.query.period || 'current-and-coming-up';
     const exhibitionsPromise = getExhibitions(context.req, {
       period,
@@ -287,7 +292,8 @@ export class WhatsOnPage extends Component<Props> {
         canonicalUrl: `https://wellcomecollection.org/whats-on`,
         imageUrl: exhibitions.results[0].promoImage,
         siteSection: 'whatson',
-        analyticsCategory: 'public-programme'
+        analyticsCategory: 'public-programme',
+        openingTimesFudge: openingTimes // TODO if this is called openingTimes, it doesn't appear on this.props for some reason
       };
     } else {
       return {statusCode: 404};
@@ -299,8 +305,10 @@ export class WhatsOnPage extends Component<Props> {
       period,
       dateRange,
       tryTheseTooPromos,
-      eatShopPromos
+      eatShopPromos,
+      openingTimesFudge
     } = this.props;
+
     const events = this.props.events.results.map(convertJsonToDates);
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
@@ -312,7 +320,10 @@ export class WhatsOnPage extends Component<Props> {
 
     return (
       <Fragment>
-        <Header activeId={period} />
+        <Header
+          activeId={period}
+          openingTimes={openingTimesFudge}
+        />
 
         <div className={classNames({
           [spacing({s: 2, m: 4}, {margin: ['top']})]: true
@@ -332,6 +343,7 @@ export class WhatsOnPage extends Component<Props> {
                       period={period}
                       cafePromo={eatShopPromos[0]}
                       shopPromo={eatShopPromos[1]}
+                      openingTimes={openingTimesFudge}
                     />
                     <div className='flex flex--v-center flex--h-space-between'>
                       <h2 className='h1'>Exhibitions</h2>
@@ -377,6 +389,7 @@ export class WhatsOnPage extends Component<Props> {
                       period={period}
                       cafePromo={eatShopPromos[0]}
                       shopPromo={eatShopPromos[1]}
+                      openingTimes={openingTimesFudge}
                     />
                     <div className='flex flex--v-center flex--h-space-between'>
                       <h2 className='h1'>Exhibitions and Events</h2>

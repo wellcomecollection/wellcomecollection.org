@@ -12,7 +12,7 @@ import type Moment from 'moment';
 type Props = {|
   openingHoursId: string,
   groupedVenues: GroupedVenues,
-  upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[],
+  upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[],
   // TODO: make this openingHoursExtraClasses (or something else)
   extraClasses?: string
 |}

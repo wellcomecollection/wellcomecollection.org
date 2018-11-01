@@ -233,7 +233,7 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-function parseVenuesToOpeningHours(doc: PrismicFragment) {
+export function parseVenuesToOpeningHours(doc: PrismicFragment) {
   const placesOpeningHours =  doc.results.map((venue) => {
     const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map((modified) => {
       const start = modified.startDateTime && london(modified.startDateTime).format('HH:mm');

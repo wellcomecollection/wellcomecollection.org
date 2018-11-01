@@ -1,13 +1,13 @@
 // @flow
 import {Component} from 'react';
 import {asHtml} from '../../../services/prismic/parsers';
-import {getCollectionOpeningTimes} from '../../../services/prismic/opening-times';
+import {parseVenuesToOpeningHours} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
 import ErrorPage from '../BasePage/ErrorPage';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
 import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
-import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
+import type {GroupedVenues, OverrideType, CollectionOpeningTimes} from '../../../model/opening-hours';
 
 const isServer = typeof window === 'undefined';
 // As this is a store, it's mutable
@@ -22,8 +22,7 @@ export function pageStore(prop: string) {
   return val || {};
 }
 
-async function fetchOpeningTimes(req: Request) {
-  const openingTimes = await getCollectionOpeningTimes(req);
+function parseOpeningHours(openingTimes) {
   const galleriesLibrary = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
     return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
   });
@@ -58,10 +57,9 @@ type Props = {|
   siteSection: SiteSection,
   analyticsCategory: string,
   openingTimes: {
-    // TODO: Flow fix
-    collectionOpeningTimes: any,
+    collectionOpeningTimes: CollectionOpeningTimes,
     groupedVenues: GroupedVenues,
-    upcomingExceptionalOpeningPeriods: {dates: Moment[], type: OverrideType}[]
+    upcomingExceptionalOpeningPeriods: ?{dates: Moment[], type: OverrideType}[]
   },
   toggles: any,
   pageState?: ?Object,
@@ -93,7 +91,8 @@ type GetInitialPropsServerProps = {|
 
 // TODO: (Type)
 export type ExtraProps = {
-  toggles?: any
+  toggles?: any,
+  openingTimes: any
 };
 
 export type GetInitialPropsProps = GetInitialPropsServerProps | GetInitialPropsClientProps
@@ -105,16 +104,17 @@ type NextComponent = {
 const PageWrapper = (Comp: NextComponent) => {
   return class Global extends Component<Props> {
     static async getInitialProps(context: GetInitialPropsProps) {
+
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
 
       const globalAlert = context.req ? {
         text: asHtml(context.query.globalAlert.text),
         isShown: context.query.globalAlert.isShown === 'show'
-      } : clientStore && clientStore.get('openingTimes');
+      } : clientStore && clientStore.get('globalAlert');
 
       const openingTimes = context.req
-        ? await fetchOpeningTimes(context.req)
+        ? parseOpeningHours(parseVenuesToOpeningHours(context.query.openingTimes))
         : clientStore && clientStore.get('openingTimes');
 
       const toggles = context.req
@@ -122,7 +122,6 @@ const PageWrapper = (Comp: NextComponent) => {
         : clientStore && clientStore.get('toggles');
 
       if (serverStore) {
-        serverStore.set('openingTimes', openingTimes);
         serverStore.set('toggles', toggles);
       }
 
@@ -130,19 +129,23 @@ const PageWrapper = (Comp: NextComponent) => {
         openingTimes,
         toggles,
         globalAlert,
-        ...(Comp.getInitialProps ? await Comp.getInitialProps(context, {toggles}) : null)
+        ...(Comp.getInitialProps ? await Comp.getInitialProps(context, {toggles, openingTimes}) : null)
       };
     }
 
     constructor(props: Props) {
       super(props);
 
-      if (clientStore && !clientStore.get('openingTimes')) {
-        clientStore.set('openingTimes', props.openingTimes);
-      }
-
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
+      }
+      
+      if (clientStore && !clientStore.get('globalAlert')) {
+        clientStore.set('globalAlert', props.globalAlert);
+      }
+
+      if (clientStore && !clientStore.get('openingTimes')) {
+        clientStore.set('openingTimes', props.openingTimes);
       }
     }
 
