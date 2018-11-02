@@ -10,6 +10,7 @@
     "test": "jest --transformIgnorePatterns 'node_modules(?!/@weco(?!.*node_modules))' --no-cache"
   },
   "dependencies": {
+    "@babel/preset-flow": "^7.0.0",
     "@weco/common": "../../common",
     "autoprefixer": "^8.3.0",
     "cookies": "^0.7.1",
