@@ -119,8 +119,8 @@ export class StoriesPage extends Component<Props> {
                     type: 'paragraph',
                     text: 'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are. (Want to write for us? Here\'s how.)',
                     spans: [{
-                      start: 57,
-                      end: 89,
+                      start: 145,
+                      end: 177,
                       type: 'hyperlink',
                       data: {
                         link_type: 'Web',

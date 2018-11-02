@@ -3,8 +3,9 @@ const Router = require('koa-router');
 const next = require('next');
 const Cookies = require('cookies');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
-const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
-const withOpeningTimes = require('@weco/common/koa-middleware/withOpeningTimes');
+const {
+  middleware, route
+} = require('@weco/common/koa-middleware/withCachedValues');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -38,8 +39,6 @@ function setUserEnabledToggles(ctx, next) {
 
 function getToggles(ctx, next) {
   const cookies = new Cookies(ctx.req, ctx.res);
-  // Leaving this here as we might need it for `ActiveForUserInCohort`
-  // const cohort = cookies.get('WC_featuresCohort');
   let userEnabledToggles = {};
   try {
     userEnabledToggles = JSON.parse(cookies.get('toggles'));
@@ -51,20 +50,6 @@ function getToggles(ctx, next) {
     })
   };
 
-  return next();
-}
-
-function setCohortCookie(ctx, next) {
-  const cohort = ctx.query.cohort;
-  if (cohort) {
-    const cookies = new Cookies(ctx.req, ctx.res);
-    cookies.set('WC_featuresCohort', cohort, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      overwrite: true,
-      path: '/',
-      domain: dev ? null : 'wellcomecollection.org'
-    });
-  }
   return next();
 }
 
@@ -91,48 +76,17 @@ app.prepare().then(async () => {
   }
 
   // Feature toggles
-  server.use(setCohortCookie);
   server.use(setUserEnabledToggles);
   server.use(getToggles);
 
   // server cached values
-  server.use(withGlobalAlert);
-  server.use(withOpeningTimes);
+  server.use(middleware);
 
   // Next routing
-  router.get('/embed/works/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/embed', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get('/works/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/work', {
-      page: ctx.query.page,
-      query: ctx.query.query,
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get('/works', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/works', {
-      page: ctx.query.page,
-      query: ctx.query.query,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/embed/works/:id', '/embed', router, app);
+  route('/works/:id', '/work', router, app);
+  route('/works', '/works', router, app);
+
   router.get('/works/management/healthcheck', async ctx => {
     ctx.status = 200;
     ctx.body = 'ok';

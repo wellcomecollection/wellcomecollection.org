@@ -14,7 +14,6 @@ import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import {breakpoints} from '../../../utils/breakpoints';
 import type {Node, Element, ElementProps} from 'react';
 import type {GenericContentFields} from '../../../model/generic-content-fields';
-import {sized} from '../../../utils/style';
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -162,14 +161,9 @@ const PageHeader = ({
           [spacing({s: 3, m: 4}, {padding: ['top']})]: true
         })} style={{height: '100%'}}>
           <div
-            style={{
-              height: '50%',
-              width: '100%',
-              bottom: `-${sized(13)}`
-            }}
             className={classNames({
               [`bg-${heroImageBgColor}`]: true,
-              'absolute': true
+              'hero-picture-bg absolute': true
             })}></div>
           <div
             style={{maxWidth: '1450px'}}

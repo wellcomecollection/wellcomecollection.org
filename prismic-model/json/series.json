@@ -1,12 +1,5 @@
 {
   "Article series": {
-    "name": {
-      "type": "Text",
-      "config": {
-        "label": "Title",
-        "useAsTitle": true
-      }
-    },
     "title": {
       "type": "StructuredText",
       "config": {
