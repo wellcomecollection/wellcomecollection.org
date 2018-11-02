@@ -51,66 +51,13 @@ app.prepare().then(async () => {
   route(`/exhibitions/:period(${periodPaths})`, '/exhibitions', router, app);
   route('/exhibitions/:id', '/exhibition', router, app);
 
-  router.get('/events', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/events', {
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get(`/events/:period(${periodPaths})`, async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/events', {
-      period: ctx.params.period,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get('/events/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/event', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/events', '/events', router, app);
+  route(`/events/:period(${periodPaths})`, '/events', router, app);
+  route('/events/:id', '/event', router, app);
 
-  router.get('/stories', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/stories', {
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/articles', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/articles', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get('/articles/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/article', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/stories', '/stories', router, app);
+  route('/articles', '/articles', router, app);
+  route('/articles/:id', '/article', router, app);
 
   router.get('/series/:id', async ctx => {
     const {toggles, globalAlert, openingTimes} = ctx;

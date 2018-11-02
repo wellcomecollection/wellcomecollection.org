@@ -14,11 +14,14 @@ async function route(path, page, router, app) {
   router.get(path, async ctx => {
     const {toggles, globalAlert, openingTimes} = ctx;
     const params = ctx.params;
+    const query = ctx.query;
+
     await app.render(ctx.req, ctx.res, page, {
       toggles,
       globalAlert,
       openingTimes,
-      ...params
+      ...params,
+      ...query
     });
     ctx.respond = false;
   });
