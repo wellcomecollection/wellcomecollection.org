@@ -3,9 +3,9 @@ const Router = require('koa-router');
 const next = require('next');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
-const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
-const withOpeningTimes = require('@weco/common/koa-middleware/withOpeningTimes');
-const withToggles = require('@weco/common/koa-middleware/withToggles');
+const {
+  middlesware, route
+} = require('@weco/common/koa-middleware/withCachedValues');
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -41,77 +41,15 @@ app.prepare().then(async () => {
   const server = new Koa();
   const router = new Router();
 
-  // Feature toggles
-  server.use(withToggles);
+  server.use(middlesware);
 
-  // server cached values
-  server.use(withGlobalAlert);
-  server.use(withOpeningTimes);
+  route('/', '/homepage', router, app);
+  route('/whats-on', '/whats-on', router, app);
+  route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, app);
 
-  // Next routing
-  router.get('/', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/homepage', {
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/whats-on', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/whats-on', {
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get(`/whats-on/:period(${periodPaths})`, async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/whats-on', {
-      period: ctx.params.period,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/exhibitions', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    const {page} = ctx.query;
-    await app.render(ctx.req, ctx.res, '/exhibitions', {
-      page,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get(`/exhibitions/:period(${periodPaths})`, async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    const {page} = ctx.query;
-    await app.render(ctx.req, ctx.res, '/exhibitions', {
-      period: ctx.params.period,
-      page,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get('/exhibitions/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/exhibition', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/exhibitions', '/exhibitions', router, app);
+  route(`/exhibitions/:period(${periodPaths})`, '/exhibitions', router, app);
+  route('/exhibitions/:id', '/exhibition', router, app);
 
   router.get('/events', async ctx => {
     const {toggles, globalAlert, openingTimes} = ctx;

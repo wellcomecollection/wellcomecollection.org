@@ -16,6 +16,7 @@
     "immutable": "^3.8.2",
     "isomorphic-unfetch": "^2.1.1",
     "jest": "^22.4.3",
+    "koa-compose": "^4.1.0",
     "lazysizes": "^4.0.1",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
