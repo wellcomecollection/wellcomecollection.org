@@ -10,9 +10,6 @@ const services = {
   catalogue: {
     containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/catalogue_webapp'
   },
-  eventbrite: {
-    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection_eventbrite_webapp'
-  },
   content: {
     containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/content_webapp'
   }
