@@ -93,6 +93,17 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
+  router.get('/works/v1-vs-v2', async ctx => {
+    const {toggles, globalAlert} = ctx;
+    await app.render(ctx.req, ctx.res, '/v1-vs-v2', {
+      query: ctx.query.query,
+      toggles,
+      globalAlert
+    });
+    ctx.respond = false;
+  });
+
   router.get('/works/:id', async ctx => {
     const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/work', {
@@ -105,6 +116,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/works', async ctx => {
     const {toggles, globalAlert, openingTimes} = ctx;
     await app.render(ctx.req, ctx.res, '/works', {
@@ -116,6 +128,7 @@ app.prepare().then(async () => {
     });
     ctx.respond = false;
   });
+
   router.get('/works/management/healthcheck', async ctx => {
     ctx.status = 200;
     ctx.body = 'ok';
