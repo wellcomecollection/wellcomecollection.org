@@ -12,7 +12,6 @@ resource "aws_alb" "wellcomecollection_alb" {
     "${aws_security_group.http.id}",
     "${aws_security_group.node_app_port.id}",
     "${aws_security_group.docker.id}",
-    "${var.app_cluster_sg}",
   ]
 
   access_logs {
