@@ -10,7 +10,7 @@ const withCachedValues = compose([
   withToggles
 ]);
 
-async function route(path, page, router, app) {
+async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
     const {toggles, globalAlert, openingTimes} = ctx;
     const params = ctx.params;
@@ -21,13 +21,14 @@ async function route(path, page, router, app) {
       globalAlert,
       openingTimes,
       ...params,
-      ...query
+      ...query,
+      ...extraParams
     });
     ctx.respond = false;
   });
 }
 
 module.exports = {
-  middlesware: withCachedValues,
+  middleware: withCachedValues,
   route
 };

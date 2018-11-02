@@ -44,6 +44,7 @@ export async function getDocument(
   opts: PrismicQueryOpts
 ): Promise<?PrismicDocument> {
   const api = await getPrismicApi(req);
+  console.info(id);
   const doc = await api.getByID(id, opts);
   return doc;
 }

@@ -4,7 +4,7 @@ const next = require('next');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const {
-  middlesware, route
+  middleware, route
 } = require('@weco/common/koa-middleware/withCachedValues');
 
 // FIXME: Find a way to import this.
@@ -25,23 +25,14 @@ const handle = app.getRequestHandler();
 const port = process.argv[2] || 3000;
 
 function pageVanityUrl(router, app, url, pageId) {
-  router.get(url, async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/page', {
-      id: pageId,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route(url, '/page', router, app, {id: pageId});
 }
 
 app.prepare().then(async () => {
   const server = new Koa();
   const router = new Router();
 
-  server.use(middlesware);
+  server.use(middleware);
 
   route('/', '/homepage', router, app);
   route('/whats-on', '/whats-on', router, app);
@@ -50,111 +41,34 @@ app.prepare().then(async () => {
   route('/exhibitions', '/exhibitions', router, app);
   route(`/exhibitions/:period(${periodPaths})`, '/exhibitions', router, app);
   route('/exhibitions/:id', '/exhibition', router, app);
+  route('/installations/:id', '/installation', router, app);
 
   route('/events', '/events', router, app);
   route(`/events/:period(${periodPaths})`, '/events', router, app);
   route('/events/:id', '/event', router, app);
+  route('/event-series/:id', '/event-series', router, app);
 
   route('/stories', '/stories', router, app);
   route('/articles', '/articles', router, app);
   route('/articles/:id', '/article', router, app);
+  route('/series/:id', '/article-series', router, app);
 
-  router.get('/series/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/article-series', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/books', '/books', router, app);
+  route('/books/:id', '/book', router, app);
 
-  router.get('/books', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    const {page} = ctx.query;
-    await app.render(ctx.req, ctx.res, '/books', {
-      page,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-  router.get('/books/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/book', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/places/:id', '/place', router, app);
+  route('/pages/:id', '/page', router, app);
 
-  router.get('/event-series/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/event-series', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/opening-times', '/opening-times', router, app);
+  route('/newsletter', '/newsletter', router, app);
 
-  router.get('/places/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/place', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/pages/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/page', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/installations/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/installation', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/opening-times', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/opening-times', {
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/newsletter', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/newsletter', {
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
+  pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
+  pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
+  pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
+  pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
+  pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
+  pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
 
   router.get('/preview', async ctx => {
     // Kill any cookie we had set, as it think it is causing issues.
@@ -175,14 +89,6 @@ app.prepare().then(async () => {
     ctx.status = 200;
     ctx.body = 'ok';
   });
-
-  pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
-  pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
-  pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
-  pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
-  pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
-  pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
-  pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
 
   router.get('*', async ctx => {
     await handle(ctx.req, ctx.res);
