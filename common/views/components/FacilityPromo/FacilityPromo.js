@@ -1,5 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import {UiImage} from '../Images/Images';
 import type {ImageType} from '../../../model/image';
@@ -31,7 +32,11 @@ const FacilityPromo = ({
   };
   return (
     <a data-component='FacilityPromo'
-      data-track-event={JSON.stringify({category: 'component', action: 'FacilityPromo:click'})}
+      onClick={() => trackEvent({
+        category: 'component',
+        action: `FacilityPromo:click`,
+        label: `title:${title}`
+      })}
       id={id}
       href={url}
       className='plain-link promo-link'>

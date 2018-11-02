@@ -38,8 +38,6 @@ const PrimaryLink = ({
         'js-scroll-to-info': url.startsWith('#')
       })}
       href={url}
-      data-component='PrimaryLink'
-      data-track-event={trackingEvent && JSON.stringify(trackingEvent)}
     >
       {isJumpLink &&
         <Icon name='arrowSmall' extraClasses='icon--green icon--90' />
