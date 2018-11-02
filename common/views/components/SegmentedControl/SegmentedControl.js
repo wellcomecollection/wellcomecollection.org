@@ -131,11 +131,6 @@ class SegmentedControl extends Component<Props, State> {
                         return false;
                       }
                     }}
-                    data-track-event={JSON.stringify({
-                      category: 'component',
-                      action: 'whats-on-daterange-picker:click',
-                      label: 'title:' + item.text
-                    })}
                     href={item.url}
                     className={classNames({
                       'segmented-control__drawer-link': true,
@@ -187,11 +182,6 @@ class SegmentedControl extends Component<Props, State> {
                     return false;
                   }
                 }}
-                data-track-event={JSON.stringify({
-                  category: 'component',
-                  action: 'whats-on-daterange-picker:click',
-                  label: 'title:' + item.text
-                })}
                 href={item.url}
                 className={classNames({
                   [spacing({s: 2}, {padding: ['top', 'right', 'bottom', 'left']})]: true,

@@ -14,14 +14,6 @@ import structuredText from './parts/structured-text';
 // mistake we made way back when when all we were doing was articles
 const ArticleSeries = {
   'Article series': {
-    name: {
-      type: 'Text',
-      config: {
-        label: 'Title',
-        useAsTitle: true
-      }
-    },
-    // TODO: deprecate name
     title: title,
     color: select('Colour', [ 'turquoise', 'red', 'orange', 'purple' ]),
     description: structuredText('[Deprecated] Description. Please use standfirst slice'),

@@ -1,5 +1,6 @@
 // @flow
 import { spacing, font, classNames } from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import { getPositionInSeries } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -19,13 +20,12 @@ const EventPromo = ({
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
-    <a data-component='StoryPromo'
-      data-component-state={JSON.stringify({ position: position })}
-      data-track-event={JSON.stringify({
+    <a
+      onClick={() => trackEvent({
         category: 'component',
-        action: 'StoryPromo:click',
-        label: `id : ${item.id}, position : ${position}`}
-      )}
+        action: `StoryPromo:click`,
+        label: `id : ${item.id}, position : ${position}`
+      })}
       id={item.id}
       href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({

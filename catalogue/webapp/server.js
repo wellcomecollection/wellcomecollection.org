@@ -3,8 +3,9 @@ const Router = require('koa-router');
 const next = require('next');
 const Cookies = require('cookies');
 const { initialize, isEnabled } = require('@weco/common/services/unleash/feature-toggles');
-const withGlobalAlert = require('@weco/common/koa-middleware/withGlobalAlert');
-const withOpeningTimes = require('@weco/common/koa-middleware/withOpeningTimes');
+const {
+  middleware, route
+} = require('@weco/common/koa-middleware/withCachedValues');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -79,55 +80,13 @@ app.prepare().then(async () => {
   server.use(getToggles);
 
   // server cached values
-  server.use(withGlobalAlert);
-  server.use(withOpeningTimes);
+  server.use(middleware);
 
   // Next routing
-  router.get('/embed/works/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/embed', {
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/works/v1-vs-v2', async ctx => {
-    const {toggles, globalAlert} = ctx;
-    await app.render(ctx.req, ctx.res, '/v1-vs-v2', {
-      query: ctx.query.query,
-      toggles,
-      globalAlert
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/works/:id', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/work', {
-      page: ctx.query.page,
-      query: ctx.query.query,
-      id: ctx.params.id,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
-
-  router.get('/works', async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
-    await app.render(ctx.req, ctx.res, '/works', {
-      page: ctx.query.page,
-      query: ctx.query.query,
-      toggles,
-      globalAlert,
-      openingTimes
-    });
-    ctx.respond = false;
-  });
+  route('/embed/works/:id', '/embed', router, app);
+  route('/works/:id', '/work', router, app);
+  route('/works', '/works', router, app);
+  route('/works/v1-vs-v2', '/v1-vs-v2', router, app);
 
   router.get('/works/management/healthcheck', async ctx => {
     ctx.status = 200;

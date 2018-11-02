@@ -1,8 +1,8 @@
 // @flow
-
+import {font} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
-import {font} from '../../../utils/classnames';
 import type {EventWithInputValue} from '../HTMLInput/HTMLInput';
 
 type Props = {|
@@ -38,11 +38,11 @@ const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Pro
       </div>
     </form>
     <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
-      data-track-event={`${JSON.stringify({
+      onClick={() => trackEvent({
         category: 'component',
-        action: 'clear-search:click',
+        action: `clear-search:click`,
         label: `input-id:${id}`
-      })}`}
+      })}
       type='button'>
       <Icon name='clear' title='Clear' />
     </button>
