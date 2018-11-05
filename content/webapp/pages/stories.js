@@ -63,7 +63,7 @@ export class StoriesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {page = 1} = context.query;
     const articlesPromise = getArticles(context.req, {page});
-    const seriesPromise = getArticleSeries(context.req, {id: 'WyjG4ycAACrGnmBX'});
+    const seriesPromise = getArticleSeries(context.req, {id: 'W1boEyYAACgAqwfw'});
     const [articles, seriesAndArticles] = await Promise.all([articlesPromise, seriesPromise]);
     const series = seriesAndArticles && seriesAndArticles.series;
 
