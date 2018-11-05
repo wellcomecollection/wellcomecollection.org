@@ -39,14 +39,6 @@ type State = {|
   results: any
 |}
 
-async function getResults(query: string) {
-  const v1ResultsPromise = getWorksV1({query, page: 1});
-  const v2ResultsPromise = getWorksV2({query, page: 1});
-  const [v1Results, v2Results] = await Promise.all([v1ResultsPromise, v2ResultsPromise]);
-
-  return {v1Results, v2Results};
-}
-
 const SearchResults = (response: any) => {
   return (
     <ul>
@@ -63,7 +55,8 @@ const SearchResults = (response: any) => {
 class V1vsV2 extends Component<Props, State> {
   state = {
     query: this.props.query,
-    results: null
+    results: null,
+    version: 1
   }
 
   handleChange = (event: any) => {
@@ -76,11 +69,15 @@ class V1vsV2 extends Component<Props, State> {
 
   async componentDidUpdate(prevProps) {
     const { query } = this.props.router;
-    this.setState({query});
 
-    if (query) {
-      const results = await getResults(query.query);
-      this.setState({ results });
+    if (query && this.state.query !== query.query) {
+      if (this.state.version === 1) {
+        const results = await getWorksV1({query: query.query, page: 1});
+        this.setState({ results, query: query.query });
+      } else {
+        const results = await getWorksV2({query: query.query, page: 1});
+        this.setState({ results, query: query.query });
+      }
     }
   }
 
@@ -95,25 +92,19 @@ class V1vsV2 extends Component<Props, State> {
             value={this.state.query || ''}
             onChange={this.handleChange}
             style={{width: '100%', border: '1px solid grey'}} />
+          <label>
+            Use V2
+            <input
+              type='checkbox'
+              onChange={(e) => this.setState({ version: e.target.checked ? 2 : 1 })}/>
+          </label>
         </form>
         {results && <Fragment>
           <SearchResults {...results.v1Results} />
-          <hr />
-          <SearchResults {...results.v2Results} />
         </Fragment>}
       </Fragment>
     );
   }
 }
-
-V1vsV2.getInitialProps = async (context) => {
-  const {query} = context.query;
-  if (query) {
-    const v1Results = await getWorksV1({query, page: 1});
-    const v2Results = await getWorksV2({query, page: 1});
-    return {v1Results, v2Results};
-  }
-  return {query};
-};
 
 export default withRouter(V1vsV2);
