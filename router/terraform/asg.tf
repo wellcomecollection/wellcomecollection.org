@@ -11,7 +11,7 @@ module "router_cluster_asg" {
   asg_max     = "6"
 
   image_id      = "${data.aws_ami.stable_coreos.image_id}"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
 
   sns_topic_arn         = "${module.ec2_terminating_topic.arn}"
   publish_to_sns_policy = "${module.ec2_terminating_topic.publish_policy}"

@@ -1,7 +1,7 @@
 
 const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
-const withOpeningtimes = require('./withOpeningtimes');
+const withOpeningtimes = require('./withOpeningTimes');
 const withToggles = require('./withToggles');
 
 const withCachedValues = compose([
