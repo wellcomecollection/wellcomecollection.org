@@ -21,7 +21,9 @@ module "router" {
   server_error_alarm_topic_arn = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn = "${module.alb_client_error_alarm.arn}"
 
-  cpu                    = "384" # (1024/2) - 128
-  memory                 = "369" # (995/2) - 128
+  # CPU: (1024/2) - 128
+  # Mem: (2000/2) - 128
+  cpu                    = "384"
+  memory                 = "872"
   primary_container_port = "80"
 }

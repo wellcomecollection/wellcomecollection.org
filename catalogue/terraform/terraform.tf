@@ -87,8 +87,10 @@ module "catalogue" {
   deployment_maximum_percent         = "200"
   env_vars_length                    = 0
   desired_count                      = 2
-  cpu                                = "384"                                            # (1024/2) - 128
-  memory                             = "369"                                            # (995/2) - 128
+  # CPU: (1024/2) - 128
+  # Mem: (2000/2) - 128
+  cpu                                = "384"
+  memory                             = "872"
   primary_container_port             = "80"
   secondary_container_port           = "3000"
   path_pattern                       = "/works*"
