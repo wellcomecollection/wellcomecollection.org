@@ -364,7 +364,7 @@ class EventPage extends Component<Props, State> {
                   : interpretationType.description
               }))).filter(Boolean)}>
               <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-                <a href='https://wellcomecollection.org/visit-us/events-tickets'>Our event terms and conditions</a>
+                <a href='https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng'>Our event terms and conditions</a>
               </p>
             </InfoBox>
           </Fragment>
