@@ -7,6 +7,7 @@ COPY ./catalogue/webapp .
 COPY ./common ../../common
 RUN yarn install
 RUN yarn build
+RUN yarn test
 
 EXPOSE 3000
 CMD ["yarn", "start"]

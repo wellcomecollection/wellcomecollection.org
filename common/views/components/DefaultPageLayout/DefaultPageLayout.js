@@ -250,8 +250,6 @@ class DefaultPageLayout extends Component<Props> {
           `);
         }
 
-        console.info(validationFails);
-
         if (validationFails.length > 0) {
           validationFails.forEach(function(validationFail) {
             var div = document.createElement('div');
