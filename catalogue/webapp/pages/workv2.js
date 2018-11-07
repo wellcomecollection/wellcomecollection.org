@@ -62,7 +62,7 @@ export const WorkPage = ({
             <div className='grid'>
               <div className={grid({s: 12})}>
                 <SecondaryLink
-                  url={`/works${previousQueryString || ''}#${work.id}`}
+                  url={`/worksv2${previousQueryString || ''}#${work.id}`}
                   text='Search results'
                   trackingEvent={{
                     category: 'component',

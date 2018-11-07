@@ -24,9 +24,9 @@
     "nodemon": "^1.17.5",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^2.1.4",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-test-renderer": "^16.4.1",
+    "react": "^16.7.0-alpha.0",
+    "react-dom": "^16.7.0-alpha.0",
+    "react-test-renderer": "^16.6.1",
     "react-transition-group": "^2.4.0",
     "sass-loader": "^7.0.1"
   }
