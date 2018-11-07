@@ -112,6 +112,8 @@ jobs:
   deploy_pa11y:
     docker:
       - image: circleci/node:8.11.3
+    environment:
+      NODE_ENV: test
     working_directory: ~/wellcomecollection.org/pa11y/webapp
     steps:
     - add_ssh_keys
@@ -148,6 +150,8 @@ jobs:
   deploy_toggles:
     docker:
       - image: circleci/node:8.11.3
+    environment:
+      NODE_ENV: test
     working_directory: ~/wellcomecollection.org/toggles/webapp
     steps:
     - add_ssh_keys
@@ -371,6 +375,7 @@ workflows:
             branches:
               only:
                 - master
+                - static_deployment
       - root_tests:
           requires:
             - checkout_code
