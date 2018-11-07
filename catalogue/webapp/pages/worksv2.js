@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe useState is not in the new flowtypes yet
 import {Fragment, useState} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
@@ -21,9 +22,9 @@ import {getWorks} from '../services/catalogue/worksv2';
 // error. We're setting the properties we expect here until
 // we find a better solution.
 type PageProps = {|
-  query: ?string,
   page: ?number,
-  works: {| results: [], totalResults: number |},
+  initialQuery: ?string,
+  initialWorks: {| results: [], totalResults: number |},
   pagination: ?PaginationProps,
   version: ?number
 |}
