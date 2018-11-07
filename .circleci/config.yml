@@ -374,8 +374,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
-                - static_deployment
+                - "master"
       - root_tests:
           requires:
             - checkout_code
