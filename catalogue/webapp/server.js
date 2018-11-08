@@ -84,6 +84,7 @@ app.prepare().then(async () => {
 
   // Next routing
   route('/embed/works/:id', '/embed', router, app);
+  route('/works/progress', '/progress', router, app);
   route('/works/:id', '/work', router, app);
   route('/works', '/works', router, app);
   route('/worksv2/:id', '/workv2', router, app);
