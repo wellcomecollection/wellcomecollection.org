@@ -126,7 +126,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Work type</h2>
                       <p>
-                        <NextLink {...worksV2Link({ query: `workType:"${work.workType.label}"` })}>
+                        <NextLink {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                         </NextLink>
                       </p>
@@ -163,7 +163,7 @@ export const WorkPage = ({
                             <li
                               className='inline'
                               key={contributor.agent.label}>
-                              <NextLink {...worksV2Link({ query: `contributors:"${contributor.agent.label}"` })}>
+                              <NextLink {...worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined })}>
                                 <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                               </NextLink>
                             </li>
@@ -182,7 +182,7 @@ export const WorkPage = ({
                             <li
                               className='inline'
                               key={subject.label}>
-                              <NextLink  {...worksV2Link({ query: `subjects:"${subject.label}"` })}>
+                              <NextLink  {...worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined })}>
                                 <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                               </NextLink>
                             </li>
@@ -201,7 +201,7 @@ export const WorkPage = ({
                             <li
                               className='inline'
                               key={genre.label}>
-                              <NextLink {...worksV2Link({ query: `genres:"${genre.label}"` })}>
+                              <NextLink {...worksV2Link({ query: `genres:"${genre.label}"`, page: undefined })}>
                                 <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                               </NextLink>
                             </li>
@@ -263,7 +263,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Language</h2>
                       <p>
-                        <NextLink {...worksV2Link({ query: `language:"${work.language.label}"` })}>
+                        <NextLink {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                         </NextLink>
                       </p>
@@ -274,7 +274,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Dimensions</h2>
                       <p>
-                        <NextLink {...worksV2Link({ query: `dimensions:"${work.dimensions}"` })}>
+                        <NextLink {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
                         </NextLink>
                       </p>
@@ -285,7 +285,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Type</h2>
                       <p>
-                        <NextLink {...worksV2Link({ query: `query=type:"${work.type}"` })}>
+                        <NextLink {...worksV2Link({ query: `query=type:"${work.type}"`, page: undefined })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>
                             {work.type}
                           </a>
