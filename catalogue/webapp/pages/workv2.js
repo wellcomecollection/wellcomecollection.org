@@ -17,6 +17,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
+import {worksV2Link} from '../services/catalogue/links';
 
 export type Link = {|
   text: string;
@@ -48,8 +49,7 @@ export const WorkPage = ({
   ) || {}).value;
   // We strip the last character as that's what Wellcome Library expect
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
-  const credit = work.items[0].locations[0].credit;
-  const workImageUrl = work.items[0].locations[0].url;
+  const workImageUrl = work.items.length > 0 && work.items[0].locations.length > 0 && work.items[0].locations[0].url;
 
   return (
     <Fragment>
@@ -126,7 +126,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Work type</h2>
                       <p>
-                        <NextLink href={`/worksv2?query=workType:"${work.workType.label}"`}>
+                        <NextLink {...worksV2Link({ query: `workType:"${work.workType.label}"` })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                         </NextLink>
                       </p>
@@ -163,7 +163,7 @@ export const WorkPage = ({
                             <li
                               className='inline'
                               key={contributor.agent.label}>
-                              <NextLink href={`/worksv2?query=contributors:"${contributor.agent.label}"`}>
+                              <NextLink {...worksV2Link({ query: `contributors:"${contributor.agent.label}"` })}>
                                 <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                               </NextLink>
                             </li>
@@ -182,7 +182,7 @@ export const WorkPage = ({
                             <li
                               className='inline'
                               key={subject.label}>
-                              <NextLink href={`/worksv2?query=subjects:"${subject.label}"`}>
+                              <NextLink  {...worksV2Link({ query: `subjects:"${subject.label}"` })}>
                                 <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                               </NextLink>
                             </li>
@@ -201,7 +201,7 @@ export const WorkPage = ({
                             <li
                               className='inline'
                               key={genre.label}>
-                              <NextLink href={`/worksv2?query=genres:"${genre.label}"`}>
+                              <NextLink {...worksV2Link({ query: `genres:"${genre.label}"` })}>
                                 <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                               </NextLink>
                             </li>
@@ -263,7 +263,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Language</h2>
                       <p>
-                        <NextLink href={`/worksv2?query=language:"${work.language.label}"`}>
+                        <NextLink {...worksV2Link({ query: `language:"${work.language.label}"` })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                         </NextLink>
                       </p>
@@ -274,7 +274,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Dimensions</h2>
                       <p>
-                        <NextLink href={`/worksv2?query=dimensions:"${work.dimensions}"`}>
+                        <NextLink {...worksV2Link({ query: `dimensions:"${work.dimensions}"` })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
                         </NextLink>
                       </p>
@@ -285,7 +285,7 @@ export const WorkPage = ({
                     <div>
                       <h2 className='h3'>Type</h2>
                       <p>
-                        <NextLink href={`/worksv2?query=type:"${work.type}"`}>
+                        <NextLink {...worksV2Link({ query: `query=type:"${work.type}"` })}>
                           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>
                             {work.type}
                           </a>
@@ -361,10 +361,12 @@ export const WorkPage = ({
                 </div>}
 
                 {work.thumbnail && work.thumbnail.license && <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                  <p className={classNames([
-                    font({s: 'HNL5', m: 'HNL4'}),
-                    spacing({s: 1}, {margin: ['bottom']})
-                  ])}>Credit: {credit}</p>
+                  {work.items.length > 0 && work.items[0].locations.length > 0 &&
+                    <p className={classNames([
+                      font({s: 'HNL5', m: 'HNL4'}),
+                      spacing({s: 1}, {margin: ['bottom']})
+                    ])}>Credit: {work.items[0].locations[0].credit}</p>
+                  }
 
                   {/* TODO: the download links once this is in
                   https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}

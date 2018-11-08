@@ -20,6 +20,10 @@ type LinkProps = {|
   as: Link
 |}
 
+function removeEmpty(obj: Object): Object {
+  return JSON.parse(JSON.stringify(obj));
+}
+
 export function workLink({ id, query, page }: WorkLinkProps): LinkProps {
   return {
     href: {
@@ -28,7 +32,7 @@ export function workLink({ id, query, page }: WorkLinkProps): LinkProps {
     },
     as: {
       pathname: `/works/${id}`,
-      query: { query, page }
+      query: removeEmpty({ query, page })
     }
   };
 }
@@ -41,7 +45,7 @@ export function worksLink({ query, page }: WorksLinkProps): LinkProps {
     },
     as: {
       pathname: `/works`,
-      query: { query, page }
+      query: removeEmpty({ query, page })
     }
   };
 }
@@ -54,7 +58,7 @@ export function workV2Link({ id, query, page }: WorkLinkProps): LinkProps {
     },
     as: {
       pathname: `/worksv2/${id}`,
-      query: { query, page }
+      query: removeEmpty({ query, page })
     }
   };
 }
@@ -67,7 +71,7 @@ export function worksV2Link({ query, page }: WorksLinkProps): LinkProps {
     },
     as: {
       pathname: `/worksv2`,
-      query: { query, page }
+      query: removeEmpty({ query, page })
     }
   };
 }
