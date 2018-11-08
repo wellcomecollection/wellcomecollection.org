@@ -16,8 +16,8 @@ const includes = ['identifiers', 'items', 'contributors', 'subjects', 'genres', 
 export async function getWorks({ query, page }: GetWorksProps): Object {
   const url = `${rootUri}/v2/works?include=${includes.join(',')}` +
     `&pageSize=100` +
-    '&workType=q,k' +
-    '&items.locations.locationType=iiif-image,iiif-presentation' +
+    // '&workType=q,k' +
+    // '&items.locations.locationType=iiif-image,iiif-presentation' +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '');
 

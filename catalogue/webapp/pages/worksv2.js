@@ -16,6 +16,7 @@ import type {Props as PaginationProps} from '@weco/common/views/components/Pagin
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/worksv2';
+import {workV2Link} from '../services/catalogue/links';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -151,7 +152,6 @@ export const WorksPage = ({
                 <div className='grid'>
                   <div className='grid__cell'>
                     <div className='flex flex--h-space-between flex--v-center'>
-
                       <Fragment>
                         <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
                             Showing {pagination.range.beginning} - {pagination.range.end}
@@ -187,7 +187,7 @@ export const WorksPage = ({
                         }}
                         datePublished={result.createdDate && result.createdDate.label}
                         title={result.title}
-                        url={`/worksv2/${result.id}${getQueryParamsForWork(query, page)}`} />
+                        link={workV2Link({ id: result.id, query, page: page !== 1 ? page : undefined })} />
                     </div>
                   ))}
                 </div>
@@ -256,28 +256,4 @@ WorksPage.getInitialProps = async (context: GetInitialPropsProps) => {
   };
 };
 
-function getQueryParamsForWork(query: ?string, page: ?number) {
-  const params = {query, page};
-  return Object.keys({query, page})
-    .filter(key => params[key])
-    .reduce((acc, key, index) => {
-      return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
-    }, '?');
-}
-
 export default PageWrapper(WorksPage);
-
-// handleSubmit = (event: EventWithInputValue) => {
-//   event.preventDefault();
-//   const queryString = event.target[0].value;
-
-//   // Update the URL, which in turn will update props
-//   const href = {
-//     pathname: '/worksv2',
-//     query: queryString ? {
-//       query: queryString
-//     } : null
-//   };
-//   const as = href;
-//   Router.push(href, as, { shallow: true });
-// }
