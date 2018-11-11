@@ -20,7 +20,7 @@ We’re listening.
 
 ## What's coming up?
 
-In the first half of 2018, you can expect to see improvements to the search experience. We’ll focus on:
+Throughout 2018, you can expect to see improvements to the search experience. We’ll focus on:
 
 **Improving information about works**
 
