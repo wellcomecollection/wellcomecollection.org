@@ -10,7 +10,7 @@ const colors = {
   'yellow': '#ffce3c',
   'brown': '#815e48',
   'cream': '#f0ede3',
-  'green': '#088574',
+  'green': '#007868',
   'charcoal': '#323232',
   'pewter': '#717171',
   'silver': '#8f8f8f',

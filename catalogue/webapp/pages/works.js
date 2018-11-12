@@ -15,6 +15,7 @@ import type {Props as PaginationProps} from '@weco/common/views/components/Pagin
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/works';
+import {workLink, worksLink} from '../services/catalogue/links';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -65,7 +66,7 @@ export const Works = ({
               ])}>Search our images</h2>
               <div className='plain-text flex flex--v-center'>
                 <Icon name='underConstruction' extraClasses='margin-right-s2' />
-                <p className='no-margin'>We’re improving how search works. <a href='/progress'>Find out more</a>.</p>
+                <p className='no-margin'>We’re improving how search works. <a href='/works/progress'>Find out more</a>.</p>
               </div>
             </div>
           </div>
@@ -158,7 +159,7 @@ export const Works = ({
                       }}
                       datePublished={result.createdDate && result.createdDate.label}
                       title={result.title}
-                      url={`/works/${result.id}${getQueryParamsForWork(query, page)}`} />
+                      link={workLink({ id: result.id, query, page })} />
                   </div>
                 ))}
               </div>
@@ -233,13 +234,7 @@ export class WorksPage extends Component<PageProps> {
     const queryString = event.target[0].value;
 
     // Update the URL, which in turn will update props
-    Router.push({
-      pathname: '/works',
-      query: {
-        query: queryString,
-        page: '1'
-      }
-    });
+    Router.push(worksLink({ query: queryString, page: 1 }).href);
   }
 
   render() {
@@ -254,15 +249,6 @@ export class WorksPage extends Component<PageProps> {
       />
     );
   }
-}
-
-function getQueryParamsForWork(query: ?string, page: ?number) {
-  const params = {query, page};
-  return Object.keys({query, page})
-    .filter(key => params[key])
-    .reduce((acc, key, index) => {
-      return `${acc}${index > 0 ? '&' : ''}${key}=${params[key] || ''}`;
-    }, '?');
 }
 
 export default PageWrapper(WorksPage);

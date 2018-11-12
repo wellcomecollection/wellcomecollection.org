@@ -11,6 +11,7 @@ import ExhibitionPromoReadme from '../../../common/views/components/ExhibitionPr
 import ExhibitionPromo from '../../../common/views/components/ExhibitionPromo/ExhibitionPromo';
 import WorkPromoReadme from '../../../common/views/components/WorkPromo/README.md';
 import WorkPromo from '../../../common/views/components/WorkPromo/WorkPromo';
+import {workLink} from '../../../catalogue/webapp/services/catalogue/links';
 
 const sizes = '(min-width: 1340px) calc(15vw + 120px), (min-width: 960px) calc(40vw - 84px), (min-width: 600px) calc(60vw - 83px), calc(75vw - 72px)';
 const datePublished = '1685';
@@ -199,7 +200,7 @@ const WorkPromoExample = () => {
   const title = text('Title', 'Diogenes, sitting in front of his barrel and being offered whatever he wants by Alexander the Great, asks Alexander to step aside so that he can see the sun. Etching by S. Rosa.');
   return (
     <WorkPromo
-      url={url}
+      link={workLink({ id: '123' })}
       id={id}
       image={image('https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg', 800, 1309)}
       title={title}
