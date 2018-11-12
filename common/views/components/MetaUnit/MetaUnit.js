@@ -2,7 +2,6 @@
 import {spacing, font} from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Divider from '../Divider/Divider';
-import type {Link} from '../../../model/link';
 import type {MetaUnitProps} from '../../../model/meta-unit';
 
 function renderHeading(headingLevel, headingText) {
@@ -34,7 +33,7 @@ function renderParagraphs(text: string[]) {
   }
 }
 
-function renderLinksList(links: React.Element<'NextLink'>[] | Link[]) { // TODO this is just so it continues to work on V1, once we've switched we should only pass NextLink[]
+function renderLinksList(links: any[]) { // TODO replace with React.Element<'NextLink'>[] once switched to V2
   if (links.length > 0) {
     const listItems = links.map((link, i, arr) =>
       <li key={i} className='inline'>

@@ -1,11 +1,12 @@
 // @flow
-import type {Link} from './link';
+// import type {Link} from './link';
 
 export type MetaUnitProps = {|
   headingLevel?: number;
   headingText: string;
-  links?: Array<Link>;
-  text?: Array<string>;
+  links?: any[]; // TODO replace with React.Element<'NextLink'>[], once moved to V2
+  text?: string[];
+  list?: string[];
   includeDivider?: boolean;
 |};
 

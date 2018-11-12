@@ -118,7 +118,7 @@ export const WorkPage = ({
 
                   {work.workType &&
                     <MetaUnit headingText='Work type' links={[
-                      <NextLink key {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                       </NextLink>
                     ]} />
@@ -139,7 +139,7 @@ export const WorkPage = ({
                   {work.contributors.length > 0 &&
                     <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
                       const linkAttributes = worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
-                      return (<NextLink key href={linkAttributes.href} as={linkAttributes.as}>
+                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                       </NextLink>);
                     }
@@ -150,7 +150,7 @@ export const WorkPage = ({
                   {work.subjects.length > 0 &&
                     <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
                       const linkAttributes = worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined });
-                      return (<NextLink key href={linkAttributes.href} as={linkAttributes.as}>
+                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                       </NextLink>);
                     }
@@ -160,7 +160,7 @@ export const WorkPage = ({
                   {work.genres.length > 0 &&
                     <MetaUnit headingText='Genres' links={work.genres.map(genre => {
                       const linkAttributes = worksV2Link({ query: `genres:"${genre.label}"`, page: undefined });
-                      return (<NextLink key href={linkAttributes.href} as={linkAttributes.as}>
+                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                       </NextLink>);
                     }
@@ -189,7 +189,7 @@ export const WorkPage = ({
 
                   {work.language &&
                     <MetaUnit headingText='Language' links={[
-                      <NextLink key {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                       </NextLink>
                     ]} />
@@ -197,7 +197,7 @@ export const WorkPage = ({
 
                   {work.dimensions &&
                     <MetaUnit headingText='Dimensions' links={[
-                      <NextLink key {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
+                      <NextLink key={1} {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
                       </NextLink>
                     ]} />
@@ -205,7 +205,7 @@ export const WorkPage = ({
 
                   {work.type &&
                     <MetaUnit headingText='Type' links={[
-                      <NextLink key {...worksV2Link({ query: `type:"${work.type}"`, page: undefined })}>
+                      <NextLink key={1} {...worksV2Link({ query: `type:"${work.type}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.type}</a>
                       </NextLink>
                     ]} />
