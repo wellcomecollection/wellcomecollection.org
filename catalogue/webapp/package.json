@@ -12,7 +12,6 @@
   "dependencies": {
     "@babel/core": "^7.1.5",
     "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
     "@weco/common": "../../common",
     "autoprefixer": "^8.3.0",
     "babel-core": "^7.0.0-bridge.0",
