@@ -1,17 +1,16 @@
 {
   "presets": [
-    ["env", {
+    "@babel/preset-flow",
+    ["@babel/preset-env", {
       "targets": {
         "node": "current"
       }
     }],
-    "react"
+    "@babel/preset-react"
   ],
   "plugins": [
     "transform-class-properties",
     "transform-object-rest-spread",
-    "transform-react-jsx",
-    "react-require",
-    "transform-flow-strip-types"
+    "react-require"
   ]
 }
