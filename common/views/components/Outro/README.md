@@ -6,7 +6,7 @@ or research paths.
 # Research
 ## Hypothesis
 ​​By providing people with links to other related content at the bottom of the
-page we would create more onward journey's and fewer people leaving the site
+page we would create more onward journeys and fewer people leaving the site
 from article pages.
 
 ## Measurement
