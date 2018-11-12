@@ -43,11 +43,13 @@ const BasePage = ({
         <div className={classNames({
           'bg-cream': isCreamy
         })}>
-          <SpacingSection>
-            <div className='basic-page'>
-              <Fragment>{Body}</Fragment>
-            </div>
-          </SpacingSection>
+          {Body.props.body.length > 0 &&
+            <SpacingSection>
+              <div className='basic-page'>
+                <Fragment>{Body}</Fragment>
+              </div>
+            </SpacingSection>
+          }
 
           {children &&
             <SpacingSection>

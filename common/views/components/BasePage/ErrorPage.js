@@ -28,37 +28,35 @@ const ErrorPage = ({ errorStatus }: Props) => {
       Body={<Body body={[]} />}
     >
       <div className='body-text'>
-        <ul>
-          <div className={classNames({
-            [spacing({ s: 5 }, {margin: ['top']})]: true
-          })}>
+        <ul className='no-margin'>
+          <li>
             <PrimaryLink url='/whats-on' name='Our exhibitions and events' />
-          </div>
-          <div className={classNames({
+          </li>
+          <li className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true
           })}>
             <PrimaryLink url='https://wellcomelibrary.org' name='Our library' />
-          </div>
-          <div className={classNames({
+          </li>
+          <li className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true
           })}>
             <PrimaryLink url='/stories' name='Our stories' />
-          </div>
-          <div className={classNames({
+          </li>
+          <li className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true
           })}>
             <PrimaryLink url='/books' name='Our books' />
-          </div>
-          <div className={classNames({
+          </li>
+          <li className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true
           })}>
             <PrimaryLink url='/works' name='Our images' />
-          </div>
-          <div className={classNames({
+          </li>
+          <li className={classNames({
             [spacing({ s: 5 }, {margin: ['top']})]: true
           })}>
             <PrimaryLink url='/pages/Wuw2MSIAACtd3Ssg' name='Our youth programme' />
-          </div>
+          </li>
         </ul>
 
         <div className={classNames({
