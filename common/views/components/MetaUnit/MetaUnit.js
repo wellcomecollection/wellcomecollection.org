@@ -72,7 +72,7 @@ function renderList(list: string[]) {
 
 const MetaUnit = ({headingLevel, headingText, text = [], links = [], list = [], includeDivider}: MetaUnitProps) => {
   return (
-    <div>
+    <div className={spacing({s: 2}, {margin: ['bottom']})}>
       {renderHeading(headingLevel, headingText)}
       {renderParagraphs(text)}
       {renderLinksList(links)}
