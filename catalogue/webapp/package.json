@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
-    "test": "jest --no-cache"
+    "test": "NODE_ENV=test jest --no-cache"
   },
   "dependencies": {
     "@babel/core": "^7.1.5",
@@ -34,7 +34,6 @@
     "react-markdown": "^4.0.3",
     "react-test-renderer": "^16.4.1",
     "react-transition-group": "^2.4.0",
-    "regenerator-runtime": "^0.12.1",
     "sass-loader": "^7.0.1",
     "supertest": "^3.3.0",
     "webpack": "^4.25.1"

@@ -5,14 +5,6 @@ module.exports = function (api) {
   ];
   api.cache(true);
   return {
-    presets,
-    env: {
-      test: {
-        presets: [
-          'next/babel',
-          '@babel/preset-flow'
-        ]
-      }
-    }
+    presets
   };
 };
