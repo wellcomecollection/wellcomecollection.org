@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
-    "test": "jest --transformIgnorePatterns 'node_modules(?!/@weco(?!.*node_modules))' --no-cache"
+    "test": "jest --no-cache"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
