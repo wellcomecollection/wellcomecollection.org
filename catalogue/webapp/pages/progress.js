@@ -2,6 +2,7 @@
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {spacing, grid} from '@weco/common/utils/classnames';
 import ReactMarkdown from 'react-markdown';
+// $FlowFixMe
 import PROGRESS_NOTES from './PROGRESS_NOTES.md';
 
 const ProgressPage = () => (
