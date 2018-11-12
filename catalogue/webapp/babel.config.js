@@ -1,7 +1,7 @@
 module.exports = function (api) {
   const presets = [
-    'next/babel',
-    '@babel/preset-flow'
+    '@babel/preset-flow',
+    'next/babel'
   ];
   api.cache(true);
   return {

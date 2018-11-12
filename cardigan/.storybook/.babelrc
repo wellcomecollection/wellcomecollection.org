@@ -1,6 +1,14 @@
 {
   "presets": [
     "next/babel",
+    "@babel/preset-react",
     "@babel/preset-flow"
+  ],
+  "test": [
+    "stories/",
+    ".storybook",
+    "../common",
+    "../catalogue/webapp",
+    "../content/webapp"
   ]
 }
