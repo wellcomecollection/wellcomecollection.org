@@ -5,25 +5,32 @@ import Image from '../Image/Image';
 import type {Props as ImageProps} from '../Image/Image';
 import NextLink from 'next/link';
 
+type Link = {|
+  pathname: string,
+  query: Object
+|}
+type LinkProps = {|
+  href: Link,
+  as: Link
+|}
+
 type Props = {|
-  url: string,
   id: string,
   image: ImageProps,
   datePublished?: string,
-  title?: string
+  title?: string,
+  link: LinkProps
 |}
 
 const WorkPromo = ({
-  url,
   id,
   image,
   datePublished,
-  title
+  title,
+  link
 }: Props) => {
   return (
-    <NextLink
-      href={`/work?id=${id}`}
-      as={url}>
+    <NextLink {...link}>
       <a
         id={id}
         data-component='WorkPromo'

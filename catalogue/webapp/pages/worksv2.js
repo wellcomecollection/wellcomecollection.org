@@ -1,10 +1,9 @@
 // @flow
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
-import NextLink from 'next/link';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
-import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner2';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -14,8 +13,8 @@ import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagin
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
-import {getWorks} from '../services/catalogue/works';
-import {workLink, worksLink} from '../services/catalogue/links';
+import {getWorks} from '../services/catalogue/worksv2';
+import {workV2Link, worksV2Link} from '../services/catalogue/links';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -128,44 +127,29 @@ export const Works = ({
             </div>
           </div>
         }
-        {version === 2 &&
+
+        <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
           <div className='container'>
             <div className='grid'>
-              <div className={grid({s: 12})}>
-                {works.results.map(result => (
-                  <NextLink href={`/work?id=${result.id}`} as={`/works/${result.id}`} key={result.id}>
-                    <a>
-                      <h2>{result.title}</h2>
-                    </a>
-                  </NextLink>
-                ))}
-              </div>
+              {works.results.map(result => (
+                <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
+                  <WorkPromo
+                    id={result.id}
+                    image={{
+                      contentUrl: result.thumbnail ? result.thumbnail.url : 'https://via.placeholder.com/1600x900?text=%20',
+                      width: 300,
+                      height: 300,
+                      alt: ''
+                    }}
+                    datePublished={result.createdDate && result.createdDate.label}
+                    title={result.title}
+                    link={workV2Link({ id: result.id, query, page })} />
+                </div>
+              ))}
             </div>
           </div>
-        }
-        {version !== 2 &&
-          <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
-            <div className='container'>
-              <div className='grid'>
-                {works.results.map(result => (
-                  <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
-                    <WorkPromo
-                      id={result.id}
-                      image={{
-                        contentUrl: result.thumbnail ? result.thumbnail.url : 'https://via.placeholder.com/1600x900?text=%20',
-                        width: 300,
-                        height: 300,
-                        alt: ''
-                      }}
-                      datePublished={result.createdDate && result.createdDate.label}
-                      title={result.title}
-                      link={workLink({ id: result.id, query, page })} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        }
+        </div>
+
         {pagination && pagination.range &&
           <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
             <div className='container'>
@@ -198,10 +182,9 @@ export const Works = ({
 
 export class WorksPage extends Component<PageProps> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
-    const version = pageStore('toggles').apiV2 ? 2 : 1;
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
-    const works = await getWorks({ query, page, version });
+    const works = await getWorks({ query, page });
 
     if (works.type === 'Error') {
       return { statusCode: works.httpStatus };
@@ -224,8 +207,7 @@ export class WorksPage extends Component<PageProps> {
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
       siteSection: 'images',
-      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`,
-      version
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
     };
   };
 
@@ -234,7 +216,7 @@ export class WorksPage extends Component<PageProps> {
     const queryString = event.target[0].value;
 
     // Update the URL, which in turn will update props
-    Router.push(worksLink({ query: queryString, page: 1 }).href);
+    Router.push(worksV2Link({ query: queryString, page: 1 }).href);
   }
 
   render() {

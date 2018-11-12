@@ -84,7 +84,10 @@ module.exports = app.prepare().then(async () => {
   // Next routing
   route('/embed/works/:id', '/embed', router, app);
   route('/works/:id', '/work', router, app);
+  route('/worksv2/:id', '/workv2', router, app);
+  route('/worksv2', '/worksv2', router, app);
   route('/works', '/works', router, app);
+  route('/works/progress', '/progress', router, app);
 
   router.get('/works/management/healthcheck', async ctx => {
     ctx.status = 200;
