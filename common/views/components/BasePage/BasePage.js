@@ -7,7 +7,7 @@ import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
 import {classNames} from '../../../utils/classnames';
 import type {Node, Element, ElementProps} from 'react';
-import type Body from '../Body/Body';
+import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 
@@ -18,7 +18,7 @@ type Props = {|
   id: string,
   isCreamy?: boolean,
   Header: Element<typeof PageHeader>,
-  Body: Body,
+  Body: Element<typeof Body>,
   // This is used for content type specific components e.g. InfoBox
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
@@ -43,11 +43,13 @@ const BasePage = ({
         <div className={classNames({
           'bg-cream': isCreamy
         })}>
-          <SpacingSection>
-            <div className='basic-page'>
-              <Fragment>{Body}</Fragment>
-            </div>
-          </SpacingSection>
+          {Body.props.body.length > 0 &&
+            <SpacingSection>
+              <div className='basic-page'>
+                <Fragment>{Body}</Fragment>
+              </div>
+            </SpacingSection>
+          }
 
           {children &&
             <SpacingSection>

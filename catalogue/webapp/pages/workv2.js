@@ -40,9 +40,10 @@ export const WorkPage = ({
 }: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
-      location => location.locationType.id === 'iiif-image'
+      location => location.locationType.id === 'iiif-image' ||
+                  location.locationType.id === 'iiif-presentation'
     )
-  );
+  ).filter(Boolean);
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
 
   const sierraId = (work.identifiers.find(identifier =>
@@ -104,7 +105,7 @@ export const WorkPage = ({
                   ])}>
                     <Icon name='underConstruction' extraClasses='margin-right-s2' />
                     <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                      We’re improving the information on this page. <a href='/progress'>Find out more</a>.
+                      We’re improving the information on this page. <a href='/works/progress'>Find out more</a>.
                     </p>
                   </div>
 
