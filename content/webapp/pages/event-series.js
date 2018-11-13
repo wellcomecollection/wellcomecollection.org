@@ -2,7 +2,7 @@
 import {Component} from 'react';
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -107,7 +107,7 @@ export class EventSeriesPage extends Component<Props> {
       .slice(0, 3);
 
     return (
-      <BasePage
+      <ContentPage
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} />}
@@ -125,7 +125,7 @@ export class EventSeriesPage extends Component<Props> {
           <SearchResults items={pastEvents} title={`What we've done before`} />
         </div>
         }
-      </BasePage>
+      </ContentPage>
     );
   }
 };

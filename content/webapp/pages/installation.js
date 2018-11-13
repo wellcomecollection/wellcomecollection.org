@@ -6,7 +6,7 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import {
   default as PageHeader,
@@ -84,13 +84,13 @@ class InstallationPage extends Component<Props> {
       HeroPicture={null}
     />;
     return (
-      <BasePage
+      <ContentPage
         id={installation.id}
         Header={Header}
         Body={<Body body={installation.body} />}
         contributorProps={{ contributors: installation.contributors }}
       >
-      </BasePage>
+      </ContentPage>
     );
   }
 }

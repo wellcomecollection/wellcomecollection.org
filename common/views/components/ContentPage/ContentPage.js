@@ -26,7 +26,7 @@ type Props = {|
   outroProps?: ?ElementProps<typeof Outro>
 |}
 
-const BasePage = ({
+const ContentPage = ({
   id,
   isCreamy = false,
   Header,
@@ -106,4 +106,4 @@ const BasePage = ({
   );
 };
 
-export default BasePage;
+export default ContentPage;

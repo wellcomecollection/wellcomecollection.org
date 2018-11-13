@@ -1,7 +1,7 @@
 // @flow
 import {Component} from 'react';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -74,11 +74,11 @@ export class Page extends Component<Props> {
     />);
 
     return (
-      <BasePage
+      <ContentPage
         id={page.id}
         Header={Header}
         Body={<Body body={body} />}>
-      </BasePage>
+      </ContentPage>
     );
   }
 };

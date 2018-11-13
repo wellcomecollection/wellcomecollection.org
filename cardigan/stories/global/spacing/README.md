@@ -6,7 +6,7 @@ It also enables us to make systematic decisions without being reliant on visual 
 
 ## Section spacing
 
-We define 'Sections' as the top-level elements of the `BasePage`
+We define 'Sections' as the top-level elements of the `ContentPage`
 - `PageHeader`
 - `Body`
 - `children`
