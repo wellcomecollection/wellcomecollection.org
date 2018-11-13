@@ -44,6 +44,8 @@ export const WorkPage = ({
     )
   ).filter(Boolean);
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
+  const iiifImageLocationLicenseId = iiifImageLocation && iiifImageLocation.license && iiifImageLocation.license.id;
 
   const sierraId = (work.identifiers.find(identifier =>
     identifier.identifierType.id === 'sierra-system-number'
@@ -276,19 +278,14 @@ export const WorkPage = ({
                     text='Download small (760px)' />
                 </div>}
 
-                {work.thumbnail && work.thumbnail.license && <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                  {work.items.length > 0 && work.items[0].locations.length > 0 &&
-                    <p className={classNames([
+                {(iiifImageLocationCredit ||  iiifImageLocationLicenseId) &&
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    {iiifImageLocationCredit && <p className={classNames([
                       font({s: 'HNL5', m: 'HNL4'}),
                       spacing({s: 1}, {margin: ['bottom']})
-                    ])}>Credit: {work.items[0].locations[0].credit}</p>
-                  }
-
-                  {/* TODO: the download links once this is in
-                  https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
-                  {/* the small one is 760 */}
-                  <License subject={''} licenseType={work.thumbnail.license.licenseType} />
-                </div>}
+                    ])}>Credit: {iiifImageLocationCredit}</p>}
+                    {iiifImageLocationLicenseId && <License subject={''} licenseType={iiifImageLocationLicenseId} /> }
+                  </div>}
 
                 <div className={spacing({s: 2}, {margin: ['top']})}>
                   <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
