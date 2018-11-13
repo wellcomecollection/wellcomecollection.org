@@ -27,24 +27,6 @@ export type Link = {|
   url: string;
 |};
 
-function constructCreatorsString(creators) { // TODO use contributors
-  // if (creators.length > 0) {
-  //   const creatorsString =  creators.reduce((acc, creator, index) => {
-  //     if (index === 0) {
-  //       return `${acc} ${creator.label}`;
-  //     } else if (index + 1 === creators.length) {
-  //       return `${acc} and ${creator.label}`;
-  //     } else {
-  //       return `${acc}, ${creator.label}`;
-  //     }
-  //   }, 'by');
-  //   return creatorsString;
-  // } else {
-  //   return '';
-  // }
-  return '';
-}
-
 function constructLicenseString(licenseType) {
   const licenseInfo = getLicenseInfo(licenseType);
   return `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
@@ -52,9 +34,9 @@ function constructLicenseString(licenseType) {
 
 function constructAttribution(work, contributors, credit, licenseType, canonicalUri) {
   const title = work.title ? `'${work.title}' ` : '';
-  const creators = constructCreatorsString(contributors);
+  // const contributorsString = '';
   const license = constructLicenseString(licenseType);
-  return [`${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}`];
+  return [`${title}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}`];
 }
 
 // Not sure we want to type this not dynamically
@@ -252,12 +234,12 @@ export const WorkPage = ({
 
                 </div>
 
-                <WorkDrawer data={[{
+                <WorkDrawer data={[{ // TODO cope with contributors in attribution
                   headingText: 'License information',
                   text: getLicenseInfo(iiifImageLocationLicenseId).humanReadableText
                 }, {
                   headingText: 'Credit',
-                  text: constructAttribution(work, {}, iiifImageLocationCredit, iiifImageLocationLicenseId, `https://wellcomecollection.org/works/${work.id}`)
+                  text: constructAttribution(work, 'contributors go here', iiifImageLocationCredit, iiifImageLocationLicenseId, `https://wellcomecollection.org/works/${work.id}`)
                 }]} />
 
               </div>
