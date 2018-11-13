@@ -1,15 +1,19 @@
 'use strict';
 // TODO: Flow comment doc
-// Potential format for a test
-// const outroTest = {
-//   segments: {
-//     a: [0, 0.5],
-//     b: [0.5, 1]
-//   },
-//   canRun: function(request, headers) {
+// test type
+// {
+//   id: 'outro',
+//   title: 'Outro',
+//   shouldRun: (request) => {
 //     return request.uri.match(/^\/articles\/*/);
 //   }
-// };
+// }
+
+// This is mutable for testing
+let tests = [];
+exports.setTests = function(newTests) {
+  tests = newTests;
+};
 
 // Taken from https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-redirect-to-signin-page
 function parseToggleCookies(cookieHeader) {
@@ -29,21 +33,19 @@ function parseToggleCookies(cookieHeader) {
 exports.request = (event, context, callback) => {
   const request = event.Records[0].cf.request;
   const toggleCookies = parseToggleCookies(request.headers.cookie);
-  const newToggles = [];
 
-  // Run outro test
-  // Should run, and isn't already set
-  const hasOutro = Boolean(toggleCookies.find(cookie => cookie.key === 'toggle_outro'));
-  if (request.uri.match(/^\/articles\/*/) && !hasOutro) {
-    console.log('Request: Setting outro toggle');
-    // Flip the dice
-    if (Math.random() < 0.5) {
-      newToggles.push({ key: 'toggle_outro', value: true });
-    } else {
-      newToggles.push({ key: 'toggle_outro', value: false });
+  const newToggles = tests.map(test => {
+    // Isn't already set
+    const isSet = Boolean(toggleCookies.find(cookie => cookie.key === `toggle_${test.id}`));
+    if (test.shouldRun(request) && !isSet) {
+      // Flip the dice
+      if (Math.random() < 0.5) {
+        return { key: `toggle_${test.id}`, value: true };
+      } else {
+        return { key: `toggle_${test.id}`, value: false };
+      }
     }
-  }
-  // End bespoke tests
+  }).filter(Boolean);
 
   if (newToggles.length > 0) {
     // We can technically send multiple Cookie headers down the pipes, but not
