@@ -2,7 +2,7 @@
 import {Component} from 'react';
 import {getPlace} from '@weco/common/services/prismic/places';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import Body from '@weco/common/views/components/Body/Body';
@@ -76,12 +76,12 @@ export class ArticleSeriesPage extends Component<Props> {
     />);
 
     return (
-      <BasePage
+      <ContentPage
         id={place.id}
         Header={Header}
         Body={<Body body={place.body} />}
       >
-      </BasePage>
+      </ContentPage>
     );
   }
 };

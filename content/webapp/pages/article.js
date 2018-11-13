@@ -4,7 +4,7 @@ import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
@@ -213,7 +213,7 @@ export class ArticlePage extends Component<Props, State> {
     }).filter(Boolean);
 
     return (
-      <BasePage
+      <ContentPage
         id={article.id}
         isCreamy={true}
         Header={Header}
@@ -232,7 +232,7 @@ export class ArticlePage extends Component<Props, State> {
           visitItem: article.outroVisitItem
         } : null}
       >
-      </BasePage>
+      </ContentPage>
     );
   }
 };

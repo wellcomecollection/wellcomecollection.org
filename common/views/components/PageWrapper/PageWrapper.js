@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {asHtml} from '../../../services/prismic/parsers';
 import {parseVenuesToOpeningHours} from '../../../services/prismic/opening-times';
 import DefaultPageLayout from '../DefaultPageLayout/DefaultPageLayout';
-import ErrorPage from '../BasePage/ErrorPage';
+import ErrorPage from '../ErrorPage/ErrorPage';
 import type Moment from 'moment';
 import type {ComponentType} from 'react';
 import type {OgType, SiteSection, JsonLdObject} from '../DefaultPageLayout/DefaultPageLayout';
@@ -104,7 +104,6 @@ type NextComponent = {
 const PageWrapper = (Comp: NextComponent) => {
   return class Global extends Component<Props> {
     static async getInitialProps(context: GetInitialPropsProps) {
-
       // There's a lot of double checking here, which makes me think we've got
       // the typing wrong.
 
@@ -139,7 +138,7 @@ const PageWrapper = (Comp: NextComponent) => {
       if (clientStore && !clientStore.get('toggles')) {
         clientStore.set('toggles', props.toggles);
       }
-      
+
       if (clientStore && !clientStore.get('globalAlert')) {
         clientStore.set('globalAlert', props.globalAlert);
       }

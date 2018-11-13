@@ -2,7 +2,7 @@
 import {Component, Fragment} from 'react';
 import Prismic from 'prismic-javascript';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
@@ -260,7 +260,7 @@ class EventPage extends Component<Props, State> {
     />;
 
     return (
-      <BasePage
+      <ContentPage
         id={event.id}
         Header={Header}
         Body={<Body body={event.body} />}
@@ -381,7 +381,7 @@ class EventPage extends Component<Props, State> {
           }
         })}
 
-      </BasePage>
+      </ContentPage>
     );
   }
 }

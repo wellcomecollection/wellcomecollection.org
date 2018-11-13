@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -92,7 +92,7 @@ export class ArticleSeriesPage extends Component<Props> {
     />;
 
     return (
-      <BasePage
+      <ContentPage
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} />}
@@ -101,7 +101,7 @@ export class ArticleSeriesPage extends Component<Props> {
         {articles.length > 0 &&
           <SearchResults items={series.items} showPosition={true} />
         }
-      </BasePage>
+      </ContentPage>
     );
   }
 };

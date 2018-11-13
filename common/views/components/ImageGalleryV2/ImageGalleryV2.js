@@ -7,7 +7,7 @@ import Button from '../Buttons/Button/Button';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
-import {PageBackgroundContext} from '../BasePage/BasePage';
+import {PageBackgroundContext} from '../ContentPage/ContentPage';
 import {repeatingLsBlack} from '../../../utils/backgrounds';
 import {breakpoints} from '../../../utils/breakpoints';
 import ReactGA from 'react-ga';
