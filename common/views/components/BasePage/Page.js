@@ -13,7 +13,7 @@ type Props = {|
 |}
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
-const Page = ({ page }: Props): BasePage => {
+const Page = ({ page }: Props) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
 
   const hasFeaturedMedia = page.body.length > 1 &&

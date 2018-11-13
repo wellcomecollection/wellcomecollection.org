@@ -4,6 +4,7 @@ import {font, spacing} from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 export type Props = {|
+  total?: ?number,
   prevPage?: ?number,
   currentPage: number,
   pageCount: number,
@@ -13,7 +14,14 @@ export type Props = {|
   range?: {beginning: number, end: number}
 |}
 
-const Pagination = ({prevPage, currentPage, pageCount, nextPage, nextQueryString, prevQueryString}: Props) => (
+const Pagination = ({
+  prevPage,
+  currentPage,
+  pageCount,
+  nextPage,
+  nextQueryString,
+  prevQueryString
+}: Props) => (
   <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
     {prevPage && prevQueryString &&
       <Control
@@ -57,7 +65,7 @@ export class PaginationFactory {
     };
     const nextQueryString = buildQueryString(nextPage, getParams);
     const prevQueryString = buildQueryString(prevPage, getParams);
-    const pagination: Pagination = {
+    const pagination: Props = {
       total,
       range,
       pageCount,
