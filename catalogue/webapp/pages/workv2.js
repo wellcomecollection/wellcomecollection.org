@@ -14,6 +14,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
@@ -109,190 +110,106 @@ export const WorkPage = ({
                   </div>
 
                   {work.description &&
-                    <div>
-                      <h2 className='h3'>Description</h2>
-                      <p>{work.description}</p>
-                    </div>
-
+                    <MetaUnit headingText='Description' text={[work.description]} />
                   }
 
                   {work.physicalDescription &&
-                    <div>
-                      <h2 className='h3'>Physical description</h2>
-                      <p>{work.physicalDescription}</p>
-                    </div>
+                    <MetaUnit headingText='Physical description' text={[work.physicalDescription]} />
                   }
 
                   {work.workType &&
-                    <div>
-                      <h2 className='h3'>Work type</h2>
-                      <p>
-                        <NextLink {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
-                          <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
-                        </NextLink>
-                      </p>
-                    </div>
+                    <MetaUnit headingText='Work type' links={[
+                      <NextLink key={1} {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
+                      </NextLink>
+                    ]} />
                   }
 
                   {work.extent &&
-                    <div>
-                      <h2 className='h3'>Extent</h2>
-                      <p>{work.extent}</p>
-                    </div>
+                    <MetaUnit headingText='Extent' text={[work.extent]} />
                   }
 
                   {work.lettering &&
-                    <div>
-                      <h2 className='h3'>Lettering</h2>
-                      <p>{work.lettering}</p>
-                    </div>
+                    <MetaUnit headingText='Lettering' text={[work.lettering]} />
                   }
 
                   {work.createdDate &&
-                    <div>
-                      <h2 className='h3'>Created date</h2>
-                      <p>{work.createdDate.label}</p>
-                    </div>
+                    <MetaUnit headingText='Created date' text={[work.createdDate.label]} />
                   }
 
                   {work.contributors.length > 0 &&
-                    <div>
-                      <h2 className='h3'>Contributors</h2>
-                      <ul className='plain-list no-margin no-padding'>
-                        {work.contributors.map(contributor => {
-                          return (
-                            <li
-                              className='inline'
-                              key={contributor.agent.label}>
-                              <NextLink {...worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined })}>
-                                <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
-                              </NextLink>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
+                    <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
+                      const linkAttributes = worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
+                      </NextLink>);
+                    }
+                    )} />
+
                   }
 
                   {work.subjects.length > 0 &&
-                    <div>
-                      <h2 className='h3'>Subjects</h2>
-                      <ul className='plain-list no-margin no-padding'>
-                        {work.subjects.map(subject => {
-                          return (
-                            <li
-                              className='inline'
-                              key={subject.label}>
-                              <NextLink  {...worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined })}>
-                                <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
-                              </NextLink>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
+                    <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
+                      const linkAttributes = worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined });
+                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
+                      </NextLink>);
+                    }
+                    )} />
                   }
 
                   {work.genres.length > 0 &&
-                    <div>
-                      <h2 className='h3'>Genres</h2>
-                      <ul className='plain-list no-margin no-padding'>
-                        {work.genres.map(genre => {
-                          return (
-                            <li
-                              className='inline'
-                              key={genre.label}>
-                              <NextLink {...worksV2Link({ query: `genres:"${genre.label}"`, page: undefined })}>
-                                <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
-                              </NextLink>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
+                    <MetaUnit headingText='Genres' links={work.genres.map(genre => {
+                      const linkAttributes = worksV2Link({ query: `genres:"${genre.label}"`, page: undefined });
+                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
+                      </NextLink>);
+                    }
+                    )} />
                   }
 
                   {work.production.length > 0 &&
-                    <div>
-                      <h2 className='h3'>Production</h2>
-                      {work.production.map(production => {
+                    <Fragment>
+                      <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
+                      Production
+                      </h2>
+                      {work.production.map((production, i) => {
                         return (
-                          <div key={production.function}>
+                          <Fragment key={i}>
                             {production.places.length > 0 &&
-                              <div>
-                                <h3>Places</h3>
-                                <ul>
-                                  {production.places.map(place => {
-                                    return (
-                                      <li key={place.label}>{place.label}</li>
-                                    );
-                                  })}
-                                </ul>
-                              </div>
-                            }
+                            <MetaUnit headingLevel={3} headingText='Places' list={production.places.map(place => place.label)} />}
                             {production.agents.length > 0 &&
-                            <div>
-                              <h3>Agents</h3>
-                              <ul>
-                                {production.agents.map(agent => {
-                                  return (
-                                    <li key={agent.label}>{agent.label}</li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                            }
+                            <MetaUnit headingLevel={3} headingText='Agents' list={production.agents.map(agent => agent.label)} />}
                             {production.dates.length > 0 &&
-                            <div>
-                              <h3>Dates</h3>
-                              <ul>
-                                {production.dates.map(dates => {
-                                  return (
-                                    <li key={dates.label}>{dates.label}</li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                            }
-                          </div>
+                            <MetaUnit headingLevel={3} headingText='Dates' list={production.dates.map(date => date.label)} />}
+                          </Fragment>
                         );
                       })}
-                    </div>
+                    </Fragment>
                   }
 
                   {work.language &&
-                    <div>
-                      <h2 className='h3'>Language</h2>
-                      <p>
-                        <NextLink {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
-                          <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
-                        </NextLink>
-                      </p>
-                    </div>
+                    <MetaUnit headingText='Language' links={[
+                      <NextLink key={1} {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
+                      </NextLink>
+                    ]} />
                   }
 
                   {work.dimensions &&
-                    <div>
-                      <h2 className='h3'>Dimensions</h2>
-                      <p>
-                        <NextLink {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
-                          <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
-                        </NextLink>
-                      </p>
-                    </div>
+                    <MetaUnit headingText='Dimensions' links={[
+                      <NextLink key={1} {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
+                      </NextLink>
+                    ]} />
                   }
 
                   {work.type &&
-                    <div>
-                      <h2 className='h3'>Type</h2>
-                      <p>
-                        <NextLink {...worksV2Link({ query: `query=type:"${work.type}"`, page: undefined })}>
-                          <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>
-                            {work.type}
-                          </a>
-                        </NextLink>
-                      </p>
-                    </div>
+                    <MetaUnit headingText='Type' links={[
+                      <NextLink key={1} {...worksV2Link({ query: `type:"${work.type}"`, page: undefined })}>
+                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.type}</a>
+                      </NextLink>
+                    ]} />
                   }
 
                   {encoreLink &&
