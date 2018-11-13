@@ -315,10 +315,10 @@ jobs:
               export PATH=~/.local/bin:$PATH
               pip install awscli --upgrade --user
               aws s3 sync --only-show-errors . s3://i.wellcomecollection.org
-  deploy_cardigan:
+  cardigan:
     docker:
       - image: node:8.11.3
-    working_directory: /home/circleci/wellcomecollection.org
+    working_directory: /home/circleci/wellcomecollection.org/cardigan
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
@@ -342,8 +342,20 @@ jobs:
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
             pip install awscli --upgrade --user
-            pwd
-            ./build_and_deploy_cardigan.sh
+      - run:
+          name: Build
+          command: |
+            yarn
+            yarn build
+      - run:
+          name: Deploy
+          command: |
+            if [ "$CIRCLE_BRANCH" = "master" ];
+            then
+                pushd .dist
+                    aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
+                popd
+            fi
 workflows:
   version: 2
   build_and_deploy:
@@ -406,10 +418,6 @@ workflows:
             branches:
               only:
                 - master
-      - deploy_cardigan:
+      - cardigan:
           requires:
             - test_common_webapp
-          filters:
-            branches:
-              only:
-                - master
