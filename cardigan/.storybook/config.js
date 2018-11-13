@@ -54,8 +54,6 @@ const AppJsDecorator = (storyFn) => {
   appJs.parentElement.removeChild(appJs);
   script.id = 'app-js';
   document.head.appendChild(script);
-  console.info(styleguideSass)
-  console.info('aslkdjaskldjalksjdlkasjdlkasjdklasjd')
   return storyFn();
 };
 addDecorator(AppJsDecorator);
