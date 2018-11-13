@@ -17,13 +17,45 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
+import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
+import getLicenseInfo from '@weco/common/utils/get-license-info';
 
 export type Link = {|
   text: string;
   url: string;
 |};
+
+function constructCreatorsString(creators) { // TODO use contributors
+  // if (creators.length > 0) {
+  //   const creatorsString =  creators.reduce((acc, creator, index) => {
+  //     if (index === 0) {
+  //       return `${acc} ${creator.label}`;
+  //     } else if (index + 1 === creators.length) {
+  //       return `${acc} and ${creator.label}`;
+  //     } else {
+  //       return `${acc}, ${creator.label}`;
+  //     }
+  //   }, 'by');
+  //   return creatorsString;
+  // } else {
+  //   return '';
+  // }
+  return '';
+}
+
+function constructLicenseString(licenseType) {
+  const licenseInfo = getLicenseInfo(licenseType);
+  return `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
+}
+
+function constructAttribution(work, contributors, credit, licenseType, canonicalUri) {
+  const title = work.title ? `'${work.title}' ` : '';
+  const creators = constructCreatorsString(contributors);
+  const license = constructLicenseString(licenseType);
+  return [`${title} ${creators}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}`];
+}
 
 // Not sure we want to type this not dynamically
 // as the API is subject to change?
@@ -217,6 +249,16 @@ export const WorkPage = ({
                       <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
                     </div>
                   }
+
+                  <WorkDrawer data={[{
+                    headingText: 'License information',
+                    text: getLicenseInfo(iiifImageLocationLicenseId).humanReadableText
+                  }, {
+                    headingText: 'Credit',
+                    text: constructAttribution(work, {}, iiifImageLocationCredit, iiifImageLocationLicenseId, '/')
+                    // constructAttribution(work, contributors, credit, licenseType, canonicalUri)
+                  }]} />
+
                 </div>
               </div>
 
