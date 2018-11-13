@@ -1,9 +1,12 @@
-import React from 'react';
+import { default as React, Fragment } from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 import { withInfo } from '@storybook/addon-info';
+
+import styleguideSass from '../../common/styles/styleguide.scss';
+import nonCriticalSass from '../../common/styles/non-critical.scss';
 
 function loadStories() {
   const components = require.context('../stories/components', true, /\.js$/);
@@ -30,9 +33,17 @@ const styles = {
   padding: '30px',
 };
 const CenterDecorator = (storyFn) => (
-  <div style={styles} className='enhanced'>
-    { storyFn() }
-  </div>
+  <Fragment>
+    <style id='styleguide-sass'>
+      {styleguideSass}
+    </style>
+    <style id='non-critical-sass'>
+      {nonCriticalSass}
+    </style>
+    <div style={styles} className='enhanced'>
+      { storyFn() }
+    </div>
+  </Fragment>
 );
 addDecorator(CenterDecorator);
 
@@ -43,6 +54,8 @@ const AppJsDecorator = (storyFn) => {
   appJs.parentElement.removeChild(appJs);
   script.id = 'app-js';
   document.head.appendChild(script);
+  console.info(styleguideSass)
+  console.info('aslkdjaskldjalksjdlkasjdlkasjdklasjd')
   return storyFn();
 };
 addDecorator(AppJsDecorator);
