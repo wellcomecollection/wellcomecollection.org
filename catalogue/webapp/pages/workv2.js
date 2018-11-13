@@ -40,18 +40,16 @@ export const WorkPage = ({
 }: Props) => {
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
-      location => location.locationType.id === 'iiif-image' ||
-                  location.locationType.id === 'iiif-presentation'
+      location => location.locationType.id === 'iiif-image'
     )
   ).filter(Boolean);
-  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
 
   const sierraId = (work.identifiers.find(identifier =>
     identifier.identifierType.id === 'sierra-system-number'
   ) || {}).value;
   // We strip the last character as that's what Wellcome Library expect
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
-  const workImageUrl = work.items.length > 0 && work.items[0].locations.length > 0 && work.items[0].locations[0].url;
 
   return (
     <Fragment>
@@ -78,9 +76,9 @@ export const WorkPage = ({
       }
 
       <Fragment>
-        {iiifInfoUrl && <WorkMedia
+        {iiifImageLocationUrl && <WorkMedia
           id={work.id}
-          iiifUrl={iiifInfoUrl}
+          iiifUrl={iiifImageLocationUrl}
           title={work.title} />}
 
         <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
@@ -232,10 +230,10 @@ export const WorkPage = ({
                   Download
                 </h2>
 
-                {workImageUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
+                {iiifImageLocationUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
                   <Button
                     type='tertiary'
-                    url={convertImageUri(workImageUrl, 'full')}
+                    url={convertImageUri(iiifImageLocationUrl, 'full')}
                     target='_blank'
                     download={`${work.id}.jpg`}
                     rel='noopener noreferrer'
@@ -255,10 +253,10 @@ export const WorkPage = ({
                     text='Download full size' />
                 </div>}
 
-                {workImageUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
+                {iiifImageLocationUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
                   <Button
                     type='tertiary'
-                    url={convertImageUri(workImageUrl, 760)}
+                    url={convertImageUri(iiifImageLocationUrl, 760)}
                     target='_blank'
                     download={`${work.id}.jpg`}
                     rel='noopener noreferrer'
