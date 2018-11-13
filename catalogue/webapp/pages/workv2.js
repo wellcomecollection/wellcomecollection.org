@@ -250,15 +250,16 @@ export const WorkPage = ({
                     </div>
                   }
 
-                  <WorkDrawer data={[{
-                    headingText: 'License information',
-                    text: getLicenseInfo(iiifImageLocationLicenseId).humanReadableText
-                  }, {
-                    headingText: 'Credit',
-                    text: constructAttribution(work, {}, iiifImageLocationCredit, iiifImageLocationLicenseId, `https://wellcomecollection.org/works/${work.id}`)
-                  }]} />
-
                 </div>
+
+                <WorkDrawer data={[{
+                  headingText: 'License information',
+                  text: getLicenseInfo(iiifImageLocationLicenseId).humanReadableText
+                }, {
+                  headingText: 'Credit',
+                  text: constructAttribution(work, {}, iiifImageLocationCredit, iiifImageLocationLicenseId, `https://wellcomecollection.org/works/${work.id}`)
+                }]} />
+
               </div>
 
               <div className={classNames([
