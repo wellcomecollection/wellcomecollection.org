@@ -1,3 +1,4 @@
+import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { checkA11y } from '@storybook/addon-a11y';
