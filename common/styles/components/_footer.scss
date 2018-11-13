@@ -91,13 +91,9 @@ $footer-strap-width: 220px;
 }
 
 .footer__licensing-link {
-  color: color('green');
-  transition: color 600ms ease;
-  text-decoration: none;
-
   &:hover,
   &:focus {
-    color: color('white');
+    text-decoration: none;
   }
 }
 
