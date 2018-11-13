@@ -255,8 +255,7 @@ export const WorkPage = ({
                     text: getLicenseInfo(iiifImageLocationLicenseId).humanReadableText
                   }, {
                     headingText: 'Credit',
-                    text: constructAttribution(work, {}, iiifImageLocationCredit, iiifImageLocationLicenseId, '/')
-                    // constructAttribution(work, contributors, credit, licenseType, canonicalUri)
+                    text: constructAttribution(work, {}, iiifImageLocationCredit, iiifImageLocationLicenseId, `https://wellcomecollection.org/works/${work.id}`)
                   }]} />
 
                 </div>
