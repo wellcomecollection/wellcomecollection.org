@@ -17,7 +17,7 @@ export async function getWorks({ query, page }: GetWorksProps): Object {
   const url = `${rootUri}/v2/works?include=${includes.join(',')}` +
     `&pageSize=100` +
     '&workType=q,k' +
-    '&items.locations.locationType=iiif-image,iiif-presentation' +
+    '&items.locations.locationType=iiif-image' +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '');
 
