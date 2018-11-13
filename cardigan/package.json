@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "dev": "start-storybook -p 9001 -c .storybook -s ../dist/assets",
-    "build": "build-storybook -c .storybook -s ../dist/assets -o .dist"
+    "dev": "start-storybook -p 9001 -c .storybook",
+    "build": "build-storybook -c .storybook -o .dist"
   },
   "devDependencies": {},
   "dependencies": {
