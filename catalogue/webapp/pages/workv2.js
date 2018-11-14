@@ -241,59 +241,62 @@ export const WorkPage = ({
                 grid({s: 12, m: 10, shiftM: 1, l: 5, xl: 5}),
                 spacing({s: 1}, {margin: ['top']})
               ])}>
-                <h2 className={classNames([
-                  font({s: 'HNM4', m: 'HNM3'}),
-                  spacing({s: 0}, {margin: ['top']}),
-                  spacing({s: 2}, {margin: ['bottom']})
-                ])}>
-                  Download
-                </h2>
+                {iiifImageLocationUrl &&
+                  <Fragment>
+                    <h2 className={classNames([
+                      font({s: 'HNM4', m: 'HNM3'}),
+                      spacing({s: 0}, {margin: ['top']}),
+                      spacing({s: 2}, {margin: ['bottom']})
+                    ])}>
+                    Download
+                    </h2>
 
-                {iiifImageLocationUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
-                  <Button
-                    type='tertiary'
-                    url={convertImageUri(iiifImageLocationUrl, 'full')}
-                    target='_blank'
-                    download={`${work.id}.jpg`}
-                    rel='noopener noreferrer'
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                    }}
-                    clickHandler={() => {
-                      ReactGA.event({
-                        category: 'component',
-                        action: 'download-button:click',
-                        label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                      });
-                    }}
-                    icon='download'
-                    text='Download full size' />
-                </div>}
-
-                {iiifImageLocationUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
-                  <Button
-                    type='tertiary'
-                    url={convertImageUri(iiifImageLocationUrl, 760)}
-                    target='_blank'
-                    download={`${work.id}.jpg`}
-                    rel='noopener noreferrer'
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                    }}
-                    clickHandler={() => {
-                      ReactGA.event({
-                        category: 'component',
-                        action: 'download-button:click',
-                        label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                      });
-                    }}
-                    icon='download'
-                    text='Download small (760px)' />
-                </div>}
+                    <div className={spacing({s: 2}, {margin: ['bottom']})}>
+                      <Button
+                        type='tertiary'
+                        url={convertImageUri(iiifImageLocationUrl, 'full')}
+                        target='_blank'
+                        download={`${work.id}.jpg`}
+                        rel='noopener noreferrer'
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                        }}
+                        clickHandler={() => {
+                          ReactGA.event({
+                            category: 'component',
+                            action: 'download-button:click',
+                            label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                          });
+                        }}
+                        icon='download'
+                        text='Download full size' />
+                    </div>
+                    <div className={spacing({s: 3}, {margin: ['bottom']})}>
+                      <Button
+                        type='tertiary'
+                        url={convertImageUri(iiifImageLocationUrl, 760)}
+                        target='_blank'
+                        download={`${work.id}.jpg`}
+                        rel='noopener noreferrer'
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                        }}
+                        clickHandler={() => {
+                          ReactGA.event({
+                            category: 'component',
+                            action: 'download-button:click',
+                            label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                          });
+                        }}
+                        icon='download'
+                        text='Download small (760px)' />
+                    </div>
+                  </Fragment>
+                }
 
                 {(iiifImageLocationCredit ||  iiifImageLocationLicenseId) &&
                   <div className={spacing({s: 4}, {margin: ['bottom']})}>
