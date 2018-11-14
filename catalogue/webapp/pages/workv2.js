@@ -116,7 +116,7 @@ export const WorkPage = ({
                   }
 
                   {work.physicalDescription &&
-                    <MetaUnit headingText='Physical description' text={[work.physicalDescription]} />
+                    <MetaUnit headingText='Physical description' text={[`${work.physicalDescription} ${work.extent} ${work.dimensions}`]} />
                   }
 
                   {work.workType &&
@@ -125,10 +125,6 @@ export const WorkPage = ({
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                       </NextLink>
                     ]} />
-                  }
-
-                  {work.extent &&
-                    <MetaUnit headingText='Extent' text={[work.extent]} />
                   }
 
                   {work.lettering &&
@@ -197,8 +193,6 @@ export const WorkPage = ({
                       </NextLink>
                     ]} />
                   }
-
-                  {work.dimensions && <MetaUnit headingText='Dimensions' text={[work.dimensions]} />}
 
                   {encoreLink &&
                     <div className={spacing({s: 2}, {margin: ['top']})}>
