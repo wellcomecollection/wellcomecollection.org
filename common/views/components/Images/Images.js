@@ -124,14 +124,12 @@ export type UiCaptionedImageProps = {|
 |}
 
 type UiCaptionedImageState = {|
-  isActive: boolean,
   computedImageWidth: ?number,
   isWidthAuto: boolean
 |}
 
 export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptionedImageState> {
   state = {
-    isActive: false,
     computedImageWidth: null,
     isWidthAuto: false
   }
@@ -145,8 +143,7 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
   setComputedImageWidth = (width: number) => {
     this.props.setTitleStyle && this.props.setTitleStyle(width);
     this.setState({
-      computedImageWidth: width,
-      isActive: true
+      computedImageWidth: width
     });
   }
 
@@ -160,7 +157,6 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
       shameNoMaxHeight
     } = this.props;
     const {
-      isActive,
       computedImageWidth,
       isWidthAuto
     } = this.state;
@@ -168,12 +164,6 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
 
     return (
       <figure
-        style={{
-          marginLeft: (isActive && isWidthAuto) ? '50%' : undefined,
-          transform: (isActive && isWidthAuto && computedImageWidth)
-            ? `translateX(${computedImageWidth / -2}px)`
-            : undefined
-        }}
         className={`captioned-image ${extraClasses || ''}`}>
         <div
           style={{
