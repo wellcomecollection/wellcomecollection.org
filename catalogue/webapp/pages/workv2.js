@@ -17,7 +17,6 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
-import WorkDrawer from '@weco/common/views/components/WorkDrawer/WorkDrawer';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
@@ -26,18 +25,6 @@ export type Link = {|
   text: string;
   url: string;
 |};
-
-function constructLicenseString(licenseType) {
-  const licenseInfo = getLicenseInfo(licenseType);
-  return `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
-}
-
-function constructAttribution(work, contributors, credit, licenseType, canonicalUri) {
-  const title = work.title ? `'${work.title}' ` : '';
-  // const contributorsString = '';
-  const license = constructLicenseString(licenseType);
-  return [`${title}. Credit: <a href="${canonicalUri}">${credit}</a>. ${license}`];
-}
 
 // Not sure we want to type this not dynamically
 // as the API is subject to change?
@@ -60,6 +47,7 @@ export const WorkPage = ({
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId = iiifImageLocation && iiifImageLocation.license && iiifImageLocation.license.id;
+  const licenseInfo = iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
   const sierraId = (work.identifiers.find(identifier =>
     identifier.identifierType.id === 'sierra-system-number'
@@ -184,7 +172,7 @@ export const WorkPage = ({
 
                   {work.production.length > 0 &&
                     <Fragment>
-                      <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
+                      <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                       Production
                       </h2>
                       {work.production.map((production, i) => {
@@ -234,13 +222,18 @@ export const WorkPage = ({
 
                 </div>
 
-                <WorkDrawer data={[{ // TODO cope with contributors in attribution
-                  headingText: 'License information',
-                  text: getLicenseInfo(iiifImageLocationLicenseId).humanReadableText
-                }, {
-                  headingText: 'Credit',
-                  text: constructAttribution(work, 'contributors go here', iiifImageLocationCredit, iiifImageLocationLicenseId, `https://wellcomecollection.org/works/${work.id}`)
-                }]} />
+                <Fragment>
+                  <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  Using this Image
+                  </h2>
+                  {licenseInfo &&
+                    <Fragment>
+                      <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
+                      <MetaUnit headingLevel={3} headingText='Credit' text={[
+                        `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                    </Fragment>
+                  }
+                </Fragment>
 
               </div>
 
