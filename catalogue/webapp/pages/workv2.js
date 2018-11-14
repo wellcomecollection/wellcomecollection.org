@@ -198,13 +198,7 @@ export const WorkPage = ({
                     ]} />
                   }
 
-                  {work.dimensions &&
-                    <MetaUnit headingText='Dimensions' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
-                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
-                      </NextLink>
-                    ]} />
-                  }
+                  {work.dimensions && <MetaUnit headingText='Dimensions' text={[work.dimensions]} />}
 
                   {encoreLink &&
                     <div className={spacing({s: 2}, {margin: ['top']})}>
