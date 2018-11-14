@@ -4,7 +4,11 @@ import NextLink from 'next/link';
 import Divider from '../Divider/Divider';
 import type {MetaUnitProps} from '../../../model/meta-unit';
 
-function renderHeading(headingLevel, headingText) {
+type HeadingProps = {
+  headingLevel: ?number,
+  headingText: string
+}
+const Heading = ({headingLevel, headingText}: HeadingProps) => {
   const classes = `${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`;
   const smallClasses = `${font({s: 'HNM6', m: 'HNM5'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`;
   switch (headingLevel) {
@@ -23,19 +27,18 @@ function renderHeading(headingLevel, headingText) {
     default:
       return (<h2 className={classes}>{headingText}</h2>);
   }
-}
+};
 
-function renderParagraphs(text: string[]) {
-  if (text) {
-    return text.map((para, i) => {
-      return <p key={i} className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`} dangerouslySetInnerHTML={{__html: para}} />;
-    });
-  }
-}
+const Paragraphs = ({text}) => {
+  return text.length > 0 && text.map((para, i) => {
+    return <p key={i} className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>{para}</p>;
+  });
+};
 
-function renderLinksList(links: any[]) { // TODO replace with React.Element<'NextLink'>[] once switched to V2
-  if (links.length > 0) {
-    const listItems = links.map((link, i, arr) =>
+const LinksList = ({links}) => {
+  return links.length > 0 &&
+  <ul className={`${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
+    {links.map((link, i, arr) => (
       <li key={i} className='inline'>
         {link.url && <NextLink href={link.url}>
           <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>
@@ -46,37 +49,28 @@ function renderLinksList(links: any[]) { // TODO replace with React.Element<'Nex
         {!link.url && link}
         {arr.length - 1 !== i && ', '}
       </li>
-    );
-    return (
-      <ul className={`plain-list ${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
-        {listItems}
-      </ul>
-    );
-  }
-}
+    ))}
+  </ul>;
+};
 
-function renderList(list: string[]) {
-  if (list.length > 0) {
-    const listItems = list.map((link, i, arr) =>
+const List = ({list}) => {
+  return list.length > 0 &&
+  <ul className={`${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
+    {list.map((item, i, arr) => (
       <li key={i} className={font({s: 'HNL5', m: 'HNL4'})} style={{'list-style-position': 'inside'}}>
-        {link}
+        {item}
       </li>
-    );
-    return (
-      <ul className={`${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
-        {listItems}
-      </ul>
-    );
-  }
-}
+    ))}
+  </ul>;
+};
 
 const MetaUnit = ({headingLevel, headingText, text = [], links = [], list = [], includeDivider}: MetaUnitProps) => {
   return (
     <div className={spacing({s: 2}, {margin: ['bottom']})}>
-      {renderHeading(headingLevel, headingText)}
-      {renderParagraphs(text)}
-      {renderLinksList(links)}
-      {renderList(list)}
+      <Heading headingLevel={headingLevel} headingText={headingText} />
+      <Paragraphs text={text} />
+      <LinksList links={links} />
+      <List list={list} />
       {includeDivider &&
       <Divider extraClasses = {`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />}
     </div>
