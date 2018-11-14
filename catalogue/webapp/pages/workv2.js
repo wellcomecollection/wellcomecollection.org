@@ -206,14 +206,6 @@ export const WorkPage = ({
                     ]} />
                   }
 
-                  {work.type &&
-                    <MetaUnit headingText='Type' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `type:"${work.type}"`, page: undefined })}>
-                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.type}</a>
-                      </NextLink>
-                    ]} />
-                  }
-
                   {encoreLink &&
                     <div className={spacing({s: 2}, {margin: ['top']})}>
                       <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
