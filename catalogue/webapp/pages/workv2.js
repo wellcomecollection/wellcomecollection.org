@@ -222,18 +222,16 @@ export const WorkPage = ({
 
                 </div>
 
-                <Fragment>
-                  <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                {licenseInfo &&
+                  <Fragment>
+                    <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                   Using this Image
-                  </h2>
-                  {licenseInfo &&
-                    <Fragment>
-                      <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
-                      <MetaUnit headingLevel={3} headingText='Credit' text={[
-                        `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
-                    </Fragment>
-                  }
-                </Fragment>
+                    </h2>
+                    <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
+                    <MetaUnit headingLevel={3} headingText='Credit' text={[
+                      `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                  </Fragment>
+                }
 
               </div>
 
