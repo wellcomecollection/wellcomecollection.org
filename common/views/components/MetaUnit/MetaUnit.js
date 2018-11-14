@@ -31,7 +31,7 @@ const Heading = ({headingLevel, headingText}: HeadingProps) => {
 
 const Paragraphs = ({text}) => {
   return text.length > 0 && text.map((para, i) => {
-    return <p key={i} className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>{para}</p>;
+    return <p key={i} className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}dangerouslySetInnerHTML={{__html: para}} />;
   });
 };
 
