@@ -19,6 +19,7 @@ import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
+import getLicenseInfo from '@weco/common/utils/get-license-info';
 
 export type Link = {|
   text: string;
@@ -43,14 +44,16 @@ export const WorkPage = ({
       location => location.locationType.id === 'iiif-image'
     )
   ).filter(Boolean);
-  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
+  const iiifImageLocationLicenseId = iiifImageLocation && iiifImageLocation.license && iiifImageLocation.license.id;
+  const licenseInfo = iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
   const sierraId = (work.identifiers.find(identifier =>
     identifier.identifierType.id === 'sierra-system-number'
   ) || {}).value;
   // We strip the last character as that's what Wellcome Library expect
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
-  const workImageUrl = work.items.length > 0 && work.items[0].locations.length > 0 && work.items[0].locations[0].url;
 
   return (
     <Fragment>
@@ -77,9 +80,9 @@ export const WorkPage = ({
       }
 
       <Fragment>
-        {iiifInfoUrl && <WorkMedia
+        {iiifImageLocationUrl && <WorkMedia
           id={work.id}
-          iiifUrl={iiifInfoUrl}
+          iiifUrl={iiifImageLocationUrl}
           title={work.title} />}
 
         <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
@@ -169,7 +172,7 @@ export const WorkPage = ({
 
                   {work.production.length > 0 &&
                     <Fragment>
-                      <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 1}, {margin: ['bottom']})}`}>
+                      <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
                       Production
                       </h2>
                       {work.production.map((production, i) => {
@@ -216,80 +219,91 @@ export const WorkPage = ({
                       <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
                     </div>
                   }
+
                 </div>
+
+                {licenseInfo &&
+                  <Fragment>
+                    <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
+                  Using this Image
+                    </h2>
+                    <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
+                    <MetaUnit headingLevel={3} headingText='Credit' text={[
+                      `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                  </Fragment>
+                }
+
               </div>
 
               <div className={classNames([
                 grid({s: 12, m: 10, shiftM: 1, l: 5, xl: 5}),
                 spacing({s: 1}, {margin: ['top']})
               ])}>
-                <h2 className={classNames([
-                  font({s: 'HNM4', m: 'HNM3'}),
-                  spacing({s: 0}, {margin: ['top']}),
-                  spacing({s: 2}, {margin: ['bottom']})
-                ])}>
-                  Download
-                </h2>
+                {iiifImageLocationUrl &&
+                  <Fragment>
+                    <h2 className={classNames([
+                      font({s: 'HNM4', m: 'HNM3'}),
+                      spacing({s: 0}, {margin: ['top']}),
+                      spacing({s: 2}, {margin: ['bottom']})
+                    ])}>
+                    Download
+                    </h2>
 
-                {workImageUrl && <div className={spacing({s: 2}, {margin: ['bottom']})}>
-                  <Button
-                    type='tertiary'
-                    url={convertImageUri(workImageUrl, 'full')}
-                    target='_blank'
-                    download={`${work.id}.jpg`}
-                    rel='noopener noreferrer'
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                    }}
-                    clickHandler={() => {
-                      ReactGA.event({
-                        category: 'component',
-                        action: 'download-button:click',
-                        label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
-                      });
-                    }}
-                    icon='download'
-                    text='Download full size' />
-                </div>}
+                    <div className={spacing({s: 2}, {margin: ['bottom']})}>
+                      <Button
+                        type='tertiary'
+                        url={convertImageUri(iiifImageLocationUrl, 'full')}
+                        target='_blank'
+                        download={`${work.id}.jpg`}
+                        rel='noopener noreferrer'
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                        }}
+                        clickHandler={() => {
+                          ReactGA.event({
+                            category: 'component',
+                            action: 'download-button:click',
+                            label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                          });
+                        }}
+                        icon='download'
+                        text='Download full size' />
+                    </div>
+                    <div className={spacing({s: 3}, {margin: ['bottom']})}>
+                      <Button
+                        type='tertiary'
+                        url={convertImageUri(iiifImageLocationUrl, 760)}
+                        target='_blank'
+                        download={`${work.id}.jpg`}
+                        rel='noopener noreferrer'
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                        }}
+                        clickHandler={() => {
+                          ReactGA.event({
+                            category: 'component',
+                            action: 'download-button:click',
+                            label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                          });
+                        }}
+                        icon='download'
+                        text='Download small (760px)' />
+                    </div>
+                  </Fragment>
+                }
 
-                {workImageUrl && <div className={spacing({s: 3}, {margin: ['bottom']})}>
-                  <Button
-                    type='tertiary'
-                    url={convertImageUri(workImageUrl, 760)}
-                    target='_blank'
-                    download={`${work.id}.jpg`}
-                    rel='noopener noreferrer'
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                    }}
-                    clickHandler={() => {
-                      ReactGA.event({
-                        category: 'component',
-                        action: 'download-button:click',
-                        label: `id: work.id , size:760, title:${work.title.substring(50)}`
-                      });
-                    }}
-                    icon='download'
-                    text='Download small (760px)' />
-                </div>}
-
-                {work.thumbnail && work.thumbnail.license && <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                  {work.items.length > 0 && work.items[0].locations.length > 0 &&
-                    <p className={classNames([
+                {(iiifImageLocationCredit ||  iiifImageLocationLicenseId) &&
+                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                    {iiifImageLocationCredit && <p className={classNames([
                       font({s: 'HNL5', m: 'HNL4'}),
                       spacing({s: 1}, {margin: ['bottom']})
-                    ])}>Credit: {work.items[0].locations[0].credit}</p>
-                  }
-
-                  {/* TODO: the download links once this is in
-                  https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
-                  {/* the small one is 760 */}
-                  <License subject={''} licenseType={work.thumbnail.license.licenseType} />
-                </div>}
+                    ])}>Credit: {iiifImageLocationCredit}</p>}
+                    {iiifImageLocationLicenseId && <License subject={''} licenseType={iiifImageLocationLicenseId} /> }
+                  </div>}
 
                 <div className={spacing({s: 2}, {margin: ['top']})}>
                   <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />

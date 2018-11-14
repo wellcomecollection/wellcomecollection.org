@@ -504,7 +504,7 @@ export const WorkPage = ({
                     {/* TODO: the download links once this is in
                     https://github.com/wellcometrust/wellcomecollection.org/pull/2164/files#diff-f9d8c53a2dbf55f0c9190e6fbd99e45cR21 */}
                     {/* the small one is 760 */}
-                    <License subject={''} licenseType={work.thumbnail.license.licenseType} />
+                    <License subject={''} licenseType={work.thumbnail.license.licenseType.toLowerCase()} />
                   </div>
 
                   <div className={spacing({s: 2}, {margin: ['top']})}>
