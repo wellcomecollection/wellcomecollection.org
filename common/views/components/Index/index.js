@@ -1,6 +1,5 @@
 import BackToTop from '../BackToTop/BackToTop';
 import Body from '../Body/Body';
-import BookPage from '../BasePage/BookPage';
 import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
 import {UiImage, CaptionedImage} from '../Images/Images';
@@ -12,12 +11,9 @@ import Contributors from '../Contributors/Contributors';
 import Control from '../Buttons/Control/Control';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Divider from '../Divider/Divider';
-import ErrorPage from '../BasePage/ErrorPage';
-import EventPage from '../BasePage/EventPage';
 import EventPromo from '../EventPromo/EventPromo';
 import EventsByMonth from '../EventsByMonth/EventsByMonth';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
-import EventSeriesPage from '../BasePage/EventSeriesPage';
 import ExceptionalOpeningHoursTable from '../ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
 import Excerpt from '../Excerpt/Excerpt';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
@@ -29,7 +25,6 @@ import FramedHeader from '../PageHeaders/FramedHeader/FramedHeader';
 import Image from '../Image/Image';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import InstallationPage from '../BasePage/InstallationPage';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import LabelsList from '../LabelsList/LabelsList';
 import License from '../License/License';
@@ -41,11 +36,9 @@ import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
-import Page from '../BasePage/Page';
 import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
-import PlacePage from '../BasePage/PlacePage';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
@@ -68,7 +61,6 @@ import WorkPromo from '../WorkPromo/WorkPromo';
 export {
   BackToTop,
   Body,
-  BookPage,
   BookPromo,
   Button,
   Caption,
@@ -80,11 +72,8 @@ export {
   Control,
   CopyUrl,
   Divider,
-  ErrorPage,
-  EventPage,
   EventPromo,
   EventScheduleItem,
-  EventSeriesPage,
   EventsByMonth,
   ExceptionalOpeningHoursTable,
   Excerpt,
@@ -97,7 +86,6 @@ export {
   Image,
   ImageGallery,
   InfoBanner,
-  InstallationPage,
   InstallationPromo,
   LabelsList,
   License,
@@ -109,11 +97,9 @@ export {
   OpeningHours,
   OpeningHoursTable,
   OpeningHoursTableGrouped,
-  Page,
   PageDescription,
   Pagination,
   Picture,
-  PlacePage,
   PrimaryLink,
   PrismicHtmlBlock,
   Promo,

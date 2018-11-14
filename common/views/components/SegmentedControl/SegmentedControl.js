@@ -125,7 +125,6 @@ class SegmentedControl extends Component<Props, State> {
                       });
 
                       // Assume we want to
-                      console.info(1, isHash);
                       if (isHash) {
                         e.preventDefault();
                         return false;

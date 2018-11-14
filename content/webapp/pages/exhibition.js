@@ -4,7 +4,7 @@ import {getExhibition, getExhibitionRelatedContent} from '@weco/common/services/
 import {isPast} from '@weco/common/utils/dates';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import {
   default as PageHeader,
   getFeaturedMedia,
@@ -224,7 +224,7 @@ export class ExhibitionPage extends Component<Props, State> {
     ].filter(Boolean);
 
     return (
-      <BasePage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
+      <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
         {exhibition.contributors.length > 0 && (
           <Contributors
             titleOverride={exhibition.contributorsTitle}
@@ -275,7 +275,7 @@ export class ExhibitionPage extends Component<Props, State> {
               </div>
             </Fragment>
         }
-      </BasePage>
+      </ContentPage>
     );
   }
 }

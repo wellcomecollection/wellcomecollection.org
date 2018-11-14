@@ -15,7 +15,7 @@ import structuredText from './parts/structured-text';
 const ArticleSeries = {
   'Article series': {
     title: title,
-    color: select('Colour', [ 'turquoise', 'red', 'orange', 'purple' ]),
+    color: select('Colour', [ 'teal', 'red', 'orange', 'purple' ]),
     description: structuredText('[Deprecated] Description. Please use standfirst slice'),
     body
   },
