@@ -116,7 +116,7 @@ export const WorkPage = ({
                   }
 
                   {work.physicalDescription &&
-                    <MetaUnit headingText='Physical description' text={[work.physicalDescription]} />
+                    <MetaUnit headingText='Physical description' text={[`${work.physicalDescription} ${work.extent} ${work.dimensions}`]} />
                   }
 
                   {work.workType &&
@@ -125,10 +125,6 @@ export const WorkPage = ({
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                       </NextLink>
                     ]} />
-                  }
-
-                  {work.extent &&
-                    <MetaUnit headingText='Extent' text={[work.extent]} />
                   }
 
                   {work.lettering &&
@@ -194,22 +190,6 @@ export const WorkPage = ({
                     <MetaUnit headingText='Language' links={[
                       <NextLink key={1} {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
-                      </NextLink>
-                    ]} />
-                  }
-
-                  {work.dimensions &&
-                    <MetaUnit headingText='Dimensions' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `dimensions:"${work.dimensions}"`, page: undefined })}>
-                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.dimensions}</a>
-                      </NextLink>
-                    ]} />
-                  }
-
-                  {work.type &&
-                    <MetaUnit headingText='Type' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `type:"${work.type}"`, page: undefined })}>
-                        <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.type}</a>
                       </NextLink>
                     ]} />
                   }
