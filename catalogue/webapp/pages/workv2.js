@@ -15,6 +15,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import {withToggler} from '@weco/common/views/hocs/withToggler';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '../components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
@@ -33,6 +34,78 @@ type Props = {|
   previousQueryString: ?string,
   page: ?number
 |}
+
+function trimCataloguingPunctuation(text: string) {
+  return text.trim().replace(/(.*)[;,:]+$/, '$1').trim();
+}
+function titleCase(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+type PhysicalDescriptionProps = {|
+  work: Work,
+  isActive: boolean,
+  toggle: () => void
+|}
+const PhysicalDescription = withToggler(
+  ({
+    work,
+    isActive,
+    toggle
+  }: PhysicalDescriptionProps) => {
+    return (
+      <Fragment>
+        <MetaUnit
+          headingLevel={1}
+          headingText={'Physical description'}
+          text={[
+            titleCase(trimCataloguingPunctuation(work.physicalDescription)) +
+            (work.extent && ` of ${trimCataloguingPunctuation(work.extent)}`) +
+            (work.dimensions && `. It's dimensions are "${trimCataloguingPunctuation(work.dimensions)}"`) +
+            '.'
+          ]}
+        />
+
+        <button onClick={toggle} className='plain-button no-padding no-margin flex flex--v-center font-teal font-HNL5-s'>
+          <Icon name='plus' extraClasses={`icon--match-text icon--green ${spacing({s: 1}, {margin: ['right']})}`} />
+          More details
+        </button>
+        <div style={{
+          display: isActive ? 'block' : 'none'
+        }}>
+          <MetaUnit headingLevel={3} headingText={'Catalogue entry'} text={[
+            [work.physicalDescription, work.extent, work.dimensions].filter(Boolean).join()
+          ]} />
+
+          <ul className={classNames({
+            'plain-list': true,
+            [font({s: 'HNL5'})]: true,
+            'no-margin': true,
+            'no-padding': true
+          })}>
+            {work.physicalDescription &&
+              <li>
+                <MetaUnit headingText='Physical description' headingLevel={3} text={[work.physicalDescription]} />
+              </li>
+            }
+            {work.extent &&
+              <li>
+                <MetaUnit headingText='Extent' headingLevel={3} text={[work.extent]} />
+              </li>
+            }
+            {work.dimensions &&
+              <li>
+                {work.dimensions &&
+                  <MetaUnit headingText='Dimensions' headingLevel={3} text={[work.dimensions]} />
+                }
+              </li>
+            }
+          </ul>
+        </div>
+      </Fragment>
+    );
+  }
+);
 
 export const WorkPage = ({
   work,
@@ -145,7 +218,6 @@ export const WorkPage = ({
                       </NextLink>);
                     }
                     )} />
-
                   }
 
                   {work.subjects.length > 0 &&
@@ -210,6 +282,10 @@ export const WorkPage = ({
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.type}</a>
                       </NextLink>
                     ]} />
+                  }
+
+                  {(work.physicalDescription || work.extent || work.dimensions) &&
+                    <PhysicalDescription work={work} />
                   }
 
                   {encoreLink &&
