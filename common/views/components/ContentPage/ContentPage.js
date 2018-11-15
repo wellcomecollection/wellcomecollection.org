@@ -36,6 +36,13 @@ const ContentPage = ({
   Siblings = [],
   outroProps
 }: Props) => {
+  // We don't want to add a spacing unit if there's nothing to render
+  // in the body (we don't render the 'standfirst' here anymore).
+  function shouldRenderBody() {
+    if (Body.props.body.length === 1 && Body.props.body[0].type === 'standfirst') return false;
+    if (Body.props.body.length > 0) return true;
+  }
+
   return (
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
@@ -43,7 +50,7 @@ const ContentPage = ({
         <div className={classNames({
           'bg-cream': isCreamy
         })}>
-          {Body.props.body.length > 0 &&
+          {shouldRenderBody() &&
             <SpacingSection>
               <div className='basic-page'>
                 <Fragment>{Body}</Fragment>
