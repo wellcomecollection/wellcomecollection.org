@@ -189,7 +189,7 @@ function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[]) {
     return period.dates[0].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd) || period.dates[period.dates.length - 1].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 
-  return exceptionalPeriods.length > 1 ? exceptionalPeriods : null;
+  return exceptionalPeriods.length > 0 ? exceptionalPeriods : null;
 }
 
 function exceptionalClosedDates(exceptionalOpeningHours: ?periodModifiedHours[]): ?{periodStart: Moment, periodEnd: Moment, venues: {
