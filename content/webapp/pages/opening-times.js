@@ -79,91 +79,96 @@ export class OpeningTimesPage extends Component<Props> {
         Body={<Body body={[]} />}
       >
 
-        <h2 className={classNames({
-          [font({s: 'WB6', m: 'WB5'})]: true,
-          'no-margin': true
-        })} id='regular'>Regular opening times</h2>
+        <Fragment>
+          <h2 className={classNames({
+            [font({s: 'WB6', m: 'WB5'})]: true
+          })} id='regular'>Regular opening times</h2>
 
-        <OpeningHours
-          extraClasses='opening-hours--light'
-          upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods}
-          groupedVenues={openingHours.groupedVenues} />
+          <div className={classNames({
+            [spacing({s: 4}, {margin: ['top']})]: true
+          })}>
+            <OpeningHours
+              extraClasses='opening-hours--light'
+              upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods}
+              groupedVenues={openingHours.groupedVenues} />
+          </div>
+          <Divider
+            extraClasses={classNames({
+              'divider--pumice': true,
+              'divider--keyline': true,
+              [spacing({s: 1}, {margin: ['top']})]: true,
+              [spacing({s: 4}, {margin: ['bottom']})]: true
+            })} />
 
-        <Divider
-          extraClasses={classNames({
-            'divider--pumice': true,
-            'divider--keyline': true,
-            [spacing({s: 1}, {margin: ['top']})]: true,
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })} />
-
-        {openingHours.upcomingExceptionalOpeningPeriods && openingHours.upcomingExceptionalOpeningPeriods.length > 0 &&
-            openingHours.upcomingExceptionalOpeningPeriods.map((openingPeriod, i, arr) => {
-              const hours = openingHours.exceptionalOpeningHours[i - 1];
-              const firstDate = formatDate(openingPeriod.dates[0]);
-              const lastDate = formatDate(openingPeriod.dates[openingPeriod.dates.length - 1]);
-              return (
-                <Fragment key={openingPeriod.type}>
-                  <h2
-                    id={i === 1 ? 'exceptional' : null}
-                    className={classNames({
-                      [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
-                      [font({s: 'WB6', m: 'WB5'})]: true,
-                      'no-margin': true
-                    })}>
-                    {openingPeriod.type && openingPeriod.type === 'Late Spectacular' &&
-                        `${formatDay(openingPeriod.dates[0])} Late Spectacular opening times`
-                    }
-                    {openingPeriod.type && openingPeriod.type !== 'other' &&
-                        `${openingPeriod.type} opening times`
-                    }
-                    {(!openingPeriod.type || openingPeriod.type === 'other') && 'Revised opening times'}
-                  </h2>
-                  <p className={classNames({
-                    [font({s: 'HNM4'})]: true,
+          {openingHours.upcomingExceptionalOpeningPeriods && openingHours.upcomingExceptionalOpeningPeriods.length > 0 &&
+          openingHours.upcomingExceptionalOpeningPeriods.map((openingPeriod, i, arr) => {
+            const hours = openingHours.exceptionalOpeningHours[i - 1];
+            const firstDate = formatDate(openingPeriod.dates[0]);
+            const lastDate = formatDate(openingPeriod.dates[openingPeriod.dates.length - 1]);
+            return (
+              <Fragment key={openingPeriod.type}>
+                <h2
+                  id={i === 1 ? 'exceptional' : null}
+                  className={classNames({
                     [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
-                    [spacing({s: 2}, {padding: ['top']})]: true
+                    [font({s: 'WB6', m: 'WB5'})]: true,
+                    'no-margin': true
                   })}>
-                    Our opening times will change
-                    {openingPeriod.dates.length > 1 &&
-                      <Fragment>
-                        {openingHours.upcomingExceptionalOpeningPeriods.length > 1 && i > 1 ? ' and ' : ' '}
-                        between <span className='nowrap'>{firstDate}</span>&mdash;<span clasNames='nowrap'>{lastDate}</span>
-                        {i === arr.length - 1 ? '.' : ''}
-                      </Fragment>
-                    }
+                  {openingPeriod.type && openingPeriod.type === 'Late Spectacular' &&
+                      `${formatDay(openingPeriod.dates[0])} Late Spectacular opening times`
+                  }
+                  {openingPeriod.type && openingPeriod.type !== 'other' &&
+                      `${openingPeriod.type} opening times`
+                  }
+                  {(!openingPeriod.type || openingPeriod.type === 'other') && 'Revised opening times'}
+                </h2>
+                <p className={classNames({
+                  [font({s: 'HNM4'})]: true,
+                  [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
+                  [spacing({s: 2}, {padding: ['top']})]: true
+                })}>
+                  Our opening times will change
+                  {openingPeriod.dates.length > 1 &&
+                    <Fragment>
+                      {openingHours.upcomingExceptionalOpeningPeriods.length > 1 && i > 1 ? ' and ' : ' '}
+                      between <span className='nowrap'>{firstDate}</span>&mdash;<span clasNames='nowrap'>{lastDate}</span>
+                      {i === arr.length - 1 ? '.' : ''}
+                    </Fragment>
+                  }
 
-                    {openingPeriod.dates.length <= 1 &&
-                      <Fragment>
-                        on <span style='whiteSpace: nowrap'>{firstDate}</span>
-                        {i === arr.length - 1 ? '.' : ''}
-                      </Fragment>
-                    }
-                  </p>
-                  {hours.dates.map((venues, i) =>
+                  {openingPeriod.dates.length <= 1 &&
+                    <Fragment>
+                      on <span style='whiteSpace: nowrap'>{firstDate}</span>
+                      {i === arr.length - 1 ? '.' : ''}
+                    </Fragment>
+                  }
+                </p>
+                {hours.dates.map((venues, i) =>
 
-                    <ExceptionalOpeningHoursTable key={i}
-                      caption={venues[0].exceptionalDate.overrideDate}
-                      venues={venues}
-                      extraClasses={'opening-hours--light'} />
+                  <ExceptionalOpeningHoursTable key={i}
+                    caption={venues[0].exceptionalDate.overrideDate}
+                    venues={venues}
+                    extraClasses={'opening-hours--light'} />
 
-                  )}
+                )}
 
-                  <Divider
-                    extraClasses={classNames({
-                      'divider--pumice': true,
-                      'divider--keyline': true,
-                      [spacing({s: 1}, {margin: ['top']})]: true,
-                      [spacing({s: 4}, {margin: ['bottom']})]: true
-                    })} />
+                <Divider
+                  extraClasses={classNames({
+                    'divider--pumice': true,
+                    'divider--keyline': true,
+                    [spacing({s: 1}, {margin: ['top']})]: true,
+                    [spacing({s: 4}, {margin: ['bottom']})]: true
+                  })} />
 
-                </Fragment>
-              );
-            })
-        }
+              </Fragment>
+            );
+          })
+          }
+        </Fragment>
+
         {openingHours.exceptionalClosedDates.length > 0 &&
             <Fragment>
-              <h2 className={`${font({s: 'WB6', m: 'WB5'})} no-margin`} id='exceptional'>
+              <h2 className={`${font({s: 'WB6', m: 'WB5'})}`} id='exceptional'>
                   Closure dates for{' '}
                 {openingHours.exceptionalClosedDates[0].periodStart ? formatYear(openingHours.exceptionalClosedDates[0].periodStart) : ' the coming year'}
               </h2>
