@@ -2,7 +2,7 @@
 import {Component, Fragment} from 'react';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import {getPage} from '@weco/common/services/prismic/pages';
-import {classNames, spacing, grid, font} from '@weco/common/utils/classnames';
+import {classNames, spacing, font} from '@weco/common/utils/classnames';
 import {formatDay, formatDate, formatYear, formatDayMonth} from '@weco/common/utils/format-date';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -102,7 +102,7 @@ export class OpeningTimesPage extends Component<Props> {
 
           {openingHours.upcomingExceptionalOpeningPeriods && openingHours.upcomingExceptionalOpeningPeriods.length > 0 &&
           openingHours.upcomingExceptionalOpeningPeriods.map((openingPeriod, i, arr) => {
-            const hours = openingHours.exceptionalOpeningHours[i - 1];
+            const hours = openingHours.exceptionalOpeningHours[i];
             const firstDate = formatDate(openingPeriod.dates[0]);
             const lastDate = formatDate(openingPeriod.dates[openingPeriod.dates.length - 1]);
             return (
@@ -110,7 +110,6 @@ export class OpeningTimesPage extends Component<Props> {
                 <h2
                   id={i === 1 ? 'exceptional' : null}
                   className={classNames({
-                    [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
                     [font({s: 'WB6', m: 'WB5'})]: true,
                     'no-margin': true
                   })}>
@@ -124,7 +123,6 @@ export class OpeningTimesPage extends Component<Props> {
                 </h2>
                 <p className={classNames({
                   [font({s: 'HNM4'})]: true,
-                  [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
                   [spacing({s: 2}, {padding: ['top']})]: true
                 })}>
                   Our opening times will change
@@ -143,14 +141,15 @@ export class OpeningTimesPage extends Component<Props> {
                     </Fragment>
                   }
                 </p>
-                {hours.dates.map((venues, i) =>
+
+                {hours && hours.dates.map((venues, i) => (
 
                   <ExceptionalOpeningHoursTable key={i}
-                    caption={venues[0].exceptionalDate.overrideDate}
+                    caption={venues[0].exceptionalDate.overrideDate ? venues[0].exceptionalDate.overrideDate : venues[0].exceptionalDate}
                     venues={venues}
                     extraClasses={'opening-hours--light'} />
 
-                )}
+                ))}
 
                 <Divider
                   extraClasses={classNames({
