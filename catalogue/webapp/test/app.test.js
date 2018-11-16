@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 
-test('server', async () => {
+test('healthcheck', async () => {
   const server = await app;
   const resp = await request(server.callback()).get('/works/management/healthcheck');
 
