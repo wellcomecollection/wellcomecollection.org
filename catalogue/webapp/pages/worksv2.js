@@ -12,7 +12,10 @@ import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import type {
+  GetInitialPropsProps,
+  ExtraProps
+} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/worksv2';
 import {workV2Link, worksV2Link} from '../services/catalogue/links';
 
@@ -181,10 +184,18 @@ export const Works = ({
 );
 
 export class WorksPage extends Component<PageProps> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
+  static getInitialProps = async (
+    context: GetInitialPropsProps,
+    { toggles = {} }: ExtraProps
+  ) => {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
-    const works = await getWorks({ query, page });
+    console.info(toggles.unfilteredCatalogueResults);
+    const filters = toggles.unfilteredCatalogueResults ? {} : {
+      workType: ['q', 'k'],
+      'items.locations.locationType': ['iiif-image']
+    };
+    const works = await getWorks({ query, page, filters });
 
     if (works.type === 'Error') {
       return { statusCode: works.httpStatus };
