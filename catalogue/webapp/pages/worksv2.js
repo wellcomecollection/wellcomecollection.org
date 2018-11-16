@@ -190,7 +190,6 @@ export class WorksPage extends Component<PageProps> {
   ) => {
     const query = context.query.query;
     const page = context.query.page ? parseInt(context.query.page, 10) : 1;
-    console.info(toggles.unfilteredCatalogueResults);
     const filters = toggles.unfilteredCatalogueResults ? {} : {
       workType: ['q', 'k'],
       'items.locations.locationType': ['iiif-image']
