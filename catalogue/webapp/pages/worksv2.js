@@ -9,12 +9,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
+import Filters from '@weco/common/views/components/Filters/Filters';
+import filtersJSON from '../services/catalogue/filters';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
+import {getWorks} from '../services/catalogue/worksv2';
+import {workV2Link, worksV2Link} from '../services/catalogue/links';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
-import {getWorks} from '../services/catalogue/worksv2';
-import {workV2Link, worksV2Link} from '../services/catalogue/links';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -91,6 +93,14 @@ export const Works = ({
               ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
               </p>
             }
+          </div>
+          <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
+            <Filters
+              schema={filtersJSON}
+              values={{
+                workType: ['q', 'k'],
+                'items.locations.locationType': ['iiif-image']
+              }} />
           </div>
         </div>
       </div>

@@ -1,0 +1,24 @@
+{
+  "parameters": [
+    {
+      "in": "query",
+      "name": "items.locations.locationType",
+      "title": "Item location type",
+      "schema": {
+        "type": "string",
+        "enum": ["iiif-image", "iiif-presentation"],
+        "enumTitles": ["IIIF image", "IIIF presentation"]
+      }
+    },
+    {
+      "in": "query",
+      "name": "workType",
+      "title": "Work type",
+      "schema": {
+        "type": "string",
+        "enum": ["a", "q", "k"],
+        "enumTitles": ["Book", "DigitalImages", "Pictures"]
+      }
+    }
+  ]
+}
