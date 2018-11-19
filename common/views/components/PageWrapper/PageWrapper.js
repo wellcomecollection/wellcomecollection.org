@@ -199,21 +199,23 @@ const PageWrapper = (Comp: NextComponent) => {
       }
 
       return (
-        <DefaultPageLayout
-          title={title}
-          description={description}
-          type={type}
-          canonicalUrl={canonicalUrl}
-          imageUrl={imageUrl}
-          pageJsonLd={pageJsonLd}
-          siteSection={siteSection}
-          analyticsCategory={analyticsCategory}
-          openingTimes={openingTimes}
-          globalAlert={globalAlert}
-          oEmbedUrl={oEmbedUrl}
-          pageState={pageStateWithToggles}>
-          <Comp {...props} />
-        </DefaultPageLayout>
+        <div>
+          <DefaultPageLayout
+            title={title}
+            description={description}
+            type={type}
+            canonicalUrl={canonicalUrl}
+            imageUrl={imageUrl}
+            pageJsonLd={pageJsonLd}
+            siteSection={siteSection}
+            analyticsCategory={analyticsCategory}
+            openingTimes={openingTimes}
+            globalAlert={globalAlert}
+            oEmbedUrl={oEmbedUrl}
+            pageState={pageStateWithToggles}>
+            <Comp {...props} />
+          </DefaultPageLayout>
+        </div>
       );
     }
   };

@@ -185,7 +185,7 @@ function exceptionalOpeningHours(dates: OverrideDate[], placesOpeningHours: Plac
 function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[]) {
   const exceptionalPeriods =  periods && periods.filter((period) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day');
+    const displayPeriodEnd = london().add(6, 'months');
     return period.dates[0].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd) || period.dates[period.dates.length - 1].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 
