@@ -203,8 +203,8 @@ jobs:
           command: |
             # Taken from
             # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-            apt-get -y -qq update
-            apt-get -y -qq install python3.4-dev
+            sudo apt-get -y -qq update
+            sudo apt-get -y -qq install python3.4-dev
             curl -O https://bootstrap.pypa.io/get-pip.py
             python3.4 get-pip.py --user
             export PATH=~/.local/bin:$PATH
@@ -214,6 +214,9 @@ jobs:
           command: |
             yarn
             yarn build
+      - run:
+          name: Testing aws
+          command: aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
       - run:
           name: Deploy
           command: |
