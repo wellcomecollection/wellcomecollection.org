@@ -104,7 +104,7 @@ jobs:
       - run:
           name: Install terraform
           command: |
-            wget https://releases.hashicorp.com/terraform/0.6.8/terraform_0.11.10_linux_amd64.zip
+            wget https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip
             unzip terraform_0.11.10_linux_amd64.zip -d terraform
             chmod +x ./terraform
             export PATH=$PATH:$(pwd)
