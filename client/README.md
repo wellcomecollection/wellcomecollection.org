@@ -1,4 +1,4 @@
-# wellcomecollection.org client
+# Static
 
 ```bash
 npm install
