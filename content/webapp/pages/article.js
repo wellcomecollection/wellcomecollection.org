@@ -4,7 +4,7 @@ import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
@@ -26,13 +26,21 @@ import {articleLd} from '@weco/common/utils/json-ld';
 import {ContentFormatIds} from '@weco/common/model/content-format-id';
 
 type Props = {|
-  article: Article,
-  showOutro: boolean
+  article: Article
 |}
 
 type State = {|
   listOfSeries: any[]
 |}
+
+function articleHasOutro(article: Article) {
+  return Boolean(
+    article.outroResearchItem ||
+    article.outroReadItem ||
+    article.outroVisitItem
+  );
+}
+
 export class ArticlePage extends Component<Props, State> {
   state = {
     listOfSeries: []
@@ -46,12 +54,6 @@ export class ArticlePage extends Component<Props, State> {
     const article = await getArticle(context.req, id);
 
     if (article) {
-      const hasOutro = Boolean(
-        article.outroResearchItem ||
-        article.outroReadItem ||
-        article.outroVisitItem
-      );
-
       return {
         article,
         title: article.title,
@@ -62,8 +64,7 @@ export class ArticlePage extends Component<Props, State> {
         siteSection: 'stories',
         analyticsCategory: 'editorial',
         pageJsonLd: articleLd(article),
-        pageState: {hasOutro},
-        showOutro: hasOutro && toggles.outro
+        pageState: {hasOutro: articleHasOutro(article)}
       };
     } else {
       return {statusCode: 404};
@@ -85,10 +86,7 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   render() {
-    const {
-      article,
-      showOutro
-    } = this.props;
+    const { article } = this.props;
 
     const breadcrumbs = {
       items: [
@@ -213,7 +211,7 @@ export class ArticlePage extends Component<Props, State> {
     }).filter(Boolean);
 
     return (
-      <BasePage
+      <ContentPage
         id={article.id}
         isCreamy={true}
         Header={Header}
@@ -223,7 +221,7 @@ export class ArticlePage extends Component<Props, State> {
         />}
         Siblings={Siblings}
         contributorProps={{contributors: article.contributors}}
-        outroProps={showOutro ? {
+        outroProps={articleHasOutro(article) ? {
           researchLinkText: article.outroResearchLinkText,
           researchItem: article.outroResearchItem,
           readLinkText: article.outroReadLinkText,
@@ -232,7 +230,7 @@ export class ArticlePage extends Component<Props, State> {
           visitItem: article.outroVisitItem
         } : null}
       >
-      </BasePage>
+      </ContentPage>
     );
   }
 };

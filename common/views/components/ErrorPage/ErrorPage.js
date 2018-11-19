@@ -1,6 +1,6 @@
 // @flow
 import {classNames, spacing} from '../../../utils/classnames';
-import BasePage from './BasePage';
+import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
@@ -11,7 +11,7 @@ type Props = {|
 
 const ErrorPage = ({ errorStatus }: Props) => {
   return (
-    <BasePage
+    <ContentPage
       id={'error'}
       Header={
         <PageHeader
@@ -93,7 +93,7 @@ const ErrorPage = ({ errorStatus }: Props) => {
           </p>
         </div>
       </div>
-    </BasePage>
+    </ContentPage>
   );
 };
 

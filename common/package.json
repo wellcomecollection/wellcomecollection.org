@@ -8,6 +8,8 @@
   "dependencies": {
     "@weco/next-plugin-transpile-modules": "^0.0.2",
     "@zeit/next-bundle-analyzer": "^0.1.1",
+    "babel-core": "^7.0.0-bridge",
+    "babel-jest": "^23.6.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "cookie-cutter": "^0.2.0",

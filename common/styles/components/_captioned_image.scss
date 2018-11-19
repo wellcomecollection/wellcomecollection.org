@@ -3,6 +3,7 @@
   margin: 0;
   display: inline-block;
   width: 100%;
+  text-align: center;
 
   .image {
     max-height: 80vh;
@@ -10,9 +11,11 @@
 
   }
 
+  /* stylelint-disable */
   noscript .image {
     max-height: none;
   }
+  /* stylelint-enable */
 }
 
 .captioned-image--fit-vh {
@@ -30,6 +33,6 @@
 
 /* stylelint-disable */
 .caption {
-  max-width: 55em;
+  text-align: left;
 }
 /* stylelint-enable */

@@ -2,7 +2,7 @@
 import {Fragment, Component} from 'react';
 import {getBook} from '@weco/common/services/prismic/books';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import BasePage from '@weco/common/views/components/BasePage/BasePage';
+import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
@@ -134,7 +134,7 @@ export class ArticleSeriesPage extends Component<Props> {
       : drupalContributor ? [drupalContributor] : [];
 
     return (
-      <BasePage
+      <ContentPage
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} />}
@@ -146,7 +146,7 @@ export class ArticleSeriesPage extends Component<Props> {
           </div>
           {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
         </Fragment>
-      </BasePage>
+      </ContentPage>
     );
   }
 };

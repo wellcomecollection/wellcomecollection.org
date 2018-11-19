@@ -53,8 +53,7 @@ const Body = ({
         .map((slice, i) => (
           <SpacingComponent key={`slice${i}`}>
             <div className={classNames({
-              'body-part': true,
-              'overflow-hidden': true
+              'body-part': true
             })}>
               {slice.type === 'text' &&
                 <Layout8>
