@@ -71,6 +71,13 @@ jobs:
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
       - run:
+          name: Deploy
+          command: |
+            pushd ../../deploy
+              yarn
+              node ./deploy_service.js -s content
+            popd
+      - run:
           name: Next report
           command: |
             yarn
