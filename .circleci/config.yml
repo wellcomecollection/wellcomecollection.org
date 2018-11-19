@@ -75,7 +75,7 @@ jobs:
           command: |
             pushd ../../deploy
               yarn
-              node ./deploy_service.js -s content
+              node ./deploy_service.js -s content --no-verify
             popd
       - run:
           name: Next report
