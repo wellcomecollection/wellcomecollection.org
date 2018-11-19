@@ -50,26 +50,38 @@ const IndexPage = () => {
     }}>
       <Header />
       <div style={{
-        maxWidth: '800px',
+        maxWidth: '600px',
         margin: '0 auto'
       }}>
         <h2>A/B tests</h2>
-        <ul>
+        <p>Check back later…</p>
+
+        <hr />
+
+        <h2>Feature toggles</h2>
+        <ul style={{
+          listStyle: 'none',
+          margin: 0,
+          padding: 0
+        }}>
           <li>
-            <span style={{marginRight: '6px'}}>Outro</span>
+            <h3 style={{marginRight: '6px'}}>Unfiltered catalogue results</h3>
+            <p>
+              We currently filter the results of the catalogue to only how
+              results that we know we have images for. This will disable that
+              and show everything.
+            </p>
             <button onClick={() => {
-              setCookie('outro', 'true');
+              setCookie('unfilteredCatalogueResults', 'true');
             }}>On</button>
             <button onClick={() => {
-              setCookie('outro', 'false');
+              setCookie('unfilteredCatalogueResults', 'false');
             }}>Off</button>
             <button onClick={() => {
-              setCookie('outro');
+              setCookie('unfilteredCatalogueResults');
             }}>Leave</button>
           </li>
         </ul>
-        <h2>Feature toggles</h2>
-        <p>Check back later…</p>
       </div>
     </div>
   );
