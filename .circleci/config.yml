@@ -191,15 +191,15 @@ jobs:
       - image: node:8.11.3
     working_directory: /home/circleci/wellcomecollection.org/cardigan
     steps:
+      - add_ssh_keys
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
             - common_modules_circleci_node_8_{{ checksum "package.json" }}
             - common_modules_circleci_node_8_
-      - add_ssh_keys
       - run:
-          name: Install AWS CLI
+          name: Install awscli
           command: sudo apt-get install awscli
       - run:
           name: Build
@@ -208,7 +208,8 @@ jobs:
             yarn build
       - run:
           name: Testing aws
-          command: aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
+          command: |
+            aws s3 sync . s3://cardigan.wellcomecollection.org --only-show-errors
       - run:
           name: Deploy
           command: |
