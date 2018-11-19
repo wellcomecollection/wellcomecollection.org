@@ -30,7 +30,7 @@ type PageProps = {|
   page: ?number,
   works: {| results: [], totalResults: number |},
   pagination: ?PaginationProps,
-  version: ?number
+  showWorksFilters: boolean
 |}
 
 type ComponentProps = {|
@@ -44,7 +44,7 @@ export const Works = ({
   works,
   pagination,
   handleSubmit,
-  version
+  showWorksFilters
 }: ComponentProps) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -97,14 +97,16 @@ export const Works = ({
               </p>
             }
           </div>
-          <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
-            <Filters
-              schema={filtersJSON}
-              values={{
-                workType: ['q', 'k'],
-                'items.locations.locationType': ['iiif-image']
-              }} />
-          </div>
+          {showWorksFilters &&
+            <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
+              <Filters
+                schema={filtersJSON}
+                values={{
+                  workType: ['q', 'k'],
+                  'items.locations.locationType': ['iiif-image']
+                }} />
+            </div>
+          }
         </div>
       </div>
     </div>
@@ -227,7 +229,8 @@ export class WorksPage extends Component<PageProps> {
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
       siteSection: 'images',
-      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`,
+      showWorksFilters: toggles.showWorksFilters
     };
   };
 
@@ -242,12 +245,12 @@ export class WorksPage extends Component<PageProps> {
   render() {
     return (
       <Works
-        version={this.props.version}
         page={this.props.page}
         query={this.props.query}
         works={this.props.works}
         pagination={this.props.pagination}
         handleSubmit={this.handleSubmit}
+        showWorksFilters={this.props.showWorksFilters}
       />
     );
   }

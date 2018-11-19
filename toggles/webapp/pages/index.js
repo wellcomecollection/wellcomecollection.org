@@ -81,6 +81,16 @@ const IndexPage = () => {
               setCookie('unfilteredCatalogueResults');
             }}>Leave</button>
           </li>
+
+          <button onClick={() => {
+            setCookie('showWorksFilters', 'true');
+          }}>On</button>
+          <button onClick={() => {
+            setCookie('showWorksFilters', 'false');
+          }}>Off</button>
+          <button onClick={() => {
+            setCookie('showWorksFilters');
+          }}>Leave</button>
         </ul>
       </div>
     </div>
