@@ -71,6 +71,16 @@ jobs:
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
       - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
+          name: Deploy
+          command: |
+            pushd ../../deploy
+              yarn
+              node ./deploy_service.js -s content --no-verify
+            popd
+      - run:
           name: Next report
           command: |
             yarn
