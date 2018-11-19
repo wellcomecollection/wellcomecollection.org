@@ -1,5 +1,3 @@
 ## Purpose
 
 To provide a means for users to find what they're looking for.
-
-A form containing a text input and a button.
