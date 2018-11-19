@@ -207,10 +207,6 @@ jobs:
             yarn
             yarn build
       - run:
-          name: Testing aws
-          command: |
-            aws s3 sync . s3://cardigan.wellcomecollection.org --only-show-errors
-      - run:
           name: Deploy
           command: |
             if [ "$CIRCLE_BRANCH" = "master" ];
