@@ -1,48 +1,7 @@
 {
-  "name": "wellcomecollection.org-client",
+  "name": "@weco/static",
   "version": "1.0.0",
-  "description": "wellcomecollection.org frontend",
-  "author": "David McCormick <d.mccormick@wellcome.ac.uk>",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^6.4.1",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "glob": "^7.1.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-eslint": "^3.0.1",
-    "gulp-hash": "^4.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.1",
-    "gulp-stylelint": "^4.0.0",
-    "gulp-util": "^3.0.7",
-    "json-sass": "^1.3.5",
-    "stylelint": "^7.3.1",
-    "stylelint-declaration-block-order": "^0.2.0",
-    "stylelint-declaration-use-variable": "^1.6.0",
-    "stylelint-scss": "^1.5.2",
-    "stylelint-selector-bem-pattern": "^1.1.1",
-    "webpack-stream": "^4.0.0"
-  },
-  "scripts": {
-    "compile": "gulp compile",
-    "compile:dev": "gulp dev --dev"
-  },
-  "dependencies": {
-    "anim": "0.0.1",
-    "cookie-cutter": "^0.2.0",
-    "core-js": "^2.5.1",
-    "fastdom": "^1.0.6",
-    "fontfaceobserver": "^2.0.9",
-    "lazysizes": "^3.0.0",
-    "lodash.debounce": "^4.0.8",
-    "openseadragon": "^2.3.1",
-    "redux": "^3.6.0",
-    "whatwg-fetch": "^2.0.3",
-    "xstream": "^10.3.0"
-  }
+  "description": "Static assets for wellcomecollection.org",
+  "author": "Wellcome Collection <digital@wellcomecollection.org>",
+  "license": "MIT"
 }
