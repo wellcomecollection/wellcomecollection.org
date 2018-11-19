@@ -71,6 +71,9 @@ jobs:
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
       - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
           name: Deploy
           command: |
             pushd ../../deploy
