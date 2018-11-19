@@ -188,7 +188,7 @@ jobs:
             -  node_modules
   cardigan:
     docker:
-      - image: node:8.11.3
+      - image: circleci/node:8.11.3
     working_directory: /home/circleci/wellcomecollection.org/cardigan
     steps:
       - add_ssh_keys
