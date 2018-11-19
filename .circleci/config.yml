@@ -71,16 +71,6 @@ jobs:
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
       - run:
-          name: Install awscli
-          command: sudo apt-get install awscli
-      - run:
-          name: Deploy
-          command: |
-            pushd ../../deploy
-              yarn
-              node ./deploy_service.js -s content --no-verify
-            popd
-      - run:
           name: Next report
           command: |
             yarn
@@ -99,6 +89,24 @@ jobs:
               cp server.${CIRCLE_SHA1}.html content.server.latest.html
               cp server.${CIRCLE_SHA1}.json content.server.latest.json
               aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
+            popd
+  content_deploy:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: ~/wellcomecollection.org/content/webapp
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - add_ssh_keys
+      - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
+          name: Deploy
+          command: |
+            pushd ../../deploy
+              yarn
+              node ./deploy_service.js -s content --no-verify
             popd
   root_tests:
     docker:
@@ -236,6 +244,13 @@ workflows:
       - content:
           requires:
             - checkout_code
+      - content_deploy:
+          requires:
+              - content
+          filters:
+            branches:
+              only:
+                - master
       - install_common_modules:
           requires:
             - checkout_code
