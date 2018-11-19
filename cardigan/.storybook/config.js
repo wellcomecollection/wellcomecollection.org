@@ -4,9 +4,7 @@ import { setOptions } from '@storybook/addon-options';
 import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 import { withInfo } from '@storybook/addon-info';
-
 import styleguideSass from '../../common/styles/styleguide.scss';
-import nonCriticalSass from '../../common/styles/non-critical.scss';
 
 function loadStories() {
   const components = require.context('../stories/components', true, /\.js$/);
@@ -36,9 +34,6 @@ const CenterDecorator = (storyFn) => (
   <Fragment>
     <style id='styleguide-sass'>
       {styleguideSass}
-    </style>
-    <style id='non-critical-sass'>
-      {nonCriticalSass}
     </style>
     <div style={styles} className='enhanced'>
       { storyFn() }
