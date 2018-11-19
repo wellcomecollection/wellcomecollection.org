@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-function randomNumber(min, max) {
+export function randomNumber(min, max) {
   return Math.floor(Math.random() * max) + min;
 }
 
