@@ -43,6 +43,21 @@ function setCookie(name, value) {
   const expiration = value ? ` Max-Age=${aYear}` : `Expires=${new Date('1970-01-01').toString()}`;
   document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
+
+const featureToggles = [{
+  id: 'unfilteredCatalogueResults',
+  title: 'Unfiltered catalogue results',
+  description:
+    'We currently filter the results of the catalogue to only how' +
+    'results that we know we have images for. This will disable that' +
+    'and show everything.'
+}, {
+  id: 'showWorksFilters',
+  title: 'Show filters on works search',
+  description:
+    'Exposes the filters we have available on the API on the UI.'
+}];
+
 const IndexPage = () => {
   return (
     <div style={{
@@ -54,44 +69,37 @@ const IndexPage = () => {
         margin: '0 auto'
       }}>
         <h2>A/B tests</h2>
-        <p>Check back later…</p>
+        <p>None for now, check back later…</p>
 
         <hr />
 
         <h2>Feature toggles</h2>
-        <ul style={{
-          listStyle: 'none',
-          margin: 0,
-          padding: 0
-        }}>
-          <li>
-            <h3 style={{marginRight: '6px'}}>Unfiltered catalogue results</h3>
-            <p>
-              We currently filter the results of the catalogue to only how
-              results that we know we have images for. This will disable that
-              and show everything.
-            </p>
-            <button onClick={() => {
-              setCookie('unfilteredCatalogueResults', 'true');
-            }}>On</button>
-            <button onClick={() => {
-              setCookie('unfilteredCatalogueResults', 'false');
-            }}>Off</button>
-            <button onClick={() => {
-              setCookie('unfilteredCatalogueResults');
-            }}>Leave</button>
-          </li>
+        {featureToggles.length > 0 &&
+          <ul style={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0
+          }}>
+            {featureToggles.map(toggle =>
+              <li key={toggle.id}>
+                <h3 style={{marginRight: '6px'}}>{toggle.title}</h3>
+                <p>{toggle.description}</p>
+                <button onClick={() => {
+                  setCookie(toggle.id, 'true');
+                }}>On</button>
+                <button onClick={() => {
+                  setCookie(toggle.id, 'false');
+                }}>Off</button>
+                <button onClick={() => {
+                  setCookie(toggle.id);
+                }}>Leave</button>
+              </li>
+            )}
+          </ul>
+        }
 
-          <button onClick={() => {
-            setCookie('showWorksFilters', 'true');
-          }}>On</button>
-          <button onClick={() => {
-            setCookie('showWorksFilters', 'false');
-          }}>Off</button>
-          <button onClick={() => {
-            setCookie('showWorksFilters');
-          }}>Leave</button>
-        </ul>
+        {featureToggles.length === 0 && <p>None for now, check back later…</p>}
+
       </div>
     </div>
   );
