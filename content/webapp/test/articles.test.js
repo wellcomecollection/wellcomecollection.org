@@ -14,7 +14,7 @@ it('renders <WorkPage /> with an catalogue API work response', async () => {
 
   if (article) {
     const Page = TestRenderer.create(
-      <ArticlePage article={article} showOutro={false} />
+      <ArticlePage article={article} />
     );
     expect(Page).not.toBe(null);
   }
