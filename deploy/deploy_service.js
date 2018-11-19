@@ -22,7 +22,6 @@ program
   .version('1.0.0')
   .option('-a, --all', 'Deploy all the services')
   .option('-s, --service [serviceName]', 'Deploy a service')
-  .option('--no-verify', 'Remove sauce')
   .parse(process.argv);
 
 if (program.all) {
@@ -31,9 +30,7 @@ if (program.all) {
     return deploy(serviceName);
   }));
 } else if (program.service) {
-  deploy(program.service, {
-    noVerify: !program.verify
-  });
+  deploy(program.service);
 } else {
   program.help();
   process.exit(1);
@@ -61,7 +58,8 @@ async function deploy(serviceName, options) {
   const pr = githubMergeRegExp.exec(githubMessage);
   const prLink = pr && `https://github.com/wellcometrust/wellcomecollection.org/pulls/${pr[1]}`;
 
-  const {shouldDeploy} = options.noVerify ? {shouldDeploy: true} : await prompt({
+  console.info('\n');
+  const {shouldDeploy} = await prompt({
     type: 'confirm',
     name: 'shouldDeploy',
     message:
@@ -73,7 +71,7 @@ async function deploy(serviceName, options) {
   });
 
   if (shouldDeploy) {
-    console.info(colors.green(`> Deploying ${serviceName}:${latestTag}…`));
+    console.info(colors.green(`> Deploying ${serviceName}...`));
     const dir = exec(`./terraform_apply_service.sh ${serviceName} ${latestTag}`, (err, stdout, stderr) => {
       if (err) {
         console.error(colors.red(`> Terraform failed while deploying ${serviceName}`));
