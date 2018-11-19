@@ -258,6 +258,7 @@ workflows:
             branches:
               only:
                 - master
+                - revert-3758-revert-3754-auto_deploy_content
       - install_common_modules:
           requires:
             - checkout_code
