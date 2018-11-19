@@ -26,5 +26,26 @@ module.exports = (storybookBaseConfig, configType) => {
       }
     }
   });
+
+  storybookBaseConfig.module.rules.push({
+    test: /\.scss$/,
+    include: [
+      path.resolve(__dirname, '../../common/styles')
+    ],
+    use: [{
+      loader: 'css-loader',
+      options: {
+        minimize: true
+      }
+    }, {
+      loader: 'postcss-loader',
+      options: {
+        config: {
+          path: path.resolve(__dirname, '../')
+        }
+      }
+    }, 'sass-loader']
+  });
+
   return storybookBaseConfig;
 };

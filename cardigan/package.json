@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "dev": "start-storybook -p 9001 -c .storybook -s ../dist/assets",
-    "build": "build-storybook -c .storybook -s ../dist/assets -o .dist"
+    "dev": "start-storybook -p 9001 -c .storybook",
+    "build": "build-storybook -c .storybook -o .dist"
   },
   "devDependencies": {},
   "dependencies": {
@@ -16,10 +16,16 @@
     "@storybook/react": "^4.0.6",
     "babel-loader": "^8.0.4",
     "babel-plugin-react-require": "^3.0.1",
+    "css-loader": "^1.0.1",
     "faker": "^4.1.0",
     "moment": "^2.22.2",
+    "node-sass": "^4.10.0",
+    "postcss-easy-import": "^3.0.0",
+    "postcss-loader": "^3.0.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
     "webpack": "^4.25.1"
   }
 }
