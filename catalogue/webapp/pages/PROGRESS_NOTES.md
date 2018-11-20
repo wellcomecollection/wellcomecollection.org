@@ -10,29 +10,29 @@ We have a lot of work to do, and we’ve only just begun.
 
 ## What's new?
 
-[The Platform team here](https://github.com/wellcometrust/platform),
-who looks after (our API)[(https://developers.wellcomecollection.org/catalogue)]
-and the data in it, have been up to beavering away to help enrich and expand the
-data we have available through our search.
+[The Platform team at Wellcome Collection](https://github.com/wellcometrust/platform),
+who looks after (our API)[(https://developers.wellcomecollection.org/catalogue)],
+have been up to beavering away to help enrich and expand the data we have
+available through our search.
 
 We have been working on surfacing that data in a clear, purposeful, and
 beautiful fashion.
 
 * Works now come with a broader set of metadata
-  * The creators field has been usurped by the richer contributors field which.
+  * The creators field has been usurped by the richer contributors field which
     contains more information about the contributors role, and more information about
-    the contributor.
+    the contributor
   * Subjects and genres have been expanded to have concepts attached to them
   * The production of an object has now been split into production events, which
-    are made up of places, agents (people, organisation etc), and dates.
+    are made up of places, agents (people, organisation etc), and dates
 
 
 ## What's improved
 
 * Performance of search has been improved, averaging sub-second returning of 100
-results, and only loading in the interface data once, to save you your data.
+results, and only loading in the interface data once, to save you your data
 * We now search the field that the value was liked to from a work page, surfacing
-results more specifically relevant.
+results more specifically relevant
   e.g. [Caricature as a subject](https://wellcomecollection.org/works?query=subject:"Caricature")
   vs [Caricature as a general search](https://wellcomecollection.org/works?query="Caricature")
   ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
