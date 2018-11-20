@@ -10,7 +10,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
-import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
+import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import type {
   GetInitialPropsProps,
   ExtraProps
@@ -34,21 +34,6 @@ export const Works = ({
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
-  const pagination = works ? PaginationFactory.fromList(
-    works.results,
-    Number(works.totalResults) || 1,
-    Number(page) || 1,
-    works.pageSize || 1,
-    {query: query || ''}
-  ) : null;
-
-  // https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-getderivedstatefromprops
-  // Make sure if we're using the Pagination element, which reinitialised the
-  // `getInitialProps` we set the works to the `initialWorks` from that function
-  if (page !== initialPage && query === initialQuery) {
-    setPage(initialPage);
-    setWorks(initialWorks);
-  }
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -97,16 +82,16 @@ export const Works = ({
                   event.preventDefault();
                   const form = event.currentTarget;
                   // $FlowFixMe
-                  const value = form.elements.query.value;
+                  const query = form.elements.query.value;
                   const page = 1;
-                  const newWorks = value ? await getWorks({ query: value, page, filters }) : null;
+                  const newWorks = query ? await getWorks({ query, page, filters }) : null;
                   setWorks(newWorks);
-                  setQuery(value);
+                  setQuery(query);
                   setPage(1);
 
                   Router.push(
-                    worksV2Link({ query: value, page: undefined }).href,
-                    worksV2Link({ query: value, page: undefined }).as,
+                    worksV2Link({ query, page: undefined }).href,
+                    worksV2Link({ query, page: undefined }).as,
                     { shallow: true }
                   );
                 }} />
@@ -130,34 +115,38 @@ export const Works = ({
         <StaticWorksContent />
       }
 
-      {query &&
+      {works && works.results.length > 0 &&
         <Fragment>
-          {pagination && pagination.range &&
-            <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
-              <div className='container'>
-                <div className='grid'>
-                  <div className='grid__cell'>
-                    <div className='flex flex--h-space-between flex--v-center'>
+          <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                <div className='grid__cell'>
+                  <div className='flex flex--h-space-between flex--v-center'>
+                    <Fragment>
+                      <Paginator
+                        currentPage={page}
+                        pageSize={works.pageSize}
+                        totalResults={works.totalResults}
+                        link={worksV2Link({query, page})}
+                        onPageChange={async (event, page) => {
+                          event.preventDefault();
+                          const newWorks = await getWorks({ query, page, filters });
+                          setWorks(newWorks);
+                          setPage(page);
 
-                      <Fragment>
-                        <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-                            Showing {pagination.range.beginning} - {pagination.range.end}
-                        </div>
-                        <Pagination
-                          total={pagination.total}
-                          prevPage={pagination.prevPage}
-                          currentPage={pagination.currentPage}
-                          pageCount={pagination.pageCount}
-                          nextPage={pagination.nextPage}
-                          nextQueryString={pagination.nextQueryString}
-                          prevQueryString={pagination.prevQueryString} />
-                      </Fragment>
-                    </div>
+                          Router.push(
+                            worksV2Link({ query, page }).href,
+                            worksV2Link({ query, page }).as,
+                            { shallow: true }
+                          );
+                        }}
+                      />
+                    </Fragment>
                   </div>
                 </div>
               </div>
             </div>
-          }
+          </div>
 
           <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
             <div className='container'>
@@ -181,32 +170,36 @@ export const Works = ({
             </div>
           </div>
 
-          {pagination && pagination.range &&
-            <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
-              <div className='container'>
-                <div className='grid'>
-                  <div className='grid__cell'>
-                    <div className='flex flex--h-space-between flex--v-center'>
+          <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                <div className='grid__cell'>
+                  <div className='flex flex--h-space-between flex--v-center'>
+                    <Fragment>
+                      <Paginator
+                        currentPage={page}
+                        pageSize={works.pageSize}
+                        totalResults={works.totalResults}
+                        link={worksV2Link({query, page})}
+                        onPageChange={async (event, page) => {
+                          event.preventDefault();
+                          const newWorks = await getWorks({ query, page, filters });
+                          setWorks(newWorks);
+                          setPage(page);
 
-                      <Fragment>
-                        <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-                          Showing {pagination.range.beginning} - {pagination.range.end}
-                        </div>
-                        <Pagination
-                          total={pagination.total}
-                          prevPage={pagination.prevPage}
-                          currentPage={pagination.currentPage}
-                          pageCount={pagination.pageCount}
-                          nextPage={pagination.nextPage}
-                          nextQueryString={pagination.nextQueryString}
-                          prevQueryString={pagination.prevQueryString} />
-                      </Fragment>
-                    </div>
+                          Router.push(
+                            worksV2Link({ query, page }).href,
+                            worksV2Link({ query, page }).as,
+                            { shallow: true }
+                          );
+                        }}
+                      />
+                    </Fragment>
                   </div>
                 </div>
               </div>
             </div>
-          }
+          </div>
         </Fragment>
       }
     </Fragment>
