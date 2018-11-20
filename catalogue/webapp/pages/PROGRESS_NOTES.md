@@ -11,7 +11,7 @@ We have a lot of work to do, and we’ve only just begun.
 ## What's new?
 
 [The Platform team at Wellcome Collection](https://github.com/wellcometrust/platform),
-who looks after [our API](https://developers.wellcomecollection.org/catalogue)],
+who looks after [our API](https://developers.wellcomecollection.org/catalogue),
 have been up to beavering away to help enrich and expand the data we have
 available through our search.
 
