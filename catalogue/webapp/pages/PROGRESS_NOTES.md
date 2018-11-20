@@ -18,23 +18,23 @@ available through our search.
 We have been working on surfacing that data in a clear, purposeful, and
 beautiful fashion, to yourselves.
 
-* Works now come with a broader set of metadata
+* Works now come with a broader set of metadata from the library catalogue
   * The creators field has been usurped by the richer contributors field which
-    contains more information about the contributors role, and more information about
+    contains more information about the contributor's role, and more information about
     the contributor
-  * Subjects and genres have been expanded to have concepts attached to them
+  * Subjects and genres now have been expanded to have concepts attached to them
   * The production of an object has now been split into production events, which
     are made up of places, agents (people, organisation etc), and dates
 
 
 ## What's improved
 
-* Performance of search has been improved. When requesting 100 results,
+* Search performance has been improved. When requesting 100 results,
 they are, on average, rendered in less than a second.
 * When following the links in the metadata of a work, results will be more
 specific to the field you were linked from
   e.g. [Caricature as a subject](https://wellcomecollection.org/works?query=subject:"Caricature")
-  vs [Caricature as a general search](https://wellcomecollection.org/works?query="Caricature")
+  vs [Caricature as a keyword search](https://wellcomecollection.org/works?query="Caricature")
   ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
 
 We are always collecting feedback, so if you have any
