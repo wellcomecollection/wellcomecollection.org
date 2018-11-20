@@ -61,6 +61,9 @@ const Events = {
   Promo: {
     promo
   },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
+  },
   Deprecated: {
     description: structuredText('Description', 'multi', ['heading2', 'list-item'])
   }

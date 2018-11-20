@@ -35,7 +35,7 @@ export class ArticleSeriesPage extends Component<Props> {
         series,
         articles,
         title: series.title,
-        description: series.promoText,
+        description: series.metadataDescription || series.promoText,
         type: 'article-series',
         canonicalUrl: `https://wellcomecollection.org/series/${series.id}`,
         imageUrl: series.image && convertImageUri(series.image.contentUrl, 800),
@@ -76,7 +76,8 @@ export class ArticleSeriesPage extends Component<Props> {
       image: series.image,
       squareImage: series.squareImage,
       widescreenImage: series.widescreenImage,
-      labels: series.labels
+      labels: series.labels,
+      metadataDescription: series.metadataDescription
     };
 
     const ContentTypeInfo = series.standfirst && <PageHeaderStandfirst html={series.standfirst} />;

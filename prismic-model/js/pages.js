@@ -4,8 +4,8 @@ import body from './parts/body';
 import promo from './parts/promo';
 import link from './parts/link';
 import text from './parts/text';
-import list from './parts/list';
 import timestamp from './parts/timestamp';
+import structuredText from './parts/structured-text';
 
 const Page = {
   Page: {
@@ -16,15 +16,9 @@ const Page = {
   Promo: {
     promo
   },
-  'βeta': {
-    uniquePath: text('uID'),
-    tags: list('Part of', {
-      tag: link('Content', 'document', [
-        'pages'
-      ])
-    })
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   },
-
   // TODO: (drupal migration) Remove this
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),

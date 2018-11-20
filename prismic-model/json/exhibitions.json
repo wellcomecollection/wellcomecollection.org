@@ -377,51 +377,6 @@
       }
     }
   },
-  "Contributors": {
-    "contributors": {
-      "type": "Group",
-      "fieldset": "Contributors",
-      "config": {
-        "fields": {
-          "role": {
-            "type": "Link",
-            "config": {
-              "label": "Role",
-              "select": "document",
-              "customtypes": [
-                "editorial-contributor-roles"
-              ]
-            }
-          },
-          "contributor": {
-            "type": "Link",
-            "config": {
-              "label": "Contributor",
-              "select": "document",
-              "customtypes": [
-                "people",
-                "organisations"
-              ]
-            }
-          },
-          "description": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "paragraph,hyperlink,strong,em",
-              "label": "Contributor description override"
-            }
-          }
-        }
-      }
-    },
-    "contributorsTitle": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Contributors heading override",
-        "single": "heading1"
-      }
-    }
-  },
   "In this exhibition": {
     "exhibits": {
       "type": "Group",
@@ -480,6 +435,71 @@
       }
     }
   },
+  "Resources": {
+    "resources": {
+      "type": "Group",
+      "fieldset": "Resources",
+      "config": {
+        "fields": {
+          "resource": {
+            "type": "Link",
+            "config": {
+              "label": "Resource",
+              "select": "document",
+              "customtypes": [
+                "exhibition-resources"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
+      "config": {
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Contributor description override"
+            }
+          }
+        }
+      }
+    },
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading override",
+        "single": "heading1"
+      }
+    }
+  },
   "Promo": {
     "promo": {
       "type": "Slices",
@@ -535,23 +555,12 @@
       }
     }
   },
-  "Resources": {
-    "resources": {
-      "type": "Group",
-      "fieldset": "Resources",
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
       "config": {
-        "fields": {
-          "resource": {
-            "type": "Link",
-            "config": {
-              "label": "Resource",
-              "select": "document",
-              "customtypes": [
-                "exhibition-resources"
-              ]
-            }
-          }
-        }
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
       }
     }
   },
