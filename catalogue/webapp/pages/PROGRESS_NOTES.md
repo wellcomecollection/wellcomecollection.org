@@ -12,11 +12,11 @@ We have a lot of work to do, and we’ve only just begun.
 
 [The Platform team at Wellcome Collection](https://github.com/wellcometrust/platform),
 who look after [our API](https://developers.wellcomecollection.org/catalogue),
-have been up to beavering away to help enrich and expand the data we have
+have been beavering away to help enrich and expand the data we have
 available through our search.
 
 We have been working on surfacing that data in a clear, purposeful, and
-beautiful fashion.
+beautiful fashion, to yourselves.
 
 * Works now come with a broader set of metadata
   * The creators field has been usurped by the richer contributors field which
