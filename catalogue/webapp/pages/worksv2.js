@@ -18,29 +18,22 @@ import type {
 import {getWorks} from '../services/catalogue/worksv2';
 import {workV2Link, worksV2Link} from '../services/catalogue/links';
 
-// TODO: Setting the event parameter to type 'Event' leads to
-// an 'Indexable signature not found in EventTarget' Flow
-// error. We're setting the properties we expect here until
-// we find a better solution.
-type PageProps = {|
+type Props = {|
   initialQuery: ?string,
-  initialWorks: {| results: [], totalResults: number |},
-  page: ?number,
+  initialWorks: ?{| results: [], totalResults: number |},
+  initialPage: ?number,
   filters: Object
-|}
-
-type ComponentProps = {|
-  ...PageProps
 |}
 
 export const Works = ({
   initialQuery,
   initialWorks,
   filters,
-  page
-}: ComponentProps) => {
+  initialPage
+}: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
+  const [page, setPage] = useState(initialPage);
   const pagination = works ? PaginationFactory.fromList(
     works.results,
     Number(works.totalResults) || 1,
@@ -48,6 +41,14 @@ export const Works = ({
     works.pageSize || 1,
     {query: query || ''}
   ) : null;
+
+  // https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-getderivedstatefromprops
+  // Make sure if we're using the Pagination element, which reinitialised the
+  // `getInitialProps` we set the works to the `initialWorks` from that function
+  if (page !== initialPage && query === initialQuery) {
+    setPage(initialPage);
+    setWorks(initialWorks);
+  }
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -97,9 +98,11 @@ export const Works = ({
                   const form = event.currentTarget;
                   // $FlowFixMe
                   const value = form.elements.query.value;
-                  const newWorks = value ? await getWorks({ query: value, page: 1, filters }) : null;
+                  const page = 1;
+                  const newWorks = value ? await getWorks({ query: value, page, filters }) : null;
                   setWorks(newWorks);
                   setQuery(value);
+                  setPage(1);
 
                   Router.push(
                     worksV2Link({ query: value, page: undefined }).href,
@@ -227,7 +230,7 @@ Works.getInitialProps = async (
   }
 
   return {
-    page,
+    initialPage: page,
     initialWorks: works,
     initialQuery: query,
     filters,
