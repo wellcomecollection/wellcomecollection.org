@@ -4,6 +4,46 @@ We are working to make [wellcomecollection.org](https://wellcomecollection.org) 
 
 We have a lot of work to do, and we’ve only just begun.
 
+---
+
+# November 2018
+
+## What's new?
+
+[The Platform team here](https://github.com/wellcometrust/platform),
+who looks after (our API)[(https://developers.wellcomecollection.org/catalogue)]
+and the data in it, have been up to beavering away to help enrich and expand the
+data we have available through our search.
+
+We have been working on surfacing that data in a clear, purposeful, and
+beautiful fashion.
+
+* Works now come with a broader set of metadata
+  * The creators field has been usurped by the richer contributors field which.
+    contains more information about the contributors role, and more information about
+    the contributor.
+  * Subjects and genres have been expanded to have concepts attached to them
+  * The production of an object has now been split into production events, which
+    are made up of places, agents (people, organisation etc), and dates.
+
+
+## What's improved
+
+* Performance of search has been improved, averaging sub-second returning of 100
+results, and only loading in the interface data once, to save you your data.
+* We now search the field that the value was liked to from a work page, surfacing
+results more specifically relevant.
+  e.g. [Caricature as a subject](https://wellcomecollection.org/works?query=subject:"Caricature")
+  vs [Caricature as a general search](https://wellcomecollection.org/works?query="Caricature")
+  ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
+
+We are always collecting feedback, so if you have any
+[get involved, we’re listening!](#get-involved)
+
+---
+
+# January 2018
+
 ## What's changed?
 You can now find more than 110,000 free to use and openly licensed images from our former picture library, Wellcome Images.
 
@@ -41,7 +81,9 @@ Throughout 2018, you can expect to see improvements to the search experience. We
 
 For now, if you need any help in identifying items from library collections, please email collections@wellcome.ac.uk.
 
-## Get involved
+---
+
+# Get involved
 We want to share our work in progress with you, and to get your feedback throughout the development.
 
 If you’d like to help shape how this website works, we invite you to join our User Panel. We're looking for people at all levels of research experience to participate in the design process.
