@@ -18,6 +18,7 @@ import type {
 } from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/worksv2';
 import {workV2Link, worksV2Link} from '../services/catalogue/links';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 
 // TODO: Setting the event parameter to type 'Event' leads to
 // an 'Indexable signature not found in EventTarget' Flow
@@ -28,7 +29,8 @@ type PageProps = {|
   page: ?number,
   works: {| results: [], totalResults: number |},
   pagination: ?PaginationProps,
-  version: ?number
+  version: ?number,
+  unfiltered: boolean
 |}
 
 type ComponentProps = {|
@@ -42,7 +44,8 @@ export const Works = ({
   works,
   pagination,
   handleSubmit,
-  version
+  version,
+  unfiltered
 }: ComponentProps) => (
   <Fragment>
     <PageDescription title='Search our images' extraClasses='page-description--hidden' />
@@ -82,18 +85,57 @@ export const Works = ({
               query={query || ''}
               autofocus={true}
               onSubmit={handleSubmit} />
+            <div className=''>
+              {!unfiltered &&
+                <p className={classNames([
+                  spacing({s: 2}, {margin: ['top', 'bottom']}),
+                  font({s: 'LR3', m: 'LR2'})
+                ])}>
+                  Results without images
+                  {' '}<span style={{
+                    fontWeight: 'bold',
+                    display: 'inline-block',
+                    padding: '0 6px',
+                    borderRadius: '4px',
+                    border: '2px solid #006272'
+                  }}>Beta</span>{' '}
+                  <a href={''} onClick={(ev) => {
+                    document.cookie = document.cookie = `toggle_unfilteredCatalogueResults=true; Path=/; Max-Age=31536000`;
+                  }}>Try it</a>
+                </p>
+              }
 
-            {!query
-              ? <p className={classNames([
-                spacing({s: 4}, {margin: ['top']}),
-                font({s: 'HNL4', m: 'HNL3'})
-              ])}>Find thousands of Creative Commons licensed images from historical library materials and museum objects to contemporary digital photographs.</p>
-              : <p className={classNames([
-                spacing({s: 2}, {margin: ['top', 'bottom']}),
-                font({s: 'LR3', m: 'LR2'})
-              ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
-              </p>
-            }
+              {unfiltered &&
+                <p className={classNames([
+                  spacing({s: 2}, {margin: ['top', 'bottom']}),
+                  font({s: 'LR3', m: 'LR2'})
+                ])}>
+                  You{`'`}re search results without images
+                  {' '}<span style={{
+                    fontWeight: 'bold',
+                    display: 'inline-block',
+                    padding: '0 6px',
+                    borderRadius: '4px',
+                    border: '2px solid #006272'
+                  }}>Beta</span>{' '}
+                  <a href={''} onClick={(ev) => {
+                    document.cookie = document.cookie = `toggle_unfilteredCatalogueResults=true; Path=/; Expires=${new Date('1970-01-01').toString()}`;
+                  }}>Opt out</a>
+                </p>
+              }
+
+              {!query
+                ? <p className={classNames([
+                  spacing({s: 4}, {margin: ['top']}),
+                  font({s: 'HNL4', m: 'HNL3'})
+                ])}>Find thousands of Creative Commons licensed images from historical library materials and museum objects to contemporary digital photographs.</p>
+                : <p className={classNames([
+                  spacing({s: 2}, {margin: ['top', 'bottom']}),
+                  font({s: 'LR3', m: 'LR2'})
+                ])}>{works.totalResults !== 0 ? works.totalResults : 'No'} results for &apos;{query}&apos;
+                </p>
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -134,7 +176,7 @@ export const Works = ({
         <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
           <div className='container'>
             <div className='grid'>
-              {works.results.map(result => (
+              {!unfiltered && works.results.map(result => (
                 <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
                   <WorkPromo
                     id={result.id}
@@ -147,6 +189,28 @@ export const Works = ({
                     datePublished={result.createdDate && result.createdDate.label}
                     title={result.title}
                     link={workV2Link({ id: result.id, query, page })} />
+                </div>
+              ))}
+
+              {unfiltered && works.results.map(result => (
+                <div
+                  key={result.id}
+                  className={grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}
+                  style={{
+                    padding: '24px 0',
+                    borderTop: '1px solid'
+                  }}>
+                  <div className={classNames({
+                    [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
+                  })}>
+                    <LinkLabels items={[
+                      {
+                        url: `workType:"${result.workType.label}"`,
+                        text: result.workType.label
+                      }
+                    ]} />
+                  </div>
+                  <h2 className='h4'>{result.title}</h2>
                 </div>
               ))}
             </div>
@@ -217,7 +281,8 @@ export class WorksPage extends Component<PageProps> {
       description: 'Search through the Wellcome Collection image catalogue',
       analyticsCategory: 'collections',
       siteSection: 'images',
-      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
+      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`,
+      unfiltered: toggles.unfilteredCatalogueResults
     };
   };
 
@@ -238,6 +303,7 @@ export class WorksPage extends Component<PageProps> {
         works={this.props.works}
         pagination={this.props.pagination}
         handleSubmit={this.handleSubmit}
+        unfiltered={this.props.unfiltered}
       />
     );
   }

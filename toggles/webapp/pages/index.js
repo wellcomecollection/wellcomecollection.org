@@ -38,7 +38,7 @@ const Header = () => {
   );
 };
 
-const aYear = 31536000;
+const aYear = {31536000};
 function setCookie(name, value) {
   const expiration = value ? ` Max-Age=${aYear}` : `Expires=${new Date('1970-01-01').toString()}`;
   document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
