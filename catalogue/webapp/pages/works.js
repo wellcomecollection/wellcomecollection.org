@@ -11,7 +11,6 @@ import StaticWorksContent from '@weco/common/views/components/StaticWorksContent
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
-import type {EventWithInputValue} from '@weco/common/views/components/HTMLInput/HTMLInput';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/works';
 import {workLink, worksLink} from '../services/catalogue/links';
@@ -30,7 +29,7 @@ type PageProps = {|
 
 type ComponentProps = {|
   ...PageProps,
-  handleSubmit: (EventWithInputValue) => void
+  handleSubmit: (SyntheticEvent<HTMLFormElement>) => void
 |}
 
 export const Works = ({
@@ -113,6 +112,7 @@ export const Works = ({
                           Showing {pagination.range.beginning} - {pagination.range.end}
                       </div>
                       <Pagination
+                        total={pagination.total}
                         prevPage={pagination.prevPage}
                         currentPage={pagination.currentPage}
                         pageCount={pagination.pageCount}
@@ -176,6 +176,7 @@ export const Works = ({
                         Showing {pagination.range.beginning} - {pagination.range.end}
                       </div>
                       <Pagination
+                        total={pagination.total}
                         prevPage={pagination.prevPage}
                         currentPage={pagination.currentPage}
                         pageCount={pagination.pageCount}
@@ -227,9 +228,10 @@ export class WorksPage extends Component<PageProps> {
     };
   };
 
-  handleSubmit = (event: EventWithInputValue) => {
+  handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const queryString = event.target[0].value;
+    // $FlowFixMe: Find out how to access specific `elements` on ``HTMLFormElement`
+    const queryString = event.currentTarget.elements.query.value;
 
     // Update the URL, which in turn will update props
     Router.push(worksLink({ query: queryString, page: 1 }).href);

@@ -24,7 +24,7 @@ export class ArticleSeriesPage extends Component<Props> {
       return {
         place,
         title: place.title,
-        description: place.promoText,
+        description: place.metadataDescription || place.promoText,
         type: 'website',
         canonicalUrl: `https://wellcomecollection.org/places/${place.id}`,
         imageUrl: place.image && convertImageUri(place.image.contentUrl, 800),

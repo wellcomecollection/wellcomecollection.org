@@ -450,5 +450,14 @@
         }
       }
     }
+  },
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
+      }
+    }
   }
 }

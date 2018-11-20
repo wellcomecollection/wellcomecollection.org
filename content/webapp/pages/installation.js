@@ -28,7 +28,7 @@ class InstallationPage extends Component<Props> {
       return {
         installation,
         title: installation.title,
-        description: installation.promoText,
+        description: installation.metadataDescription || installation.promoText,
         type: 'installation',
         canonicalUrl: `https://wellcomecollection.org/installations/${installation.id}`,
         imageUrl: installation.image && convertImageUri(installation.image.contentUrl, 800),
@@ -56,7 +56,8 @@ class InstallationPage extends Component<Props> {
       image: installation.image,
       squareImage: installation.squareImage,
       widescreenImage: installation.widescreenImage,
-      labels: installation.labels
+      labels: installation.labels,
+      metadataDescription: installation.metadataDescription
     });
     const breadcrumbs = {
       items: [

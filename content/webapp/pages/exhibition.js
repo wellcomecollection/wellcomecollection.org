@@ -51,7 +51,7 @@ export class ExhibitionPage extends Component<Props, State> {
         type: 'website',
         title: exhibition.title,
         imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
-        description: exhibition.promoText,
+        description: exhibition.metadataDescription || exhibition.promoText,
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
         pageJsonLd: exhibitionLd(exhibition),
         siteSection: 'whatson',
@@ -100,7 +100,8 @@ export class ExhibitionPage extends Component<Props, State> {
       image: exhibition.image,
       squareImage: exhibition.squareImage,
       widescreenImage: exhibition.widescreenImage,
-      labels: exhibition.labels
+      labels: exhibition.labels,
+      metadataDescription: exhibition.metadataDescription
     };
     const DateInfo = exhibition.end ? (
       <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} />

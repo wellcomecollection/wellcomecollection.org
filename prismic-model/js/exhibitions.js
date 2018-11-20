@@ -23,7 +23,6 @@ const Exhibitions = {
     statusOverride: structuredText('Status override', 'single'),
     place
   },
-  Contributors: contributorsWithTitle(),
   'In this exhibition': {
     exhibits: list('Exhibits', {
       item: link('Exhibit', 'document', ['installations'])
@@ -37,13 +36,17 @@ const Exhibitions = {
       item: link('Article', 'document', ['articles'])
     })
   },
-  Promo: {
-    promo
-  },
   Resources: {
     resources: list('Resources', {
       resource: link('Resource', 'document', ['exhibition-resources'])
     })
+  },
+  Contributors: contributorsWithTitle(),
+  Promo: {
+    promo
+  },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   },
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),

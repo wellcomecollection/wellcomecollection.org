@@ -49,7 +49,7 @@ export class ArticleSeriesPage extends Component<Props> {
       return {
         book,
         title: book.title,
-        description: book.promoText,
+        description: book.metadataDescription || book.promoText,
         type: 'books',
         canonicalUrl: `https://wellcomecollection.org/books/${book.id}`,
         imageUrl: book.image && convertImageUri(book.image.contentUrl, 800),
