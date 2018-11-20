@@ -2,7 +2,7 @@ import { default as React, Fragment } from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { checkA11y } from '@storybook/addon-a11y';
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { withKnobs, select } from '@storybook/addon-knobs/react';
 import { withInfo } from '@storybook/addon-info';
 import styleguideSass from '../../common/styles/styleguide.scss';
 
@@ -30,17 +30,22 @@ addDecorator(withInfo({
 const styles = {
   padding: '30px',
 };
-const CenterDecorator = (storyFn) => (
-  <Fragment>
-    <style id='styleguide-sass'>
-      {styleguideSass}
-    </style>
-    <div style={styles} className='enhanced'>
-      { storyFn() }
+const PageDecorator = storyFn => {
+  const width = select('Width', ['25%', '50%', '75%', '100%'], '100%');
+
+  return (
+    <div style={{width}}>
+      <style id='styleguide-sass'>
+        {styleguideSass}
+      </style>
+      <div style={styles} className='enhanced'>
+        { storyFn() }
+      </div>
     </div>
-  </Fragment>
-);
-addDecorator(CenterDecorator);
+  );
+};
+
+addDecorator(PageDecorator);
 
 setOptions({
   name: 'Cardigan',
