@@ -12,6 +12,9 @@ const services = {
   },
   content: {
     containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/content_webapp'
+  },
+  router: {
+    containerUrl: 'https://registry.hub.docker.com/v2/repositories/wellcome/wellcomecollection-router'
   }
 };
 

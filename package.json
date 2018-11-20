@@ -42,7 +42,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix server client",
+      "eslint --fix server",
       "git add"
     ],
     "*.css": [

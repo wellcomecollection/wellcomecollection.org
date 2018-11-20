@@ -6,6 +6,7 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {defaultContributorImage} from '@weco/common/services/prismic/parsers';
@@ -20,14 +21,22 @@ type Props = {|
 // FIXME: This is nonsense
 const BookMetadata = ({book}: Props) => (
   <dl className='grid'>
-    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Format</dt>
-    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.format}</dd>
+    {book.datePublished &&
+      <Fragment>
+        <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Date published</dt>
+        <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+          {book.datePublished && <HTMLDate date={new Date(book.datePublished)} />}
+        </dd>
+      </Fragment>
+    }
+    <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Format</dt>
+    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>{book.format}</dd>
 
-    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>Extent</dt>
-    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.extent}</dd>
+    <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Extent</dt>
+    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>{book.extent}</dd>
 
-    <dt className={'no-margin ' + grid({ s: 2, m: 2, l: 2, xl: 2 })}>ISBN</dt>
-    <dd className={'no-margin ' + grid({ s: 10, m: 10, l: 10, xl: 10 })}>{book.isbn}</dd>
+    <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>ISBN</dt>
+    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>{book.isbn}</dd>
   </dl>
 );
 

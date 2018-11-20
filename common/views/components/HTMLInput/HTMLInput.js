@@ -2,11 +2,6 @@
 
 import {font, spacing} from '../../../utils/classnames';
 
-export type EventWithInputValue = {
-  preventDefault: () => {},
-  target: Array<{value: string}>
-}
-
 type Props = {|
   inputRef?: ?Function,
   id: string,
@@ -20,7 +15,7 @@ type Props = {|
   autofocus?: boolean,
   isLabelHidden?: boolean,
   required?: boolean,
-  onChange?: (EventWithInputValue) => void
+  onChange?: (SyntheticEvent<HTMLInputElement>) => void
 |}
 
 // `defaultValue` only gets set on initial load for a form.

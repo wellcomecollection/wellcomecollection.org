@@ -109,7 +109,9 @@ export default {
             'pages',
             'event-series',
             'books',
-            'events'
+            'events',
+            'articles',
+            'installations'
           ])
         }
       }),
