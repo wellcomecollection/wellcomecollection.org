@@ -29,16 +29,16 @@ beautiful fashion, to yourselves.
 
 ## What's improved
 
-* Performance of search has been improved, averaging sub-second returning of 100
-results, and only loading in the interface data once, to save you your data
-* We now search the field that the value was liked to from a work page, surfacing
-results more specifically relevant
+* Performance of search has been improved. When requesting 100 results,
+they are, on average, rendered in less than a second.
+* When following the links in the metadata of a work, results will be more
+specific to the field you were linked from
   e.g. [Caricature as a subject](https://wellcomecollection.org/works?query=subject:"Caricature")
   vs [Caricature as a general search](https://wellcomecollection.org/works?query="Caricature")
   ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
 
 We are always collecting feedback, so if you have any
-[get involved, we’re listening!](#get-involved)
+[👂 get involved, we’re listening 👂!](#get-involved)
 
 ---
 
