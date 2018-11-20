@@ -3,7 +3,6 @@ import {font} from '../../../utils/classnames';
 import {trackEvent} from '../../../utils/ga';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
-import type {EventWithInputValue} from '../HTMLInput/HTMLInput';
 
 type Props = {|
   action: string,
@@ -11,8 +10,8 @@ type Props = {|
   name: string,
   query: string,
   autofocus: boolean,
-  onSubmit?: (EventWithInputValue) => void,
-  onChange?: (EventWithInputValue) => void
+  onSubmit?: (SyntheticEvent<HTMLFormElement>) => any,
+  onChange?: (SyntheticEvent<HTMLInputElement>) => any
 |}
 
 const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
