@@ -101,7 +101,8 @@ const data = ({
   }],
   'start': new Date('2018-10-24T09:00:00.000Z'),
   'end': new Date('2018-10-28T18:00:00.000Z'),
-  'place': null
+  'place': null,
+  metadataDescription: null
 }: Installation);
 
 export default data;

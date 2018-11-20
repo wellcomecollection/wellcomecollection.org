@@ -57,7 +57,7 @@ export class ArticlePage extends Component<Props, State> {
       return {
         article,
         title: article.title,
-        description: article.promoText,
+        description: article.metadataDescription || article.promoText,
         type: 'article',
         canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
         imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
@@ -133,7 +133,8 @@ export class ArticlePage extends Component<Props, State> {
       image: article.image,
       squareImage: article.squareImage,
       widescreenImage: article.widescreenImage,
-      labels: article.labels
+      labels: article.labels,
+      metadataDescription: article.metadataDescription
     };
 
     const ContentTypeInfo = (

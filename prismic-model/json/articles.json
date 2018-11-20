@@ -469,6 +469,121 @@
       }
     }
   },
+  "Series": {
+    "series": {
+      "type": "Group",
+      "fieldset": "Series",
+      "config": {
+        "fields": {
+          "series": {
+            "type": "Link",
+            "config": {
+              "label": "Series",
+              "select": "document",
+              "customtypes": [
+                "series"
+              ]
+            }
+          },
+          "positionInSeries": {
+            "type": "Number",
+            "config": {
+              "label": "Position in series"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Outro": {
+    "outroResearchItem": {
+      "type": "Link",
+      "config": {
+        "label": "Outro: Research item",
+        "customtypes": []
+      }
+    },
+    "outroResearchLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Research link text",
+        "single": "paragraph"
+      }
+    },
+    "outroReadItem": {
+      "type": "Link",
+      "config": {
+        "label": "Outro: Read item",
+        "customtypes": []
+      }
+    },
+    "outroReadLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Read link text",
+        "single": "paragraph"
+      }
+    },
+    "outroVisitItem": {
+      "type": "Link",
+      "config": {
+        "label": "Outro: Visit item",
+        "customtypes": []
+      }
+    },
+    "outroVisitLinkText": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Outro: Visit link text",
+        "single": "paragraph"
+      }
+    }
+  },
+  "Contributors": {
+    "contributors": {
+      "type": "Group",
+      "fieldset": "Contributors",
+      "config": {
+        "fields": {
+          "role": {
+            "type": "Link",
+            "config": {
+              "label": "Role",
+              "select": "document",
+              "customtypes": [
+                "editorial-contributor-roles"
+              ]
+            }
+          },
+          "contributor": {
+            "type": "Link",
+            "config": {
+              "label": "Contributor",
+              "select": "document",
+              "customtypes": [
+                "people",
+                "organisations"
+              ]
+            }
+          },
+          "description": {
+            "type": "StructuredText",
+            "config": {
+              "multi": "paragraph,hyperlink,strong,em",
+              "label": "Contributor description override"
+            }
+          }
+        }
+      }
+    },
+    "contributorsTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Contributors heading override",
+        "single": "heading1"
+      }
+    }
+  },
   "Promo": {
     "promo": {
       "type": "Slices",
@@ -524,118 +639,12 @@
       }
     }
   },
-  "Contributors": {
-    "contributors": {
-      "type": "Group",
-      "fieldset": "Contributors",
-      "config": {
-        "fields": {
-          "role": {
-            "type": "Link",
-            "config": {
-              "label": "Role",
-              "select": "document",
-              "customtypes": [
-                "editorial-contributor-roles"
-              ]
-            }
-          },
-          "contributor": {
-            "type": "Link",
-            "config": {
-              "label": "Contributor",
-              "select": "document",
-              "customtypes": [
-                "people",
-                "organisations"
-              ]
-            }
-          },
-          "description": {
-            "type": "StructuredText",
-            "config": {
-              "multi": "paragraph,hyperlink,strong,em",
-              "label": "Contributor description override"
-            }
-          }
-        }
-      }
-    },
-    "contributorsTitle": {
+  "Metadata": {
+    "metadataDescription": {
       "type": "StructuredText",
       "config": {
-        "label": "Contributors heading override",
-        "single": "heading1"
-      }
-    }
-  },
-  "Series": {
-    "series": {
-      "type": "Group",
-      "fieldset": "Series",
-      "config": {
-        "fields": {
-          "series": {
-            "type": "Link",
-            "config": {
-              "label": "Series",
-              "select": "document",
-              "customtypes": [
-                "series"
-              ]
-            }
-          },
-          "positionInSeries": {
-            "type": "Number",
-            "config": {
-              "label": "Position in series"
-            }
-          }
-        }
-      }
-    }
-  },
-  "βeta": {
-    "outroResearchItem": {
-      "type": "Link",
-      "config": {
-        "label": "Outro: Research item",
-        "customtypes": []
-      }
-    },
-    "outroResearchLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Research link text",
-        "single": "paragraph"
-      }
-    },
-    "outroReadItem": {
-      "type": "Link",
-      "config": {
-        "label": "Outro: Read item",
-        "customtypes": []
-      }
-    },
-    "outroReadLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Read link text",
-        "single": "paragraph"
-      }
-    },
-    "outroVisitItem": {
-      "type": "Link",
-      "config": {
-        "label": "Outro: Visit item",
-        "customtypes": []
-      }
-    },
-    "outroVisitLinkText": {
-      "type": "StructuredText",
-      "config": {
-        "label": "Outro: Visit link text",
-        "single": "paragraph"
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
       }
     }
   },

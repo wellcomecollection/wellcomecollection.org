@@ -655,6 +655,15 @@
       }
     }
   },
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
+      }
+    }
+  },
   "Deprecated": {
     "description": {
       "type": "StructuredText",

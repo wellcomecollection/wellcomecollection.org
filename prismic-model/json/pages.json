@@ -389,29 +389,12 @@
       }
     }
   },
-  "βeta": {
-    "uniquePath": {
-      "type": "Text",
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
       "config": {
-        "label": "uID"
-      }
-    },
-    "tags": {
-      "type": "Group",
-      "fieldset": "Part of",
-      "config": {
-        "fields": {
-          "tag": {
-            "type": "Link",
-            "config": {
-              "label": "Content",
-              "select": "document",
-              "customtypes": [
-                "pages"
-              ]
-            }
-          }
-        }
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
       }
     }
   },

@@ -29,6 +29,9 @@ const Books = {
   Promo: {
     promo
   },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
+  },
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),

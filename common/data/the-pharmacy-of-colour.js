@@ -79,7 +79,8 @@ const data = ({
   labels: [{
     url: null,
     text: 'Installation'
-  }]
+  }],
+  metadataDescription: null
 }: Installation);
 
 export default data;
