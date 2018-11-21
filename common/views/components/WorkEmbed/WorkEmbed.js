@@ -2,8 +2,8 @@
 import {Fragment} from 'react';
 import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
-import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
-import type {Work} from '@weco/common/model/work';
+import {iiifImageTemplate} from '../../../utils/convert-image-uri';
+import type {Work} from '../../../model/work';
 
 type Props = {|
   work: Work

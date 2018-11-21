@@ -1,9 +1,9 @@
 // @flow
 import {Fragment, Component} from 'react';
 import {Transition} from 'react-transition-group';
-import Image from '@weco/common/views/components/Image/Image';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
-import {spacing} from '@weco/common/utils/classnames';
+import Image from '../Image/Image';
+import Control from '../Buttons/Control/Control';
+import {spacing} from '../../../utils/classnames';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
 

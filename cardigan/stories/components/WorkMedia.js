@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
-import WorkMedia from '../../../catalogue/webapp/components/WorkMedia/WorkMedia';
-import Readme from '../../../catalogue/webapp/components/WorkMedia/README.md';
+import WorkMedia from '../../../common/views/components/WorkMedia/WorkMedia';
+import Readme from '../../../common/views/components/WorkMedia/README.md';
 
 const WorkMediaExample = () => {
   return (
