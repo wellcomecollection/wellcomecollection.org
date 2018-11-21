@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
-import {Fragment, useState, useEffect} from 'react';
+import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
@@ -34,11 +34,35 @@ export const Works = ({
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
+  const [loading, setLoading] = useState(false);
+  // 1. We use this as we get the `initalWorks` from `getInitialProps`
+  //    Whereas standard React apps would fetch on first render
+  //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    // Update the document title using the browser API
     document.title = `${query} | Catalogue search | Wellcome Collection`;
-  });
+  }, [query]);
+
+  useEffect(() => {
+    // Don't run this on first render, see comment 1. above
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+
+    setLoading(true);
+    Router.push(
+      worksV2Link({ query, page }).href,
+      worksV2Link({ query, page }).as,
+      { shallow: true }
+    );
+    // TODO: Look into memoiszing results so we don't hit the API again
+    //       See: https://reactjs.org/docs/hooks-reference.html#usememo
+
+    // TODO: Return a cleanup funciton here to stop the network request.
+    getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
+  }, [page, query]);
 
   return (
     <Fragment>
@@ -82,20 +106,11 @@ export const Works = ({
                   event.preventDefault();
                   const form = event.currentTarget;
                   // $FlowFixMe
-                  const query = form.elements.query.value;
-                  const page = 1;
-                  const newWorks = query ? await getWorks({ query, page, filters }) : null;
-                  setWorks(newWorks);
-                  setQuery(query);
+                  const newQuery = form.elements.query.value;
+                  setQuery(newQuery);
                   setPage(1);
-
-                  Router.push(
-                    worksV2Link({ query, page: undefined }).href,
-                    worksV2Link({ query, page: undefined }).as,
-                    { shallow: true }
-                  );
                 }} />
-              {!query
+              {!works
                 ? <p className={classNames([
                   spacing({s: 4}, {margin: ['top']}),
                   font({s: 'HNL4', m: 'HNL3'})
@@ -128,17 +143,9 @@ export const Works = ({
                         pageSize={works.pageSize}
                         totalResults={works.totalResults}
                         link={worksV2Link({query, page})}
-                        onPageChange={async (event, page) => {
+                        onPageChange={async (event, newPage) => {
                           event.preventDefault();
-                          const newWorks = await getWorks({ query, page, filters });
-                          setWorks(newWorks);
-                          setPage(page);
-
-                          Router.push(
-                            worksV2Link({ query, page }).href,
-                            worksV2Link({ query, page }).as,
-                            { shallow: true }
-                          );
+                          setPage(newPage);
                         }}
                       />
                     </Fragment>
@@ -148,7 +155,9 @@ export const Works = ({
             </div>
           </div>
 
-          <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
+          <div
+            className={`row ${spacing({s: 4}, {padding: ['top']})}`}
+            style={{ opacity: loading ? 0 : 1 }}>
             <div className='container'>
               <div className='grid'>
                 {works.results.map(result => (
@@ -181,17 +190,9 @@ export const Works = ({
                         pageSize={works.pageSize}
                         totalResults={works.totalResults}
                         link={worksV2Link({query, page})}
-                        onPageChange={async (event, page) => {
+                        onPageChange={async (event, newPage) => {
                           event.preventDefault();
-                          const newWorks = await getWorks({ query, page, filters });
-                          setWorks(newWorks);
-                          setPage(page);
-
-                          Router.push(
-                            worksV2Link({ query, page }).href,
-                            worksV2Link({ query, page }).as,
-                            { shallow: true }
-                          );
+                          setPage(newPage);
                         }}
                       />
                     </Fragment>
