@@ -36,7 +36,6 @@ import NewsletterSignup from '../NewsletterSignup/NewsletterSignup';
 import OpeningHours from '../OpeningHours/OpeningHours';
 import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
-import PageDescription from '../PageDescription/PageDescription';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
@@ -97,7 +96,6 @@ export {
   OpeningHours,
   OpeningHoursTable,
   OpeningHoursTableGrouped,
-  PageDescription,
   Pagination,
   Picture,
   PrimaryLink,

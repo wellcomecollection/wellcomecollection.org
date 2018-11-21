@@ -3,7 +3,6 @@ import {Fragment} from 'react';
 import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
-import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -363,7 +362,6 @@ export const WorkPage = ({
 
   return (
     <Fragment>
-      <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       {previousQueryString && <div className='row'>

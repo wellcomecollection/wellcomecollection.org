@@ -3,7 +3,6 @@
 import {Fragment, useState, useEffect} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner2';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -57,7 +56,6 @@ export const Works = ({
 
   return (
     <Fragment>
-      <PageDescription title='Search our images' extraClasses='page-description--hidden' />
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       <div className={classNames([
@@ -72,12 +70,12 @@ export const Works = ({
                 'flex flex--h-space-between flex--v-center flex--wrap',
                 spacing({s: 2}, {margin: ['bottom']})
               ])}>
-                <h2 className={classNames([
+                <h1 className={classNames([
                   font({s: 'WB6', m: 'WB4'}),
                   spacing({s: 2}, {margin: ['bottom']}),
                   spacing({s: 4}, {margin: ['right']}),
                   spacing({s: 0}, {margin: ['top']})
-                ])}>Search our images</h2>
+                ])}>Search our images</h1>
                 <div className='plain-text flex flex--v-center'>
                   <Icon name='underConstruction' extraClasses='margin-right-s2' />
                   <p className='no-margin'>We’re improving how search works. <a href='/works/progress'>Find out more</a>.</p>
