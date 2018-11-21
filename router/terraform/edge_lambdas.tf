@@ -21,34 +21,34 @@ resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-data "archive_file" "ab_testing_zip" {
-  type = "zip"
-  output_path = "${path.module}/.dist/ab_tesing.zip"
-
-  source {
-    filename = "index.js"
-    content = "${file("${path.module}/../webapp/ab_testing.js")}"
-  }
-}
-
-data "archive_file" "redirector_zip" {
+data "archive_file" "edge_lambda_zip" {
   type = "zip"
   output_path = "${path.module}/.dist/redirector.zip"
 
   source {
-    filename = "index.js"
+    filename = "origin.js"
+    content = "${file("${path.module}/../webapp/origin.js")}"
+  }
+
+  source {
+    filename = "ab_testing.js"
+    content = "${file("${path.module}/../webapp/ab_testing.js")}"
+  }
+
+  source {
+    filename = "redirector.js"
     content = "${file("${path.module}/../webapp/redirector.js")}"
   }
 
   source {
-    filename = "redirects.js"
+    filename = "redirects.json"
     content = "${file("${path.module}/../webapp/redirects.json")}"
   }
 }
 
-resource "aws_lambda_function" "ab_testing_request_lambda" {
+resource "aws_lambda_function" "edge_lambda_request" {
   provider = "aws.us-east-1"
-  function_name = "ab_testing_request"
+  function_name = "edge_lambda_request"
   filename = "${data.archive_file.ab_testing_zip.output_path}"
   source_code_hash = "${data.archive_file.ab_testing_zip.output_base64sha256}"
   role = "${aws_iam_role.basic_lambda_role.arn}"
@@ -57,24 +57,13 @@ resource "aws_lambda_function" "ab_testing_request_lambda" {
   publish = true
 }
 
-resource "aws_lambda_function" "ab_testing_response_lambda" {
+resource "aws_lambda_function" "edge_lambda_response" {
   provider = "aws.us-east-1"
-  function_name = "ab_testing_response"
+  function_name = "edge_lambda_response"
   filename = "${data.archive_file.ab_testing_zip.output_path}"
   source_code_hash = "${data.archive_file.ab_testing_zip.output_base64sha256}"
   role = "${aws_iam_role.basic_lambda_role.arn}"
   runtime = "nodejs8.10"
   handler = "index.response"
-  publish = true
-}
-
-resource "aws_lambda_function" "redirector_lambda" {
-  provider = "aws.us-east-1"
-  function_name = "redirector"
-  filename = "${data.archive_file.redirector_zip.output_path}"
-  source_code_hash = "${data.archive_file.redirector_zip.output_base64sha256}"
-  role = "${aws_iam_role.basic_lambda_role.arn}"
-  runtime = "nodejs8.10"
-  handler = "index.redirector"
   publish = true
 }
