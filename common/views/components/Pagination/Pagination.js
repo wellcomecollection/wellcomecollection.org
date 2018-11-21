@@ -28,12 +28,13 @@ const Pagination = ({
   <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
     {prevPage && prevQueryString &&
       <NextLink href={prevQueryString}>
-        <Control
-          type='light'
-          url={prevQueryString}
-          extraClasses={`icon--180 ${spacing({s: 2}, {margin: ['right']})}`}
-          icon='arrow'
-          text={`Previous (page ${prevPage})`} />
+        <a>
+          <Control
+            type='light'
+            extraClasses={`icon--180 ${spacing({s: 2}, {margin: ['right']})}`}
+            icon='arrow'
+            text={`Previous (page ${prevPage})`} />
+        </a>
       </NextLink>
     }
 
@@ -41,12 +42,13 @@ const Pagination = ({
 
     {nextPage && nextQueryString &&
       <NextLink href={nextQueryString}>
-        <Control
-          type='light'
-          url={nextQueryString}
-          extraClasses={`${spacing({s: 2}, {margin: ['left']})}`}
-          icon='arrow'
-          text={`Next (page ${nextPage})`} />
+        <a>
+          <Control
+            type='light'
+            extraClasses={`${spacing({s: 2}, {margin: ['left']})}`}
+            icon='arrow'
+            text={`Next (page ${nextPage})`} />
+        </a>
       </NextLink>
     }
   </div>
