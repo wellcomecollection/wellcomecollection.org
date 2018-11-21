@@ -1,6 +1,7 @@
+'use-strict';
 const redirects = require('./redirects.json');
 
-exports.redirector = (event, context, callback) => {
+exports.redirector = (event, context) => {
   const request = event.Records[0].cf.request;
   if (redirects[request.uri]) {
     const response = {
@@ -13,8 +14,6 @@ exports.redirector = (event, context, callback) => {
         }]
       }
     };
-    callback(null, response);
-  } else {
-    callback(null, request);
+    return response;
   }
 };
