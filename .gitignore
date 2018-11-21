@@ -5,10 +5,8 @@ npm-debug.log
 node_modules/
 
 # Our built files
-dist/
 .dist/
 *.sass-cache*
-critical.css.njk
 pa11y-report.html
 .next/
 
