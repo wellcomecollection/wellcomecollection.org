@@ -3,6 +3,7 @@ import {Component} from 'react';
 import {convertImageUri, convertIiifUriToInfoUri} from '@weco/common/utils/convert-image-uri';
 import {spacing} from '@weco/common/utils/classnames';
 import openseadragon from 'openseadragon';
+import Raven from 'raven';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
   window.fetch(convertIiifUriToInfoUri(convertImageUri(imageInfoSrc, 'full', false)))
@@ -54,7 +55,9 @@ class ImageViewerImage extends Component<Props, State> {
     scriptError: false
   }
 
-  handleScriptError = () => {
+  handleScriptError = (err: Error) => {
+    Raven.captureException(err, {extra: {id: this.props.id, contentUrl: this.props.contentUrl}});
+
     this.setState({ scriptError: true });
   }
 

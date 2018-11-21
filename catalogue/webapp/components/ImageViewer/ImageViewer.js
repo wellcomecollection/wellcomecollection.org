@@ -1,5 +1,5 @@
 // @flow
-import React, {Fragment} from 'react';
+import {Fragment, Component} from 'react';
 import {Transition} from 'react-transition-group';
 import Image from '@weco/common/views/components/Image/Image';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
@@ -15,7 +15,7 @@ type LaunchViewerButtonProps = {|
   didMountHandler: () => void,
 |}
 
-class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
+class LaunchViewerButton extends Component<LaunchViewerButtonProps> {
   componentDidMount() {
     this.props.didMountHandler();
   }
@@ -40,7 +40,7 @@ type ViewerContentProps = {|
   handleViewerDisplay: Function
 |}
 
-class ViewerContent extends React.Component<ViewerContentProps> {
+class ViewerContent extends Component<ViewerContentProps> {
   escapeCloseViewer = ({keyCode}: KeyboardEvent) => {
     if (keyCode === 27 && this.props.viewerVisible) {
       this.props.handleViewerDisplay();
@@ -118,7 +118,7 @@ type ImageViewerState = {|
   viewButtonMounted: boolean
 |}
 
-class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
+class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
   state = {
     showViewer: false,
     mountViewButton: false,
