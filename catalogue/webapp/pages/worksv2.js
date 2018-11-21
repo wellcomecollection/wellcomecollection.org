@@ -35,17 +35,15 @@ export const Works = ({
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
   const [loading, setLoading] = useState(false);
-  // 1. We use this as we get the `initalWorks` from `getInitialProps`
-  //    Whereas standard React apps would fetch on first render
-  //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
-  const firstRender = useRef(true);
-
   useEffect(() => {
     document.title = `${query} | Catalogue search | Wellcome Collection`;
   }, [query]);
 
+  // 1. We use this as we get the `initalWorks` from `getInitialProps`
+  //    Whereas standard React apps would fetch on first render
+  //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+  const firstRender = useRef(true);
   useEffect(() => {
-    // Don't run this on first render, see comment 1. above
     if (firstRender.current) {
       firstRender.current = false;
       return;
