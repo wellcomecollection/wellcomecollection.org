@@ -6,6 +6,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import {spacing} from '@weco/common/utils/classnames';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
+
 const ImageViewerImage = dynamic(import('./ImageViewerImage'));
 
 type LaunchViewerButtonProps = {|
@@ -40,15 +41,7 @@ type ViewerContentProps = {|
 |}
 
 class ViewerContent extends React.Component<ViewerContentProps> {
-  escapeCloseViewer: Function;
-
-  constructor(props) {
-    super(props);
-
-    this.escapeCloseViewer = this.escapeCloseViewer.bind(this);
-  }
-
-  escapeCloseViewer({keyCode}: KeyboardEvent) {
+  escapeCloseViewer = ({keyCode}: KeyboardEvent) => {
     if (keyCode === 27 && this.props.viewerVisible) {
       this.props.handleViewerDisplay();
     }
@@ -126,27 +119,13 @@ type ImageViewerState = {|
 |}
 
 class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
-  handleViewerDisplay: Function;
-  viewButtonMountedHandler: Function;
+  state = {
+    showViewer: false,
+    mountViewButton: false,
+    viewButtonMounted: false
+  };
 
-  constructor(props: ImageViewerProps) {
-    super(props);
-    this.state = {
-      showViewer: false,
-      mountViewButton: false,
-      viewButtonMounted: false
-    };
-    this.handleViewerDisplay = this.handleViewerDisplay.bind(this);
-    this.viewButtonMountedHandler = this.viewButtonMountedHandler.bind(this);
-  }
-
-  viewButtonMountedHandler() {
-    this.setState(prevState => ({
-      viewButtonMounted: !prevState.viewButtonMounted
-    }));
-  }
-
-  handleViewerDisplay(e: Event) {
+  handleViewerDisplay = () => {
     ReactGA.event({
       category: 'component',
       action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
@@ -155,6 +134,12 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
 
     this.setState(prevState => ({
       showViewer: !prevState.showViewer
+    }));
+  }
+
+  viewButtonMountedHandler = () => {
+    this.setState(prevState => ({
+      viewButtonMounted: !prevState.viewButtonMounted
     }));
   }
 

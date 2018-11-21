@@ -50,18 +50,11 @@ type State = {|
 |}
 
 class ImageViewerImage extends Component<Props, State> {
-  handleScriptError: Function;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      scriptError: false
-    };
-
-    this.handleScriptError = this.handleScriptError.bind(this);
+  state = {
+    scriptError: false
   }
 
-  handleScriptError() {
+  handleScriptError = () => {
     this.setState({ scriptError: true });
   }
 
