@@ -39,27 +39,36 @@ export const Works = ({
     document.title = `${query} | Catalogue search | Wellcome Collection`;
   }, [query]);
 
-  // 1. We use this as we get the `initalWorks` from `getInitialProps`
-  //    Whereas standard React apps would fetch on first render
+  // 1. If `initialWorks` are sent down, we don't fetch them on initial render
   //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
-  const firstRender = useRef(true);
+  const shouldNotFetchWorks = useRef(Boolean(initialWorks));
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
+    if (shouldNotFetchWorks.current) {
+      shouldNotFetchWorks.current = false;
       return;
     }
 
-    setLoading(true);
+    // We use undefined to remove it from the URL
+    const urlVals = {
+      query: query || undefined,
+      page: page > 1 ? page : undefined
+    };
     Router.push(
-      worksV2Link({ query, page }).href,
-      worksV2Link({ query, page }).as,
+      worksV2Link(urlVals).href,
+      worksV2Link(urlVals).as,
       { shallow: true }
     );
-    // TODO: Look into memoiszing results so we don't hit the API again
-    //       See: https://reactjs.org/docs/hooks-reference.html#usememo
 
-    // TODO: Return a cleanup funciton here to stop the network request.
-    getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
+    if (query && query !== '') {
+      setLoading(true);
+      // TODO: Look into memoiszing results so we don't hit the API again
+      //       See: https://reactjs.org/docs/hooks-reference.html#usememo
+
+      // TODO: Return a cleanup funciton here to stop the network request.
+      getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
+    } else {
+      setWorks(null);
+    }
   }, [page, query]);
 
   return (
@@ -200,6 +209,18 @@ export const Works = ({
             </div>
           </div>
         </Fragment>
+      }
+
+      {works && works.results.length === 0 &&
+        <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
+          <div className='container'>
+            <div className='grid'>
+              <div className={grid({s: 12, m: 10, l: 8, xl: 8})}>
+                <p className='h1'>We couldn{`'`}t find anything that matched {query}.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       }
     </Fragment>
   );
