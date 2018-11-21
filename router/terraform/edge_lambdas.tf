@@ -49,8 +49,8 @@ data "archive_file" "edge_lambda_zip" {
 resource "aws_lambda_function" "edge_lambda_request" {
   provider = "aws.us-east-1"
   function_name = "edge_lambda_request"
-  filename = "${data.archive_file.ab_testing_zip.output_path}"
-  source_code_hash = "${data.archive_file.ab_testing_zip.output_base64sha256}"
+  filename = "${data.archive_file.edge_lambda_zip.output_path}"
+  source_code_hash = "${data.archive_file.edge_lambda_zip.output_base64sha256}"
   role = "${aws_iam_role.basic_lambda_role.arn}"
   runtime = "nodejs8.10"
   handler = "index.request"
@@ -60,8 +60,8 @@ resource "aws_lambda_function" "edge_lambda_request" {
 resource "aws_lambda_function" "edge_lambda_response" {
   provider = "aws.us-east-1"
   function_name = "edge_lambda_response"
-  filename = "${data.archive_file.ab_testing_zip.output_path}"
-  source_code_hash = "${data.archive_file.ab_testing_zip.output_base64sha256}"
+  filename = "${data.archive_file.edge_lambda_zip.output_path}"
+  source_code_hash = "${data.archive_file.edge_lambda_zip.output_base64sha256}"
   role = "${aws_iam_role.basic_lambda_role.arn}"
   runtime = "nodejs8.10"
   handler = "index.response"
