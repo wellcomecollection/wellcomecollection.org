@@ -2,7 +2,7 @@
 import ReactGA from 'react-ga';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
-import ImageViewer2 from '../ImageViewer/ImageViewer';
+import ImageViewer from '../ImageViewer/ImageViewer';
 
 type Props = {|
   id: string,
@@ -41,7 +41,7 @@ const WorkMedia = ({
           icon='chevron'
           text='Scroll to info' />
 
-        <ImageViewer2
+        <ImageViewer
           contentUrl={imageContentUrl}
           id={id}
           width={width}
