@@ -216,7 +216,18 @@ export const Works = ({
           <div className='container'>
             <div className='grid'>
               <div className={grid({s: 12, m: 10, l: 8, xl: 8})}>
-                <p className='h1'>We couldn{`'`}t find anything that matched {query}.</p>
+                <p className='h1'>
+                  We couldn{`'`}t find anything that matched
+                  {' '}
+                  <span
+                    className={classNames({
+                      [font({s: 'HNL1'})]: true
+                    })}
+                    style={{fontWeight: '400'}}
+                  >
+                    {query}
+                  </span>.
+                </p>
               </div>
             </div>
           </div>
