@@ -53,12 +53,13 @@ const EventPromo = ({
         }
       </div>
 
-      <div className={`
-        flex flex--column flex-1 flex--h-space-between
-        ${spacing({s: 2}, {padding: ['top']})}
-        ${spacing({s: hasTransparentBackground ? 0 : 2}, {padding: ['left', 'right']})}
-        ${spacing({s: 4}, {padding: ['bottom']})}
-      `}>
+      <div className={classNames({
+        'flex flex--column flex-1': true,
+        'flex--h-space-between': !hasTransparentBackground,
+        [spacing({s: 2}, {padding: ['top']})]: true,
+        [spacing({s: hasTransparentBackground ? 0 : 2}, {padding: ['left', 'right']})]: true,
+        [spacing({s: 4}, {padding: ['bottom']})]: true
+      })}>
         <div>
           {positionInSeries && <PartNumberIndicator number={positionInSeries} color={item.color} />}
           <h2 className={`

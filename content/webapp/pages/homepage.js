@@ -131,7 +131,8 @@ export class HomePage extends Component<Props> {
                     })}>
                     <StoryPromo
                       item={article}
-                      position={i} />
+                      position={i}
+                      hasTransparentBackground={true} />
                   </div>
                 );
               })}
