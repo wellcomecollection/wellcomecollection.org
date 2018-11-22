@@ -49,5 +49,5 @@ const licenseMap = {
 };
 
 export default function(licenseType: string): ?LicenseData {
-  return licenseMap[licenseType];
+  return licenseMap[licenseType.toLowerCase()];
 }
