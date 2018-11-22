@@ -9,6 +9,9 @@ test('request', () => {
   origin.request(testRequest, {}, requestCallback);
   origin.response(testResponse, {}, responseCallback);
 
+  expect(typeof requestCallback.mock.calls[0][1]).toBe('object');
+  expect(typeof responseCallback.mock.calls[0][1]).toBe('object');
+
   expect(requestCallback.mock.calls.length).toBe(1);
   expect(responseCallback.mock.calls.length).toBe(1);
 });
