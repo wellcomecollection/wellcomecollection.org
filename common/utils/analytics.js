@@ -53,6 +53,10 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
   if (category) {
     ReactGA.set({'dimension2': category});
   };
+
+  if (pageState.serial) {
+    ReactGA.set({'dimension3': pageState.serial});
+  }
   if (featuresCohort && featuresCohort !== 'default') {
     ReactGA.set({'dimension5': featuresCohort});
   }

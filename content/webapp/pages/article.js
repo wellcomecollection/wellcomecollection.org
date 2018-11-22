@@ -41,6 +41,18 @@ function articleHasOutro(article: Article) {
   );
 }
 
+function serialForGa(article: Article) {
+  const serial = article.series.find(series => series.schedule.length > 0);
+  const serialTitles = serial && serial.schedule.map(item => item.title);
+  const serialIds = serial && serial.schedule.map(item => item.id);
+  const positionInSerial = serialTitles && serialTitles.indexOf(article.title) + 1;
+
+  return positionInSerial &&
+    serialTitles &&
+    serialIds &&
+    `${serialTitles[positionInSerial]}:${serialIds[positionInSerial]}`;
+}
+
 export class ArticlePage extends Component<Props, State> {
   state = {
     listOfSeries: []
@@ -64,7 +76,10 @@ export class ArticlePage extends Component<Props, State> {
         siteSection: 'stories',
         analyticsCategory: 'editorial',
         pageJsonLd: articleLd(article),
-        pageState: {hasOutro: articleHasOutro(article)}
+        pageState: {
+          serial: serialForGa(article),
+          hasOutro: articleHasOutro(article)
+        }
       };
     } else {
       return {statusCode: 404};
