@@ -10,13 +10,15 @@ import type { Article } from '../../../model/articles';
 type Props = {|
   item: Article,
   position: number,
-  hidePromoText?: boolean
+  hidePromoText?: boolean,
+  hasTransparentBackground?: boolean
 |}
 
 const EventPromo = ({
   item,
   position,
-  hidePromoText = false
+  hidePromoText = false,
+  hasTransparentBackground = false
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
@@ -31,7 +33,7 @@ const EventPromo = ({
       className={classNames({
         'plain-link': true,
         'promo-link': true,
-        'bg-cream': true,
+        'bg-cream': !hasTransparentBackground,
         'rounded-corners': true,
         'overflow-hidden': true,
         'flex': true,
@@ -54,7 +56,7 @@ const EventPromo = ({
       <div className={`
         flex flex--column flex-1 flex--h-space-between
         ${spacing({s: 2}, {padding: ['top']})}
-        ${spacing({s: 2}, {padding: ['left', 'right']})}
+        ${spacing({s: hasTransparentBackground ? 0 : 2}, {padding: ['left', 'right']})}
         ${spacing({s: 4}, {padding: ['bottom']})}
       `}>
         <div>
