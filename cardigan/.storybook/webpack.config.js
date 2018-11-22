@@ -9,8 +9,7 @@ module.exports = (storybookBaseConfig, configType) => {
     include: [
       path.resolve(__dirname, '../../common'),
       path.resolve(__dirname, '../stories'),
-      path.resolve(__dirname, '../../catalogue/webapp'),
-      path.resolve(__dirname, '../../content/webapp')
+      path.resolve(__dirname, '../../catalogue/webapp')
     ],
     use: {
       loader: 'babel-loader',
