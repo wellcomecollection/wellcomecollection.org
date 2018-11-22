@@ -62,6 +62,7 @@ class InfoBanner extends React.Component<Props, State> {
                   <div>
                     <button className='no-margin no-padding plain-button pointer' onClick={this.hideInfoBanner}>
                       <Icon name='cross' title='Close notification' />
+                      <span className='visually-hidden'>close notification</span>
                     </button>
                   </div>
                 </div>
