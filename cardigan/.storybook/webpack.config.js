@@ -8,7 +8,8 @@ module.exports = (storybookBaseConfig, configType) => {
     exclude: /node_modules/,
     include: [
       path.resolve(__dirname, '../../common'),
-      path.resolve(__dirname, '../stories')
+      path.resolve(__dirname, '../stories'),
+      path.resolve(__dirname, '../../catalogue/webapp')
     ],
     use: {
       loader: 'babel-loader',
