@@ -53,7 +53,7 @@ resource "aws_lambda_function" "edge_lambda_request" {
   source_code_hash = "${data.archive_file.edge_lambda_zip.output_base64sha256}"
   role = "${aws_iam_role.basic_lambda_role.arn}"
   runtime = "nodejs8.10"
-  handler = "index.request"
+  handler = "origin.request"
   publish = true
 }
 
@@ -64,6 +64,6 @@ resource "aws_lambda_function" "edge_lambda_response" {
   source_code_hash = "${data.archive_file.edge_lambda_zip.output_base64sha256}"
   role = "${aws_iam_role.basic_lambda_role.arn}"
   runtime = "nodejs8.10"
-  handler = "index.response"
+  handler = "origin.response"
   publish = true
 }

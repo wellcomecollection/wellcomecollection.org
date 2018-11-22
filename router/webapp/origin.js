@@ -16,7 +16,8 @@ exports.request = (event, context, callback) => {
 };
 
 exports.response = (event, context, callback) => {
-  const abTestedResponse = abTesting.response(event, context);
+  abTesting.response(event, context);
+  const response = event.Records[0].cf.response;
 
-  callback(null, abTestedResponse);
+  callback(null, response);
 };
