@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
-import {Fragment, useState, useEffect} from 'react';
+import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -9,7 +9,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
-import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagination/Pagination';
+import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import type {
   GetInitialPropsProps,
   ExtraProps
@@ -33,26 +33,42 @@ export const Works = ({
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
-  const pagination = works ? PaginationFactory.fromList(
-    works.results,
-    Number(works.totalResults) || 1,
-    Number(page) || 1,
-    works.pageSize || 1,
-    {query: query || ''}
-  ) : null;
-
-  // https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-getderivedstatefromprops
-  // Make sure if we're using the Pagination element, which reinitialised the
-  // `getInitialProps` we set the works to the `initialWorks` from that function
-  if (page !== initialPage && query === initialQuery) {
-    setPage(initialPage);
-    setWorks(initialWorks);
-  }
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    // Update the document title using the browser API
     document.title = `${query} | Catalogue search | Wellcome Collection`;
-  });
+  }, [query]);
+
+  // 1. If `initialWorks` are sent down, we don't fetch them on initial render
+  //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+  const shouldNotFetchWorks = useRef(Boolean(initialWorks));
+  useEffect(() => {
+    if (shouldNotFetchWorks.current) {
+      shouldNotFetchWorks.current = false;
+      return;
+    }
+
+    // We use undefined to remove it from the URL
+    const urlVals = {
+      query: query || undefined,
+      page: page > 1 ? page : undefined
+    };
+    Router.push(
+      worksV2Link(urlVals).href,
+      worksV2Link(urlVals).as,
+      { shallow: true }
+    );
+
+    if (query && query !== '') {
+      setLoading(true);
+      // TODO: Look into memoiszing results so we don't hit the API again
+      //       See: https://reactjs.org/docs/hooks-reference.html#usememo
+
+      // TODO: Return a cleanup funciton here to stop the network request.
+      getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
+    } else {
+      setWorks(null);
+    }
+  }, [page, query]);
 
   return (
     <Fragment>
@@ -95,20 +111,11 @@ export const Works = ({
                   event.preventDefault();
                   const form = event.currentTarget;
                   // $FlowFixMe
-                  const value = form.elements.query.value;
-                  const page = 1;
-                  const newWorks = value ? await getWorks({ query: value, page, filters }) : null;
-                  setWorks(newWorks);
-                  setQuery(value);
+                  const newQuery = form.elements.query.value;
+                  setQuery(newQuery);
                   setPage(1);
-
-                  Router.push(
-                    worksV2Link({ query: value, page: undefined }).href,
-                    worksV2Link({ query: value, page: undefined }).as,
-                    { shallow: true }
-                  );
                 }} />
-              {!query
+              {!works
                 ? <p className={classNames([
                   spacing({s: 4}, {margin: ['top']}),
                   font({s: 'HNL4', m: 'HNL3'})
@@ -128,36 +135,34 @@ export const Works = ({
         <StaticWorksContent />
       }
 
-      {query &&
+      {works && works.results.length > 0 &&
         <Fragment>
-          {pagination && pagination.range &&
-            <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
-              <div className='container'>
-                <div className='grid'>
-                  <div className='grid__cell'>
-                    <div className='flex flex--h-space-between flex--v-center'>
-
-                      <Fragment>
-                        <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-                            Showing {pagination.range.beginning} - {pagination.range.end}
-                        </div>
-                        <Pagination
-                          total={pagination.total}
-                          prevPage={pagination.prevPage}
-                          currentPage={pagination.currentPage}
-                          pageCount={pagination.pageCount}
-                          nextPage={pagination.nextPage}
-                          nextQueryString={pagination.nextQueryString}
-                          prevQueryString={pagination.prevQueryString} />
-                      </Fragment>
-                    </div>
+          <div className={`row ${spacing({s: 3, m: 5}, {padding: ['top']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                <div className='grid__cell'>
+                  <div className='flex flex--h-space-between flex--v-center'>
+                    <Fragment>
+                      <Paginator
+                        currentPage={page}
+                        pageSize={works.pageSize}
+                        totalResults={works.totalResults}
+                        link={worksV2Link({query, page})}
+                        onPageChange={async (event, newPage) => {
+                          event.preventDefault();
+                          setPage(newPage);
+                        }}
+                      />
+                    </Fragment>
                   </div>
                 </div>
               </div>
             </div>
-          }
+          </div>
 
-          <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
+          <div
+            className={`row ${spacing({s: 4}, {padding: ['top']})}`}
+            style={{ opacity: loading ? 0 : 1 }}>
             <div className='container'>
               <div className='grid'>
                 {works.results.map(result => (
@@ -179,33 +184,52 @@ export const Works = ({
             </div>
           </div>
 
-          {pagination && pagination.range &&
-            <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
-              <div className='container'>
-                <div className='grid'>
-                  <div className='grid__cell'>
-                    <div className='flex flex--h-space-between flex--v-center'>
-
-                      <Fragment>
-                        <div className={`flex flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-                          Showing {pagination.range.beginning} - {pagination.range.end}
-                        </div>
-                        <Pagination
-                          total={pagination.total}
-                          prevPage={pagination.prevPage}
-                          currentPage={pagination.currentPage}
-                          pageCount={pagination.pageCount}
-                          nextPage={pagination.nextPage}
-                          nextQueryString={pagination.nextQueryString}
-                          prevQueryString={pagination.prevQueryString} />
-                      </Fragment>
-                    </div>
+          <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
+            <div className='container'>
+              <div className='grid'>
+                <div className='grid__cell'>
+                  <div className='flex flex--h-space-between flex--v-center'>
+                    <Fragment>
+                      <Paginator
+                        currentPage={page}
+                        pageSize={works.pageSize}
+                        totalResults={works.totalResults}
+                        link={worksV2Link({query, page})}
+                        onPageChange={async (event, newPage) => {
+                          event.preventDefault();
+                          setPage(newPage);
+                        }}
+                      />
+                    </Fragment>
                   </div>
                 </div>
               </div>
             </div>
-          }
+          </div>
         </Fragment>
+      }
+
+      {works && works.results.length === 0 &&
+        <div className={`row ${spacing({s: 4}, {padding: ['top']})}`}>
+          <div className='container'>
+            <div className='grid'>
+              <div className={grid({s: 12, m: 10, l: 8, xl: 8})}>
+                <p className='h1'>
+                  We couldn{`'`}t find anything that matched
+                  {' '}
+                  <span
+                    className={classNames({
+                      [font({s: 'HNL1'})]: true
+                    })}
+                    style={{fontWeight: '400'}}
+                  >
+                    {query}
+                  </span>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       }
     </Fragment>
   );
