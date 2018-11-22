@@ -13,7 +13,7 @@ type Props = {|
   hidePromoText?: boolean
 |}
 
-const EventPromo = ({
+const StoryPromo = ({
   item,
   position,
   hidePromoText = false
@@ -94,4 +94,4 @@ const EventPromo = ({
   );
 };
 
-export default EventPromo;
+export default StoryPromo;
