@@ -15,7 +15,7 @@ import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/Sec
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
-import WorkMedia from '../components/WorkMedia/WorkMedia';
+import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
 import getLicenseInfo from '@weco/common/utils/get-license-info';

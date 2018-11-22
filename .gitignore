@@ -21,3 +21,5 @@ pa11y-report.html
 
 # Next export
 out/
+
+.DS_Store

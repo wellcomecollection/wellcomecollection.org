@@ -21,7 +21,8 @@ module.exports = (storybookBaseConfig, configType) => {
         ],
         plugins: [
           'babel-plugin-react-require',
-          '@babel/plugin-proposal-class-properties'
+          '@babel/plugin-proposal-class-properties',
+          '@babel/plugin-syntax-dynamic-import'
         ]
       }
     }

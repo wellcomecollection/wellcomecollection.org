@@ -1,7 +1,7 @@
 // @flow
 import {Component} from 'react';
-import {convertImageUri, convertIiifUriToInfoUri} from '@weco/common/utils/convert-image-uri';
-import {spacing} from '@weco/common/utils/classnames';
+import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
+import {spacing} from '../../../utils/classnames';
 import openseadragon from 'openseadragon';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
@@ -31,7 +31,7 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
           }]
         }]
       });
-    }).catch(err => { handleScriptError(err); });
+    }).catch(_ => { handleScriptError(); });
 }
 
 const ErrorMessage = () => (
@@ -50,18 +50,11 @@ type State = {|
 |}
 
 class ImageViewerImage extends Component<Props, State> {
-  handleScriptError: Function;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      scriptError: false
-    };
-
-    this.handleScriptError = this.handleScriptError.bind(this);
+  state = {
+    scriptError: false
   }
 
-  handleScriptError() {
+  handleScriptError = () => {
     this.setState({ scriptError: true });
   }
 

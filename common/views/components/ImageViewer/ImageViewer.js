@@ -1,11 +1,12 @@
 // @flow
-import React, {Fragment} from 'react';
+import {Fragment, Component} from 'react';
 import {Transition} from 'react-transition-group';
-import Image from '@weco/common/views/components/Image/Image';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
-import {spacing} from '@weco/common/utils/classnames';
+import Image from '../Image/Image';
+import Control from '../Buttons/Control/Control';
+import {spacing} from '../../../utils/classnames';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
+
 const ImageViewerImage = dynamic(import('./ImageViewerImage'));
 
 type LaunchViewerButtonProps = {|
@@ -14,7 +15,7 @@ type LaunchViewerButtonProps = {|
   didMountHandler: () => void,
 |}
 
-class LaunchViewerButton extends React.Component<LaunchViewerButtonProps> {
+class LaunchViewerButton extends Component<LaunchViewerButtonProps> {
   componentDidMount() {
     this.props.didMountHandler();
   }
@@ -39,16 +40,8 @@ type ViewerContentProps = {|
   handleViewerDisplay: Function
 |}
 
-class ViewerContent extends React.Component<ViewerContentProps> {
-  escapeCloseViewer: Function;
-
-  constructor(props) {
-    super(props);
-
-    this.escapeCloseViewer = this.escapeCloseViewer.bind(this);
-  }
-
-  escapeCloseViewer({keyCode}: KeyboardEvent) {
+class ViewerContent extends Component<ViewerContentProps> {
+  escapeCloseViewer = ({keyCode}: KeyboardEvent) => {
     if (keyCode === 27 && this.props.viewerVisible) {
       this.props.handleViewerDisplay();
     }
@@ -95,7 +88,7 @@ class ViewerContent extends React.Component<ViewerContentProps> {
             text='Zoom out'
             id={`zoom-out-${this.props.id}`}
             icon='zoomOut'
-            extraClasses={`{spacing({s: 8}, {margin: ['right']})}`}
+            extraClasses={`${spacing({s: 8}, {margin: ['right']})}`}
             clickHandler={this.handleZoomOut} />
 
           <Control
@@ -125,28 +118,14 @@ type ImageViewerState = {|
   viewButtonMounted: boolean
 |}
 
-class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
-  handleViewerDisplay: Function;
-  viewButtonMountedHandler: Function;
+class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
+  state = {
+    showViewer: false,
+    mountViewButton: false,
+    viewButtonMounted: false
+  };
 
-  constructor(props: ImageViewerProps) {
-    super(props);
-    this.state = {
-      showViewer: false,
-      mountViewButton: false,
-      viewButtonMounted: false
-    };
-    this.handleViewerDisplay = this.handleViewerDisplay.bind(this);
-    this.viewButtonMountedHandler = this.viewButtonMountedHandler.bind(this);
-  }
-
-  viewButtonMountedHandler() {
-    this.setState(prevState => ({
-      viewButtonMounted: !prevState.viewButtonMounted
-    }));
-  }
-
-  handleViewerDisplay(e: Event) {
+  handleViewerDisplay = () => {
     ReactGA.event({
       category: 'component',
       action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
@@ -155,6 +134,12 @@ class ImageViewer extends React.Component<ImageViewerProps, ImageViewerState> {
 
     this.setState(prevState => ({
       showViewer: !prevState.showViewer
+    }));
+  }
+
+  viewButtonMountedHandler = () => {
+    this.setState(prevState => ({
+      viewButtonMounted: !prevState.viewButtonMounted
     }));
   }
 

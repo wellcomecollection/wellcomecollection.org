@@ -1,7 +1,7 @@
 // @flow
 import ReactGA from 'react-ga';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
-import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
+import Control from '../Buttons/Control/Control';
+import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 import ImageViewer from '../ImageViewer/ImageViewer';
 
 type Props = {|
