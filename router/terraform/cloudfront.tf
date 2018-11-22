@@ -70,15 +70,15 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       }
     }
 
-    lambda_function_association {
-      event_type = "origin-request"
-      lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
-    }
+    # lambda_function_association {
+    #   event_type = "origin-request"
+    #   lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
+    # }
 
-    lambda_function_association {
-      event_type = "origin-response"
-      lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
-    }
+    # lambda_function_association {
+    #   event_type = "origin-response"
+    #   lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
+    # }
   }
 
   # Make sure that the next assets always outlive the HTML
