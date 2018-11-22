@@ -2,7 +2,8 @@
 const redirects = require('./redirects.json');
 
 exports.redirector = (event, context) => {
-  const request = event.Records[0].cf.request;
+  const cf = event.Records[0].cf;
+  const request = cf.request;
   if (redirects[request.uri]) {
     const response = {
       status: '301',
@@ -18,6 +19,6 @@ exports.redirector = (event, context) => {
         }]
       }
     };
-    return response;
+    cf.response = response;
   }
 };

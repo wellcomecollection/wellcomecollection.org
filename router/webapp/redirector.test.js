@@ -17,7 +17,7 @@ const redirectTestRequestEvent = {
     }
   ]
 };
-const nonRedirectTestRequest = {
+const nonRedirectTestRequestEvent = {
   'Records': [
     {
       'cf': {
@@ -37,16 +37,19 @@ const nonRedirectTestRequest = {
 test('redirector', () => {
   // Should have been redirected
   const redirectedCallback = jest.fn((_, request) => request);
-  const response = redirector(redirectTestRequestEvent, {}, redirectedCallback);
-  expect(response.headers.location[0]).toEqual({
+  redirector(redirectTestRequestEvent, {}, redirectedCallback);
+  const redirectedResponse = redirectTestRequestEvent.Records[0].cf.response;
+
+  expect(redirectedResponse.headers.location[0]).toEqual({
     key: 'Location',
     value: `https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`
   });
 
   // Shouldn't have been redirected, and return the same request
   const nonRedirectedCallback = jest.fn((_, request) => request);
-  const nonRedirectedResponse = redirector(nonRedirectTestRequest, {}, nonRedirectedCallback);
-  const modifiedRequest = nonRedirectTestRequest.Records[0].cf.request;
+  redirector(nonRedirectTestRequestEvent, {}, nonRedirectedCallback);
+  const nonRedirectedResponse = nonRedirectTestRequestEvent.Records[0].cf.response;
+  const modifiedRequest = nonRedirectTestRequestEvent.Records[0].cf.request;
   expect(nonRedirectedResponse).toBeUndefined();
-  expect(modifiedRequest).toEqual(nonRedirectTestRequest.Records[0].cf.request);
+  expect(modifiedRequest).toEqual(nonRedirectTestRequestEvent.Records[0].cf.request);
 });

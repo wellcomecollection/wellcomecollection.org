@@ -3,21 +3,23 @@ const abTesting = require('./ab_testing');
 const redirector = require('./redirector').redirector;
 
 exports.request = (event, context, callback) => {
-  // If we have a redirect, don't bother moving on
-  const redirectedResponse = redirector(event, context);
-  if (redirectedResponse) {
-    callback(null, redirectedResponse);
+  // If a response is attached to the Record return it
+  redirector(event, context);
+
+  const request = event.Records[0].cf.request;
+  const response = event.Records[0].cf.response;
+  if (response) {
+    callback(null, response);
     return;
   }
 
-  const abTestedRequest = abTesting.request(event, context);
-
-  callback(null, abTestedRequest);
+  abTesting.request(event, context);
+  callback(null, request);
 };
 
 exports.response = (event, context, callback) => {
-  abTesting.response(event, context);
   const response = event.Records[0].cf.response;
 
+  abTesting.response(event, context);
   callback(null, response);
 };
