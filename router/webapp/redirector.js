@@ -11,6 +11,10 @@ exports.redirector = (event, context) => {
         location: [{
           key: 'Location',
           value: `https://wellcomecollection.org${redirects[request.uri]}`
+        }],
+        'x-powered-by': [{
+          key: 'x-powered-by',
+          value: '@weco/redirector'
         }]
       }
     };
