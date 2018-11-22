@@ -1,8 +1,8 @@
 // @flow
-import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import {spacing, grid} from '@weco/common/utils/classnames';
+import ReactMarkdown from 'react-markdown';
 // $FlowFixMe
 import PROGRESS_NOTES from './PROGRESS_NOTES.md';
 
@@ -20,9 +20,7 @@ const ProgressPage = () => (
     imageUrl={null}
     imageAltText={null}
     oEmbedUrl={null}>
-
-    <Link href='/progresss' as='/works/progresss'><a>Prog</a></Link>
-
+    <Link href='/progress'><a>BACK!</a></Link>
     <div className={`row ${spacing({s: 5}, {padding: ['top']})}`}>
       <div className='container'>
         <div className='grid'>

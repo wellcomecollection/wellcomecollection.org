@@ -21,7 +21,7 @@ function withToggles(ctx, next) {
     });
   }, {});
 
-  ctx.toggles = toggles;
+  ctx.toggles = {...toggles, help: 1};
 
   return next();
 }

@@ -35,7 +35,7 @@ export const Works = ({
   const [page, setPage] = useState(initialPage);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    document.title = `${query} | Catalogue search | Wellcome Collection`;
+    document.title = `${query ? `${query} | ` : ''}Catalogue search | Wellcome Collection`;
   }, [query]);
 
   // 1. If `initialWorks` are sent down, we don't fetch them on initial render
@@ -256,7 +256,7 @@ Works.getInitialProps = async (
     initialWorks: works,
     initialQuery: query,
     filters,
-    title: `${query} | Catalogue search | Wellcome Collection`,
+    title: `${query ? `${query} | ` : ''}Catalogue search | Wellcome Collection`,
     description: 'Search through the Wellcome Collection image catalogue',
     analyticsCategory: 'collections',
     siteSection: 'images',

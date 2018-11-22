@@ -84,6 +84,7 @@ module.exports = app.prepare().then(async () => {
   // Next routing
   route('/embed/works/:id', '/embed', router, app);
   route('/works/progress', '/progress', router, app);
+  route('/works/progresss', '/progresss', router, app);
   route('/works/:id', '/work', router, app);
   route('/worksv2/:id', '/workv2', router, app);
   route('/worksv2', '/worksv2', router, app);
