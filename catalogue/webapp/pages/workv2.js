@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import ReactGA from 'react-ga';
 import NextLink from 'next/link';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';

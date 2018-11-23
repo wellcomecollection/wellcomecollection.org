@@ -1,6 +1,7 @@
 // @flow
 import type {AppInitialProps} from 'next/app';
 import App, { Container } from 'next/app';
+import Router from 'next/router';
 import Head from 'next/head';
 import {parseOpeningTimesFromCollectionVenues} from '@weco/common/services/prismic/opening-times';
 import Header from '@weco/common/views/components/Header/Header';
@@ -45,7 +46,12 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
-    console.info('app did mount!');
+    // TODO: lazysizes
+    // TODO: GA
+    // TODO: lazysizes
+    Router.events.on('routeChangeComplete', () => console.info('saywat'));
+    // $FlowFixMe
+    document.documentElement.classList.add('enhanced');
   }
 
   render () {

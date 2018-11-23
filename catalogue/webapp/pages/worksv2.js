@@ -44,19 +44,13 @@ export const Works = ({
       return;
     }
 
-    // We use undefined to remove it from the URL
-    const urlVals = {
-      query: query || undefined,
-      page: page > 1 ? page : undefined
-    };
-
     // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
     // you can use URL like objects too
     Router.push(
       // $FlowFixMe
-      worksV2Link(urlVals).href,
+      worksV2Link({query, page}).href,
       // $FlowFixMe
-      worksV2Link(urlVals).as,
+      worksV2Link({query, page}).as,
       { shallow: true }
     );
 
@@ -72,15 +66,11 @@ export const Works = ({
     }
   }, [page, query]);
 
-  const urlVals = {
-    query: query || undefined,
-    page: page > 1 ? page : undefined
-  };
   return (
     <PageLayout
       title={`${query ? `${query} | ` : ''}Catalogue search`}
       description='Search through the Wellcome Collection image catalogue'
-      url={{pathname: '/works', query: urlVals}}
+      url={{pathname: '/works', query: worksV2Link({query, page}).href}}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       imageUrl={null}

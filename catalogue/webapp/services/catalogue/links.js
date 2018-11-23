@@ -54,11 +54,20 @@ export function workV2Link({ id, query, page }: WorkLinkProps): LinkProps {
   return {
     href: {
       pathname: `/workv2`,
-      query: { id, query, page }
+      query: {
+        id,
+        ...removeEmpty({
+          query: query || undefined,
+          page: page && page > 1 ? page : undefined
+        })
+      }
     },
     as: {
       pathname: `/worksv2/${id}`,
-      query: removeEmpty({ query, page })
+      query: removeEmpty({
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined
+      })
     }
   };
 }
@@ -67,11 +76,17 @@ export function worksV2Link({ query, page }: WorksLinkProps): LinkProps {
   return {
     href: {
       pathname: `/worksv2`,
-      query: { query, page }
+      query: removeEmpty({
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined
+      })
     },
     as: {
       pathname: `/worksv2`,
-      query: removeEmpty({ query, page })
+      query: removeEmpty({
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined
+      })
     }
   };
 }

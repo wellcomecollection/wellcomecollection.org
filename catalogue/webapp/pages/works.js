@@ -3,7 +3,7 @@ import {Fragment, Component} from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -215,11 +215,6 @@ export class WorksPage extends Component<PageProps> {
       query,
       page,
       pagination: pagination,
-      title: `Image catalogue search${query ? `: ${query}` : ''}`,
-      description: 'Search through the Wellcome Collection image catalogue',
-      analyticsCategory: 'collections',
-      siteSection: 'images',
-      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`,
       version
     };
   };
@@ -248,4 +243,4 @@ export class WorksPage extends Component<PageProps> {
   }
 }
 
-export default PageWrapper(WorksPage);
+export default WorksPage;
