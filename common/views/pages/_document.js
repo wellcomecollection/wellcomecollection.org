@@ -1,59 +1,46 @@
 // @flow
 import Document, { Head, Main, NextScript } from 'next/document';
+import getConfig from 'next/config';
+import {parseOpeningHoursFromCollectionVenues} from '../../services/prismic/opening-times';
 import Footer from '../components/Footer/Footer';
 import InfoBanner from '../components/InfoBanner/InfoBanner';
 import NewsletterPromo from '../components/NewsletterPromo/NewsletterPromo';
 import Header from '../components/Header/Header';
-import getConfig from 'next/config';
+import WellcomeCollectionJsonLd from '../components/WellcomeCollectionJsonLd/WellcomeCollectionJsonLd';
 
 const {serverRuntimeConfig} = getConfig();
 const prismicGlobalAlert = serverRuntimeConfig.getPrismicGlobalAlert();
+const prismicCollectionVenues = serverRuntimeConfig.getPrismicCollectionVenues();
 
-const siteSections = {
-  'works': 'works'
-};
-
-// const galleryOpeningTimes = function(galleryHours: ?OpeningHours) {
-//   if (galleryHours) {
-//     return {
-//       openingHoursSpecification: galleryHours && galleryHours.regular.map(
-//         openingHoursDay =>  {
-//           const specObject = objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false);
-//           delete specObject.note;
-//           return specObject;
-//         }
-//       ),
-//       specialOpeningHoursSpecification: galleryHours.exceptional && galleryHours.exceptional.map(
-//         openingHoursDate => {
-//           const specObject = {
-//             opens: openingHoursDate.opens,
-//             closes: openingHoursDate.closes,
-//             validFrom: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD'),
-//             validThrough: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD')
-//           };
-//           return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-//         }
-//       )
-//     };
-//   }
-// };
+type SiteSection = string;
+function getSiteSection(pathname: string): SiteSection {
+  if (pathname.match(/^\/works/)) {
+    return 'works';
+  } else if (pathname.match(/^\/[stories|articles|series]/)) {
+    return 'stories';
+  } else if (pathname.match(/^\/[exhibitions|events|installations|whats\-on|event\-series]/)) {
+    return 'whatson';
+  } else {
+    // TODO: we need to descern between what-we-do and visit-us
+    return 'visit-us';
+  }
+}
 
 export default function WecoDocument(css: string) {
   return class WecoDoc extends Document {
     static async getInitialProps(ctx: any) {
-      console.info(ctx.pathname);
       const initialProps = await Document.getInitialProps(ctx);
-      return { ...initialProps };
+      const siteSection = getSiteSection(ctx.pathname);
+      return { ...initialProps, siteSection };
     }
 
     render() {
+      const {siteSection} = this.props;
       // TODO: 👇 this, it wasn't working anyway
       const isPreview = false;
-      const openingTimes = null;
-      // const galleryVenue =
-      //   openingTimes.groupedVenues.galleriesLibrary &&
-      //   openingTimes.groupedVenues.galleriesLibrary.hours.find(v => v.name === 'Galleries');
-      // const galleryVenueHours = galleryVenue && galleryVenue.openingHours;
+
+      // I don't really like this here, but it's the best of a bad bunch
+      const openingHours = parseOpeningHoursFromCollectionVenues(prismicCollectionVenues);
       return (
         <html id='top' lang='en'>
           <Head>
@@ -69,13 +56,13 @@ export default function WecoDocument(css: string) {
             <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
             <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
             <style dangerouslySetInnerHTML={{ __html: css }} />
-
-            {/* <JsonLd data={museumLd(Object.assign({}, wellcomeCollection, galleryOpeningTimes(galleryVenueHours)))} /> */}
+            <WellcomeCollectionJsonLd
+              prismicCollectionVenues={prismicCollectionVenues} />
           </Head>
           <body>
             <div className={isPreview ? 'is-preview' : undefined}>
               <a className='skip-link' href='#main'>Skip to main content</a>
-              <Header siteSection={'works'} />
+              <Header siteSection={siteSection} />
               {prismicGlobalAlert.isShown === 'show' &&
                 <InfoBanner
                   text={prismicGlobalAlert.text}
@@ -85,18 +72,10 @@ export default function WecoDocument(css: string) {
                 <Main />
               </div>
               <NewsletterPromo />
-              {/* openingTimes &&
-                <Footer
-                  openingHoursId='footer'
-                  groupedVenues={openingTimes.groupedVenues}
-                  upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
-              */}
-              {/*! openingTimes &&
-                <Footer
-                  groupedVenues={{}}
-                  upcomingExceptionalOpeningPeriods={[]}
-                  openingHoursId='footer' />
-              */}
+              <Footer
+                openingHoursId='footer'
+                groupedVenues={openingHours.groupedVenues}
+                upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods} />
             </div>
             <NextScript />
           </body>

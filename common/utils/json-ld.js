@@ -1,4 +1,5 @@
 import type {EventPromo, Event} from '../model/events';
+import moment from 'moment';
 import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
 import {convertImageUri} from './convert-image-uri';
 
@@ -209,4 +210,27 @@ function imageLd(image) {
     width: image.width,
     height: image.height
   }, 'ImageObject');
+}
+
+export function openingHoursLd(galleryHours) {
+  return {
+    openingHoursSpecification: galleryHours && galleryHours.regular.map(
+      openingHoursDay =>  {
+        const specObject = objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false);
+        delete specObject.note;
+        return specObject;
+      }
+    ),
+    specialOpeningHoursSpecification: galleryHours.exceptional && galleryHours.exceptional.map(
+      openingHoursDate => {
+        const specObject = {
+          opens: openingHoursDate.opens,
+          closes: openingHoursDate.closes,
+          validFrom: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD'),
+          validThrough: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD')
+        };
+        return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+      }
+    )
+  };
 }
