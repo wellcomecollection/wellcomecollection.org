@@ -43,6 +43,7 @@ class InfoBanner extends React.Component<Props, State> {
   }
 
   render() {
+    const {text} = this.props;
     if (this.state.showInfoBanner) {
       return (
         <div
