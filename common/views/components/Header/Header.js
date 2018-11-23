@@ -3,6 +3,28 @@ import {withToggler} from '../../hocs/withToggler';
 import {font, spacing} from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
+const links = [{
+  href: 'https://wellcomecollection.org/visit',
+  title: 'Visit us',
+  siteSection: 'visitus'
+}, {
+  href: 'https://wellcomecollection.org/whats-on',
+  title: 'What\'s on',
+  siteSection: 'whatson'
+}, {
+  href: '/stories',
+  title: 'Stories',
+  siteSection: 'stories'
+}, {
+  href: '/works',
+  title: 'Images',
+  siteSection: 'works'
+}, {
+  href: 'https://wellcomecollection.org/what-we-do',
+  title: 'What we do',
+  siteSection: 'whatwedo'
+}];
+
 type Props = {|
   siteSection: string,
   isActive: boolean,
@@ -14,7 +36,7 @@ type Props = {|
   |}>,
 |}
 
-const Header = withToggler(({ links, siteSection, toggle, isActive }: Props) => (
+const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
   <div className={`header grid js-header-burger js-focus-trap bg-white border-color-pumice border-bottom-width-1 ${isActive ? 'header--is-burger-open' : ''}`}>
     <span className='visually-hidden js-trap-reverse-end'>reset focus</span>
     <div className='header__upper grid__cell'>

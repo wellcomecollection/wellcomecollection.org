@@ -1,21 +1,23 @@
 // @flow
+import type {HTMLString} from '../../../services/prismic/types';
 import React from 'react';
 import cookie from 'cookie-cutter';
 import {spacing, grid, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = {|
   cookieName?: string,
-  text: string
+  text: HTMLString
 |}
 
 type State = {|
-  showInfoBanner: boolean
+  show: boolean
 |}
 
 class InfoBanner extends React.Component<Props, State> {
   state = {
-    showInfoBanner: false
+    show: false
   };
 
   hideInfoBanner = () => {
@@ -26,7 +28,7 @@ class InfoBanner extends React.Component<Props, State> {
       expires: isSingleSessionCookie ? null : 'Fri, 31 Dec 2036 23:59:59 GMT'
     });
     this.setState(prevState => ({
-      showInfoBanner: false
+      show: false
     }));
   }
 
@@ -37,13 +39,15 @@ class InfoBanner extends React.Component<Props, State> {
       return null;
     } else {
       this.setState(prevState => ({
-        showInfoBanner: true
+        show: true
       }));
     }
   }
 
   render() {
-    if (this.state.showInfoBanner) {
+    const {text} = this.props;
+    const {show} = this.state;
+    if (show) {
       return (
         <div
           className={`row bg-yellow ${spacing({s: 3}, {padding: ['top', 'bottom']})}`}>
@@ -56,7 +60,9 @@ class InfoBanner extends React.Component<Props, State> {
                       <div className={`flex flex--v-center ${spacing({s: 2}, {margin: ['right']})}`}>
                         <Icon name='information' />
                       </div>
-                      <div className='first-para-no-margin' dangerouslySetInnerHTML={{ __html: this.props.text }} />
+                      <div className='first-para-no-margin'>
+                        <PrismicHtmlBlock html={text} />
+                      </div>
                     </span>
                   </div>
                   <div>

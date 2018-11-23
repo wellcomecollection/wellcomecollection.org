@@ -1,17 +1,9 @@
 // @flow
 import {Component} from 'react';
 import Head from 'next/head';
-import NastyJs from '../Header/NastyJs';
-import Header from '../Header/Header';
-import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
-import InfoBanner from '../InfoBanner/InfoBanner';
 import {striptags} from '../../../utils/striptags';
 import {formatDate} from '../../../utils/format-date';
-import {museumLd, objToJsonLd} from '../../../utils/json-ld';
-import Footer from '../Footer/Footer';
-import {wellcomeCollection} from '../../../model/organization';
-import moment from 'moment';
-import type {GroupedVenues, OverrideType, OpeningHours} from '../../../model/opening-hours';
+import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 import type {GlobalAlert} from '../../../model/global-alert';
 import type Moment from 'moment';
 import analytics from '../../../utils/analytics';
@@ -22,31 +14,6 @@ export type JsonLdObject = {
 }
 type jsonData = {
   data: JsonLdObject
-};
-
-const galleryOpeningTimes = function(galleryHours: ?OpeningHours) {
-  if (galleryHours) {
-    return {
-      openingHoursSpecification: galleryHours && galleryHours.regular.map(
-        openingHoursDay =>  {
-          const specObject = objToJsonLd(openingHoursDay, 'OpeningHoursSpecification', false);
-          delete specObject.note;
-          return specObject;
-        }
-      ),
-      specialOpeningHoursSpecification: galleryHours.exceptional && galleryHours.exceptional.map(
-        openingHoursDate => {
-          const specObject = {
-            opens: openingHoursDate.opens,
-            closes: openingHoursDate.closes,
-            validFrom: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD'),
-            validThrough: moment(openingHoursDate.overrideDate).format('YYYY-MM-DD')
-          };
-          return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-        }
-      )
-    };
-  }
 };
 
 const JsonLd = ({
@@ -122,28 +89,6 @@ export const TwitterCard = ({
   <meta key='twitter:image' name='twitter:image' content={imageUrl} />,
   imageAltText ? <meta name='twitter:image:alt' content={imageAltText} /> : null
 ].filter(Boolean));
-
-const navLinks = [{
-  href: 'https://wellcomecollection.org/visit',
-  title: 'Visit us',
-  siteSection: 'visitus'
-}, {
-  href: 'https://wellcomecollection.org/whats-on',
-  title: 'What\'s on',
-  siteSection: 'whatson'
-}, {
-  href: '/stories',
-  title: 'Stories',
-  siteSection: 'stories'
-}, {
-  href: '/works',
-  title: 'Images',
-  siteSection: 'images'
-}, {
-  href: 'https://wellcomecollection.org/what-we-do',
-  title: 'What we do',
-  siteSection: 'whatwedo'
-}];
 
 export type SiteSection = 'images' | 'stories' | 'whats-on' | 'error';
 type Props = {|
@@ -289,18 +234,10 @@ class DefaultPageLayout extends Component<Props> {
       description,
       imageUrl,
       pageJsonLd,
-      siteSection,
       children,
-      featuresCohort,
-      featureFlags,
-      isPreview,
-      openingTimes,
-      globalAlert,
       oEmbedUrl
     } = this.props;
 
-    const galleryVenue = openingTimes.groupedVenues.galleriesLibrary && openingTimes.groupedVenues.galleriesLibrary.hours.find(v => v.name === 'Galleries');
-    const galleryVenueHours = galleryVenue && galleryVenue.openingHours;
     const title = this.props.title
       ? `${this.props.title} | Wellcome Collection`
       : 'Wellcome Collection | The free museum and library for the incurably curious';
@@ -314,14 +251,16 @@ class DefaultPageLayout extends Component<Props> {
     return (
       <div>
         <Head>
-          <meta charSet='utf-8' />
-          <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
           <title>{title}</title>
           <script src={`https://cdn.polyfill.io/v2/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
-          <meta name='viewport' content='width=device-width, initial-scale=1' />
-          <meta name='theme-color' content='#000000' />
           <meta name='description' content={description || ''} />
           <meta property='og:image' content={imageUrl || ''} />
+          {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
+          {oEmbedUrl && <link
+            rel='alternate'
+            type='application/json+oembed'
+            href={oEmbedUrl}
+            title={title} />}
 
           <OpenGraph
             type={type}
@@ -337,55 +276,10 @@ class DefaultPageLayout extends Component<Props> {
             description={description}
             imageUrl={imageUrl} />
 
-          <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
-          <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
-          <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
-          <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-16x16.png' sizes='16x16' />
-          <link rel='manifest' href='https://i.wellcomecollection.org/assets/icons/manifest.json' />
-          <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
-          <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
-          {/* Leaving this out for now as it's hanging locally for me */}
-          {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
-          <NastyJs />
           <JsonLd data={pageJsonLd} />
-          <JsonLd data={museumLd(Object.assign({}, wellcomeCollection, galleryOpeningTimes(galleryVenueHours)))} />
-          <script dangerouslySetInnerHTML={{ __html: `
-            window.WC = {
-              featuresCohort: ${JSON.stringify(featuresCohort)},
-              featureFlags: ${JSON.stringify(featureFlags)}
-            }
-          `}} />
-          {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
-          {oEmbedUrl && <link
-            rel='alternate'
-            type='application/json+oembed'
-            href={oEmbedUrl}
-            title={title} />}
         </Head>
 
-        <div className={isPreview ? 'is-preview' : undefined}>
-          <a className='skip-link' href='#main'>Skip to main content</a>
-          <Header siteSection={siteSection} links={navLinks} />
-          {globalAlert.isShown &&
-            <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
-          }
-          <div id='main' className='main' role='main'>
-            {children}
-          </div>
-          <NewsletterPromo />
-          {openingTimes &&
-            <Footer
-              openingHoursId='footer'
-              groupedVenues={openingTimes.groupedVenues}
-              upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
-          }
-          {!openingTimes &&
-            <Footer
-              groupedVenues={{}}
-              upcomingExceptionalOpeningPeriods={[]}
-              openingHoursId='footer' />
-          }
-        </div>
+        {children}
       </div>
     );
   }

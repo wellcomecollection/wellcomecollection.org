@@ -1,6 +1,8 @@
 const path = require('path');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const {getPrismicGlobalAlert} = require('./get-prismic-global-alert');
+
 const buildHash = process.env.BUILD_HASH || 'test';
 const commonDirRegExp = /@weco(?!.*node_modules)/;
 
@@ -59,6 +61,9 @@ module.exports = function(webpack, assetPrefix) {
   const isProd = process.env.NODE_ENV === 'production';
   return withTM({
     assetPrefix: isProd ? `https://${assetPrefix}.wellcomecollection.org` : '',
+    serverRuntimeConfig: {
+      getPrismicGlobalAlert
+    },
     transpileModules: ['@weco'],
     ...withBundleAnalyzerConfig
   });
