@@ -78,7 +78,7 @@ export const Works = ({
   };
   return (
     <PageLayout
-      title={`${query ? `${query} | ` : ''}Catalogue search | Wellcome Collection`}
+      title={`${query ? `${query} | ` : ''}Catalogue search`}
       description='Search through the Wellcome Collection image catalogue'
       url={{pathname: '/works', query: urlVals}}
       openGraphType={'website'}
