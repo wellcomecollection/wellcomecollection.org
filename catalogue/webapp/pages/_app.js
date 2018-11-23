@@ -50,8 +50,11 @@ export default class WecoApp extends App {
     // $FlowFixMe
     document.documentElement.classList.add('enhanced');
 
-    // TODO: lazysizes
-    // TODO: GA
+    // TODO: Is there a better implementation of this
+    const lazysizes = require('lazysizes');
+    lazysizes.init();
+
+    // TODO: GA scrolling - maybe start using autotrack?
     ReactGA.initialize([{
       trackingId: 'UA-55614-6',
       titleCase: false
@@ -69,6 +72,8 @@ export default class WecoApp extends App {
       console.info('pageview');
       ReactGA.pageview(page, ['v2']);
     });
+
+    // TODO: fonts?
   }
 
   render () {
