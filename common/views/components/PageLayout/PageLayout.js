@@ -1,5 +1,5 @@
 // @flow
-import type {Node, ElementProps} from 'react';
+import type {Node} from 'react';
 import {Fragment} from 'react';
 import Head from 'next/head';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';

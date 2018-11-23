@@ -1,4 +1,5 @@
 // @flow
+import type {ComponentType} from 'react';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
 import Header from '@weco/common/views/components/Header/Header';
@@ -13,8 +14,43 @@ let toggles = {};
 let openingHours;
 let globalAlert;
 
+type GetInitalPropsExtras = {|
+  toggles: Object
+|}
+
+type ClientCtx = {
+  path: string,
+  query: { [string]: any },
+  jsonPageRes: Response, // Fetch Response
+  asPath: string,
+  err: Error,
+  req: null,
+  res: null
+}
+
+type ServerCtx = {|
+  path: string,
+  query: { [string]: any },
+  jsonPageRes: null,
+  asPath: string,
+  req: Request,
+  res: Response,
+  err: Error
+|}
+
+type Ctx = | ServerCtx | ClientCtx;
+
+type AppInitialProps<T> = {|
+  Component: {
+    ...ComponentType<T>,
+    getInitialProps: (ctx: Ctx, extras: GetInitalPropsExtras) => T
+  },
+  router: any, // TODO: (flowtype) Hmmm...
+  ctx: Ctx
+|}
+
 export default class WecoApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps<T>({ Component, router, ctx }: AppInitialProps<T>) {
     // Caching things from the server request to be available to the client
     toggles = isServer ? router.query.toggles : toggles;
     openingHours = isServer ? router.query.openingHours : openingHours;
