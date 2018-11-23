@@ -15,10 +15,6 @@ import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapp
 import {getWorks} from '../services/catalogue/works';
 import {workLink, worksLink} from '../services/catalogue/links';
 
-// TODO: Setting the event parameter to type 'Event' leads to
-// an 'Indexable signature not found in EventTarget' Flow
-// error. We're setting the properties we expect here until
-// we find a better solution.
 type PageProps = {|
   query: ?string,
   page: ?number,

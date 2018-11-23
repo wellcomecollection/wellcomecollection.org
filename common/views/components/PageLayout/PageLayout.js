@@ -8,7 +8,7 @@ import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 type Props = {|
   title: string,
   description: string,
-  url: string,
+  url: {| pathname: string, query?: Object |},
   jsonLd: { '@type': string },
   openGraphType: | 'website' | 'article' | 'book' | 'profile',
   imageUrl: ?string,
@@ -16,6 +16,18 @@ type Props = {|
   oEmbedUrl?: string,
   children: Node
 |}
+
+// I'm sure we don't need to do this still?
+function convertUrlToString(url): string {
+  const {query = {}} = url;
+  const queryVals = Object.keys(query).map(key => {
+    const val = query[key];
+    if (val) {
+      return `${key}=${val}`;
+    }
+  }).filter(Boolean);
+  return `${url.pathname}${queryVals.length > 0 ? '?' : ''}${queryVals.join('&')}`;
+}
 
 const PageLayout = ({
   title,
@@ -27,10 +39,12 @@ const PageLayout = ({
   oEmbedUrl,
   children
 }: Props) => {
+  const urlString = convertUrlToString(url);
   const fullTitle = title !== ''
     ? `${title} | Wellcome Collection`
     : 'Wellcome Collection | The free museum and library for the incurably curious';
-  const absoluteUrl = `https://wellcomecollection.org${url}`;
+
+  const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   return (
     <Fragment>
       <Head>

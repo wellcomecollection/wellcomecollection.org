@@ -14,7 +14,7 @@ const ProgressPage = () => (
   <PageLayout
     title={title}
     description={description}
-    url={'/works/progress'}
+    url={{pathname: '/works/progress'}}
     openGraphType={'website'}
     jsonLd={webpageLd({url: '/works/progress'})}
     imageUrl={null}

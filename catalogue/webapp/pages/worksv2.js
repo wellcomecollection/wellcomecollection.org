@@ -72,11 +72,15 @@ export const Works = ({
     }
   }, [page, query]);
 
+  const urlVals = {
+    query: query || undefined,
+    page: page > 1 ? page : undefined
+  };
   return (
     <PageLayout
       title={`${query ? `${query} | ` : ''}Catalogue search | Wellcome Collection`}
       description='Search through the Wellcome Collection image catalogue'
-      url={`/works`}
+      url={{pathname: '/works', query: urlVals}}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       imageUrl={null}

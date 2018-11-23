@@ -59,7 +59,8 @@ export default class WecoApp extends App {
       'default',
       'Array.prototype.find',
       'Array.prototype.includes',
-      'WeakMap'
+      'WeakMap',
+      'URL'
     ];
     const isPreview = false;
     const parsedOpeningTimes = parseOpeningTimesFromCollectionVenues(openingTimes);
