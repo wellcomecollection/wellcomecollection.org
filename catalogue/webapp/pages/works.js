@@ -4,6 +4,7 @@ import Router from 'next/router';
 import NextLink from 'next/link';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -36,7 +37,15 @@ export const Works = ({
   handleSubmit,
   version
 }: ComponentProps) => (
-  <Fragment>
+  <PageLayout
+    title={`${query ? `${query} | ` : ''}Catalogue search`}
+    description='Search through the Wellcome Collection image catalogue'
+    url={{pathname: '/works', query: worksLink({query, page}).href}}
+    openGraphType={'website'}
+    jsonLd={{ '@type': 'WebPage' }}
+    imageUrl={null}
+    imageAltText={null}
+  >
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
     <div className={classNames([
@@ -188,7 +197,7 @@ export const Works = ({
         }
       </Fragment>
     }
-  </Fragment>
+  </PageLayout>
 );
 
 export class WorksPage extends Component<PageProps> {
