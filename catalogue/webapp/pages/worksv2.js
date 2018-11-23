@@ -44,22 +44,23 @@ export const Works = ({
       return;
     }
 
-    // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
-    // you can use URL like objects too
-    Router.push(
-      // $FlowFixMe
-      worksV2Link({query, page}).href,
-      // $FlowFixMe
-      worksV2Link({query, page}).as,
-      { shallow: true }
-    );
-
     if (query && query !== '') {
+      // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
+      // you can use URL like objects too
+      console.info('ROOOTA effecting');
+      Router.push(
+      // $FlowFixMe
+        worksV2Link({query, page}).href,
+        // $FlowFixMe
+        worksV2Link({query, page}).as,
+        { shallow: true }
+      );
+
       setLoading(true);
       // TODO: Look into memoiszing results so we don't hit the API again
       //       See: https://reactjs.org/docs/hooks-reference.html#usememo
 
-      // TODO: Return a cleanup funciton here to stop the network request.
+      // TODO: Return a cleanup function here to stop the network request.
       getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
     } else {
       setWorks(null);

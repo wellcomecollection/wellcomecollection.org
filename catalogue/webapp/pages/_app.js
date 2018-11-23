@@ -3,6 +3,7 @@ import type {AppInitialProps} from 'next/app';
 import App, { Container } from 'next/app';
 import Router from 'next/router';
 import Head from 'next/head';
+import ReactGA from 'react-ga';
 import {parseOpeningTimesFromCollectionVenues} from '@weco/common/services/prismic/opening-times';
 import Header from '@weco/common/views/components/Header/Header';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -46,12 +47,28 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
-    // TODO: lazysizes
-    // TODO: GA
-    // TODO: lazysizes
-    Router.events.on('routeChangeComplete', () => console.info('saywat'));
     // $FlowFixMe
     document.documentElement.classList.add('enhanced');
+
+    // TODO: lazysizes
+    // TODO: GA
+    ReactGA.initialize([{
+      trackingId: 'UA-55614-6',
+      titleCase: false
+    }, {
+      trackingId: 'UA-55614-24',
+      titleCase: false,
+      gaOptions: {
+        name: 'v2'
+      }
+    }]);
+    const page = `${window.location.pathname}${window.location.search}`;
+    console.info('pageview');
+    ReactGA.pageview(page, ['v2']);
+    Router.events.on('routeChangeComplete', () => {
+      console.info('pageview');
+      ReactGA.pageview(page, ['v2']);
+    });
   }
 
   render () {
