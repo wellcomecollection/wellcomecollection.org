@@ -291,6 +291,8 @@ class DefaultPageLayout extends Component<Props> {
       pageJsonLd,
       siteSection,
       children,
+      featuresCohort,
+      featureFlags,
       isPreview,
       openingTimes,
       globalAlert,
@@ -302,18 +304,24 @@ class DefaultPageLayout extends Component<Props> {
     const title = this.props.title
       ? `${this.props.title} | Wellcome Collection`
       : 'Wellcome Collection | The free museum and library for the incurably curious';
+
+    const polyfillFeatures = [
+      'default',
+      'Array.prototype.find',
+      'Array.prototype.includes',
+      'WeakMap'
+    ];
     return (
       <div>
         <Head>
+          <meta charSet='utf-8' />
+          <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
           <title>{title}</title>
+          <script src={`https://cdn.polyfill.io/v2/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
+          <meta name='viewport' content='width=device-width, initial-scale=1' />
+          <meta name='theme-color' content='#000000' />
           <meta name='description' content={description || ''} />
           <meta property='og:image' content={imageUrl || ''} />
-          {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
-          {oEmbedUrl && <link
-            rel='alternate'
-            type='application/json+oembed'
-            href={oEmbedUrl}
-            title={title} />}
 
           <OpenGraph
             type={type}
@@ -329,8 +337,30 @@ class DefaultPageLayout extends Component<Props> {
             description={description}
             imageUrl={imageUrl} />
 
+          <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
+          <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
+          <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-32x32.png' sizes='32x32' />
+          <link rel='icon' type='image/png' href='https://i.wellcomecollection.org/assets/icons/favicon-16x16.png' sizes='16x16' />
+          <link rel='manifest' href='https://i.wellcomecollection.org/assets/icons/manifest.json' />
+          <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
+          <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
+          {/* Leaving this out for now as it's hanging locally for me */}
+          {/* <script src='//platform.twitter.com/widgets.js' async defer></script> */}
+          <NastyJs />
           <JsonLd data={pageJsonLd} />
           <JsonLd data={museumLd(Object.assign({}, wellcomeCollection, galleryOpeningTimes(galleryVenueHours)))} />
+          <script dangerouslySetInnerHTML={{ __html: `
+            window.WC = {
+              featuresCohort: ${JSON.stringify(featuresCohort)},
+              featureFlags: ${JSON.stringify(featureFlags)}
+            }
+          `}} />
+          {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
+          {oEmbedUrl && <link
+            rel='alternate'
+            type='application/json+oembed'
+            href={oEmbedUrl}
+            title={title} />}
         </Head>
 
         <div className={isPreview ? 'is-preview' : undefined}>
