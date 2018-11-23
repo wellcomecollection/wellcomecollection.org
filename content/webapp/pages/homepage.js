@@ -13,7 +13,7 @@ import {
   articleLd
 } from '@weco/common/utils/json-ld';
 import {default as PageWrapper} from '@weco/common/views/components/PageWrapper/PageWrapper';
-import Promo from '@weco/common/views/components/Promo/Promo';
+import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -114,27 +114,21 @@ export class HomePage extends Component<Props> {
           linkUrl='/stories'
         />
 
-        <div className='css-grid__container'>
+        <div className={classNames({
+          'css-grid__container': true,
+          [spacing({s: 10}, {margin: ['bottom']})]: true
+        })}>
           <div className='css-grid'>
-            {articles.results.map(article => {
-              const isSerial = article.series.find(series => series.schedule.length > 0);
+            {articles.results.map((article, i) => {
               return (
                 <div
                   key={article.id}
                   className={classNames({
                     [cssGrid({s: 12, m: 6, l: 3, xl: 3})]: true
                   })}>
-                  {/* $FlowFixMe */}
-                  <Promo
-                    sizes={'(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}
-                    url={`/articles/${article.id}`}
-                    contentType={article.format && article.format.title || (isSerial ? 'Serial' : 'Story')}
-                    image={article.image}
-                    title={article.title}
-                    weight={'default'}
-                    description={article.promoText}
-                    series={article.series}
-                  />
+                  <StoryPromo
+                    item={article}
+                    position={i} />
                 </div>
               );
             })}
