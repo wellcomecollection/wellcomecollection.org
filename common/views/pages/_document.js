@@ -3,42 +3,21 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import getConfig from 'next/config';
 import {parseOpeningHoursFromCollectionVenues} from '../../services/prismic/opening-times';
 import Footer from '../components/Footer/Footer';
-import InfoBanner from '../components/InfoBanner/InfoBanner';
 import NewsletterPromo from '../components/NewsletterPromo/NewsletterPromo';
-import Header from '../components/Header/Header';
 import WellcomeCollectionJsonLd from '../components/WellcomeCollectionJsonLd/WellcomeCollectionJsonLd';
 
 const {serverRuntimeConfig} = getConfig();
-const prismicGlobalAlert = serverRuntimeConfig.getPrismicGlobalAlert();
 const prismicCollectionVenues = serverRuntimeConfig.getPrismicCollectionVenues();
-
-type SiteSection = string;
-function getSiteSection(pathname: string): SiteSection {
-  if (pathname.match(/^\/works/)) {
-    return 'works';
-  } else if (pathname.match(/^\/[stories|articles|series]/)) {
-    return 'stories';
-  } else if (pathname.match(/^\/[exhibitions|events|installations|whats\-on|event\-series]/)) {
-    return 'whatson';
-  } else {
-    // TODO: we need to descern between what-we-do and visit-us
-    return 'visit-us';
-  }
-}
 
 export default function WecoDocument(css: string) {
   return class WecoDoc extends Document {
     static async getInitialProps(ctx: any) {
       const initialProps = await Document.getInitialProps(ctx);
-      const siteSection = getSiteSection(ctx.pathname);
-      return { ...initialProps, siteSection };
+      return { ...initialProps };
     }
 
     render() {
-      const {siteSection} = this.props;
       // TODO: 👇 this, it wasn't working anyway
-      const isPreview = false;
-
       // I don't really like this here, but it's the best of a bad bunch
       const openingHours = parseOpeningHoursFromCollectionVenues(prismicCollectionVenues);
       return (
@@ -60,23 +39,12 @@ export default function WecoDocument(css: string) {
               prismicCollectionVenues={prismicCollectionVenues} />
           </Head>
           <body>
-            <div className={isPreview ? 'is-preview' : undefined}>
-              <a className='skip-link' href='#main'>Skip to main content</a>
-              <Header siteSection={siteSection} />
-              {prismicGlobalAlert.isShown === 'show' &&
-                <InfoBanner
-                  text={prismicGlobalAlert.text}
-                  cookieName='WC_globalAlert' />
-              }
-              <div id='main' className='main' role='main'>
-                <Main />
-              </div>
-              <NewsletterPromo />
-              <Footer
-                openingHoursId='footer'
-                groupedVenues={openingHours.groupedVenues}
-                upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods} />
-            </div>
+            <Main />
+            <NewsletterPromo />
+            <Footer
+              openingHoursId='footer'
+              groupedVenues={openingHours.groupedVenues}
+              upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods} />
             <NextScript />
           </body>
         </html>

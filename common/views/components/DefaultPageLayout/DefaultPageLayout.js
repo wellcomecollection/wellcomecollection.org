@@ -1,13 +1,15 @@
 // @flow
-import {Component} from 'react';
-import Head from 'next/head';
-import {striptags} from '../../../utils/striptags';
-import {formatDate} from '../../../utils/format-date';
 import type {GroupedVenues, OverrideType} from '../../../model/opening-hours';
 import type {GlobalAlert} from '../../../model/global-alert';
+import {Component} from 'react';
+import Head from 'next/head';
 import type Moment from 'moment';
+import {striptags} from '../../../utils/striptags';
+import {formatDate} from '../../../utils/format-date';
 import analytics from '../../../utils/analytics';
 import Raven from 'raven-js';
+import Header from  '../Header/Header';
+import InfoBanner from  '../InfoBanner/InfoBanner';
 
 export type JsonLdObject = {
   "@type": string
@@ -90,7 +92,13 @@ export const TwitterCard = ({
   imageAltText ? <meta name='twitter:image:alt' content={imageAltText} /> : null
 ].filter(Boolean));
 
-export type SiteSection = 'images' | 'stories' | 'whats-on' | 'error';
+export type SiteSection =
+  | 'works'
+  | 'stories'
+  | 'whats-on'
+  | 'error'
+  | 'visit-us'
+  | 'what-we-do';
 type Props = {|
   children: React.Node,
   type: OgType,
@@ -234,6 +242,8 @@ class DefaultPageLayout extends Component<Props> {
       description,
       imageUrl,
       pageJsonLd,
+      siteSection,
+      globalAlert,
       children,
       oEmbedUrl
     } = this.props;
@@ -248,6 +258,8 @@ class DefaultPageLayout extends Component<Props> {
       'Array.prototype.includes',
       'WeakMap'
     ];
+    const isPreview = false;
+    console.info(globalAlert);
     return (
       <div>
         <Head>
@@ -278,8 +290,18 @@ class DefaultPageLayout extends Component<Props> {
 
           <JsonLd data={pageJsonLd} />
         </Head>
-
-        {children}
+        <div className={isPreview ? 'is-preview' : undefined}>
+          <a className='skip-link' href='#main'>Skip to main content</a>
+          <Header siteSection={siteSection} />
+          {globalAlert.isShown &&
+            <InfoBanner
+              text={globalAlert.text}
+              cookieName='WC_globalAlert' />
+          }
+          <div id='main' className='main' role='main'>
+            {children}
+          </div>
+        </div>
       </div>
     );
   }

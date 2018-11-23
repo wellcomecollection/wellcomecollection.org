@@ -108,7 +108,7 @@ const PageWrapper = (Comp: NextComponent) => {
       // the typing wrong.
 
       const globalAlert = context.req ? {
-        text: asHtml(context.query.globalAlert.text),
+        text: context.query.globalAlert.text,
         isShown: context.query.globalAlert.isShown === 'show'
       } : clientStore && clientStore.get('globalAlert');
 
