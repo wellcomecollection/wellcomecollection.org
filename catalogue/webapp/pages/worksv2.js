@@ -4,7 +4,7 @@ import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner2';
+import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';

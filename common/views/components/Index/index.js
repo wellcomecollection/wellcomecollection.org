@@ -5,7 +5,6 @@ import Button from '../Buttons/Button/Button';
 import {UiImage, CaptionedImage} from '../Images/Images';
 import Caption from '../Caption/Caption';
 import CardGrid from '../CardGrid/CardGrid';
-import ChapterIndicator from '../ChapterIndicator/ChapterIndicator';
 import Contributor from '../Contributor/Contributor';
 import Contributors from '../Contributors/Contributors';
 import Control from '../Buttons/Control/Control';
@@ -28,7 +27,6 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import LabelsList from '../LabelsList/LabelsList';
 import License from '../License/License';
-import MainMedia from '../MainMedia/MainMedia';
 import Map from '../Map/Map';
 import MetaUnit from '../MetaUnit/MetaUnit';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -47,7 +45,6 @@ import SearchResults from '../SearchResults/SearchResults';
 import SecondaryLink from '../Links/SecondaryLink/SecondaryLink';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
-import Standfirst from '../Standfirst/Standfirst';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import Tags from '../Tags/Tags';
 import Tasl from '../Tasl/Tasl';
@@ -65,7 +62,6 @@ export {
   Caption,
   CaptionedImage,
   CardGrid,
-  ChapterIndicator,
   Contributor,
   Contributors,
   Control,
@@ -88,7 +84,6 @@ export {
   InstallationPromo,
   LabelsList,
   License,
-  MainMedia,
   Map,
   MetaUnit,
   NewsletterPromo,
@@ -107,7 +102,6 @@ export {
   SecondaryLink,
   SectionHeader,
   SegmentedControl,
-  Standfirst,
   StatusIndicator,
   Tags,
   Tasl,
