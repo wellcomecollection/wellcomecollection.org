@@ -283,3 +283,28 @@ export function parseVenuesToOpeningHours(doc: PrismicFragment) {
     exceptionalClosedDates: exceptionalClosedDates(exceptionalOpening)
   };
 }
+
+export function parseOpeningTimesFromCollectionVenues(doc: PrismicFragment) {
+  const openingTimes = parseVenuesToOpeningHours(doc);
+  const galleriesLibrary = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
+    return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
+  });
+  const restaurantCafeShop = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
+    return venue.name.toLowerCase() === 'restaurant' || venue.name.toLowerCase() === 'café' || venue.name.toLowerCase() === 'shop';
+  });
+  const groupedVenues = {
+    galleriesLibrary: {
+      title: 'Venue',
+      hours: galleriesLibrary
+    },
+    restaurantCafeShop: {
+      title: 'Eat & Shop',
+      hours: restaurantCafeShop
+    }
+  };
+  return {
+    collectionOpeningTimes: openingTimes,
+    groupedVenues: groupedVenues,
+    upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
+  };
+}

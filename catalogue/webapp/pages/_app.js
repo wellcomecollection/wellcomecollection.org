@@ -2,6 +2,7 @@
 import type {ComponentType} from 'react';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
+import {parseOpeningTimesFromCollectionVenues} from '@weco/common/services/prismic/opening-times';
 import Header from '@weco/common/views/components/Header/Header';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
@@ -11,7 +12,7 @@ const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
 let toggles = {};
-let openingHours;
+let openingTimes;
 let globalAlert;
 
 type GetInitalPropsExtras = {|
@@ -53,7 +54,7 @@ export default class WecoApp extends App {
   static async getInitialProps<T>({ Component, router, ctx }: AppInitialProps<T>) {
     // Caching things from the server request to be available to the client
     toggles = isServer ? router.query.toggles : toggles;
-    openingHours = isServer ? router.query.openingHours : openingHours;
+    openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
 
     let pageProps = {};
@@ -66,14 +67,15 @@ export default class WecoApp extends App {
     return {
       pageProps,
       toggles,
-      openingHours,
+      openingTimes,
       globalAlert
     };
   }
 
-  constructor(props) {
+  // TODO: (flowtype) 😡
+  constructor(props: any) {
     if (isClient && !toggles) { toggles = props.toggles; }
-    if (isClient && !openingHours) { openingHours = props.openingHours; }
+    if (isClient && !openingTimes) { openingTimes = props.openingTimes; }
     if (isClient && !globalAlert) { globalAlert = props.globalAlert; }
     super(props);
   }
@@ -86,7 +88,7 @@ export default class WecoApp extends App {
     const {
       Component,
       pageProps,
-      openingHours,
+      openingTimes,
       globalAlert
     } = this.props;
     const polyfillFeatures = [
@@ -96,6 +98,7 @@ export default class WecoApp extends App {
       'WeakMap'
     ];
     const isPreview = false;
+    const parsedOpeningTimes = parseOpeningTimesFromCollectionVenues(openingTimes);
 
     return (
       <Container>
@@ -123,18 +126,10 @@ export default class WecoApp extends App {
             <Component {...pageProps} />
           </div>
           <NewsletterPromo />
-          {/* openingTimes &&
-            <Footer
-              openingHoursId='footer'
-              groupedVenues={openingTimes.groupedVenues}
-              upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
-          }
-          {!openingTimes &&
-            <Footer
-              groupedVenues={{}}
-              upcomingExceptionalOpeningPeriods={[]}
-              openingHoursId='footer' />
-          */}
+          <Footer
+            openingHoursId='footer'
+            groupedVenues={parsedOpeningTimes.groupedVenues}
+            upcomingExceptionalOpeningPeriods={parsedOpeningTimes.upcomingExceptionalOpeningPeriods} />
         </div>
       </Container>
     );
