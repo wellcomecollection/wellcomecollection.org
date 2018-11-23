@@ -234,6 +234,7 @@ export class WorksPage extends Component<PageProps> {
     const queryString = event.currentTarget.elements.query.value;
 
     // Update the URL, which in turn will update props
+    // $FlowFixMe
     Router.push(worksLink({ query: queryString, page: 1 }).href);
   }
 

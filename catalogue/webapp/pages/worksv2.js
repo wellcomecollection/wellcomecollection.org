@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
 import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
@@ -10,10 +11,6 @@ import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import type {
-  GetInitialPropsProps,
-  ExtraProps
-} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/worksv2';
 import {workV2Link, worksV2Link} from '../services/catalogue/links';
 
@@ -52,8 +49,13 @@ export const Works = ({
       query: query || undefined,
       page: page > 1 ? page : undefined
     };
+
+    // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
+    // you can use URL like objects too
     Router.push(
+      // $FlowFixMe
       worksV2Link(urlVals).href,
+      // $FlowFixMe
       worksV2Link(urlVals).as,
       { shallow: true }
     );
@@ -244,20 +246,15 @@ export const Works = ({
 };
 
 Works.getInitialProps = async (
-  ctx: GetInitialPropsProps,
-  { toggles = {} }: ExtraProps
+  ctx: Context
 ): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const filters = toggles.unfilteredCatalogueResults ? {} : {
+  const filters = ctx.query.toggles.unfilteredCatalogueResults ? {} : {
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
   };
   const works = query ? await getWorks({ query, page, filters }) : null;
-
-  if (works && works.type === 'Error') {
-    return { statusCode: works.httpStatus };
-  }
 
   return {
     initialPage: page,
