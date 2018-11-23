@@ -259,7 +259,6 @@ class DefaultPageLayout extends Component<Props> {
       'WeakMap'
     ];
     const isPreview = false;
-    console.info(globalAlert);
     return (
       <div>
         <Head>
