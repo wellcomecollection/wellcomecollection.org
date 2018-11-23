@@ -186,6 +186,10 @@ export function breadcrumbsLd(breadcrumbs) {
   }, 'BreadcrumbList');
 }
 
+export function webpageLd(url) {
+  return objToJsonLd({url}, 'WebPage');
+}
+
 function orgLd(org) {
   return org && objToJsonLd({
     name: org.name,

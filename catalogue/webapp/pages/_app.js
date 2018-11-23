@@ -9,19 +9,22 @@ import Footer from '@weco/common/views/components/Footer/Footer';
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
-let toggles;
+let toggles = {};
 let openingHours;
 let globalAlert;
 
-export default class MyApp extends App {
+export default class WecoApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
+    // Caching things from the server request to be available to the client
     toggles = isServer ? router.query.toggles : toggles;
     openingHours = isServer ? router.query.openingHours : openingHours;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
 
     let pageProps = {};
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+      pageProps = await Component.getInitialProps(ctx, {
+        toggles
+      });
     }
 
     return {
@@ -39,11 +42,14 @@ export default class MyApp extends App {
     super(props);
   }
 
+  componentDidMount() {
+    console.info('app did mount!');
+  }
+
   render () {
     const {
       Component,
       pageProps,
-      toggles,
       openingHours,
       globalAlert
     } = this.props;
@@ -70,6 +76,7 @@ export default class MyApp extends App {
           <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
           <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
         </Head>
+
         <div className={isPreview ? 'is-preview' : undefined}>
           <a className='skip-link' href='#main'>Skip to main content</a>
           <Header siteSection={'works'} />

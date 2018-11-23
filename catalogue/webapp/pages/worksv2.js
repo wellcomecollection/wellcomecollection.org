@@ -3,7 +3,7 @@
 import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -71,7 +71,15 @@ export const Works = ({
   }, [page, query]);
 
   return (
-    <Fragment>
+    <PageLayout
+      title={`${query ? `${query} | ` : ''}Catalogue search | Wellcome Collection`}
+      description='Search through the Wellcome Collection image catalogue'
+      url={`/works`}
+      openGraphType={'website'}
+      jsonLd={{ '@type': 'WebPage' }}
+      imageUrl={null}
+      imageAltText={null}
+    >
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       <div className={classNames([
@@ -231,16 +239,16 @@ export const Works = ({
           </div>
         </div>
       }
-    </Fragment>
+    </PageLayout>
   );
 };
 
 Works.getInitialProps = async (
-  context: GetInitialPropsProps,
+  ctx: GetInitialPropsProps,
   { toggles = {} }: ExtraProps
-) => {
-  const query = context.query.query;
-  const page = context.query.page ? parseInt(context.query.page, 10) : 1;
+): Promise<Props> => {
+  const query = ctx.query.query;
+  const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
   const filters = toggles.unfilteredCatalogueResults ? {} : {
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
@@ -255,13 +263,8 @@ Works.getInitialProps = async (
     initialPage: page,
     initialWorks: works,
     initialQuery: query,
-    filters,
-    title: `${query} | Catalogue search | Wellcome Collection`,
-    description: 'Search through the Wellcome Collection image catalogue',
-    analyticsCategory: 'collections',
-    siteSection: 'images',
-    canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
+    filters
   };
 };
 
-export default PageWrapper(Works);
+export default Works;
