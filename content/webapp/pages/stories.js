@@ -6,7 +6,7 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {classNames, spacing, grid, font} from '@weco/common/utils/classnames';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
-import Promo from '@weco/common/views/components/Promo/Promo';
+import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -17,7 +17,6 @@ import type {Article} from '@weco/common/model/articles';
 import type {ArticleSeries} from '@weco/common/model/article-series';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries
@@ -87,8 +86,6 @@ export class StoriesPage extends Component<Props> {
   render() {
     const series = this.props.series;
     const articles = this.props.articles.results;
-    const firstArticle = articles[0];
-    const firstArticleIsSerial = firstArticle.series.find(series => series.schedule.length > 0);
 
     return (
       <Fragment>
@@ -141,24 +138,14 @@ export class StoriesPage extends Component<Props> {
             <div className='container'>
               <div className='grid'>
                 <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
-                  {/* $FlowFixMe */}
-                  <Promo
-                    sizes='(min-width: 1420px) 812px, (min-width: 600px) 58.5vw, calc(100vw - 36px)'
-                    url={`/articles/${firstArticle.id}`}
-                    contentType={firstArticle.format && firstArticle.format.title || (firstArticleIsSerial ? 'Serial' : 'Story')}
-                    image={firstArticle.image}
-                    title={firstArticle.title}
-                    weight={'featured'}
-                    description={firstArticle.promoText}
-                    series={firstArticle.series}
-                  />
+                  <StoryPromoFeatured item={articles[0]} />
                 </div>
               </div>
             </div>
             <div className='row__wobbly-background'></div>
             <div className='container'>
               <div className={classNames({
-                [spacing({s: 3}, {margin: ['bottom']})]: true
+                [spacing({s: 4}, {margin: ['bottom']})]: true
               })}>
               </div>
             </div>

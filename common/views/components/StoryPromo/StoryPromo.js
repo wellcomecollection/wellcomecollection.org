@@ -31,6 +31,7 @@ const StoryPromo = ({
       id={item.id}
       href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({
+        'story-promo': true,
         'plain-link': true,
         'promo-link': true,
         'bg-cream': !hasTransparentBackground,
@@ -39,7 +40,7 @@ const StoryPromo = ({
         'flex': true,
         'flex--column': true
       })}>
-      <div className='relative'>
+      <div className='relative story-promo__image'>
         {/* FIXME: Image type tidy */}
         {/* $FlowFixMe */}
         {item.promoImage && <UiImage {...item.promoImage}
@@ -54,6 +55,7 @@ const StoryPromo = ({
       </div>
 
       <div className={classNames({
+        'story-promo__text': true,
         'flex flex--column flex-1': true,
         'flex--h-space-between': !hasTransparentBackground,
         [spacing({s: 2}, {padding: ['top']})]: true,
