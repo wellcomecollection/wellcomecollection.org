@@ -13,6 +13,7 @@ import Pagination, {PaginationFactory} from '@weco/common/views/components/Pagin
 import type {Props as PaginationProps} from '@weco/common/views/components/Pagination/Pagination';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/works';
+import {getWorks as getWorksV2} from '../services/catalogue/worksv2';
 import {workLink, worksLink} from '../services/catalogue/links';
 
 // TODO: Setting the event parameter to type 'Event' leads to
@@ -235,6 +236,28 @@ export class WorksPage extends Component<PageProps> {
 
     // Update the URL, which in turn will update props
     Router.push(worksLink({ query: queryString, page: 1 }).href);
+  }
+
+  beaconV2 = async () => {
+    if (pageStore('toggles').beaconV2) {
+      const {query, page} = this.props;
+      await getWorksV2({
+        query: query || '',
+        page: page || 1,
+        filters: {
+          workType: ['q', 'k'],
+          'items.locations.locationType': ['iiif-image']
+        }
+      });
+    }
+  }
+
+  componentDidMount = async () => {
+    this.beaconV2();
+  }
+
+  componentDidUpdate = async () => {
+    this.beaconV2();
   }
 
   render() {

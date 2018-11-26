@@ -1,3 +1,16 @@
+const fetch = require('isomorphic-unfetch');
+
+let defaultToggleValues = {};
+async function getDefaultToggleValues() {
+  try {
+    const defaultValues = await fetch('https://dash.wellcomecollection.org/toggles/defaultToggleValues.json')
+      .then(response => response.json());
+
+    defaultToggleValues = defaultValues;
+  } catch (e) {}
+}
+setInterval(getDefaultToggleValues, 30000);
+
 const parseCookies = function(req) {
   if (!req.headers.cookie) {
     return [];
@@ -21,8 +34,7 @@ function withToggles(ctx, next) {
     });
   }, {});
 
-  ctx.toggles = toggles;
-
+  ctx.toggles = Object.assign({}, defaultToggleValues, toggles);
   return next();
 }
 
