@@ -35,26 +35,27 @@ export const Works = ({
     document.title = `${query} | Catalogue search | Wellcome Collection`;
   }, [query]);
 
-  // 1. If `initialWorks` are sent down, we don't fetch them on initial render
-  //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
-  const shouldNotFetchWorks = useRef(Boolean(initialWorks));
+  // On the initial render from next, we dont want to run the router, nor update
+  // the works so we just skip this effect for now.
+  // See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+  const initialRender = useRef(true);
   useEffect(() => {
-    if (shouldNotFetchWorks.current) {
-      shouldNotFetchWorks.current = false;
+    if (initialRender.current) {
+      initialRender.current = false;
       return;
     }
 
-    if (query && query !== '') {
-      // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
-      // you can use URL like objects too
-      Router.push(
+    // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
+    // you can use URL like objects too
+    Router.push(
       // $FlowFixMe
-        worksV2Link({query, page}).href,
-        // $FlowFixMe
-        worksV2Link({query, page}).as,
-        { shallow: true }
-      );
+      worksV2Link({query, page}).href,
+      // $FlowFixMe
+      worksV2Link({query, page}).as,
+      { shallow: true }
+    );
 
+    if (query && query !== '') {
       setLoading(true);
       // TODO: Look into memoiszing results so we don't hit the API again
       //       See: https://reactjs.org/docs/hooks-reference.html#usememo
