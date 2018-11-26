@@ -4,6 +4,8 @@ import { setOptions } from '@storybook/addon-options';
 import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 import { withInfo } from '@storybook/addon-info';
+import { themes } from '@storybook/components';
+import { wecoTheme } from './weco-theme';
 import styleguideSass from '../../common/styles/styleguide.scss';
 
 function loadStories() {
@@ -47,7 +49,11 @@ setOptions({
   url: 'https://cardigan.wellcomecollection.org',
   addonPanelInRight: true,
   hierarchySeparator: /\//,
-  sortStoriesByKind: true
+  sortStoriesByKind: true,
+  theme: {
+    ...themes.normal,
+    wecoTheme
+  }
 });
 
 configure(loadStories, module);
