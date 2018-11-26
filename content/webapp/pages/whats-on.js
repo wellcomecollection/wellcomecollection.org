@@ -21,6 +21,7 @@ import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/Sec
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
@@ -331,13 +332,10 @@ export class WhatsOnPage extends Component<Props> {
           {period === 'current-and-coming-up' &&
             <Fragment>
               <div className={classNames({
-                [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true,
-                [spacing({s: 2}, { margin: ['bottom'] })]: true
+                [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true
               })}>
-                <Layout12>
-                  <div className={classNames({
-                    [spacing({s: 0}, {margin: ['top', 'bottom']})]: true
-                  })}>
+                <SpacingSection>
+                  <Layout12>
                     <DateRange
                       dateRange={dateRange}
                       period={period}
@@ -349,28 +347,31 @@ export class WhatsOnPage extends Component<Props> {
                       <h2 className='h1'>Exhibitions</h2>
                       <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
                     </div>
-                  </div>
-                </Layout12>
+                  </Layout12>
 
-                <CardGrid items={exhibitions} />
-                <Layout12>
-                  <div className={spacing({s: 3}, { margin: ['top'] })}>
-                    <PrimaryLink
-                      name={'View all exhibitions'}
-                      url={'/exhibitions'} />
-                  </div>
-                </Layout12>
+                  <CardGrid items={exhibitions} />
 
-                <SectionHeader
-                  title={'Events'}
-                  linkText={'Free admission'}
-                />
-                <EventsByMonth events={events} />
-                <Layout12>
-                  <div className={spacing({s: 3}, { margin: ['top'] })}>
-                    <PrimaryLink name={'View all events'} url={'/events'} />
-                  </div>
-                </Layout12>
+                  <Layout12>
+                    <div className={spacing({s: 3}, { margin: ['top'] })}>
+                      <PrimaryLink
+                        name={'View all exhibitions'}
+                        url={'/exhibitions'} />
+                    </div>
+                  </Layout12>
+                </SpacingSection>
+
+                <SpacingSection>
+                  <SectionHeader
+                    title={'Events'}
+                    linkText={'Free admission'}
+                  />
+                  <EventsByMonth events={events} />
+                  <Layout12>
+                    <div className={spacing({s: 3}, { margin: ['top'] })}>
+                      <PrimaryLink name={'View all events'} url={'/events'} />
+                    </div>
+                  </Layout12>
+                </SpacingSection>
               </div>
             </Fragment>
           }
@@ -414,82 +415,83 @@ export class WhatsOnPage extends Component<Props> {
             </Fragment>
           }
         </div>
-
-        <SectionHeader title={'Try these too'} />
-        <div className='css-grid__container'>
-          <div className={classNames({
-            'css-grid': true,
-            [spacing({s: 2, m: 4}, {margin: ['top', 'bottom']})]: true
-          })}>
+        <SpacingSection>
+          <SectionHeader title={'Try these too'} />
+          <div className='css-grid__container'>
             <div className={classNames({
-              'css-grid__scroll-container container--scroll touch-scroll': true,
-              [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+              'css-grid': true
             })}>
-              <div className='css-grid grid--scroll'>
-                {tryTheseTooPromos.map(promo => (
+              <div className={classNames({
+                'css-grid__scroll-container container--scroll touch-scroll': true,
+                [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+              })}>
+                <div className='css-grid grid--scroll'>
+                  {tryTheseTooPromos.map(promo => (
+                    <div
+                      key={promo.title}
+                      className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
+                      <FacilityPromo
+                        id={promo.id}
+                        title={promo.title}
+                        url={promo.url}
+                        description={promo.description}
+                        imageProps={promo.image}
+                        metaText={promo.metaText}
+                        metaIcon={promo.metaIcon}
+                      />
+                    </div>
+                  ))}
+
                   <div
-                    key={promo.title}
                     className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
-                    <FacilityPromo
-                      id={promo.id}
-                      title={promo.title}
-                      url={promo.url}
-                      description={promo.description}
-                      imageProps={promo.image}
-                      metaText={promo.metaText}
-                      metaIcon={promo.metaIcon}
+                    <InstallationPromo
+                      id={pharmacyOfColourData.id}
+                      title={pharmacyOfColourData.title}
+                      description={pharmacyOfColourData.promoText}
+                      image={pharmacyOfColourData.promoImage}
+                      start={pharmacyOfColourData.start}
+                      end={pharmacyOfColourData.end}
+                      position={2}
                     />
                   </div>
-                ))}
-
-                <div
-                  className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
-                  <InstallationPromo
-                    id={pharmacyOfColourData.id}
-                    title={pharmacyOfColourData.title}
-                    description={pharmacyOfColourData.promoText}
-                    image={pharmacyOfColourData.promoImage}
-                    start={pharmacyOfColourData.start}
-                    end={pharmacyOfColourData.end}
-                    position={2}
-                  />
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </SpacingSection>
 
-        <SectionHeader title='Eat and shop' />
+        <SpacingSection>
+          <SectionHeader title='Eat and shop' />
 
-        <div className='css-grid__container'>
-          <div className={classNames({
-            'css-grid': true,
-            [spacing({s: 2, m: 4}, {margin: ['top', 'bottom']})]: true
-          })}>
+          <div className='css-grid__container'>
             <div className={classNames({
-              'css-grid__scroll-container container--scroll touch-scroll': true,
-              [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+              'css-grid': true
             })}>
-              <div className='css-grid grid--scroll'>
-                {eatShopPromos.map(promo =>
-                  <div
-                    key={promo.id}
-                    className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
-                    <FacilityPromo
-                      id={promo.id}
-                      title={promo.title}
-                      url={promo.url}
-                      description={promo.description}
-                      imageProps={promo.image}
-                      metaText={promo.metaText}
-                      metaIcon={promo.metaIcon}
-                    />
-                  </div>
-                )}
+              <div className={classNames({
+                'css-grid__scroll-container container--scroll touch-scroll': true,
+                [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+              })}>
+                <div className='css-grid grid--scroll'>
+                  {eatShopPromos.map(promo =>
+                    <div
+                      key={promo.id}
+                      className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
+                      <FacilityPromo
+                        id={promo.id}
+                        title={promo.title}
+                        url={promo.url}
+                        description={promo.description}
+                        imageProps={promo.image}
+                        metaText={promo.metaText}
+                        metaIcon={promo.metaIcon}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </SpacingSection>
       </Fragment>
     );
   }
