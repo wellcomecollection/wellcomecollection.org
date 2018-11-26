@@ -197,7 +197,6 @@ export const WorkPage = ({
         oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
         imageUrl={digitalLocation}
         imageAltText={work.title}>
-        <h1>aksdjaslkdjas</h1>
         <div className='container'>
           {iiifManifest && <div className='grid'>
             <div className={grid({s: 12})}>

@@ -47,7 +47,6 @@ export const Works = ({
     if (query && query !== '') {
       // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
       // you can use URL like objects too
-      console.info('ROOOTA effecting');
       Router.push(
       // $FlowFixMe
         worksV2Link({query, page}).href,
