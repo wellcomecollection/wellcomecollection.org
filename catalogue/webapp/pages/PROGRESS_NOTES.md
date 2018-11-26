@@ -18,13 +18,12 @@ available through our search.
 We have been working on surfacing that data in a clear, purposeful, and
 beautiful fashion, to yourselves.
 
-* Works now come with a broader set of metadata from the library catalogue
+* Works now come with a richer and more accurate set of data from the library catalogue
   * The creators field has been usurped by the richer contributors field which
     contains more information about the contributor's role, and more information about
-    the contributor
-  * Subjects and genres now have been expanded to have concepts attached to them
-  * The production of an object has now been split into production events, which
-    are made up of places, agents (people, organisation etc), and dates
+    the contributor, where the data is available.
+  * Subjects and genres now use the authoritative Library of Congress and Medical Subject Headings.
+  * The production of an object has now been split into production events, made up of places, agents (people, organisation etc), and dates.
 
 
 ## What's improved
