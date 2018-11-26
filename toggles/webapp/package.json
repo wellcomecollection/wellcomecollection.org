@@ -1,14 +1,19 @@
 {
   "name": "@weco/toggles",
   "description": "A toggle here, a toggle there",
+  "license": "MIT",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "export": "next export"
   },
   "dependencies": {
+    "@babel/preset-flow": "^7.0.0",
+    "babel-plugin-styled-components": "^1.9.0",
     "next": "^7.0.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "next-cookies": "^1.0.4",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
+    "styled-components": "^4.1.1"
   }
 }
