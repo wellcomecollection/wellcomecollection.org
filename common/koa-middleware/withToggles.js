@@ -6,7 +6,7 @@ async function getDefaultToggleValues() {
     const defaultValues = await fetch('https://dash.wellcomecollection.org/toggles/defaultToggleValues.json')
       .then(response => response.json());
 
-    defaultToggleValues =  defaultValues;
+    defaultToggleValues = defaultValues;
   } catch (e) {}
 }
 setInterval(getDefaultToggleValues, 30000);
