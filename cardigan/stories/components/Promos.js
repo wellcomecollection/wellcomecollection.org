@@ -182,7 +182,6 @@ const stories = storiesOf('Components', module);
 
 stories
   .add('Promos', () => <div></div>, {info: PromoReadme})
-  .add('Promos: Editorial', EditorialPromoExample, {info: EditorialPromoReadme})
   .add('Promos: Event', EventPromoExample, {info: EventPromoReadme})
   .add('Promos: Exhibition', ExhibitionPromoExample, {info: ExhibitionPromoReadme})
   .add('Promos: Work', WorkPromoExample, {info: WorkPromoReadme});
