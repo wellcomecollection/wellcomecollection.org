@@ -108,12 +108,12 @@ const IndexPage = ({ initialToggles }: Props) => {
                   setCookie(toggle.id, 'true');
                   toggles[toggle.id] = true;
                   setToggles(toggles);
-                }} disabled={toggles[`${toggle.id}`] === true}>✔</Button>
+                }} disabled={toggles[`${toggle.id}`] === true}>👍</Button>
                 <Button onClick={() => {
                   setCookie(toggle.id, 'false');
                   toggles[toggle.id] = false;
                   setToggles(toggles);
-                }} disabled={toggles[`${toggle.id}`] === false}>✘</Button>
+                }} disabled={toggles[`${toggle.id}`] === false}>👎</Button>
                 <Button onClick={() => {
                   setCookie(toggle.id);
                   delete toggles[toggle.id];
@@ -147,12 +147,12 @@ const IndexPage = ({ initialToggles }: Props) => {
                   setCookie(toggle.id, 'true');
                   toggles[toggle.id] = true;
                   setToggles(toggles);
-                }} disabled={toggles[`${toggle.id}`] === true}>✔</Button>
+                }} disabled={toggles[`${toggle.id}`] === true}>👍</Button>
                 <Button onClick={() => {
                   setCookie(toggle.id, 'false');
                   toggles[toggle.id] = false;
                   setToggles(toggles);
-                }} disabled={toggles[`${toggle.id}`] === false}>✘</Button>
+                }} disabled={toggles[`${toggle.id}`] === false}>👎</Button>
                 <Button onClick={() => {
                   setCookie(toggle.id);
                   delete toggles[toggle.id];
