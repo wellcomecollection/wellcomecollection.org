@@ -1,19 +1,16 @@
 // @flow
+import type {Context} from 'next';
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
 import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import type {
-  GetInitialPropsProps,
-  ExtraProps
-} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {getWorks} from '../services/catalogue/worksv2';
 import {workV2Link, worksV2Link} from '../services/catalogue/links';
 
@@ -38,23 +35,23 @@ export const Works = ({
     document.title = `${query} | Catalogue search | Wellcome Collection`;
   }, [query]);
 
-  // 1. If `initialWorks` are sent down, we don't fetch them on initial render
-  //    See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
-  const shouldNotFetchWorks = useRef(Boolean(initialWorks));
+  // On the initial render from next, we dont want to run the router, nor update
+  // the works so we just skip this effect for now.
+  // See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+  const initialRender = useRef(true);
   useEffect(() => {
-    if (shouldNotFetchWorks.current) {
-      shouldNotFetchWorks.current = false;
+    if (initialRender.current) {
+      initialRender.current = false;
       return;
     }
 
-    // We use undefined to remove it from the URL
-    const urlVals = {
-      query: query || undefined,
-      page: page > 1 ? page : undefined
-    };
+    // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
+    // you can use URL like objects too
     Router.push(
-      worksV2Link(urlVals).href,
-      worksV2Link(urlVals).as,
+      // $FlowFixMe
+      worksV2Link({query, page}).href,
+      // $FlowFixMe
+      worksV2Link({query, page}).as,
       { shallow: true }
     );
 
@@ -63,7 +60,7 @@ export const Works = ({
       // TODO: Look into memoiszing results so we don't hit the API again
       //       See: https://reactjs.org/docs/hooks-reference.html#usememo
 
-      // TODO: Return a cleanup funciton here to stop the network request.
+      // TODO: Return a cleanup function here to stop the network request.
       getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
     } else {
       setWorks(null);
@@ -71,7 +68,15 @@ export const Works = ({
   }, [page, query]);
 
   return (
-    <Fragment>
+    <PageLayout
+      title={`${query ? `${query} | ` : ''}Catalogue search`}
+      description='Search through the Wellcome Collection image catalogue'
+      url={{pathname: '/works', query: worksV2Link({query, page}).href}}
+      openGraphType={'website'}
+      jsonLd={{ '@type': 'WebPage' }}
+      imageUrl={null}
+      imageAltText={null}
+    >
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       <div className={classNames([
@@ -231,37 +236,27 @@ export const Works = ({
           </div>
         </div>
       }
-    </Fragment>
+    </PageLayout>
   );
 };
 
 Works.getInitialProps = async (
-  context: GetInitialPropsProps,
-  { toggles = {} }: ExtraProps
-) => {
-  const query = context.query.query;
-  const page = context.query.page ? parseInt(context.query.page, 10) : 1;
-  const filters = toggles.unfilteredCatalogueResults ? {} : {
+  ctx: Context
+): Promise<Props> => {
+  const query = ctx.query.query;
+  const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
+  const filters = ctx.query.toggles.unfilteredCatalogueResults ? {} : {
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
   };
   const works = query ? await getWorks({ query, page, filters }) : null;
 
-  if (works && works.type === 'Error') {
-    return { statusCode: works.httpStatus };
-  }
-
   return {
     initialPage: page,
     initialWorks: works,
     initialQuery: query,
-    filters,
-    title: `${query} | Catalogue search | Wellcome Collection`,
-    description: 'Search through the Wellcome Collection image catalogue',
-    analyticsCategory: 'collections',
-    siteSection: 'images',
-    canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`
+    filters
   };
 };
 
-export default PageWrapper(Works);
+export default Works;
