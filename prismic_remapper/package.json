@@ -1,5 +1,5 @@
 {
-  "name": "prismic_remapper",
+  "name": "@weco/prismic_remapper",
   "license": "MIT",
   "scripts": {
     "remap": "node remap"

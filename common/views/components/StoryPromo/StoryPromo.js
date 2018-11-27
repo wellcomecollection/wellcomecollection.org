@@ -10,13 +10,15 @@ import type { Article } from '../../../model/articles';
 type Props = {|
   item: Article,
   position: number,
-  hidePromoText?: boolean
+  hidePromoText?: boolean,
+  hasTransparentBackground?: boolean
 |}
 
 const StoryPromo = ({
   item,
   position,
-  hidePromoText = false
+  hidePromoText = false,
+  hasTransparentBackground = false
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
@@ -29,15 +31,16 @@ const StoryPromo = ({
       id={item.id}
       href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({
+        'story-promo': true,
         'plain-link': true,
         'promo-link': true,
-        'bg-cream': true,
+        'bg-cream': !hasTransparentBackground,
         'rounded-corners': true,
         'overflow-hidden': true,
         'flex': true,
         'flex--column': true
       })}>
-      <div className='relative'>
+      <div className='relative story-promo__image'>
         {/* FIXME: Image type tidy */}
         {/* $FlowFixMe */}
         {item.promoImage && <UiImage {...item.promoImage}
@@ -51,12 +54,14 @@ const StoryPromo = ({
         }
       </div>
 
-      <div className={`
-        flex flex--column flex-1 flex--h-space-between
-        ${spacing({s: 2}, {padding: ['top']})}
-        ${spacing({s: 2}, {padding: ['left', 'right']})}
-        ${spacing({s: 4}, {padding: ['bottom']})}
-      `}>
+      <div className={classNames({
+        'story-promo__text': true,
+        'flex flex--column flex-1': true,
+        'flex--h-space-between': !hasTransparentBackground,
+        [spacing({s: 2}, {padding: ['top']})]: true,
+        [spacing({s: hasTransparentBackground ? 0 : 2}, {padding: ['left', 'right']})]: true,
+        [spacing({s: 4}, {padding: ['bottom']})]: true
+      })}>
         <div>
           {positionInSeries && <PartNumberIndicator number={positionInSeries} color={item.color} />}
           <h2 className={`

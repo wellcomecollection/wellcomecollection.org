@@ -30,7 +30,7 @@ function parseToggleCookies(cookieHeader) {
   return cookies;
 }
 
-exports.request = (event, context, callback) => {
+exports.request = (event, context) => {
   const request = event.Records[0].cf.request;
   const toggleCookies = parseToggleCookies(request.headers.cookie);
 
@@ -65,12 +65,9 @@ exports.request = (event, context, callback) => {
       value: togglesCookieString
     }];
   }
-
-  console.log('Request: goodbye');
-  callback(null, request);
 };
 
-exports.response = (event, context, callback) => {
+exports.response = (event, context) => {
   const request = event.Records[0].cf.request;
   const response = event.Records[0].cf.response;
 
@@ -81,7 +78,4 @@ exports.response = (event, context, callback) => {
     console.log('Response: setting set-cookie header');
     response.headers[`set-cookie`] = toggleCookies.map(cookie => ({ key: 'Set-Cookie', value: `${cookie.key}=${cookie.value}; Path=/;` }));
   }
-
-  console.log('Response: goodbye');
-  callback(null, response);
 };

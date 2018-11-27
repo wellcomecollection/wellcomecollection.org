@@ -505,3 +505,39 @@
     bottom: $spacing-unit * -13;
   }
 }
+
+// TODO: this better
+.story-promo-featured {
+  @include respond-to('medium') {
+    .story-promo {
+      min-height: 0;
+      flex-direction: row;
+      align-items: flex-start;
+      border-bottom-right-radius: 0;
+    }
+
+    .story-promo__text {
+      width: percentage(1 / 3);
+      padding-right: 2 * $spacing-unit;
+      padding-top: 0;
+      order: 1;
+    }
+
+    .story-promo__image {
+      border-top-left-radius: $border-radius-unit;
+      overflow: hidden;
+      width: percentage(2 / 3);
+      order: 2;
+    }
+  }
+
+  .promo-link__title {
+    @include respond-to('large') {
+      @include font('WB4');
+    }
+
+    @include respond-to('xlarge') {
+      @include font('WB3');
+    }
+  }
+}

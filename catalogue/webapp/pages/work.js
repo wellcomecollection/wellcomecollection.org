@@ -1,5 +1,5 @@
 // @flow
-import {Fragment} from 'react';
+import {Component, Fragment} from 'react';
 import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -18,6 +18,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/works';
+import {getWork as getWorkV2} from '../services/catalogue/worksv2';
 
 export type Link = {|
   text: string;
@@ -158,6 +159,26 @@ function getMetaContentArray(singleWork, descriptionArray) {
     });
   }
   return contentArray;
+}
+
+class V2ApiBeacon extends Component<{| id: string |}> {
+  beaconV2 = async () => {
+    if (pageStore('toggles').beaconV2) {
+      const {id} = this.props;
+      await getWorkV2({ id });
+    }
+  }
+
+  componentDidMount = async () => {
+    this.beaconV2();
+  }
+
+  componentDidUpdate = async () => {
+    this.beaconV2();
+  }
+  render() {
+    return <Fragment></Fragment>;
+  }
 }
 
 // Not sure we want to type this not dynamically
@@ -532,6 +553,7 @@ export const WorkPage = ({
           </div>
         </Fragment>
       }
+      <V2ApiBeacon id={work.id} />
     </Fragment>
   );
 };
