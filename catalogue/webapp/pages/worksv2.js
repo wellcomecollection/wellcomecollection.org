@@ -91,7 +91,7 @@ export const Works = ({
     <PageLayout
       title={`${query ? `${query} | ` : ''}Catalogue search`}
       description='Search through the Wellcome Collection image catalogue'
-      url={{pathname: '/works', query: worksLink({query, page}).href}}
+      url={{pathname: '/works', query: worksLink({query, page}).as}}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       imageUrl={null}
