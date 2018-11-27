@@ -4,6 +4,7 @@ import App, { Container } from 'next/app';
 import Router from 'next/router';
 import Head from 'next/head';
 import ReactGA from 'react-ga';
+import Raven from 'raven-js';
 import {parseOpeningTimesFromCollectionVenues} from '@weco/common/services/prismic/opening-times';
 import Header from '@weco/common/views/components/Header/Header';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -47,8 +48,9 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
-    // $FlowFixMe
-    document.documentElement.classList.add('enhanced');
+    if (document.documentElement) {
+      document.documentElement.classList.add('enhanced');
+    }
 
     // TODO: Is there a better implementation of this
     const lazysizes = require('lazysizes');
@@ -66,14 +68,53 @@ export default class WecoApp extends App {
       }
     }]);
     const page = `${window.location.pathname}${window.location.search}`;
-    console.info('pageview');
     ReactGA.pageview(page, ['v2']);
     Router.events.on('routeChangeComplete', () => {
-      console.info('pageview');
       ReactGA.pageview(page, ['v2']);
     });
 
-    // TODO: fonts?
+    // Fonts
+    const FontFaceObserver = require('fontfaceobserver');
+
+    const WB = new FontFaceObserver('Wellcome Bold Web', {weight: 'bold'});
+    const HNL = new FontFaceObserver('Helvetica Neue Light Web');
+    const HNM = new FontFaceObserver('Helvetica Neue Medium Web');
+    const LR = new FontFaceObserver('Lettera Regular Web');
+
+    Promise.all([WB.load(), HNL.load(), HNM.load(), LR.load()]).then(() => {
+      if (document.documentElement) {
+        document.documentElement.classList.add('fonts-loaded');
+      }
+    }).catch(console.log);
+
+    // Hotjar
+    (function(h, o, t, j, a, r) {
+      h.hj = h.hj || function() { (h.hj.q = h.hj.q || []).push(arguments); };
+      h._hjSettings = {hjid: 3858, hjsv: 5};
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = true;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
+
+    // Raven
+    Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
+      shouldSendCallback(data) {
+        const oldSafari = /^.*Version\/[0-8].*Safari.*$/;
+        const bingPreview = /^.*BingPreview.*$/;
+
+        return ![oldSafari, bingPreview].some(r => r.test(window.navigator.userAgent));
+      },
+      whitelistUrls: [/wellcomecollection\.org/],
+      ignoreErrors: [
+        /Blocked a frame with origin/,
+        /document\.getElementsByClassName\.ToString/ // https://github.com/SamsungInternet/support/issues/56
+      ]
+    }).install();
+  }
+
+  componentDidCatch(error: Error, errorInfo: {componentStack: string}) {
+    Raven.captureException(error, { extra: errorInfo });
   }
 
   render () {
