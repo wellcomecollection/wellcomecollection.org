@@ -46,13 +46,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "toggles",   # feature toggles
         "page",
         "current",
         "query",
         "uri",
-        "startDate",
-        "endDate",
         "MIROPAC",   # Wellcome Images redirect
         "MIRO",      # Wellcome Images redirect
 
@@ -66,6 +63,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
         whitelisted_names = [
           "toggles",           # feature toggles
+          "toggle_*",          # feature toggles
         ]
       }
     }
