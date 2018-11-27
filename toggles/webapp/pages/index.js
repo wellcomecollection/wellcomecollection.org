@@ -74,6 +74,11 @@ const featureToggles = [{
   title: 'Show filters on works search',
   description:
     'Exposes the filters we have available on the API on the UI.'
+}, {
+  id: 'showWorkRedesign',
+  title: 'Show the new work page',
+  description:
+    'Uses the new work page design.'
 }];
 
 type Props = {| initialToggles: Object |}
