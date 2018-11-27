@@ -19,6 +19,7 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
+import type {ExtraProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 export type Link = {|
   text: string;
