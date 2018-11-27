@@ -2,8 +2,9 @@
 import {Component, Fragment} from 'react';
 import ReactGA from 'react-ga';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
-import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
@@ -208,158 +209,167 @@ export const WorkPage = ({
           : null;
 
     return (
-      <div className='container'>
-        {iiifManifest && <div className='grid'>
-          <div className={grid({s: 12})}>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <div className='uv' data-locale='en-GB:English (GB)' data-config='https://wellcomelibrary.org/assets/config/uv-config.json' data-uri={iiifManifest} data-collectionindex='0' data-manifestindex='0' data-sequenceindex='0' data-canvasindex='0' data-zoom='-1.1484,-0.0834,3.2969,1.6681'
-                style={{'width': '1068px', 'height': '600px', 'backgroundColor': '#000'}} data-rotation='0'></div>
-              <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-              <script type='text/javascript' id='embedUV'
-                src='https://wellcomelibrary.org/spas/uv/versions/uv-1.7.32/lib/embed.js'></script>
+      <PageLayout
+        title={work.title}
+        description={work.description || work.title}
+        url={{pathname: `/works/${work.id}`}}
+        openGraphType={'website'}
+        jsonLd={workLd(work)}
+        oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
+        imageUrl={digitalLocation}
+        imageAltText={work.title}>
+        <div className='container'>
+          {iiifManifest && <div className='grid'>
+            <div className={grid({s: 12})}>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <div className='uv' data-locale='en-GB:English (GB)' data-config='https://wellcomelibrary.org/assets/config/uv-config.json' data-uri={iiifManifest} data-collectionindex='0' data-manifestindex='0' data-sequenceindex='0' data-canvasindex='0' data-zoom='-1.1484,-0.0834,3.2969,1.6681'
+                  style={{'width': '1068px', 'height': '600px', 'backgroundColor': '#000'}} data-rotation='0'></div>
+                <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+                <script type='text/javascript' id='embedUV'
+                  src='https://wellcomelibrary.org/spas/uv/versions/uv-1.7.32/lib/embed.js'></script>
+              </div>
             </div>
-          </div>
-        </div>}
+          </div>}
 
-        <div className='grid'>
-          <div className={grid({s: 12})}>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Title:</b> {work.title}
-            </div>
-            <div>
-              <b>Description:</b> {work.description}
-            </div>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Physical description:</b> {work.physicalDescription}
-            </div>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Work type:</b> {work.workType && work.workType.label}
-            </div>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Extent:</b> {work.extent}
-            </div>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Lettering:</b> {work.lettering}
-            </div>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Created date:</b> {work.createdDate && work.createdDate.label}
-            </div>
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Contributors:</b>
-              <ul>
-                {work.contributors.map(contributor => (
-                  <li key={contributor.agent.label}>
-                    <div><b>Agent:</b> {contributor.agent.label}</div>
-                    <div><b>Roles:</b> {contributor.roles.map(role => role.label).join(', ')}</div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className='grid'>
+            <div className={grid({s: 12})}>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Title:</b> {work.title}
+              </div>
+              <div>
+                <b>Description:</b> {work.description}
+              </div>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Physical description:</b> {work.physicalDescription}
+              </div>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Work type:</b> {work.workType && work.workType.label}
+              </div>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Extent:</b> {work.extent}
+              </div>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Lettering:</b> {work.lettering}
+              </div>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Created date:</b> {work.createdDate && work.createdDate.label}
+              </div>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Contributors:</b>
+                <ul>
+                  {work.contributors.map(contributor => (
+                    <li key={contributor.agent.label}>
+                      <div><b>Agent:</b> {contributor.agent.label}</div>
+                      <div><b>Roles:</b> {contributor.roles.map(role => role.label).join(', ')}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Identifiers:</b>
-              <ul>
-                {work.identifiers.map(identifier => (
-                  <li key={identifier.value}>
-                    <div><b>Type:</b> {identifier.identifierType.label}</div>
-                    <div><b>Value:</b> {identifier.value}</div>
-                  </li>
-                ))}
-              </ul>
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Identifiers:</b>
+                <ul>
+                  {work.identifiers.map(identifier => (
+                    <li key={identifier.value}>
+                      <div><b>Type:</b> {identifier.identifierType.label}</div>
+                      <div><b>Value:</b> {identifier.value}</div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Subjects:</b>
+                <ul>
+                  {work.subjects.map(subject => (
+                    <li key={subject.label}>{subject.label}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Genres:</b>
+                <ul>
+                  {work.genres.map(genre => (
+                    <li key={genre.label}>{genre.label}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Thumbnail:</b>
+                {work.thumbnail && <ul>
+                  <li>URL: {work.thumbnail.url}</li>
+                  <li>License: {JSON.stringify(work.thumbnail.license)}</li>
+                </ul>}
+              </div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Items:</b>
+                <ul>
+                  {work.items.map(item => (
+                    <li key={item.id}>
+                      <div><b>ID: {item.id}</b></div>
+                      <div>
+                        <b>Locations</b>
+                        <ul>
+                          {item.locations.map((location, i) => (
+                            <div key={`location${i}`}>
+                              <div><b>{location.type}: {location.label || location.url}</b></div>
+                              <div>{location.locationType.label}</div>
+                            </div>
+                          ))}
+                        </ul>
+                      </div>
+
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <b>Production:</b>
+                <ul>
+                  {work.production.map((productionEvent, i) => (
+                    <li key={`productionEvent${i}`}>
+                      <div>
+                        <b>Places:</b>
+                        <ul>
+                          {productionEvent.places.map(place => (
+                            <li key={place.label}>{place.label}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <b>Agents:</b>
+                        <ul>
+                          {productionEvent.agents.map(agent => (
+                            <li key={agent.label}>{agent.label}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <b>Dates:</b>
+                        <ul>
+                          {productionEvent.dates.map(date => (
+                            <li key={date.label}>{date.label}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Language:</b> {work.language && work.language.label}</div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Dimensions:</b> {work.dimensions}</div>
+
+              <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Type:</b> {work.type}</div>
             </div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Subjects:</b>
-              <ul>
-                {work.subjects.map(subject => (
-                  <li key={subject.label}>{subject.label}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Genres:</b>
-              <ul>
-                {work.genres.map(genre => (
-                  <li key={genre.label}>{genre.label}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Thumbnail:</b>
-              {work.thumbnail && <ul>
-                <li>URL: {work.thumbnail.url}</li>
-                <li>License: {JSON.stringify(work.thumbnail.license)}</li>
-              </ul>}
-            </div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Items:</b>
-              <ul>
-                {work.items.map(item => (
-                  <li key={item.id}>
-                    <div><b>ID: {item.id}</b></div>
-                    <div>
-                      <b>Locations</b>
-                      <ul>
-                        {item.locations.map((location, i) => (
-                          <div key={`location${i}`}>
-                            <div><b>{location.type}: {location.label || location.url}</b></div>
-                            <div>{location.locationType.label}</div>
-                          </div>
-                        ))}
-                      </ul>
-                    </div>
-
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}>
-              <b>Production:</b>
-              <ul>
-                {work.production.map((productionEvent, i) => (
-                  <li key={`productionEvent${i}`}>
-                    <div>
-                      <b>Places:</b>
-                      <ul>
-                        {productionEvent.places.map(place => (
-                          <li key={place.label}>{place.label}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <b>Agents:</b>
-                      <ul>
-                        {productionEvent.agents.map(agent => (
-                          <li key={agent.label}>{agent.label}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <b>Dates:</b>
-                      <ul>
-                        {productionEvent.dates.map(date => (
-                          <li key={date.label}>{date.label}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Language:</b> {work.language && work.language.label}</div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Dimensions:</b> {work.dimensions}</div>
-
-            <div className={spacing({ s: 2 }, { margin: ['top'] })}><b>Type:</b> {work.type}</div>
           </div>
         </div>
-      </div>
-    );
+      </PageLayout>);
   }
 
   const [iiifImageLocation] = work.items.map(
@@ -560,29 +570,11 @@ WorkPage.getInitialProps = async (context) => {
     return { statusCode: work.httpStatus };
   }
 
-  const [iiifImageLocation] = work.items.map(
-    item => item.locations.find(
-      location => location.locationType === 'iiif-image'
-    )
-  );
-
-  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
-
   return {
-    title: work.title || work.description,
-    description: work.description || '',
-    type: 'website',
-    canonicalUrl: `https://wellcomecollection.org/works/${work.id}`,
-    imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
-    analyticsCategory: 'collections',
-    siteSection: 'images',
     previousQueryString,
     work: (work: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
-    version,
-    pageJsonLd: workLd(work)
+    version
   };
 };
 
-export default PageWrapper(WorkPage);
+export default WorkPage;

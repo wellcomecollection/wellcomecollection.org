@@ -37,9 +37,7 @@
     "pa11y": "^5.1.0",
     "pa11y-reporter-html": "^1.0.0"
   },
-  "lint-staged": {
-
-  },
+  "lint-staged": {},
   "dependencies": {
     "flow-bin": "^0.78.0"
   }

@@ -3,7 +3,8 @@ import {Fragment, Component} from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
-import {default as PageWrapper, pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {pageStore} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
@@ -16,10 +17,6 @@ import {getWorks} from '../services/catalogue/works';
 import {getWorks as getWorksV2} from '../services/catalogue/worksv2';
 import {workLink, worksLink} from '../services/catalogue/links';
 
-// TODO: Setting the event parameter to type 'Event' leads to
-// an 'Indexable signature not found in EventTarget' Flow
-// error. We're setting the properties we expect here until
-// we find a better solution.
 type PageProps = {|
   query: ?string,
   page: ?number,
@@ -41,7 +38,15 @@ export const Works = ({
   handleSubmit,
   version
 }: ComponentProps) => (
-  <Fragment>
+  <PageLayout
+    title={`${query ? `${query} | ` : ''}Catalogue search`}
+    description='Search through the Wellcome Collection image catalogue'
+    url={{pathname: '/works', query: worksLink({query, page}).href}}
+    openGraphType={'website'}
+    jsonLd={{ '@type': 'WebPage' }}
+    imageUrl={null}
+    imageAltText={null}
+  >
     <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
     <div className={classNames([
@@ -193,7 +198,7 @@ export const Works = ({
         }
       </Fragment>
     }
-  </Fragment>
+  </PageLayout>
 );
 
 export class WorksPage extends Component<PageProps> {
@@ -220,11 +225,6 @@ export class WorksPage extends Component<PageProps> {
       query,
       page,
       pagination: pagination,
-      title: `Image catalogue search${query ? `: ${query}` : ''}`,
-      description: 'Search through the Wellcome Collection image catalogue',
-      analyticsCategory: 'collections',
-      siteSection: 'images',
-      canonicalUrl: `https://wellcomecollection.org/works${query && `?query=${query}`}`,
       version
     };
   };
@@ -235,6 +235,7 @@ export class WorksPage extends Component<PageProps> {
     const queryString = event.currentTarget.elements.query.value;
 
     // Update the URL, which in turn will update props
+    // $FlowFixMe
     Router.push(worksLink({ query: queryString, page: 1 }).href);
   }
 
@@ -274,4 +275,4 @@ export class WorksPage extends Component<PageProps> {
   }
 }
 
-export default PageWrapper(WorksPage);
+export default WorksPage;

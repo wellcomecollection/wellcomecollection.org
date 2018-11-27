@@ -3,8 +3,8 @@ import {Fragment} from 'react';
 import ReactGA from 'react-ga';
 import NextLink from 'next/link';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
@@ -34,8 +34,7 @@ type Work = Object;
 type Props = {|
   work: Work,
   previousQueryString: ?string,
-  page: ?number,
-  showRedesign: boolean
+  page: ?number
 |}
 
 export const WorkPage = ({
@@ -283,7 +282,15 @@ export const WorkPage = ({
     );
   }
   return (
-    <Fragment>
+    <PageLayout
+      title={work.title}
+      description={work.description || work.title}
+      url={{pathname: `/works/${work.id}`}}
+      openGraphType={'website'}
+      jsonLd={workLd(work)}
+      oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
+      imageUrl={iiifImageLocationUrl}
+      imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       {previousQueryString &&
@@ -527,7 +534,7 @@ export const WorkPage = ({
           </div>
         </div>
       </Fragment>
-    </Fragment>
+    </PageLayout>
   );
 };
 
@@ -539,27 +546,7 @@ WorkPage.getInitialProps = async (context,  { toggles = {} }: ExtraProps) => {
   const work = await getWork({ id });
   const showRedesign = Boolean(toggles.showWorkRedesign);
 
-  if (work.type === 'Error') {
-    return { statusCode: work.httpStatus };
-  }
-
-  const [iiifImageLocation] = work.items.map(
-    item => item.locations.find(
-      location => location.locationType === 'iiif-image'
-    )
-  );
-
-  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
-
   return {
-    title: work.title || work.description,
-    description: work.description || '',
-    type: 'website',
-    canonicalUrl: `https://wellcomecollection.org/works/${work.id}`,
-    imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
-    analyticsCategory: 'collections',
-    siteSection: 'images',
     previousQueryString,
     work: (work: Work),
     oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
@@ -568,4 +555,4 @@ WorkPage.getInitialProps = async (context,  { toggles = {} }: ExtraProps) => {
   };
 };
 
-export default PageWrapper(WorkPage);
+export default WorkPage;
