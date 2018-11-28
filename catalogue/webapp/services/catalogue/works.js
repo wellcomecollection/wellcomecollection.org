@@ -30,6 +30,12 @@ export type CatalogueResultsList = {
   results: Work[]
 }
 
+export type CatalogueApiRedirect = {
+  type: 'Redirect',
+  status: number,
+  redirectToId: string
+}
+
 const rootUri = 'https://api.wellcomecollection.org/catalogue';
 const includes = ['identifiers', 'items', 'contributors', 'subjects', 'genres', 'production'];
 
@@ -56,9 +62,23 @@ export async function getWorks({
 
 export async function getWork({
   id
-}: GetWorkProps): Promise<Work | CatalogueApiError> {
+}: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
   const url = `${rootUri}/v2/works/${id}?include=${includes.join(',')}`;
-  const res = await fetch(url);
+  const res = await fetch(url, {redirect: 'manual'});
+
+  // When records from Miro have been merged with Sierra data, we redirect the
+  // latter to the former. This would happen quietly on the API requtes, but we
+  // would then have duplicates emerging, which wouldn't be useful for search
+  // engines so we respect the redirect on the client
+  if (res.status === 301 || res.status === 302) {
+    const id = res.headers.get('location').match(/works\/([^?].*)\?/);
+    return {
+      type: 'Redirect',
+      status: res.status,
+      redirectToId: id[1]
+    };
+  }
+
   const json = await res.json();
   return json;
 }
