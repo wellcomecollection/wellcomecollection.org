@@ -108,7 +108,7 @@ export class OpeningTimesPage extends Component<Props> {
             return (
               <Fragment key={openingPeriod.type}>
                 <h2
-                  id={i === 1 ? 'exceptional' : null}
+                  id='exceptional'
                   className={classNames({
                     [font({s: 'WB6', m: 'WB5'})]: true,
                     'no-margin': true
@@ -167,7 +167,7 @@ export class OpeningTimesPage extends Component<Props> {
 
         {openingHours.exceptionalClosedDates.length > 0 &&
             <Fragment>
-              <h2 className={`${font({s: 'WB6', m: 'WB5'})}`} id='exceptional'>
+              <h2 className={`${font({s: 'WB6', m: 'WB5'})}`}>
                   Closure dates for{' '}
                 {openingHours.exceptionalClosedDates[0].periodStart ? formatYear(openingHours.exceptionalClosedDates[0].periodStart) : ' the coming year'}
               </h2>
