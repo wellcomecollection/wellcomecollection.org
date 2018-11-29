@@ -62,7 +62,6 @@ export const WorkPage = ({
       <WorkRedesign
         work={work}
         iiifImageLocationUrl={iiifImageLocationUrl}
-        previousQueryString={previousQueryString}
         encoreLink={encoreLink}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}

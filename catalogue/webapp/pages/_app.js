@@ -20,20 +20,17 @@ let globalAlert;
 export default class WecoApp extends App {
   static async getInitialProps({ Component, router, ctx }: AppInitialProps) {
     // Caching things from the server request to be available to the client
-    const toggles = router.query.toggles || {};
-
+    ctx.query.toggles = router.query.toggles || {};
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
 
     let pageProps = {};
     if (Component.getInitialProps) {
-      ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
     }
 
     return {
       pageProps,
-      toggles,
       openingTimes,
       globalAlert
     };
