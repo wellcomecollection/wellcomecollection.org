@@ -19,6 +19,7 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
+import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
   text: string;
@@ -306,6 +307,7 @@ export const WorkPage = ({
           </div>
         </div>
       </Fragment>
+      <OptimalSort />
     </PageLayout>
   );
 };
