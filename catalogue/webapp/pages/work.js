@@ -19,6 +19,7 @@ import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/works';
 import {getWork as getWorkV2} from '../services/catalogue/worksv2';
+import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
   text: string;
@@ -554,6 +555,7 @@ export const WorkPage = ({
         </Fragment>
       }
       <V2ApiBeacon id={work.id} />
+      <OptimalSort />
     </Fragment>
   );
 };
