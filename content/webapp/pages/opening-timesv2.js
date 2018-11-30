@@ -73,7 +73,7 @@ export class OpeningTimesPage extends Component<Props> {
             title={'Opening times'}
             ContentTypeInfo={
               <Fragment>
-                <p>Explore our opening hours across the different parts of our building. keep in minde were open late on Thursdays!</p>
+                <p>Explore our opening hours across the different parts of our building. Keep in mind we&apos;re open late on Thursdays!</p>
                 <p>We&apos;ll have <a href='#revised'>revised opening hours over the festive holidays</a>. If you&apos;re planning to visit a long time in advance, check our <a href='#planned'>planned closure dates for all of 2019.</a></p>
               </Fragment>
             }
@@ -318,9 +318,9 @@ export class OpeningTimesPage extends Component<Props> {
 
           <h3 className='h3'>Christmas and New Year&apos;s festive holidays</h3>
           <ul>
-            <li>Everything will be closed from 24—26 December and 31 Decemver—1 January</li>
+            <li>Everything will be closed from 24—26 December and 31 December—1 January</li>
             <li>Library will be closed from 24 December—1 January</li>
-            <li>Everything else will be closed from 24—26 December and 31 December—1 January and have revised hours on 27-—0 December</li>
+            <li>Everything else will be closed from 24—26 December and 31 December—1 January and have revised hours on 27—30 December</li>
           </ul>
         </Fragment>
       </ContentPage>
