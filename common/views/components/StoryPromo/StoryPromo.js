@@ -11,14 +11,16 @@ type Props = {|
   item: Article,
   position: number,
   hidePromoText?: boolean,
-  hasTransparentBackground?: boolean
+  hasTransparentBackground?: boolean,
+  sizesQueries?: string
 |}
 
 const StoryPromo = ({
   item,
   position,
   hidePromoText = false,
-  hasTransparentBackground = false
+  hasTransparentBackground = false,
+  sizesQueries = `(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)`
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
@@ -44,7 +46,7 @@ const StoryPromo = ({
         {/* FIXME: Image type tidy */}
         {/* $FlowFixMe */}
         {item.promoImage && <UiImage {...item.promoImage}
-          sizesQueries='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'
+          sizesQueries={sizesQueries}
           showTasl={false} />}
 
         {item.labels.length > 0 &&
