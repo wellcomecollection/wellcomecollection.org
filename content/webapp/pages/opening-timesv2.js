@@ -71,12 +71,7 @@ export class OpeningTimesPage extends Component<Props> {
             breadcrumbs={{ items: [{url: '/', text: 'Home'}] }}
             labels={null}
             title={'Opening times'}
-            ContentTypeInfo={
-              <Fragment>
-                <p>Explore our opening hours across the different parts of our building. Keep in mind we&apos;re open late on Thursdays!</p>
-                <p>We&apos;ll have <a href='#revised'>revised opening hours over the festive holidays</a>. If you&apos;re planning to visit a long time in advance, check our <a href='#planned'>planned closure dates for all of 2019.</a></p>
-              </Fragment>
-            }
+            ContentTypeInfo={null}
             Background={null}
             backgroundTexture={'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'}
             FeaturedMedia={null}
@@ -87,6 +82,10 @@ export class OpeningTimesPage extends Component<Props> {
       >
 
         <Fragment>
+
+          <p>Explore our opening hours across the different parts of our building. Keep in mind we&apos;re open late on Thursdays!</p>
+          <p>We&apos;ll have <a href='#revised'>revised opening hours over the festive holidays</a>. If you&apos;re planning to visit a long time in advance, check our <a href='#planned'>planned closure dates for all of 2019.</a></p>
+
           <h2 className={classNames({
             [font({s: 'WB6', m: 'WB5'})]: true
           })} id='regular'>Exhibitions, Library and Reading Room</h2>
