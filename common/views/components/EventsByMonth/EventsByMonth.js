@@ -82,7 +82,7 @@ class EventsByMonth extends Component<Props, State> {
     // Order months correctly
     const orderedMonths = {};
     Object.keys(eventsInMonths).sort((a, b) => {
-      return london(a).toDate() > london(b).toDate();
+      return london(a).toDate().getTime() - london(b).toDate().getTime();
     }).map(key => orderedMonths[key] = eventsInMonths[key]);
 
     const months = Object.keys(orderedMonths).map(month => ({
