@@ -24,9 +24,11 @@ type Props = {|
 
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
+    const showRevisedOpening = Boolean(context.query.toggles.showRevisedOpeningHours);
     // TODO: (Prismic perf) don't fetch these as two separate calls
+    const revisedDisplayPeriod = showRevisedOpening ? 30 : 15;
     const [openingHours, page] = await Promise.all([
-      getCollectionOpeningTimes(context.req),
+      getCollectionOpeningTimes(context.req, revisedDisplayPeriod),
       getPage(context.req, 'WwQHTSAAANBfDYXU')
     ]);
     const galleriesLibrary = openingHours && openingHours.placesOpeningHours && openingHours.placesOpeningHours.filter(venue => {
