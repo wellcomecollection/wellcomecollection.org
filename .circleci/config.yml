@@ -260,7 +260,6 @@ workflows:
             branches:
               only:
                 - master
-                - dash_index
       - root_tests:
           requires:
             - checkout_code
