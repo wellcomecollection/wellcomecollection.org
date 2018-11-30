@@ -21,7 +21,7 @@ type Props = {|
 
 type State = {|
   isActive: boolean,
-  titleStyle: ? {|transform: string, maxWidth: string|}
+  titleStyle: ? {|transform: string, maxWidth: string, opacity: number|}
 |}
 
 class ImageGallery extends Component<Props, State> {
