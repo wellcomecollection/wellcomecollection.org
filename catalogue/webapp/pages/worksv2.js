@@ -53,7 +53,7 @@ export const Works = ({
       // $FlowFixMe
       worksV2Link({query, page}).as,
       { shallow: true }
-    );
+    ).then(() => window.scrollTo(0, 0));
 
     if (query && query !== '') {
       setLoading(true);
