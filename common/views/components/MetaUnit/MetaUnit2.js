@@ -5,6 +5,7 @@ import type {MetaUnitProps} from '../../../model/meta-unit';
 import styled from 'styled-components';
 
 const MetaUnitEl = styled.div`
+  /* TODO: variables/functions/mixins */
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   padding: 24px 0;
