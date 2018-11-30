@@ -22,6 +22,7 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import {getWork} from '../services/catalogue/works';
 import {worksLink} from '../services/catalogue/links';
+import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
   text: string;
@@ -138,8 +139,8 @@ export const WorkPage = ({
                     <MetaUnit headingText='Description' text={[work.description]} />
                   }
 
-                  {work.physicalDescription &&
-                    <MetaUnit headingText='Physical description' text={[`${work.physicalDescription} ${work.extent} ${work.dimensions}`]} />
+                  {(work.physicalDescription || work.extent || work.dimensions) &&
+                    <MetaUnit headingText='Physical description' text={[[work.physicalDescription, work.extent, work.dimensions].filter(Boolean).join(' ')]} />
                   }
 
                   {work.workType &&
@@ -324,6 +325,7 @@ export const WorkPage = ({
           </div>
         </div>
       </Fragment>
+      <OptimalSort />
     </PageLayout>
   );
 };
