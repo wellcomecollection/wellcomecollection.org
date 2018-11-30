@@ -541,3 +541,49 @@
     }
   }
 }
+
+
+.ll {
+  display: none;
+  width: 50px;
+  height: 80px;
+  animation: animate-ll;
+
+  .enhanced & {
+    display: block;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: black;
+  }
+
+  &:before {
+    left: 0;
+    animation: animate-ll 1s infinite;
+  }
+
+  &:after {
+    right: 0;
+    animation: animate-ll 1s 0.5s infinite;
+  }
+}
+
+@keyframes animate-ll {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

@@ -108,7 +108,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           sizes={sizesQueries}
           alt={alt || ''} />
 
-        {showTasl && <Tasl {...tasl} isFull={isFull} />}
+        {showTasl && isWidthAuto && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
     );
   }
@@ -170,8 +170,11 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
             display: isWidthAuto ? 'inline-block' : undefined
           }}
           className='captioned-image__image-container relative'>
-          {/* https://github.com/facebook/flow/issues/2405 */}
-          {/* $FlowFixMe */}
+          {!isWidthAuto &&
+            <div className={classNames({
+              'absolute h-center ll': true
+            })} style={{opacity: '0.2', left: '50%', top: '50%', transform: 'translateX(-50%) translateY(-50%)'}}></div>
+          }
           <UiImage
             {...uiImageProps}
             setIsWidthAuto={this.setIsWidthAuto}
@@ -179,10 +182,12 @@ export class CaptionedImage extends Component<UiCaptionedImageProps, UiCaptioned
             setComputedImageWidth={this.setComputedImageWidth}
             extraClasses={shameNoMaxHeight ? 'shame-no-max-height' : ''}  />
         </div>
-        <Caption
-          width={computedImageWidth}
-          caption={caption}
-          preCaptionNode={preCaptionNode} />
+        {isWidthAuto &&
+          <Caption
+            width={computedImageWidth}
+            caption={caption}
+            preCaptionNode={preCaptionNode} />
+        }
       </figure>
     );
   }
