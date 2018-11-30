@@ -121,8 +121,8 @@ export const WorkPage = ({
                     <MetaUnit headingText='Description' text={[work.description]} />
                   }
 
-                  {work.physicalDescription &&
-                    <MetaUnit headingText='Physical description' text={[`${work.physicalDescription} ${work.extent} ${work.dimensions}`]} />
+                  {(work.physicalDescription || work.extent || work.dimensions) &&
+                    <MetaUnit headingText='Physical description' text={[[work.physicalDescription, work.extent, work.dimensions].filter(Boolean).join(' ')]} />
                   }
 
                   {work.workType &&
