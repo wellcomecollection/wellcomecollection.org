@@ -6,6 +6,7 @@ import audioDescribed from './audio_described';
 import speechToText from './speech_to_text';
 import britishSignLanguage from './british_sign_language';
 import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
+import calendar from './calendar';
 import check from './check';
 import chevron from './chevron';
 import clock from './clock';
@@ -46,6 +47,7 @@ export {
   audioDescribed,
   speechToText,
   britishSignLanguage,
+  calendar,
   cc,
   ccBy,
   ccNc,
