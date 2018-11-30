@@ -4,7 +4,7 @@ const redirects = require('./redirects.json');
 exports.redirector = (event, context) => {
   const cf = event.Records[0].cf;
   const request = cf.request;
-  if (redirects[request.uri]) {
+  if (redirects[request.uri.replace(/\/$/, '')]) {
     const response = {
       status: '301',
       statusDescription: 'Found',
