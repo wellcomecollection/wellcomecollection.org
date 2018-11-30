@@ -16,7 +16,7 @@
     "cookies": "^0.7.1",
     "css-loader": "^0.28.11",
     "isomorphic-unfetch": "^2.1.1",
-    "jest": "^23.2.0",
+    "jest": "^23.6.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "next": "^7.0.2",
@@ -27,10 +27,13 @@
     "postcss-loader": "^2.1.4",
     "prismic-javascript": "2.0.0-beta.0",
     "raw-loader": "^0.5.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "react-test-renderer": "^16.4.1",
     "react-transition-group": "^2.4.0",
     "sass-loader": "^7.0.1"
+  },
+  "devDependencies": {
+    "supertest": "^3.3.0"
   }
 }
