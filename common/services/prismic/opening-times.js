@@ -183,7 +183,6 @@ function exceptionalOpeningHours(dates: OverrideDate[], placesOpeningHours: Plac
 }
 
 function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[], daysInAdvance) {
-  console.log(daysInAdvance);
   const exceptionalPeriods =  periods && periods.filter((period) => {
     const displayPeriodStart = london().subtract(1, 'day');
     const displayPeriodEnd = london().add(daysInAdvance, 'day');

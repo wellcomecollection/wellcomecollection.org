@@ -18,11 +18,11 @@ type Props = {|
 |}
 
 const cellStyles = {
-  'font-weight': 'normal',
-  'vertical-align': 'top',
+  fontWeight: 'normal',
+  verticalAlign: 'top',
   border: '1px solid #000',
   padding: '5px',
-  'min-width': '80px'
+  minWidth: '80px'
 };
 
 export class OpeningTimesPage extends Component<Props> {
@@ -92,7 +92,7 @@ export class OpeningTimesPage extends Component<Props> {
 
           <h3>Regular opening times</h3>
 
-          <table className='font-HNL5-s margin-bottom-s6' style={{'border-collapse': 'collapse'}}>
+          <table className='font-HNL5-s margin-bottom-s6' style={{borderCollapse: 'collapse'}}>
             <thead className='font-HNM5-s'>
               <tr>
                 <th style={cellStyles} scope='col'>
@@ -151,7 +151,7 @@ export class OpeningTimesPage extends Component<Props> {
 
           <h3 id='revised'>Revised hours for the festive holiday</h3>
 
-          <table className='font-HNL5-s margin-bottom-s6' style={{'border-collapse': 'collapse'}}>
+          <table className='font-HNL5-s margin-bottom-s6' style={{borderCollapse: 'collapse'}}>
             <thead className='font-HNM5-s'>
               <tr>
                 <th style={cellStyles} scope='col'>
@@ -190,7 +190,7 @@ export class OpeningTimesPage extends Component<Props> {
 
           <h3>Regular opening times</h3>
 
-          <table className='font-HNL5-s margin-bottom-s6' style={{'border-collapse': 'collapse'}}>
+          <table className='font-HNL5-s margin-bottom-s6' style={{borderCollapse: 'collapse'}}>
             <thead className='font-HNM5-s'>
               <tr>
                 <th style={cellStyles} scope='col'>
@@ -249,7 +249,7 @@ export class OpeningTimesPage extends Component<Props> {
 
           <h3>Revised hours for the festive holiday</h3>
 
-          <table className='font-HNL5-s margin-bottom-s6' style={{'border-collapse': 'collapse'}}>
+          <table className='font-HNL5-s margin-bottom-s6' style={{borderCollapse: 'collapse'}}>
             <thead className='font-HNM5-s'>
               <tr>
                 <th style={cellStyles} scope='col'>
