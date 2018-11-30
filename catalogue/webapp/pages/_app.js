@@ -14,7 +14,7 @@ import Footer from '@weco/common/views/components/Footer/Footer';
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
-let toggles = {};
+let toggles;
 let openingTimes;
 let globalAlert;
 

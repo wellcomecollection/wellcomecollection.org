@@ -312,12 +312,12 @@ export const WorkPage = ({
   );
 };
 
-WorkPage.getInitialProps = async (context) => {
-  const {id} = context.query;
-  const {asPath} = context;
+WorkPage.getInitialProps = async (ctx) => {
+  const {id} = ctx.query;
+  const {asPath} = ctx;
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const work = await getWork({ id });
+  const work = await getWork({id});
 
   return {
     previousQueryString,
