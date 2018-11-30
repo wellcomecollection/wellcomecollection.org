@@ -393,7 +393,15 @@ export const WorkPage = ({
   const workImageUrl = work.items[0].locations[0].url;
 
   return (
-    <Fragment>
+    <PageLayout
+      title={work.title}
+      description={work.description || work.title}
+      url={{pathname: `/works/${work.id}`}}
+      openGraphType={'website'}
+      jsonLd={workLd(work)}
+      oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
+      imageUrl={workImageUrl}
+      imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       {previousQueryString && <div className='row'>
@@ -556,7 +564,7 @@ export const WorkPage = ({
       }
       <V2ApiBeacon id={work.id} />
       <OptimalSort />
-    </Fragment>
+    </PageLayout>
   );
 };
 
