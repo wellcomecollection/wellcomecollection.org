@@ -109,6 +109,21 @@ jobs:
           key: root_modules_circleci_node_8_{{ checksum "package.json" }}
           paths:
             -  node_modules
+  deploy_toggles:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: ~/wellcomecollection.org/toggles/webapp
+    steps:
+    - add_ssh_keys
+    - restore_cache:
+        key: repo_{{ .Environment.CIRCLE_SHA1 }}
+    - run:
+        name: Install awscli
+        command: sudo apt-get install awscli
+    - run:
+        name: Deploy default values
+        command: |
+          aws s3 cp ./defaults.json s3://dash.wellcomecollection.org/toggles/defaults.json --only-show-errors
   deploy_pa11y:
     docker:
       - image: circleci/node:8.11.3
@@ -139,20 +154,15 @@ jobs:
         name: Write pa11y report
         command: yarn write-report
     - run:
-        name: Build next app
-        command: |
-            yarn build
-            yarn export
-    - run:
         name: Deploy
         command: |
-          aws s3 sync ./out s3://dash.wellcomecollection.org/pa11y --only-show-errors
-  deploy_toggles:
+          aws s3 cp ./.dist/report.json s3://dash.wellcomecollection.org/pa11y/report.json --only-show-errors
+  deploy_dash:
     docker:
       - image: circleci/node:8.11.3
     environment:
       NODE_ENV: test
-    working_directory: ~/wellcomecollection.org/toggles/webapp
+    working_directory: ~/wellcomecollection.org/dash/webapp
     steps:
     - add_ssh_keys
     - restore_cache:
@@ -171,7 +181,7 @@ jobs:
     - run:
         name: Deploy
         command: |
-          aws s3 sync ./out s3://dash.wellcomecollection.org/toggles --only-show-errors
+          aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors
   install_common_modules:
     docker:
       - image: circleci/node:8.11.3
@@ -237,6 +247,13 @@ workflows:
               only:
                 - master
       - deploy_toggles:
+          requires:
+            - checkout_code
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_dash:
           requires:
             - checkout_code
           filters:
