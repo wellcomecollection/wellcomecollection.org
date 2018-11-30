@@ -74,6 +74,12 @@ const featureToggles = [{
   title: 'Show filters on works search',
   description:
     'Exposes the filters we have available on the API on the UI.'
+}, {
+  id: 'showRevisedOpeningHours',
+  title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
+  description:
+    'We only dispay revised opening hours 2 weeks before they occur.' +
+    'This increases that to 4 weeks to allow some usability testing to be conducted.'
 }];
 
 type Props = {| initialToggles: Object |}
