@@ -122,7 +122,7 @@ export const WorkPage = ({
                   }
 
                   {(work.physicalDescription || work.extent || work.dimensions) &&
-                    <MetaUnit headingText='Physical description' text={[[work.physicalDescription, work.extent, work.dimensions].filter(Boolean).join(' ')]} />
+                    <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />
                   }
 
                   {work.workType &&
