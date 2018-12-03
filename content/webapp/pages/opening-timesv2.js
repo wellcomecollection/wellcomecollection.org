@@ -11,6 +11,7 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page} from '@weco/common/model/pages';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import Head from 'next/head';
 
 type Props = {|
   page: Page,
@@ -80,6 +81,9 @@ export class OpeningTimesPage extends Component<Props> {
         }
         Body={<Body body={[]} />}
       >
+        <Head>
+          <meta name='robots' content='noindex' />
+        </Head>
 
         <Fragment>
 
