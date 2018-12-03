@@ -86,7 +86,12 @@ function constructCreatorsString(creators) {
 
 function constructLicenseString(licenseType) {
   const licenseInfo = getLicenseInfo(licenseType);
-  return `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
+
+  if (licenseInfo.url) {
+    return licenseInfo && `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`;
+  } else {
+    return `<span>${licenseInfo.text}</span>`;
+  }
 }
 
 function constructAttribution(singleWork, credit, canonicalUri) {
@@ -97,7 +102,7 @@ function constructAttribution(singleWork, credit, canonicalUri) {
 }
 
 function getLicenseInfo(licenseType) {
-  return licenseMap[licenseType];
+  return licenseMap[licenseType.toLowerCase()];
 }
 
 function createLinkObject(val: string, prepend?: string): Link {
@@ -457,7 +462,6 @@ export const WorkPage = ({
                       </div>
                     }
                   </div>
-
                   <WorkDrawer data={[{
                     headingText: 'License information',
                     text: getLicenseInfo(work.thumbnail.license.licenseType).humanReadableText
