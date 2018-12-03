@@ -93,10 +93,9 @@ const EventPromo = ({
               Fully booked
             </div>
           }
-
-          {!isPast && event.schedule && event.schedule.length > 0 &&
+          {!isPast && event.scheduleLength > 0 &&
             <p className={`${font({s: 'HNM5'})} no-padding no-margin`}>
-              {`${event.schedule.length} ${event.schedule.length > 1 ? 'events' : 'event'}`}
+              {`${event.scheduleLength} ${event.scheduleLength > 1 ? 'events' : 'event'}`}
             </p>
           }
 
