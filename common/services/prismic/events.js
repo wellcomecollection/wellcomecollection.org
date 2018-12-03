@@ -144,6 +144,9 @@ export function parseEventDoc(
     };
   });
 
+  // We want to display the scheduleLength on EventPromos,
+  // but don't want to make an extra API request to populate the schedule for every event in a list.
+  // We therefore return the scheduleLength property.
   const event = {
     type: 'events',
     ...genericFields,
