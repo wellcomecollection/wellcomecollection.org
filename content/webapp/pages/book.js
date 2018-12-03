@@ -10,7 +10,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {defaultContributorImage} from '@weco/common/services/prismic/parsers';
-import {spacing, grid} from '@weco/common/utils/classnames';
+import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import type {Book} from '@weco/common/model/books';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
@@ -97,6 +97,11 @@ export class ArticleSeriesPage extends Component<Props> {
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={
         <Fragment>
+          {book.subtitle &&
+            <p className={classNames({
+              'no-margin': true,
+              [font({ s: 'HNM4', m: 'HNM3' })]: true
+            })}>{book.subtitle}</p>}
           {book.authorName && <p className='no-margin'>{book.authorName}</p>}
         </Fragment>
       }
