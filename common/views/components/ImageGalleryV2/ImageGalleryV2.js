@@ -4,6 +4,7 @@ import {font, spacing, classNames} from '../../../utils/classnames';
 import {CaptionedImage} from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Button from '../Buttons/Button/Button';
+import Control from '../Buttons/Control/Control';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
 import type {CaptionedImage as CaptionedImageProps} from '../../../model/captioned-image';
@@ -67,6 +68,7 @@ class ImageGallery extends Component<Props, State> {
   render() {
     const { title, items, isStandalone } = this.props;
     const { isActive, titleStyle } = this.state;
+    const id = Math.random();
 
     return (
       <PageBackgroundContext.Consumer>
@@ -80,7 +82,7 @@ class ImageGallery extends Component<Props, State> {
                   [spacing({s: 4}, {margin: ['bottom']})]: true
                 })}>
                 <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
-                <h2 className='h2 no-margin'>{title || 'In pictures'}</h2>
+                <h2 id={`gallery-${id}`} className='h2 no-margin'>{title || 'In pictures'}</h2>
               </span>
             }
             <div className={classNames({
@@ -100,7 +102,7 @@ class ImageGallery extends Component<Props, State> {
                 <div className={classNames({
                   'relative': true,
                   [spacing({s: 5, m: 10}, {padding: ['top']})]: isStandalone
-                })}>
+                })} style={{marginTop: '-40px'}}>
                   {isStandalone &&
                     <div className='absolute image-gallery-v2__standalone-wobbly-edge'>
                       <WobblyEdge
@@ -116,6 +118,28 @@ class ImageGallery extends Component<Props, State> {
                       </div>
                     </Fragment>
                   }
+
+                  <div style={{
+                    position: 'sticky',
+                    top: '10px',
+                    paddingRight: '10px',
+                    paddingBottom: '10px',
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    visibility: isActive ? 'visible' : 'hidden',
+                    zIndex: 2
+                  }}>
+                    <Control
+                      url={`#gallery-${id}`}
+                      type={`dark`}
+                      text={`close`}
+                      icon={`cross`}
+                      clickHandler={(event) => {
+                        setTimeout(() => {
+                          this.setState({isActive: false});
+                        }, 0);
+                      }} />
+                  </div>
 
                   {this.itemsToShow().map((captionedImage, i) => (
                     <div
