@@ -2,6 +2,7 @@
 import type {Node} from 'react';
 import {Fragment} from 'react';
 import Head from 'next/head';
+import convertLinkToString from '../../../utils/convert-link-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
 import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 
@@ -17,18 +18,6 @@ type Props = {|
   children: Node
 |}
 
-// I'm sure we don't need to do this still?
-function convertUrlToString(url): string {
-  const {query = {}} = url;
-  const queryVals = Object.keys(query).map(key => {
-    const val = query[key];
-    if (val) {
-      return `${key}=${val}`;
-    }
-  }).filter(Boolean);
-  return `${url.pathname}${queryVals.length > 0 ? '?' : ''}${queryVals.join('&')}`;
-}
-
 const PageLayout = ({
   title,
   description,
@@ -39,7 +28,7 @@ const PageLayout = ({
   oEmbedUrl,
   children
 }: Props) => {
-  const urlString = convertUrlToString(url);
+  const urlString = convertLinkToString(url);
   const fullTitle = title !== ''
     ? `${title} | Wellcome Collection`
     : 'Wellcome Collection | The free museum and library for the incurably curious';
