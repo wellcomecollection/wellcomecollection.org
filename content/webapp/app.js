@@ -60,7 +60,6 @@ module.exports = app.prepare().then(async () => {
   route('/pages/:id', '/page', router, app);
 
   route('/opening-times', '/opening-times', router, app);
-  route('/opening-timesv2', '/opening-timesv2', router, app);
   route('/newsletter', '/newsletter', router, app);
 
   pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
