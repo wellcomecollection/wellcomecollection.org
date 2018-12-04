@@ -9,7 +9,7 @@ const redirectTestRequestEvent = {
           'distributionId': 'EXAMPLE'
         },
         'request': {
-          'uri': '/visit-us/wellcome-café',
+          'uri': '/visit-us/wellcome-café/',
           'method': 'GET',
           'clientIp': '2001:cdba::3257:9652'
         }
@@ -25,7 +25,7 @@ const nonRedirectTestRequestEvent = {
           'distributionId': 'EXAMPLE'
         },
         'request': {
-          'uri': '/visit-us',
+          'uri': '/visit-us/',
           'method': 'GET',
           'clientIp': '2001:cdba::3257:9652'
         }

@@ -17,7 +17,8 @@ import {
   peopleFields,
   contributorsFields,
   eventPoliciesFields,
-  articleSeriesFields
+  articleSeriesFields,
+  articleFormatsFields
 } from './fetch-links';
 import {breakpoints} from '../../utils/breakpoints';
 import {
@@ -322,7 +323,8 @@ export async function getExhibitionRelatedContent(req: ?Request, ids: string[]):
     eventSeriesFields,
     eventPoliciesFields,
     contributorsFields,
-    articleSeriesFields
+    articleSeriesFields,
+    articleFormatsFields
   );
   const types = ['events', 'installations', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, {fetchLinks});

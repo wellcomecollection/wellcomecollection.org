@@ -14,23 +14,26 @@ import Footer from '@weco/common/views/components/Footer/Footer';
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
+let toggles;
 let openingTimes;
 let globalAlert;
 
 export default class WecoApp extends App {
   static async getInitialProps({ Component, router, ctx }: AppInitialProps) {
     // Caching things from the server request to be available to the client
-    ctx.query.toggles = router.query.toggles || {};
+    toggles = isServer ? router.query.toggles : toggles;
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
 
     let pageProps = {};
     if (Component.getInitialProps) {
+      ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
     }
 
     return {
       pageProps,
+      toggles,
       openingTimes,
       globalAlert
     };
@@ -38,6 +41,7 @@ export default class WecoApp extends App {
 
   // TODO: (flowtype) 😡
   constructor(props: any) {
+    if (isClient && !toggles) { toggles = props.toggles; }
     if (isClient && !openingTimes) { openingTimes = props.openingTimes; }
     if (isClient && !globalAlert) { globalAlert = props.globalAlert; }
     super(props);

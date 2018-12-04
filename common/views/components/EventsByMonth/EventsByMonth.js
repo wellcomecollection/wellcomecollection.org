@@ -19,7 +19,7 @@ type State = {|
 // recursive - TODO: make tail recursive?
 function getMonthsInDateRange({start, end}, acc = []) {
   if (start.isSameOrBefore(end, 'month')) {
-    const newAcc = acc.concat([start.format('MMMM')]);
+    const newAcc = acc.concat([start.format('YYYY-MM')]);
     const newStart = start.add(1, 'month');
     return getMonthsInDateRange({start: newStart, end}, newAcc);
   } else {
@@ -63,7 +63,11 @@ class EventsByMonth extends Component<Props, State> {
         // Only add if it has a time in the month that is the same or after today
         const hasDateInMonthRemaining = event.times.find(time => {
           const end = london(time.range.endDateTime);
-          return end.isSame(london({M: monthsIndex[month]}), 'month') && end.isSameOrAfter(london(), 'day');
+          const monthAndYear = london(month);
+          return end.isSame(london({
+            M: monthAndYear.month(),
+            Y: monthAndYear.year()
+          }), 'month') && end.isSameOrAfter(london(), 'day');
         });
         if (hasDateInMonthRemaining) {
           if (!acc[month]) {
@@ -78,13 +82,13 @@ class EventsByMonth extends Component<Props, State> {
     // Order months correctly
     const orderedMonths = {};
     Object.keys(eventsInMonths).sort((a, b) => {
-      return monthsIndex[a] - monthsIndex[b];
+      return london(a).toDate().getTime() - london(b).toDate().getTime();
     }).map(key => orderedMonths[key] = eventsInMonths[key]);
 
     const months = Object.keys(orderedMonths).map(month => ({
       id: month,
       url: `#${month}`,
-      text: month
+      text: london(month).format('MMMM')
     }));
 
     // Need to order the events for each month based on their earliest future date range
