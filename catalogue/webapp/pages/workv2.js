@@ -245,13 +245,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                          label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                            label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                           });
                         }}
                         icon='download'
@@ -267,13 +267,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                          label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                            label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                           });
                         }}
                         icon='download'
