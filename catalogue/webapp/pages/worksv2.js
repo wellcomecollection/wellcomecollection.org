@@ -1,5 +1,6 @@
 // @flow
 import type {Context} from 'next';
+import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogue/works';
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
 import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
@@ -11,12 +12,13 @@ import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import {getWorks} from '../services/catalogue/worksv2';
-import {workV2Link, worksV2Link} from '../services/catalogue/links';
+import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import {getWorks} from '../services/catalogue/works';
+import {workLink, worksLink} from '../services/catalogue/links';
 
 type Props = {|
   initialQuery: ?string,
-  initialWorks: ?{| results: [], totalResults: number |},
+  initialWorks: ?CatalogueResultsList | CatalogueApiError,
   initialPage: ?number,
   filters: Object
 |}
@@ -27,6 +29,24 @@ export const Works = ({
   filters,
   initialPage
 }: Props) => {
+  if (initialWorks && initialWorks.type === 'Error') {
+    return (
+      <PageLayout
+        title={initialWorks.httpStatus.toString()}
+        description={''}
+        url={{pathname: `/works`}}
+        openGraphType={'website'}
+        jsonLd={{ '@type': 'WebPage' }}
+        oEmbedUrl={`https://wellcomecollection.org/works`}
+        imageUrl={null}
+        imageAltText={null}>
+        <ErrorPage
+          errorStatus={initialWorks.httpStatus}
+        />
+      </PageLayout>
+    );
+  }
+
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
@@ -49,9 +69,9 @@ export const Works = ({
     // you can use URL like objects too
     Router.push(
       // $FlowFixMe
-      worksV2Link({query, page}).href,
+      worksLink({query, page}).href,
       // $FlowFixMe
-      worksV2Link({query, page}).as,
+      worksLink({query, page}).as,
       { shallow: true }
     ).then(() => window.scrollTo(0, 0));
 
@@ -71,7 +91,7 @@ export const Works = ({
     <PageLayout
       title={`${query ? `${query} | ` : ''}Catalogue search`}
       description='Search through the Wellcome Collection image catalogue'
-      url={{pathname: '/works', query: worksV2Link({query, page}).href}}
+      url={{pathname: '/works', query: worksLink({query, page}).as}}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       imageUrl={null}
@@ -152,7 +172,7 @@ export const Works = ({
                         currentPage={page}
                         pageSize={works.pageSize}
                         totalResults={works.totalResults}
-                        link={worksV2Link({query, page})}
+                        link={worksLink({query, page})}
                         onPageChange={async (event, newPage) => {
                           event.preventDefault();
                           setPage(newPage);
@@ -182,7 +202,7 @@ export const Works = ({
                       }}
                       datePublished={result.createdDate && result.createdDate.label}
                       title={result.title}
-                      link={workV2Link({ id: result.id, query, page })} />
+                      link={workLink({ id: result.id, query, page })} />
                   </div>
                 ))}
               </div>
@@ -199,7 +219,7 @@ export const Works = ({
                         currentPage={page}
                         pageSize={works.pageSize}
                         totalResults={works.totalResults}
-                        link={worksV2Link({query, page})}
+                        link={worksLink({query, page})}
                         onPageChange={async (event, newPage) => {
                           event.preventDefault();
                           setPage(newPage);
@@ -249,11 +269,12 @@ Works.getInitialProps = async (
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
   };
-  const works = query ? await getWorks({ query, page, filters }) : null;
+
+  const worksOrError = query && query !== '' ? await getWorks({ query, page, filters }) : null;
 
   return {
     initialPage: page,
-    initialWorks: works,
+    initialWorks: worksOrError,
     initialQuery: query,
     filters
   };
