@@ -1,20 +1,20 @@
 {
-  "name": "wellcomecollection.org",
-  "version": "0.1.0",
-  "description": "The new home of the betanextbest.wellcomecollection.org website.",
-  "main": "server/app.js",
+  "name": "@weco/dotorg",
+  "version": "1.0.0",
+  "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
     "lint:scss": "cd client && gulp scss:lint",
     "lint:js": "eslint --fix server client",
     "lint": "npm run lint:scss && npm run lint:js",
     "precommit": "lint-staged",
-    "test": "./test.sh server"
+    "catalogue": "pushd catalogue/webapp && yarn dev",
+    "content": "pushd content/webapp && yarn dev"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
   },
-  "author": "collection.dev@wellcome.ac.uk",
+  "author": "digital@wellcomecollection.org",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"

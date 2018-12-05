@@ -20,6 +20,7 @@ const urls = [
 
 const promises = urls.map(url => pa11y(url));
 Promise.all(promises).then(async (results) => {
-  await mkdirp('./static/.dist');
-  await writeFile('./static/.dist/report.json', JSON.stringify({results}));
+  await mkdirp('./.dist');
+  await writeFile('./.dist/report.json', JSON.stringify({results}));
+  console.info('Reporting done!');
 });

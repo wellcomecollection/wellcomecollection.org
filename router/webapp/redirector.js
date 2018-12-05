@@ -4,14 +4,15 @@ const redirects = require('./redirects.json');
 exports.redirector = (event, context) => {
   const cf = event.Records[0].cf;
   const request = cf.request;
-  if (redirects[request.uri]) {
+  const uriSansSlash = request.uri.replace(/\/$/, '');
+  if (redirects[uriSansSlash]) {
     const response = {
       status: '301',
       statusDescription: 'Found',
       headers: {
         location: [{
           key: 'Location',
-          value: `https://wellcomecollection.org${redirects[request.uri]}`
+          value: `https://wellcomecollection.org${redirects[uriSansSlash]}`
         }],
         'x-powered-by': [{
           key: 'x-powered-by',

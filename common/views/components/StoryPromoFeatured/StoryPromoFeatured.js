@@ -10,7 +10,7 @@ const StoryPromoFeatured = ({item}: Props) => (
       item={item}
       position={`1`}
       hasTransparentBackground={true}
-    />
+      sizesQueries={`(min-width: 1420px) 812px, (min-width: 600px) 58.5vw, calc(100vw - 36px)`} />
   </div>
 );
 

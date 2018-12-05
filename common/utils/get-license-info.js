@@ -7,7 +7,7 @@ export type LicenseData = {|
   url?: string
 |}
 
-const licenseMap = {
+export const licenseMap = {
   'copyright-not-cleared': {
     text: 'Copyright not cleared',
     humanReadableText: ['Copyright for this work has not been cleared. You are responsible for identifying the rights owner to seek permission to use this work.']

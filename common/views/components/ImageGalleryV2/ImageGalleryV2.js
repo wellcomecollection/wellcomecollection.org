@@ -21,7 +21,7 @@ type Props = {|
 
 type State = {|
   isActive: boolean,
-  titleStyle: ? {|transform: string, maxWidth: string|}
+  titleStyle: ? {|transform: string, maxWidth: string, opacity: number|}
 |}
 
 class ImageGallery extends Component<Props, State> {
@@ -58,7 +58,8 @@ class ImageGallery extends Component<Props, State> {
     this.setState({
       titleStyle: {
         transform: `translateX(calc((100vw - ${value}px) / 2))`,
-        maxWidth: `${value}px`
+        maxWidth: `${value}px`,
+        opacity: 1
       }
     });
   }
@@ -75,7 +76,7 @@ class ImageGallery extends Component<Props, State> {
               <span
                 style={titleStyle}
                 className={classNames({
-                  'flex flex--v-top': true,
+                  'flex flex--v-top image-gallery-v2-title': true,
                   [spacing({s: 4}, {margin: ['bottom']})]: true
                 })}>
                 <Icon name='gallery' extraClasses={`${spacing({s: 1}, {margin: ['right']})}`} />
@@ -147,7 +148,7 @@ class ImageGallery extends Component<Props, State> {
                     </div>
                   ))}
 
-                  {!isActive &&
+                  {!isActive && titleStyle &&
                     <Button
                       type='primary'
                       icon='gallery'

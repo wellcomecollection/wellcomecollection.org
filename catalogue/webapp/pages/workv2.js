@@ -19,6 +19,7 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {getWork} from '../services/catalogue/worksv2';
 import {worksV2Link} from '../services/catalogue/links';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
+import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
   text: string;
@@ -120,8 +121,8 @@ export const WorkPage = ({
                     <MetaUnit headingText='Description' text={[work.description]} />
                   }
 
-                  {work.physicalDescription &&
-                    <MetaUnit headingText='Physical description' text={[`${work.physicalDescription} ${work.extent} ${work.dimensions}`]} />
+                  {(work.physicalDescription || work.extent || work.dimensions) &&
+                    <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />
                   }
 
                   {work.workType &&
@@ -244,13 +245,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                          label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                            label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                           });
                         }}
                         icon='download'
@@ -266,13 +267,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                          label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                            label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                           });
                         }}
                         icon='download'
@@ -306,16 +307,17 @@ export const WorkPage = ({
           </div>
         </div>
       </Fragment>
+      <OptimalSort />
     </PageLayout>
   );
 };
 
-WorkPage.getInitialProps = async (context) => {
-  const {id} = context.query;
-  const {asPath} = context;
+WorkPage.getInitialProps = async (ctx) => {
+  const {id} = ctx.query;
+  const {asPath} = ctx;
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const work = await getWork({ id });
+  const work = await getWork({id});
 
   return {
     previousQueryString,
