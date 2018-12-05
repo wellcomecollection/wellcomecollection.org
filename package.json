@@ -8,7 +8,10 @@
     "lint": "npm run lint:scss && npm run lint:js",
     "precommit": "lint-staged",
     "catalogue": "pushd catalogue/webapp && yarn dev",
-    "content": "pushd content/webapp && yarn dev"
+    "content": "pushd content/webapp && yarn dev",
+    "deploy-catalogue": "pushd deploy && ./deploy_service.js -s catalogue",
+    "deploy-content": "pushd deploy && ./deploy_service.js -s content",
+    "deploy-router": "pushd deploy && ./deploy_service.js -s router"
   },
   "repository": {
     "type": "git",
