@@ -5,7 +5,7 @@ import type {MetaUnitProps} from '../../../model/meta-unit';
 import styled from 'styled-components';
 
 const MetaUnitEl = styled.div`
-  /* TODO: variables/functions/mixins */
+  /* TODO: variables/functions/mixins/linting */
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   padding: 24px 0;
@@ -49,17 +49,27 @@ const Heading = ({headingLevel, headingText}: HeadingProps) => {
 
 const Paragraphs = ({text}) => {
   return text.length > 0 && text.map((para, i) => {
-    return <p key={i} className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}dangerouslySetInnerHTML={{__html: para}} />;
+    return <p key={i} className={classNames({
+      'plain-text': true,
+      [font({s: 'HNL5', m: 'HNL4'})]: true,
+      [spacing({s: 2}, {margin: ['bottom']})]: true
+    })} dangerouslySetInnerHTML={{__html: para}} />;
   });
 };
 
 const LinksList = ({links}) => {
   return links.length > 0 &&
-  <ul className={`${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
+  <ul className={classNames({
+    [spacing({s: 2}, {margin: ['bottom']})]: true,
+    [spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})]: true
+  })}>
     {links.map((link, i, arr) => (
       <li key={i} className='inline'>
         {link.url && <NextLink href={link.url}>
-          <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>
+          <a className={classNames({
+            'plain-link font-green font-hover-turquoise': true,
+            [font({s: 'HNM5', m: 'HNM4'})]: true
+          })}>
             {link.text}
           </a>
         </NextLink>
@@ -73,9 +83,14 @@ const LinksList = ({links}) => {
 
 const List = ({list}) => {
   return list.length > 0 &&
-  <ul className={`${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
+  <ul className={classNames({
+    [spacing({s: 2}, {margin: ['bottom']})]: true,
+    [spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})]: true
+  })}>
     {list.map((item, i, arr) => (
-      <li key={i} className={font({s: 'HNL5', m: 'HNL4'})} style={{listStylePosition: 'inside'}}>
+      <li key={i} className={classNames({
+        [font({s: 'HNL5', m: 'HNL4'})]: true
+      })} style={{listStylePosition: 'inside'}}>
         {item}
       </li>
     ))}
