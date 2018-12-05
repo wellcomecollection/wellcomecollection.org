@@ -1,15 +1,16 @@
 // @flow
 import type {Node} from 'react';
+import type {Url} from '../../../model/url';
 import {Fragment} from 'react';
 import Head from 'next/head';
-import convertLinkToString from '../../../utils/convert-link-to-string';
+import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
 import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 
 type Props = {|
   title: string,
   description: string,
-  url: {| pathname: string, query?: Object |},
+  url: Url,
   jsonLd: { '@type': string },
   openGraphType: | 'website' | 'article' | 'book' | 'profile',
   imageUrl: ?string,
@@ -28,7 +29,7 @@ const PageLayout = ({
   oEmbedUrl,
   children
 }: Props) => {
-  const urlString = convertLinkToString(url);
+  const urlString = convertUrlToString(url);
   const fullTitle = title !== ''
     ? `${title} | Wellcome Collection`
     : 'Wellcome Collection | The free museum and library for the incurably curious';

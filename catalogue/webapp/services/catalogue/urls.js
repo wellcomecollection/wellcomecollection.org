@@ -1,4 +1,6 @@
 // @flow
+import type {Url} from '@weco/common/model/url';
+
 type WorkLinkProps = {|
   id: string,
   query: ?string,
@@ -10,47 +12,16 @@ type WorksLinkProps = {|
   page: ?number
 |}
 
-type Link = {|
-  pathname: string,
-  query: Object
-|}
-
 type LinkProps = {|
-  href: Link,
-  as: Link
+  href: Url,
+  as: Url
 |}
 
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export function workLink({ id, query, page }: WorkLinkProps): LinkProps {
-  return {
-    href: {
-      pathname: `/work`,
-      query: { id, query, page }
-    },
-    as: {
-      pathname: `/works/${id}`,
-      query: removeEmpty({ query, page })
-    }
-  };
-}
-
-export function worksLink({ query, page }: WorksLinkProps): LinkProps {
-  return {
-    href: {
-      pathname: `/works`,
-      query: { query, page }
-    },
-    as: {
-      pathname: `/works`,
-      query: removeEmpty({ query, page })
-    }
-  };
-}
-
-export function workV2Link({ id, query, page }: WorkLinkProps): LinkProps {
+export function workUrl({ id, query, page }: WorkLinkProps): LinkProps {
   return {
     href: {
       pathname: `/workv2`,
@@ -63,7 +34,7 @@ export function workV2Link({ id, query, page }: WorkLinkProps): LinkProps {
       }
     },
     as: {
-      pathname: `/worksv2/${id}`,
+      pathname: `/works/${id}`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined
@@ -72,7 +43,7 @@ export function workV2Link({ id, query, page }: WorkLinkProps): LinkProps {
   };
 }
 
-export function worksV2Link({ query, page }: WorksLinkProps): LinkProps {
+export function worksUrl({ query, page }: WorksLinkProps): LinkProps {
   return {
     href: {
       pathname: `/worksv2`,
@@ -82,7 +53,7 @@ export function worksV2Link({ query, page }: WorksLinkProps): LinkProps {
       })
     },
     as: {
-      pathname: `/worksv2`,
+      pathname: `/works`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined

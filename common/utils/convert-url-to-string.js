@@ -1,6 +1,6 @@
 // @flow
-// I'm sure we don't need to do this still?
-export default function convertLinkToString(url): string {
+import {Url} from '../model/url';
+export default function convertUrlToString(url: Url): string {
   const {query = {}} = url;
   const queryVals = Object.keys(query).map(key => {
     const val = query[key];
