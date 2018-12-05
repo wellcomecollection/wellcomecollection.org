@@ -16,17 +16,21 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page} from '@weco/common/model/pages';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import OpeningTimesStatic from '../components/OpeningTimesStatic/OpeningTimesStatic';
 
 type Props = {|
   page: Page,
-  openingHours: any // FIXME: Need the types from the opening-times service
+  openingHours: any, // FIXME: Need the types from the opening-times service
+  showNewOpeningHours: boolean
 |}
 
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
+    const showRevisedOpening = Boolean(context.query.toggles.showRevisedOpeningHours);
     // TODO: (Prismic perf) don't fetch these as two separate calls
+    const revisedDisplayPeriod = showRevisedOpening ? 30 : 15;
     const [openingHours, page] = await Promise.all([
-      getCollectionOpeningTimes(context.req),
+      getCollectionOpeningTimes(context.req, revisedDisplayPeriod),
       getPage(context.req, 'WwQHTSAAANBfDYXU')
     ]);
     const galleriesLibrary = openingHours && openingHours.placesOpeningHours && openingHours.placesOpeningHours.filter(venue => {
@@ -45,6 +49,7 @@ export class OpeningTimesPage extends Component<Props> {
         hours: restaurantCafeShop
       }
     };
+    const showNewOpeningHours = Boolean(context.query.toggles.showNewOpeningHours);
 
     return {
       title: page && page.title || '',
@@ -56,11 +61,12 @@ export class OpeningTimesPage extends Component<Props> {
       analyticsCategory: 'information',
       pageJsonLd: contentLd(page),
       openingHours: Object.assign({}, openingHours, {groupedVenues}),
-      page
+      page,
+      showNewOpeningHours
     };
   }
   render() {
-    const {page, openingHours} = this.props;
+    const {page, openingHours, showNewOpeningHours} = this.props;
     return (
       <ContentPage
         id={'openingTimes'}
@@ -78,29 +84,33 @@ export class OpeningTimesPage extends Component<Props> {
         }
         Body={<Body body={[]} />}
       >
-
+        {showNewOpeningHours &&
+          <OpeningTimesStatic />
+        }
+        {!showNewOpeningHours &&
         <Fragment>
-          <h2 className={classNames({
-            [font({s: 'WB6', m: 'WB5'})]: true
-          })} id='regular'>Regular opening times</h2>
+          <Fragment>
+            <h2 className={classNames({
+              [font({s: 'WB6', m: 'WB5'})]: true
+            })} id='regular'>Regular opening times</h2>
 
-          <div className={classNames({
-            [spacing({s: 4}, {margin: ['top']})]: true
-          })}>
-            <OpeningHours
-              extraClasses='opening-hours--light'
-              upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods}
-              groupedVenues={openingHours.groupedVenues} />
-          </div>
-          <Divider
-            extraClasses={classNames({
-              'divider--pumice': true,
-              'divider--keyline': true,
-              [spacing({s: 1}, {margin: ['top']})]: true,
-              [spacing({s: 4}, {margin: ['bottom']})]: true
-            })} />
+            <div className={classNames({
+              [spacing({s: 4}, {margin: ['top']})]: true
+            })}>
+              <OpeningHours
+                extraClasses='opening-hours--light'
+                upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods}
+                groupedVenues={openingHours.groupedVenues} />
+            </div>
+            <Divider
+              extraClasses={classNames({
+                'divider--pumice': true,
+                'divider--keyline': true,
+                [spacing({s: 1}, {margin: ['top']})]: true,
+                [spacing({s: 4}, {margin: ['bottom']})]: true
+              })} />
 
-          {openingHours.upcomingExceptionalOpeningPeriods && openingHours.upcomingExceptionalOpeningPeriods.length > 0 &&
+            {openingHours.upcomingExceptionalOpeningPeriods && openingHours.upcomingExceptionalOpeningPeriods.length > 0 &&
           openingHours.upcomingExceptionalOpeningPeriods.map((openingPeriod, i, arr) => {
             const hours = openingHours.exceptionalOpeningHours[i];
             const firstDate = formatDate(openingPeriod.dates[0]);
@@ -108,7 +118,7 @@ export class OpeningTimesPage extends Component<Props> {
             return (
               <Fragment key={openingPeriod.type}>
                 <h2
-                  id={i === 1 ? 'exceptional' : null}
+                  id='exceptional'
                   className={classNames({
                     [font({s: 'WB6', m: 'WB5'})]: true,
                     'no-margin': true
@@ -129,7 +139,7 @@ export class OpeningTimesPage extends Component<Props> {
                   {openingPeriod.dates.length > 1 &&
                     <Fragment>
                       {openingHours.upcomingExceptionalOpeningPeriods.length > 1 && i > 1 ? ' and ' : ' '}
-                      between <span className='nowrap'>{firstDate}</span>&mdash;<span clasNames='nowrap'>{lastDate}</span>
+                      between <span className='nowrap'>{firstDate}</span>&mdash;<span classnames='nowrap'>{lastDate}</span>
                       {i === arr.length - 1 ? '.' : ''}
                     </Fragment>
                   }
@@ -143,12 +153,10 @@ export class OpeningTimesPage extends Component<Props> {
                 </p>
 
                 {hours && hours.dates.map((venues, i) => (
-
                   <ExceptionalOpeningHoursTable key={i}
                     caption={venues[0].exceptionalDate.overrideDate ? venues[0].exceptionalDate.overrideDate : venues[0].exceptionalDate}
-                    venues={venues}
+                    venues={venues.sort((a, b) => a.order - b.order)}
                     extraClasses={'opening-hours--light'} />
-
                 ))}
 
                 <Divider
@@ -162,12 +170,12 @@ export class OpeningTimesPage extends Component<Props> {
               </Fragment>
             );
           })
-          }
-        </Fragment>
+            }
+          </Fragment>
 
-        {openingHours.exceptionalClosedDates.length > 0 &&
+          {openingHours.exceptionalClosedDates.length > 0 &&
             <Fragment>
-              <h2 className={`${font({s: 'WB6', m: 'WB5'})}`} id='exceptional'>
+              <h2 className={`${font({s: 'WB6', m: 'WB5'})}`}>
                   Closure dates for{' '}
                 {openingHours.exceptionalClosedDates[0].periodStart ? formatYear(openingHours.exceptionalClosedDates[0].periodStart) : ' the coming year'}
               </h2>
@@ -217,11 +225,11 @@ export class OpeningTimesPage extends Component<Props> {
                   [spacing({s: 4}, {margin: ['bottom']})]: true
                 })} />
             </Fragment>
-        }
-        <div id='busy' className={`body-text`}>
-          {page.body.length > 0 && <PrismicHtmlBlock html={page.body[0].value} />}
-        </div>
-
+          }
+          <div id='busy' className={`body-text`}>
+            {page.body.length > 0 && <PrismicHtmlBlock html={page.body[0].value} />}
+          </div>
+        </Fragment>}
       </ContentPage>
     );
   }

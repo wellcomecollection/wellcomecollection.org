@@ -3,7 +3,7 @@ const fetch = require('isomorphic-unfetch');
 let defaultToggleValues = {};
 async function getDefaultToggleValues() {
   try {
-    const defaultValues = await fetch('https://dash.wellcomecollection.org/toggles/defaultToggleValues.json')
+    const defaultValues = await fetch('https://dash.wellcomecollection.org/toggles/defaults.json')
       .then(response => response.json());
 
     defaultToggleValues = defaultValues;

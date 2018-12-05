@@ -87,9 +87,10 @@ export function parseEventDoc(
   scheduleDocs: ?PrismicApiSearchResponse
 ): UiEvent {
   const data = document.data;
+  const scheduleLength =  isDocumentLink(data.schedule.map(s => s.event)[0]) ? data.schedule.length : 0;
   const genericFields = parseGenericFields(document);
   const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
-  const interpretations = document.data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
+  const interpretations = data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
     interpretationType: {
       title: parseTitle(interpretation.interpretationType.data.title),
       abbreviation: asText(interpretation.interpretationType.data.abbreviation),
@@ -99,8 +100,8 @@ export function parseEventDoc(
     isPrimary: Boolean(interpretation.isPrimary)
   }) : null).filter(Boolean);
 
-  const matchedId = /\/e\/([0-9]+)/.exec(document.data.eventbriteEvent.url);
-  const eventbriteId = (document.data.eventbriteEvent && matchedId !== null) ? matchedId[1] : '';
+  const matchedId = /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url);
+  const eventbriteId = (data.eventbriteEvent && matchedId !== null) ? matchedId[1] : '';
 
   const audiences = document.data.audiences.map(audience => isDocumentLink(audience.audience) ? ({
     title: asText(audience.audience.data.title),
@@ -108,14 +109,14 @@ export function parseEventDoc(
   }) : null).filter(Boolean);
 
   const bookingEnquiryTeam = document.data.bookingEnquiryTeam.data && ({
-    id: document.data.bookingEnquiryTeam.id,
-    title: asText(document.data.bookingEnquiryTeam.data.title) || '',
-    email: document.data.bookingEnquiryTeam.data.email,
-    phone: document.data.bookingEnquiryTeam.data.phone,
-    url: document.data.bookingEnquiryTeam.data.url
+    id: data.bookingEnquiryTeam.id,
+    title: asText(data.bookingEnquiryTeam.data.title) || '',
+    email: data.bookingEnquiryTeam.data.email,
+    phone: data.bookingEnquiryTeam.data.phone,
+    url: data.bookingEnquiryTeam.data.url
   }: Team);
 
-  const series = document.data.series.map(
+  const series = data.series.map(
     series => isDocumentLink(series.series)
       ? parseEventSeries(series.series)
       : null).filter(Boolean);
@@ -136,29 +137,33 @@ export function parseEventDoc(
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
-    const scheduleItem = document.data.schedule[i];
+    const scheduleItem = data.schedule[i];
     return {
       event,
       isNotLinked: parseBoolean(scheduleItem.isNotLinked)
     };
   });
 
+  // We want to display the scheduleLength on EventPromos,
+  // but don't want to make an extra API request to populate the schedule for every event in a list.
+  // We therefore return the scheduleLength property.
   const event = {
     type: 'events',
     ...genericFields,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    bookingInformation: document.data.bookingInformation.length > 1 ? document.data.bookingInformation : null,
+    bookingInformation: data.bookingInformation.length > 1 ? data.bookingInformation : null,
     bookingType: parseEventBookingType(document),
-    cost: document.data.cost,
-    format: document.data.format && parseEventFormat(document.data.format),
+    cost: data.cost,
+    format: data.format && parseEventFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
-    hasEarlyRegistration: Boolean(document.data.hasEarlyRegistration),
+    hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,
+    scheduleLength,
     schedule,
-    backgroundTexture: document.data.backgroundTexture.data && document.data.backgroundTexture.data.image.url,
+    backgroundTexture: data.backgroundTexture.data && data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
@@ -215,6 +220,7 @@ const fetchLinks = [].concat(
 type EventQueryProps = {|
   id: string
 |}
+
 export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
     fetchLinks: fetchLinks

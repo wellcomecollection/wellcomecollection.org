@@ -103,6 +103,7 @@ export type Event = {|
   // it's more convenient than having to work it out
   // not sure if it should be in the model, a question for Silver
   bookingType: ?string,
+  scheduleLength: number,
   schedule?: EventSchedule,
   eventbriteId?: string,
   isCompletelySoldOut?: boolean,

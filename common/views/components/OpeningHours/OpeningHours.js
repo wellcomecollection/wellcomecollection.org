@@ -73,7 +73,7 @@ class OpeningHours extends Component<Props, State> {
               if (firstDate && lastDate) {
                 if (group.dates.length > 1) {
                   return (
-                    <span key={firstDate.toISOString()}>
+                    <span key={firstDate.toString()}>
                       {(array.length > 1 && i > 0) && ' and '}
                       {`${typeWording} between`} <span className='nowrap'>{formatDate(firstDate)}</span>
                       &mdash;
@@ -82,7 +82,7 @@ class OpeningHours extends Component<Props, State> {
                   );
                 } else {
                   return (
-                    <Fragment key={firstDate.toISOString()}>
+                    <Fragment key={firstDate.toString()}>
                       {`${typeWording} on`} <span className='nowrap'>
                         {formatDate(firstDate)}
                       </span>
