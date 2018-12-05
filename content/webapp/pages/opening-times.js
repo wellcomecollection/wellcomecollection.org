@@ -153,12 +153,10 @@ export class OpeningTimesPage extends Component<Props> {
                 </p>
 
                 {hours && hours.dates.map((venues, i) => (
-
                   <ExceptionalOpeningHoursTable key={i}
                     caption={venues[0].exceptionalDate.overrideDate ? venues[0].exceptionalDate.overrideDate : venues[0].exceptionalDate}
-                    venues={venues}
+                    venues={venues.sort((a, b) => a.order - b.order)}
                     extraClasses={'opening-hours--light'} />
-
                 ))}
 
                 <Divider

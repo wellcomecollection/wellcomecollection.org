@@ -115,6 +115,7 @@ export default class WecoApp extends App {
 
   componentDidCatch(error: Error, errorInfo: {componentStack: string}) {
     Raven.captureException(error, { extra: errorInfo });
+    super.componentDidCatch(error, errorInfo);
   }
 
   render () {

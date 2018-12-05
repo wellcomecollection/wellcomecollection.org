@@ -1,4 +1,5 @@
 // @flow
+import type {Work, CatalogueApiError} from '../services/catalogue/works';
 import {Fragment} from 'react';
 import ReactGA from 'react-ga';
 import NextLink from 'next/link';
@@ -16,10 +17,11 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
-import {getWork} from '../services/catalogue/worksv2';
-import {worksV2Link} from '../services/catalogue/links';
+import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
+import {getWork} from '../services/catalogue/works';
+import {worksLink} from '../services/catalogue/links';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
@@ -27,13 +29,9 @@ export type Link = {|
   url: string;
 |};
 
-// Not sure we want to type this not dynamically
-// as the API is subject to change?
-type Work = Object;
 type Props = {|
-  work: Work,
+  work: Work | CatalogueApiError,
   previousQueryString: ?string,
-  page: ?number,
   showRedesign: boolean
 |}
 
@@ -42,6 +40,24 @@ export const WorkPage = ({
   previousQueryString,
   showRedesign
 }: Props) => {
+  if (work.type === 'Error') {
+    return (
+      <PageLayout
+        title={work.httpStatus.toString()}
+        description={''}
+        url={{pathname: `/works`}}
+        openGraphType={'website'}
+        jsonLd={{ '@type': 'WebPage' }}
+        oEmbedUrl={`https://wellcomecollection.org/works`}
+        imageUrl={null}
+        imageAltText={null}>
+        <ErrorPage
+          errorStatus={work.httpStatus}
+        />
+      </PageLayout>
+    );
+  }
+
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType.id === 'iiif-image'
@@ -143,7 +159,7 @@ export const WorkPage = ({
 
                   {work.workType &&
                     <MetaUnit headingText='Work type' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksLink({ query: `workType:"${work.workType.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                       </NextLink>
                     ]} />
@@ -159,8 +175,8 @@ export const WorkPage = ({
 
                   {work.contributors.length > 0 &&
                     <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
-                      const linkAttributes = worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
-                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                      const linkAttributes = worksLink({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                      return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                       </NextLink>);
                     }
@@ -170,8 +186,8 @@ export const WorkPage = ({
 
                   {work.subjects.length > 0 &&
                     <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
-                      const linkAttributes = worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined });
-                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                      const linkAttributes = worksLink({ query: `subjects:"${subject.label}"`, page: undefined });
+                      return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                       </NextLink>);
                     }
@@ -180,8 +196,8 @@ export const WorkPage = ({
 
                   {work.genres.length > 0 &&
                     <MetaUnit headingText='Genres' links={work.genres.map(genre => {
-                      const linkAttributes = worksV2Link({ query: `genres:"${genre.label}"`, page: undefined });
-                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                      const linkAttributes = worksLink({ query: `genres:"${genre.label}"`, page: undefined });
+                      return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                       </NextLink>);
                     }
@@ -210,7 +226,7 @@ export const WorkPage = ({
 
                   {work.language &&
                     <MetaUnit headingText='Language' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksLink({ query: `language:"${work.language.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                       </NextLink>
                     ]} />
@@ -328,19 +344,17 @@ export const WorkPage = ({
   );
 };
 
-WorkPage.getInitialProps = async (ctx) => {
+WorkPage.getInitialProps = async (ctx): Promise<Props> => {
   const {id} = ctx.query;
   const {asPath} = ctx;
   const queryStart = asPath.indexOf('?');
-  const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const work = await getWork({ id });
+  const previousQueryString = queryStart > -1 ? asPath.slice(queryStart) : null;
+  const workOrError = await getWork({ id });
   const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
 
   return {
     previousQueryString,
-    work: (work: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
-    pageJsonLd: workLd(work),
+    work: workOrError,
     showRedesign
   };
 };
