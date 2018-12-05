@@ -1,15 +1,17 @@
 {
-  "name": "@weco/toggles",
-  "description": "A toggle here, a toggle there",
+  "name": "@weco/dash",
+  "description": "Wellcome Collection dashboards",
   "license": "MIT",
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "export": "next export"
+    "export": "next export",
+    "write-report": "node write-report.js"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
     "babel-plugin-styled-components": "^1.9.0",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^7.0.2",
     "next-cookies": "^1.0.4",
     "react": "^16.7.0-alpha.2",

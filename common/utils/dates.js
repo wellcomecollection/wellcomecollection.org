@@ -13,6 +13,10 @@ export function isPast(date: Date): boolean {
   return london(date).isBefore(london(), 'day');
 }
 
+export function isFuture(date: Date): boolean {
+  return london(date).isAfter(london(), 'day');
+}
+
 export function getNextWeekendDateRange(date: Date): DateRange {
   const today = london(date);
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6

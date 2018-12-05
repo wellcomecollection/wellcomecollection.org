@@ -140,7 +140,7 @@ export const WorkPage = ({
                   }
 
                   {(work.physicalDescription || work.extent || work.dimensions) &&
-                    <MetaUnit headingText='Physical description' text={[[work.physicalDescription, work.extent, work.dimensions].filter(Boolean).join(' ')]} />
+                    <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />
                   }
 
                   {work.workType &&
@@ -263,13 +263,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                          label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                            label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                           });
                         }}
                         icon='download'
@@ -285,13 +285,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                          label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                            label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                           });
                         }}
                         icon='download'

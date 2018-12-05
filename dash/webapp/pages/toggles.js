@@ -1,6 +1,10 @@
+
+// @flow
+// $FlowFixMe
 import {useState} from 'react';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
+import Header from '../components/Header';
 const fontFamily = 'Gadget, sans-serif';
 
 const Button = styled.button`
@@ -16,43 +20,6 @@ const Button = styled.button`
   margin-right: 18px;
   opacity: ${props => props.disabled || props.opaque ? 1 : 0.5};
 `;
-
-// Think about making a tools layout?
-// Maybe pa11y could use this?
-const Header = () => {
-  return (
-    <div style={{
-      background: '#ffce3c',
-      marginTop: '30px',
-      marginBottom: '30px',
-      position: 'relative',
-      height: '60px',
-      display: 'flex'
-    }}>
-      <h1 style={{ margin: 0, padding: 0 }}>
-        <img
-          src='https://i.wellcomecollection.org/assets/icons/android-chrome-512x512.png'
-          width={90}
-          height={90}
-          alt={'Wellcome Collection logo'}
-          title={'Wellcome Collection'}
-          style={{
-            marginTop: '-15px',
-            marginLeft: '18px'
-          }} />
-      </h1>
-
-      <h2 style={{
-        margin: 0,
-        padding: 0,
-        marginLeft: '18px',
-        color: '#323232',
-        weight: 'normal',
-        lineHeight: '2.5em'
-      }}>Toggles</h2>
-    </div>
-  );
-};
 
 const aYear = 31536000;
 function setCookie(name, value) {
@@ -74,6 +41,17 @@ const featureToggles = [{
   title: 'Show filters on works search',
   description:
     'Exposes the filters we have available on the API on the UI.'
+}, {
+  id: 'showRevisedOpeningHours',
+  title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
+  description:
+    'We only dispay revised opening hours 2 weeks before they occur.' +
+    'This increases that to 4 weeks to allow some usability testing to be conducted.'
+}, {
+  id: 'showNewOpeningHours',
+  title: 'Show new version of opening hours',
+  description:
+    'Shows the static version of the page to allow usability testing to be conducted.'
 }];
 
 type Props = {| initialToggles: Object |}
@@ -84,7 +62,7 @@ const IndexPage = ({ initialToggles }: Props) => {
     <div style={{
       fontFamily
     }}>
-      <Header />
+      <Header title={'Toggles'} />
       <div style={{
         maxWidth: '600px',
         margin: '0 auto'
