@@ -139,7 +139,7 @@ export class OpeningTimesPage extends Component<Props> {
                   {openingPeriod.dates.length > 1 &&
                     <Fragment>
                       {openingHours.upcomingExceptionalOpeningPeriods.length > 1 && i > 1 ? ' and ' : ' '}
-                      between <span className='nowrap'>{firstDate}</span>&mdash;<span clasNames='nowrap'>{lastDate}</span>
+                      between <span className='nowrap'>{firstDate}</span>&mdash;<span classnames='nowrap'>{lastDate}</span>
                       {i === arr.length - 1 ? '.' : ''}
                     </Fragment>
                   }
