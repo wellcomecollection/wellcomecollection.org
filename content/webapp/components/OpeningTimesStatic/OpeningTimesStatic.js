@@ -232,7 +232,7 @@ const OpeningTimesStatic = () => (
 
     <h2 className={classNames({
       [font({s: 'WB6', m: 'WB5'})]: true
-    })} id='planned'>Planed closure dates and revised hours for 2019</h2>
+    })} id='planned'>Planned closure dates and revised hours for 2019</h2>
     <h3 className='h3'>Easter / Spring holidays</h3>
     <ul>
       <li>Library will be closed 30 April—2 May</li>
