@@ -20,14 +20,14 @@ type Props = {|
   initialQuery: ?string,
   initialWorks: ?CatalogueResultsList | CatalogueApiError,
   initialPage: ?number,
-  filters: Object
+  initialFilters: Object
 |}
 
 export const Works = ({
   initialQuery,
   initialWorks,
-  filters,
-  initialPage
+  initialPage,
+  initialFilters
 }: Props) => {
   if (initialWorks && initialWorks.type === 'Error') {
     return (
@@ -50,6 +50,7 @@ export const Works = ({
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
+  const [filters, setFilters] = useState(initialFilters);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     document.title = `${query} | Catalogue search | Wellcome Collection`;
@@ -132,6 +133,7 @@ export const Works = ({
                 name='query'
                 query={query || ''}
                 autofocus={true}
+                filters={filters}
                 onSubmit={async (event) => {
                   event.preventDefault();
                   const form = event.currentTarget;
@@ -139,6 +141,14 @@ export const Works = ({
                   const newQuery = form.elements.query.value;
                   setQuery(newQuery);
                   setPage(1);
+
+                  // $FlowFixMe
+                  const workTypes = Array.from(form.elements.workType).map(input => {
+                    if (input.checked) {
+                      return input.value;
+                    }
+                  }).filter(Boolean);
+                  console.info(workTypes);
                 }} />
               {!works
                 ? <p className={classNames([
@@ -276,7 +286,7 @@ Works.getInitialProps = async (
     initialPage: page,
     initialWorks: worksOrError,
     initialQuery: query,
-    filters
+    initialFilters: filters
   };
 };
 

@@ -9,14 +9,50 @@ type Props = {|
   id: string,
   name: string,
   query: string,
+  filters: Object,
   autofocus: boolean,
   onSubmit?: (SyntheticEvent<HTMLFormElement>) => any,
   onChange?: (SyntheticEvent<HTMLInputElement>) => any
 |}
 
-const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
-  <div className='search-box js-search-box'>
-    <form action={action} onSubmit={onSubmit}>
+const workTypes = [
+  { id: 'a', label: 'Books' },
+  { id: 'b', label: 'Manuscripts, Asian' },
+  { id: 'c', label: 'Music' },
+  { id: 'd', label: 'Journals' },
+  { id: 'e', label: 'Maps' },
+  { id: 'f', label: 'E-videos' },
+  { id: 'g', label: 'Videorecordings' },
+  { id: 'h', label: 'Archives and manuscripts' },
+  { id: 'i', label: 'Sound' },
+  { id: 'j', label: 'E-journals' },
+  { id: 'k', label: 'Pictures' },
+  { id: 'l', label: 'Ephemera' },
+  { id: 'm', label: 'CD-Roms' },
+  { id: 'n', label: 'Cinefilm' },
+  { id: 'p', label: 'Mixed materials' },
+  { id: 'q', label: 'Digital images' },
+  { id: 'r', label: '3-D Objects' },
+  { id: 's', label: 'E-sound' },
+  { id: 'u', label: 'Standing order' },
+  { id: 'v', label: 'E-books' },
+  { id: 'w', label: 'Student dissertations' },
+  { id: 'x', label: 'E-manuscripts, Asian' },
+  { id: 'z', label: 'Web sites ' }
+];
+
+const SearchBox = ({
+  action,
+  id,
+  name,
+  query,
+  filters,
+  autofocus,
+  onChange,
+  onSubmit
+}: Props) => (
+  <form action={action} onSubmit={onSubmit}>
+    <div className='search-box js-search-box'>
       <HTMLInput
         id={id}
         type='text'
@@ -35,17 +71,38 @@ const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Pro
           </span>
         </button>
       </div>
-    </form>
-    <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `clear-search:click`,
-        label: `input-id:${id}`
-      })}
-      type='button'>
-      <Icon name='clear' title='Clear' />
-    </button>
-  </div>
+
+      <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
+        onClick={() => trackEvent({
+          category: 'component',
+          action: `clear-search:click`,
+          label: `input-id:${id}`
+        })}
+        type='button'>
+        <Icon name='clear' title='Clear' />
+      </button>
+    </div>
+
+    {workTypes.map(({id, label}) => (
+      <label key={id}>
+        <input
+          type='checkbox'
+          name='workType'
+          value={id}
+          checked={filters.workType.indexOf(id) !== -1} />
+        {label}
+      </label>
+    ))}
+    <hr />
+    <label>
+      <input
+        type='checkbox'
+        name='workType'
+        value={id}
+        checked={filters['items.locations.locationType']} />
+      Images only
+    </label>
+  </form>
 );
 
 export default SearchBox;
