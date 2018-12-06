@@ -1,8 +1,9 @@
 // @flow
-import type {Work, CatalogueApiError} from '../services/catalogue/works';
+import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
 import {Fragment} from 'react';
 import ReactGA from 'react-ga';
 import NextLink from 'next/link';
+import Router from 'next/router';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -344,7 +345,7 @@ export const WorkPage = ({
   );
 };
 
-WorkPage.getInitialProps = async (ctx): Promise<Props> => {
+WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> => {
   const {id} = ctx.query;
   const {asPath} = ctx;
   const queryStart = asPath.indexOf('?');
@@ -352,11 +353,24 @@ WorkPage.getInitialProps = async (ctx): Promise<Props> => {
   const workOrError = await getWork({ id });
   const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
 
-  return {
-    previousQueryString,
-    work: workOrError,
-    showRedesign
-  };
+  if (workOrError && workOrError.type === 'Redirect') {
+    const {res} = ctx;
+    if (res) {
+      res.writeHead(workOrError.status, {
+        Location: workOrError.redirectToId
+      });
+      res.end();
+    } else {
+      Router.push(workOrError.redirectToId);
+    }
+    return workOrError;
+  } else {
+    return {
+      previousQueryString,
+      work: workOrError,
+      showRedesign
+    };
+  }
 };
 
 export default WorkPage;
