@@ -128,7 +128,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
             action: 'Percentage',
             label: mark,
             value: 1,
-            nonInteraction: true // timing > 10s
+            nonInteraction: Boolean(timing < 10000)
           });
 
           ReactGA.timing({
