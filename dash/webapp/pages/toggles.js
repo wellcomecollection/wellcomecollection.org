@@ -42,6 +42,11 @@ const featureToggles = [{
   description:
     'Exposes the filters we have available on the API on the UI.'
 }, {
+  id: 'showWorkRedesign',
+  title: 'Show the new work page',
+  description:
+    'Uses the new work page design.'
+}, {
   id: 'showRevisedOpeningHours',
   title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
   description:
