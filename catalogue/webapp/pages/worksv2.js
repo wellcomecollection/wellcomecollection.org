@@ -5,6 +5,7 @@ import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogu
 import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -15,6 +16,7 @@ import StaticWorksContent from '@weco/common/views/components/StaticWorksContent
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {getWorks} from '../services/catalogue/works';
 import {workUrl, worksUrl} from '../services/catalogue/urls';
 
@@ -22,14 +24,42 @@ type Props = {|
   initialQuery: ?string,
   initialWorks: ?CatalogueResultsList | CatalogueApiError,
   initialPage: ?number,
-  filters: Object
+  initialFilters: Object,
+  showCatalogueSearchFilters: boolean
 |}
+
+const workTypes = [
+  { id: 'a', label: 'Books' },
+  { id: 'b', label: 'Manuscripts, Asian' },
+  { id: 'c', label: 'Music' },
+  { id: 'd', label: 'Journals' },
+  { id: 'e', label: 'Maps' },
+  { id: 'f', label: 'E-videos' },
+  { id: 'g', label: 'Videorecordings' },
+  { id: 'h', label: 'Archives and manuscripts' },
+  { id: 'i', label: 'Sound' },
+  { id: 'j', label: 'E-journals' },
+  { id: 'k', label: 'Pictures' },
+  { id: 'l', label: 'Ephemera' },
+  { id: 'm', label: 'CD-Roms' },
+  { id: 'n', label: 'Cinefilm' },
+  { id: 'p', label: 'Mixed materials' },
+  { id: 'q', label: 'Digital images' },
+  { id: 'r', label: '3-D Objects' },
+  { id: 's', label: 'E-sound' },
+  { id: 'u', label: 'Standing order' },
+  { id: 'v', label: 'E-books' },
+  { id: 'w', label: 'Student dissertations' },
+  { id: 'x', label: 'E-manuscripts, Asian' },
+  { id: 'z', label: 'Web sites ' }
+];
 
 export const Works = ({
   initialQuery,
   initialWorks,
-  filters,
-  initialPage
+  initialPage,
+  initialFilters,
+  showCatalogueSearchFilters
 }: Props) => {
   if (initialWorks && initialWorks.type === 'Error') {
     return (
@@ -52,6 +82,9 @@ export const Works = ({
   const [query, setQuery] = useState(initialQuery);
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
+  const [filters, setFilters] = useState(initialFilters);
+  const [workType, setWorkType] = useState(initialFilters.workType);
+  const [showImagesOnly, setShowImagesOnly] = useState(Boolean(initialFilters['items.locations.locationType']));
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     document.title = `${query} | Catalogue search | Wellcome Collection`;
@@ -61,12 +94,12 @@ export const Works = ({
   // the works so we just skip this effect for now.
   // See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
   const initialRender = useRef(true);
+
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
       return;
     }
-
     // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
     // you can use URL like objects too
     Router.push(
@@ -77,17 +110,21 @@ export const Works = ({
       { shallow: true }
     ).then(() => window.scrollTo(0, 0));
 
-    if (query && query !== '') {
+    if ((query && query !== '') || workType !== ['q', 'k']) {
       setLoading(true);
       // TODO: Look into memoiszing results so we don't hit the API again
       //       See: https://reactjs.org/docs/hooks-reference.html#usememo
 
       // TODO: Return a cleanup function here to stop the network request.
-      getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
+      getWorks({
+        query,
+        page,
+        filters
+      }).then(setWorks).then(() => setLoading(false));
     } else {
       setWorks(null);
     }
-  }, [page, query]);
+  }, [page, query, filters]);
 
   return (
     <Fragment>
@@ -139,14 +176,11 @@ export const Works = ({
                 </div>
               </div>
             </div>
+
             <div className='grid'>
               <div className={grid({s: 12, m: 10, l: 8, xl: 8})}>
-                <SearchBox
-                  action=''
-                  id='search-works'
-                  name='query'
-                  query={query || ''}
-                  autofocus={true}
+                <form
+                  action={'/works'}
                   onSubmit={async (event) => {
                     event.preventDefault();
                     const form = event.currentTarget;
@@ -154,7 +188,62 @@ export const Works = ({
                     const newQuery = form.elements.query.value;
                     setQuery(newQuery);
                     setPage(1);
-                  }} />
+
+                    const newFilters = {
+                      workType: workType,
+                      'items.locations.locationType': showImagesOnly ? ['iiif-image'] : []
+                    };
+                    setFilters(newFilters);
+                  }}>
+                  <SearchBox
+                    action=''
+                    id='search-works'
+                    name='query'
+                    query={query || ''}
+                    autofocus={true} />
+
+                  {showCatalogueSearchFilters &&
+                    <Fragment>
+                      {workTypes.map(({id, label}) => (
+                        <label key={id} style={{
+                          display: 'inline-block',
+                          padding: '0 6px',
+                          borderRadius: '4px',
+                          border: '2px solid #5cb8bf',
+                          marginBottom: '6px'
+                        }}>
+                          <input
+                            type='checkbox'
+                            name='workType'
+                            value={id}
+                            checked={workType.indexOf(id) !== -1}
+                            style={{
+                              marginRight: '6px'
+                            }}
+                            onChange={(event) => {
+                              if (event.target.checked) {
+                                workType.push(id);
+                              } else {
+                                workType.splice(workType.indexOf(id), 1);
+                              }
+                              setWorkType(workType);
+                            }}/>
+                          {label}
+                        </label>
+                      ))}
+                      <hr />
+                      <label>
+                        <input
+                          type='checkbox'
+                          name='showImagesOnly'
+                          value={true}
+                          checked={showImagesOnly}
+                          onChange={(event) => setShowImagesOnly(event.target.checked)} />
+                        Images only
+                      </label>
+                    </Fragment>
+                  }
+                </form>
                 {!works
                   ? <p className={classNames([
                     spacing({s: 4}, {margin: ['top']}),
@@ -171,7 +260,7 @@ export const Works = ({
           </div>
         </div>
 
-        {!query &&
+        {!works &&
           <StaticWorksContent />
         }
 
@@ -205,7 +294,32 @@ export const Works = ({
               style={{ opacity: loading ? 0 : 1 }}>
               <div className='container'>
                 <div className='grid'>
-                  {works.results.map(result => (
+                  {showCatalogueSearchFilters && works.results.map(result => (
+                    <NextLink
+                      href={workUrl({ id: result.id, query, page }).href}
+                      as={workUrl({ id: result.id, query, page }).as}
+                      key={result.id}>
+                      <a
+                        style={{
+                          padding: '24px 0',
+                          borderTop: '1px solid'
+                        }}
+                        className={'plain-link ' + grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}>
+                        <div className={classNames({
+                          [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
+                        })}>
+                          <LinkLabels items={[
+                            {
+                              url: `/works?query=workType:"${result.workType.label}"`,
+                              text: result.workType.label
+                            }
+                          ]} />
+                        </div>
+                        <h2 className='h4'>{result.title}</h2>
+                      </a>
+                    </NextLink>
+                  ))}
+                  {!showCatalogueSearchFilters && works.results.map(result => (
                     <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
                       <WorkPromo
                         id={result.id}
@@ -222,25 +336,25 @@ export const Works = ({
                   ))}
                 </div>
               </div>
-            </div>
 
-            <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
-              <div className='container'>
-                <div className='grid'>
-                  <div className='grid__cell'>
-                    <div className='flex flex--h-space-between flex--v-center'>
-                      <Fragment>
-                        <Paginator
-                          currentPage={page}
-                          pageSize={works.pageSize}
-                          totalResults={works.totalResults}
-                          link={worksUrl({query, page})}
-                          onPageChange={async (event, newPage) => {
-                            event.preventDefault();
-                            setPage(newPage);
-                          }}
-                        />
-                      </Fragment>
+              <div className={`row ${spacing({s: 10}, {padding: ['top', 'bottom']})}`}>
+                <div className='container'>
+                  <div className='grid'>
+                    <div className='grid__cell'>
+                      <div className='flex flex--h-space-between flex--v-center'>
+                        <Fragment>
+                          <Paginator
+                            currentPage={page}
+                            pageSize={works.pageSize}
+                            totalResults={works.totalResults}
+                            link={worksUrl({query, page})}
+                            onPageChange={async (event, newPage) => {
+                              event.preventDefault();
+                              setPage(newPage);
+                            }}
+                          />
+                        </Fragment>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -281,7 +395,10 @@ Works.getInitialProps = async (
 ): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const filters = ctx.query.toggles.unfilteredCatalogueResults ? {} : {
+  const {showCatalogueSearchFilters} = ctx.query.toggles;
+  const filters = showCatalogueSearchFilters ? {
+    workType: workTypes.map(({id}) => id)
+  } : {
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
   };
@@ -292,7 +409,8 @@ Works.getInitialProps = async (
     initialPage: page,
     initialWorks: worksOrError,
     initialQuery: query,
-    filters
+    initialFilters: filters,
+    showCatalogueSearchFilters
   };
 };
 

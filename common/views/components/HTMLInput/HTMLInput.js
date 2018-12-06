@@ -6,7 +6,8 @@ type Props = {|
   inputRef?: ?Function,
   id: string,
   type: string,
-  defaultValue: string,
+  value?: string,
+  defaultValue?: string,
   label: string,
   fontStyles?: {},
   name?: string,
@@ -29,6 +30,7 @@ const HTMLInput = ({
   id,
   type,
   name,
+  value,
   defaultValue,
   placeholder,
   disabled,
@@ -46,6 +48,7 @@ const HTMLInput = ({
       className={`input input--${type} ${font(fontStyles)} js-input`}
       type={type}
       name={name}
+      value={value}
       defaultValue={defaultValue}
       placeholder={placeholder}
       disabled={disabled}
