@@ -20,6 +20,7 @@ import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
+import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksLink} from '../services/catalogue/links';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
@@ -32,11 +33,13 @@ export type Link = {|
 type Props = {|
   work: Work | CatalogueApiError,
   previousQueryString: ?string,
+  showRedesign: boolean
 |}
 
 export const WorkPage = ({
   work,
-  previousQueryString
+  previousQueryString,
+  showRedesign
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -71,6 +74,18 @@ export const WorkPage = ({
   ) || {}).value;
   // We strip the last character as that's what Wellcome Library expect
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
+
+  if (showRedesign) {
+    return (
+      <WorkRedesign
+        work={work}
+        iiifImageLocationUrl={iiifImageLocationUrl}
+        encoreLink={encoreLink}
+        licenseInfo={licenseInfo}
+        iiifImageLocationCredit={iiifImageLocationCredit}
+        iiifImageLocationLicenseId={iiifImageLocationLicenseId} />
+    );
+  }
 
   return (
     <PageLayout
@@ -336,6 +351,7 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   const queryStart = asPath.indexOf('?');
   const previousQueryString = queryStart > -1 ? asPath.slice(queryStart) : null;
   const workOrError = await getWork({ id });
+  const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const {res} = ctx;
@@ -351,7 +367,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   } else {
     return {
       previousQueryString,
-      work: workOrError
+      work: workOrError,
+      showRedesign
     };
   }
 };
