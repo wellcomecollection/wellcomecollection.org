@@ -22,7 +22,7 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
-import {worksLink} from '../services/catalogue/links';
+import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
@@ -160,7 +160,7 @@ export const WorkPage = ({
 
                   {work.workType &&
                     <MetaUnit headingText='Work type' links={[
-                      <NextLink key={1} {...worksLink({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksUrl({ query: `workType:"${work.workType.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                       </NextLink>
                     ]} />
@@ -176,7 +176,7 @@ export const WorkPage = ({
 
                   {work.contributors.length > 0 &&
                     <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
-                      const linkAttributes = worksLink({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                      const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
                       return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                       </NextLink>);
@@ -187,7 +187,7 @@ export const WorkPage = ({
 
                   {work.subjects.length > 0 &&
                     <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
-                      const linkAttributes = worksLink({ query: `subjects:"${subject.label}"`, page: undefined });
+                      const linkAttributes = worksUrl({ query: `subjects:"${subject.label}"`, page: undefined });
                       return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                       </NextLink>);
@@ -197,7 +197,7 @@ export const WorkPage = ({
 
                   {work.genres.length > 0 &&
                     <MetaUnit headingText='Genres' links={work.genres.map(genre => {
-                      const linkAttributes = worksLink({ query: `genres:"${genre.label}"`, page: undefined });
+                      const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
                       return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                       </NextLink>);
@@ -227,7 +227,7 @@ export const WorkPage = ({
 
                   {work.language &&
                     <MetaUnit headingText='Language' links={[
-                      <NextLink key={1} {...worksLink({ query: `language:"${work.language.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksUrl({ query: `language:"${work.language.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                       </NextLink>
                     ]} />

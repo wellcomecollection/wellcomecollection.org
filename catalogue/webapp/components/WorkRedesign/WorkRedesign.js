@@ -8,7 +8,7 @@ import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
-import {worksV2Link} from '../../services/catalogue/links';
+import {worksUrl} from '../../services/catalogue/urls';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBoxV2';
@@ -32,8 +32,8 @@ class WorkRedesign extends Component<Props> {
     event.preventDefault();
 
     Router.push(
-      worksV2Link({query: this.state.query}).href,
-      worksV2Link({query: this.state.query}).as
+      worksUrl({query: this.state.query}).href,
+      worksUrl({query: this.state.query}).as
     );
   }
 
@@ -84,7 +84,7 @@ class WorkRedesign extends Component<Props> {
             <SpacingSection>
               <Layout12>
                 {work.workType &&
-                  <NextLink {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                  <NextLink {...worksUrl({ query: `workType:"${work.workType.label}"`, page: undefined })}>
                     <a className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})}`}>{work.workType.label}</a>
                   </NextLink>
                 }
@@ -125,7 +125,7 @@ class WorkRedesign extends Component<Props> {
 
                   {work.contributors.length > 0 &&
                     <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
-                      const linkAttributes = worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                      const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
                       return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                       </NextLink>);
@@ -135,7 +135,7 @@ class WorkRedesign extends Component<Props> {
 
                   {work.subjects.length > 0 &&
                     <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
-                      const linkAttributes = worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined });
+                      const linkAttributes = worksUrl({ query: `subjects:"${subject.label}"`, page: undefined });
                       return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                       </NextLink>);
@@ -145,7 +145,7 @@ class WorkRedesign extends Component<Props> {
 
                   {work.genres.length > 0 &&
                     <MetaUnit headingText='Genres' links={work.genres.map(genre => {
-                      const linkAttributes = worksV2Link({ query: `genres:"${genre.label}"`, page: undefined });
+                      const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
                       return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                       </NextLink>);
@@ -172,7 +172,7 @@ class WorkRedesign extends Component<Props> {
 
                   {work.language &&
                     <MetaUnit headingText='Language' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksUrl({ query: `language:"${work.language.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                       </NextLink>
                     ]} />

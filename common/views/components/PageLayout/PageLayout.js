@@ -1,14 +1,16 @@
 // @flow
 import type {Node} from 'react';
+import type {Url} from '../../../model/url';
 import {Fragment} from 'react';
 import Head from 'next/head';
+import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
 import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 
 type Props = {|
   title: string,
   description: string,
-  url: {| pathname: string, query?: Object |},
+  url: Url,
   jsonLd: { '@type': string },
   openGraphType: | 'website' | 'article' | 'book' | 'profile',
   imageUrl: ?string,
@@ -16,18 +18,6 @@ type Props = {|
   oEmbedUrl?: string,
   children: Node
 |}
-
-// I'm sure we don't need to do this still?
-function convertUrlToString(url): string {
-  const {query = {}} = url;
-  const queryVals = Object.keys(query).map(key => {
-    const val = query[key];
-    if (val) {
-      return `${key}=${val}`;
-    }
-  }).filter(Boolean);
-  return `${url.pathname}${queryVals.length > 0 ? '?' : ''}${queryVals.join('&')}`;
-}
 
 const PageLayout = ({
   title,

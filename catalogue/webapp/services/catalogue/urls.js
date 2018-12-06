@@ -1,30 +1,27 @@
 // @flow
-type WorkLinkProps = {|
+import type {Url} from '@weco/common/model/url';
+
+type WorkUrlProps = {|
   id: string,
   query: ?string,
   page: ?number
 |}
 
-type WorksLinkProps = {|
+type WorksUrlProps = {|
   query: ?string,
   page: ?number
 |}
 
-type Link = {|
-  pathname: string,
-  query: Object
-|}
-
 type LinkProps = {|
-  href: Link,
-  as: Link
+  href: Url,
+  as: Url
 |}
 
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export function workLink({ id, query, page }: WorkLinkProps): LinkProps {
+export function workUrl({ id, query, page }: WorkUrlProps): LinkProps {
   return {
     href: {
       pathname: `/workv2`,
@@ -46,7 +43,7 @@ export function workLink({ id, query, page }: WorkLinkProps): LinkProps {
   };
 }
 
-export function worksLink({ query, page }: WorksLinkProps): LinkProps {
+export function worksUrl({ query, page }: WorksUrlProps): LinkProps {
   return {
     href: {
       pathname: `/worksv2`,
