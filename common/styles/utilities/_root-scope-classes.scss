@@ -358,6 +358,11 @@
   @include respond-to('medium') {
     min-height: 370px;
   }
+
+  @supports (display: grid) {
+    display: flex;
+  }
+
 }
 
 .promo-link__title {
