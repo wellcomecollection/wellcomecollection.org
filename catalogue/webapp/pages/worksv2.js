@@ -4,6 +4,7 @@ import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogu
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
 import {Fragment, useState, useEffect, useRef} from 'react';
 import Router from 'next/router';
+import NextLink from 'next/link';
 import {font, grid, spacing, classNames} from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -13,6 +14,7 @@ import StaticWorksContent from '@weco/common/views/components/StaticWorksContent
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {getWorks} from '../services/catalogue/works';
 import {workLink, worksLink} from '../services/catalogue/links';
 
@@ -267,7 +269,32 @@ export const Works = ({
             style={{ opacity: loading ? 0 : 1 }}>
             <div className='container'>
               <div className='grid'>
-                {works.results.map(result => (
+                {showCatalogueSearchFilters && works.results.map(result => (
+                  <NextLink
+                    href={workLink({ id: result.id, query, page }).href}
+                    as={workLink({ id: result.id, query, page }).as}
+                    key={result.id}>
+                    <a
+                      style={{
+                        padding: '24px 0',
+                        borderTop: '1px solid'
+                      }}
+                      className={'plain-link ' + grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}>
+                      <div className={classNames({
+                        [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
+                      })}>
+                        <LinkLabels items={[
+                          {
+                            url: `/works?query=workType:"${result.workType.label}"`,
+                            text: result.workType.label
+                          }
+                        ]} />
+                      </div>
+                      <h2 className='h4'>{result.title}</h2>
+                    </a>
+                  </NextLink>
+                ))}
+                {!showCatalogueSearchFilters && works.results.map(result => (
                   <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
                     <WorkPromo
                       id={result.id}
