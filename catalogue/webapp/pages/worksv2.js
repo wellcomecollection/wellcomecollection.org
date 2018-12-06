@@ -20,14 +20,42 @@ type Props = {|
   initialQuery: ?string,
   initialWorks: ?CatalogueResultsList | CatalogueApiError,
   initialPage: ?number,
-  initialFilters: Object
+  initialFilters: Object,
+  showCatalogueSearchFilters: boolean
 |}
+
+const workTypes = [
+  { id: 'a', label: 'Books' },
+  { id: 'b', label: 'Manuscripts, Asian' },
+  { id: 'c', label: 'Music' },
+  { id: 'd', label: 'Journals' },
+  { id: 'e', label: 'Maps' },
+  { id: 'f', label: 'E-videos' },
+  { id: 'g', label: 'Videorecordings' },
+  { id: 'h', label: 'Archives and manuscripts' },
+  { id: 'i', label: 'Sound' },
+  { id: 'j', label: 'E-journals' },
+  { id: 'k', label: 'Pictures' },
+  { id: 'l', label: 'Ephemera' },
+  { id: 'm', label: 'CD-Roms' },
+  { id: 'n', label: 'Cinefilm' },
+  { id: 'p', label: 'Mixed materials' },
+  { id: 'q', label: 'Digital images' },
+  { id: 'r', label: '3-D Objects' },
+  { id: 's', label: 'E-sound' },
+  { id: 'u', label: 'Standing order' },
+  { id: 'v', label: 'E-books' },
+  { id: 'w', label: 'Student dissertations' },
+  { id: 'x', label: 'E-manuscripts, Asian' },
+  { id: 'z', label: 'Web sites ' }
+];
 
 export const Works = ({
   initialQuery,
   initialWorks,
   initialPage,
-  initialFilters
+  initialFilters,
+  showCatalogueSearchFilters
 }: Props) => {
   if (initialWorks && initialWorks.type === 'Error') {
     return (
@@ -51,6 +79,8 @@ export const Works = ({
   const [works, setWorks] = useState(initialWorks);
   const [page, setPage] = useState(initialPage);
   const [filters, setFilters] = useState(initialFilters);
+  const [workType, setWorkType] = useState(initialFilters.workType);
+  const [showImagesOnly, setShowImagesOnly] = useState(Boolean(initialFilters['items.locations.locationType']));
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     document.title = `${query} | Catalogue search | Wellcome Collection`;
@@ -60,12 +90,12 @@ export const Works = ({
   // the works so we just skip this effect for now.
   // See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
   const initialRender = useRef(true);
+
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
       return;
     }
-
     // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
     // you can use URL like objects too
     Router.push(
@@ -82,11 +112,15 @@ export const Works = ({
       //       See: https://reactjs.org/docs/hooks-reference.html#usememo
 
       // TODO: Return a cleanup function here to stop the network request.
-      getWorks({query, page, filters}).then(setWorks).then(() => setLoading(false));
+      getWorks({
+        query,
+        page,
+        filters
+      }).then(setWorks).then(() => setLoading(false));
     } else {
       setWorks(null);
     }
-  }, [page, query]);
+  }, [page, query, filters]);
 
   return (
     <PageLayout
@@ -127,13 +161,8 @@ export const Works = ({
           </div>
           <div className='grid'>
             <div className={grid({s: 12, m: 10, l: 8, xl: 8})}>
-              <SearchBox
-                action=''
-                id='search-works'
-                name='query'
-                query={query || ''}
-                autofocus={true}
-                filters={filters}
+              <form
+                action={'/works'}
                 onSubmit={async (event) => {
                   event.preventDefault();
                   const form = event.currentTarget;
@@ -142,14 +171,52 @@ export const Works = ({
                   setQuery(newQuery);
                   setPage(1);
 
-                  // $FlowFixMe
-                  const workTypes = Array.from(form.elements.workType).map(input => {
-                    if (input.checked) {
-                      return input.value;
-                    }
-                  }).filter(Boolean);
-                  console.info(workTypes);
-                }} />
+                  const newFilters = {
+                    workType: workType,
+                    'items.locations.locationType': showImagesOnly ? ['iiif-image'] : []
+                  };
+                  setFilters(newFilters);
+                }}>
+                <SearchBox
+                  action=''
+                  id='search-works'
+                  name='query'
+                  query={query || ''}
+                  autofocus={true} />
+
+                {showCatalogueSearchFilters &&
+                    <Fragment>
+                      {workTypes.map(({id, label}) => (
+                        <label key={id}>
+                          <input
+                            type='checkbox'
+                            name='workType'
+                            value={id}
+                            checked={workType.indexOf(id) !== -1}
+                            onChange={(event) => {
+                              if (event.target.checked) {
+                                workType.push(id);
+                              } else {
+                                workType.splice(workType.indexOf(id), 1);
+                              }
+                              setWorkType(workType);
+                            }}/>
+                          {label}
+                        </label>
+                      ))}
+                      <hr />
+                      <label>
+                        <input
+                          type='checkbox'
+                          name='showImagesOnly'
+                          value={true}
+                          checked={showImagesOnly}
+                          onChange={(event) => setShowImagesOnly(event.target.checked)} />
+                        Images only
+                      </label>
+                    </Fragment>
+                }
+              </form>
               {!works
                 ? <p className={classNames([
                   spacing({s: 4}, {margin: ['top']}),
@@ -275,7 +342,10 @@ Works.getInitialProps = async (
 ): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const filters = ctx.query.toggles.unfilteredCatalogueResults ? {} : {
+  const {showCatalogueSearchFilters} = ctx.query.toggles;
+  const filters = showCatalogueSearchFilters ? {
+    workType: workTypes.map(({id}) => id)
+  } : {
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
   };
@@ -286,7 +356,8 @@ Works.getInitialProps = async (
     initialPage: page,
     initialWorks: worksOrError,
     initialQuery: query,
-    initialFilters: filters
+    initialFilters: filters,
+    showCatalogueSearchFilters
   };
 };
 

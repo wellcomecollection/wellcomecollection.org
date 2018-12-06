@@ -30,17 +30,12 @@ function setCookie(name, value) {
 const abTests = [];
 
 const featureToggles = [{
-  id: 'unfilteredCatalogueResults',
-  title: 'Unfiltered catalogue results',
+  id: 'showCatalogueSearchFilters',
+  title: 'Catalogue search filters',
   description:
-    'We currently filter the results of the catalogue to only how' +
-    'results that we know we have images for. This will disable that' +
-    'and show everything.'
-}, {
-  id: 'showWorksFilters',
-  title: 'Show filters on works search',
-  description:
-    'Exposes the filters we have available on the API on the UI.'
+    'We currently filter the results of the catalogue to show Pictures and ' +
+    'Digital images work types, and only results with images.' +
+    'This will show unfilter those results, and allow for filtering.'
 }, {
   id: 'showRevisedOpeningHours',
   title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
