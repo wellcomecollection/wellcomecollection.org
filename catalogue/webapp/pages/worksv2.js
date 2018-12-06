@@ -295,29 +295,32 @@ export const Works = ({
               <div className='container'>
                 <div className='grid'>
                   {showCatalogueSearchFilters && works.results.map(result => (
-                    <NextLink
-                      href={workUrl({ id: result.id, query, page }).href}
-                      as={workUrl({ id: result.id, query, page }).as}
-                      key={result.id}>
-                      <a
-                        style={{
-                          padding: '24px 0',
-                          borderTop: '1px solid'
-                        }}
-                        className={'plain-link ' + grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}>
-                        <div className={classNames({
-                          [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
-                        })}>
-                          <LinkLabels items={[
-                            {
-                              url: `/works?query=workType:"${result.workType.label}"`,
-                              text: result.workType.label
-                            }
-                          ]} />
-                        </div>
-                        <h2 className='h4'>{result.title}</h2>
-                      </a>
-                    </NextLink>
+                    <div
+                      key={result.id}
+                      style={{
+                        padding: '24px 0',
+                        borderTop: '1px solid'
+                      }}
+                      className={'plain-link ' + grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}>
+                      <div className={classNames({
+                        [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
+                      })}>
+                        <LinkLabels items={[
+                          {
+                            url: `/works?query=workType:"${result.workType.label}"`,
+                            text: result.workType.label
+                          }
+                        ]} />
+                      </div>
+                      <NextLink
+                        href={workUrl({ id: result.id, query, page }).href}
+                        as={workUrl({ id: result.id, query, page }).as}
+                        key={result.id}>
+                        <a>
+                          <h2 className='h4'>{result.title}</h2>
+                        </a>
+                      </NextLink>
+                    </div>
                   ))}
                   {!showCatalogueSearchFilters && works.results.map(result => (
                     <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
@@ -397,7 +400,7 @@ Works.getInitialProps = async (
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
   const {showCatalogueSearchFilters} = ctx.query.toggles;
   const filters = showCatalogueSearchFilters ? {
-    workType: workTypes.map(({id}) => id)
+    workType: []
   } : {
     workType: ['q', 'k'],
     'items.locations.locationType': ['iiif-image']
