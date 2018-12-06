@@ -99,7 +99,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
       action: 'Time on page >=',
       label: '10 seconds'
     });
-  }, 10);
+  }, 10000);
 
   // Setup scroll tracking
   const startTime = new Date().getTime();
