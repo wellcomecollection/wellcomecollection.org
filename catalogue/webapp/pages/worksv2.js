@@ -108,7 +108,7 @@ export const Works = ({
       { shallow: true }
     ).then(() => window.scrollTo(0, 0));
 
-    if (query && query !== '') {
+    if ((query && query !== '') || workType !== ['q', 'k']) {
       setLoading(true);
       // TODO: Look into memoiszing results so we don't hit the API again
       //       See: https://reactjs.org/docs/hooks-reference.html#usememo
@@ -189,12 +189,21 @@ export const Works = ({
                 {showCatalogueSearchFilters &&
                     <Fragment>
                       {workTypes.map(({id, label}) => (
-                        <label key={id}>
+                        <label key={id} style={{
+                          display: 'inline-block',
+                          padding: '0 6px',
+                          borderRadius: '4px',
+                          border: '2px solid #5cb8bf',
+                          marginBottom: '6px'
+                        }}>
                           <input
                             type='checkbox'
                             name='workType'
                             value={id}
                             checked={workType.indexOf(id) !== -1}
+                            style={{
+                              marginRight: '6px'
+                            }}
                             onChange={(event) => {
                               if (event.target.checked) {
                                 workType.push(id);
@@ -235,7 +244,7 @@ export const Works = ({
         </div>
       </div>
 
-      {!query &&
+      {!works &&
         <StaticWorksContent />
       }
 
