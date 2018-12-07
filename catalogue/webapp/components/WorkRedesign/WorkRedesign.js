@@ -1,4 +1,4 @@
-// $Flow
+// @Flow
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
