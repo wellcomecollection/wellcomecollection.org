@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@weco/common": "../../common",
+    "@weco/common": "1.0.0",
     "autoprefixer": "^8.3.0",
     "cookies": "^0.7.1",
     "css-loader": "^0.28.11",
