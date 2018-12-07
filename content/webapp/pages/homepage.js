@@ -13,9 +13,10 @@ import {
   articleLd
 } from '@weco/common/utils/json-ld';
 import {default as PageWrapper} from '@weco/common/views/components/PageWrapper/PageWrapper';
-import Promo from '@weco/common/views/components/Promo/Promo';
+import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {UiEvent} from '@weco/common/model/events';
@@ -82,64 +83,62 @@ export class HomePage extends Component<Props> {
     const articles = this.props.articles;
     return (
       <Fragment>
-        <div className='css-grid__container'>
-          <div className='css-grid'>
-            <div className={classNames({
-              [cssGrid({s: 12, m: 12, l: 10, xl: 9})]: true
-            })}>
-              <h1 className={classNames({
-                [font({s: 'WB4', m: 'WB3'})]: true,
-                [spacing({s: 3}, {margin: ['top', 'bottom']})]: true
+        <SpacingSection>
+          <div className='css-grid__container'>
+            <div className='css-grid'>
+              <div className={classNames({
+                [cssGrid({s: 12, m: 12, l: 10, xl: 9})]: true
               })}>
-                The free museum and library for the incurably curious
-              </h1>
+                <h1 className={classNames({
+                  [font({s: 'WB4', m: 'WB3'})]: true,
+                  [spacing({s: 3}, {margin: ['top']})]: true,
+                  [spacing({s: 0}, {margin: ['bottom']})]: true
+                })}>
+                  The free museum and library for the incurably curious
+                </h1>
+              </div>
             </div>
           </div>
-        </div>
+        </SpacingSection>
 
-        <SectionHeader
-          title='This week at Wellcome Collection'
-          linkText='All exhibitions and events'
-          linkUrl='/whats-on'
-        />
-        <ExhibitionsAndEvents
-          exhibitions={exhibitions}
-          events={events}
-          extras={[pharmacyOfColourData]}
-        />
+        <SpacingSection>
+          <SectionHeader
+            title='This week at Wellcome Collection'
+            linkText='All exhibitions and events'
+            linkUrl='/whats-on'
+          />
+          <ExhibitionsAndEvents
+            exhibitions={exhibitions}
+            events={events}
+            extras={[pharmacyOfColourData]}
+          />
+        </SpacingSection>
 
-        <SectionHeader
-          title='Latest articles, comics and more'
-          linkText='All stories'
-          linkUrl='/stories'
-        />
-
-        <div className='css-grid__container'>
-          <div className='css-grid'>
-            {articles.results.map(article => {
-              const isSerial = article.series.find(series => series.schedule.length > 0);
-              return (
-                <div
-                  key={article.id}
-                  className={classNames({
-                    [cssGrid({s: 12, m: 6, l: 3, xl: 3})]: true
-                  })}>
-                  {/* $FlowFixMe */}
-                  <Promo
-                    sizes={'(min-width: 1420px) 282px, (min-width: 960px) calc(21.36vw - 17px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'}
-                    url={`/articles/${article.id}`}
-                    contentType={article.format && article.format.title || (isSerial ? 'Serial' : 'Story')}
-                    image={article.image}
-                    title={article.title}
-                    weight={'default'}
-                    description={article.promoText}
-                    series={article.series}
-                  />
-                </div>
-              );
-            })}
+        <SpacingSection>
+          <SectionHeader
+            title='Latest articles, comics and more'
+            linkText='All stories'
+            linkUrl='/stories'
+          />
+          <div className='css-grid__container'>
+            <div className='css-grid'>
+              {articles.results.map((article, i) => {
+                return (
+                  <div
+                    key={article.id}
+                    className={classNames({
+                      [cssGrid({s: 12, m: 6, l: 3, xl: 3})]: true
+                    })}>
+                    <StoryPromo
+                      item={article}
+                      position={i}
+                      hasTransparentBackground={true} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </SpacingSection>
       </Fragment>
     );
   }

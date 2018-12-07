@@ -57,7 +57,7 @@ const List = ({list}) => {
   return list.length > 0 &&
   <ul className={`${spacing({s: 2}, {margin: ['bottom']})} ${spacing({s: 0}, {margin: ['top', 'left', 'right'], padding: ['top', 'left', 'right']})}`}>
     {list.map((item, i, arr) => (
-      <li key={i} className={font({s: 'HNL5', m: 'HNL4'})} style={{'list-style-position': 'inside'}}>
+      <li key={i} className={font({s: 'HNL5', m: 'HNL4'})} style={{listStylePosition: 'inside'}}>
         {item}
       </li>
     ))}

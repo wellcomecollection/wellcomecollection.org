@@ -1,11 +1,12 @@
 // @flow
+import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
 import {Fragment} from 'react';
 import ReactGA from 'react-ga';
 import NextLink from 'next/link';
+import Router from 'next/router';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {iiifImageTemplate, convertImageUri} from '@weco/common/utils/convert-image-uri';
-import PageDescription from '@weco/common/views/components/PageDescription/PageDescription';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
@@ -16,29 +17,48 @@ import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/Sec
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
-import WorkMedia from '../components/WorkMedia/WorkMedia';
-import {getWork} from '../services/catalogue/worksv2';
-import {worksV2Link} from '../services/catalogue/links';
+import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
+import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
+import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
+import {getWork} from '../services/catalogue/works';
+import {worksUrl} from '../services/catalogue/urls';
+import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 export type Link = {|
   text: string;
   url: string;
 |};
 
-// Not sure we want to type this not dynamically
-// as the API is subject to change?
-type Work = Object;
 type Props = {|
-  work: Work,
+  work: Work | CatalogueApiError,
   previousQueryString: ?string,
-  page: ?number
+  showRedesign: boolean
 |}
 
 export const WorkPage = ({
   work,
-  previousQueryString
+  previousQueryString,
+  showRedesign
 }: Props) => {
+  if (work.type === 'Error') {
+    return (
+      <PageLayout
+        title={work.httpStatus.toString()}
+        description={''}
+        url={{pathname: `/works`}}
+        openGraphType={'website'}
+        jsonLd={{ '@type': 'WebPage' }}
+        oEmbedUrl={`https://wellcomecollection.org/works`}
+        imageUrl={null}
+        imageAltText={null}>
+        <ErrorPage
+          errorStatus={work.httpStatus}
+        />
+      </PageLayout>
+    );
+  }
+
   const [iiifImageLocation] = work.items.map(
     item => item.locations.find(
       location => location.locationType.id === 'iiif-image'
@@ -55,9 +75,28 @@ export const WorkPage = ({
   // We strip the last character as that's what Wellcome Library expect
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
 
+  if (showRedesign) {
+    return (
+      <WorkRedesign
+        work={work}
+        iiifImageLocationUrl={iiifImageLocationUrl}
+        encoreLink={encoreLink}
+        licenseInfo={licenseInfo}
+        iiifImageLocationCredit={iiifImageLocationCredit}
+        iiifImageLocationLicenseId={iiifImageLocationLicenseId} />
+    );
+  }
+
   return (
-    <Fragment>
-      <PageDescription title='Search our images' extraClasses='page-description--hidden' />
+    <PageLayout
+      title={work.title}
+      description={work.description || work.title}
+      url={{pathname: `/works/${work.id}`}}
+      openGraphType={'website'}
+      jsonLd={workLd(work)}
+      oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
+      imageUrl={iiifImageLocationUrl}
+      imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
       {previousQueryString &&
@@ -115,13 +154,13 @@ export const WorkPage = ({
                     <MetaUnit headingText='Description' text={[work.description]} />
                   }
 
-                  {work.physicalDescription &&
-                    <MetaUnit headingText='Physical description' text={[`${work.physicalDescription} ${work.extent} ${work.dimensions}`]} />
+                  {(work.physicalDescription || work.extent || work.dimensions) &&
+                    <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />
                   }
 
                   {work.workType &&
                     <MetaUnit headingText='Work type' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksUrl({ query: `workType:"${work.workType.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                       </NextLink>
                     ]} />
@@ -137,8 +176,8 @@ export const WorkPage = ({
 
                   {work.contributors.length > 0 &&
                     <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
-                      const linkAttributes = worksV2Link({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
-                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                      const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                      return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                       </NextLink>);
                     }
@@ -148,8 +187,8 @@ export const WorkPage = ({
 
                   {work.subjects.length > 0 &&
                     <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
-                      const linkAttributes = worksV2Link({ query: `subjects:"${subject.label}"`, page: undefined });
-                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                      const linkAttributes = worksUrl({ query: `subjects:"${subject.label}"`, page: undefined });
+                      return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                       </NextLink>);
                     }
@@ -158,8 +197,8 @@ export const WorkPage = ({
 
                   {work.genres.length > 0 &&
                     <MetaUnit headingText='Genres' links={work.genres.map(genre => {
-                      const linkAttributes = worksV2Link({ query: `genres:"${genre.label}"`, page: undefined });
-                      return (<NextLink key={1} href={linkAttributes.href} as={linkAttributes.as}>
+                      const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
+                      return (<NextLink key={1} {...linkAttributes}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                       </NextLink>);
                     }
@@ -188,7 +227,7 @@ export const WorkPage = ({
 
                   {work.language &&
                     <MetaUnit headingText='Language' links={[
-                      <NextLink key={1} {...worksV2Link({ query: `language:"${work.language.label}"`, page: undefined })}>
+                      <NextLink key={1} {...worksUrl({ query: `language:"${work.language.label}"`, page: undefined })}>
                         <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                       </NextLink>
                     ]} />
@@ -239,13 +278,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                          label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:original, title:${encodeURI(work.title.substring(50))}`
+                            label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                           });
                         }}
                         icon='download'
@@ -261,13 +300,13 @@ export const WorkPage = ({
                         trackingEvent={{
                           category: 'component',
                           action: 'download-button:click',
-                          label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                          label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                         }}
                         clickHandler={() => {
                           ReactGA.event({
                             category: 'component',
                             action: 'download-button:click',
-                            label: `id: work.id , size:760, title:${work.title.substring(50)}`
+                            label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                           });
                         }}
                         icon='download'
@@ -301,43 +340,37 @@ export const WorkPage = ({
           </div>
         </div>
       </Fragment>
-    </Fragment>
+      <OptimalSort />
+    </PageLayout>
   );
 };
 
-WorkPage.getInitialProps = async (context) => {
-  const {id} = context.query;
-  const {asPath} = context;
+WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> => {
+  const {id} = ctx.query;
+  const {asPath} = ctx;
   const queryStart = asPath.indexOf('?');
-  const previousQueryString = queryStart > -1 && asPath.slice(queryStart);
-  const work = await getWork({ id });
+  const previousQueryString = queryStart > -1 ? asPath.slice(queryStart) : null;
+  const workOrError = await getWork({ id });
+  const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
 
-  if (work.type === 'Error') {
-    return { statusCode: work.httpStatus };
+  if (workOrError && workOrError.type === 'Redirect') {
+    const {res} = ctx;
+    if (res) {
+      res.writeHead(workOrError.status, {
+        Location: workOrError.redirectToId
+      });
+      res.end();
+    } else {
+      Router.push(workOrError.redirectToId);
+    }
+    return workOrError;
+  } else {
+    return {
+      previousQueryString,
+      work: workOrError,
+      showRedesign
+    };
   }
-
-  const [iiifImageLocation] = work.items.map(
-    item => item.locations.find(
-      location => location.locationType === 'iiif-image'
-    )
-  );
-
-  const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
-
-  return {
-    title: work.title || work.description,
-    description: work.description || '',
-    type: 'website',
-    canonicalUrl: `https://wellcomecollection.org/works/${work.id}`,
-    imageUrl: iiifImage ? iiifImage({size: '800,'}) : null,
-    analyticsCategory: 'collections',
-    siteSection: 'images',
-    previousQueryString,
-    work: (work: Work),
-    oEmbedUrl: `https://wellcomecollection.org/oembed/works/${work.id}`,
-    pageJsonLd: workLd(work)
-  };
 };
 
-export default PageWrapper(WorkPage);
+export default WorkPage;

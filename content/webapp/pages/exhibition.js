@@ -1,7 +1,8 @@
 // @flow
 import {Fragment, Component} from 'react';
 import {getExhibition, getExhibitionRelatedContent} from '@weco/common/services/prismic/exhibitions';
-import {isPast} from '@weco/common/utils/dates';
+import {isPast, isFuture} from '@weco/common/utils/dates';
+import {formatDate} from '@weco/common/utils/format-date';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
 import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -51,7 +52,7 @@ export class ExhibitionPage extends Component<Props, State> {
         type: 'website',
         title: exhibition.title,
         imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
-        description: exhibition.promoText,
+        description: exhibition.metadataDescription || exhibition.promoText,
         canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
         pageJsonLd: exhibitionLd(exhibition),
         siteSection: 'whatson',
@@ -100,7 +101,8 @@ export class ExhibitionPage extends Component<Props, State> {
       image: exhibition.image,
       squareImage: exhibition.squareImage,
       widescreenImage: exhibition.widescreenImage,
-      labels: exhibition.labels
+      labels: exhibition.labels,
+      metadataDescription: exhibition.metadataDescription
     };
     const DateInfo = exhibition.end ? (
       <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} />
@@ -142,6 +144,19 @@ export class ExhibitionPage extends Component<Props, State> {
       ],
       icon: 'ticket'
     };
+
+    const upcomingExhibitionObject = isFuture(exhibition.start) ? {
+      id: null,
+      title: null,
+      description: [
+        {
+          type: 'paragraph',
+          text: `Opening on ${formatDate(exhibition.start)}`,
+          spans: []
+        }
+      ],
+      icon: 'calendar'
+    } : null;
 
     const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
     const todaysHoursObject = {
@@ -216,6 +231,7 @@ export class ExhibitionPage extends Component<Props, State> {
     ];
 
     const infoItems = [
+      upcomingExhibitionObject,
       admissionObject,
       todaysHoursObject,
       placeObject,

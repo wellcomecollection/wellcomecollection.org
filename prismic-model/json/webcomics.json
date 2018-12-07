@@ -302,7 +302,9 @@
                     "pages",
                     "event-series",
                     "books",
-                    "events"
+                    "events",
+                    "articles",
+                    "installations"
                   ]
                 }
               }
@@ -326,6 +328,26 @@
                   "label": "Query"
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Series": {
+    "series": {
+      "type": "Group",
+      "fieldset": "Series",
+      "config": {
+        "fields": {
+          "series": {
+            "type": "Link",
+            "config": {
+              "label": "Series",
+              "select": "document",
+              "customtypes": [
+                "webcomic-series"
+              ]
             }
           }
         }
@@ -374,26 +396,6 @@
       "config": {
         "label": "Contributors heading override",
         "single": "heading1"
-      }
-    }
-  },
-  "Series": {
-    "series": {
-      "type": "Group",
-      "fieldset": "Series",
-      "config": {
-        "fields": {
-          "series": {
-            "type": "Link",
-            "config": {
-              "label": "Series",
-              "select": "document",
-              "customtypes": [
-                "webcomic-series"
-              ]
-            }
-          }
-        }
       }
     }
   },
@@ -449,6 +451,15 @@
             }
           }
         }
+      }
+    }
+  },
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
       }
     }
   },

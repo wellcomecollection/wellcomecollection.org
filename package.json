@@ -1,20 +1,23 @@
 {
-  "name": "wellcomecollection.org",
-  "version": "0.1.0",
-  "description": "The new home of the betanextbest.wellcomecollection.org website.",
-  "main": "server/app.js",
+  "name": "@weco/dotorg",
+  "version": "1.0.0",
+  "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
     "lint:scss": "cd client && gulp scss:lint",
     "lint:js": "eslint --fix server client",
     "lint": "npm run lint:scss && npm run lint:js",
     "precommit": "lint-staged",
-    "test": "./test.sh server"
+    "catalogue": "pushd catalogue/webapp && yarn dev",
+    "content": "pushd content/webapp && yarn dev",
+    "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
+    "deployContent": "pushd deploy && ./deploy_service.js -s content",
+    "deployRouter": "pushd deploy && ./deploy_service.js -s router"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
   },
-  "author": "collection.dev@wellcome.ac.uk",
+  "author": "digital@wellcomecollection.org",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
@@ -23,7 +26,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.1",
-    "covgen": "^3.0.2",
     "eslint": "^5.0.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-flowtype": "^2.42.0",
@@ -34,22 +36,11 @@
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
     "flow-typed": "^2.5.1",
-    "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
-    "nodemon": "^1.12.1",
     "pa11y": "^5.1.0",
     "pa11y-reporter-html": "^1.0.0"
   },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix server client",
-      "git add"
-    ],
-    "*.css": [
-      "cd client && gulp scss:lint",
-      "git add"
-    ]
-  },
+  "lint-staged": {},
   "dependencies": {
     "flow-bin": "^0.86.0"
   }

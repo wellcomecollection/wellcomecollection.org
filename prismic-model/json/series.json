@@ -315,7 +315,9 @@
                     "pages",
                     "event-series",
                     "books",
-                    "events"
+                    "events",
+                    "articles",
+                    "installations"
                   ]
                 }
               }
@@ -339,6 +341,30 @@
                   "label": "Query"
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Schedule": {
+    "schedule": {
+      "type": "Group",
+      "fieldset": "Schedule",
+      "config": {
+        "fields": {
+          "title": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Title",
+              "single": "heading1",
+              "useAsTitle": true
+            }
+          },
+          "publishDate": {
+            "type": "Timestamp",
+            "config": {
+              "label": "Date to be published"
             }
           }
         }
@@ -387,30 +413,6 @@
       "config": {
         "label": "Contributors heading override",
         "single": "heading1"
-      }
-    }
-  },
-  "Schedule": {
-    "schedule": {
-      "type": "Group",
-      "fieldset": "Schedule",
-      "config": {
-        "fields": {
-          "title": {
-            "type": "StructuredText",
-            "config": {
-              "label": "Title",
-              "single": "heading1",
-              "useAsTitle": true
-            }
-          },
-          "publishDate": {
-            "type": "Timestamp",
-            "config": {
-              "label": "Date to be published"
-            }
-          }
-        }
       }
     }
   },
@@ -466,6 +468,15 @@
             }
           }
         }
+      }
+    }
+  },
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
       }
     }
   },

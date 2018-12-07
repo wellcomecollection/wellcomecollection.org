@@ -124,7 +124,7 @@ class EventPage extends Component<Props, State> {
       return {
         event,
         title: event.title,
-        description: event.promoText,
+        description: event.metadataDescription || event.promoText,
         type: 'event',
         canonicalUrl: `https://wellcomecollection.org/events/${event.id}`,
         imageUrl: event.image && convertImageUri(event.image.contentUrl, 800),

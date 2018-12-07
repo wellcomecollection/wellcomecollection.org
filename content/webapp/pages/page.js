@@ -27,7 +27,7 @@ export class Page extends Component<Props> {
       return {
         page,
         title: page.title,
-        description: page.promoText,
+        description: page.metadataDescription || page.promoText,
         type: 'website',
         canonicalUrl: `https://wellcomecollection.org/pages/${page.id}`,
         imageUrl: page.image && convertImageUri(page.image.contentUrl, 800),

@@ -7,6 +7,7 @@ import number from './parts/number';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import singleLineText from './parts/single-line-text';
+import structuredText from './parts/structured-text';
 
 const Article = {
   Article: {
@@ -14,23 +15,26 @@ const Article = {
     format: link('Format', 'document', ['article-formats']),
     body: articleBody
   },
-  Promo: {
-    promo
-  },
-  Contributors: contributorsWithTitle(),
   Series: {
     series: list('Series', {
       series: link('Series', 'document', ['series']),
       positionInSeries: number('Position in series')
     })
   },
-  βeta: {
+  Outro: {
     outroResearchItem: link('Outro: Research item'),
     outroResearchLinkText: singleLineText('Outro: Research link text'),
     outroReadItem: link('Outro: Read item'),
     outroReadLinkText: singleLineText('Outro: Read link text'),
     outroVisitItem: link('Outro: Visit item'),
     outroVisitLinkText: singleLineText('Outro: Visit link text')
+  },
+  Contributors: contributorsWithTitle(),
+  Promo: {
+    promo
+  },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   },
   Migration: {
     'publishDate': {

@@ -1,47 +1,84 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 
-// TODO: create from swagger docs
-type Work = Object; // JS Object
+type GetWorksProps = {|
+  query: string,
+  page: number,
+  filters: Object
+|}
 
 type GetWorkProps = {|
-  id: string,
-  version?: number
+  id: string
 |}
 
-// TODO: Type from swagger docs
-type GetWorksProps = {|
-  query: ?string,
-  page: ?number,
-  version?: number
-|}
-
-const rootUri = 'https://api.wellcomecollection.org/catalogue';
-const include = [
-  [],
-  ['identifiers', 'thumbnail', 'items'],
-  ['identifiers', 'items', 'contributors', 'subjects', 'genres', 'production']
-];
-
-export async function getWork({ id, version = 1 }: GetWorkProps): Work {
-  const includeString = include[version].join(',');
-  // We use include and includes as it will be changing at some point
-  const url = `${rootUri}/v${version}/works/${id}?includes=${includeString}&include=${includeString}`;
-  const res = await fetch(url);
-  const json = res.json();
-  // TODO: error handling
-  return json;
+export type Work = {
+  type: 'Work',
+  ...Object
 }
 
-export async function getWorks({ query, page, version = 1 }: GetWorksProps): Object {
-  const includeString = include[version].join(',');
-  // We use include and includes as it will be changing at some point
-  const url = `${rootUri}/v${version}/works?includes=${includeString}&include=${includeString}`;
-  const res = await fetch(
-    `${url}&pageSize=100` +
+export type CatalogueApiError = {|
+  errorType: string,
+  httpStatus: number,
+  label: string,
+  description: string,
+  type: 'Error'
+|}
+
+export type CatalogueResultsList = {
+  type: 'ResultList',
+  totalResults: number,
+  results: Work[]
+}
+
+export type CatalogueApiRedirect = {
+  type: 'Redirect',
+  status: number,
+  redirectToId: string
+}
+
+const rootUri = 'https://api.wellcomecollection.org/catalogue';
+const includes = ['identifiers', 'items', 'contributors', 'subjects', 'genres', 'production'];
+
+export async function getWorks({
+  query,
+  page,
+  filters
+}: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
+  const filterQueryString = Object.keys(filters).map(key => {
+    const val = filters[key];
+    return `${key}=${val}`;
+  });
+  const url = `${rootUri}/v2/works?include=${includes.join(',')}` +
+    `&pageSize=100` +
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '') +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
-    (page ? `&page=${page}` : '')
-  );
+    (page ? `&page=${page}` : '');
+
+  const res = await fetch(url);
+  const json = await res.json();
+
+  return (json: CatalogueResultsList | CatalogueApiError);
+}
+
+export async function getWork({
+  id
+}: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
+  const url = `${rootUri}/v2/works/${id}?include=${includes.join(',')}`;
+  const res = await fetch(url, {redirect: 'manual'});
+
+  // When records from Miro have been merged with Sierra data, we redirect the
+  // latter to the former. This would happen quietly on the API requtes, but we
+  // would then have duplicates emerging, which wouldn't be useful for search
+  // engines so we respect the redirect on the client
+  if (res.status === 301 || res.status === 302) {
+    const id = res.headers.get('location').match(/works\/([^?].*)\?/);
+    return {
+      type: 'Redirect',
+      status: res.status,
+      redirectToId: id[1]
+    };
+  }
+
   const json = await res.json();
   return json;
 }

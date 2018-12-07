@@ -46,13 +46,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       query_string = true
 
       query_string_cache_keys = [
-        "toggles",   # feature toggles
         "page",
         "current",
         "query",
         "uri",
-        "startDate",
-        "endDate",
         "MIROPAC",   # Wellcome Images redirect
         "MIRO",      # Wellcome Images redirect
 
@@ -66,8 +63,19 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
         whitelisted_names = [
           "toggles",           # feature toggles
+          "toggle_*",          # feature toggles
         ]
       }
+    }
+
+    lambda_function_association {
+      event_type = "origin-request"
+      lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
+    }
+
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
     }
   }
 
@@ -176,41 +184,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
 
       cookies {
         forward = "all"
-      }
-    }
-  }
-
-  ordered_cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/articles/*"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    lambda_function_association {
-      event_type = "origin-request"
-      lambda_arn = "${aws_lambda_function.ab_testing_request_lambda.qualified_arn}"
-    }
-
-    lambda_function_association {
-      event_type = "origin-response"
-      lambda_arn = "${aws_lambda_function.ab_testing_response_lambda.qualified_arn}"
-    }
-
-    forwarded_values {
-      query_string = false
-      headers      = ["Host"]
-
-      cookies {
-        forward = "whitelist"
-
-        whitelisted_names = [
-          "toggles",           # feature toggles
-          "toggle_*",           # feature toggles
-        ]
       }
     }
   }

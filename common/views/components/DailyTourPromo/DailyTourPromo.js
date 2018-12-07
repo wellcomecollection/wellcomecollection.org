@@ -67,7 +67,9 @@ export const data = {
   ticketSalesStart: null,
   displayEnd: new Date(),
   displayStart: new Date(),
-  standfirst: null
+  standfirst: null,
+  metadataDescription: null,
+  scheduleLength: 0
 };
 
 const DailyTourPromo = () => (<EventPromo

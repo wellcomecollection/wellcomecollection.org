@@ -2,16 +2,12 @@
 
 import {font, spacing} from '../../../utils/classnames';
 
-export type EventWithInputValue = {
-  preventDefault: () => {},
-  target: Array<{value: string}>
-}
-
 type Props = {|
   inputRef?: ?Function,
   id: string,
   type: string,
-  defaultValue: string,
+  value?: string,
+  defaultValue?: string,
   label: string,
   fontStyles?: {},
   name?: string,
@@ -20,7 +16,7 @@ type Props = {|
   autofocus?: boolean,
   isLabelHidden?: boolean,
   required?: boolean,
-  onChange?: (EventWithInputValue) => void
+  onChange?: (SyntheticEvent<HTMLInputElement>) => void
 |}
 
 // `defaultValue` only gets set on initial load for a form.
@@ -34,6 +30,7 @@ const HTMLInput = ({
   id,
   type,
   name,
+  value,
   defaultValue,
   placeholder,
   disabled,
@@ -51,6 +48,7 @@ const HTMLInput = ({
       className={`input input--${type} ${font(fontStyles)} js-input`}
       type={type}
       name={name}
+      value={value}
       defaultValue={defaultValue}
       placeholder={placeholder}
       disabled={disabled}

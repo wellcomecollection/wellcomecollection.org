@@ -19,15 +19,18 @@ const ArticleSeries = {
     description: structuredText('[Deprecated] Description. Please use standfirst slice'),
     body
   },
-  Contributors: contributorsWithTitle(),
   Schedule: {
     schedule: list('Schedule', {
       title: title,
       publishDate: timestamp('Date to be published')
     })
   },
+  Contributors: contributorsWithTitle(),
   Promo: {
     promo
+  },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   },
   Deprecated: {
     commissionedLength: number('[Deprecated] Commissioned length'),

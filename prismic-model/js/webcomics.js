@@ -5,6 +5,7 @@ import link from './parts/link';
 import promo from './parts/promo';
 import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import structuredText from './parts/structured-text';
 
 export default {
   Webcomic: {
@@ -17,14 +18,17 @@ export default {
     },
     body
   },
-  Contributors: contributorsWithTitle(),
   Series: {
     series: list('Series', {
       series: link('Series', 'document', ['webcomic-series'])
     })
   },
+  Contributors: contributorsWithTitle(),
   Promo: {
     promo
+  },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   },
   Deprecated: {
     publishDate: {

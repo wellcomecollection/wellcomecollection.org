@@ -215,7 +215,7 @@ module "articles_listener" {
   priority = "113"
   # TODO: (wordpress)
   # We're supporting wordpress articles for the time being
-  path = "/articles/W*"
+  path = "/articles*"
 }
 
 module "article_series_listener" {
@@ -226,7 +226,7 @@ module "article_series_listener" {
   priority = "114"
   # TODO: (wordpress)
   # We're supporting wordpress articles for the time being
-  path = "/series/W*"
+  path = "/series*"
 }
 
 module "event_series_listener" {

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import {Component} from 'react';
 import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import {spacing} from '../../../utils/classnames';
 import openseadragon from 'openseadragon';
@@ -31,7 +31,7 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
           }]
         }]
       });
-    }).catch(err => { handleScriptError(err); });
+    }).catch(_ => { handleScriptError(); });
 }
 
 const ErrorMessage = () => (
@@ -49,19 +49,12 @@ type State = {|
   scriptError: boolean
 |}
 
-class ImageViewerImage extends React.Component<Props, State> {
-  handleScriptError: Function;
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      scriptError: false
-    };
-
-    this.handleScriptError = this.handleScriptError.bind(this);
+class ImageViewerImage extends Component<Props, State> {
+  state = {
+    scriptError: false
   }
 
-  handleScriptError() {
+  handleScriptError = () => {
     this.setState({ scriptError: true });
   }
 

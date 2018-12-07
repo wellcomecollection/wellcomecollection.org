@@ -3,40 +3,41 @@ import {font} from '../../../utils/classnames';
 import {trackEvent} from '../../../utils/ga';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
-import type {EventWithInputValue} from '../HTMLInput/HTMLInput';
 
 type Props = {|
   action: string,
   id: string,
   name: string,
   query: string,
-  autofocus: boolean,
-  onSubmit?: (EventWithInputValue) => void,
-  onChange?: (EventWithInputValue) => void
+  autofocus: boolean
 |}
 
-const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
+const SearchBox = ({
+  action,
+  id,
+  name,
+  query,
+  autofocus
+}: Props) => (
   <div className='search-box js-search-box'>
-    <form action={action} onSubmit={onSubmit}>
-      <HTMLInput
-        id={id}
-        type='text'
-        name={name}
-        label='search'
-        defaultValue={query}
-        placeholder='Search for artworks, photos and more'
-        autofocus={autofocus}
-        isLabelHidden={true}
-        onChange={onChange} />
-      <div className='search-box__button-wrap absolute bg-green'>
-        <button className={`search-box__button line-height-1 plain-button no-padding ${font({s: 'HNL3', m: 'HNL2'})}`}>
-          <span className='visually-hidden'>Search</span>
-          <span className='flex flex--v-center flex--h-center'>
-            <Icon name='search' title='Search' extraClasses='icon--white' />
-          </span>
-        </button>
-      </div>
-    </form>
+    <HTMLInput
+      id={id}
+      type='text'
+      name={name}
+      label='search'
+      defaultValue={query}
+      placeholder='Search for artworks, photos and more'
+      autofocus={autofocus}
+      isLabelHidden={true} />
+    <div className='search-box__button-wrap absolute bg-green'>
+      <button className={`search-box__button line-height-1 plain-button no-padding ${font({s: 'HNL3', m: 'HNL2'})}`}>
+        <span className='visually-hidden'>Search</span>
+        <span className='flex flex--v-center flex--h-center'>
+          <Icon name='search' title='Search' extraClasses='icon--white' />
+        </span>
+      </button>
+    </div>
+
     <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
       onClick={() => trackEvent({
         category: 'component',

@@ -4,6 +4,7 @@ import promo from './parts/promo';
 import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import link from './parts/link';
+import structuredText from './parts/structured-text';
 
 const EventSeries = {
   'Event series': {
@@ -14,6 +15,9 @@ const EventSeries = {
   Contributors: contributorsWithTitle(),
   Promo: {
     promo
+  },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   }
 };
 

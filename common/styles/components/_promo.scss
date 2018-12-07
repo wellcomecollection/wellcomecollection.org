@@ -3,19 +3,6 @@
   display: block;
   text-decoration: none;
   margin-bottom: 5 * $v-spacing-unit;
-
-  &.promo--lead {
-    @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
-      display: flex;
-      align-items: flex-start;
-    }
-
-    @include container-query(('l': ('12'), 'xl': ('12'))) {
-      border-bottom: 0;
-      padding-bottom: 0;
-      margin-bottom: 3 * $v-spacing-unit;;
-    }
-  }
 }
 
 .promo__image-surrogate {
@@ -48,14 +35,6 @@
   width: 100%;
   display: block;
   z-index: 0;
-
-  .promo--lead & {
-    @include container-query(('m': ('12'), 'l': ('8', '12'), 'xl': ('8', '12'))) {
-      order: 1;
-      width: percentage(2 / 3);
-      margin-bottom: 0;
-    }
-  }
 
   .image {
     border-top-left-radius: $border-radius-unit;
@@ -125,16 +104,6 @@
   .promo:not(.promo--surrogate):focus & {
     color: color('green');
   }
-
-  .promo--lead & {
-    @include container-query(('l': ('12'))) {
-      @include font('WB4');
-    }
-
-    @include container-query(('xl': ('12'))) {
-      @include font('WB3');
-    }
-  }
 }
 
 .promo__description {
@@ -143,16 +112,6 @@
   min-width: 0;
   flex: 1;
   position: relative;
-
-  .promo--lead & {
-    @include container-query(('l': ('8', '12'), 'xl': ('8', '12'))) {
-      padding-right: map-get($gutter-width, 'large');
-    }
-
-    @include container-query(('m': ('12'))) {
-      padding-right: map-get($gutter-width, 'medium');
-    }
-  }
 }
 
 .promo--work {

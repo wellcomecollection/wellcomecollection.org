@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
-import colors from '../../../../server/ui-config/colors';
 import paletteReadme from './README.md';
+import colors from '../../../config/colors';
 
 const stories = storiesOf('Global', module);
 

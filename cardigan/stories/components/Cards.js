@@ -9,6 +9,10 @@ import {UiImage} from  '../../../common/views/components/Images/Images';
 import {image, singleLineOfText} from '../content';
 
 const imageProps = image();
+const labelList = {labels: [
+  {text: 'Study day'},
+  {text: 'Schools'}
+]};
 
 const FeaturedCardExample = () => <FeaturedCard
   url={'https://wellcomecollection.org'}
@@ -36,6 +40,7 @@ const CompactCardExample = () => <CompactCard
   Image={<UiImage {...imageProps} />}
   DateInfo={null}
   Tags={null}
+  labels={labelList}
 />;
 
 const stories = storiesOf('Components', module);

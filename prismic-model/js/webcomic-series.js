@@ -12,5 +12,8 @@ export default {
   Contributors: contributorsWithTitle(),
   Promo: {
     promo
+  },
+  Metadata: {
+    metadataDescription: structuredText('Metadata description', 'single')
   }
 };

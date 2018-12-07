@@ -1,7 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import WorkCredit from '../WorkCredit/WorkCredit';
-import ImageViewer2 from '../ImageViewer/ImageViewer2';
+import ImageViewer from '../ImageViewer/ImageViewer';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 import type {Work} from '../../../model/work';
 
@@ -44,7 +44,7 @@ const WorkEmbed = ({
             textAlign: 'center'
           }}>
             <Fragment>
-              <ImageViewer2
+              <ImageViewer
                 contentUrl={imageUrl}
                 id={work.id}
                 width={800}

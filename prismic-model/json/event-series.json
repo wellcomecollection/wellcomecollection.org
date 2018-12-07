@@ -306,7 +306,9 @@
                     "pages",
                     "event-series",
                     "books",
-                    "events"
+                    "events",
+                    "articles",
+                    "installations"
                   ]
                 }
               }
@@ -433,6 +435,15 @@
             }
           }
         }
+      }
+    }
+  },
+  "Metadata": {
+    "metadataDescription": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Metadata description"
       }
     }
   }

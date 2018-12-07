@@ -17,9 +17,9 @@ import type {
 import type {PrismicFragment} from '../../services/prismic/types';
 import type Moment from 'moment';
 
-export async function getCollectionOpeningTimes(req: ?Request) {
+export async function getCollectionOpeningTimes(req: ?Request, daysInAdvance?: number = 15) {
   const collectionVenues = await getDocuments(req, [Prismic.Predicates.any('document.type', ['collection-venue'])], {});
-  return parseVenuesToOpeningHours(collectionVenues);
+  return parseVenuesToOpeningHours(collectionVenues, daysInAdvance);
 }
 
 function exceptionalOpeningDates(placesHoursArray: PlacesOpeningHours): OverrideDate[] {
@@ -182,10 +182,10 @@ function exceptionalOpeningHours(dates: OverrideDate[], placesOpeningHours: Plac
   });
 }
 
-function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[]) {
+function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[], daysInAdvance) {
   const exceptionalPeriods =  periods && periods.filter((period) => {
     const displayPeriodStart = london().subtract(1, 'day');
-    const displayPeriodEnd = london().add(15, 'day');
+    const displayPeriodEnd = london().add(daysInAdvance, 'day');
     return period.dates[0].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd) || period.dates[period.dates.length - 1].overrideDate.clone().isBetween(displayPeriodStart, displayPeriodEnd);
   });
 
@@ -233,7 +233,7 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-export function parseVenuesToOpeningHours(doc: PrismicFragment) {
+export function parseVenuesToOpeningHours(doc: PrismicFragment, daysInAdvance?: number) {
   const placesOpeningHours =  doc.results.map((venue) => {
     const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map((modified) => {
       const start = modified.startDateTime && london(modified.startDateTime).format('HH:mm');
@@ -278,8 +278,33 @@ export function parseVenuesToOpeningHours(doc: PrismicFragment) {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
       return a.order - b.order;
     }),
-    upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods)),
+    upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(upcomingExceptionalOpeningPeriods(exceptionalPeriods, daysInAdvance)),
     exceptionalOpeningHours: exceptionalOpening,
     exceptionalClosedDates: exceptionalClosedDates(exceptionalOpening)
+  };
+}
+
+export function parseOpeningTimesFromCollectionVenues(doc: PrismicFragment) {
+  const openingTimes = parseVenuesToOpeningHours(doc);
+  const galleriesLibrary = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
+    return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
+  });
+  const restaurantCafeShop = openingTimes && openingTimes.placesOpeningHours.filter(venue => {
+    return venue.name.toLowerCase() === 'restaurant' || venue.name.toLowerCase() === 'café' || venue.name.toLowerCase() === 'shop';
+  });
+  const groupedVenues = {
+    galleriesLibrary: {
+      title: 'Venue',
+      hours: galleriesLibrary
+    },
+    restaurantCafeShop: {
+      title: 'Eat & Shop',
+      hours: restaurantCafeShop
+    }
+  };
+  return {
+    collectionOpeningTimes: openingTimes,
+    groupedVenues: groupedVenues,
+    upcomingExceptionalOpeningPeriods: openingTimes.upcomingExceptionalOpeningPeriods
   };
 }
