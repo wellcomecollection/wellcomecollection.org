@@ -3,11 +3,13 @@ FROM node:9.11.1-alpine
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app/webapp
-ADD ./catalogue/webapp .
-ADD ./common ../../common
+ADD ./package.json ./package.json
+ADD ./common ./common
+ADD ./catalogue/webapp ./catalogue/webapp
 RUN yarn install
+
+WORKDIR /usr/src/app/webapp/catalogue/webapp
 RUN yarn build
 RUN yarn test
-
 EXPOSE 3000
 CMD ["yarn", "start"]

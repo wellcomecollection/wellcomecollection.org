@@ -36,9 +36,6 @@ jobs:
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: root_modules_circleci_node_8_{{ .Environment.CIRCLE_SHA1 }}
-          key: root_modules_circleci_node_8_
       - add_ssh_keys
       - setup_remote_docker
       - run:
@@ -79,9 +76,6 @@ jobs:
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: root_modules_circleci_node_8_{{ .Environment.CIRCLE_SHA1 }}
-          key: root_modules_circleci_node_8_
       - add_ssh_keys
       - setup_remote_docker
       - run:
