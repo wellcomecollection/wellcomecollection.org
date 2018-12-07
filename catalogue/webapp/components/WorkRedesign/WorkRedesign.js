@@ -1,4 +1,4 @@
-// @Flow
+// @flow
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
@@ -23,23 +23,27 @@ type Props = {|
   iiifImageLocationLicenseId: ?string
 |}
 
-class WorkRedesign extends Component<Props> {
+type State = {|
+  query: string
+|};
+
+class WorkRedesign extends Component<Props, State> {
   state = {
     query: ''
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = (event: SyntheticEvent<HTMLInputElement>) => {
     event.preventDefault();
 
     Router.push(
-      worksUrl({query: this.state.query}).href,
-      worksUrl({query: this.state.query}).as
+      worksUrl({query: this.state.query, page: null}).href,
+      worksUrl({query: this.state.query, page: null}).as
     );
   }
 
-  handleChange = (event) => {
+  handleChange = (event: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      query: event.target.value
+      query: event.currentTarget.value
     });
   }
 
