@@ -16,20 +16,24 @@ const EventSchedule = ({schedule}: Props) => {
     return isNotLinked ? event.id : null;
   }).filter(Boolean);
 
-  return groupedEvents.map(eventsGroup => (
-    eventsGroup.events.length > 0 &&
-      <Fragment key={eventsGroup.label}>
-        {groupedEvents.length > 1 && <h3 className={classNames({
-          'h3': true,
-          [spacing({s: 4}, {margin: ['bottom']})]: true
-        })}>{eventsGroup.label}</h3>}
-        {eventsGroup.events.map(event =>
-          <EventScheduleItem
-            key={event.id}
-            event={event}
-            isNotLinked={isNotLinkedIds.indexOf(event.id) > -1} />
-        )}
-      </Fragment>
-  ));
+  return (
+    <Fragment>
+      {groupedEvents.map(eventsGroup => (
+        eventsGroup.events.length > 0 &&
+          <Fragment key={eventsGroup.label}>
+            {groupedEvents.length > 1 && <h3 className={classNames({
+              'h3': true,
+              [spacing({s: 4}, {margin: ['bottom']})]: true
+            })}>{eventsGroup.label}</h3>}
+            {eventsGroup.events.map(event =>
+              <EventScheduleItem
+                key={event.id}
+                event={event}
+                isNotLinked={isNotLinkedIds.indexOf(event.id) > -1} />
+            )}
+          </Fragment>
+      ))}
+    </Fragment>
+  );
 };
 export default EventSchedule;
