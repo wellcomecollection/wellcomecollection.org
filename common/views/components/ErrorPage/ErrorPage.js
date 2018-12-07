@@ -6,10 +6,14 @@ import Body from '../Body/Body';
 import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 
 type Props = {|
-  errorStatus: number
+  errorStatus: number,
+  title?: string
 |}
 
-const ErrorPage = ({ errorStatus }: Props) => {
+const ErrorPage = ({
+  errorStatus,
+  title
+}: Props) => {
   return (
     <ContentPage
       id={'error'}
@@ -17,7 +21,7 @@ const ErrorPage = ({ errorStatus }: Props) => {
         <PageHeader
           breadcrumbs={{ items: [{url: '/', text: 'Home'}] }}
           labels={null}
-          title={'This isn’t the page you’re looking for, but how about these?'}
+          title={title || 'This isn’t the page you’re looking for, but how about these?'}
           ContentTypeInfo={null}
           Background={null}
           backgroundTexture={'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'}
