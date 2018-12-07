@@ -7,7 +7,7 @@ import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
 
 type Props = {|
   errorStatus: number,
-  title?: string
+  title?: ?string
 |}
 
 const ErrorPage = ({
