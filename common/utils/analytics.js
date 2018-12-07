@@ -93,6 +93,14 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
     window.performance.clearMeasures();
   };
 
+  setTimeout(() => {
+    ReactGA.event({
+      category: 'Engagement',
+      action: 'Time on page >=',
+      label: '10 seconds'
+    });
+  }, 10000);
+
   // Setup scroll tracking
   const startTime = new Date().getTime();
   const scrollCache = [];
@@ -120,7 +128,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
             action: 'Percentage',
             label: mark,
             value: 1,
-            nonInteraction: true
+            nonInteraction: Boolean(timing < 10000)
           });
 
           ReactGA.timing({

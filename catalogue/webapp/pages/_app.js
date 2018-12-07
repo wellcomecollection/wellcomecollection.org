@@ -73,6 +73,14 @@ export default class WecoApp extends App {
       ReactGA.pageview(page, ['v2']);
     });
 
+    setTimeout(() => {
+      ReactGA.event({
+        category: 'Engagement',
+        action: 'Time on page >=',
+        label: '10 seconds'
+      });
+    }, 10000);
+
     // Fonts
     const FontFaceObserver = require('fontfaceobserver');
 
