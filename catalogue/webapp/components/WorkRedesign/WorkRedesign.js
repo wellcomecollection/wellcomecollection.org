@@ -13,12 +13,13 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBoxV2';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import type {LicenseData} from '@weco/common/utils/get-license-info';
 
 type Work = Object;
 type Props = {|
   work: Work,
   iiifImageLocationUrl: ?string,
-  licenseInfo: ?string,
+  licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?string
 |}
@@ -32,7 +33,7 @@ class WorkRedesign extends Component<Props, State> {
     query: ''
   }
 
-  handleSubmit = (event: SyntheticEvent<HTMLInputElement>) => {
+  handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     Router.push(
@@ -187,7 +188,9 @@ class WorkRedesign extends Component<Props, State> {
                   <Fragment>
                     <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
                     <MetaUnit headingLevel={3} headingText='Credit' text={[
-                      `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                      `${work.title}.{' '}
+                      ${iiifImageLocationCredit ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ` : ` `}
+                      ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
                   </Fragment>
                 }
               </Layout10>
