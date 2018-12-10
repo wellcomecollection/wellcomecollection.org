@@ -1,7 +1,7 @@
 // @flow
 import {Component} from 'react';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
@@ -93,18 +93,27 @@ export class ArticleSeriesPage extends Component<Props> {
     />;
 
     return (
-      <ContentPage
-        id={series.id}
-        Header={Header}
-        Body={<Body body={series.body} />}
-        contributorProps={{ contributors: series.contributors }}
-      >
-        {articles.length > 0 &&
-          <SearchResults items={series.items} showPosition={true} />
-        }
-      </ContentPage>
+      <PageLayout
+        title={series.title}
+        description={series.promoText || ''}
+        url={{pathname: `/series/${series.id}`}}
+        jsonLd={{ '@type': 'WebPage' }}
+        openGraphType={'website'}
+        imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
+        imageAltText={series.image && series.image.alt}>
+        <ContentPage
+          id={series.id}
+          Header={Header}
+          Body={<Body body={series.body} />}
+          contributorProps={{ contributors: series.contributors }}
+        >
+          {articles.length > 0 &&
+            <SearchResults items={series.items} showPosition={true} />
+          }
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default ArticleSeriesPage;

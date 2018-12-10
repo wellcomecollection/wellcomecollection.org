@@ -1,7 +1,7 @@
 // @flow
 import type {Node} from 'react';
 import type {Url} from '../../../model/url';
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
@@ -29,6 +29,10 @@ const PageLayout = ({
   oEmbedUrl,
   children
 }: Props) => {
+  useEffect(() => {
+    console.info('asd');
+  }, []);
+
   const urlString = convertUrlToString(url);
   const fullTitle = title !== ''
     ? `${title} | Wellcome Collection`
