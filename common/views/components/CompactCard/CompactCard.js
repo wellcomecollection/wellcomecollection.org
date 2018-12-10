@@ -1,7 +1,7 @@
 // @flow
 import type {Element, ElementProps} from 'react';
 import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
@@ -53,11 +53,18 @@ const CompactCard = ({
         [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
       })}
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `${promoType}:click`,
-        label: `title:${title}`
-      })}>
+      onClick={() => {
+        trackEventV2({
+          eventCategory: 'CompactCard',
+          eventAction: 'follow link',
+          eventLabel: title
+        });
+        trackEvent({
+          category: 'component',
+          action: `${promoType}:click`,
+          label: `title:${title}`
+        });
+      }}>
       {labels.labels.length > 0 &&
         <div className={conditionalClassNames({
           [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
