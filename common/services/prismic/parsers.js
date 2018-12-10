@@ -355,7 +355,9 @@ function parseStructuredText(maybeFragment: ?any): ?HTMLString {
 export function parseSingleLevelGroup(frag: PrismicFragment[], singlePropertyName: string) {
   return (frag || [])
     .filter(fragItem => isDocumentLink(fragItem[singlePropertyName]))
-    .map(fragItem => fragItem[singlePropertyName]);
+    /*eslint-disable */
+    .map<PrismicFragment>(fragItem => fragItem[singlePropertyName]);
+    /* eslint-enable */
 }
 
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have

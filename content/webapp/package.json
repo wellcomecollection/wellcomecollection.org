@@ -31,7 +31,8 @@
     "react-dom": "^16.7.0-alpha.2",
     "react-test-renderer": "^16.4.1",
     "react-transition-group": "^2.4.0",
-    "sass-loader": "^7.0.1"
+    "sass-loader": "^7.0.1",
+    "supertest": "^3.3.0"
   },
   "devDependencies": {
     "supertest": "^3.3.0"

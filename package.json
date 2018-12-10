@@ -42,7 +42,7 @@
   },
   "lint-staged": {},
   "dependencies": {
-    "flow-bin": "^0.78.0"
+    "flow-bin": "^0.86.0"
   },
   "private": true,
   "workspaces": [

@@ -11,7 +11,9 @@ import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 
-export const PageBackgroundContext = createContext('white');
+/*eslint-disable */
+export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
+/* eslint-enable */
 
 // TODO: use Element<typeof Component>
 type Props = {|
