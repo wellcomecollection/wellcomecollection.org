@@ -57,6 +57,7 @@ export class ArticleSeriesPage extends Component<Props> {
 
     return (
       <LayoutPaginatedResults
+        showFreeAdmissionMessage={true}
         title={displayTitle}
         description={[{
           type: 'paragraph',

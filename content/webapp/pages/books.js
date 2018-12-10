@@ -37,6 +37,7 @@ export class BooksListPage extends Component<Props> {
 
     return (
       <LayoutPaginatedResults
+        showFreeAdmissionMessage={false}
         title={'Books'}
         description={[{
           type: 'paragraph',
