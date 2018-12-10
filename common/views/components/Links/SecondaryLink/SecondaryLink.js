@@ -1,5 +1,5 @@
 // @flow
-import type {Props as NextLinkProps} from 'next/link';
+import type {NextLinkType} from '@weco/common/model/next-link-type';
 import NextLink from 'next/link';
 import {font, conditionalClassNames} from '../../../../utils/classnames';
 import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
@@ -7,7 +7,7 @@ import Icon from '../../Icon/Icon';
 import type {GaEvent} from '../../../../utils/ga';
 
 type Props = {|
-  link: NextLinkProps,
+  link: NextLinkType,
   text: string,
   extraClasses?: string,
   trackingEvent?: GaEvent,

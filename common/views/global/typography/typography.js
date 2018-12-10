@@ -26,7 +26,12 @@ const Typography = ({fonts}: Props) => (
     <div className='styleguide__font'>
       <h2 className='styleguide__font__name'>Secondary link</h2>
       <div>
-        <SecondaryLink link={{href: '#'}} text='Opening hours' />
+        <SecondaryLink
+          link={{
+            href: '#',
+            as: '#'
+          }}
+          text='Opening hours' />
       </div>
       <h2 className='styleguide__font__usage-title'>Usage:</h2>
       <p className='styleguide__font__usage-text'>Standalone utility link. Uses text-decoration property for underline.</p>

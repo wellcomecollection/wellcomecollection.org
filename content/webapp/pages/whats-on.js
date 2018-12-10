@@ -221,7 +221,7 @@ const Header = ({
                   </div>
                 }
                 <SecondaryLink
-                  link={{href: '/opening-times'}}
+                  link={{href: '/opening-times', as: '/opening-times'}}
                   text={'Full opening times'}
                 />
               </div>

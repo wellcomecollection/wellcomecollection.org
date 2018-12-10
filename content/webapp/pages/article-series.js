@@ -95,7 +95,7 @@ export class ArticleSeriesPage extends Component<Props> {
     return (
       <PageLayout
         title={series.title}
-        description={series.promoText || ''}
+        description={series.metadataDescription || series.promoText || ''}
         url={{pathname: `/series/${series.id}`}}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'website'}

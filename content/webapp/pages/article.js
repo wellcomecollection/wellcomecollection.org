@@ -3,7 +3,7 @@ import {Fragment, Component} from 'react';
 import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
@@ -19,8 +19,7 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import type {
-  GetInitialPropsProps,
-  ExtraProps
+  GetInitialPropsProps
 } from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {ContentFormatIds} from '@weco/common/model/content-format-id';
@@ -47,27 +46,14 @@ export class ArticlePage extends Component<Props, State> {
   }
 
   static getInitialProps = async (
-    context: GetInitialPropsProps,
-    { toggles = {} }: ExtraProps
-  ) => {
+    context: GetInitialPropsProps
+  ): Promise<?Props> => {
     const {id} = context.query;
     const article = await getArticle(context.req, id);
-
     if (article) {
       return {
-        article,
-        title: article.title,
-        description: article.metadataDescription || article.promoText,
-        type: 'article',
-        canonicalUrl: `https://wellcomecollection.org/articles/${article.id}`,
-        imageUrl: article.image && convertImageUri(article.image.contentUrl, 800),
-        siteSection: 'stories',
-        analyticsCategory: 'editorial',
-        pageJsonLd: articleLd(article),
-        pageState: {hasOutro: articleHasOutro(article)}
+        article
       };
-    } else {
-      return {statusCode: 404};
     }
   }
 
@@ -212,28 +198,38 @@ export class ArticlePage extends Component<Props, State> {
     }).filter(Boolean);
 
     return (
-      <ContentPage
-        id={article.id}
-        isCreamy={true}
-        Header={Header}
-        Body={<Body
-          body={article.body}
-          isDropCapped={true}
-        />}
-        Siblings={Siblings}
-        contributorProps={{contributors: article.contributors}}
-        outroProps={articleHasOutro(article) ? {
-          researchLinkText: article.outroResearchLinkText,
-          researchItem: article.outroResearchItem,
-          readLinkText: article.outroReadLinkText,
-          readItem: article.outroReadItem,
-          visitLinkText: article.outroVisitLinkText,
-          visitItem: article.outroVisitItem
-        } : null}
-      >
-      </ContentPage>
+      <PageLayout
+        title={article.title}
+        description={article.metadataDescription || article.promoText || ''}
+        url={{pathname: `/articles/${article.id}`}}
+        jsonLd={articleLd(article)}
+        openGraphType={'article'}
+        imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
+        imageAltText={article.image && article.image.alt}>
+
+        <ContentPage
+          id={article.id}
+          isCreamy={true}
+          Header={Header}
+          Body={<Body
+            body={article.body}
+            isDropCapped={true}
+          />}
+          Siblings={Siblings}
+          contributorProps={{contributors: article.contributors}}
+          outroProps={articleHasOutro(article) ? {
+            researchLinkText: article.outroResearchLinkText,
+            researchItem: article.outroResearchItem,
+            readLinkText: article.outroReadLinkText,
+            readItem: article.outroReadItem,
+            visitLinkText: article.outroVisitLinkText,
+            visitItem: article.outroVisitItem
+          } : null}
+        >
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ArticlePage);
+export default ArticlePage;

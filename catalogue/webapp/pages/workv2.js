@@ -25,11 +25,6 @@ import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
-export type Link = {|
-  text: string;
-  url: string;
-|};
-
 type Props = {|
   work: Work | CatalogueApiError,
   page: ?number,

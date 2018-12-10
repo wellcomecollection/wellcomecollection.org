@@ -38,7 +38,7 @@ export function workUrl({ id, query, page }: WorkUrlProps): NextLinkType {
   };
 }
 
-export function worksUrl({ query, page }: WorksUrlProps): LinkProps {
+export function worksUrl({ query, page }: WorksUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/worksv2`,
