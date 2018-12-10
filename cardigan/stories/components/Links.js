@@ -18,5 +18,5 @@ stories.add('Links: Primary', () => (
   </Fragment>
 ));
 stories.add('Links: Secondary', () => (
-  <SecondaryLink url={`#`} text={`Our event terms and conditions`} />
+  <SecondaryLink href={{href: `#`}} text={`Our event terms and conditions`} />
 ));

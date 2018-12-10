@@ -1,6 +1,7 @@
 // @flow
 import type {Node} from 'react';
 import type {Url} from '../../../model/url';
+// $FlowFixMe
 import {Fragment, useEffect} from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
@@ -29,10 +30,6 @@ const PageLayout = ({
   oEmbedUrl,
   children
 }: Props) => {
-  useEffect(() => {
-    console.info('asd');
-  }, []);
-
   const urlString = convertUrlToString(url);
   const fullTitle = title !== ''
     ? `${title} | Wellcome Collection`
