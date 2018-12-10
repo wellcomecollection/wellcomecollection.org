@@ -6,6 +6,8 @@ WORKDIR /usr/src/app/webapp
 ADD ./package.json ./package.json
 ADD ./common ./common
 ADD ./catalogue/webapp ./catalogue/webapp
+# This is needed for node-sass
+RUN apk add --update python
 RUN yarn install
 
 WORKDIR /usr/src/app/webapp/catalogue/webapp
