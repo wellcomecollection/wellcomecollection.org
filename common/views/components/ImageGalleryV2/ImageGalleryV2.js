@@ -66,9 +66,8 @@ class ImageGallery extends Component<Props, State> {
   }
 
   render() {
-    const { title, items, isStandalone } = this.props;
+    const { title, items, isStandalone, id } = this.props;
     const { isActive, titleStyle } = this.state;
-    const id = Math.random();
 
     return (
       <PageBackgroundContext.Consumer>
