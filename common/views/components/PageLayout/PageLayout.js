@@ -2,17 +2,19 @@
 import type {Node} from 'react';
 import type {Url} from '../../../model/url';
 // $FlowFixMe
-import {Fragment, useEffect} from 'react';
+import {Fragment} from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
 import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 
+type JsonLd = { '@type': string };
+
 type Props = {|
   title: string,
   description: string,
   url: Url,
-  jsonLd: { '@type': string },
+  jsonLd: JsonLd | JsonLd[],
   openGraphType: | 'website' | 'article' | 'book' | 'profile',
   imageUrl: ?string,
   imageAltText: ?string,
