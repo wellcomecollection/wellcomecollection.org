@@ -7,8 +7,12 @@ ADD ./package.json ./package.json
 ADD ./common ./common
 ADD ./catalogue/webapp ./catalogue/webapp
 # This is needed for node-sass
-RUN apk add --update python make
-RUN yarn install
+RUN apk add --no-cache --virtual .gyp \
+        python \
+        make \
+        g++ \
+    && yarn install \
+    && apk del .gyp
 
 WORKDIR /usr/src/app/webapp/catalogue/webapp
 RUN yarn build
