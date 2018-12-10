@@ -6,7 +6,6 @@
     "dev": "nodemon --watch server.js server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
     "test": "NODE_ENV=test jest --no-cache"
   },
   "dependencies": {
