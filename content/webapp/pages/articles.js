@@ -39,6 +39,7 @@ export class ArticlesPage extends Component<Props> {
         imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
         imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}>
         <LayoutPaginatedResults
+          showFreeAdmissionMessage={false}
           title={'Articles'}
           description={[{
             type: 'paragraph',
