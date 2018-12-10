@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
@@ -31,11 +31,18 @@ const EventPromo = ({
       data-component-state={JSON.stringify({ position: position })}
       href={event.promo && event.promo.link || `/events/${event.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
-      onClick={() => trackEvent({
-        category: 'component',
-        action: 'EventPromo:click',
-        label: `id:${event.id}, position:${position}`
-      })}>
+      onClick={() => {
+        trackEventV2({
+          eventCategory: 'EventPromo',
+          eventAction: 'follow link',
+          eventLabel: event.id
+        });
+        trackEvent({
+          category: 'component',
+          action: 'EventPromo:click',
+          label: `id:${event.id}, position:${position}`
+        });
+      }}>
       <div className='relative'>
         {/* FIXME: Image type tidy */}
         {/* $FlowFixMe */}
