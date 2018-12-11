@@ -2,7 +2,7 @@
 import {font, spacing, conditionalClassNames} from '../../../utils/classnames';
 
 type ItemProps = {|
-  url: string,
+  url: ?string,
   text: string
 |}
 

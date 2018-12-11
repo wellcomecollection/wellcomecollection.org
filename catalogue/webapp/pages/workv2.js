@@ -27,22 +27,22 @@ import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 type Props = {|
   work: Work | CatalogueApiError,
-  page: ?number,
   query: ?string,
+  page: ?number,
   showRedesign: boolean
 |}
 
 export const WorkPage = ({
   work,
-  page,
   query,
+  page,
   showRedesign
 }: Props) => {
   if (work.type === 'Error') {
     return (
       <PageLayout
         title={work.httpStatus.toString()}
-        description={''}
+        description={work.description}
         url={{pathname: `/works`}}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
@@ -50,6 +50,7 @@ export const WorkPage = ({
         imageUrl={null}
         imageAltText={null}>
         <ErrorPage
+          title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
           errorStatus={work.httpStatus}
         />
       </PageLayout>
@@ -360,9 +361,9 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
     return workOrError;
   } else {
     return {
-      work: workOrError,
       query,
-      page: page && parseInt(page, 10),
+      work: workOrError,
+      page: page ? parseInt(page, 10) : null,
       showRedesign
     };
   }

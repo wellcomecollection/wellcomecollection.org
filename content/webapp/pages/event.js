@@ -240,10 +240,7 @@ class EventPage extends Component<Props, State> {
             })}>
               {!event.isPast &&
                 <SecondaryLink
-                  link={{
-                    href: '#dates',
-                    as: '#dates'
-                  }}
+                  link={{href: '#dates', as: '#dates'}}
                   text={`See all dates`}
                   icon={'arrowSmall'}
                   trackingEvent={{
