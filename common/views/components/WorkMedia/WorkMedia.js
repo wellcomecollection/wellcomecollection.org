@@ -1,9 +1,9 @@
 // @flow
-import ReactGA from 'react-ga';
 import Control from '../Buttons/Control/Control';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import {classNames} from '../../../utils/classnames';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 
 type Props = {|
   id: string,
@@ -38,12 +38,10 @@ const WorkMedia = ({
             action: 'scroll-to-info:click',
             label: 'scrolled-to-id:work-info'
           }}
-          clickHandler={() => {
-            ReactGA.event({
-              category: 'component',
-              action: 'scroll-to-info:click',
-              label: 'scrolled-to-id:work-info'
-            });
+          trackingEventV2={{
+            eventCategory: 'Control',
+            eventAction: 'scroll to info',
+            eventLabel: id
           }}
           icon='chevron'
           text='Scroll to info' />
