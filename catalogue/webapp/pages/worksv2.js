@@ -140,7 +140,6 @@ export const Works = ({
                   onSubmit={async (event) => {
                     event.preventDefault();
                     const form = event.currentTarget;
-
                     const newQuery = form.elements.query.value;
                     const newWorkTypes = Array.from(form.elements.workType)
                       .filter(input => input.checked)
