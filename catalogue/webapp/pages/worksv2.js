@@ -2,7 +2,7 @@
 import type {Context} from 'next';
 import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogue/works';
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
-import {Fragment} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -79,6 +79,22 @@ export const Works = ({
     );
   }
 
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    function routeChangeStart(url: string) {
+      setLoading(true);
+    }
+    function routeChangeComplete(url: string) {
+      setLoading(false);
+    }
+    Router.events.on('routeChangeStart', routeChangeStart);
+    Router.events.on('routeChangeComplete', routeChangeComplete);
+
+    return () => {
+      Router.events.off('routeChangeStart', routeChangeStart);
+      Router.events.off('routeChangeComplete', routeChangeComplete);
+    };
+  }, []);
   const workType = filters.workType;
   const showImagesOnly = filters['items.locations.locationType'][0] === 'iiif-image';
 
@@ -141,11 +157,12 @@ export const Works = ({
                     event.preventDefault();
                     const form = event.currentTarget;
                     const newQuery = form.elements.query.value;
-                    const newWorkTypes = Array.from(form.elements.workType)
+                    const newWorkTypes = showCatalogueSearchFilters ? Array.from(form.elements.workType)
                       .filter(input => input.checked)
-                      .map(input => input.value);
+                      .map(input => input.value) : ['k', 'q'];
 
-                    const itemsLocationsLocationType = form.elements.showImagesOnly.checked ? ['iiif-image'] : [];
+                    const itemsLocationsLocationType = showCatalogueSearchFilters
+                      ? form.elements.showImagesOnly.checked ? ['iiif-image'] : [] : ['iiif-image'];
                     const link = worksUrl({
                       query: newQuery,
                       page: 1,
@@ -242,7 +259,7 @@ export const Works = ({
 
             <div
               className={`row ${spacing({s: 4}, {padding: ['top']})}`}
-              style={{ opacity: 1 }}>
+              style={{ opacity: loading ? 0 : 1 }}>
               <div className='container'>
                 <div className='grid'>
                   {showCatalogueSearchFilters && works.results.map(result => (
