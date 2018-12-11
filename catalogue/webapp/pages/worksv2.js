@@ -12,11 +12,11 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
-import StaticWorksContent from '@weco/common/views/components/StaticWorksContent/StaticWorksContent';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import {getWorks} from '../services/catalogue/works';
 import {workUrl, worksUrl} from '../services/catalogue/urls';
 

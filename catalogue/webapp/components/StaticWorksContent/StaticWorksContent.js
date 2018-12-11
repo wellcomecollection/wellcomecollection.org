@@ -1,9 +1,10 @@
 // @flow
-import {spacing, font, grid} from '../../../utils/classnames';
-import {createPrismicParagraph} from '../../../utils/prismic';
 import {Fragment} from 'react';
-import Tags from '../Tags/Tags';
-import {CaptionedImage} from '../Images/Images';
+import {spacing, font, grid} from '@weco/common/utils/classnames';
+import {createPrismicParagraph} from '@weco/common/utils/prismic';
+import Tags from '@weco/common/views/components/Tags/Tags';
+import {CaptionedImage} from '@weco/common/views/components/Images/Images';
+import {worksUrl} from '../../services/catalogue/urls';
 
 const StaticWorksContent = () => (
   <Fragment>
@@ -15,14 +16,14 @@ const StaticWorksContent = () => (
             <p className={`${spacing({s: 2}, {margin: ['bottom']})} ${font({s: 'HNL4', m: 'HNL3'})}`}>Discover our collections through these topics.</p>
             <div className={spacing({s: 4}, {margin: ['bottom']})}>
               <Tags tags={[
-                {text: 'Quacks', url: '/works?query=quack+OR+quacks'},
-                {text: 'James Gillray', url: '/works?query=james+gillray'},
-                {text: 'Botany', url: '/works?query=botany'},
-                {text: 'Optics', url: '/works?query=optics'},
-                {text: 'Sun', url: '/works?query=sun'},
-                {text: 'Health', url: '/works?query=health'},
-                {text: 'Paintings', url: '/works?query=paintings'},
-                {text: 'Science', url: '/works?query=science'}
+                {text: 'Quacks', link: worksUrl({query: 'quack+OR+quacks', page: 1})},
+                {text: 'James Gillray', link: worksUrl({query: 'james+gillray', page: 1})},
+                {text: 'Botany', link: worksUrl({query: 'botany', page: 1})},
+                {text: 'Optics', link: worksUrl({query: 'optics', page: 1})},
+                {text: 'Sun', link: worksUrl({query: 'sun', page: 1})},
+                {text: 'Health', link: worksUrl({query: 'health', page: 1})},
+                {text: 'Paintings', link: worksUrl({query: 'paintings', page: 1})},
+                {text: 'Science', link: worksUrl({query: 'science', page: 1})}
               ]} />
             </div>
             <hr className={`divider divider--dashed ${spacing({s: 6}, {margin: ['bottom']})}`} />
