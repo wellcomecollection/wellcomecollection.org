@@ -19,11 +19,17 @@ export type GaEvent = {|
   label: string
 |}
 
+export type GaEventV2 = {|
+  eventCatagory: string,
+  eventAction: string,
+  eventLabel: string
+|}
+
 export function trackEvent(gaEvent: GaEvent) {
   ReactGA.event(gaEvent);
 }
 
-export function trackEventV2(event) {
+export function trackEventV2(event: GaEventV2) {
   ReactGA.ga('v2.send', {hitType: 'event', ...event});
 }
 

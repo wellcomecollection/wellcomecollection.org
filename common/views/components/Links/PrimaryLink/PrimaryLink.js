@@ -1,7 +1,7 @@
 // @flow
 import {font, conditionalClassNames} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
-import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
+import {trackIfOutboundLink, trackEvent, trackEventV2} from '../../../../utils/ga';
 import type {GaEvent} from '../../../../utils/ga';
 
 type Props = {|
@@ -23,6 +23,11 @@ const PrimaryLink = ({
     trackIfOutboundLink(event.currentTarget.href);
     if (trackingEvent) {
       trackEvent(trackingEvent);
+      trackEventV2({
+        eventCategory: 'PrimaryLink',
+        eventAction: 'follow link',
+        eventLabel: `${url}, ${JSON.stringify({ text: name })}`
+      });
     }
   }
 

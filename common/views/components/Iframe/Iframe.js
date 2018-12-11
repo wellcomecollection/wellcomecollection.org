@@ -1,6 +1,6 @@
 // @flow
 import {classNames} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import React, {Component, Fragment} from 'react';
 import {UiImage} from '../Images/Images';
 import Icon from '../Icon/Icon';
@@ -28,6 +28,11 @@ class Iframe extends Component<Props, State> {
         category: 'component',
         action: 'launch-iframe:click',
         label: `iframeSrc:${this.props.src}`
+      });
+      trackEventV2({
+        eventCategory: 'Iframe',
+        eventAction: 'launch iframe',
+        eventLabel: this.props.src
       });
     }
     this.setState(prevState => ({
