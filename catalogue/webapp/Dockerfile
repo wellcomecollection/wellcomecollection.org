@@ -6,7 +6,13 @@ WORKDIR /usr/src/app/webapp
 ADD ./package.json ./package.json
 ADD ./common ./common
 ADD ./catalogue/webapp ./catalogue/webapp
-RUN yarn install
+# This is needed for node-sass
+RUN apk add --no-cache --virtual .gyp \
+        python \
+        make \
+        g++ \
+    && yarn install \
+    && apk del .gyp
 
 WORKDIR /usr/src/app/webapp/catalogue/webapp
 RUN yarn build
