@@ -1,7 +1,7 @@
 // @flow
 import NextLink from 'next/link';
 import {font, conditionalClassNames} from '../../../../utils/classnames';
-import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
+import {trackIfOutboundLink, trackEvent, trackEventV2} from '../../../../utils/ga';
 import Icon from '../../Icon/Icon';
 import type {GaEvent} from '../../../../utils/ga';
 
@@ -24,6 +24,11 @@ const SecondaryLink = ({
     trackIfOutboundLink(event.currentTarget.href);
     if (trackingEvent) {
       trackEvent(trackingEvent);
+      trackEventV2({
+        eventCategory: 'SecondaryLink',
+        eventAction: 'follow link',
+        eventLabel: `${url}, ${JSON.stringify({text})}`
+      });
     }
   }
 
