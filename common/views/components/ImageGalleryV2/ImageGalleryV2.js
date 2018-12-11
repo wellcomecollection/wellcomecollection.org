@@ -10,6 +10,7 @@ import type {CaptionedImage as CaptionedImageProps} from '../../../model/caption
 import {PageBackgroundContext} from '../ContentPage/ContentPage';
 import {repeatingLsBlack} from '../../../utils/backgrounds';
 import {breakpoints} from '../../../utils/breakpoints';
+import {trackEventV2} from '../../../utils/ga';
 import ReactGA from 'react-ga';
 
 type Props = {|
@@ -36,7 +37,11 @@ class ImageGallery extends Component<Props, State> {
       action: `ImageGallery:open`,
       label: `image-gallery:${this.props.id}`
     });
-
+    trackEventV2({
+      eventCategory: 'ImageGallery',
+      eventAction: 'open',
+      eventLabel: this.props.id
+    });
     this.setState({
       isActive: true
     });
