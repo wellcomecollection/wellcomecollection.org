@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import {font, conditionalClassNames} from '../../../../utils/classnames';
 import {trackIfOutboundLink, trackEvent, trackEventV2} from '../../../../utils/ga';
 import Icon from '../../Icon/Icon';
-import type {GaEvent} from '../../../../utils/ga';
+import type {GaEvent, GaEventV2} from '../../../../utils/ga';
 
 type Props = {|
   url: string,
