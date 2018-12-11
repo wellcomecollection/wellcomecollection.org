@@ -27,7 +27,7 @@ const ExhibitionPromo = ({
         trackEventV2({
           eventCategory: 'ExhibitionPromo',
           eventAction: 'follow link',
-          eventLabel: id
+          eventLabel: `${id}, ${JSON.stringify({ position: position })}`
         });
         trackEvent({
           category: 'component',
