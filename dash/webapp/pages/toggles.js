@@ -72,9 +72,9 @@ const IndexPage = ({ initialToggles }: Props) => {
           padding: '6px 12px',
           margin: 0
         }}>
-          You can either opt-in to testing a new feature (👍) or, prefer
-          to not (👎). If you ask us to forget your choice, it is effectually
-          opting out.
+          You can opt-in to testing a new feature (👍) or, prefer
+          to stay opted-out (👎). If you ask us to forget your choice, it is
+          effectually opting out.
         </p>
         {featureToggles.length > 0 &&
           <ul style={{
