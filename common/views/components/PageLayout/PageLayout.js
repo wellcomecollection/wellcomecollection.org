@@ -1,20 +1,19 @@
 // @flow
 import type {Node} from 'react';
 import type {Url} from '../../../model/url';
-// $FlowFixMe
+import type {JsonLdObj} from '../JsonLd/JsonLd';
 import {Fragment} from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
 import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
-
-type JsonLd = { '@type': string };
+import JsonLd from '../JsonLd/JsonLd';
 
 type Props = {|
   title: string,
   description: string,
   url: Url,
-  jsonLd: JsonLd | JsonLd[],
+  jsonLd: JsonLdObj | JsonLdObj[],
   openGraphType: | 'website' | 'article' | 'book' | 'profile',
   imageUrl: ?string,
   imageAltText: ?string,
@@ -26,6 +25,7 @@ const PageLayout = ({
   title,
   description,
   url,
+  jsonLd,
   openGraphType,
   imageUrl,
   imageAltText,
@@ -66,6 +66,8 @@ const PageLayout = ({
           imageUrl={imageUrl || ''}
           imageAltText={imageAltText || ''}
         />
+
+        <JsonLd data={jsonLd} />
       </Head>
 
       {children}
