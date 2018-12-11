@@ -1,6 +1,6 @@
 // @flow
 import { spacing, font, classNames } from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import { getPositionInSeries } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -25,11 +25,18 @@ const StoryPromo = ({
   const positionInSeries = getPositionInSeries(item);
   return (
     <a
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `StoryPromo:click`,
-        label: `id : ${item.id}, position : ${position}`
-      })}
+      onClick={() => {
+        trackEvent({
+          category: 'component',
+          action: `StoryPromo:click`,
+          label: `id : ${item.id}, position : ${position}`
+        });
+        trackEventV2({
+          eventCategory: 'StoryPromo',
+          eventAction: 'follow link',
+          eventLabel: item.id
+        });
+      }}
       id={item.id}
       href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({
