@@ -75,6 +75,7 @@ export class PlacePage extends Component<Props> {
         url={{pathname: `/places/${place.id}`}}
         jsonLd={{'@type': 'WebPage'}}
         openGraphType={'website'}
+        siteSection={'visit-us'}
         imageUrl={place.image && convertImageUri(place.image.contentUrl, 800)}
         imageAltText={place.image && place.image.alt}>
         <ContentPage

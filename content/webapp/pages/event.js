@@ -266,6 +266,7 @@ class EventPage extends Component<Props, State> {
         url={{pathname: `/events/${event.id}`}}
         jsonLd={eventLd(event)}
         openGraphType={'website'}
+        siteSection={'whats-on'}
         imageUrl={event.image && convertImageUri(event.image.contentUrl, 800)}
         imageAltText={event.image && event.image.alt}>
         <ContentPage

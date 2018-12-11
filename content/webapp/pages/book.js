@@ -154,6 +154,7 @@ export class ArticleSeriesPage extends Component<Props> {
         url={{pathname: `/books/${book.id}`}}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'book'}
+        siteSection={null}
         imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
         imageAltText={book.image && book.image.alt}>
         <ContentPage

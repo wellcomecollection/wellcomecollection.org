@@ -57,6 +57,7 @@ export class ArticleSeriesPage extends Component<Props> {
         url={{pathname: `/events${period ? `/${period}` : ''}`}}
         jsonLd={events.results.map(eventLd)}
         openGraphType={'website'}
+        siteSection={'whats-on'}
         imageUrl={firstEvent && firstEvent.image && convertImageUri(firstEvent.image.contentUrl, 800)}
         imageAltText={firstEvent && firstEvent.image && firstEvent.image.alt}>
         <LayoutPaginatedResults

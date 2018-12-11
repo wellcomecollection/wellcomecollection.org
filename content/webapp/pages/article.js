@@ -204,6 +204,7 @@ export class ArticlePage extends Component<Props, State> {
         url={{pathname: `/articles/${article.id}`}}
         jsonLd={articleLd(article)}
         openGraphType={'article'}
+        siteSection={'stories'}
         imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
         imageAltText={article.image && article.image.alt}>
 

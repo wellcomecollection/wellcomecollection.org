@@ -106,6 +106,7 @@ export class EventSeriesPage extends Component<Props> {
         url={{pathname: `/event-series/${series.id}`}}
         jsonLd={events.map(eventLd)}
         openGraphType={'website'}
+        siteSection={'whats-on'}
         imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
         imageAltText={series.image && series.image.alt}>
         <ContentPage

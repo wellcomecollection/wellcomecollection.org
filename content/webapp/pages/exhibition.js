@@ -246,6 +246,7 @@ export class ExhibitionPage extends Component<Props, State> {
         url={{pathname: `/exhibitions/${exhibition.id}`}}
         jsonLd={exhibitionLd(exhibition)}
         openGraphType={'website'}
+        siteSection={'whats-on'}
         imageUrl={exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)}
         imageAltText={exhibition.image && exhibition.image.alt}>
         <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>

@@ -44,6 +44,7 @@ export class BooksPage extends Component<Props> {
         url={{pathname: `/books`}}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'website'}
+        siteSection={null}
         imageUrl={firstBook && firstBook.image && convertImageUri(firstBook.image.contentUrl, 800)}
         imageAltText={firstBook && firstBook.image && firstBook.image.alt}>
         <LayoutPaginatedResults

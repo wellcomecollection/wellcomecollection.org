@@ -36,6 +36,7 @@ export class ArticlesPage extends Component<Props> {
         url={{pathname: `/articles`}}
         jsonLd={articles.results.map(articleLd)}
         openGraphType={'website'}
+        siteSection={'stories'}
         imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
         imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}>
         <LayoutPaginatedResults

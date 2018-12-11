@@ -81,6 +81,7 @@ class InstallationPage extends Component<Props> {
         url={{pathname: `/installations/${installation.id}`}}
         jsonLd={exhibitionLd(installation)}
         openGraphType={'website'}
+        siteSection={'whats-on'}
         imageUrl={installation.image && convertImageUri(installation.image.contentUrl, 800)}
         imageAltText={installation.image && installation.image.alt}>
         <ContentPage

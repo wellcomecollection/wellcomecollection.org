@@ -64,7 +64,6 @@ export class Page extends Component<Props> {
       backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
       highlightHeading={true}
     />);
-
     return (
       <PageLayout
         title={page.title}
@@ -72,6 +71,7 @@ export class Page extends Component<Props> {
         url={{pathname: `/pages/${page.id}`}}
         jsonLd={contentLd(page)}
         openGraphType={'website'}
+        siteSection={page.siteSection === 'what-we-do' || page.siteSection === 'visit-us' ? page.siteSection : null}
         imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
         imageAltText={page.image && page.image.alt}>
         <ContentPage

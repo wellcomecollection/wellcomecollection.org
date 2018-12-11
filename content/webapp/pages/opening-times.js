@@ -65,6 +65,7 @@ export class OpeningTimesPage extends Component<Props> {
         description={page.promoText || ''}
         url={{pathname: `/opening-times`}}
         jsonLd={contentLd(page)}
+        siteSection={'visit-us'}
         openGraphType={'website'}
         imageUrl={page && page.promoImage && convertImageUri(page.promoImage.contentUrl, 800)}
         imageAltText={page && page.promoImage && page.promoImage.alt}>

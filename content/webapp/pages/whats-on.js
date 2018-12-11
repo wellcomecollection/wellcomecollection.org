@@ -325,6 +325,7 @@ export class WhatsOnPage extends Component<Props> {
           ...events.map(eventLd)
         ]}
         openGraphType={'website'}
+        siteSection={'whats-on'}
         imageUrl={firstExhibition && firstExhibition.image && convertImageUri(firstExhibition.image.contentUrl, 800)}
         imageAltText={firstExhibition && firstExhibition.image && firstExhibition.image.alt}>
         <OpeningTimesContext.Consumer>

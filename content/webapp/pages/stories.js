@@ -84,6 +84,7 @@ export class StoriesPage extends Component<Props> {
         url={{pathname: `/articles`}}
         jsonLd={articles.map(articleLd)}
         openGraphType={'website'}
+        siteSection={'stories'}
         imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
         imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}>
         <SpacingSection>

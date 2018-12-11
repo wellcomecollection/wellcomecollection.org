@@ -98,6 +98,7 @@ export class ArticleSeriesPage extends Component<Props> {
         description={series.metadataDescription || series.promoText || ''}
         url={{pathname: `/series/${series.id}`}}
         jsonLd={{ '@type': 'WebPage' }}
+        siteSection={'stories'}
         openGraphType={'website'}
         imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
         imageAltText={series.image && series.image.alt}>

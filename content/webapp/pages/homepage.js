@@ -80,6 +80,7 @@ export class HomePage extends Component<Props> {
           ]
         }
         openGraphType={'website'}
+        siteSection={null}
         imageUrl={pageImage}
         imageAltText={''}>
         <SpacingSection>

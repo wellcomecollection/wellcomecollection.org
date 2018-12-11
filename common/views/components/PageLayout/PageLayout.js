@@ -15,12 +15,20 @@ import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 
+type SiteSection =
+  | 'works'
+  | 'what-we-do'
+  | 'visit-us'
+  | 'stories'
+  | 'whats-on';
+
 type Props = {|
   title: string,
   description: string,
   url: Url,
   jsonLd: JsonLdObj | JsonLdObj[],
   openGraphType: | 'website' | 'article' | 'book' | 'profile',
+  siteSection: ?SiteSection,
   imageUrl: ?string,
   imageAltText: ?string,
   oEmbedUrl?: string,
@@ -33,6 +41,7 @@ const PageLayout = ({
   url,
   jsonLd,
   openGraphType,
+  siteSection,
   imageUrl,
   imageAltText,
   oEmbedUrl,
@@ -79,7 +88,7 @@ const PageLayout = ({
 
       <div className={isPreview ? 'is-preview' : undefined}>
         <a className='skip-link' href='#main'>Skip to main content</a>
-        <Header siteSection={'works'} />
+        <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert.isShown === 'show' &&

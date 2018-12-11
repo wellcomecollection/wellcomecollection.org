@@ -28,6 +28,7 @@ export class NewsletterPage extends Component<Props> {
         url={{pathname: `/newsletter`}}
         jsonLd={{'@type': 'WebPage'}}
         openGraphType={'website'}
+        siteSection={'what-we-do'}
         imageUrl={'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg'}
         imageAltText={''}>
         <div className={spacing({s: 4}, {margin: ['top']})}>
