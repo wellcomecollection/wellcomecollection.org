@@ -5,11 +5,10 @@ import Router from 'next/router';
 import Head from 'next/head';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
-import {parseOpeningTimesFromCollectionVenues} from '@weco/common/services/prismic/opening-times';
-import Header from '@weco/common/views/components/Header/Header';
-import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
-import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
-import Footer from '@weco/common/views/components/Footer/Footer';
+import {parseOpeningTimesFromCollectionVenues} from '../../services/prismic/opening-times';
+import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
+import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
+import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
@@ -35,8 +34,6 @@ export default class WecoApp extends App {
     let pageProps = {};
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
-      // Let's try not to use this, but for the sake of getting the job done...
-      ctx.query.openingTimes = parseOpeningTimesFromCollectionVenues(openingTimes);
       pageProps = await Component.getInitialProps(ctx);
     }
 
@@ -135,6 +132,7 @@ export default class WecoApp extends App {
     const {
       Component,
       pageProps,
+      toggles,
       openingTimes,
       globalAlert
     } = this.props;
@@ -163,22 +161,13 @@ export default class WecoApp extends App {
           <link rel='mask-icon' href='https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg' color='#000000' />
           <script src='https://i.wellcomecollection.org/assets/libs/picturefill.min.js' async />
         </Head>
-
-        <div className={isPreview ? 'is-preview' : undefined}>
-          <a className='skip-link' href='#main'>Skip to main content</a>
-          <Header siteSection={'works'} />
-          {globalAlert.isShown === 'show' &&
-            <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
-          }
-          <div id='main' className='main' role='main'>
-            <Component {...pageProps} />
-          </div>
-          <NewsletterPromo />
-          <Footer
-            openingHoursId='footer'
-            groupedVenues={parsedOpeningTimes.groupedVenues}
-            upcomingExceptionalOpeningPeriods={parsedOpeningTimes.upcomingExceptionalOpeningPeriods} />
-        </div>
+        <TogglesContext.Provider value={toggles}>
+          <OpeningTimesContext.Provider value={parsedOpeningTimes}>
+            <GlobalAlertContext.Provider value={globalAlert.text}>
+              <Component {...pageProps} />
+            </GlobalAlertContext.Provider>
+          </OpeningTimesContext.Provider>
+        </TogglesContext.Provider>
       </Container>
     );
   }

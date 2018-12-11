@@ -28,6 +28,7 @@ import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEv
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 import InstallationPromo from '@weco/common/views/components/InstallationPromo/InstallationPromo';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import {exhibitionLd, eventLd} from '@weco/common/utils/json-ld';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
@@ -42,8 +43,7 @@ type Props = {|
   period: string,
   dateRange: any[],
   tryTheseTooPromos: any[],
-  eatShopPromos: any[],
-  openingTimesFudge: any // TODO
+  eatShopPromos: any[]
 |}
 
 function getListHeader(collectionOpeningTimes: any = {}) {
@@ -290,8 +290,7 @@ export class WhatsOnPage extends Component<Props> {
         eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
         cafePromo,
         shopPromo,
-        dailyTourPromo,
-        openingTimesFudge: ctx.query.openingTimes // TODO if this is called openingTimes, it doesn't appear on this.props for some reason
+        dailyTourPromo
       };
     } else {
       return {statusCode: 404};
@@ -303,8 +302,7 @@ export class WhatsOnPage extends Component<Props> {
       period,
       dateRange,
       tryTheseTooPromos,
-      eatShopPromos,
-      openingTimesFudge
+      eatShopPromos
     } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
@@ -329,177 +327,183 @@ export class WhatsOnPage extends Component<Props> {
         openGraphType={'website'}
         imageUrl={firstExhibition && firstExhibition.image && convertImageUri(firstExhibition.image.contentUrl, 800)}
         imageAltText={firstExhibition && firstExhibition.image && firstExhibition.image.alt}>
-        <Header
-          activeId={period}
-          openingTimes={openingTimesFudge}
-        />
-
-        <div className={classNames({
-          [spacing({s: 2, m: 4}, {margin: ['top']})]: true
-        })}>
-          {period === 'current-and-coming-up' &&
+        <OpeningTimesContext.Consumer>
+          {openingTimes =>
             <Fragment>
-              <div className={classNames({
-                [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true
-              })}>
-                <SpacingSection>
-                  <Layout12>
-                    <DateRange
-                      dateRange={dateRange}
-                      period={period}
-                      cafePromo={eatShopPromos[0]}
-                      shopPromo={eatShopPromos[1]}
-                      openingTimes={openingTimesFudge}
-                    />
-                    <div className='flex flex--v-center flex--h-space-between'>
-                      <h2 className='h1'>Exhibitions</h2>
-                      <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
-                    </div>
-                  </Layout12>
-
-                  <CardGrid items={exhibitions} />
-
-                  <Layout12>
-                    <div className={spacing({s: 3}, { margin: ['top'] })}>
-                      <PrimaryLink
-                        name={'View all exhibitions'}
-                        url={'/exhibitions'} />
-                    </div>
-                  </Layout12>
-                </SpacingSection>
-
-                <SpacingSection>
-                  <SectionHeader
-                    title={'Events'}
-                    linkText={'Free admission'}
-                  />
-                  <EventsByMonth events={events} />
-                  <Layout12>
-                    <div className={spacing({s: 3}, { margin: ['top'] })}>
-                      <PrimaryLink name={'View all events'} url={'/events'} />
-                    </div>
-                  </Layout12>
-                </SpacingSection>
-              </div>
-            </Fragment>
-          }
-          {period !== 'current-and-coming-up' &&
-            <Fragment>
-              <div className={classNames({
-                [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true,
-                [spacing({s: 2}, { margin: ['bottom'] })]: true
-              })}>
-                <Layout12>
-                  <div className={classNames({
-                    [spacing({s: 0}, {margin: ['top', 'bottom']})]: true
-                  })}>
-                    <DateRange
-                      dateRange={dateRange}
-                      period={period}
-                      cafePromo={eatShopPromos[0]}
-                      shopPromo={eatShopPromos[1]}
-                      openingTimes={openingTimesFudge}
-                    />
-                    <div className='flex flex--v-center flex--h-space-between'>
-                      <h2 className='h1'>Exhibitions and Events</h2>
-                      <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
-                    </div>
-                  </div>
-                </Layout12>
-              </div>
-              <ExhibitionsAndEvents
-                exhibitions={exhibitions}
-                events={events}
+              <Header
+                activeId={period}
+                openingTimes={openingTimes}
               />
-              <div className={classNames({
-                [spacing({s: 4}, {margin: ['top']})]: true
-              })}>
-                <Layout12>
-                  <PrimaryLink name={'View all exhibitions'} url={'/exhibitions'} />
-                  <br />
-                  <PrimaryLink name={'View all events'} url={'/events'} />
-                </Layout12>
-              </div>
-            </Fragment>
-          }
-        </div>
-        <SpacingSection>
-          <SectionHeader title={'Try these too'} />
-          <div className='css-grid__container'>
-            <div className={classNames({
-              'css-grid': true
-            })}>
-              <div className={classNames({
-                'css-grid__scroll-container container--scroll touch-scroll': true,
-                [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
-              })}>
-                <div className='css-grid grid--scroll'>
-                  {tryTheseTooPromos.map(promo => (
-                    <div
-                      key={promo.title}
-                      className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
-                      <FacilityPromo
-                        id={promo.id}
-                        title={promo.title}
-                        url={promo.url}
-                        description={promo.description}
-                        imageProps={promo.image}
-                        metaText={promo.metaText}
-                        metaIcon={promo.metaIcon}
-                      />
-                    </div>
-                  ))}
 
-                  <div
-                    className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
-                    <InstallationPromo
-                      id={pharmacyOfColourData.id}
-                      title={pharmacyOfColourData.title}
-                      description={pharmacyOfColourData.promoText}
-                      image={pharmacyOfColourData.promoImage}
-                      start={pharmacyOfColourData.start}
-                      end={pharmacyOfColourData.end}
-                      position={2}
+              <div className={classNames({
+                [spacing({s: 2, m: 4}, {margin: ['top']})]: true
+              })}>
+                {period === 'current-and-coming-up' &&
+                  <Fragment>
+                    <div className={classNames({
+                      [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true
+                    })}>
+                      <SpacingSection>
+                        <Layout12>
+                          <DateRange
+                            dateRange={dateRange}
+                            period={period}
+                            cafePromo={eatShopPromos[0]}
+                            shopPromo={eatShopPromos[1]}
+                            openingTimes={openingTimes}
+                          />
+                          <div className='flex flex--v-center flex--h-space-between'>
+                            <h2 className='h1'>Exhibitions</h2>
+                            <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
+                          </div>
+                        </Layout12>
+
+                        <CardGrid items={exhibitions} />
+
+                        <Layout12>
+                          <div className={spacing({s: 3}, { margin: ['top'] })}>
+                            <PrimaryLink
+                              name={'View all exhibitions'}
+                              url={'/exhibitions'} />
+                          </div>
+                        </Layout12>
+                      </SpacingSection>
+
+                      <SpacingSection>
+                        <SectionHeader
+                          title={'Events'}
+                          linkText={'Free admission'}
+                        />
+                        <EventsByMonth events={events} />
+                        <Layout12>
+                          <div className={spacing({s: 3}, { margin: ['top'] })}>
+                            <PrimaryLink name={'View all events'} url={'/events'} />
+                          </div>
+                        </Layout12>
+                      </SpacingSection>
+                    </div>
+                  </Fragment>
+                }
+                {period !== 'current-and-coming-up' &&
+                  <Fragment>
+                    <div className={classNames({
+                      [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true,
+                      [spacing({s: 2}, { margin: ['bottom'] })]: true
+                    })}>
+                      <Layout12>
+                        <div className={classNames({
+                          [spacing({s: 0}, {margin: ['top', 'bottom']})]: true
+                        })}>
+                          <DateRange
+                            dateRange={dateRange}
+                            period={period}
+                            cafePromo={eatShopPromos[0]}
+                            shopPromo={eatShopPromos[1]}
+                            openingTimes={openingTimes}
+                          />
+                          <div className='flex flex--v-center flex--h-space-between'>
+                            <h2 className='h1'>Exhibitions and Events</h2>
+                            <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
+                          </div>
+                        </div>
+                      </Layout12>
+                    </div>
+                    <ExhibitionsAndEvents
+                      exhibitions={exhibitions}
+                      events={events}
                     />
+                    <div className={classNames({
+                      [spacing({s: 4}, {margin: ['top']})]: true
+                    })}>
+                      <Layout12>
+                        <PrimaryLink name={'View all exhibitions'} url={'/exhibitions'} />
+                        <br />
+                        <PrimaryLink name={'View all events'} url={'/events'} />
+                      </Layout12>
+                    </div>
+                  </Fragment>
+                }
+              </div>
+              <SpacingSection>
+                <SectionHeader title={'Try these too'} />
+                <div className='css-grid__container'>
+                  <div className={classNames({
+                    'css-grid': true
+                  })}>
+                    <div className={classNames({
+                      'css-grid__scroll-container container--scroll touch-scroll': true,
+                      [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+                    })}>
+                      <div className='css-grid grid--scroll'>
+                        {tryTheseTooPromos.map(promo => (
+                          <div
+                            key={promo.title}
+                            className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
+                            <FacilityPromo
+                              id={promo.id}
+                              title={promo.title}
+                              url={promo.url}
+                              description={promo.description}
+                              imageProps={promo.image}
+                              metaText={promo.metaText}
+                              metaIcon={promo.metaIcon}
+                            />
+                          </div>
+                        ))}
+
+                        <div
+                          className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
+                          <InstallationPromo
+                            id={pharmacyOfColourData.id}
+                            title={pharmacyOfColourData.title}
+                            description={pharmacyOfColourData.promoText}
+                            image={pharmacyOfColourData.promoImage}
+                            start={pharmacyOfColourData.start}
+                            end={pharmacyOfColourData.end}
+                            position={2}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </SpacingSection>
+              </SpacingSection>
 
-        <SpacingSection>
-          <SectionHeader title='Eat and shop' />
+              <SpacingSection>
+                <SectionHeader title='Eat and shop' />
 
-          <div className='css-grid__container'>
-            <div className={classNames({
-              'css-grid': true
-            })}>
-              <div className={classNames({
-                'css-grid__scroll-container container--scroll touch-scroll': true,
-                [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
-              })}>
-                <div className='css-grid grid--scroll'>
-                  {eatShopPromos.map(promo =>
-                    <div
-                      key={promo.id}
-                      className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
-                      <FacilityPromo
-                        id={promo.id}
-                        title={promo.title}
-                        url={promo.url}
-                        description={promo.description}
-                        imageProps={promo.image}
-                        metaText={promo.metaText}
-                        metaIcon={promo.metaIcon}
-                      />
+                <div className='css-grid__container'>
+                  <div className={classNames({
+                    'css-grid': true
+                  })}>
+                    <div className={classNames({
+                      'css-grid__scroll-container container--scroll touch-scroll': true,
+                      [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
+                    })}>
+                      <div className='css-grid grid--scroll'>
+                        {eatShopPromos.map(promo =>
+                          <div
+                            key={promo.id}
+                            className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
+                            <FacilityPromo
+                              id={promo.id}
+                              title={promo.title}
+                              url={promo.url}
+                              description={promo.description}
+                              imageProps={promo.image}
+                              metaText={promo.metaText}
+                              metaIcon={promo.metaIcon}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </SpacingSection>
+              </SpacingSection>
+            </Fragment>
+          }
+        </OpeningTimesContext.Consumer>
       </PageLayout>
     );
   }

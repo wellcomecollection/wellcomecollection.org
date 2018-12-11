@@ -8,6 +8,12 @@ import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
 import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 import JsonLd from '../JsonLd/JsonLd';
+import Header from '../Header/Header';
+import InfoBanner from '../InfoBanner/InfoBanner';
+import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
+import Footer from '../Footer/Footer';
+import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
+import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 
 type Props = {|
   title: string,
@@ -38,6 +44,7 @@ const PageLayout = ({
     : 'Wellcome Collection | The free museum and library for the incurably curious';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
+  const isPreview = false;
   return (
     <Fragment>
       <Head>
@@ -70,7 +77,29 @@ const PageLayout = ({
         <JsonLd data={jsonLd} />
       </Head>
 
-      {children}
+      <div className={isPreview ? 'is-preview' : undefined}>
+        <a className='skip-link' href='#main'>Skip to main content</a>
+        <Header siteSection={'works'} />
+        <GlobalAlertContext.Consumer>
+          {globalAlert =>
+            globalAlert.isShown === 'show' &&
+            <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
+          }
+        </GlobalAlertContext.Consumer>
+        <div id='main' className='main' role='main'>
+          {children}
+        </div>
+        <NewsletterPromo />
+        <OpeningTimesContext.Consumer>
+          {openingTimes =>
+            <Footer
+              openingHoursId='footer'
+              groupedVenues={openingTimes.groupedVenues}
+              upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
+          }
+        </OpeningTimesContext.Consumer>
+      </div>
+
     </Fragment>
   );
 };
