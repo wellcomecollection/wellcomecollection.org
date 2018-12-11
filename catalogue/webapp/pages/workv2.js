@@ -32,13 +32,15 @@ export type Link = {|
 
 type Props = {|
   work: Work | CatalogueApiError,
-  previousQueryString: ?string,
+  query: ?string,
+  page: ?number,
   showRedesign: boolean
 |}
 
 export const WorkPage = ({
   work,
-  previousQueryString,
+  query,
+  page,
   showRedesign
 }: Props) => {
   if (work.type === 'Error') {
@@ -100,18 +102,18 @@ export const WorkPage = ({
       imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
-      {previousQueryString &&
+      {query &&
         <div className='row'>
           <div className='container'>
             <div className='grid'>
               <div className={grid({s: 12})}>
                 <SecondaryLink
-                  url={`/works${previousQueryString || ''}#${work.id}`}
+                  link={worksUrl({query, page})}
                   text='Search results'
                   trackingEvent={{
                     category: 'component',
                     action: 'return-to-results:click',
-                    label: `id:${work.id}, query:${previousQueryString || ''}, title:${work.title}`
+                    label: `id:${work.id}, query:${query || ''}, title:${work.title}`
                   }} />
               </div>
             </div>
@@ -347,10 +349,7 @@ export const WorkPage = ({
 };
 
 WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> => {
-  const {id} = ctx.query;
-  const {asPath} = ctx;
-  const queryStart = asPath.indexOf('?');
-  const previousQueryString = queryStart > -1 ? asPath.slice(queryStart) : null;
+  const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
   const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
 
@@ -367,7 +366,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
     return workOrError;
   } else {
     return {
-      previousQueryString,
+      query,
+      page: page ? parseInt(page, 10) : null,
       work: workOrError,
       showRedesign
     };

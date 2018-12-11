@@ -9,7 +9,9 @@ type WorkUrlProps = {|
 
 type WorksUrlProps = {|
   query: ?string,
-  page: ?number
+  page: ?number,
+  workType?: string[],
+  itemsLocationsLocationType?: string[]
 |}
 
 type LinkProps = {|
@@ -43,20 +45,37 @@ export function workUrl({ id, query, page }: WorkUrlProps): LinkProps {
   };
 }
 
-export function worksUrl({ query, page }: WorksUrlProps): LinkProps {
+export function worksUrl({
+  query,
+  page,
+  workType = ['k', 'q'],
+  itemsLocationsLocationType = ['iiif-image']
+}: WorksUrlProps): LinkProps {
+  const workTypeWithDefaults =
+    JSON.stringify(workType) === JSON.stringify(['k', 'q'])
+      ? undefined : workType.join(',');
+
+  const itemsLocationsLocationTypeWithDefaults =
+    JSON.stringify(itemsLocationsLocationType) === JSON.stringify(['iiif-image'])
+      ? undefined : itemsLocationsLocationType.join(',');
+
   return {
     href: {
       pathname: `/worksv2`,
       query: removeEmpty({
         query: query || undefined,
-        page: page && page > 1 ? page : undefined
+        page: page && page > 1 ? page : undefined,
+        workType: workTypeWithDefaults,
+        'items.locations.locationType': itemsLocationsLocationTypeWithDefaults
       })
     },
     as: {
       pathname: `/works`,
       query: removeEmpty({
         query: query || undefined,
-        page: page && page > 1 ? page : undefined
+        page: page && page > 1 ? page : undefined,
+        workType: workTypeWithDefaults,
+        'items.locations.locationType': itemsLocationsLocationTypeWithDefaults
       })
     }
   };

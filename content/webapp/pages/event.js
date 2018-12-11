@@ -240,7 +240,7 @@ class EventPage extends Component<Props, State> {
             })}>
               {!event.isPast &&
                 <SecondaryLink
-                  url='#dates'
+                  link={{href: '#dates', as: '#dates'}}
                   text={`See all dates`}
                   icon={'arrowSmall'}
                   trackingEvent={{
@@ -317,7 +317,10 @@ class EventPage extends Component<Props, State> {
                       text='Email to book' />
                   )}
                 <SecondaryLink
-                  url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                  link={{
+                    href: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`,
+                    as: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`
+                  }}
                   text={event.bookingEnquiryTeam.email}
                   extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
               </Fragment>
