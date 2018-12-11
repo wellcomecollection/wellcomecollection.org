@@ -110,6 +110,11 @@ export const WorkPage = ({
                     category: 'component',
                     action: 'return-to-results:click',
                     label: `id:${work.id}, query:${previousQueryString || ''}, title:${work.title}`
+                  }}
+                  trackingEventV2={{
+                    eventCategory: 'SecondaryLink',
+                    eventAction: 'follow link',
+                    eventLabel: `${work.id}, ${JSON.stringify({text: work.title})}`
                   }} />
               </div>
             </div>
