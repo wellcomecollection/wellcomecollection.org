@@ -2,7 +2,7 @@
 import type {Context} from 'next';
 import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogue/works';
 // $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
-import {Fragment, useState, useEffect, useRef} from 'react';
+import {Fragment} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -80,7 +80,7 @@ export const Works = ({
   }
 
   const workType = filters.workType;
-  const showImagesOnly = useState(Boolean(filters['items.locations.locationType']));
+  const showImagesOnly = filters['items.locations.locationType'][0] === 'iiif-image';
 
   return (
     <Fragment>
@@ -140,9 +140,19 @@ export const Works = ({
                   onSubmit={async (event) => {
                     event.preventDefault();
                     const form = event.currentTarget;
-                    // $FlowFixMe
+
                     const newQuery = form.elements.query.value;
-                    const link = worksUrl({ query: newQuery, page: 1 });
+                    const newWorkTypes = Array.from(form.elements.workType)
+                      .filter(input => input.checked)
+                      .map(input => input.value);
+
+                    const itemsLocationsLocationType = form.elements.showImagesOnly.checked ? ['iiif-image'] : [];
+                    const link = worksUrl({
+                      query: newQuery,
+                      page: 1,
+                      workType: newWorkTypes,
+                      itemsLocationsLocationType
+                    });
                     Router.push(link.href, link.as);
                   }}>
                   <SearchBox
@@ -166,17 +176,10 @@ export const Works = ({
                             type='checkbox'
                             name='workType'
                             value={id}
-                            checked={workType.indexOf(id) !== -1}
+                            defaultChecked={workType.indexOf(id) !== -1}
                             style={{
                               marginRight: '6px'
-                            }}
-                            onChange={(event) => {
-                              if (event.target.checked) {
-                                workType.push(id);
-                              } else {
-                                workType.splice(workType.indexOf(id), 1);
-                              }
-                            }}/>
+                            }} />
                           {label}
                         </label>
                       ))}
@@ -186,8 +189,7 @@ export const Works = ({
                           type='checkbox'
                           name='showImagesOnly'
                           value={true}
-                          checked={showImagesOnly}
-                          onChange={(event) => event.target.checked} />
+                          defaultChecked={showImagesOnly} />
                         Images only
                       </label>
                     </Fragment>
@@ -260,7 +262,7 @@ export const Works = ({
                         })}>
                           <LinkLabels items={[
                             {
-                              url: `/works?query=workType:"${result.workType.label}"`,
+                              url: null,
                               text: result.workType.label
                             }
                           ]} />
@@ -294,7 +296,7 @@ export const Works = ({
                       <div className='flex flex--h-space-between flex--v-center'>
                         <Fragment>
                           <Paginator
-                            currentPage={page}
+                            currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
                             link={worksUrl({query, page})}
@@ -346,12 +348,15 @@ Works.getInitialProps = async (
 ): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
+  const workType = ctx.query.workType ? ctx.query.workType.split(',') : ['k', 'q'];
+  const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
+    ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
+
+  console.info(ctx.query['items.locations.locationType'], itemsLocationsLocationType, 'items.locations.locationType' in ctx.query);
   const {showCatalogueSearchFilters} = ctx.query.toggles;
-  const filters = showCatalogueSearchFilters ? {
-    workType: workTypes.map(({id}) => id)
-  } : {
-    workType: ['q', 'k'],
-    'items.locations.locationType': ['iiif-image']
+  const filters = {
+    'items.locations.locationType': itemsLocationsLocationType,
+    workType
   };
 
   const worksOrError = query && query !== '' ? await getWorks({ query, page, filters }) : null;
