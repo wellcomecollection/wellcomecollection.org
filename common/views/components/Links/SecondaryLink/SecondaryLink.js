@@ -10,6 +10,7 @@ type Props = {|
   text: string,
   extraClasses?: string,
   trackingEvent?: GaEvent,
+  trackingEventV2?: GaEventV2,
   icon?: string
 |}
 
@@ -18,17 +19,17 @@ const SecondaryLink = ({
   text,
   extraClasses,
   trackingEvent,
+  trackingEventV2,
   icon
 }: Props) => {
   function handleClick(event) {
     trackIfOutboundLink(event.currentTarget.href);
     if (trackingEvent) {
       trackEvent(trackingEvent);
-      trackEventV2({
-        eventCategory: 'SecondaryLink',
-        eventAction: 'follow link',
-        eventLabel: `${url}, ${JSON.stringify({text})}`
-      });
+    }
+
+    if (trackingEventV2) {
+      trackEventV2(trackingEventV2);
     }
   }
 
