@@ -45,7 +45,7 @@ export const WorkPage = ({
     return (
       <PageLayout
         title={work.httpStatus.toString()}
-        description={''}
+        description={work.description}
         url={{pathname: `/works`}}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
@@ -53,6 +53,7 @@ export const WorkPage = ({
         imageUrl={null}
         imageAltText={null}>
         <ErrorPage
+          title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
           errorStatus={work.httpStatus}
         />
       </PageLayout>

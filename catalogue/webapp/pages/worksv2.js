@@ -184,7 +184,6 @@ export const Works = ({
                   onSubmit={async (event) => {
                     event.preventDefault();
                     const form = event.currentTarget;
-                    // $FlowFixMe
                     const newQuery = form.elements.query.value;
                     setQuery(newQuery);
                     setPage(1);
