@@ -34,7 +34,7 @@ const StoryPromo = ({
         trackEventV2({
           eventCategory: 'StoryPromo',
           eventAction: 'follow link',
-          eventLabel: item.id
+          eventLabel: `${item.id}, ${JSON.stringify({ position: position })}`
         });
       }}
       id={item.id}
