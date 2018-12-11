@@ -45,10 +45,10 @@ const Button = ({
       clickHandler(e);
     }
     if (trackingEvent) {
-      trackEvent(trackEvent);
+      trackEvent(trackingEvent);
     }
     if (trackingEventV2) {
-      trackEventV2(trackEvent);
+      trackEventV2(trackingEventV2);
     }
   }
   return (
