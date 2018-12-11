@@ -1,6 +1,7 @@
 // @flow
 import NextLink from 'next/link';
 import { spacing, font } from '../../../utils/classnames';
+import {trackEventV2} from '../../../utils/ga';
 import ReactGA from 'react-ga';
 
 export type TagProps = {|
@@ -30,6 +31,12 @@ const Tag = ({text, url}: TagProps) => {
       category: 'component',
       action: 'Tag:click',
       label: `text:${text}${url ? `, url:${url}` : ''}`
+    });
+
+    trackEventV2({
+      eventCategory: 'Tags',
+      eventAction: 'follow link',
+      eventLabel: `${text}, ${JSON.stringify({url: url})}`
     });
   }
 
