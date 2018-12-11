@@ -3,7 +3,6 @@ import Control from '../Buttons/Control/Control';
 import {iiifImageTemplate} from '../../../utils/convert-image-uri';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import {classNames} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
 
 type Props = {|
   id: string,
