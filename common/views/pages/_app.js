@@ -35,6 +35,8 @@ export default class WecoApp extends App {
     let pageProps = {};
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
+      // Let's try not to use this, but for the sake of getting the job done...
+      ctx.query.openingTimes = parseOpeningTimesFromCollectionVenues(openingTimes);
       pageProps = await Component.getInitialProps(ctx);
     }
 

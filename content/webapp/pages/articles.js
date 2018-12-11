@@ -31,7 +31,7 @@ export class ArticlesPage extends Component<Props> {
 
     return (
       <PageLayout
-        title={'Article'}
+        title={'Articles'}
         description={pageDescription}
         url={{pathname: `/articles`}}
         jsonLd={articles.results.map(articleLd)}

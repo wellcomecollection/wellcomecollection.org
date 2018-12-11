@@ -1,6 +1,6 @@
 // @flow
 import {Component} from 'react';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -10,6 +10,7 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {getPage} from '@weco/common/services/prismic/pages';
+import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page as PageType} from '@weco/common/model/pages';
 import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
@@ -25,17 +26,8 @@ export class Page extends Component<Props> {
 
     if (page) {
       return {
-        page,
-        title: page.title,
-        description: page.metadataDescription || page.promoText,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/pages/${page.id}`,
-        imageUrl: page.image && convertImageUri(page.image.contentUrl, 800),
-        siteSection: page.siteSection,
-        analyticsCategory: 'info'
+        page
       };
-    } else {
-      return {statusCode: 404};
     }
   }
 
@@ -74,13 +66,22 @@ export class Page extends Component<Props> {
     />);
 
     return (
-      <ContentPage
-        id={page.id}
-        Header={Header}
-        Body={<Body body={body} />}>
-      </ContentPage>
+      <PageLayout
+        title={page.title}
+        description={page.metadataDescription || page.promoText || ''}
+        url={{pathname: `/pages/${page.id}`}}
+        jsonLd={contentLd(page)}
+        openGraphType={'website'}
+        imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
+        imageAltText={page.image && page.image.alt}>
+        <ContentPage
+          id={page.id}
+          Header={Header}
+          Body={<Body body={body} />}>
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(Page);
+export default Page;

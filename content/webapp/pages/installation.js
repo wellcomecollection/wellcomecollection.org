@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -26,18 +26,8 @@ class InstallationPage extends Component<Props> {
 
     if (installation) {
       return {
-        installation,
-        title: installation.title,
-        description: installation.metadataDescription || installation.promoText,
-        type: 'installation',
-        canonicalUrl: `https://wellcomecollection.org/installations/${installation.id}`,
-        imageUrl: installation.image && convertImageUri(installation.image.contentUrl, 800),
-        siteSection: 'whatson',
-        category: 'public-programme',
-        pageJsonLd: exhibitionLd(installation)
+        installation
       };
-    } else {
-      return {statusCode: 404};
     }
   }
 
@@ -85,15 +75,24 @@ class InstallationPage extends Component<Props> {
       HeroPicture={null}
     />;
     return (
-      <ContentPage
-        id={installation.id}
-        Header={Header}
-        Body={<Body body={installation.body} />}
-        contributorProps={{ contributors: installation.contributors }}
-      >
-      </ContentPage>
+      <PageLayout
+        title={installation.title}
+        description={installation.metadataDescription || installation.promoText || ''}
+        url={{pathname: `/installations/${installation.id}`}}
+        jsonLd={exhibitionLd(installation)}
+        openGraphType={'website'}
+        imageUrl={installation.image && convertImageUri(installation.image.contentUrl, 800)}
+        imageAltText={installation.image && installation.image.alt}>
+        <ContentPage
+          id={installation.id}
+          Header={Header}
+          Body={<Body body={installation.body} />}
+          contributorProps={{ contributors: installation.contributors }}
+        >
+        </ContentPage>
+      </PageLayout>
     );
   }
 }
 
-export default PageWrapper(InstallationPage);
+export default InstallationPage;

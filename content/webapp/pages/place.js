@@ -1,7 +1,7 @@
 // @flow
 import {Component} from 'react';
 import {getPlace} from '@weco/common/services/prismic/places';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import {UiImage} from '@weco/common/views/components/Images/Images';
@@ -15,21 +15,14 @@ type Props = {|
   place: Place
 |}
 
-export class ArticleSeriesPage extends Component<Props> {
+export class PlacePage extends Component<Props> {
   static getInitialProps = async (context: GetInitialPropsProps) => {
     const {id} = context.query;
     const place = await getPlace(context.req, id);
 
     if (place) {
       return {
-        place,
-        title: place.title,
-        description: place.metadataDescription || place.promoText,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/places/${place.id}`,
-        imageUrl: place.image && convertImageUri(place.image.contentUrl, 800),
-        siteSection: 'places',
-        analyticsCategory: 'editorial'
+        place
       };
     } else {
       return {statusCode: 404};
@@ -76,14 +69,24 @@ export class ArticleSeriesPage extends Component<Props> {
     />);
 
     return (
-      <ContentPage
-        id={place.id}
-        Header={Header}
-        Body={<Body body={place.body} />}
-      >
-      </ContentPage>
+      <PageLayout
+        title={place.title}
+        description={place.metadataDescription || place.promoText || ''}
+        url={{pathname: `/places/${place.id}`}}
+        jsonLd={{'@type': 'WebPage'}}
+        openGraphType={'website'}
+        imageUrl={place.image && convertImageUri(place.image.contentUrl, 800)}
+        imageAltText={place.image && place.image.alt}>
+        <ContentPage
+          id={place.id}
+          Header={Header}
+          Body={<Body body={place.body} />}
+        >
+
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default PlacePage;

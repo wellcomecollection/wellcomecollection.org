@@ -14,7 +14,7 @@ import {
   dailyTourPromo
 } from '@weco/common/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
-import {default as PageWrapper} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
@@ -28,7 +28,9 @@ import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEv
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 import InstallationPromo from '@weco/common/views/components/InstallationPromo/InstallationPromo';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import type {GetInitialPropsProps, ExtraProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {exhibitionLd, eventLd} from '@weco/common/utils/json-ld';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {UiEvent} from '@weco/common/model/events';
 import type {Period} from '@weco/common/model/periods';
@@ -261,15 +263,14 @@ const Header = ({
 const pageDescription = 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
 export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (
-    context: GetInitialPropsProps,
-    {openingTimes}: ExtraProps
+    ctx: GetInitialPropsProps
   ) => {
-    const period = context.query.period || 'current-and-coming-up';
-    const exhibitionsPromise = getExhibitions(context.req, {
+    const period = ctx.query.period || 'current-and-coming-up';
+    const exhibitionsPromise = getExhibitions(ctx.req, {
       period,
       order: 'asc'
     });
-    const eventsPromise = getEvents(context.req, {
+    const eventsPromise = getEvents(ctx.req, {
       period,
       order: 'asc'
     });
@@ -290,14 +291,7 @@ export class WhatsOnPage extends Component<Props> {
         cafePromo,
         shopPromo,
         dailyTourPromo,
-        title: 'What\'s on',
-        description: pageDescription,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/whats-on`,
-        imageUrl: exhibitions.results[0].promoImage,
-        siteSection: 'whatson',
-        analyticsCategory: 'public-programme',
-        openingTimesFudge: openingTimes // TODO if this is called openingTimes, it doesn't appear on this.props for some reason
+        openingTimesFudge: ctx.query.openingTimes // TODO if this is called openingTimes, it doesn't appear on this.props for some reason
       };
     } else {
       return {statusCode: 404};
@@ -321,9 +315,20 @@ export class WhatsOnPage extends Component<Props> {
         ...exhibition
       };
     });
+    const firstExhibition = exhibitions[0];
 
     return (
-      <Fragment>
+      <PageLayout
+        title={`What's on`}
+        description={pageDescription}
+        url={{pathname: `/whats-on`}}
+        jsonLd={[
+          ...exhibitions.map(exhibitionLd),
+          ...events.map(eventLd)
+        ]}
+        openGraphType={'website'}
+        imageUrl={firstExhibition && firstExhibition.image && convertImageUri(firstExhibition.image.contentUrl, 800)}
+        imageAltText={firstExhibition && firstExhibition.image && firstExhibition.image.alt}>
         <Header
           activeId={period}
           openingTimes={openingTimesFudge}
@@ -495,9 +500,9 @@ export class WhatsOnPage extends Component<Props> {
             </div>
           </div>
         </SpacingSection>
-      </Fragment>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(WhatsOnPage);
+export default WhatsOnPage;

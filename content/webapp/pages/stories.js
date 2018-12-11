@@ -1,11 +1,11 @@
 // @flow
-import {Component, Fragment} from 'react';
+import {Component} from 'react';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {classNames, spacing, grid, font} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
@@ -65,30 +65,27 @@ export class StoriesPage extends Component<Props> {
     const series = seriesAndArticles && seriesAndArticles.series;
 
     if (articles && articles.results) {
-      const firstArticle = articles.results[0];
       return {
         articles,
-        series,
-        title: 'Stories',
-        description: pageDescription,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/stories`,
-        imageUrl: firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800),
-        siteSection: 'stories',
-        analyticsCategory: 'editorial',
-        jsonPageLd: articles.results.map(articleLd)
+        series
       };
-    } else {
-      return {statusCode: 404};
     }
   }
 
   render() {
     const series = this.props.series;
     const articles = this.props.articles.results;
+    const firstArticle = articles[0];
 
     return (
-      <Fragment>
+      <PageLayout
+        title={'Stories'}
+        description={pageDescription}
+        url={{pathname: `/articles`}}
+        jsonLd={articles.map(articleLd)}
+        openGraphType={'website'}
+        imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
+        imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}>
         <SpacingSection>
           <div className={classNames({
             'row': true,
@@ -178,9 +175,9 @@ export class StoriesPage extends Component<Props> {
 
           <CardGrid items={articles.slice(5, 11)} />
         </SpacingSection>
-      </Fragment>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(StoriesPage);
+export default StoriesPage;
