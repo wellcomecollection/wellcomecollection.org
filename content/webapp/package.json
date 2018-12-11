@@ -6,12 +6,11 @@
     "dev": "nodemon --watch server.js server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "linkweco": "pushd ../../common && yarn link && popd && yarn link @weco/common",
-    "test": "jest --transformIgnorePatterns 'node_modules(?!/@weco(?!.*node_modules))' --no-cache"
+    "test": "NODE_ENV=test jest --no-cache"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@weco/common": "../../common",
+    "@weco/common": "1.0.0",
     "autoprefixer": "^8.3.0",
     "cookies": "^0.7.1",
     "css-loader": "^0.28.11",
@@ -31,7 +30,8 @@
     "react-dom": "^16.7.0-alpha.2",
     "react-test-renderer": "^16.4.1",
     "react-transition-group": "^2.4.0",
-    "sass-loader": "^7.0.1"
+    "sass-loader": "^7.0.1",
+    "supertest": "^3.3.0"
   },
   "devDependencies": {
     "supertest": "^3.3.0"
