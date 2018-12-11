@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getPlace} from '@weco/common/services/prismic/places';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -9,16 +10,15 @@ import Body from '@weco/common/views/components/Body/Body';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Place} from '@weco/common/model/places';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   place: Place
 |}
 
 export class PlacePage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const place = await getPlace(context.req, id);
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const place = await getPlace(ctx.req, id);
 
     if (place) {
       return {

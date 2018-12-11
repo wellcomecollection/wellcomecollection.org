@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
@@ -12,7 +13,6 @@ import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleSeries} from '@weco/common/model/article-series';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
@@ -57,10 +57,10 @@ const SerialisedSeries = ({series}: any) => {
 
 const pageDescription = 'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 export class StoriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {page = 1} = context.query;
-    const articlesPromise = getArticles(context.req, {page});
-    const seriesPromise = getArticleSeries(context.req, {id: 'W1boEyYAACgAqwfw'});
+  static getInitialProps = async (ctx: Context) => {
+    const {page = 1} = ctx.query;
+    const articlesPromise = getArticles(ctx.req, {page});
+    const seriesPromise = getArticleSeries(ctx.req, {id: 'W1boEyYAACgAqwfw'});
     const [articles, seriesAndArticles] = await Promise.all([articlesPromise, seriesPromise]);
     const series = seriesAndArticles && seriesAndArticles.series;
 

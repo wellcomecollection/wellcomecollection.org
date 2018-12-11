@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Fragment, Component} from 'react';
 import {getExhibition, getExhibitionRelatedContent} from '@weco/common/services/prismic/exhibitions';
 import {isPast, isFuture} from '@weco/common/utils/dates';
@@ -23,7 +24,6 @@ import {font, spacing, grid} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {MultiContent} from '@weco/common/model/multi-content';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   exhibition: UiExhibition
@@ -40,12 +40,12 @@ export class ExhibitionPage extends Component<Props, State> {
     exhibitionAbouts: []
   }
 
-  static getInitialProps = async (context: GetInitialPropsProps) => {
+  static getInitialProps = async (ctx: Context) => {
     // TODO: We shouldn't need this, but do for flow as
     // `GetInitialPropsClientProps` doesn't have `req`
 
-    const {id} = context.query;
-    const exhibition = await getExhibition(context.req, id);
+    const {id} = ctx.query;
+    const exhibition = await getExhibition(ctx.req, id);
 
     if (exhibition) {
       return {

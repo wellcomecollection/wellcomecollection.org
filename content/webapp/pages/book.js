@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Fragment, Component} from 'react';
 import {getBook} from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -12,7 +13,6 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {defaultContributorImage} from '@weco/common/services/prismic/parsers';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import type {Book} from '@weco/common/model/books';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   book: Book
@@ -41,7 +41,7 @@ const BookMetadata = ({book}: Props) => (
 );
 
 export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (ctx: GetInitialPropsProps) => {
+  static getInitialProps = async (ctx: Context) => {
     const {id} = ctx.query;
     const book = await getBook(ctx.req, id);
 

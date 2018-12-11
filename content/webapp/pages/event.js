@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component, Fragment} from 'react';
 import Prismic from 'prismic-javascript';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -29,7 +30,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {eventLd} from '@weco/common/utils/json-ld';
 import {isEventFullyBooked} from '@weco/common/model/events';
 
@@ -116,9 +116,9 @@ class EventPage extends Component<Props, State> {
     scheduledIn: null
   }
 
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const event = await getEvent(context.req, {id});
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const event = await getEvent(ctx.req, {id});
 
     if (event) {
       return {

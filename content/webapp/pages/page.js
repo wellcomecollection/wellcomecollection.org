@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -12,7 +13,6 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {getPage} from '@weco/common/services/prismic/pages';
 import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page as PageType} from '@weco/common/model/pages';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   page: PageType
@@ -20,9 +20,9 @@ type Props = {|
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 export class Page extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const page = await getPage(context.req, id);
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const page = await getPage(ctx.req, id);
 
     if (page) {
       return {

@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component, Fragment} from 'react';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import {getPage} from '@weco/common/services/prismic/pages';
@@ -10,7 +11,6 @@ import Body from '@weco/common/views/components/Body/Body';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page} from '@weco/common/model/pages';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import Head from 'next/head';
 
 type Props = {|
@@ -27,11 +27,11 @@ const cellStyles = {
 };
 
 export class OpeningTimesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
+  static getInitialProps = async (ctx: Context) => {
     // TODO: (Prismic perf) don't fetch these as two separate calls
     const [openingHours, page] = await Promise.all([
-      getCollectionOpeningTimes(context.req),
-      getPage(context.req, 'WwQHTSAAANBfDYXU')
+      getCollectionOpeningTimes(ctx.req),
+      getPage(ctx.req, 'WwQHTSAAANBfDYXU')
     ]);
     const galleriesLibrary = openingHours && openingHours.placesOpeningHours && openingHours.placesOpeningHours.filter(venue => {
       return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';

@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getInstallation} from '@weco/common/services/prismic/installations';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
@@ -13,16 +14,15 @@ import {
   getFeaturedMedia
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import type {Installation} from '@weco/common/model/installations';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   installation: Installation
 |}
 
 class InstallationPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const installation = await getInstallation(context.req, id);
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const installation = await getInstallation(ctx.req, id);
 
     if (installation) {
       return {

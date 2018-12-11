@@ -1,10 +1,10 @@
 // @flow
+import type {Context} from 'next';
 import { Component } from 'react';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { GetInitialPropsProps } from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -18,10 +18,10 @@ type Props = {|
 
 const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
 export class ExhibitionsPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const { page = 1 } = context.query;
-    const { period } = context.query;
-    const exhibitions = await getExhibitions(context.req, { page, period });
+  static getInitialProps = async (ctx: Context) => {
+    const { page = 1 } = ctx.query;
+    const { period } = ctx.query;
+    const exhibitions = await getExhibitions(ctx.req, { page, period });
     if (exhibitions) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {

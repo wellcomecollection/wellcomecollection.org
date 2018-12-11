@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -14,7 +15,6 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {ArticleSeries} from '@weco/common/model/article-series';
 import type {Article} from '@weco/common/model/articles';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   series: ArticleSeries,
@@ -22,9 +22,9 @@ type Props = {|
 |}
 
 export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const seriesAndArticles = await getArticleSeries(context.req, {
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const seriesAndArticles = await getArticleSeries(ctx.req, {
       id,
       pageSize: 100
     });

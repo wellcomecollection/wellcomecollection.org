@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -16,7 +17,6 @@ import {eventLd} from '@weco/common/utils/json-ld';
 import {convertJsonToDates} from './event';
 import type {EventSeries} from '@weco/common/model/event-series';
 import type {UiEvent} from '@weco/common/model/events';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   series: EventSeries,
@@ -24,9 +24,7 @@ type Props = {|
 |}
 
 export class EventSeriesPage extends Component<Props> {
-  static getInitialProps = async (
-    ctx: GetInitialPropsProps
-  ) => {
+  static getInitialProps = async (ctx: Context) => {
     const {id} = ctx.query;
     const seriesAndEvents = await getEventSeries(ctx.req, {
       id,

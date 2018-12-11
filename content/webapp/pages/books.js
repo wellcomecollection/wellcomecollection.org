@@ -1,10 +1,10 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getBooks} from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {Book} from '@weco/common/model/books';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
@@ -14,9 +14,9 @@ type Props = {|
 
 const pageDescription = 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.';
 export class BooksPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {page = 1} = context.query;
-    const books = await getBooks(context.req, {page});
+  static getInitialProps = async (ctx: Context) => {
+    const {page = 1} = ctx.query;
+    const books = await getBooks(ctx.req, {page});
     if (books) {
       return {
         books,

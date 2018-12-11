@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Fragment, Component} from 'react';
 import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
@@ -18,9 +19,6 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
-import type {
-  GetInitialPropsProps
-} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {ContentFormatIds} from '@weco/common/model/content-format-id';
 
@@ -45,11 +43,9 @@ export class ArticlePage extends Component<Props, State> {
     listOfSeries: []
   }
 
-  static getInitialProps = async (
-    context: GetInitialPropsProps
-  ): Promise<?Props> => {
-    const {id} = context.query;
-    const article = await getArticle(context.req, id);
+  static getInitialProps = async (ctx: Context): Promise<?Props> => {
+    const {id} = ctx.query;
+    const article = await getArticle(ctx.req, id);
     if (article) {
       return {
         article

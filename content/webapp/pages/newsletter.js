@@ -1,18 +1,16 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import {spacing, grid} from '@weco/common/utils/classnames';
-import parseQueryString from '@weco/common/utils/parse-query-string';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+
 type Props = {|
   result: ?string
 |}
 export class NewsletterPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const { asPath } = context;
-    const queries = parseQueryString(asPath);
-    const { result } = queries;
+  static getInitialProps = async (ctx: Context) => {
+    const { result } = ctx.query;
 
     return {
       result

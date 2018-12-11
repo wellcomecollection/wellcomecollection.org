@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component, Fragment} from 'react';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import {getPage} from '@weco/common/services/prismic/pages';
@@ -15,7 +16,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page} from '@weco/common/model/pages';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import OpeningTimesStatic from '../components/OpeningTimesStatic/OpeningTimesStatic';
 
 type Props = {|
@@ -25,13 +25,13 @@ type Props = {|
 |}
 
 export class OpeningTimesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const showRevisedOpening = Boolean(context.query.toggles.showRevisedOpeningHours);
+  static getInitialProps = async (ctx: Context) => {
+    const showRevisedOpening = Boolean(ctx.query.toggles.showRevisedOpeningHours);
     // TODO: (Prismic perf) don't fetch these as two separate calls
     const revisedDisplayPeriod = showRevisedOpening ? 30 : 15;
     const [openingHours, page] = await Promise.all([
-      getCollectionOpeningTimes(context.req, revisedDisplayPeriod),
-      getPage(context.req, 'WwQHTSAAANBfDYXU')
+      getCollectionOpeningTimes(ctx.req, revisedDisplayPeriod),
+      getPage(ctx.req, 'WwQHTSAAANBfDYXU')
     ]);
     const galleriesLibrary = openingHours && openingHours.placesOpeningHours && openingHours.placesOpeningHours.filter(venue => {
       return venue.name.toLowerCase() === 'galleries' || venue.name.toLowerCase() === 'library';
@@ -49,7 +49,7 @@ export class OpeningTimesPage extends Component<Props> {
         hours: restaurantCafeShop
       }
     };
-    const showNewOpeningHours = Boolean(context.query.toggles.showNewOpeningHours);
+    const showNewOpeningHours = Boolean(ctx.query.toggles.showNewOpeningHours);
 
     return {
       page,

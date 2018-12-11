@@ -1,4 +1,5 @@
 // @flow
+import type {Context} from 'next';
 import {Component, Fragment} from 'react';
 import {classNames, font, spacing, grid, cssGrid} from '@weco/common/utils/classnames';
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
@@ -31,7 +32,6 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import {exhibitionLd, eventLd} from '@weco/common/utils/json-ld';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {UiEvent} from '@weco/common/model/events';
 import type {Period} from '@weco/common/model/periods';
@@ -262,9 +262,7 @@ const Header = ({
 
 const pageDescription = 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
 export class WhatsOnPage extends Component<Props> {
-  static getInitialProps = async (
-    ctx: GetInitialPropsProps
-  ) => {
+  static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';
     const exhibitionsPromise = getExhibitions(ctx.req, {
       period,
