@@ -27,7 +27,10 @@ export type CatalogueApiError = {|
 export type CatalogueResultsList = {
   type: 'ResultList',
   totalResults: number,
-  results: Work[]
+  results: Work[],
+  pageSize: nulber,
+  prevPage: ?string,
+  nextPage: ?string
 }
 
 export type CatalogueApiRedirect = {

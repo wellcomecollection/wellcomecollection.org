@@ -21,10 +21,10 @@ import {getWorks} from '../services/catalogue/works';
 import {workUrl, worksUrl} from '../services/catalogue/urls';
 
 type Props = {|
-  initialQuery: ?string,
-  initialWorks: ?CatalogueResultsList | CatalogueApiError,
-  initialPage: ?number,
-  initialFilters: Object,
+  query: ?string,
+  works: ?CatalogueResultsList | CatalogueApiError,
+  page: ?number,
+  filters: Object,
   showCatalogueSearchFilters: boolean
 |}
 
@@ -55,16 +55,16 @@ const workTypes = [
 ];
 
 export const Works = ({
-  initialQuery,
-  initialWorks,
-  initialPage,
-  initialFilters,
+  query,
+  works,
+  page,
+  filters,
   showCatalogueSearchFilters
 }: Props) => {
-  if (initialWorks && initialWorks.type === 'Error') {
+  if (works && works.type === 'Error') {
     return (
       <PageLayout
-        title={initialWorks.httpStatus.toString()}
+        title={works.httpStatus.toString()}
         description={''}
         url={{pathname: `/works`}}
         openGraphType={'website'}
@@ -73,58 +73,14 @@ export const Works = ({
         imageUrl={null}
         imageAltText={null}>
         <ErrorPage
-          errorStatus={initialWorks.httpStatus}
+          errorStatus={works.httpStatus}
         />
       </PageLayout>
     );
   }
 
-  const [query, setQuery] = useState(initialQuery);
-  const [works, setWorks] = useState(initialWorks);
-  const [page, setPage] = useState(initialPage);
-  const [filters, setFilters] = useState(initialFilters);
-  const [workType, setWorkType] = useState(initialFilters.workType);
-  const [showImagesOnly, setShowImagesOnly] = useState(Boolean(initialFilters['items.locations.locationType']));
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    document.title = `${query} | Catalogue search | Wellcome Collection`;
-  }, [query]);
-
-  // On the initial render from next, we dont want to run the router, nor update
-  // the works so we just skip this effect for now.
-  // See: https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
-  const initialRender = useRef(true);
-
-  useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-      return;
-    }
-    // TODO: (flowtype) next's typing says that these need to be string, this isn't true,
-    // you can use URL like objects too
-    Router.push(
-      // $FlowFixMe
-      worksUrl({query, page}).href,
-      // $FlowFixMe
-      worksUrl({query, page}).as,
-      { shallow: true }
-    ).then(() => window.scrollTo(0, 0));
-
-    if ((query && query !== '') || workType !== ['q', 'k']) {
-      setLoading(true);
-      // TODO: Look into memoiszing results so we don't hit the API again
-      //       See: https://reactjs.org/docs/hooks-reference.html#usememo
-
-      // TODO: Return a cleanup function here to stop the network request.
-      getWorks({
-        query,
-        page,
-        filters
-      }).then(setWorks).then(() => setLoading(false));
-    } else {
-      setWorks(null);
-    }
-  }, [page, query, filters]);
+  const workType = filters.workType;
+  const showImagesOnly = useState(Boolean(filters['items.locations.locationType']));
 
   return (
     <Fragment>
@@ -132,7 +88,7 @@ export const Works = ({
         {works && works.prevPage &&
           <link
             rel='prev'
-            href={convertUrlToString(worksUrl({ query, page: page - 1 }).as)} />
+            href={convertUrlToString(worksUrl({ query, page: (page || 1) - 1 }).as)} />
         }
         {works && works.nextPage &&
           <link
@@ -186,14 +142,8 @@ export const Works = ({
                     const form = event.currentTarget;
                     // $FlowFixMe
                     const newQuery = form.elements.query.value;
-                    setQuery(newQuery);
-                    setPage(1);
-
-                    const newFilters = {
-                      workType: workType,
-                      'items.locations.locationType': showImagesOnly ? ['iiif-image'] : []
-                    };
-                    setFilters(newFilters);
+                    const link = worksUrl({ query: newQuery, page: 1 });
+                    Router.push(link.href, link.as);
                   }}>
                   <SearchBox
                     action=''
@@ -226,7 +176,6 @@ export const Works = ({
                               } else {
                                 workType.splice(workType.indexOf(id), 1);
                               }
-                              setWorkType(workType);
                             }}/>
                           {label}
                         </label>
@@ -238,7 +187,7 @@ export const Works = ({
                           name='showImagesOnly'
                           value={true}
                           checked={showImagesOnly}
-                          onChange={(event) => setShowImagesOnly(event.target.checked)} />
+                          onChange={(event) => event.target.checked} />
                         Images only
                       </label>
                     </Fragment>
@@ -273,13 +222,14 @@ export const Works = ({
                     <div className='flex flex--h-space-between flex--v-center'>
                       <Fragment>
                         <Paginator
-                          currentPage={page}
+                          currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
                           link={worksUrl({query, page})}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
-                            setPage(newPage);
+                            const link = worksUrl({ query, page: newPage });
+                            Router.push(link.href, link.as);
                           }}
                         />
                       </Fragment>
@@ -291,7 +241,7 @@ export const Works = ({
 
             <div
               className={`row ${spacing({s: 4}, {padding: ['top']})}`}
-              style={{ opacity: loading ? 0 : 1 }}>
+              style={{ opacity: 1 }}>
               <div className='container'>
                 <div className='grid'>
                   {showCatalogueSearchFilters && works.results.map(result => (
@@ -350,7 +300,8 @@ export const Works = ({
                             link={worksUrl({query, page})}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
-                              setPage(newPage);
+                              const link = worksUrl({ query, page: newPage });
+                              Router.push(link.href, link.as);
                             }}
                           />
                         </Fragment>
@@ -406,10 +357,10 @@ Works.getInitialProps = async (
   const worksOrError = query && query !== '' ? await getWorks({ query, page, filters }) : null;
 
   return {
-    initialPage: page,
-    initialWorks: worksOrError,
-    initialQuery: query,
-    initialFilters: filters,
+    page: page,
+    works: worksOrError,
+    query: query,
+    filters: filters,
     showCatalogueSearchFilters
   };
 };
