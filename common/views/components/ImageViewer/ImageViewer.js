@@ -4,6 +4,7 @@ import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
 import {spacing} from '../../../utils/classnames';
+import {trackEventV2} from '../../../utils/ga';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
 
@@ -61,6 +62,12 @@ class ViewerContent extends Component<ViewerContentProps> {
       action: 'work-zoom-in-button:click',
       label: `id:${this.props.id}`
     });
+
+    trackEventV2({
+      eventCategory: 'ImageViewer',
+      eventAction: 'zoom in',
+      eventLabel: this.props.id
+    });
   }
 
   handleZoomOut = (event) => {
@@ -68,6 +75,12 @@ class ViewerContent extends Component<ViewerContentProps> {
       category: 'component',
       action: 'work-zoom-out-button:click',
       label: `id:${this.props.id}`
+    });
+
+    trackEventV2({
+      eventCategory: 'ImageViewer',
+      eventAction: 'zoom out',
+      eventLabel: this.props.id
     });
   }
 
@@ -130,6 +143,12 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
       category: 'component',
       action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
       label: `id:${this.props.id},title:${this.props.trackTitle}`
+    });
+
+    trackEventV2({
+      eventCategory: 'ImageViewer',
+      eventAction: `${this.state.showViewer ? 'closed' : 'opened'}`,
+      eventLabel: this.props.id
     });
 
     this.setState(prevState => ({
