@@ -28,7 +28,7 @@ export type CatalogueResultsList = {
   type: 'ResultList',
   totalResults: number,
   results: Work[],
-  pageSize: nulber,
+  pageSize: number,
   prevPage: ?string,
   nextPage: ?string
 }

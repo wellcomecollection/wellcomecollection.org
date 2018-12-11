@@ -352,7 +352,6 @@ Works.getInitialProps = async (
   const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
     ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
 
-  console.info(ctx.query['items.locations.locationType'], itemsLocationsLocationType, 'items.locations.locationType' in ctx.query);
   const {showCatalogueSearchFilters} = ctx.query.toggles;
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
