@@ -234,7 +234,7 @@ class EventPage extends Component<Props, State> {
             'flex flex--wrap': true,
             [spacing({s: 1}, {margin: ['bottom']})]: true
           })}>
-            {EventDateRange({event})}
+            <EventDateRange event={event} />
             <div className={classNames({
               [spacing({s: 0, m: 2}, {margin: ['left']})]: true
             })}>
