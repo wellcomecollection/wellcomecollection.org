@@ -50,7 +50,6 @@ const Heading = ({headingLevel, headingText}: HeadingProps) => {
 const Paragraphs = ({text}) => {
   return text.length > 0 && text.map((para, i) => {
     return <p key={i} className={classNames({
-      'plain-text': true,
       [font({s: 'HNL5', m: 'HNL4'})]: true,
       [spacing({s: 2}, {margin: ['bottom']})]: true
     })} dangerouslySetInnerHTML={{__html: para}} />;

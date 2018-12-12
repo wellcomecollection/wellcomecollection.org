@@ -88,7 +88,7 @@ const InfoBoxExample = () => {
     }
   ]
   }>
-    {hasMoreInfoLink && <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+    {hasMoreInfoLink && <p className={`no-margin ${font({s: 'HNL4'})}`}>
       <a href='/access'>More information link</a>
     </p>}
   </InfoBox>;

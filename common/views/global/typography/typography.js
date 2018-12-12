@@ -37,12 +37,6 @@ const Typography = ({fonts}: Props) => (
       <h2 className='styleguide__font__usage-title'>Usage:</h2>
       <p className='styleguide__font__usage-text'>Used in the main body copy. These are animated links which form part of the experience language. Uses border-bottom property for underline.</p>
     </div>
-    <div className='styleguide__font'>
-      <h2 className='styleguide__font__name'>Plain text link</h2>
-      <div className='plain-text'><p className='no-margin font-hnl4-s'>Here is <a href='#'>a link</a> in a block of non body text.</p></div>
-      <h2 className='styleguide__font__usage-title'>Usage:</h2>
-      <p className='styleguide__font__usage-text'>Links that appear in blocks of copy that are not body text, should follow the same behaviour as the Secondary link (note, font family/size is inherited for plain text links). Examples where this happens are author descriptions and image captions.</p>
-    </div>
 
     {fonts.map(font => (
       <div key={font.name} className='styleguide__font'>

@@ -15,7 +15,6 @@ type Props = {|
 
 const Breadcrumb = ({ items }: Props) => (
   <div className={classNames({
-    'plain-text': true,
     'flex': true
   })}>
     {items.filter(({isHidden}) => !isHidden).map(({text, url, prefix}, i) => {

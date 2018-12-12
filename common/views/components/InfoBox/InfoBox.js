@@ -43,7 +43,6 @@ const InfoBox = ({
               }
               {description &&
                 <div className={classNames([
-                  'plain-text',
                   font({s: 'HNL4'}),
                   spacing({s: 4}, {margin: ['bottom']})
                 ])}>

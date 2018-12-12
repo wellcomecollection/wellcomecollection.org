@@ -141,7 +141,7 @@ export const Works = ({
                     spacing({s: 4}, {margin: ['right']}),
                     spacing({s: 0}, {margin: ['top']})
                   ])}>Search our images</h1>
-                  <div className='plain-text flex flex--v-center'>
+                  <div className='flex flex--v-center'>
                     <Icon name='underConstruction' extraClasses='margin-right-s2' />
                     <p className='no-margin'>We’re improving how search works. <a href='/works/progress'>Find out more</a>.</p>
                   </div>

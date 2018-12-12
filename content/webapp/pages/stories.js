@@ -93,7 +93,6 @@ export class StoriesPage extends Component<Props> {
           <div className={classNames({
             'row': true,
             'bg-cream': true,
-            'plain-text': true,
             [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
           })}>
             <div className='container'>
@@ -107,7 +106,7 @@ export class StoriesPage extends Component<Props> {
                   })}>Stories</h1>
 
                   <div className={classNames({
-                    'first-para-no-margin': true,
+                    'first-para-no-margin body-text': true,
                     [spacing({s: 2}, {margin: ['top']})]: true
                   })}>
                     {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}

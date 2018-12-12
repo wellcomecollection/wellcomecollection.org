@@ -256,7 +256,7 @@ export class ExhibitionPage extends Component<Props, State> {
         }
         {exhibition.end && !isPast(exhibition.end) && (
           <InfoBox title='Visit us' items={infoItems}>
-            <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+            <p className={`no-margin ${font({s: 'HNL4'})}`}>
               <a href='/access'>All our accessibility services</a>
             </p>
           </InfoBox>

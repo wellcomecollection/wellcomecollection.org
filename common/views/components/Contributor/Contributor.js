@@ -68,7 +68,7 @@ const Contributor = ({
             <div className={classNames({
               [spacing({s: 1}, {margin: ['top']})]: true,
               [font({s: 'HNL4'})]: true,
-              'spaced-text plain-text': true})}>
+              'spaced-text': true})}>
               <PrismicHtmlBlock html={descriptionToRender} />
             </div>
           }

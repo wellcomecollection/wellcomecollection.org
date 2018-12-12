@@ -98,7 +98,7 @@ const Tasl = withToggler(({
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
       ${font({s: 'LR3', m: 'LR2'})}
       ${isActive ? 'is-active' : ''}
-      tasl drawer js-show-hide plain-text
+      tasl drawer js-show-hide
     `}
     data-track-action='toggle-image-credit'
     data-track-label={`image`}>

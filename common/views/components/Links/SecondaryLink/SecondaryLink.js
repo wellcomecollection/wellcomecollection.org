@@ -33,7 +33,6 @@ const SecondaryLink = ({
       <a
         onClick={handleClick}
         className={conditionalClassNames({
-          'secondary-link': true,
           'flex-inline': true,
           'flex-v-center': true,
           [font({s: 'HNM5', m: 'HNM4'})]: true,

@@ -33,6 +33,10 @@ h6 {
 a {
   color: color('inherit');
   text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 p {
@@ -99,16 +103,6 @@ hr {
   &:focus {
     text-decoration: underline;
   }
-}
-
-.plain-text { // Applied to non-body text blocks
-  a {
-    @include default-link;
-  }
-}
-
-.secondary-link {
-  @include default-link;
 }
 
 .spaced-text {

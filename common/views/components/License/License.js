@@ -39,7 +39,7 @@ function renderLicenseLink(url: ?string, icons: ?string[], text: string) {
 const License = ({subject, licenseType}: Props) => {
   const licenseInfo: LicenseData = getLicenseInfo(licenseType) || { text: '', humanReadableText: [''] };
   return (
-    <div className='plain-text'>
+    <div>
       {licenseInfo.description &&
         <div className={spacing({s: 2}, {margin: ['bottom']})}>
           <p className={`${font({s: 'HNL5', m: 'HNL4'})} ${spacing({s: 2}, {margin: ['bottom']})}`}>{licenseInfo.description}</p>

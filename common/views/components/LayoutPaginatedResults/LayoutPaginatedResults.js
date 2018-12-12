@@ -40,7 +40,6 @@ const LayoutPaginatedResults = ({
       <div className={classNames({
         'row': true,
         'bg-cream': true,
-        'plain-text': true,
         [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
       })}>
         <div className='container'>
@@ -55,7 +54,7 @@ const LayoutPaginatedResults = ({
 
               {description &&
                 <div className={classNames({
-                  'first-para-no-margin': true,
+                  'first-para-no-margin body-text': true,
                   [spacing({s: 2}, {margin: ['top']})]: true
                 })}>
                   <PrismicHtmlBlock html={description} />
