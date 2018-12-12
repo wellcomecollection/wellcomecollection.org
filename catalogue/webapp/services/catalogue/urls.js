@@ -48,25 +48,17 @@ export function workUrl({ id, query, page }: WorkUrlProps): LinkProps {
 export function worksUrl({
   query,
   page,
-  workType = ['k', 'q'],
-  itemsLocationsLocationType = ['iiif-image']
+  workType,
+  itemsLocationsLocationType
 }: WorksUrlProps): LinkProps {
-  const workTypeWithDefaults =
-    JSON.stringify(workType) === JSON.stringify(['k', 'q'])
-      ? undefined : workType.join(',');
-
-  const itemsLocationsLocationTypeWithDefaults =
-    JSON.stringify(itemsLocationsLocationType) === JSON.stringify(['iiif-image'])
-      ? undefined : itemsLocationsLocationType.join(',');
-
   return {
     href: {
       pathname: `/worksv2`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
-        workType: workTypeWithDefaults,
-        'items.locations.locationType': itemsLocationsLocationTypeWithDefaults
+        workType: workType ? workType.join(',') : undefined,
+        'items.locations.locationType': itemsLocationsLocationType ? itemsLocationsLocationType.join(',') : undefined
       })
     },
     as: {
@@ -74,8 +66,8 @@ export function worksUrl({
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
-        workType: workTypeWithDefaults,
-        'items.locations.locationType': itemsLocationsLocationTypeWithDefaults
+        workType: workType ? workType.join(',') : undefined,
+        'items.locations.locationType': itemsLocationsLocationType ? itemsLocationsLocationType.join(',') : undefined
       })
     }
   };

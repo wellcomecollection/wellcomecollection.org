@@ -11,12 +11,12 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import SearchBox from '@weco/common/views/components/SearchBox/SearchBox';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
+import SearchForm from '../components/SearchForm/SearchForm';
 import {getWorks} from '../services/catalogue/works';
 import {workUrl, worksUrl} from '../services/catalogue/urls';
 
@@ -24,41 +24,17 @@ type Props = {|
   query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
-  filters: Object,
+  workType: string[],
+  itemsLocationsLocationType: string[],
   showCatalogueSearchFilters: boolean
 |}
 
-const workTypes = [
-  { id: 'a', label: 'Books' },
-  { id: 'b', label: 'Manuscripts, Asian' },
-  { id: 'c', label: 'Music' },
-  { id: 'd', label: 'Journals' },
-  { id: 'e', label: 'Maps' },
-  { id: 'f', label: 'E-videos' },
-  { id: 'g', label: 'Videorecordings' },
-  { id: 'h', label: 'Archives and manuscripts' },
-  { id: 'i', label: 'Sound' },
-  { id: 'j', label: 'E-journals' },
-  { id: 'k', label: 'Pictures' },
-  { id: 'l', label: 'Ephemera' },
-  { id: 'm', label: 'CD-Roms' },
-  { id: 'n', label: 'Cinefilm' },
-  { id: 'p', label: 'Mixed materials' },
-  { id: 'q', label: 'Digital images' },
-  { id: 'r', label: '3-D Objects' },
-  { id: 's', label: 'E-sound' },
-  { id: 'u', label: 'Standing order' },
-  { id: 'v', label: 'E-books' },
-  { id: 'w', label: 'Student dissertations' },
-  { id: 'x', label: 'E-manuscripts, Asian' },
-  { id: 'z', label: 'Web sites ' }
-];
-
 export const Works = ({
-  query,
   works,
+  query,
   page,
-  filters,
+  workType,
+  itemsLocationsLocationType,
   showCatalogueSearchFilters
 }: Props) => {
   if (works && works.type === 'Error') {
@@ -95,8 +71,6 @@ export const Works = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
-  const workType = filters.workType;
-  const showImagesOnly = filters['items.locations.locationType'][0] === 'iiif-image';
 
   return (
     <Fragment>
@@ -151,66 +125,11 @@ export const Works = ({
 
             <div className='grid'>
               <div className={grid({s: 12, m: 10, l: 8, xl: 8})}>
-                <form
-                  action={'/works'}
-                  onSubmit={async (event) => {
-                    event.preventDefault();
-                    const form = event.currentTarget;
-                    const newQuery = form.elements.query.value;
-                    const newWorkTypes = showCatalogueSearchFilters ? Array.from(form.elements.workType)
-                      .filter(input => input.checked)
-                      .map(input => input.value) : ['k', 'q'];
-
-                    const itemsLocationsLocationType = showCatalogueSearchFilters
-                      ? form.elements.showImagesOnly.checked ? ['iiif-image'] : [] : ['iiif-image'];
-                    const link = worksUrl({
-                      query: newQuery,
-                      page: 1,
-                      workType: newWorkTypes,
-                      itemsLocationsLocationType
-                    });
-                    Router.push(link.href, link.as);
-                  }}>
-                  <SearchBox
-                    action=''
-                    id='search-works'
-                    name='query'
-                    query={query || ''}
-                    autofocus={true} />
-
-                  {showCatalogueSearchFilters &&
-                    <Fragment>
-                      {workTypes.map(({id, label}) => (
-                        <label key={id} style={{
-                          display: 'inline-block',
-                          padding: '0 6px',
-                          borderRadius: '4px',
-                          border: '2px solid #5cb8bf',
-                          marginBottom: '6px'
-                        }}>
-                          <input
-                            type='checkbox'
-                            name='workType'
-                            value={id}
-                            defaultChecked={workType.indexOf(id) !== -1}
-                            style={{
-                              marginRight: '6px'
-                            }} />
-                          {label}
-                        </label>
-                      ))}
-                      <hr />
-                      <label>
-                        <input
-                          type='checkbox'
-                          name='showImagesOnly'
-                          value={true}
-                          defaultChecked={showImagesOnly} />
-                        Images only
-                      </label>
-                    </Fragment>
-                  }
-                </form>
+                <SearchForm
+                  initialQuery={query || ''}
+                  initialWorkType={workType}
+                  initialItemsLocationsLocationType={itemsLocationsLocationType}
+                />
                 {!works
                   ? <p className={classNames([
                     spacing({s: 4}, {margin: ['top']}),
@@ -364,7 +283,11 @@ Works.getInitialProps = async (
 ): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const workType = ctx.query.workType ? ctx.query.workType.split(',') : ['k', 'q'];
+
+  const workTypeQuery = ctx.query.workType;
+  const workType = Array.isArray(workTypeQuery) ? workTypeQuery
+    : typeof workTypeQuery === 'string' ? workTypeQuery.split(',') : ['k', 'q'];
+
   const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
     ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
 
@@ -377,10 +300,11 @@ Works.getInitialProps = async (
   const worksOrError = query && query !== '' ? await getWorks({ query, page, filters }) : null;
 
   return {
-    page: page,
     works: worksOrError,
-    query: query,
-    filters: filters,
+    query,
+    page,
+    workType,
+    itemsLocationsLocationType,
     showCatalogueSearchFilters
   };
 };
