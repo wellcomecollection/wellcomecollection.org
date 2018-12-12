@@ -114,7 +114,7 @@ export const WorkPage = ({
                   trackingEventV2={{
                     eventCategory: 'SecondaryLink',
                     eventAction: 'follow link',
-                    eventLabel: `${work.id}, ${JSON.stringify({text: work.title})}`
+                    eventLabel: `${work.id} | text: ${work.title}`
                   }} />
               </div>
             </div>

@@ -26,7 +26,7 @@ const PrimaryLink = ({
       trackEventV2({
         eventCategory: 'PrimaryLink',
         eventAction: 'follow link',
-        eventLabel: `${url}, ${JSON.stringify({ text: name })}`
+        eventLabel: `${url} | text: ${name}`
       });
     }
   }

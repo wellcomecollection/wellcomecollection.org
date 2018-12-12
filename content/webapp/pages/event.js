@@ -250,7 +250,7 @@ class EventPage extends Component<Props, State> {
                   }}
                   trackingEventV2={{
                     eventCategory: 'SecondaryLink',
-                    eventAction: 'scroll to dates and times',
+                    eventAction: 'scroll to event dates and times',
                     eventLabel: event.id
                   }} />
               }

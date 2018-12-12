@@ -36,7 +36,7 @@ const Tag = ({text, url}: TagProps) => {
     trackEventV2({
       eventCategory: 'Tags',
       eventAction: 'follow link',
-      eventLabel: `${text}, ${JSON.stringify({url: url})}`
+      eventLabel: `${text}${url ? ` | url: ${url}` : ''}`
     });
   }
 

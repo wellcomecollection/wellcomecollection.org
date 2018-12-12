@@ -39,7 +39,7 @@ const WorkMedia = ({
           }}
           trackingEventV2={{
             eventCategory: 'Control',
-            eventAction: 'scroll to info',
+            eventAction: 'scroll to work info',
             eventLabel: id
           }}
           icon='chevron'

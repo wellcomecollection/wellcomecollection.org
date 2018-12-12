@@ -44,7 +44,7 @@ type ViewerContentProps = {|
 class ViewerContent extends Component<ViewerContentProps> {
   escapeCloseViewer = ({keyCode}: KeyboardEvent) => {
     if (keyCode === 27 && this.props.viewerVisible) {
-      this.props.handleViewerDisplay();
+      this.props.handleViewerDisplay('Keyboard');
     }
   }
 
@@ -64,8 +64,8 @@ class ViewerContent extends Component<ViewerContentProps> {
     });
 
     trackEventV2({
-      eventCategory: 'ImageViewer',
-      eventAction: 'zoom in',
+      eventCategory: 'Control',
+      eventAction: 'zoom in ImageViewer',
       eventLabel: this.props.id
     });
   }
@@ -78,8 +78,8 @@ class ViewerContent extends Component<ViewerContentProps> {
     });
 
     trackEventV2({
-      eventCategory: 'ImageViewer',
-      eventAction: 'zoom out',
+      eventCategory: 'Control',
+      eventAction: 'zoom out ImageViewer',
       eventLabel: this.props.id
     });
   }
@@ -109,7 +109,7 @@ class ViewerContent extends Component<ViewerContentProps> {
             text='Close image viewer'
             icon='cross'
             extraClasses={`${spacing({s: 2}, {margin: ['right']})}`}
-            clickHandler={this.props.handleViewerDisplay} />
+            clickHandler={() => { this.props.handleViewerDisplay('Control'); }} />
         </div>
 
         {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} />}
@@ -138,7 +138,7 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
     viewButtonMounted: false
   };
 
-  handleViewerDisplay = () => {
+  handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
     ReactGA.event({
       category: 'component',
       action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
@@ -146,8 +146,8 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
     });
 
     trackEventV2({
-      eventCategory: 'ImageViewer',
-      eventAction: `${this.state.showViewer ? 'closed' : 'opened'}`,
+      eventCategory: initiator,
+      eventAction: `${this.state.showViewer ? 'closed' : 'opened'} ImageViewer`,
       eventLabel: this.props.id
     });
 
@@ -177,7 +177,7 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
           lazyload={false}
           sizesQueries='(min-width: 860px) 800px, calc(92.59vw + 22px)'
           alt=''
-          clickHandler={this.handleViewerDisplay}
+          clickHandler={() => { this.handleViewerDisplay('Image'); }}
           zoomable={this.state.viewButtonMounted}
           defaultSize={800}
           extraClasses='margin-h-auto width-auto full-height full-max-width block' />
@@ -190,7 +190,7 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
               return <LaunchViewerButton
                 classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
                 didMountHandler={this.viewButtonMountedHandler}
-                clickHandler={this.handleViewerDisplay} />;
+                clickHandler={() => { this.handleViewerDisplay('Control'); }} />;
             }
           }
         </Transition>

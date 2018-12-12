@@ -21,7 +21,7 @@ const InstallationPromo = ({ id, title, description, image, start, end, position
         trackEventV2({
           eventCategory: 'InstallationPromo',
           eventAction: 'follow link',
-          eventLabel: `${title}, ${JSON.stringify({ position: position })}`
+          eventLabel: `${title} | position: ${position}`
         });
         trackEvent({
           category: 'component',
