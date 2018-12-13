@@ -1,13 +1,14 @@
 // @flow
+import type {Context} from 'next';
 import { Component } from 'react';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { GetInitialPropsProps } from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -16,25 +17,17 @@ type Props = {|
 |}
 
 const pageDescription = 'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
-export class ExhibitionsListPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const { page = 1 } = context.query;
-    const { period } = context.query;
-    const exhibitions = await getExhibitions(context.req, { page, period });
+export class ExhibitionsPage extends Component<Props> {
+  static getInitialProps = async (ctx: Context) => {
+    const { page = 1 } = ctx.query;
+    const { period } = ctx.query;
+    const exhibitions = await getExhibitions(ctx.req, { page, period });
     if (exhibitions) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {
         exhibitions,
-        title,
         displayTitle: title,
-        period,
-        description: pageDescription,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/exhibitions`,
-        imageUrl: null,
-        siteSection: 'whatson',
-        analyticsCategory: 'public-programme',
-        pageJsonLd: exhibitions.results.map(exhibition => exhibitionLd(exhibition))
+        period
       };
     } else {
       return { statusCode: 404 };
@@ -43,20 +36,32 @@ export class ExhibitionsListPage extends Component<Props> {
 
   render() {
     const { exhibitions, period, displayTitle } = this.props;
+    const firstExhibition = exhibitions[0];
 
     return (
-      <LayoutPaginatedResults
+      <PageLayout
         title={displayTitle}
-        description={[{
-          type: 'paragraph',
-          text: pageDescription,
-          spans: []
-        }]}
-        paginatedResults={exhibitions}
-        paginationRoot={`exhibitions${(period ? `/${period}` : '')}`}
-      />
+        description={pageDescription}
+        url={{pathname: `/exhibitions${period ? `/${period}` : ''}`}}
+        jsonLd={exhibitions.results.map(exhibitionLd)}
+        openGraphType={'website'}
+        siteSection={'whats-on'}
+        imageUrl={firstExhibition && firstExhibition.image && convertImageUri(firstExhibition.image.contentUrl, 800)}
+        imageAltText={firstExhibition && firstExhibition.image && firstExhibition.image.alt}>
+        <LayoutPaginatedResults
+          showFreeAdmissionMessage={true}
+          title={displayTitle}
+          description={[{
+            type: 'paragraph',
+            text: pageDescription,
+            spans: []
+          }]}
+          paginatedResults={exhibitions}
+          paginationRoot={`exhibitions${(period ? `/${period}` : '')}`}
+        />
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ExhibitionsListPage);
+export default ExhibitionsPage;

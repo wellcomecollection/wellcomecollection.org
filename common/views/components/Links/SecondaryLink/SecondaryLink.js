@@ -28,6 +28,8 @@ const SecondaryLink = ({
     }
   }
 
+  // We can hopefully deprecate most of this logic once we're using link
+  // objects everywhere
   return (
     <NextLink href={link.href} as={link.as}>
       <a

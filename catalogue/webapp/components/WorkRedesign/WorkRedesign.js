@@ -58,6 +58,7 @@ class WorkRedesign extends Component<Props> {
         url={{pathname: `/works/${work.id}`}}
         openGraphType={'website'}
         jsonLd={workLd(work)}
+        siteSection={'works'}
         oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
         imageUrl={iiifImageLocationUrl}
         imageAltText={work.title}>
