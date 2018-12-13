@@ -1,7 +1,8 @@
 // @flow
+import type {Context} from 'next';
 import {Component, Fragment} from 'react';
 import Prismic from 'prismic-javascript';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
@@ -29,7 +30,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import {eventLd} from '@weco/common/utils/json-ld';
 import {isEventFullyBooked} from '@weco/common/model/events';
 
@@ -116,9 +116,9 @@ class EventPage extends Component<Props, State> {
     scheduledIn: null
   }
 
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const event = await getEvent(context.req, {id});
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const event = await getEvent(ctx.req, {id});
 
     if (event) {
       return {
@@ -260,88 +260,97 @@ class EventPage extends Component<Props, State> {
     />;
 
     return (
-      <ContentPage
-        id={event.id}
-        Header={Header}
-        Body={<Body body={event.body} />}
-      >
+      <PageLayout
+        title={event.title}
+        description={event.metadataDescription || event.promoText || ''}
+        url={{pathname: `/events/${event.id}`}}
+        jsonLd={eventLd(event)}
+        openGraphType={'website'}
+        siteSection={'whats-on'}
+        imageUrl={event.image && convertImageUri(event.image.contentUrl, 800)}
+        imageAltText={event.image && event.image.alt}>
+        <ContentPage
+          id={event.id}
+          Header={Header}
+          Body={<Body body={event.body} />}
+        >
 
-        {event.contributors.length > 0 &&
-          <Contributors
-            titlePrefix='About your'
-            titleOverride={event.contributorsTitle}
-            contributors={event.contributors} />
-        }
+          {event.contributors.length > 0 &&
+            <Contributors
+              titlePrefix='About your'
+              titleOverride={event.contributorsTitle}
+              contributors={event.contributors} />
+          }
 
-        <Fragment>
-          <div className={`body-text border-bottom-width-1 border-color-pumice`}>
-            <h2 id='dates'>Dates</h2>
-            {DateList(event)}
-          </div>
-        </Fragment>
-
-        {event.schedule && event.schedule.length > 0 &&
           <Fragment>
-            <h2 className='h2'>Events</h2>
-            <ul className='plain-list no-marin no-padding'>
-              {event.schedule && <EventSchedule schedule={event.schedule} />}
-            </ul>
+            <div className={`body-text border-bottom-width-1 border-color-pumice`}>
+              <h2 id='dates'>Dates</h2>
+              {DateList(event)}
+            </div>
           </Fragment>
-        }
 
-        {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
-          <Fragment>
-            <Message text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${event.ticketSalesStart ? formatTime(event.ticketSalesStart) : ''}`} />
-          </Fragment>
-        }
+          {event.schedule && event.schedule.length > 0 &&
+            <Fragment>
+              <h2 className='h2'>Events</h2>
+              <ul className='plain-list no-marin no-padding'>
+                {event.schedule && <EventSchedule schedule={event.schedule} />}
+              </ul>
+            </Fragment>
+          }
 
-        {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) &&
-          <Fragment>
-            {event.eventbriteId &&
-              <EventbriteButton event={event} />
-            }
+          {event.ticketSalesStart && showTicketSalesStart(event.ticketSalesStart) &&
+            <Fragment>
+              <Message text={`Booking opens ${formatDayDate(event.ticketSalesStart)} ${event.ticketSalesStart ? formatTime(event.ticketSalesStart) : ''}`} />
+            </Fragment>
+          }
 
-            {event.bookingEnquiryTeam &&
-              <Fragment>
-                {event.isCompletelySoldOut ? <Message text={`Fully booked`} />
-                  : (
-                    <Button
-                      type='primary'
-                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                      trackingEvent={{
-                        category: 'component',
-                        action: 'booking-tickets:click',
-                        label: 'event-page (email to book)'
-                      }}
-                      icon='email'
-                      text='Email to book' />
-                  )}
-                <SecondaryLink
-                  link={{
-                    href: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`,
-                    as: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`
-                  }}
-                  text={event.bookingEnquiryTeam.email}
-                  extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
-              </Fragment>
-            }
+          {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) &&
+            <Fragment>
+              {event.eventbriteId &&
+                <EventbriteButton event={event} />
+              }
 
-            {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
-              <Fragment>
-                {!event.hasEarlyRegistration &&
-                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                    <Message text='Just turn up' />
-                  </div>
-                }
-                {event.hasEarlyRegistration &&
-                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                    <Message text='Arrive early to register' />
-                  </div>
-                }
-              </Fragment>
-            }
-          </Fragment>
-        }
+              {event.bookingEnquiryTeam &&
+                <Fragment>
+                  {event.isCompletelySoldOut ? <Message text={`Fully booked`} />
+                    : (
+                      <Button
+                        type='primary'
+                        url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'booking-tickets:click',
+                          label: 'event-page (email to book)'
+                        }}
+                        icon='email'
+                        text='Email to book' />
+                    )}
+                  <SecondaryLink
+                    link={{
+                      href: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`,
+                      as: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`
+                    }}
+                    text={event.bookingEnquiryTeam.email}
+                    extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
+                </Fragment>
+              }
+
+              {!event.eventbriteId && !event.bookingEnquiryTeam && !(event.schedule && event.schedule.length > 1) &&
+                <Fragment>
+                  {!event.hasEarlyRegistration &&
+                    <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                      <Message text='Just turn up' />
+                    </div>
+                  }
+                  {event.hasEarlyRegistration &&
+                    <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                      <Message text='Arrive early to register' />
+                    </div>
+                  }
+                </Fragment>
+              }
+            </Fragment>
+          }
 
         {!event.isPast &&
           <Fragment>
@@ -373,20 +382,21 @@ class EventPage extends Component<Props, State> {
           </Fragment>
         }
 
-        {event.audiences.map((audience) => { //  TODO remove?
-          if (audience.description) {
-            return (
-              <div className={`body-text`} key={audience.title}>
-                <h2>For {audience.title}</h2>
-                <PrismicHtmlBlock html={audience.description} />
-              </div>
-            );
-          }
-        })}
+          {event.audiences.map((audience) => { //  TODO remove?
+            if (audience.description) {
+              return (
+                <div className={`body-text`} key={audience.title}>
+                  <h2>For {audience.title}</h2>
+                  <PrismicHtmlBlock html={audience.description} />
+                </div>
+              );
+            }
+          })}
 
-      </ContentPage>
+        </ContentPage>
+      </PageLayout>
     );
   }
 }
 
-export default PageWrapper(EventPage);
+export default EventPage;

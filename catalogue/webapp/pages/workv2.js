@@ -25,11 +25,6 @@ import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
-export type Link = {|
-  text: string;
-  url: string;
-|};
-
 type Props = {|
   work: Work | CatalogueApiError,
   query: ?string,
@@ -50,6 +45,7 @@ export const WorkPage = ({
         description={work.description}
         url={{pathname: `/works`}}
         openGraphType={'website'}
+        siteSection={'works'}
         jsonLd={{ '@type': 'WebPage' }}
         oEmbedUrl={`https://wellcomecollection.org/works`}
         imageUrl={null}
@@ -83,7 +79,6 @@ export const WorkPage = ({
       <WorkRedesign
         work={work}
         iiifImageLocationUrl={iiifImageLocationUrl}
-        encoreLink={encoreLink}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
         iiifImageLocationLicenseId={iiifImageLocationLicenseId} />
@@ -97,6 +92,7 @@ export const WorkPage = ({
       url={{pathname: `/works/${work.id}`}}
       openGraphType={'website'}
       jsonLd={workLd(work)}
+      siteSection={'works'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
       imageUrl={iiifImageLocationUrl}
       imageAltText={work.title}>
@@ -367,8 +363,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   } else {
     return {
       query,
-      page: page ? parseInt(page, 10) : null,
       work: workOrError,
+      page: page ? parseInt(page, 10) : null,
       showRedesign
     };
   }

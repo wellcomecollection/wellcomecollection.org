@@ -68,6 +68,7 @@ export const Works = ({
         description={''}
         url={{pathname: `/works`}}
         openGraphType={'website'}
+        siteSection={'works'}
         jsonLd={{ '@type': 'WebPage' }}
         oEmbedUrl={`https://wellcomecollection.org/works`}
         imageUrl={null}
@@ -118,6 +119,7 @@ export const Works = ({
         url={worksUrl({query, page}).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
+        siteSection={'works'}
         imageUrl={null}
         imageAltText={null}
       >

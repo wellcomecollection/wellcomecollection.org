@@ -1,7 +1,8 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
@@ -14,7 +15,6 @@ import {
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {ArticleSeries} from '@weco/common/model/article-series';
 import type {Article} from '@weco/common/model/articles';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   series: ArticleSeries,
@@ -22,9 +22,9 @@ type Props = {|
 |}
 
 export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const seriesAndArticles = await getArticleSeries(context.req, {
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const seriesAndArticles = await getArticleSeries(ctx.req, {
       id,
       pageSize: 100
     });
@@ -93,18 +93,28 @@ export class ArticleSeriesPage extends Component<Props> {
     />;
 
     return (
-      <ContentPage
-        id={series.id}
-        Header={Header}
-        Body={<Body body={series.body} />}
-        contributorProps={{ contributors: series.contributors }}
-      >
-        {articles.length > 0 &&
-          <SearchResults items={series.items} showPosition={true} />
-        }
-      </ContentPage>
+      <PageLayout
+        title={series.title}
+        description={series.metadataDescription || series.promoText || ''}
+        url={{pathname: `/series/${series.id}`}}
+        jsonLd={{ '@type': 'WebPage' }}
+        siteSection={'stories'}
+        openGraphType={'website'}
+        imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
+        imageAltText={series.image && series.image.alt}>
+        <ContentPage
+          id={series.id}
+          Header={Header}
+          Body={<Body body={series.body} />}
+          contributorProps={{ contributors: series.contributors }}
+        >
+          {articles.length > 0 &&
+            <SearchResults items={series.items} showPosition={true} />
+          }
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default ArticleSeriesPage;
