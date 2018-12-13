@@ -6,12 +6,14 @@ module.exports = function (api) {
     '@babel/preset-flow'
   ];
   const plugins = [
-    'babel-plugin-styled-components',
-    {
-      ssr: true,
-      displayName: true,
-      preprocess: false
-    }
+    [
+      'babel-plugin-styled-components',
+      {
+        ssr: true,
+        displayName: true,
+        preprocess: false
+      }
+    ]
   ];
 
   return {

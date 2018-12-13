@@ -11,7 +11,7 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {worksUrl} from '../../services/catalogue/urls';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import SearchBox from '@weco/common/views/components/SearchBox/SearchBoxV2';
+import SearchBox from '@weco/common/views/components/SearchBoxV2/SearchBoxV2';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 type Work = Object;
