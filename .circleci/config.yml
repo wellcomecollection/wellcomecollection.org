@@ -172,20 +172,6 @@ jobs:
         name: Deploy
         command: |
           aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors
-  install_common_modules:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org/common
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install common modules
-          command: yarn install
-      - save_cache:
-          key: common_modules_circleci_node_8_{{ checksum "package.json" }}
-          paths:
-            -  node_modules
   cardigan:
     docker:
       - image: circleci/node:8.11.3
@@ -201,6 +187,12 @@ jobs:
       - run:
           name: Install awscli
           command: sudo apt-get install awscli
+      - run:
+          name: Install common modules
+          command: |
+            pushd ../common
+              yarn
+            popd
       - run:
           name: Build
           command: |
@@ -229,9 +221,6 @@ workflows:
       - content:
           requires:
             - root_tests
-      - install_common_modules:
-          requires:
-            - checkout_code
       - deploy_pa11y:
           requires:
             - checkout_code
