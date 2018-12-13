@@ -1,5 +1,5 @@
 // @flow
-import type {Url} from '@weco/common/model/url';
+import type {NextLinkType} from '@weco/common/model/next-link-type';
 
 type WorkUrlProps = {|
   id: string,
@@ -14,16 +14,11 @@ type WorksUrlProps = {|
   itemsLocationsLocationType?: string[]
 |}
 
-type LinkProps = {|
-  href: Url,
-  as: Url
-|}
-
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export function workUrl({ id, query, page }: WorkUrlProps): LinkProps {
+export function workUrl({ id, query, page }: WorkUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/workv2`,
@@ -50,7 +45,7 @@ export function worksUrl({
   page,
   workType = ['k', 'q'],
   itemsLocationsLocationType = ['iiif-image']
-}: WorksUrlProps): LinkProps {
+}: WorksUrlProps): NextLinkType {
   const workTypeWithDefaults =
     JSON.stringify(workType) === JSON.stringify(['k', 'q'])
       ? undefined : workType.join(',');

@@ -1,7 +1,8 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getPlace} from '@weco/common/services/prismic/places';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import {UiImage} from '@weco/common/views/components/Images/Images';
@@ -9,27 +10,19 @@ import Body from '@weco/common/views/components/Body/Body';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Place} from '@weco/common/model/places';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   place: Place
 |}
 
-export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const place = await getPlace(context.req, id);
+export class PlacePage extends Component<Props> {
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const place = await getPlace(ctx.req, id);
 
     if (place) {
       return {
-        place,
-        title: place.title,
-        description: place.metadataDescription || place.promoText,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/places/${place.id}`,
-        imageUrl: place.image && convertImageUri(place.image.contentUrl, 800),
-        siteSection: 'places',
-        analyticsCategory: 'editorial'
+        place
       };
     } else {
       return {statusCode: 404};
@@ -76,14 +69,25 @@ export class ArticleSeriesPage extends Component<Props> {
     />);
 
     return (
-      <ContentPage
-        id={place.id}
-        Header={Header}
-        Body={<Body body={place.body} />}
-      >
-      </ContentPage>
+      <PageLayout
+        title={place.title}
+        description={place.metadataDescription || place.promoText || ''}
+        url={{pathname: `/places/${place.id}`}}
+        jsonLd={{'@type': 'WebPage'}}
+        openGraphType={'website'}
+        siteSection={'visit-us'}
+        imageUrl={place.image && convertImageUri(place.image.contentUrl, 800)}
+        imageAltText={place.image && place.image.alt}>
+        <ContentPage
+          id={place.id}
+          Header={Header}
+          Body={<Body body={place.body} />}
+        >
+
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default PlacePage;

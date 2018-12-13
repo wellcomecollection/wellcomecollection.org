@@ -1,9 +1,10 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getBooks} from '@weco/common/services/prismic/books';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
+import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {Book} from '@weco/common/model/books';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
@@ -12,10 +13,10 @@ type Props = {|
 |}
 
 const pageDescription = 'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.';
-export class BooksListPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {page = 1} = context.query;
-    const books = await getBooks(context.req, {page});
+export class BooksPage extends Component<Props> {
+  static getInitialProps = async (ctx: Context) => {
+    const {page = 1} = ctx.query;
+    const books = await getBooks(ctx.req, {page});
     if (books) {
       return {
         books,
@@ -34,20 +35,32 @@ export class BooksListPage extends Component<Props> {
 
   render() {
     const {books} = this.props;
+    const firstBook = books.results[0];
 
     return (
-      <LayoutPaginatedResults
+      <PageLayout
         title={'Books'}
-        description={[{
-          type: 'paragraph',
-          text: pageDescription,
-          spans: []
-        }]}
-        paginatedResults={books}
-        paginationRoot={'books'}
-      />
+        description={pageDescription}
+        url={{pathname: `/books`}}
+        jsonLd={{ '@type': 'WebPage' }}
+        openGraphType={'website'}
+        siteSection={null}
+        imageUrl={firstBook && firstBook.image && convertImageUri(firstBook.image.contentUrl, 800)}
+        imageAltText={firstBook && firstBook.image && firstBook.image.alt}>
+        <LayoutPaginatedResults
+          showFreeAdmissionMessage={false}
+          title={'Books'}
+          description={[{
+            type: 'paragraph',
+            text: pageDescription,
+            spans: []
+          }]}
+          paginatedResults={books}
+          paginationRoot={'books'}
+        />
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(BooksListPage);
+export default BooksPage;
