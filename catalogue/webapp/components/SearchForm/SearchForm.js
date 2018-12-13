@@ -1,5 +1,5 @@
 // @flow
-import {Fragment, useState} from 'react';
+import {Fragment, useState, useEffect} from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -90,6 +90,7 @@ const SearchForm = ({
         Router.push(link.href, link.as);
         return false;
       }}>
+
       <div className='relative'>
         <SearchInputWrapper className='relative'>
           <TextInput
@@ -109,7 +110,7 @@ const SearchForm = ({
                   label: `input-id:works-search`
                 });
                 const link = worksUrl({query: null, page: null});
-                setQuery(null);
+                setQuery('');
                 Router.push(link.href, link.as);
               }}
               type='button'>
