@@ -1,4 +1,5 @@
 // @flow
+import type {NextLinkType} from '@weco/common/model/next-link-type';
 import NextLink from 'next/link';
 import {font, conditionalClassNames} from '../../../../utils/classnames';
 import {trackIfOutboundLink, trackEvent, trackEventV2} from '../../../../utils/ga';
@@ -6,7 +7,7 @@ import Icon from '../../Icon/Icon';
 import type {GaEvent, GaEventV2} from '../../../../utils/ga';
 
 type Props = {|
-  url: string,
+  link: NextLinkType,
   text: string,
   extraClasses?: string,
   trackingEvent?: GaEvent,
@@ -15,7 +16,7 @@ type Props = {|
 |}
 
 const SecondaryLink = ({
-  url,
+  link,
   text,
   extraClasses,
   trackingEvent,
@@ -33,8 +34,10 @@ const SecondaryLink = ({
     }
   }
 
+  // We can hopefully deprecate most of this logic once we're using link
+  // objects everywhere
   return (
-    <NextLink href={url}>
+    <NextLink href={link.href} as={link.as}>
       <a
         onClick={handleClick}
         className={conditionalClassNames({
@@ -42,8 +45,7 @@ const SecondaryLink = ({
           'flex-inline': true,
           'flex-v-center': true,
           [font({s: 'HNM5', m: 'HNM4'})]: true,
-          [extraClasses || '']: Boolean(extraClasses),
-          'js-scroll-to-info': url.startsWith('#')
+          [extraClasses || '']: Boolean(extraClasses)
         })}>
         {icon &&
           <Icon name={icon} extraClasses='icon--black icon--90' />

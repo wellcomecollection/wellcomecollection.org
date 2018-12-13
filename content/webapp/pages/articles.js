@@ -1,11 +1,11 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {articleLd} from '@weco/common/utils/json-ld';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {Article} from '@weco/common/model/articles';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
 
@@ -14,44 +14,45 @@ type Props = {|
 |}
 
 const pageDescription = 'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
-export class BooksListPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {page = 1} = context.query;
-    const articles = await getArticles(context.req, {page});
-    if (articles && articles.results) {
-      const firstArticle = articles.results[0];
+export class ArticlesPage extends Component<Props> {
+  static getInitialProps = async (ctx: Context): Promise<?Props> => {
+    const {page = 1} = ctx.query;
+    const articles = await getArticles(ctx.req, {page});
+    if (articles) {
       return {
-        articles,
-        title: 'Articles',
-        description: pageDescription,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/articles`,
-        imageUrl: firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800),
-        siteSection: 'stories',
-        analyticsCategory: 'editorial',
-        jsonPageLd: articles.results.map(articleLd)
+        articles
       };
-    } else {
-      return {statusCode: 404};
     }
   }
 
   render() {
     const {articles} = this.props;
+    const firstArticle = articles.results[0];
 
     return (
-      <LayoutPaginatedResults
+      <PageLayout
         title={'Articles'}
-        description={[{
-          type: 'paragraph',
-          text: pageDescription,
-          spans: []
-        }]}
-        paginatedResults={articles}
-        paginationRoot={'articles'}
-      />
+        description={pageDescription}
+        url={{pathname: `/articles`}}
+        jsonLd={articles.results.map(articleLd)}
+        openGraphType={'website'}
+        siteSection={'stories'}
+        imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
+        imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}>
+        <LayoutPaginatedResults
+          showFreeAdmissionMessage={false}
+          title={'Articles'}
+          description={[{
+            type: 'paragraph',
+            text: pageDescription,
+            spans: []
+          }]}
+          paginatedResults={articles}
+          paginationRoot={'articles'}
+        />
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(BooksListPage);
+export default ArticlesPage;

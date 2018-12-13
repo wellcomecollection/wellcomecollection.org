@@ -27,15 +27,19 @@ module.exports = function(webpack, assetPrefix) {
     webpack(config, options) {
       config.module.rules.push({
         test: /\.scss$/,
-        include: (str) => {
-          return commonDirRegExp.test(str);
-        },
         use: [{
           loader: 'css-loader',
           options: {
             minimize: true
           }
-        }, 'postcss-loader', 'sass-loader']
+        }, 'postcss-loader', {
+          loader: 'sass-loader',
+          options: {
+            includePaths: [
+              path.join(__dirname, '../styles')
+            ]
+          }
+        }]
       });
       config.plugins.push(
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

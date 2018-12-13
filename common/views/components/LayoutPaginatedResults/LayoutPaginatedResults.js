@@ -25,7 +25,8 @@ type Props = {|
   description: ?HTMLString,
   paginationRoot: string,
   paginatedResults: PaginatedResultsTypes,
-  period?: Period
+  period?: Period,
+  showFreeAdmissionMessage: boolean
 |}
 
 const LayoutPaginatedResults = ({
@@ -33,7 +34,8 @@ const LayoutPaginatedResults = ({
   description,
   paginatedResults,
   paginationRoot,
-  period
+  period,
+  showFreeAdmissionMessage
 }: Props) => (
   <Fragment>
     <SpacingSection>
@@ -85,17 +87,19 @@ const LayoutPaginatedResults = ({
           <Divider extraClasses={'divider--keyline divider--pumice'} />
         </Layout12>
       }
+      {showFreeAdmissionMessage &&
+        <Layout12>
+          <div className='flex-inline flex--v-center'>
+            <span className={classNames({
+              [font({s: 'HNM5', m: 'HNM4'})]: true
+            })}>Free admission</span>
+          </div>
+        </Layout12>
+      }
 
-      <Layout12>
-        <div className='flex-inline flex--v-center'>
-          <span className={classNames({
-            [font({s: 'HNM5', m: 'HNM4'})]: true,
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>Free admission</span>
-        </div>
-      </Layout12>
-
-      <CardGrid items={paginatedResults.results} />
+      <div className={spacing({s: 4}, {margin: ['top']})}>
+        <CardGrid items={paginatedResults.results} />
+      </div>
 
       {paginatedResults.totalPages > 1 &&
         <div className={classNames({

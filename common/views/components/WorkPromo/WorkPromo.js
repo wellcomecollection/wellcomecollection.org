@@ -1,25 +1,17 @@
 // @flow
+import type {NextLinkType} from '@weco/common/model/next-link-type';
+import type {Props as ImageProps} from '../Image/Image';
 import {font} from '../../../utils/classnames';
 import {trackEvent, trackEventV2} from '../../../utils/ga';
 import Image from '../Image/Image';
-import type {Props as ImageProps} from '../Image/Image';
 import NextLink from 'next/link';
-
-type Link = {|
-  pathname: string,
-  query: Object
-|}
-type LinkProps = {|
-  href: Link,
-  as: Link
-|}
 
 type Props = {|
   id: string,
   image: ImageProps,
   datePublished?: string,
   title?: string,
-  link: LinkProps
+  link: NextLinkType
 |}
 
 const WorkPromo = ({

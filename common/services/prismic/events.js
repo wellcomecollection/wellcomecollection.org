@@ -168,8 +168,8 @@ export function parseEventDoc(
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
     times: times,
-    displayStart: displayTime.range.startDateTime || null,
-    displayEnd: displayTime.range.endDateTime || null,
+    displayStart: (displayTime && displayTime.range.startDateTime) || null,
+    displayEnd: (displayTime && displayTime.range.endDateTime) || null,
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance

@@ -24,34 +24,33 @@ import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
-export type Link = {|
-  text: string;
-  url: string;
-|};
-
 type Props = {|
   work: Work | CatalogueApiError,
-  previousQueryString: ?string,
+  query: ?string,
+  page: ?number,
   showRedesign: boolean
 |}
 
 export const WorkPage = ({
   work,
-  previousQueryString,
+  query,
+  page,
   showRedesign
 }: Props) => {
   if (work.type === 'Error') {
     return (
       <PageLayout
         title={work.httpStatus.toString()}
-        description={''}
+        description={work.description}
         url={{pathname: `/works`}}
         openGraphType={'website'}
+        siteSection={'works'}
         jsonLd={{ '@type': 'WebPage' }}
         oEmbedUrl={`https://wellcomecollection.org/works`}
         imageUrl={null}
         imageAltText={null}>
         <ErrorPage
+          title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
           errorStatus={work.httpStatus}
         />
       </PageLayout>
@@ -79,7 +78,6 @@ export const WorkPage = ({
       <WorkRedesign
         work={work}
         iiifImageLocationUrl={iiifImageLocationUrl}
-        encoreLink={encoreLink}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
         iiifImageLocationLicenseId={iiifImageLocationLicenseId} />
@@ -93,23 +91,25 @@ export const WorkPage = ({
       url={{pathname: `/works/${work.id}`}}
       openGraphType={'website'}
       jsonLd={workLd(work)}
+      siteSection={'works'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
       imageUrl={iiifImageLocationUrl}
       imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
-      {previousQueryString &&
+      {query &&
         <div className='row'>
           <div className='container'>
             <div className='grid'>
               <div className={grid({s: 12})}>
                 <SecondaryLink
-                  url={`/works${previousQueryString || ''}#${work.id}`}
+                  link={worksUrl({query, page})}
                   text='Search results'
                   trackingEvent={{
                     category: 'component',
                     action: 'return-to-results:click',
-                    label: `id:${work.id}, query:${previousQueryString || ''}, title:${work.title}`
+
+                    label: `id:${work.id}, query:${query || ''}, title:${work.title}`
                   }}
                   trackingEventV2={{
                     eventCategory: 'SecondaryLink',
@@ -346,10 +346,7 @@ export const WorkPage = ({
 };
 
 WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> => {
-  const {id} = ctx.query;
-  const {asPath} = ctx;
-  const queryStart = asPath.indexOf('?');
-  const previousQueryString = queryStart > -1 ? asPath.slice(queryStart) : null;
+  const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
   const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
 
@@ -366,8 +363,9 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
     return workOrError;
   } else {
     return {
-      previousQueryString,
+      query,
       work: workOrError,
+      page: page ? parseInt(page, 10) : null,
       showRedesign
     };
   }
