@@ -15,6 +15,7 @@
     "autoprefixer": "^8.3.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
+    "babel-plugin-styled-components": "^1.9.4",
     "cookies": "^0.7.1",
     "css-loader": "^0.28.11",
     "flow-bin": "^0.86.0",

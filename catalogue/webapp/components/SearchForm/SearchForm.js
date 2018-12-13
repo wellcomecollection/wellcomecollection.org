@@ -1,6 +1,8 @@
 // @flow
 import {Fragment, useState} from 'react';
 import Router from 'next/router';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import {worksUrl} from '../../services/catalogue/urls';
 
 const workTypes = [
@@ -60,11 +62,21 @@ const SearchForm = ({
         Router.push(link.href, link.as);
         return false;
       }}>
-      <input
-        type='text'
+      <TextInput
+        label={'Search the catalogue'}
+        placeholder={'Search for artworks, photos and more'}
         name='query'
         value={query}
         onChange={(event) => setQuery(event.currentTarget.value)} />
+
+      <div className='search-box__button-wrap absolute bg-green'>
+        <button className={`search-box__button line-height-1 plain-button no-padding font({s: 'HNL3', m: 'HNL2'})`}>
+          <span className='visually-hidden'>Search</span>
+          <span className='flex flex--v-center flex--h-center'>
+            <Icon name='search' title='Search' extraClasses='icon--white' />
+          </span>
+        </button>
+      </div>
 
       {showFilters &&
         <Fragment>
