@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (hooks)
 import {Fragment, useState, useEffect} from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -8,7 +9,6 @@ import theme from '@weco/common/views/themes/default';
 import {classNames, font} from '@weco/common/utils/classnames';
 import {trackEvent} from '@weco/common/utils/ga';
 import {worksUrl} from '../../services/catalogue/urls';
-import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants';
 
 const workTypes = [
   { id: 'a', label: 'Books' },
