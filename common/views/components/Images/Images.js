@@ -130,6 +130,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
       showTasl = true,
       isWidthAuto = false
     } = this.props;
+
     return (
       <Fragment>
         <noscript dangerouslySetInnerHTML={{__html: `
@@ -159,7 +160,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           sizes={sizesQueries}
           alt={alt || ''} />
 
-        {showTasl && isWidthAuto && <Tasl {...tasl} isFull={isFull} />}
+        {showTasl && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
     );
   }
