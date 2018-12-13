@@ -1,4 +1,15 @@
+// @flow
+import { css } from 'styled-components';
+
+// When units are `number`s, we assume pixels
 const theme = {
+  spacingUnit: 6,
+  sizes: {
+    small: 0,
+    medium: 600,
+    large: 960,
+    xlarge: 1338
+  },
   colors: {
     'white': '#ffffff',
     'black': '#010101',
@@ -26,4 +37,20 @@ const theme = {
   }
 };
 
-export default theme;
+// https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
+// using min-width because of
+// https://zellwk.com/blog/how-to-write-mobile-first-css/
+const media = Object.keys(theme.sizes).reduce((acc, label) => {
+  const emSize = theme.sizes[label] / 16;
+  acc[label] = (...args: any) => css`
+    @media (min-width: ${emSize}em) {
+      ${css(...args)};
+    }
+  `;
+  return acc;
+}, {});
+
+export default {
+  ...theme,
+  media
+};

@@ -1,5 +1,5 @@
 // @flow
-import styled, {type ReactComponentStyled} from 'styled-components';
+import styled from 'styled-components';
 import theme from '../../themes/default';
 import {font} from '../../../utils/classnames';
 
@@ -15,9 +15,7 @@ const VisuallyHidden = styled.div`
   white-space: nowrap;
 `;
 
-type StyledInputProps = {||}
-
-const StyledInput: ReactComponentStyled<StyledInputProps> = styled.input`
+const StyledInput = styled.input`
   width: 100%;
   padding: 0.4em;
   border: 1px solid ${theme.colors.pumice};

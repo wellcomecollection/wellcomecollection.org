@@ -1,9 +1,14 @@
 // @flow
 import {Fragment, useState} from 'react';
 import Router from 'next/router';
+import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import theme from '@weco/common/views/themes/default';
+import {classNames, font} from '@weco/common/utils/classnames';
+import {trackEvent} from '@weco/common/utils/ga';
 import {worksUrl} from '../../services/catalogue/urls';
+import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants';
 
 const workTypes = [
   { id: 'a', label: 'Books' },
@@ -38,6 +43,29 @@ type Props = {|
   showFilters: boolean
 |}
 
+const SearchInputWrapper = styled.div`
+  margin-right: ${8 * theme.spacingUnit}px;
+
+  ${theme.media.medium`
+    margin-right: ${10 * theme.spacingUnit}px;
+  `}
+`;
+
+const SearchButtonWrapper = styled.div`
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: ${8 * theme.spacingUnit}px;
+
+  ${theme.media.medium`
+    width: ${10 * theme.spacingUnit}px;
+  `}
+`;
+
+const ClearSearch = styled.button`
+  right: 12px;
+`;
+
 const SearchForm = ({
   initialQuery = '',
   initialWorkType = [],
@@ -62,20 +90,48 @@ const SearchForm = ({
         Router.push(link.href, link.as);
         return false;
       }}>
-      <TextInput
-        label={'Search the catalogue'}
-        placeholder={'Search for artworks, photos and more'}
-        name='query'
-        value={query}
-        onChange={(event) => setQuery(event.currentTarget.value)} />
+      <div className='relative'>
+        <SearchInputWrapper className='relative'>
+          <TextInput
+            label={'Search the catalogue'}
+            placeholder={'Search for artworks, photos and more'}
+            name='query'
+            value={query}
+            onChange={(event) => setQuery(event.currentTarget.value)} />
 
-      <div className='search-box__button-wrap absolute bg-green'>
-        <button className={`search-box__button line-height-1 plain-button no-padding font({s: 'HNL3', m: 'HNL2'})`}>
-          <span className='visually-hidden'>Search</span>
-          <span className='flex flex--v-center flex--h-center'>
-            <Icon name='search' title='Search' extraClasses='icon--white' />
-          </span>
-        </button>
+          {query &&
+            <ClearSearch
+              className='absolute line-height-1 plain-button v-center no-padding'
+              onClick={() => {
+                trackEvent({
+                  category: 'component',
+                  action: `clear-search:click`,
+                  label: `input-id:works-search`
+                });
+                const link = worksUrl({query: null, page: null});
+                setQuery(null);
+                Router.push(link.href, link.as);
+              }}
+              type='button'>
+              <Icon name='clear' title='Clear' />
+            </ClearSearch>
+          }
+        </SearchInputWrapper>
+
+        <SearchButtonWrapper className='absolute bg-green'>
+          <button className={classNames({
+            'full-width': true,
+            'full-height': true,
+            'line-height-1': true,
+            'plain-button no-padding': true,
+            [font({s: 'HNL3', m: 'HNL2'})]: true
+          })}>
+            <span className='visually-hidden'>Search</span>
+            <span className='flex flex--v-center flex--h-center'>
+              <Icon name='search' title='Search' extraClasses='icon--white' />
+            </span>
+          </button>
+        </SearchButtonWrapper>
       </div>
 
       {showFilters &&
@@ -125,8 +181,6 @@ const SearchForm = ({
           </fieldset>
         </Fragment>
       }
-
-      <button type='submit'>Search</button>
     </form>
   );
 };
