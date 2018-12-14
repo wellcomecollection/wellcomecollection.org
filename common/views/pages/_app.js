@@ -107,6 +107,61 @@ export default class WecoApp extends App {
       a.appendChild(r);
     })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
+        // Prismic preview and validation warnings
+    const isPreview = document.cookie.match('isPreview=true');
+    if (isPreview) {
+      window.prismic = {
+        endpoint: 'https://wellcomecollection.prismic.io/api/v2'
+      };
+      const prismicScript = document.createElement('script');
+      prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
+      document.head && document.head.appendChild(prismicScript);
+      (function () {
+        var validationBar = document.createElement('div');
+        validationBar.style.position = 'fixed';
+        validationBar.style.width = '375px';
+        validationBar.style.padding = '15px';
+        validationBar.style.background = '#e01b2f';
+        validationBar.style.color = '#ffffff';
+        validationBar.style.bottom = '0';
+        validationBar.style.right = '0';
+        validationBar.style.fontSize = '12px';
+        validationBar.style.zIndex = '2147483000';
+
+        var validationFails = [];
+
+        var descriptionEl = document.querySelector('meta[name="description"]');
+        if (descriptionEl && !descriptionEl.getAttribute('content')) {
+          validationFails.push(`
+            <b>Warning:</b>
+            This piece of content is missing its description.
+            This helps with search engine results and sharing on social channels.
+            (If this is from Prismic, it's the promo text).
+          `);
+        }
+
+        var imageEl = document.querySelector('meta[property="og:image"]');
+        if (imageEl && !imageEl.getAttribute('content')) {
+          validationFails.push(`
+            <b>Warning:</b>
+            This piece of content is missing its promo image.
+            This is the image that will be shown across our site,
+            as well as on social media.
+          `);
+        }
+
+        if (validationFails.length > 0) {
+          validationFails.forEach(function(validationFail) {
+            var div = document.createElement('div');
+            div.style.marginBottom = '6px';
+            div.innerHTML = validationFail;
+            validationBar.appendChild(div);
+          });
+          document.body && document.body.appendChild(validationBar);
+        }
+      })();
+    }
+
     // Raven
     Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
       shouldSendCallback(data) {
