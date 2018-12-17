@@ -93,7 +93,7 @@ class GifVideo extends Component<Props, State> {
       });
       trackEventV2({
         eventCategory: 'GifVideo',
-        eventAction: this.state.isPlaying ? 'paused video' : 'played video',
+        eventAction: this.state.isPlaying ? 'pause video' : 'play video',
         eventLabel: this.props.videoUrl
       });
     };
