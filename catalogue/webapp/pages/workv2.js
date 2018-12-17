@@ -113,7 +113,7 @@ export const WorkPage = ({
                   }}
                   trackingEventV2={{
                     eventCategory: 'SecondaryLink',
-                    eventAction: 'follow link',
+                    eventAction: 'back to results',
                     eventLabel: `${work.id} | text: ${work.title}`
                   }} />
               </div>
@@ -286,7 +286,7 @@ export const WorkPage = ({
                         }}
                         trackingEventV2={{
                           eventCategory: 'Button',
-                          eventAction: 'download large image',
+                          eventAction: 'download large work image',
                           eventLabel: work.id
                         }}
                         icon='download'
@@ -306,7 +306,7 @@ export const WorkPage = ({
                         }}
                         trackingEventV2={{
                           eventCategory: 'Button',
-                          eventAction: 'download small image',
+                          eventAction: 'download small work image',
                           eventLabel: work.id
                         }}
                         icon='download'
