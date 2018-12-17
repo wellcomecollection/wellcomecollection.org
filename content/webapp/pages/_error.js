@@ -3,7 +3,6 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 
 export default class Error extends React.Component {
   static getInitialProps({ res, err }) {
-    console.info('Error', res.statusCode);
     const statusCode = res ? res.statusCode : err ? err.statusCode : null;
     return { statusCode };
   }
