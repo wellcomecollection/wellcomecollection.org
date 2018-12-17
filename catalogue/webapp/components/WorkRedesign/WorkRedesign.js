@@ -102,13 +102,15 @@ class WorkRedesign extends Component<Props, State> {
               </Layout12>
             </SpacingSection>
 
-            <SpacingSection>
-              {iiifImageLocationUrl && <WorkMedia
-                id={work.id}
-                iiifUrl={iiifImageLocationUrl}
-                title={work.title}
-                isV2={true} />}
-            </SpacingSection>
+            {iiifImageLocationUrl &&
+              <SpacingSection>
+                <WorkMedia
+                  id={work.id}
+                  iiifUrl={iiifImageLocationUrl}
+                  title={work.title}
+                  isV2={true} />
+              </SpacingSection>
+            }
 
             <SpacingSection>
               <Layout10>
