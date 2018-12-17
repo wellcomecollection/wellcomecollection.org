@@ -36,9 +36,15 @@ export default class WecoApp extends App {
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
-      if (ctx.res && pageProps.statusCode) {
-        ctx.res.statusCode = pageProps.statusCode;
-        console.info('skdjhskdjhfjkdshfk');
+
+      // If we're on the server, apply any statusCode sent from `getInitialProps`
+      // To the res, or set the `pageProps.statusCode` from the res (200)
+      if (ctx.res) {
+        if (pageProps.statusCode) {
+          ctx.res.statusCode = pageProps.statusCode;
+        } else {
+          pageProps.statusCode = ctx.res.statusCode;
+        }
       }
     }
 
