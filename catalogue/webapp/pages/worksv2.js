@@ -74,7 +74,7 @@ export const Works = ({
         imageUrl={null}
         imageAltText={null}>
         <ErrorPage
-          errorStatus={works.httpStatus}
+          statusCode={works.httpStatus}
         />
       </PageLayout>
     );

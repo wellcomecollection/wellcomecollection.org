@@ -6,6 +6,7 @@ import Head from 'next/head';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
 import {parseOpeningTimesFromCollectionVenues} from '../../services/prismic/opening-times';
+import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
@@ -35,6 +36,10 @@ export default class WecoApp extends App {
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
+      if (ctx.res && pageProps.statusCode) {
+        ctx.res.statusCode = pageProps.statusCode;
+        console.info('skdjhskdjhfjkdshfk');
+      }
     }
 
     return {
@@ -107,7 +112,7 @@ export default class WecoApp extends App {
       a.appendChild(r);
     })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
-        // Prismic preview and validation warnings
+    // Prismic preview and validation warnings
     const isPreview = document.cookie.match('isPreview=true');
     if (isPreview) {
       window.prismic = {
@@ -198,7 +203,6 @@ export default class WecoApp extends App {
       'WeakMap',
       'URL'
     ];
-    const isPreview = false;
     const parsedOpeningTimes = parseOpeningTimesFromCollectionVenues(openingTimes);
 
     return (
@@ -219,7 +223,8 @@ export default class WecoApp extends App {
         <TogglesContext.Provider value={toggles}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
-              <Component {...pageProps} />
+              {pageProps.statusCode === 200 && <Component {...pageProps} />}
+              {pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
         </TogglesContext.Provider>

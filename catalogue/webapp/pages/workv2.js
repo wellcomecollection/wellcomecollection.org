@@ -52,7 +52,7 @@ export const WorkPage = ({
         imageAltText={null}>
         <ErrorPage
           title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
-          errorStatus={work.httpStatus}
+          statusCode={work.httpStatus}
         />
       </PageLayout>
     );
