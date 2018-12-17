@@ -10,6 +10,7 @@ import type {CaptionedImage as CaptionedImageProps} from '../../../model/caption
 import {PageBackgroundContext} from '../ContentPage/ContentPage';
 import {repeatingLsBlack} from '../../../utils/backgrounds';
 import {breakpoints} from '../../../utils/breakpoints';
+import {trackEventV2} from '../../../utils/ga';
 import ReactGA from 'react-ga';
 
 type Props = {|
@@ -30,13 +31,17 @@ class ImageGallery extends Component<Props, State> {
     titleStyle: null
   }
 
-  showAllImages = () => {
+  showAllImages = (isButton?: boolean) => {
     ReactGA.event({
       category: 'component',
       action: `ImageGallery:open`,
       label: `image-gallery:${this.props.id}`
     });
-
+    trackEventV2({
+      eventCategory: `${isButton ? 'Button' : 'CaptionedImage'}`,
+      eventAction: 'open ImageGallery',
+      eventLabel: this.props.id
+    });
     this.setState({
       isActive: true
     });
@@ -152,7 +157,7 @@ class ImageGallery extends Component<Props, State> {
                     <Button
                       type='primary'
                       icon='gallery'
-                      clickHandler={this.showAllImages}
+                      clickHandler={() => { this.showAllImages(true); }}
                       extraClasses='image-gallery-v2__button absolute'
                       text={`${items.length} images`} />
                   }

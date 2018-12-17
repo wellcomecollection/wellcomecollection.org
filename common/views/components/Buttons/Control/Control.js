@@ -1,6 +1,7 @@
 // @flow
 import Icon from '../../Icon/Icon';
-import type {GaEvent} from '../../../../utils/ga';
+import type {GaEvent, GaEventV2} from '../../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../../utils/ga';
 
 type Props = {|
   url?: string,
@@ -10,6 +11,7 @@ type Props = {|
   icon: string,
   text: string,
   trackingEvent?: GaEvent,
+  trackingEventV2?: GaEventV2,
   disabled?: boolean,
   clickHandler?: (event: Event) => void
 |}
@@ -29,18 +31,32 @@ const Control = ({
   extraClasses,
   icon,
   text,
-  trackingEvent,
   disabled,
-  clickHandler
+  clickHandler,
+  trackingEvent,
+  trackingEventV2
 }: Props) => {
   const attrs = {
     id: id,
     href: url,
     className: `control control--${type} ${extraClasses || ''}`,
-    'data-track-event': trackingEvent && JSON.stringify(trackingEvent),
     disabled: disabled,
-    onClick: clickHandler
+    onClick: handleClick
   };
+
+  function handleClick(event) {
+    if (trackingEvent) {
+      trackEvent(trackingEvent);
+    }
+
+    if (trackingEventV2) {
+      trackEventV2(trackingEventV2);
+    }
+
+    if (clickHandler) {
+      clickHandler(event);
+    }
+  }
 
   return url
     ? <a {...attrs}><InnerControl text={text} icon={icon} /></a>
