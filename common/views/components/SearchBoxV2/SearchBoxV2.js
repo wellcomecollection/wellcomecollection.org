@@ -14,7 +14,7 @@ type Props = {|
   onChange?: (SyntheticEvent<HTMLInputElement>) => any
 |}
 
-const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
+const SearchBoxV2 = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
   <div className='search-box js-search-box'>
     <form action={action} onSubmit={onSubmit}>
       <HTMLInput
@@ -55,4 +55,4 @@ const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Pro
   </div>
 );
 
-export default SearchBox;
+export default SearchBoxV2;
