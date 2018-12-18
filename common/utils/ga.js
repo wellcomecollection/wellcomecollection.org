@@ -1,3 +1,4 @@
+// @flow
 import ReactGA from 'react-ga';
 
 export function trackIfOutboundLink(url: string) {
@@ -14,19 +15,29 @@ export function trackIfOutboundLink(url: string) {
 }
 
 export type GaEvent = {|
-  catagory: string,
+  category: string,
   action: string,
   label: string
+|}
+
+export type GaEventV2 = {|
+  eventCategory: string,
+  eventAction: string,
+  eventLabel: string
 |}
 
 export function trackEvent(gaEvent: GaEvent) {
   ReactGA.event(gaEvent);
 }
 
+export function trackEventV2(event: GaEventV2) {
+  ReactGA.ga('v2.send', {hitType: 'event', ...event});
+}
+
 export function trackComponentAction(
   name: string,
   action: string,
-  labels: {[key]: string}
+  labels: {[key: string]: string}
 ) {
   trackEvent({
     category: 'component',

@@ -2,7 +2,7 @@
 import type {NextLinkType} from '@weco/common/model/next-link-type';
 import type {Props as ImageProps} from '../Image/Image';
 import {font} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import Image from '../Image/Image';
 import NextLink from 'next/link';
 
@@ -27,11 +27,18 @@ const WorkPromo = ({
         id={id}
         data-component='WorkPromo'
         className={`promo promo--work`}
-        onClick={() => trackEvent({
-          category: 'component',
-          action: 'WorkPromo:click',
-          label: `id:${id}`
-        })}>
+        onClick={() => {
+          trackEvent({
+            category: 'component',
+            action: 'WorkPromo:click',
+            label: `id:${id}`
+          });
+          trackEventV2({
+            eventCategory: 'WorkPromo',
+            eventAction: 'follow link',
+            eventLabel: id
+          });
+        }}>
         <div className={`promo__image-container promo__image-container--constrained`}>
           <Image
             width={image.width}

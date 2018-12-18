@@ -1,9 +1,10 @@
 module.exports = function (api) {
-  const presets = [
-    'next/babel',
-    '@babel/preset-flow'
-  ];
   api.cache(true);
+
+  const presets = [
+    '@weco/common/babel'
+  ];
+
   return {
     presets
   };

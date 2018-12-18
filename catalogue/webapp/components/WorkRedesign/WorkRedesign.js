@@ -11,7 +11,7 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import {worksUrl} from '../../services/catalogue/urls';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import SearchBox from '@weco/common/views/components/SearchBox/SearchBoxV2';
+import SearchBox from '@weco/common/views/components/SearchBoxV2/SearchBoxV2';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import type {LicenseData} from '@weco/common/utils/get-license-info';
 
@@ -102,13 +102,15 @@ class WorkRedesign extends Component<Props, State> {
               </Layout12>
             </SpacingSection>
 
-            <SpacingSection>
-              {iiifImageLocationUrl && <WorkMedia
-                id={work.id}
-                iiifUrl={iiifImageLocationUrl}
-                title={work.title}
-                isV2={true} />}
-            </SpacingSection>
+            {iiifImageLocationUrl &&
+              <SpacingSection>
+                <WorkMedia
+                  id={work.id}
+                  iiifUrl={iiifImageLocationUrl}
+                  title={work.title}
+                  isV2={true} />
+              </SpacingSection>
+            }
 
             <SpacingSection>
               <Layout10>

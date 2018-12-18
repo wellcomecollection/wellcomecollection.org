@@ -1,6 +1,9 @@
 // @flow
 import type {Context} from 'next';
 import {Fragment, Component} from 'react';
+import type {Article} from '@weco/common/model/articles';
+import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
+import type {PrismicApiError} from '@weco/common/services/prismic/types';
 import {getArticle} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
@@ -17,8 +20,6 @@ import {
   getHeroPicture
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {Article} from '@weco/common/model/articles';
-import type {ArticleScheduleItem} from '@weco/common/model/article-schedule-items';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {ContentFormatIds} from '@weco/common/model/content-format-id';
 
@@ -43,13 +44,15 @@ export class ArticlePage extends Component<Props, State> {
     listOfSeries: []
   }
 
-  static getInitialProps = async (ctx: Context): Promise<?Props> => {
+  static getInitialProps = async (ctx: Context): Promise<?Props | PrismicApiError> => {
     const {id} = ctx.query;
     const article = await getArticle(ctx.req, id);
     if (article) {
       return {
         article
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 

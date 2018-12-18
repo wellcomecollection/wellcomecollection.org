@@ -28,6 +28,8 @@ class InstallationPage extends Component<Props> {
       return {
         installation
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 

@@ -1,6 +1,6 @@
 // @flow
 import {font} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
 
@@ -14,7 +14,7 @@ type Props = {|
   onChange?: (SyntheticEvent<HTMLInputElement>) => any
 |}
 
-const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
+const SearchBoxV2 = ({action, id, name, query, autofocus, onChange, onSubmit}: Props) => (
   <div className='search-box js-search-box'>
     <form action={action} onSubmit={onSubmit}>
       <HTMLInput
@@ -37,15 +37,22 @@ const SearchBox = ({action, id, name, query, autofocus, onChange, onSubmit}: Pro
       </div>
     </form>
     <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `clear-search:click`,
-        label: `input-id:${id}`
-      })}
+      onClick={() => {
+        trackEvent({
+          category: 'component',
+          action: `clear-search:click`,
+          label: `input-id:${id}`
+        });
+        trackEventV2({
+          eventCategory: 'SearchBox',
+          eventAction: 'clear search',
+          eventLabel: id
+        });
+      }}
       type='button'>
       <Icon name='clear' title='Clear' />
     </button>
   </div>
 );
 
-export default SearchBox;
+export default SearchBoxV2;

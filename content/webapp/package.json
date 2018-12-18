@@ -9,7 +9,6 @@
     "test": "NODE_ENV=test jest --no-cache"
   },
   "dependencies": {
-    "@babel/preset-flow": "^7.0.0",
     "@weco/common": "1.0.0",
     "autoprefixer": "^8.3.0",
     "cookies": "^0.7.1",
