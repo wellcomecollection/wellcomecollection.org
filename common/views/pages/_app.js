@@ -38,8 +38,8 @@ export default class WecoApp extends App {
       pageProps = await Component.getInitialProps(ctx);
 
       // If we override the statausCode from getInitialProps, make sure we
-      // propegate that down the line.
-      if (pageProps.statusCode) {
+      // set that on the server response too
+      if (ctx.res && pageProps.statusCode) {
         ctx.res.statusCode = pageProps.statusCode;
       }
     }
