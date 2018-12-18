@@ -226,7 +226,7 @@ export default class WecoApp extends App {
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
               {!pageProps.statusCode && <Component {...pageProps} />}
-              {pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
+              {pageProps.statusCode && pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
         </TogglesContext.Provider>
