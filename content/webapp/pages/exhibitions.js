@@ -22,7 +22,7 @@ export class ExhibitionsPage extends Component<Props> {
     const { page = 1 } = ctx.query;
     const { period } = ctx.query;
     const exhibitions = await getExhibitions(ctx.req, { page, period });
-    if (exhibitions) {
+    if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {
         exhibitions,
@@ -30,7 +30,7 @@ export class ExhibitionsPage extends Component<Props> {
         period
       };
     } else {
-      return { statusCode: 404 };
+      return {statusCode: 404};
     }
   }
 

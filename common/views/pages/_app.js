@@ -37,14 +37,10 @@ export default class WecoApp extends App {
       ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
 
-      // If we're on the server, apply any statusCode sent from `getInitialProps`
-      // To the res, or set the `pageProps.statusCode` from the res (200)
-      if (ctx.res) {
-        if (pageProps.statusCode) {
-          ctx.res.statusCode = pageProps.statusCode;
-        } else {
-          pageProps.statusCode = ctx.res.statusCode;
-        }
+      // If we override the statausCode from getInitialProps, make sure we
+      // propegate that down the line.
+      if (pageProps.statusCode) {
+        ctx.res.statusCode = pageProps.statusCode;
       }
     }
 
@@ -229,7 +225,7 @@ export default class WecoApp extends App {
         <TogglesContext.Provider value={toggles}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
-              {pageProps.statusCode === 200 && <Component {...pageProps} />}
+              {!pageProps.statusCode && <Component {...pageProps} />}
               {pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
