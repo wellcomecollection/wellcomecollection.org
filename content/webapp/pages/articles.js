@@ -1,8 +1,10 @@
 // @flow
 import type {Context} from 'next';
-import type {PrismicApiError} from '@weco/common/services/prismic/types';
 import type {Article} from '@weco/common/model/articles';
-import type {PaginatedResults} from '@weco/common/services/prismic/types';
+import type {
+  PaginatedResults,
+  PrismicApiError
+} from '@weco/common/services/prismic/types';
 import {Component} from 'react';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -16,10 +18,10 @@ type Props = {|
 
 const pageDescription = 'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
 export class ArticlesPage extends Component<Props> {
-  static getInitialProps = async (ctx: Context): Promise<??Props | PrismicApiError> => {
+  static getInitialProps = async (ctx: Context): Promise<?Props | PrismicApiError> => {
     const {page = 1} = ctx.query;
     const articles = await getArticles(ctx.req, {page});
-    if (articles) {
+    if (articles && articles.results.length > 0) {
       return {
         articles
       };

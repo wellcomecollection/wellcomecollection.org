@@ -28,7 +28,7 @@ export class ArticleSeriesPage extends Component<Props> {
       period,
       order: period === 'past' ? 'desc' : 'asc'
     });
-    if (events) {
+    if (events && events.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       return {
         events,
@@ -37,7 +37,7 @@ export class ArticleSeriesPage extends Component<Props> {
         displayTitle: title
       };
     } else {
-      return { statusCode: 404 };
+      return {statusCode: 404};
     }
   }
 
