@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import Image from '../Image/Image';
 import type {Picture} from '../../../model/picture';
 
@@ -17,11 +17,18 @@ type Props = {|
 const InstallationPromo = ({ id, title, description, image, start, end, position = 0 }: Props) => {
   return (
     <a
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `InstallationPromo:click`,
-        label: `title:${title}, position:${position}`
-      })}
+      onClick={() => {
+        trackEventV2({
+          eventCategory: 'InstallationPromo',
+          eventAction: 'follow link',
+          eventLabel: `${title} | position: ${position}`
+        });
+        trackEvent({
+          category: 'component',
+          action: `InstallationPromo:click`,
+          label: `title:${title}, position:${position}`
+        });
+      }}
       id={id}
       href={`/installations/${id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>

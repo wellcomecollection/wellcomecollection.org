@@ -2,15 +2,16 @@
 import type {NextLinkType} from '@weco/common/model/next-link-type';
 import NextLink from 'next/link';
 import {font, conditionalClassNames} from '../../../../utils/classnames';
-import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
+import {trackIfOutboundLink, trackEvent, trackEventV2} from '../../../../utils/ga';
 import Icon from '../../Icon/Icon';
-import type {GaEvent} from '../../../../utils/ga';
+import type {GaEvent, GaEventV2} from '../../../../utils/ga';
 
 type Props = {|
   link: NextLinkType,
   text: string,
   extraClasses?: string,
   trackingEvent?: GaEvent,
+  trackingEventV2?: GaEventV2,
   icon?: string
 |}
 
@@ -19,6 +20,7 @@ const SecondaryLink = ({
   text,
   extraClasses,
   trackingEvent,
+  trackingEventV2,
   icon
 }: Props) => {
   function handleClick(event) {
@@ -26,8 +28,14 @@ const SecondaryLink = ({
     if (trackingEvent) {
       trackEvent(trackingEvent);
     }
+
+    if (trackingEventV2) {
+      trackEventV2(trackingEventV2);
+    }
   }
 
+  // We can hopefully deprecate most of this logic once we're using link
+  // objects everywhere
   return (
     <NextLink href={link.href} as={link.as}>
       <a

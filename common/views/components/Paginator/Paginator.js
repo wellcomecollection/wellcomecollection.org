@@ -5,8 +5,8 @@ import {classNames, font, spacing} from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 type Link = {|
-  pathname: string,
-  query: Object,
+  +pathname: string,
+  +query: Object,
 |}
 
 type LinkProps = {|

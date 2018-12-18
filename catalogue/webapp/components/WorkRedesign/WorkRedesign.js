@@ -1,4 +1,4 @@
-// $Flow
+// @flow
 import {Fragment, Component} from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
@@ -13,33 +13,38 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchBox from '@weco/common/views/components/SearchBoxV2/SearchBoxV2';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import type {LicenseData} from '@weco/common/utils/get-license-info';
 
 type Work = Object;
 type Props = {|
   work: Work,
   iiifImageLocationUrl: ?string,
-  licenseInfo: ?string,
+  licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?string
 |}
 
-class WorkRedesign extends Component<Props> {
+type State = {|
+  query: string
+|};
+
+class WorkRedesign extends Component<Props, State> {
   state = {
     query: ''
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     Router.push(
-      worksUrl({query: this.state.query}).href,
-      worksUrl({query: this.state.query}).as
+      worksUrl({query: this.state.query, page: null}).href,
+      worksUrl({query: this.state.query, page: null}).as
     );
   }
 
-  handleChange = (event) => {
+  handleChange = (event: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      query: event.target.value
+      query: event.currentTarget.value
     });
   }
 
@@ -58,6 +63,7 @@ class WorkRedesign extends Component<Props> {
         url={{pathname: `/works/${work.id}`}}
         openGraphType={'website'}
         jsonLd={workLd(work)}
+        siteSection={'works'}
         oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
         imageUrl={iiifImageLocationUrl}
         imageAltText={work.title}>
@@ -96,13 +102,15 @@ class WorkRedesign extends Component<Props> {
               </Layout12>
             </SpacingSection>
 
-            <SpacingSection>
-              {iiifImageLocationUrl && <WorkMedia
-                id={work.id}
-                iiifUrl={iiifImageLocationUrl}
-                title={work.title}
-                isV2={true} />}
-            </SpacingSection>
+            {iiifImageLocationUrl &&
+              <SpacingSection>
+                <WorkMedia
+                  id={work.id}
+                  iiifUrl={iiifImageLocationUrl}
+                  title={work.title}
+                  isV2={true} />
+              </SpacingSection>
+            }
 
             <SpacingSection>
               <Layout10>
@@ -183,7 +191,9 @@ class WorkRedesign extends Component<Props> {
                   <Fragment>
                     <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
                     <MetaUnit headingLevel={3} headingText='Credit' text={[
-                      `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                      `${work.title}.{' '}
+                      ${iiifImageLocationCredit ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ` : ` `}
+                      ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
                   </Fragment>
                 }
               </Layout10>

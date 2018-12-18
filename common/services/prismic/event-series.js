@@ -1,8 +1,9 @@
 // @flow
+import type {EventSeries} from '../../model/event-series';
+import type {UiEvent} from '../../model/events';
+import type {PrismicDocument, PrismicQueryOpts} from './types';
 import Prismic from 'prismic-javascript';
 import {getEvents} from './events';
-import type {EventSeries} from '../../model/event-series';
-import type {PrismicDocument, PrismicQueryOpts} from './types';
 import {
   parseGenericFields,
   parseBackgroundTexture

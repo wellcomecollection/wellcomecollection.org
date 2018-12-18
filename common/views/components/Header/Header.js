@@ -4,13 +4,13 @@ import {font, spacing} from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 const links = [{
-  href: 'https://wellcomecollection.org/visit',
+  href: '/visit-us',
   title: 'Visit us',
-  siteSection: 'visitus'
+  siteSection: 'visit-us'
 }, {
-  href: 'https://wellcomecollection.org/whats-on',
+  href: '/whats-on',
   title: 'What\'s on',
-  siteSection: 'whatson'
+  siteSection: 'whats-on'
 }, {
   href: '/stories',
   title: 'Stories',
@@ -20,9 +20,9 @@ const links = [{
   title: 'Images',
   siteSection: 'works'
 }, {
-  href: 'https://wellcomecollection.org/what-we-do',
+  href: '/what-we-do',
   title: 'What we do',
-  siteSection: 'whatwedo'
+  siteSection: 'what-we-do'
 }];
 
 type Props = {|

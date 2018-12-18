@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {font, classNames} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import Tasl from '../Tasl/Tasl';
@@ -90,6 +90,11 @@ class GifVideo extends Component<Props, State> {
         category: 'component',
         action: 'toggle-gif-video-play:click',
         label: `gif-video:${this.props.videoUrl}, click-action:${!this.state.isPlaying ? 'did-play' : 'did-pause'}`
+      });
+      trackEventV2({
+        eventCategory: 'GifVideo',
+        eventAction: this.state.isPlaying ? 'pause video' : 'play video',
+        eventLabel: this.props.videoUrl
       });
     };
 
