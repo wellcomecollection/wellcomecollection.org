@@ -1,6 +1,5 @@
 // @flow
 import styled from 'styled-components';
-import theme from '../../themes/default';
 import {font} from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
@@ -18,11 +17,11 @@ const VisuallyHidden = styled.div`
 const StyledInput = styled.input`
   width: 100%;
   padding: 0.4em;
-  border: 1px solid ${theme.colors.pumice};
+  border: 1px solid ${props => props.theme.colors.pumice};
 
   &:focus {
     outline: 0;
-    border: 1px solid ${theme.colors.turquoise};
+    border: 1px solid ${props => props.theme.colors.turquoise};
   }
 
   &::-ms-clear {
