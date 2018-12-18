@@ -1,8 +1,9 @@
 // @flow
 
+import type {GaEvent, GaEventV2} from '../../../../utils/ga';
+import {trackEvent, trackEventV2} from '../../../../utils/ga';
 import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
-import type {GaEvent} from '../../../../utils/ga';
 
 type Props = {|
   url?: string,
@@ -11,6 +12,7 @@ type Props = {|
   icon?: string,
   text: string,
   trackingEvent?: GaEvent,
+  trackingEventV2?: GaEventV2,
   id?: string,
   disabled?: boolean,
   target?: string,
@@ -27,6 +29,7 @@ const Button = ({
   icon,
   text,
   trackingEvent,
+  trackingEventV2,
   disabled,
   target,
   download,
@@ -37,6 +40,17 @@ const Button = ({
   const fontClasses = extraClasses && extraClasses.indexOf('btn--tertiary') > -1
     ? {s: 'HNM5'}
     : {s: 'HNM4'};
+  function handleClick(e) {
+    if (clickHandler) {
+      clickHandler(e);
+    }
+    if (trackingEvent) {
+      trackEvent(trackingEvent);
+    }
+    if (trackingEventV2) {
+      trackEventV2(trackingEventV2);
+    }
+  }
   return (
     <HtmlTag
       href={url}
@@ -45,8 +59,7 @@ const Button = ({
       rel={rel}
       id={id}
       className={`btn btn--${type} ${extraClasses || ''} ${font(fontClasses)} flex-inline flex--v-center`}
-      data-track-event={trackingEvent && JSON.stringify(trackingEvent)}
-      onClick={clickHandler}
+      onClick={handleClick}
       disabled={disabled}>
       <span className='flex-inline flex--v-center'>
         {icon && <Icon name={icon} />}

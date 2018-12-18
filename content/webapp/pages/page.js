@@ -28,6 +28,8 @@ export class Page extends Component<Props> {
       return {
         page
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 

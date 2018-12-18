@@ -247,6 +247,11 @@ class EventPage extends Component<Props, State> {
                     category: 'component',
                     action: 'date-times-jump-link:click',
                     label: event.id
+                  }}
+                  trackingEventV2={{
+                    eventCategory: 'SecondaryLink',
+                    eventAction: 'scroll to event dates and times',
+                    eventLabel: event.id
                   }} />
               }
             </div>

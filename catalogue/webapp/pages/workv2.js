@@ -1,7 +1,6 @@
 // @flow
 import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
 import {Fragment} from 'react';
-import ReactGA from 'react-ga';
 import NextLink from 'next/link';
 import Router from 'next/router';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
@@ -40,21 +39,10 @@ export const WorkPage = ({
 }: Props) => {
   if (work.type === 'Error') {
     return (
-      <PageLayout
-        title={work.httpStatus.toString()}
-        description={work.description}
-        url={{pathname: `/works`}}
-        openGraphType={'website'}
-        siteSection={'works'}
-        jsonLd={{ '@type': 'WebPage' }}
-        oEmbedUrl={`https://wellcomecollection.org/works`}
-        imageUrl={null}
-        imageAltText={null}>
-        <ErrorPage
-          title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
-          errorStatus={work.httpStatus}
-        />
-      </PageLayout>
+      <ErrorPage
+        title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
+        statusCode={work.httpStatus}
+      />
     );
   }
 
@@ -109,7 +97,13 @@ export const WorkPage = ({
                   trackingEvent={{
                     category: 'component',
                     action: 'return-to-results:click',
+
                     label: `id:${work.id}, query:${query || ''}, title:${work.title}`
+                  }}
+                  trackingEventV2={{
+                    eventCategory: 'SecondaryLink',
+                    eventAction: 'back to results',
+                    eventLabel: `${work.id} | text: ${work.title}`
                   }} />
               </div>
             </div>
@@ -279,12 +273,10 @@ export const WorkPage = ({
                           action: 'download-button:click',
                           label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
                         }}
-                        clickHandler={() => {
-                          ReactGA.event({
-                            category: 'component',
-                            action: 'download-button:click',
-                            label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
-                          });
+                        trackingEventV2={{
+                          eventCategory: 'Button',
+                          eventAction: 'download large work image',
+                          eventLabel: work.id
                         }}
                         icon='download'
                         text='Download full size' />
@@ -301,12 +293,10 @@ export const WorkPage = ({
                           action: 'download-button:click',
                           label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
                         }}
-                        clickHandler={() => {
-                          ReactGA.event({
-                            category: 'component',
-                            action: 'download-button:click',
-                            label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
-                          });
+                        trackingEventV2={{
+                          eventCategory: 'Button',
+                          eventAction: 'download small work image',
+                          eventLabel: work.id
                         }}
                         icon='download'
                         text='Download small (760px)' />

@@ -69,6 +69,8 @@ export class StoriesPage extends Component<Props> {
         articles,
         series
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 
