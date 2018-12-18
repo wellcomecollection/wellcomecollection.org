@@ -37,6 +37,8 @@ export class EventSeriesPage extends Component<Props> {
         series,
         events
       };
+    } else {
+      return {statusCode: 404};
     }
   }
 

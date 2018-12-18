@@ -39,21 +39,10 @@ export const WorkPage = ({
 }: Props) => {
   if (work.type === 'Error') {
     return (
-      <PageLayout
-        title={work.httpStatus.toString()}
-        description={work.description}
-        url={{pathname: `/works`}}
-        openGraphType={'website'}
-        siteSection={'works'}
-        jsonLd={{ '@type': 'WebPage' }}
-        oEmbedUrl={`https://wellcomecollection.org/works`}
-        imageUrl={null}
-        imageAltText={null}>
-        <ErrorPage
-          title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
-          errorStatus={work.httpStatus}
-        />
-      </PageLayout>
+      <ErrorPage
+        title={work.httpStatus === 410 ? 'This catalogue item has been removed.' : null}
+        statusCode={work.httpStatus}
+      />
     );
   }
 

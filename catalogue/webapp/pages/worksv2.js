@@ -63,20 +63,9 @@ export const Works = ({
 }: Props) => {
   if (works && works.type === 'Error') {
     return (
-      <PageLayout
-        title={works.httpStatus.toString()}
-        description={''}
-        url={{pathname: `/works`}}
-        openGraphType={'website'}
-        siteSection={'works'}
-        jsonLd={{ '@type': 'WebPage' }}
-        oEmbedUrl={`https://wellcomecollection.org/works`}
-        imageUrl={null}
-        imageAltText={null}>
-        <ErrorPage
-          errorStatus={works.httpStatus}
-        />
-      </PageLayout>
+      <ErrorPage
+        statusCode={works.httpStatus}
+      />
     );
   }
 

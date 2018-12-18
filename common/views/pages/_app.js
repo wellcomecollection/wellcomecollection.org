@@ -6,6 +6,7 @@ import Head from 'next/head';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
 import {parseOpeningTimesFromCollectionVenues} from '../../services/prismic/opening-times';
+import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
@@ -35,6 +36,16 @@ export default class WecoApp extends App {
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
+
+      // If we're on the server, apply any statusCode sent from `getInitialProps`
+      // To the res, or set the `pageProps.statusCode` from the res (200)
+      if (ctx.res) {
+        if (pageProps.statusCode) {
+          ctx.res.statusCode = pageProps.statusCode;
+        } else {
+          pageProps.statusCode = ctx.res.statusCode;
+        }
+      }
     }
 
     return {
@@ -107,6 +118,61 @@ export default class WecoApp extends App {
       a.appendChild(r);
     })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
+    // Prismic preview and validation warnings
+    const isPreview = document.cookie.match('isPreview=true');
+    if (isPreview) {
+      window.prismic = {
+        endpoint: 'https://wellcomecollection.prismic.io/api/v2'
+      };
+      const prismicScript = document.createElement('script');
+      prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
+      document.head && document.head.appendChild(prismicScript);
+      (function () {
+        var validationBar = document.createElement('div');
+        validationBar.style.position = 'fixed';
+        validationBar.style.width = '375px';
+        validationBar.style.padding = '15px';
+        validationBar.style.background = '#e01b2f';
+        validationBar.style.color = '#ffffff';
+        validationBar.style.bottom = '0';
+        validationBar.style.right = '0';
+        validationBar.style.fontSize = '12px';
+        validationBar.style.zIndex = '2147483000';
+
+        var validationFails = [];
+
+        var descriptionEl = document.querySelector('meta[name="description"]');
+        if (descriptionEl && !descriptionEl.getAttribute('content')) {
+          validationFails.push(`
+            <b>Warning:</b>
+            This piece of content is missing its description.
+            This helps with search engine results and sharing on social channels.
+            (If this is from Prismic, it's the promo text).
+          `);
+        }
+
+        var imageEl = document.querySelector('meta[property="og:image"]');
+        if (imageEl && !imageEl.getAttribute('content')) {
+          validationFails.push(`
+            <b>Warning:</b>
+            This piece of content is missing its promo image.
+            This is the image that will be shown across our site,
+            as well as on social media.
+          `);
+        }
+
+        if (validationFails.length > 0) {
+          validationFails.forEach(function(validationFail) {
+            var div = document.createElement('div');
+            div.style.marginBottom = '6px';
+            div.innerHTML = validationFail;
+            validationBar.appendChild(div);
+          });
+          document.body && document.body.appendChild(validationBar);
+        }
+      })();
+    }
+
     // Raven
     Raven.config('https://f756b8d4b492473782987a054aa9a347@sentry.io/133634', {
       shouldSendCallback(data) {
@@ -143,7 +209,6 @@ export default class WecoApp extends App {
       'WeakMap',
       'URL'
     ];
-    const isPreview = false;
     const parsedOpeningTimes = parseOpeningTimesFromCollectionVenues(openingTimes);
 
     return (
@@ -164,7 +229,8 @@ export default class WecoApp extends App {
         <TogglesContext.Provider value={toggles}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
-              <Component {...pageProps} />
+              {pageProps.statusCode === 200 && <Component {...pageProps} />}
+              {pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
         </TogglesContext.Provider>
