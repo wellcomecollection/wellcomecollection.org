@@ -37,7 +37,7 @@ export default class WecoApp extends App {
       ctx.query.toggles = toggles;
       pageProps = await Component.getInitialProps(ctx);
 
-      // If we override the statausCode from getInitialProps, make sure we
+      // If we override the statusCode from getInitialProps, make sure we
       // set that on the server response too
       if (ctx.res && pageProps.statusCode) {
         ctx.res.statusCode = pageProps.statusCode;
