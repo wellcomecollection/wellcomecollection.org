@@ -5,6 +5,9 @@ import Router from 'next/router';
 import Head from 'next/head';
 import ReactGA from 'react-ga';
 import Raven from 'raven-js';
+import {Fragment} from 'react';
+import {ThemeProvider} from 'styled-components';
+import theme from '../../views/themes/default';
 import {parseOpeningTimesFromCollectionVenues} from '../../services/prismic/opening-times';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
@@ -225,8 +228,12 @@ export default class WecoApp extends App {
         <TogglesContext.Provider value={toggles}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
-              {!pageProps.statusCode && <Component {...pageProps} />}
-              {pageProps.statusCode && pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
+              <ThemeProvider theme={theme}>
+                <Fragment>
+                  {!pageProps.statusCode && <Component {...pageProps} />}
+                  {pageProps.statusCode && pageProps.statusCode !== 200 && <ErrorPage statusCode={pageProps.statusCode} />}
+                </Fragment>
+              </ThemeProvider>
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
         </TogglesContext.Provider>
