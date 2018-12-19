@@ -179,59 +179,6 @@ export class OpeningTimesPage extends Component<Props> {
               }
             </Fragment>
 
-            {openingHours.exceptionalClosedDates.length > 0 &&
-              <Fragment>
-                <h2 className={`${font({s: 'WB6', m: 'WB5'})}`}>
-                    Closure dates for{' '}
-                  {openingHours.exceptionalClosedDates[0].periodStart ? formatYear(openingHours.exceptionalClosedDates[0].periodStart) : ' the coming year'}
-                </h2>
-                {openingHours.exceptionalClosedDates.map(period => {
-                  return (
-                    <div key={period.periodStart} className={spacing({s: 6}, {margin: ['bottom']})}>
-                      <h3 className={font({s: 'WB7', m: 'WB6'})}>
-                        {period.periodStart !== period.periodEnd &&
-                            <Fragment>{formatDate(period.periodStart)}&mdash;{formatDate(period.periodEnd)}</Fragment>
-                        }
-                        {period.periodStart === period.periodEnd &&
-                            <Fragment>{formatDate(period.periodStart)}</Fragment>
-                        }
-                      </h3>
-                      {Object.keys(period.venues).map(venue => {
-                        const modified = period.venues[venue];
-                        return (
-                          <p key={venue} className={spacing({s: 1}, {margin: ['bottom']})}>
-                            {venue} will be closed on{' '}
-                            {modified.map((item, i) => {
-                              return (
-                                <Fragment key={i}>
-                                  {modified.length > 2 && (i >= 1 && i < modified.length - 1) && ', '}
-                                  {modified.length >= 2 && i === modified.length - 1 && ' and '}
-                                  {
-                                    item.exceptionalDate.overrideDate &&
-                                      formatDayMonth(item.exceptionalDate.overrideDate)
-                                  }
-                                  {
-                                    !item.exceptionalDate.overrideDate &&
-                                      formatDayMonth(item.exceptionalDate)
-                                  }
-                                </Fragment>
-                              );
-                            })}
-                          </p>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-                <Divider
-                  extraClasses={classNames({
-                    'divider--pumice': true,
-                    'divider--keyline': true,
-                    [spacing({s: 1}, {margin: ['top']})]: true,
-                    [spacing({s: 4}, {margin: ['bottom']})]: true
-                  })} />
-              </Fragment>
-            }
             <div id='busy' className={`body-text`}>
               {page.body.length > 0 && <PrismicHtmlBlock html={page.body[0].value} />}
             </div>
