@@ -1,8 +1,9 @@
+const { parse } = require('url');
 const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
 const {
-  middleware, route
+  middleware, route, handleAllRoute
 } = require('@weco/common/koa-middleware/withCachedValues');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -27,10 +28,7 @@ module.exports = app.prepare().then(async () => {
     ctx.body = 'ok';
   });
 
-  router.get('*', async ctx => {
-    await handle(ctx.req, ctx.res);
-    ctx.respond = false;
-  });
+  router.get('*', handleAllRoute(handle));
 
   server.use(async (ctx, next) => {
     ctx.res.statusCode = 200;
