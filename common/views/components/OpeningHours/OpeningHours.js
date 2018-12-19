@@ -91,7 +91,7 @@ class OpeningHours extends Component<Props, State> {
                 }
               }
             })}
-            . Please check our <a href='/opening-times#exceptional'>modified opening times</a> for details before you travel.
+            . Please check our <a href='/opening-times#exceptional'>revised opening hours</a> for details before you travel.
           </p>
         }
         {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours && groupedVenues[Object.keys(groupedVenues)[0]].hours.length > 1 &&
