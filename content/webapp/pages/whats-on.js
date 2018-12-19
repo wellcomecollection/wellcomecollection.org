@@ -1,5 +1,6 @@
 // @flow
 import type {Context} from 'next';
+import NextLink from 'next/link';
 import {Component, Fragment} from 'react';
 import {classNames, font, spacing, grid, cssGrid} from '@weco/common/utils/classnames';
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
@@ -18,7 +19,6 @@ import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
-import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -222,13 +222,11 @@ const Header = ({
                     }
                   </div>
                 }
-                <SecondaryLink
-                  link={{
-                    href: '/opening-times',
-                    as: '/opening-times'
-                  }}
-                  text={'Full opening times'}
-                />
+                <NextLink href={`/opening-times`} as={`/opening-times`}>
+                  <a className={classNames({
+                    [font({s: 'HNM5', m: 'HNM4'})]: true
+                  })}>{`Full opening times`}</a>
+                </NextLink>
               </div>
             </div>
           </div>

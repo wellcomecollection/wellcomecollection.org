@@ -1,5 +1,6 @@
 // @flow
 import type {Context} from 'next';
+import NextLink from 'next/link';
 import {Component, Fragment} from 'react';
 import Prismic from 'prismic-javascript';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -10,7 +11,6 @@ import EventSchedule from '@weco/common/views/components/EventSchedule/EventSche
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
-import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
@@ -32,6 +32,7 @@ import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {eventLd} from '@weco/common/utils/json-ld';
 import {isEventFullyBooked} from '@weco/common/model/events';
+import {trackEventV2} from '@weco/common/utils/ga';
 
 type Props = {|
   event: UiEvent
@@ -239,20 +240,25 @@ class EventPage extends Component<Props, State> {
               [spacing({s: 0, m: 2}, {margin: ['left']})]: true
             })}>
               {!event.isPast &&
-                <SecondaryLink
-                  link={{href: '#dates', as: '#dates'}}
-                  text={`See all dates`}
-                  icon={'arrowSmall'}
-                  trackingEvent={{
-                    category: 'component',
-                    action: 'date-times-jump-link:click',
-                    label: event.id
+                <NextLink
+                  href={`#dates`}
+                  as={`#dates`}>
+                  <a onClick={() => {
+                    trackEventV2({
+                      eventCategory: 'NextLink',
+                      eventAction: 'scroll to event dates and times',
+                      eventLabel: event.id
+                    });
                   }}
-                  trackingEventV2={{
-                    eventCategory: 'SecondaryLink',
-                    eventAction: 'scroll to event dates and times',
-                    eventLabel: event.id
-                  }} />
+                  className={classNames({
+                    'flex-inline': true,
+                    'flex-v-center': true,
+                    [font({s: 'HNM5', m: 'HNM4'})]: true
+                  })}>
+                    <Icon name={`arrowSmall`} extraClasses='icon--black icon--90' />
+                    <span>{`See all dates`}</span>
+                  </a>
+                </NextLink>
               }
             </div>
           </div>
@@ -330,13 +336,19 @@ class EventPage extends Component<Props, State> {
                         icon='email'
                         text='Email to book' />
                     )}
-                  <SecondaryLink
-                    link={{
-                      href: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`,
-                      as: `mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`
-                    }}
-                    text={event.bookingEnquiryTeam.email}
-                    extraClasses={`block font-charcoal ${spacing({s: 1}, {margin: ['top']})}`} />
+
+                  <NextLink
+                    href={`mailto:${event.bookingEnquiryTeam.email}?subjecst=${event.title}`}
+                    as={`mailto:${event.bookingEnquiryTeam.email}?subjecst=${event.title}`}>
+                    <a className={classNames({
+                      'block font-charcoal': true,
+                      [spacing({s: 1}, {margin: ['top']})]: true,
+                      [font({s: 'HNM5', m: 'HNM4'})]: true
+                    })}>
+                      <span>{event.bookingEnquiryTeam.email}</span>
+                    </a>
+                  </NextLink>
+
                 </Fragment>
               }
 
@@ -357,7 +369,7 @@ class EventPage extends Component<Props, State> {
             </Fragment>
           }
 
-        {!event.isPast &&
+          {!event.isPast &&
           <Fragment>
             <InfoBox title='Need to know' items={[
               (event.place && {
@@ -385,7 +397,7 @@ class EventPage extends Component<Props, State> {
               </p>
             </InfoBox>
           </Fragment>
-        }
+          }
 
           {event.audiences.map((audience) => { //  TODO remove?
             if (audience.description) {

@@ -12,7 +12,6 @@ import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/Primary
 import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
@@ -23,6 +22,7 @@ import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
+import {trackEventV2} from '@weco/common/utils/ga';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -91,20 +91,20 @@ export const WorkPage = ({
           <div className='container'>
             <div className='grid'>
               <div className={grid({s: 12})}>
-                <SecondaryLink
-                  link={worksUrl({query, page})}
-                  text='Search results'
-                  trackingEvent={{
-                    category: 'component',
-                    action: 'return-to-results:click',
-
-                    label: `id:${work.id}, query:${query || ''}, title:${work.title}`
+                <NextLink {...worksUrl({query, page})}>
+                  <a onClick={() => {
+                    trackEventV2({
+                      eventCategory: 'NextLink',
+                      eventAction: 'back to results',
+                      eventLabel: `${work.id}`
+                    });
                   }}
-                  trackingEventV2={{
-                    eventCategory: 'SecondaryLink',
-                    eventAction: 'back to results',
-                    eventLabel: `${work.id} | text: ${work.title}`
-                  }} />
+                  className={classNames({
+                    [font({s: 'HNM5', m: 'HNM4'})]: true
+                  })}>
+                    <span>{`Search results`}</span>
+                  </a>
+                </NextLink>
               </div>
             </div>
           </div>
