@@ -337,9 +337,10 @@ class EventPage extends Component<Props, State> {
                         text='Email to book' />
                     )}
 
+                  {/* FIXME: work out why Flow requires the check for bookingEnquiryTeam here even though we've already checked above */}
                   <NextLink
-                    href={`mailto:${event.bookingEnquiryTeam.email}?subjecst=${event.title}`}
-                    as={`mailto:${event.bookingEnquiryTeam.email}?subjecst=${event.title}`}>
+                    href={`mailto:${event.bookingEnquiryTeam ? event.bookingEnquiryTeam.email : ''}?subject=${event.title}`}
+                    as={`mailto:${event.bookingEnquiryTeam ? event.bookingEnquiryTeam.email : ''}?subject=${event.title}`}>
                     <a className={classNames({
                       'block font-charcoal': true,
                       [spacing({s: 1}, {margin: ['top']})]: true,
