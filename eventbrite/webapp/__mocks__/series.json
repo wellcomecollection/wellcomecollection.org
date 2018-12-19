@@ -1,0 +1,243 @@
+{
+	"id": "XBjD3BEAAKob9R59",
+	"uid": null,
+	"type": "events",
+	"href": "https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=XBjGBBEAAO1X9SgY&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22XBjD3BEAAKob9R59%22%29+%5D%5D",
+	"tags": ["delist"],
+	"first_publication_date": "2018-12-18T09:54:57+0000",
+	"last_publication_date": "2018-12-18T10:03:48+0000",
+	"slugs": ["testfor-auto-eventbrite-creation", "test---for-auto-eventbrite-creation", "test-for-auto-eventbrite-creation", "life-drawing"],
+	"linked_documents": [{
+		"id": "XBjD3BEAAKob9R59",
+		"tags": ["delist"],
+		"type": "events",
+		"slug": "testfor-auto-eventbrite-creation",
+		"lang": "en-gb"
+	}, {
+		"id": "XBjD3BEAAKob9R59",
+		"tags": ["delist"],
+		"type": "events",
+		"slug": "testfor-auto-eventbrite-creation",
+		"lang": "en-gb"
+	}, {
+		"id": "XBjD3BEAAKob9R59",
+		"tags": ["delist"],
+		"type": "events",
+		"slug": "testfor-auto-eventbrite-creation",
+		"lang": "en-gb"
+	}, {
+		"id": "XBjD3BEAAKob9R59",
+		"tags": ["delist"],
+		"type": "events",
+		"slug": "testfor-auto-eventbrite-creation",
+		"lang": "en-gb"
+	}],
+	"lang": "en-gb",
+	"alternate_languages": [],
+	"data": {
+		"title": [{
+			"type": "heading1",
+			"text": "Test: Sync series with prismic",
+			"spans": []
+		}],
+		"format": {
+			"id": "WcKmiysAACx_A8NR",
+			"type": "event-formats",
+			"tags": [],
+			"slug": "workshop",
+			"lang": "en-gb",
+			"link_type": "Document",
+			"isBroken": false
+		},
+		"place": {
+			"id": "W8XfKxEAADwYer9D",
+			"type": "places",
+			"tags": [],
+			"slug": "the-studio-and-the-forum",
+			"lang": "en-gb",
+			"data": {
+				"title": [{
+					"type": "heading1",
+					"text": "The Studio and the Forum",
+					"spans": []
+				}]
+			},
+			"link_type": "Document",
+			"isBroken": false
+		},
+		"series": [{
+			"series": {
+				"link_type": "Document"
+			}
+		}],
+		"times": [{
+			"startDateTime": "2019-02-02T10:30:00+0000",
+			"endDateTime": "2019-02-02T13:30:00+0000",
+			"isFullyBooked": null
+		}, {
+			"startDateTime": "2019-02-02T14:30:00+0000",
+			"endDateTime": "2019-02-02T17:30:00+0000",
+			"isFullyBooked": null
+		}],
+		"body": [{
+			"slice_type": "text",
+			"slice_label": null,
+			"items": [],
+			"primary": {
+				"text": [{
+					"type": "heading2",
+					"text": "What you’ll do",
+					"spans": []
+				}, {
+					"type": "paragraph",
+					"text": "Build your portfolio and improve your drawing technique at this life-drawing workshop. The morning session will feature a male model in underwear and the afternoon session will feature a nude male model. Both sessions will be led by artists who will provide tips and techniquesto perfect your anatomical drawing skills. All the materials you need for the session will be provided.",
+					"spans": []
+				}]
+			}
+		}],
+		"isRelaxedPerformance": null,
+		"interpretations": [{
+			"interpretationType": {
+				"link_type": "Document"
+			},
+			"isPrimary": null
+		}],
+		"audiences": [{
+			"audience": {
+				"id": "WlYWByQAACQAWdA0",
+				"type": "audiences",
+				"tags": [],
+				"slug": "schools",
+				"lang": "en-gb",
+				"data": {
+					"title": [{
+						"type": "heading1",
+						"text": "Schools",
+						"spans": []
+					}]
+				},
+				"link_type": "Document",
+				"isBroken": false
+			}
+		}, {
+			"audience": {
+				"id": "WlYWECQAACcAWdBf",
+				"type": "audiences",
+				"tags": [],
+				"slug": "14-to-19-year-olds",
+				"lang": "en-gb",
+				"data": {
+					"title": [{
+						"type": "heading1",
+						"text": "14 to 19-year-olds",
+						"spans": []
+					}]
+				},
+				"link_type": "Document",
+				"isBroken": false
+			}
+		}],
+		"ticketSalesStart": "2019-01-04T11:00:00+0000",
+		"bookingEnquiryTeam": {
+			"link_type": "Document"
+		},
+		"eventbriteEvent": {
+			"url": "https://www.eventbrite.co.uk/e/53851137201?aff=efbneb",
+			"embed_url": "https://www.eventbrite.co.uk/e/rawminds-life-drawing-tickets-53851137201 ",
+			"type": "link",
+			"version": "1.0",
+			"title": "RawMinds Life Drawing",
+			"author_name": null,
+			"author_url": null,
+			"provider_name": "events.event",
+			"provider_url": null,
+			"cache_age": null,
+			"thumbnail_url": "https://cdn.evbstatic.com/s3-build/perm_001/6ce389/django/images/logos/eb_orange_on_white_1200x630.png",
+			"thumbnail_width": null,
+			"thumbnail_height": null,
+			"html": "<div data-type=\"events.event\"><a href=\"https://www.eventbrite.co.uk/e/53851137201?aff=efbneb\"><h1>RawMinds Life Drawing</h1><img src=\"https://cdn.evbstatic.com/s3-build/perm_001/6ce389/django/images/logos/eb_orange_on_white_1200x630.png\"><p>RawMinds Life Drawing</p></a></div>"
+		},
+		"bookingInformation": [{
+			"type": "paragraph",
+			"text": "A maximum of two tickets are available per booking.",
+			"spans": []
+		}],
+		"policies": [{
+			"policy": {
+				"link_type": "Document"
+			}
+		}],
+		"hasEarlyRegistration": null,
+		"cost": null,
+		"schedule": [{
+			"event": {
+				"link_type": "Document"
+			},
+			"isNotLinked": null
+		}],
+		"backgroundTexture": {
+			"link_type": "Document"
+		},
+		"contributors": [{
+			"role": {
+				"link_type": "Document"
+			},
+			"contributor": {
+				"link_type": "Document"
+			},
+			"description": []
+		}],
+		"contributorsTitle": [],
+		"promo": [{
+			"slice_type": "editorialImage",
+			"slice_label": null,
+			"items": [],
+			"primary": {
+				"caption": [{
+					"type": "paragraph",
+					"text": "Build your portfolio and improve yourdrawing technique at this life-drawing workshop for students studying art in school or college.",
+					"spans": []
+				}],
+				"image": {
+					"dimensions": {
+						"width": 4000,
+						"height": 2250
+					},
+					"alt": "Photograph of a life drawing workshop showing an young woman sketching at a charcoal drawing of a male figure who can be seen posing in the background.",
+					"copyright": "Life drawing workshop | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+					"url": "https://wellcomecollection.cdn.prismic.io/wellcomecollection/f9d8a4afdbbb2206a2125655e6e5c3f1c8d3bc52_ep_000084_067.jpg",
+					"square": {
+						"dimensions": {
+							"width": 3200,
+							"height": 3200
+						},
+						"alt": "Photograph of a life drawing workshop showing an young woman sketching at a charcoal drawingof a male figure who can be seen posing in the background.",
+						"copyright": "Life drawing workshop | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+						"url": "https://wellcomecollection.cdn.prismic.io/wellcomecollection/290bbf5a4dbb9d8c6fc623ccaecc08e85c2451ff_ep_000084_067.jpg"
+					},
+					"32:15": {
+						"dimensions": {
+							"width": 3200,
+							"height": 1500
+						},
+						"alt": "Photograph of a life drawing workshop showing an young woman sketching at a charcoal drawing of a male figure who can be seen posing in the background.",
+						"copyright": "Life drawing workshop | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+						"url": "https://wellcomecollection.cdn.prismic.io/wellcomecollection/878b6eb0f91d4ae654c321ca6ffc60b28594fc13_ep_000084_067.jpg"
+					},
+					"16:9": {
+						"dimensions": {
+							"width": 3200,
+							"height": 1800
+						},
+						"alt": "Photograph of a life drawing workshop showing an young woman sketching at a charcoal drawing of a male figure who can beseen posing in the background.",
+						"copyright": "Life drawing workshop | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+						"url": "https://wellcomecollection.cdn.prismic.io/wellcomecollection/b8420cf0c2b2c2608f39fa4d3520896beb14e794_ep_000084_067.jpg"
+					}
+				},
+				"link": null
+			}
+		}],
+		"metadataDescription": [],
+		"description": []
+	}
+}
