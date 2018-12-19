@@ -5,7 +5,6 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import theme from '@weco/common/views/themes/default';
 import {classNames, font} from '@weco/common/utils/classnames';
 import {trackEvent, trackEventV2} from '@weco/common/utils/ga';
 import {worksUrl} from '../../services/catalogue/urls';
@@ -44,10 +43,11 @@ type Props = {|
 |}
 
 const SearchInputWrapper = styled.div`
-  margin-right: ${8 * theme.spacingUnit}px;
+  background: ${props => props.theme.colors.white};
+  margin-right: ${props => 8 * props.theme.spacingUnit}px;
 
-  ${theme.media.medium`
-    margin-right: ${10 * theme.spacingUnit}px;
+  ${props => props.theme.media.medium`
+    margin-right: ${props => 10 * props.theme.spacingUnit}px;
   `}
 `;
 
@@ -55,10 +55,10 @@ const SearchButtonWrapper = styled.div`
   height: 100%;
   top: 0;
   right: 0;
-  width: ${8 * theme.spacingUnit}px;
+  width: ${props => 8 * props.theme.spacingUnit}px;
 
-  ${theme.media.medium`
-    width: ${10 * theme.spacingUnit}px;
+  ${props => props.theme.media.medium`
+    width: ${props => 10 * props.theme.spacingUnit}px;
   `}
 `;
 
