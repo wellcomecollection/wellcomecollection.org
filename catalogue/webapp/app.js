@@ -28,18 +28,12 @@ module.exports = app.prepare().then(async () => {
   });
 
   router.get('*', async ctx => {
-    console.info('--------------------------------------------');
-    console.info('*');
-    console.info('--------------------------------------------');
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
   });
 
   server.use(async (ctx, next) => {
     ctx.res.statusCode = 200;
-    console.info('--------------------------------------------');
-    console.info('nowt');
-    console.info('--------------------------------------------');
     await next();
   });
 
