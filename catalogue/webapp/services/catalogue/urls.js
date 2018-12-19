@@ -21,7 +21,7 @@ function removeEmpty(obj: Object): Object {
 export function workUrl({ id, query, page }: WorkUrlProps): NextLinkType {
   return {
     href: {
-      pathname: `/workv2`,
+      pathname: `/work`,
       query: {
         id,
         ...removeEmpty({
@@ -48,7 +48,7 @@ export function worksUrl({
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
-      pathname: `/worksv2`,
+      pathname: `/works`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
