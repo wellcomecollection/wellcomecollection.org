@@ -240,34 +240,43 @@ export class ExhibitionPage extends Component<Props, State> {
     ].filter(Boolean);
 
     return (
-      <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
-        {exhibition.contributors.length > 0 && (
-          <Contributors
-            titleOverride={exhibition.contributorsTitle}
-            contributors={exhibition.contributors}
-          />
-        )}
-        {
-          this.state.exhibitionOfs &&
+      <PageLayout
+        title={exhibition.title}
+        description={exhibition.metadataDescription || exhibition.promoText || ''}
+        url={{pathname: `/exhibitions/${exhibition.id}`}}
+        jsonLd={exhibitionLd(exhibition)}
+        openGraphType={'website'}
+        siteSection={'whats-on'}
+        imageUrl={exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)}
+        imageAltText={exhibition.image && exhibition.image.alt}>
+        <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
+          {exhibition.contributors.length > 0 && (
+            <Contributors
+              titleOverride={exhibition.contributorsTitle}
+              contributors={exhibition.contributors}
+            />
+          )}
+          {
+            this.state.exhibitionOfs &&
           this.state.exhibitionOfs.length > 0 &&
           <SearchResults
             items={this.state.exhibitionOfs}
             title={`In this exhibition`} />
-        }
-        {exhibition.end && !isPast(exhibition.end) && (
-          <InfoBox title='Visit us' items={infoItems}>
-            <p className={`no-margin ${font({s: 'HNL4'})}`}>
-              <a href='/access'>All our accessibility services</a>
-            </p>
-          </InfoBox>
-        )}
-        {
-          this.state.exhibitionAbouts &&
+          }
+          {exhibition.end && !isPast(exhibition.end) && (
+            <InfoBox title='Visit us' items={infoItems}>
+              <p className={`no-margin ${font({s: 'HNL4'})}`}>
+                <a href='/access'>All our accessibility services</a>
+              </p>
+            </InfoBox>
+          )}
+          {
+            this.state.exhibitionAbouts &&
           this.state.exhibitionAbouts.length > 0 &&
           <SearchResults
             items={this.state.exhibitionAbouts}
             title={`About this exhibition`} />
-        }
+          }
 
           {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}
           {
