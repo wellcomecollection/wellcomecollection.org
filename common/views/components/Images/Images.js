@@ -73,12 +73,14 @@ export type UiImageProps = {|
 |}
 
 type UiImageState = {|
-  imgRef: any // FIXME: better Flow
+  imgRef: any,  // FIXME: better Flow
+  isLazyLoaded: boolean
 |}
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
-    imgRef: null
+    imgRef: null,
+    isLazyLoaded: false
   }
 
   imgRef = createRef();
@@ -94,6 +96,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
   handleLazyLoaded = () => {
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(true);
     this.getImageSize(); // Update centre based on new aspect ratio
+    this.setState({isLazyLoaded: true});
   }
 
   componentDidMount() {
@@ -160,7 +163,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           sizes={sizesQueries}
           alt={alt || ''} />
 
-        {showTasl && <Tasl {...tasl} isFull={isFull} />}
+        {showTasl && this.state.isLazyLoaded && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
     );
   }
