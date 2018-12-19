@@ -91,6 +91,11 @@ export class OpeningTimesPage extends Component<Props> {
           {!showNewOpeningHours &&
           <Fragment>
             <Fragment>
+              <div className='spacing-component'>
+                <div className='body-text font-HNM4-s font-HNM3-m'>
+                  <p>Explore our opening hours across the different parts of our building. Keep in mind we&apos;re open late on Thursdays! We also have <a href='#exceptional'>revised opening hours over the festive holidays</a>. </p>
+                </div>
+              </div>
               <h2 className={classNames({
                 [font({s: 'WB6', m: 'WB5'})]: true
               })} id='regular'>Regular opening times</h2>
