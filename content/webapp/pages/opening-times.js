@@ -93,7 +93,11 @@ export class OpeningTimesPage extends Component<Props> {
             <Fragment>
               <div className='spacing-component'>
                 <div className='body-text font-HNM4-s font-HNM3-m'>
-                  <p>Explore our opening hours across the different parts of our building. Keep in mind we&apos;re open late on Thursdays! We also have <a href='#exceptional'>revised opening hours over the festive holidays</a>. </p>
+                  <p>Explore our opening hours across the different parts of our building. Keep in mind we&apos;re open late on Thursdays!
+                    {openingHours.upcomingExceptionalOpeningPeriods && openingHours.upcomingExceptionalOpeningPeriods.length > 0 &&
+                    <span dangerouslySetInnerHTML={{__html: ` We also have <a href='#exceptional'>revised opening hours over the festive holidays</a>.`}} />
+                    }
+                  </p>
                 </div>
               </div>
               <h2 className={classNames({
@@ -105,7 +109,7 @@ export class OpeningTimesPage extends Component<Props> {
               })}>
                 <OpeningHours
                   extraClasses='opening-hours--light'
-                  upcomingExceptionalOpeningPeriods={openingHours.upcomingExceptionalOpeningPeriods}
+                  upcomingExceptionalOpeningPeriods={null}
                   groupedVenues={openingHours.groupedVenues} />
               </div>
               <Divider
