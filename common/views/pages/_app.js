@@ -21,11 +21,23 @@ let toggles;
 let openingTimes;
 let globalAlert;
 
+function triggerEngagement() {
+  ReactGA.event({
+    category: 'Engagement',
+    action: 'Time on page >=',
+    label: '10 seconds'
+  });
+}
+
+let engagement = setTimeout(triggerEngagement, 10000);
+
 function trackRouteChange() {
   ReactGA.pageview(
     `${window.location.pathname}${window.location.search}`,
     ['v2']
   );
+  clearTimeout(engagement);
+  engagement = setTimeout(triggerEngagement, 10000);
 }
 
 export default class WecoApp extends App {
@@ -87,6 +99,7 @@ export default class WecoApp extends App {
       `${window.location.pathname}${window.location.search}`,
       ['v2']
     );
+
     Router.events.on('routeChangeStart', trackRouteChange);
 
     // TODO: Is there a better implementation of this
