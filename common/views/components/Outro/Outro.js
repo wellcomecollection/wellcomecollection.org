@@ -1,6 +1,5 @@
 // @flow
 import type {MultiContent} from '../../../model/multi-content';
-import type {GaEventV2} from '../../../utils/ga';
 
 import {classNames, spacing} from '../../../utils/classnames';
 import CompactCard from '../../components/CompactCard/CompactCard';
