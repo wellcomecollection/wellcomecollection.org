@@ -13,7 +13,6 @@ type Props = {|
   readItem: ?MultiContent,
   visitLinkText: ?string,
   visitItem: ?MultiContent,
-  gaEventV2: ?GaEventV2
 |}
 
 const Outro = ({
@@ -51,7 +50,7 @@ const Outro = ({
         'plain-list': true
       })}>
         {[researchItem, readItem, visitItem].filter(Boolean)
-          .map((item, index) => {
+          .map(item => {
             return (
               <li key={item.id}>
                 <CompactCard

@@ -2,7 +2,7 @@
 import type {Element, ElementProps} from 'react';
 import type {GaEventV2} from '../../../utils/ga';
 
-import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
+import {grid, font, spacing, conditionalClassNames, classNames} from '../../../utils/classnames';
 import {trackEvent, trackEventV2} from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -53,7 +53,8 @@ const CompactCard = ({
       data-component={promoType}
       href={urlOverride || url}
       className={conditionalClassNames({
-        'grid plain-link': true,
+        'grid': true,
+        'card-link': Boolean(url),
         [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
       })}
@@ -84,7 +85,11 @@ const CompactCard = ({
       }
       <div className={grid(textGridSizes)}>
         {partNumber && <PartNumberIndicator number={partNumber} color={color} />}
-        <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
+        <div className={classNames({
+          'card-link__title': true,
+          [font({s: 'WB5'})]: true,
+          [spacing({s: 0}, {margin: ['top']})]: true
+        })}>
           {title}
         </div>
         {DateRange &&
