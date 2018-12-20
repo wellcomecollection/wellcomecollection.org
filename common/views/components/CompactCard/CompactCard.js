@@ -1,5 +1,7 @@
 // @flow
 import type {Element, ElementProps} from 'react';
+import type {GaEventV2} from '../../../utils/ga';
+
 import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
 import {trackEvent, trackEventV2} from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
@@ -22,7 +24,8 @@ type Props = {|
   color: ?ColorSelection,
   Image: ?Element<typeof ImageType | typeof ImagePlaceholder>,
   DateInfo: ?Element<typeof DateRange>,
-  StatusIndicator: ?Element<typeof StatusIndicator>
+  StatusIndicator: ?Element<typeof StatusIndicator>,
+  gaEventV2: ?GaEventV2
 |}
 
 const CompactCard = ({
@@ -37,7 +40,8 @@ const CompactCard = ({
   color,
   Image,
   DateInfo,
-  StatusIndicator
+  StatusIndicator,
+  gaEventV2
 }: Props) => {
   const textGridSizes = Image
     ? {s: 7, m: 7, l: 8, xl: 8}
@@ -54,7 +58,7 @@ const CompactCard = ({
         [extraClasses || '']: Boolean(extraClasses)
       })}
       onClick={() => {
-        trackEventV2({
+        trackEventV2(gaEventV2 || {
           eventCategory: 'CompactCard',
           eventAction: 'follow link',
           eventLabel: title

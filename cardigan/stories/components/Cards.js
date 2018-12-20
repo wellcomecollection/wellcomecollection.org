@@ -41,6 +41,7 @@ const CompactCardExample = () => <CompactCard
   DateInfo={null}
   Tags={null}
   labels={labelList}
+  gaEventV2={null}
 />;
 
 const stories = storiesOf('Components', module);
