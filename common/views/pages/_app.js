@@ -20,6 +20,7 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
+let engagement;
 
 function triggerEngagement() {
   ReactGA.event({
@@ -34,8 +35,6 @@ function triggerEngagement() {
     eventLabel: '10 seconds'
   });
 }
-
-let engagement = setTimeout(triggerEngagement, 10000);
 
 function trackRouteChange() {
   ReactGA.pageview(
@@ -82,7 +81,7 @@ export default class WecoApp extends App {
   }
 
   componentWillUnmount() {
-    Router.events.off('routeChangeStart', trackRouteChange);
+    Router.events.off('routeChangeStart',  trackRouteChange);
   }
 
   componentDidMount() {
@@ -105,7 +104,7 @@ export default class WecoApp extends App {
       `${window.location.pathname}${window.location.search}`,
       ['v2']
     );
-
+    engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChange);
 
     // TODO: Is there a better implementation of this
