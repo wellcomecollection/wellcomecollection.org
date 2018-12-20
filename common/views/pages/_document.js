@@ -19,6 +19,10 @@ export default function WeDoc(css: string) {
             <style dangerouslySetInnerHTML={{ __html: css }} />
           </Head>
           <body>
+            {/* Google Tag Manager (noscript) */}
+            <noscript>
+              <iframe src='https://www.googletagmanager.com/ns.html?id=GTM-WV9JS8W' height='0' width='0' style={{display: 'none', visibility: 'hidden'}}></iframe>
+            </noscript>
             <Main />
             <NextScript />
           </body>
