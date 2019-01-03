@@ -46,14 +46,16 @@ export function worksUrl({
   workType,
   itemsLocationsLocationType
 }: WorksUrlProps): NextLinkType {
+  const isDefaultWorkType = JSON.stringify(workType) === JSON.stringify(['k', 'q']);
+  const isDefaultItemsLocationsLocationType = JSON.stringify(itemsLocationsLocationType) === JSON.stringify(['iiif-image']);
   return {
     href: {
       pathname: `/works`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
-        workType: workType ? workType.join(',') : undefined,
-        'items.locations.locationType': itemsLocationsLocationType ? itemsLocationsLocationType.join(',') : undefined
+        workType: workType && !isDefaultWorkType ? workType.join(',') : undefined,
+        'items.locations.locationType': itemsLocationsLocationType && !isDefaultItemsLocationsLocationType ? itemsLocationsLocationType.join(',') : undefined
       })
     },
     as: {
@@ -61,8 +63,8 @@ export function worksUrl({
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
-        workType: workType ? workType.join(',') : undefined,
-        'items.locations.locationType': itemsLocationsLocationType ? itemsLocationsLocationType.join(',') : undefined
+        workType: workType && !isDefaultWorkType ? workType.join(',') : undefined,
+        'items.locations.locationType': itemsLocationsLocationType && !isDefaultItemsLocationsLocationType ? itemsLocationsLocationType.join(',') : undefined
       })
     }
   };
