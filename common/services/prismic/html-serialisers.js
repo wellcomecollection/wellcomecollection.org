@@ -6,7 +6,7 @@ import {sized} from '../../utils/style';
 
 const { Elements } = PrismicDOM.RichText;
 
-export type HtmlSeriliser = (
+export type HtmlSerializer = (
   type: string,
   element: Object, // There are so many types here
   content: string,
@@ -14,7 +14,7 @@ export type HtmlSeriliser = (
   i: number
 ) =>?string
 
-export const dropCapSerialiser: HtmlSeriliser = (
+export const dropCapSerializer: HtmlSerializer = (
   type,
   element,
   content,
@@ -33,7 +33,7 @@ export const dropCapSerialiser: HtmlSeriliser = (
   return defaultSerializer(type, element, content, children, i);
 };
 
-export const defaultSerializer: HtmlSeriliser = (type, element, content, children, i) => {
+export const defaultSerializer: HtmlSerializer = (type, element, content, children, i) => {
   switch (type) {
     case Elements.heading1: return `<h1>${children.join('')}</h1>`;
     case Elements.heading2: return `<h2>${children.join('')}</h2>`;
