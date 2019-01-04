@@ -49,6 +49,8 @@ jobs:
                 docker login --username $DOCKER_USER --password $DOCKER_PASS
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
+            docker login --username $DOCKER_USER --password $DOCKER_PASS
+            CONTAINER_TAG=test docker-compose push
       - run:
           name: Install awscli
           command: sudo apt-get install awscli
