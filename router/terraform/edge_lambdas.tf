@@ -41,8 +41,8 @@ data "archive_file" "edge_lambda_zip" {
   }
 
   source {
-    filename = "redirects.json"
-    content = "${file("${path.module}/../webapp/redirects.json")}"
+    filename = "redirects.js"
+    content = "${file("${path.module}/../webapp/redirects.js")}"
   }
 }
 

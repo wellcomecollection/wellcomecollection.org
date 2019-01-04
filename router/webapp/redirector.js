@@ -1,5 +1,5 @@
 'use-strict';
-const redirects = require('./redirects.json');
+const redirects = require('./redirects');
 
 exports.redirector = (event, context) => {
   const cf = event.Records[0].cf;

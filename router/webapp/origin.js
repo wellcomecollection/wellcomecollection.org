@@ -1,18 +1,20 @@
 'use-strict';
 const abTesting = require('./ab_testing');
 const redirector = require('./redirector').redirector;
+const wiRedirector = require('./wiRedirector').wiRedirector;
 
 exports.request = (event, context, callback) => {
-  // If a response is attached to the Record return it
   redirector(event, context);
+  wiRedirector(event, context);
 
-  const request = event.Records[0].cf.request;
+  // If we've attached a response, send it through straight away
   const response = event.Records[0].cf.response;
   if (response) {
     callback(null, response);
     return;
   }
 
+  const request = event.Records[0].cf.request;
   abTesting.request(event, context);
   callback(null, request);
 };
