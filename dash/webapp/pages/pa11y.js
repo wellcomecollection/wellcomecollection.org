@@ -1,4 +1,5 @@
-import React, {Fragment} from 'react';
+// $FlowFixMe
+import {Fragment, useState, useEffect} from 'react';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Header from '../components/Header';
@@ -30,8 +31,16 @@ const Issue = styled.div`
     ` : ''}
 `;
 
-const Index = ({resultsList}: any) => {
-  return (
+const Index = () => {
+  const [resultsList, setResultsList] = useState(null);
+
+  useEffect(() => {
+    fetch('https://dash.wellcomecollection.org/pa11y/report.json')
+      .then(resp => resp.json())
+      .then(json => setResultsList(json))
+  }, []);
+
+  return resultsList && (
     <Fragment>
       <div style={{
         fontFamily
@@ -91,13 +100,6 @@ const Index = ({resultsList}: any) => {
       </div>
     </Fragment>
   );
-};
-
-Index.getInitialProps = async () => {
-  const results = await fetch('https://dash.wellcomecollection.org/pa11y/report.json');
-  const json = await results.json();
-
-  return {resultsList: json};
 };
 
 export default Index;

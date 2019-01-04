@@ -1,7 +1,7 @@
 
 // @flow
 // $FlowFixMe
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
 import Header from '../components/Header';
@@ -22,7 +22,7 @@ const Button = styled.button`
 const aYear = 31536000;
 function setCookie(name, value) {
   const expiration = value ? ` Max-Age=${aYear}` : `Expires=${new Date('1970-01-01').toString()}`;
-  document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
+  document.cookie = `toggle_${name}=${value || ''}; Path=/; ${expiration}`;
 }
 
 const abTests = [];
@@ -52,9 +52,22 @@ const featureToggles = [{
     'Shows the static version of the page to allow usability testing to be conducted.'
 }];
 
-type Props = {| initialToggles: Object |}
-const IndexPage = ({ initialToggles }: Props) => {
-  const [toggles, setToggles] = useState(initialToggles);
+const IndexPage = () => {
+  const [toggles, setToggles] = useState({});
+
+  // We use this over getInitialProps as it's ineffectual when an app is
+  // exported.
+  useEffect(() => {
+    const cookies = getCookies({});
+    const initialToggles = Object.keys(cookies).reduce((acc, key) => {
+      if (key.startsWith('toggle_')) {
+        acc[key.replace('toggle_', '')] = cookies[key] === 'true';
+      }
+      return acc;
+    }, {});
+
+    setToggles(initialToggles)
+  }, [])
 
   return (
     <div style={{
@@ -163,20 +176,6 @@ const IndexPage = ({ initialToggles }: Props) => {
       </div>
     </div>
   );
-};
-
-IndexPage.getInitialProps = (ctx) => {
-  const cookies = getCookies(ctx);
-  const initialToggles = Object.keys(cookies).reduce((acc, key) => {
-    if (key.startsWith('toggle_')) {
-      acc[key.replace('toggle_', '')] = cookies[key] === 'true';
-    }
-    return acc;
-  }, {});
-
-  return {
-    initialToggles
-  };
 };
 
 export default IndexPage;
