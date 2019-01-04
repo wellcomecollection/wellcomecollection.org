@@ -1,1 +1,3 @@
 *.json.gz
+*.csv
+*.pyc

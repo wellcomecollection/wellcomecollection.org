@@ -6,8 +6,12 @@ This directory contains some scripts for analysing the types of Work in the Libr
 
 These scripts should run in Python 2 or Python 3, including the built-in OS X Python.
 
-First you should save a local copy of the data; this makes subsequent scripts much faster:
+The scripts automatically download the data they need.
 
-```console
-$ python download_data.py
-```
+## Available scripts
+
+*   Get a tally of the number of different work types:
+
+    ```console
+    $ python get_work_type_tally.py
+    ```
