@@ -34,6 +34,19 @@ const Outro = ({
         return '';
     }
   }
+
+  function getItemEmoji(item) {
+    switch (item) {
+      case researchItem:
+        return `👩‍🔬`;
+      case readItem:
+        return `📖`;
+      case visitItem:
+        return `🏢`;
+      default:
+        return '';
+    }
+  }
   return (
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
@@ -52,23 +65,32 @@ const Outro = ({
           .map(item => {
             return (
               <li key={item.id}>
-                <CompactCard
-                  partNumber={null}
-                  Image={null}
-                  urlOverride={null}
-                  color={null}
-                  StatusIndicator={null}
-                  DateInfo={null}
-                  title={getItemTitle(item)}
-                  promoType={``}
-                  labels={{labels: item.labels || []}}
-                  url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
-                  description={item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title}
-                  gaEventV2={{
-                    eventCategory: `CompactCard`,
-                    eventAction: `follow Outro ${getItemTitle(item)} link`,
-                    eventLabel: item.id
-                  }} />
+                <div className='flex'>
+                  <div style={{
+                    fontSize: '52px',
+                    marginRight: '12px',
+                    marginTop: '12px'
+                  }}>
+                    {getItemEmoji(item)}
+                  </div>
+                  <CompactCard
+                    partNumber={null}
+                    Image={null}
+                    urlOverride={null}
+                    color={null}
+                    StatusIndicator={null}
+                    DateInfo={null}
+                    title={getItemTitle(item)}
+                    promoType={``}
+                    labels={{labels: []}}
+                    url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
+                    description={item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title}
+                    gaEventV2={{
+                      eventCategory: `CompactCard`,
+                      eventAction: `follow Outro ${getItemTitle(item)} link`,
+                      eventLabel: item.id
+                    }} />
+                </div>
               </li>
             );
           })}
