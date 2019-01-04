@@ -16,7 +16,7 @@ import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
-import {dropCapSerializer} from '../../../services/prismic/html-serialisers';
+import {defaultSerializer, dropCapSerializer} from '../../../services/prismic/html-serialisers';
 import type {Weight} from '../../../services/prismic/parsers';
 
 type BodySlice = {|
@@ -62,7 +62,7 @@ const Body = ({
                     {slice.weight !== 'featured' &&
                       (firstTextSliceIndex === i && isDropCapped
                         ? <PrismicHtmlBlock html={slice.value} htmlSerialiser={dropCapSerializer} />
-                        : <PrismicHtmlBlock html={slice.value} />)
+                        : <PrismicHtmlBlock html={slice.value} htmlSerialiser={defaultSerializer} />)
                     }
                   </div>
                 </Layout8>
