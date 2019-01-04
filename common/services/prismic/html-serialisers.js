@@ -72,7 +72,7 @@ export const defaultSerializer: HtmlSerializer = (type, element, content, childr
       const target = element.data.target ? `target="${element.data.target}" rel="noopener"` : '';
       const linkUrl = PrismicDOM.Link.url(element.data, linkResolver);
       const isDocument = element.data.kind === 'document';
-      const documentSize = isDocument ? Math.round(element.data.size / 1000) : null;
+      const documentSize = isDocument ? Math.round(element.data.size / 1000) : '';
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
       const documentType = fileExtension && fileExtension[0].substr(1).toUpperCase();
       if (isDocument) {
