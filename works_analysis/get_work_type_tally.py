@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8
 """
-This script prints a tally of work types.
+This script creates a tally of work types.
 """
 
 import collections

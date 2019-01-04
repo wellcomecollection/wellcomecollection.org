@@ -15,3 +15,17 @@ The scripts automatically download the data they need.
     ```console
     $ python get_work_type_tally.py
     ```
+
+    This produces a CSV `work_type_tally.csv` that tells you how many works there are of each workType.
+
+*   Get a tally of digitised images per work:
+
+    ```console
+    $ python get_digitised_images_per_work_tally.py
+    ```
+
+    This produces three CSVs:
+
+    -   `digitised_images--any.csv` tells you the number of digitised images per work of *any type*
+    -   `digitised_images--image.csv` tells you the number of digitised images per work which have the *iiif-image* location type
+    -   `digitised_images--presentation.csv` tells you the number of digitised images per work which have the *iiif-presentation* location type

@@ -54,13 +54,14 @@ def save_tally_to_path(name, tally, headings):
         writer = csv.writer(csvfile)
         writer.writerow(headings)
         for label, count in tally.most_common():
-            if isinstance(label, str):
+            if isinstance(label, (str, int)):
                 row = [label, count]
             elif isinstance(label, tuple):
                 row = list(label) + [count]
             else:
                 raise TypeError(
-                    "Got %r of type %s; expected str or tuple" % (label, type(label))
+                    "Got %r of type %s; expected str, int or tuple" %
+                    (label, type(label))
                 )
             writer.writerow(row)
 
