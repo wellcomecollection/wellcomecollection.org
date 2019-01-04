@@ -47,22 +47,29 @@ def get_all_works():
         yield json.loads(line)
 
 
-def save_tally_to_path(name, tally, headings):
+def save_rows_to_csv(name, rows, headings):
     path = name + ".csv"
 
     with open(path, "w") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(headings)
+        for row in rows:
+            writer.writerow(row)
+
+    return path
+
+
+def save_tally_to_path(name, tally, headings):
+    def rows():
         for label, count in tally.most_common():
             if isinstance(label, (str, int)):
-                row = [label, count]
+                yield [label, count]
             elif isinstance(label, tuple):
-                row = list(label) + [count]
+                yield list(label) + [count]
             else:
                 raise TypeError(
                     "Got %r of type %s; expected str, int or tuple" %
                     (label, type(label))
                 )
-            writer.writerow(row)
 
-    return path
+    return save_rows_to_csv(name=name, rows=rows(), headings=headings)

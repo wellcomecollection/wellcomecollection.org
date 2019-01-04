@@ -29,3 +29,11 @@ The scripts automatically download the data they need.
     -   `digitised_images--any.csv` tells you the number of digitised images per work of *any type*
     -   `digitised_images--image.csv` tells you the number of digitised images per work which have the *iiif-image* location type
     -   `digitised_images--presentation.csv` tells you the number of digitised images per work which have the *iiif-presentation* location type
+
+*   Get a tally of metadata fields per work type:
+
+    ```console
+    $ python get_metadata_by_work_type_tally.py
+    ```
+
+    This gives you a CSV `metadata_by_work_type.csv` that lets you see how many times a particular metadata field occurs in works of a given work type.
