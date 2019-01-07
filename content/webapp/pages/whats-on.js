@@ -3,7 +3,11 @@ import type {Context} from 'next';
 import {Component, Fragment} from 'react';
 import {classNames, font, spacing, grid, cssGrid} from '@weco/common/utils/classnames';
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
-import {getEvents} from '@weco/common/services/prismic/events';
+import {
+  getEvents,
+  filterEventsForToday,
+  filterEventsForWeekend
+} from '@weco/common/services/prismic/eventsV2';
 import {london, formatDay, formatDate} from '@weco/common/utils/format-date';
 import {convertJsonToDates} from './event';
 import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';
@@ -117,8 +121,6 @@ const DateRange = ({
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-
-  // $FlowFixMe
   const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
   const listHeader = getListHeader(collectionOpeningTimes);
 
@@ -269,8 +271,7 @@ export class WhatsOnPage extends Component<Props> {
       order: 'asc'
     });
     const eventsPromise = getEvents(ctx.req, {
-      period,
-      order: 'asc'
+      period: 'current-and-coming-up'
     });
 
     const [exhibitions, events] = await Promise.all([
@@ -409,7 +410,11 @@ export class WhatsOnPage extends Component<Props> {
                     </div>
                     <ExhibitionsAndEvents
                       exhibitions={exhibitions}
-                      events={events}
+                      events={
+                        period === 'today' ? filterEventsForToday(events)
+                          : period === 'this-weekend' ? filterEventsForWeekend(events)
+                            : events
+                      }
                     />
                     <div className={classNames({
                       [spacing({s: 4}, {margin: ['top']})]: true
