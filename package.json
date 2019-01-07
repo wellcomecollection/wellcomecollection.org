@@ -26,14 +26,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.1",
-    "eslint": "^5.0.0",
+    "eslint": "^5.11.1",
     "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-plugin-flowtype": "^2.42.0",
+    "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.17.0",
     "eslint-plugin-node": "^7.0.0",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-react": "^7.12.2",
     "eslint-plugin-standard": "^3.0.1",
     "flow-typed": "^2.5.1",
     "lint-staged": "^7.0.0",
@@ -42,7 +42,7 @@
   },
   "lint-staged": {},
   "dependencies": {
-    "flow-bin": "^0.86.0"
+    "flow-bin": "^0.89.0"
   },
   "private": true,
   "workspaces": [

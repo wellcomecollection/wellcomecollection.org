@@ -1,7 +1,7 @@
 // @flow
+import {Component, Fragment, createRef} from 'react';
 import {classNames} from '../../../utils/classnames';
 import {trackEvent, trackEventV2} from '../../../utils/ga';
-import React, {Component, Fragment} from 'react';
 import {UiImage} from '../Images/Images';
 import Icon from '../Icon/Icon';
 import type {ImageType} from '../../../model/image';
@@ -20,7 +20,7 @@ class Iframe extends Component<Props, State> {
     iframeShowing: false
   }
 
-  iframeRef = React.createRef();
+  iframeRef = createRef<HTMLIFrameElement>();
 
   toggleIframeDisplay = () => {
     if (!this.state.iframeShowing) {
