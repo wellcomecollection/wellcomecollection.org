@@ -50,6 +50,10 @@
 @each $color-key, $color-value in $colors {
   .font-#{$color-key} {
     color: nth($color-value, 1);
+
+    .icon__shape {
+      fill: nth($color-value, 1);
+    }
   }
 
   .font-hover-#{$color-key}:hover,
@@ -214,8 +218,21 @@
   text-align: left;
 }
 
-.plain-link {
+.plain-link,
+.plain-link:link,
+.plain-link:visited {
   text-decoration: none;
+  border: none;
+
+  .body-text & {
+    text-decoration: none;
+    border: none;
+  }
+}
+
+.underline-on-hover:hover,
+:link:hover .underline-on-hover {
+  text-decoration: underline;
 }
 
 .text-align-right {

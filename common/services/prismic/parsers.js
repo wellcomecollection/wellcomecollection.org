@@ -13,7 +13,7 @@ import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
-import type { HtmlSeriliser } from './html-serialisers';
+import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
@@ -46,11 +46,11 @@ export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
 
-export function asHtml(maybeContent: ?HTMLString, htmlSerialiser?: HtmlSeriliser) {
+export function asHtml(maybeContent: ?HTMLString, htmlSerializer?: HtmlSerializer) {
   // Prismic can send us empty html elements which can lead to unwanted UI in templates.
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !maybeContent || (asText(maybeContent) || '').trim() === '';
-  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver, htmlSerialiser).trim();
+  return isEmpty ? null : RichText.asHtml(maybeContent, linkResolver, htmlSerializer).trim();
 }
 
 function isMissingOrEmpty(maybeContent: any) {
