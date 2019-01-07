@@ -4,7 +4,7 @@ import {Fragment} from 'react';
 import NextLink from 'next/link';
 import Router from 'next/router';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {convertImageUri} from '@weco/common/utils/convert-image-uri';
+import {convertImageUri, iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -73,6 +73,7 @@ export const WorkPage = ({
     );
   }
 
+  const imageContentUrl = iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
   return (
     <PageLayout
       title={work.title}
@@ -82,7 +83,7 @@ export const WorkPage = ({
       jsonLd={workLd(work)}
       siteSection={'works'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
-      imageUrl={iiifImageLocationUrl}
+      imageUrl={imageContentUrl}
       imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
