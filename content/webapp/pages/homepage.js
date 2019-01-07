@@ -5,7 +5,8 @@ import {classNames, font, spacing, cssGrid} from '@weco/common/utils/classnames'
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
-  orderEventsByNextAvailableDate
+  orderEventsByNextAvailableDate,
+  filterEventsForNext7Days
 } from '@weco/common/services/prismic/eventsV2';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertJsonToDates} from './event';
@@ -110,7 +111,9 @@ export class HomePage extends Component<Props> {
           />
           <ExhibitionsAndEvents
             exhibitions={exhibitions}
-            events={orderEventsByNextAvailableDate(events)}
+            events={filterEventsForNext7Days(
+              orderEventsByNextAvailableDate(events)
+            )}
             extras={[pharmacyOfColourData]}
           />
         </SpacingSection>

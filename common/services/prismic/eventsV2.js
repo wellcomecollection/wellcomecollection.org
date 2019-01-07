@@ -195,8 +195,18 @@ function getNextDateInFuture(event: UiEvent): EventTime {
   });
 }
 
+export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
+  const startOfToday = london().startOf('day');
+  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
+  return events.filter(event => {
+    return event.times.find(time => {
+      return london(time.range.endDateTime).isBetween(startOfToday, endOfNext7Days);
+    });
+  });
+}
+
 export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
-  const reorderedEvents = events.sort((a, b) => {
+  const reorderedEvents = [...events].sort((a, b) => {
     const aNextDate = getNextDateInFuture(a);
     const bNextDate = getNextDateInFuture(a);
 
