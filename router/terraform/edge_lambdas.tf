@@ -44,6 +44,11 @@ data "archive_file" "edge_lambda_zip" {
     filename = "redirects.js"
     content = "${file("${path.module}/../webapp/redirects.js")}"
   }
+
+  source {
+    filename = "wiRedirector.js"
+    content = "${file("${path.module}/../webapp/wiRedirector.js")}"
+  }
 }
 
 resource "aws_lambda_function" "edge_lambda_request" {
