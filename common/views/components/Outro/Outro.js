@@ -2,6 +2,7 @@
 import type {MultiContent} from '../../../model/multi-content';
 
 import {classNames, spacing} from '../../../utils/classnames';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import CompactCard from '../../components/CompactCard/CompactCard';
 import Divider from '../../components/Divider/Divider';
 
@@ -22,16 +23,28 @@ const Outro = ({
   visitLinkText,
   visitItem
 }: Props) => {
-  function getItemTitle(item) {
+  function getItemInfo(item) {
     switch (item) {
       case researchItem:
-        return 'Research for yourself';
+        return {
+          type: 'research',
+          title: 'Research for yourself'
+        };
       case readItem:
-        return 'Read another story';
+        return {
+          type: 'read',
+          title: 'Read another story'
+        };
       case visitItem:
-        return 'Plan a visit';
+        return {
+          type: 'visit',
+          title: 'Plan a visit'
+        };
       default:
-        return '';
+        return {
+          type: '',
+          title: ''
+        };
     }
   }
   return (
@@ -51,7 +64,18 @@ const Outro = ({
         {[researchItem, readItem, visitItem].filter(Boolean)
           .map(item => {
             return (
-              <li key={item.id}>
+              <li key={item.id} onClick={() => {
+                trackEventV2({
+                  eventCategory: 'Outro',
+                  eventAction: `follow ${getItemInfo(item).type} link`,
+                  eventLabel: item.id
+                });
+                trackEvent({
+                  category: 'component',
+                  action: `Outro:${getItemInfo(item).type}ItemClick`,
+                  label: `title:${item.title}`
+                });
+              }}>
                 <CompactCard
                   partNumber={null}
                   Image={null}
@@ -59,16 +83,11 @@ const Outro = ({
                   color={null}
                   StatusIndicator={null}
                   DateInfo={null}
-                  title={getItemTitle(item)}
+                  title={getItemInfo(item).title}
                   promoType={``}
                   labels={{labels: item.labels || []}}
                   url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
-                  description={item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title}
-                  gaEventV2={{
-                    eventCategory: `CompactCard`,
-                    eventAction: `follow Outro ${getItemTitle(item)} link`,
-                    eventLabel: item.id
-                  }} />
+                  description={item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title} />
               </li>
             );
           })}

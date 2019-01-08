@@ -28,7 +28,6 @@ const ArticleCard = ({ article, showPosition }: Props) => {
     Image={article.promo && article.promo.image && <Image {...article.promo.image} />}
     DateInfo={null}
     StatusIndicator={null}
-    gaEventV2={null}
   />);
 };
 export default ArticleCard;

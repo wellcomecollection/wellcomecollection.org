@@ -30,7 +30,6 @@ const EventCard = ({ event }: Props) => {
     Image={ImageComponent}
     DateInfo={DateRangeComponent}
     StatusIndicator={StatusIndicatorComponent}
-    gaEventV2={null}
   />;
 };
 
