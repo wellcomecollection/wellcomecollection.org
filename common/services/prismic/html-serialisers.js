@@ -76,8 +76,8 @@ export const defaultSerializer: HtmlSerializer = (type, element, content, childr
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
       const documentType = fileExtension && fileExtension[0].substr(1).toUpperCase();
       if (isDocument) {
-        return `<a ${target} class="no-margin plain-link font-green font-HNM3-s flex-inline" href="${linkUrl}">
-            <span class="icon" style="margin-top: ${sized(1)}">
+        return `<a ${target} class="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline" href="${linkUrl}">
+            <span class="icon" style="top: 8px">
               <canvas class="icon__canvas" height="20" width="20"></canvas>
               <svg class="icon__svg no-margin" role="img" aria-labelledby="icon-download-title" style="width: 20px; height: 20px;">
                 <title id="icon-download-title">download</title>
