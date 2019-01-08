@@ -1,5 +1,10 @@
 
 // @flow
+import type {UiEvent, EventTime} from '../../model/events';
+import type {
+  PaginatedResults,
+  PrismicQueryOpts
+} from './types';
 import Prismic from 'prismic-javascript';
 import {getDocument, getTypeByIds, getDocuments} from './api';
 import {parseEventDoc} from './events';
@@ -18,13 +23,7 @@ import {
 } from './fetch-links';
 import {london} from '../../utils/format-date';
 import {getPeriodPredicates} from './utils';
-import type {UiEvent, EventTime} from '../../model/events';
-
-import type {
-  PaginatedResults,
-  PrismicQueryOpts
-} from './types';
-import type {Period} from '../../model/periods';
+import {getNextWeekendDateRange} from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
@@ -195,14 +194,29 @@ function getNextDateInFuture(event: UiEvent): EventTime {
   });
 }
 
+function filterEventsByTimeRange(events, start, end) {
+  return events.filter(event => {
+    return event.times.find(time => {
+      return london(time.range.endDateTime).isBetween(start, end);
+    });
+  });
+}
+
 export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
   const startOfToday = london().startOf('day');
   const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
-  return events.filter(event => {
-    return event.times.find(time => {
-      return london(time.range.endDateTime).isBetween(startOfToday, endOfNext7Days);
-    });
-  });
+  return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
+}
+
+export function filterEventsForToday(events: UiEvent[]): UiEvent[] {
+  const startOfToday = london().startOf('day');
+  const endOfToday = london().endOf('day');
+  return filterEventsByTimeRange(events, startOfToday, endOfToday);
+}
+
+export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
+  const {start, end} = getNextWeekendDateRange(new Date());
+  return filterEventsByTimeRange(events, london(start), london(end));
 }
 
 export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
