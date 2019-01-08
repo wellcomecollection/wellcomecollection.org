@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
-    "lint:scss": "cd client && gulp scss:lint",
-    "lint:js": "eslint --fix server client",
-    "lint": "npm run lint:scss && npm run lint:js",
-    "precommit": "lint-staged",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
     "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
@@ -40,7 +36,6 @@
     "pa11y": "^5.1.0",
     "pa11y-reporter-html": "^1.0.0"
   },
-  "lint-staged": {},
   "dependencies": {
     "flow-bin": "^0.89.0"
   },
