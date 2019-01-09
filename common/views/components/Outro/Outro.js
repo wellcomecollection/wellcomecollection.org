@@ -73,7 +73,7 @@ const Outro = ({
                 trackEvent({
                   category: 'component',
                   action: `Outro:${getItemInfo(item).type}ItemClick`,
-                  label: `title:${item.title}`
+                  label: item.id
                 });
               }}>
                 <CompactCard
