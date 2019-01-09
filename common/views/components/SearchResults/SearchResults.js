@@ -127,7 +127,6 @@ const SearchResults = ({
               Image={item.promo && item.promo.image && <Image {...item.promo.image} />}
               DateInfo={null}
               StatusIndicator={null}
-              gaEventV2={null}
             />
           }
         </div>
