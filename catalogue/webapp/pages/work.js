@@ -23,6 +23,7 @@ import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -122,28 +123,81 @@ export const WorkPage = ({
           <div className='container'>
             <div className='grid'>
               <div className={classNames([
-                grid({s: 12, m: 10, shiftM: 1, l: 7, xl: 7}),
+                grid({s: 12, m: 12, l: 10, xl: 10}),
                 spacing({s: 4}, {margin: ['bottom']})
               ])}>
-                <div className={spacing({s: 5}, {margin: ['bottom']})}>
+                <SpacingComponent>
                   <h1 id='work-info'
                     className={classNames([
                       font({s: 'HNM3', m: 'HNM2', l: 'HNM1'}),
                       spacing({s: 0}, {margin: ['top']})
                     ])}>{work.title}</h1>
+                </SpacingComponent>
 
-                  <div className={classNames([
-                    spacing({s: 2}, {padding: ['top', 'bottom']}),
-                    spacing({s: 4}, {padding: ['left', 'right']}),
-                    spacing({s: 4}, {margin: ['bottom']}),
-                    'bg-cream rounded-diagonal flex flex--v-center'
-                  ])}>
-                    <Icon name='underConstruction' extraClasses='margin-right-s2' />
-                    <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
-                      We’re improving the information on this page. <a href='/works/progress'>Find out more</a>.
-                    </p>
-                  </div>
+                {iiifImageLocationUrl &&
+                  <SpacingComponent>
+                    <div className={spacing({s: 2}, {margin: ['bottom']})}>
+                      <Button
+                        type='tertiary'
+                        url={convertImageUri(iiifImageLocationUrl, 'full')}
+                        target='_blank'
+                        download={`${work.id}.jpg`}
+                        rel='noopener noreferrer'
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
+                        }}
+                        trackingEventV2={{
+                          eventCategory: 'Button',
+                          eventAction: 'download large work image',
+                          eventLabel: work.id
+                        }}
+                        icon='download'
+                        text='Download full size' />
+                    </div>
+                    <div className={spacing({s: 3}, {margin: ['bottom']})}>
+                      <Button
+                        type='tertiary'
+                        url={convertImageUri(iiifImageLocationUrl, 760)}
+                        target='_blank'
+                        download={`${work.id}.jpg`}
+                        rel='noopener noreferrer'
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'download-button:click',
+                          label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
+                        }}
+                        trackingEventV2={{
+                          eventCategory: 'Button',
+                          eventAction: 'download small work image',
+                          eventLabel: work.id
+                        }}
+                        icon='download'
+                        text='Download small (760px)' />
+                    </div>
 
+                    {(iiifImageLocationCredit || iiifImageLocationLicenseId) &&
+                      <div className={spacing({s: 4}, {margin: ['bottom']})}>
+                        {iiifImageLocationCredit && <p className={classNames([
+                          font({s: 'HNL5', m: 'HNL4'}),
+                          spacing({s: 1}, {margin: ['bottom']})
+                        ])}>Credit: {iiifImageLocationCredit}</p>}
+                        {iiifImageLocationLicenseId && <License subject={''} licenseType={iiifImageLocationLicenseId} /> }
+                      </div>
+                    }
+                  </SpacingComponent>
+
+                }
+
+                <SpacingComponent>
+                  <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
+                  <h2 className={classNames([
+                    font({s: 'HNM4', m: 'HNM3'})
+                  ])}>Item details</h2>
+                </SpacingComponent>
+
+                <SpacingComponent>
                   {work.description &&
                     <MetaUnit headingText='Description' text={[work.description]} />
                   }
@@ -176,7 +230,6 @@ export const WorkPage = ({
                       </NextLink>);
                     }
                     )} />
-
                   }
 
                   {work.subjects.length > 0 &&
@@ -232,99 +285,49 @@ export const WorkPage = ({
                       <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
                     </div>
                   }
-
-                </div>
+                </SpacingComponent>
 
                 {licenseInfo &&
                   <Fragment>
-                    <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  Using this Image
-                    </h2>
-                    <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
-                    <MetaUnit headingLevel={3} headingText='Credit' text={[
-                      `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                    <SpacingComponent>
+                      <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
+                      <h2 className={classNames([
+                        font({s: 'HNM4', m: 'HNM3'})
+                      ])}>Using this image</h2>
+                    </SpacingComponent>
+                    <SpacingComponent>
+                      <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
+                      <MetaUnit headingLevel={3} headingText='Credit' text={[
+                        `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                    </SpacingComponent>
                   </Fragment>
                 }
 
-              </div>
-
-              <div className={classNames([
-                grid({s: 12, m: 10, shiftM: 1, l: 5, xl: 5}),
-                spacing({s: 1}, {margin: ['top']})
-              ])}>
-                {iiifImageLocationUrl &&
-                  <Fragment>
-                    <h2 className={classNames([
-                      font({s: 'HNM4', m: 'HNM3'}),
-                      spacing({s: 0}, {margin: ['top']}),
-                      spacing({s: 2}, {margin: ['bottom']})
-                    ])}>
-                    Download
-                    </h2>
-
-                    <div className={spacing({s: 2}, {margin: ['bottom']})}>
-                      <Button
-                        type='tertiary'
-                        url={convertImageUri(iiifImageLocationUrl, 'full')}
-                        target='_blank'
-                        download={`${work.id}.jpg`}
-                        rel='noopener noreferrer'
-                        trackingEvent={{
-                          category: 'component',
-                          action: 'download-button:click',
-                          label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
-                        }}
-                        trackingEventV2={{
-                          eventCategory: 'Button',
-                          eventAction: 'download large work image',
-                          eventLabel: work.id
-                        }}
-                        icon='download'
-                        text='Download full size' />
-                    </div>
-                    <div className={spacing({s: 3}, {margin: ['bottom']})}>
-                      <Button
-                        type='tertiary'
-                        url={convertImageUri(iiifImageLocationUrl, 760)}
-                        target='_blank'
-                        download={`${work.id}.jpg`}
-                        rel='noopener noreferrer'
-                        trackingEvent={{
-                          category: 'component',
-                          action: 'download-button:click',
-                          label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
-                        }}
-                        trackingEventV2={{
-                          eventCategory: 'Button',
-                          eventAction: 'download small work image',
-                          eventLabel: work.id
-                        }}
-                        icon='download'
-                        text='Download small (760px)' />
-                    </div>
-                  </Fragment>
-                }
-
-                {(iiifImageLocationCredit ||  iiifImageLocationLicenseId) &&
-                  <div className={spacing({s: 4}, {margin: ['bottom']})}>
-                    {iiifImageLocationCredit && <p className={classNames([
-                      font({s: 'HNL5', m: 'HNL4'}),
-                      spacing({s: 1}, {margin: ['bottom']})
-                    ])}>Credit: {iiifImageLocationCredit}</p>}
-                    {iiifImageLocationLicenseId && <License subject={''} licenseType={iiifImageLocationLicenseId} /> }
-                  </div>}
-
-                <div className={spacing({s: 2}, {margin: ['top']})}>
+                <SpacingComponent>
                   <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
                   <h2 className={classNames([
-                    font({s: 'HNM4', m: 'HNM3'}),
-                    spacing({s: 2}, {margin: ['top']}),
-                    spacing({s: 1}, {margin: ['bottom']})
-                  ])}>
-                    Share
-                  </h2>
+                    font({s: 'HNM4', m: 'HNM3'})
+                  ])}>Share</h2>
+                </SpacingComponent>
+
+                <SpacingComponent>
                   <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
-                </div>
+                </SpacingComponent>
+
+                <SpacingComponent>
+                  <div className={classNames([
+                    spacing({s: 2}, {padding: ['top', 'bottom']}),
+                    spacing({s: 4}, {padding: ['left', 'right']}),
+                    spacing({s: 4}, {margin: ['top', 'bottom']}),
+                    'bg-cream rounded-diagonal flex flex--v-center'
+                  ])}>
+                    <Icon name='underConstruction' extraClasses='margin-right-s2' />
+                    <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                        We’re improving the information on this page. <a href='/works/progress'>Find out more</a>.
+                    </p>
+                  </div>
+                </SpacingComponent>
+
               </div>
             </div>
           </div>
