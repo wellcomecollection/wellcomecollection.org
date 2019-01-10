@@ -21,6 +21,7 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
+import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -90,15 +91,7 @@ export const WorkPage = ({
           <div className='container'>
             <div className='grid'>
               <div className={grid({s: 12})}>
-                <NextLink {...worksUrl({query, page})}>
-                  {/* TODO: Create and track e.g. BackToResults component */}
-                  <a
-                    className={classNames({
-                      [font({s: 'HNM5', m: 'HNM4'})]: true
-                    })}>
-                    <span>{`Search results`}</span>
-                  </a>
-                </NextLink>
+                <BackToResults nextLink={worksUrl({query, page})} />
               </div>
             </div>
           </div>
