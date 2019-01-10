@@ -38,8 +38,7 @@ function triggerEngagement() {
 
 function trackRouteChange() {
   ReactGA.pageview(
-    `${window.location.pathname}${window.location.search}`,
-    ['v2']
+    `${window.location.pathname}${window.location.search}`
   );
   clearTimeout(engagement);
   engagement = setTimeout(triggerEngagement, 10000);
