@@ -39,7 +39,8 @@ type Props = {|
   initialQuery: string,
   initialWorkType: string[],
   initialItemsLocationsLocationType: string[],
-  showFilters: boolean
+  showFilters: boolean,
+  ariaDescribedBy: string
 |}
 
 const SearchInputWrapper = styled.div`
@@ -70,7 +71,8 @@ const SearchForm = ({
   initialQuery = '',
   initialWorkType = [],
   initialItemsLocationsLocationType = [],
-  showFilters
+  showFilters,
+  ariaDescribedBy
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
@@ -79,6 +81,7 @@ const SearchForm = ({
   return (
     <form
       action='/works'
+      aria-describedby={ariaDescribedBy}
       onSubmit={(event) => {
         event.preventDefault();
         const link = worksUrl({
@@ -98,6 +101,7 @@ const SearchForm = ({
             placeholder={'Search for artworks, photos and more'}
             name='query'
             value={query}
+            autoFocus={query === ''}
             onChange={(event) => setQuery(event.currentTarget.value)} />
 
           {query &&
