@@ -2,9 +2,11 @@
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
 import { font } from '../../utils/classnames';
+import {sized} from '../../utils/style';
+
 const { Elements } = PrismicDOM.RichText;
 
-export type HtmlSeriliser = (
+export type HtmlSerializer = (
   type: string,
   element: Object, // There are so many types here
   content: string,
@@ -12,7 +14,7 @@ export type HtmlSeriliser = (
   i: number
 ) =>?string
 
-export const dropCapSerialiser: HtmlSeriliser = (
+export const dropCapSerializer: HtmlSerializer = (
   type,
   element,
   content,
@@ -31,7 +33,7 @@ export const dropCapSerialiser: HtmlSeriliser = (
   return defaultSerializer(type, element, content, children, i);
 };
 
-const defaultSerializer: HtmlSeriliser = (type, element, content, children, i) => {
+export const defaultSerializer: HtmlSerializer = (type, element, content, children, i) => {
   switch (type) {
     case Elements.heading1: return `<h1>${children.join('')}</h1>`;
     case Elements.heading2: return `<h2>${children.join('')}</h2>`;
@@ -69,7 +71,30 @@ const defaultSerializer: HtmlSeriliser = (type, element, content, children, i) =
     case Elements.hyperlink:
       const target = element.data.target ? `target="${element.data.target}" rel="noopener"` : '';
       const linkUrl = PrismicDOM.Link.url(element.data, linkResolver);
-      return `<a ${target} href="${linkUrl}">${children.join('')}</a>`;
+      const isDocument = element.data.kind === 'document';
+      const documentSize = isDocument ? Math.round(element.data.size / 1000) : '';
+      const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
+      const documentType = fileExtension && fileExtension[0].substr(1).toUpperCase();
+      if (isDocument) {
+        return `<a ${target} class="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline" href="${linkUrl}">
+            <span class="icon" style="top: 8px">
+              <canvas class="icon__canvas" height="20" width="20"></canvas>
+              <svg class="icon__svg no-margin" role="img" aria-labelledby="icon-download-title" style="width: 20px; height: 20px;">
+                <title id="icon-download-title">download</title>
+                <svg viewBox="0 0 26 26"><path class="icon__shape" d="M21.2 21.1H4.8a1 1 0 0 0 0 2h16.4a1 1 0 0 0 0-2zm-8.98-2.38a1 1 0 0 0 1.56 0l4-5a1 1 0 0 0-1.56-1.25L14 15.25V4.1a1 1 0 0 0-2 0v11.15l-2.22-2.78a1 1 0 1 0-1.56 1.25z"/></svg>
+              </svg>
+            </span>
+            <span class="no-margin">
+              <span class="no-margin underline-on-hover">${children.join('')}</span>
+              <span style="white-space: nowrap">
+                <span class="no-margin font-pewter font-HNM4-s">${documentType}</span>
+                <span class="no-margin font-pewter font-HNL4-s">${documentSize}kb</span>
+              </span>
+            </span>
+        </a>`;
+      } else {
+        return `<a ${target} href="${linkUrl}">${children.join('')}</a>`;
+      }
     case Elements.label:
       const label = element.data.label ? ` class="${element.data.label}"` : '';
       return `<span ${label}>${children.join('')}</span>`;

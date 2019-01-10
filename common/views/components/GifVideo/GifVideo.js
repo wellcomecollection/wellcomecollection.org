@@ -1,9 +1,9 @@
 // @flow
-import React, {Component} from 'react';
-import {font, classNames} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {Component, createRef} from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
+import {font, classNames} from '../../../utils/classnames';
+import {trackEvent, trackEventV2} from '../../../utils/ga';
 import Tasl from '../Tasl/Tasl';
 import Caption from '../Caption/Caption';
 import type {HTMLString} from '../../../services/prismic/types';
@@ -30,7 +30,7 @@ class GifVideo extends Component<Props, State> {
     computedVideoWidth: null
   }
 
-  videoRef = React.createRef();
+  videoRef = createRef<HTMLVideoElement>();
 
   inViewport = (video: HTMLElement) => {
     const rect = video.getBoundingClientRect();

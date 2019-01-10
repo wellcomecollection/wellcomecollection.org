@@ -96,8 +96,9 @@ hr {
   }
 }
 
-.primary-link { // Applied to the PrimaryLink component
+.more-link { // Applied to the MoreLink component
   color: color('green');
+  text-decoration: none;
 
   &:hover,
   &:focus {

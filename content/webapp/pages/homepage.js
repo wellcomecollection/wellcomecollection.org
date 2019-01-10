@@ -3,7 +3,11 @@ import type {Context} from 'next';
 import {Component} from 'react';
 import {classNames, font, spacing, cssGrid} from '@weco/common/utils/classnames';
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
-import {getEvents} from '@weco/common/services/prismic/events';
+import {
+  getEvents,
+  orderEventsByNextAvailableDate,
+  filterEventsForNext7Days
+} from '@weco/common/services/prismic/eventsV2';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertJsonToDates} from './event';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
@@ -37,8 +41,7 @@ export class HomePage extends Component<Props> {
       order: 'asc'
     });
     const eventsPromise = getEvents(ctx.req, {
-      period: 'next-seven-days',
-      order: 'asc'
+      period: 'current-and-coming-up'
     });
     const articlesPromise = getArticles(ctx.req, {pageSize: 4});
     const [exhibitions, events, articles] = await Promise.all([
@@ -108,7 +111,10 @@ export class HomePage extends Component<Props> {
           />
           <ExhibitionsAndEvents
             exhibitions={exhibitions}
-            events={events}
+            events={
+              orderEventsByNextAvailableDate(
+                filterEventsForNext7Days(events)
+              )}
             extras={[pharmacyOfColourData]}
           />
         </SpacingSection>

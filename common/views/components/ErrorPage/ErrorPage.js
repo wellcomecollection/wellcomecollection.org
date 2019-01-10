@@ -4,7 +4,7 @@ import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import MoreLink from '../Links/MoreLink/MoreLink';
 
 type Props = {|
   statusCode: number,
@@ -44,32 +44,32 @@ const ErrorPage = ({
         <div className='body-text'>
           <ul className='no-margin'>
             <li>
-              <PrimaryLink url='/whats-on' name='Our exhibitions and events' />
+              <MoreLink url='/whats-on' name='Our exhibitions and events' />
             </li>
             <li className={classNames({
               [spacing({ s: 5 }, {margin: ['top']})]: true
             })}>
-              <PrimaryLink url='https://wellcomelibrary.org' name='Our library' />
+              <MoreLink url='https://wellcomelibrary.org' name='Our library' />
             </li>
             <li className={classNames({
               [spacing({ s: 5 }, {margin: ['top']})]: true
             })}>
-              <PrimaryLink url='/stories' name='Our stories' />
+              <MoreLink url='/stories' name='Our stories' />
             </li>
             <li className={classNames({
               [spacing({ s: 5 }, {margin: ['top']})]: true
             })}>
-              <PrimaryLink url='/books' name='Our books' />
+              <MoreLink url='/books' name='Our books' />
             </li>
             <li className={classNames({
               [spacing({ s: 5 }, {margin: ['top']})]: true
             })}>
-              <PrimaryLink url='/works' name='Our images' />
+              <MoreLink url='/works' name='Our images' />
             </li>
             <li className={classNames({
               [spacing({ s: 5 }, {margin: ['top']})]: true
             })}>
-              <PrimaryLink url='/pages/Wuw2MSIAACtd3Ssg' name='Our youth programme' />
+              <MoreLink url='/pages/Wuw2MSIAACtd3Ssg' name='Our youth programme' />
             </li>
           </ul>
 
@@ -82,14 +82,14 @@ const ErrorPage = ({
               <a href='https://archive.org'>Internet Archive</a> in its{' '}
               <a href='https://web.archive.org/'>Wayback Machine</a>.
             </p>
-            <PrimaryLink
+            <MoreLink
               url='https://web.archive.org/web/*/wellcomecollection.org'
               name='See the Wellcome Collection website from 2007-present' />
 
             <div className={classNames({
               [spacing({ s: 5 }, {margin: ['top']})]: true
             })}>
-              <PrimaryLink
+              <MoreLink
                 url='https://web.archive.org/web/*/blog.wellcomecollection.org'
                 name='Read blog posts from 2013-2017' />
             </div>

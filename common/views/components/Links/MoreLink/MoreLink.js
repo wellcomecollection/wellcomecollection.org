@@ -12,7 +12,7 @@ type Props = {|
   trackingEvent?: GaEvent
 |}
 
-const PrimaryLink = ({
+const MoreLink = ({
   url,
   name,
   screenReaderText,
@@ -24,7 +24,7 @@ const PrimaryLink = ({
     if (trackingEvent) {
       trackEvent(trackingEvent);
       trackEventV2({
-        eventCategory: 'PrimaryLink',
+        eventCategory: 'MoreLink',
         eventAction: 'follow link',
         eventLabel: `${url} | text: ${name}`
       });
@@ -35,10 +35,9 @@ const PrimaryLink = ({
     <a
       onClick={handleClick}
       className={conditionalClassNames({
-        'primary-link': true,
+        'more-link': true,
         'flex-inline': true,
         'flex-v-center': true,
-        'plain-link': true,
         [font({s: 'HNM4'})]: true,
         'js-scroll-to-info': url.startsWith('#')
       })}
@@ -56,4 +55,4 @@ const PrimaryLink = ({
   );
 };
 
-export default PrimaryLink;
+export default MoreLink;

@@ -4,7 +4,11 @@ import NextLink from 'next/link';
 import {Component, Fragment} from 'react';
 import {classNames, font, spacing, grid, cssGrid} from '@weco/common/utils/classnames';
 import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
-import {getEvents} from '@weco/common/services/prismic/events';
+import {
+  getEvents,
+  filterEventsForToday,
+  filterEventsForWeekend
+} from '@weco/common/services/prismic/eventsV2';
 import {london, formatDay, formatDate} from '@weco/common/utils/format-date';
 import {convertJsonToDates} from './event';
 import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';
@@ -18,7 +22,7 @@ import {
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -117,8 +121,6 @@ const DateRange = ({
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-
-  // $FlowFixMe
   const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
   const listHeader = getListHeader(collectionOpeningTimes);
 
@@ -267,8 +269,7 @@ export class WhatsOnPage extends Component<Props> {
       order: 'asc'
     });
     const eventsPromise = getEvents(ctx.req, {
-      period,
-      order: 'asc'
+      period: 'current-and-coming-up'
     });
 
     const [exhibitions, events] = await Promise.all([
@@ -359,7 +360,7 @@ export class WhatsOnPage extends Component<Props> {
 
                         <Layout12>
                           <div className={spacing({s: 3}, { margin: ['top'] })}>
-                            <PrimaryLink
+                            <MoreLink
                               name={'View all exhibitions'}
                               url={'/exhibitions'} />
                           </div>
@@ -374,7 +375,7 @@ export class WhatsOnPage extends Component<Props> {
                         <EventsByMonth events={events} />
                         <Layout12>
                           <div className={spacing({s: 3}, { margin: ['top'] })}>
-                            <PrimaryLink name={'View all events'} url={'/events'} />
+                            <MoreLink name={'View all events'} url={'/events'} />
                           </div>
                         </Layout12>
                       </SpacingSection>
@@ -407,15 +408,19 @@ export class WhatsOnPage extends Component<Props> {
                     </div>
                     <ExhibitionsAndEvents
                       exhibitions={exhibitions}
-                      events={events}
+                      events={
+                        period === 'today' ? filterEventsForToday(events)
+                          : period === 'this-weekend' ? filterEventsForWeekend(events)
+                            : events
+                      }
                     />
                     <div className={classNames({
                       [spacing({s: 4}, {margin: ['top']})]: true
                     })}>
                       <Layout12>
-                        <PrimaryLink name={'View all exhibitions'} url={'/exhibitions'} />
+                        <MoreLink name={'View all exhibitions'} url={'/exhibitions'} />
                         <br />
-                        <PrimaryLink name={'View all events'} url={'/events'} />
+                        <MoreLink name={'View all events'} url={'/events'} />
                       </Layout12>
                     </div>
                   </Fragment>

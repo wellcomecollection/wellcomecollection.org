@@ -96,8 +96,8 @@ class EventsByMonth extends Component<Props, State> {
       eventsInMonths[month].sort((a, b) => {
         const aTimes = a.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
         const bTimes = b.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
-        const aEarliestFuture = getEarliestFutureDateRange(aTimes, london({M: monthsIndex[month]})) || {};
-        const bEarliestFuture = getEarliestFutureDateRange(bTimes, london({M: monthsIndex[month]})) || {};
+        const aEarliestFuture = getEarliestFutureDateRange(aTimes, london({M: monthsIndex[london(month).format('MMMM')]})) || {};
+        const bEarliestFuture = getEarliestFutureDateRange(bTimes, london({M: monthsIndex[london(month).format('MMMM')]})) || {};
         return aEarliestFuture.start - bEarliestFuture.start;
       });
     });
@@ -125,41 +125,41 @@ class EventsByMonth extends Component<Props, State> {
           </div>
         </div>
 
-        {months.map(month => month.id).map(month =>
+        {months.map(month =>
           <div
-            key={month}
+            key={month.id}
             className={classNames({
               [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
             })}
             style={{
-              display: !activeId ? 'block' : activeId === month ? 'block' : 'none'
+              display: !activeId ? 'block' : activeId === month.id ? 'block' : 'none'
             }}>
             <div className='css-grid__container'>
               <div className='css-grid'>
                 <h2
-                  id={month}
+                  id={month.id}
                   className={classNames({
                     'tabfocus': true,
                     [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
                   })}>
-                  {month}
+                  {month.id}
                 </h2>
               </div>
             </div>
             <div className='css-grid__container'>
               <div className='css-grid'>
-                {eventsInMonths[month].map((event, i) => (
+                {eventsInMonths[month.id].map((event, i) => (
                   <div key={event.id} className={classNames({
                     [cssGrid({s: 12, m: 6, l: 4, xl: 4})]: true
                   })}>
                     <EventPromo
                       event={event}
                       position={i}
-                      fromDate={london({M: monthsIndex[month]})}
+                      fromDate={london({M: monthsIndex[month.text]})}
                     />
                   </div>
                 ))}
-                <div key={`${month}-daily-tour`} className={classNames({
+                <div key={`${month.id}-daily-tour`} className={classNames({
                   [cssGrid({s: 12, m: 6, l: 4, xl: 4})]: true
                 })}>
                   <DailyTourPromo />
