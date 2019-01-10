@@ -177,21 +177,27 @@ export async function getEvents(req: ?Request,  {
   };
 }
 
-function getNextDateInFuture(event: UiEvent): EventTime {
+function getNextDateInFuture(event: UiEvent): ?EventTime {
   const now = london();
-  return event.times.filter(time => {
+  const futureTimes = event.times.filter(time => {
     const end = london(time.range.endDateTime);
     return end.isAfter(now, 'day');
-  }).reduce((closestStartingDate, time) => {
-    const start = london(time.range.startDateTime);
-    if (
-      start.isBefore(closestStartingDate.range.startDateTime)
-    ) {
-      return time;
-    } else {
-      return closestStartingDate;
-    }
   });
+
+  if (futureTimes.length === 0) {
+    return null;
+  } else {
+    return futureTimes.reduce((closestStartingDate, time) => {
+      const start = london(time.range.startDateTime);
+      if (
+        start.isBefore(closestStartingDate.range.startDateTime)
+      ) {
+        return time;
+      } else {
+        return closestStartingDate;
+      }
+    });
+  }
 }
 
 function filterEventsByTimeRange(events, start, end) {
@@ -220,12 +226,13 @@ export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
 }
 
 export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
-  const reorderedEvents = [...events].sort((a, b) => {
+  const reorderedEvents = [...events].filter(getNextDateInFuture).sort((a, b) => {
     const aNextDate = getNextDateInFuture(a);
     const bNextDate = getNextDateInFuture(a);
 
-    return london(aNextDate.range.startDateTime)
-      .isBefore(bNextDate.range.startDateTime) ? -1  : 1;
+    return aNextDate && bNextDate ? london(aNextDate.range.startDateTime)
+      .isBefore(bNextDate.range.startDateTime) ? -1  : 1 : -1;
   });
+
   return reorderedEvents;
 }
