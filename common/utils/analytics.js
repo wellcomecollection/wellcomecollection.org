@@ -68,7 +68,7 @@ export default ({ category, contentType, pageState, featuresCohort }: Props) => 
 
   ReactGA.plugin.require('GTM-NXMJ6D9');
   const pageview = `${window.location.pathname}${window.location.search}`;
-  ReactGA.pageview(pageview, ['v2']);
+  ReactGA.pageview(pageview);
 
   Router.onRouteChangeStart = url => {
     window.performance.mark('onRouteChangeStart');
