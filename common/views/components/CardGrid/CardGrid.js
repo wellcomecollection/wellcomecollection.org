@@ -65,15 +65,11 @@ const CardGrid = ({
                 position={i} />
             }
             {item.id !== 'tours' && item.type === 'events' &&
-              // TODO: (remove Picture type)
-              // $FlowFixMe
               <EventPromo
                 event={item}
                 position={i} />
             }
             {item.type === 'articles' &&
-              // TODO: (remove Picture type)
-              // $FlowFixMe
               <StoryPromo
                 item={item}
                 position={i}
