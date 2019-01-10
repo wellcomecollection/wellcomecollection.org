@@ -28,25 +28,30 @@ const Outro = ({
       case researchItem:
         return {
           type: 'research',
-          title: 'Research for yourself'
+          title: 'Research for yourself',
+          description: item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title
         };
       case readItem:
         return {
           type: 'read',
-          title: 'Read another story'
+          title: 'Read another story',
+          description: item.type === 'weblinks' ? readLinkText : readLinkText || item.title
         };
       case visitItem:
         return {
           type: 'visit',
-          title: 'Plan a visit'
+          title: 'Plan a visit',
+          description: item.type === 'weblinks' ? visitLinkText : visitLinkText || item.title
         };
       default:
         return {
           type: '',
-          title: ''
+          title: '',
+          description: ''
         };
     }
   }
+
   return (
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
@@ -87,7 +92,7 @@ const Outro = ({
                   promoType={``}
                   labels={{labels: item.labels || []}}
                   url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
-                  description={item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title} />
+                  description={getItemInfo(item).description} />
               </li>
             );
           })}
