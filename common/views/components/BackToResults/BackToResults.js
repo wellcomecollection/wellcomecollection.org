@@ -1,3 +1,5 @@
+// @flow
+
 import NextLink from 'next/link';
 import type {NextLinkType} from '../../../model/next-link-type';
 import {font, classNames} from '../../../utils/classnames';
