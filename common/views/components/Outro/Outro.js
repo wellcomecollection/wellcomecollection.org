@@ -28,25 +28,30 @@ const Outro = ({
       case researchItem:
         return {
           type: 'research',
-          title: 'Research for yourself'
+          title: 'Research for yourself',
+          description: item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title
         };
       case readItem:
         return {
           type: 'read',
-          title: 'Read another story'
+          title: 'Read another story',
+          description: item.type === 'weblinks' ? readLinkText : readLinkText || item.title
         };
       case visitItem:
         return {
           type: 'visit',
-          title: 'Plan a visit'
+          title: 'Plan a visit',
+          description: item.type === 'weblinks' ? visitLinkText : visitLinkText || item.title
         };
       default:
         return {
           type: '',
-          title: ''
+          title: '',
+          description: ''
         };
     }
   }
+
   return (
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
@@ -63,16 +68,18 @@ const Outro = ({
       })}>
         {[researchItem, readItem, visitItem].filter(Boolean)
           .map(item => {
+            const { type, title, description } = getItemInfo(item);
+
             return (
               <li key={item.id} onClick={() => {
                 trackEventV2({
                   eventCategory: 'Outro',
-                  eventAction: `follow ${getItemInfo(item).type} link`,
+                  eventAction: `follow ${type} link`,
                   eventLabel: item.id
                 });
                 trackEvent({
                   category: 'component',
-                  action: `Outro:${getItemInfo(item).type}ItemClick`,
+                  action: `Outro:${type}ItemClick`,
                   label: item.id
                 });
               }}>
@@ -83,11 +90,11 @@ const Outro = ({
                   color={null}
                   StatusIndicator={null}
                   DateInfo={null}
-                  title={getItemInfo(item).title}
+                  title={title}
                   promoType={``}
                   labels={{labels: item.labels || []}}
                   url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
-                  description={item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title} />
+                  description={description} />
               </li>
             );
           })}
