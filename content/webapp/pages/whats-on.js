@@ -21,7 +21,7 @@ import {
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
@@ -362,7 +362,7 @@ export class WhatsOnPage extends Component<Props> {
 
                         <Layout12>
                           <div className={spacing({s: 3}, { margin: ['top'] })}>
-                            <PrimaryLink
+                            <MoreLink
                               name={'View all exhibitions'}
                               url={'/exhibitions'} />
                           </div>
@@ -377,7 +377,7 @@ export class WhatsOnPage extends Component<Props> {
                         <EventsByMonth events={events} />
                         <Layout12>
                           <div className={spacing({s: 3}, { margin: ['top'] })}>
-                            <PrimaryLink name={'View all events'} url={'/events'} />
+                            <MoreLink name={'View all events'} url={'/events'} />
                           </div>
                         </Layout12>
                       </SpacingSection>
@@ -420,9 +420,9 @@ export class WhatsOnPage extends Component<Props> {
                       [spacing({s: 4}, {margin: ['top']})]: true
                     })}>
                       <Layout12>
-                        <PrimaryLink name={'View all exhibitions'} url={'/exhibitions'} />
+                        <MoreLink name={'View all exhibitions'} url={'/exhibitions'} />
                         <br />
-                        <PrimaryLink name={'View all events'} url={'/events'} />
+                        <MoreLink name={'View all events'} url={'/events'} />
                       </Layout12>
                     </div>
                   </Fragment>

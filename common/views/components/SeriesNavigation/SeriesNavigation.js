@@ -1,7 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import SearchResults from '../SearchResults/SearchResults';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import MoreLink from '../Links/MoreLink/MoreLink';
 import type {EventSeries} from '../../../model/event-series';
 import type {ArticleSeries} from '../../../model/article-series';
 import type {Article} from '../../../model/articles';
@@ -23,7 +23,7 @@ const SeriesNavigation = ({ series, items }: Props) => {
         summary={series.promoText}
         items={items}
         showPosition={showPosition} />
-      <PrimaryLink
+      <MoreLink
         name={`More from ${series.title}`}
         url={`/${series.type}/${series.id}`}
       />

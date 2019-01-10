@@ -6,7 +6,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
-import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
@@ -167,7 +167,7 @@ export class ArticleSeriesPage extends Component<Props> {
             <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
               <BookMetadata book={book} />
             </div>
-            {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
+            {book.orderLink && <MoreLink url={book.orderLink} name='Order online' />}
           </Fragment>
         </ContentPage>
       </PageLayout>

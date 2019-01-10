@@ -36,7 +36,7 @@ import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import OpeningHoursTableGrouped from '../OpeningHoursTableGrouped/OpeningHoursTableGrouped';
 import Pagination from '../Pagination/Pagination';
 import Picture from '../Picture/Picture';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import MoreLink from '../Links/MoreLink/MoreLink';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Promo from '../Promo/Promo';
 import Quote from '../Quote/Quote';
@@ -93,7 +93,7 @@ export {
   OpeningHoursTableGrouped,
   Pagination,
   Picture,
-  PrimaryLink,
+  MoreLink,
   PrismicHtmlBlock,
   Promo,
   Quote,

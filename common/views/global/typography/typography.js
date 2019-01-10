@@ -1,5 +1,5 @@
 // @flow
-import PrimaryLink from '../../components/Links/PrimaryLink/PrimaryLink';
+import MoreLink from '../../components/Links/MoreLink/MoreLink';
 import SecondaryLink from '../../components/Links/SecondaryLink/SecondaryLink';
 
 type Props = {|
@@ -18,7 +18,7 @@ const Typography = ({fonts}: Props) => (
     <div className='styleguide__font'>
       <h2 className='styleguide__font__name'>Primary link</h2>
       <div>
-        <PrimaryLink name='Full event details' url='#' />
+        <MoreLink name='Full event details' url='#' />
       </div>
       <h2 className='styleguide__font__usage-title'>Usage:</h2>
       <p className='styleguide__font__usage-text'>Used to highlight more information, as an onward journey, link to a page or a category. Uses text-decoration property for underline.</p>
