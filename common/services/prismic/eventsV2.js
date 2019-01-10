@@ -181,7 +181,7 @@ function getNextDateInFuture(event: UiEvent): ?EventTime {
   const now = london();
   const futureTimes = event.times.filter(time => {
     const end = london(time.range.endDateTime);
-    return end.isAfter(now, 'day');
+    return end.isSameOrAfter(now, 'day');
   });
 
   if (futureTimes.length === 0) {
