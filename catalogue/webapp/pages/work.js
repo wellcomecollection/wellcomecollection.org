@@ -21,7 +21,6 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
-import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -324,7 +323,6 @@ export const WorkPage = ({
           </div>
         </div>
       </Fragment>
-      <OptimalSort />
     </PageLayout>
   );
 };
