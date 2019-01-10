@@ -100,8 +100,7 @@ export default class WecoApp extends App {
     }]);
 
     ReactGA.pageview(
-      `${window.location.pathname}${window.location.search}`,
-      ['v2']
+      `${window.location.pathname}${window.location.search}`
     );
     engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChange);
