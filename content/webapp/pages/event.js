@@ -32,7 +32,6 @@ import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {eventLd} from '@weco/common/utils/json-ld';
 import {isEventFullyBooked} from '@weco/common/model/events';
-import {trackEventV2} from '@weco/common/utils/ga';
 
 type Props = {|
   event: UiEvent
@@ -243,18 +242,13 @@ class EventPage extends Component<Props, State> {
                 <NextLink
                   href={`#dates`}
                   as={`#dates`}>
-                  <a onClick={() => {
-                    trackEventV2({
-                      eventCategory: 'NextLink',
-                      eventAction: 'scroll to event dates and times',
-                      eventLabel: event.id
-                    });
-                  }}
-                  className={classNames({
-                    'flex-inline': true,
-                    'flex-v-center': true,
-                    [font({s: 'HNM5', m: 'HNM4'})]: true
-                  })}>
+                  {/* TODO: Create and track e.g. EventDatesLink component */}
+                  <a
+                    className={classNames({
+                      'flex-inline': true,
+                      'flex-v-center': true,
+                      [font({s: 'HNM5', m: 'HNM4'})]: true
+                    })}>
                     <Icon name={`arrowSmall`} extraClasses='icon--black icon--90' />
                     <span>{`See all dates`}</span>
                   </a>

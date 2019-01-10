@@ -22,7 +22,6 @@ import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import OptimalSort from '@weco/common/views/components/OptimalSort/OptimalSort';
-import {trackEventV2} from '@weco/common/utils/ga';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -93,16 +92,11 @@ export const WorkPage = ({
             <div className='grid'>
               <div className={grid({s: 12})}>
                 <NextLink {...worksUrl({query, page})}>
-                  <a onClick={() => {
-                    trackEventV2({
-                      eventCategory: 'NextLink',
-                      eventAction: 'back to results',
-                      eventLabel: `${work.id}`
-                    });
-                  }}
-                  className={classNames({
-                    [font({s: 'HNM5', m: 'HNM4'})]: true
-                  })}>
+                  {/* TODO: Create and track e.g. BackToResults component */}
+                  <a
+                    className={classNames({
+                      [font({s: 'HNM5', m: 'HNM4'})]: true
+                    })}>
                     <span>{`Search results`}</span>
                   </a>
                 </NextLink>
