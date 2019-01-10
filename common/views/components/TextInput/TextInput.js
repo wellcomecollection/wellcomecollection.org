@@ -44,7 +44,9 @@ const TextInput = ({
         className={font({s: 'HNL3', m: 'HNL2'})}
         type='text'
         {...inputProps}/>
-      <VisuallyHidden>{label}</VisuallyHidden>
+      <VisuallyHidden>
+        <label>{label}</label>
+      </VisuallyHidden>
     </label>
   );
 };
