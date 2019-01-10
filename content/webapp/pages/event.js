@@ -32,6 +32,7 @@ import {getEvent, getEvents} from '@weco/common/services/prismic/events';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {eventLd} from '@weco/common/utils/json-ld';
 import {isEventFullyBooked} from '@weco/common/model/events';
+import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
 
 type Props = {|
   event: UiEvent
@@ -239,20 +240,7 @@ class EventPage extends Component<Props, State> {
               [spacing({s: 0, m: 2}, {margin: ['left']})]: true
             })}>
               {!event.isPast &&
-                <NextLink
-                  href={`#dates`}
-                  as={`#dates`}>
-                  {/* TODO: Create and track e.g. EventDatesLink component */}
-                  <a
-                    className={classNames({
-                      'flex-inline': true,
-                      'flex-v-center': true,
-                      [font({s: 'HNM5', m: 'HNM4'})]: true
-                    })}>
-                    <Icon name={`arrowSmall`} extraClasses='icon--black icon--90' />
-                    <span>{`See all dates`}</span>
-                  </a>
-                </NextLink>
+                <EventDatesLink />
               }
             </div>
           </div>
