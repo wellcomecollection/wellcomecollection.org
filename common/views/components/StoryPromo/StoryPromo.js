@@ -37,7 +37,6 @@ const StoryPromo = ({
           eventLabel: `${item.id} | position: ${position}`
         });
       }}
-      id={item.id}
       href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({
         'story-promo': true,
