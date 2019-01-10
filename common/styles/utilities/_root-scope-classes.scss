@@ -553,3 +553,14 @@
   }
 }
 
+// TODO: use this for e.g. Promo hover behaviour too
+.card-link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    .card-link__title {
+      text-decoration: underline;
+    }
+  }
+}
