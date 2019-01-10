@@ -68,16 +68,18 @@ const Outro = ({
       })}>
         {[researchItem, readItem, visitItem].filter(Boolean)
           .map(item => {
+            const { type, title, description } = getItemInfo(item);
+
             return (
               <li key={item.id} onClick={() => {
                 trackEventV2({
                   eventCategory: 'Outro',
-                  eventAction: `follow ${getItemInfo(item).type} link`,
+                  eventAction: `follow ${type} link`,
                   eventLabel: item.id
                 });
                 trackEvent({
                   category: 'component',
-                  action: `Outro:${getItemInfo(item).type}ItemClick`,
+                  action: `Outro:${type}ItemClick`,
                   label: item.id
                 });
               }}>
@@ -88,11 +90,11 @@ const Outro = ({
                   color={null}
                   StatusIndicator={null}
                   DateInfo={null}
-                  title={getItemInfo(item).title}
+                  title={title}
                   promoType={``}
                   labels={{labels: item.labels || []}}
                   url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
-                  description={getItemInfo(item).description} />
+                  description={description} />
               </li>
             );
           })}
