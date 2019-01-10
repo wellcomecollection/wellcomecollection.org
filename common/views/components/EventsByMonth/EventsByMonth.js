@@ -137,7 +137,7 @@ class EventsByMonth extends Component<Props, State> {
             <div className='css-grid__container'>
               <div className='css-grid'>
                 <h2
-                  id={month}
+                  id={month.id}
                   className={classNames({
                     'tabfocus': true,
                     [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
