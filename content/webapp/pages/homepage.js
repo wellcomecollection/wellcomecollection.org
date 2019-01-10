@@ -114,8 +114,7 @@ export class HomePage extends Component<Props> {
             events={
               orderEventsByNextAvailableDate(
                 filterEventsForNext7Days(events)
-              )
-            }
+              )}
             extras={[pharmacyOfColourData]}
           />
         </SpacingSection>

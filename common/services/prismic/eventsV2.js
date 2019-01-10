@@ -226,12 +226,12 @@ export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
 }
 
 export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
-  const reorderedEvents = events.filter(getNextDateInFuture).sort((a, b) => {
+  const reorderedEvents = [...events].filter(getNextDateInFuture).sort((a, b) => {
     const aNextDate = getNextDateInFuture(a);
-    const bNextDate = getNextDateInFuture(a);
+    const bNextDate = getNextDateInFuture(b);
 
     return aNextDate && bNextDate ? london(aNextDate.range.startDateTime)
-      .isBefore(bNextDate.range.startDateTime) ? 1  : -1 : -1;
+      .isBefore(bNextDate.range.startDateTime) ? -1  : 1 : -1;
   });
 
   return reorderedEvents;
