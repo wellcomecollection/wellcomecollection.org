@@ -1,7 +1,7 @@
 // @flow
 import {spacing, grid, font, classNames} from '../../../utils/classnames';
 import Divider from '../Divider/Divider';
-import PrimaryLink from '../Links/PrimaryLink/PrimaryLink';
+import MoreLink from '../Links/MoreLink/MoreLink';
 
 type Props = {|
   title: string,
@@ -9,7 +9,7 @@ type Props = {|
   linkUrl?: string
 |}
 
-// TODO: Allow the component to take a PrimaryLink as a prop
+// TODO: Allow the component to take a MoreLink as a prop
 // (not possible while we're using it in Nunjucks land).
 
 const SectionHeader = ({title, linkText, linkUrl}: Props) => {
@@ -24,7 +24,7 @@ const SectionHeader = ({title, linkText, linkUrl}: Props) => {
             <div className={`${spacing({s: 1, l: 4}, {margin: ['bottom']})} flex-l-up flex--v-end flex--h-space-between`}>
               <h2 className={`${font({s: 'WB5', m: 'WB4'})} ${spacing({l: 1}, {padding: ['right']})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>{title}</h2>
               {linkText && linkUrl &&
-                <PrimaryLink name={linkText} url={linkUrl} />
+                <MoreLink name={linkText} url={linkUrl} />
               }
               {linkText && !linkUrl &&
                 <span className={classNames({

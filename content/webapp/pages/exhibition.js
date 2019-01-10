@@ -258,24 +258,24 @@ export class ExhibitionPage extends Component<Props, State> {
           )}
           {
             this.state.exhibitionOfs &&
-            this.state.exhibitionOfs.length > 0 &&
-            <SearchResults
-              items={this.state.exhibitionOfs}
-              title={`In this exhibition`} />
+          this.state.exhibitionOfs.length > 0 &&
+          <SearchResults
+            items={this.state.exhibitionOfs}
+            title={`In this exhibition`} />
           }
           {exhibition.end && !isPast(exhibition.end) && (
             <InfoBox title='Visit us' items={infoItems}>
-              <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
+              <p className={`no-margin ${font({s: 'HNL4'})}`}>
                 <a href='/access'>All our accessibility services</a>
               </p>
             </InfoBox>
           )}
           {
             this.state.exhibitionAbouts &&
-            this.state.exhibitionAbouts.length > 0 &&
-            <SearchResults
-              items={this.state.exhibitionAbouts}
-              title={`About this exhibition`} />
+          this.state.exhibitionAbouts.length > 0 &&
+          <SearchResults
+            items={this.state.exhibitionAbouts}
+            title={`About this exhibition`} />
           }
 
           {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}

@@ -1,6 +1,5 @@
 // @flow
-import PrimaryLink from '../../components/Links/PrimaryLink/PrimaryLink';
-import SecondaryLink from '../../components/Links/SecondaryLink/SecondaryLink';
+import MoreLink from '../../components/Links/MoreLink/MoreLink';
 
 type Props = {|
   fonts: Array<{|
@@ -16,20 +15,12 @@ type Props = {|
 const Typography = ({fonts}: Props) => (
   <div>
     <div className='styleguide__font'>
-      <h2 className='styleguide__font__name'>Primary link</h2>
+      <h2 className='styleguide__font__name'>More link</h2>
       <div>
-        <PrimaryLink name='Full event details' url='#' />
+        <MoreLink name='Full event details' url='#' />
       </div>
       <h2 className='styleguide__font__usage-title'>Usage:</h2>
-      <p className='styleguide__font__usage-text'>Used to highlight more information, as an onward journey, link to a page or a category. Uses text-decoration property for underline.</p>
-    </div>
-    <div className='styleguide__font'>
-      <h2 className='styleguide__font__name'>Secondary link</h2>
-      <div>
-        <SecondaryLink link={{href: '#', as: '#'}} text='Opening hours' />
-      </div>
-      <h2 className='styleguide__font__usage-title'>Usage:</h2>
-      <p className='styleguide__font__usage-text'>Standalone utility link. Uses text-decoration property for underline.</p>
+      <p className='styleguide__font__usage-text'>Used to indicate a link to more content of a similar theme/type.</p>
     </div>
     <div className='styleguide__font'>
       <h2 className='styleguide__font__name'>Body text link</h2>

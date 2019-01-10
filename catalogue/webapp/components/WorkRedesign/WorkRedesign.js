@@ -91,7 +91,7 @@ class WorkRedesign extends Component<Props, State> {
               <Layout12>
                 {work.workType &&
                   <NextLink {...worksUrl({ query: `workType:"${work.workType.label}"`, page: undefined })}>
-                    <a className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})}`}>{work.workType.label}</a>
+                    <a className={`${font({s: 'HNL5', m: 'HNL4'})}`}>{work.workType.label}</a>
                   </NextLink>
                 }
                 <h1 id='work-info'

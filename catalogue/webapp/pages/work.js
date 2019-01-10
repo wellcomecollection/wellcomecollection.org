@@ -8,11 +8,10 @@ import {convertImageUri, iiifImageTemplate} from '@weco/common/utils/convert-ima
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import SecondaryLink from '@weco/common/views/components/Links/SecondaryLink/SecondaryLink';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import {workLd} from '@weco/common/utils/json-ld';
@@ -91,20 +90,15 @@ export const WorkPage = ({
           <div className='container'>
             <div className='grid'>
               <div className={grid({s: 12})}>
-                <SecondaryLink
-                  link={worksUrl({query, page})}
-                  text='Search results'
-                  trackingEvent={{
-                    category: 'component',
-                    action: 'return-to-results:click',
-
-                    label: `id:${work.id}, query:${query || ''}, title:${work.title}`
-                  }}
-                  trackingEventV2={{
-                    eventCategory: 'SecondaryLink',
-                    eventAction: 'back to results',
-                    eventLabel: `${work.id} | text: ${work.title}`
-                  }} />
+                <NextLink {...worksUrl({query, page})}>
+                  {/* TODO: Create and track e.g. BackToResults component */}
+                  <a
+                    className={classNames({
+                      [font({s: 'HNM5', m: 'HNM4'})]: true
+                    })}>
+                    <span>{`Search results`}</span>
+                  </a>
+                </NextLink>
               </div>
             </div>
           </div>
@@ -228,7 +222,7 @@ export const WorkPage = ({
 
                   {encoreLink &&
                     <div className={spacing({s: 2}, {margin: ['top']})}>
-                      <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
+                      <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
                     </div>
                   }
 

@@ -368,7 +368,8 @@
 
   &:hover .promo-link__title,
   &:focus .promo-link__title {
-    color: color('green');
+    text-decoration: underline;
+    text-decoration-color: color('green');
   }
 
   @include respond-to('medium') {
