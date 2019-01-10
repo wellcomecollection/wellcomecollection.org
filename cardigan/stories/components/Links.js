@@ -1,7 +1,6 @@
 import {Fragment} from 'react';
 import { storiesOf } from '@storybook/react';
 import MoreLink from '../../../common/views/components/Links/MoreLink/MoreLink';
-import SecondaryLink from '../../../common/views/components/Links/SecondaryLink/SecondaryLink';
 import {sized} from '../../../common/utils/style';
 
 const stories = storiesOf('Components', module);
