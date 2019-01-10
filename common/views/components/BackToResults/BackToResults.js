@@ -15,7 +15,7 @@ const BackToResults = ({ nextLink }: Props) => {
           trackEventV2({
             eventCategory: 'BackToResults',
             eventAction: 'follow link',
-            eventLabel: `${nextLink.href.query.query} | page: ${nextLink.href.query.page}`
+            eventLabel: `${nextLink.href.query.query} | page: ${nextLink.href.query.page || 1}`
           });
         }}
         className={classNames({
