@@ -234,6 +234,5 @@ export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
       .isBefore(bNextDate.range.startDateTime) ? 1  : -1 : -1;
   });
 
-  console.info(reorderedEvents[0].id);
   return reorderedEvents;
 }
