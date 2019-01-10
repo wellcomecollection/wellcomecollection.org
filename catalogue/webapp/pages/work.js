@@ -279,11 +279,10 @@ export const WorkPage = ({
                       </NextLink>
                     ]} />
                   }
-
+                </SpacingComponent>
+                <SpacingComponent>
                   {encoreLink &&
-                    <div className={spacing({s: 2}, {margin: ['top']})}>
-                      <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
-                    </div>
+                    <PrimaryLink name='View Wellcome Library catalogue record' url={encoreLink} />
                   }
                 </SpacingComponent>
 
