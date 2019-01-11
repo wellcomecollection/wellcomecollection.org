@@ -36,9 +36,15 @@ const featureToggles = [{
     'This will show unfilter those results, and allow for filtering.'
 }, {
   id: 'showWorkRedesign',
-  title: 'Show the new work page',
+  title: 'Show the work page prototype',
   description:
-    'Uses the new work page design.'
+    `Uses the work page prototype. Note, being in this group will take precedence ` +
+    `over the 'Show the single column work page' group.`
+}, {
+  id: 'showSingleColumnWork',
+  title: 'Show the single column work page',
+  description:
+    `Uses a single column to display work information.`
 }, {
   id: 'showRevisedOpeningHours',
   title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
@@ -67,7 +73,7 @@ const IndexPage = () => {
     }, {});
 
     setToggles(initialToggles)
-  }, [])
+  }, []);
 
   return (
     <div style={{

@@ -1,4 +1,6 @@
 // @flow
+import type {LicenseData} from '@weco/common/utils/get-license-info';
+import type {LicenseType} from '@weco/common/model/license';
 
 import NextLink from 'next/link';
 import {Fragment} from 'react';
@@ -13,7 +15,6 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
-import type {LicenseData} from '@weco/common/utils/get-license-info';
 
 type Work = Object;
 type Props = {|
@@ -21,7 +22,7 @@ type Props = {|
   iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?string,
+  iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string
 |}
 
@@ -213,7 +214,9 @@ const SingleColumnWork = ({
                 <SpacingComponent>
                   <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
                   <MetaUnit headingLevel={3} headingText='Credit' text={[
-                    `${work.title}. Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
+                    `${work.title}.{' '}
+                    ${iiifImageLocationCredit ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ` : ` `}
+                    ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
                 </SpacingComponent>
               </Fragment>
             }
