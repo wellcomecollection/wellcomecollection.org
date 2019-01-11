@@ -231,7 +231,7 @@ export default class WecoApp extends App {
         <Head>
           <meta charSet='utf-8' />
           <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1' />
-          <script src={`https://cdn.polyfill.io/v2/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
+          <script src={`https://cdn.polyfill.io/v3/polyfill.js?features=${polyfillFeatures.join(',')}`}></script>
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           <link rel='apple-touch-icon' sizes='180x180' href='https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png' />
           <link rel='shortcut icon' href='https://i.wellcomecollection.org/assets/icons/favicon.ico' type='image/ico' />
