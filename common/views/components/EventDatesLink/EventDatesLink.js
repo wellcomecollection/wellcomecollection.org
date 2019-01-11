@@ -5,7 +5,11 @@ import {font, classNames} from '../../../utils/classnames';
 import {trackEventV2} from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 
-const EventDatesLink = () => {
+type Props = {|
+  id: string
+|}
+
+const EventDatesLink = ({ id }: Props) => {
   return (
     <NextLink
       href={`#dates`}
@@ -15,7 +19,7 @@ const EventDatesLink = () => {
           trackEventV2({
             eventCategory: 'EventDatesLink',
             eventAction: 'follow link',
-            eventLabel: 'n/a'
+            eventLabel: id
           });
         }}
         className={classNames({

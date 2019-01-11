@@ -240,7 +240,7 @@ class EventPage extends Component<Props, State> {
               [spacing({s: 0, m: 2}, {margin: ['left']})]: true
             })}>
               {!event.isPast &&
-                <EventDatesLink />
+                <EventDatesLink id={event.id} />
               }
             </div>
           </div>
