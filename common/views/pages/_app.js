@@ -28,12 +28,6 @@ function triggerEngagement() {
     action: 'Time on page >=',
     label: '10 seconds'
   });
-  ReactGA.ga('v2.send', {
-    hitType: 'event',
-    eventCategory: 'Engagement',
-    eventAction: 'Time on page >=',
-    eventLabel: '10 seconds'
-  });
 }
 
 function trackRouteChange() {
