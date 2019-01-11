@@ -197,11 +197,12 @@ const SingleColumnWork = ({
                 ]} />
               }
             </SpacingComponent>
-            <SpacingComponent>
-              {encoreLink &&
+
+            {encoreLink &&
+              <SpacingComponent>
                 <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
-              }
-            </SpacingComponent>
+              </SpacingComponent>
+            }
 
             {licenseInfo &&
               <Fragment>
