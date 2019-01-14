@@ -135,7 +135,8 @@ export class ArticlePage extends Component<Props, State> {
             [spacing({s: 0}, {margin: ['bottom']})]: true,
             [font({s: 'HNL5'})]: true
           })}>
-            <span>By </span>
+            {article.contributors.length > 0 && <span>By </span>}
+
             {article.contributors.map(({ contributor }, i, arr) => (
               <Fragment key={contributor.id}>
                 <span className={classNames({
@@ -145,13 +146,16 @@ export class ArticlePage extends Component<Props, State> {
                 {arr.length > 1 && i === arr.length - 2 && ' and '}
               </Fragment>
             ))}
+
+            {article.contributors.length > 0 && ' '}
+
+            <span className={classNames({
+              'font-pewter': true,
+              [font({s: 'HNL5'})]: true
+            })}>
+              <HTMLDate date={new Date(article.datePublished)} />
+            </span>
           </p>
-          <div className={classNames({
-            'font-pewter': true,
-            [font({s: 'HNL5'})]: true
-          })}>
-            <HTMLDate date={new Date(article.datePublished)} />
-          </div>
         </div>
       </Fragment>
     );
