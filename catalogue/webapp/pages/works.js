@@ -160,7 +160,8 @@ export const Works = ({
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const link = worksUrl({ query, page: newPage });
-                            Router.push(link.href, link.as);
+                            Router.push(link.href, link.as)
+                              .then(() => window.scrollTo(0, 0));
                           }}
                         />
                       </Fragment>
@@ -232,7 +233,8 @@ export const Works = ({
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const link = worksUrl({ query, page: newPage });
-                              Router.push(link.href, link.as);
+                              Router.push(link.href, link.as)
+                                .then(() => window.scrollTo(0, 0));
                             }}
                           />
                         </Fragment>
