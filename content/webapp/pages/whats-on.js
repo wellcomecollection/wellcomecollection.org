@@ -8,7 +8,7 @@ import {
   getEvents,
   filterEventsForToday,
   filterEventsForWeekend
-} from '@weco/common/services/prismic/eventsV2';
+} from '@weco/common/services/prismic/events';
 import {london, formatDay, formatDate} from '@weco/common/utils/format-date';
 import {convertJsonToDates} from './event';
 import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';

@@ -7,7 +7,7 @@ import {
   getEvents,
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days
-} from '@weco/common/services/prismic/eventsV2';
+} from '@weco/common/services/prismic/events';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {convertJsonToDates} from './event';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
