@@ -42,7 +42,7 @@ const featureToggles = [{
     `over the 'Show the single column work page' group.`
 }, {
   id: 'showSingleColumnWork',
-  title: 'Show the single column work page',
+  title: 'Show work metadata in a single column',
   description:
     `Uses a single column to display work information.`
 }, {
@@ -72,7 +72,7 @@ const IndexPage = () => {
       return acc;
     }, {});
 
-    setToggles(initialToggles)
+    setToggles(initialToggles);
   }, []);
 
   return (
