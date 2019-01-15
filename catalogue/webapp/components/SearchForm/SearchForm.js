@@ -157,12 +157,11 @@ const SearchForm = ({
                     defaultChecked={workType.indexOf(id) !== -1}
                     onChange={(event) => {
                       const input = event.currentTarget;
-                      if (input.checked) {
-                        workType.push(input.value);
-                      } else {
-                        workType.splice(workType.indexOf(input.value, 1));
-                      }
-                      setWorkType(workType);
+                      const newWorkType = input.checked
+                        ? [...workType, input.value]
+                        : workType.filter(i => i !== input.value);
+
+                      setWorkType(newWorkType);
                     }} />
                   {label}
                 </label>
@@ -182,9 +181,9 @@ const SearchForm = ({
                   if (input.checked) {
                     itemsLocationsLocationType.push(input.value);
                   } else {
-                    itemsLocationsLocationType.splice(workType.indexOf(input.value, 1));
+                    itemsLocationsLocationType.splice(itemsLocationsLocationType.indexOf(input.value, 1));
                   }
-                  setItemsLocationsLocationType(workType);
+                  setItemsLocationsLocationType(itemsLocationsLocationType);
                 }} />
               Images only
             </label>
