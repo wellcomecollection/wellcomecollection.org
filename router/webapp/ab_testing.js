@@ -10,7 +10,16 @@
 // }
 
 // This is mutable for testing
-let tests = [];
+let tests = [
+  {
+    id: 'showSingleColumnWork',
+    title: 'Show work metadata in a single column',
+    shouldRun(request) {
+      return request.url.match(/^\/works\/.+/);
+    }
+  }
+];
+
 exports.setTests = function(newTests) {
   tests = newTests;
 };
@@ -37,13 +46,17 @@ exports.request = (event, context) => {
   const newToggles = tests.map(test => {
     // Isn't already set
     const isSet = Boolean(toggleCookies.find(cookie => cookie.key === `toggle_${test.id}`));
-    if (test.shouldRun(request) && !isSet) {
-      // Flip the dice
-      if (Math.random() < 0.5) {
-        return { key: `toggle_${test.id}`, value: true };
-      } else {
-        return { key: `toggle_${test.id}`, value: false };
+    try {
+      if (test.shouldRun(request) && !isSet) {
+        // Flip the dice
+        if (Math.random() < 0.5) {
+          return { key: `toggle_${test.id}`, value: true };
+        } else {
+          return { key: `toggle_${test.id}`, value: false };
+        }
       }
+    } catch (error) {
+      console.log(`a/b test shouldRun() broke with error: ${error}`);
     }
   }).filter(Boolean);
 
