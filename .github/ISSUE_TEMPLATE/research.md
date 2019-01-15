@@ -1,17 +1,10 @@
-# Date
+## The problem: We think that...
 
 
-# Page
+## Therefor we hypothesize that...
 
 
-# Purpose / Hypothesis
+## As measured by...
 
 
-# Primary outcome
-
-
-# Sample size / power
-
-
-# Comments
-
+## Acceptance criteria: we are right if...
