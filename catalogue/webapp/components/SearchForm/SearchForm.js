@@ -182,9 +182,9 @@ const SearchForm = ({
                   if (input.checked) {
                     itemsLocationsLocationType.push(input.value);
                   } else {
-                    itemsLocationsLocationType.splice(workType.indexOf(input.value, 1));
+                    itemsLocationsLocationType.splice(itemsLocationsLocationType.indexOf(input.value, 1));
                   }
-                  setItemsLocationsLocationType(workType);
+                  setItemsLocationsLocationType(itemsLocationsLocationType);
                 }} />
               Images only
             </label>
