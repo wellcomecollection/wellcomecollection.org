@@ -8,18 +8,26 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     shouldRun: (request) => {
       return request.uri.match(/^\/articles\/*/);
     }
+  }, {
+    id: 'wontwork',
+    title: `Won't work`,
+    shouldRun(request) {
+      throw new Error({message: 'broken for test'});
+    }
   }]);
-
-  const requestCallback = jest.fn((_, request) => request);
 
   // To avoid the mutation that happens
   const oldRequest = JSON.parse(JSON.stringify(testEventRequest.Records[0].cf.request));
-  abTesting.request(testEventRequest, {}, requestCallback);
+  abTesting.request(testEventRequest, {});
   const modifiedRequest = testEventRequest.Records[0].cf.request;
 
   // 1. set the new value on the cookie forwarded to the application
   expect(oldRequest.headers.cookie[0].value).not.toMatch(/toggle_outro=(true|false)/);
   expect(modifiedRequest.headers.cookie[0].value).toMatch(/toggle_outro=(true|false)/);
+
+  // expect toggle_wontwork not to exist before or after modification
+  expect(oldRequest.headers.cookie[0].value).not.toMatch(/toggle_wontwork=(true|false)/);
+  expect(modifiedRequest.headers.cookie[0].value).not.toMatch(/toggle_wontwork=(true|false)/);
 
   // 2. set the x-toggled that will be forwarded to the response
   expect(oldRequest.headers['x-toggled']).toBeUndefined();
@@ -41,8 +49,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     }]
   };
 
-  const responseCallback = jest.fn((_, response) => response);
-  abTesting.response(testEventResponse, {}, responseCallback);
+  abTesting.response(testEventResponse, {});
   const modifiedResponse = testEventResponse.Records[0].cf.response;
 
   // 3. set cookie is set fromxz-toggled to lock the person in for the session

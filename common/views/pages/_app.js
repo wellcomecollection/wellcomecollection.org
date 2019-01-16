@@ -93,9 +93,14 @@ export default class WecoApp extends App {
       }
     }]);
 
-    ReactGA.pageview(
-      `${window.location.pathname}${window.location.search}`
-    );
+    try {
+      ReactGA.set({'dimension5': JSON.stringify(toggles)});
+    } catch (error) {
+      // don't do anything
+    }
+
+    ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
+
     engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChange);
 

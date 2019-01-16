@@ -25,7 +25,12 @@ function setCookie(name, value) {
   document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [];
+const abTests = [{
+  id: 'showSingleColumnWork',
+  title: 'Show work metadata in a single column',
+  description:
+    `Uses a single column to display work information.`
+}];
 
 const featureToggles = [{
   id: 'showCatalogueSearchFilters',
@@ -40,11 +45,6 @@ const featureToggles = [{
   description:
     `Uses the work page prototype. Note, being in this group will take precedence ` +
     `over the 'Show the single column work page' group.`
-}, {
-  id: 'showSingleColumnWork',
-  title: 'Show work metadata in a single column',
-  description:
-    `Uses a single column to display work information.`
 }, {
   id: 'showRevisedOpeningHours',
   title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
