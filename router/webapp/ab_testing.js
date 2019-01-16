@@ -15,7 +15,7 @@ let tests = [
     id: 'showSingleColumnWork',
     title: 'Show work metadata in a single column',
     shouldRun(request) {
-      return request.url.match(/^\/works\/.+/);
+      return request.uri.match(/^\/works\/.+/);
     }
   }
 ];
