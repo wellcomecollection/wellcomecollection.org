@@ -18,7 +18,13 @@ module.exports = {
       const twitterHandle = removeAt(doc.twitterHandle);
       const twitterSameAs = [{
         link: `https://twitter.com/${twitterHandle}`,
-        title: `@${twitterHandle}`
+        title: [{
+          type: 'heading1',
+          content: {
+            text: `@${twitterHandle}`,
+            spans: []
+          }
+        }]
       }];
       if (doc.sameAs) {
         const currentTwitterSameAsIndex = doc.sameAs.findIndex(item => `https://twitter.com/${twitterHandle}` === item.link);
