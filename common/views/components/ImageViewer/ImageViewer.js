@@ -8,7 +8,7 @@ import {trackEventV2} from '../../../utils/ga';
 import dynamic from 'next/dynamic';
 import ReactGA from 'react-ga';
 
-const ImageViewerImage = dynamic(import('./ImageViewerImage'));
+const ImageViewerImage = dynamic(import('./ImageViewerImage'), {ssr: false});
 
 type LaunchViewerButtonProps = {|
   classes: string,
