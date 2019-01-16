@@ -50,8 +50,8 @@
           "title": {
             "type": "StructuredText",
             "config": {
-              "label": "Link text",
-              "single": "paragraph"
+              "single": "paragraph,hyperlink,strong,em",
+              "label": "Link text"
             }
           }
         }
