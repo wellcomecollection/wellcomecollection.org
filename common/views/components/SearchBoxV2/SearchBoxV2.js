@@ -1,6 +1,6 @@
 // @flow
 import {font} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Icon from '../Icon/Icon';
 
@@ -39,14 +39,9 @@ const SearchBoxV2 = ({action, id, name, query, autofocus, onChange, onSubmit}: P
     <button className='search-box__clear absolute line-height-1 plain-button v-center no-padding js-clear'
       onClick={() => {
         trackEvent({
-          category: 'component',
-          action: `clear-search:click`,
-          label: `input-id:${id}`
-        });
-        trackEventV2({
-          eventCategory: 'SearchBox',
-          eventAction: 'clear search',
-          eventLabel: id
+          category: 'SearchBox',
+          action: 'clear search',
+          label: id
         });
       }}
       type='button'>

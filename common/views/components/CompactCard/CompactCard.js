@@ -2,7 +2,7 @@
 import type {Element, ElementProps} from 'react';
 
 import {grid, font, spacing, conditionalClassNames, classNames} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
@@ -56,15 +56,10 @@ const CompactCard = ({
         [extraClasses || '']: Boolean(extraClasses)
       })}
       onClick={() => {
-        trackEventV2({
-          eventCategory: 'CompactCard',
-          eventAction: 'follow link',
-          eventLabel: title
-        });
         trackEvent({
-          category: 'component',
-          action: `${promoType}:click`,
-          label: `title:${title}`
+          category: 'CompactCard',
+          action: 'follow link',
+          label: title
         });
       }}>
       {labels.labels.length > 0 &&

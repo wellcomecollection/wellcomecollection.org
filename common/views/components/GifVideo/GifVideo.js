@@ -3,7 +3,7 @@ import {Component, createRef} from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import {font, classNames} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import Tasl from '../Tasl/Tasl';
 import Caption from '../Caption/Caption';
 import type {HTMLString} from '../../../services/prismic/types';
@@ -87,14 +87,9 @@ class GifVideo extends Component<Props, State> {
         }
       }
       trackEvent({
-        category: 'component',
-        action: 'toggle-gif-video-play:click',
-        label: `gif-video:${this.props.videoUrl}, click-action:${!this.state.isPlaying ? 'did-play' : 'did-pause'}`
-      });
-      trackEventV2({
-        eventCategory: 'GifVideo',
-        eventAction: this.state.isPlaying ? 'pause video' : 'play video',
-        eventLabel: this.props.videoUrl
+        category: 'GifVideo',
+        action: this.state.isPlaying ? 'pause video' : 'play video',
+        label: this.props.videoUrl
       });
     };
 

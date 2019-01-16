@@ -2,7 +2,7 @@
 
 import NextLink from 'next/link';
 import {font, classNames} from '../../../utils/classnames';
-import {trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 
 type Props = {|
@@ -16,10 +16,10 @@ const EventDatesLink = ({ id }: Props) => {
       as={`#dates`}>
       <a
         onClick={() => {
-          trackEventV2({
-            eventCategory: 'EventDatesLink',
-            eventAction: 'follow link',
-            eventLabel: id
+          trackEvent({
+            category: 'EventDatesLink',
+            action: 'follow link',
+            label: id
           });
         }}
         className={classNames({

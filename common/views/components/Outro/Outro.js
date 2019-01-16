@@ -2,7 +2,7 @@
 import type {MultiContent} from '../../../model/multi-content';
 
 import {classNames, spacing} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import CompactCard from '../../components/CompactCard/CompactCard';
 import Divider from '../../components/Divider/Divider';
 
@@ -72,14 +72,9 @@ const Outro = ({
 
             return (
               <li key={item.id} onClick={() => {
-                trackEventV2({
-                  eventCategory: 'Outro',
-                  eventAction: `follow ${type} link`,
-                  eventLabel: item.id
-                });
                 trackEvent({
-                  category: 'component',
-                  action: `Outro:${type}ItemClick`,
+                  category: 'Outro',
+                  action: `follow ${type} link`,
                   label: item.id
                 });
               }}>

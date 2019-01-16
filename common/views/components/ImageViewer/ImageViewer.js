@@ -4,9 +4,8 @@ import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
 import {spacing} from '../../../utils/classnames';
-import {trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import dynamic from 'next/dynamic';
-import ReactGA from 'react-ga';
 
 const ImageViewerImage = dynamic(import('./ImageViewerImage'));
 
@@ -57,30 +56,18 @@ class ViewerContent extends Component<ViewerContentProps> {
   }
 
   handleZoomIn = (event) => {
-    ReactGA.event({
-      category: 'component',
-      action: 'work-zoom-in-button:click',
-      label: `id:${this.props.id}`
-    });
-
-    trackEventV2({
-      eventCategory: 'Control',
-      eventAction: 'zoom in ImageViewer',
-      eventLabel: this.props.id
+    trackEvent({
+      category: 'Control',
+      action: 'zoom in ImageViewer',
+      label: this.props.id
     });
   }
 
   handleZoomOut = (event) => {
-    ReactGA.event({
-      category: 'component',
-      action: 'work-zoom-out-button:click',
-      label: `id:${this.props.id}`
-    });
-
-    trackEventV2({
-      eventCategory: 'Control',
-      eventAction: 'zoom out ImageViewer',
-      eventLabel: this.props.id
+    trackEvent({
+      category: 'Control',
+      action: 'zoom out ImageViewer',
+      label: this.props.id
     });
   }
 
@@ -139,16 +126,10 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
   };
 
   handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
-    ReactGA.event({
-      category: 'component',
-      action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
-      label: `id:${this.props.id},title:${this.props.trackTitle}`
-    });
-
-    trackEventV2({
-      eventCategory: initiator,
-      eventAction: `${this.state.showViewer ? 'closed' : 'opened'} ImageViewer`,
-      eventLabel: this.props.id
+    trackEvent({
+      category: initiator,
+      action: `${this.state.showViewer ? 'closed' : 'opened'} ImageViewer`,
+      label: this.props.id
     });
 
     this.setState(prevState => ({

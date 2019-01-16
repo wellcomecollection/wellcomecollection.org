@@ -1,9 +1,8 @@
 // @flow
 
-import ReactGA from 'react-ga';
 import {font, spacing} from '../../../utils/classnames';
 import getLicenseInfo from '../../../utils/get-license-info';
-import {trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import {Fragment} from 'react';
 import {withToggler} from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
@@ -84,17 +83,10 @@ const Tasl = withToggler(({
 }: Props) => {
   function toggleWithAnalytics(event) {
     event.preventDefault();
-
-    ReactGA.event({
-      category: 'component',
-      action: 'Tasl:click',
-      label: `click-action:${isActive ? 'did close' : 'did open'}`
-    });
-
-    trackEventV2({
-      eventCategory: 'Tasl',
-      eventAction: isActive ? 'closed' : 'opened',
-      eventLabel: title || 'no title'
+    trackEvent({
+      category: 'Tasl',
+      action: isActive ? 'closed' : 'opened',
+      label: title || 'no title'
     });
 
     toggle();
