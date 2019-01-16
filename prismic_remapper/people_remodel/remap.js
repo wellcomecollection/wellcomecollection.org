@@ -20,16 +20,15 @@ module.exports = {
         link: `https://twitter.com/${twitterHandle}`,
         title: `@${twitterHandle}`
       }];
-
       if (doc.sameAs) {
         const currentTwitterSameAsIndex = doc.sameAs.findIndex(item => `https://twitter.com/${twitterHandle}` === item.link);
         if (currentTwitterSameAsIndex === -1) {
-          doc.sameAs = doc.sameAs.concat(twitterSameAs).filter(Boolean);
+          doc.sameAs = doc.sameAs.concat(twitterSameAs).filter(item => Object.keys(item).length > 0);
         } else {
           doc.sameAs[currentTwitterSameAsIndex] = twitterSameAs; // some of the current sameAs objects with twitter links don't have the title, so we make sure they do
         }
       } else {
-        doc.sameAs = twitterSameAs.filter(Boolean);
+        doc.sameAs = twitterSameAs.filter(item => Object.keys(item).length > 0);
       }
     }
     delete doc.twitterHandle;
