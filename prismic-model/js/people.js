@@ -3,7 +3,7 @@ import text from './parts/text';
 import description from './parts/description';
 import image from './parts/image';
 import list from './parts/list';
-import heading from './parts/heading';
+import heading from './parts/paragraph';
 
 export default {
   Person: {
@@ -12,8 +12,7 @@ export default {
     image: image('Image'),
     sameAs: list('Same as', {
       link: text('Link'),
-      title: heading('Title (override)')
-    }),
-    twitterHandle: text('Twitter handle (deprecated)')
+      title: heading('Link text')
+    })
   }
 };

@@ -19,7 +19,7 @@ module.exports = {
       const twitterSameAs = [{
         link: `https://twitter.com/${twitterHandle}`,
         title: [{
-          type: 'heading1',
+          type: 'paragraph',
           content: {
             text: `@${twitterHandle}`,
             spans: []
