@@ -75,7 +75,7 @@ export const WorkPage = ({
     );
   }
 
-  const imageContentUrl = iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
+  const imageContentUrl = iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
   return (
     <PageLayout
       title={work.title}
