@@ -95,7 +95,8 @@ export const WorkPage = ({
       {showSearchBoxOnWork &&
         <div className={classNames({
           'bg-cream': true,
-          [spacing({s: 4}, {padding: ['top', 'bottom']})]: true
+          [spacing({s: 4}, {padding: ['top']})]: true,
+          [spacing({s: 4}, {padding: ['bottom']})]: !query
         })}>
           <div className='container'>
             <div className='grid'>
@@ -112,11 +113,23 @@ export const WorkPage = ({
                   ariaDescribedBy='search-form-description' />
               </div>
             </div>
+
+            {query &&
+              <div className='grid'>
+                <div className={classNames({
+                  [grid({s: 12})]: true,
+                  [spacing({s: 1}, {padding: ['top', 'bottom']})]: true
+                })}>
+                  <BackToResults nextLink={worksUrl({query, page})} />
+                </div>
+              </div>
+            }
+
           </div>
         </div>
       }
 
-      {query &&
+      {query && !showSearchBoxOnWork &&
         <div className='row'>
           <div className='container'>
             <div className='grid'>
