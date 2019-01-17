@@ -85,12 +85,6 @@ export default class WecoApp extends App {
     ReactGA.initialize([{
       trackingId: 'UA-55614-6',
       titleCase: false
-    }, {
-      trackingId: 'UA-55614-24',
-      titleCase: false,
-      gaOptions: {
-        name: 'v2'
-      }
     }]);
 
     try {
