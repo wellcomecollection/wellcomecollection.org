@@ -113,9 +113,9 @@ const SearchForm = ({
                   action: 'clear search',
                   label: 'works-search'
                 });
-                const link = worksUrl({query: null, page: null});
+
+                // TODO: re-focus input (useRef?)
                 setQuery('');
-                Router.push(link.href, link.as);
               }}
               type='button'>
               <Icon name='clear' title='Clear' />

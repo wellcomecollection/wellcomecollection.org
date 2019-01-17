@@ -1,6 +1,6 @@
 // @flow
 import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
 import NextLink from 'next/link';
 import Router from 'next/router';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
@@ -23,13 +23,15 @@ import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import SingleColumnWork from '../components/SingleColumnWork/SingleColumnWork';
+import SearchForm from '../components/SearchForm/SearchForm';
 
 type Props = {|
   work: Work | CatalogueApiError,
   query: ?string,
   page: ?number,
   showRedesign: boolean,
-  showSingleColumnWork: boolean
+  showSingleColumnWork: boolean,
+  showSearchBoxOnWork: boolean
 |}
 
 export const WorkPage = ({
@@ -37,7 +39,8 @@ export const WorkPage = ({
   query,
   page,
   showRedesign,
-  showSingleColumnWork
+  showSingleColumnWork,
+  showSearchBoxOnWork
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -88,6 +91,30 @@ export const WorkPage = ({
       imageUrl={imageContentUrl}
       imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
+
+      {showSearchBoxOnWork &&
+        <div className={classNames({
+          'bg-cream': true,
+          [spacing({s: 4}, {padding: ['top', 'bottom']})]: true
+        })}>
+          <div className='container'>
+            <div className='grid'>
+              <div className={classNames({
+                [grid({s: 12, m: 10, l: 8, xl: 8})]: true
+              })}>
+                {/* TODO: if this survives the A/B test, we'll have to pass
+                in workType etc. instead of hard-coding */}
+                <SearchForm
+                  initialQuery={query || ''}
+                  initialWorkType={['k', 'q']}
+                  initialItemsLocationsLocationType={['iiif-image']}
+                  showFilters={false}
+                  ariaDescribedBy='search-form-description' />
+              </div>
+            </div>
+          </div>
+        </div>
+      }
 
       {query &&
         <div className='row'>
@@ -328,6 +355,7 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   const workOrError = await getWork({ id });
   const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
   const showSingleColumnWork = Boolean(ctx.query.toggles.showSingleColumnWork);
+  const showSearchBoxOnWork = Boolean(ctx.query.toggles.showSearchBoxOnWork);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const {res} = ctx;
@@ -346,7 +374,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       work: workOrError,
       page: page ? parseInt(page, 10) : null,
       showRedesign,
-      showSingleColumnWork
+      showSingleColumnWork,
+      showSearchBoxOnWork
     };
   }
 };
