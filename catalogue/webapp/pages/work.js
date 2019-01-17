@@ -1,6 +1,6 @@
 // @flow
 import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
-import {Fragment, useState} from 'react';
+import {Fragment} from 'react';
 import NextLink from 'next/link';
 import Router from 'next/router';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
