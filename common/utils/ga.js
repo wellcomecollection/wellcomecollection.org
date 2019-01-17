@@ -30,10 +30,6 @@ export function trackEvent(gaEvent: GaEvent) {
   ReactGA.event(gaEvent);
 }
 
-export function trackEventV2(event: GaEventV2) {
-  ReactGA.ga('v2.send', {hitType: 'event', ...event});
-}
-
 export function trackComponentAction(
   name: string,
   action: string,

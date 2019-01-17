@@ -1,7 +1,6 @@
 // @flow
-import ReactGA from 'react-ga';
 import {spacing, font} from '../../../utils/classnames';
-import {trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import {Fragment, Component} from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
@@ -90,16 +89,10 @@ class CopyUrl extends Component<Props, State> {
     textarea.remove();
     this.focusTextInput();
 
-    ReactGA.event({
-      category: 'component',
-      action: 'copy-url:click',
-      label: `id:${this.props.id}`
-    });
-
-    trackEventV2({
-      eventCategory: 'CopyUrl',
-      eventAction: 'copy url to clipboard',
-      eventLabel: this.props.id
+    trackEvent({
+      category: 'CopyUrl',
+      action: 'copy url to clipboard',
+      label: this.props.id
     });
   }
 

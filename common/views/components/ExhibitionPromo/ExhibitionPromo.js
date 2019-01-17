@@ -1,7 +1,7 @@
 // @flow
 import {Fragment} from 'react';
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import {formatDate} from '../../../utils/format-date';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -24,15 +24,10 @@ const ExhibitionPromo = ({
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
       onClick={() => {
-        trackEventV2({
-          eventCategory: 'ExhibitionPromo',
-          eventAction: 'follow link',
-          eventLabel: `${id} | position: ${position}`
-        });
         trackEvent({
-          category: 'component',
-          action: 'ExhibitionPromo:click',
-          label: `id:${id}, position:${position}`
+          category: 'ExhibitionPromo',
+          action: 'follow link',
+          label: `${id} | position: ${position}`
         });
       }}>
       <div className='relative'>

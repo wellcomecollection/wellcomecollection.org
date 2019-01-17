@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {classNames, font} from '@weco/common/utils/classnames';
-import {trackEvent, trackEventV2} from '@weco/common/utils/ga';
+import {trackEvent} from '@weco/common/utils/ga';
 import {worksUrl} from '../../services/catalogue/urls';
 
 const workTypes = [
@@ -109,14 +109,9 @@ const SearchForm = ({
               className='absolute line-height-1 plain-button v-center no-padding'
               onClick={() => {
                 trackEvent({
-                  category: 'component',
-                  action: `clear-search:click`,
-                  label: `input-id:works-search`
-                });
-                trackEventV2({
-                  eventCategory: 'SearchBox',
-                  eventAction: 'clear search',
-                  eventLabel: 'works-search'
+                  category: 'SearchBox',
+                  action: 'clear search',
+                  label: 'works-search'
                 });
                 const link = worksUrl({query: null, page: null});
                 setQuery('');

@@ -1,7 +1,7 @@
 // @flow
 import Icon from '../../Icon/Icon';
-import type {GaEvent, GaEventV2} from '../../../../utils/ga';
-import {trackEvent, trackEventV2} from '../../../../utils/ga';
+import type {GaEvent} from '../../../../utils/ga';
+import {trackEvent} from '../../../../utils/ga';
 
 type Props = {|
   url?: string,
@@ -11,7 +11,6 @@ type Props = {|
   icon: string,
   text: string,
   trackingEvent?: GaEvent,
-  trackingEventV2?: GaEventV2,
   disabled?: boolean,
   clickHandler?: (event: Event) => void
 |}
@@ -33,8 +32,7 @@ const Control = ({
   text,
   disabled,
   clickHandler,
-  trackingEvent,
-  trackingEventV2
+  trackingEvent
 }: Props) => {
   const attrs = {
     id: id,
@@ -47,10 +45,6 @@ const Control = ({
   function handleClick(event) {
     if (trackingEvent) {
       trackEvent(trackingEvent);
-    }
-
-    if (trackingEventV2) {
-      trackEventV2(trackingEventV2);
     }
 
     if (clickHandler) {

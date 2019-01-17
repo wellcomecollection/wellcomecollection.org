@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import {UiImage} from '../Images/Images';
 import type {ImageType} from '../../../model/image';
@@ -33,15 +33,10 @@ const FacilityPromo = ({
   return (
     <a data-component='FacilityPromo'
       onClick={() => {
-        trackEventV2({
-          eventCategory: 'FacilityPromo',
-          eventAction: 'follow link',
-          eventLabel: title
-        });
         trackEvent({
-          category: 'component',
-          action: `FacilityPromo:click`,
-          label: `title:${title}`
+          category: 'FacilityPromo',
+          action: 'follow link',
+          label: title
         });
       }}
       id={id}
