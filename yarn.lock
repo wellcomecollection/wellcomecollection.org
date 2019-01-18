@@ -8121,10 +8121,10 @@ prismic-helpers@^1.0.0:
   resolved "https://registry.yarnpkg.com/prismic-helpers/-/prismic-helpers-1.0.0.tgz#8337420cf187f55fb7b7a8be755523c8696fc329"
   integrity sha1-gzdCDPGH9V+3t6i+dVUjyGlvwyk=
 
-prismic-javascript@2.0.0-beta.0:
-  version "2.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-2.0.0-beta.0.tgz#8ab766dfe34d69a7dc8ca047204cc8e344690a34"
-  integrity sha512-nre+7AvyQb7ulR6LmBsMyT1M4Ms00UQoaMgYGLICHLZ85xoPJKivdxyWnrbgsGO/yepxnu8C5b+2GpLvje08iA==
+prismic-javascript@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/prismic-javascript/-/prismic-javascript-2.0.1.tgz#8df01a7ae0fe8ccfe5fe7f6d2fa7de818d95ea39"
+  integrity sha512-a5nQ004OCSsw/+VxDbA14LjoI+zh8SrGX1gLdXof3UiJfbt5Gjbyap2k+/tX9a17hYGypG7LHDIvqYOjjHhopw==
   dependencies:
     cross-fetch "^2.2.0"
     promise-polyfill "8.0.0"

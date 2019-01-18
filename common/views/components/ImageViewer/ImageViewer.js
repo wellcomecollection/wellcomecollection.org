@@ -7,7 +7,7 @@ import {spacing} from '../../../utils/classnames';
 import {trackEvent} from '../../../utils/ga';
 import dynamic from 'next/dynamic';
 
-const ImageViewerImage = dynamic(import('./ImageViewerImage'));
+const ImageViewerImage = dynamic(import('./ImageViewerImage'), {ssr: false});
 
 type LaunchViewerButtonProps = {|
   classes: string,

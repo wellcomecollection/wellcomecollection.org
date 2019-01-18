@@ -34,7 +34,7 @@ type Props = {
   // We can also pass inputProps here
 }
 
-// $FlowFixMe
+// $FlowFixMe (forwardRef)
 const TextInput = React.forwardRef(({
   label,
   ...inputProps
