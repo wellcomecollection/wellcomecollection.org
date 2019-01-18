@@ -88,7 +88,8 @@ export class StoriesPage extends Component<Props> {
         openGraphType={'website'}
         siteSection={'stories'}
         imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
-        imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}>
+        imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}
+        rssUrl={'https://rss.wellcomecollection.org/stories'}>
         <SpacingSection>
           <div className={classNames({
             'row': true,
