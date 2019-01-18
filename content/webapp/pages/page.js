@@ -41,7 +41,7 @@ export class Page extends Component<Props> {
     (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
     const body = hasFeaturedMedia ? page.body.slice(1, page.body.length) : page.body;
     const FeaturedMedia = hasFeaturedMedia
-      ? page.body[0].type === 'picture' ? <UiImage {...page.body[0].value.image} />
+      ? page.body[0].type === 'picture' ? <UiImage {...(page.body[0].value.image.crops['16:9'] || page.body[0].value.image)} />
         : page.body[0].type === 'videoEmbed' ? <VideoEmbed {...page.body[0].value} />
           : null : null;
 
