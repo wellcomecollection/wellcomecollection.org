@@ -118,7 +118,7 @@ const SearchForm = ({
 
                 setQuery('');
 
-                searchInput.current.focus();
+                searchInput.current && searchInput.current.focus();
               }}
               type='button'>
               <Icon name='clear' title='Clear' />
