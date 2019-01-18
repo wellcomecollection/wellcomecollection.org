@@ -247,7 +247,7 @@ function parseArticleDoc(document: PrismicDocument): Article {
 
 function parseWebcomicDoc(document: PrismicDocument): Article {
   const {data} = document;
-  const datePublished = data.publishDate || document.first_publication_date;
+  const datePublished = data.publishDate || document.first_publication_date || undefined;
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
@@ -256,7 +256,7 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
       title: 'Comic',
       description: null
     },
-    datePublished: new Date(datePublished),
+    datePublished: london(datePublished).toDate(),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     })
