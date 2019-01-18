@@ -34,21 +34,23 @@ type Props = {
   // We can also pass inputProps here
 }
 
-const TextInput = ({
+// $FlowFixMe
+const TextInput = React.forwardRef(({
   label,
   ...inputProps
-}: Props) => {
-  return (
-    <label className='flex flex--v-center'>
-      <StyledInput
-        className={font({s: 'HNL3', m: 'HNL2'})}
-        type='text'
-        {...inputProps}/>
-      <VisuallyHidden>
-        <label>{label}</label>
-      </VisuallyHidden>
-    </label>
-  );
-};
+}: Props, ref) => (
+  <label className='flex flex--v-center'>
+    <StyledInput
+      ref={ref}
+      className={font({s: 'HNL3', m: 'HNL2'})}
+      type='text'
+      {...inputProps}/>
+    <VisuallyHidden>
+      <label>{label}</label>
+    </VisuallyHidden>
+  </label>
+));
+
+TextInput.displayName = 'TextInput';
 
 export default TextInput;

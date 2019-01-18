@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe (hooks)
-import {Fragment, useState} from 'react';
+import {Fragment, useState, useRef} from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -77,6 +77,7 @@ const SearchForm = ({
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(initialItemsLocationsLocationType);
+  const searchInput = useRef(null);
 
   return (
     <form
@@ -102,7 +103,8 @@ const SearchForm = ({
             name='query'
             value={query}
             autoFocus={query === ''}
-            onChange={(event) => setQuery(event.currentTarget.value)} />
+            onChange={(event) => setQuery(event.currentTarget.value)}
+            ref={searchInput} />
 
           {query &&
             <ClearSearch
@@ -114,8 +116,9 @@ const SearchForm = ({
                   label: 'works-search'
                 });
 
-                // TODO: re-focus input (useRef?)
                 setQuery('');
+
+                searchInput.current.focus();
               }}
               type='button'>
               <Icon name='clear' title='Clear' />
