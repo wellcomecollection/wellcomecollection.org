@@ -3,10 +3,11 @@ locals {
 }
 
 module "account" {
-  source = "git::https://github.com/wellcometrust/terraform.git//iam/prebuilt/account?ref=v18.0.0"
+  source = "git::https://github.com/wellcometrust/terraform.git//iam/prebuilt/account?ref=v19.5.0"
 
   admin_principals          = ["${local.platform_account_root}"]
   read_only_principals      = ["${local.platform_account_root}"]
+  monitoring_principals     = ["${local.platform_account_root}"]
   billing_principals        = ["${local.platform_account_root}"]
   developer_principals      = ["${local.platform_account_root}"]
   infrastructure_principals = ["${local.platform_account_root}"]
