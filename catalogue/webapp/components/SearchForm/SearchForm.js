@@ -85,13 +85,22 @@ const SearchForm = ({
       aria-describedby={ariaDescribedBy}
       onSubmit={(event) => {
         event.preventDefault();
+
+        trackEvent({
+          category: 'SearchForm',
+          action: 'submit search',
+          label: query
+        });
+
         const link = worksUrl({
           query,
           workType,
           itemsLocationsLocationType,
           page: 1
         });
+
         Router.push(link.href, link.as);
+
         return false;
       }}>
 
@@ -111,7 +120,7 @@ const SearchForm = ({
               className='absolute line-height-1 plain-button v-center no-padding'
               onClick={() => {
                 trackEvent({
-                  category: 'SearchBox',
+                  category: 'SearchForm',
                   action: 'clear search',
                   label: 'works-search'
                 });

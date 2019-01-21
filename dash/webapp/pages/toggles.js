@@ -25,7 +25,13 @@ function setCookie(name, value) {
   document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [];
+const abTests = [{
+  id: 'showSearchBoxOnWork',
+  title: 'Show the search box on work pages',
+  description:
+    `Puts a search box above the image viewer on work pages to see if ` +
+    `it has an effect on number of searches per session/pogo-sticking behaviour.`
+}];
 
 const featureToggles = [{
   id: 'showCatalogueSearchFilters',
@@ -34,12 +40,6 @@ const featureToggles = [{
     'We currently filter the results of the catalogue to show Pictures and ' +
     'Digital images work types, and only results with images.' +
     'This will show unfilter those results, and allow for filtering.'
-}, {
-  id: 'showSearchBoxOnWork',
-  title: 'Show the search box on work pages',
-  description:
-    `Puts a search box above the image viewer on work pages to see if ` +
-    `it has an effect on number of searches per session/pogo-sticking behaviour.`
 }, {
   id: 'showRevisedOpeningHours',
   title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',

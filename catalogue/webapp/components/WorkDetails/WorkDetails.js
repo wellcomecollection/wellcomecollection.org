@@ -26,11 +26,10 @@ type Props = {|
   encoreLink: ?string
 |}
 
-const SingleColumnWork = ({
+const WorkDetails = ({
   work,
   iiifImageLocationUrl,
   licenseInfo,
-  LicenseData,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink
@@ -244,4 +243,4 @@ const SingleColumnWork = ({
   );
 };
 
-export default SingleColumnWork;
+export default WorkDetails;
