@@ -44,7 +44,6 @@ const SearchResults = ({
         } key={item.id}>
           {item.type === 'pages' &&
             <CompactCard
-              promoType='PagePromo'
               url={`/pages/${item.id}`}
               title={item.title || ''}
               partNumber={null}
@@ -60,7 +59,6 @@ const SearchResults = ({
 
           {item.type === 'event-series' &&
             <CompactCard
-              promoType='EventSeriesPromo'
               url={`/event-series/${item.id}`}
               title={item.title || ''}
               partNumber={null}
@@ -76,7 +74,6 @@ const SearchResults = ({
 
           {item.type === 'books' &&
             <CompactCard
-              promoType='BooksPromo'
               url={`/books/${item.id}`}
               title={item.title || ''}
               labels={{labels: item.labels}}
@@ -96,7 +93,6 @@ const SearchResults = ({
 
           {item.type === 'article-schedule-items' &&
             <CompactCard
-              promoType='ArticlePromo'
               url={null}
               title={item.title || ''}
               partNumber={item.partNumber}
@@ -116,7 +112,6 @@ const SearchResults = ({
 
           {item.type === 'installations' &&
             <CompactCard
-              promoType='InstallationPromo'
               url={`/installations/${item.id}`}
               title={item.title}
               partNumber={null}

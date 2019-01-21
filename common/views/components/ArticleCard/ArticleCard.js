@@ -17,7 +17,6 @@ const ArticleCard = ({ article, showPosition }: Props) => {
     }).find(_ => _) : null;
 
   return (<CompactCard
-    promoType='ArticlePromo'
     url={`/articles/${article.id}`}
     title={article.title || ''}
     partNumber={partOfSerial}

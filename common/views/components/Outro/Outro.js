@@ -86,7 +86,6 @@ const Outro = ({
                   StatusIndicator={null}
                   DateInfo={null}
                   title={title}
-                  promoType={``}
                   labels={{labels: item.labels || []}}
                   url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
                   description={description} />

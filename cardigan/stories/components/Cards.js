@@ -17,7 +17,6 @@ const labelList = {labels: [
 const FeaturedCardExample = () => <FeaturedCard
   url={'https://wellcomecollection.org'}
   title={'Wellcome Collection'}
-  promoType={'ExamplePromo'}
   description={singleLineOfText(10, 25)}
   Image={<UiImage {...imageProps} />}
   DateInfo={null}
@@ -26,7 +25,6 @@ const FeaturedCardExample = () => <FeaturedCard
 const CardExample = () => <Card
   url={'https://wellcomecollection.org'}
   title={'Wellcome Collection'}
-  promoType={'ExamplePromo'}
   description={singleLineOfText(10, 25)}
   Image={<UiImage {...imageProps} />}
   DateInfo={null}
@@ -35,7 +33,6 @@ const CardExample = () => <Card
 const CompactCardExample = () => <CompactCard
   url={'https://wellcomecollection.org'}
   title={'Wellcome Collection'}
-  promoType={'ExamplePromo'}
   description={singleLineOfText(10, 25)}
   Image={<UiImage {...imageProps} />}
   DateInfo={null}

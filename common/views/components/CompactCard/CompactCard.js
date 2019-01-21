@@ -14,7 +14,6 @@ import type {ColorSelection} from '../../../model/color-selections';
 type Props = {|
   url: ?string,
   title: string,
-  promoType: string,
   labels: ElementProps<typeof LabelsList>,
   description: ?string,
   urlOverride: ?string,
@@ -29,7 +28,6 @@ type Props = {|
 const CompactCard = ({
   url,
   title,
-  promoType,
   labels,
   description,
   urlOverride,
@@ -47,7 +45,6 @@ const CompactCard = ({
   const Tag = url ? 'a' : 'div';
   return (
     <Tag
-      data-component={promoType}
       href={urlOverride || url}
       className={conditionalClassNames({
         'grid': true,
