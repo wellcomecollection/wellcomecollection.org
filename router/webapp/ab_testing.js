@@ -10,15 +10,7 @@
 // }
 
 // This is mutable for testing
-let tests = [
-  {
-    id: 'showSingleColumnWork',
-    title: 'Show work metadata in a single column',
-    shouldRun(request) {
-      return request.uri.match(/^\/works\/.+/);
-    }
-  }
-];
+let tests = [];
 
 exports.setTests = function(newTests) {
   tests = newTests;
