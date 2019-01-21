@@ -21,6 +21,31 @@ let toggles;
 let openingTimes;
 let globalAlert;
 let engagement;
+let previousTimeOnPage = 0;
+let pageHiddenTime = 0;
+let pageVisibilityLastChanged = 0;
+
+function sendPageTimeMetrics(visibleTime, hiddenTime) {
+  const isNonInteraction = Boolean(visibleTime < 10000);
+  const commonTimingObject = {
+    hitType: 'timing',
+    timingCategory: 'Engagement',
+    nonInteraction: isNonInteraction,
+    transport: 'beacon'
+  };
+  ReactGA.ga('send', {
+    ...commonTimingObject,
+    timingVar: 'Page hidden',
+    timingValue: hiddenTime
+    // 'metricY': ??? // TODO set up in analytics account
+  });
+  ReactGA.ga('send', {
+    ...commonTimingObject,
+    timingVar: 'Page visible',
+    timingValue: visibleTime
+    // 'metricX': ??? // TODO set up in analytics account
+  });
+}
 
 function triggerEngagement() {
   ReactGA.event({
@@ -36,6 +61,22 @@ function trackRouteChange() {
   );
   clearTimeout(engagement);
   engagement = setTimeout(triggerEngagement, 10000);
+  trackVisibleTimeOnPage();
+  previousTimeOnPage = window.performance.now();
+  pageVisibilityLastChanged = 0;
+  pageHiddenTime = 0;
+}
+
+function trackVisibleTimeOnPage (e) {
+  sendPageTimeMetrics(window.performance.now() - previousTimeOnPage - pageHiddenTime, pageHiddenTime);
+  // e.returnValue = 'prevent browser closing'; // TODO just for testing
+}
+
+function trackHiddenTimeOnPage () {
+  if (!document.hidden) {
+    pageHiddenTime = pageHiddenTime += (window.performance.now() - pageVisibilityLastChanged);
+  }
+  pageVisibilityLastChanged = window.performance.now();
 }
 
 export default class WecoApp extends App {
@@ -86,6 +127,18 @@ export default class WecoApp extends App {
       trackingId: 'UA-55614-6',
       titleCase: false
     }]);
+
+    try {
+      if (document.hidden) {
+        pageVisibilityLastChanged = window.performance.now(); // in case page is opened in a new tab
+      }
+      document.addEventListener('visibilitychange', trackHiddenTimeOnPage, false);
+      window.addEventListener('beforeunload', function(e) {
+        trackVisibleTimeOnPage(e);
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     try {
       ReactGA.set({'dimension5': JSON.stringify(toggles)});
