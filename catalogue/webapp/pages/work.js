@@ -1,21 +1,13 @@
 // @flow
 import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
 import {Fragment} from 'react';
-import NextLink from 'next/link';
 import Router from 'next/router';
-import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import {convertImageUri, iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
+import {spacing, grid, classNames} from '@weco/common/utils/classnames';
+import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
-import License from '@weco/common/views/components/License/License';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
