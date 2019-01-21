@@ -401,10 +401,10 @@ export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
 }
 
 export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
-  const reorderedEvents = sortBy([...events].filter(getNextDateInFuture), event => {
-    const nextDateInFuture = getNextDateInFuture(event);
-    return nextDateInFuture;
-  });
+  const reorderedEvents = sortBy(
+    [...events].filter(getNextDateInFuture),
+    getNextDateInFuture
+  );
 
   return reorderedEvents;
 }
