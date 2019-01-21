@@ -406,8 +406,6 @@ export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
     return nextDateInFuture;
   });
 
-  console.info(reorderedEvents);
-
   return reorderedEvents;
 }
 
