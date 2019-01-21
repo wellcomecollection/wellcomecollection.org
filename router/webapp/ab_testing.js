@@ -10,7 +10,13 @@
 // }
 
 // This is mutable for testing
-let tests = [];
+let tests = [{
+  id: 'showSearchBoxOnWork',
+  title: 'Show search box on work pages',
+  shouldRun(request) {
+    return request.uri.match(/^\/works\/.+/);
+  }
+}];
 
 exports.setTests = function(newTests) {
   tests = newTests;

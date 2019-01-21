@@ -14,7 +14,7 @@ import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import SingleColumnWork from '../components/SingleColumnWork/SingleColumnWork';
+import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 
 type Props = {|
@@ -137,7 +137,7 @@ export const WorkPage = ({
           iiifUrl={iiifImageLocationUrl}
           title={work.title} />}
 
-        <SingleColumnWork
+        <WorkDetails
           work={work}
           iiifImageLocationUrl={iiifImageLocationUrl}
           licenseInfo={licenseInfo}
