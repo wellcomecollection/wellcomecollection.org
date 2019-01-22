@@ -1,8 +1,7 @@
 // @flow
 import type {NextLinkType} from '../../../model/next-link-type';
 import NextLink from 'next/link';
-import ReactGA from 'react-ga';
-import {trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import {spacing, font} from '../../../utils/classnames';
 
 export type TagProps = {|
@@ -28,16 +27,10 @@ const Tags = ({ tags }: Props) => {
 
 const Tag = ({text, link}: TagProps) => {
   function trackTagClick() {
-    ReactGA.event({
-      category: 'component',
-      action: 'Tag:click',
-      label: `text:${text}`
-    });
-
-    trackEventV2({
-      eventCategory: 'Tags',
-      eventAction: 'follow link',
-      eventLabel: `${text}`
+    trackEvent({
+      category: 'Tags',
+      action: 'follow link',
+      label: `${text}`
     });
   }
 

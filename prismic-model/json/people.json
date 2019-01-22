@@ -50,17 +50,11 @@
           "title": {
             "type": "StructuredText",
             "config": {
-              "label": "Title (override)",
-              "single": "heading1"
+              "single": "paragraph,hyperlink,strong,em",
+              "label": "Link text"
             }
           }
         }
-      }
-    },
-    "twitterHandle": {
-      "type": "Text",
-      "config": {
-        "label": "Twitter handle (deprecated)"
       }
     }
   }

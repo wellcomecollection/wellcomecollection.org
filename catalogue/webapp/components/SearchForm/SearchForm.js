@@ -1,12 +1,12 @@
 // @flow
 // $FlowFixMe (hooks)
-import {Fragment, useState} from 'react';
+import {Fragment, useState, useRef} from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {classNames, font} from '@weco/common/utils/classnames';
-import {trackEvent, trackEventV2} from '@weco/common/utils/ga';
+import {trackEvent} from '@weco/common/utils/ga';
 import {worksUrl} from '../../services/catalogue/urls';
 
 const workTypes = [
@@ -77,6 +77,7 @@ const SearchForm = ({
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(initialItemsLocationsLocationType);
+  const searchInput = useRef(null);
 
   return (
     <form
@@ -84,13 +85,22 @@ const SearchForm = ({
       aria-describedby={ariaDescribedBy}
       onSubmit={(event) => {
         event.preventDefault();
+
+        trackEvent({
+          category: 'SearchForm',
+          action: 'submit search',
+          label: query
+        });
+
         const link = worksUrl({
           query,
           workType,
           itemsLocationsLocationType,
           page: 1
         });
+
         Router.push(link.href, link.as);
+
         return false;
       }}>
 
@@ -102,25 +112,22 @@ const SearchForm = ({
             name='query'
             value={query}
             autoFocus={query === ''}
-            onChange={(event) => setQuery(event.currentTarget.value)} />
+            onChange={(event) => setQuery(event.currentTarget.value)}
+            ref={searchInput} />
 
           {query &&
             <ClearSearch
               className='absolute line-height-1 plain-button v-center no-padding'
               onClick={() => {
                 trackEvent({
-                  category: 'component',
-                  action: `clear-search:click`,
-                  label: `input-id:works-search`
+                  category: 'SearchForm',
+                  action: 'clear search',
+                  label: 'works-search'
                 });
-                trackEventV2({
-                  eventCategory: 'SearchBox',
-                  eventAction: 'clear search',
-                  eventLabel: 'works-search'
-                });
-                const link = worksUrl({query: null, page: null});
+
                 setQuery('');
-                Router.push(link.href, link.as);
+
+                searchInput.current && searchInput.current.focus();
               }}
               type='button'>
               <Icon name='clear' title='Clear' />

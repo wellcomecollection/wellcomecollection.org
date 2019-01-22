@@ -26,10 +26,11 @@ function setCookie(name, value) {
 }
 
 const abTests = [{
-  id: 'showSingleColumnWork',
-  title: 'Show work metadata in a single column',
+  id: 'showSearchBoxOnWork',
+  title: 'Show the search box on work pages',
   description:
-    `Uses a single column to display work information.`
+    `Puts a search box above the image viewer on work pages to see if ` +
+    `it has an effect on number of searches per session/pogo-sticking behaviour.`
 }];
 
 const featureToggles = [{
@@ -39,12 +40,6 @@ const featureToggles = [{
     'We currently filter the results of the catalogue to show Pictures and ' +
     'Digital images work types, and only results with images.' +
     'This will show unfilter those results, and allow for filtering.'
-}, {
-  id: 'showWorkRedesign',
-  title: 'Show the work page prototype',
-  description:
-    `Uses the work page prototype. Note, being in this group will take precedence ` +
-    `over the 'Show the single column work page' group.`
 }, {
   id: 'showRevisedOpeningHours',
   title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',

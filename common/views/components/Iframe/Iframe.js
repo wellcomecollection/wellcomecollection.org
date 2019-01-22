@@ -1,7 +1,7 @@
 // @flow
 import {Component, Fragment, createRef} from 'react';
 import {classNames} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import {UiImage} from '../Images/Images';
 import Icon from '../Icon/Icon';
 import type {ImageType} from '../../../model/image';
@@ -25,14 +25,9 @@ class Iframe extends Component<Props, State> {
   toggleIframeDisplay = () => {
     if (!this.state.iframeShowing) {
       trackEvent({
-        category: 'component',
-        action: 'launch-iframe:click',
-        label: `iframeSrc:${this.props.src}`
-      });
-      trackEventV2({
-        eventCategory: 'Iframe',
-        eventAction: 'launch iframe',
-        eventLabel: this.props.src
+        category: 'Iframe',
+        action: 'launch iframe',
+        label: this.props.src
       });
     }
     this.setState(prevState => ({

@@ -32,6 +32,7 @@ type Props = {|
   imageUrl: ?string,
   imageAltText: ?string,
   oEmbedUrl?: string,
+  rssUrl?: string,
   children: Node
 |}
 
@@ -45,6 +46,7 @@ const PageLayout = ({
   imageUrl,
   imageAltText,
   oEmbedUrl,
+  rssUrl,
   children
 }: Props) => {
   const urlString = convertUrlToString(url);
@@ -84,6 +86,13 @@ const PageLayout = ({
         />
 
         <JsonLd data={jsonLd} />
+
+        {rssUrl && <link
+          rel='alternate'
+          href={rssUrl}
+          title='RSS'
+          type='application/rss+xml' />
+        }
       </Head>
 
       <div className={isPreview ? 'is-preview' : undefined}>

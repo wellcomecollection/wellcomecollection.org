@@ -26,11 +26,10 @@ type Props = {|
   encoreLink: ?string
 |}
 
-const SingleColumnWork = ({
+const WorkDetails = ({
   work,
   iiifImageLocationUrl,
   licenseInfo,
-  LicenseData,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink
@@ -61,14 +60,9 @@ const SingleColumnWork = ({
                     download={`${work.id}.jpg`}
                     rel='noopener noreferrer'
                     trackingEvent={{
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: ${work.id} , size:original, title:${encodeURI(work.title.substring(50))}`
-                    }}
-                    trackingEventV2={{
-                      eventCategory: 'Button',
-                      eventAction: 'download large work image',
-                      eventLabel: work.id
+                      category: 'Button',
+                      action: 'download large work image',
+                      label: work.id
                     }}
                     icon='download'
                     text='Download full size' />
@@ -81,14 +75,9 @@ const SingleColumnWork = ({
                     download={`${work.id}.jpg`}
                     rel='noopener noreferrer'
                     trackingEvent={{
-                      category: 'component',
-                      action: 'download-button:click',
-                      label: `id: $work.id} , size:760, title:${work.title.substring(50)}`
-                    }}
-                    trackingEventV2={{
-                      eventCategory: 'Button',
-                      eventAction: 'download small work image',
-                      eventLabel: work.id
+                      category: 'Button',
+                      action: 'download small work image',
+                      label: work.id
                     }}
                     icon='download'
                     text='Download small (760px)' />
@@ -254,4 +243,4 @@ const SingleColumnWork = ({
   );
 };
 
-export default SingleColumnWork;
+export default WorkDetails;

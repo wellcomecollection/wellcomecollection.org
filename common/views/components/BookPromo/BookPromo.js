@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import UiImage from '../Image/Image';
 import Icon from '../Icon/Icon';
 import type {ImageType} from '../../../model/image';
@@ -28,15 +28,10 @@ const BookPromo = ({
       href={url}
       className={`book-promo ${spacing({s: 10}, {margin: ['top']})} ${spacing({s: 4, m: 5}, {margin: ['bottom']})} ${spacing({s: 4}, {padding: ['top', 'right', 'bottom', 'left']})} rounded-diagonal`}
       onClick={() => {
-        trackEventV2({
-          eventCategory: 'BookPromo',
-          eventAction: 'follow link',
-          eventLabel: title
-        });
         trackEvent({
-          category: 'component',
-          action: 'BookPromo:click',
-          label: `title:${title}`
+          category: 'BookPromo',
+          action: 'follow link',
+          label: title
         });
       }}>
       <div className={`book-promo__image-container ${spacing({s: 4}, {margin: ['right', 'bottom']})}`}>

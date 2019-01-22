@@ -2,7 +2,7 @@
 import {Component, Fragment} from 'react';
 import {classNames, spacing, font} from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 
 type Props = {|
   id: string,
@@ -115,15 +115,9 @@ class SegmentedControl extends Component<Props, State> {
                       const isHash = url.startsWith('#');
 
                       trackEvent({
-                        category: 'component',
-                        action: 'whats-on-daterange-picker:click',
-                        label: 'title:' + item.text
-                      });
-
-                      trackEventV2({
-                        eventCategory: 'SegmentedControl',
-                        eventAction: 'select segment',
-                        eventLabel: item.text
+                        category: 'SegmentedControl',
+                        action: 'select segment',
+                        label: item.text
                       });
 
                       this.setActiveId(item.id);
@@ -177,15 +171,9 @@ class SegmentedControl extends Component<Props, State> {
                   const isHash = url.startsWith('#');
 
                   trackEvent({
-                    category: 'component',
-                    action: 'whats-on-daterange-picker:click',
-                    label: 'title:' + item.text
-                  });
-
-                  trackEventV2({
-                    eventCategory: 'SegmentedControl',
-                    eventAction: 'select segment',
-                    eventLabel: item.text
+                    category: 'SegmentedControl',
+                    action: 'select segment',
+                    label: item.text
                   });
 
                   this.setActiveId(item.id);

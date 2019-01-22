@@ -33,14 +33,9 @@ const WorkMedia = ({
           extraClasses='scroll-to-info js-scroll-to-info js-work-media-control flush-container-right'
           url='#work-info'
           trackingEvent={{
-            category: 'component',
-            action: 'scroll-to-info:click',
-            label: 'scrolled-to-id:work-info'
-          }}
-          trackingEventV2={{
-            eventCategory: 'Control',
-            eventAction: 'scroll to work info',
-            eventLabel: id
+            category: 'Control',
+            action: 'scroll to work info',
+            label: id
           }}
           icon='chevron'
           text='Scroll to info' />

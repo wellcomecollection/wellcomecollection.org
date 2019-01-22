@@ -562,6 +562,7 @@
   &:focus {
     .card-link__title {
       text-decoration: underline;
+      text-decoration-color: color('green');
     }
   }
 }

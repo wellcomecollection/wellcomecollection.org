@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import Image from '../Image/Image';
 import type {Picture} from '../../../model/picture';
 
@@ -18,15 +18,10 @@ const InstallationPromo = ({ id, title, description, image, start, end, position
   return (
     <a
       onClick={() => {
-        trackEventV2({
-          eventCategory: 'InstallationPromo',
-          eventAction: 'follow link',
-          eventLabel: `${title} | position: ${position}`
-        });
         trackEvent({
-          category: 'component',
-          action: `InstallationPromo:click`,
-          label: `title:${title}, position:${position}`
+          category: 'InstallationPromo',
+          action: 'follow link',
+          label: `${title} | position: ${position}`
         });
       }}
       id={id}

@@ -1,7 +1,7 @@
 // @flow
 
-import type {GaEvent, GaEventV2} from '../../../../utils/ga';
-import {trackEvent, trackEventV2} from '../../../../utils/ga';
+import type {GaEvent} from '../../../../utils/ga';
+import {trackEvent} from '../../../../utils/ga';
 import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
@@ -12,7 +12,6 @@ type Props = {|
   icon?: string,
   text: string,
   trackingEvent?: GaEvent,
-  trackingEventV2?: GaEventV2,
   id?: string,
   disabled?: boolean,
   target?: string,
@@ -29,7 +28,6 @@ const Button = ({
   icon,
   text,
   trackingEvent,
-  trackingEventV2,
   disabled,
   target,
   download,
@@ -46,9 +44,6 @@ const Button = ({
     }
     if (trackingEvent) {
       trackEvent(trackingEvent);
-    }
-    if (trackingEventV2) {
-      trackEventV2(trackingEventV2);
     }
   }
   return (

@@ -1,6 +1,6 @@
 // @flow
 import {spacing, font} from '../../../utils/classnames';
-import {trackEvent, trackEventV2} from '../../../utils/ga';
+import {trackEvent} from '../../../utils/ga';
 import {UiImage} from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
@@ -32,15 +32,10 @@ const EventPromo = ({
       href={event.promo && event.promo.link || `/events/${event.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
       onClick={() => {
-        trackEventV2({
-          eventCategory: 'EventPromo',
-          eventAction: 'follow link',
-          eventLabel: `${event.id} | position: ${position}`
-        });
         trackEvent({
-          category: 'component',
-          action: 'EventPromo:click',
-          label: `id:${event.id}, position:${position}`
+          category: 'EventPromo',
+          action: 'follow link',
+          label: `${event.id} | position: ${position}`
         });
       }}>
       <div className='relative'>
