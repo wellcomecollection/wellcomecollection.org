@@ -20,7 +20,6 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
-let engagement;
 let previousTimeOnPage = 0;
 let pageHiddenTime = 0;
 let pageVisibilityLastChanged = 0;
@@ -30,14 +29,6 @@ function sendPageTimeMetrics(visibleTime, hiddenTime) {
   const isNonInteraction = ;
 
 
-}
-
-function triggerEngagement() {
-  ReactGA.event({
-    category: 'Engagement',
-    action: 'Time on page >=',
-    label: '10 seconds'
-  });
 }
 
 function trackVisibleTimeOnPage () {
@@ -58,8 +49,6 @@ function trackRouteChange() {
   ReactGA.pageview(
     `${window.location.pathname}${window.location.search}`
   );
-  clearTimeout(engagement);
-  engagement = setTimeout(triggerEngagement, 10000);
   trackVisibleTimeOnPage();
   previousTimeOnPage = window.performance.now();
   pageVisibilityLastChanged = 0;
@@ -131,7 +120,7 @@ export default class WecoApp extends App {
         trackVisibleTimeOnPage(e);
       });
     } catch (error) {
-      console.log(error);
+      // nada
     }
 
     try {
@@ -142,7 +131,6 @@ export default class WecoApp extends App {
 
     ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
 
-    engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChange);
 
     // TODO: Is there a better implementation of this
