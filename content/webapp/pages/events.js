@@ -24,8 +24,8 @@ export class ArticleSeriesPage extends Component<Props> {
     const { period = 'current-and-coming-up' } = ctx.query;
     const events = await getEvents(ctx.req, {
       page,
-      pageSize: 100,
-      period
+      period,
+      pageSize: 100
     });
     if (events && events.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';

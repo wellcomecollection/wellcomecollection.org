@@ -269,7 +269,8 @@ export class WhatsOnPage extends Component<Props> {
       order: 'asc'
     });
     const eventsPromise = getEvents(ctx.req, {
-      period: 'current-and-coming-up'
+      period: 'current-and-coming-up',
+      pageSize: 100
     });
 
     const [exhibitions, events] = await Promise.all([
