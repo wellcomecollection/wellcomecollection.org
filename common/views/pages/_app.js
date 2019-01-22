@@ -24,9 +24,6 @@ let previousTimeOnPage = 0;
 let pageHiddenTime = 0;
 let pageVisibilityLastChanged = 0;
 
-// TEST SPA
-// TEST normal
-
 function trackVisibleTimeOnPage () {
   const visibleTime = Math.round(window.performance.now() - previousTimeOnPage - pageHiddenTime);
   trackEvent({
@@ -37,7 +34,6 @@ function trackVisibleTimeOnPage () {
     transport: 'beacon'
     // 'metricX': ??? // TODO possibly send to a custom metric
   });
-  // e.returnValue = 'prevent browser closing'; // TODO just for testing
 }
 
 function trackRouteChange() {
@@ -112,7 +108,7 @@ export default class WecoApp extends App {
       }
       document.addEventListener('visibilitychange', trackHiddenTimeOnPage, false);
       window.addEventListener('beforeunload', function(e) {
-        trackVisibleTimeOnPage(e);
+        trackVisibleTimeOnPage();
       });
     } catch (error) {
       // nada
