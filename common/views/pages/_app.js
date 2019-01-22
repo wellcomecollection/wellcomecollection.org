@@ -111,7 +111,7 @@ export default class WecoApp extends App {
       if (document.hidden) {
         pageVisibilityLastChanged = window.performance.now(); // in case page is opened in a new tab
       }
-      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage, false);
+      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage);
       window.addEventListener('beforeunload', trackVisibleTimeOnPage);
     } catch (error) {
       // nada
