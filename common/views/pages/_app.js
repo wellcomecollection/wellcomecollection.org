@@ -114,7 +114,11 @@ export default class WecoApp extends App {
       document.addEventListener('visibilitychange', calculateHiddenTimeOnPage);
       window.addEventListener('beforeunload', trackVisibleTimeOnPage);
     } catch (error) {
-      // nada
+      trackEvent({
+        category: 'Engagement',
+        action: 'unable to track time page is visible',
+        nonInteraction: true
+      });
     }
 
     try {
