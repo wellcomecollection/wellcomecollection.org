@@ -90,13 +90,11 @@ export default class WecoApp extends App {
   componentWillUnmount() {
     Router.events.off('routeChangeStart',  trackRouteChange);
     try {
-      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage, false);
-      window.addEventListener('beforeunload', trackVisibleTimeOnPage);
+      document.removeEventListener('visibilitychange', calculateHiddenTimeOnPage);
+      window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
     } catch (error) {
       // nada
     }
-    document.removeEventListener('visibilitychange', trackHiddenTimeOnPage);
-    window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
   }
 
   componentDidMount() {
