@@ -28,7 +28,7 @@ function trackVisibleTimeOnPage () {
   const visibleTime = Math.round(window.performance.now() - previousTimeOnPage - pageHiddenTime);
   trackEvent({
     category: 'Engagement',
-    action: 'Time page is visible',
+    action: 'time page is visible',
     value: visibleTime,
     nonInteraction: Boolean(visibleTime < 10000),
     transport: 'beacon'
