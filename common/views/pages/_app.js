@@ -25,18 +25,11 @@ let previousTimeOnPage = 0;
 let pageHiddenTime = 0;
 let pageVisibilityLastChanged = 0;
 
+// tidy up
 function sendPageTimeMetrics(visibleTime, hiddenTime) {
-  const isNonInteraction = Boolean(visibleTime < 10000);
+  const isNonInteraction = ;
 
-  ReactGA.ga('send', {
-    hitType: 'timing',
-    timingCategory: 'Engagement',
-    nonInteraction: isNonInteraction,
-    transport: 'beacon'
-    timingVar: 'Page visible',
-    timingValue: visibleTime
-    // 'metricX': ??? // TODO set up in analytics account
-  });
+
 }
 
 function triggerEngagement() {
@@ -45,6 +38,20 @@ function triggerEngagement() {
     action: 'Time on page >=',
     label: '10 seconds'
   });
+}
+
+function trackVisibleTimeOnPage () {
+  const visibleTime = window.performance.now() - previousTimeOnPage - pageHiddenTime; // TODO round
+  ReactGA.ga('send', { // use .event?
+    hitType: 'event',
+    eventCategory: 'Engagement',
+    eventAction: 'Time page is visible'
+    eventValue: visibleTime
+    nonInteraction: Boolean(visibleTime < 10000),
+    transport: 'beacon'
+    // 'metricX': ??? // TODO possibly send to a custom metric
+  });
+  // e.returnValue = 'prevent browser closing'; // TODO just for testing
 }
 
 function trackRouteChange() {
@@ -57,11 +64,6 @@ function trackRouteChange() {
   previousTimeOnPage = window.performance.now();
   pageVisibilityLastChanged = 0;
   pageHiddenTime = 0;
-}
-
-function trackVisibleTimeOnPage (e) {
-  sendPageTimeMetrics(window.performance.now() - previousTimeOnPage - pageHiddenTime, pageHiddenTime);
-  // e.returnValue = 'prevent browser closing'; // TODO just for testing
 }
 
 function trackHiddenTimeOnPage () {
