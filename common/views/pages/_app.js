@@ -27,20 +27,12 @@ let pageVisibilityLastChanged = 0;
 
 function sendPageTimeMetrics(visibleTime, hiddenTime) {
   const isNonInteraction = Boolean(visibleTime < 10000);
-  const commonTimingObject = {
+
+  ReactGA.ga('send', {
     hitType: 'timing',
     timingCategory: 'Engagement',
     nonInteraction: isNonInteraction,
     transport: 'beacon'
-  };
-  ReactGA.ga('send', {
-    ...commonTimingObject,
-    timingVar: 'Page hidden',
-    timingValue: hiddenTime
-    // 'metricY': ??? // TODO set up in analytics account
-  });
-  ReactGA.ga('send', {
-    ...commonTimingObject,
     timingVar: 'Page visible',
     timingValue: visibleTime
     // 'metricX': ??? // TODO set up in analytics account
