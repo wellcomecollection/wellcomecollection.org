@@ -18,7 +18,7 @@ export type GaEvent = {|
   category: string,
   action: string,
   label?: string,
-  value?: string | number,
+  value?: number,
   nonInteraction?: boolean,
   transport?: string
 |}
