@@ -20,7 +20,6 @@ type Props = {|
   work: Work | CatalogueApiError,
   query: ?string,
   page: ?number,
-  showRedesign: boolean,
   showSearchBoxOnWork: boolean
 |}
 
@@ -28,7 +27,6 @@ export const WorkPage = ({
   work,
   query,
   page,
-  showRedesign,
   showSearchBoxOnWork
 }: Props) => {
   if (work.type === 'Error') {
