@@ -24,15 +24,8 @@ let previousTimeOnPage = 0;
 let pageHiddenTime = 0;
 let pageVisibilityLastChanged = 0;
 
-// tidy up
-function sendPageTimeMetrics(visibleTime, hiddenTime) {
-  const isNonInteraction = ;
-
-
-}
-
 function trackVisibleTimeOnPage () {
-  const visibleTime = window.performance.now() - previousTimeOnPage - pageHiddenTime; // TODO round
+  const visibleTime = Math.round(window.performance.now() - previousTimeOnPage - pageHiddenTime);
   ReactGA.ga('send', { // use .event?
     hitType: 'event',
     eventCategory: 'Engagement',
