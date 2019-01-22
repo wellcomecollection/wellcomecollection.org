@@ -10,7 +10,6 @@ import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import WorkRedesign from '../components/WorkRedesign/WorkRedesign';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
@@ -21,7 +20,6 @@ type Props = {|
   work: Work | CatalogueApiError,
   query: ?string,
   page: ?number,
-  showRedesign: boolean,
   showSearchBoxOnWork: boolean
 |}
 
@@ -29,7 +27,6 @@ export const WorkPage = ({
   work,
   query,
   page,
-  showRedesign,
   showSearchBoxOnWork
 }: Props) => {
   if (work.type === 'Error') {
@@ -56,17 +53,6 @@ export const WorkPage = ({
   ) || {}).value;
   // We strip the last character as that's what Wellcome Library expect
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
-
-  if (showRedesign) {
-    return (
-      <WorkRedesign
-        work={work}
-        iiifImageLocationUrl={iiifImageLocationUrl}
-        licenseInfo={licenseInfo}
-        iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId} />
-    );
-  }
 
   const imageContentUrl = iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
   return (
@@ -152,7 +138,6 @@ export const WorkPage = ({
 WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> => {
   const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
-  const showRedesign = Boolean(ctx.query.toggles.showWorkRedesign);
   const showSearchBoxOnWork = Boolean(ctx.query.toggles.showSearchBoxOnWork);
 
   if (workOrError && workOrError.type === 'Redirect') {
@@ -171,7 +156,6 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       query,
       work: workOrError,
       page: page ? parseInt(page, 10) : null,
-      showRedesign,
       showSearchBoxOnWork
     };
   }
