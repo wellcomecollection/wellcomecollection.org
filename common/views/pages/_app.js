@@ -13,7 +13,7 @@ import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
-
+import {trackEvent} from '../../utils/ga';
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
@@ -24,13 +24,15 @@ let previousTimeOnPage = 0;
 let pageHiddenTime = 0;
 let pageVisibilityLastChanged = 0;
 
+// TEST SPA
+// TEST normal
+
 function trackVisibleTimeOnPage () {
   const visibleTime = Math.round(window.performance.now() - previousTimeOnPage - pageHiddenTime);
-  ReactGA.ga('send', { // use .event?
-    hitType: 'event',
-    eventCategory: 'Engagement',
-    eventAction: 'Time page is visible'
-    eventValue: visibleTime
+  trackEvent({
+    category: 'Engagement',
+    action: 'Time page is visible',
+    value: visibleTime,
     nonInteraction: Boolean(visibleTime < 10000),
     transport: 'beacon'
     // 'metricX': ??? // TODO possibly send to a custom metric
