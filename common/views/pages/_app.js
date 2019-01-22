@@ -20,26 +20,26 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
-let previousTimeOnPage = 0;
-let pageHiddenTime = 0;
+let previouslyAccruedTimeOnSpaPage = 0;
+let accruedHiddenTimeOnPage = 0;
 let pageVisibilityLastChanged = 0;
 
 function trackVisibleTimeOnPage () {
-  const visibleTime = Math.round(window.performance.now() - previousTimeOnPage - pageHiddenTime);
+  const accruedVisibleTimeOnPage = Math.round(window.performance.now() - previouslyAccruedTimeOnSpaPage - accruedHiddenTimeOnPage);
   trackEvent({
     category: 'Engagement',
     action: 'time page is visible',
-    value: visibleTime,
-    nonInteraction: Boolean(visibleTime < 10000),
+    value: accruedVisibleTimeOnPage,
+    nonInteraction: Boolean(accruedVisibleTimeOnPage < 10000),
     transport: 'beacon'
   });
 }
 
 function trackRouteChange() {
   trackVisibleTimeOnPage();
-  previousTimeOnPage = window.performance.now();
+  previouslyAccruedTimeOnSpaPage = window.performance.now();
   pageVisibilityLastChanged = 0;
-  pageHiddenTime = 0;
+  accruedHiddenTimeOnPage = 0;
   ReactGA.pageview(
     `${window.location.pathname}${window.location.search}`
   );
@@ -47,7 +47,7 @@ function trackRouteChange() {
 
 function calculateHiddenTimeOnPage () {
   if (!document.hidden) {
-    pageHiddenTime = pageHiddenTime += (window.performance.now() - pageVisibilityLastChanged);
+    accruedHiddenTimeOnPage = accruedHiddenTimeOnPage += (window.performance.now() - pageVisibilityLastChanged);
   }
   pageVisibilityLastChanged = window.performance.now();
 }
