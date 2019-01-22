@@ -32,21 +32,20 @@ function trackVisibleTimeOnPage () {
     value: visibleTime,
     nonInteraction: Boolean(visibleTime < 10000),
     transport: 'beacon'
-    // 'metricX': ??? // TODO possibly send to a custom metric
   });
 }
 
 function trackRouteChange() {
-  ReactGA.pageview(
-    `${window.location.pathname}${window.location.search}`
-  );
   trackVisibleTimeOnPage();
   previousTimeOnPage = window.performance.now();
   pageVisibilityLastChanged = 0;
   pageHiddenTime = 0;
+  ReactGA.pageview(
+    `${window.location.pathname}${window.location.search}`
+  );
 }
 
-function trackHiddenTimeOnPage () {
+function calculateHiddenTimeOnPage () {
   if (!document.hidden) {
     pageHiddenTime = pageHiddenTime += (window.performance.now() - pageVisibilityLastChanged);
   }
@@ -90,6 +89,14 @@ export default class WecoApp extends App {
 
   componentWillUnmount() {
     Router.events.off('routeChangeStart',  trackRouteChange);
+    try {
+      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage, false);
+      window.addEventListener('beforeunload', trackVisibleTimeOnPage);
+    } catch (error) {
+      // nada
+    }
+    document.removeEventListener('visibilitychange', trackHiddenTimeOnPage);
+    window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
   }
 
   componentDidMount() {
@@ -106,10 +113,8 @@ export default class WecoApp extends App {
       if (document.hidden) {
         pageVisibilityLastChanged = window.performance.now(); // in case page is opened in a new tab
       }
-      document.addEventListener('visibilitychange', trackHiddenTimeOnPage, false);
-      window.addEventListener('beforeunload', function(e) {
-        trackVisibleTimeOnPage();
-      });
+      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage, false);
+      window.addEventListener('beforeunload', trackVisibleTimeOnPage);
     } catch (error) {
       // nada
     }
