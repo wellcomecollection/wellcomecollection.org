@@ -17,7 +17,10 @@ export function trackIfOutboundLink(url: string) {
 export type GaEvent = {|
   category: string,
   action: string,
-  label: string
+  label?: string,
+  value?: number,
+  nonInteraction?: boolean,
+  transport?: 'beacon'
 |}
 
 export type GaEventV2 = {|

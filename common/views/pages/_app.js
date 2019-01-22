@@ -13,29 +13,43 @@ import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
-
+import {trackEvent} from '../../utils/ga';
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
 let toggles;
 let openingTimes;
 let globalAlert;
-let engagement;
+let previouslyAccruedTimeOnSpaPage = 0;
+let accruedHiddenTimeOnPage = 0;
+let pageVisibilityLastChanged = 0;
 
-function triggerEngagement() {
-  ReactGA.event({
+function trackVisibleTimeOnPage () {
+  const accruedVisibleTimeOnPage = Math.round(window.performance.now() - previouslyAccruedTimeOnSpaPage - accruedHiddenTimeOnPage);
+  trackEvent({
     category: 'Engagement',
-    action: 'Time on page >=',
-    label: '10 seconds'
+    action: 'time page is visible',
+    value: accruedVisibleTimeOnPage,
+    nonInteraction: Boolean(accruedVisibleTimeOnPage < 10000),
+    transport: 'beacon'
   });
 }
 
 function trackRouteChange() {
+  trackVisibleTimeOnPage();
+  previouslyAccruedTimeOnSpaPage = window.performance.now();
+  pageVisibilityLastChanged = 0;
+  accruedHiddenTimeOnPage = 0;
   ReactGA.pageview(
     `${window.location.pathname}${window.location.search}`
   );
-  clearTimeout(engagement);
-  engagement = setTimeout(triggerEngagement, 10000);
+}
+
+function calculateHiddenTimeOnPage () {
+  if (!document.hidden) {
+    accruedHiddenTimeOnPage = accruedHiddenTimeOnPage += (window.performance.now() - pageVisibilityLastChanged);
+  }
+  pageVisibilityLastChanged = window.performance.now();
 }
 
 export default class WecoApp extends App {
@@ -75,6 +89,12 @@ export default class WecoApp extends App {
 
   componentWillUnmount() {
     Router.events.off('routeChangeStart',  trackRouteChange);
+    try {
+      document.removeEventListener('visibilitychange', calculateHiddenTimeOnPage);
+      window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
+    } catch (error) {
+      // nada
+    }
   }
 
   componentDidMount() {
@@ -88,6 +108,20 @@ export default class WecoApp extends App {
     }]);
 
     try {
+      if (document.hidden) {
+        pageVisibilityLastChanged = window.performance.now(); // in case page is opened in a new tab
+      }
+      document.addEventListener('visibilitychange', calculateHiddenTimeOnPage);
+      window.addEventListener('beforeunload', trackVisibleTimeOnPage);
+    } catch (error) {
+      trackEvent({
+        category: 'Engagement',
+        action: 'unable to track time page is visible',
+        nonInteraction: true
+      });
+    }
+
+    try {
       ReactGA.set({'dimension5': JSON.stringify(toggles)});
     } catch (error) {
       // don't do anything
@@ -95,7 +129,6 @@ export default class WecoApp extends App {
 
     ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
 
-    engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChange);
 
     // TODO: Is there a better implementation of this
