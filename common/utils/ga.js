@@ -20,7 +20,7 @@ export type GaEvent = {|
   label?: string,
   value?: number,
   nonInteraction?: boolean,
-  transport?: string
+  transport?: 'beacon'
 |}
 
 export type GaEventV2 = {|
