@@ -216,11 +216,14 @@ jobs:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
-            name: Install deps
-            command: yarn
+          name: Install deps
+          command: yarn
       - run:
-            name: Run tests
-            command: yarn test
+          name: Run tests
+          command: yarn test
+      - run:
+          name: Build lambda ZIP
+          command: zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
 workflows:
   version: 2
   build_and_deploy:
