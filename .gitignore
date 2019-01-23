@@ -15,6 +15,7 @@ pa11y-report.html
 *.tfvars
 *.tfstate
 *.tfstate.backup
+.terraform.tfstate.lock.info
 
 # Privates
 .env

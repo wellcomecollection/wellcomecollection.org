@@ -26,7 +26,7 @@ data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
 }
 
 module "static" {
-  source = "../../shared-infra/terraform/https-s3-website"
+  source = "../../terraform-modules/https_s3_website"
   website_uri = "static.wellcomecollection.org"
   acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
 }
