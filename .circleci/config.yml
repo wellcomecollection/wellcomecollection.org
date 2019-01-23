@@ -257,3 +257,6 @@ workflows:
       - cardigan:
           requires:
             - checkout_code
+      - edge_lambdas:
+          requires:
+            - checkout_code
