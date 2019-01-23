@@ -225,7 +225,7 @@ jobs:
           name: Build lambda ZIP
           command: |
             zip -r edge_lambda_origin.zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
-            mkdirp /tmp/artifacts
+            mkdir -p /tmp/artifacts
             cp edge_lambda_origin.zip /tmp/artifacts
       - persist_to_workspace:
           root: /tmp/artifacts
