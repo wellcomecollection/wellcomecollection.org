@@ -207,7 +207,7 @@ jobs:
                     aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
                 popd
             fi
-  edge_lambdas:
+  edge_lambdas_build:
     docker:
       - image: circleci/node:8.11.3
     working_directory: /home/circleci/wellcomecollection.org/router/webapp
@@ -224,6 +224,9 @@ jobs:
       - run:
           name: Build lambda ZIP
           command: zip -r edge_lambda_origin.zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
+      - store_artifacts:
+          path: edge_lambda_origin.zip
+          destination: edge_lambdas
 workflows:
   version: 2
   build_and_deploy:
@@ -265,6 +268,6 @@ workflows:
   edge_lambdas:
     jobs:
       - checkout_code
-      - edge_lambdas:
+      - edge_lambdas_build:
           requires:
             - checkout_code
