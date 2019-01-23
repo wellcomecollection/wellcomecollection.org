@@ -261,6 +261,7 @@ workflows:
             - checkout_code
   edge_lambdas:
     jobs:
+      - checkout_code
       - edge_lambdas:
           requires:
             - checkout_code
