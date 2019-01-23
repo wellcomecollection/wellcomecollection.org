@@ -223,7 +223,7 @@ jobs:
           command: yarn test
       - run:
           name: Build lambda ZIP
-          command: zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
+          command: zip -r edge_lambda_origin.zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
 workflows:
   version: 2
   build_and_deploy:
