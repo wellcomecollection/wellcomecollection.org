@@ -14,6 +14,7 @@ import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
 
 type Props = {|
@@ -126,7 +127,7 @@ export const WorkPage = ({
           title={work.title} />}
 
         {showNewMetaDataGrouping
-          ? <WorkDetails
+          ? <WorkDetailsNewDataGrouping
             work={work}
             iiifImageLocationUrl={iiifImageLocationUrl}
             licenseInfo={licenseInfo}
