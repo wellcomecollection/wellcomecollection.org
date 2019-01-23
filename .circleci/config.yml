@@ -230,7 +230,7 @@ jobs:
       - persist_to_workspace:
           root: /tmp/artifacts
           paths:
-            - edge_lambdas.zip
+            - edge_lambda_origin.zip
 workflows:
   version: 2
   build_and_deploy:
