@@ -207,6 +207,18 @@ jobs:
                     aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
                 popd
             fi
+  edge_lambdas:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: /home/circleci/wellcomecollection.org/router/webapp
+    steps:
+      - add_ssh_keys
+      - run:
+            name: Install deps
+            command: yarn
+      - run:
+            name: Run tests
+            command: yarn test
 workflows:
   version: 2
   build_and_deploy:
