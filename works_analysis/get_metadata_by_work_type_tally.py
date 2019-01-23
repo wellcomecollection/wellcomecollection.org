@@ -13,7 +13,7 @@ if __name__ == '__main__':
     for work in get_all_works():
         for field_name in work.keys():
             all_fields.add(field_name)
-            if (work[field_name]):
+            if work[field_name]:
                 tally[work["workType"]["label"]][field_name] += 1
 
     headings = ["field"] + [k for k in sorted(tally.keys())]
