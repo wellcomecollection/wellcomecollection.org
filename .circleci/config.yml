@@ -224,9 +224,10 @@ jobs:
       - run:
           name: Build lambda ZIP
           command: zip -r edge_lambda_origin.zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
-      - store_artifacts:
-          path: edge_lambda_origin.zip
-          destination: edge_lambdas
+      - persist_to_workspace:
+          root: /tmp/artifacts/edge_lambdas
+          paths:
+            - edge_lambdas.zip
 workflows:
   version: 2
   build_and_deploy:
