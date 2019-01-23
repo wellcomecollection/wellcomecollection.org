@@ -35,11 +35,14 @@ function trackVisibleTimeOnPage () {
   });
 }
 
-function trackRouteChange() {
+function trackRouteChangeStart() {
   trackVisibleTimeOnPage();
   previouslyAccruedTimeOnSpaPage = window.performance.now();
   pageVisibilityLastChanged = 0;
   accruedHiddenTimeOnPage = 0;
+}
+
+function trackRouteChangeComplete() {
   ReactGA.pageview(
     `${window.location.pathname}${window.location.search}`
   );
@@ -88,7 +91,8 @@ export default class WecoApp extends App {
   }
 
   componentWillUnmount() {
-    Router.events.off('routeChangeStart',  trackRouteChange);
+    Router.events.off('routeChangeStart',  trackRouteChangeStart);
+    Router.events.off('routeChangeComplete',  trackRouteChangeComplete);
     try {
       document.removeEventListener('visibilitychange', calculateHiddenTimeOnPage);
       window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
@@ -129,7 +133,8 @@ export default class WecoApp extends App {
 
     ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
 
-    Router.events.on('routeChangeStart', trackRouteChange);
+    Router.events.on('routeChangeStart', trackRouteChangeStart);
+    Router.events.on('routeChangeComplete', trackRouteChangeComplete);
 
     // TODO: Is there a better implementation of this
     const lazysizes = require('lazysizes');
