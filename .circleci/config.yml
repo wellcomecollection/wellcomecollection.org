@@ -243,11 +243,6 @@ jobs:
           name: Install awscli
           command: sudo apt-get install awscli
       - run:
-          name: HMMMM
-          command: |
-            pwd
-            ls artifacts
-      - run:
           name: Deploy lambda to S3
           command: aws s3 cp ./artifacts/edge_lambda_origin.zip s3://weco-lambdas/edge_lambda_origin.zip
 workflows:
