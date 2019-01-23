@@ -213,6 +213,8 @@ jobs:
     working_directory: /home/circleci/wellcomecollection.org/router/webapp
     steps:
       - add_ssh_keys
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - run:
             name: Install deps
             command: yarn
