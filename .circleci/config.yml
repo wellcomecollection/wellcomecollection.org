@@ -227,10 +227,29 @@ jobs:
             zip -r edge_lambda_origin.zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
             mkdir -p /tmp/artifacts
             cp edge_lambda_origin.zip /tmp/artifacts
+            ls /tmp/artifacts
       - persist_to_workspace:
           root: /tmp/artifacts
           paths:
             - edge_lambda_origin.zip
+  edge_lambdas_deploy:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: /tmp
+    steps:
+      - attach_workspace:
+          at: /tmp/artifacts
+      - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
+          name: HMMMM
+          command: |
+            pwd
+            ls artifacts
+      - run:
+          name: Deploy lambda to S3
+          command: aws s3 cp ./artifacts/edge_lambda_origin.zip s3://weco-lambdas/edge_lambda_origin.zip
 workflows:
   version: 2
   build_and_deploy:
@@ -275,3 +294,10 @@ workflows:
       - edge_lambdas_build:
           requires:
             - checkout_code
+      - edge_lambdas_deploy:
+          requires:
+            - edge_lambdas_build
+          filters:
+            branches:
+              only:
+                - edge_lambda_deploy
