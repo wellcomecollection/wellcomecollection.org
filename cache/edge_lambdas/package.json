@@ -1,8 +1,8 @@
 {
-  "name": "@weco/ab_testing",
+  "name": "@weco/edge_lambdas",
   "version": "1.0.0",
   "license": "MIT",
-  "description": "A/B testing lambda for wellcomecollection.org",
+  "description": "Edge lambdas for redirecting and A/B toggling",
   "scripts": {
     "test": "jest"
   },
