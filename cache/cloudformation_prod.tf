@@ -1,11 +1,11 @@
-data "aws_lambda_function" "versioned_edge_lambda_response" {
-  function_name = "cf_edge_lambda_response"
-  qualifier     = "${local.edge_lambda_version}"
-}
-
 data "aws_lambda_function" "versioned_edge_lambda_request" {
   function_name = "cf_edge_lambda_request"
-  qualifier     = "${local.edge_lambda_version}"
+  qualifier     = "${local.edge_lambda_request_version}"
+}
+
+data "aws_lambda_function" "versioned_edge_lambda_response" {
+  function_name = "cf_edge_lambda_response"
+  qualifier     = "${local.edge_lambda_response_version}"
 }
 
 # Create the CloudFront distribution

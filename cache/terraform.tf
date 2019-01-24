@@ -1,5 +1,6 @@
 locals {
-  edge_lambda_version = 3
+  edge_lambda_request_version  = 4
+  edge_lambda_response_version = 5
 }
 
 # Setup terraform for this service
@@ -50,6 +51,10 @@ output "s3_edge_lambda_origin_version_id" {
   value = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
 }
 
-output "edge_lambda_origin_version" {
+output "latest_edge_lambda_origin_request_version" {
   value = "${aws_lambda_function.edge_lambda_request.version}"
+}
+
+output "latest_edge_lambda_origin_response_version" {
+  value = "${aws_lambda_function.edge_lambda_response.version}"
 }
