@@ -210,7 +210,7 @@ jobs:
   edge_lambdas_build:
     docker:
       - image: circleci/node:8.11.3
-    working_directory: /home/circleci/wellcomecollection.org/router/webapp
+    working_directory: /home/circleci/wellcomecollection.org/cache/edge_lambdas
     steps:
       - add_ssh_keys
       - restore_cache:
@@ -296,3 +296,4 @@ workflows:
             branches:
               only:
                 - edge_lambda_deploy
+                - move_edge_lambdas
