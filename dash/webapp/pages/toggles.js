@@ -41,16 +41,9 @@ const featureToggles = [{
     'Digital images work types, and only results with images.' +
     'This will show unfilter those results, and allow for filtering.'
 }, {
-  id: 'showRevisedOpeningHours',
-  title: 'Show revised opening hours 4 weeks in advance rather than 2 weeks',
-  description:
-    'We only dispay revised opening hours 2 weeks before they occur.' +
-    'This increases that to 4 weeks to allow some usability testing to be conducted.'
-}, {
-  id: 'showNewOpeningHours',
-  title: 'Show new version of opening hours',
-  description:
-    'Shows the static version of the page to allow usability testing to be conducted.'
+  id: 'showWorkMetaDataGrouping',
+  title: 'Show work metadata grouped in a new way',
+  description: 'Shows the work metadata grouped together and ordered based on usability testing and workshops.'
 }];
 
 const IndexPage = () => {

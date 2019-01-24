@@ -14,20 +14,23 @@ import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
 
 type Props = {|
   work: Work | CatalogueApiError,
   query: ?string,
   page: ?number,
-  showSearchBoxOnWork: boolean
+  showSearchBoxOnWork: boolean,
+  showNewMetaDataGrouping: boolean
 |}
 
 export const WorkPage = ({
   work,
   query,
   page,
-  showSearchBoxOnWork
+  showSearchBoxOnWork,
+  showNewMetaDataGrouping
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -123,14 +126,23 @@ export const WorkPage = ({
           iiifUrl={iiifImageLocationUrl}
           title={work.title} />}
 
-        <WorkDetails
-          work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          encoreLink={encoreLink} />
+        {showNewMetaDataGrouping
+          ? <WorkDetailsNewDataGrouping
+            work={work}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+            encoreLink={encoreLink} />
+          : <WorkDetails
+            work={work}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+            encoreLink={encoreLink} />}
       </Fragment>
+
     </PageLayout>
   );
 };
@@ -139,6 +151,7 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
   const showSearchBoxOnWork = Boolean(ctx.query.toggles.showSearchBoxOnWork);
+  const showNewMetaDataGrouping = Boolean(ctx.query.toggles.showWorkMetaDataGrouping);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const {res} = ctx;
@@ -156,7 +169,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       query,
       work: workOrError,
       page: page ? parseInt(page, 10) : null,
-      showSearchBoxOnWork
+      showSearchBoxOnWork,
+      showNewMetaDataGrouping
     };
   }
 };
