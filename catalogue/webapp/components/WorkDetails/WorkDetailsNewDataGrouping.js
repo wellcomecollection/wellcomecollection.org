@@ -87,6 +87,7 @@ const WorkDetails = ({
             </SpacingComponent>
 
             <SpacingComponent>
+              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
@@ -100,6 +101,7 @@ const WorkDetails = ({
             </SpacingComponent>
 
             <SpacingComponent>
+              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
@@ -110,6 +112,7 @@ const WorkDetails = ({
             </SpacingComponent>
 
             <SpacingComponent>
+              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
@@ -154,6 +157,7 @@ const WorkDetails = ({
             </SpacingComponent>
 
             <SpacingComponent>
+              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
@@ -179,6 +183,7 @@ const WorkDetails = ({
             </SpacingComponent>
 
             <SpacingComponent>
+              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
