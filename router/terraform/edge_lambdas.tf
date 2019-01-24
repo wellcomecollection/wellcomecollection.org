@@ -73,7 +73,7 @@ resource "aws_lambda_function" "edge_lambda_response" {
   publish = true
 }
 
-data "aws_s3_bucket_object" "edge_lambda_request" {
+data "aws_s3_bucket_object" "edge_lambda_origin" {
   provider = "aws.us-east-1"
   bucket = "weco-lambdas"
   key = "edge_lambda_origin.zip"
@@ -87,6 +87,6 @@ resource "aws_lambda_function" "edge_lambda_response_test" {
   handler = "origin.response"
   s3_bucket = "weco-lambdas"
   s3_key = "edge_lambda_origin.zip"
-  s3_object_version = "${data.aws_s3_bucket_object.edge_lambda_request.version_id}"
+  s3_object_version = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
   publish = true
 }
