@@ -165,3 +165,16 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
 
   retain_on_delete = true
 }
+
+resource "aws_s3_bucket" "lambdas" {
+  bucket = "weco-lambdas"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+}
+
+output "s3_edge_lambda_origin_version_id" {
+  value = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
+}
