@@ -30,7 +30,7 @@ function trackVisibleTimeOnPage () {
     category: 'Engagement',
     action: 'time page is visible',
     value: accruedVisibleTimeOnPage,
-    nonInteraction: Boolean(accruedVisibleTimeOnPage < 10000),
+    nonInteraction: true,
     transport: 'beacon'
   });
 }
