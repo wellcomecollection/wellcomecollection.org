@@ -20,9 +20,18 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
+let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;
 let accruedHiddenTimeOnPage = 0;
 let pageVisibilityLastChanged = 0;
+
+function triggerEngagement() {
+  ReactGA.event({
+    category: 'Engagement',
+    action: 'Time on page >=',
+    label: '10 seconds'
+  });
+}
 
 function trackVisibleTimeOnPage () {
   const accruedVisibleTimeOnPage = Math.round(window.performance.now() - previouslyAccruedTimeOnSpaPage - accruedHiddenTimeOnPage);
@@ -30,7 +39,7 @@ function trackVisibleTimeOnPage () {
     category: 'Engagement',
     action: 'time page is visible',
     value: accruedVisibleTimeOnPage,
-    nonInteraction: Boolean(accruedVisibleTimeOnPage < 10000),
+    nonInteraction: true,
     transport: 'beacon'
   });
 }
@@ -43,6 +52,8 @@ function trackRouteChangeStart() {
 }
 
 function trackRouteChangeComplete() {
+  clearTimeout(engagement);
+  engagement = setTimeout(triggerEngagement, 10000);
   ReactGA.pageview(
     `${window.location.pathname}${window.location.search}`
   );
@@ -132,7 +143,7 @@ export default class WecoApp extends App {
     }
 
     ReactGA.pageview(`${window.location.pathname}${window.location.search}`);
-
+    engagement = setTimeout(triggerEngagement, 10000);
     Router.events.on('routeChangeStart', trackRouteChangeStart);
     Router.events.on('routeChangeComplete', trackRouteChangeComplete);
 
