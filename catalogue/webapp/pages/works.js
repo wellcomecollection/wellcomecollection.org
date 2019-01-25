@@ -156,10 +156,20 @@ export const Works = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksUrl({query, page})}
+                          link = {worksUrl({
+                            query,
+                            workType,
+                            itemsLocationsLocationType,
+                            page
+                          })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
-                            const link = worksUrl({ query, page: newPage });
+                            const link = worksUrl({
+                              query,
+                              workType,
+                              itemsLocationsLocationType,
+                              page: newPage
+                            });
                             Router.push(link.href, link.as)
                               .then(() => window.scrollTo(0, 0));
                           }}
@@ -229,10 +239,20 @@ export const Works = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksUrl({query, page})}
+                            link = {worksUrl({
+                              query,
+                              workType,
+                              itemsLocationsLocationType,
+                              page
+                            })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
-                              const link = worksUrl({ query, page: newPage });
+                              const link = worksUrl({
+                                query,
+                                workType,
+                                itemsLocationsLocationType,
+                                page: newPage
+                              });
                               Router.push(link.href, link.as)
                                 .then(() => window.scrollTo(0, 0));
                             }}
