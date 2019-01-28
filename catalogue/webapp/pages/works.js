@@ -40,7 +40,7 @@ export const Works = ({
   if (works && works.type === 'Error') {
     return (
       <ErrorPage
-        title={works.httpStatus === 500 ? `We're experiencing technical difficulties at the moment. We're working to get this fixed by the end of the day.` : undefined}
+        title={works.httpStatus === 500 ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.` : undefined}
         statusCode={works.httpStatus}
       />
     );
