@@ -295,7 +295,6 @@ Works.getInitialProps = async (
   };
 
   const worksOrError = query && query !== '' ? await getWorks({ query, page, filters }) : null;
-  console.log(worksOrError);
 
   return {
     works: worksOrError,
