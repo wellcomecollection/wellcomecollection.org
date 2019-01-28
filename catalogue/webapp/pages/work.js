@@ -13,6 +13,7 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
+import IIIFPresentationDisplay from '../components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -46,6 +47,13 @@ export const WorkPage = ({
       location => location.locationType.id === 'iiif-image'
     )
   ).filter(Boolean);
+
+  const [iiifPresentationLocation] = work.items.map(
+    item => item.locations.find(
+      location => location.locationType.id === 'iiif-presentation'
+    )
+  ).filter(Boolean);
+
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId = iiifImageLocation && iiifImageLocation.license && iiifImageLocation.license.id;
@@ -121,6 +129,10 @@ export const WorkPage = ({
       }
 
       <Fragment>
+        {iiifPresentationLocation &&
+          <IIIFPresentationDisplay
+            manifestLocation={iiifPresentationLocation.url} />
+        }
         {iiifImageLocationUrl && <WorkMedia
           id={work.id}
           iiifUrl={iiifImageLocationUrl}
