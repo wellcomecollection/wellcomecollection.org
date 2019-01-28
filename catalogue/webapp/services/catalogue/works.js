@@ -57,10 +57,20 @@ export async function getWorks({
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '');
 
-  const res = await fetch(url);
-  const json = await res.json();
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
 
-  return (json: CatalogueResultsList | CatalogueApiError);
+    return (json: CatalogueResultsList | CatalogueApiError);
+  } catch (error) {
+    return {
+      description: '',
+      errorType: 'http',
+      httpStatus: 500,
+      label: 'Internal Server Error',
+      type: 'Error'
+    };
+  }
 }
 
 export async function getWork({

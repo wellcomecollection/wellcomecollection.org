@@ -40,6 +40,7 @@ export const Works = ({
   if (works && works.type === 'Error') {
     return (
       <ErrorPage
+        title={works.httpStatus === 500 ? `We're experiencing technical difficulties at the moment. We're working to get this fixed by the end of the day.` : undefined}
         statusCode={works.httpStatus}
       />
     );
@@ -294,6 +295,7 @@ Works.getInitialProps = async (
   };
 
   const worksOrError = query && query !== '' ? await getWorks({ query, page, filters }) : null;
+  console.log(worksOrError);
 
   return {
     works: worksOrError,
