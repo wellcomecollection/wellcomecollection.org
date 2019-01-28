@@ -40,6 +40,7 @@ export const Works = ({
   if (works && works.type === 'Error') {
     return (
       <ErrorPage
+        title={works.httpStatus === 500 ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.` : undefined}
         statusCode={works.httpStatus}
       />
     );
@@ -123,6 +124,20 @@ export const Works = ({
                   showFilters={showCatalogueSearchFilters}
                   ariaDescribedBy='search-form-description'
                 />
+                <div className={classNames({
+                  'bg-yellow': true,
+                  [spacing({ s: 3 }, {padding: ['top', 'bottom', 'left', 'right']})]: true
+                })}>
+                  <p className='no-margin'><b>Monday 28 January 2019</b>{' '}</p>
+                  <p className='no-margin'>
+                    We{`'`}re experiencing technical difficulties at the moment.
+                    We{`'`}re working to get this fixed by the end of the day.
+                    {' '}
+                    <a href='https://commons.wikimedia.org/wiki/Category:Files_from_Wellcome_Images'>
+                      You can still find our images on Wikimedia Commons
+                    </a>
+                  </p>
+                </div>
                 <p className={classNames({
                   [spacing({s: 4}, {margin: ['top']})]: true,
                   [font({s: 'HNL4', m: 'HNL3'})]: true,
@@ -156,10 +171,20 @@ export const Works = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksUrl({query, page})}
+                          link = {worksUrl({
+                            query,
+                            workType,
+                            itemsLocationsLocationType,
+                            page
+                          })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
-                            const link = worksUrl({ query, page: newPage });
+                            const link = worksUrl({
+                              query,
+                              workType,
+                              itemsLocationsLocationType,
+                              page: newPage
+                            });
                             Router.push(link.href, link.as)
                               .then(() => window.scrollTo(0, 0));
                           }}
@@ -229,10 +254,20 @@ export const Works = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksUrl({query, page})}
+                            link = {worksUrl({
+                              query,
+                              workType,
+                              itemsLocationsLocationType,
+                              page
+                            })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
-                              const link = worksUrl({ query, page: newPage });
+                              const link = worksUrl({
+                                query,
+                                workType,
+                                itemsLocationsLocationType,
+                                page: newPage
+                              });
                               Router.push(link.href, link.as)
                                 .then(() => window.scrollTo(0, 0));
                             }}
