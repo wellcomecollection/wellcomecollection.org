@@ -72,21 +72,3 @@ resource "aws_lambda_function" "edge_lambda_response" {
   handler = "origin.response"
   publish = true
 }
-
-data "aws_s3_bucket_object" "edge_lambda_origin" {
-  provider = "aws.us-east-1"
-  bucket = "weco-lambdas"
-  key = "edge_lambda_origin.zip"
-}
-
-resource "aws_lambda_function" "edge_lambda_response_test" {
-  provider = "aws.us-east-1"
-  function_name = "edge_lambda_response_test"
-  role = "${aws_iam_role.basic_lambda_role.arn}"
-  runtime = "nodejs8.10"
-  handler = "origin.response"
-  s3_bucket = "weco-lambdas"
-  s3_key = "edge_lambda_origin.zip"
-  s3_object_version = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
-  publish = true
-}
