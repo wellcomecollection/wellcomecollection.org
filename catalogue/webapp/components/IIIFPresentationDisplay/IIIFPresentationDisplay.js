@@ -24,9 +24,38 @@ const IIIFPresentationDisplay = ({
     // This returns a broken resource
     .filter(({compatibilityHint}) => compatibilityHint !== 'displayIfContentUnsupported') || [];
 
+  const structuredCanvasesWithLabel = manifestData && manifestData.structures.map(structure => {
+    const canvases = manifestData.sequences
+      .reduce((acc, sequence) => acc.concat(sequence.canvases), [])
+      .filter(canvas => structure.canvases.indexOf(canvas['@id']) !== -1);
+
+    return {
+      label: structure.label,
+      canvases: canvases
+    };
+  });
+
   return manifestData && (
     <div>
-      {validSequences
+      {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map(structuredCanvas => {
+        return (
+          <div
+            key={structuredCanvas.label}
+            style={{
+              display: 'flex',
+              maxWidth: '100%',
+              flexWrap: 'wrap'
+            }}>
+            <div>{structuredCanvas.label}</div>
+            {console.info(structuredCanvas)}
+            {structuredCanvas.canvases.map(canvas => {
+              return <div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>;
+            })}
+          </div>
+
+        );
+      })}
+      {showAll && validSequences
         .map(sequence => (
           <div
             key={sequence['@id']}
@@ -37,7 +66,6 @@ const IIIFPresentationDisplay = ({
             }}>
             {sequence
               .canvases
-              .slice(0, showAll ? sequence.canvases.length : 5)
               .map(canvas => {
                 return (<div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>);
               })}
