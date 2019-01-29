@@ -33,6 +33,7 @@ import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {eventLd} from '@weco/common/utils/json-ld';
 import {isEventFullyBooked} from '@weco/common/model/events';
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import EventInfoLink from '@weco/common/views/components/EventInfoLink/EventInfoLink';
 
 type Props = {|
   event: UiEvent
@@ -240,7 +241,10 @@ class EventPage extends Component<Props, State> {
               [spacing({s: 0, m: 2}, {margin: ['left']})]: true
             })}>
               {!event.isPast &&
-                <EventDatesLink id={event.id} />
+                (
+                  event.times.length > 1 && <EventDatesLink id={event.id} /> ||
+                  event.times.length === 1 && <EventInfoLink id={event.id} />
+                )
               }
             </div>
           </div>
@@ -353,33 +357,35 @@ class EventPage extends Component<Props, State> {
           }
 
           {!event.isPast &&
-          <Fragment>
-            <InfoBox title='Need to know' items={[
-              (event.place && {
-                id: null,
-                title: 'Location',
-                description: event.place.information
-              }),
-              (event.bookingInformation && {
-                id: null,
-                title: 'Extra information',
-                description: event.bookingInformation
-              })
-            ]
-              .concat(event.policies.map(policy => ({...policy})))
-              .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
-                id: null,
-                icon: camelize(interpretationType.title),
-                title: interpretationType.title,
-                description: isPrimary
-                  ? interpretationType.primaryDescription
-                  : interpretationType.description
-              }))).filter(Boolean)}>
-              <p className={`no-margin ${font({s: 'HNL4'})}`}>
-                <a href='https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng'>Our event terms and conditions</a>
-              </p>
-            </InfoBox>
-          </Fragment>
+            <Fragment>
+              <div id='info'>
+                <InfoBox title='Need to know' items={[
+                  (event.place && {
+                    id: null,
+                    title: 'Location',
+                    description: event.place.information
+                  }),
+                  (event.bookingInformation && {
+                    id: null,
+                    title: 'Extra information',
+                    description: event.bookingInformation
+                  })
+                ]
+                  .concat(event.policies.map(policy => ({...policy})))
+                  .concat(event.interpretations.map(({interpretationType, isPrimary}) => ({
+                    id: null,
+                    icon: camelize(interpretationType.title),
+                    title: interpretationType.title,
+                    description: isPrimary
+                      ? interpretationType.primaryDescription
+                      : interpretationType.description
+                  }))).filter(Boolean)}>
+                  <p className={`no-margin ${font({s: 'HNL4'})}`}>
+                    <a href='https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng'>Our event terms and conditions</a>
+                  </p>
+                </InfoBox>
+              </div>
+            </Fragment>
           }
 
           {event.audiences.map((audience) => { //  TODO remove?
