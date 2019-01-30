@@ -131,6 +131,7 @@ export const WorkPage = ({
       <Fragment>
         {iiifPresentationLocation &&
           <IIIFPresentationDisplay
+            physicalDescription={[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')}
             manifestLocation={iiifPresentationLocation.url} />
         }
         {iiifImageLocationUrl && <WorkMedia
