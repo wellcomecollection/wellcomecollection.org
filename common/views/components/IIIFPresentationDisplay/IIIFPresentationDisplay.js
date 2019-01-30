@@ -1,8 +1,6 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import {useState, useEffect} from 'react';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
-import {spacing, grid, classNames} from '@weco/common/utils/classnames';
 
 type Props = {|
   manifestLocation: string,
@@ -59,11 +57,16 @@ const IIIFPresentationDisplay = ({
               overflow: 'scroll',
               justifyContent: 'space-between'
             }}>
-              {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map(structuredCanvas => {
-                return structuredCanvas.canvases.map(canvas => {
-                  return <div key={canvas.thumbnail['@id']}>
-                    <img src={canvas.images[0].resource['@id']} />
-                  </div>;
+              {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map((structuredCanvas, i) => {
+                return structuredCanvas.canvases.map((canvas) => {
+                  return (
+                    <div key={canvas.thumbnail['@id']} style={{position: 'relative'}}>
+                      <img src={canvas.images[0].resource['@id']} />
+                      {structuredCanvasesWithLabel.length - 1 === i &&
+                        <div style={{ position: 'absolute' }}>Theres more</div>
+                      }
+                    </div>
+                  );
                 });
               })}
             </div>
