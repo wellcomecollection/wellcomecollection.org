@@ -4,8 +4,10 @@ import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-i
 import {spacing} from '../../../utils/classnames';
 import openseadragon from 'openseadragon';
 
-function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
-  window.fetch(convertIiifUriToInfoUri(convertImageUri(imageInfoSrc, 'full', false)))
+function setupViewer(imageInfoSrc, viewerId, handleScriptError, imageTestSrc) {
+  const info = imageTestSrc || convertIiifUriToInfoUri(convertImageUri(imageInfoSrc, 'full', false));
+  console.log(info);
+  window.fetch(info)
     .then(response => response.json())
     .then((response) => {
       openseadragon({
@@ -42,7 +44,8 @@ const ErrorMessage = () => (
 
 type Props = {|
   id: string,
-  contentUrl: string
+  contentUrl: string,
+  infoUrl?: string
 |}
 
 type State = {|
@@ -59,7 +62,7 @@ class ImageViewerImage extends Component<Props, State> {
   }
 
   componentDidMount() {
-    setupViewer(this.props.contentUrl, this.props.id, this.handleScriptError);
+    setupViewer(this.props.contentUrl, this.props.id, this.handleScriptError, this.props.infoUrl);
   }
 
   render() {

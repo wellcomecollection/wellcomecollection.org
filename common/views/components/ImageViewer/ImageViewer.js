@@ -35,6 +35,7 @@ class LaunchViewerButton extends Component<LaunchViewerButtonProps> {
 type ViewerContentProps = {|
   id: string,
   contentUrl: string,
+  infoUrl?: string, // TODO make compulsary
   classes: string,
   viewerVisible: boolean,
   handleViewerDisplay: Function
@@ -99,7 +100,7 @@ class ViewerContent extends Component<ViewerContentProps> {
             clickHandler={() => { this.props.handleViewerDisplay('Control'); }} />
         </div>
 
-        {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} />}
+        {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} infoUrl={this.props.infoUrl} />}
       </div>
     );
   }
@@ -109,6 +110,7 @@ type ImageViewerProps = {|
   id: string,
   trackTitle: string,
   contentUrl: string,
+  infoUrl?: string, // TOOD make compulsary - use context to pass through
   width: number
 |}
 
@@ -181,6 +183,7 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
             viewerVisible={this.state.showViewer}
             id={this.props.id}
             contentUrl={this.props.contentUrl}
+            infoUrl={this.props.infoUrl}
             handleViewerDisplay={this.handleViewerDisplay} />
         }
       </Fragment>
