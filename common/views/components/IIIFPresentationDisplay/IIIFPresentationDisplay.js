@@ -75,14 +75,16 @@ const IIIFPresentationDisplay = ({
                 background: 'rgba(1,1,1,.85)',
                 zIndex: 1,
                 color: 'white',
-                padding: '24px 24px',
+                padding: '24px 96px',
                 top: '50%',
                 right: '50%',
-                transform: 'translateY(-50%) translateX(50%)'
+                transform: 'translateY(-50%) translateX(50%)',
+                borderTopLeftRadius: '12px',
+                borderBottomRightRadius: '12px'
               }}>
                 <div className='flex' style={{ alignItems: 'center' }}>
-                  <b>View all {validSequences.reduce((arr, sequence) => arr.concat(sequence.canvases), []).length}</b>
-                  <Icon name='gallery' extraClasses='icon--white margin-left-s1' />
+                  <b>View the book</b>
+                  <Icon name='arrow' extraClasses='icon--white margin-left-s1' />
                 </div>
               </div>
 
