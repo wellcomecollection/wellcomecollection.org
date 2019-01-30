@@ -46,10 +46,13 @@ const IIIFPresentationDisplay = ({
             grid({s: 12, m: 12, l: 10, xl: 10}),
             spacing({s: 4}, {margin: ['bottom']})
           ])}>
-
-            <Button type={'primary'} text={'Show preview'} clickHandler={(event) => setShow('preview')} />
-            <Button type={'primary'} text={'Show overview'} clickHandler={(event) => setShow('overview')} />
-            <Button type={'primary'} text={'Show reading'} clickHandler={(event) => setShow('reading')} />
+            <div style={{
+              position: 'sticky'
+            }}>
+              <Button type={'primary'} text={'Show preview'} clickHandler={(event) => setShow('preview')} />
+              <Button type={'primary'} text={'Show overview'} clickHandler={(event) => setShow('overview')} />
+              <Button type={'primary'} text={'Show reading'} clickHandler={(event) => setShow('reading')} />
+            </div>
 
             {show === 'preview' &&
               <div>
