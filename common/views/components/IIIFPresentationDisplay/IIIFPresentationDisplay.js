@@ -67,8 +67,9 @@ const IIIFPresentationDisplay = ({
                 });
               })}
             </div>
-            <div style={{ background: 'black', color: 'white', padding: '10px' }} onClick={() => setShow('overview')}>
-              View the whole book
+            <div style={{ background: 'black', color: 'white', padding: '10px' }}>
+              <span onClick={() => setShow('overview')}>View the whole book</span> | {' '}
+              <span onClick={() => setShow('reading')}>Read the book</span>
             </div>
           </div>
         </div>
@@ -90,22 +91,32 @@ const IIIFPresentationDisplay = ({
           </div>
         ))
       }
-      {show === 'reading' && validSequences
-        .map(sequence => (
-          <div
-            key={sequence['@id']}
-            style={{
-              maxWidth: '800px',
-              margin: '0 auto'
-            }}>
-            {sequence
-              .canvases
-              .slice(0, 15)
-              .map(canvas => {
-                return (<div key={canvas.thumbnail['@id']} ><img src={canvas.images[0].resource['@id']} /></div>);
-              })}
-          </div>
-        ))
+      {show === 'reading' &&
+        <div style={{
+          height: '70vh',
+          background: 'hotpink',
+          overflow: 'scroll'
+        }}>
+          {validSequences
+            .map(sequence => (
+              <div
+                key={sequence['@id']}
+                style={{
+                  maxWidth: '800px',
+                  margin: '0 auto'
+                }}>
+                {sequence
+                  .canvases
+                  .slice(0, 15)
+                  .map(canvas => {
+                    return (
+                      <div key={canvas.thumbnail['@id']} >
+                        <img src={canvas.images[0].resource['@id']} style={{ pointer: 'zoom-in' }} />
+                      </div>);
+                  })}
+              </div>
+            ))}
+        </div>
       }
 
       {(manifestData.mediaSequences || [])
