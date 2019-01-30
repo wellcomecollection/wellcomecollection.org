@@ -67,29 +67,33 @@ const IIIFPresentationDisplay = ({
                 });
               })}
             </div>
-            <div style={{ background: 'black', color: 'white', padding: '10px' }}>
-              <span onClick={() => setShow('overview')}>View the whole book</span> | {' '}
-              <span onClick={() => setShow('reading')}>Read the book</span>
-            </div>
           </div>
         </div>
       }
-      {show === 'overview' && validSequences
-        .map(sequence => (
-          <div
-            key={sequence['@id']}
-            style={{
-              display: 'flex',
-              maxWidth: '100%',
-              flexWrap: 'wrap'
-            }}>
-            {sequence
-              .canvases
-              .map(canvas => {
-                return (<div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>);
-              })}
-          </div>
-        ))
+      {show === 'overview' &&
+        <div style={{
+          height: '70vh',
+          background: 'hotpink',
+          overflow: 'scroll'
+        }}>
+          {validSequences
+            .map(sequence => (
+              <div
+                key={sequence['@id']}
+                style={{
+                  display: 'flex',
+                  maxWidth: '100%',
+                  flexWrap: 'wrap'
+                }}>
+                {sequence
+                  .canvases
+                  .map(canvas => {
+                    return (<div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>);
+                  })}
+              </div>
+            ))
+          }
+        </div>
       }
       {show === 'reading' &&
         <div style={{
@@ -118,6 +122,11 @@ const IIIFPresentationDisplay = ({
             ))}
         </div>
       }
+      <div style={{ background: 'black', color: 'white', padding: '10px' }}>
+        <span onClick={() => setShow('preview')}>Preview the book</span> | {' '}
+        <span onClick={() => setShow('overview')}>View the whole book</span> | {' '}
+        <span onClick={() => setShow('reading')}>Read the book</span>
+      </div>
 
       {(manifestData.mediaSequences || [])
         // This returns a broken resource
