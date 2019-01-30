@@ -39,99 +39,90 @@ const IIIFPresentationDisplay = ({
   });
 
   return manifestData && (
-    <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
-      <div className='container'>
-        <div className='grid'>
-          <div className={classNames([
-            grid({s: 12, m: 12, l: 10, xl: 10}),
-            spacing({s: 4}, {margin: ['bottom']})
-          ])}>
+    <div>
+      <div style={{
+        position: 'sticky'
+      }}>
+        <Button type={'primary'} text={'Show preview'} clickHandler={(event) => setShow('preview')} />
+        <Button type={'primary'} text={'Show overview'} clickHandler={(event) => setShow('overview')} />
+        <Button type={'primary'} text={'Show reading'} clickHandler={(event) => setShow('reading')} />
+      </div>
+
+      {show === 'preview' &&
+        <div>
+          <div style={{
+            display: 'inline-block'
+          }}>
             <div style={{
-              position: 'sticky'
-            }}>
-              <Button type={'primary'} text={'Show preview'} clickHandler={(event) => setShow('preview')} />
-              <Button type={'primary'} text={'Show overview'} clickHandler={(event) => setShow('overview')} />
-              <Button type={'primary'} text={'Show reading'} clickHandler={(event) => setShow('reading')} />
-            </div>
-
-            {show === 'preview' &&
-              <div>
-                <div style={{
-                  display: 'inline-block'
-                }}>
-                  <div style={{
-                    background: 'rgba(1, 1, 1, .75)',
-                    color: 'white',
-                    padding: '12px'
-                  }}>{physicalDescription}</div>
-                  <div>
-                    {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map(structuredCanvas => {
-                      return structuredCanvas.canvases.map(canvas => {
-                        return <img
-                          key={canvas.thumbnail['@id']}
-                          style={{ width: 'auto' }}
-                          src={canvas.thumbnail['@id']} />;
-                      });
-                    })}
-                  </div>
-                </div>
-              </div>
-            }
-            {show === 'overview' && validSequences
-              .map(sequence => (
-                <div
-                  key={sequence['@id']}
-                  style={{
-                    display: 'flex',
-                    maxWidth: '100%',
-                    flexWrap: 'wrap'
-                  }}>
-                  {sequence
-                    .canvases
-                    .map(canvas => {
-                      return (<div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>);
-                    })}
-                </div>
-              ))
-            }
-            {show === 'reading' && validSequences
-              .map(sequence => (
-                <div
-                  key={sequence['@id']}
-                  style={{
-                    maxWidth: '800px',
-                    margin: '0 auto'
-                  }}>
-                  {sequence
-                    .canvases
-                    .slice(0, 15)
-                    .map(canvas => {
-                      return (<div key={canvas.thumbnail['@id']} ><img src={canvas.images[0].resource['@id']} /></div>);
-                    })}
-                </div>
-              ))
-            }
-
-            {(manifestData.mediaSequences || [])
-              // This returns a broken resource
-              .filter(({compatibilityHint}) => compatibilityHint !== 'displayIfContentUnsupported')
-              .map(sequence => {
-                return sequence.elements.map(element => {
-                  if (element['@type'] === 'dctypes:MovingImage') {
-                    return (
-                      <video controls style={{ margin: '0 auto', display: 'block', maxWidth: '100%' }}>
-                        {element.rendering.map(render => (
-                          <source key={render['@id']} src={render['@id']} format={render.format} />
-                        ))}
-                      </video>
-                    );
-                  }
-                  return (<p key={element['@id']}>Unknown type {element['@type']}</p>);
+              background: 'rgba(1, 1, 1, .75)',
+              color: 'white',
+              padding: '12px'
+            }}>{physicalDescription}</div>
+            <div>
+              {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map(structuredCanvas => {
+                return structuredCanvas.canvases.map(canvas => {
+                  return <img
+                    key={canvas.thumbnail['@id']}
+                    style={{ width: 'auto' }}
+                    src={canvas.thumbnail['@id']} />;
                 });
               })}
+            </div>
           </div>
         </div>
-      </div>
+      }
+      {show === 'overview' && validSequences
+        .map(sequence => (
+          <div
+            key={sequence['@id']}
+            style={{
+              display: 'flex',
+              maxWidth: '100%',
+              flexWrap: 'wrap'
+            }}>
+            {sequence
+              .canvases
+              .map(canvas => {
+                return (<div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>);
+              })}
+          </div>
+        ))
+      }
+      {show === 'reading' && validSequences
+        .map(sequence => (
+          <div
+            key={sequence['@id']}
+            style={{
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>
+            {sequence
+              .canvases
+              .slice(0, 15)
+              .map(canvas => {
+                return (<div key={canvas.thumbnail['@id']} ><img src={canvas.images[0].resource['@id']} /></div>);
+              })}
+          </div>
+        ))
+      }
+
+      {(manifestData.mediaSequences || [])
+        // This returns a broken resource
+        .filter(({compatibilityHint}) => compatibilityHint !== 'displayIfContentUnsupported')
+        .map(sequence => {
+          return sequence.elements.map(element => {
+            if (element['@type'] === 'dctypes:MovingImage') {
+              return (
+                <video controls style={{ margin: '0 auto', display: 'block', maxWidth: '100%' }}>
+                  {element.rendering.map(render => (
+                    <source key={render['@id']} src={render['@id']} format={render.format} />
+                  ))}
+                </video>
+              );
+            }
+            return (<p key={element['@id']}>Unknown type {element['@type']}</p>);
+          });
+        })}
     </div>
   );
 };
