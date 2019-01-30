@@ -67,6 +67,8 @@ export function convertIiifUriToInfoUri(originalUriPath: string) {
     if (match && match[0]) {
       return (`${match[0]}/info.json`);
     }
+  } else {
+    return `${originalUriPath}/info.json`;
   }
 };
 
