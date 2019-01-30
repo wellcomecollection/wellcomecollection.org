@@ -142,11 +142,6 @@ const IIIFPresentationDisplay = ({
             ))}
         </div>
       }
-      <div style={{ background: 'black', color: 'white', padding: '10px' }}>
-        <span onClick={() => setShow('preview')}>Preview the book</span> | {' '}
-        <span onClick={() => setShow('overview')}>View the whole book</span> | {' '}
-        <span onClick={() => setShow('reading')}>Read the book</span>
-      </div>
 
       {(manifestData.mediaSequences || [])
         // This returns a broken resource
