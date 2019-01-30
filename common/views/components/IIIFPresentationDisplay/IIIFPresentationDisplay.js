@@ -14,7 +14,7 @@ const IIIFPresentationDisplay = ({
   physicalDescription
 }: Props) => {
   const [manifestData, setManifestData] = useState(null);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState('preview');
 
   useEffect(() => {
     fetch(manifestLocation).then(resp => resp.json()).then(json => {
@@ -40,33 +40,35 @@ const IIIFPresentationDisplay = ({
 
   return manifestData && (
     <div>
-      <div style={{
+      {/* <div style={{
         position: 'sticky'
       }}>
         <Button type={'primary'} text={'Show preview'} clickHandler={(event) => setShow('preview')} />
         <Button type={'primary'} text={'Show overview'} clickHandler={(event) => setShow('overview')} />
         <Button type={'primary'} text={'Show reading'} clickHandler={(event) => setShow('reading')} />
-      </div>
+    </div> */}
 
       {show === 'preview' &&
         <div>
           <div style={{
-            display: 'inline-block'
+            display: 'block'
           }}>
             <div style={{
-              background: 'rgba(1, 1, 1, .75)',
-              color: 'white',
-              padding: '12px'
-            }}>{physicalDescription}</div>
-            <div>
+              display: 'flex',
+              maxWidth: '100%',
+              overflow: 'scroll',
+              justifyContent: 'space-between'
+            }}>
               {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map(structuredCanvas => {
                 return structuredCanvas.canvases.map(canvas => {
-                  return <img
-                    key={canvas.thumbnail['@id']}
-                    style={{ width: 'auto' }}
-                    src={canvas.thumbnail['@id']} />;
+                  return <div key={canvas.thumbnail['@id']}>
+                    <img src={canvas.images[0].resource['@id']} />
+                  </div>;
                 });
               })}
+            </div>
+            <div style={{ background: 'black', color: 'white', padding: '10px' }} onClick={() => setShow('overview')}>
+              View the whole book
             </div>
           </div>
         </div>
