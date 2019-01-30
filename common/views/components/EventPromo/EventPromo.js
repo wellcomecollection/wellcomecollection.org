@@ -31,11 +31,13 @@ const EventPromo = ({
       data-component-state={JSON.stringify({ position: position })}
       href={event.promo && event.promo.link || `/events/${event.id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
-      onClick={() => trackEvent({
-        category: 'component',
-        action: 'EventPromo:click',
-        label: `id:${event.id}, position:${position}`
-      })}>
+      onClick={() => {
+        trackEvent({
+          category: 'EventPromo',
+          action: 'follow link',
+          label: `${event.id} | position: ${position}`
+        });
+      }}>
       <div className='relative'>
         {/* FIXME: Image type tidy */}
         {/* $FlowFixMe */}

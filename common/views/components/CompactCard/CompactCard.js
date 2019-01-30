@@ -1,6 +1,7 @@
 // @flow
 import type {Element, ElementProps} from 'react';
-import {grid, font, spacing, conditionalClassNames} from '../../../utils/classnames';
+
+import {grid, font, spacing, conditionalClassNames, classNames} from '../../../utils/classnames';
 import {trackEvent} from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
@@ -13,7 +14,6 @@ import type {ColorSelection} from '../../../model/color-selections';
 type Props = {|
   url: ?string,
   title: string,
-  promoType: string,
   labels: ElementProps<typeof LabelsList>,
   description: ?string,
   urlOverride: ?string,
@@ -22,13 +22,12 @@ type Props = {|
   color: ?ColorSelection,
   Image: ?Element<typeof ImageType | typeof ImagePlaceholder>,
   DateInfo: ?Element<typeof DateRange>,
-  StatusIndicator: ?Element<typeof StatusIndicator>
+  StatusIndicator: ?Element<typeof StatusIndicator>,
 |}
 
 const CompactCard = ({
   url,
   title,
-  promoType,
   labels,
   description,
   urlOverride,
@@ -46,18 +45,20 @@ const CompactCard = ({
   const Tag = url ? 'a' : 'div';
   return (
     <Tag
-      data-component={promoType}
       href={urlOverride || url}
       className={conditionalClassNames({
-        'grid plain-link': true,
+        'grid': true,
+        'card-link': Boolean(url),
         [spacing({s: 3}, {padding: ['bottom', 'top']})]: true,
         [extraClasses || '']: Boolean(extraClasses)
       })}
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `${promoType}:click`,
-        label: `title:${title}`
-      })}>
+      onClick={() => {
+        trackEvent({
+          category: 'CompactCard',
+          action: 'follow link',
+          label: title
+        });
+      }}>
       {labels.labels.length > 0 &&
         <div className={conditionalClassNames({
           [grid({s: 12, m: 12, l: 12, xl: 12})]: true,
@@ -73,7 +74,11 @@ const CompactCard = ({
       }
       <div className={grid(textGridSizes)}>
         {partNumber && <PartNumberIndicator number={partNumber} color={color} />}
-        <div className={`${font({s: 'WB5'})} ${spacing({s: 0}, {margin: ['top']})}`}>
+        <div className={classNames({
+          'card-link__title': true,
+          [font({s: 'WB5'})]: true,
+          [spacing({s: 0}, {margin: ['top']})]: true
+        })}>
           {title}
         </div>
         {DateRange &&

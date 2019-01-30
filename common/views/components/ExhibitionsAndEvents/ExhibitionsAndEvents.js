@@ -17,7 +17,6 @@ const ExhibitionsAndEvents = ({exhibitions, events, extras = []}: Props) => {
   const items = otherExhibitions.concat(events, [dailyTourPromoData], permanentExhibitions, extras);
 
   return (
-    // $FlowFixMe TODO: this is because of the daily tour
     <CardGrid items={items} />
   );
 };

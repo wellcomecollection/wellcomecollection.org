@@ -115,10 +115,11 @@ class SegmentedControl extends Component<Props, State> {
                       const isHash = url.startsWith('#');
 
                       trackEvent({
-                        category: 'component',
-                        action: 'whats-on-daterange-picker:click',
-                        label: 'title:' + item.text
+                        category: 'SegmentedControl',
+                        action: 'select segment',
+                        label: item.text
                       });
+
                       this.setActiveId(item.id);
                       this.setState({
                         isActive: false
@@ -168,11 +169,13 @@ class SegmentedControl extends Component<Props, State> {
                 onClick={(e) => {
                   const url = e.target.getAttribute('href');
                   const isHash = url.startsWith('#');
+
                   trackEvent({
-                    category: 'component',
-                    action: 'whats-on-daterange-picker:click',
-                    label: 'title:' + item.text
+                    category: 'SegmentedControl',
+                    action: 'select segment',
+                    label: item.text
                   });
+
                   this.setActiveId(item.id);
 
                   // Assume we want to

@@ -1,0 +1,111 @@
+{
+  "type": "people",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W03I9yYAACUAgx99",
+  "name": "Charlie Williams",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Charlie Williams is a postdoctoral researcher working with the Hidden Persuaders project at Birkbeck, University of London. His research explores Cold War culture through the lens of the human sciences with an emphasis on the psychological, emotional and economic relationships between humans and emerging 'psy' technologies. ",
+        "spans": []
+      }
+    }
+  ],
+  "image": {
+    "origin": {
+      "id": "W03I0iYAACgAgx7V",
+      "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F31686b03-f537-42b7-8dbe-70bfe436c458_charlie-williams-150x150.jpg",
+      "width": 298,
+      "height": 300
+    },
+    "width": 298,
+    "height": 300,
+    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a3a032444c04c541dc68a97032efa8122ffe3bf0_charlie-williams-150x150.jpg",
+    "edit": {
+      "background": "#fff",
+      "zoom": 1,
+      "crop": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "credits": null,
+    "alt": null,
+    "thumbnails": {
+      "16:9": {
+        "origin": {
+          "id": "W03I0iYAACgAgx7V",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F31686b03-f537-42b7-8dbe-70bfe436c458_charlie-williams-150x150.jpg",
+          "width": 298,
+          "height": 300
+        },
+        "width": 3200,
+        "height": 1800,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/3bc193f3528ae74fd824afdd1ccd03e8f30dc811_charlie-williams-150x150.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 10.738255033557047,
+          "crop": {
+            "x": 0,
+            "y": -711
+          }
+        },
+        "credits": null,
+        "alt": null
+      },
+      "32:15": {
+        "origin": {
+          "id": "W03I0iYAACgAgx7V",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F31686b03-f537-42b7-8dbe-70bfe436c458_charlie-williams-150x150.jpg",
+          "width": 298,
+          "height": 300
+        },
+        "width": 3200,
+        "height": 1500,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/0d209139e6a904a803be2e514f1b7919ef68d893_charlie-williams-150x150.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 10.738255033557047,
+          "crop": {
+            "x": 0,
+            "y": -861
+          }
+        },
+        "credits": null,
+        "alt": null
+      },
+      "square": {
+        "origin": {
+          "id": "W03I0iYAACgAgx7V",
+          "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F31686b03-f537-42b7-8dbe-70bfe436c458_charlie-williams-150x150.jpg",
+          "width": 298,
+          "height": 300
+        },
+        "width": 3200,
+        "height": 3200,
+        "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/267d7073c70dca7a3f24efe8ef4c33f86a741ee2_charlie-williams-150x150.jpg",
+        "edit": {
+          "background": "#fff",
+          "zoom": 10.738255033557047,
+          "crop": {
+            "x": 0,
+            "y": -11
+          }
+        },
+        "credits": null,
+        "alt": null
+      }
+    }
+  },
+  "twitterHandle": "HPersuaders",
+  "sameAs": [
+    [
+      {
+        "link": "https://twitter.com/HPersuaders",
+        "title": "@HPersuaders"
+      }
+    ]
+  ]
+}

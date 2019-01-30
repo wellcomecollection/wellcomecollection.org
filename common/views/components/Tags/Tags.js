@@ -1,11 +1,12 @@
 // @flow
+import type {NextLinkType} from '../../../model/next-link-type';
 import NextLink from 'next/link';
-import { spacing, font } from '../../../utils/classnames';
-import ReactGA from 'react-ga';
+import {trackEvent} from '../../../utils/ga';
+import {spacing, font} from '../../../utils/classnames';
 
 export type TagProps = {|
   text: string,
-  url?: string
+  link?: NextLinkType
 |}
 
 export type Props = {|
@@ -16,26 +17,26 @@ const Tags = ({ tags }: Props) => {
   return (
     <div className='tags'>
       <ul className='tags__list plain-list no-margin no-padding flex flex--wrap'>
-        {tags.map(({ text, url }) => (
-          <Tag key={text} text={text} url={url} />
+        {tags.map(({ text, link }) => (
+          <Tag key={text} text={text} link={link} />
         ))}
       </ul>
     </div>
   );
 };
 
-const Tag = ({text, url}: TagProps) => {
+const Tag = ({text, link}: TagProps) => {
   function trackTagClick() {
-    ReactGA.event({
-      category: 'component',
-      action: 'Tag:click',
-      label: `text:${text}${url ? `, url:${url}` : ''}`
+    trackEvent({
+      category: 'Tags',
+      action: 'follow link',
+      label: `${text}`
     });
   }
 
   const className =
     `plain-link flex font-white bg-black rounded-diagonal
-    ${url ? 'bg-hover-green transition-bg' : ''}
+    ${link ? 'bg-hover-green transition-bg' : ''}
     ${spacing({s: 1}, {padding: ['top', 'bottom']})}
     ${spacing({s: 2}, {padding: ['left', 'right']})}`;
 
@@ -43,12 +44,12 @@ const Tag = ({text, url}: TagProps) => {
     <li
       onClick={trackTagClick}
       className={`tags__tag ${font({s: 'HNL5', m: 'WB7'})} ${spacing({s: 2}, {margin: ['right', 'bottom']})}`}>
-      {url &&
-        <NextLink href={url}>
+      {link &&
+        <NextLink href={link.href} as={link.as}>
           <a className={className}>{text}</a>
         </NextLink>
       }
-      {!url && <div className={className}>{text}</div>}
+      {!link && <div className={className}>{text}</div>}
     </li>
   );
 };

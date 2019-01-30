@@ -17,11 +17,13 @@ type Props = {|
 const InstallationPromo = ({ id, title, description, image, start, end, position = 0 }: Props) => {
   return (
     <a
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `InstallationPromo:click`,
-        label: `title:${title}, position:${position}`
-      })}
+      onClick={() => {
+        trackEvent({
+          category: 'InstallationPromo',
+          action: 'follow link',
+          label: `${title} | position: ${position}`
+        });
+      }}
       id={id}
       href={`/installations/${id}`}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'>

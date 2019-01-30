@@ -23,11 +23,13 @@ const ExhibitionPromo = ({
       id={id}
       href={url}
       className='plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column'
-      onClick={() => trackEvent({
-        category: 'component',
-        action: 'ExhibitionPromo:click',
-        label: `id:${id}, position:${position}`
-      })}>
+      onClick={() => {
+        trackEvent({
+          category: 'ExhibitionPromo',
+          action: 'follow link',
+          label: `${id} | position: ${position}`
+        });
+      }}>
       <div className='relative'>
         {image && image.contentUrl && <UiImage {...image}
           sizesQueries='(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)'

@@ -1,3 +1,4 @@
+// @flow
 import ReactGA from 'react-ga';
 
 export function trackIfOutboundLink(url: string) {
@@ -14,9 +15,18 @@ export function trackIfOutboundLink(url: string) {
 }
 
 export type GaEvent = {|
-  catagory: string,
+  category: string,
   action: string,
-  label: string
+  label?: string,
+  value?: number,
+  nonInteraction?: boolean,
+  transport?: 'beacon'
+|}
+
+export type GaEventV2 = {|
+  eventCategory: string,
+  eventAction: string,
+  eventLabel: string
 |}
 
 export function trackEvent(gaEvent: GaEvent) {
@@ -26,7 +36,7 @@ export function trackEvent(gaEvent: GaEvent) {
 export function trackComponentAction(
   name: string,
   action: string,
-  labels: {[key]: string}
+  labels: {[key: string]: string}
 ) {
   trackEvent({
     category: 'component',

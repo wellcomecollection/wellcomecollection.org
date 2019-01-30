@@ -33,6 +33,10 @@ h6 {
 a {
   color: color('inherit');
   text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 p {
@@ -92,23 +96,14 @@ hr {
   }
 }
 
-.primary-link { // Applied to the PrimaryLink component
+.more-link { // Applied to the MoreLink component
   color: color('green');
+  text-decoration: none;
 
   &:hover,
   &:focus {
     text-decoration: underline;
   }
-}
-
-.plain-text { // Applied to non-body text blocks
-  a {
-    @include default-link;
-  }
-}
-
-.secondary-link {
-  @include default-link;
 }
 
 .spaced-text {

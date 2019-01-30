@@ -1,4 +1,4 @@
-export type URL = {|
+export type Url = {|
   pathname: string,
   query: Object
 |}

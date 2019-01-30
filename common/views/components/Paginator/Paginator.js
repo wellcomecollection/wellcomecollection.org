@@ -5,8 +5,8 @@ import {classNames, font, spacing} from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 type Link = {|
-  pathname: string,
-  query: Object,
+  +pathname: string,
+  +query: Object,
 |}
 
 type LinkProps = {|
@@ -35,7 +35,7 @@ const Paginator = ({
   const next = currentPage < totalPages ? currentPage + 1 : null;
   const prev = currentPage > 1 ? currentPage - 1 : null;
   const rangeStart = (pageSize * currentPage) - (pageSize - 1);
-  const rangeEnd = (pageSize * currentPage);
+  const rangeEnd = pageSize * currentPage > totalResults ? totalResults : pageSize * currentPage;
 
   const prevLink = prev ? {
     href: {

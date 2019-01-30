@@ -6,6 +6,7 @@ import type {HTMLString} from '../../../services/prismic/types';
 type Props = {html: HTMLString}
 const PageHeaderStandfirst = ({html}: Props) => (
   <div className={classNames({
+    'body-text': true,
     'first-para-no-margin': true,
     [spacing({s: 1}, {margin: ['top']})]: true
   })}>

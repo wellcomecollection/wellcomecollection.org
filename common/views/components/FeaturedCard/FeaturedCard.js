@@ -7,7 +7,6 @@ import {default as ImageType} from '../Image/Image';
 type Props = {|
   url: string,
   title: string,
-  promoType: string,
   description: ?string,
   urlOverride: ?string,
   extraClasses?: string,
@@ -19,7 +18,6 @@ type Props = {|
 const CompactCard = ({
   url,
   title,
-  promoType,
   description,
   urlOverride,
   extraClasses,

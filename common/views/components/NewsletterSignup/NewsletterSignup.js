@@ -167,7 +167,7 @@ class NewsletterSignup extends Component<Props, State> {
               </ul>
             </fieldset>
 
-            <p className={`${font({s: 'HNL6'})} plain-text`}>We use a third-party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
+            <p className={`${font({s: 'HNL6'})}`}>We use a third-party provider, <a href='https://www.dotmailer.com/terms/privacy-policy/'>Dotmailer</a>, to deliver our newsletters. For information about how we handle your data, please read our <a href='https://wellcome.ac.uk/about-us/privacy-and-terms'>privacy notice</a>. You can unsubscribe at any time using links in the emails you receive.</p>
 
             <Button
               extraClasses={`btn--primary ${spacing({s: 2}, {margin: ['bottom']})}`}

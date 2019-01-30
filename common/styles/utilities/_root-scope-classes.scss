@@ -50,6 +50,10 @@
 @each $color-key, $color-value in $colors {
   .font-#{$color-key} {
     color: nth($color-value, 1);
+
+    .icon__shape {
+      fill: nth($color-value, 1);
+    }
   }
 
   .font-hover-#{$color-key}:hover,
@@ -214,8 +218,21 @@
   text-align: left;
 }
 
-.plain-link {
+.plain-link,
+.plain-link:link,
+.plain-link:visited {
   text-decoration: none;
+  border: none;
+
+  .body-text & {
+    text-decoration: none;
+    border: none;
+  }
+}
+
+.underline-on-hover:hover,
+:link:hover .underline-on-hover {
+  text-decoration: underline;
 }
 
 .text-align-right {
@@ -351,7 +368,8 @@
 
   &:hover .promo-link__title,
   &:focus .promo-link__title {
-    color: color('green');
+    text-decoration: underline;
+    text-decoration-color: color('green');
   }
 
   @include respond-to('medium') {
@@ -536,3 +554,15 @@
   }
 }
 
+// TODO: use this for e.g. Promo hover behaviour too
+.card-link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    .card-link__title {
+      text-decoration: underline;
+      text-decoration-color: color('green');
+    }
+  }
+}

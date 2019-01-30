@@ -1,10 +1,11 @@
 // @flow
+import type {Context} from 'next';
 import {Fragment, Component} from 'react';
 import {getExhibition, getExhibitionRelatedContent} from '@weco/common/services/prismic/exhibitions';
 import {isPast, isFuture} from '@weco/common/utils/dates';
 import {formatDate} from '@weco/common/utils/format-date';
 import {exhibitionLd} from '@weco/common/utils/json-ld';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import {
   default as PageHeader,
@@ -23,7 +24,6 @@ import {font, spacing, grid} from '@weco/common/utils/classnames';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import type {UiExhibition} from '@weco/common/model/exhibitions';
 import type {MultiContent} from '@weco/common/model/multi-content';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   exhibition: UiExhibition
@@ -40,12 +40,12 @@ export class ExhibitionPage extends Component<Props, State> {
     exhibitionAbouts: []
   }
 
-  static getInitialProps = async (context: GetInitialPropsProps) => {
+  static getInitialProps = async (ctx: Context) => {
     // TODO: We shouldn't need this, but do for flow as
     // `GetInitialPropsClientProps` doesn't have `req`
 
-    const {id} = context.query;
-    const exhibition = await getExhibition(context.req, id);
+    const {id} = ctx.query;
+    const exhibition = await getExhibition(ctx.req, id);
 
     if (exhibition) {
       return {
@@ -240,59 +240,69 @@ export class ExhibitionPage extends Component<Props, State> {
     ].filter(Boolean);
 
     return (
-      <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
-        {exhibition.contributors.length > 0 && (
-          <Contributors
-            titleOverride={exhibition.contributorsTitle}
-            contributors={exhibition.contributors}
-          />
-        )}
-        {
-          this.state.exhibitionOfs &&
+      <PageLayout
+        title={exhibition.title}
+        description={exhibition.metadataDescription || exhibition.promoText || ''}
+        url={{pathname: `/exhibitions/${exhibition.id}`}}
+        jsonLd={exhibitionLd(exhibition)}
+        openGraphType={'website'}
+        siteSection={'whats-on'}
+        imageUrl={exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)}
+        imageAltText={exhibition.image && exhibition.image.alt}>
+        <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
+          {exhibition.contributors.length > 0 && (
+            <Contributors
+              titleOverride={exhibition.contributorsTitle}
+              contributors={exhibition.contributors}
+            />
+          )}
+          {
+            this.state.exhibitionOfs &&
           this.state.exhibitionOfs.length > 0 &&
           <SearchResults
             items={this.state.exhibitionOfs}
             title={`In this exhibition`} />
-        }
-        {exhibition.end && !isPast(exhibition.end) && (
-          <InfoBox title='Visit us' items={infoItems}>
-            <p className={`plain-text no-margin ${font({s: 'HNL4'})}`}>
-              <a href='/access'>All our accessibility services</a>
-            </p>
-          </InfoBox>
-        )}
-        {
-          this.state.exhibitionAbouts &&
+          }
+          {exhibition.end && !isPast(exhibition.end) && (
+            <InfoBox title='Visit us' items={infoItems}>
+              <p className={`no-margin ${font({s: 'HNL4'})}`}>
+                <a href='/access'>All our accessibility services</a>
+              </p>
+            </InfoBox>
+          )}
+          {
+            this.state.exhibitionAbouts &&
           this.state.exhibitionAbouts.length > 0 &&
           <SearchResults
             items={this.state.exhibitionAbouts}
             title={`About this exhibition`} />
-        }
+          }
 
-        {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}
-        {
-          exhibition.relatedBooks &&
-            exhibition.relatedBooks.length > 0 &&
-            <Fragment>
-              <h2 className='h2'>From the bookshop</h2>
-              <div className={`
-              ${spacing({s: 4}, {margin: ['top']})} grid
-            `}>
-                {exhibition.relatedBooks.map(item => (
-                  <div key={item.title} className={grid({s: 12, m: 6, l: 6, xl: 6})}>
-                    <BookPromo
-                      url={item.url}
-                      title={item.title}
-                      subtitle={null}
-                      image={item.image}
-                      description={item.description} />
-                  </div>
-                ))}
-              </div>
-            </Fragment>
-        }
-      </ContentPage>
+          {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}
+          {
+            exhibition.relatedBooks &&
+              exhibition.relatedBooks.length > 0 &&
+              <Fragment>
+                <h2 className='h2'>From the bookshop</h2>
+                <div className={`
+                ${spacing({s: 4}, {margin: ['top']})} grid
+              `}>
+                  {exhibition.relatedBooks.map(item => (
+                    <div key={item.title} className={grid({s: 12, m: 6, l: 6, xl: 6})}>
+                      <BookPromo
+                        url={item.url}
+                        title={item.title}
+                        subtitle={null}
+                        image={item.image}
+                        description={item.description} />
+                    </div>
+                  ))}
+                </div>
+              </Fragment>
+          }
+        </ContentPage>
+      </PageLayout>
     );
   }
 }
-export default PageWrapper(ExhibitionPage);
+export default ExhibitionPage;

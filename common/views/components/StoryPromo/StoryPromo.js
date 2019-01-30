@@ -25,12 +25,13 @@ const StoryPromo = ({
   const positionInSeries = getPositionInSeries(item);
   return (
     <a
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `StoryPromo:click`,
-        label: `id : ${item.id}, position : ${position}`
-      })}
-      id={item.id}
+      onClick={() => {
+        trackEvent({
+          category: 'StoryPromo',
+          action: 'follow link',
+          label: `${item.id} | position: ${position}`
+        });
+      }}
       href={item.promo && item.promo.link || `/articles/${item.id}`}
       className={classNames({
         'story-promo': true,

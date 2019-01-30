@@ -99,7 +99,7 @@ module "content" {
 }
 
 module "pages_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -107,7 +107,7 @@ module "pages_listener" {
   path = "/pages/*"
 }
 module "visit_us_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -115,7 +115,7 @@ module "visit_us_listener" {
   path = "/visit-us"
 }
 module "what_we_do_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -123,7 +123,7 @@ module "what_we_do_listener" {
   path = "/what-we-do"
 }
 module "press_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -131,7 +131,7 @@ module "press_listener" {
   path = "/press"
 }
 module "venue_hire_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -139,7 +139,7 @@ module "venue_hire_listener" {
   path = "/venue-hire"
 }
 module "access_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -147,7 +147,7 @@ module "access_listener" {
   path = "/access"
 }
 module "youth_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -155,7 +155,7 @@ module "youth_listener" {
   path = "/youth"
 }
 module "schools_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -164,7 +164,7 @@ module "schools_listener" {
 }
 
 module "opening_times_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -172,7 +172,7 @@ module "opening_times_listener" {
   path = "/opening-times"
 }
  module "newsletter_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -181,7 +181,7 @@ module "opening_times_listener" {
 }
 
 module "installations_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -190,7 +190,7 @@ module "installations_listener" {
 }
 
 module "exhibitions_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -199,7 +199,7 @@ module "exhibitions_listener" {
 }
 
 module "events_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -208,7 +208,7 @@ module "events_listener" {
 }
 
 module "articles_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -219,7 +219,7 @@ module "articles_listener" {
 }
 
 module "article_series_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -230,7 +230,7 @@ module "article_series_listener" {
 }
 
 module "event_series_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -239,7 +239,7 @@ module "event_series_listener" {
 }
 
 module "books_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -248,7 +248,7 @@ module "books_listener" {
 }
 
 module "homepage_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -257,7 +257,7 @@ module "homepage_listener" {
 }
 
 module "whats_on_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -266,7 +266,7 @@ module "whats_on_listener" {
 }
 
 module "stories_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -275,7 +275,7 @@ module "stories_listener" {
 }
 
 module "preview_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -284,7 +284,7 @@ module "preview_listener" {
 }
 
 module "management_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"
@@ -293,7 +293,7 @@ module "management_listener" {
 }
 
 module "articles_list_listener" {
-  source = "../../shared-infra/terraform/service_alb_listener"
+  source = "../../terraform-modules/service_alb_listener"
   alb_listener_https_arn = "${local.alb_listener_https_arn}"
   alb_listener_http_arn = "${local.alb_listener_http_arn}"
   target_group_arn = "${module.content.target_group_arn}"

@@ -1,7 +1,10 @@
 // @flow
-import {classNames, font, spacing} from '../../../utils/classnames';
-import {trackComponentAction} from '../../../utils/ga';
 import type {MultiContent} from '../../../model/multi-content';
+
+import {classNames, spacing} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
+import CompactCard from '../../components/CompactCard/CompactCard';
+import Divider from '../../components/Divider/Divider';
 
 type Props = {|
   researchLinkText: ?string,
@@ -9,14 +12,8 @@ type Props = {|
   readLinkText: ?string,
   readItem: ?MultiContent,
   visitLinkText: ?string,
-  visitItem: ?MultiContent
+  visitItem: ?MultiContent,
 |}
-
-function trackAction(action: string) {
-  return () => {
-    trackComponentAction('Outro', action, {});
-  };
-}
 
 const Outro = ({
   researchLinkText,
@@ -26,15 +23,38 @@ const Outro = ({
   visitLinkText,
   visitItem
 }: Props) => {
+  function getItemInfo(item) {
+    switch (item) {
+      case researchItem:
+        return {
+          type: 'research',
+          title: 'Research for yourself',
+          description: item.type === 'weblinks' ? researchLinkText : researchLinkText || item.title
+        };
+      case readItem:
+        return {
+          type: 'read',
+          title: 'Read another story',
+          description: item.type === 'weblinks' ? readLinkText : readLinkText || item.title
+        };
+      case visitItem:
+        return {
+          type: 'visit',
+          title: 'Plan a visit',
+          description: item.type === 'weblinks' ? visitLinkText : visitLinkText || item.title
+        };
+      default:
+        return {
+          type: '',
+          title: '',
+          description: ''
+        };
+    }
+  }
+
   return (
     <div>
-      <div style={{
-        width: '54px',
-        height: '6px',
-        background: 'black'
-      }} className={classNames({
-        [spacing({s: 0}, {margin: ['bottom']})]: true
-      })}></div>
+      <Divider extraClasses={`divider--stub divider--black`} />
       <h2
         className={classNames({
           'h1': true,
@@ -46,95 +66,32 @@ const Outro = ({
         'no-padding': true,
         'plain-list': true
       })}>
-        {researchItem &&
-          <li className={classNames({
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>
-            <h3 className={classNames({
-              [font({s: 'HNM3'})]: true,
-              'no-margin': true
-            })}>Research for yourself</h3>
-            <div className={classNames({
-              'body-text': true
-            })}>
-              {researchItem.type !== 'weblinks' &&
-                <a
-                  href={`/${researchItem.type}/${researchItem.id}`}
-                  onClick={trackAction('researchItemClick')}>
-                  {researchLinkText || researchItem.title}
-                </a>
-              }
-              {researchItem.type === 'weblinks' &&
-                <a
-                  href={`${researchItem.url}`}
-                  onClick={trackAction('researchItemClick')}>
-                  {researchLinkText}
-                </a>
-              }
-            </div>
-          </li>
+        {[researchItem, readItem, visitItem].filter(Boolean)
+          .map(item => {
+            const { type, title, description } = getItemInfo(item);
 
-        }
-
-        {readItem &&
-          <li className={classNames({
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>
-            <h3 className={classNames({
-              [font({s: 'HNM3'})]: true,
-              'no-margin': true
-            })}>Read another story</h3>
-            <div className={classNames({
-              'body-text': true
-            })}>
-              {readItem.type !== 'weblinks' &&
-                <a
-                  href={`/${readItem.type}/${readItem.id}`}
-                  onClick={trackAction('readItemClick')}>
-                  {readLinkText || readItem.title}
-                </a>
-              }
-              {readItem.type === 'weblinks' &&
-                <a
-                  href={`${readItem.url}`}
-                  onClick={trackAction('readItemClick')}>
-                  {readLinkText}
-                </a>
-              }
-            </div>
-          </li>
-
-        }
-
-        {visitItem &&
-          <li className={classNames({
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>
-            <h3 className={classNames({
-              [font({s: 'HNM3'})]: true,
-              'no-margin': true
-            })}>Plan a visit</h3>
-            <div className={classNames({
-              'body-text': true
-            })}>
-              {visitItem.type !== 'weblinks' &&
-                <a
-                  href={`/${visitItem.type}/${visitItem.id}`}
-                  onClick={trackAction('visitItemClick')}>
-                  {visitLinkText || visitItem.title}
-                </a>
-              }
-              {visitItem.type === 'weblinks' &&
-                <a
-                  href={`${visitItem.url}`}
-                  onClick={trackAction('visitItemClick')}>
-                  {visitLinkText}
-                </a>
-              }
-            </div>
-          </li>
-
-        }
+            return (
+              <li key={item.id} onClick={() => {
+                trackEvent({
+                  category: 'Outro',
+                  action: `follow ${type} link`,
+                  label: item.id
+                });
+              }}>
+                <CompactCard
+                  partNumber={null}
+                  Image={null}
+                  urlOverride={null}
+                  color={null}
+                  StatusIndicator={null}
+                  DateInfo={null}
+                  title={title}
+                  labels={{labels: item.labels || []}}
+                  url={item.type === 'weblinks' ? item.url : `/${item.type}/${item.id}`}
+                  description={description} />
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

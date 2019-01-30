@@ -25,7 +25,8 @@ type Props = {|
   description: ?HTMLString,
   paginationRoot: string,
   paginatedResults: PaginatedResultsTypes,
-  period?: Period
+  period?: Period,
+  showFreeAdmissionMessage: boolean
 |}
 
 const LayoutPaginatedResults = ({
@@ -33,14 +34,14 @@ const LayoutPaginatedResults = ({
   description,
   paginatedResults,
   paginationRoot,
-  period
+  period,
+  showFreeAdmissionMessage
 }: Props) => (
   <Fragment>
     <SpacingSection>
       <div className={classNames({
         'row': true,
         'bg-cream': true,
-        'plain-text': true,
         [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
       })}>
         <div className='container'>
@@ -55,7 +56,7 @@ const LayoutPaginatedResults = ({
 
               {description &&
                 <div className={classNames({
-                  'first-para-no-margin': true,
+                  'first-para-no-margin body-text': true,
                   [spacing({s: 2}, {margin: ['top']})]: true
                 })}>
                   <PrismicHtmlBlock html={description} />
@@ -85,17 +86,19 @@ const LayoutPaginatedResults = ({
           <Divider extraClasses={'divider--keyline divider--pumice'} />
         </Layout12>
       }
+      {showFreeAdmissionMessage &&
+        <Layout12>
+          <div className='flex-inline flex--v-center'>
+            <span className={classNames({
+              [font({s: 'HNM5', m: 'HNM4'})]: true
+            })}>Free admission</span>
+          </div>
+        </Layout12>
+      }
 
-      <Layout12>
-        <div className='flex-inline flex--v-center'>
-          <span className={classNames({
-            [font({s: 'HNM5', m: 'HNM4'})]: true,
-            [spacing({s: 4}, {margin: ['bottom']})]: true
-          })}>Free admission</span>
-        </div>
-      </Layout12>
-
-      <CardGrid items={paginatedResults.results} />
+      <div className={spacing({s: 4}, {margin: ['top']})}>
+        <CardGrid items={paginatedResults.results} />
+      </div>
 
       {paginatedResults.totalPages > 1 &&
         <div className={classNames({

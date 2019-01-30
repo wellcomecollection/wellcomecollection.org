@@ -1,8 +1,8 @@
 // @flow
 
-import ReactGA from 'react-ga';
 import {font, spacing} from '../../../utils/classnames';
 import getLicenseInfo from '../../../utils/get-license-info';
+import {trackEvent} from '../../../utils/ga';
 import {Fragment} from 'react';
 import {withToggler} from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
@@ -83,28 +83,25 @@ const Tasl = withToggler(({
 }: Props) => {
   function toggleWithAnalytics(event) {
     event.preventDefault();
-
-    ReactGA.event({
-      category: 'component',
-      action: 'Tasl:click',
-      label: `click-action:${isActive ? 'did close' : 'did open'}`
+    trackEvent({
+      category: 'Tasl',
+      action: isActive ? 'closed' : 'opened',
+      label: title || 'no title'
     });
 
     toggle();
   }
 
-  return [title, sourceName, copyrightHolder].some(_ => _) && ( // TODO: remove js- and data-attributes once fully Reactified
+  return [title, sourceName, copyrightHolder].some(_ => _) && (
     <div className={`
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
       ${font({s: 'LR3', m: 'LR2'})}
       ${isActive ? 'is-active' : ''}
-      tasl drawer js-show-hide plain-text
-    `}
-    data-track-action='toggle-image-credit'
-    data-track-label={`image`}>
+      tasl drawer plain-text
+    `}>
       {!isFull &&
         <button onClick={toggleWithAnalytics}
-          className='tasl__button plain-button js-show-hide-trigger absolute'>
+          className='tasl__button plain-button absolute'>
           <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
             <Icon name='information' title='information' extraClasses='icon--white' />
             <span className='visually-hidden'>information</span>
@@ -116,14 +113,14 @@ const Tasl = withToggler(({
       }
 
       <div className={`
-        drawer__body js-show-hide-drawer bg-black font-white
+        drawer__body bg-black font-white
         ${spacing({s: 1}, {padding: ['top', 'bottom', 'left']})}
         ${spacing({s: 6}, {padding: ['right']})}`}>
         {getMarkup(title, author, sourceName, sourceLink, license, copyrightHolder, copyrightLink)}
       </div>
       {isFull &&
-        <button onClick={(event) => { event.preventDefault(); toggle(); }}
-          className='tasl__button absolute plain-button js-show-hide-trigger'>
+        <button onClick={toggleWithAnalytics}
+          className='tasl__button absolute plain-button '>
           <span className='tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black'>
             <Icon name='information' title='information' extraClasses='icon--white' />
             <span className='visually-hidden'>information</span>

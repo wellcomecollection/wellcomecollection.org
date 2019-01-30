@@ -5,7 +5,7 @@ const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 
 const {
-  middleware, route
+  middleware, route, handleAllRoute
 } = require('@weco/common/koa-middleware/withCachedValues');
 
 // FIXME: Find a way to import this.
@@ -90,10 +90,7 @@ module.exports = app.prepare().then(async () => {
     ctx.body = 'ok';
   });
 
-  router.get('*', async ctx => {
-    await handle(ctx.req, ctx.res);
-    ctx.respond = false;
-  });
+  router.get('*', handleAllRoute(handle));
 
   server.use(async (ctx, next) => {
     ctx.res.statusCode = 200;

@@ -1,5 +1,15 @@
+
 // @flow
+import type {UiEvent, EventFormat, EventTime} from '../../model/events';
+import type {
+  PrismicDocument,
+  PaginatedResults,
+  PrismicQueryOpts,
+  PrismicApiSearchResponse
+} from './types';
+import type {Team} from '../../model/team';
 import Prismic from 'prismic-javascript';
+import sortBy from 'lodash.sortby';
 import {getDocument, getTypeByIds, getDocuments} from './api';
 import {
   eventAccessOptionsFields,
@@ -25,20 +35,11 @@ import {
   parseGenericFields,
   parseLabelTypeList
 } from './parsers';
+import {getPeriodPredicates} from './utils';
 import {parseEventSeries} from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
 import {london, formatDayDate} from '../../utils/format-date';
-import {isPast} from '../../utils/dates';
-import {getPeriodPredicates} from './utils';
-import type {UiEvent, EventFormat, EventTime} from '../../model/events';
-import type {Team} from '../../model/team';
-import type {
-  PrismicDocument,
-  PrismicApiSearchResponse,
-  PaginatedResults,
-  PrismicQueryOpts
-} from './types';
-import type {Period} from '../../model/periods';
+import {getNextWeekendDateRange, isPast} from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
@@ -168,8 +169,8 @@ export function parseEventDoc(
     isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
     times: times,
-    displayStart: displayTime.range.startDateTime || null,
-    displayEnd: displayTime.range.endDateTime || null,
+    displayStart: (displayTime && displayTime.range.startDateTime) || null,
+    displayEnd: (displayTime && displayTime.range.endDateTime) || null,
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
     isRelaxedPerformance
@@ -237,14 +238,12 @@ export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?U
 
 type EventsQueryProps = {|
   predicates?: Prismic.Predicates[],
-  period?: Period,
-  order?: 'asc' | 'desc',
+  period?: 'current-and-coming-up' | 'past',
   ...PrismicQueryOpts
 |}
 
 export async function getEvents(req: ?Request,  {
   predicates = [],
-  order = 'asc',
   period,
   ...opts
 }: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
@@ -324,6 +323,7 @@ export async function getEvents(req: ?Request,  {
     }
   }`;
 
+  const order = period === 'past' ? 'desc' : 'asc';
   const orderings = `[my.events.times.startDateTime${order === 'desc' ? ' desc' : ''}]`;
   const dateRangePredicates = period ? getPeriodPredicates(
     period,
@@ -343,33 +343,79 @@ export async function getEvents(req: ?Request,  {
     return parseEventDoc(doc, null);
   });
 
-  const eventsOrderedByDisplayDate = [...events].sort((a, b) => {
-    return a.displayStart - b.displayStart;
-  });
-
-  // Prismic uses the first date in times to determine past events,
-  // so we need to remove the ones that still have more dates in the future
-  const eventsWithoutIncorrectPast = events.filter(event => {
-    const hasFutureDates = event.times.find(time => london(time.range.startDateTime).isSameOrAfter(london(), 'day'));
-    return !hasFutureDates;
-  });
-
   return {
     currentPage: paginatedResults.currentPage,
     pageSize: paginatedResults.pageSize,
     totalResults: paginatedResults.totalResults,
     totalPages: paginatedResults.totalPages,
-    results: order === 'desc' ? eventsWithoutIncorrectPast : eventsOrderedByDisplayDate
+    results: events
   };
+}
+
+function getNextDateInFuture(event: UiEvent): ?EventTime {
+  const now = london();
+  const futureTimes = event.times.filter(time => {
+    const end = london(time.range.endDateTime);
+    return end.isSameOrAfter(now, 'day');
+  });
+
+  if (futureTimes.length === 0) {
+    return null;
+  } else {
+    return futureTimes.reduce((closestStartingDate, time) => {
+      const start = london(time.range.startDateTime);
+      if (
+        start.isBefore(closestStartingDate.range.startDateTime)
+      ) {
+        return time;
+      } else {
+        return closestStartingDate;
+      }
+    });
+  }
+}
+
+function filterEventsByTimeRange(events, start, end) {
+  return events.filter(event => {
+    return event.times.find(time => {
+      return london(time.range.endDateTime).isBetween(start, end);
+    });
+  });
+}
+
+export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
+  const startOfToday = london().startOf('day');
+  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
+  return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
+}
+
+export function filterEventsForToday(events: UiEvent[]): UiEvent[] {
+  const startOfToday = london().startOf('day');
+  const endOfToday = london().endOf('day');
+  return filterEventsByTimeRange(events, startOfToday, endOfToday);
+}
+
+export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
+  const {start, end} = getNextWeekendDateRange(new Date());
+  return filterEventsByTimeRange(events, london(start), london(end));
+}
+
+export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
+  const reorderedEvents = sortBy(
+    [...events].filter(getNextDateInFuture),
+    getNextDateInFuture
+  );
+
+  return reorderedEvents;
 }
 
 // TODO: Make this way less forEachy and mutationy 0_0
 // TODO: Type this up properly
-const groupByFormat = {
+const GroupByFormat = {
   day: 'dddd',
   month: 'MMMM'
 };
-type GroupDatesBy = $Keys<typeof groupByFormat>
+type GroupDatesBy = $Keys<typeof GroupByFormat>
 type EventsGroup = {|
   label: string,
   start: Date,

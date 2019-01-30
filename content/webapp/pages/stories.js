@@ -1,18 +1,18 @@
 // @flow
-import {Component, Fragment} from 'react';
+import type {Context} from 'next';
+import {Component} from 'react';
 import {getArticles} from '@weco/common/services/prismic/articles';
 import {getArticleSeries} from '@weco/common/services/prismic/article-series';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {articleLd} from '@weco/common/utils/json-ld';
 import {classNames, spacing, grid, font} from '@weco/common/utils/classnames';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 import type {Article} from '@weco/common/model/articles';
 import type {ArticleSeries} from '@weco/common/model/article-series';
 import type {PaginatedResults} from '@weco/common/services/prismic/types';
@@ -57,26 +57,17 @@ const SerialisedSeries = ({series}: any) => {
 
 const pageDescription = 'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 export class StoriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {page = 1} = context.query;
-    const articlesPromise = getArticles(context.req, {page});
-    const seriesPromise = getArticleSeries(context.req, {id: 'W1boEyYAACgAqwfw'});
+  static getInitialProps = async (ctx: Context) => {
+    const {page = 1} = ctx.query;
+    const articlesPromise = getArticles(ctx.req, {page});
+    const seriesPromise = getArticleSeries(ctx.req, {id: 'W-BFpREAAAWpaz6O'});
     const [articles, seriesAndArticles] = await Promise.all([articlesPromise, seriesPromise]);
     const series = seriesAndArticles && seriesAndArticles.series;
 
     if (articles && articles.results) {
-      const firstArticle = articles.results[0];
       return {
         articles,
-        series,
-        title: 'Stories',
-        description: pageDescription,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/stories`,
-        imageUrl: firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800),
-        siteSection: 'stories',
-        analyticsCategory: 'editorial',
-        jsonPageLd: articles.results.map(articleLd)
+        series
       };
     } else {
       return {statusCode: 404};
@@ -86,14 +77,23 @@ export class StoriesPage extends Component<Props> {
   render() {
     const series = this.props.series;
     const articles = this.props.articles.results;
+    const firstArticle = articles[0];
 
     return (
-      <Fragment>
+      <PageLayout
+        title={'Stories'}
+        description={pageDescription}
+        url={{pathname: `/articles`}}
+        jsonLd={articles.map(articleLd)}
+        openGraphType={'website'}
+        siteSection={'stories'}
+        imageUrl={firstArticle && firstArticle.image && convertImageUri(firstArticle.image.contentUrl, 800)}
+        imageAltText={firstArticle && firstArticle.image && firstArticle.image.alt}
+        rssUrl={'https://rss.wellcomecollection.org/stories'}>
         <SpacingSection>
           <div className={classNames({
             'row': true,
             'bg-cream': true,
-            'plain-text': true,
             [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
           })}>
             <div className='container'>
@@ -107,7 +107,7 @@ export class StoriesPage extends Component<Props> {
                   })}>Stories</h1>
 
                   <div className={classNames({
-                    'first-para-no-margin': true,
+                    'first-para-no-margin body-text': true,
                     [spacing({s: 2}, {margin: ['top']})]: true
                   })}>
                     {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}
@@ -178,9 +178,9 @@ export class StoriesPage extends Component<Props> {
 
           <CardGrid items={articles.slice(5, 11)} />
         </SpacingSection>
-      </Fragment>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(StoriesPage);
+export default StoriesPage;

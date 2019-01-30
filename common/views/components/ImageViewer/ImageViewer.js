@@ -4,10 +4,10 @@ import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
 import {spacing} from '../../../utils/classnames';
+import {trackEvent} from '../../../utils/ga';
 import dynamic from 'next/dynamic';
-import ReactGA from 'react-ga';
 
-const ImageViewerImage = dynamic(import('./ImageViewerImage'));
+const ImageViewerImage = dynamic(import('./ImageViewerImage'), {ssr: false});
 
 type LaunchViewerButtonProps = {|
   classes: string,
@@ -43,7 +43,7 @@ type ViewerContentProps = {|
 class ViewerContent extends Component<ViewerContentProps> {
   escapeCloseViewer = ({keyCode}: KeyboardEvent) => {
     if (keyCode === 27 && this.props.viewerVisible) {
-      this.props.handleViewerDisplay();
+      this.props.handleViewerDisplay('Keyboard');
     }
   }
 
@@ -56,18 +56,18 @@ class ViewerContent extends Component<ViewerContentProps> {
   }
 
   handleZoomIn = (event) => {
-    ReactGA.event({
-      category: 'component',
-      action: 'work-zoom-in-button:click',
-      label: `id:${this.props.id}`
+    trackEvent({
+      category: 'Control',
+      action: 'zoom in ImageViewer',
+      label: this.props.id
     });
   }
 
   handleZoomOut = (event) => {
-    ReactGA.event({
-      category: 'component',
-      action: 'work-zoom-out-button:click',
-      label: `id:${this.props.id}`
+    trackEvent({
+      category: 'Control',
+      action: 'zoom out ImageViewer',
+      label: this.props.id
     });
   }
 
@@ -96,7 +96,7 @@ class ViewerContent extends Component<ViewerContentProps> {
             text='Close image viewer'
             icon='cross'
             extraClasses={`${spacing({s: 2}, {margin: ['right']})}`}
-            clickHandler={this.props.handleViewerDisplay} />
+            clickHandler={() => { this.props.handleViewerDisplay('Control'); }} />
         </div>
 
         {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} />}
@@ -125,11 +125,11 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
     viewButtonMounted: false
   };
 
-  handleViewerDisplay = () => {
-    ReactGA.event({
-      category: 'component',
-      action: `ImageViewer:${this.state.showViewer ? 'did close' : 'did open'}`,
-      label: `id:${this.props.id},title:${this.props.trackTitle}`
+  handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
+    trackEvent({
+      category: initiator,
+      action: `${this.state.showViewer ? 'closed' : 'opened'} ImageViewer`,
+      label: this.props.id
     });
 
     this.setState(prevState => ({
@@ -158,7 +158,7 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
           lazyload={false}
           sizesQueries='(min-width: 860px) 800px, calc(92.59vw + 22px)'
           alt=''
-          clickHandler={this.handleViewerDisplay}
+          clickHandler={() => { this.handleViewerDisplay('Image'); }}
           zoomable={this.state.viewButtonMounted}
           defaultSize={800}
           extraClasses='margin-h-auto width-auto full-height full-max-width block' />
@@ -171,7 +171,7 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
               return <LaunchViewerButton
                 classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
                 didMountHandler={this.viewButtonMountedHandler}
-                clickHandler={this.handleViewerDisplay} />;
+                clickHandler={() => { this.handleViewerDisplay('Control'); }} />;
             }
           }
         </Transition>

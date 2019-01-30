@@ -1,8 +1,8 @@
 // @flow
-import Prismic from 'prismic-javascript';
-import {getEvents} from './events';
 import type {EventSeries} from '../../model/event-series';
 import type {PrismicDocument, PrismicQueryOpts} from './types';
+import Prismic from 'prismic-javascript';
+import {getEvents} from './events';
 import {
   parseGenericFields,
   parseBackgroundTexture
@@ -37,7 +37,6 @@ export async function getEventSeries(req: ?Request, {
   const events = await getEvents(req, {
     page: 1,
     predicates: [Prismic.Predicates.at('my.events.series.series', id)],
-    order: 'asc',
     ...opts
   });
 

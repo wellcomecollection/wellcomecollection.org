@@ -182,7 +182,7 @@ function exceptionalOpeningHours(dates: OverrideDate[], placesOpeningHours: Plac
   });
 }
 
-function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[], daysInAdvance) {
+function upcomingExceptionalOpeningPeriods(periods: ExceptionalPeriod[], daysInAdvance: number = 15) {
   const exceptionalPeriods =  periods && periods.filter((period) => {
     const displayPeriodStart = london().subtract(1, 'day');
     const displayPeriodEnd = london().add(daysInAdvance, 'day');
@@ -274,6 +274,7 @@ export function parseVenuesToOpeningHours(doc: PrismicFragment, daysInAdvance?: 
   const orderedHours = {};
   Object.keys(exceptionalHours).sort().forEach(key => orderedHours[key] = exceptionalHours[key]);
   const exceptionalOpening = exceptionalOpeningHoursByPeriod(exceptionalOpeningPeriodsAllDates(exceptionalPeriods), orderedHours, placesOpeningHours);
+  
   return {
     placesOpeningHours: placesOpeningHours.sort((a, b) => {
       return a.order - b.order;

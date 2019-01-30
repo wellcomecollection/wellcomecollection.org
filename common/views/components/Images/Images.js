@@ -1,5 +1,7 @@
 // @flow
 import {Fragment, Component, createRef} from 'react';
+import debounce from 'lodash.debounce';
+import styled from 'styled-components';
 import {convertImageUri} from '../../../utils/convert-image-uri';
 import {classNames} from '../../../utils/classnames';
 import {imageSizes} from '../../../utils/image-sizes';
@@ -8,8 +10,6 @@ import type {Node as ReactNode} from 'react';
 import type {ImageType} from '../../../model/image';
 import type {CaptionedImage as CaptionedImageType} from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
-import debounce from 'lodash.debounce';
-import styled from 'styled-components';
 
 const LL = styled.div`
   position: absolute;
@@ -73,15 +73,17 @@ export type UiImageProps = {|
 |}
 
 type UiImageState = {|
-  imgRef: any // FIXME: better Flow
+  imgRef: any,  // FIXME: better Flow
+  isLazyLoaded: boolean
 |}
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
   state = {
-    imgRef: null
+    imgRef: null,
+    isLazyLoaded: false
   }
 
-  imgRef = createRef();
+  imgRef = createRef<HTMLImageElement>();
 
   getImageSize = () => {
     this.state.imgRef &&
@@ -94,6 +96,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
   handleLazyLoaded = () => {
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(true);
     this.getImageSize(); // Update centre based on new aspect ratio
+    this.setState({isLazyLoaded: true});
   }
 
   componentDidMount() {
@@ -130,6 +133,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
       showTasl = true,
       isWidthAuto = false
     } = this.props;
+
     return (
       <Fragment>
         <noscript dangerouslySetInnerHTML={{__html: `
@@ -159,7 +163,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           sizes={sizesQueries}
           alt={alt || ''} />
 
-        {showTasl && isWidthAuto && <Tasl {...tasl} isFull={isFull} />}
+        {showTasl && this.state.isLazyLoaded && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
     );
   }

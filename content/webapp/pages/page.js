@@ -1,6 +1,7 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -10,8 +11,8 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {getPage} from '@weco/common/services/prismic/pages';
+import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page as PageType} from '@weco/common/model/pages';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   page: PageType
@@ -19,20 +20,13 @@ type Props = {|
 
 const backgroundTexture = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
 export class Page extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const page = await getPage(context.req, id);
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const page = await getPage(ctx.req, id);
 
     if (page) {
       return {
-        page,
-        title: page.title,
-        description: page.metadataDescription || page.promoText,
-        type: 'website',
-        canonicalUrl: `https://wellcomecollection.org/pages/${page.id}`,
-        imageUrl: page.image && convertImageUri(page.image.contentUrl, 800),
-        siteSection: page.siteSection,
-        analyticsCategory: 'info'
+        page
       };
     } else {
       return {statusCode: 404};
@@ -47,7 +41,7 @@ export class Page extends Component<Props> {
     (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
     const body = hasFeaturedMedia ? page.body.slice(1, page.body.length) : page.body;
     const FeaturedMedia = hasFeaturedMedia
-      ? page.body[0].type === 'picture' ? <UiImage {...page.body[0].value.image} />
+      ? page.body[0].type === 'picture' ? <UiImage {...(page.body[0].value.image.crops['16:9'] || page.body[0].value.image)} />
         : page.body[0].type === 'videoEmbed' ? <VideoEmbed {...page.body[0].value} />
           : null : null;
 
@@ -72,15 +66,24 @@ export class Page extends Component<Props> {
       backgroundTexture={!FeaturedMedia ? backgroundTexture : null}
       highlightHeading={true}
     />);
-
     return (
-      <ContentPage
-        id={page.id}
-        Header={Header}
-        Body={<Body body={body} />}>
-      </ContentPage>
+      <PageLayout
+        title={page.title}
+        description={page.metadataDescription || page.promoText || ''}
+        url={{pathname: `/pages/${page.id}`}}
+        jsonLd={contentLd(page)}
+        openGraphType={'website'}
+        siteSection={page.siteSection === 'what-we-do' || page.siteSection === 'visit-us' ? page.siteSection : null}
+        imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
+        imageAltText={page.image && page.image.alt}>
+        <ContentPage
+          id={page.id}
+          Header={Header}
+          Body={<Body body={body} />}>
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(Page);
+export default Page;

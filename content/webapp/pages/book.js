@@ -1,18 +1,18 @@
 // @flow
+import type {Context} from 'next';
 import {Fragment, Component} from 'react';
 import {getBook} from '@weco/common/services/prismic/books';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
-import PrimaryLink from '@weco/common/views/components/Links/PrimaryLink/PrimaryLink';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import {UiImage} from '@weco/common/views/components/Images/Images';
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {defaultContributorImage} from '@weco/common/services/prismic/parsers';
 import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import type {Book} from '@weco/common/model/books';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   book: Book
@@ -41,9 +41,9 @@ const BookMetadata = ({book}: Props) => (
 );
 
 export class ArticleSeriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const book = await getBook(context.req, id);
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const book = await getBook(ctx.req, id);
 
     if (book) {
       return {
@@ -148,21 +148,31 @@ export class ArticleSeriesPage extends Component<Props> {
       : drupalContributor ? [drupalContributor] : [];
 
     return (
-      <ContentPage
-        id={book.id}
-        Header={Header}
-        Body={<Body body={book.body} />}
-        contributorProps={{contributors}}
-      >
-        <Fragment>
-          <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
-            <BookMetadata book={book} />
-          </div>
-          {book.orderLink && <PrimaryLink url={book.orderLink} name='Order online' />}
-        </Fragment>
-      </ContentPage>
+      <PageLayout
+        title={book.title}
+        description={book.metadataDescription || book.promoText || ''}
+        url={{pathname: `/books/${book.id}`}}
+        jsonLd={{ '@type': 'WebPage' }}
+        openGraphType={'book'}
+        siteSection={null}
+        imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
+        imageAltText={book.image && book.image.alt}>
+        <ContentPage
+          id={book.id}
+          Header={Header}
+          Body={<Body body={book.body} />}
+          contributorProps={{contributors}}
+        >
+          <Fragment>
+            <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
+              <BookMetadata book={book} />
+            </div>
+            {book.orderLink && <MoreLink url={book.orderLink} name='Order online' />}
+          </Fragment>
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(ArticleSeriesPage);
+export default ArticleSeriesPage;

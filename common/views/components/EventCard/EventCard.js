@@ -23,7 +23,6 @@ const EventCard = ({ event }: Props) => {
     title={event.title}
     partNumber={null}
     color={null}
-    promoType={'EventPromo'}
     labels={{labels: event.labels}}
     description={null}
     urlOverride={event.promo && event.promo.link}

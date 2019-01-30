@@ -1,7 +1,8 @@
 // @flow
+import type {Context} from 'next';
 import {Component} from 'react';
 import {getEventSeries} from '@weco/common/services/prismic/event-series';
-import PageWrapper from '@weco/common/views/components/PageWrapper/PageWrapper';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
@@ -16,7 +17,6 @@ import {eventLd} from '@weco/common/utils/json-ld';
 import {convertJsonToDates} from './event';
 import type {EventSeries} from '@weco/common/model/event-series';
 import type {UiEvent} from '@weco/common/model/events';
-import type {GetInitialPropsProps} from '@weco/common/views/components/PageWrapper/PageWrapper';
 
 type Props = {|
   series: EventSeries,
@@ -24,9 +24,9 @@ type Props = {|
 |}
 
 export class EventSeriesPage extends Component<Props> {
-  static getInitialProps = async (context: GetInitialPropsProps) => {
-    const {id} = context.query;
-    const seriesAndEvents = await getEventSeries(context.req, {
+  static getInitialProps = async (ctx: Context) => {
+    const {id} = ctx.query;
+    const seriesAndEvents = await getEventSeries(ctx.req, {
       id,
       pageSize: 100
     });
@@ -35,15 +35,7 @@ export class EventSeriesPage extends Component<Props> {
       const {series, events} = seriesAndEvents;
       return {
         series,
-        events,
-        title: series.title,
-        description: series.metadataDescription || series.promoText || '',
-        type: 'webpage',
-        canonicalUrl: `https://wellcomecollection.org/events-series/${series.id}`,
-        imageUrl: series.image && convertImageUri(series.image.contentUrl, 800),
-        siteSection: 'whatson',
-        analyticsCategory: 'public-programme',
-        jsonPageLd: events.map(eventLd)
+        events
       };
     } else {
       return {statusCode: 404};
@@ -108,27 +100,37 @@ export class EventSeriesPage extends Component<Props> {
       .slice(0, 3);
 
     return (
-      <ContentPage
-        id={series.id}
-        Header={Header}
-        Body={<Body body={series.body} />}
-        contributorProps={{ contributors: series.contributors }}
-      >
-        {upcomingEvents.length > 0 &&
-          <SearchResults items={upcomingEvents} title={`What's next`} />
-        }
-        {upcomingEvents.length === 0 &&
-          <h2 className='h2'>No events scheduled at the moment, check back soon…</h2>
-        }
+      <PageLayout
+        title={series.title}
+        description={series.metadataDescription || series.promoText || ''}
+        url={{pathname: `/event-series/${series.id}`}}
+        jsonLd={events.map(eventLd)}
+        openGraphType={'website'}
+        siteSection={'whats-on'}
+        imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
+        imageAltText={series.image && series.image.alt}>
+        <ContentPage
+          id={series.id}
+          Header={Header}
+          Body={<Body body={series.body} />}
+          contributorProps={{ contributors: series.contributors }}
+        >
+          {upcomingEvents.length > 0 &&
+            <SearchResults items={upcomingEvents} title={`What's next`} />
+          }
+          {upcomingEvents.length === 0 &&
+            <h2 className='h2'>No events scheduled at the moment, check back soon…</h2>
+          }
 
-        {pastEvents.length > 0 &&
-        <div className={spacing({s: 8}, {margin: ['top']})}>
-          <SearchResults items={pastEvents} title={`What we've done before`} />
-        </div>
-        }
-      </ContentPage>
+          {pastEvents.length > 0 &&
+            <div className={spacing({s: 8}, {margin: ['top']})}>
+              <SearchResults items={pastEvents} title={`What we've done before`} />
+            </div>
+          }
+        </ContentPage>
+      </PageLayout>
     );
   }
 };
 
-export default PageWrapper(EventSeriesPage);
+export default EventSeriesPage;

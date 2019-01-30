@@ -32,11 +32,13 @@ const FacilityPromo = ({
   };
   return (
     <a data-component='FacilityPromo'
-      onClick={() => trackEvent({
-        category: 'component',
-        action: `FacilityPromo:click`,
-        label: `title:${title}`
-      })}
+      onClick={() => {
+        trackEvent({
+          category: 'FacilityPromo',
+          action: 'follow link',
+          label: title
+        });
+      }}
       id={id}
       href={url}
       className='plain-link promo-link'>

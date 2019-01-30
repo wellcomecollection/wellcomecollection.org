@@ -48,7 +48,7 @@ const EventScheduleItem = ({
 
             {!isNotLinked &&
               <div className={spacing({s: 2}, {margin: ['top', 'bottom']})}>
-                <p className={`plain-text ${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
+                <p className={`${font({s: 'HNL5', m: 'HNL4'})} no-margin`}>
                   <a href={`/events/${event.id}`}>Full event details<span className={`visually-hidden`}> about {event.title}</span></a>
                 </p>
               </div>

@@ -49,7 +49,7 @@ class OpeningHours extends Component<Props, State> {
           </p>
         }
         {upcomingExceptionalOpeningPeriods && upcomingExceptionalOpeningPeriods.length > 0 &&
-          <p className={`plain-text ${font({s: 'HNM4'})}`}>
+          <p className={`${font({s: 'HNM4'})}`}>
             Our opening times will change
             {upcomingExceptionalOpeningPeriods.map((group, i, array) => {
               const firstDate = group.dates[0];
@@ -91,7 +91,7 @@ class OpeningHours extends Component<Props, State> {
                 }
               }
             })}
-            . Please check our <a href='/opening-times#exceptional'>modified opening times</a> for details before you travel.
+            . Please check our <a href='/opening-times#exceptional'>revised opening hours</a> for details before you travel.
           </p>
         }
         {groupedVenues && groupedVenues[Object.keys(groupedVenues)[0]].hours && groupedVenues[Object.keys(groupedVenues)[0]].hours.length > 1 &&

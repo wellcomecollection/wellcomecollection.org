@@ -1,8 +1,9 @@
 // @flow
 
+import type {GaEvent} from '../../../../utils/ga';
+import {trackEvent} from '../../../../utils/ga';
 import {font} from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
-import type {GaEvent} from '../../../../utils/ga';
 
 type Props = {|
   url?: string,
@@ -37,6 +38,14 @@ const Button = ({
   const fontClasses = extraClasses && extraClasses.indexOf('btn--tertiary') > -1
     ? {s: 'HNM5'}
     : {s: 'HNM4'};
+  function handleClick(e) {
+    if (clickHandler) {
+      clickHandler(e);
+    }
+    if (trackingEvent) {
+      trackEvent(trackingEvent);
+    }
+  }
   return (
     <HtmlTag
       href={url}
@@ -45,8 +54,7 @@ const Button = ({
       rel={rel}
       id={id}
       className={`btn btn--${type} ${extraClasses || ''} ${font(fontClasses)} flex-inline flex--v-center`}
-      data-track-event={trackingEvent && JSON.stringify(trackingEvent)}
-      onClick={clickHandler}
+      onClick={handleClick}
       disabled={disabled}>
       <span className='flex-inline flex--v-center'>
         {icon && <Icon name={icon} />}

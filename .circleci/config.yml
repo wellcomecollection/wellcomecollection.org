@@ -1,4 +1,4 @@
-version: 2
+version: 2.0
 jobs:
   checkout_code:
     docker:
@@ -10,6 +10,25 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
+  root_tests:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: root_modules_circleci_node_8_{{ checksum "package.json" }}
+      - run:
+          name: Install root modules
+          command: yarn install --production
+      - run:
+          name: Flow
+          command: yarn flow
+      - save_cache:
+          key: root_modules_circleci_node_8_{{ checksum "package.json" }}
+          paths:
+            -  node_modules
   catalogue:
     docker:
       - image: circleci/node:8.11.3
@@ -31,18 +50,13 @@ jobs:
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
       - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
           name: Next report
           command: |
             yarn
             BUILD_HASH=${CIRCLE_SHA1} BUNDLE_ANALYZE=both yarn build
-            # Taken from
-            # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-            sudo apt-get -y -qq update
-            sudo apt-get -y -qq install python3.4-dev
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python3.4 get-pip.py --user
-            export PATH=~/.local/bin:$PATH
-            pip install awscli --upgrade --user
             pushd .dist
               cp browser.${CIRCLE_SHA1}.html catalogue.browser.latest.html
               cp browser.${CIRCLE_SHA1}.json catalogue.browser.latest.json
@@ -71,18 +85,13 @@ jobs:
                 CONTAINER_TAG=${CIRCLE_SHA1} docker-compose push
             fi
       - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
           name: Next report
           command: |
             yarn
             BUILD_HASH=${CIRCLE_SHA1} BUNDLE_ANALYZE=both yarn build
-            # Taken from
-            # http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-linux.html
-            sudo apt-get -y -qq update
-            sudo apt-get -y -qq install python3.4-dev
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python3.4 get-pip.py --user
-            export PATH=~/.local/bin:$PATH
-            pip install awscli --upgrade --user
             pushd .dist
               cp browser.${CIRCLE_SHA1}.html content.browser.latest.html
               cp browser.${CIRCLE_SHA1}.json content.browser.latest.json
@@ -90,25 +99,6 @@ jobs:
               cp server.${CIRCLE_SHA1}.json content.server.latest.json
               aws s3 sync --only-show-errors . s3://dash.wellcomecollection.org/bundles
             popd
-  root_tests:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: root_modules_circleci_node_8_{{ checksum "package.json" }}
-      - run:
-          name: Install root modules
-          command: yarn install
-      - run:
-          name: Flow
-          command: yarn flow
-      - save_cache:
-          key: root_modules_circleci_node_8_{{ checksum "package.json" }}
-          paths:
-            -  node_modules
   deploy_toggles:
     docker:
       - image: circleci/node:8.11.3
@@ -182,20 +172,6 @@ jobs:
         name: Deploy
         command: |
           aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors
-  install_common_modules:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/wellcomecollection.org/common
-    steps:
-      - restore_cache:
-          key: repo_{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install common modules
-          command: yarn install
-      - save_cache:
-          key: common_modules_circleci_node_8_{{ checksum "package.json" }}
-          paths:
-            -  node_modules
   cardigan:
     docker:
       - image: circleci/node:8.11.3
@@ -212,6 +188,12 @@ jobs:
           name: Install awscli
           command: sudo apt-get install awscli
       - run:
+          name: Install common modules
+          command: |
+            pushd ../common
+              yarn
+            popd
+      - run:
           name: Build
           command: |
             yarn
@@ -225,20 +207,58 @@ jobs:
                     aws s3 sync --only-show-errors . s3://cardigan.wellcomecollection.org
                 popd
             fi
+  edge_lambdas_build:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: /home/circleci/wellcomecollection.org/router/webapp
+    steps:
+      - add_ssh_keys
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install deps
+          command: yarn
+      - run:
+          name: Run tests
+          command: yarn test
+      - run:
+          name: Build lambda ZIP
+          command: |
+            zip -r edge_lambda_origin.zip ab_testing.js origin.js redirector.js redirects.js wiRedirector.js
+            mkdir -p /tmp/artifacts
+            cp edge_lambda_origin.zip /tmp/artifacts
+            ls /tmp/artifacts
+      - persist_to_workspace:
+          root: /tmp/artifacts
+          paths:
+            - edge_lambda_origin.zip
+  edge_lambdas_deploy:
+    docker:
+      - image: circleci/node:8.11.3
+    working_directory: /tmp
+    steps:
+      - attach_workspace:
+          at: /tmp/artifacts
+      - run:
+          name: Install awscli
+          command: sudo apt-get install awscli
+      - run:
+          name: Deploy lambda to S3
+          command: aws s3 cp ./artifacts/edge_lambda_origin.zip s3://weco-lambdas/edge_lambda_origin.zip
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - checkout_code
+      - root_tests:
+          requires:
+            - checkout_code
       - catalogue:
           requires:
-            - checkout_code
+            - root_tests
       - content:
           requires:
-            - checkout_code
-      - install_common_modules:
-          requires:
-            - checkout_code
+            - root_tests
       - deploy_pa11y:
           requires:
             - checkout_code
@@ -260,9 +280,19 @@ workflows:
             branches:
               only:
                 - master
-      - root_tests:
-          requires:
-            - checkout_code
       - cardigan:
           requires:
             - checkout_code
+  edge_lambdas:
+    jobs:
+      - checkout_code
+      - edge_lambdas_build:
+          requires:
+            - checkout_code
+      - edge_lambdas_deploy:
+          requires:
+            - edge_lambdas_build
+          filters:
+            branches:
+              only:
+                - edge_lambda_deploy

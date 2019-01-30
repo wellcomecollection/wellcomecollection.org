@@ -264,11 +264,3 @@ $xlargeGallerySpacing: ((map-get($container-padding, 'xlarge') * 2) - map-get($g
     left: -#{( ( ( ($container-width-max - $xlargeGallerySpacing) * 8/12) ) - map-get($gutter-width, 'xlarge') ) / 2};
   }
 }
-
-@mixin default-link {
-  &:hover,
-  &:focus {
-    color: color('green');
-    text-decoration: none;
-  }
-}
