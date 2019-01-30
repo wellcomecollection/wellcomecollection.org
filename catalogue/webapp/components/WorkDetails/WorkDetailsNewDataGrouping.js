@@ -57,7 +57,7 @@ const WorkDetails = ({
 
               {iiifPresentationLocation &&
                   <IIIFPresentationDisplay
-                    physicalDescription={[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')}
+                    physicalDescription={[work.extent].filter(Boolean).join(' ')}
                     manifestLocation={iiifPresentationLocation.url} />
               }
 
