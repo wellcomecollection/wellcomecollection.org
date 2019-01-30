@@ -15,6 +15,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 
 type Work = Object;
 type Props = {|
@@ -34,6 +35,11 @@ const WorkDetails = ({
   iiifImageLocationLicenseId,
   encoreLink
 }: Props) => {
+  const [iiifPresentationLocation] = work.items.map(
+    item => item.locations.find(
+      location => location.locationType.id === 'iiif-presentation'
+    )
+  ).filter(Boolean);
   return (
     <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
       <div className='container'>
@@ -49,6 +55,12 @@ const WorkDetails = ({
                   spacing({s: 0}, {margin: ['top']})
                 ])}>{work.title}</h1>
             </SpacingComponent>
+
+            {iiifPresentationLocation &&
+              <IIIFPresentationDisplay
+                physicalDescription={[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')}
+                manifestLocation={iiifPresentationLocation.url} />
+            }
 
             {iiifImageLocationUrl &&
               <SpacingComponent>
