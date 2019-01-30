@@ -57,8 +57,9 @@ const IIIFPresentationDisplay = ({
               maxWidth: '100%',
               overflow: 'scroll',
               justifyContent: 'space-between',
-              position: 'relative'
-            }}>
+              position: 'relative',
+              cursor: 'pointer'
+            }} onClick={() => setShow('overview')}>
               {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map((structuredCanvas, i) => {
                 return structuredCanvas.canvases.map((canvas) => {
                   return (
