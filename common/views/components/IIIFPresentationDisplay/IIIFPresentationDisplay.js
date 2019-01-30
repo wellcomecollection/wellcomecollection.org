@@ -80,8 +80,8 @@ const IIIFPresentationDisplay = ({
                 transform: 'translateY(-50%) translateX(50%)'
               }}>
                 <div className='flex' style={{ alignItems: 'center' }}>
-                  <b>View {validSequences.reduce((arr, sequence) => arr.concat(sequence.canvases), []).length} more</b>
-                  <Icon name='arrow' extraClasses='icon--white margin-left-s1' />
+                  <b>View all {validSequences.reduce((arr, sequence) => arr.concat(sequence.canvases), []).length}</b>
+                  <Icon name='gallery' extraClasses='icon--white margin-left-s1' />
                 </div>
               </div>
 
