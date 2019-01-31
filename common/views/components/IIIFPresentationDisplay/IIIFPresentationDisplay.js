@@ -158,7 +158,7 @@ const IIIFPresentationDisplay = ({
                 }}>
                 {sequence
                   .canvases
-                  .slice(0, 15)
+                  .slice(0, 20)
                   .map(canvas => {
                     return (
                       <div key={canvas.thumbnail['@id']} >
