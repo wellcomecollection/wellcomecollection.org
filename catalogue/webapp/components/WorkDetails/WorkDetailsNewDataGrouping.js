@@ -103,60 +103,28 @@ const WorkDetails = ({
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
-              ])}>Summary</h2>
+              ])}>{`About this ${work.workType.label ? work.workType.label.substring(0, work.workType.label.length - 1).toLowerCase() : 'item'}`}</h2>
               {work.description &&
                 <MetaUnit headingText='Description' text={[work.description]} />
               }
-              {work.lettering &&
-                <MetaUnit headingText='Lettering' text={[work.lettering]} />
-              }
-            </SpacingComponent>
 
-            <SpacingComponent>
-              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
-              <h2 className={classNames([
-                font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
-                spacing({s: 0}, {margin: ['top']})
-              ])}>How it looks</h2>
+              {work.production[0] && work.production[0].label &&  <MetaUnit headingText='Publication/Creation' text={[work.production[0].label]} />}
+
               {(work.physicalDescription || work.extent || work.dimensions) &&
-                <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />
+                <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />}
+
+              {work.lettering &&
+                  <MetaUnit headingText='Lettering' text={[work.lettering]} />
               }
-            </SpacingComponent>
 
-            <SpacingComponent>
-              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
-              <h2 className={classNames([
-                font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
-                spacing({s: 0}, {margin: ['top']})
-              ])}>How it&apos;s created</h2>
-
-              {work.contributors.length > 0 &&
-                <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
-                  const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+              {work.genres.length > 0 &&
+                <MetaUnit headingText='Type' links={work.genres.map(genre => {
+                  const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
-                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
+                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                   </NextLink>);
                 }
-                )} />}
-
-              {work.production.length > 0 &&
-                <Fragment>
-                  <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  Production
-                  </h2>
-                  {work.production.map((production, i) => {
-                    return (
-                      <Fragment key={i}>
-                        {production.places.length > 0 &&
-                        <MetaUnit headingLevel={3} headingText='Places' list={production.places.map(place => place.label)} />}
-                        {production.agents.length > 0 &&
-                        <MetaUnit headingLevel={3} headingText='Agents' list={production.agents.map(agent => agent.label)} />}
-                        {production.dates.length > 0 &&
-                        <MetaUnit headingLevel={3} headingText='Dates' list={production.dates.map(date => date.label)} />}
-                      </Fragment>
-                    );
-                  })}
-                </Fragment>
+                )} />
               }
 
               {work.language &&
@@ -166,6 +134,15 @@ const WorkDetails = ({
                   </NextLink>
                 ]} />
               }
+
+              {work.contributors.length > 0 &&
+                <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
+                  const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                  return (<NextLink key={1} {...linkAttributes}>
+                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
+                  </NextLink>);
+                }
+                )} />}
             </SpacingComponent>
 
             <SpacingComponent>
@@ -173,9 +150,9 @@ const WorkDetails = ({
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
-              ])}>Part of</h2>
+              ])}>Subjects</h2>
               {work.subjects.length > 0 &&
-                <MetaUnit headingText='Subjects' links={work.subjects.map(subject => {
+                <MetaUnit headingText='' links={work.subjects.map(subject => {
                   const linkAttributes = worksUrl({ query: `subjects:"${subject.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
@@ -183,25 +160,24 @@ const WorkDetails = ({
                 }
                 )} />
               }
-              {work.genres.length > 0 &&
-                  <MetaUnit headingText='Genres' links={work.genres.map(genre => {
-                    const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
-                    return (<NextLink key={1} {...linkAttributes}>
-                      <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
-                    </NextLink>);
-                  }
-                  )} />
-              }
-            </SpacingComponent>
 
+            </SpacingComponent>
+            {encoreLink &&
             <SpacingComponent>
               <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
-              ])}>How do I reference?</h2>
-            </SpacingComponent>
+              ])}>Find in the library</h2>
+              {work.identifiers.length > 0 && work.identifiers.filter((id) => {
+                return id.identifierType.id === 'isbn';
+              }).map(id => {
+                return <MetaUnit key={id.value} headingText='ISBN' text={[id.value]} />;
+              })}
 
+              <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
+            </SpacingComponent>
+            }
             {iiifImageLocationUrl &&
               <SpacingComponent>
                 <div className={spacing({s: 2}, {margin: ['bottom']})}>
@@ -262,12 +238,6 @@ const WorkDetails = ({
               }
             </SpacingComponent>
             */}
-
-            {encoreLink &&
-              <SpacingComponent>
-                <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
-              </SpacingComponent>
-            }
 
             {licenseInfo &&
               <Fragment>
