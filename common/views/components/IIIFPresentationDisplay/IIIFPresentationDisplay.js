@@ -87,7 +87,6 @@ const IIIFPresentationDisplay = ({
                   <Icon name='arrow' extraClasses='icon--white margin-left-s1' />
                 </div>
               </div>
-
             </div>
           </div>
         </div>
