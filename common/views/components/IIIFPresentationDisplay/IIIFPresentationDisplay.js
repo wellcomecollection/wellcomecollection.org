@@ -42,21 +42,22 @@ const IIIFPresentationDisplay = ({
     <div>
       {(show === 'overview' || show === 'reading') &&
         <div style={{
+          marginBottom: '6px',
           position: 'sticky',
           top: 0
         }}>
           <SegmentedControl
-            id={'blah'}
+            id={'testing_reading_vi'}
             activeId={null}
-            onActiveIdChange={ (id) => { setShow(id); }}
+            onActiveIdChange={ id => setShow(id) }
             items={[{
               id: 'overview',
               url: '#',
-              text: 'View the whole book'
+              text: 'Overview'
             }, {
               id: 'reading',
               url: '#',
-              text: 'Read the book'
+              text: 'Reading view'
             }]}
           />
         </div>
