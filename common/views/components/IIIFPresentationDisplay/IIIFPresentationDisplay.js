@@ -112,8 +112,12 @@ const IIIFPresentationDisplay = ({
                 }}>
                 {sequence
                   .canvases
-                  .map(canvas => {
-                    return (<div key={canvas.thumbnail['@id']} ><img src={canvas.thumbnail['@id']} /></div>);
+                  .map((canvas, i) => {
+                    return (
+                      <div key={canvas.thumbnail['@id']} style={{
+                        paddingLeft: i === 0 ? '0' : '6px'
+                      }}><img src={canvas.thumbnail['@id']} /></div>
+                    );
                   })}
               </div>
             ))
