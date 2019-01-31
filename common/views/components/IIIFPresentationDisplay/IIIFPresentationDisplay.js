@@ -63,7 +63,12 @@ const IIIFPresentationDisplay = ({
               {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map((structuredCanvas, i) => {
                 return structuredCanvas.canvases.map((canvas) => {
                   return (
-                    <div key={canvas.thumbnail['@id']} style={{position: 'relative'}}>
+                    <div
+                      key={canvas.thumbnail['@id']}
+                      style={{
+                        position: 'relative',
+                        paddingLeft: i === 0 ? '0' : '6px'
+                      }}>
                       <img src={canvas.images[0].resource['@id']} style={{ position: 'relative' }} />
                     </div>
                   );
