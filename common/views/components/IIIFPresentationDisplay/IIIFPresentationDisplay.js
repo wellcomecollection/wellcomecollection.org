@@ -60,20 +60,23 @@ const IIIFPresentationDisplay = ({
               position: 'relative',
               cursor: 'pointer'
             }} onClick={() => setShow('overview')}>
-              {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map((structuredCanvas, i) => {
-                return structuredCanvas.canvases.map((canvas) => {
-                  return (
-                    <div
-                      key={canvas.thumbnail['@id']}
-                      style={{
-                        position: 'relative',
-                        paddingLeft: i === 0 ? '0' : '6px'
-                      }}>
-                      <img src={canvas.images[0].resource['@id']} style={{ position: 'relative' }} />
-                    </div>
-                  );
-                });
-              })}
+
+              {structuredCanvasesWithLabel && structuredCanvasesWithLabel
+                .filter(structuredCanvaseWithLabel => structuredCanvaseWithLabel.label !== 'Back Cover')
+                .map((structuredCanvas, i) => {
+                  return structuredCanvas.canvases.map((canvas) => {
+                    return (
+                      <div
+                        key={canvas.thumbnail['@id']}
+                        style={{
+                          position: 'relative',
+                          paddingLeft: i === 0 ? '0' : '6px'
+                        }}>
+                        <img src={canvas.images[0].resource['@id']} style={{ position: 'relative' }} />
+                      </div>
+                    );
+                  });
+                })}
 
               <div style={{
                 position: 'absolute',
