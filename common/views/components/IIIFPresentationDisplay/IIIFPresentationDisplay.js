@@ -94,7 +94,6 @@ const IIIFPresentationDisplay = ({
       {show === 'overview' &&
         <div style={{
           height: '70vh',
-          background: 'hotpink',
           overflow: 'scroll'
         }}>
           {validSequences
@@ -119,7 +118,6 @@ const IIIFPresentationDisplay = ({
       {show === 'reading' &&
         <div style={{
           height: '70vh',
-          background: 'hotpink',
           overflow: 'scroll'
         }}>
           {validSequences
