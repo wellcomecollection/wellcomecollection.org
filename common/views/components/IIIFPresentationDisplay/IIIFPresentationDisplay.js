@@ -16,9 +16,21 @@ const IIIFPresentationDisplay = ({
   const [manifestData, setManifestData] = useState(null);
   const [show, setShow] = useState('preview');
 
+  // Search
+  const [searchService, setSearchService] = useState(null);
+  const [searchResults, setSearchResults] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     fetch(manifestLocation).then(resp => resp.json()).then(json => {
       setManifestData(json);
+      const maybeSearchService = json.service.find(service => {
+        return service['@context'] === 'http://iiif.io/api/search/0/context.json';
+      });
+
+      if (maybeSearchService) {
+        setSearchService(maybeSearchService);
+      }
     });
   }, []);
 
@@ -40,6 +52,43 @@ const IIIFPresentationDisplay = ({
 
   return manifestData && (
     <div>
+      {searchService &&
+        <div>
+          <form
+            onSubmit={async (event) => {
+              event.preventDefault();
+              const searchUrl = searchService['@id'];
+              const searchResultsResponse = await fetch(`${searchUrl}?q=${searchQuery}`).then(resp => resp.json());
+              console.info(searchResultsResponse);
+              setSearchResults(searchResultsResponse);
+            }}>
+            <input
+              value={searchQuery}
+              type='text'
+              onChange={(event) => setSearchQuery(event.currentTarget.value)} />
+          </form>
+        </div>
+      }
+      {searchResults &&
+        <div>
+          <div>
+            {searchResults.within.total} results for {'`'}{searchQuery}{'`'}
+          </div>
+          {searchResults.hits.map(hit => {
+            return (
+              <div className='flex' key={hit.annotations[0]}>
+                <span className='margin-right-s1'>...</span>
+                <p>
+                  <span>{hit.before}</span>
+                  <span className={'font-green'}><b>{hit.match}</b></span>
+                  <span>{hit.after}</span>
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      }
+
       {(show === 'overview' || show === 'reading') &&
         <div style={{
           marginBottom: '6px',
