@@ -23,7 +23,7 @@ class SegmentedControl extends Component<Props, State> {
     isActive: false
   }
 
-  setActiveId(id: string) {
+  setActiveId = (id: string) => {
     this.setState({
       activeId: id
     });

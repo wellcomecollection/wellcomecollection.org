@@ -1,6 +1,7 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import {useState, useEffect} from 'react';
+import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import Icon from '../Icon/Icon';
 
 type Props = {|
@@ -39,13 +40,27 @@ const IIIFPresentationDisplay = ({
 
   return manifestData && (
     <div>
-      {/* <div style={{
-        position: 'sticky'
-      }}>
-        <Button type={'primary'} text={'Show preview'} clickHandler={(event) => setShow('preview')} />
-        <Button type={'primary'} text={'Show overview'} clickHandler={(event) => setShow('overview')} />
-        <Button type={'primary'} text={'Show reading'} clickHandler={(event) => setShow('reading')} />
-    </div> */}
+      {(show === 'overview' || show === 'reading') &&
+        <div style={{
+          position: 'sticky',
+          top: 0
+        }}>
+          <SegmentedControl
+            id={'blah'}
+            activeId={null}
+            onActiveIdChange={ (id) => { setShow(id); }}
+            items={[{
+              id: 'overview',
+              url: '#',
+              text: 'View the whole book'
+            }, {
+              id: 'reading',
+              url: '#',
+              text: 'Read the book'
+            }]}
+          />
+        </div>
+      }
 
       {show === 'preview' &&
         <div>
