@@ -103,7 +103,7 @@ const WorkDetails = ({
               <h2 className={classNames([
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
-              ])}>{`About this ${work.workType.label ? work.workType.label.substring(0, work.workType.label.length - 1).toLowerCase() : item}`}</h2>
+              ])}>{`About this ${work.workType.label ? work.workType.label.substring(0, work.workType.label.length - 1).toLowerCase() : 'item'}`}</h2>
               {work.description &&
                 <MetaUnit headingText='Description' text={[work.description]} />
               }
