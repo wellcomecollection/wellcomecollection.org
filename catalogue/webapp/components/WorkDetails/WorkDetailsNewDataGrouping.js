@@ -169,15 +169,26 @@ const WorkDetails = ({
                 font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
                 spacing({s: 0}, {margin: ['top']})
               ])}>Find in the library</h2>
+              <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
+            </SpacingComponent>
+            }
+
+            {(work.identifiers.length > 0 && work.identifiers.filter((id) => {
+              return id.identifierType.id === 'isbn';
+            }).length > 0) &&
+            <SpacingComponent>
+              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
+              <h2 className={classNames([
+                font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
+                spacing({s: 0}, {margin: ['top']})
+              ])}>Identifiers</h2>
               {work.identifiers.length > 0 && work.identifiers.filter((id) => {
                 return id.identifierType.id === 'isbn';
               }).map(id => {
                 return <MetaUnit key={id.value} headingText='ISBN' text={[id.value]} />;
               })}
+            </SpacingComponent>}
 
-              <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
-            </SpacingComponent>
-            }
             {iiifImageLocationUrl &&
               <SpacingComponent>
                 <div className={spacing({s: 2}, {margin: ['bottom']})}>
