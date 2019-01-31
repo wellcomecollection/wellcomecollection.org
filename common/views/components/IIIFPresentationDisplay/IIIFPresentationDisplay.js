@@ -100,8 +100,8 @@ const IIIFPresentationDisplay = ({
                 color: 'white',
                 padding: '24px 96px',
                 top: '50%',
-                right: '50%',
-                transform: 'translateY(-50%) translateX(50%)',
+                right: '0',
+                transform: 'translateY(-50%)',
                 borderTopLeftRadius: '12px',
                 borderBottomRightRadius: '12px'
               }}>
