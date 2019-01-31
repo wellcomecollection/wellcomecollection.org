@@ -171,7 +171,7 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       work: workOrError,
       page: page ? parseInt(page, 10) : null,
       showSearchBoxOnWork,
-      showNewMetaDataGrouping
+      showNewMetaDataGrouping: true
     };
   }
 };
