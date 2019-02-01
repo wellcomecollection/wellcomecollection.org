@@ -52,43 +52,6 @@ const IIIFPresentationDisplay = ({
 
   return manifestData && (
     <div>
-      {searchService &&
-        <div>
-          <form
-            onSubmit={async (event) => {
-              event.preventDefault();
-              const searchUrl = searchService['@id'];
-              const searchResultsResponse = await fetch(`${searchUrl}?q=${searchQuery}`).then(resp => resp.json());
-              console.info(searchResultsResponse);
-              setSearchResults(searchResultsResponse);
-            }}>
-            <input
-              value={searchQuery}
-              type='text'
-              onChange={(event) => setSearchQuery(event.currentTarget.value)} />
-          </form>
-        </div>
-      }
-      {searchResults &&
-        <div>
-          <div>
-            {searchResults.within.total} results for {'`'}{searchQuery}{'`'}
-          </div>
-          {searchResults.hits.map(hit => {
-            return (
-              <div className='flex' key={hit.annotations[0]}>
-                <span className='margin-right-s1'>...</span>
-                <p>
-                  <span>{hit.before}</span>
-                  <span className={'font-green'}><b>{hit.match}</b></span>
-                  <span>{hit.after}</span>
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      }
-
       {(show === 'overview' || show === 'reading') &&
         <div style={{
           marginBottom: '6px',
@@ -216,6 +179,50 @@ const IIIFPresentationDisplay = ({
                   })}
               </div>
             ))}
+        </div>
+      }
+      {searchService &&
+        <div>
+          <form
+            onSubmit={async (event) => {
+              event.preventDefault();
+              const searchUrl = searchService['@id'];
+              const searchResultsResponse = await fetch(`${searchUrl}?q=${searchQuery}`).then(resp => resp.json());
+              setSearchResults(searchResultsResponse);
+            }} className='flex'>
+            <label className='flex' style={{
+              flexGrow: 1
+            }}>
+              Search within:{' '}
+              <input
+                value={searchQuery}
+                type='text'
+                onChange={(event) => setSearchQuery(event.currentTarget.value)}
+                style={{
+                  flexGrow: 1
+                }} />
+            </label>
+            <button><Icon name='search' /></button>
+          </form>
+        </div>
+      }
+      {searchResults &&
+        <div>
+          <div>
+            {searchResults.within.total} results for {'`'}{searchQuery}{'`'}
+          </div>
+          {searchResults.hits.map(hit => {
+            return (
+              <div className='flex' key={hit.annotations[0]}>
+                <span className='margin-right-s1'>...</span>
+                <p>
+                  <span>{hit.before}</span>
+                  <span className={'font-green'}><b>{hit.match}</b></span>
+                  <span>{hit.after}</span>
+                </p>
+              </div>
+            );
+          })}
         </div>
       }
 
