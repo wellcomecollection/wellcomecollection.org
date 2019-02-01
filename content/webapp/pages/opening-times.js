@@ -4,7 +4,7 @@ import {Component, Fragment} from 'react';
 import {getCollectionOpeningTimes} from '@weco/common/services/prismic/opening-times';
 import {getPage} from '@weco/common/services/prismic/pages';
 import {classNames, spacing, font} from '@weco/common/utils/classnames';
-import {formatDay, formatDate, formatYear, formatDayMonth} from '@weco/common/utils/format-date';
+import {formatDay, formatDate} from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -16,19 +16,16 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import {convertImageUri} from '@weco/common/utils/convert-image-uri';
 import {contentLd} from '@weco/common/utils/json-ld';
 import type {Page} from '@weco/common/model/pages';
-import OpeningTimesStatic from '../components/OpeningTimesStatic/OpeningTimesStatic';
 
 type Props = {|
   page: Page,
   openingHours: any, // FIXME: Need the types from the opening-times service
-  showNewOpeningHours: boolean
 |}
 
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const showRevisedOpening = Boolean(ctx.query.toggles.showRevisedOpeningHours);
     // TODO: (Prismic perf) don't fetch these as two separate calls
-    const revisedDisplayPeriod = showRevisedOpening ? 30 : 15;
+    const revisedDisplayPeriod = 15;
     const [openingHours, page] = await Promise.all([
       getCollectionOpeningTimes(ctx.req, revisedDisplayPeriod),
       getPage(ctx.req, 'WwQHTSAAANBfDYXU')
@@ -49,16 +46,14 @@ export class OpeningTimesPage extends Component<Props> {
         hours: restaurantCafeShop
       }
     };
-    const showNewOpeningHours = Boolean(ctx.query.toggles.showNewOpeningHours);
 
     return {
       page,
-      openingHours: Object.assign({}, openingHours, {groupedVenues}),
-      showNewOpeningHours
+      openingHours: Object.assign({}, openingHours, {groupedVenues})
     };
   }
   render() {
-    const {page, openingHours, showNewOpeningHours} = this.props;
+    const {page, openingHours} = this.props;
     return (
       <PageLayout
         title={page && page.title}
@@ -85,10 +80,6 @@ export class OpeningTimesPage extends Component<Props> {
           }
           Body={<Body body={[]} />}
         >
-          {showNewOpeningHours &&
-            <OpeningTimesStatic />
-          }
-          {!showNewOpeningHours &&
           <Fragment>
             <Fragment>
               <div className='spacing-component'>
@@ -186,7 +177,7 @@ export class OpeningTimesPage extends Component<Props> {
             <div id='busy' className={`body-text`}>
               {page.body.length > 0 && <PrismicHtmlBlock html={page.body[0].value} />}
             </div>
-          </Fragment>}
+          </Fragment>
         </ContentPage>
       </PageLayout>
     );
