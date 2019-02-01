@@ -1,13 +1,10 @@
 // @flow
 import {Component} from 'react';
-import {convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import {spacing} from '../../../utils/classnames';
 import openseadragon from 'openseadragon';
 
-function setupViewer(imageInfoSrc, viewerId, handleScriptError, imageTestSrc) {
-  const info = imageTestSrc || convertIiifUriToInfoUri(convertImageUri(imageInfoSrc, 'full', false));
-  console.log(info);
-  window.fetch(info)
+function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
+  window.fetch(imageInfoSrc)
     .then(response => response.json())
     .then((response) => {
       openseadragon({
@@ -44,8 +41,7 @@ const ErrorMessage = () => (
 
 type Props = {|
   id: string,
-  contentUrl: string,
-  infoUrl?: string
+  infoUrl: string
 |}
 
 type State = {|
@@ -62,7 +58,7 @@ class ImageViewerImage extends Component<Props, State> {
   }
 
   componentDidMount() {
-    setupViewer(this.props.contentUrl, this.props.id, this.handleScriptError, this.props.infoUrl);
+    setupViewer(this.props.infoUrl, this.props.id, this.handleScriptError);
   }
 
   render() {

@@ -35,7 +35,7 @@ class LaunchViewerButton extends Component<LaunchViewerButtonProps> {
 type ViewerContentProps = {|
   id: string,
   contentUrl: string,
-  infoUrl?: string, // TODO make compulsary
+  infoUrl: string,
   classes: string,
   viewerVisible: boolean,
   handleViewerDisplay: Function
@@ -110,7 +110,7 @@ type ImageViewerProps = {|
   id: string,
   trackTitle: string,
   contentUrl: string,
-  infoUrl?: string, // TOOD make compulsary - use context to pass through
+  infoUrl: string,
   width: number
 |}
 
