@@ -96,7 +96,13 @@ const WorkDetails = ({
                 <MetaUnit headingText='Description' text={[work.description]} />
               }
 
-              {work.production[0] && work.production[0].label &&  <MetaUnit headingText='Publication/Creation' text={[work.production[0].label]} />}
+              {work.production.length > 0 &&
+                <MetaUnit
+                  headingText='Publication/Creation'
+                  text={work.production.map(
+                    productionEvent => productionEvent.label
+                  )} />
+              }
 
               {(work.physicalDescription || work.extent || work.dimensions) &&
                 <MetaUnit headingText='Physical description' text={[[work.extent, work.physicalDescription, work.dimensions].filter(Boolean).join(' ')]} />}
