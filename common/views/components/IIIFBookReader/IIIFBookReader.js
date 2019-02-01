@@ -1,8 +1,8 @@
 // @flow
-import type {IIIFSequence} from '../../../model/iiif';
+import type { IIIFSequence } from '../../../model/iiif';
 
 type Props = {|
-  sequences: IIIFSequence
+  sequences: IIIFSequence[]
 |}
 
 const IIIFBookReader = ({
