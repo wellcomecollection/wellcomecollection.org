@@ -15,7 +15,7 @@ const IIIFBookPreview = ({
       display: 'inline-block'
     }}>
       <div>
-        {structuredCanvasesWithLabel && structuredCanvasesWithLabel.map(structuredCanvas => {
+        {structuredCanvasesWithLabel.map(structuredCanvas => {
           return structuredCanvas.canvases.map(canvas => {
             return <img
               key={canvas.thumbnail['@id']}

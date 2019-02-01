@@ -6,3 +6,8 @@ export type IIIFThumbnail = {|
 export type IIIFCanvas = {|
   thumbnail: IIIFThumbnail
 |}
+
+export type IIIFSequence = {|
+  '@id': string,
+  canvases: IIIFCanvas[]
+|}
