@@ -159,23 +159,11 @@ const WorkDetails = ({
               }
 
               {work.production.length > 0 &&
-                <Fragment>
-                  <h2 className={`${font({s: 'HNM5', m: 'HNM4'})} ${spacing({s: 0}, {margin: ['top']})} ${spacing({s: 2}, {margin: ['bottom']})}`}>
-                  Production
-                  </h2>
-                  {work.production.map((production, i) => {
-                    return (
-                      <Fragment key={i}>
-                        {production.places.length > 0 &&
-                        <MetaUnit headingLevel={3} headingText='Places' list={production.places.map(place => place.label)} />}
-                        {production.agents.length > 0 &&
-                        <MetaUnit headingLevel={3} headingText='Agents' list={production.agents.map(agent => agent.label)} />}
-                        {production.dates.length > 0 &&
-                        <MetaUnit headingLevel={3} headingText='Dates' list={production.dates.map(date => date.label)} />}
-                      </Fragment>
-                    );
-                  })}
-                </Fragment>
+                <MetaUnit
+                  headingText='Publication/Creation'
+                  text={work.production.map(
+                    productionEvent => productionEvent.label
+                  )} />
               }
 
               {work.language &&
