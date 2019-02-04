@@ -22,7 +22,7 @@ const IIIFBookReader = ({
             .canvases
             .slice(0, 15)
             .map(canvas => {
-              return (<div key={canvas.thumbnail['@id']} style={{position: 'relative', 'margin-bottom': 30}}>
+              return (<div key={canvas.thumbnail['@id']} style={{position: 'relative', 'marginBottom': 30}}>
                 <ImageViewer
                   contentUrl={canvas.images[0].resource['@id']}
                   infoUrl={`${canvas.images[0].resource.service['@id']}/info.json`}
