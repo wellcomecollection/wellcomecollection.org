@@ -2,9 +2,10 @@
 import {Component} from 'react';
 import {spacing} from '../../../utils/classnames';
 import openseadragon from 'openseadragon';
+import fetch from 'isomorphic-unfetch';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
-  window.fetch(imageInfoSrc)
+  fetch(imageInfoSrc)
     .then(response => response.json())
     .then((response) => {
       openseadragon({
