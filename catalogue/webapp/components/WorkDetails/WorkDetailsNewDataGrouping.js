@@ -52,15 +52,18 @@ const WorkDetails = ({
               {work.contributors.length > 0 &&
                 <MetaUnit headingText='' links={work.contributors.map(contributor => {
                   const linkAttributes = worksUrl({ query: `"${contributor.agent.label}"`, page: undefined });
-                  return (<NextLink key={1} {...linkAttributes}>
-                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
-                  </NextLink>);
+                  return (
+                    <NextLink key={contributor.agent.label} {...linkAttributes}>
+                      <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
+                    </NextLink>
+                  );
                 }
-                )} />}
+                )} />
+              }
 
               {work.workType &&
                 <MetaUnit headingText='' links={[
-                  <NextLink key={1} {...worksUrl({ query: `"${work.workType.label}"`, page: undefined })}>
+                  <NextLink key={work.workType.label} {...worksUrl({ query: `"${work.workType.label}"`, page: undefined })}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                   </NextLink>
                 ]} />
@@ -69,9 +72,11 @@ const WorkDetails = ({
               {work.genres.length > 0 &&
                 <MetaUnit headingText='' links={work.genres.map(genre => {
                   const linkAttributes = worksUrl({ query: `"${genre.label}"`, page: undefined });
-                  return (<NextLink key={1} {...linkAttributes}>
-                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
-                  </NextLink>);
+                  return (
+                    <NextLink key={genre.label} {...linkAttributes}>
+                      <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
+                    </NextLink>
+                  );
                 }
                 )} />
               }
@@ -80,7 +85,10 @@ const WorkDetails = ({
                 work.production.map((production, i) => {
                   return (
                     production.dates.length > 0 &&
-                    <MetaUnit headingLevel={2} headingText='Dates' text={production.dates.map(date => date.label)} />
+                    <MetaUnit
+                      headingLevel={2}
+                      headingText='Dates'
+                      text={production.dates.map(date => date.label)} />
                   );
                 })
               }
@@ -114,9 +122,11 @@ const WorkDetails = ({
               {work.genres.length > 0 &&
                 <MetaUnit headingText='Type' links={work.genres.map(genre => {
                   const linkAttributes = worksUrl({ query: `"${genre.label}"`, page: undefined });
-                  return (<NextLink key={1} {...linkAttributes}>
-                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
-                  </NextLink>);
+                  return (
+                    <NextLink key={genre.label} {...linkAttributes}>
+                      <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
+                    </NextLink>
+                  );
                 }
                 )} />
               }
@@ -132,9 +142,11 @@ const WorkDetails = ({
               {work.contributors.length > 0 &&
                 <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
                   const linkAttributes = worksUrl({ query: `"${contributor.agent.label}"`, page: undefined });
-                  return (<NextLink key={1} {...linkAttributes}>
-                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
-                  </NextLink>);
+                  return (
+                    <NextLink key={contributor.agent.label} {...linkAttributes}>
+                      <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
+                    </NextLink>
+                  );
                 }
                 )} />}
             </SpacingComponent>
@@ -148,13 +160,14 @@ const WorkDetails = ({
               {work.subjects.length > 0 &&
                 <MetaUnit headingText='' links={work.subjects.map(subject => {
                   const linkAttributes = worksUrl({ query: `"${subject.label}"`, page: undefined });
-                  return (<NextLink key={1} {...linkAttributes}>
-                    <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
-                  </NextLink>);
+                  return (
+                    <NextLink key={subject.label} {...linkAttributes}>
+                      <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
+                    </NextLink>
+                  );
                 }
                 )} />
               }
-
             </SpacingComponent>
             {encoreLink &&
               <SpacingComponent>
@@ -170,6 +183,15 @@ const WorkDetails = ({
                 })}
 
                 <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
+                {work.items.map(item =>
+                  item.locations
+                    .filter(location => location.type === 'PhysicalLocation')
+                ).reduce((acc, locations) => [
+                  ...acc,
+                  ...locations
+                ], []).map(physicalLocation => {
+                  return <p key={physicalLocation.label}>{physicalLocation.label}</p>;
+                })}
               </SpacingComponent>
             }
             {iiifImageLocationUrl &&
