@@ -34,7 +34,6 @@ class LaunchViewerButton extends Component<LaunchViewerButtonProps> {
 
 type ViewerContentProps = {|
   id: string,
-  contentUrl: string,
   infoUrl: string,
   classes: string,
   viewerVisible: boolean,
@@ -100,7 +99,7 @@ class ViewerContent extends Component<ViewerContentProps> {
             clickHandler={() => { this.props.handleViewerDisplay('Control'); }} />
         </div>
 
-        {this.props.viewerVisible && <ImageViewerImage id={this.props.id} contentUrl={this.props.contentUrl} infoUrl={this.props.infoUrl} />}
+        {this.props.viewerVisible && <ImageViewerImage id={this.props.id} infoUrl={this.props.infoUrl} />}
       </div>
     );
   }
@@ -182,7 +181,6 @@ class ImageViewer extends Component<ImageViewerProps, ImageViewerState> {
             classes=''
             viewerVisible={this.state.showViewer}
             id={this.props.id}
-            contentUrl={this.props.contentUrl}
             infoUrl={this.props.infoUrl}
             handleViewerDisplay={this.handleViewerDisplay} />
         }
