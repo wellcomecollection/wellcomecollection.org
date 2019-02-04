@@ -1,8 +1,8 @@
 // @flow
+import fetch from 'isomorphic-unfetch';
+import openseadragon from 'openseadragon';
 import {Component} from 'react';
 import {spacing} from '../../../utils/classnames';
-import openseadragon from 'openseadragon';
-import fetch from 'isomorphic-unfetch';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
   fetch(imageInfoSrc)
