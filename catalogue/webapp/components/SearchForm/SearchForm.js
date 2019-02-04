@@ -5,7 +5,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import {classNames, font} from '@weco/common/utils/classnames';
+import {classNames, font, spacing} from '@weco/common/utils/classnames';
 import {trackEvent} from '@weco/common/utils/ga';
 import {worksUrl} from '../../services/catalogue/urls';
 
@@ -66,6 +66,40 @@ const SearchButtonWrapper = styled.div`
 const ClearSearch = styled.button`
   right: 12px;
 `;
+
+type SearchTagProps = {
+  label: string,
+  name: string,
+  value: string,
+  checked: boolean
+}
+const SearchTag = ({
+  label,
+  name,
+  value,
+  checked
+}: SearchTagProps) => {
+  return (
+    <label className={classNames({
+      'bg-pumice': true,
+      'flex-inline': true,
+      'flex--v-center': true,
+      [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
+      [spacing({ s: 1 }, { margin: ['right'] })]: true,
+      [font({ s: 'HNL3' })]: true
+    })} style={{ borderRadius: '3px' }}>
+      <input
+        className={classNames({
+          [spacing({ s: 1 }, { margin: ['right'] })]: true
+        })}
+        type='checkbox'
+        name={name}
+        value={value}
+        checked={checked} />
+      {label}
+    </label>
+  );
+};
 
 const SearchForm = ({
   initialQuery = '',
@@ -152,22 +186,27 @@ const SearchForm = ({
       </div>
 
       <Fragment>
-        <fieldset>
-          <label>
-            <input
-              type='checkbox'
-              name='workType'
-              value='k,q' />
-            Images
-          </label>
-
-          <label>
-            <input
-              type='checkbox'
-              name='workType'
-              value='a' />
-            Books
-          </label>
+        <fieldset className={classNames({
+          [spacing({ s: 1 }, { margin: ['top'] })]: true
+        })}>
+          <SearchTag
+            name={'workType'}
+            label='Images'
+            value='k,q'
+            checked={workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1} />
+          <SearchTag
+            name={'workType'}
+            label='Books'
+            value='a'
+            checked={workType.indexOf('a') !== -1} />
+          <SearchTag
+            name={'items.locations.locationType'}
+            label='Online'
+            value='iiif-image,iiif-presentation'
+            checked={
+              itemsLocationsLocationType.indexOf('iiif-image') !== -1 &&
+              itemsLocationsLocationType.indexOf('iiif-presentation') !== -1
+            } />
         </fieldset>
       </Fragment>
 

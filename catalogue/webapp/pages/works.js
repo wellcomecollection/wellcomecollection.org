@@ -312,8 +312,6 @@ Works.getInitialProps = async (
     ], [])
     : typeof workTypeQuery === 'string' ? workTypeQuery.split(',') : ['k', 'q'];
 
-  console.info(workType);
-
   const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
     ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
 
