@@ -188,29 +188,48 @@ export const Works = ({
               <div className='container'>
                 <div className='grid'>
                   {showCatalogueSearchFilters && works.results.map(result => (
-                    <NextLink
-                      href={workUrl({ id: result.id, query, page, workType, itemsLocationsLocationType }).href}
-                      as={workUrl({ id: result.id, query, page, workType, itemsLocationsLocationType }).as}
-                      key={result.id}>
-                      <a
-                        style={{
-                          padding: '24px 0',
-                          borderTop: '1px solid'
-                        }}
-                        className={'plain-link ' + grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}>
-                        <div className={classNames({
-                          [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
-                        })}>
-                          <LinkLabels items={[
-                            {
-                              url: null,
-                              text: result.workType.label
-                            }
-                          ]} />
-                        </div>
-                        <h2 className='h4'>{result.title}</h2>
-                      </a>
-                    </NextLink>
+                    <div className={classNames({
+                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true
+                    })} key={result.id}>
+                      <div className={classNames({
+                        'border-color-pumice': true,
+                        'border-top-width-1': true
+                      })}>
+                        <NextLink
+                          href={workUrl({
+                            id: result.id,
+                            query,
+                            page,
+                            workType,
+                            itemsLocationsLocationType
+                          }).href}
+                          as={workUrl({
+                            id: result.id,
+                            query,
+                            page,
+                            workType,
+                            itemsLocationsLocationType
+                          }).as}>
+                          <a
+                            className={classNames({
+                              'plain-link': true,
+                              'block': true,
+                              [spacing({ s: 3 }, { padding: ['bottom'] })]: true
+                            })}>
+                            <div className={classNames({
+                              'bg-pumice': true,
+                              'inline-block': true,
+                              [spacing({s: 1}, {margin: ['top', 'bottom']})]: true,
+                              [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
+                              [font({ s: 'HNL4' })]: true
+                            })}  style={{ borderRadius: '3px' }}>{result.workType.label}</div>
+                            <h2 className={classNames({
+                              [font({ s: 'HNM3' })]: true
+                            })}>{result.title}</h2>
+                          </a>
+                        </NextLink>
+                      </div>
+                    </div>
                   ))}
                   {!showCatalogueSearchFilters && works.results.map(result => (
                     <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
@@ -312,10 +331,12 @@ Works.getInitialProps = async (
     ], [])
     : typeof workTypeQuery === 'string' ? workTypeQuery.split(',') : ['k', 'q'];
 
-  const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
-    ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
-
   const {showCatalogueSearchFilters} = ctx.query.toggles;
+
+  const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
+    ? ctx.query['items.locations.locationType'].split(',')
+    : showCatalogueSearchFilters ? ['iiif-image', 'iiif-presentation'] : ['iiif-image'];
+
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
     workType
