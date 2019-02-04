@@ -4,7 +4,10 @@ export type IIIFThumbnail = {|
 |}
 
 export type IIIFResource = {|
-  '@id': string
+  '@id': string,
+  'service': {
+    '@id': string
+  }
 |}
 
 export type IIIFImage = {|

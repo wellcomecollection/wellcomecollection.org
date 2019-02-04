@@ -26,7 +26,7 @@ const IIIFBookReader = ({
                 <ImageViewer
                   contentUrl={canvas.images[0].resource['@id']}
                   infoUrl={`${canvas.images[0].resource.service['@id']}/info.json`}
-                  id={canvas.images[0]['@id']}
+                  id={canvas.images[0].resource['@id']}
                   width={800}
                   trackTitle='test'/>
               </div>);
