@@ -50,7 +50,6 @@ const WorkEmbed = ({
                 contentUrl={imageUrl}
                 id={work.id}
                 width={800}
-                trackTitle={work.title}
               />
             </Fragment>
           </div>

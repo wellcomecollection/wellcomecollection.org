@@ -19,7 +19,6 @@ const WorkMedia = ({
   width = 800,
   isV2 = false
 }: Props) => {
-  const trackTitle = title.substring(0, 50);
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
   const imageInfoUrl = convertIiifUriToInfoUri(convertImageUri(imageContentUrl, 'full', false));
   return (
@@ -46,7 +45,6 @@ const WorkMedia = ({
           contentUrl={imageContentUrl}
           id={id}
           width={width}
-          trackTitle={trackTitle}
         />
 
       </div>

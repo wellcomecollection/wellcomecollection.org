@@ -107,7 +107,6 @@ class ViewerContent extends Component<ViewerContentProps> {
 
 type ImageViewerProps = {|
   id: string,
-  trackTitle: string,
   contentUrl: string,
   infoUrl: string,
   width: number
