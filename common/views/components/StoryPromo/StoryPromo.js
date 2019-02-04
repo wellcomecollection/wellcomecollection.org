@@ -1,11 +1,11 @@
 // @flow
+import type { Article } from '../../../model/articles';
 import { spacing, font, classNames } from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
-import { getPositionInSeries } from '../../../model/articles';
+import { trackEvent } from '../../../utils/ga';
+import { getPositionInSeries, getArticleColor } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import type { Article } from '../../../model/articles';
 
 type Props = {|
   item: Article,
@@ -66,7 +66,7 @@ const StoryPromo = ({
         [spacing({s: 4}, {padding: ['bottom']})]: true
       })}>
         <div>
-          {positionInSeries && <PartNumberIndicator number={positionInSeries} color={item.color} />}
+          {positionInSeries && <PartNumberIndicator number={positionInSeries} color={getArticleColor(item)} />}
           <h2 className={`
             promo-link__title
             ${font({s: 'WB5'})}

@@ -28,3 +28,7 @@ export function getPositionInSeries(article: Article): ?number {
     return index > -1 ? index + 1 : null;
   }
 }
+
+export function getArticleColor(article: Article): string {
+  return article.series.map(series => series.color).find(Boolean) || 'purple';
+}

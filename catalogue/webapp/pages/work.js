@@ -10,27 +10,29 @@ import {workLd} from '@weco/common/utils/json-ld';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import {getWork} from '../services/catalogue/works';
-import {worksUrl} from '../services/catalogue/urls';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import IIIFPresentationDisplay from '../components/IIIFPresentationDisplay/IIIFPresentationDisplay';
+import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
+import {getWork} from '../services/catalogue/works';
+import {worksUrl} from '../services/catalogue/urls';
 
 type Props = {|
   work: Work | CatalogueApiError,
+  workType: string[],
   query: ?string,
   page: ?number,
-  showSearchBoxOnWork: boolean,
-  showNewMetaDataGrouping: boolean
+  showNewMetaDataGrouping: boolean,
+  itemsLocationsLocationType: string[]
 |}
 
 export const WorkPage = ({
   work,
   query,
   page,
-  showSearchBoxOnWork,
+  workType,
+  itemsLocationsLocationType,
   showNewMetaDataGrouping
 }: Props) => {
   if (work.type === 'Error') {
@@ -79,54 +81,37 @@ export const WorkPage = ({
       imageAltText={work.title}>
       <InfoBanner text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`} cookieName='WC_wellcomeImagesRedirect' />
 
-      {showSearchBoxOnWork &&
-        <div className={classNames({
-          'bg-cream': true,
-          [spacing({s: 4}, {padding: ['top']})]: true,
-          [spacing({s: 4}, {padding: ['bottom']})]: !query
-        })}>
-          <div className='container'>
+      <div className={classNames({
+        'bg-cream': true,
+        [spacing({s: 4}, {padding: ['top']})]: true,
+        [spacing({s: 4}, {padding: ['bottom']})]: !query
+      })}>
+        <div className='container'>
+          <div className='grid'>
+            <div className={classNames({
+              [grid({s: 12, m: 10, l: 8, xl: 8})]: true
+            })}>
+              <SearchForm
+                initialQuery={query || ''}
+                initialWorkType={workType}
+                initialItemsLocationsLocationType={itemsLocationsLocationType}
+                showFilters={false}
+                ariaDescribedBy='search-form-description' />
+            </div>
+          </div>
+
+          {query &&
             <div className='grid'>
               <div className={classNames({
-                [grid({s: 12, m: 10, l: 8, xl: 8})]: true
+                [grid({s: 12})]: true,
+                [spacing({s: 1}, {padding: ['top', 'bottom']})]: true
               })}>
-                {/* TODO: if this survives the A/B test, we'll have to pass
-                in workType etc. instead of hard-coding */}
-                <SearchForm
-                  initialQuery={query || ''}
-                  initialWorkType={['k', 'q']}
-                  initialItemsLocationsLocationType={['iiif-image']}
-                  showFilters={false}
-                  ariaDescribedBy='search-form-description' />
-              </div>
-            </div>
-
-            {query &&
-              <div className='grid'>
-                <div className={classNames({
-                  [grid({s: 12})]: true,
-                  [spacing({s: 1}, {padding: ['top', 'bottom']})]: true
-                })}>
-                  <BackToResults nextLink={worksUrl({query, page})} />
-                </div>
-              </div>
-            }
-
-          </div>
-        </div>
-      }
-
-      {query && !showSearchBoxOnWork &&
-        <div className='row'>
-          <div className='container'>
-            <div className='grid'>
-              <div className={grid({s: 12})}>
                 <BackToResults nextLink={worksUrl({query, page})} />
               </div>
             </div>
-          </div>
+          }
         </div>
-      }
+      </div>
 
       <Fragment>
         {iiifPresentationLocation &&
@@ -160,9 +145,14 @@ export const WorkPage = ({
 };
 
 WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> => {
+  const workTypeQuery = ctx.query.workType;
+  const workType = Array.isArray(workTypeQuery) ? workTypeQuery
+    : typeof workTypeQuery === 'string' ? workTypeQuery.split(',') : ['k', 'q'];
+  const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
+    ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
+
   const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
-  const showSearchBoxOnWork = Boolean(ctx.query.toggles.showSearchBoxOnWork);
   const showNewMetaDataGrouping = Boolean(ctx.query.toggles.showWorkMetaDataGrouping);
 
   if (workOrError && workOrError.type === 'Redirect') {
@@ -181,8 +171,9 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       query,
       work: workOrError,
       page: page ? parseInt(page, 10) : null,
-      showSearchBoxOnWork,
-      showNewMetaDataGrouping
+      showNewMetaDataGrouping,
+      workType,
+      itemsLocationsLocationType
     };
   }
 };
