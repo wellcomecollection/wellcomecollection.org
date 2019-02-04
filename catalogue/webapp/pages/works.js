@@ -189,8 +189,8 @@ export const Works = ({
                 <div className='grid'>
                   {showCatalogueSearchFilters && works.results.map(result => (
                     <NextLink
-                      href={workUrl({ id: result.id, query, page }).href}
-                      as={workUrl({ id: result.id, query, page }).as}
+                      href={workUrl({ id: result.id, query, page, workType, itemsLocationsLocationType }).href}
+                      as={workUrl({ id: result.id, query, page, workType, itemsLocationsLocationType }).as}
                       key={result.id}>
                       <a
                         style={{

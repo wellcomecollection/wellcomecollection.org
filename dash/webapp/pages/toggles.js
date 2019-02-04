@@ -25,13 +25,7 @@ function setCookie(name, value) {
   document.cookie = `toggle_${name}=${value || ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [{
-  id: 'showSearchBoxOnWork',
-  title: 'Show the search box on work pages',
-  description:
-    `Puts a search box above the image viewer on work pages to see if ` +
-    `it has an effect on number of searches per session/pogo-sticking behaviour.`
-}];
+const abTests = [];
 
 const featureToggles = [{
   id: 'showCatalogueSearchFilters',
