@@ -1,5 +1,5 @@
 const app = require('./app');
-const port = process.argv[2] || process.env.NODE_ENV === 'test' ? 3001 : 3000;
+const port = process.argv[2] || process.env.NODE_ENV === 'test' ? 3002 : 3000;
 
 app.then(server => {
   server.listen(port, (err) => {
