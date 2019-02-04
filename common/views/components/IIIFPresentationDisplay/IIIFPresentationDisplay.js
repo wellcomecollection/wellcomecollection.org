@@ -26,7 +26,7 @@ const IIIFPresentationDisplay = ({
 
   return manifestData && (
     <div>
-      {validSequences
+      {validSequences.length > 1 && validSequences
         .map(sequence => (
           <div
             key={sequence['@id']}
@@ -44,7 +44,7 @@ const IIIFPresentationDisplay = ({
           </div>
         ))
       }
-      {!showAll && validSequences.length > 0  &&
+      {!showAll && validSequences.length > 1  &&
         <Button type={'primary'} text={'Show all'} clickHandler={(event) => setShowAll(true)} />
       }
 
