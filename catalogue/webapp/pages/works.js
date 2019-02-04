@@ -302,8 +302,17 @@ Works.getInitialProps = async (
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const workTypeQuery = ctx.query.workType;
+  // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
+  // considered multiple workTypes
   const workType = Array.isArray(workTypeQuery) ? workTypeQuery
+    .map(workType => workType.split(','))
+    .reduce((workTypes, workTypeStringArray) => [
+      ...workTypes,
+      ...workTypeStringArray
+    ], [])
     : typeof workTypeQuery === 'string' ? workTypeQuery.split(',') : ['k', 'q'];
+
+  console.info(workType);
 
   const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
     ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];

@@ -151,6 +151,26 @@ const SearchForm = ({
         </SearchButtonWrapper>
       </div>
 
+      <Fragment>
+        <fieldset>
+          <label>
+            <input
+              type='checkbox'
+              name='workType'
+              value='k,q' />
+            Images
+          </label>
+
+          <label>
+            <input
+              type='checkbox'
+              name='workType'
+              value='a' />
+            Books
+          </label>
+        </fieldset>
+      </Fragment>
+
       {showFilters &&
         <Fragment>
           <fieldset>
