@@ -1,7 +1,6 @@
 // @flow
 import type {Context} from 'next';
 import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogue/works';
-// $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
 import {Fragment, useEffect, useState} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
@@ -14,7 +13,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import {getWorks} from '../services/catalogue/works';

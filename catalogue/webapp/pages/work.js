@@ -108,7 +108,12 @@ export const WorkPage = ({
                 [grid({s: 12})]: true,
                 [spacing({s: 1}, {padding: ['top', 'bottom']})]: true
               })}>
-                <BackToResults nextLink={worksUrl({query, page})} />
+                <BackToResults nextLink={worksUrl({
+                  query,
+                  page,
+                  workType,
+                  itemsLocationsLocationType
+                })} />
               </div>
             </div>
           }
