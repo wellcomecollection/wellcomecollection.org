@@ -192,7 +192,7 @@ const WorkDetails = ({
                 <SpacingComponent>
                   <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
                   <MetaUnit headingLevel={3} headingText='Credit' text={[
-                    `${work.title}.{' '}
+                    `${work.title}.${' '}
                     ${iiifImageLocationCredit ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ` : ` `}
                     ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
                 </SpacingComponent>
