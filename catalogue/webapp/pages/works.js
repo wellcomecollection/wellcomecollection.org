@@ -216,16 +216,31 @@ export const Works = ({
                               'block': true,
                               [spacing({ s: 3 }, { padding: ['bottom'] })]: true
                             })}>
-                            <div className={classNames({
-                              'bg-pumice': true,
-                              'inline-block': true,
-                              [spacing({s: 1}, {margin: ['top', 'bottom']})]: true,
-                              [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
-                              [font({ s: 'HNL4' })]: true
-                            })}  style={{ borderRadius: '3px' }}>{result.workType.label}</div>
-                            <h2 className={classNames({
-                              [font({ s: 'HNM3' })]: true
-                            })}>{result.title}</h2>
+                            <div>
+                              <div className={classNames({
+                                'bg-pumice': true,
+                                'inline-block': true,
+                                [spacing({s: 1}, {margin: ['top', 'bottom']})]: true,
+                                [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
+                                [font({ s: 'HNL4' })]: true
+                              })}  style={{ borderRadius: '3px' }}>{result.workType.label}</div>
+                            </div>
+                            <div className='flex'>
+                              <div style={{ flexGrow: 1 }}>
+                                <h2 className={classNames({
+                                  [font({ s: 'HNM3' })]: true
+                                })}>{result.title}</h2>
+                              </div>
+                              {result.thumbnail &&
+                                <div
+                                  className={classNames({
+                                    [spacing({ s: 2 }, { margin: ['left'] })]: true
+                                  })}
+                                  style={{ width: '100px' }}>
+                                  <img src={result.thumbnail.url} style={{ width: '100px' }} />
+                                </div>
+                              }
+                            </div>
                           </a>
                         </NextLink>
                       </div>
