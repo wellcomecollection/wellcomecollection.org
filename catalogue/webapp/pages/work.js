@@ -19,6 +19,8 @@ import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNew
 import SearchForm from '../components/SearchForm/SearchForm';
 import {getWork} from '../services/catalogue/works';
 import {worksUrl} from '../services/catalogue/urls';
+import { getPhysicalLocations, getDigitalLocations, getProductionDates } from '@weco/common/utils/works';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -70,6 +72,11 @@ export const WorkPage = ({
   const encoreLink = sierraId && `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(0, sierraId.length - 1)}`;
 
   const imageContentUrl = iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
+
+  const digitalLocations = getDigitalLocations(work);
+  const physicalLocations = getPhysicalLocations(work);
+  const productionDates = getProductionDates(work);
+
   return (
     <PageLayout
       title={work.title}
@@ -123,34 +130,60 @@ export const WorkPage = ({
               spacing({s: 4}, {margin: ['bottom']})
             ])}>
               <SpacingComponent>
+                <div
+                  className={classNames({
+                    [font({s: 'HNL3'})]: true
+                  })}>{work.workType.label}</div>
+
                 <h1 id='work-info'
                   className={classNames([
                     font({s: 'HNM3', m: 'HNM2', l: 'HNM1'}),
                     spacing({s: 0}, {margin: ['top']})
                   ])}>{work.title}</h1>
+
                 <div className={classNames({
-                  'flex': true,
-                  'flex--h-baseline': true
+                  'flex': true
                 })}>
                   {work.contributors.length > 0 &&
-                    <ContributorTextList contributors={work.contributors} />
+                    <LinkLabels items={
+                      work.contributors.map(({ agent }) => ({
+                        text: agent.label,
+                        url: `/works?query="${agent.label}"`
+                      }))
+                    } />
                   }
-                  {work.production.map(productionEvent =>
-                    productionEvent.dates.map(date => date.label)
-                  ).reduce((a, b) => a.concat(b), []).map(date =>
-                    <div key={date} className={classNames({
-                      [font({s: 'HNM5'})]: true,
-                      [spacing({ s: 2 }, { margin: ['left'] })]: true
+                  {productionDates &&
+                    <div className={classNames({
+                      [spacing({ s: 2 }, {margin: ['left']})]: true
                     })}>
-                      <span className={classNames({
-                        [spacing({ s: 1 }, { margin: ['right'] })]: true
-                      })}>Date:</span>
-                      <span key={date} className={classNames({
-                        [font({s: 'HNL5'})]: true
-                      })}>{date}</span>
+                      <LinkLabels
+                        heading={'Date'}
+                        items={productionDates.map(date => ({
+                          text: date,
+                          url: null
+                        }))} />
                     </div>
-                  )}
+                  }
                 </div>
+
+                {(digitalLocations.length > 0 || physicalLocations.length > 0) &&
+                  <div className={classNames({
+                    [spacing({ s: 2 }, {margin: ['top']})]: true
+                  })}>
+                    <LinkLabels
+                      heading={'See it'}
+                      items={[
+                        digitalLocations.length > 0 ? {
+                          text: 'Online',
+                          url: null
+                        } : null,
+                        physicalLocations.length > 0 ? {
+                          text: 'Wellcome Library',
+                          url: null
+                        } : null
+                      ].filter(Boolean)} />
+                  </div>
+                }
               </SpacingComponent>
             </div>
           </div>

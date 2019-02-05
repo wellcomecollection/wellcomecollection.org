@@ -13,15 +13,17 @@ const ContributorTextList = ({
     [spacing({s: 1}, {margin: ['top']})]: true,
     [spacing({s: 1}, {margin: ['right']})]: true,
     [spacing({s: 0}, {margin: ['bottom']})]: true,
-    [font({s: 'HNL5'})]: true
+    [font({s: 'HNL4'})]: true
   })}>
+    <span>By </span>
     {contributors.map(({ agent }, i, arr) => (
       <Fragment key={agent.label}>
         <span className={classNames({
-          [font({s: 'HNM5'})]: true
+          'border-color-black': true,
+          [font({s: 'HNM4'})]: true,
+          'border-left-width-1': i !== 0,
+          [spacing({ s: 1 }, { margin: ['left'], padding: ['left'] })]: i !== 0
         })}>{agent.label}</span>
-        {arr.length > 1 && i < arr.length - 2  && ', '}
-        {arr.length > 1 && i === arr.length - 2 && ' and '}
       </Fragment>
     ))}
   </p>
