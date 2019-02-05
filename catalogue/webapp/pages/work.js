@@ -17,6 +17,7 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -26,6 +27,7 @@ import {
   getPhysicalLocations,
   getDigitalLocations,
   getProductionDates,
+  getWorkTypeIcon,
 } from '@weco/common/utils/works';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 
@@ -106,6 +108,7 @@ export const WorkPage = ({
   const digitalLocations = getDigitalLocations(work);
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
+  const workTypeIcon = getWorkTypeIcon(work);
 
   return (
     <PageLayout
@@ -185,9 +188,19 @@ export const WorkPage = ({
                 <SpacingComponent>
                   <div
                     className={classNames({
+                      flex: true,
+                      'flex--v-center': true,
                       [font({ s: 'HNL3' })]: true,
                     })}
                   >
+                    {workTypeIcon && (
+                      <Icon
+                        name={workTypeIcon}
+                        extraClasses={classNames({
+                          [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                        })}
+                      />
+                    )}
                     {work.workType.label}
                   </div>
 
@@ -240,6 +253,7 @@ export const WorkPage = ({
                     >
                       <LinkLabels
                         heading={'See it'}
+                        icon={'eye'}
                         items={[
                           digitalLocations.length > 0
                             ? {

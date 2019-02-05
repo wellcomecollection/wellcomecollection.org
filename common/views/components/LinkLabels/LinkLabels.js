@@ -5,6 +5,7 @@ import {
   conditionalClassNames,
   classNames,
 } from '../../../utils/classnames';
+import Icon from '../Icon/Icon';
 
 type ItemProps = {|
   url: ?string,
@@ -14,6 +15,7 @@ type ItemProps = {|
 type Props = {|
   items: ItemProps[],
   heading?: string,
+  icon?: string,
 |};
 
 function getClassName(i) {
@@ -24,21 +26,30 @@ function getClassName(i) {
     [spacing({ s: 1 }, { margin: ['right'] })]: true,
   });
 }
-const LinkLabels = ({ items, heading }: Props) => (
+const LinkLabels = ({ items, heading, icon }: Props) => (
   <div
     className={classNames({
       flex: true,
-      'flex--h-baseline': true,
       [font({ s: 'HNL4' })]: true,
     })}
   >
     {heading && (
       <span
         className={classNames({
+          flex: true,
           [spacing({ s: 1 }, { margin: ['right'] })]: true,
         })}
       >
-        {heading}
+        {icon && (
+          <span
+            className={classNames({
+              [spacing({ s: 1 }, { margin: ['right'] })]: true,
+            })}
+          >
+            <Icon name={icon} />
+          </span>
+        )}
+        <span>{heading}</span>
       </span>
     )}
     <ul
