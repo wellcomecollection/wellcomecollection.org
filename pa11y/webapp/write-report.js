@@ -1,7 +1,7 @@
 const fs = require('fs');
 const mkdirp = require('mkdirp-promise');
 const pa11y = require('pa11y');
-const {promisify} = require('util');
+const { promisify } = require('util');
 const writeFile = promisify(fs.writeFile);
 
 console.info('Pa11y: Starting report');
@@ -15,12 +15,12 @@ const urls = [
   'https://wellcomecollection.org/works',
   'https://wellcomecollection.org/works?query=health',
   'https://wellcomecollection.org/works/cjwep3ze?query=health&page=1',
-  'https://wellcomecollection.org/what-we-do'
+  'https://wellcomecollection.org/what-we-do',
 ];
 
 const promises = urls.map(url => pa11y(url));
-Promise.all(promises).then(async (results) => {
+Promise.all(promises).then(async results => {
   await mkdirp('./.dist');
-  await writeFile('./.dist/report.json', JSON.stringify({results}));
+  await writeFile('./.dist/report.json', JSON.stringify({ results }));
   console.info('Reporting done!');
 });
