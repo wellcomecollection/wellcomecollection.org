@@ -138,10 +138,17 @@ export const WorkPage = ({
                   {work.production.map(productionEvent =>
                     productionEvent.dates.map(date => date.label)
                   ).reduce((a, b) => a.concat(b), []).map(date =>
-                    <span key={date} className={classNames({
-                      'font-pewter': true,
-                      [font({s: 'HNL5'})]: true
-                    })}>{date}</span>
+                    <div key={date} className={classNames({
+                      [font({s: 'HNM5'})]: true,
+                      [spacing({ s: 2 }, { margin: ['left'] })]: true
+                    })}>
+                      <span className={classNames({
+                        [spacing({ s: 1 }, { margin: ['right'] })]: true
+                      })}>Date:</span>
+                      <span key={date} className={classNames({
+                        [font({s: 'HNL5'})]: true
+                      })}>{date}</span>
+                    </div>
                   )}
                 </div>
               </SpacingComponent>
