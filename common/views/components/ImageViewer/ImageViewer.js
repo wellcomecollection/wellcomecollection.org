@@ -1,5 +1,4 @@
 // @flow
-// $FlowFixMe: useState and useEffect, not in the typedefs
 import {Fragment, useState, useEffect} from 'react';
 import {Transition} from 'react-transition-group';
 import Image from '../Image/Image';
