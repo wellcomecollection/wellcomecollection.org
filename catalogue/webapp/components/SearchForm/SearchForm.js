@@ -197,6 +197,11 @@ const SearchForm = ({
           <fieldset className={classNames({
             [spacing({ s: 1 }, { margin: ['top'] })]: true
           })}>
+            <legend className={classNames({
+              'float-l': true,
+              [spacing({ s: 1 }, {margin: ['right']})]: true,
+              [font({ s: 'HNL4' })]: true
+            })} style={{ marginTop: '3px' }}>Filter by:</legend>
             <SearchTag
               name={'workType'}
               label='Images'
