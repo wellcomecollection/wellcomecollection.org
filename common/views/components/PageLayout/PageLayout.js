@@ -1,8 +1,8 @@
 // @flow
-import type {Node} from 'react';
-import type {Url} from '../../../model/url';
-import type {JsonLdObj} from '../JsonLd/JsonLd';
-import {Fragment} from 'react';
+import type { Node } from 'react';
+import type { Url } from '../../../model/url';
+import type { JsonLdObj } from '../JsonLd/JsonLd';
+import { Fragment } from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
 import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
@@ -15,26 +15,21 @@ import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 
-type SiteSection =
-  | 'works'
-  | 'what-we-do'
-  | 'visit-us'
-  | 'stories'
-  | 'whats-on';
+type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
 type Props = {|
   title: string,
   description: string,
   url: Url,
   jsonLd: JsonLdObj | JsonLdObj[],
-  openGraphType: | 'website' | 'article' | 'book' | 'profile',
+  openGraphType: 'website' | 'article' | 'book' | 'profile',
   siteSection: ?SiteSection,
   imageUrl: ?string,
   imageAltText: ?string,
   oEmbedUrl?: string,
   rssUrl?: string,
-  children: Node
-|}
+  children: Node,
+|};
 
 const PageLayout = ({
   title,
@@ -47,12 +42,13 @@ const PageLayout = ({
   imageAltText,
   oEmbedUrl,
   rssUrl,
-  children
+  children,
 }: Props) => {
   const urlString = convertUrlToString(url);
-  const fullTitle = title !== ''
-    ? `${title} | Wellcome Collection`
-    : 'Wellcome Collection | The free museum and library for the incurably curious';
+  const fullTitle =
+    title !== ''
+      ? `${title} | Wellcome Collection`
+      : 'Wellcome Collection | The free museum and library for the incurably curious';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const isPreview = false;
@@ -60,14 +56,17 @@ const PageLayout = ({
     <Fragment>
       <Head>
         <title>{fullTitle}</title>
-        <meta name='description' content={description || ''} />
-        <link rel='canonical' href={absoluteUrl} />
-        {imageUrl && <meta property='og:image' content={imageUrl} />}
-        {oEmbedUrl && <link
-          rel='alternate'
-          type='application/json+oembed'
-          href={oEmbedUrl}
-          title={title} />}
+        <meta name="description" content={description || ''} />
+        <link rel="canonical" href={absoluteUrl} />
+        {imageUrl && <meta property="og:image" content={imageUrl} />}
+        {oEmbedUrl && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={oEmbedUrl}
+            title={title}
+          />
+        )}
 
         <OpenGraphMetadata
           type={openGraphType}
@@ -87,37 +86,44 @@ const PageLayout = ({
 
         <JsonLd data={jsonLd} />
 
-        {rssUrl && <link
-          rel='alternate'
-          href={rssUrl}
-          title='RSS'
-          type='application/rss+xml' />
-        }
+        {rssUrl && (
+          <link
+            rel="alternate"
+            href={rssUrl}
+            title="RSS"
+            type="application/rss+xml"
+          />
+        )}
       </Head>
 
       <div className={isPreview ? 'is-preview' : undefined}>
-        <a className='skip-link' href='#main'>Skip to main content</a>
+        <a className="skip-link" href="#main">
+          Skip to main content
+        </a>
         <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
-            globalAlert.isShown === 'show' &&
-            <InfoBanner text={globalAlert.text} cookieName='WC_globalAlert' />
+            globalAlert.isShown === 'show' && (
+              <InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />
+            )
           }
         </GlobalAlertContext.Consumer>
-        <div id='main' className='main' role='main'>
+        <div id="main" className="main" role="main">
           {children}
         </div>
         <NewsletterPromo />
         <OpeningTimesContext.Consumer>
-          {openingTimes =>
+          {openingTimes => (
             <Footer
-              openingHoursId='footer'
+              openingHoursId="footer"
               groupedVenues={openingTimes.groupedVenues}
-              upcomingExceptionalOpeningPeriods={openingTimes.upcomingExceptionalOpeningPeriods} />
-          }
+              upcomingExceptionalOpeningPeriods={
+                openingTimes.upcomingExceptionalOpeningPeriods
+              }
+            />
+          )}
         </OpeningTimesContext.Consumer>
       </div>
-
     </Fragment>
   );
 };

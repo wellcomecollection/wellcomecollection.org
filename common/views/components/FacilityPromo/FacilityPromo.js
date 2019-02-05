@@ -1,9 +1,9 @@
 // @flow
-import {spacing, font} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
+import { spacing, font } from '../../../utils/classnames';
+import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
-import {UiImage} from '../Images/Images';
-import type {ImageType} from '../../../model/image';
+import { UiImage } from '../Images/Images';
+import type { ImageType } from '../../../model/image';
 
 type Props = {|
   id: string,
@@ -12,10 +12,11 @@ type Props = {|
   imageProps: ImageType,
   description: string,
   metaText: ?string,
-  metaIcon: ?string
-|}
+  metaIcon: ?string,
+|};
 
-const sizesQueries = '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)';
+const sizesQueries =
+  '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)';
 
 const FacilityPromo = ({
   id,
@@ -24,40 +25,53 @@ const FacilityPromo = ({
   imageProps,
   description,
   metaText,
-  metaIcon
+  metaIcon,
 }: Props) => {
   const uiImageProps = {
     ...imageProps,
-    sizesQueries
+    sizesQueries,
   };
   return (
-    <a data-component='FacilityPromo'
+    <a
+      data-component="FacilityPromo"
       onClick={() => {
         trackEvent({
           category: 'FacilityPromo',
           action: 'follow link',
-          label: title
+          label: title,
         });
       }}
       id={id}
       href={url}
-      className='plain-link promo-link'>
+      className="plain-link promo-link"
+    >
       <div>
-        <div className='rounded-corners overflow-hidden'>
+        <div className="rounded-corners overflow-hidden">
           <UiImage {...uiImageProps} />
         </div>
 
-        <h2 className={`"promo-link__title ${font({s: 'WB6'})} ${spacing({s: 2}, {margin: ['top']})}`}>{title}</h2>
-        <p className={`${font({s: 'HNL5'})} no-margin no-padding`}>{description}</p>
+        <h2
+          className={`"promo-link__title ${font({ s: 'WB6' })} ${spacing(
+            { s: 2 },
+            { margin: ['top'] }
+          )}`}
+        >
+          {title}
+        </h2>
+        <p className={`${font({ s: 'HNL5' })} no-margin no-padding`}>
+          {description}
+        </p>
 
-        {metaText &&
-          <div className={`${spacing({s: 3}, {padding: ['top']})}`}>
-            <div className={`${font({s: 'HNM5'})} flex flex--v-center`}>
-              {metaIcon && <Icon name={metaIcon} extraClasses='margin-right-s1' />}
+        {metaText && (
+          <div className={`${spacing({ s: 3 }, { padding: ['top'] })}`}>
+            <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
+              {metaIcon && (
+                <Icon name={metaIcon} extraClasses="margin-right-s1" />
+              )}
               <span>{metaText}</span>
             </div>
           </div>
-        }
+        )}
       </div>
     </a>
   );

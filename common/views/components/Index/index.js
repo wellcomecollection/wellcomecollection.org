@@ -2,7 +2,7 @@ import BackToTop from '../BackToTop/BackToTop';
 import Body from '../Body/Body';
 import BookPromo from '../BookPromo/BookPromo';
 import Button from '../Buttons/Button/Button';
-import {UiImage, CaptionedImage} from '../Images/Images';
+import { UiImage, CaptionedImage } from '../Images/Images';
 import Caption from '../Caption/Caption';
 import CardGrid from '../CardGrid/CardGrid';
 import Contributor from '../Contributor/Contributor';
@@ -110,5 +110,5 @@ export {
   WobblyEdge,
   WorkDrawer,
   WorkMedia,
-  WorkPromo
+  WorkPromo,
 };

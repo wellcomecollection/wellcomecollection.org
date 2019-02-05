@@ -5,27 +5,27 @@ export const context = {
     {
       siteSection: 'Visit us',
       title: 'Visit us',
-      href: '#'
+      href: '#',
     },
     {
       siteSection: `What's on`,
       title: `What's on`,
-      href: '#'
+      href: '#',
     },
     {
       siteSection: 'Stories',
       title: 'Stories',
-      href: '#'
+      href: '#',
     },
     {
       siteSection: 'Images',
       title: 'Images',
-      href: '#'
+      href: '#',
     },
     {
       siteSection: 'What we do',
       title: 'What we do',
-      href: '#'
-    }
-  ]
+      href: '#',
+    },
+  ],
 };

@@ -1,56 +1,62 @@
 // @flow
-import type {UiEvent} from '../../../model/events';
+import type { UiEvent } from '../../../model/events';
 import Button from '../Buttons/Button/Button';
-import {Fragment} from 'react';
-import {spacing, font} from '../../../utils/classnames';
+import { Fragment } from 'react';
+import { spacing, font } from '../../../utils/classnames';
 
 type Props = {
-  event: UiEvent
-}
+  event: UiEvent,
+};
 
 const ticketButtonText = 'Check for tickets';
 const ticketButtonLoadingText = 'Loading…';
 
 // FIXME: add back to button extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}
 // FIXME: iframe is set to display none, don't when we fix EB
-const EventbriteButton = ({event}: Props) => {
+const EventbriteButton = ({ event }: Props) => {
   return (
-    <div className={spacing({s: 4}, {margin: ['bottom']})}>
-      {event.isCompletelySoldOut ? <Button type='primary' disabled={true} text='Fully booked' />
-        : (
-          <Fragment>
-            <Button
-              type='primary'
-              url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
-              trackingEvent={{
-                category: 'component',
-                action: 'booking-tickets:click',
-                label: 'event-page'
-              }}
-              icon='ticket'
-              text={ticketButtonText} />
-            <iframe
-              className={`js-eventbrite-widget-${event.eventbriteId || ''}`}
-              src={`/eventbrite/widget/${event.eventbriteId || ''}`}
-              frameBorder='0'
-              width='100%'
-              vspace='0'
-              hspace='0'
-              marginHeight='5'
-              marginWidth='5'
-              scrolling='auto'
-              height='1'
-              style={{ display: 'none' }}>
-            </iframe>
-            <script dangerouslySetInnerHTML={{ __html: `
+    <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
+      {event.isCompletelySoldOut ? (
+        <Button type="primary" disabled={true} text="Fully booked" />
+      ) : (
+        <Fragment>
+          <Button
+            type="primary"
+            url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+            trackingEvent={{
+              category: 'component',
+              action: 'booking-tickets:click',
+              label: 'event-page',
+            }}
+            icon="ticket"
+            text={ticketButtonText}
+          />
+          <iframe
+            className={`js-eventbrite-widget-${event.eventbriteId || ''}`}
+            src={`/eventbrite/widget/${event.eventbriteId || ''}`}
+            frameBorder="0"
+            width="100%"
+            vspace="0"
+            hspace="0"
+            marginHeight="5"
+            marginWidth="5"
+            scrolling="auto"
+            height="1"
+            style={{ display: 'none' }}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               (function() {
                 // Bah, IE doesn't have document.currentScript
                 var scripts = document.getElementsByTagName("script");
                 var thisScript = scripts[scripts.length - 1];
                 var parent = thisScript.parentNode;
 
-                var iframe = parent.querySelector('.js-eventbrite-widget-${event.eventbriteId || ''}');
-                var showWidget = parent.querySelector('.js-eventbrite-show-widget-${event.eventbriteId || ''}');
+                var iframe = parent.querySelector('.js-eventbrite-widget-${event.eventbriteId ||
+                  ''}');
+                var showWidget = parent.querySelector('.js-eventbrite-show-widget-${event.eventbriteId ||
+                  ''}');
                 showWidget.classList.add('disabled');
                 showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
 
@@ -71,12 +77,19 @@ const EventbriteButton = ({event}: Props) => {
                   }, 1000);
                 });
               })();
-            `}}>
-            </script>
-            <p className={`font-charcoal ${font({s: 'HNL5'})} ${spacing({s: 1}, {margin: ['top']})} ${spacing({s: 0}, {margin: ['bottom']})}`}>with Eventbrite</p>
-          </Fragment>
-        )
-      }
+            `,
+            }}
+          />
+          <p
+            className={`font-charcoal ${font({ s: 'HNL5' })} ${spacing(
+              { s: 1 },
+              { margin: ['top'] }
+            )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
+          >
+            with Eventbrite
+          </p>
+        </Fragment>
+      )}
     </div>
   );
 };

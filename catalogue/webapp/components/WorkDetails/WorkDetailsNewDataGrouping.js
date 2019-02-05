@@ -51,7 +51,7 @@ const WorkDetails = ({
 
               {work.contributors.length > 0 &&
                 <MetaUnit headingText='' links={work.contributors.map(contributor => {
-                  const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                  const linkAttributes = worksUrl({ query: `"${contributor.agent.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                   </NextLink>);
@@ -60,7 +60,7 @@ const WorkDetails = ({
 
               {work.workType &&
                 <MetaUnit headingText='' links={[
-                  <NextLink key={1} {...worksUrl({ query: `workType:"${work.workType.label}"`, page: undefined })}>
+                  <NextLink key={1} {...worksUrl({ query: `"${work.workType.label}"`, page: undefined })}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.workType.label}</a>
                   </NextLink>
                 ]} />
@@ -68,7 +68,7 @@ const WorkDetails = ({
 
               {work.genres.length > 0 &&
                 <MetaUnit headingText='' links={work.genres.map(genre => {
-                  const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
+                  const linkAttributes = worksUrl({ query: `"${genre.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                   </NextLink>);
@@ -113,7 +113,7 @@ const WorkDetails = ({
 
               {work.genres.length > 0 &&
                 <MetaUnit headingText='Type' links={work.genres.map(genre => {
-                  const linkAttributes = worksUrl({ query: `genres:"${genre.label}"`, page: undefined });
+                  const linkAttributes = worksUrl({ query: `"${genre.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{genre.label}</a>
                   </NextLink>);
@@ -123,7 +123,7 @@ const WorkDetails = ({
 
               {work.language &&
                 <MetaUnit headingText='Language' links={[
-                  <NextLink key={1} {...worksUrl({ query: `language:"${work.language.label}"`, page: undefined })}>
+                  <NextLink key={1} {...worksUrl({ query: `"${work.language.label}"`, page: undefined })}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{work.language.label}</a>
                   </NextLink>
                 ]} />
@@ -131,7 +131,7 @@ const WorkDetails = ({
 
               {work.contributors.length > 0 &&
                 <MetaUnit headingText='Contributors' links={work.contributors.map(contributor => {
-                  const linkAttributes = worksUrl({ query: `contributors:"${contributor.agent.label}"`, page: undefined });
+                  const linkAttributes = worksUrl({ query: `"${contributor.agent.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{contributor.agent.label}</a>
                   </NextLink>);
@@ -147,7 +147,7 @@ const WorkDetails = ({
               ])}>Subjects</h2>
               {work.subjects.length > 0 &&
                 <MetaUnit headingText='' links={work.subjects.map(subject => {
-                  const linkAttributes = worksUrl({ query: `subjects:"${subject.label}"`, page: undefined });
+                  const linkAttributes = worksUrl({ query: `"${subject.label}"`, page: undefined });
                   return (<NextLink key={1} {...linkAttributes}>
                     <a className={`plain-link font-green font-hover-turquoise ${font({s: 'HNM5', m: 'HNM4'})}`}>{subject.label}</a>
                   </NextLink>);
@@ -157,20 +157,20 @@ const WorkDetails = ({
 
             </SpacingComponent>
             {encoreLink &&
-            <SpacingComponent>
-              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
-              <h2 className={classNames([
-                font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
-                spacing({s: 0}, {margin: ['top']})
-              ])}>Find in the library</h2>
-              {work.identifiers.length > 0 && work.identifiers.filter((id) => {
-                return id.identifierType.id === 'isbn';
-              }).map(id => {
-                return <MetaUnit key={id.value} headingText='ISBN' text={[id.value]} />;
-              })}
+              <SpacingComponent>
+                <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
+                <h2 className={classNames([
+                  font({s: 'HNM4', m: 'HNM3', l: 'HNM2'}),
+                  spacing({s: 0}, {margin: ['top']})
+                ])}>Find in the library</h2>
+                {work.identifiers.length > 0 && work.identifiers.filter((id) => {
+                  return id.identifierType.id === 'isbn';
+                }).map(id => {
+                  return <MetaUnit key={id.value} headingText='ISBN' text={[id.value]} />;
+                })}
 
-              <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
-            </SpacingComponent>
+                <MoreLink name='View Wellcome Library catalogue record' url={encoreLink} />
+              </SpacingComponent>
             }
             {iiifImageLocationUrl &&
               <SpacingComponent>
@@ -244,7 +244,7 @@ const WorkDetails = ({
                 <SpacingComponent>
                   <MetaUnit headingLevel={3} headingText='License information' text={licenseInfo.humanReadableText} />
                   <MetaUnit headingLevel={3} headingText='Credit' text={[
-                    `${work.title}.{' '}
+                    `${work.title}.${' '}
                     ${iiifImageLocationCredit ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. ` : ` `}
                     ${licenseInfo.url ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>` : licenseInfo.text}`]} />
                 </SpacingComponent>
