@@ -91,7 +91,6 @@ export function convertImageUri(
     return originalUri;
   } else {
     if (!isGif) {
-      // $FlowFixMe
       const imagePath =
         imageSrc === 'miro'
           ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1]
@@ -99,7 +98,8 @@ export function convertImageUri(
           ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0]
           : originalUri.split(imageMap[imageSrc].root)[1]
           ? originalUri.split(imageMap[imageSrc].root)[1]
-          : originalUri.split(imageMap[imageSrc].cdnRoot)[1];
+          : // $FlowFixMe
+            originalUri.split(imageMap[imageSrc].cdnRoot)[1];
       const iiifRoot = useIiifOrigin
         ? imageMap[imageSrc].iiifOriginRoot
         : imageMap[imageSrc].iiifRoot;

@@ -85,8 +85,8 @@ export class ArticleSeriesPage extends Component<Props> {
       copyrightHolder: image.copyright && image.copyright.holder,
       copyrightLink: image.copyright && image.copyright.link,
     };
-    // $FlowFixMe
     const FeaturedMedia = book.cover && (
+      // $FlowFixMe
       <UiImage
         tasl={tasl}
         extraClasses="margin-h-auto width-auto max-height-70vh"
