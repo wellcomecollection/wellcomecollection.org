@@ -38,6 +38,10 @@ const featureToggles = [{
   id: 'showWorkMetaDataGrouping',
   title: 'Show work metadata grouped in a new way',
   description: 'Shows the work metadata grouped together and ordered based on usability testing and workshops.'
+}, {
+  id: 'showWorkHeader',
+  title: 'Show the header on individual work pages',
+  description: 'The header on the works page should hopefully give a summary at a glance on what the work is about.'
 }];
 
 const IndexPage = () => {
