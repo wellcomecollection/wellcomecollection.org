@@ -1,4 +1,5 @@
 // @flow
+import sortBy from 'lodash.sortby';
 import {Component} from 'react';
 import {london} from '../../../utils/format-date';
 import {getEarliestFutureDateRange} from '../../../utils/dates';
@@ -93,13 +94,11 @@ class EventsByMonth extends Component<Props, State> {
 
     // Need to order the events for each month based on their earliest future date range
     Object.keys(eventsInMonths).map(month => {
-      eventsInMonths[month].sort((a, b) => {
-        const aTimes = a.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
-        const bTimes = b.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
-        const aEarliestFuture = getEarliestFutureDateRange(aTimes, london({M: monthsIndex[london(month).format('MMMM')]})) || {};
-        const bEarliestFuture = getEarliestFutureDateRange(bTimes, london({M: monthsIndex[london(month).format('MMMM')]})) || {};
-        return aEarliestFuture.start - bEarliestFuture.start;
-      });
+      eventsInMonths[month] = sortBy(eventsInMonths[month], [(m) => {
+        const times = m.times.map(time => ({start: time.range.startDateTime, end: time.range.endDateTime}));
+        const earliestRange = getEarliestFutureDateRange(times, london({M: monthsIndex[london(month).format('MMMM')]}));
+        return earliestRange && earliestRange.start;
+      }]);
     });
 
     return (
