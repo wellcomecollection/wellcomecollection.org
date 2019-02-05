@@ -2,7 +2,7 @@
 import {Fragment} from 'react';
 import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
-import {iiifImageTemplate} from '../../../utils/convert-image-uri';
+import {iiifImageTemplate, convertImageUri, convertIiifUriToInfoUri} from '../../../utils/convert-image-uri';
 import type {Work} from '../../../model/work';
 
 type Props = {|
@@ -20,6 +20,7 @@ const WorkEmbed = ({
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
   const imageUrl = iiifImage({size: '800,'});
+  const imageInfoUrl = convertIiifUriToInfoUri(convertImageUri(imageUrl, 'full', false));
 
   return (
     <Fragment>
@@ -45,10 +46,10 @@ const WorkEmbed = ({
           }}>
             <Fragment>
               <ImageViewer
+                infoUrl={imageInfoUrl}
                 contentUrl={imageUrl}
                 id={work.id}
                 width={800}
-                trackTitle={work.title}
               />
             </Fragment>
           </div>
