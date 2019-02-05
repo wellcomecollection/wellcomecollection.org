@@ -2,7 +2,7 @@
 import type {Work, CatalogueApiError, CatalogueApiRedirect} from '../services/catalogue/works';
 import {Fragment} from 'react';
 import Router from 'next/router';
-import {spacing, grid, classNames} from '@weco/common/utils/classnames';
+import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
 import {iiifImageTemplate} from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -12,6 +12,8 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import ContributorTextList from '@weco/common/views/components/ContributorTextList/ContributorTextList';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -110,6 +112,28 @@ export const WorkPage = ({
               </div>
             </div>
           }
+        </div>
+      </div>
+
+      <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
+        <div className='container'>
+          <div className='grid'>
+            <div className={classNames([
+              grid({s: 12, m: 12, l: 10, xl: 10}),
+              spacing({s: 4}, {margin: ['bottom']})
+            ])}>
+              <SpacingComponent>
+                <h1 id='work-info'
+                  className={classNames([
+                    font({s: 'HNM3', m: 'HNM2', l: 'HNM1'}),
+                    spacing({s: 0}, {margin: ['top']})
+                  ])}>{work.title}</h1>
+                {work.contributors.length > 0 &&
+                  <ContributorTextList contributors={work.contributors} />
+                }
+              </SpacingComponent>
+            </div>
+          </div>
         </div>
       </div>
 
