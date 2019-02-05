@@ -20,13 +20,6 @@
         ]
       }
     },
-    "description": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em",
-        "label": "[Deprecated] Description. Please use standfirst slice"
-      }
-    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",
@@ -481,6 +474,13 @@
     }
   },
   "Deprecated": {
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "[Deprecated] Description. Please use standfirst slice"
+      }
+    },
     "commissionedLength": {
       "type": "Number",
       "config": {
