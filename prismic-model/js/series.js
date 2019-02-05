@@ -15,27 +15,29 @@ import structuredText from './parts/structured-text';
 const ArticleSeries = {
   'Article series': {
     title: title,
-    color: select('Colour', [ 'teal', 'red', 'orange', 'purple' ]),
-    description: structuredText('[Deprecated] Description. Please use standfirst slice'),
-    body
+    color: select('Colour', ['teal', 'red', 'orange', 'purple']),
+    description: structuredText(
+      '[Deprecated] Description. Please use standfirst slice'
+    ),
+    body,
   },
   Schedule: {
     schedule: list('Schedule', {
       title: title,
-      publishDate: timestamp('Date to be published')
-    })
+      publishDate: timestamp('Date to be published'),
+    }),
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
+    metadataDescription: structuredText('Metadata description', 'single'),
   },
   Deprecated: {
     commissionedLength: number('[Deprecated] Commissioned length'),
-    wordpressSlug: text('[Deprecated] Wordpress slug')
-  }
+    wordpressSlug: text('[Deprecated] Wordpress slug'),
+  },
 };
 
 export default ArticleSeries;

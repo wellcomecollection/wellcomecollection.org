@@ -12,8 +12,8 @@ const Place = {
     level: number('Level'),
     capacity: number('Capacity'),
     locationInformation: structuredText('Location information'),
-    body
-  }
+    body,
+  },
 };
 
 export default Place;

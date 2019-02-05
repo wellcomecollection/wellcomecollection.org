@@ -21,25 +21,25 @@ const Books = {
     isbn: text('ISBN'),
     reviews: list('Reviews', {
       text: structuredText('Review'),
-      citation: structuredText('Citation', 'single')
+      citation: structuredText('Citation', 'single'),
     }),
-    datePublished: timestamp('Date published')
+    datePublished: timestamp('Date published'),
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
+    metadataDescription: structuredText('Metadata description', 'single'),
   },
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
     drupalPath: text('Drupal path'),
-    authorName: structuredText('Author\'s name', 'single'),
-    authorImage: link('Author\'s image', 'web'),
-    authorDescription: structuredText('About the author', 'single')
-  }
+    authorName: structuredText("Author's name", 'single'),
+    authorImage: link("Author's image", 'web'),
+    authorDescription: structuredText('About the author', 'single'),
+  },
 };
 
 export default Books;

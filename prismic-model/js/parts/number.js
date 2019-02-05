@@ -1,9 +1,9 @@
 // @flow
-export default function number (label: string) {
+export default function number(label: string) {
   return {
-    'type': 'Number',
-    'config': {
-      'label': label
-    }
+    type: 'Number',
+    config: {
+      label: label,
+    },
   };
 }
