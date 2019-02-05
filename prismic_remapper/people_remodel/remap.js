@@ -10,26 +10,34 @@ function removeAt(twitterHandle) {
   }
 }
 module.exports = {
-  filter({filename, doc}) {
+  filter({ filename, doc }) {
     return doc.type === 'people';
   },
-  map({filename, doc}) {
+  map({ filename, doc }) {
     if (doc.twitterHandle) {
       const twitterHandle = removeAt(doc.twitterHandle);
-      const twitterSameAs = [{
-        link: `https://twitter.com/${twitterHandle}`,
-        title: [{
-          type: 'paragraph',
-          content: {
-            text: `@${twitterHandle}`,
-            spans: []
-          }
-        }]
-      }];
+      const twitterSameAs = [
+        {
+          link: `https://twitter.com/${twitterHandle}`,
+          title: [
+            {
+              type: 'paragraph',
+              content: {
+                text: `@${twitterHandle}`,
+                spans: [],
+              },
+            },
+          ],
+        },
+      ];
       if (doc.sameAs) {
-        const currentTwitterSameAsIndex = doc.sameAs.findIndex(item => `https://twitter.com/${twitterHandle}` === item.link);
+        const currentTwitterSameAsIndex = doc.sameAs.findIndex(
+          item => `https://twitter.com/${twitterHandle}` === item.link
+        );
         if (currentTwitterSameAsIndex === -1) {
-          doc.sameAs = doc.sameAs.concat(twitterSameAs).filter(item => Object.keys(item).length > 0);
+          doc.sameAs = doc.sameAs
+            .concat(twitterSameAs)
+            .filter(item => Object.keys(item).length > 0);
         } else {
           doc.sameAs[currentTwitterSameAsIndex] = twitterSameAs; // some of the current sameAs objects with twitter links don't have the title, so we make sure they do
         }
@@ -38,6 +46,6 @@ module.exports = {
       }
     }
     delete doc.twitterHandle;
-    return {doc, filename};
-  }
+    return { doc, filename };
+  },
 };
