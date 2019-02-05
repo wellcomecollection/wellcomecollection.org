@@ -1,7 +1,7 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { spacing } from '../../../utils/classnames';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
@@ -57,30 +57,22 @@ type Props = {|
   infoUrl: string,
 |};
 
-type State = {|
-  scriptError: boolean,
-|};
+const ImageViewerImage = ({ id, infoUrl }: Props) => {
+  const [scriptError, setScriptError] = useState(false);
 
-class ImageViewerImage extends Component<Props, State> {
-  state = {
-    scriptError: false,
+  const handleScriptError = () => {
+    setScriptError(true);
   };
 
-  handleScriptError = () => {
-    this.setState({ scriptError: true });
-  };
+  useEffect(() => {
+    setupViewer(infoUrl, id, handleScriptError);
+  }, []);
 
-  componentDidMount() {
-    setupViewer(this.props.infoUrl, this.props.id, this.handleScriptError);
-  }
-
-  render() {
-    return (
-      <div className="image-viewer__image" id={`image-viewer-${this.props.id}`}>
-        {this.state.scriptError && <ErrorMessage />}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="image-viewer__image" id={`image-viewer-${id}`}>
+      {scriptError && <ErrorMessage />}
+    </div>
+  );
+};
 
 export default ImageViewerImage;
