@@ -24,7 +24,8 @@ type Props = {|
   query: ?string,
   page: ?number,
   showNewMetaDataGrouping: boolean,
-  itemsLocationsLocationType: string[]
+  itemsLocationsLocationType: string[],
+  showCatalogueSearchFilters: boolean
 |}
 
 export const WorkPage = ({
@@ -33,7 +34,8 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showNewMetaDataGrouping
+  showNewMetaDataGrouping,
+  showCatalogueSearchFilters
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -95,7 +97,7 @@ export const WorkPage = ({
                 initialQuery={query || ''}
                 initialWorkType={workType}
                 initialItemsLocationsLocationType={itemsLocationsLocationType}
-                showFilters={false}
+                showFilters={showCatalogueSearchFilters}
                 ariaDescribedBy='search-form-description' />
             </div>
           </div>
@@ -106,7 +108,12 @@ export const WorkPage = ({
                 [grid({s: 12})]: true,
                 [spacing({s: 1}, {padding: ['top', 'bottom']})]: true
               })}>
-                <BackToResults nextLink={worksUrl({query, page})} />
+                <BackToResults nextLink={worksUrl({
+                  query,
+                  page,
+                  workType,
+                  itemsLocationsLocationType
+                })} />
               </div>
             </div>
           }
@@ -154,6 +161,7 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
   const showNewMetaDataGrouping = Boolean(ctx.query.toggles.showWorkMetaDataGrouping);
+  const showCatalogueSearchFilters = Boolean(ctx.query.toggles.showCatalogueSearchFilters);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const {res} = ctx;
@@ -173,7 +181,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       page: page ? parseInt(page, 10) : null,
       showNewMetaDataGrouping,
       workType,
-      itemsLocationsLocationType
+      itemsLocationsLocationType,
+      showCatalogueSearchFilters
     };
   }
 };
