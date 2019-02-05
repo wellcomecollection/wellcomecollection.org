@@ -5,8 +5,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import Icon from '../Icon/Icon';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import { isEventFullyBooked } from '../../../model/events';
-import type { UiEvent } from '../../../model/events';
+import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
 
 type Props = {|
@@ -42,8 +41,8 @@ const EventPromo = ({
     >
       <div className="relative">
         {/* FIXME: Image type tidy */}
-        {/* $FlowFixMe */}
         {event.promoImage && (
+          // $FlowFixMe
           <UiImage
             {...event.promoImage}
             sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
