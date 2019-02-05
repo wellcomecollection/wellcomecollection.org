@@ -1,7 +1,6 @@
 // @flow
 import type {Context} from 'next';
 import type {CatalogueApiError, CatalogueResultsList} from '../services/catalogue/works';
-// $FlowFixMe: using react aloha for hooks, which isn't in the typedefs
 import {Fragment, useEffect, useState} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
@@ -14,7 +13,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import {getWorks} from '../services/catalogue/works';
@@ -188,29 +186,63 @@ export const Works = ({
               <div className='container'>
                 <div className='grid'>
                   {showCatalogueSearchFilters && works.results.map(result => (
-                    <NextLink
-                      href={workUrl({ id: result.id, query, page, workType, itemsLocationsLocationType }).href}
-                      as={workUrl({ id: result.id, query, page, workType, itemsLocationsLocationType }).as}
-                      key={result.id}>
-                      <a
-                        style={{
-                          padding: '24px 0',
-                          borderTop: '1px solid'
-                        }}
-                        className={'plain-link ' + grid({s: 12, m: 10, l: 8, xl: 8, shiftXL: 2})}>
-                        <div className={classNames({
-                          [spacing({s: 1}, {margin: ['top', 'bottom']})]: true
-                        })}>
-                          <LinkLabels items={[
-                            {
-                              url: null,
-                              text: result.workType.label
-                            }
-                          ]} />
-                        </div>
-                        <h2 className='h4'>{result.title}</h2>
-                      </a>
-                    </NextLink>
+                    <div className={classNames({
+                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true
+                    })} key={result.id}>
+                      <div className={classNames({
+                        'border-color-pumice': true,
+                        'border-top-width-1': true
+                      })}>
+                        <NextLink
+                          href={workUrl({
+                            id: result.id,
+                            query,
+                            page,
+                            workType,
+                            itemsLocationsLocationType
+                          }).href}
+                          as={workUrl({
+                            id: result.id,
+                            query,
+                            page,
+                            workType,
+                            itemsLocationsLocationType
+                          }).as}>
+                          <a
+                            className={classNames({
+                              'plain-link': true,
+                              'block': true,
+                              [spacing({ s: 3 }, { padding: ['bottom'] })]: true
+                            })}>
+                            <div>
+                              <div className={classNames({
+                                'bg-pumice': true,
+                                'inline-block': true,
+                                [spacing({s: 1}, {margin: ['top', 'bottom']})]: true,
+                                [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
+                                [font({ s: 'HNL4' })]: true
+                              })}  style={{ borderRadius: '3px' }}>{result.workType.label}</div>
+                            </div>
+                            <div className='flex'>
+                              <div style={{ flexGrow: 1 }}>
+                                <h2 className={classNames({
+                                  [font({ s: 'HNM3' })]: true
+                                })}>{result.title}</h2>
+                              </div>
+                              {result.thumbnail &&
+                                <div
+                                  className={classNames({
+                                    [spacing({ s: 2 }, { margin: ['left'] })]: true
+                                  })}
+                                  style={{ width: '100px' }}>
+                                  <img src={result.thumbnail.url} style={{ width: '100px' }} />
+                                </div>
+                              }
+                            </div>
+                          </a>
+                        </NextLink>
+                      </div>
+                    </div>
                   ))}
                   {!showCatalogueSearchFilters && works.results.map(result => (
                     <div key={result.id} className={grid({s: 6, m: 4, l: 3, xl: 2})}>
@@ -302,13 +334,22 @@ Works.getInitialProps = async (
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const workTypeQuery = ctx.query.workType;
+  // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
+  // considered multiple workTypes
   const workType = Array.isArray(workTypeQuery) ? workTypeQuery
+    .map(workType => workType.split(','))
+    .reduce((workTypes, workTypeStringArray) => [
+      ...workTypes,
+      ...workTypeStringArray
+    ], [])
     : typeof workTypeQuery === 'string' ? workTypeQuery.split(',') : ['k', 'q'];
 
-  const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
-    ? ctx.query['items.locations.locationType'].split(',') : ['iiif-image'];
-
   const {showCatalogueSearchFilters} = ctx.query.toggles;
+
+  const itemsLocationsLocationType = 'items.locations.locationType' in ctx.query
+    ? ctx.query['items.locations.locationType'].split(',')
+    : showCatalogueSearchFilters ? ['iiif-image', 'iiif-presentation'] : ['iiif-image'];
+
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
     workType
