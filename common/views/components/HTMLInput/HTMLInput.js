@@ -1,6 +1,6 @@
 // @flow
 
-import {font, spacing} from '../../../utils/classnames';
+import { font, spacing } from '../../../utils/classnames';
 
 type Props = {|
   inputRef?: ?Function,
@@ -16,8 +16,8 @@ type Props = {|
   autofocus?: boolean,
   isLabelHidden?: boolean,
   required?: boolean,
-  onChange?: (SyntheticEvent<HTMLInputElement>) => void
-|}
+  onChange?: (SyntheticEvent<HTMLInputElement>) => void,
+|};
 
 // `defaultValue` only gets set on initial load for a form.
 // After that, it won't get 'naturally' updated because the
@@ -37,10 +37,14 @@ const HTMLInput = ({
   autofocus,
   label,
   isLabelHidden,
-  fontStyles = {s: 'HNL3', m: 'HNL2'},
-  onChange
+  fontStyles = { s: 'HNL3', m: 'HNL2' },
+  onChange,
 }: Props) => (
-  <label key={defaultValue} className='input__label flex flex--v-center' htmlFor={id}>
+  <label
+    key={defaultValue}
+    className="input__label flex flex--v-center"
+    htmlFor={id}
+  >
     <input
       required={required}
       ref={inputRef}
@@ -53,13 +57,22 @@ const HTMLInput = ({
       placeholder={placeholder}
       disabled={disabled}
       autoFocus={autofocus && !defaultValue}
-      onChange={onChange}/>
+      onChange={onChange}
+    />
 
-    {['radio', 'checkbox'].indexOf(type) > -1 &&
-      <span className={`input__control-indicator input__control-indicator--${type}`}></span>
-    }
+    {['radio', 'checkbox'].indexOf(type) > -1 && (
+      <span
+        className={`input__control-indicator input__control-indicator--${type}`}
+      />
+    )}
 
-    <span className={`input__label-wrap line-height-1 ${spacing({s: 2}, {margin: ['left']})} ${isLabelHidden ? 'input__label-wrap--hidden' : ''}`} dangerouslySetInnerHTML={{__html: label}} />
+    <span
+      className={`input__label-wrap line-height-1 ${spacing(
+        { s: 2 },
+        { margin: ['left'] }
+      )} ${isLabelHidden ? 'input__label-wrap--hidden' : ''}`}
+      dangerouslySetInnerHTML={{ __html: label }}
+    />
   </label>
 );
 

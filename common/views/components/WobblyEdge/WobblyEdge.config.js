@@ -5,5 +5,5 @@ export const label = 'Wobbly edge';
 export const context = {
   background: 'cream',
   intensity: 100,
-  isValley: true
+  isValley: true,
 };

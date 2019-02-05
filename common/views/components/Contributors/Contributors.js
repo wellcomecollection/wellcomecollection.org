@@ -1,15 +1,15 @@
 // @flow
-import {spacing} from '../../../utils/classnames';
+import { spacing } from '../../../utils/classnames';
 import Contributor from '../Contributor/Contributor';
-import {Fragment} from 'react';
-import type {Contributor as ContributorType} from '../../../model/contributors';
+import { Fragment } from 'react';
+import type { Contributor as ContributorType } from '../../../model/contributors';
 
 type Props = {|
   contributors: ContributorType[],
   titleOverride?: ?string,
   titlePrefix?: string,
-  excludeTitle?: boolean
-|}
+  excludeTitle?: boolean,
+|};
 
 export function dedupeAndPluraliseRoles(roles: string[]) {
   const dedupedWithCount: { [string]: number } = roles
@@ -43,7 +43,8 @@ export function getContributorsTitle(
     return 'In partnership with';
   }
 
-  const rolesString = lowerCaseRoles.length === 1 ?  lowerCaseRoles[0] : 'contributors';
+  const rolesString =
+    lowerCaseRoles.length === 1 ? lowerCaseRoles[0] : 'contributors';
 
   return `${titlePrefix} ${rolesString}`;
 }
@@ -52,7 +53,7 @@ const Contributors = ({
   contributors,
   titleOverride,
   excludeTitle,
-  titlePrefix = 'About the'
+  titlePrefix = 'About the',
 }: Props) => {
   const roles = dedupeAndPluraliseRoles(
     contributors
@@ -62,15 +63,16 @@ const Contributors = ({
 
   return (
     <Fragment>
-      {titleOverride && <h2 className='h2'>{titleOverride}</h2>}
-      {!titleOverride && !excludeTitle &&
-        <h2 className='h2'>
-          {`${getContributorsTitle(roles, titlePrefix)}`}
-        </h2>
-      }
+      {titleOverride && <h2 className="h2">{titleOverride}</h2>}
+      {!titleOverride && !excludeTitle && (
+        <h2 className="h2">{`${getContributorsTitle(roles, titlePrefix)}`}</h2>
+      )}
 
-      {contributors.map(({contributor, role, description}) => (
-        <div className={spacing({s: 4}, {margin: ['top']})} key={contributor.id}>
+      {contributors.map(({ contributor, role, description }) => (
+        <div
+          className={spacing({ s: 4 }, { margin: ['top'] })}
+          key={contributor.id}
+        >
           {/*
             we don't show the role if there is only 1 as it will be
             displayed in the title
@@ -78,7 +80,8 @@ const Contributors = ({
           <Contributor
             contributor={contributor}
             role={roles.length > 1 ? role : null}
-            description={description} />
+            description={description}
+          />
         </div>
       ))}
     </Fragment>

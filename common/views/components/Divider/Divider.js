@@ -1,9 +1,9 @@
 // @flow
 type Props = {|
-  extraClasses?: string
-|}
+  extraClasses?: string,
+|};
 
-const Divider = ({extraClasses}: Props) => (
+const Divider = ({ extraClasses }: Props) => (
   <hr className={`divider ${extraClasses || ''}`} />
 );
 
