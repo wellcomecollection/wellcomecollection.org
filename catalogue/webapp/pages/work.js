@@ -13,7 +13,6 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import ContributorTextList from '@weco/common/views/components/ContributorTextList/ContributorTextList';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -27,8 +26,9 @@ type Props = {|
   workType: string[],
   query: ?string,
   page: ?number,
+  itemsLocationsLocationType: string[],
   showNewMetaDataGrouping: boolean,
-  itemsLocationsLocationType: string[]
+  showWorkHeader: boolean,
 |}
 
 export const WorkPage = ({
@@ -37,7 +37,8 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showNewMetaDataGrouping
+  showNewMetaDataGrouping,
+  showWorkHeader
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -122,7 +123,7 @@ export const WorkPage = ({
         </div>
       </div>
 
-      <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
+      {showWorkHeader && <div className={`row ${spacing({s: 6}, {padding: ['top', 'bottom']})}`}>
         <div className='container'>
           <div className='grid'>
             <div className={classNames([
@@ -188,7 +189,7 @@ export const WorkPage = ({
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       <Fragment>
         {iiifPresentationLocation &&
@@ -231,6 +232,7 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
   const {id, query, page} = ctx.query;
   const workOrError = await getWork({ id });
   const showNewMetaDataGrouping = Boolean(ctx.query.toggles.showWorkMetaDataGrouping);
+  const showWorkHeader = Boolean(ctx.query.toggles.showWorkHeader);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const {res} = ctx;
@@ -250,7 +252,8 @@ WorkPage.getInitialProps = async (ctx): Promise<Props | CatalogueApiRedirect> =>
       page: page ? parseInt(page, 10) : null,
       showNewMetaDataGrouping,
       workType,
-      itemsLocationsLocationType
+      itemsLocationsLocationType,
+      showWorkHeader
     };
   }
 };

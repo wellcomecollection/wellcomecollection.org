@@ -14,7 +14,7 @@ type Props = {|
 function getClassName(i) {
   return conditionalClassNames({
     [`${font({s: 'HNM4'})}`]: true,
-    'border-left-width-1 border-color-black': i !== 0,
+    'border-left-width-1 border-color-smoke': i !== 0,
     [spacing({ s: 1 }, { padding: ['left'] })]: i !== 0,
     [spacing({ s: 1 }, { margin: ['right'] })]: true
   });
