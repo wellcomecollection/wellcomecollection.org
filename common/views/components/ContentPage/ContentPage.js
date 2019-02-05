@@ -1,12 +1,12 @@
 // @flow
-import {Children, Fragment, createContext} from 'react';
+import { Children, Fragment, createContext } from 'react';
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
 import SeriesNavigation from '../SeriesNavigation/SeriesNavigation';
 import PageHeader from '../PageHeader/PageHeader';
 import Outro from '../Outro/Outro';
-import {classNames} from '../../../utils/classnames';
-import type {Node, Element, ElementProps} from 'react';
+import { classNames } from '../../../utils/classnames';
+import type { Node, Element, ElementProps } from 'react';
 import Body from '../Body/Body';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
@@ -25,8 +25,8 @@ type Props = {|
   children?: ?Node,
   contributorProps?: ElementProps<typeof Contributors>,
   Siblings?: Element<typeof SeriesNavigation>[],
-  outroProps?: ?ElementProps<typeof Outro>
-|}
+  outroProps?: ?ElementProps<typeof Outro>,
+|};
 
 const ContentPage = ({
   id,
@@ -36,12 +36,16 @@ const ContentPage = ({
   children,
   contributorProps,
   Siblings = [],
-  outroProps
+  outroProps,
 }: Props) => {
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
   function shouldRenderBody() {
-    if (Body.props.body.length === 1 && Body.props.body[0].type === 'standfirst') return false;
+    if (
+      Body.props.body.length === 1 &&
+      Body.props.body[0].type === 'standfirst'
+    )
+      return false;
     if (Body.props.body.length > 0) return true;
   }
 
@@ -49,58 +53,56 @@ const ContentPage = ({
     <PageBackgroundContext.Provider value={isCreamy ? 'cream' : 'white'}>
       <article data-wio-id={id}>
         <SpacingSection>{Header}</SpacingSection>
-        <div className={classNames({
-          'bg-cream': isCreamy
-        })}>
-          {shouldRenderBody() &&
+        <div
+          className={classNames({
+            'bg-cream': isCreamy,
+          })}
+        >
+          {shouldRenderBody() && (
             <SpacingSection>
-              <div className='basic-page'>
+              <div className="basic-page">
                 <Fragment>{Body}</Fragment>
               </div>
             </SpacingSection>
-          }
+          )}
 
-          {children &&
+          {children && (
             <SpacingSection>
               {Children.map(children, (child, i) => (
                 <Fragment>
-                  {child &&
+                  {child && (
                     <SpacingComponent>
-                      <Layout8>
-                        {child}
-                      </Layout8>
+                      <Layout8>{child}</Layout8>
                     </SpacingComponent>
-                  }
+                  )}
                 </Fragment>
               ))}
             </SpacingSection>
-          }
+          )}
 
-          {contributorProps && contributorProps.contributors.length > 0 &&
+          {contributorProps && contributorProps.contributors.length > 0 && (
             <SpacingSection>
               <Layout8>
                 <Contributors {...contributorProps} />
               </Layout8>
             </SpacingSection>
-          }
+          )}
 
-          {Siblings.length > 0 &&
+          {Siblings.length > 0 && (
             <SpacingSection>
               {Children.map(Siblings, (child, i) => (
                 <Fragment>
-                  {child &&
+                  {child && (
                     <SpacingComponent>
-                      <Layout8>
-                        {child}
-                      </Layout8>
+                      <Layout8>{child}</Layout8>
                     </SpacingComponent>
-                  }
+                  )}
                 </Fragment>
               ))}
             </SpacingSection>
-          }
+          )}
 
-          {outroProps &&
+          {outroProps && (
             <SpacingSection>
               <Layout8>
                 <SpacingSection>
@@ -108,7 +110,7 @@ const ContentPage = ({
                 </SpacingSection>
               </Layout8>
             </SpacingSection>
-          }
+          )}
         </div>
       </article>
     </PageBackgroundContext.Provider>

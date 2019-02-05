@@ -1,12 +1,14 @@
-import type {Node} from 'react';
+import type { Node } from 'react';
 import Layout from '../Layout/Layout';
 
 type Props = {|
-  children: Node
-|}
+  children: Node,
+|};
 
-const Layout8 = ({children}: Props) => (
-  <Layout gridSizes={{s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2}}>
+const Layout8 = ({ children }: Props) => (
+  <Layout
+    gridSizes={{ s: 12, m: 10, shiftM: 1, l: 8, shiftL: 2, xl: 8, shiftXL: 2 }}
+  >
     {children}
   </Layout>
 );

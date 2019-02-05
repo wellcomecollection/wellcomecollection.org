@@ -1,18 +1,15 @@
 // @flow
-import {Fragment} from 'react';
-import type {Node} from 'react';
+import { Fragment } from 'react';
+import type { Node } from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
 type Props = {|
   color: 'cream' | 'white',
-  children: Node
-|}
+  children: Node,
+|};
 
-const WobblyBottom = ({
-  color,
-  children
-}: Props) => (
-  <div className='relative'>
+const WobblyBottom = ({ color, children }: Props) => (
+  <div className="relative">
     <Fragment>
       {children}
       <WobblyEdge background={color} />

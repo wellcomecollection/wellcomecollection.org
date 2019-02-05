@@ -3,11 +3,14 @@ export const context = {
   tags: [
     {
       text: 'Event',
-      url: '#'
-    }, {
-      text: 'Walking tour'
-    }, {
+      url: '#',
+    },
+    {
+      text: 'Walking tour',
+    },
+    {
       text: 'A Museum of Modern Nature',
-      url: '/components/preview/exhibition-template.html'
-    }]
+      url: '/components/preview/exhibition-template.html',
+    },
+  ],
 };

@@ -1,15 +1,14 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "flowtype",
-    "import",
-    "react",
-    "jest"
-  ],
+  "plugins": ["flowtype", "import", "react", "jest", "prettier"],
   "env": {
     "jest/globals": true
   },
-  "extends": ["standard", "plugin:react/recommended"],
+  "extends": [
+    "standard",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
   "rules": {
     "no-multi-spaces": "off",
     "no-multi-str": "off",
@@ -18,12 +17,10 @@
     "flowtype/space-after-type-colon": ["error", "always"],
     "flowtype/space-before-type-colon": ["error", "never"],
     "no-duplicate-imports": "off",
-    "space-before-function-paren": "off",
     "no-return-assign": "off",
-    "semi": ["error", "always"],
     "import/no-duplicates": "error",
     "react/react-in-jsx-scope": "off",
-    "jsx-quotes": ["error", "prefer-single"]
+    "prettier/prettier": "error"
   },
   "parserOptions": {
     "ecmaFeatures": {
