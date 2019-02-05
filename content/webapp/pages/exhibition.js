@@ -1,16 +1,19 @@
 // @flow
-import type {Context} from 'next';
-import {Fragment, Component} from 'react';
-import {getExhibition, getExhibitionRelatedContent} from '@weco/common/services/prismic/exhibitions';
-import {isPast, isFuture} from '@weco/common/utils/dates';
-import {formatDate} from '@weco/common/utils/format-date';
-import {exhibitionLd} from '@weco/common/utils/json-ld';
+import type { Context } from 'next';
+import { Fragment, Component } from 'react';
+import {
+  getExhibition,
+  getExhibitionRelatedContent,
+} from '@weco/common/services/prismic/exhibitions';
+import { isPast, isFuture } from '@weco/common/utils/dates';
+import { formatDate } from '@weco/common/utils/format-date';
+import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import {
   default as PageHeader,
   getFeaturedMedia,
-  getHeroPicture
+  getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -20,55 +23,59 @@ import SearchResults from '@weco/common/views/components/SearchResults/SearchRes
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
-import {font, spacing, grid} from '@weco/common/utils/classnames';
-import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {UiExhibition} from '@weco/common/model/exhibitions';
-import type {MultiContent} from '@weco/common/model/multi-content';
+import { font, spacing, grid } from '@weco/common/utils/classnames';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import type { UiExhibition } from '@weco/common/model/exhibitions';
+import type { MultiContent } from '@weco/common/model/multi-content';
 
 type Props = {|
-  exhibition: UiExhibition
+  exhibition: UiExhibition,
 |};
 
 type State = {|
   exhibitionOfs: MultiContent[],
-  exhibitionAbouts: MultiContent[]
-|}
+  exhibitionAbouts: MultiContent[],
+|};
 
 export class ExhibitionPage extends Component<Props, State> {
   state = {
     exhibitionOfs: [],
-    exhibitionAbouts: []
-  }
+    exhibitionAbouts: [],
+  };
 
   static getInitialProps = async (ctx: Context) => {
     // TODO: We shouldn't need this, but do for flow as
     // `GetInitialPropsClientProps` doesn't have `req`
 
-    const {id} = ctx.query;
+    const { id } = ctx.query;
     const exhibition = await getExhibition(ctx.req, id);
 
     if (exhibition) {
       return {
         type: 'website',
         title: exhibition.title,
-        imageUrl: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 800),
+        imageUrl:
+          exhibition.promoImage &&
+          convertImageUri(exhibition.promoImage.contentUrl, 800),
         description: exhibition.metadataDescription || exhibition.promoText,
-        canonicalUrl: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+        canonicalUrl: `https://wellcomecollection.org/exhibitions/${
+          exhibition.id
+        }`,
         pageJsonLd: exhibitionLd(exhibition),
         siteSection: 'whatson',
-        exhibition
+        exhibition,
       };
     } else {
-      return {statusCode: 404};
+      return { statusCode: 404 };
     }
-  }
+  };
 
   async componentDidMount() {
     const ids = this.props.exhibition.relatedIds;
     const extraContent = await getExhibitionRelatedContent(null, ids);
     this.setState({
       exhibitionOfs: extraContent.exhibitionOfs,
-      exhibitionAbouts: extraContent.exhibitionAbouts
+      exhibitionAbouts: extraContent.exhibitionAbouts,
     });
   }
 
@@ -79,13 +86,14 @@ export class ExhibitionPage extends Component<Props, State> {
       items: [
         {
           url: '/exhibitions',
-          text: 'Exhibitions'
-        }, {
+          text: 'Exhibitions',
+        },
+        {
           url: `/exhibitions/${exhibition.id}`,
           text: exhibition.title,
-          isHidden: true
-        }
-      ]
+          isHidden: true,
+        },
+      ],
     };
 
     const genericFields = {
@@ -102,27 +110,35 @@ export class ExhibitionPage extends Component<Props, State> {
       squareImage: exhibition.squareImage,
       widescreenImage: exhibition.widescreenImage,
       labels: exhibition.labels,
-      metadataDescription: exhibition.metadataDescription
+      metadataDescription: exhibition.metadataDescription,
     };
     const DateInfo = exhibition.end ? (
-      <DateRange start={new Date(exhibition.start)} end={new Date(exhibition.end)} />
+      <DateRange
+        start={new Date(exhibition.start)}
+        end={new Date(exhibition.end)}
+      />
     ) : (
       <HTMLDate date={new Date(exhibition.start)} />
     );
     // This is for content that we don't have the crops for in Prismic
     const maybeHeroPicture = getHeroPicture(genericFields);
-    const maybeFeaturedMedia = !maybeHeroPicture ? getFeaturedMedia(genericFields) : null;
+    const maybeFeaturedMedia = !maybeHeroPicture
+      ? getFeaturedMedia(genericFields)
+      : null;
 
     const Header = (
       <PageHeader
         breadcrumbs={breadcrumbs}
-        labels={{labels: exhibition.labels}}
+        labels={{ labels: exhibition.labels }}
         title={exhibition.title}
         Background={null}
         ContentTypeInfo={
           <Fragment>
             {!exhibition.isPermanent && DateInfo}
-            <StatusIndicator start={exhibition.start} end={exhibition.end || new Date()} />
+            <StatusIndicator
+              start={exhibition.start}
+              end={exhibition.end || new Date()}
+            />
           </Fragment>
         }
         FeaturedMedia={maybeFeaturedMedia}
@@ -139,24 +155,26 @@ export class ExhibitionPage extends Component<Props, State> {
         {
           type: 'paragraph',
           text: 'Free admission',
-          spans: []
-        }
+          spans: [],
+        },
       ],
-      icon: 'ticket'
+      icon: 'ticket',
     };
 
-    const upcomingExhibitionObject = isFuture(exhibition.start) ? {
-      id: null,
-      title: null,
-      description: [
-        {
-          type: 'paragraph',
-          text: `Opening on ${formatDate(exhibition.start)}`,
-          spans: []
+    const upcomingExhibitionObject = isFuture(exhibition.start)
+      ? {
+          id: null,
+          title: null,
+          description: [
+            {
+              type: 'paragraph',
+              text: `Opening on ${formatDate(exhibition.start)}`,
+              spans: [],
+            },
+          ],
+          icon: 'calendar',
         }
-      ],
-      icon: 'calendar'
-    } : null;
+      : null;
 
     const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
     const todaysHoursObject = {
@@ -172,13 +190,13 @@ export class ExhibitionPage extends Component<Props, State> {
               start: todaysHoursText.length - 13,
               end: todaysHoursText.length,
               data: {
-                url: '/opening-times'
-              }
-            }
-          ]
-        }
+                url: '/opening-times',
+              },
+            },
+          ],
+        },
       ],
-      icon: 'clock'
+      icon: 'clock',
     };
 
     const placeObject = exhibition.place && {
@@ -188,10 +206,10 @@ export class ExhibitionPage extends Component<Props, State> {
         {
           type: 'paragraph',
           text: `${exhibition.place.title}, level ${exhibition.place.level}`,
-          spans: []
-        }
+          spans: [],
+        },
       ],
-      icon: 'location'
+      icon: 'location',
     };
 
     const resourcesItems = exhibition.resources.map(resource => {
@@ -199,7 +217,7 @@ export class ExhibitionPage extends Component<Props, State> {
         id: null,
         title: null,
         description: resource.description,
-        icon: resource.icon
+        icon: resource.icon,
       };
     });
 
@@ -211,10 +229,10 @@ export class ExhibitionPage extends Component<Props, State> {
           {
             type: 'paragraph',
             text: 'Step-free access is available to all floors of the building',
-            spans: []
-          }
+            spans: [],
+          },
         ],
-        icon: 'a11y'
+        icon: 'a11y',
       },
       {
         id: null,
@@ -222,12 +240,13 @@ export class ExhibitionPage extends Component<Props, State> {
         description: [
           {
             type: 'paragraph',
-            text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
-            spans: []
-          }
+            text:
+              'Large-print guides, transcripts and magnifiers are available in the gallery',
+            spans: [],
+          },
         ],
-        icon: 'a11yVisual'
-      }
+        icon: 'a11yVisual',
+      },
     ];
 
     const infoItems = [
@@ -236,70 +255,82 @@ export class ExhibitionPage extends Component<Props, State> {
       todaysHoursObject,
       placeObject,
       ...resourcesItems,
-      ...accessibilityItems
+      ...accessibilityItems,
     ].filter(Boolean);
 
     return (
       <PageLayout
         title={exhibition.title}
-        description={exhibition.metadataDescription || exhibition.promoText || ''}
-        url={{pathname: `/exhibitions/${exhibition.id}`}}
+        description={
+          exhibition.metadataDescription || exhibition.promoText || ''
+        }
+        url={{ pathname: `/exhibitions/${exhibition.id}` }}
         jsonLd={exhibitionLd(exhibition)}
         openGraphType={'website'}
         siteSection={'whats-on'}
-        imageUrl={exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)}
-        imageAltText={exhibition.image && exhibition.image.alt}>
-        <ContentPage id={exhibition.id} Header={Header} Body={<Body body={exhibition.body} />}>
+        imageUrl={
+          exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
+        }
+        imageAltText={exhibition.image && exhibition.image.alt}
+      >
+        <ContentPage
+          id={exhibition.id}
+          Header={Header}
+          Body={<Body body={exhibition.body} />}
+        >
           {exhibition.contributors.length > 0 && (
             <Contributors
               titleOverride={exhibition.contributorsTitle}
               contributors={exhibition.contributors}
             />
           )}
-          {
-            this.state.exhibitionOfs &&
-          this.state.exhibitionOfs.length > 0 &&
-          <SearchResults
-            items={this.state.exhibitionOfs}
-            title={`In this exhibition`} />
-          }
+          {this.state.exhibitionOfs && this.state.exhibitionOfs.length > 0 && (
+            <SearchResults
+              items={this.state.exhibitionOfs}
+              title={`In this exhibition`}
+            />
+          )}
           {exhibition.end && !isPast(exhibition.end) && (
-            <InfoBox title='Visit us' items={infoItems}>
-              <p className={`no-margin ${font({s: 'HNL4'})}`}>
-                <a href='/access'>All our accessibility services</a>
+            <InfoBox title="Visit us" items={infoItems}>
+              <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+                <a href="/access">All our accessibility services</a>
               </p>
             </InfoBox>
           )}
-          {
-            this.state.exhibitionAbouts &&
-          this.state.exhibitionAbouts.length > 0 &&
-          <SearchResults
-            items={this.state.exhibitionAbouts}
-            title={`About this exhibition`} />
-          }
+          {this.state.exhibitionAbouts &&
+            this.state.exhibitionAbouts.length > 0 && (
+              <SearchResults
+                items={this.state.exhibitionAbouts}
+                title={`About this exhibition`}
+              />
+            )}
 
           {/* TODO: hack - rendering deprecated book content on exhibitions, until we decide how to handle them properly  */}
-          {
-            exhibition.relatedBooks &&
-              exhibition.relatedBooks.length > 0 &&
-              <Fragment>
-                <h2 className='h2'>From the bookshop</h2>
-                <div className={`
-                ${spacing({s: 4}, {margin: ['top']})} grid
-              `}>
-                  {exhibition.relatedBooks.map(item => (
-                    <div key={item.title} className={grid({s: 12, m: 6, l: 6, xl: 6})}>
-                      <BookPromo
-                        url={item.url}
-                        title={item.title}
-                        subtitle={null}
-                        image={item.image}
-                        description={item.description} />
-                    </div>
-                  ))}
-                </div>
-              </Fragment>
-          }
+          {exhibition.relatedBooks && exhibition.relatedBooks.length > 0 && (
+            <Fragment>
+              <h2 className="h2">From the bookshop</h2>
+              <div
+                className={`
+                ${spacing({ s: 4 }, { margin: ['top'] })} grid
+              `}
+              >
+                {exhibition.relatedBooks.map(item => (
+                  <div
+                    key={item.title}
+                    className={grid({ s: 12, m: 6, l: 6, xl: 6 })}
+                  >
+                    <BookPromo
+                      url={item.url}
+                      title={item.title}
+                      subtitle={null}
+                      image={item.image}
+                      description={item.description}
+                    />
+                  </div>
+                ))}
+              </div>
+            </Fragment>
+          )}
         </ContentPage>
       </PageLayout>
     );
