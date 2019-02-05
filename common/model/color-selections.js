@@ -4,7 +4,7 @@ export const ColorSelections = {
   Turquoise: 'turquoise',
   Red: 'red',
   Orange: 'orange',
-  Purple: 'purple'
+  Purple: 'purple',
 };
 
 export type ColorSelection = $Values<typeof ColorSelections>;

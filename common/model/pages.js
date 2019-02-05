@@ -1,5 +1,5 @@
 // @flow
-import type {GenericContentFields} from './generic-content-fields';
+import type { GenericContentFields } from './generic-content-fields';
 
 export type Page = {|
   type: 'pages',
@@ -12,5 +12,5 @@ export type Page = {|
   // alt for Drupal content
   drupalPromoImage: ?string,
   drupalNid: ?string,
-  drupalPath: ?string
-|}
+  drupalPath: ?string,
+|};

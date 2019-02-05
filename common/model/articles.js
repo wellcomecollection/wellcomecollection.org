@@ -1,9 +1,9 @@
 // @flow
-import type {ArticleSeries} from './article-series';
-import type {GenericContentFields} from './generic-content-fields';
-import type {LabelField} from './label-field';
-import type {ColorSelection} from './color-selections';
-import type {MultiContent} from './multi-content';
+import type { ArticleSeries } from './article-series';
+import type { GenericContentFields } from './generic-content-fields';
+import type { LabelField } from './label-field';
+import type { ColorSelection } from './color-selections';
+import type { MultiContent } from './multi-content';
 
 export type Article = {|
   type: 'articles',
@@ -17,11 +17,13 @@ export type Article = {|
   outroReadLinkText: ?string,
   outroReadItem: ?MultiContent,
   outroVisitLinkText: ?string,
-  outroVisitItem: ?MultiContent
-|}
+  outroVisitItem: ?MultiContent,
+|};
 
 export function getPositionInSeries(article: Article): ?number {
-  const serialisedSeries = article.series.find(series => series.schedule.length > 0);
+  const serialisedSeries = article.series.find(
+    series => series.schedule.length > 0
+  );
   if (serialisedSeries) {
     const titles = serialisedSeries.schedule.map(item => item.title);
     const index = titles.indexOf(article.title);

@@ -2,29 +2,36 @@
 export type SizeMap = { [string]: number };
 type SpacingCssProps = 'margin' | 'padding';
 type SpacingCssPropValues = 'top' | 'bottom' | 'left' | 'right';
-type SpacingProps = { [SpacingCssProps]: SpacingCssPropValues[] }
-type FontMap = { [string]: string }
+type SpacingProps = { [SpacingCssProps]: SpacingCssPropValues[] };
+type FontMap = { [string]: string };
 
-export function withModifiers(className: string, modifiers: { [string]: boolean } = {}): string {
+export function withModifiers(
+  className: string,
+  modifiers: { [string]: boolean } = {}
+): string {
   return Object.keys(modifiers).reduce((acc, curr) => {
-    return modifiers[curr]
-      ? ` ${acc} ${className}--${curr}`
-      : ` ${acc}`;
+    return modifiers[curr] ? ` ${acc} ${className}--${curr}` : ` ${acc}`;
   }, className);
 }
 
 export function spacing(sizes: SizeMap, properties: SpacingProps): string {
-  return Object.keys(sizes).map(key => {
-    const size = sizes[key];
+  return Object.keys(sizes)
+    .map(key => {
+      const size = sizes[key];
 
-    return Object.keys(properties).map((property) => {
-      const directions = properties[property];
+      return Object.keys(properties)
+        .map(property => {
+          const directions = properties[property];
 
-      return directions.map((direction) => {
-        return `${property}-${direction}-${key}${size}`;
-      }).join(' ');
-    }).join(' ');
-  }).join(' ');
+          return directions
+            .map(direction => {
+              return `${property}-${direction}-${key}${size}`;
+            })
+            .join(' ');
+        })
+        .join(' ');
+    })
+    .join(' ');
 }
 
 export function grid(sizes: SizeMap): string {
@@ -50,12 +57,14 @@ export function cssGrid(sizes: SizeMap): string {
 }
 
 export function font(sizes: FontMap): string {
-  return Object.keys(sizes).map(key => {
-    return `font-${sizes[key]}-${key}`;
-  }).join(' ');
+  return Object.keys(sizes)
+    .map(key => {
+      return `font-${sizes[key]}-${key}`;
+    })
+    .join(' ');
 }
 
-type ClassNames = string[] | { [string]: boolean }
+type ClassNames = string[] | { [string]: boolean };
 export function classNames(classNames: ClassNames): string {
   if (Array.isArray(classNames)) {
     return classNames.join(' ');
@@ -65,9 +74,12 @@ export function classNames(classNames: ClassNames): string {
 }
 
 export function conditionalClassNames(obj: { [string]: boolean }): string {
-  return Object.keys(obj).map(key => {
-    if (obj[key]) {
-      return key;
-    }
-  }).filter(Boolean).join(' ');
+  return Object.keys(obj)
+    .map(key => {
+      if (obj[key]) {
+        return key;
+      }
+    })
+    .filter(Boolean)
+    .join(' ');
 }

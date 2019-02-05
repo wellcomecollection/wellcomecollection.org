@@ -2,12 +2,12 @@
 
 export type PrismicBackgroundTexture = {|
   image: {
-    url: string
+    url: string,
   },
-  name: string
-|}
+  name: string,
+|};
 
 export type BackgroundTexture = {|
   name: string,
-  image: string
-|}
+  image: string,
+|};

@@ -8,6 +8,6 @@ export default (property: string, value: string): {} => {
     [`moz${property}`]: value,
     [`ms${cappedProperty}`]: value,
     [`O${cappedProperty}`]: value,
-    [property]: value
+    [property]: value,
   };
 };

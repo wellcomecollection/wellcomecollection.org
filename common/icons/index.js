@@ -5,7 +5,7 @@ import arrowSmall from './arrow_small';
 import audioDescribed from './audio_described';
 import speechToText from './speech_to_text';
 import britishSignLanguage from './british_sign_language';
-import {cc, ccBy, ccNc, ccNd, ccPdm, ccZero} from './licenses';
+import { cc, ccBy, ccNc, ccNd, ccPdm, ccZero } from './licenses';
 import calendar from './calendar';
 import check from './check';
 import chevron from './chevron';
@@ -85,5 +85,5 @@ export {
   youtube,
   tripadvisor,
   wellcome,
-  statusIndicator
+  statusIndicator,
 };

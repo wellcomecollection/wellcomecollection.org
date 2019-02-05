@@ -1,12 +1,12 @@
 // @flow
-import type {GenericContentFields} from './generic-content-fields';
-import type {HTMLString} from '../services/prismic/types';
-import type {ImageType} from './image';
+import type { GenericContentFields } from './generic-content-fields';
+import type { HTMLString } from '../services/prismic/types';
+import type { ImageType } from './image';
 
 type Review = {|
   text: HTMLString,
-  citation: HTMLString
-|}
+  citation: HTMLString,
+|};
 
 export type Book = {|
   ...GenericContentFields,
@@ -17,10 +17,10 @@ export type Book = {|
   format: ?string,
   extent: ?string,
   isbn: ?string,
-  reviews: ?Review[],
+  reviews: ?(Review[]),
   datePublished: ?Date,
   authorName: ?string, // This is structuredText in Prismic >.<
   authorImage: ?string, // This is a link in Prismic >.<
   authorDescription: ?HTMLString,
-  cover: ?ImageType
+  cover: ?ImageType,
 |};
