@@ -3,7 +3,7 @@
 export const ColorSelections = {
   Turquoise: 'turquoise',
   Red: 'red',
-  Orange: 'orange',
+  Green: 'green',
   Purple: 'purple',
 };
 

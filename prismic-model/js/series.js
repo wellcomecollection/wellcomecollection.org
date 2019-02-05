@@ -15,10 +15,7 @@ import structuredText from './parts/structured-text';
 const ArticleSeries = {
   'Article series': {
     title: title,
-    color: select('Colour', ['teal', 'red', 'orange', 'purple']),
-    description: structuredText(
-      '[Deprecated] Description. Please use standfirst slice'
-    ),
+    color: select('Colour', ['teal', 'red', 'green', 'purple']),
     body,
   },
   Schedule: {
@@ -35,6 +32,9 @@ const ArticleSeries = {
     metadataDescription: structuredText('Metadata description', 'single'),
   },
   Deprecated: {
+    description: structuredText(
+      '[Deprecated] Description. Please use standfirst slice'
+    ),
     commissionedLength: number('[Deprecated] Commissioned length'),
     wordpressSlug: text('[Deprecated] Wordpress slug'),
   },
