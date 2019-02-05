@@ -1,0 +1,12 @@
+{
+  "name": "@weco/edge_lambdas",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Edge lambdas for redirecting and A/B toggling",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "jest": "^23.6.0"
+  }
+}
