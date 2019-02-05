@@ -128,9 +128,22 @@ export const WorkPage = ({
                     font({s: 'HNM3', m: 'HNM2', l: 'HNM1'}),
                     spacing({s: 0}, {margin: ['top']})
                   ])}>{work.title}</h1>
-                {work.contributors.length > 0 &&
-                  <ContributorTextList contributors={work.contributors} />
-                }
+                <div className={classNames({
+                  'flex': true,
+                  'flex--h-baseline': true
+                })}>
+                  {work.contributors.length > 0 &&
+                    <ContributorTextList contributors={work.contributors} />
+                  }
+                  {work.production.map(productionEvent =>
+                    productionEvent.dates.map(date => date.label)
+                  ).reduce((a, b) => a.concat(b), []).map(date =>
+                    <span key={date} className={classNames({
+                      'font-pewter': true,
+                      [font({s: 'HNL5'})]: true
+                    })}>{date}</span>
+                  )}
+                </div>
               </SpacingComponent>
             </div>
           </div>
