@@ -1,14 +1,14 @@
 // @flow
-import {conditionalClassNames} from '../../../utils/classnames';
-import {convertImageUri} from '../../../utils/convert-image-uri';
-import {imageSizes} from '../../../utils/image-sizes';
-import {Fragment} from 'react';
+import { conditionalClassNames } from '../../../utils/classnames';
+import { convertImageUri } from '../../../utils/convert-image-uri';
+import { imageSizes } from '../../../utils/image-sizes';
+import { Fragment } from 'react';
 
 type ImageCrops = {|
-  '16:9': {contentUrl: string},
-  '32:15': {contentUrl: string},
-  'square': {contentUrl: string}
-|}
+  '16:9': { contentUrl: string },
+  '32:15': { contentUrl: string },
+  square: { contentUrl: string },
+|};
 
 export type Props = {|
   contentUrl: string,
@@ -25,24 +25,30 @@ export type Props = {|
   zoomable?: boolean,
   extraClasses?: string,
   crops?: ImageCrops,
-  style?: { [string]: any } // TODO: find flowtype for this
-|}
+  style?: { [string]: any }, // TODO: find flowtype for this
+|};
 
 const Image = (props: Props) => (
   <Fragment>
-    <noscript dangerouslySetInnerHTML={{__html: `
+    <noscript
+      dangerouslySetInnerHTML={{
+        __html: `
       <img width='${props.width}'
         height='${props.height || ''}'
         class='image image--noscript'
         src='${convertImageUri(props.contentUrl, 640, false)}'
-        alt='${props.alt || ''}' />`}} />
+        alt='${props.alt || ''}' />`,
+      }}
+    />
 
     {props.clipPathClass ? (
       <Fragment>
         <Img {...props} clipPathClass={null} />
         <Img {...props} />
       </Fragment>
-    ) : <Img {...props} />}
+    ) : (
+      <Img {...props} />
+    )}
   </Fragment>
 );
 
@@ -60,18 +66,19 @@ const Img = ({
   clickHandler,
   zoomable,
   extraClasses,
-  style
+  style,
 }: Props) => {
   const sizes = imageSizes(width);
   return (
-    <img width={width}
+    <img
+      width={width}
       height={height}
       className={conditionalClassNames({
-        'image': true,
+        image: true,
         'lazy-image lazyload': lazyload,
         'cursor-zoom-in': Boolean(zoomable),
         [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
-        [`${extraClasses || ''}`]: Boolean(extraClasses)
+        [`${extraClasses || ''}`]: Boolean(extraClasses),
       })}
       src={convertImageUri(contentUrl, defaultSize, false)}
       data-srcset={sizes.map(size => {
@@ -81,7 +88,8 @@ const Img = ({
       data-copyright={copyright}
       onClick={clickHandler}
       alt={alt || ''}
-      style={style} />
+      style={style}
+    />
   );
 };
 

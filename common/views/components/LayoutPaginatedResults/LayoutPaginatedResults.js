@@ -11,7 +11,10 @@ import type { UiExhibition } from '../../../model/exhibitions';
 import type { UiEvent } from '../../../model/events';
 import type { Book } from '../../../model/books';
 import type { Article } from '../../../model/articles';
-import type { PaginatedResults, HTMLString } from '../../../services/prismic/types';
+import type {
+  PaginatedResults,
+  HTMLString,
+} from '../../../services/prismic/types';
 import SpacingSection from '../SpacingSection/SpacingSection';
 
 type PaginatedResultsTypes =
@@ -26,8 +29,8 @@ type Props = {|
   paginationRoot: string,
   paginatedResults: PaginatedResultsTypes,
   period?: Period,
-  showFreeAdmissionMessage: boolean
-|}
+  showFreeAdmissionMessage: boolean,
+|};
 
 const LayoutPaginatedResults = ({
   title,
@@ -35,33 +38,43 @@ const LayoutPaginatedResults = ({
   paginatedResults,
   paginationRoot,
   period,
-  showFreeAdmissionMessage
+  showFreeAdmissionMessage,
 }: Props) => (
   <Fragment>
     <SpacingSection>
-      <div className={classNames({
-        'row': true,
-        'bg-cream': true,
-        [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
-      })}>
-        <div className='container'>
-          <div className='grid'>
-            <div className={classNames({
-              [grid({s: 12, m: 12, l: 8, xl: 8})]: true
-            })}>
-              <h1 className={classNames({
-                'no-margin': true,
-                [font({s: 'WB6', m: 'WB5', l: 'WB4'})]: true
-              })}>{title}</h1>
+      <div
+        className={classNames({
+          row: true,
+          'bg-cream': true,
+          [spacing({ s: 3, m: 5, l: 5 }, { padding: ['top', 'bottom'] })]: true,
+        })}
+      >
+        <div className="container">
+          <div className="grid">
+            <div
+              className={classNames({
+                [grid({ s: 12, m: 12, l: 8, xl: 8 })]: true,
+              })}
+            >
+              <h1
+                className={classNames({
+                  'no-margin': true,
+                  [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                })}
+              >
+                {title}
+              </h1>
 
-              {description &&
-                <div className={classNames({
-                  'first-para-no-margin body-text': true,
-                  [spacing({s: 2}, {margin: ['top']})]: true
-                })}>
+              {description && (
+                <div
+                  className={classNames({
+                    'first-para-no-margin body-text': true,
+                    [spacing({ s: 2 }, { margin: ['top'] })]: true,
+                  })}
+                >
                   <PrismicHtmlBlock html={description} />
                 </div>
-              }
+              )}
             </div>
           </div>
         </div>
@@ -69,57 +82,90 @@ const LayoutPaginatedResults = ({
     </SpacingSection>
 
     <SpacingSection>
-      {paginatedResults.totalPages > 1  &&
+      {paginatedResults.totalPages > 1 && (
         <Layout12>
-          <div className={classNames({
-            'flex': true,
-            'flex--v-center': true,
-            'font-pewter': true,
-            [spacing({s: 5, m: 5, l: 5}, {padding: ['bottom']})]: true,
-            [font({s: 'LR3', m: 'LR2'})]: true
-          })}>
-            {(paginatedResults.pageSize * paginatedResults.currentPage) - (paginatedResults.pageSize - 1)}
-                -
-            {paginatedResults.currentPage < paginatedResults.totalPages ? paginatedResults.pageSize * paginatedResults.currentPage : null}
-            {paginatedResults.currentPage === paginatedResults.totalPages ? paginatedResults.totalResults : null}
+          <div
+            className={classNames({
+              flex: true,
+              'flex--v-center': true,
+              'font-pewter': true,
+              [spacing({ s: 5, m: 5, l: 5 }, { padding: ['bottom'] })]: true,
+              [font({ s: 'LR3', m: 'LR2' })]: true,
+            })}
+          >
+            {paginatedResults.pageSize * paginatedResults.currentPage -
+              (paginatedResults.pageSize - 1)}
+            -
+            {paginatedResults.currentPage < paginatedResults.totalPages
+              ? paginatedResults.pageSize * paginatedResults.currentPage
+              : null}
+            {paginatedResults.currentPage === paginatedResults.totalPages
+              ? paginatedResults.totalResults
+              : null}
           </div>
           <Divider extraClasses={'divider--keyline divider--pumice'} />
         </Layout12>
-      }
-      {showFreeAdmissionMessage &&
+      )}
+      {showFreeAdmissionMessage && (
         <Layout12>
-          <div className='flex-inline flex--v-center'>
-            <span className={classNames({
-              [font({s: 'HNM5', m: 'HNM4'})]: true
-            })}>Free admission</span>
+          <div className="flex-inline flex--v-center">
+            <span
+              className={classNames({
+                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+              })}
+            >
+              Free admission
+            </span>
           </div>
         </Layout12>
-      }
+      )}
 
-      <div className={spacing({s: 4}, {margin: ['top']})}>
+      <div className={spacing({ s: 4 }, { margin: ['top'] })}>
         <CardGrid items={paginatedResults.results} />
       </div>
 
-      {paginatedResults.totalPages > 1 &&
-        <div className={classNames({
-          [spacing({s: 2, m: 2, l: 2}, {padding: ['top']})]: true,
-          [spacing({s: 3, m: 3, l: 3}, {padding: ['bottom']})]: true
-        })}>
+      {paginatedResults.totalPages > 1 && (
+        <div
+          className={classNames({
+            [spacing({ s: 2, m: 2, l: 2 }, { padding: ['top'] })]: true,
+            [spacing({ s: 3, m: 3, l: 3 }, { padding: ['bottom'] })]: true,
+          })}
+        >
           <Layout12>
-            <div className='text-align-right'>
+            <div className="text-align-right">
               <Pagination
                 total={paginatedResults.totalResults}
                 currentPage={paginatedResults.currentPage}
                 pageCount={paginatedResults.totalPages}
-                prevPage={paginatedResults.currentPage > 1 ? paginatedResults.currentPage - 1 : null}
-                nextPage={paginatedResults.currentPage < paginatedResults.totalPages ? paginatedResults.currentPage + 1 : null}
-                prevQueryString={`/${paginationRoot}` + (period ? `/${period}` : '') + (paginatedResults.currentPage > 1 ? `?page=${paginatedResults.currentPage - 1}` : '')}
-                nextQueryString={`/${paginationRoot}` + (period ? `/${period}` : '') + (paginatedResults.currentPage < paginatedResults.totalPages ? `?page=${paginatedResults.currentPage + 1}` : '')}
+                prevPage={
+                  paginatedResults.currentPage > 1
+                    ? paginatedResults.currentPage - 1
+                    : null
+                }
+                nextPage={
+                  paginatedResults.currentPage < paginatedResults.totalPages
+                    ? paginatedResults.currentPage + 1
+                    : null
+                }
+                prevQueryString={
+                  `/${paginationRoot}` +
+                  (period ? `/${period}` : '') +
+                  (paginatedResults.currentPage > 1
+                    ? `?page=${paginatedResults.currentPage - 1}`
+                    : '')
+                }
+                nextQueryString={
+                  `/${paginationRoot}` +
+                  (period ? `/${period}` : '') +
+                  (paginatedResults.currentPage < paginatedResults.totalPages
+                    ? `?page=${paginatedResults.currentPage + 1}`
+                    : '')
+                }
               />
             </div>
           </Layout12>
         </div>
-      }
+      )}
     </SpacingSection>
   </Fragment>
 );

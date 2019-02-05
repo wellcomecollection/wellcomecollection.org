@@ -1,8 +1,8 @@
 // @flow
 
-import type {GaEvent} from '../../../../utils/ga';
-import {trackEvent} from '../../../../utils/ga';
-import {font} from '../../../../utils/classnames';
+import type { GaEvent } from '../../../../utils/ga';
+import { trackEvent } from '../../../../utils/ga';
+import { font } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
 type Props = {|
@@ -17,8 +17,8 @@ type Props = {|
   target?: string,
   download?: string,
   rel?: string,
-  clickHandler?: (event: Event) => void
-|}
+  clickHandler?: (event: Event) => void,
+|};
 
 const Button = ({
   url,
@@ -32,12 +32,13 @@ const Button = ({
   target,
   download,
   rel,
-  clickHandler
+  clickHandler,
 }: Props) => {
   const HtmlTag = url ? 'a' : 'button';
-  const fontClasses = extraClasses && extraClasses.indexOf('btn--tertiary') > -1
-    ? {s: 'HNM5'}
-    : {s: 'HNM4'};
+  const fontClasses =
+    extraClasses && extraClasses.indexOf('btn--tertiary') > -1
+      ? { s: 'HNM5' }
+      : { s: 'HNM4' };
   function handleClick(e) {
     if (clickHandler) {
       clickHandler(e);
@@ -53,12 +54,15 @@ const Button = ({
       download={download}
       rel={rel}
       id={id}
-      className={`btn btn--${type} ${extraClasses || ''} ${font(fontClasses)} flex-inline flex--v-center`}
+      className={`btn btn--${type} ${extraClasses || ''} ${font(
+        fontClasses
+      )} flex-inline flex--v-center`}
       onClick={handleClick}
-      disabled={disabled}>
-      <span className='flex-inline flex--v-center'>
+      disabled={disabled}
+    >
+      <span className="flex-inline flex--v-center">
         {icon && <Icon name={icon} />}
-        <span className='btn__text'>{text}</span>
+        <span className="btn__text">{text}</span>
       </span>
     </HtmlTag>
   );

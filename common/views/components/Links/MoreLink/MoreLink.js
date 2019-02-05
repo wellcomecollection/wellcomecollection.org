@@ -1,23 +1,23 @@
 // @flow
-import {font, conditionalClassNames} from '../../../../utils/classnames';
+import { font, conditionalClassNames } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
-import {trackIfOutboundLink, trackEvent} from '../../../../utils/ga';
-import type {GaEvent} from '../../../../utils/ga';
+import { trackIfOutboundLink, trackEvent } from '../../../../utils/ga';
+import type { GaEvent } from '../../../../utils/ga';
 
 type Props = {|
   url: string,
   name: string,
   screenReaderText?: string,
   isJumpLink?: boolean,
-  trackingEvent?: GaEvent
-|}
+  trackingEvent?: GaEvent,
+|};
 
 const MoreLink = ({
   url,
   name,
   screenReaderText,
   isJumpLink = false,
-  trackingEvent
+  trackingEvent,
 }: Props) => {
   function handleClick(event) {
     trackIfOutboundLink(event.currentTarget.href);
@@ -25,7 +25,7 @@ const MoreLink = ({
       trackEvent({
         category: 'MoreLink',
         action: 'follow link',
-        label: `${url} | text: ${name}`
+        label: `${url} | text: ${name}`,
       });
     }
   }
@@ -37,19 +37,19 @@ const MoreLink = ({
         'more-link': true,
         'flex-inline': true,
         'flex-v-center': true,
-        [font({s: 'HNM4'})]: true,
-        'js-scroll-to-info': url.startsWith('#')
+        [font({ s: 'HNM4' })]: true,
+        'js-scroll-to-info': url.startsWith('#'),
       })}
       href={url}
     >
-      {isJumpLink &&
-        <Icon name='arrowSmall' extraClasses='icon--green icon--90' />
-      }
+      {isJumpLink && (
+        <Icon name="arrowSmall" extraClasses="icon--green icon--90" />
+      )}
       {name}
-      {screenReaderText && <span className='visually-hidden'> {screenReaderText}</span>}
-      {!isJumpLink &&
-        <Icon name='arrowSmall' extraClasses='icon--green' />
-      }
+      {screenReaderText && (
+        <span className="visually-hidden"> {screenReaderText}</span>
+      )}
+      {!isJumpLink && <Icon name="arrowSmall" extraClasses="icon--green" />}
     </a>
   );
 };

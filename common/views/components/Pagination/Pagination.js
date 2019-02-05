@@ -1,6 +1,6 @@
 // @flow
 import NextLink from 'next/link';
-import {font, spacing} from '../../../utils/classnames';
+import { font, spacing } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 export type Props = {|
@@ -13,9 +13,9 @@ export type Props = {|
   prevQueryString?: string,
   range?: {|
     beginning: number,
-    end: number
-  |}
-|}
+    end: number,
+  |},
+|};
 
 const Pagination = ({
   prevPage,
@@ -23,34 +23,45 @@ const Pagination = ({
   pageCount,
   nextPage,
   nextQueryString,
-  prevQueryString
+  prevQueryString,
 }: Props) => (
-  <div className={`pagination float-r flex-inline flex--v-center font-pewter ${font({s: 'LR3', m: 'LR2'})}`}>
-    {prevPage && prevQueryString &&
+  <div
+    className={`pagination float-r flex-inline flex--v-center font-pewter ${font(
+      { s: 'LR3', m: 'LR2' }
+    )}`}
+  >
+    {prevPage && prevQueryString && (
       <NextLink href={prevQueryString}>
         <a>
           <Control
-            type='light'
-            extraClasses={`icon--180 ${spacing({s: 2}, {margin: ['right']})}`}
-            icon='arrow'
-            text={`Previous (page ${prevPage})`} />
+            type="light"
+            extraClasses={`icon--180 ${spacing(
+              { s: 2 },
+              { margin: ['right'] }
+            )}`}
+            icon="arrow"
+            text={`Previous (page ${prevPage})`}
+          />
         </a>
       </NextLink>
-    }
+    )}
 
-    <span>Page {currentPage} of {pageCount}</span>
+    <span>
+      Page {currentPage} of {pageCount}
+    </span>
 
-    {nextPage && nextQueryString &&
+    {nextPage && nextQueryString && (
       <NextLink href={nextQueryString}>
         <a>
           <Control
-            type='light'
-            extraClasses={`${spacing({s: 2}, {margin: ['left']})}`}
-            icon='arrow'
-            text={`Next (page ${nextPage})`} />
+            type="light"
+            extraClasses={`${spacing({ s: 2 }, { margin: ['left'] })}`}
+            icon="arrow"
+            text={`Next (page ${nextPage})`}
+          />
         </a>
       </NextLink>
-    }
+    )}
   </div>
 );
 
@@ -65,12 +76,14 @@ export class PaginationFactory {
   ) {
     const size = l.length;
     const pageCount = Math.ceil(total / pageSize);
-    const prevPage = pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
-    const nextPage = pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
-    const beginning = (pageSize * currentPage) - pageSize + 1;
+    const prevPage =
+      pageCount > 1 && currentPage !== 1 ? currentPage - 1 : null;
+    const nextPage =
+      pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : null;
+    const beginning = pageSize * currentPage - pageSize + 1;
     const range = {
       beginning: beginning,
-      end: beginning + size - 1
+      end: beginning + size - 1,
     };
     const nextQueryString = buildQueryString(nextPage, getParams);
     const prevQueryString = buildQueryString(prevPage, getParams);
@@ -82,18 +95,20 @@ export class PaginationFactory {
       nextPage,
       prevPage,
       nextQueryString,
-      prevQueryString
+      prevQueryString,
     };
     return pagination;
   }
 }
 
 function buildQueryString(page: number | null, getParams: {} = {}): string {
-  const paramsArray = Object.keys(getParams).map((key) => {
-    if (key !== 'page') {
-      return `${key}=${encodeURIComponent(getParams[key])}`;
-    }
-  }).filter(_ => _);
+  const paramsArray = Object.keys(getParams)
+    .map(key => {
+      if (key !== 'page') {
+        return `${key}=${encodeURIComponent(getParams[key])}`;
+      }
+    })
+    .filter(_ => _);
 
   const paramsString = paramsArray.join('&');
 

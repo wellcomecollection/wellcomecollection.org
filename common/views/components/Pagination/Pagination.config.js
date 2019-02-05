@@ -5,5 +5,5 @@ export const context = {
   prevPage: 3,
   nextPage: 5,
   currentPage: 4,
-  pageCount: 10
+  pageCount: 10,
 };

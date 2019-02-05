@@ -1,22 +1,22 @@
 // @flow
-import {spacing, font} from '../../../utils/classnames';
-import {trackEvent} from '../../../utils/ga';
-import {Fragment, Component} from 'react';
+import { spacing, font } from '../../../utils/classnames';
+import { trackEvent } from '../../../utils/ga';
+import { Fragment, Component } from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
 
 type Props = {|
   id: string,
-  url: string
-|}
+  url: string,
+|};
 
 // TODO: work out how to handle cutting-the-mustard (?HOC)
 // and remove isEnhanced if/when this becomes a more global concern
 type State = {|
   isEnhanced: boolean,
   isTextCopied: boolean,
-  isClicked: boolean
-|}
+  isClicked: boolean,
+|};
 
 function getButtonMarkup(isTextCopied, isClicked) {
   if (!isClicked) {
@@ -24,7 +24,7 @@ function getButtonMarkup(isTextCopied, isClicked) {
   } else if (isTextCopied) {
     return (
       <Fragment>
-        <span className='visually-hidden'>link has been</span>Copied
+        <span className="visually-hidden">link has been</span>Copied
       </Fragment>
     );
   } else {
@@ -57,11 +57,11 @@ class CopyUrl extends Component<Props, State> {
   state: State = {
     isEnhanced: false,
     isTextCopied: false,
-    isClicked: false
+    isClicked: false,
   };
 
   componentDidMount() {
-    this.setState({isEnhanced: true});
+    this.setState({ isEnhanced: true });
   }
 
   handleButtonClick = () => {
@@ -74,16 +74,16 @@ class CopyUrl extends Component<Props, State> {
     try {
       document.execCommand('copy');
       this.setState({
-        isTextCopied: true
+        isTextCopied: true,
       });
     } catch (err) {
       this.setState({
-        isTextCopied: false
+        isTextCopied: false,
       });
     }
 
     this.setState({
-      isClicked: true
+      isClicked: true,
     });
 
     textarea.remove();
@@ -92,9 +92,9 @@ class CopyUrl extends Component<Props, State> {
     trackEvent({
       category: 'CopyUrl',
       action: 'copy url to clipboard',
-      label: this.props.id
+      label: this.props.id,
     });
-  }
+  };
 
   render() {
     const { url } = this.props;
@@ -104,23 +104,33 @@ class CopyUrl extends Component<Props, State> {
       <div>
         <HTMLInput
           inputRef={this.setTextInputRef}
-          id='share'
-          type='text'
-          label='share url'
+          id="share"
+          type="text"
+          label="share url"
           defaultValue={url}
           isLabelHidden={true}
-          fontStyles={{s: 'HNL5', m: 'HNL4'}} />
+          fontStyles={{ s: 'HNL5', m: 'HNL4' }}
+        />
 
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
         once we're fully reactified */}
 
-        <button aria-live='polite'
+        <button
+          aria-live="polite"
           onClick={this.handleButtonClick}
           data-copy-text={url}
-          className={`${spacing({s: 2}, {margin: ['top']})} ${font({s: 'HNM5'})} btn btn--tertiary flex-inline flex--v-center ${this.state.isEnhanced ? '' : 'is-hidden'} js-copy-url pointer`}>
-          <span className='flex-inline flex--v-center'>
-            <Icon name='check' extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`} />
-            <span className='js-copy-text'>
+          className={`${spacing({ s: 2 }, { margin: ['top'] })} ${font({
+            s: 'HNM5',
+          })} btn btn--tertiary flex-inline flex--v-center ${
+            this.state.isEnhanced ? '' : 'is-hidden'
+          } js-copy-url pointer`}
+        >
+          <span className="flex-inline flex--v-center">
+            <Icon
+              name="check"
+              extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`}
+            />
+            <span className="js-copy-text">
               {getButtonMarkup(isTextCopied, isClicked)}
             </span>
           </span>
@@ -128,6 +138,6 @@ class CopyUrl extends Component<Props, State> {
       </div>
     );
   }
-};
+}
 
 export default CopyUrl;
