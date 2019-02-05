@@ -1,6 +1,10 @@
 // @flow
 import Control from '../Buttons/Control/Control';
-import { iiifImageTemplate } from '../../../utils/convert-image-uri';
+import {
+  iiifImageTemplate,
+  convertImageUri,
+  convertIiifUriToInfoUri,
+} from '../../../utils/convert-image-uri';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import { classNames } from '../../../utils/classnames';
 
@@ -19,8 +23,10 @@ const WorkMedia = ({
   width = 800,
   isV2 = false,
 }: Props) => {
-  const trackTitle = title.substring(0, 50);
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
+  const imageInfoUrl = convertIiifUriToInfoUri(
+    convertImageUri(imageContentUrl, 'full', false)
+  );
   return (
     <div>
       <div
@@ -43,12 +49,12 @@ const WorkMedia = ({
           icon="chevron"
           text="Scroll to info"
         />
-
+        {/*  TODO pass <Image> here rather than pass props down? */}
         <ImageViewer
+          infoUrl={imageInfoUrl}
           contentUrl={imageContentUrl}
           id={id}
           width={width}
-          trackTitle={trackTitle}
         />
       </div>
     </div>

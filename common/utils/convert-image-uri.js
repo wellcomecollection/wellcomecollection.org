@@ -62,11 +62,11 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
 }
 
 export function convertIiifUriToInfoUri(originalUriPath: string) {
-  if (originalUriPath.startsWith('https://iiif')) {
-    const match = originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/);
-    if (match && match[0]) {
-      return (`${match[0]}/info.json`);
-    }
+  const match = originalUriPath.match(/^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/);
+  if (match && match[0]) {
+    return (`${match[0]}/info.json`);
+  } else {
+    return `${originalUriPath}/info.json`;
   }
 };
 
