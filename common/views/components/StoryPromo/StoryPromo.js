@@ -46,8 +46,8 @@ const StoryPromo = ({
     >
       <div className="relative story-promo__image">
         {/* FIXME: Image type tidy */}
-        {/* $FlowFixMe */}
         {item.promoImage && (
+          // $FlowFixMe
           <UiImage
             {...item.promoImage}
             sizesQueries={sizesQueries}
