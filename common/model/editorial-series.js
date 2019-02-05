@@ -1,7 +1,7 @@
-type EditorialSeriesColour = 'turquoise' | 'red' | 'orange' | 'purple'
+type EditorialSeriesColour = 'turquoise' | 'red' | 'green' | 'purple';
 
 export type EditorialSeries = {
   name: string,
   description: string,
   colour: EditorialSeriesColour,
-}
+};
