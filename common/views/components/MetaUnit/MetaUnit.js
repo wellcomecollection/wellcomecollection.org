@@ -11,7 +11,7 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   const classes = `${font({ s: 'HNM3' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
-  )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`;
+  )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`;
   const smallClasses = `${font({ s: 'HNM6', m: 'HNM5' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
@@ -113,7 +113,7 @@ const MetaUnit = ({
 }: MetaUnitProps) => {
   return (
     <div
-      className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font({
+      className={`${spacing({ s: 4 }, { margin: ['bottom'] })} ${font({
         s: 'HNL3',
       })}`}
     >

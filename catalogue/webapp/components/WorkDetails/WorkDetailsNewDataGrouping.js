@@ -365,14 +365,7 @@ const WorkDetails = ({
                       Identifiers
                     </h2>
                     <div className="work-details-body">
-                      {isbnIdentifiers.map(id => {
-                        return (
-                          <MetaUnit
-                            key={id.value}
-                            text={[`ISBN: ${id.value}`]}
-                          />
-                        );
-                      })}
+                    <MetaUnit headingText="ISBN" list={isbnIdentifiers.map(id => id.value)} />
                     </div>
                   </WorkDetailsSection>
                 </SpacingComponent>
