@@ -3,7 +3,7 @@ export const peopleFields = [
   'people.image',
   'people.twitterHandle',
   'people.description',
-  'people.sameAs'
+  'people.sameAs',
 ];
 export const contributorsFields = ['editorial-contributor-roles.title'];
 export const organisationsFields = [
@@ -11,62 +11,63 @@ export const organisationsFields = [
   'organisations.image',
   'organisations.url',
   'organisations.description',
-  'organisations.sameAs'
+  'organisations.sameAs',
 ];
-export const placesFields = ['places.title', 'places.level', 'places.capacity', 'places.locationInformation'];
+export const placesFields = [
+  'places.title',
+  'places.level',
+  'places.capacity',
+  'places.locationInformation',
+];
 export const installationFields = [
   'installations.title',
   'installations.description',
   'installations.start',
-  'installations.end'
+  'installations.end',
 ];
 export const pagesFields = ['pages.title'];
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',
-  'event-series.backgroundTexture'
+  'event-series.backgroundTexture',
 ];
-export const exhibitionFields = [
-  'exhibition-formats.title'
-];
-export const bookFields = [
-  'books.title'
-];
+export const exhibitionFields = ['exhibition-formats.title'];
+export const bookFields = ['books.title'];
 export const eventFormatsFields = [
-  'event-formats.title', 'event-formats.description', 'event-formats.shortName'
+  'event-formats.title',
+  'event-formats.description',
+  'event-formats.shortName',
 ];
 export const eventAccessOptionsFields = [
   'event-access-options.title',
   'event-access-options.description',
-  'event-access-options.description'
+  'event-access-options.description',
 ];
 export const interpretationTypesFields = [
-  'interpretation-types.title', 'interpretation-types.abbreviation',
-  'interpretation-types.description', 'interpretation-types.primaryDescription'
+  'interpretation-types.title',
+  'interpretation-types.abbreviation',
+  'interpretation-types.description',
+  'interpretation-types.primaryDescription',
 ];
 export const teamsFields = [
-  'teams.title', 'teams.email', 'teams.phone', 'teams.url'
+  'teams.title',
+  'teams.email',
+  'teams.phone',
+  'teams.url',
 ];
-export const audiencesFields = [
-  'audiences.title'
-];
-export const backgroundTexturesFields = [
-  'background-textures.image'
-];
+export const audiencesFields = ['audiences.title'];
+export const backgroundTexturesFields = ['background-textures.image'];
 export const eventPoliciesFields = [
   'event-policies.title',
-  'event-policies.description'
+  'event-policies.description',
 ];
 export const exhibitionResourcesFields = [
   'exhibition-resources.title',
   'exhibition-resources.description',
-  'exhibition-resources.icon'
+  'exhibition-resources.icon',
 ];
-export const articleSeriesFields = [
-  'series.name',
-  'series.description'
-];
+export const articleSeriesFields = ['series.name', 'series.description'];
 export const articleFormatsFields = [
   'article-formats.title',
-  'article-formats.description'
+  'article-formats.description',
 ];

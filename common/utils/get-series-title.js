@@ -1,5 +1,5 @@
 // @flow
-import type {EditorialSeries} from '../model/editorial-series';
+import type { EditorialSeries } from '../model/editorial-series';
 import { series } from '../data/series';
 
 export default function getSeriesTitle(arr: EditorialSeries[]): ?string {

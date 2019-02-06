@@ -1,48 +1,58 @@
 // @flow
-import type {Context} from 'next';
-import {Fragment, Component} from 'react';
-import {getBook} from '@weco/common/services/prismic/books';
+import type { Context } from 'next';
+import { Fragment, Component } from 'react';
+import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
 import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import {UiImage} from '@weco/common/views/components/Images/Images';
-import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import {defaultContributorImage} from '@weco/common/services/prismic/parsers';
-import {font, spacing, grid, classNames} from '@weco/common/utils/classnames';
-import type {Book} from '@weco/common/model/books';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
+import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
+import type { Book } from '@weco/common/model/books';
 
 type Props = {|
-  book: Book
-|}
+  book: Book,
+|};
 
 // FIXME: This is nonsense
-const BookMetadata = ({book}: Props) => (
-  <dl className='grid'>
-    {book.datePublished &&
+const BookMetadata = ({ book }: Props) => (
+  <dl className="grid">
+    {book.datePublished && (
       <Fragment>
-        <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Date published</dt>
+        <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>
+          Date published
+        </dt>
         <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
-          {book.datePublished && <HTMLDate date={new Date(book.datePublished)} />}
+          {book.datePublished && (
+            <HTMLDate date={new Date(book.datePublished)} />
+          )}
         </dd>
       </Fragment>
-    }
+    )}
     <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Format</dt>
-    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>{book.format}</dd>
+    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+      {book.format}
+    </dd>
 
     <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Extent</dt>
-    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>{book.extent}</dd>
+    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+      {book.extent}
+    </dd>
 
     <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>ISBN</dt>
-    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>{book.isbn}</dd>
+    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+      {book.isbn}
+    </dd>
   </dl>
 );
 
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const {id} = ctx.query;
+    const { id } = ctx.query;
     const book = await getBook(ctx.req, id);
 
     if (book) {
@@ -54,15 +64,15 @@ export class ArticleSeriesPage extends Component<Props> {
         canonicalUrl: `https://wellcomecollection.org/books/${book.id}`,
         imageUrl: book.image && convertImageUri(book.image.contentUrl, 800),
         siteSection: 'books',
-        analyticsCategory: 'books'
+        analyticsCategory: 'books',
       };
     } else {
-      return {statusCode: 404};
+      return { statusCode: 404 };
     }
-  }
+  };
 
   render() {
-    const {book} = this.props;
+    const { book } = this.props;
     const image = book.promo && book.promo.image;
     const tasl = image && {
       isFull: false,
@@ -73,41 +83,54 @@ export class ArticleSeriesPage extends Component<Props> {
       sourceLink: image.source && image.source.link,
       license: image.license,
       copyrightHolder: image.copyright && image.copyright.holder,
-      copyrightLink: image.copyright && image.copyright.link
+      copyrightLink: image.copyright && image.copyright.link,
     };
-    // $FlowFixMe
-    const FeaturedMedia = book.cover && <UiImage tasl={tasl} extraClasses='margin-h-auto width-auto max-height-70vh' {...book.cover} />;
+    const FeaturedMedia = book.cover && (
+      // $FlowFixMe
+      <UiImage
+        tasl={tasl}
+        extraClasses="margin-h-auto width-auto max-height-70vh"
+        {...book.cover}
+      />
+    );
     const breadcrumbs = {
       items: [
         {
           text: 'Books',
-          url: '/books'
+          url: '/books',
         },
         {
           url: `/books/${book.id}`,
           text: book.title,
-          isHidden: true
-        }
-      ]
+          isHidden: true,
+        },
+      ],
     };
-    const Header = <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={null}
-      title={book.title}
-      FeaturedMedia={FeaturedMedia}
-      ContentTypeInfo={
-        <Fragment>
-          {book.subtitle &&
-            <p className={classNames({
-              'no-margin': true,
-              [font({ s: 'HNM4', m: 'HNM3' })]: true
-            })}>{book.subtitle}</p>}
-          {book.authorName && <p className='no-margin'>{book.authorName}</p>}
-        </Fragment>
-      }
-      HeroPicture={null}
-      Background={null}
-    />;
+    const Header = (
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        labels={null}
+        title={book.title}
+        FeaturedMedia={FeaturedMedia}
+        ContentTypeInfo={
+          <Fragment>
+            {book.subtitle && (
+              <p
+                className={classNames({
+                  'no-margin': true,
+                  [font({ s: 'HNM4', m: 'HNM3' })]: true,
+                })}
+              >
+                {book.subtitle}
+              </p>
+            )}
+            {book.authorName && <p className="no-margin">{book.authorName}</p>}
+          </Fragment>
+        }
+        HeroPicture={null}
+        Background={null}
+      />
+    );
 
     // TODO: (drupal migration) we can drop reading the text fields once we've
     // migrated the content over
@@ -115,64 +138,78 @@ export class ArticleSeriesPage extends Component<Props> {
       type: 'people',
       id: 'xxx',
       name: book.authorName || '',
-      image: book.authorImage ? {
-        contentUrl: book.authorImage || '',
-        width: 800,
-        height: 0,
-        alt: `Image of ${book.authorName}`,
-        tasl: {
-          sourceName: 'Unknown',
-          title: null,
-          author: null,
-          sourceLink: null,
-          license: null,
-          copyrightHolder: null,
-          copyrightLink: null
-        },
-        crops: {}
-      } : defaultContributorImage,
+      image: book.authorImage
+        ? {
+            contentUrl: book.authorImage || '',
+            width: 800,
+            height: 0,
+            alt: `Image of ${book.authorName}`,
+            tasl: {
+              sourceName: 'Unknown',
+              title: null,
+              author: null,
+              sourceLink: null,
+              license: null,
+              copyrightHolder: null,
+              copyrightLink: null,
+            },
+            crops: {},
+          }
+        : defaultContributorImage,
       twitterHandle: null,
       // parse this as string
       description: book.authorDescription,
-      sameAs: []
+      sameAs: [],
     };
     const drupalContributor = drupalPerson && {
       contributor: drupalPerson,
       description: null,
       role: {
         id: 'WcUWeCgAAFws-nGh',
-        title: 'Author'
-      }
+        title: 'Author',
+      },
     };
-    const contributors = book.contributors.length > 0 ? book.contributors
-      : drupalContributor ? [drupalContributor] : [];
+    const contributors =
+      book.contributors.length > 0
+        ? book.contributors
+        : drupalContributor
+        ? [drupalContributor]
+        : [];
 
     return (
       <PageLayout
         title={book.title}
         description={book.metadataDescription || book.promoText || ''}
-        url={{pathname: `/books/${book.id}`}}
+        url={{ pathname: `/books/${book.id}` }}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'book'}
         siteSection={null}
         imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
-        imageAltText={book.image && book.image.alt}>
+        imageAltText={book.image && book.image.alt}
+      >
         <ContentPage
           id={book.id}
           Header={Header}
           Body={<Body body={book.body} />}
-          contributorProps={{contributors}}
+          contributorProps={{ contributors }}
         >
           <Fragment>
-            <div className={`${spacing({s: 2}, {padding: ['top']})} ${spacing({s: 2}, {margin: ['top']})} border-top-width-1 border-color-smoke`}>
+            <div
+              className={`${spacing({ s: 2 }, { padding: ['top'] })} ${spacing(
+                { s: 2 },
+                { margin: ['top'] }
+              )} border-top-width-1 border-color-smoke`}
+            >
               <BookMetadata book={book} />
             </div>
-            {book.orderLink && <MoreLink url={book.orderLink} name='Order online' />}
+            {book.orderLink && (
+              <MoreLink url={book.orderLink} name="Order online" />
+            )}
           </Fragment>
         </ContentPage>
       </PageLayout>
     );
   }
-};
+}
 
 export default ArticleSeriesPage;

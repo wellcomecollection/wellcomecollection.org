@@ -1,10 +1,10 @@
 // @flow
-import type {Contributor} from './contributors';
-import type {ImagePromo} from './image-promo';
-import type {Picture} from './picture';
-import type {ImageType} from './image';
-import type {Label} from './labels';
-import type {HTMLString} from '../services/prismic/types';
+import type { Contributor } from './contributors';
+import type { ImagePromo } from './image-promo';
+import type { Picture } from './picture';
+import type { ImageType } from './image';
+import type { Label } from './labels';
+import type { HTMLString } from '../services/prismic/types';
 
 export type Body = any[];
 
@@ -24,5 +24,5 @@ export type GenericContentFields = {|
   squareImage: ?ImageType,
   widescreenImage: ?ImageType,
   metadataDescription: ?string,
-  labels: Label[]
-|}
+  labels: Label[],
+|};

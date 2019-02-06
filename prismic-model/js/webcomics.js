@@ -13,29 +13,29 @@ export default {
     image: {
       type: 'Image',
       config: {
-        label: 'Webcomic'
-      }
+        label: 'Webcomic',
+      },
     },
-    body
+    body,
   },
   Series: {
     series: list('Series', {
-      series: link('Series', 'document', ['webcomic-series'])
-    })
+      series: link('Series', 'document', ['webcomic-series']),
+    }),
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
+    metadataDescription: structuredText('Metadata description', 'single'),
   },
   Deprecated: {
     publishDate: {
       config: {
-        label: 'Override publish date'
+        label: 'Override publish date',
       },
-      type: 'Timestamp'
-    }
-  }
+      type: 'Timestamp',
+    },
+  },
 };

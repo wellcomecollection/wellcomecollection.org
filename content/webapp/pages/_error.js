@@ -8,11 +8,11 @@ export default class Error extends React.Component {
   }
 
   render() {
-    const {statusCode} = this.props;
-    return (
-      statusCode
-        ? <ErrorPage statusCode={this.props.statusCode} />
-        : <ErrorPage statusCode={500} />
+    const { statusCode } = this.props;
+    return statusCode ? (
+      <ErrorPage statusCode={this.props.statusCode} />
+    ) : (
+      <ErrorPage statusCode={500} />
     );
   }
 }

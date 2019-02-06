@@ -6,8 +6,8 @@ const labelObject = label(typeLabel);
 const exhibitionResources = {
   [typeLabel]: {
     ...labelObject[typeLabel],
-    icon: select('Icon type', ['information', 'family'])
-  }
+    icon: select('Icon type', ['information', 'family']),
+  },
 };
 
 export default exhibitionResources;

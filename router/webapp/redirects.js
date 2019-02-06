@@ -18,14 +18,18 @@ module.exports = {
   '/electricity': '/exhibitions/W31vkCkAACkAP6LL',
   '/MakingNature': '/exhibitions/W31uwCkAACcAP58u',
   '/bedlam': '/exhibitions/W31tsSkAACkAP5p8',
-  '/exhibitions/states-mind-tracing-edges-consciousness': '/exhibitions/W31sUykAACkAP5Um',
+  '/exhibitions/states-mind-tracing-edges-consciousness':
+    '/exhibitions/W31sUykAACkAP5Um',
   '/secrettemple': '/exhibitions/W3Ls-SkAACgAEWMx',
-  '/exhibitions/states-mind-ann-veronica-janssens': '/exhibitions/W31rWykAACIAP5DX',
+  '/exhibitions/states-mind-ann-veronica-janssens':
+    '/exhibitions/W31rWykAACIAP5DX',
   '/alice-anderson': '/exhibitions/W31qcCkAACIAP4zJ',
   '/forensics': '/exhibitions/W31pfCkAACkAP4iL',
-  '/exhibitions/idiosyncratic-z-human-condition': '/exhibitions/W31n7ykAACcAP4F2',
+  '/exhibitions/idiosyncratic-z-human-condition':
+    '/exhibitions/W31n7ykAACcAP4F2',
   '/foreignbodies': '/exhibitions/W31I-ykAACkAPvh1',
-  '/exhibitions/thinking-body-mind-and-movement-work-wayne-mcgregor-random-dance': '/exhibitions/W31ITCkAACcAPvVo',
+  '/exhibitions/thinking-body-mind-and-movement-work-wayne-mcgregor-random-dance':
+    '/exhibitions/W31ITCkAACcAPvVo',
   '/exhibitions/souzou': '/exhibitions/W31G5CkAACgAPu8q',
   '/exhibitions/death-self-portrait': '/exhibitions/W31GISkAACIAPuvB',
   '/whats-on/exhibitions/superhuman': '/exhibitions/W31FpSkAACkAPumK',
@@ -33,7 +37,8 @@ module.exports = {
   '/infinitas-gracias': '/exhibitions/W31D3CkAACIAPuGN',
   '/whats-on/exhibitions/infinitas-gracias': '/exhibitions/W31D3CkAACIAPuGN',
   '/dirt': '/exhibitions/W31CnikAACIAPtwS',
-  '/exhibitions/dirt-filthy-reality-everyday-life': '/exhibitions/W31CnikAACIAPtwS',
+  '/exhibitions/dirt-filthy-reality-everyday-life':
+    '/exhibitions/W31CnikAACIAPtwS',
   '/high-society': '/exhibitions/W31CFCkAACcAPtpJ',
   '/exhibitions/high-society': '/exhibitions/W31CFCkAACcAPtpJ',
   '/exhibitions/skin': '/exhibitions/W31AaCkAACIAPtUm',
@@ -42,7 +47,8 @@ module.exports = {
   '/exhibitions/exquisite-bodies': '/exhibitions/W30-zikAACcAPs8v',
   '/exhibitions/madness-modernity': '/exhibitions/W308LykAACgAPsON',
   '/exhibitions/war-and-medicine': '/exhibitions/W302KCkAACcAPqi5',
-  '/exhibitions/skeletons-london%E2%80%99s-buried-bones': '/exhibitions/W301BSkAACgAPqOR',
+  '/exhibitions/skeletons-london%E2%80%99s-buried-bones':
+    '/exhibitions/W301BSkAACgAPqOR',
   '/exhibitions/atoms-patterns': '/exhibitions/W300HykAACgAPp9y',
   '/exhibitions/life-death': '/exhibitions/W30waSkAACcAPo_q',
   '/exhibitions/sleeping-dreaming': '/exhibitions/W30vSSkAACIAPowf',
@@ -54,7 +60,8 @@ module.exports = {
   '/pages/WwQHTSAAANBfDYXU': '/opening-times',
   '/visit-us/accessibility': '/access',
   '/what-we-do/proposing-online-article': '/pages/Wvl00yAAAB8A3y8p',
-  '/press/‘forensics-anatomy-crime’-opens-wellcome-collection': '/pages/Wv7RnyAAAPtL9tHr',
+  '/press/‘forensics-anatomy-crime’-opens-wellcome-collection':
+    '/pages/Wv7RnyAAAPtL9tHr',
   '/articles/obsessed-with-buffy-much': '/articles/WsT4Ex8AAHruGfWh',
   '/articles/wonder-womans-wonder-women': '/articles/WsT4Ex8AAHruGfWp',
   '/articles/a-drop-in-the-ocean-beth-hopkins': '/articles/WsT4Ex8AAHruGfWV',
@@ -103,19 +110,24 @@ module.exports = {
   '/articles/lustmord': '/articles/WqfvayUAAKsrVreh',
   '/articles/aids-posters-0': '/articles/W9hlyRAAANom8AzA',
   '/articles/aids-posters': '/articles/W9hlyRAAANom8AzA',
-  '/articles/drugs-and-brain-quick-guide-brain-chemistry': '/articles/W9hIBBAAAHAb74ma',
+  '/articles/drugs-and-brain-quick-guide-brain-chemistry':
+    '/articles/W9hIBBAAAHAb74ma',
   '/articles/condoms-beneath-the-sheath': '/articles/W88vXBIAAOEyzwO_',
   '/articles/science-art': '/articles/W9b0kRIAABdu8KBo',
   '/articles/hysteria': '/articles/W89GZBIAAN4yz1hQ',
-  '/articles/sleep-paralysis-a-brief-history-of-fear-treatment-and-artistic-creativity': '/articles/W9beDBIAAHu08EVG',
+  '/articles/sleep-paralysis-a-brief-history-of-fear-treatment-and-artistic-creativity':
+    '/articles/W9beDBIAAHu08EVG',
   '/series/a-drop-in-the-ocean': '/series/Ww6kkCEAAEU5j4zy',
-  '/articles/six-personal-health-zines-that-might-change-your-life': '/articles/WsT4Ex8AAHruGfWz',
+  '/articles/six-personal-health-zines-that-might-change-your-life':
+    '/articles/WsT4Ex8AAHruGfWz',
   '/articles/the-humours-in-shakespeare': '/articles/W-MM-xUAAAinxgs3',
   '/articles/graphic-sex': '/articles/W-Q1sxEAAB5ffIw4',
   '/articles/a-brief-history-of-tattoos': '/articles/W9m2QxcAAF8AFvE5',
-  '/articles/object-of-the-month-shrunken-heads-real-and-fake/': '/articles/W9sabBUAAC0Aoz5g',
+  '/articles/object-of-the-month-shrunken-heads-real-and-fake/':
+    '/articles/W9sabBUAAC0Aoz5g',
   '/articles/digital-pets': '/articles/WsT4Ex8AAHruGfWb',
-  '/articles/hamlet-the-melancholic-prince-of-denmark': '/articles/WsT4Ex8AAHruGfWf',
+  '/articles/hamlet-the-melancholic-prince-of-denmark':
+    '/articles/WsT4Ex8AAHruGfWf',
   '/articles/cholerics-the-real-drama-queens': '/articles/WsT4Ex8AAHruGfWn',
   '/articles/a-drop-in-the-ocean-daniel-regan': '/articles/WsT4Ex8AAHruGfXJ',
   '/articles/paris-morgue': '/articles/W-RTBBEAAO5mfQ3M',
@@ -123,12 +135,13 @@ module.exports = {
   '/articles/ethical-taxidermy': '/articles/WsT4Ex8AAHruGfWx',
   '/what-we-do/wellcome-trust': '/what-we-do',
   '/articles/nymphomania': '/articles/W_v8XxQAACgA_WKS',
-  '/articles/museums-in-context-the-birth-of-the-public-museum': '/articles/W_0kHhEAADUAbHiJ',
+  '/articles/museums-in-context-the-birth-of-the-public-museum':
+    '/articles/W_0kHhEAADUAbHiJ',
   '/articles/the-power-of-unicorns': '/articles/W_1gyREAADIAbXjT',
   '/youth': '/pages/Wuw2MSIAACtd3Ssg',
   '/young-people': '/pages/Wuw2MSIAACtd3Ssg',
   '/openplatform': '/pages/WvljzSAAAB4E3uMF',
   '/the-hub': '/pages/Wuw2MSIAACtd3SsU',
   '/rawminds': '/pages/Wuw2MSIAACtd3Sts',
-  '/medieval-bodies': '/books/Ww0QpiUAAFQXohEZ'
+  '/medieval-bodies': '/books/Ww0QpiUAAFQXohEZ',
 };

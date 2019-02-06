@@ -11,25 +11,22 @@ import embed from './embed';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
-  nonRepeat?: {[string]: any},
-  repeat?: {[string]: any}
-|}
+  nonRepeat?: { [string]: any },
+  repeat?: { [string]: any },
+|};
 
-function slice(
-  label: string,
-  { nonRepeat, repeat }: SliceProps
-) {
+function slice(label: string, { nonRepeat, repeat }: SliceProps) {
   return {
     type: 'Slice',
     fieldset: label,
     'non-repeat': nonRepeat,
-    repeat
+    repeat,
   };
 }
 
 const featuredLabel = {
   name: 'featured',
-  display: 'Featured'
+  display: 'Featured',
 };
 
 export default {
@@ -37,35 +34,37 @@ export default {
   type: 'Slices',
   config: {
     labels: {
-      text: [
-        featuredLabel
-      ],
+      text: [featuredLabel],
       editorialImage: [
         {
           name: 'supporting',
-          display: 'Supporting'
+          display: 'Supporting',
         },
         {
           name: 'standalone',
-          display: 'Standalone'
-        }
+          display: 'Standalone',
+        },
       ],
       quote: [
         {
           name: 'pull',
-          display: 'Pull'
+          display: 'Pull',
         },
         {
           name: 'review',
-          display: 'Review'
-        }
-      ]
+          display: 'Review',
+        },
+      ],
     },
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: structuredText('Text', 'multi', ['heading2', 'heading3', 'list-item'])
-        }
+          text: structuredText('Text', 'multi', [
+            'heading2',
+            'heading3',
+            'list-item',
+          ]),
+        },
       }),
       // These should probably be called captionedImage etc, but legacy says no
       editorialImage: captionedImageSlice(),
@@ -75,19 +74,19 @@ export default {
       quote: slice('Quote', {
         nonRepeat: {
           text: structuredText('Quote'),
-          citation: structuredText('Citation', 'single')
-        }
+          citation: structuredText('Citation', 'single'),
+        },
       }),
       standfirst: slice('Standfirst', {
         nonRepeat: {
-          text: structuredText('Standfirst', 'single')
-        }
+          text: structuredText('Standfirst', 'single'),
+        },
       }),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)'),
-          caption: structuredText('Caption', 'single')
-        }
+          caption: structuredText('Caption', 'single'),
+        },
       }),
       map: slice('Map', {
         nonRepeat: {
@@ -95,14 +94,14 @@ export default {
           geolocation: {
             type: 'GeoPoint',
             config: {
-              label: 'Geo point'
-            }
-          }
-        }
+              label: 'Geo point',
+            },
+          },
+        },
       }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
-          title
+          title,
         },
         repeat: {
           content: link('Content item', 'document', [
@@ -111,16 +110,16 @@ export default {
             'books',
             'events',
             'articles',
-            'installations'
-          ])
-        }
+            'installations',
+          ]),
+        },
       }),
       searchResults: slice('(β) Search results', {
         nonRepeat: {
           title,
-          query: text('Query')
-        }
-      })
-    }
-  }
+          query: text('Query'),
+        },
+      }),
+    },
+  },
 };

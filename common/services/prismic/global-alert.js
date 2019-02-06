@@ -1,5 +1,5 @@
-import {getPrismicApi} from '../prismic/api';
-import {asHtml} from '../prismic/parsers';
+import { getPrismicApi } from '../prismic/api';
+import { asHtml } from '../prismic/parsers';
 import type GlobalAlert from '../../model/global-alert';
 
 export async function fetchGlobalAlert(): GlobalAlert {
@@ -8,6 +8,6 @@ export async function fetchGlobalAlert(): GlobalAlert {
 
   return {
     text: globalAlert.data.text && asHtml(globalAlert.data.text),
-    isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show'
+    isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show',
   };
 }

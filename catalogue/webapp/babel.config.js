@@ -1,11 +1,9 @@
-module.exports = function (api) {
+module.exports = function(api) {
   api.cache(true);
 
-  const presets = [
-    '@weco/common/babel'
-  ];
+  const presets = ['@weco/common/babel'];
 
   return {
-    presets
+    presets,
   };
 };

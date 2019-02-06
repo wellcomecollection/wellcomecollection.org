@@ -1,23 +1,29 @@
 // @flow
-import type {Context} from 'next';
+import type { Context } from 'next';
 import NextLink from 'next/link';
-import {Component, Fragment} from 'react';
-import {classNames, font, spacing, grid, cssGrid} from '@weco/common/utils/classnames';
-import {getExhibitions} from '@weco/common/services/prismic/exhibitions';
+import { Component, Fragment } from 'react';
+import {
+  classNames,
+  font,
+  spacing,
+  grid,
+  cssGrid,
+} from '@weco/common/utils/classnames';
+import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
   filterEventsForToday,
-  filterEventsForWeekend
+  filterEventsForWeekend,
 } from '@weco/common/services/prismic/events';
-import {london, formatDay, formatDate} from '@weco/common/utils/format-date';
-import {convertJsonToDates} from './event';
-import {getTodaysGalleriesHours} from '@weco/common/utils/get-todays-galleries-hours';
+import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
+import { convertJsonToDates } from './event';
+import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
 import {
   shopPromo,
   cafePromo,
   readingRoomPromo,
   restaurantPromo,
-  dailyTourPromo
+  dailyTourPromo,
 } from '@weco/common/data/facility-promos';
 import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -34,12 +40,12 @@ import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityP
 import InstallationPromo from '@weco/common/views/components/InstallationPromo/InstallationPromo';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
-import {exhibitionLd, eventLd} from '@weco/common/utils/json-ld';
-import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {UiExhibition} from '@weco/common/model/exhibitions';
-import type {UiEvent} from '@weco/common/model/events';
-import type {Period} from '@weco/common/model/periods';
-import type {PaginatedResults} from '@weco/common/services/prismic/types';
+import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import type { UiExhibition } from '@weco/common/model/exhibitions';
+import type { UiEvent } from '@weco/common/model/events';
+import type { Period } from '@weco/common/model/periods';
+import type { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -47,31 +53,35 @@ type Props = {|
   period: string,
   dateRange: any[],
   tryTheseTooPromos: any[],
-  eatShopPromos: any[]
-|}
+  eatShopPromos: any[],
+|};
 
 function getListHeader(collectionOpeningTimes: any = {}) {
-  const galleriesOpeningTimes = collectionOpeningTimes.placesOpeningHours.length > 1 && collectionOpeningTimes.placesOpeningHours.find(venue => venue.name === 'Galleries').openingHours;
+  const galleriesOpeningTimes =
+    collectionOpeningTimes.placesOpeningHours.length > 1 &&
+    collectionOpeningTimes.placesOpeningHours.find(
+      venue => venue.name === 'Galleries'
+    ).openingHours;
   return {
     todayOpeningHours: getTodaysGalleriesHours(galleriesOpeningTimes),
-    name: 'What\'s on',
+    name: "What's on",
     items: [
       {
         id: 'everything',
         title: 'Everything',
-        url: `/whats-on`
+        url: `/whats-on`,
       },
       {
         id: 'today',
         title: 'Today',
-        url: `/whats-on/today`
+        url: `/whats-on/today`,
       },
       {
         id: 'the-weekend',
         title: 'This weekend',
-        url: `/whats-on/the-weekend`
-      }
-    ]
+        url: `/whats-on/the-weekend`,
+      },
+    ],
   };
 }
 
@@ -80,11 +90,15 @@ export function getMomentsForPeriod(period: Period) {
   const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
 
   switch (period) {
-    case 'today': return [todaysDate.startOf('day'), todaysDate.endOf('day')];
-    case 'this-weekend': return [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)];
+    case 'today':
+      return [todaysDate.startOf('day'), todaysDate.endOf('day')];
+    case 'this-weekend':
+      return [getWeekendFromDate(todaysDate), getWeekendToDate(todaysDate)];
     // FIXME: this isn't really 'this week', but the 'next seven days' (needs UX/content rethink?)
-    case 'this-week': return [todaysDate.startOf('day'), todaysDatePlusSix.endOf('day')];
-    default: return [todaysDate.startOf('day'), undefined];
+    case 'this-week':
+      return [todaysDate.startOf('day'), todaysDatePlusSix.endOf('day')];
+    default:
+      return [todaysDate.startOf('day'), undefined];
   }
 }
 
@@ -110,110 +124,122 @@ type DateRangeProps = {|
   period: string,
   cafePromo: any,
   shopPromo: any,
-  openingTimes: any // TODO
-|}
+  openingTimes: any, // TODO
+|};
 const DateRange = ({
   dateRange,
   period,
   cafePromo,
   shopPromo,
-  openingTimes
+  openingTimes,
 }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
+  const collectionOpeningTimes =
+    openingTimes && openingTimes.collectionOpeningTimes;
   const listHeader = getListHeader(collectionOpeningTimes);
 
   return (
     <Fragment>
-      <p className={classNames({
-        [font({s: 'HNM4', m: 'HNM4'})]: true,
-        [spacing({s: 0}, {margin: ['top']})]: true,
-        [spacing({s: 1}, {margin: ['bottom']})]: true
-      })}>
-        {period === 'today' &&
+      <p
+        className={classNames({
+          [font({ s: 'HNM4', m: 'HNM4' })]: true,
+          [spacing({ s: 0 }, { margin: ['top'] })]: true,
+          [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        {period === 'today' && (
           <time dateTime={fromDate}>{formatDate(fromDate)}</time>
-        }
-        {period === 'this-weekend' &&
+        )}
+        {period === 'this-weekend' && (
           <Fragment>
-            <time dateTime={fromDate}>
-              {formatDay(fromDate)}
-            </time>
+            <time dateTime={fromDate}>{formatDay(fromDate)}</time>
             &ndash;
-            <time dateTime={toDate}>
-              {formatDay(toDate)}
-            </time>
+            <time dateTime={toDate}>{formatDay(toDate)}</time>
           </Fragment>
-        }
-        {period === 'current-and-coming-up' &&
+        )}
+        {period === 'current-and-coming-up' && (
           <Fragment>
-            From{' '}
-            <time dateTime={fromDate}>{formatDate(fromDate)}</time>
+            From <time dateTime={fromDate}>{formatDate(fromDate)}</time>
           </Fragment>
-        }
+        )}
       </p>
-      {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) && period === 'today' &&
-        <Fragment>
-          <p className={classNames({
-            [font({s: 'WB6', m: 'WB5', l: 'WB4'})]: true,
-            [spacing({s: 2}, {margin: ['bottom']})]: true
-          })}>
-            Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a> and <a href={shopPromo.url}>shop</a> are open for your visit.
-          </p>
-          <div className={classNames({
-            [spacing({s: 3, m: 4, l: 5}, {margin: ['top', 'bottom']})]: true
-          })}>
-            <Divider extraClasses={'divider--dashed'} />
-          </div>
-        </Fragment>
-      }
+      {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
+        period === 'today' && (
+          <Fragment>
+            <p
+              className={classNames({
+                [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+              })}
+            >
+              Our exhibitions are closed today, but our{' '}
+              <a href={cafePromo.url}>café</a> and{' '}
+              <a href={shopPromo.url}>shop</a> are open for your visit.
+            </p>
+            <div
+              className={classNames({
+                [spacing(
+                  { s: 3, m: 4, l: 5 },
+                  { margin: ['top', 'bottom'] }
+                )]: true,
+              })}
+            >
+              <Divider extraClasses={'divider--dashed'} />
+            </div>
+          </Fragment>
+        )}
     </Fragment>
   );
 };
 
 type HeaderProps = {|
   activeId: string,
-  openingTimes: any // TODO
-|}
-const Header = ({
-  activeId,
-  openingTimes
-}: HeaderProps) => {
-  const collectionOpeningTimes = openingTimes && openingTimes.collectionOpeningTimes;
+  openingTimes: any, // TODO
+|};
+const Header = ({ activeId, openingTimes }: HeaderProps) => {
+  const collectionOpeningTimes =
+    openingTimes && openingTimes.collectionOpeningTimes;
   const listHeader = getListHeader(collectionOpeningTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
 
   return (
-    <div className={classNames({
-      'row': true,
-      'bg-cream': true,
-      [spacing({s: 3, m: 5, l: 5}, {padding: ['top', 'bottom']})]: true
-    })}>
-      <div className='container'>
-        <div className='grid'>
-          <div className={grid({s: 12, m: 12, l: 12, xl: 12})}>
-            <div className='flex flex--v-center flex--h-space-between flex--wrap'>
+    <div
+      className={classNames({
+        row: true,
+        'bg-cream': true,
+        [spacing({ s: 3, m: 5, l: 5 }, { padding: ['top', 'bottom'] })]: true,
+      })}
+    >
+      <div className="container">
+        <div className="grid">
+          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <div>
-                <h1 className='inline h1'>What{`'`}s on</h1>
+                <h1 className="inline h1">What{`'`}s on</h1>
               </div>
-              <div className='flex flex--v-center flex--wrap'>
-                {todayOpeningHours &&
-                  <div className='flex flex--v-center'>
-                    <span className={classNames({
-                      [font({s: 'HNM5', m: 'HNM4'})]: true,
-                      [spacing({s: 2}, {margin: ['right']})]: true
-                    })}>
+              <div className="flex flex--v-center flex--wrap">
+                {todayOpeningHours && (
+                  <div className="flex flex--v-center">
+                    <span
+                      className={classNames({
+                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                        [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                      })}
+                    >
                       Galleries
-                      {todayOpeningHours.opens ? ' open ' : ' closed ' }
+                      {todayOpeningHours.opens ? ' open ' : ' closed '}
                       today
                     </span>
-                    {todayOpeningHours.opens &&
+                    {todayOpeningHours.opens && (
                       <Fragment>
                         <Icon name={'clock'} extraClasses={'margin-right-s1'} />
-                        <span className={classNames({
-                          [font({s: 'HNL5', m: 'HNL4'})]: true,
-                          [spacing({s: 2}, {margin: ['right']})]: true
-                        })}>
+                        <span
+                          className={classNames({
+                            [font({ s: 'HNL5', m: 'HNL4' })]: true,
+                            [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                          })}
+                        >
                           <Fragment>
                             <time>{todayOpeningHours.opens}</time>
                             {'—'}
@@ -221,37 +247,45 @@ const Header = ({
                           </Fragment>
                         </span>
                       </Fragment>
-                    }
+                    )}
                   </div>
-                }
+                )}
                 <NextLink href={`/opening-times`} as={`/opening-times`}>
-                  <a className={classNames({
-                    [font({s: 'HNM5', m: 'HNM4'})]: true
-                  })}>{`Full opening times`}</a>
+                  <a
+                    className={classNames({
+                      [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                    })}
+                  >{`Full opening times`}</a>
                 </NextLink>
               </div>
             </div>
           </div>
-          <div className={classNames({
-            [grid({s: 12, m: 10, l: 8, xl: 6})]: true,
-            [spacing({s: 2}, { margin: ['top', 'bottom'] })]: true
-          })}>
+          <div
+            className={classNames({
+              [grid({ s: 12, m: 10, l: 8, xl: 6 })]: true,
+              [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
+            })}
+          >
             <SegmentedControl
               id={'whatsOnFilter'}
               activeId={activeId}
-              items={[{
-                id: 'current-and-coming-up',
-                url: '/whats-on',
-                text: 'Everything'
-              }, {
-                id: 'today',
-                url: '/whats-on/today',
-                text: 'Today'
-              }, {
-                id: 'this-weekend',
-                url: '/whats-on/this-weekend',
-                text: 'This weekend'
-              }]}
+              items={[
+                {
+                  id: 'current-and-coming-up',
+                  url: '/whats-on',
+                  text: 'Everything',
+                },
+                {
+                  id: 'today',
+                  url: '/whats-on/today',
+                  text: 'Today',
+                },
+                {
+                  id: 'this-weekend',
+                  url: '/whats-on/this-weekend',
+                  text: 'This weekend',
+                },
+              ]}
             />
           </div>
         </div>
@@ -260,21 +294,23 @@ const Header = ({
   );
 };
 
-const pageDescription = 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
+const pageDescription =
+  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, the free museum and library for the incurably curious.';
 export class WhatsOnPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const period = ctx.query.period || 'current-and-coming-up';
     const exhibitionsPromise = getExhibitions(ctx.req, {
       period,
-      order: 'asc'
+      order: 'asc',
     });
     const eventsPromise = getEvents(ctx.req, {
       period: 'current-and-coming-up',
-      pageSize: 100
+      pageSize: 100,
     });
 
     const [exhibitions, events] = await Promise.all([
-      exhibitionsPromise, eventsPromise
+      exhibitionsPromise,
+      eventsPromise,
     ]);
     const dateRange = getMomentsForPeriod(period);
 
@@ -288,27 +324,22 @@ export class WhatsOnPage extends Component<Props> {
         eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
         cafePromo,
         shopPromo,
-        dailyTourPromo
+        dailyTourPromo,
       };
     } else {
-      return {statusCode: 404};
+      return { statusCode: 404 };
     }
-  }
+  };
 
   render() {
-    const {
-      period,
-      dateRange,
-      tryTheseTooPromos,
-      eatShopPromos
-    } = this.props;
+    const { period, dateRange, tryTheseTooPromos, eatShopPromos } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
         start: exhibition.start && new Date(exhibition.start),
         end: exhibition.end && new Date(exhibition.end),
-        ...exhibition
+        ...exhibition,
       };
     });
     const firstExhibition = exhibitions[0];
@@ -317,31 +348,39 @@ export class WhatsOnPage extends Component<Props> {
       <PageLayout
         title={`What's on`}
         description={pageDescription}
-        url={{pathname: `/whats-on`}}
-        jsonLd={[
-          ...exhibitions.map(exhibitionLd),
-          ...events.map(eventLd)
-        ]}
+        url={{ pathname: `/whats-on` }}
+        jsonLd={[...exhibitions.map(exhibitionLd), ...events.map(eventLd)]}
         openGraphType={'website'}
         siteSection={'whats-on'}
-        imageUrl={firstExhibition && firstExhibition.image && convertImageUri(firstExhibition.image.contentUrl, 800)}
-        imageAltText={firstExhibition && firstExhibition.image && firstExhibition.image.alt}>
+        imageUrl={
+          firstExhibition &&
+          firstExhibition.image &&
+          convertImageUri(firstExhibition.image.contentUrl, 800)
+        }
+        imageAltText={
+          firstExhibition && firstExhibition.image && firstExhibition.image.alt
+        }
+      >
         <OpeningTimesContext.Consumer>
-          {openingTimes =>
+          {openingTimes => (
             <Fragment>
-              <Header
-                activeId={period}
-                openingTimes={openingTimes}
-              />
+              <Header activeId={period} openingTimes={openingTimes} />
 
-              <div className={classNames({
-                [spacing({s: 2, m: 4}, {margin: ['top']})]: true
-              })}>
-                {period === 'current-and-coming-up' &&
+              <div
+                className={classNames({
+                  [spacing({ s: 2, m: 4 }, { margin: ['top'] })]: true,
+                })}
+              >
+                {period === 'current-and-coming-up' && (
                   <Fragment>
-                    <div className={classNames({
-                      [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true
-                    })}>
+                    <div
+                      className={classNames({
+                        [spacing(
+                          { s: 3, m: 5, l: 5 },
+                          { margin: ['top'] }
+                        )]: true,
+                      })}
+                    >
                       <SpacingSection>
                         <Layout12>
                           <DateRange
@@ -351,19 +390,24 @@ export class WhatsOnPage extends Component<Props> {
                             shopPromo={eatShopPromos[1]}
                             openingTimes={openingTimes}
                           />
-                          <div className='flex flex--v-center flex--h-space-between'>
-                            <h2 className='h1'>Exhibitions</h2>
-                            <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
+                          <div className="flex flex--v-center flex--h-space-between">
+                            <h2 className="h1">Exhibitions</h2>
+                            <span className={font({ s: 'HNM5', m: 'HNM4' })}>
+                              Free admission
+                            </span>
                           </div>
                         </Layout12>
 
                         <CardGrid items={exhibitions} />
 
                         <Layout12>
-                          <div className={spacing({s: 3}, { margin: ['top'] })}>
+                          <div
+                            className={spacing({ s: 3 }, { margin: ['top'] })}
+                          >
                             <MoreLink
                               name={'View all exhibitions'}
-                              url={'/exhibitions'} />
+                              url={'/exhibitions'}
+                            />
                           </div>
                         </Layout12>
                       </SpacingSection>
@@ -375,24 +419,39 @@ export class WhatsOnPage extends Component<Props> {
                         />
                         <EventsByMonth events={events} />
                         <Layout12>
-                          <div className={spacing({s: 3}, { margin: ['top'] })}>
-                            <MoreLink name={'View all events'} url={'/events'} />
+                          <div
+                            className={spacing({ s: 3 }, { margin: ['top'] })}
+                          >
+                            <MoreLink
+                              name={'View all events'}
+                              url={'/events'}
+                            />
                           </div>
                         </Layout12>
                       </SpacingSection>
                     </div>
                   </Fragment>
-                }
-                {period !== 'current-and-coming-up' &&
+                )}
+                {period !== 'current-and-coming-up' && (
                   <Fragment>
-                    <div className={classNames({
-                      [spacing({s: 3, m: 5, l: 5}, { margin: ['top'] })]: true,
-                      [spacing({s: 2}, { margin: ['bottom'] })]: true
-                    })}>
+                    <div
+                      className={classNames({
+                        [spacing(
+                          { s: 3, m: 5, l: 5 },
+                          { margin: ['top'] }
+                        )]: true,
+                        [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                      })}
+                    >
                       <Layout12>
-                        <div className={classNames({
-                          [spacing({s: 0}, {margin: ['top', 'bottom']})]: true
-                        })}>
+                        <div
+                          className={classNames({
+                            [spacing(
+                              { s: 0 },
+                              { margin: ['top', 'bottom'] }
+                            )]: true,
+                          })}
+                        >
                           <DateRange
                             dateRange={dateRange}
                             period={period}
@@ -400,9 +459,11 @@ export class WhatsOnPage extends Component<Props> {
                             shopPromo={eatShopPromos[1]}
                             openingTimes={openingTimes}
                           />
-                          <div className='flex flex--v-center flex--h-space-between'>
-                            <h2 className='h1'>Exhibitions and Events</h2>
-                            <span className={font({s: 'HNM5', m: 'HNM4'})}>Free admission</span>
+                          <div className="flex flex--v-center flex--h-space-between">
+                            <h2 className="h1">Exhibitions and Events</h2>
+                            <span className={font({ s: 'HNM5', m: 'HNM4' })}>
+                              Free admission
+                            </span>
                           </div>
                         </div>
                       </Layout12>
@@ -410,38 +471,50 @@ export class WhatsOnPage extends Component<Props> {
                     <ExhibitionsAndEvents
                       exhibitions={exhibitions}
                       events={
-                        period === 'today' ? filterEventsForToday(events)
-                          : period === 'this-weekend' ? filterEventsForWeekend(events)
-                            : events
+                        period === 'today'
+                          ? filterEventsForToday(events)
+                          : period === 'this-weekend'
+                          ? filterEventsForWeekend(events)
+                          : events
                       }
                     />
-                    <div className={classNames({
-                      [spacing({s: 4}, {margin: ['top']})]: true
-                    })}>
+                    <div
+                      className={classNames({
+                        [spacing({ s: 4 }, { margin: ['top'] })]: true,
+                      })}
+                    >
                       <Layout12>
-                        <MoreLink name={'View all exhibitions'} url={'/exhibitions'} />
+                        <MoreLink
+                          name={'View all exhibitions'}
+                          url={'/exhibitions'}
+                        />
                         <br />
                         <MoreLink name={'View all events'} url={'/events'} />
                       </Layout12>
                     </div>
                   </Fragment>
-                }
+                )}
               </div>
               <SpacingSection>
                 <SectionHeader title={'Try these too'} />
-                <div className='css-grid__container'>
-                  <div className={classNames({
-                    'css-grid': true
-                  })}>
-                    <div className={classNames({
-                      'css-grid__scroll-container container--scroll touch-scroll': true,
-                      [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
-                    })}>
-                      <div className='css-grid grid--scroll'>
+                <div className="css-grid__container">
+                  <div
+                    className={classNames({
+                      'css-grid': true,
+                    })}
+                  >
+                    <div
+                      className={classNames({
+                        'css-grid__scroll-container container--scroll touch-scroll': true,
+                        [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                      })}
+                    >
+                      <div className="css-grid grid--scroll">
                         {tryTheseTooPromos.map(promo => (
                           <div
                             key={promo.title}
-                            className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
+                            className={cssGrid({ s: 12, m: 6, l: 4, xl: 4 })}
+                          >
                             <FacilityPromo
                               id={promo.id}
                               title={promo.title}
@@ -454,8 +527,7 @@ export class WhatsOnPage extends Component<Props> {
                           </div>
                         ))}
 
-                        <div
-                          className={cssGrid({s: 12, m: 6, l: 4, xl: 4})}>
+                        <div className={cssGrid({ s: 12, m: 6, l: 4, xl: 4 })}>
                           <InstallationPromo
                             id={pharmacyOfColourData.id}
                             title={pharmacyOfColourData.title}
@@ -473,21 +545,26 @@ export class WhatsOnPage extends Component<Props> {
               </SpacingSection>
 
               <SpacingSection>
-                <SectionHeader title='Eat and shop' />
+                <SectionHeader title="Eat and shop" />
 
-                <div className='css-grid__container'>
-                  <div className={classNames({
-                    'css-grid': true
-                  })}>
-                    <div className={classNames({
-                      'css-grid__scroll-container container--scroll touch-scroll': true,
-                      [cssGrid({s: 12, m: 12, l: 12, xl: 12})]: true
-                    })}>
-                      <div className='css-grid grid--scroll'>
-                        {eatShopPromos.map(promo =>
+                <div className="css-grid__container">
+                  <div
+                    className={classNames({
+                      'css-grid': true,
+                    })}
+                  >
+                    <div
+                      className={classNames({
+                        'css-grid__scroll-container container--scroll touch-scroll': true,
+                        [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                      })}
+                    >
+                      <div className="css-grid grid--scroll">
+                        {eatShopPromos.map(promo => (
                           <div
                             key={promo.id}
-                            className={cssGrid({s: 12, m: 6, l: 3, xl: 3})}>
+                            className={cssGrid({ s: 12, m: 6, l: 3, xl: 3 })}
+                          >
                             <FacilityPromo
                               id={promo.id}
                               title={promo.title}
@@ -498,18 +575,18 @@ export class WhatsOnPage extends Component<Props> {
                               metaIcon={promo.metaIcon}
                             />
                           </div>
-                        )}
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
               </SpacingSection>
             </Fragment>
-          }
+          )}
         </OpeningTimesContext.Consumer>
       </PageLayout>
     );
   }
-};
+}
 
 export default WhatsOnPage;

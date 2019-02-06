@@ -4,11 +4,11 @@ import title from './title';
 
 export default function() {
   return {
-    'type': 'Slice',
-    'fieldset': 'Image gallery',
+    type: 'Slice',
+    fieldset: 'Image gallery',
     'non-repeat': {
-      'title': title
+      title: title,
     },
-    'repeat': captionedImage()
+    repeat: captionedImage(),
   };
-};
+}

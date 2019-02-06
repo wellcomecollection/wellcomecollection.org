@@ -7,7 +7,7 @@ export default function(label: string, placeholder: ?string) {
     type: 'Text',
     config: {
       label,
-      placeholder
-    }
+      placeholder,
+    },
   };
 }

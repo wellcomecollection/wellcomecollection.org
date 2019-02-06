@@ -5,7 +5,7 @@ import type {
   PrismicQueryOpts,
   PrismicApiSearchResponse,
   PaginatedResults,
-  DocumentType
+  DocumentType,
 } from './types';
 import Cookies from 'cookies';
 
@@ -15,7 +15,7 @@ const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
 let memoizedPrismic;
 
 function periodicallyUpdatePrismic() {
-  setInterval(async() => {
+  setInterval(async () => {
     memoizedPrismic = await Prismic.getApi(apiUri);
   }, oneMinute);
 }
@@ -28,7 +28,7 @@ export function isPreview(req: ?Request): boolean {
 
 export async function getPrismicApi(req: ?Request) {
   if (req && isPreview(req)) {
-    const api = await Prismic.getApi(apiUri, {req});
+    const api = await Prismic.getApi(apiUri, { req });
     return api;
   } else {
     if (!memoizedPrismic) {
@@ -67,13 +67,18 @@ export async function getDocuments(
     pageSize: docs.results_per_page,
     totalResults: docs.total_results_size,
     totalPages: docs.total_pages,
-    results: docs.results
+    results: docs.results,
   };
 
   return paginatedResults;
 }
 
-export async function getTypeByIds(req: ?Request, types: DocumentType[], ids: string[], qOpts: {}) {
+export async function getTypeByIds(
+  req: ?Request,
+  types: DocumentType[],
+  ids: string[],
+  qOpts: {}
+) {
   const prismic = await getPrismicApi(req);
   const doc = await prismic.getByIDs(ids, qOpts);
 

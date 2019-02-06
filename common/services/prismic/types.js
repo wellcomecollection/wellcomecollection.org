@@ -1,7 +1,7 @@
 // @flow
 export type PrismicDocument = {|
   id: string,
-  uid ?: string,
+  uid?: string,
   type: string,
   href: string,
   tags: string[],
@@ -14,8 +14,8 @@ export type PrismicDocument = {|
   data: any,
   isBroken: ?boolean,
   link_type?: string,
-  url?: string
-|}
+  url?: string,
+|};
 
 export type PrismicApiSearchResponse = {|
   page: number,
@@ -25,16 +25,16 @@ export type PrismicApiSearchResponse = {|
   total_pages: number,
   next_page: string,
   prev_page: string,
-  results: PrismicDocument[]
-|}
+  results: PrismicDocument[],
+|};
 
 export type PrismicQueryOpts = {|
   fetchLinks?: string[],
   page?: number,
   orderings?: string,
   pageSize?: number,
-  graphQuery?: string
-|}
+  graphQuery?: string,
+|};
 
 export type HTMLSpanTypes =
   | 'heading2'
@@ -50,14 +50,14 @@ export type HTMLSpan = {|
   type: HTMLSpanTypes,
   start: number,
   end: number,
-  data: Object
-|}
+  data: Object,
+|};
 
 export type HTMLStringBlock = {|
   type: HTMLSpanTypes,
   text: string,
-  spans: HTMLSpan[]
-|}
+  spans: HTMLSpan[],
+|};
 
 export type HTMLString = HTMLStringBlock[];
 
@@ -70,17 +70,17 @@ export type PaginatedResults<T> = {|
   results: T[],
   pageSize: number,
   totalResults: number,
-  totalPages: number
-|}
+  totalPages: number,
+|};
 
 export type PrismicApiError = {|
-  statusCode: number
-|}
+  statusCode: number,
+|};
 
 export type DocumentType =
-| 'articles'
-| 'webcomics'
-| 'events'
-| 'exhibitions'
-| 'installations'
-| 'books'
+  | 'articles'
+  | 'webcomics'
+  | 'events'
+  | 'exhibitions'
+  | 'installations'
+  | 'books';

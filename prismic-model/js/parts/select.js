@@ -1,10 +1,10 @@
 // @flow
-export default function select (label: string, options: string[]) {
+export default function select(label: string, options: string[]) {
   return {
-    'type': 'Select',
-    'config': {
-      'label': label,
-      'options': options
-    }
+    type: 'Select',
+    config: {
+      label: label,
+      options: options,
+    },
   };
 }
