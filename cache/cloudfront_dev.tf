@@ -37,12 +37,17 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
         "current",
         "query",
         "uri",
-        "MIROPAC", # Wellcome Images redirect
-        "MIRO",    # Wellcome Images redirect
+        "MIROPAC",                      # Wellcome Images redirect
+        "MIRO",                         # Wellcome Images redirect
 
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)
         "result",
+
+        # Works specific
+        "workType",
+
+        "items.locations.locationType",
       ]
 
       cookies {
