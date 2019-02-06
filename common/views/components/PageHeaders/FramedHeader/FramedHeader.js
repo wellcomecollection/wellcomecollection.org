@@ -1,9 +1,11 @@
+// @flow
+
 import { spacing } from '../../../../utils/classnames';
 import type { BackgroundTexture } from '../../../../model/background-texture';
 
 type Props = {|
   backgroundTexture: BackgroundTexture,
-  children: React.node,
+  children: React.Node,
 |};
 
 const FramedHeader = ({ backgroundTexture, children }: Props) => (

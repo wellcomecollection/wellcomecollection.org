@@ -1,9 +1,11 @@
+// @flow
+
 import { spacing, font } from '../../../utils/classnames';
-import type { Place } from '../../../model/opening-hours';
+import type { Venue } from '../../../model/opening-hours';
 
 type Props = {|
   id?: string,
-  place: Place,
+  place: Venue,
   extraClasses?: string,
 |};
 

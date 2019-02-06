@@ -1,3 +1,5 @@
+// @flow
+
 type Props = {|
   title: string,
   latitude: number,

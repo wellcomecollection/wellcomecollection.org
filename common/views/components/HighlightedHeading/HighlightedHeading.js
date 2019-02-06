@@ -1,3 +1,5 @@
+// @flow
+
 import { spacing } from '../../../utils/classnames';
 
 type Props = {|

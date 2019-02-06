@@ -30,7 +30,7 @@ class GifVideo extends Component<Props, State> {
     computedVideoWidth: null,
   };
 
-  videoRef = createRef<HTMLVideoElement>();
+  videoRef: { current: HTMLVideoElement } = createRef();
 
   inViewport = (video: HTMLElement) => {
     const rect = video.getBoundingClientRect();

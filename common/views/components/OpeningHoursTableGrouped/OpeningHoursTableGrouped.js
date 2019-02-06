@@ -1,3 +1,5 @@
+// @flow
+
 import type { Venue } from '../../../model/opening-hours';
 import { Fragment } from 'react';
 
@@ -7,12 +9,14 @@ type Props = {|
 |};
 
 function times(day, place) {
-  const opensTime = place.openingHours.regular.find(
+  const opensDay = place.openingHours.regular.find(
     times => times.dayOfWeek === day
-  ).opens;
-  const closesTime = place.openingHours.regular.find(
+  );
+  const opensTime = opensDay && opensDay.opens;
+  const closesDay = place.openingHours.regular.find(
     times => times.dayOfWeek === day
-  ).closes;
+  );
+  const closesTime = closesDay && closesDay.closes;
   return (
     <Fragment>
       {opensTime ? (

@@ -1,3 +1,5 @@
+// @flow
+
 import { spacing, font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';

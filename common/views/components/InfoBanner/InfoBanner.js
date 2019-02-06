@@ -49,6 +49,7 @@ class InfoBanner extends React.Component<Props, State> {
 
   render() {
     const { text } = this.props;
+
     if (this.state.showInfoBanner) {
       return (
         <div
@@ -78,7 +79,7 @@ class InfoBanner extends React.Component<Props, State> {
                       </div>
                       <div
                         className="first-para-no-margin"
-                        dangerouslySetInnerHTML={{ __html: this.props.text }}
+                        dangerouslySetInnerHTML={{ __html: text }}
                       />
                     </span>
                   </div>

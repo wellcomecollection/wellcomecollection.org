@@ -1,3 +1,5 @@
+// @flow
+
 import type { Node } from 'react';
 import Layout from '../Layout/Layout';
 

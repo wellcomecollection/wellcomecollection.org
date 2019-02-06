@@ -1,3 +1,4 @@
+// @flow
 import { spacing, font } from '../../../utils/classnames';
 import { formatDayDate } from '../../../utils/format-date';
 import type { ExceptionalVenueHours } from '../../../model/opening-hours';
@@ -15,7 +16,8 @@ const ExceptionalOpeningHoursTable = ({
 }: Props) => (
   <div className={extraClasses || ''}>
     <table
-      className={`opening-hours__table ${font({ s: 'HNL5' })} ${extraClasses}`}
+      className={`opening-hours__table ${font({ s: 'HNL5' })} ${extraClasses ||
+        ''}`}
     >
       <caption
         className={`opening-hours__caption ${font({ s: 'HNM4' })} ${spacing(
@@ -23,7 +25,7 @@ const ExceptionalOpeningHoursTable = ({
           { padding: ['bottom'] }
         )}`}
       >
-        {formatDayDate(caption)}
+        {formatDayDate(new Date(caption))}
       </caption>
       <thead
         className={`opening-hours__thead ${font({

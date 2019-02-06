@@ -20,7 +20,7 @@ class Iframe extends Component<Props, State> {
     iframeShowing: false,
   };
 
-  iframeRef = createRef<HTMLIFrameElement>();
+  iframeRef: { current: HTMLIFrameElement } = createRef();
 
   toggleIframeDisplay = () => {
     if (!this.state.iframeShowing) {

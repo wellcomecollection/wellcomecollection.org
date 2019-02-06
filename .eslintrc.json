@@ -18,7 +18,6 @@
     "no-multi-spaces": "off",
     "no-multi-str": "off",
     "no-mixed-operators": "off",
-    "flowtype/no-types-missing-file-annotation": "off",
     "no-return-assign": "off",
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": "error"
