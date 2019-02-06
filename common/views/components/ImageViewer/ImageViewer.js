@@ -78,7 +78,7 @@ const ViewerContent = ({
   }, []);
 
   return (
-    <div className={`${classes} image-viewer__content image-viewer__content2`}>
+    <div className={`${classes} image-viewer__content`}>
       <div className="image-viewer__controls flex flex-end flex--v-center">
         <Control
           type="light"
@@ -177,14 +177,21 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
           );
         }}
       </Transition>
-      {showViewer && (
-        <ViewerContent
-          classes=""
-          viewerVisible={showViewer}
-          id={id}
-          handleViewerDisplay={handleViewerDisplay}
-        />
-      )}
+      <Transition in={showViewer} timeout={700}>
+        {status => {
+          if (status === 'exited') {
+            return null;
+          }
+          return (
+            <ViewerContent
+              classes={`slidedown-image-viewer slidedown-image-viewer-${status}`}
+              viewerVisible={showViewer}
+              id={id}
+              handleViewerDisplay={handleViewerDisplay}
+            />
+          );
+        }}
+      </Transition>
     </ImageInfoContext.Provider>
   );
 };

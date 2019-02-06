@@ -7,14 +7,9 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
-  display: none;
   z-index: 1000;
   top: 0;
   left: 0;
-}
-
-.image-viewer__content2 {
-  display: block;
 }
 
 .image-viewer__controls {
@@ -83,4 +78,14 @@
   @include respond-to('medium') {
     transform: translateX(50%) translateY(50%);
   }
+}
+
+.slidedown-image-viewer {
+  transition: all 700ms;
+  top: -100vh;
+}
+
+.slidedown-image-viewer-entered {
+  opacity: 1;
+  top: 0;
 }
