@@ -6,7 +6,7 @@ import type {
 } from '../services/catalogue/works';
 import { Fragment } from 'react';
 import Router from 'next/router';
-import { spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -16,19 +16,29 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import { worksUrl } from '../services/catalogue/urls';
+import {
+  getPhysicalLocations,
+  getDigitalLocations,
+  getProductionDates,
+  getWorkTypeIcon,
+} from '@weco/common/utils/works';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 
 type Props = {|
   work: Work | CatalogueApiError,
   workType: string[],
   query: ?string,
   page: ?number,
-  showNewMetaDataGrouping: boolean,
   itemsLocationsLocationType: string[],
+  showNewMetaDataGrouping: boolean,
+  showWorkHeader: boolean,
   showCatalogueSearchFilters: boolean,
 |};
 
@@ -39,6 +49,7 @@ export const WorkPage = ({
   workType,
   itemsLocationsLocationType,
   showNewMetaDataGrouping,
+  showWorkHeader,
   showCatalogueSearchFilters,
 }: Props) => {
   if (work.type === 'Error') {
@@ -93,6 +104,12 @@ export const WorkPage = ({
   const imageContentUrl =
     iiifImageLocationUrl &&
     iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
+
+  const digitalLocations = getDigitalLocations(work);
+  const physicalLocations = getPhysicalLocations(work);
+  const productionDates = getProductionDates(work);
+  const workTypeIcon = getWorkTypeIcon(work);
+
   return (
     <PageLayout
       title={work.title}
@@ -156,6 +173,111 @@ export const WorkPage = ({
         </div>
       </div>
 
+      {showWorkHeader && (
+        <div
+          className={`row ${spacing({ s: 6 }, { padding: ['top', 'bottom'] })}`}
+        >
+          <div className="container">
+            <div className="grid">
+              <div
+                className={classNames([
+                  grid({ s: 12, m: 12, l: 10, xl: 10 }),
+                  spacing({ s: 4 }, { margin: ['bottom'] }),
+                ])}
+              >
+                <SpacingComponent>
+                  <div
+                    className={classNames({
+                      flex: true,
+                      'flex--v-center': true,
+                      [font({ s: 'HNL3' })]: true,
+                    })}
+                  >
+                    {workTypeIcon && (
+                      <Icon
+                        name={workTypeIcon}
+                        extraClasses={classNames({
+                          [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                        })}
+                      />
+                    )}
+                    {work.workType.label}
+                  </div>
+
+                  <h1
+                    id="work-info"
+                    className={classNames([
+                      font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' }),
+                      spacing({ s: 0 }, { margin: ['top'] }),
+                    ])}
+                  >
+                    {work.title}
+                  </h1>
+
+                  <div
+                    className={classNames({
+                      flex: true,
+                    })}
+                  >
+                    {work.contributors.length > 0 && (
+                      <LinkLabels
+                        items={work.contributors.map(({ agent }) => ({
+                          text: agent.label,
+                          url: `/works?query="${agent.label}"`,
+                        }))}
+                      />
+                    )}
+                    {productionDates && (
+                      <div
+                        className={classNames({
+                          [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                        })}
+                      >
+                        <LinkLabels
+                          heading={'Date'}
+                          items={productionDates.map(date => ({
+                            text: date,
+                            url: null,
+                          }))}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {(digitalLocations.length > 0 ||
+                    physicalLocations.length > 0) && (
+                    <div
+                      className={classNames({
+                        [spacing({ s: 2 }, { margin: ['top'] })]: true,
+                      })}
+                    >
+                      <LinkLabels
+                        heading={'See it'}
+                        icon={'eye'}
+                        items={[
+                          digitalLocations.length > 0
+                            ? {
+                                text: 'Online',
+                                url: null,
+                              }
+                            : null,
+                          physicalLocations.length > 0
+                            ? {
+                                text: 'Wellcome Library',
+                                url: null,
+                              }
+                            : null,
+                        ].filter(Boolean)}
+                      />
+                    </div>
+                  )}
+                </SpacingComponent>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Fragment>
         {iiifPresentationLocation && (
           <IIIFPresentationDisplay
@@ -213,6 +335,7 @@ WorkPage.getInitialProps = async (
   const showNewMetaDataGrouping = Boolean(
     ctx.query.toggles.showWorkMetaDataGrouping
   );
+  const showWorkHeader = Boolean(ctx.query.toggles.showWorkHeader);
   const showCatalogueSearchFilters = Boolean(
     ctx.query.toggles.showCatalogueSearchFilters
   );
@@ -233,9 +356,10 @@ WorkPage.getInitialProps = async (
       query,
       work: workOrError,
       page: page ? parseInt(page, 10) : null,
-      showNewMetaDataGrouping,
       workType,
       itemsLocationsLocationType,
+      showNewMetaDataGrouping,
+      showWorkHeader,
       showCatalogueSearchFilters,
     };
   }

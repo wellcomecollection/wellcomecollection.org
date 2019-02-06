@@ -4,6 +4,7 @@ import arrow from './arrow';
 import arrowSmall from './arrow_small';
 import audioDescribed from './audio_described';
 import speechToText from './speech_to_text';
+import book from './book';
 import britishSignLanguage from './british_sign_language';
 import { cc, ccBy, ccNc, ccNd, ccPdm, ccZero } from './licenses';
 import calendar from './calendar';
@@ -12,6 +13,7 @@ import chevron from './chevron';
 import clock from './clock';
 import cross from './cross';
 import email from './email';
+import eye from './eye';
 import family from './family';
 import image from './image';
 import lifts from './lifts';
@@ -46,6 +48,7 @@ export {
   arrowSmall,
   audioDescribed,
   speechToText,
+  book,
   britishSignLanguage,
   calendar,
   cc,
@@ -59,6 +62,7 @@ export {
   clock,
   cross,
   email,
+  eye,
   family,
   image,
   lifts,
