@@ -10,7 +10,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { worksUrl } from '../../services/catalogue/urls';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
@@ -372,64 +371,58 @@ const WorkDetails = ({
 
             {licenseInfo && (
               <Fragment>
+                <Divider
+                  extraClasses={`divider--pumice divider--keyline ${spacing(
+                    { s: 1 },
+                    { margin: ['top', 'bottom'] }
+                  )}`}
+                />
                 <SpacingComponent>
-                  <Divider
-                    extraClasses={`divider--pumice divider--keyline ${spacing(
-                      { s: 1 },
-                      { margin: ['top', 'bottom'] }
-                    )}`}
-                  />
-                  <h2 className={classNames([font({ s: 'WB5' })])}>
-                    {`Using this ${singularWorkTypeLabel}`}
-                  </h2>
-                </SpacingComponent>
-                <SpacingComponent>
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="License information"
-                    text={licenseInfo.humanReadableText}
-                  />
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Credit"
-                    text={[
-                      `${work.title}.${' '}
-                    ${
-                      iiifImageLocationCredit
-                        ? `Credit: <a href="https://wellcomecollection.org/works/${
-                            work.id
-                          }">${iiifImageLocationCredit}</a>. `
-                        : ` `
-                    }
-                    ${
-                      licenseInfo.url
-                        ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                        : licenseInfo.text
-                    }`,
-                    ]}
-                  />
+                  <WorkDetailsSection>
+                    <h2
+                      className={classNames({
+                        [font({ s: 'WB5' })]: true,
+                        [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                        'work-details-heading': true,
+                      })}
+                    >
+                      {`Using this ${singularWorkTypeLabel}`}
+                    </h2>
+                    <div className="work-details-body">
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="License information"
+                        text={licenseInfo.humanReadableText}
+                      />
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Credit"
+                        text={[
+                          `${work.title}.${' '}
+                  ${
+                    iiifImageLocationCredit
+                      ? `Credit: <a href="https://wellcomecollection.org/works/${
+                          work.id
+                        }">${iiifImageLocationCredit}</a>. `
+                      : ` `
+                  }
+                  ${
+                    licenseInfo.url
+                      ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                      : licenseInfo.text
+                  }`,
+                        ]}
+                      />
+                      <MetaUnit headingText="Share">
+                        <CopyUrl id={work.id} url={`https://wellcomecollection.org/works/${work.id}`} />
+                      </MetaUnit>
+                    </div>
+
+                  </WorkDetailsSection>
                 </SpacingComponent>
               </Fragment>
             )}
 
-            <SpacingComponent>
-              <Divider
-                extraClasses={`divider--pumice divider--keyline ${spacing(
-                  { s: 1 },
-                  { margin: ['top', 'bottom'] }
-                )}`}
-              />
-              <h2 className={classNames([font({ s: 'HNM4', m: 'HNM3' })])}>
-                Share
-              </h2>
-            </SpacingComponent>
-
-            <SpacingComponent>
-              <CopyUrl
-                id={work.id}
-                url={`https://wellcomecollection.org/works/${work.id}`}
-              />
-            </SpacingComponent>
 
             <SpacingComponent>
               <div

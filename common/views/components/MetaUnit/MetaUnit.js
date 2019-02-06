@@ -100,7 +100,7 @@ type MetaUnitProps = {|
   links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
   text?: string[],
   list?: string[],
-  includeDivider?: boolean,
+  children?: React.node
 |};
 
 const MetaUnit = ({
@@ -109,7 +109,7 @@ const MetaUnit = ({
   text = [],
   links = [],
   list = [],
-  includeDivider,
+  children
 }: MetaUnitProps) => {
   return (
     <div
@@ -123,14 +123,7 @@ const MetaUnit = ({
       <Paragraphs text={text} />
       <LinksList links={links} />
       <List list={list} />
-      {includeDivider && (
-        <Divider
-          extraClasses={`divider--pumice divider--keyline ${spacing(
-            { s: 1 },
-            { margin: ['top', 'bottom'] }
-          )}`}
-        />
-      )}
+      {children}
     </div>
   );
 };
