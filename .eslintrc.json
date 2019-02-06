@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["flowtype", "import", "react", "jest", "prettier"],
+  "plugins": ["flowtype", "react", "jest", "prettier"],
   "env": {
     "jest/globals": true
   },
@@ -16,10 +16,9 @@
     "flowtype/define-flow-type": "warn",
     "flowtype/space-after-type-colon": ["error", "always"],
     "flowtype/space-before-type-colon": ["error", "never"],
-    "no-duplicate-imports": "off",
     "no-return-assign": "off",
-    "import/no-duplicates": "error",
     "react/react-in-jsx-scope": "off",
+    "standard/computed-property-even-spacing": "off",
     "prettier/prettier": "error"
   },
   "parserOptions": {
