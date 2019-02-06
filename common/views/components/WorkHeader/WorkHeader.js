@@ -46,7 +46,7 @@ const WorkHeader = ({ work }: Props) => {
                     })}
                   />
                 )}
-                {work.workType.label}
+                <div className="line-height-1">{work.workType.label}</div>
               </div>
 
               <h1
