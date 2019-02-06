@@ -1,3 +1,4 @@
+// @flow
 import { spacing, font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';
@@ -228,6 +229,7 @@ class NewsletterSignup extends Component<Props, State> {
             </p>
 
             <Button
+              type={'primary'}
               extraClasses={`btn--primary ${spacing(
                 { s: 2 },
                 { margin: ['bottom'] }
