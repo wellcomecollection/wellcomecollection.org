@@ -8,7 +8,7 @@ type HeadingProps = {
   headingText: string,
 };
 const Heading = ({ headingLevel, headingText }: HeadingProps) => {
-  const classes = `${font({ s: 'HNM3' })} ${spacing(
+  const classes = `${font({ s: 'HNM4', m: 'HNM3' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
   )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`;
@@ -114,7 +114,7 @@ const MetaUnit = ({
   return (
     <div
       className={`${spacing({ s: 4 }, { margin: ['bottom'] })} ${font({
-        s: 'HNL3',
+        s: 'HNL4', m: 'HNL3'
       })}`}
     >
       {headingText && (

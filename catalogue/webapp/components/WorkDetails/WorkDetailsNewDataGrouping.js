@@ -94,7 +94,7 @@ const WorkDetails = ({
                   <WorkDetailsSection>
                     <h2
                       className={classNames({
-                        [font({ s: 'WB5' })]: true,
+                        [font({ s: 'WB6', m: 'WB5' })]: true,
                         [spacing({ s: 0 }, { margin: ['top'] })]: true,
                         'work-details-heading': true,
                       })}
@@ -181,7 +181,7 @@ const WorkDetails = ({
                 <WorkDetailsSection>
                   <h2
                     className={classNames({
-                      [font({ s: 'WB5' })]: true,
+                      [font({ s: 'WB6', m: 'WB5' })]: true,
                       [spacing({ s: 0 }, { margin: ['top'] })]: true,
                       'work-details-heading': true,
                     })}
@@ -284,7 +284,7 @@ const WorkDetails = ({
                   <WorkDetailsSection>
                     <h2
                       className={classNames({
-                        [font({ s: 'WB5' })]: true,
+                        [font({ s: 'WB6', m: 'WB5' })]: true,
                         [spacing({ s: 0 }, { margin: ['top'] })]: true,
                         'work-details-heading': true,
                       })}
@@ -327,7 +327,7 @@ const WorkDetails = ({
                   <WorkDetailsSection>
                     <h2
                       className={classNames({
-                        [font({ s: 'WB5' })]: true,
+                        [font({ s: 'WB6', m: 'WB5' })]: true,
                         [spacing({ s: 0 }, { margin: ['top'] })]: true,
                         'work-details-heading': true,
                       })}
@@ -357,7 +357,7 @@ const WorkDetails = ({
                   <WorkDetailsSection>
                     <h2
                       className={classNames({
-                        [font({ s: 'WB5' })]: true,
+                        [font({ s: 'WB6', m: 'WB5' })]: true,
                         [spacing({ s: 0 }, { margin: ['top'] })]: true,
                         'work-details-heading': true,
                       })}
@@ -384,7 +384,7 @@ const WorkDetails = ({
                   <WorkDetailsSection>
                     <h2
                       className={classNames({
-                        [font({ s: 'WB5' })]: true,
+                        [font({ s: 'WB6', m: 'WB5' })]: true,
                         [spacing({ s: 0 }, { margin: ['top'] })]: true,
                         'work-details-heading': true,
                       })}
