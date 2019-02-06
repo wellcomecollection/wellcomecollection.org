@@ -51,12 +51,6 @@ const WorkDetails = ({
             ])}
           >
             <SpacingComponent>
-              <Divider
-                extraClasses={`divider--pumice divider--keyline ${spacing(
-                  { s: 1 },
-                  { margin: ['top', 'bottom'] }
-                )}`}
-              />
               <h2
                 className={classNames([
                   font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
@@ -70,15 +64,9 @@ const WorkDetails = ({
                 }`}
               </h2>
 
-              {/* work.description && (
+              {work.description && (
                 <MetaUnit headingText="Description" text={[work.description]} />
-              ) */}
-              <MetaUnit
-                headingText="Description"
-                text={[
-                  'Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000.',
-                ]}
-              />
+              )}
 
               {work.production.length > 0 && (
                 <MetaUnit
@@ -114,13 +102,7 @@ const WorkDetails = ({
                     });
                     return (
                       <NextLink key={1} {...linkAttributes}>
-                        <a
-                          className={`plain-link font-green font-hover-turquoise ${font(
-                            { s: 'HNM5', m: 'HNM4' }
-                          )}`}
-                        >
-                          {genre.label}
-                        </a>
+                        {genre.label}
                       </NextLink>
                     );
                   })}
@@ -138,13 +120,7 @@ const WorkDetails = ({
                         page: undefined,
                       })}
                     >
-                      <a
-                        className={`plain-link font-green font-hover-turquoise ${font(
-                          { s: 'HNM5', m: 'HNM4' }
-                        )}`}
-                      >
-                        {work.language.label}
-                      </a>
+                      {work.language.label}
                     </NextLink>,
                   ]}
                 />
@@ -168,7 +144,6 @@ const WorkDetails = ({
               </h2>
               {work.subjects.length > 0 && (
                 <MetaUnit
-                  headingText=""
                   links={work.subjects.map(subject => {
                     const linkAttributes = worksUrl({
                       query: `"${subject.label}"`,
@@ -176,19 +151,14 @@ const WorkDetails = ({
                     });
                     return (
                       <NextLink key={1} {...linkAttributes}>
-                        <a
-                          className={`plain-link font-green font-hover-turquoise ${font(
-                            { s: 'HNM5', m: 'HNM4' }
-                          )}`}
-                        >
-                          {subject.label}
-                        </a>
+                        {subject.label}
                       </NextLink>
                     );
                   })}
                 />
               )}
             </SpacingComponent>
+
             {encoreLink && (
               <SpacingComponent>
                 <Divider
@@ -205,6 +175,29 @@ const WorkDetails = ({
                 >
                   Find in the library
                 </h2>
+                <MoreLink
+                  name="View Wellcome Library catalogue record"
+                  url={encoreLink}
+                />
+              </SpacingComponent>
+            )}
+
+            {work.identifiers.length > 0 && (
+              <SpacingComponent>
+                <Divider
+                  extraClasses={`divider--pumice divider--keyline ${spacing(
+                    { s: 1 },
+                    { margin: ['top', 'bottom'] }
+                  )}`}
+                />
+                <h2
+                  className={classNames([
+                    font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
+                    spacing({ s: 0 }, { margin: ['top'] }),
+                  ])}
+                >
+                  Identifiers
+                </h2>
                 {work.identifiers.length > 0 &&
                   work.identifiers
                     .filter(id => {
@@ -212,18 +205,9 @@ const WorkDetails = ({
                     })
                     .map(id => {
                       return (
-                        <MetaUnit
-                          key={id.value}
-                          headingText="ISBN"
-                          text={[id.value]}
-                        />
+                        <MetaUnit key={id.value} text={[`ISBN: ${id.value}`]} />
                       );
                     })}
-
-                <MoreLink
-                  name="View Wellcome Library catalogue record"
-                  url={encoreLink}
-                />
               </SpacingComponent>
             )}
             {iiifImageLocationUrl && (
@@ -283,21 +267,6 @@ const WorkDetails = ({
                 )}
               </SpacingComponent>
             )}
-
-            {/* old stuff without a home below here
-            <SpacingComponent>
-              <Divider extraClasses={`divider--pumice divider--keyline ${spacing({s: 1}, {margin: ['top', 'bottom']})}`} />
-              <h2 className={classNames([
-                font({s: 'HNM4', m: 'HNM3'})
-              ])}>Item details</h2>
-            </SpacingComponent>
-
-            <SpacingComponent>
-              {work.createdDate &&
-                <MetaUnit headingText='Created date' text={[work.createdDate.label]} />
-              }
-            </SpacingComponent>
-            */}
 
             {licenseInfo && (
               <Fragment>
@@ -383,4 +352,10 @@ const WorkDetails = ({
   );
 };
 
+/* TODO old stuff without a home below here
+ * createdDate is only from MIRO and only for a subset of images that have a V number
+  {work.createdDate &&
+    <MetaUnit headingText='Created date' text={[work.createdDate.label]} />
+  }
+*/
 export default WorkDetails;
