@@ -1,7 +1,6 @@
 // @flow
 import { spacing, font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import type { MetaUnitProps } from '../../../model/meta-unit';
 import styled from 'styled-components';
 
 const MetaUnitEl = styled.div`
@@ -33,7 +32,7 @@ const MetaUnitEl = styled.div`
 
 type HeadingProps = {
   headingLevel: ?number,
-  headingText: string,
+  headingText?: string,
 };
 const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   const TagName = `h${headingLevel || 2}`;
@@ -138,6 +137,15 @@ const List = ({ list }) => {
     )
   );
 };
+
+export type MetaUnitProps = {|
+  headingLevel?: number,
+  headingText?: string,
+  links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
+  text?: string[],
+  list?: string[],
+  includeDivider?: boolean,
+|};
 
 const MetaUnit = ({
   headingLevel,

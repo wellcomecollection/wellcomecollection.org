@@ -2,7 +2,6 @@
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Divider from '../Divider/Divider';
-import type { MetaUnitProps } from '../../../model/meta-unit';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -66,20 +65,10 @@ const LinksList = ({ links }) => {
         )}`}
       >
         {links.map((link, i, arr) => (
-          <li key={i} className="inline">
-            {link.url && (
-              <NextLink href={link.url}>
-                <a
-                  className={`plain-link font-green font-hover-turquoise ${font(
-                    { s: 'HNM5', m: 'HNM4' }
-                  )}`}
-                >
-                  {link.text}
-                </a>
-              </NextLink>
-            )}
+          <li key={i} className={`inline ${font({ s: 'HNL5', m: 'HNL4' })}`}>
+            {link.url && <NextLink href={link.url}>{link.text}</NextLink>}
             {!link.url && link}
-            {arr.length - 1 !== i && ', '}
+            {arr.length - 1 !== i && ' '}
           </li>
         ))}
       </ul>
@@ -112,6 +101,14 @@ const List = ({ list }) => {
     )
   );
 };
+type MetaUnitProps = {|
+  headingLevel?: number,
+  headingText?: string,
+  links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
+  text?: string[],
+  list?: string[],
+  includeDivider?: boolean,
+|};
 
 const MetaUnit = ({
   headingLevel,
@@ -123,7 +120,9 @@ const MetaUnit = ({
 }: MetaUnitProps) => {
   return (
     <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
-      <Heading headingLevel={headingLevel} headingText={headingText} />
+      {headingText && (
+        <Heading headingLevel={headingLevel} headingText={headingText} />
+      )}
       <Paragraphs text={text} />
       <LinksList links={links} />
       <List list={list} />
