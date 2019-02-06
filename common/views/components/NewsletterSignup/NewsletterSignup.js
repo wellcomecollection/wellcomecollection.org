@@ -78,9 +78,9 @@ class NewsletterSignup extends Component<Props, State> {
     });
   }
 
-  updateCheckedInputs = event => {
-    const isChecked = event.target.checked;
-    const id = event.target.id;
+  updateCheckedInputs = (event: SyntheticEvent<HTMLInputElement>) => {
+    const isChecked = event.currentTarget.checked;
+    const id = event.currentTarget.id;
 
     const newInputs = isChecked
       ? this.state.checkedInputs.concat(id)
@@ -92,13 +92,13 @@ class NewsletterSignup extends Component<Props, State> {
     });
   };
 
-  handleEmailInput = event => {
+  handleEmailInput = (event: SyntheticEvent<HTMLInputElement>) => {
     this.setState({
-      isEmailError: !event.target.validity.valid,
+      isEmailError: !event.currentTarget.validity.valid,
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     this.setState({
@@ -106,7 +106,7 @@ class NewsletterSignup extends Component<Props, State> {
     });
 
     if (!this.state.isCheckboxError && !this.state.isEmailError) {
-      event.target.submit();
+      event.currentTarget.submit();
     }
   };
 
