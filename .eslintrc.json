@@ -1,24 +1,26 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["flowtype", "react", "jest", "prettier"],
+  "plugins": ["flowtype", "react", "jest", "prettier", "standard"],
   "env": {
     "jest/globals": true
   },
   "extends": [
     "standard",
+    "plugin:flowtype/recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/react",
+    "prettier/standard",
+    "prettier/flowtype"
   ],
   "rules": {
     "no-multi-spaces": "off",
     "no-multi-str": "off",
     "no-mixed-operators": "off",
-    "flowtype/define-flow-type": "warn",
-    "flowtype/space-after-type-colon": ["error", "always"],
-    "flowtype/space-before-type-colon": ["error", "never"],
+    "flowtype/no-types-missing-file-annotation": "off",
     "no-return-assign": "off",
     "react/react-in-jsx-scope": "off",
-    "standard/computed-property-even-spacing": "off",
     "prettier/prettier": "error"
   },
   "parserOptions": {
