@@ -169,7 +169,20 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {showWorkHeader && <WorkHeader work={work} />}
+      {showWorkHeader && (
+        <div
+          className={classNames({
+            row: true,
+            [spacing({ s: 6 }, { padding: ['top'] })]: true,
+          })}
+        >
+          <div className="container">
+            <div className="grid">
+              <WorkHeader work={work} />
+            </div>
+          </div>
+        </div>
+      )}
 
       <Fragment>
         {iiifPresentationLocation && (
