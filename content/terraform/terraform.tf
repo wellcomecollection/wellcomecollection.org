@@ -100,7 +100,7 @@ module "content" {
   # The content listener is the last listener to deal with things like vanity
   # URLs and 404 pages. We could create a service that deals with this, but there seems
   # little gain at the moment
-  path_name = "/*"
+  path_pattern = "/*"
 
   # This is the highest number, thus lower priority
   alb_priority = "50000"
