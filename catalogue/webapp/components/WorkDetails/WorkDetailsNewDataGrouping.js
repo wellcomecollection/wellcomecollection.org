@@ -68,6 +68,10 @@ const WorkDetails = ({
   // const showAboutSection
   // const showSubjectsSection
   const showIdentifiersSection = Boolean(isbnIdentifiers.length > 0);
+  const singularWorkTypeLabel = work.workType.label
+    ? work.workType.label.replace(/s$/g, '').toLowerCase()
+    : 'item';
+
   return (
     <div
       className={classNames({
@@ -84,6 +88,94 @@ const WorkDetails = ({
               spacing({ s: 4 }, { margin: ['bottom'] }),
             ])}
           >
+            {iiifImageLocationUrl && (
+              <Fragment>
+                <SpacingComponent>
+                  <WorkDetailsSection>
+                    <h2
+                      className={classNames({
+                        [font({ s: 'WB5' })]: true,
+                        [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                        'work-details-heading': true,
+                      })}
+                    >
+                      {`Download this ${singularWorkTypeLabel}`}
+                    </h2>
+
+                    <div className="work-details-body">
+                      <div
+                        className={spacing({ s: 2 }, { margin: ['bottom'] })}
+                      >
+                        <Button
+                          type="tertiary"
+                          url={convertImageUri(iiifImageLocationUrl, 'full')}
+                          target="_blank"
+                          download={`${work.id}.jpg`}
+                          rel="noopener noreferrer"
+                          trackingEvent={{
+                            category: 'Button',
+                            action: 'download large work image',
+                            label: work.id,
+                          }}
+                          icon="download"
+                          text="Download full size"
+                        />
+                      </div>
+
+                      <div
+                        className={spacing({ s: 3 }, { margin: ['bottom'] })}
+                      >
+                        <Button
+                          type="tertiary"
+                          url={convertImageUri(iiifImageLocationUrl, 760)}
+                          target="_blank"
+                          download={`${work.id}.jpg`}
+                          rel="noopener noreferrer"
+                          trackingEvent={{
+                            category: 'Button',
+                            action: 'download small work image',
+                            label: work.id,
+                          }}
+                          icon="download"
+                          text="Download small (760px)"
+                        />
+                      </div>
+
+                      {(iiifImageLocationCredit ||
+                        iiifImageLocationLicenseId) && (
+                        <div
+                          className={spacing({ s: 4 }, { margin: ['bottom'] })}
+                        >
+                          {iiifImageLocationCredit && (
+                            <p
+                              className={classNames([
+                                font({ s: 'HNL5', m: 'HNL4' }),
+                                spacing({ s: 1 }, { margin: ['bottom'] }),
+                              ])}
+                            >
+                              Credit: {iiifImageLocationCredit}
+                            </p>
+                          )}
+                          {iiifImageLocationLicenseId && (
+                            <License
+                              subject={''}
+                              licenseType={iiifImageLocationLicenseId}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </WorkDetailsSection>
+                </SpacingComponent>
+                <Divider
+                  extraClasses={`divider--pumice divider--keyline ${spacing(
+                    { s: 1 },
+                    { margin: ['top', 'bottom'] }
+                  )}`}
+                />
+              </Fragment>
+            )}
+
             <SpacingComponent>
               <WorkDetailsSection>
                 <h2
@@ -93,11 +185,7 @@ const WorkDetails = ({
                     'work-details-heading': true,
                   })}
                 >
-                  {`About this ${
-                    work.workType.label
-                      ? work.workType.label.replace(/s$/g, '').toLowerCase()
-                      : 'item'
-                  }`}
+                  {`About this ${singularWorkTypeLabel}`}
                 </h2>
 
                 <div className="work-details-body">
@@ -239,7 +327,7 @@ const WorkDetails = ({
                     </h2>
                     <div className="work-details-body">
                       <p>
-                        This book is available at{' '}
+                        {`This ${singularWorkTypeLabel} is available at `}
                         <a href={encoreLink}>Wellcome Library</a>
                       </p>
                     </div>
@@ -282,64 +370,6 @@ const WorkDetails = ({
               </Fragment>
             )}
 
-            {iiifImageLocationUrl && (
-              <SpacingComponent>
-                <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
-                  <Button
-                    type="tertiary"
-                    url={convertImageUri(iiifImageLocationUrl, 'full')}
-                    target="_blank"
-                    download={`${work.id}.jpg`}
-                    rel="noopener noreferrer"
-                    trackingEvent={{
-                      category: 'Button',
-                      action: 'download large work image',
-                      label: work.id,
-                    }}
-                    icon="download"
-                    text="Download full size"
-                  />
-                </div>
-                <div className={spacing({ s: 3 }, { margin: ['bottom'] })}>
-                  <Button
-                    type="tertiary"
-                    url={convertImageUri(iiifImageLocationUrl, 760)}
-                    target="_blank"
-                    download={`${work.id}.jpg`}
-                    rel="noopener noreferrer"
-                    trackingEvent={{
-                      category: 'Button',
-                      action: 'download small work image',
-                      label: work.id,
-                    }}
-                    icon="download"
-                    text="Download small (760px)"
-                  />
-                </div>
-
-                {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
-                  <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
-                    {iiifImageLocationCredit && (
-                      <p
-                        className={classNames([
-                          font({ s: 'HNL5', m: 'HNL4' }),
-                          spacing({ s: 1 }, { margin: ['bottom'] }),
-                        ])}
-                      >
-                        Credit: {iiifImageLocationCredit}
-                      </p>
-                    )}
-                    {iiifImageLocationLicenseId && (
-                      <License
-                        subject={''}
-                        licenseType={iiifImageLocationLicenseId}
-                      />
-                    )}
-                  </div>
-                )}
-              </SpacingComponent>
-            )}
-
             {licenseInfo && (
               <Fragment>
                 <SpacingComponent>
@@ -350,7 +380,7 @@ const WorkDetails = ({
                     )}`}
                   />
                   <h2 className={classNames([font({ s: 'WB5' })])}>
-                    Using this image
+                    {`Using this ${singularWorkTypeLabel}`}
                   </h2>
                 </SpacingComponent>
                 <SpacingComponent>
