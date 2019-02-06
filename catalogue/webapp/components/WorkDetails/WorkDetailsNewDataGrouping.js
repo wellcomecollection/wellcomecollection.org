@@ -62,14 +62,23 @@ const WorkDetails = ({
                   font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
                   spacing({ s: 0 }, { margin: ['top'] }),
                 ])}
-              >{`About this ${
-                work.workType.label
-                  ? work.workType.label.replace(/s$/g, '').toLowerCase()
-                  : 'item'
-              }`}</h2>
-              {work.description && (
+              >
+                {`About this ${
+                  work.workType.label
+                    ? work.workType.label.replace(/s$/g, '').toLowerCase()
+                    : 'item'
+                }`}
+              </h2>
+
+              {/* work.description && (
                 <MetaUnit headingText="Description" text={[work.description]} />
-              )}
+              ) */}
+              <MetaUnit
+                headingText="Description"
+                text={[
+                  'Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000. Images of health promotion: the National Health Promotion Forum in Kenya. Colour lithograph by Department of Health, ca. 2000.',
+                ]}
+              />
 
               {work.production.length > 0 && (
                 <MetaUnit
@@ -138,29 +147,6 @@ const WorkDetails = ({
                       </a>
                     </NextLink>,
                   ]}
-                />
-              )}
-
-              {work.contributors.length > 0 && (
-                <MetaUnit
-                  headingText="Contributors"
-                  links={work.contributors.map(contributor => {
-                    const linkAttributes = worksUrl({
-                      query: `"${contributor.agent.label}"`,
-                      page: undefined,
-                    });
-                    return (
-                      <NextLink key={1} {...linkAttributes}>
-                        <a
-                          className={`plain-link font-green font-hover-turquoise ${font(
-                            { s: 'HNM5', m: 'HNM4' }
-                          )}`}
-                        >
-                          {contributor.agent.label}
-                        </a>
-                      </NextLink>
-                    );
-                  })}
                 />
               )}
             </SpacingComponent>
