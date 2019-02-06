@@ -35,7 +35,13 @@ const WorkDetails = ({
   encoreLink,
 }: Props) => {
   return (
-    <div className={`row ${spacing({ s: 6 }, { padding: ['top', 'bottom'] })}`}>
+    <div
+      className={classNames({
+        row: true,
+        'bg-cream': true,
+        [spacing({ s: 6 }, { padding: ['top', 'bottom'] })]: true,
+      })}
+    >
       <div className="container">
         <div className="grid">
           <div
