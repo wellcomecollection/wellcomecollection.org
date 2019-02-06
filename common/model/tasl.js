@@ -1,5 +1,5 @@
 // @flow
-import type {LicenseType} from './license';
+import type { LicenseType } from './license';
 
 export type Tasl = {|
   title: ?string,
@@ -8,5 +8,5 @@ export type Tasl = {|
   sourceLink: ?string,
   license: ?LicenseType,
   copyrightHolder: ?string,
-  copyrightLink: ?string
-|}
+  copyrightLink: ?string,
+|};

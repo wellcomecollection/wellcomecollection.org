@@ -1,7 +1,6 @@
-
 // @flow
 import searchQueryParser from 'search-query-parser';
-import {getMultiContent} from './multi-content';
+import { getMultiContent } from './multi-content';
 
 export type StructuredSearchQuery = {|
   types: string[],
@@ -14,7 +13,7 @@ export type StructuredSearchQuery = {|
   orderings: string[],
   // content type specific
   'article-series': string[],
-|}
+|};
 
 export async function search(req: ?Request, stringQuery: string) {
   const query = parseQuery(stringQuery);
@@ -27,23 +26,30 @@ export async function search(req: ?Request, stringQuery: string) {
 export function parseQuery(query: string): StructuredSearchQuery {
   const structuredQuery = searchQueryParser.parse(query, {
     keywords: [
-      'types', 'type',
-      'ids', 'id',
-      'tags', 'tag',
-      'pageSize', 'orderings',
+      'types',
+      'type',
+      'ids',
+      'id',
+      'tags',
+      'tag',
+      'pageSize',
+      'orderings',
       // content type specific
-      'article-series'
-    ]
+      'article-series',
+    ],
   });
-  const arrayedStructuredQuery = Object.keys(structuredQuery).reduce((acc, key) => {
-    const value = structuredQuery[key];
-    if (typeof value === 'string') {
-      acc[key] = [value];
-    } else {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
+  const arrayedStructuredQuery = Object.keys(structuredQuery).reduce(
+    (acc, key) => {
+      const value = structuredQuery[key];
+      if (typeof value === 'string') {
+        acc[key] = [value];
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {}
+  );
 
   return {
     types: arrayedStructuredQuery.types || [],
@@ -54,6 +60,6 @@ export function parseQuery(query: string): StructuredSearchQuery {
     tag: arrayedStructuredQuery.tag || [],
     orderings: arrayedStructuredQuery.orderings || [],
     pageSize: arrayedStructuredQuery.pageSize,
-    'article-series': arrayedStructuredQuery['article-series'] || []
+    'article-series': arrayedStructuredQuery['article-series'] || [],
   };
 }

@@ -1,5 +1,4 @@
-
-const {parse} = require('url');
+const { parse } = require('url');
 const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
 const withOpeningtimes = require('./withOpeningTimes');
@@ -8,12 +7,12 @@ const withToggles = require('./withToggles');
 const withCachedValues = compose([
   withGlobalAlert,
   withOpeningtimes,
-  withToggles
+  withToggles,
 ]);
 
 async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
-    const {toggles, globalAlert, openingTimes} = ctx;
+    const { toggles, globalAlert, openingTimes } = ctx;
     const params = ctx.params;
     const query = ctx.query;
 
@@ -23,25 +22,25 @@ async function route(path, page, router, app, extraParams = {}) {
       openingTimes,
       ...params,
       ...query,
-      ...extraParams
+      ...extraParams,
     });
     ctx.respond = false;
   });
 }
 
 function handleAllRoute(handle) {
-  return async function (ctx) {
+  return async function(ctx) {
     const parsedUrl = parse(ctx.request.url, true);
-    const {toggles, globalAlert, openingTimes} = ctx;
+    const { toggles, globalAlert, openingTimes } = ctx;
     const query = {
       ...parsedUrl.query,
       toggles,
       globalAlert,
-      openingTimes
+      openingTimes,
     };
     const url = {
       ...parsedUrl,
-      query
+      query,
     };
     await handle(ctx.req, ctx.res, url);
     ctx.respond = false;
@@ -51,5 +50,5 @@ function handleAllRoute(handle) {
 module.exports = {
   middleware: withCachedValues,
   route,
-  handleAllRoute
+  handleAllRoute,
 };

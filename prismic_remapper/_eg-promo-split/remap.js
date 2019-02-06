@@ -3,10 +3,10 @@
 // `promoText` And promoImage, which you can both fetch with `fetchLinks`
 
 module.exports = {
-  filter: ({filename, doc}) => {
+  filter: ({ filename, doc }) => {
     return doc.type === 'exhibitions';
   },
-  map: ({filename, doc}) => {
+  map: ({ filename, doc }) => {
     if (doc.promo.length === 0) {
       return doc;
     }
@@ -16,8 +16,8 @@ module.exports = {
       doc: {
         ...doc,
         promoImage: val.image,
-        promoText: val.caption
-      }
+        promoText: val.caption,
+      },
     };
-  }
+  },
 };

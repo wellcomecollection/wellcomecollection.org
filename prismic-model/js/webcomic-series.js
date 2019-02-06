@@ -7,13 +7,13 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 export default {
   '[Deprecated] Webcomic series': {
     title: title,
-    description: structuredText('Description')
+    description: structuredText('Description'),
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
-  }
+    metadataDescription: structuredText('Metadata description', 'single'),
+  },
 };

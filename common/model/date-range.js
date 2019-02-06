@@ -1,5 +1,5 @@
 // @flow
 export type DateRange = {|
   start: Date,
-  end: Date
-|}
+  end: Date,
+|};

@@ -9,16 +9,18 @@ import structuredText from './parts/structured-text';
 const EventSeries = {
   'Event series': {
     title,
-    backgroundTexture: link('Background texture', 'document', ['background-textures']),
-    body
+    backgroundTexture: link('Background texture', 'document', [
+      'background-textures',
+    ]),
+    body,
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
-  }
+    metadataDescription: structuredText('Metadata description', 'single'),
+  },
 };
 
 export default EventSeries;

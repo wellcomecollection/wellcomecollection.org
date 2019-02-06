@@ -3,5 +3,5 @@ export type Team = {|
   title: string,
   email: string,
   phone: string,
-  url: string
-|}
+  url: string,
+|};

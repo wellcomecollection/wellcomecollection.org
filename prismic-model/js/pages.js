@@ -11,20 +11,20 @@ const Page = {
   Page: {
     title,
     datePublished: timestamp('Date published'),
-    body
+    body,
   },
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
+    metadataDescription: structuredText('Metadata description', 'single'),
   },
   // TODO: (drupal migration) Remove this
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path')
-  }
+    drupalPath: text('Drupal path'),
+  },
 };
 
 export default Page;

@@ -13,8 +13,8 @@ export default {
     image: image('Image'),
     sameAs: list('Same as', {
       link: text('Link'),
-      title: heading('Title (override)')
+      title: heading('Title (override)'),
     }),
-    url: text('URL (deprecated)')
-  }
+    url: text('URL (deprecated)'),
+  },
 };

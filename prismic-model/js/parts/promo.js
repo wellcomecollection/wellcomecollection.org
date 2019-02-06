@@ -11,20 +11,20 @@ export default {
         type: 'Slice',
         fieldset: 'Editorial image',
         config: {
-          label: 'Editorial image'
+          label: 'Editorial image',
         },
         'non-repeat': {
           caption: {
             type: 'StructuredText',
             config: {
               label: 'Promo text',
-              single: 'paragraph'
-            }
+              single: 'paragraph',
+            },
           },
           image: image('Promo image'),
-          link: text('Link override')
-        }
-      }
-    }
-  }
+          link: text('Link override'),
+        },
+      },
+    },
+  },
 };

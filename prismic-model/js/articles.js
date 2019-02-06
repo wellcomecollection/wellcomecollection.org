@@ -13,13 +13,13 @@ const Article = {
   Article: {
     title,
     format: link('Format', 'document', ['article-formats']),
-    body: articleBody
+    body: articleBody,
   },
   Series: {
     series: list('Series', {
       series: link('Series', 'document', ['series']),
-      positionInSeries: number('Position in series')
-    })
+      positionInSeries: number('Position in series'),
+    }),
   },
   Outro: {
     outroResearchItem: link('Outro: Research item'),
@@ -27,62 +27,62 @@ const Article = {
     outroReadItem: link('Outro: Read item'),
     outroReadLinkText: singleLineText('Outro: Read link text'),
     outroVisitItem: link('Outro: Visit item'),
-    outroVisitLinkText: singleLineText('Outro: Visit link text')
+    outroVisitLinkText: singleLineText('Outro: Visit link text'),
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
+    metadataDescription: structuredText('Metadata description', 'single'),
   },
   Migration: {
-    'publishDate': {
-      'config': {
-        'label': 'Override publish date'
+    publishDate: {
+      config: {
+        label: 'Override publish date',
       },
-      'type': 'Timestamp'
+      type: 'Timestamp',
     },
-    'wordpressSlug': {
-      'config': {
-        'label': 'Wordpress slug'
+    wordpressSlug: {
+      config: {
+        label: 'Wordpress slug',
       },
-      'type': 'Text'
+      type: 'Text',
     },
     // TODO: deprecate
-    'contributorsDeprecated': {
-      'type': 'Slices',
-      'fieldset': 'Contributors',
-      'config': {
-        'choices': {
-          'person': {
-            'type': 'Slice',
-            'fieldset': 'Person',
+    contributorsDeprecated: {
+      type: 'Slices',
+      fieldset: 'Contributors',
+      config: {
+        choices: {
+          person: {
+            type: 'Slice',
+            fieldset: 'Person',
             'non-repeat': {
-              'role': {
-                'type': 'Link',
-                'config': {
-                  'label': 'Role',
-                  'select': 'document',
-                  'customtypes': [ 'editorial-contributor-roles' ],
-                  'tags': [ 'editorial' ]
-                }
+              role: {
+                type: 'Link',
+                config: {
+                  label: 'Role',
+                  select: 'document',
+                  customtypes: ['editorial-contributor-roles'],
+                  tags: ['editorial'],
+                },
               },
-              'person': {
-                'type': 'Link',
-                'config': {
-                  'label': 'Person',
-                  'select': 'document',
-                  'customtypes': [ 'people' ],
-                  'placeholder': 'Select a person…'
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+              person: {
+                type: 'Link',
+                config: {
+                  label: 'Person',
+                  select: 'document',
+                  customtypes: ['people'],
+                  placeholder: 'Select a person…',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default Article;

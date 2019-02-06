@@ -8,90 +8,90 @@ const CollectionVenue = {
     title: {
       type: 'Text',
       config: {
-        label: 'Title'
-      }
+        label: 'Title',
+      },
     },
     description,
-    order: number('Order')
+    order: number('Order'),
   },
   'Regular opening times': {
     monday: {
       type: 'Group',
-      fieldset: 'Monday\'s times',
+      fieldset: "Monday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
+          endDateTime: timestamp('Closes'),
+        },
+      },
     },
     tuesday: {
       type: 'Group',
-      fieldset: 'Tuesday\'s times',
+      fieldset: "Tuesday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
+          endDateTime: timestamp('Closes'),
+        },
+      },
     },
     wednesday: {
       type: 'Group',
-      fieldset: 'Wednesday\'s times',
+      fieldset: "Wednesday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
+          endDateTime: timestamp('Closes'),
+        },
+      },
     },
     thursday: {
       type: 'Group',
-      fieldset: 'Thursday\'s times',
+      fieldset: "Thursday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
+          endDateTime: timestamp('Closes'),
+        },
+      },
     },
     friday: {
       type: 'Group',
-      fieldset: 'Friday\'s times',
+      fieldset: "Friday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
+          endDateTime: timestamp('Closes'),
+        },
+      },
     },
     saturday: {
       type: 'Group',
-      fieldset: 'Saturday\'s times',
+      fieldset: "Saturday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
+          endDateTime: timestamp('Closes'),
+        },
+      },
     },
     sunday: {
       type: 'Group',
-      fieldset: 'Sunday\'s times',
+      fieldset: "Sunday's times",
       config: {
         repeat: false,
         fields: {
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
-    }
+          endDateTime: timestamp('Closes'),
+        },
+      },
+    },
   },
   'Modified opening times': {
     modifiedDayOpeningTimes: {
@@ -100,13 +100,19 @@ const CollectionVenue = {
       config: {
         fields: {
           overrideDate: timestamp('Override date'),
-          type: select('Override type', ['Bank holiday', 'Easter', 'Christmas and New Year', 'Late Spectacular', 'other']),
+          type: select('Override type', [
+            'Bank holiday',
+            'Easter',
+            'Christmas and New Year',
+            'Late Spectacular',
+            'other',
+          ]),
           startDateTime: timestamp('Opens'),
-          endDateTime: timestamp('Closes')
-        }
-      }
-    }
-  }
+          endDateTime: timestamp('Closes'),
+        },
+      },
+    },
+  },
 };
 
 export default CollectionVenue;

@@ -9,7 +9,7 @@ export function trackIfOutboundLink(url: string) {
       category: 'outbound',
       action: 'click',
       label: url,
-      transport: 'beacon'
+      transport: 'beacon',
     });
   }
 }
@@ -20,14 +20,14 @@ export type GaEvent = {|
   label?: string,
   value?: number,
   nonInteraction?: boolean,
-  transport?: 'beacon'
-|}
+  transport?: 'beacon',
+|};
 
 export type GaEventV2 = {|
   eventCategory: string,
   eventAction: string,
-  eventLabel: string
-|}
+  eventLabel: string,
+|};
 
 export function trackEvent(gaEvent: GaEvent) {
   ReactGA.event(gaEvent);
@@ -36,14 +36,16 @@ export function trackEvent(gaEvent: GaEvent) {
 export function trackComponentAction(
   name: string,
   action: string,
-  labels: {[key: string]: string}
+  labels: { [key: string]: string }
 ) {
   trackEvent({
     category: 'component',
     action: `${name}:${action}`,
-    label: Object.keys(labels).map(key => {
-      const val = labels[key];
-      return `${key}:${val}`;
-    }).join(', ')
+    label: Object.keys(labels)
+      .map(key => {
+        const val = labels[key];
+        return `${key}:${val}`;
+      })
+      .join(', '),
   });
 }

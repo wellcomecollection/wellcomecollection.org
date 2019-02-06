@@ -3,7 +3,7 @@
 type GaEvent = {|
   category: string,
   action: string,
-  label: string
+  label: string,
 |};
 
 export const trackGaEvent = ({ category, action, label }: GaEvent) => {
@@ -13,7 +13,7 @@ export const trackGaEvent = ({ category, action, label }: GaEvent) => {
       hitType: 'event',
       eventCategory: category,
       eventAction: action,
-      eventLabel: label
+      eventLabel: label,
     });
   }
 };

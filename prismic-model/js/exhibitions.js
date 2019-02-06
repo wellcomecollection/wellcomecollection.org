@@ -21,100 +21,103 @@ const Exhibitions = {
     end: timestamp('End date'),
     isPermanent: boolean('Is permanent?'),
     statusOverride: structuredText('Status override', 'single'),
-    place
+    place,
   },
   'In this exhibition': {
     exhibits: list('Exhibits', {
-      item: link('Exhibit', 'document', ['installations'])
+      item: link('Exhibit', 'document', ['installations']),
     }),
     events: list('Gallery tours', {
-      item: link('Gallery tour', 'document', ['events'])
-    })
+      item: link('Gallery tour', 'document', ['events']),
+    }),
   },
   'About this exhibition': {
     articles: list('Articles', {
-      item: link('Article', 'document', ['articles'])
-    })
+      item: link('Article', 'document', ['articles']),
+    }),
   },
   Resources: {
     resources: list('Resources', {
-      resource: link('Resource', 'document', ['exhibition-resources'])
-    })
+      resource: link('Resource', 'document', ['exhibition-resources']),
+    }),
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
+    metadataDescription: structuredText('Metadata description', 'single'),
   },
   Migration: {
     drupalPromoImage: link('Drupal promo image', 'web'),
     drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path')
+    drupalPath: text('Drupal path'),
   },
   Deprecated: {
     description,
     intro: {
-      'type': 'StructuredText',
-      'config': {
-        'label': 'Intro',
-        'multi': 'heading2'
-      }
+      type: 'StructuredText',
+      config: {
+        label: 'Intro',
+        multi: 'heading2',
+      },
     },
     textAndCaptionsDocument: link('Text and captions document', 'media'),
-    'promoList': {
-      'type': 'Group',
-      'config': {
-        'label': 'Related Promos',
-        'fields': {
-          'image': {
-            'type': 'Image',
-            'config': {
-              'label': 'Image',
-              'thumbnails': [{
-                'name': '16:9',
-                'width': 3200,
-                'height': 1800
-              }, {
-                'name': 'square',
-                'width': 3200,
-                'height': 3200
-              }]
-            }
-          },
-          'type': {
-            'type': 'Select',
-            'config': {
-              'label': 'Type',
-              'options': ['gallery', 'book', 'event', 'article']
-            }
-          },
-          'title': {
-            'type': 'StructuredText',
-            'config': {
-              'single': 'heading3',
-              'label': 'Title'
-            }
-          },
-          'description': {
-            'type': 'StructuredText',
-            'config': {
-              'single': 'paragraph',
-              'label': 'Description'
-            }
-          },
-          'link': {
-            'config': {
-              'label': 'Link',
-              'select': 'web'
+    promoList: {
+      type: 'Group',
+      config: {
+        label: 'Related Promos',
+        fields: {
+          image: {
+            type: 'Image',
+            config: {
+              label: 'Image',
+              thumbnails: [
+                {
+                  name: '16:9',
+                  width: 3200,
+                  height: 1800,
+                },
+                {
+                  name: 'square',
+                  width: 3200,
+                  height: 3200,
+                },
+              ],
             },
-            'type': 'Link'
-          }
-        }
-      }
-    }
-  }
+          },
+          type: {
+            type: 'Select',
+            config: {
+              label: 'Type',
+              options: ['gallery', 'book', 'event', 'article'],
+            },
+          },
+          title: {
+            type: 'StructuredText',
+            config: {
+              single: 'heading3',
+              label: 'Title',
+            },
+          },
+          description: {
+            type: 'StructuredText',
+            config: {
+              single: 'paragraph',
+              label: 'Description',
+            },
+          },
+          link: {
+            config: {
+              label: 'Link',
+              select: 'web',
+            },
+            type: 'Link',
+          },
+        },
+      },
+    },
+  },
 };
 
 export default Exhibitions;

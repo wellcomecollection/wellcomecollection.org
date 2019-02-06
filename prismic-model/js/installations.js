@@ -13,15 +13,15 @@ const Installations = {
     start: timestamp('Start date'),
     end: timestamp('End date'),
     place,
-    body
+    body,
   },
   Contributors: contributorsWithTitle(),
   Promo: {
-    promo
+    promo,
   },
   Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single')
-  }
+    metadataDescription: structuredText('Metadata description', 'single'),
+  },
 };
 
 export default Installations;

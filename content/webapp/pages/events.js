@@ -1,7 +1,10 @@
 // @flow
-import type {Context} from 'next';
+import type { Context } from 'next';
 import { Component } from 'react';
-import { getEvents, orderEventsByNextAvailableDate } from '@weco/common/services/prismic/events';
+import {
+  getEvents,
+  orderEventsByNextAvailableDate,
+} from '@weco/common/services/prismic/events';
 import { eventLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
@@ -14,10 +17,11 @@ import { convertJsonToDates } from './event';
 type Props = {|
   displayTitle: string,
   events: PaginatedResults<UiEvent>,
-  period: ?Period
-|}
+  period: ?Period,
+|};
 
-const pageDescription = 'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
+const pageDescription =
+  'Choose from an inspiring range of free talks, tours, discussions and more on at Wellcome Collection in London.';
 export class ArticleSeriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1 } = ctx.query;
@@ -25,7 +29,7 @@ export class ArticleSeriesPage extends Component<Props> {
     const events = await getEvents(ctx.req, {
       page,
       period,
-      pageSize: 100
+      pageSize: 100,
     });
     if (events && events.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
@@ -33,19 +37,22 @@ export class ArticleSeriesPage extends Component<Props> {
         events,
         title,
         period,
-        displayTitle: title
+        displayTitle: title,
       };
     } else {
-      return {statusCode: 404};
+      return { statusCode: 404 };
     }
-  }
+  };
 
   render() {
     const { events, displayTitle, period } = this.props;
     const convertedEvents = events.results.map(convertJsonToDates);
     const convertedPaginatedResults = ({
       ...events,
-      results: period !== 'past' ? orderEventsByNextAvailableDate(convertedEvents) : convertedEvents
+      results:
+        period !== 'past'
+          ? orderEventsByNextAvailableDate(convertedEvents)
+          : convertedEvents,
     }: PaginatedResults<UiEvent>);
     const firstEvent = events.results[0];
 
@@ -53,26 +60,33 @@ export class ArticleSeriesPage extends Component<Props> {
       <PageLayout
         title={displayTitle}
         description={pageDescription}
-        url={{pathname: `/events${period ? `/${period}` : ''}`}}
+        url={{ pathname: `/events${period ? `/${period}` : ''}` }}
         jsonLd={events.results.map(eventLd)}
         openGraphType={'website'}
         siteSection={'whats-on'}
-        imageUrl={firstEvent && firstEvent.image && convertImageUri(firstEvent.image.contentUrl, 800)}
-        imageAltText={firstEvent && firstEvent.image && firstEvent.image.alt}>
+        imageUrl={
+          firstEvent &&
+          firstEvent.image &&
+          convertImageUri(firstEvent.image.contentUrl, 800)
+        }
+        imageAltText={firstEvent && firstEvent.image && firstEvent.image.alt}
+      >
         <LayoutPaginatedResults
           showFreeAdmissionMessage={true}
           title={displayTitle}
-          description={[{
-            type: 'paragraph',
-            text: pageDescription,
-            spans: []
-          }]}
+          description={[
+            {
+              type: 'paragraph',
+              text: pageDescription,
+              spans: [],
+            },
+          ]}
           paginatedResults={convertedPaginatedResults}
-          paginationRoot={`events${(period ? `/${period}` : '')}`}
+          paginationRoot={`events${period ? `/${period}` : ''}`}
         />
       </PageLayout>
     );
   }
-};
+}
 
 export default ArticleSeriesPage;

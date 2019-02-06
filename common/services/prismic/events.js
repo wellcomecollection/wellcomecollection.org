@@ -1,16 +1,15 @@
-
 // @flow
-import type {UiEvent, EventFormat, EventTime} from '../../model/events';
+import type { UiEvent, EventFormat, EventTime } from '../../model/events';
 import type {
   PrismicDocument,
   PaginatedResults,
   PrismicQueryOpts,
-  PrismicApiSearchResponse
+  PrismicApiSearchResponse,
 } from './types';
-import type {Team} from '../../model/team';
+import type { Team } from '../../model/team';
 import Prismic from 'prismic-javascript';
 import sortBy from 'lodash.sortby';
-import {getDocument, getTypeByIds, getDocuments} from './api';
+import { getDocument, getTypeByIds, getDocuments } from './api';
 import {
   eventAccessOptionsFields,
   teamsFields,
@@ -22,7 +21,7 @@ import {
   organisationsFields,
   peopleFields,
   contributorsFields,
-  eventPoliciesFields
+  eventPoliciesFields,
 } from './fetch-links';
 import {
   parseTitle,
@@ -33,46 +32,53 @@ import {
   parseTimestamp,
   parseBoolean,
   parseGenericFields,
-  parseLabelTypeList
+  parseLabelTypeList,
 } from './parsers';
-import {getPeriodPredicates} from './utils';
-import {parseEventSeries} from './event-series';
+import { getPeriodPredicates } from './utils';
+import { parseEventSeries } from './event-series';
 import isEmptyObj from '../../utils/is-empty-object';
-import {london, formatDayDate} from '../../utils/format-date';
-import {getNextWeekendDateRange, isPast} from '../../utils/dates';
+import { london, formatDayDate } from '../../utils/format-date';
+import { getNextWeekendDateRange, isPast } from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
 
 function parseEventFormat(frag: Object): ?EventFormat {
-  return isDocumentLink(frag) ? {
-    id: frag.id,
-    title: parseTitle(frag.data.title),
-    shortName: asText(frag.data.shortName),
-    description: asHtml(frag.data.description)
-  } : null;
+  return isDocumentLink(frag)
+    ? {
+        id: frag.id,
+        title: parseTitle(frag.data.title),
+        shortName: asText(frag.data.shortName),
+        description: asHtml(frag.data.description),
+      }
+    : null;
 }
 
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
-  return !isEmptyObj(eventDoc.data.eventbriteEvent) ? 'Ticketed'
-    : isDocumentLink(eventDoc.data.bookingEnquiryTeam) ? 'Enquire to book'
-      : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data.capacity  ? 'First come, first served'
-        : null;
+  return !isEmptyObj(eventDoc.data.eventbriteEvent)
+    ? 'Ticketed'
+    : isDocumentLink(eventDoc.data.bookingEnquiryTeam)
+    ? 'Enquire to book'
+    : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data.capacity
+    ? 'First come, first served'
+    : null;
 }
 
 function determineDateRange(times) {
-  const startTimes = times.map((eventTime) => {
-    return london(eventTime.startDateTime);
-  })
+  const startTimes = times
+    .map(eventTime => {
+      return london(eventTime.startDateTime);
+    })
     .sort((a, b) => b.isBefore(a, 'day'));
-  const endTimes = times.map((eventTime) => {
-    return london(eventTime.endDateTime);
-  })
+  const endTimes = times
+    .map(eventTime => {
+      return london(eventTime.endDateTime);
+    })
     .sort((a, b) => b.isBefore(a, 'day'));
   return {
     firstDate: startTimes[0],
     lastDate: endTimes[endTimes.length - 1],
-    repeats: times.length
+    repeats: times.length,
   };
 }
 
@@ -88,60 +94,89 @@ export function parseEventDoc(
   scheduleDocs: ?PrismicApiSearchResponse
 ): UiEvent {
   const data = document.data;
-  const scheduleLength =  isDocumentLink(data.schedule.map(s => s.event)[0]) ? data.schedule.length : 0;
+  const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
+    ? data.schedule.length
+    : 0;
   const genericFields = parseGenericFields(document);
-  const eventSchedule = scheduleDocs && scheduleDocs.results ? scheduleDocs.results.map(doc => parseEventDoc(doc)) : [];
-  const interpretations = data.interpretations.map(interpretation => isDocumentLink(interpretation.interpretationType) ? ({
-    interpretationType: {
-      title: parseTitle(interpretation.interpretationType.data.title),
-      abbreviation: asText(interpretation.interpretationType.data.abbreviation),
-      description: interpretation.interpretationType.data.description,
-      primaryDescription: interpretation.interpretationType.data.primaryDescription
-    },
-    isPrimary: Boolean(interpretation.isPrimary)
-  }) : null).filter(Boolean);
+  const eventSchedule =
+    scheduleDocs && scheduleDocs.results
+      ? scheduleDocs.results.map(doc => parseEventDoc(doc))
+      : [];
+  const interpretations = data.interpretations
+    .map(interpretation =>
+      isDocumentLink(interpretation.interpretationType)
+        ? {
+            interpretationType: {
+              title: parseTitle(interpretation.interpretationType.data.title),
+              abbreviation: asText(
+                interpretation.interpretationType.data.abbreviation
+              ),
+              description: interpretation.interpretationType.data.description,
+              primaryDescription:
+                interpretation.interpretationType.data.primaryDescription,
+            },
+            isPrimary: Boolean(interpretation.isPrimary),
+          }
+        : null
+    )
+    .filter(Boolean);
 
   const matchedId = /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url);
-  const eventbriteId = (data.eventbriteEvent && matchedId !== null) ? matchedId[1] : '';
+  const eventbriteId =
+    data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
 
-  const audiences = document.data.audiences.map(audience => isDocumentLink(audience.audience) ? ({
-    title: asText(audience.audience.data.title),
-    description: audience.audience.data.description
-  }) : null).filter(Boolean);
+  const audiences = document.data.audiences
+    .map(audience =>
+      isDocumentLink(audience.audience)
+        ? {
+            title: asText(audience.audience.data.title),
+            description: audience.audience.data.description,
+          }
+        : null
+    )
+    .filter(Boolean);
 
-  const bookingEnquiryTeam = document.data.bookingEnquiryTeam.data && ({
-    id: data.bookingEnquiryTeam.id,
-    title: asText(data.bookingEnquiryTeam.data.title) || '',
-    email: data.bookingEnquiryTeam.data.email,
-    phone: data.bookingEnquiryTeam.data.phone,
-    url: data.bookingEnquiryTeam.data.url
-  }: Team);
+  const bookingEnquiryTeam =
+    document.data.bookingEnquiryTeam.data &&
+    ({
+      id: data.bookingEnquiryTeam.id,
+      title: asText(data.bookingEnquiryTeam.data.title) || '',
+      email: data.bookingEnquiryTeam.data.email,
+      phone: data.bookingEnquiryTeam.data.phone,
+      url: data.bookingEnquiryTeam.data.url,
+    }: Team);
 
-  const series = data.series.map(
-    series => isDocumentLink(series.series)
-      ? parseEventSeries(series.series)
-      : null).filter(Boolean);
+  const series = data.series
+    .map(series =>
+      isDocumentLink(series.series) ? parseEventSeries(series.series) : null
+    )
+    .filter(Boolean);
 
-  const times = data.times && data.times
-    // Annoyingly prismic puts blanks in here
-    .filter(frag => frag.startDateTime && frag.endDateTime)
-    .map(frag => ({
-      range: {
-        startDateTime: parseTimestamp(frag.startDateTime),
-        endDateTime: parseTimestamp(frag.endDateTime)
-      },
-      isFullyBooked: parseBoolean(frag.isFullyBooked)
-    })) || [];
+  const times =
+    (data.times &&
+      data.times
+        // Annoyingly prismic puts blanks in here
+        .filter(frag => frag.startDateTime && frag.endDateTime)
+        .map(frag => ({
+          range: {
+            startDateTime: parseTimestamp(frag.startDateTime),
+            endDateTime: parseTimestamp(frag.endDateTime),
+          },
+          isFullyBooked: parseBoolean(frag.isFullyBooked),
+        }))) ||
+    [];
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime = times.map(time => time.range.endDateTime).find((date, i) => i === times.length - 1);
+  const lastEndTime = times
+    .map(time => time.range.endDateTime)
+    .find((date, i) => i === times.length - 1);
   const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
 
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
       event,
-      isNotLinked: parseBoolean(scheduleItem.isNotLinked)
+      isNotLinked: parseBoolean(scheduleItem.isNotLinked),
     };
   });
 
@@ -154,53 +189,70 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    bookingInformation: data.bookingInformation.length > 1 ? data.bookingInformation : null,
+    bookingInformation:
+      data.bookingInformation.length > 1 ? data.bookingInformation : null,
     bookingType: parseEventBookingType(document),
     cost: data.cost,
     format: data.format && parseEventFormat(data.format),
     interpretations,
-    policies: Array.isArray(data.policies) ? parseLabelTypeList(data.policies, 'policy') : [],
+    policies: Array.isArray(data.policies)
+      ? parseLabelTypeList(data.policies, 'policy')
+      : [],
     hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,
     scheduleLength,
     schedule,
-    backgroundTexture: data.backgroundTexture.data && data.backgroundTexture.data.image.url,
+    backgroundTexture:
+      data.backgroundTexture.data && data.backgroundTexture.data.image.url,
     eventbriteId,
-    isCompletelySoldOut: data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
+    isCompletelySoldOut:
+      data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: data.ticketSalesStart,
     times: times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
     dateRange: determineDateRange(data.times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
-    isRelaxedPerformance
+    isRelaxedPerformance,
   };
 
-  const eventFormat = event.format ? [{
-    url: null,
-    text: event.format.title
-  }] : [{ url: null, text: 'Event' }];
-  const eventAudiences = event.audiences ? event.audiences.map(a => ({
-    url: null,
-    text: a.title
-  })) : [];
-  const eventInterpretations = event.interpretations ? event.interpretations.map(i => ({
-    url: null,
-    text: i.interpretationType.title
-  })) : [];
-  const relaxedPerformanceLabel = event.isRelaxedPerformance ? [{
-    url: null,
-    text: 'Relaxed performance'
-  }] : [];
+  const eventFormat = event.format
+    ? [
+        {
+          url: null,
+          text: event.format.title,
+        },
+      ]
+    : [{ url: null, text: 'Event' }];
+  const eventAudiences = event.audiences
+    ? event.audiences.map(a => ({
+        url: null,
+        text: a.title,
+      }))
+    : [];
+  const eventInterpretations = event.interpretations
+    ? event.interpretations.map(i => ({
+        url: null,
+        text: i.interpretationType.title,
+      }))
+    : [];
+  const relaxedPerformanceLabel = event.isRelaxedPerformance
+    ? [
+        {
+          url: null,
+          text: 'Relaxed performance',
+        },
+      ]
+    : [];
 
   const labels = [
     ...eventFormat,
     ...eventAudiences,
     ...eventInterpretations,
-    ...relaxedPerformanceLabel
+    ...relaxedPerformanceLabel,
   ];
 
-  return {...event, labels};
+  return { ...event, labels };
 }
 
 const fetchLinks = [].concat(
@@ -219,17 +271,24 @@ const fetchLinks = [].concat(
 );
 
 type EventQueryProps = {|
-  id: string
-|}
+  id: string,
+|};
 
-export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?UiEvent> {
+export async function getEvent(
+  req: ?Request,
+  { id }: EventQueryProps
+): Promise<?UiEvent> {
   const document = await getDocument(req, id, {
-    fetchLinks: fetchLinks
+    fetchLinks: fetchLinks,
   });
 
   if (document && document.type === 'events') {
-    const scheduleIds = document.data.schedule.map(({event}) => event.id).filter(Boolean);
-    const eventScheduleDocs = scheduleIds.length > 0 && await getTypeByIds(req, ['events'], scheduleIds, {fetchLinks});
+    const scheduleIds = document.data.schedule
+      .map(({ event }) => event.id)
+      .filter(Boolean);
+    const eventScheduleDocs =
+      scheduleIds.length > 0 &&
+      (await getTypeByIds(req, ['events'], scheduleIds, { fetchLinks }));
     const event = parseEventDoc(document, eventScheduleDocs || null);
 
     return event;
@@ -239,14 +298,13 @@ export async function getEvent(req: ?Request, {id}: EventQueryProps): Promise<?U
 type EventsQueryProps = {|
   predicates?: Prismic.Predicates[],
   period?: 'current-and-coming-up' | 'past',
-  ...PrismicQueryOpts
-|}
+  ...PrismicQueryOpts,
+|};
 
-export async function getEvents(req: ?Request,  {
-  predicates = [],
-  period,
-  ...opts
-}: EventsQueryProps): Promise<PaginatedResults<UiEvent>> {
+export async function getEvents(
+  req: ?Request,
+  { predicates = [], period, ...opts }: EventsQueryProps
+): Promise<PaginatedResults<UiEvent>> {
   const graphQuery = `{
     events {
       ...eventsFields
@@ -324,20 +382,25 @@ export async function getEvents(req: ?Request,  {
   }`;
 
   const order = period === 'past' ? 'desc' : 'asc';
-  const orderings = `[my.events.times.startDateTime${order === 'desc' ? ' desc' : ''}]`;
-  const dateRangePredicates = period ? getPeriodPredicates(
-    period,
-    startField,
-    endField
-  ) : [];
-  const paginatedResults = await getDocuments(req, [
-    Prismic.Predicates.at('document.type', 'events')
-  ].concat(predicates, dateRangePredicates), {
-    orderings,
-    page: opts.page,
-    pageSize: opts.pageSize,
-    graphQuery
-  });
+  const orderings = `[my.events.times.startDateTime${
+    order === 'desc' ? ' desc' : ''
+  }]`;
+  const dateRangePredicates = period
+    ? getPeriodPredicates(period, startField, endField)
+    : [];
+  const paginatedResults = await getDocuments(
+    req,
+    [Prismic.Predicates.at('document.type', 'events')].concat(
+      predicates,
+      dateRangePredicates
+    ),
+    {
+      orderings,
+      page: opts.page,
+      pageSize: opts.pageSize,
+      graphQuery,
+    }
+  );
 
   const events = paginatedResults.results.map(doc => {
     return parseEventDoc(doc, null);
@@ -348,7 +411,7 @@ export async function getEvents(req: ?Request,  {
     pageSize: paginatedResults.pageSize,
     totalResults: paginatedResults.totalResults,
     totalPages: paginatedResults.totalPages,
-    results: events
+    results: events,
   };
 }
 
@@ -364,9 +427,7 @@ function getNextDateInFuture(event: UiEvent): ?EventTime {
   } else {
     return futureTimes.reduce((closestStartingDate, time) => {
       const start = london(time.range.startDateTime);
-      if (
-        start.isBefore(closestStartingDate.range.startDateTime)
-      ) {
+      if (start.isBefore(closestStartingDate.range.startDateTime)) {
         return time;
       } else {
         return closestStartingDate;
@@ -385,7 +446,10 @@ function filterEventsByTimeRange(events, start, end) {
 
 export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
   const startOfToday = london().startOf('day');
-  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
+  const endOfNext7Days = startOfToday
+    .clone()
+    .add(7, 'day')
+    .endOf('day');
   return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 
@@ -396,7 +460,7 @@ export function filterEventsForToday(events: UiEvent[]): UiEvent[] {
 }
 
 export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
-  const {start, end} = getNextWeekendDateRange(new Date());
+  const { start, end } = getNextWeekendDateRange(new Date());
   return filterEventsByTimeRange(events, london(start), london(end));
 }
 
@@ -413,37 +477,48 @@ export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
 // TODO: Type this up properly
 const GroupByFormat = {
   day: 'dddd',
-  month: 'MMMM'
+  month: 'MMMM',
 };
-type GroupDatesBy = $Keys<typeof GroupByFormat>
+type GroupDatesBy = $Keys<typeof GroupByFormat>;
 type EventsGroup = {|
   label: string,
   start: Date,
   end: Date,
-  events: UiEvent[]
-|}
+  events: UiEvent[],
+|};
 
-export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsGroup[] {
+export function groupEventsBy(
+  events: UiEvent[],
+  groupBy: GroupDatesBy
+): EventsGroup[] {
   // Get the full range of all the events
-  const range = events.map(({times}) => times.map(time => ({
-    start: time.range.startDateTime,
-    end: time.range.endDateTime
-  }))).reduce((acc, ranges) => acc.concat(ranges)).reduce((acc, range) => {
-    return {
-      start: range.start < acc.start ? range.start : acc.start,
-      end: range.end > acc.end ? range.end : acc.end
-    };
-  });
+  const range = events
+    .map(({ times }) =>
+      times.map(time => ({
+        start: time.range.startDateTime,
+        end: time.range.endDateTime,
+      }))
+    )
+    .reduce((acc, ranges) => acc.concat(ranges))
+    .reduce((acc, range) => {
+      return {
+        start: range.start < acc.start ? range.start : acc.start,
+        end: range.end > acc.end ? range.end : acc.end,
+      };
+    });
 
   // Convert the range into an array of labeled event groups
-  const ranges = getRanges({
-    start: london(range.start).startOf(groupBy),
-    end: london(range.end).endOf(groupBy)
-  }, groupBy).map(range => ({
+  const ranges = getRanges(
+    {
+      start: london(range.start).startOf(groupBy),
+      end: london(range.end).endOf(groupBy),
+    },
+    groupBy
+  ).map(range => ({
     label: range.label,
     start: range.start.toDate(),
     end: range.end.toDate(),
-    events: []
+    events: [],
   }));
 
   // See which events should go into which event group
@@ -452,7 +527,7 @@ export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsG
       .filter(time => time.range && time.range.startDateTime)
       .map(time => ({
         start: time.range.startDateTime,
-        end: time.range.endDateTime
+        end: time.range.endDateTime,
       }));
 
     ranges.forEach(range => {
@@ -470,23 +545,25 @@ export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsG
   }, {});
 
   // Remove times from event that fall outside the range of the current event group it is in
-  const rangesWithFilteredTimes = ranges.map((range) => {
+  const rangesWithFilteredTimes = ranges.map(range => {
     const start = range.start;
     const end = range.end;
-    const events = range.events.map((event) => {
-      const timesInRange = event.times.filter((time) => {
-        return (time.range.startDateTime >= start && time.range.endDateTime <= end);
+    const events = range.events.map(event => {
+      const timesInRange = event.times.filter(time => {
+        return (
+          time.range.startDateTime >= start && time.range.endDateTime <= end
+        );
       });
 
       return {
         ...event,
-        times: timesInRange
+        times: timesInRange,
       };
     });
 
     return {
       ...range,
-      events
+      events,
     };
   });
 
@@ -494,15 +571,17 @@ export function groupEventsBy(events: UiEvent[], groupBy: GroupDatesBy): EventsG
 }
 
 // TODO: maybe use a Map?
-function getRanges({start, end}, groupBy: GroupDatesBy, acc = []) {
+function getRanges({ start, end }, groupBy: GroupDatesBy, acc = []) {
   if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
     const newStart = start.clone().add(1, groupBy);
-    const newAcc = acc.concat([{
-      label: formatDayDate(start),
-      start: start.clone().startOf(groupBy),
-      end: start.clone().endOf(groupBy)
-    }]);
-    return getRanges({start: newStart, end}, groupBy, newAcc);
+    const newAcc = acc.concat([
+      {
+        label: formatDayDate(start),
+        start: start.clone().startOf(groupBy),
+        end: start.clone().endOf(groupBy),
+      },
+    ]);
+    return getRanges({ start: newStart, end }, groupBy, newAcc);
   } else {
     return acc;
   }

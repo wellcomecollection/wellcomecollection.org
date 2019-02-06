@@ -1,36 +1,36 @@
 // @flow
-import type {Context} from 'next';
-import {Component} from 'react';
-import {getPlace} from '@weco/common/services/prismic/places';
+import type { Context } from 'next';
+import { Component } from 'react';
+import { getPlace } from '@weco/common/services/prismic/places';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import {UiImage} from '@weco/common/views/components/Images/Images';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import {convertImageUri} from '@weco/common/utils/convert-image-uri';
-import type {Place} from '@weco/common/model/places';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import type { Place } from '@weco/common/model/places';
 
 type Props = {|
-  place: Place
-|}
+  place: Place,
+|};
 
 export class PlacePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
-    const {id} = ctx.query;
+    const { id } = ctx.query;
     const place = await getPlace(ctx.req, id);
 
     if (place) {
       return {
-        place
+        place,
       };
     } else {
-      return {statusCode: 404};
+      return { statusCode: 404 };
     }
-  }
+  };
 
   render() {
-    const {place} = this.props;
+    const { place } = this.props;
     const image = place.promo && place.promo.image;
     const tasl = image && {
       isFull: false,
@@ -41,7 +41,7 @@ export class PlacePage extends Component<Props> {
       sourceLink: image.source && image.source.link,
       license: image.license,
       copyrightHolder: image.copyright && image.copyright.holder,
-      copyrightLink: image.copyright && image.copyright.link
+      copyrightLink: image.copyright && image.copyright.link,
     };
     /* https://github.com/facebook/flow/issues/2405 */
     /* $FlowFixMe */
@@ -49,45 +49,46 @@ export class PlacePage extends Component<Props> {
     const breadcrumbs = {
       items: [
         {
-          text: 'Places'
+          text: 'Places',
         },
         {
           url: `/places/${place.id}`,
           text: place.title,
-          isHidden: true
-        }
-      ]
+          isHidden: true,
+        },
+      ],
     };
-    const Header = (<PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={null}
-      title={place.title}
-      FeaturedMedia={FeaturedMedia}
-      Background={<HeaderBackground hasWobblyEdge={true} />}
-      ContentTypeInfo={null}
-      HeroPicture={null}
-    />);
+    const Header = (
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        labels={null}
+        title={place.title}
+        FeaturedMedia={FeaturedMedia}
+        Background={<HeaderBackground hasWobblyEdge={true} />}
+        ContentTypeInfo={null}
+        HeroPicture={null}
+      />
+    );
 
     return (
       <PageLayout
         title={place.title}
         description={place.metadataDescription || place.promoText || ''}
-        url={{pathname: `/places/${place.id}`}}
-        jsonLd={{'@type': 'WebPage'}}
+        url={{ pathname: `/places/${place.id}` }}
+        jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'website'}
         siteSection={'visit-us'}
         imageUrl={place.image && convertImageUri(place.image.contentUrl, 800)}
-        imageAltText={place.image && place.image.alt}>
+        imageAltText={place.image && place.image.alt}
+      >
         <ContentPage
           id={place.id}
           Header={Header}
           Body={<Body body={place.body} />}
-        >
-
-        </ContentPage>
+        />
       </PageLayout>
     );
   }
-};
+}
 
 export default PlacePage;
