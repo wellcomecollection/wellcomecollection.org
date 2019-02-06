@@ -144,6 +144,7 @@ const WorkDetails = ({
           >
             {iiifImageLocationUrl && (
               <WorkDetailsSection
+                showDivider={false}
                 headingText={`Download this ${singularWorkTypeLabel}`}
               >
                 <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
@@ -205,6 +206,7 @@ const WorkDetails = ({
 
             {showAboutSection && (
               <WorkDetailsSection
+                showDivider={Boolean(iiifImageLocationUrl)}
                 headingText={`About this ${singularWorkTypeLabel}`}
               >
                 {work.description && (
