@@ -423,23 +423,29 @@ const WorkDetails = ({
               </Fragment>
             )}
 
-
-            <SpacingComponent>
-              <div
-                className={classNames([
-                  spacing({ s: 2 }, { padding: ['top', 'bottom'] }),
-                  spacing({ s: 4 }, { padding: ['left', 'right'] }),
-                  spacing({ s: 4 }, { margin: ['top', 'bottom'] }),
-                  'bg-cream rounded-diagonal flex flex--v-center',
-                ])}
-              >
-                <Icon name="underConstruction" extraClasses="margin-right-s2" />
-                <p className={`${font({ s: 'HNL5', m: 'HNL4' })} no-margin`}>
-                  We’re improving the information on this page.{' '}
-                  <a href="/works/progress">Find out more</a>.
-                </p>
-              </div>
-            </SpacingComponent>
+            <Fragment>
+              <Divider
+                extraClasses={`divider--pumice divider--keyline ${spacing(
+                  { s: 1 },
+                  { margin: ['top', 'bottom'] }
+                )}`}
+              />
+              <SpacingComponent>
+                <WorkDetailsSection>
+                  <div className="work-details-heading"></div>
+                  <div className="work-details-body">
+                    <div
+                      className="flex flex--v-center">
+                      <Icon name="underConstruction" extraClasses="margin-right-s2" />
+                      <p className={`${font({ s: 'HNL5', m: 'HNL4' })} no-margin`}>
+                        We’re improving the information on this page.{' '}
+                        <a href="/works/progress">Find out more</a>.
+                      </p>
+                    </div>
+                  </div>
+                </WorkDetailsSection>
+              </SpacingComponent>
+            </Fragment>
           </div>
         </div>
       </div>
