@@ -31,6 +31,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
     className={classNames({
       flex: true,
       'flex--wrap': true,
+      'no-margin': true,
       [font({ s: 'HNL4' })]: true,
     })}
   >
