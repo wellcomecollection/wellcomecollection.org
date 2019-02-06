@@ -24,6 +24,7 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
+  excludeTitle: boolean,
 |};
 
 const WorkDetails = ({
@@ -33,6 +34,7 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
+  excludeTitle,
 }: Props) => {
   return (
     <div className={`row ${spacing({ s: 6 }, { padding: ['top', 'bottom'] })}`}>
