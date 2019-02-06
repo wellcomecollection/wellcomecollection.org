@@ -61,15 +61,16 @@ const WorkDetails = ({
   iiifImageLocationLicenseId,
   encoreLink,
 }: Props) => {
-  const isbnIdentifiers = work.identifiers.filter(id => {
-    return id.identifierType.id === 'isbn';
-  });
-  // const showAboutSection
-  // const showSubjectsSection
-  const showIdentifiersSection = Boolean(isbnIdentifiers.length > 0);
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
+  const isbnIdentifiers = work.identifiers.filter(id => {
+    return id.identifierType.id === 'isbn';
+  });
+  const showAboutSection = work.description || work.production.length > 0 || work.physicalDescription ||
+  work.extent || work.dimensions || work.lettering || work.genres.length > 0 || work.language;
+  const showSubjectsSection = work.subjects.length > 0;
+  const showIdentifiersSection = Boolean(isbnIdentifiers.length > 0);
 
   return (
     <div
@@ -175,135 +176,144 @@ const WorkDetails = ({
               </Fragment>
             )}
 
-            <SpacingComponent>
-              <WorkDetailsSection>
-                <h2
-                  className={classNames({
-                    [font({ s: 'WB5' })]: true,
-                    [spacing({ s: 0 }, { margin: ['top'] })]: true,
-                    'work-details-heading': true,
-                  })}
-                >
-                  {`About this ${singularWorkTypeLabel}`}
-                </h2>
+            {showAboutSection &&
+              <SpacingComponent>
+                <WorkDetailsSection>
+                  <h2
+                    className={classNames({
+                      [font({ s: 'WB5' })]: true,
+                      [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                      'work-details-heading': true,
+                    })}
+                  >
+                    {`About this ${singularWorkTypeLabel}`}
+                  </h2>
 
-                <div className="work-details-body">
-                  {work.description && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Description"
-                      text={[work.description]}
-                    />
-                  )}
-
-                  {work.production.length > 0 && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Publication/Creation"
-                      text={work.production.map(
-                        productionEvent => productionEvent.label
-                      )}
-                    />
-                  )}
-
-                  {(work.physicalDescription ||
-                    work.extent ||
-                    work.dimensions) && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Physical description"
-                      text={[
-                        [work.extent, work.physicalDescription, work.dimensions]
-                          .filter(Boolean)
-                          .join(' '),
-                      ]}
-                    />
-                  )}
-
-                  {work.lettering && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Lettering"
-                      text={[work.lettering]}
-                    />
-                  )}
-
-                  {work.genres.length > 0 && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Type"
-                      links={work.genres.map(genre => {
-                        const linkAttributes = worksUrl({
-                          query: `"${genre.label}"`,
-                          page: undefined,
-                        });
-                        return (
-                          <NextLink key={1} {...linkAttributes}>
-                            {genre.label}
-                          </NextLink>
-                        );
-                      })}
-                    />
-                  )}
-
-                  {work.language && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Language"
-                      links={[
-                        <NextLink
-                          key={1}
-                          {...worksUrl({
-                            query: `"${work.language.label}"`,
-                            page: undefined,
-                          })}
-                        >
-                          {work.language.label}
-                        </NextLink>,
-                      ]}
-                    />
-                  )}
-                </div>
-              </WorkDetailsSection>
-            </SpacingComponent>
-
-            <Divider
-              extraClasses={`divider--pumice divider--keyline ${spacing(
-                { s: 1 },
-                { margin: ['top', 'bottom'] }
-              )}`}
-            />
-
-            <SpacingComponent>
-              <WorkDetailsSection>
-                <h2
-                  className={classNames({
-                    [font({ s: 'WB5' })]: true,
-                    [spacing({ s: 0 }, { margin: ['top'] })]: true,
-                    'work-details-heading': true,
-                  })}
-                >
-                  Subjects
-                </h2>
-                {work.subjects.length > 0 && (
                   <div className="work-details-body">
-                    <MetaUnit
-                      links={work.subjects.map(subject => {
-                        const linkAttributes = worksUrl({
-                          query: `"${subject.label}"`,
-                          page: undefined,
-                        });
-                        return (
-                          <NextLink key={1} {...linkAttributes}>
-                            {subject.label}
-                          </NextLink>
-                        );
-                      })}
-                    />
+                    {work.description && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Description"
+                        text={[work.description]}
+                      />
+                    )}
+
+                    {work.production.length > 0 && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Publication/Creation"
+                        text={work.production.map(
+                          productionEvent => productionEvent.label
+                        )}
+                      />
+                    )}
+
+                    {(work.physicalDescription ||
+                      work.extent ||
+                      work.dimensions) && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Physical description"
+                        text={[
+                          [work.extent, work.physicalDescription, work.dimensions]
+                            .filter(Boolean)
+                            .join(' '),
+                        ]}
+                      />
+                    )}
+
+                    {work.lettering && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Lettering"
+                        text={[work.lettering]}
+                      />
+                    )}
+
+                    {work.genres.length > 0 && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Type"
+                        links={work.genres.map(genre => {
+                          const linkAttributes = worksUrl({
+                            query: `"${genre.label}"`,
+                            page: undefined,
+                          });
+                          return (
+                            <NextLink key={1} {...linkAttributes}>
+                              {genre.label}
+                            </NextLink>
+                          );
+                        })}
+                      />
+                    )}
+
+                    {work.language && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Language"
+                        links={[
+                          <NextLink
+                            key={1}
+                            {...worksUrl({
+                              query: `"${work.language.label}"`,
+                              page: undefined,
+                            })}
+                          >
+                            {work.language.label}
+                          </NextLink>,
+                        ]}
+                      />
+                    )}
                   </div>
-                )}
-              </WorkDetailsSection>
-            </SpacingComponent>
+                </WorkDetailsSection>
+              </SpacingComponent>
+            }
+
+
+            {showSubjectsSection && 
+              <Fragment>
+                <Divider
+                  extraClasses={`divider--pumice divider--keyline ${spacing(
+                    { s: 1 },
+                    { margin: ['top', 'bottom'] }
+                  )}`}
+                />
+
+                <SpacingComponent>
+                  <WorkDetailsSection>
+                    <h2
+                      className={classNames({
+                        [font({ s: 'WB5' })]: true,
+                        [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                        'work-details-heading': true,
+                      })}
+                    >
+                      Subjects
+                    </h2>
+                    {work.subjects.length > 0 && (
+                      <div className="work-details-body">
+                        <MetaUnit
+                          links={work.subjects.map(subject => {
+                            const linkAttributes = worksUrl({
+                              query: `"${subject.label}"`,
+                              page: undefined,
+                            });
+                            return (
+                              <NextLink key={1} {...linkAttributes}>
+                                {subject.label}
+                              </NextLink>
+                            );
+                          })}
+                        />
+                      </div>
+                    )}
+                  </WorkDetailsSection>
+                </SpacingComponent>
+
+              </Fragment>
+            }
+
 
             {encoreLink && (
               <Fragment>
