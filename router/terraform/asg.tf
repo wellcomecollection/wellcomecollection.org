@@ -2,13 +2,13 @@ module "router_cluster_asg" {
   source                = "git::https://github.com/wellcometrust/terraform.git//ecs_asg?ref=v1.0.0"
   asg_name              = "router-cluster"
   subnet_list           = "${local.vpc_subnets}"
-  key_name              = "${var.key_name}"
+  key_name              = "wellcomecollection.org"
   instance_profile_name = "${module.ecs_router_iam.instance_profile_name}"
   user_data             = "${module.router_userdata.rendered}"
   vpc_id                = "${local.vpc_id}"
 
-  asg_desired = "6"
-  asg_max     = "6"
+  asg_desired = "4"
+  asg_max     = "4"
 
   image_id      = "${data.aws_ami.stable_coreos.image_id}"
   instance_type = "t2.small"
