@@ -1,4 +1,5 @@
 // @flow
+import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Divider from '../Divider/Divider';
@@ -94,13 +95,14 @@ const List = ({ list }) => {
     )
   );
 };
+
 type MetaUnitProps = {|
   headingLevel?: number,
   headingText?: string,
   links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
   text?: string[],
   list?: string[],
-  children?: React.node
+  children?: Node
 |};
 
 const MetaUnit = ({
