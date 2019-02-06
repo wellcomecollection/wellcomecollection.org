@@ -3,6 +3,7 @@ import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
 
 import NextLink from 'next/link';
+import styled from 'styled-components';
 import { Fragment } from 'react';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -15,6 +16,33 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+
+const WorkDetailsSection = styled.div`
+  /* TODO: variables/functions/mixins/linting */
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  padding: 24px 0;
+  border-top: 1px solid #d9d6ce;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  .work-details-heading,
+  .work-details-body {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 800px) {
+    .work-details-heading {
+      grid-column: span 4;
+    }
+
+    .work-details-body {
+      grid-column: span 6;
+    }
+  }
+`;
 
 type Work = Object;
 type Props = {|
@@ -34,6 +62,12 @@ const WorkDetails = ({
   iiifImageLocationLicenseId,
   encoreLink,
 }: Props) => {
+  const isbnIdentifiers = work.identifiers.filter(id => {
+    return id.identifierType.id === 'isbn';
+  });
+  // const showAboutSection
+  // const showSubjectsSection
+  const showIdentifiersSection = Boolean(isbnIdentifiers.length > 0);
   return (
     <div
       className={classNames({
@@ -51,165 +85,203 @@ const WorkDetails = ({
             ])}
           >
             <SpacingComponent>
-              <h2
-                className={classNames([
-                  font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
-                  spacing({ s: 0 }, { margin: ['top'] }),
-                ])}
-              >
-                {`About this ${
-                  work.workType.label
-                    ? work.workType.label.replace(/s$/g, '').toLowerCase()
-                    : 'item'
-                }`}
-              </h2>
-
-              {work.description && (
-                <MetaUnit headingText="Description" text={[work.description]} />
-              )}
-
-              {work.production.length > 0 && (
-                <MetaUnit
-                  headingText="Publication/Creation"
-                  text={work.production.map(
-                    productionEvent => productionEvent.label
-                  )}
-                />
-              )}
-
-              {(work.physicalDescription || work.extent || work.dimensions) && (
-                <MetaUnit
-                  headingText="Physical description"
-                  text={[
-                    [work.extent, work.physicalDescription, work.dimensions]
-                      .filter(Boolean)
-                      .join(' '),
-                  ]}
-                />
-              )}
-
-              {work.lettering && (
-                <MetaUnit headingText="Lettering" text={[work.lettering]} />
-              )}
-
-              {work.genres.length > 0 && (
-                <MetaUnit
-                  headingText="Type"
-                  links={work.genres.map(genre => {
-                    const linkAttributes = worksUrl({
-                      query: `"${genre.label}"`,
-                      page: undefined,
-                    });
-                    return (
-                      <NextLink key={1} {...linkAttributes}>
-                        {genre.label}
-                      </NextLink>
-                    );
+              <WorkDetailsSection>
+                <h2
+                  className={classNames({
+                    [font({ s: 'WB5' })]: true,
+                    [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                    'work-details-heading': true,
                   })}
-                />
-              )}
+                >
+                  {`About this ${
+                    work.workType.label
+                      ? work.workType.label.replace(/s$/g, '').toLowerCase()
+                      : 'item'
+                  }`}
+                </h2>
 
-              {work.language && (
-                <MetaUnit
-                  headingText="Language"
-                  links={[
-                    <NextLink
-                      key={1}
-                      {...worksUrl({
-                        query: `"${work.language.label}"`,
-                        page: undefined,
+                <div className="work-details-body">
+                  {work.description && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Description"
+                      text={[work.description]}
+                    />
+                  )}
+
+                  {work.production.length > 0 && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Publication/Creation"
+                      text={work.production.map(
+                        productionEvent => productionEvent.label
+                      )}
+                    />
+                  )}
+
+                  {(work.physicalDescription ||
+                    work.extent ||
+                    work.dimensions) && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Physical description"
+                      text={[
+                        [work.extent, work.physicalDescription, work.dimensions]
+                          .filter(Boolean)
+                          .join(' '),
+                      ]}
+                    />
+                  )}
+
+                  {work.lettering && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Lettering"
+                      text={[work.lettering]}
+                    />
+                  )}
+
+                  {work.genres.length > 0 && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Type"
+                      links={work.genres.map(genre => {
+                        const linkAttributes = worksUrl({
+                          query: `"${genre.label}"`,
+                          page: undefined,
+                        });
+                        return (
+                          <NextLink key={1} {...linkAttributes}>
+                            {genre.label}
+                          </NextLink>
+                        );
                       })}
-                    >
-                      {work.language.label}
-                    </NextLink>,
-                  ]}
-                />
-              )}
+                    />
+                  )}
+
+                  {work.language && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Language"
+                      links={[
+                        <NextLink
+                          key={1}
+                          {...worksUrl({
+                            query: `"${work.language.label}"`,
+                            page: undefined,
+                          })}
+                        >
+                          {work.language.label}
+                        </NextLink>,
+                      ]}
+                    />
+                  )}
+                </div>
+              </WorkDetailsSection>
             </SpacingComponent>
 
+            <Divider
+              extraClasses={`divider--pumice divider--keyline ${spacing(
+                { s: 1 },
+                { margin: ['top', 'bottom'] }
+              )}`}
+            />
+
             <SpacingComponent>
-              <Divider
-                extraClasses={`divider--pumice divider--keyline ${spacing(
-                  { s: 1 },
-                  { margin: ['top', 'bottom'] }
-                )}`}
-              />
-              <h2
-                className={classNames([
-                  font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
-                  spacing({ s: 0 }, { margin: ['top'] }),
-                ])}
-              >
-                Subjects
-              </h2>
-              {work.subjects.length > 0 && (
-                <MetaUnit
-                  links={work.subjects.map(subject => {
-                    const linkAttributes = worksUrl({
-                      query: `"${subject.label}"`,
-                      page: undefined,
-                    });
-                    return (
-                      <NextLink key={1} {...linkAttributes}>
-                        {subject.label}
-                      </NextLink>
-                    );
+              <WorkDetailsSection>
+                <h2
+                  className={classNames({
+                    [font({ s: 'WB5' })]: true,
+                    [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                    'work-details-heading': true,
                   })}
-                />
-              )}
+                >
+                  Subjects
+                </h2>
+                {work.subjects.length > 0 && (
+                  <div className="work-details-body">
+                    <MetaUnit
+                      links={work.subjects.map(subject => {
+                        const linkAttributes = worksUrl({
+                          query: `"${subject.label}"`,
+                          page: undefined,
+                        });
+                        return (
+                          <NextLink key={1} {...linkAttributes}>
+                            {subject.label}
+                          </NextLink>
+                        );
+                      })}
+                    />
+                  </div>
+                )}
+              </WorkDetailsSection>
             </SpacingComponent>
 
             {encoreLink && (
-              <SpacingComponent>
+              <Fragment>
                 <Divider
                   extraClasses={`divider--pumice divider--keyline ${spacing(
                     { s: 1 },
                     { margin: ['top', 'bottom'] }
                   )}`}
                 />
-                <h2
-                  className={classNames([
-                    font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
-                    spacing({ s: 0 }, { margin: ['top'] }),
-                  ])}
-                >
-                  Find in the library
-                </h2>
-                <MoreLink
-                  name="View Wellcome Library catalogue record"
-                  url={encoreLink}
-                />
-              </SpacingComponent>
+                <SpacingComponent>
+                  <WorkDetailsSection>
+                    <h2
+                      className={classNames({
+                        [font({ s: 'WB5' })]: true,
+                        [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                        'work-details-heading': true,
+                      })}
+                    >
+                      Find in the library
+                    </h2>
+                    <div className="work-details-body">
+                      <p>
+                        This book is available at{' '}
+                        <a href={encoreLink}>Wellcome Library</a>
+                      </p>
+                    </div>
+                  </WorkDetailsSection>
+                </SpacingComponent>
+              </Fragment>
             )}
 
-            {work.identifiers.length > 0 && (
-              <SpacingComponent>
+            {showIdentifiersSection && (
+              <Fragment>
                 <Divider
                   extraClasses={`divider--pumice divider--keyline ${spacing(
                     { s: 1 },
                     { margin: ['top', 'bottom'] }
                   )}`}
                 />
-                <h2
-                  className={classNames([
-                    font({ s: 'HNM4', m: 'HNM3', l: 'HNM2' }),
-                    spacing({ s: 0 }, { margin: ['top'] }),
-                  ])}
-                >
-                  Identifiers
-                </h2>
-                {work.identifiers.length > 0 &&
-                  work.identifiers
-                    .filter(id => {
-                      return id.identifierType.id === 'isbn';
-                    })
-                    .map(id => {
-                      return (
-                        <MetaUnit key={id.value} text={[`ISBN: ${id.value}`]} />
-                      );
-                    })}
-              </SpacingComponent>
+                <SpacingComponent>
+                  <WorkDetailsSection>
+                    <h2
+                      className={classNames({
+                        [font({ s: 'WB5' })]: true,
+                        [spacing({ s: 0 }, { margin: ['top'] })]: true,
+                        'work-details-heading': true,
+                      })}
+                    >
+                      Identifiers
+                    </h2>
+                    <div className="work-details-body">
+                      {isbnIdentifiers.map(id => {
+                        return (
+                          <MetaUnit
+                            key={id.value}
+                            text={[`ISBN: ${id.value}`]}
+                          />
+                        );
+                      })}
+                    </div>
+                  </WorkDetailsSection>
+                </SpacingComponent>
+              </Fragment>
             )}
+
             {iiifImageLocationUrl && (
               <SpacingComponent>
                 <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
@@ -277,7 +349,7 @@ const WorkDetails = ({
                       { margin: ['top', 'bottom'] }
                     )}`}
                   />
-                  <h2 className={classNames([font({ s: 'HNM4', m: 'HNM3' })])}>
+                  <h2 className={classNames([font({ s: 'WB5' })])}>
                     Using this image
                   </h2>
                 </SpacingComponent>

@@ -8,7 +8,7 @@ type HeadingProps = {
   headingText: string,
 };
 const Heading = ({ headingLevel, headingText }: HeadingProps) => {
-  const classes = `${font({ s: 'HNM5', m: 'HNM4' })} ${spacing(
+  const classes = `${font({ s: 'HNM3' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
   )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`;
@@ -22,7 +22,7 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
     case 2:
       return <h2 className={classes}>{headingText}</h2>;
     case 3:
-      return <h3 className={smallClasses}>{headingText}</h3>;
+      return <h3 className={classes}>{headingText}</h3>;
     case 4:
       return <h4 className={smallClasses}>{headingText}</h4>;
     case 5:
@@ -41,10 +41,7 @@ const Paragraphs = ({ text }) => {
       return (
         <p
           key={i}
-          className={`${font({ s: 'HNL5', m: 'HNL4' })} ${spacing(
-            { s: 2 },
-            { margin: ['bottom'] }
-          )}`}
+          className={spacing({ s: 2 }, { margin: ['bottom'] })}
           dangerouslySetInnerHTML={{ __html: para }}
         />
       );
@@ -65,7 +62,7 @@ const LinksList = ({ links }) => {
         )}`}
       >
         {links.map((link, i, arr) => (
-          <li key={i} className={`inline ${font({ s: 'HNL5', m: 'HNL4' })}`}>
+          <li key={i} className="inline">
             {link.url && <NextLink href={link.url}>{link.text}</NextLink>}
             {!link.url && link}
             {arr.length - 1 !== i && ' '}
@@ -89,11 +86,7 @@ const List = ({ list }) => {
         )}`}
       >
         {list.map((item, i, arr) => (
-          <li
-            key={i}
-            className={font({ s: 'HNL5', m: 'HNL4' })}
-            style={{ listStylePosition: 'inside' }}
-          >
+          <li key={i} style={{ listStylePosition: 'inside' }}>
             {item}
           </li>
         ))}
@@ -119,7 +112,11 @@ const MetaUnit = ({
   includeDivider,
 }: MetaUnitProps) => {
   return (
-    <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
+    <div
+      className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font({
+        s: 'HNL3',
+      })}`}
+    >
       {headingText && (
         <Heading headingLevel={headingLevel} headingText={headingText} />
       )}
