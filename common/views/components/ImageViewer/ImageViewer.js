@@ -1,5 +1,5 @@
 // @flow
-import { Fragment, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { Transition } from 'react-transition-group';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
@@ -28,7 +28,7 @@ const LaunchViewerButton = ({
     <Control
       type="dark"
       text="View larger image"
-      icon="zoomOut"
+      icon="zoomIn"
       extraClasses={`image-viewer__launch-button ${classes}`}
       clickHandler={clickHandler}
     />
@@ -37,7 +37,6 @@ const LaunchViewerButton = ({
 
 type ViewerContentProps = {|
   id: string,
-  infoUrl: string,
   classes: string,
   viewerVisible: boolean,
   handleViewerDisplay: Function,
@@ -45,7 +44,6 @@ type ViewerContentProps = {|
 
 const ViewerContent = ({
   id,
-  infoUrl,
   classes,
   viewerVisible,
   handleViewerDisplay,
@@ -111,7 +109,7 @@ const ViewerContent = ({
         />
       </div>
 
-      {viewerVisible && <ImageViewerImage id={id} infoUrl={infoUrl} />}
+      {viewerVisible && <ImageViewerImage id={id} />}
     </div>
   );
 };
@@ -122,6 +120,9 @@ type ImageViewerProps = {|
   infoUrl: string,
   width: number,
 |};
+
+// $FlowFixMe
+export const ImageInfoContext = createContext();
 
 const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
@@ -146,7 +147,7 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
   }, []);
 
   return (
-    <Fragment>
+    <ImageInfoContext.Provider value={infoUrl}>
       <Image
         width={width}
         contentUrl={contentUrl}
@@ -181,11 +182,10 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
           classes=""
           viewerVisible={showViewer}
           id={id}
-          infoUrl={infoUrl}
           handleViewerDisplay={handleViewerDisplay}
         />
       )}
-    </Fragment>
+    </ImageInfoContext.Provider>
   );
 };
 
