@@ -72,7 +72,7 @@ const WorkHeader = ({ work }: Props) => {
                     }))}
                   />
                 )}
-                {productionDates && (
+                {productionDates.length > 0 && (
                   <div
                     className={classNames({
                       [spacing({ s: 2 }, { margin: ['left'] })]: true,
