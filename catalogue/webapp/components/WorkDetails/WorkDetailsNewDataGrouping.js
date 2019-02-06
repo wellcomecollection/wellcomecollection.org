@@ -64,9 +64,7 @@ const WorkDetails = ({
                 ])}
               >{`About this ${
                 work.workType.label
-                  ? work.workType.label
-                      .substring(0, work.workType.label.length - 1)
-                      .toLowerCase()
+                  ? work.workType.label.replace(/s$/g, '').toLowerCase()
                   : 'item'
               }`}</h2>
               {work.description && (
