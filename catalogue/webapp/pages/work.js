@@ -193,6 +193,7 @@ export const WorkPage = ({
             iiifImageLocationCredit={iiifImageLocationCredit}
             iiifImageLocationLicenseId={iiifImageLocationLicenseId}
             encoreLink={encoreLink}
+            excludeTitle={showWorkHeader}
           />
         ) : (
           <WorkDetails
@@ -202,6 +203,7 @@ export const WorkPage = ({
             iiifImageLocationCredit={iiifImageLocationCredit}
             iiifImageLocationLicenseId={iiifImageLocationLicenseId}
             encoreLink={encoreLink}
+            excludeTitle={showWorkHeader}
           />
         )}
       </Fragment>

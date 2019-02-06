@@ -44,99 +44,101 @@ const WorkDetails = ({
               spacing({ s: 4 }, { margin: ['bottom'] }),
             ])}
           >
-            <SpacingComponent>
-              <h1
-                id="work-info"
-                className={classNames([
-                  font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' }),
-                  spacing({ s: 0 }, { margin: ['top'] }),
-                ])}
-              >
-                {work.title}
-              </h1>
+            {!excludeTitle && (
+              <SpacingComponent>
+                <h1
+                  id="work-info"
+                  className={classNames([
+                    font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' }),
+                    spacing({ s: 0 }, { margin: ['top'] }),
+                  ])}
+                >
+                  {work.title}
+                </h1>
 
-              {work.contributors.length > 0 && (
-                <MetaUnit
-                  headingText=""
-                  links={work.contributors.map(contributor => {
-                    const linkAttributes = worksUrl({
-                      query: `"${contributor.agent.label}"`,
-                      page: undefined,
-                    });
-                    return (
-                      <NextLink key={1} {...linkAttributes}>
-                        <a
-                          className={`plain-link font-green font-hover-turquoise ${font(
-                            { s: 'HNM5', m: 'HNM4' }
-                          )}`}
-                        >
-                          {contributor.agent.label}
-                        </a>
-                      </NextLink>
-                    );
-                  })}
-                />
-              )}
-
-              {work.workType && (
-                <MetaUnit
-                  headingText=""
-                  links={[
-                    <NextLink
-                      key={1}
-                      {...worksUrl({
-                        query: `"${work.workType.label}"`,
+                {work.contributors.length > 0 && (
+                  <MetaUnit
+                    headingText=""
+                    links={work.contributors.map(contributor => {
+                      const linkAttributes = worksUrl({
+                        query: `"${contributor.agent.label}"`,
                         page: undefined,
-                      })}
-                    >
-                      <a
-                        className={`plain-link font-green font-hover-turquoise ${font(
-                          { s: 'HNM5', m: 'HNM4' }
-                        )}`}
-                      >
-                        {work.workType.label}
-                      </a>
-                    </NextLink>,
-                  ]}
-                />
-              )}
+                      });
+                      return (
+                        <NextLink key={1} {...linkAttributes}>
+                          <a
+                            className={`plain-link font-green font-hover-turquoise ${font(
+                              { s: 'HNM5', m: 'HNM4' }
+                            )}`}
+                          >
+                            {contributor.agent.label}
+                          </a>
+                        </NextLink>
+                      );
+                    })}
+                  />
+                )}
 
-              {work.genres.length > 0 && (
-                <MetaUnit
-                  headingText=""
-                  links={work.genres.map(genre => {
-                    const linkAttributes = worksUrl({
-                      query: `"${genre.label}"`,
-                      page: undefined,
-                    });
-                    return (
-                      <NextLink key={1} {...linkAttributes}>
+                {work.workType && (
+                  <MetaUnit
+                    headingText=""
+                    links={[
+                      <NextLink
+                        key={1}
+                        {...worksUrl({
+                          query: `"${work.workType.label}"`,
+                          page: undefined,
+                        })}
+                      >
                         <a
                           className={`plain-link font-green font-hover-turquoise ${font(
                             { s: 'HNM5', m: 'HNM4' }
                           )}`}
                         >
-                          {genre.label}
+                          {work.workType.label}
                         </a>
-                      </NextLink>
+                      </NextLink>,
+                    ]}
+                  />
+                )}
+
+                {work.genres.length > 0 && (
+                  <MetaUnit
+                    headingText=""
+                    links={work.genres.map(genre => {
+                      const linkAttributes = worksUrl({
+                        query: `"${genre.label}"`,
+                        page: undefined,
+                      });
+                      return (
+                        <NextLink key={1} {...linkAttributes}>
+                          <a
+                            className={`plain-link font-green font-hover-turquoise ${font(
+                              { s: 'HNM5', m: 'HNM4' }
+                            )}`}
+                          >
+                            {genre.label}
+                          </a>
+                        </NextLink>
+                      );
+                    })}
+                  />
+                )}
+
+                {work.production.length > 0 &&
+                  work.production.map((production, i) => {
+                    return (
+                      production.dates.length > 0 && (
+                        <MetaUnit
+                          headingLevel={2}
+                          headingText="Dates"
+                          text={production.dates.map(date => date.label)}
+                        />
+                      )
                     );
                   })}
-                />
-              )}
-
-              {work.production.length > 0 &&
-                work.production.map((production, i) => {
-                  return (
-                    production.dates.length > 0 && (
-                      <MetaUnit
-                        headingLevel={2}
-                        headingText="Dates"
-                        text={production.dates.map(date => date.label)}
-                      />
-                    )
-                  );
-                })}
-            </SpacingComponent>
+              </SpacingComponent>
+            )}
 
             <SpacingComponent>
               <Divider

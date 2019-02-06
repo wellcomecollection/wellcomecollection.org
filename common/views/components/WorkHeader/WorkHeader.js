@@ -72,6 +72,7 @@ const WorkHeader = ({ work }: Props) => {
                     }))}
                   />
                 )}
+
                 {productionDates.length > 0 && (
                   <div
                     className={classNames({
