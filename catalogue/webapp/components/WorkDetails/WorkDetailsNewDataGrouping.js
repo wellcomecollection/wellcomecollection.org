@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { worksUrl } from '../../services/catalogue/urls';
+import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import License from '@weco/common/views/components/License/License';
@@ -194,109 +195,137 @@ const WorkDetails = ({
             )}
 
             {showAboutSection && (
-              <SpacingComponent>
-                <WorkDetailsSection
-                  headingText={`About this ${singularWorkTypeLabel}`}
-                >
-                  {work.description && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Description"
-                      text={[work.description]}
-                    />
-                  )}
+              <Fragment>
+                {iiifImageLocationUrl && (
+                  <SpacingComponent>
+                    <Divider extraClasses="divider--pumice divider--keyline" />
+                  </SpacingComponent>
+                )}
 
-                  {work.production.length > 0 && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Publication/Creation"
-                      text={work.production.map(
-                        productionEvent => productionEvent.label
-                      )}
-                    />
-                  )}
+                <SpacingComponent>
+                  <WorkDetailsSection
+                    headingText={`About this ${singularWorkTypeLabel}`}
+                  >
+                    {work.description && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Description"
+                        text={[work.description]}
+                      />
+                    )}
 
-                  {(work.physicalDescription ||
-                    work.extent ||
-                    work.dimensions) && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Physical description"
-                      text={[
-                        [work.extent, work.physicalDescription, work.dimensions]
-                          .filter(Boolean)
-                          .join(' '),
-                      ]}
-                    />
-                  )}
+                    {work.production.length > 0 && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Publication/Creation"
+                        text={work.production.map(
+                          productionEvent => productionEvent.label
+                        )}
+                      />
+                    )}
 
-                  {work.lettering && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Lettering"
-                      text={[work.lettering]}
-                    />
-                  )}
+                    {(work.physicalDescription ||
+                      work.extent ||
+                      work.dimensions) && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Physical description"
+                        text={[
+                          [
+                            work.extent,
+                            work.physicalDescription,
+                            work.dimensions,
+                          ]
+                            .filter(Boolean)
+                            .join(' '),
+                        ]}
+                      />
+                    )}
 
-                  {work.genres.length > 0 && (
+                    {work.lettering && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Lettering"
+                        text={[work.lettering]}
+                      />
+                    )}
+
+                    {work.genres.length > 0 && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Type"
+                        links={work.genres.map(genre => {
+                          const linkAttributes = worksUrl({
+                            query: `"${genre.label}"`,
+                            page: undefined,
+                          });
+                          return (
+                            <NextLink key={1} {...linkAttributes}>
+                              {genre.label}
+                            </NextLink>
+                          );
+                        })}
+                      />
+                    )}
+
+                    {work.language && (
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Language"
+                        links={[work.language.label]}
+                      />
+                    )}
+                  </WorkDetailsSection>
+                </SpacingComponent>
+              </Fragment>
+            )}
+
+            {showSubjectsSection && (
+              <Fragment>
+                <SpacingComponent>
+                  <Divider extraClasses="divider--pumice divider--keyline" />
+                </SpacingComponent>
+
+                <SpacingComponent>
+                  <WorkDetailsSection headingText="Subjects">
                     <MetaUnit
-                      headingLevel={3}
-                      headingText="Type"
-                      links={work.genres.map(genre => {
+                      links={work.subjects.map(subject => {
                         const linkAttributes = worksUrl({
-                          query: `"${genre.label}"`,
+                          query: `"${subject.label}"`,
                           page: undefined,
                         });
                         return (
                           <NextLink key={1} {...linkAttributes}>
-                            {genre.label}
+                            {subject.label}
                           </NextLink>
                         );
                       })}
                     />
-                  )}
-
-                  {work.language && (
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Language"
-                      links={[work.language.label]}
-                    />
-                  )}
-                </WorkDetailsSection>
-              </SpacingComponent>
-            )}
-
-            {showSubjectsSection && (
-              <SpacingComponent>
-                <WorkDetailsSection headingText="Subjects">
-                  <MetaUnit
-                    links={work.subjects.map(subject => {
-                      const linkAttributes = worksUrl({
-                        query: `"${subject.label}"`,
-                        page: undefined,
-                      });
-                      return (
-                        <NextLink key={1} {...linkAttributes}>
-                          {subject.label}
-                        </NextLink>
-                      );
-                    })}
-                  />
-                </WorkDetailsSection>
-              </SpacingComponent>
+                  </WorkDetailsSection>
+                </SpacingComponent>
+              </Fragment>
             )}
 
             {encoreLink && (
-              <SpacingComponent>
-                <WorkDetailsSection headingText="Find in the library">
-                  <p>
-                    {`This ${singularWorkTypeLabel} is available at `}
-                    <a href={encoreLink}>Wellcome Library</a>
-                  </p>
-                </WorkDetailsSection>
-              </SpacingComponent>
+              <Fragment>
+                <SpacingComponent>
+                  <Divider extraClasses="divider--pumice divider--keyline" />
+                </SpacingComponent>
+
+                <SpacingComponent>
+                  <WorkDetailsSection headingText="Find in the library">
+                    <p>
+                      {`This ${singularWorkTypeLabel} is available at `}
+                      <a href={encoreLink}>Wellcome Library</a>
+                    </p>
+                  </WorkDetailsSection>
+                </SpacingComponent>
+              </Fragment>
             )}
+
+            <SpacingComponent>
+              <Divider extraClasses="divider--pumice divider--keyline" />
+            </SpacingComponent>
 
             <SpacingComponent>
               <WorkDetailsSection headingText="Identifiers">
@@ -316,18 +345,22 @@ const WorkDetails = ({
             </SpacingComponent>
 
             {licenseInfo && (
-              <SpacingComponent>
-                <WorkDetailsSection headingText="License information">
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="License information"
-                    text={licenseInfo.humanReadableText}
-                  />
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Credit"
-                    text={[
-                      `${work.title.replace(/\.$/g, '')}.${' '}
+              <Fragment>
+                <SpacingComponent>
+                  <Divider extraClasses="divider--pumice divider--keyline" />
+                </SpacingComponent>
+                <SpacingComponent>
+                  <WorkDetailsSection headingText="License information">
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="License information"
+                      text={licenseInfo.humanReadableText}
+                    />
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Credit"
+                      text={[
+                        `${work.title.replace(/\.$/g, '')}.${' '}
                   ${
                     iiifImageLocationCredit
                       ? `Credit: <a href="https://wellcomecollection.org/works/${
@@ -340,11 +373,16 @@ const WorkDetails = ({
                       ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
                       : licenseInfo.text
                   }`,
-                    ]}
-                  />
-                </WorkDetailsSection>
-              </SpacingComponent>
+                      ]}
+                    />
+                  </WorkDetailsSection>
+                </SpacingComponent>
+              </Fragment>
             )}
+
+            <SpacingComponent>
+              <Divider extraClasses="divider--pumice divider--keyline" />
+            </SpacingComponent>
 
             <SpacingComponent>
               <WorkDetailsSection>
