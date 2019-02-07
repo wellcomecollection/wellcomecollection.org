@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 1.0"
+  version = "~> 1.57"
   region  = "eu-west-1"
 }
 
@@ -20,13 +20,17 @@ provider "aws" {
   alias   = "us-east-1"
 }
 
+provider "template" {
+  version = "~> 2.0"
+}
+
 data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
   provider = "aws.us-east-1"
   domain   = "wellcomecollection.org"
 }
 
 module "static" {
-  source = "../../terraform-modules/https_s3_website"
-  website_uri = "i.wellcomecollection.org"
+  source              = "../../terraform-modules/https_s3_website"
+  website_uri         = "i.wellcomecollection.org"
   acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
 }
