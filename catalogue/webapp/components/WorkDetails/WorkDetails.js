@@ -24,6 +24,7 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
+  excludeTitle: boolean,
 |};
 
 const WorkDetails = ({
@@ -33,6 +34,7 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
+  excludeTitle,
 }: Props) => {
   return (
     <div className={`row ${spacing({ s: 6 }, { padding: ['top', 'bottom'] })}`}>
@@ -44,17 +46,19 @@ const WorkDetails = ({
               spacing({ s: 4 }, { margin: ['bottom'] }),
             ])}
           >
-            <SpacingComponent>
-              <h1
-                id="work-info"
-                className={classNames([
-                  font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' }),
-                  spacing({ s: 0 }, { margin: ['top'] }),
-                ])}
-              >
-                {work.title}
-              </h1>
-            </SpacingComponent>
+            {!excludeTitle && (
+              <SpacingComponent>
+                <h1
+                  id="work-info"
+                  className={classNames([
+                    font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' }),
+                    spacing({ s: 0 }, { margin: ['top'] }),
+                  ])}
+                >
+                  {work.title}
+                </h1>
+              </SpacingComponent>
+            )}
 
             {iiifImageLocationUrl && (
               <SpacingComponent>
