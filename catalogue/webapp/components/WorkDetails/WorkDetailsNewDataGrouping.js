@@ -110,7 +110,72 @@ const WorkDetails = ({
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
-  const showAboutSection =
+
+  const WorkDetailsSections = [];
+
+  if (iiifImageLocationUrl) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection>
+        <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
+          <Button
+            type="tertiary"
+            url={convertImageUri(iiifImageLocationUrl, 'full')}
+            target="_blank"
+            download={`${work.id}.jpg`}
+            rel="noopener noreferrer"
+            trackingEvent={{
+              category: 'Button',
+              action: 'download large work image',
+              label: work.id,
+            }}
+            icon="download"
+            text="Download full size"
+          />
+        </div>
+
+        <div
+          className={`${spacing({ s: 3 }, { margin: ['bottom'] })} ${spacing(
+            { s: 0 },
+            { margin: ['top'] }
+          )}`}
+        >
+          <Button
+            type="tertiary"
+            url={convertImageUri(iiifImageLocationUrl, 760)}
+            target="_blank"
+            download={`${work.id}.jpg`}
+            rel="noopener noreferrer"
+            trackingEvent={{
+              category: 'Button',
+              action: 'download small work image',
+              label: work.id,
+            }}
+            icon="download"
+            text="Download small (760px)"
+          />
+        </div>
+
+        {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
+          <div className={spacing({ s: 0 }, { margin: ['top'] })}>
+            {iiifImageLocationCredit && (
+              <p
+                className={classNames([
+                  font({ s: 'HNL5', m: 'HNL4' }),
+                  spacing({ s: 1 }, { margin: ['bottom'] }),
+                ])}
+              >
+                Credit: {iiifImageLocationCredit}
+              </p>
+            )}
+            {iiifImageLocationLicenseId && (
+              <License subject={''} licenseType={iiifImageLocationLicenseId} />
+            )}
+          </div>
+        )}
+      </WorkDetailsSection>
+    );
+  }
+  if (
     work.description ||
     work.production.length > 0 ||
     work.physicalDescription ||
@@ -118,7 +183,156 @@ const WorkDetails = ({
     work.dimensions ||
     work.lettering ||
     work.genres.length > 0 ||
-    work.language;
+    work.language
+  ) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
+        <div className="spaced-text">
+          {work.description && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Description"
+              text={[work.description]}
+            />
+          )}
+
+          {work.production.length > 0 && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Publication/Creation"
+              text={work.production.map(
+                productionEvent => productionEvent.label
+              )}
+            />
+          )}
+
+          {(work.physicalDescription || work.extent || work.dimensions) && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Physical description"
+              text={[
+                [work.extent, work.physicalDescription, work.dimensions]
+                  .filter(Boolean)
+                  .join(' '),
+              ]}
+            />
+          )}
+
+          {work.lettering && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Lettering"
+              text={[work.lettering]}
+            />
+          )}
+
+          {work.genres.length > 0 && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Type"
+              links={work.genres.map(genre => {
+                const linkAttributes = worksUrl({
+                  query: `"${genre.label}"`,
+                  page: 1,
+                });
+                return (
+                  <NextLink key={1} {...linkAttributes}>
+                    {genre.label}
+                  </NextLink>
+                );
+              })}
+            />
+          )}
+
+          {work.language && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Language"
+              links={[work.language.label]}
+            />
+          )}
+        </div>
+      </WorkDetailsSection>
+    );
+  }
+  if (encoreLink) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection headingText="Find in the library">
+        <div className="spaced-text">
+          <p>
+            {`This ${singularWorkTypeLabel} is available at `}
+            <a href={encoreLink}>Wellcome Library</a>
+          </p>
+        </div>
+      </WorkDetailsSection>
+    );
+  }
+  WorkDetailsSections.push(
+    <WorkDetailsSection headingText="Identifiers">
+      {isbnIdentifiers.length > 0 && (
+        <div className="spaced-text" style={{ marginBottom: '1.6em' }}>
+          <MetaUnit
+            headingText="ISBN"
+            list={isbnIdentifiers.map(id => id.value)}
+          />
+        </div>
+      )}
+      <MetaUnit headingText="Share">
+        <CopyUrl
+          id={work.id}
+          url={`https://wellcomecollection.org/works/${work.id}`}
+        />
+      </MetaUnit>
+    </WorkDetailsSection>
+  );
+  if (licenseInfo) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection headingText="License information">
+        <div className="spaced-text">
+          <MetaUnit
+            headingLevel={3}
+            headingText="License information"
+            text={licenseInfo.humanReadableText}
+          />
+          <MetaUnit
+            headingLevel={3}
+            headingText="Credit"
+            text={[
+              `${work.title.replace(/\.$/g, '')}.${' '}
+  ${
+    iiifImageLocationCredit
+      ? `Credit: <a href="https://wellcomecollection.org/works/${
+          work.id
+        }">${iiifImageLocationCredit}</a>. `
+      : ` `
+  }
+  ${
+    licenseInfo.url
+      ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+      : licenseInfo.text
+  }`,
+            ]}
+          />
+        </div>
+      </WorkDetailsSection>
+    );
+  }
+  WorkDetailsSections.push(
+    <WorkDetailsSection>
+      <div className="flex flex--v-center">
+        <Icon name="underConstruction" extraClasses="margin-right-s2" />
+        <p
+          className={`${font({
+            s: 'HNL5',
+            m: 'HNL4',
+          })} no-margin`}
+        >
+          We’re improving the information on this page.{' '}
+          <a href="/works/progress">Find out more</a>.
+        </p>
+      </div>
+    </WorkDetailsSection>
+  );
 
   return (
     <div
@@ -131,294 +345,19 @@ const WorkDetails = ({
       <div className="container">
         <div className="grid">
           <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
-            {iiifImageLocationUrl && (
-              <SpacingComponent>
-                <WorkDetailsSection>
-                  <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
-                    <Button
-                      type="tertiary"
-                      url={convertImageUri(iiifImageLocationUrl, 'full')}
-                      target="_blank"
-                      download={`${work.id}.jpg`}
-                      rel="noopener noreferrer"
-                      trackingEvent={{
-                        category: 'Button',
-                        action: 'download large work image',
-                        label: work.id,
-                      }}
-                      icon="download"
-                      text="Download full size"
-                    />
-                  </div>
-
-                  <div
-                    className={`${spacing(
-                      { s: 3 },
-                      { margin: ['bottom'] }
-                    )} ${spacing({ s: 0 }, { margin: ['top'] })}`}
-                  >
-                    <Button
-                      type="tertiary"
-                      url={convertImageUri(iiifImageLocationUrl, 760)}
-                      target="_blank"
-                      download={`${work.id}.jpg`}
-                      rel="noopener noreferrer"
-                      trackingEvent={{
-                        category: 'Button',
-                        action: 'download small work image',
-                        label: work.id,
-                      }}
-                      icon="download"
-                      text="Download small (760px)"
-                    />
-                  </div>
-
-                  {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
-                    <div className={spacing({ s: 0 }, { margin: ['top'] })}>
-                      {iiifImageLocationCredit && (
-                        <p
-                          className={classNames([
-                            font({ s: 'HNL5', m: 'HNL4' }),
-                            spacing({ s: 1 }, { margin: ['bottom'] }),
-                          ])}
-                        >
-                          Credit: {iiifImageLocationCredit}
-                        </p>
-                      )}
-                      {iiifImageLocationLicenseId && (
-                        <License
-                          subject={''}
-                          licenseType={iiifImageLocationLicenseId}
-                        />
-                      )}
-                    </div>
+            {WorkDetailsSections.map((section, i) => {
+              return (
+                <Fragment key={i}>
+                  {i > 0 && (
+                    <SpacingComponent>
+                      <Divider extraClasses="divider--pumice divider--keyline" />
+                    </SpacingComponent>
                   )}
-                </WorkDetailsSection>
-              </SpacingComponent>
-            )}
 
-            {showAboutSection && (
-              <Fragment>
-                {iiifImageLocationUrl && (
-                  <SpacingComponent>
-                    <Divider extraClasses="divider--pumice divider--keyline" />
-                  </SpacingComponent>
-                )}
-
-                <SpacingComponent>
-                  <WorkDetailsSection
-                    headingText={`About this ${singularWorkTypeLabel}`}
-                  >
-                    <div className="spaced-text">
-                      {work.description && (
-                        <MetaUnit
-                          headingLevel={3}
-                          headingText="Description"
-                          text={[work.description]}
-                        />
-                      )}
-
-                      {work.production.length > 0 && (
-                        <MetaUnit
-                          headingLevel={3}
-                          headingText="Publication/Creation"
-                          text={work.production.map(
-                            productionEvent => productionEvent.label
-                          )}
-                        />
-                      )}
-
-                      {(work.physicalDescription ||
-                        work.extent ||
-                        work.dimensions) && (
-                        <MetaUnit
-                          headingLevel={3}
-                          headingText="Physical description"
-                          text={[
-                            [
-                              work.extent,
-                              work.physicalDescription,
-                              work.dimensions,
-                            ]
-                              .filter(Boolean)
-                              .join(' '),
-                          ]}
-                        />
-                      )}
-
-                      {work.lettering && (
-                        <MetaUnit
-                          headingLevel={3}
-                          headingText="Lettering"
-                          text={[work.lettering]}
-                        />
-                      )}
-
-                      {work.genres.length > 0 && (
-                        <MetaUnit
-                          headingLevel={3}
-                          headingText="Type"
-                          links={work.genres.map(genre => {
-                            const linkAttributes = worksUrl({
-                              query: `"${genre.label}"`,
-                              page: 1,
-                            });
-                            return (
-                              <NextLink key={1} {...linkAttributes}>
-                                {genre.label}
-                              </NextLink>
-                            );
-                          })}
-                        />
-                      )}
-
-                      {work.language && (
-                        <MetaUnit
-                          headingLevel={3}
-                          headingText="Language"
-                          links={[work.language.label]}
-                        />
-                      )}
-                    </div>
-                  </WorkDetailsSection>
-                </SpacingComponent>
-              </Fragment>
-            )}
-
-            {work.subjects.length > 0 && (
-              <Fragment>
-                <SpacingComponent>
-                  <Divider extraClasses="divider--pumice divider--keyline" />
-                </SpacingComponent>
-
-                <SpacingComponent>
-                  <WorkDetailsSection headingText="Subjects">
-                    <div className="spaced-text">
-                      <MetaUnit
-                        links={work.subjects.map(subject => {
-                          const linkAttributes = worksUrl({
-                            query: `"${subject.label}"`,
-                            page: 1,
-                          });
-                          return (
-                            <NextLink key={1} {...linkAttributes}>
-                              {subject.label}
-                            </NextLink>
-                          );
-                        })}
-                      />
-                    </div>
-                  </WorkDetailsSection>
-                </SpacingComponent>
-              </Fragment>
-            )}
-
-            {encoreLink && (
-              <Fragment>
-                <SpacingComponent>
-                  <Divider extraClasses="divider--pumice divider--keyline" />
-                </SpacingComponent>
-
-                <SpacingComponent>
-                  <WorkDetailsSection headingText="Find in the library">
-                    <div className="spaced-text">
-                      <p>
-                        {`This ${singularWorkTypeLabel} is available at `}
-                        <a href={encoreLink}>Wellcome Library</a>
-                      </p>
-                    </div>
-                  </WorkDetailsSection>
-                </SpacingComponent>
-              </Fragment>
-            )}
-
-            <SpacingComponent>
-              <Divider extraClasses="divider--pumice divider--keyline" />
-            </SpacingComponent>
-
-            <SpacingComponent>
-              <WorkDetailsSection headingText="Identifiers">
-                {isbnIdentifiers.length > 0 && (
-                  <div
-                    className="spaced-text"
-                    style={{ marginBottom: '1.6em' }}
-                  >
-                    <MetaUnit
-                      headingText="ISBN"
-                      list={isbnIdentifiers.map(id => id.value)}
-                    />
-                  </div>
-                )}
-                <MetaUnit headingText="Share">
-                  <CopyUrl
-                    id={work.id}
-                    url={`https://wellcomecollection.org/works/${work.id}`}
-                  />
-                </MetaUnit>
-              </WorkDetailsSection>
-            </SpacingComponent>
-
-            {licenseInfo && (
-              <Fragment>
-                <SpacingComponent>
-                  <Divider extraClasses="divider--pumice divider--keyline" />
-                </SpacingComponent>
-                <SpacingComponent>
-                  <WorkDetailsSection headingText="License information">
-                    <div className="spaced-text">
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="License information"
-                        text={licenseInfo.humanReadableText}
-                      />
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Credit"
-                        text={[
-                          `${work.title.replace(/\.$/g, '')}.${' '}
-                ${
-                  iiifImageLocationCredit
-                    ? `Credit: <a href="https://wellcomecollection.org/works/${
-                        work.id
-                      }">${iiifImageLocationCredit}</a>. `
-                    : ` `
-                }
-                ${
-                  licenseInfo.url
-                    ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                    : licenseInfo.text
-                }`,
-                        ]}
-                      />
-                    </div>
-                  </WorkDetailsSection>
-                </SpacingComponent>
-              </Fragment>
-            )}
-
-            <SpacingComponent>
-              <Divider extraClasses="divider--pumice divider--keyline" />
-            </SpacingComponent>
-
-            <SpacingComponent>
-              <WorkDetailsSection>
-                <div className="flex flex--v-center">
-                  <Icon
-                    name="underConstruction"
-                    extraClasses="margin-right-s2"
-                  />
-                  <p
-                    className={`${font({
-                      s: 'HNL5',
-                      m: 'HNL4',
-                    })} no-margin`}
-                  >
-                    We’re improving the information on this page.{' '}
-                    <a href="/works/progress">Find out more</a>.
-                  </p>
-                </div>
-              </WorkDetailsSection>
-            </SpacingComponent>
+                  <SpacingComponent>{section}</SpacingComponent>
+                </Fragment>
+              );
+            })}
           </div>
         </div>
       </div>
