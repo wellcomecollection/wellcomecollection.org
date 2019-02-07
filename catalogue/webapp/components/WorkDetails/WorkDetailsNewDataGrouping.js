@@ -5,7 +5,6 @@ import type { LicenseType } from '@weco/common/model/license';
 
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { Fragment } from 'react';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { worksUrl } from '../../services/catalogue/urls';
@@ -22,7 +21,6 @@ const StyledWorkDetailsSection = styled.div`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   padding: 0;
-  border-top: 1px solid #d9d6ce;
 
   &:first-child {
     border-top: 0;
@@ -53,47 +51,32 @@ const StyledWorkDetailsSection = styled.div`
 `;
 
 type WorkDetailsSectionProps = {|
-  showDivider?: boolean,
   headingText?: string,
   children: Node,
 |};
 
 const WorkDetailsSection = ({
-  showDivider = true,
   headingText,
   children,
 }: WorkDetailsSectionProps) => {
   return (
-    <Fragment>
-      {showDivider && (
-        <Divider
-          extraClasses={`divider--pumice divider--keyline ${spacing(
-            { s: 1 },
-            { margin: ['top', 'bottom'] }
-          )}`}
-        />
+    <StyledWorkDetailsSection>
+      {headingText ? (
+        <h2
+          className={classNames({
+            [font({ s: 'WB6', m: 'WB5' })]: true,
+            [spacing({ s: 0 }, { margin: ['top'] })]: true,
+            'work-details-heading': true,
+          })}
+        >
+          {headingText}
+        </h2>
+      ) : (
+        <div className="work-details-heading" />
       )}
 
-      <SpacingComponent>
-        <StyledWorkDetailsSection>
-          {headingText ? (
-            <h2
-              className={classNames({
-                [font({ s: 'WB6', m: 'WB5' })]: true,
-                [spacing({ s: 0 }, { margin: ['top'] })]: true,
-                'work-details-heading': true,
-              })}
-            >
-              {headingText}
-            </h2>
-          ) : (
-            <div className="work-details-heading" />
-          )}
-
-          <div className="work-details-body spaced-text">{children}</div>
-        </StyledWorkDetailsSection>
-      </SpacingComponent>
-    </Fragment>
+      <div className="work-details-body spaced-text">{children}</div>
+    </StyledWorkDetailsSection>
   );
 };
 
@@ -145,7 +128,7 @@ const WorkDetails = ({
         <div className="grid">
           <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
             {iiifImageLocationUrl && (
-              <WorkDetailsSection showDivider={false}>
+              <WorkDetailsSection>
                 <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
                   <Button
                     type="tertiary"
@@ -210,7 +193,6 @@ const WorkDetails = ({
 
             {showAboutSection && (
               <WorkDetailsSection
-                showDivider={Boolean(iiifImageLocationUrl)}
                 headingText={`About this ${singularWorkTypeLabel}`}
               >
                 {work.description && (
