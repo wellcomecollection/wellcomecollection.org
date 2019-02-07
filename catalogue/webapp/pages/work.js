@@ -267,7 +267,7 @@ WorkPage.getInitialProps = async (
       workType,
       itemsLocationsLocationType,
       showNewMetaDataGrouping,
-      showWorkHeader: true,
+      showWorkHeader,
       showCatalogueSearchFilters,
     };
   }
