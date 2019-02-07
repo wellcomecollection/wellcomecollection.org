@@ -4,12 +4,7 @@ provider "aws" {
 }
 
 module "wellcomecollection" {
-  source                = "../templates"
-  project_name          = "wellcomecollection"
-  ssl_cert_name         = "wellcomecollection.org"
-  alb_log_bucket        = "wellcomecollection-logs"
-  container_definitions = "${file("../container-definitions.json")}"
-  infra_bucket          = "wellcomecollection-infra"
+  source = "../templates"
 }
 
 output "vpc_id" {
