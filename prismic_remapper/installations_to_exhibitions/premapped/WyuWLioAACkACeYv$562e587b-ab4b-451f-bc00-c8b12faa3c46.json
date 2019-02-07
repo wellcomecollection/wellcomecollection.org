@@ -1,0 +1,207 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WyuWLioAACkACeYx",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Pharmacy of Colour",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2018-07-23T23:00:00+00:00",
+  "end": "2019-02-17T00:00:00+00:00",
+  "place": {
+    "id": "Wn1gdSoAACgAH_-x",
+    "mask": "places",
+    "wioUrl": "wio://documents/Wn1gdSoAACgAH_-x"
+  },
+  "body": [
+    {
+      "key": "text$3d80b4fc-e743-408b-8fc9-6b87998d6918",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Step up to our historical pharmacy, where pigments and medicines are displayed side by side, and imagine yourself buying medicines from an expert apothecary. ",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "",
+                "spans": []
+              }
+            }
+          ]
+        }
+      },
+      "label": "featured"
+    },
+    {
+      "key": "text$672fb006-a432-429c-8b22-5a5639b5fac5",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "In this interactive installation, situated next to our Medicine Now gallery on Level 1, you can: ",
+                "spans": []
+              }
+            },
+            {
+              "type": "list-item",
+              "content": {
+                "text": "watch a short film featuring beautiful manuscripts and insights from a pigment expert who will show how colourful plant, mineral and animal products were prepared in early pharmacies;",
+                "spans": []
+              }
+            },
+            {
+              "type": "list-item",
+              "content": {
+                "text": "see the rocks, plants and other raw materials used for pigment-making;",
+                "spans": []
+              }
+            },
+            {
+              "type": "list-item",
+              "content": {
+                "text": "open the drawers to discover images, recipes and fact cards about substances that were used for their healing properties and for creating the pigments that colour some of our remarkable manuscripts. Some of these substances are poisonous, and some are still used today.",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [],
+  "promo": [
+    {
+      "key": "editorialImage$57958959-ce3d-4da1-9d68-e12792588982",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Experience a medieval pharmacy, where pigments and medicines are displayed side by side – the insects, plants and rocks of the artist’s palette mixed into the physician’s concoctions. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W1mGCCYAACgAtomN",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc3e0fc08-5356-4c21-abe7-17cec796684b_ep_000423_001.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2aebe0298cbe4dff858057fa403407cb9a927f91_ep_000423_001.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W1mGCCYAACgAtomN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc3e0fc08-5356-4c21-abe7-17cec796684b_ep_000423_001.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/459df70f34b693495964c51731c4b47bdedf5cb1_ep_000423_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W1mGCCYAACgAtomN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc3e0fc08-5356-4c21-abe7-17cec796684b_ep_000423_001.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6ee9f05e16a7f7e63ac98064059953457bcce704_ep_000423_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W1mGCCYAACgAtomN",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc3e0fc08-5356-4c21-abe7-17cec796684b_ep_000423_001.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6a00dcdaff0f634659990b353fcebe88c5a27960_ep_000423_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -648,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

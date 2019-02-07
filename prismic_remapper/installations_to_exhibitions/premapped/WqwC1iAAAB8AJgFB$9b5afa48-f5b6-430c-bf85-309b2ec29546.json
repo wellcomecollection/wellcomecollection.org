@@ -1,0 +1,465 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WqwC1iAAAB8AJgFD",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "‘Alien Sex Club’ by John Walter",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2018-03-08T00:00:00+00:00",
+  "end": "2018-08-26T23:00:00+00:00",
+  "place": {
+    "id": "WrEgqSAAACAAPEw7",
+    "mask": "places",
+    "wioUrl": "wio://documents/WrEgqSAAACAAPEw7"
+  },
+  "body": [
+    {
+      "key": "quote$8fa07d13-151d-454f-a917-86f287847005",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Riotously bright and optimistic",
+                "spans": []
+              }
+            }
+          ],
+          "citation": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The IET",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "text$234bd59b-47c2-4513-b9fe-39dbdb62f13d",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Taking inspiration from London’s saunas, sex clubs and cruising spots, ‘Alien Sex Club’ explores the evolution of HIV from an incurable disease to a treatable condition. It combines cutting-edge scientific enquiry with satirical cultural artefacts and encourages you to get lost and explore the maze for yourself.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "editorialImageGallery$721506dd-871f-48fe-acd1-a9db6ef8ea6b",
+      "value": {
+        "repeat": [
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ-yIAANL-2AkC",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fbfbad610-b437-4087-a2d7-1baebc8b92d5_ep_000251_001.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c3c6c1d194e93a8913a04f42ebdb8f91057971dd_ep_000251_001.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of the entrance to a gallery installation showing the introduction text panel.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "\"Alien Sex Club is a maze based on this idea of a sex club, sauna or gay bathhouse,\" says the artist John Walter. \"The idea of a cruise maze is an emblem more than a reality.\"",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ_CIAANT-2AkJ",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9ace902d-e407-4227-b182-e4bbac67a1ce_ep_000285_009.jpg",
+                "width": 4000,
+                "height": 2702
+              },
+              "width": 4000,
+              "height": 2702,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/67086d694d074ada75223ecbaa7ded75c439555f_ep_000285_009.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of visitors exploring a gallery space.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "\"There’s something aphrodisiacal about the idea of a maze because it’s a space you can get lost in,\" he explains.",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ_CIAANL-2AkI",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F7f878b20-69fa-48bf-92b9-39c34a3cddc5_ep_000251_024.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/aae7363edf9a771d849777ab2d56af84a347639c_ep_000251_024.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of gallery installation showing a large floor plan hung on the wall.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“I researched ‘Alien Sex Club’ as a PhD within a faculty of architecture, which may seem counterintuitive, but actually it was a great way of investigating all of the spatial properties of the spaces of cruising,” he says.",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ-iIAAM_-2AkA",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdd4370db-05cb-4c41-ab82-6c5dc593a46a_ep_000280_004.jpg",
+                "width": 4000,
+                "height": 2669
+              },
+              "width": 4000,
+              "height": 2669,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/064d610617f0c669d5bd4a73a7c2e39ff0d0f0b6_ep_000280_004.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of a visitor exploring a gallery space.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“I definitely developed a respect for the virus — not the desire to have it, but empathy for it, as it’s this clever little thing, which works in conjunction with you. It’s a very persuasive little beast.”",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ-iIAAM_-2AkB",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fdedea13b-7f72-4545-8a14-1cabce7e3a7e_ep_000280_005.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ca35a705efea6b9fe3f3d5bc11b82dd16ac2f710_ep_000280_005.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of visitors exploring a gallery space.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "\"Early on in the AIDS crisis, you could be on 40 pills a day,\" says Walter. \"Now, if you’re HIV positive and on treatment, you could be on one pill a day, potentially hiding it from a discussion.\"",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ_SIAANT-2AkP",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc40c6c7b-cd54-4ed7-86e9-2c6c0d29624f_ep_000251_018.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/995ab446add6624ee975f7f3bd85d4589101d796_ep_000251_018.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of an exhibition space showing large colourful illustrated cards.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "\"The way to reanimate the discussion is to inundate people with imagery,\" he argues. \"Almost subliminally you'll come out understanding something.\"",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WusJ-yIAANT-2AkD",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc6e79dd1-ca5b-4fb4-bc32-dc73ce5d3dff_ep_000285_090.jpg",
+                "width": 3999,
+                "height": 2668
+              },
+              "width": 3999,
+              "height": 2668,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a7e731a477a416025407ba5a065f37a786000683_ep_000285_090.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of visitors exploring a gallery space.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "\"The thing that I love about Alien Sex Club is seeing the different people that come into the exhibition and knowing that they will think about it long after they’ve left,\" says scientist and collaborator Alison Rodger. \"The way that John portrays the science gets people into a world that they didn’t know existed.\"",
+                  "spans": []
+                }
+              }
+            ]
+          }
+        ],
+        "non-repeat": {
+          "title": [
+            {
+              "type": "heading1",
+              "content": {
+                "text": "",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WrObhCMAAB8AU5tJ",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WrObhCMAAB8AU5tJ"
+      },
+      "contributor": {
+        "id": "Wqpi2SAAAB4AHt9h",
+        "mask": "people",
+        "wioUrl": "wio://documents/Wqpi2SAAAB4AHt9h"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Artist",
+            "spans": []
+          }
+        }
+      ]
+    },
+    {
+      "role": {
+        "id": "WoL2lCoAACkANt4D",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoL2lCoAACkANt4D"
+      },
+      "contributor": {
+        "id": "Wqpi-iAAACEAHt_1",
+        "mask": "people",
+        "wioUrl": "wio://documents/Wqpi-iAAACEAHt_1"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Scientist",
+            "spans": []
+          }
+        }
+      ]
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$8b01d79b-3f4e-49b1-8864-15ef45c52e3e",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Experience surprising and social encounters in this colourful, chaotic maze and emerge with a new vocabulary for talking about HIV.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WusJ-CIAAND-2Ajz",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2461372-884f-432e-ad72-2c6094268ee2_ep_000280_021.jpg",
+              "width": 4000,
+              "height": 2670
+            },
+            "width": 4000,
+            "height": 2670,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fa254e2b9bf509e33abe4c631860bd7fab989513_ep_000280_021.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a visitor exploring a gallery space.",
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "WusJ-CIAAND-2Ajz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2461372-884f-432e-ad72-2c6094268ee2_ep_000280_021.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6072af1186523ab29f139a45da4c9ef113111838_ep_000280_021.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -318
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring a gallery space."
+              },
+              "square": {
+                "origin": {
+                  "id": "WusJ-CIAAND-2Ajz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2461372-884f-432e-ad72-2c6094268ee2_ep_000280_021.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7135698cb4292705d9247ac83914b63cbead9691_ep_000280_021.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.198501872659176,
+                  "crop": {
+                    "x": -711,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring a gallery space."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WusJ-CIAAND-2Ajz",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2461372-884f-432e-ad72-2c6094268ee2_ep_000280_021.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/1664804a87e2f27f32438a62ea383220d8515b4d_ep_000280_021.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -168
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Alien Sex Club by John Walter, in collaboration with Alison Rodger  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring a gallery space."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

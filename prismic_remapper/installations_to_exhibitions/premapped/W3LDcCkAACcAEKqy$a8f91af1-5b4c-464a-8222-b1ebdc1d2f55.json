@@ -1,0 +1,514 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W3LDcCkAACcAEKq0",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Global Clinic",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2018-10-03T23:00:00+00:00",
+  "end": "2019-04-21T23:00:00+00:00",
+  "place": {
+    "id": "WoLtlioAACoANrY_",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtlioAACoANrY_"
+  },
+  "body": [
+    {
+      "key": "text$ae437fe2-ff9f-4400-afed-30129e5f457c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Walk inside an innovative mobile clinic, and follow its development from the early prototypes to the first complete version. ",
+                "spans": []
+              }
+            }
+          ]
+        }
+      },
+      "label": "featured"
+    },
+    {
+      "key": "text$bd161ec4-8c56-4aba-8d72-7493823d2d4b",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Doctors working in remote locations often deliver emergency services from temporary structures – these need to be flexible yet robust, easy to transport and build, and able to adapt to different climates. ",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Independent humanitarian charity Doctors of the World were frustrated with the available options, usually tents or shipping containers. They worked with architects Rogers Stirk Harbour + Partners, and engineers BuroHappold and ChapmanBDSP to produce the Global Clinic, designed to provide effective, adaptable healthcare in emergency situations and remote locations. ",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "When the Living with Buildings exhibition closes, Doctors of the World will deploy the clinic in a location where their care is needed.",
+                "spans": [
+                  {
+                    "start": 9,
+                    "end": 41,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "Wk4sPSQAACcANwrX",
+                      "mask": "exhibitions",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_5f7fe3ea-8b45-42c2-afe6-b8fa258ce2b5_tf_181008_2940409-hdr.jpg",
+                        "title": "Living with Buildings"
+                      },
+                      "wioUrl": "wio://documents/Wk4sPSQAACcANwrX"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "editorialImageGallery$261d6880-aaa4-47fe-9766-d90010347372",
+      "value": {
+        "repeat": [
+          {
+            "image": {
+              "origin": {
+                "id": "W79ruxEAAB0NpmF9",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc06b7bfa-8deb-48bf-9d61-f8d61b785bf2_ep000573_0007.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/22c04760e28a2d1cf22f26dc4959df0648dd4d4c_ep000573_0007.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+              "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection.",
+              "thumbnails": {
+                "32:15": {
+                  "origin": {
+                    "id": "W79ruxEAAB0NpmF9",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc06b7bfa-8deb-48bf-9d61-f8d61b785bf2_ep000573_0007.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 1500,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fd756bcf39beaf618341a41536a30dc4c7c3c584_ep000573_0007.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 0.8,
+                    "crop": {
+                      "x": 0,
+                      "y": -318
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection."
+                },
+                "16:9": {
+                  "origin": {
+                    "id": "W79ruxEAAB0NpmF9",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc06b7bfa-8deb-48bf-9d61-f8d61b785bf2_ep000573_0007.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 1800,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/53de3775116c93bac1e7a590d0e7f96840127bad_ep000573_0007.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 0.8,
+                    "crop": {
+                      "x": 0,
+                      "y": -168
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection."
+                },
+                "square": {
+                  "origin": {
+                    "id": "W79ruxEAAB0NpmF9",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc06b7bfa-8deb-48bf-9d61-f8d61b785bf2_ep000573_0007.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 3200,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5406ee98b434d5fc7a31c93bf43b3b0f77b2cbc8_ep000573_0007.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 1.198501872659176,
+                    "crop": {
+                      "x": -797,
+                      "y": 0
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection."
+                }
+              }
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "The Global Clinic is constructed from pieces of plywood cut by a CNC (computer numerical control) machine. These pieces then connect to form the basic structure, and the shape and size can be adapted according to the needs of Doctors of the World.",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W79ruxEAABANpmF-",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F68005cda-3db5-46cb-af09-9f1d4e3c2572_ep000573_0008.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/37c05d02bdbad6386b4fff259942381ae5b277d3_ep000573_0008.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+              "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection.",
+              "thumbnails": {
+                "32:15": {
+                  "origin": {
+                    "id": "W79ruxEAABANpmF-",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F68005cda-3db5-46cb-af09-9f1d4e3c2572_ep000573_0008.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 1500,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a53531a85d77eda650c66c6b01ff4f1045d14d83_ep000573_0008.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 0.8,
+                    "crop": {
+                      "x": 0,
+                      "y": -318
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection."
+                },
+                "square": {
+                  "origin": {
+                    "id": "W79ruxEAABANpmF-",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F68005cda-3db5-46cb-af09-9f1d4e3c2572_ep000573_0008.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 3200,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/decae7d58a0bdd4d415fa68991e56dd4a65cba01_ep000573_0008.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 1.198501872659176,
+                    "crop": {
+                      "x": -797,
+                      "y": 0
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection."
+                },
+                "16:9": {
+                  "origin": {
+                    "id": "W79ruxEAABANpmF-",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F68005cda-3db5-46cb-af09-9f1d4e3c2572_ep000573_0008.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 1800,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e4fe7044508ef7e146f4591f7b94615967a8c4c1_ep000573_0008.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 0.8,
+                    "crop": {
+                      "x": 0,
+                      "y": -168
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic, a wooden structure built in the gallery space at Wellcome Collection."
+                }
+              }
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "The Global Clinic is presented alongside prototypes that informed its design. ",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "W79fWxEAAB8Npivs",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F88357cb7-4d2d-44d9-9519-560b6699abd0_ep000573_0002.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7f22334f1167abb8ea5fd3b7641c4e422917212c_ep000573_0002.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+              "alt": "Photograph of the Global Clinic prototype, a wooden structure built in the gallery space at Wellcome Collection.",
+              "thumbnails": {
+                "16:9": {
+                  "origin": {
+                    "id": "W79fWxEAAB8Npivs",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F88357cb7-4d2d-44d9-9519-560b6699abd0_ep000573_0002.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 1800,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/7cba4a30858566b5547f5ebecb84676df1614236_ep000573_0002.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 0.8,
+                    "crop": {
+                      "x": 0,
+                      "y": -168
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic prototype, a wooden structure built in the gallery space at Wellcome Collection."
+                },
+                "32:15": {
+                  "origin": {
+                    "id": "W79fWxEAAB8Npivs",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F88357cb7-4d2d-44d9-9519-560b6699abd0_ep000573_0002.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 1500,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/cd02db07674137eaa9653674a40d8efe7957ed69_ep000573_0002.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 0.8,
+                    "crop": {
+                      "x": 0,
+                      "y": -318
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic prototype, a wooden structure built in the gallery space at Wellcome Collection."
+                },
+                "square": {
+                  "origin": {
+                    "id": "W79fWxEAAB8Npivs",
+                    "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F88357cb7-4d2d-44d9-9519-560b6699abd0_ep000573_0002.jpg",
+                    "width": 4000,
+                    "height": 2670
+                  },
+                  "width": 3200,
+                  "height": 3200,
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e1aef37fe505806e3ec7adb35ad75075d4f4b870_ep000573_0002.jpg",
+                  "edit": {
+                    "background": "#fff",
+                    "zoom": 1.198501872659176,
+                    "crop": {
+                      "x": -797,
+                      "y": 0
+                    }
+                  },
+                  "credits": "The Global Clinic | Steven Pocock | Wellcome Collection | | CC-BY | |",
+                  "alt": "Photograph of the Global Clinic prototype, a wooden structure built in the gallery space at Wellcome Collection."
+                }
+              }
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "The shape and size of this framework can be adapted according to the needs of Doctors of the World.",
+                  "spans": []
+                }
+              }
+            ]
+          }
+        ],
+        "non-repeat": {
+          "title": [
+            {
+              "type": "heading1",
+              "content": {
+                "text": "",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e7215c24-cc0d-4fcd-ad76-2e1e19bdaeb0",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Upstairs on level 1, walk through our innovative mobile clinic, which will provide effective, adaptable healthcare in emergency situations.  Part of our free health and architecture exhibition, ‘Living with Buildings’.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W790ChEAAB8NpoYL",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Feb835d8e-7d59-493f-a6cf-e747b49b3a4f_ep_000480_035.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d799468ce408f8c8b4ff1d32ba20bce5b33419b7_ep_000480_035.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "The Global Clinic | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a visitor exploring the exhibition, The Global Clinic at Wellcome Collection.",
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "W790ChEAAB8NpoYL",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Feb835d8e-7d59-493f-a6cf-e747b49b3a4f_ep_000480_035.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e7d2635c331adacd07fcf131f1b380b33f8cfeb4_ep_000480_035.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -529,
+                    "y": 0
+                  }
+                },
+                "credits": "The Global Clinic | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring the exhibition, The Global Clinic at Wellcome Collection."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W790ChEAAB8NpoYL",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Feb835d8e-7d59-493f-a6cf-e747b49b3a4f_ep_000480_035.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/53df52bf3686f4955f328792d1047d0fc3b19100_ep_000480_035.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "The Global Clinic | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring the exhibition, The Global Clinic at Wellcome Collection."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W790ChEAAB8NpoYL",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Feb835d8e-7d59-493f-a6cf-e747b49b3a4f_ep_000480_035.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/9b01556fad54690399e64ed4f575c4792cc41168_ep_000480_035.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -249
+                  }
+                },
+                "credits": "The Global Clinic | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring the exhibition, The Global Clinic at Wellcome Collection."
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadataDescription": [
+    {
+      "type": "paragraph",
+      "content": {
+        "text": "Part of Living with Buildings, our health and architecture exhibition in central London. Walk through an innovative mobile clinic designed to provide effective, adaptable healthcare in emergency situations.  ",
+        "spans": []
+      }
+    }
+  ]
+}
