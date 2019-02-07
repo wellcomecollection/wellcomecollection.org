@@ -32,15 +32,20 @@ const StyledWorkDetailsSection = styled.div`
     grid-column: 1 / -1;
   }
 
-  .work-details-body {
-    svg,
-    p:first-of-type,
-    ul:first-of-type {
-      margin: 0;
-    }
+  h3 + * {
+    margin: 0;
+  }
+
+  /* TODO use theme for margin value */
+  h2.work-details-heading {
+    margin: 0 0 12px 0;
   }
 
   @media (min-width: 800px) {
+    h2.work-details-heading {
+      margin: 0;
+    }
+
     .work-details-heading {
       grid-column: span 4;
     }
@@ -66,7 +71,6 @@ const WorkDetailsSection = ({
         <h2
           className={classNames({
             [font({ s: 'WB6', m: 'WB5' })]: true,
-            [spacing({ s: 0 }, { margin: ['top'] })]: true,
             'work-details-heading': true,
           })}
         >
@@ -76,7 +80,7 @@ const WorkDetailsSection = ({
         <div className="work-details-heading" />
       )}
 
-      <div className="work-details-body spaced-text">{children}</div>
+      <div className="work-details-body">{children}</div>
     </StyledWorkDetailsSection>
   );
 };
@@ -205,75 +209,77 @@ const WorkDetails = ({
                   <WorkDetailsSection
                     headingText={`About this ${singularWorkTypeLabel}`}
                   >
-                    {work.description && (
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Description"
-                        text={[work.description]}
-                      />
-                    )}
+                    <div className="spaced-text">
+                      {work.description && (
+                        <MetaUnit
+                          headingLevel={3}
+                          headingText="Description"
+                          text={[work.description]}
+                        />
+                      )}
 
-                    {work.production.length > 0 && (
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Publication/Creation"
-                        text={work.production.map(
-                          productionEvent => productionEvent.label
-                        )}
-                      />
-                    )}
+                      {work.production.length > 0 && (
+                        <MetaUnit
+                          headingLevel={3}
+                          headingText="Publication/Creation"
+                          text={work.production.map(
+                            productionEvent => productionEvent.label
+                          )}
+                        />
+                      )}
 
-                    {(work.physicalDescription ||
-                      work.extent ||
-                      work.dimensions) && (
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Physical description"
-                        text={[
-                          [
-                            work.extent,
-                            work.physicalDescription,
-                            work.dimensions,
-                          ]
-                            .filter(Boolean)
-                            .join(' '),
-                        ]}
-                      />
-                    )}
+                      {(work.physicalDescription ||
+                        work.extent ||
+                        work.dimensions) && (
+                        <MetaUnit
+                          headingLevel={3}
+                          headingText="Physical description"
+                          text={[
+                            [
+                              work.extent,
+                              work.physicalDescription,
+                              work.dimensions,
+                            ]
+                              .filter(Boolean)
+                              .join(' '),
+                          ]}
+                        />
+                      )}
 
-                    {work.lettering && (
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Lettering"
-                        text={[work.lettering]}
-                      />
-                    )}
+                      {work.lettering && (
+                        <MetaUnit
+                          headingLevel={3}
+                          headingText="Lettering"
+                          text={[work.lettering]}
+                        />
+                      )}
 
-                    {work.genres.length > 0 && (
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Type"
-                        links={work.genres.map(genre => {
-                          const linkAttributes = worksUrl({
-                            query: `"${genre.label}"`,
-                            page: 1,
-                          });
-                          return (
-                            <NextLink key={1} {...linkAttributes}>
-                              {genre.label}
-                            </NextLink>
-                          );
-                        })}
-                      />
-                    )}
+                      {work.genres.length > 0 && (
+                        <MetaUnit
+                          headingLevel={3}
+                          headingText="Type"
+                          links={work.genres.map(genre => {
+                            const linkAttributes = worksUrl({
+                              query: `"${genre.label}"`,
+                              page: 1,
+                            });
+                            return (
+                              <NextLink key={1} {...linkAttributes}>
+                                {genre.label}
+                              </NextLink>
+                            );
+                          })}
+                        />
+                      )}
 
-                    {work.language && (
-                      <MetaUnit
-                        headingLevel={3}
-                        headingText="Language"
-                        links={[work.language.label]}
-                      />
-                    )}
+                      {work.language && (
+                        <MetaUnit
+                          headingLevel={3}
+                          headingText="Language"
+                          links={[work.language.label]}
+                        />
+                      )}
+                    </div>
                   </WorkDetailsSection>
                 </SpacingComponent>
               </Fragment>
@@ -287,19 +293,21 @@ const WorkDetails = ({
 
                 <SpacingComponent>
                   <WorkDetailsSection headingText="Subjects">
-                    <MetaUnit
-                      links={work.subjects.map(subject => {
-                        const linkAttributes = worksUrl({
-                          query: `"${subject.label}"`,
-                          page: 1,
-                        });
-                        return (
-                          <NextLink key={1} {...linkAttributes}>
-                            {subject.label}
-                          </NextLink>
-                        );
-                      })}
-                    />
+                    <div className="spaced-text">
+                      <MetaUnit
+                        links={work.subjects.map(subject => {
+                          const linkAttributes = worksUrl({
+                            query: `"${subject.label}"`,
+                            page: 1,
+                          });
+                          return (
+                            <NextLink key={1} {...linkAttributes}>
+                              {subject.label}
+                            </NextLink>
+                          );
+                        })}
+                      />
+                    </div>
                   </WorkDetailsSection>
                 </SpacingComponent>
               </Fragment>
@@ -313,10 +321,12 @@ const WorkDetails = ({
 
                 <SpacingComponent>
                   <WorkDetailsSection headingText="Find in the library">
-                    <p>
-                      {`This ${singularWorkTypeLabel} is available at `}
-                      <a href={encoreLink}>Wellcome Library</a>
-                    </p>
+                    <div className="spaced-text">
+                      <p>
+                        {`This ${singularWorkTypeLabel} is available at `}
+                        <a href={encoreLink}>Wellcome Library</a>
+                      </p>
+                    </div>
                   </WorkDetailsSection>
                 </SpacingComponent>
               </Fragment>
@@ -328,12 +338,14 @@ const WorkDetails = ({
 
             <SpacingComponent>
               <WorkDetailsSection headingText="Identifiers">
-                {isbnIdentifiers.length > 0 && (
-                  <MetaUnit
-                    headingText="ISBN"
-                    list={isbnIdentifiers.map(id => id.value)}
-                  />
-                )}
+                <div className="spaced-text">
+                  {isbnIdentifiers.length > 0 && (
+                    <MetaUnit
+                      headingText="ISBN"
+                      list={isbnIdentifiers.map(id => id.value)}
+                    />
+                  )}
+                </div>
                 <MetaUnit headingText="Share">
                   <CopyUrl
                     id={work.id}
@@ -350,30 +362,32 @@ const WorkDetails = ({
                 </SpacingComponent>
                 <SpacingComponent>
                   <WorkDetailsSection headingText="License information">
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="License information"
-                      text={licenseInfo.humanReadableText}
-                    />
-                    <MetaUnit
-                      headingLevel={3}
-                      headingText="Credit"
-                      text={[
-                        `${work.title.replace(/\.$/g, '')}.${' '}
-                  ${
-                    iiifImageLocationCredit
-                      ? `Credit: <a href="https://wellcomecollection.org/works/${
-                          work.id
-                        }">${iiifImageLocationCredit}</a>. `
-                      : ` `
-                  }
-                  ${
-                    licenseInfo.url
-                      ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                      : licenseInfo.text
-                  }`,
-                      ]}
-                    />
+                    <div className="spaced-text">
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="License information"
+                        text={licenseInfo.humanReadableText}
+                      />
+                      <MetaUnit
+                        headingLevel={3}
+                        headingText="Credit"
+                        text={[
+                          `${work.title.replace(/\.$/g, '')}.${' '}
+                ${
+                  iiifImageLocationCredit
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${
+                        work.id
+                      }">${iiifImageLocationCredit}</a>. `
+                    : ` `
+                }
+                ${
+                  licenseInfo.url
+                    ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                    : licenseInfo.text
+                }`,
+                        ]}
+                      />
+                    </div>
                   </WorkDetailsSection>
                 </SpacingComponent>
               </Fragment>

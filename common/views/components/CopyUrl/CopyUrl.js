@@ -101,7 +101,7 @@ class CopyUrl extends Component<Props, State> {
     const { isTextCopied, isClicked } = this.state;
 
     return (
-      <div className={spacing({ s: 0 }, { margin: ['top'] })}>
+      <div>
         <HTMLInput
           inputRef={this.setTextInputRef}
           id="share"
@@ -130,12 +130,7 @@ class CopyUrl extends Component<Props, State> {
               name="check"
               extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`}
             />
-            <span
-              className={`js-copy-text ${spacing(
-                { s: 0 },
-                { margin: ['top'] }
-              )}`}
-            >
+            <span className="js-copy-text">
               {getButtonMarkup(isTextCopied, isClicked)}
             </span>
           </span>
