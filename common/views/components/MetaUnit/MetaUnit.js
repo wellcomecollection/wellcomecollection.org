@@ -2,7 +2,6 @@
 import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import Divider from '../Divider/Divider';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -39,13 +38,7 @@ const Paragraphs = ({ text }) => {
   return (
     text.length > 0 &&
     text.map((para, i) => {
-      return (
-        <p
-          key={i}
-          className={spacing({ s: 2 }, { margin: ['bottom'] })}
-          dangerouslySetInnerHTML={{ __html: para }}
-        />
-      );
+      return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
     })
   );
 };
@@ -120,12 +113,7 @@ const MetaUnit = ({
   children,
 }: MetaUnitProps) => {
   return (
-    <div
-      className={`${spacing({ s: 4 }, { margin: ['bottom'] })} ${font({
-        s: 'HNL4',
-        m: 'HNL3',
-      })}`}
-    >
+    <div className={`${font({ s: 'HNL4', m: 'HNL3' })}`}>
       {headingText && (
         <Heading headingLevel={headingLevel} headingText={headingText} />
       )}

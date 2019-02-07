@@ -2,7 +2,7 @@
 
 import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
-import { font } from '../../../../utils/classnames';
+import { font, spacing } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
 type Props = {|
@@ -62,7 +62,9 @@ const Button = ({
     >
       <span className="flex-inline flex--v-center">
         {icon && <Icon name={icon} />}
-        <span className="btn__text">{text}</span>
+        <span className={`btn__text ${spacing({ s: 0 }, { margin: ['top'] })}`}>
+          {text}
+        </span>
       </span>
     </HtmlTag>
   );

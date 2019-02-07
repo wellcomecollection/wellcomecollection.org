@@ -21,7 +21,7 @@ const StyledWorkDetailsSection = styled.div`
   /* TODO: variables/functions/mixins/linting */
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  padding: 24px 0;
+  padding: 0;
   border-top: 1px solid #d9d6ce;
 
   &:first-child {
@@ -31,6 +31,14 @@ const StyledWorkDetailsSection = styled.div`
   .work-details-heading,
   .work-details-body {
     grid-column: 1 / -1;
+  }
+
+  .work-details-body {
+    svg,
+    p:first-of-type,
+    ul:first-of-type {
+      margin: 0;
+    }
   }
 
   @media (min-width: 800px) {
@@ -82,7 +90,7 @@ const WorkDetailsSection = ({
             <div className="work-details-heading" />
           )}
 
-          <div className="work-details-body">{children}</div>
+          <div className="work-details-body spaced-text">{children}</div>
         </StyledWorkDetailsSection>
       </SpacingComponent>
     </Fragment>
@@ -135,12 +143,7 @@ const WorkDetails = ({
     >
       <div className="container">
         <div className="grid">
-          <div
-            className={classNames([
-              grid({ s: 12, m: 12, l: 10, xl: 10 }),
-              spacing({ s: 4 }, { margin: ['bottom'] }),
-            ])}
-          >
+          <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
             {iiifImageLocationUrl && (
               <WorkDetailsSection showDivider={false}>
                 <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
@@ -160,7 +163,12 @@ const WorkDetails = ({
                   />
                 </div>
 
-                <div className={spacing({ s: 3 }, { margin: ['bottom'] })}>
+                <div
+                  className={`${spacing(
+                    { s: 3 },
+                    { margin: ['bottom'] }
+                  )} ${spacing({ s: 0 }, { margin: ['top'] })}`}
+                >
                   <Button
                     type="tertiary"
                     url={convertImageUri(iiifImageLocationUrl, 760)}
@@ -178,7 +186,7 @@ const WorkDetails = ({
                 </div>
 
                 {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
-                  <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
+                  <div className={spacing({ s: 0 }, { margin: ['top'] })}>
                     {iiifImageLocationCredit && (
                       <p
                         className={classNames([
