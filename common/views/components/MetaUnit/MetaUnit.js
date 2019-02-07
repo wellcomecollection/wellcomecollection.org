@@ -54,7 +54,10 @@ const LinksList = ({ links }) => {
   return (
     links.length > 0 && (
       <ul
-        className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${spacing(
+        className={`plain-list ${spacing(
+          { s: 2 },
+          { margin: ['bottom'] }
+        )} ${spacing(
           { s: 0 },
           {
             margin: ['top', 'left', 'right'],
@@ -78,7 +81,10 @@ const List = ({ list }) => {
   return (
     list.length > 0 && (
       <ul
-        className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${spacing(
+        className={`plain-list ${spacing(
+          { s: 2 },
+          { margin: ['bottom'] }
+        )} ${spacing(
           { s: 0 },
           {
             margin: ['top', 'left', 'right'],
@@ -102,7 +108,7 @@ type MetaUnitProps = {|
   links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
   text?: string[],
   list?: string[],
-  children?: Node
+  children?: Node,
 |};
 
 const MetaUnit = ({
@@ -111,12 +117,13 @@ const MetaUnit = ({
   text = [],
   links = [],
   list = [],
-  children
+  children,
 }: MetaUnitProps) => {
   return (
     <div
       className={`${spacing({ s: 4 }, { margin: ['bottom'] })} ${font({
-        s: 'HNL4', m: 'HNL3'
+        s: 'HNL4',
+        m: 'HNL3',
       })}`}
     >
       {headingText && (
