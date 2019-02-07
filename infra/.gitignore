@@ -1,11 +1,6 @@
-# IntelliJ
-.idea/
-*.iml
-.DS_Store
-
-
 # Terraform
 .terraform
 *.tfvars
 *.tfstate
 *.tfstate.backup
+terraform.tfstate*
