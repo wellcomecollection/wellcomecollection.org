@@ -257,7 +257,7 @@ const WorkDetails = ({
                         links={work.genres.map(genre => {
                           const linkAttributes = worksUrl({
                             query: `"${genre.label}"`,
-                            page: undefined,
+                            page: 1,
                           });
                           return (
                             <NextLink key={1} {...linkAttributes}>
@@ -292,7 +292,7 @@ const WorkDetails = ({
                       links={work.subjects.map(subject => {
                         const linkAttributes = worksUrl({
                           query: `"${subject.label}"`,
-                          page: undefined,
+                          page: 1,
                         });
                         return (
                           <NextLink key={1} {...linkAttributes}>
