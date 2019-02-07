@@ -8,6 +8,8 @@ module.exports = {
   map({ filename, doc }) {
     doc.type = 'exhibitions';
     doc.tags = doc.tags.concat(['delist']);
-    return { doc, filename };
+    // we change the filename as we don't want to override the existing content,
+    // And that is where the ID is stored
+    return { doc, filename: `new_${filename}` };
   },
 };
