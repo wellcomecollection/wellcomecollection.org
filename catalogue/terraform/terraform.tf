@@ -49,12 +49,12 @@ data "terraform_remote_state" "router" {
 }
 
 locals {
-  vpc_id                 = "${data.terraform_remote_state.infra.vpc_id}"
-  vpc_subnets            = "${data.terraform_remote_state.infra.vpc_subnets}"
-  alb_cloudwatch_id      = "${data.terraform_remote_state.infra.alb_cloudwatch_id}"
-  alb_listener_https_arn = "${data.terraform_remote_state.router.alb_listener_https_arn}"
-  alb_listener_http_arn  = "${data.terraform_remote_state.router.alb_listener_http_arn}"
-  cluster_name           = "${data.terraform_remote_state.router.cluster_name}"
+  vpc_id                     = "${data.terraform_remote_state.infra.vpc_id}"
+  vpc_subnets                = "${data.terraform_remote_state.infra.vpc_subnets}"
+  loadbalancer_cloudwatch_id = "${data.terraform_remote_state.router.alb_id}"
+  alb_listener_https_arn     = "${data.terraform_remote_state.router.alb_listener_https_arn}"
+  alb_listener_http_arn      = "${data.terraform_remote_state.router.alb_listener_http_arn}"
+  cluster_name               = "${data.terraform_remote_state.router.cluster_name}"
 }
 
 module "alb_server_error_alarm" {
@@ -82,7 +82,7 @@ module "catalogue" {
   listener_http_arn                  = "${local.alb_listener_http_arn}"
   server_error_alarm_topic_arn       = "${module.alb_server_error_alarm.arn}"
   client_error_alarm_topic_arn       = "${module.alb_client_error_alarm.arn}"
-  loadbalancer_cloudwatch_id         = "${local.alb_cloudwatch_id}"
+  loadbalancer_cloudwatch_id         = "${local.loadbalancer_cloudwatch_id}"
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "200"
   env_vars_length                    = 0
