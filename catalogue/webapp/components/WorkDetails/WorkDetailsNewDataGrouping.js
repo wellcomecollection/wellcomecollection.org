@@ -338,14 +338,17 @@ const WorkDetails = ({
 
             <SpacingComponent>
               <WorkDetailsSection headingText="Identifiers">
-                <div className="spaced-text">
-                  {isbnIdentifiers.length > 0 && (
+                {isbnIdentifiers.length > 0 && (
+                  <div
+                    className="spaced-text"
+                    style={{ marginBottom: '1.6em' }}
+                  >
                     <MetaUnit
                       headingText="ISBN"
                       list={isbnIdentifiers.map(id => id.value)}
                     />
-                  )}
-                </div>
+                  </div>
+                )}
                 <MetaUnit headingText="Share">
                   <CopyUrl
                     id={work.id}
