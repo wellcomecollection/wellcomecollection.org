@@ -365,10 +365,4 @@ const WorkDetails = ({
   );
 };
 
-/* TODO old stuff without a home below here
- * createdDate is only from MIRO and only for a subset of images that have a V number
-  {work.createdDate &&
-    <MetaUnit headingText='Created date' text={[work.createdDate.label]} />
-  }
-*/
 export default WorkDetails;
