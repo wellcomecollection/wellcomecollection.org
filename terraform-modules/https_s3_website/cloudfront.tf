@@ -15,8 +15,8 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
     target_origin_id       = "S3-${var.website_uri}"
-    min_ttl                = 0
-    default_ttl            = 3600
+    min_ttl                = 86400
+    default_ttl            = 86400
     max_ttl                = 86400
     compress               = true
 
