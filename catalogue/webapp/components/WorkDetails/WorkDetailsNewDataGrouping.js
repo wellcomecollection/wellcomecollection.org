@@ -115,7 +115,6 @@ const WorkDetails = ({
     work.lettering ||
     work.genres.length > 0 ||
     work.language;
-  const showSubjectsSection = work.subjects.length > 0;
 
   return (
     <div
@@ -280,7 +279,7 @@ const WorkDetails = ({
               </Fragment>
             )}
 
-            {showSubjectsSection && (
+            {work.subjects.length > 0 && (
               <Fragment>
                 <SpacingComponent>
                   <Divider extraClasses="divider--pumice divider--keyline" />
