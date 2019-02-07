@@ -128,195 +128,206 @@ const WorkDetails = ({
         <div className="grid">
           <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
             {iiifImageLocationUrl && (
-              <WorkDetailsSection>
-                <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
-                  <Button
-                    type="tertiary"
-                    url={convertImageUri(iiifImageLocationUrl, 'full')}
-                    target="_blank"
-                    download={`${work.id}.jpg`}
-                    rel="noopener noreferrer"
-                    trackingEvent={{
-                      category: 'Button',
-                      action: 'download large work image',
-                      label: work.id,
-                    }}
-                    icon="download"
-                    text="Download full size"
-                  />
-                </div>
-
-                <div
-                  className={`${spacing(
-                    { s: 3 },
-                    { margin: ['bottom'] }
-                  )} ${spacing({ s: 0 }, { margin: ['top'] })}`}
-                >
-                  <Button
-                    type="tertiary"
-                    url={convertImageUri(iiifImageLocationUrl, 760)}
-                    target="_blank"
-                    download={`${work.id}.jpg`}
-                    rel="noopener noreferrer"
-                    trackingEvent={{
-                      category: 'Button',
-                      action: 'download small work image',
-                      label: work.id,
-                    }}
-                    icon="download"
-                    text="Download small (760px)"
-                  />
-                </div>
-
-                {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
-                  <div className={spacing({ s: 0 }, { margin: ['top'] })}>
-                    {iiifImageLocationCredit && (
-                      <p
-                        className={classNames([
-                          font({ s: 'HNL5', m: 'HNL4' }),
-                          spacing({ s: 1 }, { margin: ['bottom'] }),
-                        ])}
-                      >
-                        Credit: {iiifImageLocationCredit}
-                      </p>
-                    )}
-                    {iiifImageLocationLicenseId && (
-                      <License
-                        subject={''}
-                        licenseType={iiifImageLocationLicenseId}
-                      />
-                    )}
+              <SpacingComponent>
+                <WorkDetailsSection>
+                  <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
+                    <Button
+                      type="tertiary"
+                      url={convertImageUri(iiifImageLocationUrl, 'full')}
+                      target="_blank"
+                      download={`${work.id}.jpg`}
+                      rel="noopener noreferrer"
+                      trackingEvent={{
+                        category: 'Button',
+                        action: 'download large work image',
+                        label: work.id,
+                      }}
+                      icon="download"
+                      text="Download full size"
+                    />
                   </div>
-                )}
-              </WorkDetailsSection>
+
+                  <div
+                    className={`${spacing(
+                      { s: 3 },
+                      { margin: ['bottom'] }
+                    )} ${spacing({ s: 0 }, { margin: ['top'] })}`}
+                  >
+                    <Button
+                      type="tertiary"
+                      url={convertImageUri(iiifImageLocationUrl, 760)}
+                      target="_blank"
+                      download={`${work.id}.jpg`}
+                      rel="noopener noreferrer"
+                      trackingEvent={{
+                        category: 'Button',
+                        action: 'download small work image',
+                        label: work.id,
+                      }}
+                      icon="download"
+                      text="Download small (760px)"
+                    />
+                  </div>
+
+                  {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
+                    <div className={spacing({ s: 0 }, { margin: ['top'] })}>
+                      {iiifImageLocationCredit && (
+                        <p
+                          className={classNames([
+                            font({ s: 'HNL5', m: 'HNL4' }),
+                            spacing({ s: 1 }, { margin: ['bottom'] }),
+                          ])}
+                        >
+                          Credit: {iiifImageLocationCredit}
+                        </p>
+                      )}
+                      {iiifImageLocationLicenseId && (
+                        <License
+                          subject={''}
+                          licenseType={iiifImageLocationLicenseId}
+                        />
+                      )}
+                    </div>
+                  )}
+                </WorkDetailsSection>
+              </SpacingComponent>
             )}
 
             {showAboutSection && (
-              <WorkDetailsSection
-                headingText={`About this ${singularWorkTypeLabel}`}
-              >
-                {work.description && (
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Description"
-                    text={[work.description]}
-                  />
-                )}
+              <SpacingComponent>
+                <WorkDetailsSection
+                  headingText={`About this ${singularWorkTypeLabel}`}
+                >
+                  {work.description && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Description"
+                      text={[work.description]}
+                    />
+                  )}
 
-                {work.production.length > 0 && (
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Publication/Creation"
-                    text={work.production.map(
-                      productionEvent => productionEvent.label
-                    )}
-                  />
-                )}
+                  {work.production.length > 0 && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Publication/Creation"
+                      text={work.production.map(
+                        productionEvent => productionEvent.label
+                      )}
+                    />
+                  )}
 
-                {(work.physicalDescription ||
-                  work.extent ||
-                  work.dimensions) && (
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Physical description"
-                    text={[
-                      [work.extent, work.physicalDescription, work.dimensions]
-                        .filter(Boolean)
-                        .join(' '),
-                    ]}
-                  />
-                )}
+                  {(work.physicalDescription ||
+                    work.extent ||
+                    work.dimensions) && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Physical description"
+                      text={[
+                        [work.extent, work.physicalDescription, work.dimensions]
+                          .filter(Boolean)
+                          .join(' '),
+                      ]}
+                    />
+                  )}
 
-                {work.lettering && (
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Lettering"
-                    text={[work.lettering]}
-                  />
-                )}
+                  {work.lettering && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Lettering"
+                      text={[work.lettering]}
+                    />
+                  )}
 
-                {work.genres.length > 0 && (
+                  {work.genres.length > 0 && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Type"
+                      links={work.genres.map(genre => {
+                        const linkAttributes = worksUrl({
+                          query: `"${genre.label}"`,
+                          page: undefined,
+                        });
+                        return (
+                          <NextLink key={1} {...linkAttributes}>
+                            {genre.label}
+                          </NextLink>
+                        );
+                      })}
+                    />
+                  )}
+
+                  {work.language && (
+                    <MetaUnit
+                      headingLevel={3}
+                      headingText="Language"
+                      links={[work.language.label]}
+                    />
+                  )}
+                </WorkDetailsSection>
+              </SpacingComponent>
+            )}
+
+            {showSubjectsSection && (
+              <SpacingComponent>
+                <WorkDetailsSection headingText="Subjects">
                   <MetaUnit
-                    headingLevel={3}
-                    headingText="Type"
-                    links={work.genres.map(genre => {
+                    links={work.subjects.map(subject => {
                       const linkAttributes = worksUrl({
-                        query: `"${genre.label}"`,
+                        query: `"${subject.label}"`,
                         page: undefined,
                       });
                       return (
                         <NextLink key={1} {...linkAttributes}>
-                          {genre.label}
+                          {subject.label}
                         </NextLink>
                       );
                     })}
                   />
-                )}
-
-                {work.language && (
-                  <MetaUnit
-                    headingLevel={3}
-                    headingText="Language"
-                    links={[work.language.label]}
-                  />
-                )}
-              </WorkDetailsSection>
-            )}
-
-            {showSubjectsSection && (
-              <WorkDetailsSection headingText="Subjects">
-                <MetaUnit
-                  links={work.subjects.map(subject => {
-                    const linkAttributes = worksUrl({
-                      query: `"${subject.label}"`,
-                      page: undefined,
-                    });
-                    return (
-                      <NextLink key={1} {...linkAttributes}>
-                        {subject.label}
-                      </NextLink>
-                    );
-                  })}
-                />
-              </WorkDetailsSection>
+                </WorkDetailsSection>
+              </SpacingComponent>
             )}
 
             {encoreLink && (
-              <WorkDetailsSection headingText="Find in the library">
-                <p>
-                  {`This ${singularWorkTypeLabel} is available at `}
-                  <a href={encoreLink}>Wellcome Library</a>
-                </p>
-              </WorkDetailsSection>
+              <SpacingComponent>
+                <WorkDetailsSection headingText="Find in the library">
+                  <p>
+                    {`This ${singularWorkTypeLabel} is available at `}
+                    <a href={encoreLink}>Wellcome Library</a>
+                  </p>
+                </WorkDetailsSection>
+              </SpacingComponent>
             )}
 
-            <WorkDetailsSection headingText="Identifiers">
-              {isbnIdentifiers.length > 0 && (
-                <MetaUnit
-                  headingText="ISBN"
-                  list={isbnIdentifiers.map(id => id.value)}
-                />
-              )}
-              <MetaUnit headingText="Share">
-                <CopyUrl
-                  id={work.id}
-                  url={`https://wellcomecollection.org/works/${work.id}`}
-                />
-              </MetaUnit>
-            </WorkDetailsSection>
+            <SpacingComponent>
+              <WorkDetailsSection headingText="Identifiers">
+                {isbnIdentifiers.length > 0 && (
+                  <MetaUnit
+                    headingText="ISBN"
+                    list={isbnIdentifiers.map(id => id.value)}
+                  />
+                )}
+                <MetaUnit headingText="Share">
+                  <CopyUrl
+                    id={work.id}
+                    url={`https://wellcomecollection.org/works/${work.id}`}
+                  />
+                </MetaUnit>
+              </WorkDetailsSection>
+            </SpacingComponent>
 
             {licenseInfo && (
-              <WorkDetailsSection headingText="License information">
-                <MetaUnit
-                  headingLevel={3}
-                  headingText="License information"
-                  text={licenseInfo.humanReadableText}
-                />
-                <MetaUnit
-                  headingLevel={3}
-                  headingText="Credit"
-                  text={[
-                    `${work.title.replace(/\.$/g, '')}.${' '}
+              <SpacingComponent>
+                <WorkDetailsSection headingText="License information">
+                  <MetaUnit
+                    headingLevel={3}
+                    headingText="License information"
+                    text={licenseInfo.humanReadableText}
+                  />
+                  <MetaUnit
+                    headingLevel={3}
+                    headingText="Credit"
+                    text={[
+                      `${work.title.replace(/\.$/g, '')}.${' '}
                   ${
                     iiifImageLocationCredit
                       ? `Credit: <a href="https://wellcomecollection.org/works/${
@@ -329,25 +340,31 @@ const WorkDetails = ({
                       ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
                       : licenseInfo.text
                   }`,
-                  ]}
-                />
-              </WorkDetailsSection>
+                    ]}
+                  />
+                </WorkDetailsSection>
+              </SpacingComponent>
             )}
 
-            <WorkDetailsSection>
-              <div className="flex flex--v-center">
-                <Icon name="underConstruction" extraClasses="margin-right-s2" />
-                <p
-                  className={`${font({
-                    s: 'HNL5',
-                    m: 'HNL4',
-                  })} no-margin`}
-                >
-                  We’re improving the information on this page.{' '}
-                  <a href="/works/progress">Find out more</a>.
-                </p>
-              </div>
-            </WorkDetailsSection>
+            <SpacingComponent>
+              <WorkDetailsSection>
+                <div className="flex flex--v-center">
+                  <Icon
+                    name="underConstruction"
+                    extraClasses="margin-right-s2"
+                  />
+                  <p
+                    className={`${font({
+                      s: 'HNL5',
+                      m: 'HNL4',
+                    })} no-margin`}
+                  >
+                    We’re improving the information on this page.{' '}
+                    <a href="/works/progress">Find out more</a>.
+                  </p>
+                </div>
+              </WorkDetailsSection>
+            </SpacingComponent>
           </div>
         </div>
       </div>
