@@ -326,7 +326,7 @@ const WorkDetails = ({
                   headingLevel={3}
                   headingText="Credit"
                   text={[
-                    `${work.title}.${' '}
+                    `${work.title.replace(/\.$/g, '')}.${' '}
                   ${
                     iiifImageLocationCredit
                       ? `Credit: <a href="https://wellcomecollection.org/works/${
