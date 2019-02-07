@@ -268,17 +268,7 @@ const WorkDetails = ({
                   <MetaUnit
                     headingLevel={3}
                     headingText="Language"
-                    links={[
-                      <NextLink
-                        key={1}
-                        {...worksUrl({
-                          query: `"${work.language.label}"`,
-                          page: undefined,
-                        })}
-                      >
-                        {work.language.label}
-                      </NextLink>,
-                    ]}
+                    links={[work.language.label]}
                   />
                 )}
               </WorkDetailsSection>
