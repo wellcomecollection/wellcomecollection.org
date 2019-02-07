@@ -388,7 +388,7 @@ export async function getExhibitionRelatedContent(
     articleSeriesFields,
     articleFormatsFields
   );
-  const types = ['events', 'installations', 'articles', 'books'];
+  const types = ['exhibitions', 'events', 'installations', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
   const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
     return !(doc.type === 'events' && doc.isPast);
@@ -396,7 +396,10 @@ export async function getExhibitionRelatedContent(
 
   return {
     exhibitionOfs: parsedContent.filter(
-      doc => doc.type === 'installations' || doc.type === 'events'
+      doc =>
+        doc.type === 'exhibitions' ||
+        doc.type === 'installations' ||
+        doc.type === 'events'
     ),
     exhibitionAbouts: parsedContent.filter(
       doc => doc.type === 'books' || doc.type === 'articles'

@@ -138,6 +138,25 @@ const SearchResults = ({
               StatusIndicator={null}
             />
           )}
+
+          {item.type === 'exhibitions' && (
+            <CompactCard
+              url={`/exhibitions/${item.id}`}
+              title={item.title}
+              partNumber={null}
+              color={null}
+              labels={{ labels: item.labels }}
+              description={item.promoText}
+              urlOverride={null}
+              Image={
+                item.promo &&
+                // $FlowFixMe (Images)
+                item.promo.image && <Image {...item.promo.image} />
+              }
+              DateInfo={null}
+              StatusIndicator={null}
+            />
+          )}
         </div>
       ))}
     </div>
