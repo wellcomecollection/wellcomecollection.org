@@ -124,7 +124,6 @@ const WorkDetails = ({
     work.genres.length > 0 ||
     work.language;
   const showSubjectsSection = work.subjects.length > 0;
-  const showIdentifiersSection = Boolean(isbnIdentifiers.length > 0);
 
   return (
     <div
@@ -301,14 +300,20 @@ const WorkDetails = ({
               </WorkDetailsSection>
             )}
 
-            {showIdentifiersSection && (
-              <WorkDetailsSection headingText="Identifiers">
+            <WorkDetailsSection headingText="Identifiers">
+              {isbnIdentifiers.length > 0 && (
                 <MetaUnit
                   headingText="ISBN"
                   list={isbnIdentifiers.map(id => id.value)}
                 />
-              </WorkDetailsSection>
-            )}
+              )}
+              <MetaUnit headingText="Share">
+                <CopyUrl
+                  id={work.id}
+                  url={`https://wellcomecollection.org/works/${work.id}`}
+                />
+              </MetaUnit>
+            </WorkDetailsSection>
 
             {licenseInfo && (
               <WorkDetailsSection headingText="License information">
@@ -336,12 +341,6 @@ const WorkDetails = ({
                   }`,
                   ]}
                 />
-                <MetaUnit headingText="Share">
-                  <CopyUrl
-                    id={work.id}
-                    url={`https://wellcomecollection.org/works/${work.id}`}
-                  />
-                </MetaUnit>
               </WorkDetailsSection>
             )}
 
