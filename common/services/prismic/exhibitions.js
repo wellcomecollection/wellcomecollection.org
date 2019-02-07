@@ -348,6 +348,7 @@ export async function getExhibition(
 ): Promise<?UiExhibition> {
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(
+      exhibitionFields,
       contributorsFields,
       placesFields,
       installationFields,
