@@ -62,42 +62,6 @@ data "aws_iam_policy_document" "ecs_service_policy" {
   }
 }
 
-# Platform team ecs access delegation
-resource "aws_iam_role" "platform_team_assume_role" {
-  name = "platform-team-assume-role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": {
-    "Effect": "Allow",
-    "Principal": {
-      "AWS": "arn:aws:iam::${var.platform_team_account_id}:root"
-    },
-    "Action": "sts:AssumeRole"
-  }
-}
-EOF
-}
-
-# Platform team grafana access delegation
-resource "aws_iam_role" "platform_team_grafana_assume_role" {
-  name = "platform-team-grafana-assume-role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": {
-    "Effect": "Allow",
-    "Principal": {
-      "AWS": "arn:aws:iam::${var.platform_team_account_id}:root"
-    },
-    "Action": "sts:AssumeRole"
-  }
-}
-EOF
-}
-
 data "aws_iam_policy_document" "allow_ecs_admin" {
   statement {
     actions = [
@@ -122,16 +86,4 @@ data "aws_iam_policy_document" "allow_billing_usage_view" {
       "*",
     ]
   }
-}
-
-resource "aws_iam_role_policy" "platform_team_ecs_admin" {
-  name   = "platform_team_ecs_admin"
-  role   = "${aws_iam_role.platform_team_assume_role.name}"
-  policy = "${data.aws_iam_policy_document.allow_ecs_admin.json}"
-}
-
-resource "aws_iam_role_policy" "platform_team_grafana_billing" {
-  name   = "platform_team_grafana_billing_view"
-  role   = "${aws_iam_role.platform_team_grafana_assume_role.name}"
-  policy = "${data.aws_iam_policy_document.allow_billing_usage_view.json}"
 }
