@@ -143,10 +143,7 @@ const WorkDetails = ({
             ])}
           >
             {iiifImageLocationUrl && (
-              <WorkDetailsSection
-                showDivider={false}
-                headingText={`Download this ${singularWorkTypeLabel}`}
-              >
+              <WorkDetailsSection showDivider={false}>
                 <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
                   <Button
                     type="tertiary"
