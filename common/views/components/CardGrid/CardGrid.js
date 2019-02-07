@@ -54,8 +54,8 @@ const CardGrid = ({ items, hidePromoText }: Props) => {
                 // TODO: (remove Picture type)
                 // $FlowFixMe
                 image={item.promoImage}
-                start={item.start}
-                end={item.end}
+                start={!item.isPermanent ? item.start : null}
+                end={!item.isPermanent ? item.end : null}
                 statusOverride={item.statusOverride}
                 position={i}
               />

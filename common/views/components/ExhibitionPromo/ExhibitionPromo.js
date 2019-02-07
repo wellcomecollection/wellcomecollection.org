@@ -49,10 +49,23 @@ const ExhibitionPromo = ({
         )}
 
         <div style={{ position: 'absolute', bottom: 0 }}>
+          {/*
+            TODO: Change the format label in Prismic to Permanent exhibition,
+            and remove this hack
+          */}
           <LabelsList
             labels={
               format
-                ? [{ url: null, text: `${format.title} exhibition` }]
+                ? [
+                    {
+                      url: null,
+                      text: `${
+                        format.title === 'Permanent'
+                          ? 'Permanent exhibition'
+                          : format.title
+                      }`,
+                    },
+                  ]
                 : [{ url: null, text: 'Exhibition' }]
             }
           />
@@ -79,7 +92,7 @@ const ExhibitionPromo = ({
             {title}
           </h2>
 
-          {!format && !statusOverride && start && end && (
+          {!statusOverride && start && end && (
             <p className={`${font({ s: 'HNL4' })} no-margin no-padding`}>
               <Fragment>
                 <time dateTime={start}>{formatDate(start)}</time>—
