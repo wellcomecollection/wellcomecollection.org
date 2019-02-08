@@ -20,13 +20,15 @@ const OutboundLinkTracker = ({ children }: Props) => {
     return getDomain(document.location.href) !== getDomain(url);
   }
 
-  function handleClick(event) {
-    const href = event.target.href;
+  function handleClick(event: { target: any }) {
+    const url = event.target.href;
 
-    if (href && isExternal(href)) {
+    if (url && isExternal(url)) {
       ReactGA.outboundLink(
         {
-          label: href,
+          category: 'outbound',
+          action: 'click',
+          label: url,
         },
         () => {} // ReactGA requires the hitCallback arg
       );
