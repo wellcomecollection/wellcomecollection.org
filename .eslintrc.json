@@ -1,13 +1,17 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["flowtype", "import", "react", "jest", "prettier"],
+  "plugins": ["flowtype", "import", "react", "jest", "prettier", "standard"],
   "env": {
     "jest/globals": true
   },
   "extends": [
     "standard",
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard"
   ],
   "rules": {
     "no-multi-spaces": "off",
