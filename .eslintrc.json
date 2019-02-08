@@ -1,6 +1,14 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["flowtype", "import", "react", "jest", "prettier", "standard"],
+  "plugins": [
+    "flowtype",
+    "import",
+    "react",
+    "react-hooks",
+    "jest",
+    "prettier",
+    "standard"
+  ],
   "env": {
     "jest/globals": true
   },
@@ -21,6 +29,7 @@
     "no-return-assign": "off",
     "flowtype/no-types-missing-file-annotation": "off",
     "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
     "prettier/prettier": "error"
   },
   "parserOptions": {

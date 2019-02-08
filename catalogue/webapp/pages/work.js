@@ -6,7 +6,7 @@ import type {
 } from '../services/catalogue/works';
 import { Fragment } from 'react';
 import Router from 'next/router';
-import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -16,20 +16,11 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import { worksUrl } from '../services/catalogue/urls';
-import {
-  getPhysicalLocations,
-  getDigitalLocations,
-  getProductionDates,
-  getWorkTypeIcon,
-} from '@weco/common/utils/works';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 
 type Props = {|
