@@ -15,7 +15,7 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
 
 const StyledWorkDetailsSection = styled.div`
   /* TODO: variables/functions/mixins/linting */
