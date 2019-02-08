@@ -42,7 +42,7 @@ const License = ({ subject, licenseType }: Props) => {
     humanReadableText: [''],
   };
   return (
-    <div>
+    <div className={spacing({ s: 0 }, { margin: ['top'] })}>
       {licenseInfo.description && (
         <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
           <p
