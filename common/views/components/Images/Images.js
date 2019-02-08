@@ -83,7 +83,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     isLazyLoaded: false,
   };
 
-  imgRef = createRef<HTMLImageElement>();
+  imgRef: { current: HTMLImageElement | null } = createRef();
 
   getImageSize = () => {
     this.state.imgRef &&
