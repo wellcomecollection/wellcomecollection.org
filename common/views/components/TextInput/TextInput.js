@@ -35,7 +35,7 @@ type Props = {
 };
 
 // $FlowFixMe (forwardRef)
-const TextInput = React.forwardRef(({ label, ...inputProps }: Props, ref) => (
+const TextInput = React.forwardRef(({ label, ...inputProps }: Props, ref) => ( // eslint-disable-line
   <label className="flex flex--v-center">
     <StyledInput
       ref={ref}
