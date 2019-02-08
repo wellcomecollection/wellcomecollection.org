@@ -38,8 +38,7 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  showNewMetaDataGrouping: boolean,
-  showWorkHeader: boolean,
+  showWorkPageChanges: boolean,
   showCatalogueSearchFilters: boolean,
 |};
 
@@ -49,8 +48,7 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showNewMetaDataGrouping,
-  showWorkHeader,
+  showWorkPageChanges,
   showCatalogueSearchFilters,
 }: Props) => {
   if (work.type === 'Error') {
@@ -169,7 +167,7 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {showWorkHeader && (
+      {showWorkPageChanges && (
         <div
           className={classNames({
             row: true,
@@ -198,7 +196,7 @@ export const WorkPage = ({
           />
         )}
 
-        {showNewMetaDataGrouping ? (
+        {showWorkPageChanges ? (
           <WorkDetailsNewDataGrouping
             work={work}
             iiifImageLocationUrl={iiifImageLocationUrl}
@@ -215,7 +213,7 @@ export const WorkPage = ({
             iiifImageLocationCredit={iiifImageLocationCredit}
             iiifImageLocationLicenseId={iiifImageLocationLicenseId}
             encoreLink={encoreLink}
-            excludeTitle={showWorkHeader}
+            excludeTitle={showWorkPageChanges}
           />
         )}
       </Fragment>
@@ -239,10 +237,7 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const showNewMetaDataGrouping = Boolean(
-    ctx.query.toggles.showWorkMetaDataGrouping
-  );
-  const showWorkHeader = Boolean(ctx.query.toggles.showWorkHeader);
+  const showWorkPageChanges = Boolean(ctx.query.toggles.showWorkPageChanges);
   const showCatalogueSearchFilters = Boolean(
     ctx.query.toggles.showCatalogueSearchFilters
   );
@@ -265,8 +260,7 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      showNewMetaDataGrouping,
-      showWorkHeader,
+      showWorkPageChanges,
       showCatalogueSearchFilters,
     };
   }
