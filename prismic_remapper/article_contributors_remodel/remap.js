@@ -2,10 +2,10 @@
 // wouldn't be able to query by the slice. This moves it into a `Group` where
 // we can
 module.exports = {
-  filter({filename, doc}) {
+  filter({ filename, doc }) {
     return doc.type === 'articles';
   },
-  map({filename, doc}) {
+  map({ filename, doc }) {
     // Old contributors shape
     // "contributors": [
     //   {
@@ -46,12 +46,12 @@ module.exports = {
     const contributorsDeprecated = doc.contributors || [];
     const contributors = contributorsDeprecated.map(contributor => ({
       role: contributor.value['non-repeat'].role,
-      contributor: contributor.value['non-repeat'].person
+      contributor: contributor.value['non-repeat'].person,
     }));
 
     doc.contributors = contributors;
     doc.contributorsDeprecated = contributorsDeprecated;
 
-    return {doc, filename};
-  }
+    return { doc, filename };
+  },
 };

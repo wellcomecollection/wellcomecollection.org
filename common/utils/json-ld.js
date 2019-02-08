@@ -1,216 +1,313 @@
-import type {EventPromo, Event} from '../model/events';
-import {wellcomeCollection, wellcomeCollectionAddress} from '../model/organization';
-import {convertImageUri} from './convert-image-uri';
+import type { EventPromo, Event } from '../model/events';
+import {
+  wellcomeCollection,
+  wellcomeCollectionAddress,
+} from '../model/organization';
+import { convertImageUri } from './convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root: boolean = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
-  const jsonLdAddition = root ? {
-    '@context': 'http://schema.org',
-    '@type': type
-  } : { '@type': type };
+  const jsonLdAddition = root
+    ? {
+        '@context': 'http://schema.org',
+        '@type': type,
+      }
+    : { '@type': type };
   return Object.assign({}, jsonObj, jsonLdAddition);
 }
 
 export function contentLd(content) {
-  return objToJsonLd({
-    headline: content.headline,
-    author: (content.author && content.author.map(a => a.person).map(personLd)) || 'unknown',
-    image: content.promo && imageLd(content.promo.image),
-    datePublished: content.datePublished,
-    dateModified: content.datePublished,
-    publisher: orgLd(wellcomeCollection),
-    mainEntityOfPage: `https://wellcomecollection.org${content.url}`
-  }, 'Article');
+  return objToJsonLd(
+    {
+      headline: content.headline,
+      author:
+        (content.author && content.author.map(a => a.person).map(personLd)) ||
+        'unknown',
+      image: content.promo && imageLd(content.promo.image),
+      datePublished: content.datePublished,
+      dateModified: content.datePublished,
+      publisher: orgLd(wellcomeCollection),
+      mainEntityOfPage: `https://wellcomecollection.org${content.url}`,
+    },
+    'Article'
+  );
 }
 
 export function articleLd(article) {
   // We've left the role off of a lot of articles
-  const authorByRole = article.contributors.find(({role}) => role && role.title === 'Author');
+  const authorByRole = article.contributors.find(
+    ({ role }) => role && role.title === 'Author'
+  );
   const author = authorByRole || article.contributors[0];
 
-  return objToJsonLd({
-    contributor: article.contributors.map(({contributor, role, description}) => {
-      const type = contributor.type === 'person' ? 'Person' : 'Organization';
-      return objToJsonLd({
-        name: contributor.name,
-        image: contributor.image && contributor.image.contentUrl
-      }, type, false);
-    }),
-    dateCreated: article.datePublished,
-    datePublished: article.datePublished,
-    headline: article.title,
-    author: author && author.contributor && objToJsonLd({
-      name: author.contributor.name,
-      image: author.contributor.image && author.contributor.image.contentUrl
-    }, 'Person', false),
-    image: article.promoImage && article.promoImage.contentUrl,
-    // TODO: isPartOf
-    publisher: orgLd(wellcomeCollection),
-    url: `https://wellcomecollection.org/articles/${article.id}`
-  }, 'Article');
+  return objToJsonLd(
+    {
+      contributor: article.contributors.map(
+        ({ contributor, role, description }) => {
+          const type =
+            contributor.type === 'person' ? 'Person' : 'Organization';
+          return objToJsonLd(
+            {
+              name: contributor.name,
+              image: contributor.image && contributor.image.contentUrl,
+            },
+            type,
+            false
+          );
+        }
+      ),
+      dateCreated: article.datePublished,
+      datePublished: article.datePublished,
+      headline: article.title,
+      author:
+        author &&
+        author.contributor &&
+        objToJsonLd(
+          {
+            name: author.contributor.name,
+            image:
+              author.contributor.image && author.contributor.image.contentUrl,
+          },
+          'Person',
+          false
+        ),
+      image: article.promoImage && article.promoImage.contentUrl,
+      // TODO: isPartOf
+      publisher: orgLd(wellcomeCollection),
+      url: `https://wellcomecollection.org/articles/${article.id}`,
+    },
+    'Article'
+  );
 }
 
 export function exhibitionLd(exhibition) {
-  return objToJsonLd({
-    name: exhibition.title,
-    description: exhibition.promoText,
-    image: exhibition.promoImage && convertImageUri(exhibition.promoImage.contentUrl, 1920, false),
-    location: {
-      '@type': 'Place',
-      name: 'Wellcome Collection',
-      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+  return objToJsonLd(
+    {
+      name: exhibition.title,
+      description: exhibition.promoText,
+      image:
+        exhibition.promoImage &&
+        convertImageUri(exhibition.promoImage.contentUrl, 1920, false),
+      location: {
+        '@type': 'Place',
+        name: 'Wellcome Collection',
+        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+      },
+      startDate: exhibition.start,
+      endDate: exhibition.end,
+      url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
+      isAccessibleForFree: true,
+      performers: exhibition.contributors.map(
+        ({ contributor, role, description }) => {
+          const type =
+            contributor.type === 'person' ? 'Person' : 'Organization';
+          return objToJsonLd(
+            {
+              name: contributor.name,
+              image: contributor.image && contributor.image.contentUrl,
+            },
+            type,
+            false
+          );
+        }
+      ),
     },
-    startDate: exhibition.start,
-    endDate: exhibition.end,
-    url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
-    isAccessibleForFree: true,
-    performers: exhibition.contributors.map(({contributor, role, description}) => {
-      const type = contributor.type === 'person' ? 'Person' : 'Organization';
-      return objToJsonLd({
-        name: contributor.name,
-        image: contributor.image && contributor.image.contentUrl
-      }, type, false);
-    })
-  }, 'ExhibitionEvent');
+    'ExhibitionEvent'
+  );
 }
 
 export function exhibitionPromoLd(exhibitionPromo) {
-  return objToJsonLd({
-    name: exhibitionPromo.title,
-    description: exhibitionPromo.description,
-    image: exhibitionPromo.image.contentUrl && convertImageUri(exhibitionPromo.image.contentUrl, 1920, false),
-    location: {
-      '@type': 'Place',
-      name: 'Wellcome Collection',
-      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+  return objToJsonLd(
+    {
+      name: exhibitionPromo.title,
+      description: exhibitionPromo.description,
+      image:
+        exhibitionPromo.image.contentUrl &&
+        convertImageUri(exhibitionPromo.image.contentUrl, 1920, false),
+      location: {
+        '@type': 'Place',
+        name: 'Wellcome Collection',
+        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+      },
+      startDate: exhibitionPromo.start,
+      endDate: exhibitionPromo.end,
+      url: `https://wellcomecollection.org/exhibitions/${exhibitionPromo.id}`,
+      isAccessibleForFree: true,
     },
-    startDate: exhibitionPromo.start,
-    endDate: exhibitionPromo.end,
-    url: `https://wellcomecollection.org/exhibitions/${exhibitionPromo.id}`,
-    isAccessibleForFree: true
-  }, 'ExhibitionEvent');
+    'ExhibitionEvent'
+  );
 }
 
 export function workLd(content) {
   const creators = (content.creators || []).map(c => {
     return {
       '@type': 'Person',
-      name: c.label
+      name: c.label,
     };
   });
 
-  const keywords = content.subjects.map(s => s.label)
-    .join(',');
+  const keywords = content.subjects.map(s => s.label).join(',');
 
-  return objToJsonLd({
-    additionalType: null, // TODO: needs API
-    locationCreated: null, // TODO: needs API
-    genre: null, // TODO: needs API
-    datePublished: null, // TODO: needs API
-    dateCreated: null, // TODO: needs API
-    dateModified: null, // TODO: needs API
-    alternativeHeadline: null, // TODO: needs API
-    publishedBy: null, // TODO: needs API
-    creator: creators,
-    keywords: keywords,
-    name: content.title,
-    description: content.description,
-    image: content.imgLink,
-    thumbnailUrl: content.thumbnail && content.thumbnail.url,
-    license: content.thumbnail && content.thumbnail.license.url
-  }, 'CreativeWork');
+  return objToJsonLd(
+    {
+      additionalType: null, // TODO: needs API
+      locationCreated: null, // TODO: needs API
+      genre: null, // TODO: needs API
+      datePublished: null, // TODO: needs API
+      dateCreated: null, // TODO: needs API
+      dateModified: null, // TODO: needs API
+      alternativeHeadline: null, // TODO: needs API
+      publishedBy: null, // TODO: needs API
+      creator: creators,
+      keywords: keywords,
+      name: content.title,
+      description: content.description,
+      image: content.imgLink,
+      thumbnailUrl: content.thumbnail && content.thumbnail.url,
+      license: content.thumbnail && content.thumbnail.license.url,
+    },
+    'CreativeWork'
+  );
 }
 
 export function museumLd(museum) {
   const logo = imageLd(museum.logo);
-  const newMuseum = Object.assign({}, museum, {logo});
+  const newMuseum = Object.assign({}, museum, { logo });
   delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Museum');
 }
 
 export function eventLd(event: Event) {
-  return event.times.map(eventTime => {
-    // I don't like it, but mutation seems the easiest way here >.<
-    const eventWith1Time = Object.assign({}, event);
-    eventWith1Time.times = [eventTime];
-    return eventWith1Time;
-  }).map(event => {
-    return objToJsonLd({
-      name: event.title,
-      // TODO: This is not always at Wellcome, but we don't collect that yet
-      location: {
-        '@type': 'Place',
-        name: 'Wellcome Collection',
-        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
-      },
-      startDate: event.times.map(time => time.range.startDateTime),
-      endDate: event.times.map(time => time.range.endDateTime),
-      description: event.promoText,
-      image: event.promoImage && event.promoImage.contentUrl && convertImageUri(event.promoImage.contentUrl, 1920, false),
-      isAccessibleForFree: !event.cost,
-      performers: event.contributors.map(({contributor, role, description}) => {
-        const type = contributor.type === 'person' ? 'Person' : 'Organization';
-        return objToJsonLd({
-          name: contributor.name,
-          image: contributor.image && contributor.image.contentUrl
-        }, type, false);
-      })
-    }, 'Event');
-  });
+  return event.times
+    .map(eventTime => {
+      // I don't like it, but mutation seems the easiest way here >.<
+      const eventWith1Time = Object.assign({}, event);
+      eventWith1Time.times = [eventTime];
+      return eventWith1Time;
+    })
+    .map(event => {
+      return objToJsonLd(
+        {
+          name: event.title,
+          // TODO: This is not always at Wellcome, but we don't collect that yet
+          location: {
+            '@type': 'Place',
+            name: 'Wellcome Collection',
+            address: objToJsonLd(
+              wellcomeCollectionAddress,
+              'PostalAddress',
+              false
+            ),
+          },
+          startDate: event.times.map(time => time.range.startDateTime),
+          endDate: event.times.map(time => time.range.endDateTime),
+          description: event.promoText,
+          image:
+            event.promoImage &&
+            event.promoImage.contentUrl &&
+            convertImageUri(event.promoImage.contentUrl, 1920, false),
+          isAccessibleForFree: !event.cost,
+          performers: event.contributors.map(
+            ({ contributor, role, description }) => {
+              const type =
+                contributor.type === 'person' ? 'Person' : 'Organization';
+              return objToJsonLd(
+                {
+                  name: contributor.name,
+                  image: contributor.image && contributor.image.contentUrl,
+                },
+                type,
+                false
+              );
+            }
+          ),
+        },
+        'Event'
+      );
+    });
 }
 
 export function eventPromoLd(eventPromo: EventPromo) {
-  return objToJsonLd({
-    name: eventPromo.title,
-    location: {
-      '@type': 'Place',
-      name: 'Wellcome Collection',
-      address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false)
+  return objToJsonLd(
+    {
+      name: eventPromo.title,
+      location: {
+        '@type': 'Place',
+        name: 'Wellcome Collection',
+        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+      },
+      startDate: eventPromo.start,
+      endDate: eventPromo.end,
+      description: eventPromo.description,
+      image:
+        eventPromo && convertImageUri(eventPromo.image.contentUrl, 1920, false),
     },
-    startDate: eventPromo.start,
-    endDate: eventPromo.end,
-    description: eventPromo.description,
-    image: eventPromo && convertImageUri(eventPromo.image.contentUrl, 1920, false)
-  }, 'Event');
+    'Event'
+  );
 }
 
 export function breadcrumbsLd(breadcrumbs) {
-  return objToJsonLd({
-    itemListElement: breadcrumbs.items.map(({url, text}, i) => {
-      return objToJsonLd({
-        position: i,
-        name: text,
-        item: `https://wellcomecollection.org${url}`
-      }, 'ListItem', false);
-    })
-  }, 'BreadcrumbList');
+  return objToJsonLd(
+    {
+      itemListElement: breadcrumbs.items.map(({ url, text }, i) => {
+        return objToJsonLd(
+          {
+            position: i,
+            name: text,
+            item: `https://wellcomecollection.org${url}`,
+          },
+          'ListItem',
+          false
+        );
+      }),
+    },
+    'BreadcrumbList'
+  );
 }
 
 export function webpageLd(url) {
-  return objToJsonLd({url}, 'WebPage');
+  return objToJsonLd({ url }, 'WebPage');
 }
 
 function orgLd(org) {
-  return org && objToJsonLd({
-    name: org.name,
-    url: org.url,
-    logo: imageLd(org.logo),
-    sameAs: org.sameAs
-  }, 'Organization');
+  return (
+    org &&
+    objToJsonLd(
+      {
+        name: org.name,
+        url: org.url,
+        logo: imageLd(org.logo),
+        sameAs: org.sameAs,
+      },
+      'Organization'
+    )
+  );
 }
 
 function personLd(person) {
-  return person && objToJsonLd({
-    name: person.name,
-    description: person.description,
-    image: person.image
-  }, 'Person');
+  return (
+    person &&
+    objToJsonLd(
+      {
+        name: person.name,
+        description: person.description,
+        image: person.image,
+      },
+      'Person'
+    )
+  );
 }
 
 function imageLd(image) {
-  return image && objToJsonLd({
-    url: convertImageUri(image.contentUrl || image.url, 1200),
-    width: image.width,
-    height: image.height
-  }, 'ImageObject');
+  return (
+    image &&
+    objToJsonLd(
+      {
+        url: convertImageUri(image.contentUrl || image.url, 1200),
+        width: image.width,
+        height: image.height,
+      },
+      'ImageObject'
+    )
+  );
 }

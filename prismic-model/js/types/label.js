@@ -2,10 +2,10 @@ import title from '../parts/title';
 import structuredText from '../parts/structured-text';
 
 export default function label(label: string) {
-  return  {
+  return {
     [label]: {
       title,
-      description: structuredText('Description')
-    }
+      description: structuredText('Description'),
+    },
   };
 }

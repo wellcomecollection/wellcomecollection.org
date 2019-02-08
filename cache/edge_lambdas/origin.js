@@ -1,5 +1,5 @@
 'use-strict';
-const abTesting = require('./ab_testing');
+const abTesting = require('./toggler');
 const redirector = require('./redirector').redirector;
 const wiRedirector = require('./wiRedirector').wiRedirector;
 

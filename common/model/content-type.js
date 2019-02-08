@@ -11,13 +11,13 @@ export type ContentType =
   | 'place';
 
 const contentTypeMapWP = {
-  'standard': 'article',
-  'image': 'comic',
-  'video': 'video',
-  'audio': 'audio',
-  'gallery': 'gallery',
-  'book': 'book',
-  'event': 'event'
+  standard: 'article',
+  image: 'comic',
+  video: 'video',
+  audio: 'audio',
+  gallery: 'gallery',
+  book: 'book',
+  event: 'event',
 };
 
 export function getContentTypeFromWPType(wpType: string): ContentType {

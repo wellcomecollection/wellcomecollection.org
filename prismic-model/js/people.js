@@ -12,7 +12,7 @@ export default {
     image: image('Image'),
     sameAs: list('Same as', {
       link: text('Link'),
-      title: structuredText('Link text', 'single')
-    })
-  }
+      title: structuredText('Link text', 'single'),
+    }),
+  },
 };

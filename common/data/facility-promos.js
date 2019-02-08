@@ -1,5 +1,5 @@
-import type {Promo} from '../model/promo';
-import type {EventPromo} from '../model/events';
+import type { Promo } from '../model/promo';
+import type { EventPromo } from '../model/events';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',
@@ -8,14 +8,16 @@ export const readingRoomPromo: Promo = {
   url: 'https://wellcomecollection.org/pages/Wvlk4yAAAB8A3ufp',
   metaIcon: 'clock',
   metaText: 'Open during gallery hours',
-  description: 'Drop in to find inspiration and indulge your curiosity. It’s a gallery, a social space, and a place to unwind.',
+  description:
+    'Drop in to find inspiration and indulge your curiosity. It’s a gallery, a social space, and a place to unwind.',
   image: {
     type: 'picture',
-    contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/reading-room.png',
+    contentUrl:
+      'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/reading-room.png',
     width: 408,
     height: 229,
-    alt: ''
-  }
+    alt: '',
+  },
 };
 
 export const cafePromo: Promo = {
@@ -24,14 +26,16 @@ export const cafePromo: Promo = {
   contentType: 'place',
   title: 'Café',
   url: 'https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe',
-  description: 'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
+  description:
+    'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
   image: {
     type: 'picture',
-    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F767a5fc5-7095-4772-a22b-275b38e4bd4d_cafe.png',
+    contentUrl:
+      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F767a5fc5-7095-4772-a22b-275b38e4bd4d_cafe.png',
     width: 408,
     height: 229,
-    alt: ''
-  }
+    alt: '',
+  },
 };
 
 export const libraryPromo: Promo = {
@@ -40,16 +44,18 @@ export const libraryPromo: Promo = {
   contentType: 'place',
   title: 'Library',
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm',
-  description: 'Visit our free library for the study of the social and cultural contexts of health and medicine.',
+  description:
+    'Visit our free library for the study of the social and cultural contexts of health and medicine.',
   metaIcon: 'member_card',
   metaText: 'Membership not required',
   image: {
     type: 'picture',
-    contentUrl: 'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-library.png',
+    contentUrl:
+      'https://s3-eu-west-1.amazonaws.com/static.wellcomecollection.org/daily-promo-images/wellcome-library.png',
     width: 408,
     height: 229,
-    alt: ''
-  }
+    alt: '',
+  },
 };
 
 export const restaurantPromo: Promo = {
@@ -61,11 +67,12 @@ export const restaurantPromo: Promo = {
   description: 'Enjoy delicious lunches, drinks and afternoon tea on level 2.',
   image: {
     type: 'picture',
-    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png',
+    contentUrl:
+      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png',
     width: 408,
     height: 229,
-    alt: ''
-  }
+    alt: '',
+  },
 };
 
 export const shopPromo: Promo = {
@@ -77,11 +84,12 @@ export const shopPromo: Promo = {
   description: 'Come and browse a selection of our quirky gifts and books.',
   image: {
     type: 'picture',
-    contentUrl: 'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9feb700-cb89-47cc-be19-75b37adc2061_shop.png',
+    contentUrl:
+      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9feb700-cb89-47cc-be19-75b37adc2061_shop.png',
     width: 408,
     height: 229,
-    alt: ''
-  }
+    alt: '',
+  },
 };
 
 export const dailyTourPromo: EventPromo = {
@@ -102,15 +110,16 @@ export const dailyTourPromo: EventPromo = {
     id: 'WmYRpCQAACUAn-Ap',
     title: 'Gallery tour',
     shortName: null,
-    description: null
+    description: null,
   },
   bookingType: null,
   interpretations: [],
   image: {
     type: 'picture',
-    contentUrl: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg',
+    contentUrl:
+      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg',
     width: 2996,
     height: 2000,
-    alt: ''
-  }
+    alt: '',
+  },
 };

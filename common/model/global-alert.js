@@ -1,5 +1,5 @@
 // @flow
 export type GlobalAlert = {|
   text: string,
-  isShown: boolean
-|}
+  isShown: boolean,
+|};

@@ -1,11 +1,17 @@
-data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  provider = "aws.us-east-1"
-  domain   = "wellcomecollection.org"
+data "aws_lambda_function" "versioned_edge_lambda_request" {
+  function_name = "cf_edge_lambda_request"
+  qualifier     = "${local.edge_lambda_request_version}"
 }
 
+data "aws_lambda_function" "versioned_edge_lambda_response" {
+  function_name = "cf_edge_lambda_response"
+  qualifier     = "${local.edge_lambda_response_version}"
+}
+
+# Create the CloudFront distribution
 resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   origin {
-    domain_name = "${module.router_alb.dns_name}"
+    domain_name = "${data.terraform_remote_state.router.alb_dns_name}"
     origin_id   = "origin"
 
     custom_origin_config {
@@ -19,8 +25,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   enabled         = true
   is_ipv6_enabled = true
 
-  # We can't use *.wellcomecollection.org here as we use other subdomains
-  # elsewhere which would obviously conflict
   aliases = [
     "wellcomecollection.org",
     "next.wellcomecollection.org",
@@ -29,7 +33,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "content.wellcomecollection.org",
     "whats-on.wellcomecollection.org",
     "wellcomeimages.org",
-    "*.wellcomeimages.org"
+    "*.wellcomeimages.org",
   ]
 
   default_cache_behavior {
@@ -50,8 +54,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "current",
         "query",
         "uri",
-        "MIROPAC",   # Wellcome Images redirect
-        "MIRO",      # Wellcome Images redirect
+        "MIROPAC", # Wellcome Images redirect
+        "MIRO",    # Wellcome Images redirect
 
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)
@@ -62,24 +66,23 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         forward = "whitelist"
 
         whitelisted_names = [
-          "toggles",           # feature toggles
-          "toggle_*",          # feature toggles
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
         ]
       }
     }
 
     lambda_function_association {
       event_type = "origin-request"
-      lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
+      lambda_arn = "${data.aws_lambda_function.versioned_edge_lambda_request.arn}"
     }
 
     lambda_function_association {
       event_type = "origin-response"
-      lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
+      lambda_arn = "${data.aws_lambda_function.versioned_edge_lambda_response.arn}"
     }
   }
 
-  # Make sure that the next assets always outlive the HTML
   ordered_cache_behavior {
     target_origin_id       = "origin"
     path_pattern           = "/_next/*"
@@ -114,76 +117,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       headers      = ["Host"]
       query_string = true
 
-      query_string_cache_keys = [
-        "toggles",   # feature toggles
-      ]
-
       cookies {
         forward = "whitelist"
 
         whitelisted_names = [
-          "toggles",           # feature toggles
+          "toggles", # feature toggles
         ]
-      }
-    }
-  }
-
-  ordered_cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/eventbrite/*"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  ordered_cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/preview"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
-      }
-    }
-  }
-
-  ordered_cache_behavior {
-    target_origin_id       = "origin"
-    path_pattern           = "/management/*"
-    allowed_methods        = ["HEAD", "GET"]
-    cached_methods         = ["HEAD", "GET"]
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    forwarded_values {
-      query_string = true
-      headers      = ["*"]
-
-      cookies {
-        forward = "all"
       }
     }
   }
@@ -193,10 +132,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1"
   }
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
     }
   }
+
   retain_on_delete = true
 }

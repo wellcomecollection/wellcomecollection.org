@@ -2,5 +2,5 @@
 
 export type Label = {|
   url: ?string,
-  text: string
-|}
+  text: string,
+|};

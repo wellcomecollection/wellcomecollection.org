@@ -1,5 +1,5 @@
 // @flow
-import type {ContentType} from '../model/content-type';
+import type { ContentType } from '../model/content-type';
 
 export default function getIconForContentType(type: ContentType): ?string {
   switch (type) {

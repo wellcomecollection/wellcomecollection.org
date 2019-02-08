@@ -5,5 +5,5 @@ module.exports = () => ({
     ctx.status = 200;
     ctx.body = 'ok';
     return next();
-  }
+  },
 });

@@ -1,8 +1,8 @@
 // @flow
-import type {Person} from './people';
-import type {HTMLString} from '../services/prismic/types';
-import type {ImageType} from './image';
-import type {SameAs} from './same-as';
+import type { Person } from './people';
+import type { HTMLString } from '../services/prismic/types';
+import type { ImageType } from './image';
+import type { SameAs } from './same-as';
 
 export type Organisation = {|
   id: string,
@@ -10,26 +10,26 @@ export type Organisation = {|
   image: ImageType,
   description?: HTMLString,
   url: ?string,
-  sameAs: SameAs
+  sameAs: SameAs,
 |};
 
 type ContributorRole = {|
   id: string,
-  title: string
-|}
+  title: string,
+|};
 
 export type PersonContributor = {|
   ...Person,
-  type: 'people'
-|}
+  type: 'people',
+|};
 
 export type OrganisationContributor = {|
   ...Organisation,
-  type: 'organisations'
-|}
+  type: 'organisations',
+|};
 
 export type Contributor = {|
   contributor: PersonContributor | OrganisationContributor,
   role: ?ContributorRole,
-  description: ?HTMLString
-|}
+  description: ?HTMLString,
+|};

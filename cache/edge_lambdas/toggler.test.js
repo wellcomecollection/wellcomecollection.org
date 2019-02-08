@@ -1,4 +1,4 @@
-const abTesting = require('./ab_testing');
+const abTesting = require('./toggler');
 const testEventRequest = require('./test_event_request');
 
 test('x-toggled header gets added, and sends the cookie to the client', () => {
@@ -12,7 +12,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     id: 'wontwork',
     title: `Won't work`,
     shouldRun(request) {
-      throw new Error({message: 'broken for test'});
+      throw new Error({ message: 'broken for test' });
     }
   }]);
 

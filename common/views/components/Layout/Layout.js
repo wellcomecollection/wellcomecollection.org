@@ -1,23 +1,22 @@
-import type {Node} from 'react';
+import type { Node } from 'react';
 import { classNames, grid } from '../../../utils/classnames';
-import type {SizeMap} from '../../../utils/classnames';
+import type { SizeMap } from '../../../utils/classnames';
 
 // @flow
 
 type Props = {|
   gridSizes: SizeMap,
-  children: Node
-|}
+  children: Node,
+|};
 
-const Layout = ({
-  gridSizes,
-  children
-}: Props) => (
-  <div className='container'>
-    <div className='grid'>
-      <div className={classNames({
-        [grid(gridSizes)]: true
-      })}>
+const Layout = ({ gridSizes, children }: Props) => (
+  <div className="container">
+    <div className="grid">
+      <div
+        className={classNames({
+          [grid(gridSizes)]: true,
+        })}
+      >
         {children}
       </div>
     </div>

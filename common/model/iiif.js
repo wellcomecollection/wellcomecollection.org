@@ -1,22 +1,25 @@
 // @flow
 export type IIIFThumbnail = {|
-  '@id': string
-|}
+  '@id': string,
+|};
 
 export type IIIFResource = {|
-  '@id': string
-|}
+  '@id': string,
+  service: {
+    '@id': string,
+  },
+|};
 
 export type IIIFImage = {|
-  resource: IIIFResource
-|}
+  resource: IIIFResource,
+|};
 
 export type IIIFCanvas = {|
   thumbnail: IIIFThumbnail,
-  images: IIIFImage[]
-|}
+  images: IIIFImage[],
+|};
 
 export type IIIFSequence = {|
   '@id': string,
-  canvases: IIIFCanvas[]
-|}
+  canvases: IIIFCanvas[],
+|};

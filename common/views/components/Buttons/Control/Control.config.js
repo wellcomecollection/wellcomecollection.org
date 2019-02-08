@@ -8,8 +8,8 @@ export const variants = [
     context: {
       icon: 'download',
       type: 'light',
-      text: 'download'
-    }
+      text: 'download',
+    },
   },
   {
     name: 'dark',
@@ -17,8 +17,8 @@ export const variants = [
     context: {
       icon: 'download',
       type: 'dark',
-      text: 'download'
-    }
+      text: 'download',
+    },
   },
   {
     name: 'light-link',
@@ -27,8 +27,8 @@ export const variants = [
       url: '#',
       icon: 'download',
       type: 'light',
-      text: 'download'
-    }
+      text: 'download',
+    },
   },
   {
     name: 'dark-link',
@@ -37,7 +37,7 @@ export const variants = [
       url: '#',
       icon: 'download',
       type: 'dark',
-      text: 'download'
-    }
-  }
+      text: 'download',
+    },
+  },
 ];

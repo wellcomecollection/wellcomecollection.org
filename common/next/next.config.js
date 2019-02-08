@@ -14,32 +14,34 @@ module.exports = function(webpack, assetPrefix) {
         generateStatsFile: true,
         statsFilename: `../../.dist/server.${buildHash}.json`,
         reportFilename: `../../.dist/server.${buildHash}.html`,
-        openAnalyzer: false
+        openAnalyzer: false,
       },
       browser: {
         analyzerMode: 'static',
         generateStatsFile: true,
         statsFilename: `../.dist/browser.${buildHash}.json`,
         reportFilename: `../.dist/browser.${buildHash}.html`,
-        openAnalyzer: false
-      }
+        openAnalyzer: false,
+      },
     },
     webpack(config, options) {
       config.module.rules.push({
         test: /\.scss$/,
-        use: [{
-          loader: 'css-loader',
-          options: {
-            minimize: true
-          }
-        }, 'postcss-loader', {
-          loader: 'sass-loader',
-          options: {
-            includePaths: [
-              path.join(__dirname, '../styles')
-            ]
-          }
-        }]
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+            },
+          },
+          'postcss-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [path.join(__dirname, '../styles')],
+            },
+          },
+        ],
       });
       config.plugins.push(
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -49,21 +51,19 @@ module.exports = function(webpack, assetPrefix) {
         )
       );
 
-      config.module.rules.push(
-        {
-          test: /\.md$/,
-          use: 'raw-loader'
-        }
-      );
+      config.module.rules.push({
+        test: /\.md$/,
+        use: 'raw-loader',
+      });
 
       return config;
-    }
+    },
   });
 
   const isProd = process.env.NODE_ENV === 'production';
   return withTM({
     assetPrefix: isProd ? `https://${assetPrefix}.wellcomecollection.org` : '',
     transpileModules: ['@weco'],
-    ...withBundleAnalyzerConfig
+    ...withBundleAnalyzerConfig,
   });
 };

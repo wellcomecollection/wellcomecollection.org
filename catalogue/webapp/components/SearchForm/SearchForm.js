@@ -1,13 +1,13 @@
 // @flow
 // $FlowFixMe (hooks)
-import {Fragment, useState, useRef} from 'react';
+import { Fragment, useState, useRef } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import {classNames, font} from '@weco/common/utils/classnames';
-import {trackEvent} from '@weco/common/utils/ga';
-import {worksUrl} from '../../services/catalogue/urls';
+import { classNames, font, spacing } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import { worksUrl } from '../../services/catalogue/urls';
 
 const workTypes = [
   { id: 'a', label: 'Books' },
@@ -32,7 +32,7 @@ const workTypes = [
   { id: 'v', label: 'E-books' },
   { id: 'w', label: 'Student dissertations' },
   { id: 'x', label: 'E-manuscripts, Asian' },
-  { id: 'z', label: 'Web sites ' }
+  { id: 'z', label: 'Web sites ' },
 ];
 
 type Props = {|
@@ -40,8 +40,8 @@ type Props = {|
   initialWorkType: string[],
   initialItemsLocationsLocationType: string[],
   showFilters: boolean,
-  ariaDescribedBy: string
-|}
+  ariaDescribedBy: string,
+|};
 
 const SearchInputWrapper = styled.div`
   background: ${props => props.theme.colors.white};
@@ -67,136 +67,206 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+type SearchTagProps = {
+  label: string,
+  name: string,
+  value: string,
+  checked: boolean,
+  onChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+};
+const SearchTag = ({
+  label,
+  name,
+  value,
+  checked,
+  onChange,
+}: SearchTagProps) => {
+  return (
+    <label
+      className={classNames({
+        'bg-pumice': true,
+        'flex-inline': true,
+        'flex--v-center': true,
+        pointer: true,
+        [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
+        [spacing({ s: 1 }, { margin: ['right'] })]: true,
+        [font({ s: 'HNL3' })]: true,
+      })}
+      style={{ borderRadius: '3px' }}
+    >
+      <input
+        className={classNames({
+          [spacing({ s: 1 }, { margin: ['right'] })]: true,
+        })}
+        type="checkbox"
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
+      {label}
+    </label>
+  );
+};
+
 const SearchForm = ({
   initialQuery = '',
   initialWorkType = [],
   initialItemsLocationsLocationType = [],
   showFilters,
-  ariaDescribedBy
+  ariaDescribedBy,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
-  const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(initialItemsLocationsLocationType);
+  const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
+    initialItemsLocationsLocationType
+  );
   const searchInput = useRef(null);
 
   return (
     <form
-      action='/works'
+      action="/works"
       aria-describedby={ariaDescribedBy}
-      onSubmit={(event) => {
+      onSubmit={event => {
         event.preventDefault();
 
         trackEvent({
           category: 'SearchForm',
           action: 'submit search',
-          label: query
+          label: query,
         });
 
         const link = worksUrl({
           query,
           workType,
           itemsLocationsLocationType,
-          page: 1
+          page: 1,
         });
 
         Router.push(link.href, link.as);
 
         return false;
-      }}>
-
-      <div className='relative'>
-        <SearchInputWrapper className='relative'>
+      }}
+    >
+      <div className="relative">
+        <SearchInputWrapper className="relative">
           <TextInput
             label={'Search the catalogue'}
             placeholder={'Search for artworks, photos and more'}
-            name='query'
+            name="query"
             value={query}
             autoFocus={query === ''}
-            onChange={(event) => setQuery(event.currentTarget.value)}
-            ref={searchInput} />
+            onChange={event => setQuery(event.currentTarget.value)}
+            ref={searchInput}
+          />
 
-          {query &&
+          {query && (
             <ClearSearch
-              className='absolute line-height-1 plain-button v-center no-padding'
+              className="absolute line-height-1 plain-button v-center no-padding"
               onClick={() => {
                 trackEvent({
                   category: 'SearchForm',
                   action: 'clear search',
-                  label: 'works-search'
+                  label: 'works-search',
                 });
 
                 setQuery('');
 
                 searchInput.current && searchInput.current.focus();
               }}
-              type='button'>
-              <Icon name='clear' title='Clear' />
+              type="button"
+            >
+              <Icon name="clear" title="Clear" />
             </ClearSearch>
-          }
+          )}
         </SearchInputWrapper>
 
-        <SearchButtonWrapper className='absolute bg-green'>
-          <button className={classNames({
-            'full-width': true,
-            'full-height': true,
-            'line-height-1': true,
-            'plain-button no-padding': true,
-            [font({s: 'HNL3', m: 'HNL2'})]: true
-          })}>
-            <span className='visually-hidden'>Search</span>
-            <span className='flex flex--v-center flex--h-center'>
-              <Icon name='search' title='Search' extraClasses='icon--white' />
+        <SearchButtonWrapper className="absolute bg-green">
+          <button
+            className={classNames({
+              'full-width': true,
+              'full-height': true,
+              'line-height-1': true,
+              'plain-button no-padding': true,
+              [font({ s: 'HNL3', m: 'HNL2' })]: true,
+            })}
+          >
+            <span className="visually-hidden">Search</span>
+            <span className="flex flex--v-center flex--h-center">
+              <Icon name="search" title="Search" extraClasses="icon--white" />
             </span>
           </button>
         </SearchButtonWrapper>
       </div>
 
-      {showFilters &&
+      {showFilters && (
         <Fragment>
-          <fieldset>
-            {workTypes.map(({id, label}) => {
-              return (
-                <label key={id}>
-                  <input
-                    type='checkbox'
-                    name='workType'
-                    value={id}
-                    defaultChecked={workType.indexOf(id) !== -1}
-                    onChange={(event) => {
-                      const input = event.currentTarget;
-                      const newWorkType = input.checked
-                        ? [...workType, input.value]
-                        : workType.filter(i => i !== input.value);
-
-                      setWorkType(newWorkType);
-                    }} />
-                  {label}
-                </label>
-              );
+          <fieldset
+            className={classNames({
+              [spacing({ s: 1 }, { margin: ['top'] })]: true,
             })}
-          </fieldset>
-
-          <fieldset>
-            <label>
-              <input
-                type='checkbox'
-                name='items.locations.locationType'
-                value={'iiif-image'}
-                defaultChecked={itemsLocationsLocationType.indexOf('iiif-image') !== -1}
-                onChange={(event) => {
-                  const input = event.currentTarget;
-                  if (input.checked) {
-                    itemsLocationsLocationType.push(input.value);
-                  } else {
-                    itemsLocationsLocationType.splice(itemsLocationsLocationType.indexOf(input.value, 1));
-                  }
-                  setItemsLocationsLocationType(itemsLocationsLocationType);
-                }} />
-              Images only
-            </label>
+          >
+            <legend
+              className={classNames({
+                'float-l': true,
+                [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                [font({ s: 'HNL4' })]: true,
+              })}
+              style={{ marginTop: '3px' }}
+            >
+              Filter by:
+            </legend>
+            <SearchTag
+              name={'workType'}
+              label="Images"
+              value="k,q"
+              checked={
+                workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1
+              }
+              onChange={event => {
+                const input = event.currentTarget;
+                const newWorkType = input.checked
+                  ? [...workType, 'k', 'q']
+                  : workType.filter(val => val !== 'k' && val !== 'q');
+                setWorkType(newWorkType);
+              }}
+            />
+            <SearchTag
+              name={'workType'}
+              label="Books"
+              value="a"
+              checked={workType.indexOf('a') !== -1}
+              onChange={event => {
+                const input = event.currentTarget;
+                const newWorkType = input.checked
+                  ? [...workType, 'a']
+                  : workType.filter(val => val !== 'a');
+                setWorkType(newWorkType);
+              }}
+            />
+            <SearchTag
+              name={'items.locations.locationType'}
+              label="Online"
+              value="iiif-image,iiif-presentation"
+              checked={
+                itemsLocationsLocationType.indexOf('iiif-image') !== -1 &&
+                itemsLocationsLocationType.indexOf('iiif-presentation') !== -1
+              }
+              onChange={event => {
+                const input = event.currentTarget;
+                if (input.checked) {
+                  setItemsLocationsLocationType([
+                    'iiif-image',
+                    'iiif-presentation',
+                  ]);
+                } else {
+                  setItemsLocationsLocationType([]);
+                }
+              }}
+            />
           </fieldset>
         </Fragment>
-      }
+      )}
     </form>
   );
 };

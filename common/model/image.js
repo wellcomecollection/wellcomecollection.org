@@ -1,5 +1,5 @@
 // @flow
-import type {Tasl} from './tasl';
+import type { Tasl } from './tasl';
 
 // We call this ImageType to not conflict with the native DOM Image
 export type ImageType = {|
@@ -8,5 +8,5 @@ export type ImageType = {|
   height: number,
   alt: string,
   tasl: Tasl,
-  crops: {| [string]: ImageType[] |}
-|}
+  crops: {| [string]: ImageType[] |},
+|};

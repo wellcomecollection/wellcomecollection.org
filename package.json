@@ -6,8 +6,7 @@
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
     "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
-    "deployContent": "pushd deploy && ./deploy_service.js -s content",
-    "deployRouter": "pushd deploy && ./deploy_service.js -s router"
+    "deployContent": "pushd deploy && ./deploy_service.js -s content"
   },
   "repository": {
     "type": "git",
@@ -23,18 +22,21 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "eslint": "^5.11.1",
+    "eslint-config-prettier": "^4.0.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.17.0",
     "eslint-plugin-node": "^7.0.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.12.2",
     "eslint-plugin-standard": "^3.0.1",
     "flow-typed": "^2.5.1",
     "lint-staged": "^7.0.0",
     "pa11y": "^5.1.0",
-    "pa11y-reporter-html": "^1.0.0"
+    "pa11y-reporter-html": "^1.0.0",
+    "prettier": "^1.16.4"
   },
   "dependencies": {
     "flow-bin": "^0.89.0"
