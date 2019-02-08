@@ -21,6 +21,30 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import { workUrl, worksUrl } from '../services/catalogue/urls';
 
+const BookCover = ({work}) => {
+  const [bookCover, setBookCover] = useState(null);
+  const isbn = work.identifiers.filter(id => {
+    return id.identifierType.id === 'isbn';
+  }).map(id => id.value)[0];
+  useEffect(() => {
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=AIzaSyDmyDQqX-CVVkP7O6LnV2FmzlRIAk_80mc`)
+      .then(resp => resp.json())
+      .then(json => {
+        const thumb = json.totalItems > 0 && json.items[0] && json.items[0].volumeInfo && json.items[0].volumeInfo.imageLinks && json.items[0].volumeInfo.imageLinks.thumbnail;
+        setBookCover(thumb);
+      });
+  }, [])
+  return (
+    <Fragment>    
+      {bookCover && 
+        <div>
+          <img src={bookCover} width="128" height="210" />
+        </div>
+      }
+    </Fragment>
+  )
+}
+
 type Props = {|
   query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -300,6 +324,7 @@ export const Works = ({
                                     {result.title}
                                   </h2>
                                 </div>
+                                <BookCover work={result} />
                                 {result.thumbnail && (
                                   <div
                                     className={classNames({
