@@ -15,7 +15,7 @@ import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import MetaUnit2 from '@weco/common/views/components/MetaUnit/MetaUnit2';
 
 const StyledWorkDetailsSection = styled.div`
   /* TODO: variables/functions/mixins/linting */
@@ -189,7 +189,7 @@ const WorkDetails = ({
       <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
         <div className="spaced-text">
           {work.description && (
-            <MetaUnit
+            <MetaUnit2
               headingLevel={3}
               headingText="Description"
               text={[work.description]}
@@ -197,7 +197,7 @@ const WorkDetails = ({
           )}
 
           {work.production.length > 0 && (
-            <MetaUnit
+            <MetaUnit2
               headingLevel={3}
               headingText="Publication/Creation"
               text={work.production.map(
@@ -207,7 +207,7 @@ const WorkDetails = ({
           )}
 
           {(work.physicalDescription || work.extent || work.dimensions) && (
-            <MetaUnit
+            <MetaUnit2
               headingLevel={3}
               headingText="Physical description"
               text={[
@@ -219,7 +219,7 @@ const WorkDetails = ({
           )}
 
           {work.lettering && (
-            <MetaUnit
+            <MetaUnit2
               headingLevel={3}
               headingText="Lettering"
               text={[work.lettering]}
@@ -227,7 +227,7 @@ const WorkDetails = ({
           )}
 
           {work.genres.length > 0 && (
-            <MetaUnit
+            <MetaUnit2
               headingLevel={3}
               headingText="Type"
               links={work.genres.map(genre => {
@@ -245,7 +245,7 @@ const WorkDetails = ({
           )}
 
           {work.language && (
-            <MetaUnit
+            <MetaUnit2
               headingLevel={3}
               headingText="Language"
               links={[work.language.label]}
@@ -271,30 +271,30 @@ const WorkDetails = ({
     <WorkDetailsSection headingText="Identifiers">
       {isbnIdentifiers.length > 0 && (
         <div className="spaced-text" style={{ marginBottom: '1.6em' }}>
-          <MetaUnit
+          <MetaUnit2
             headingText="ISBN"
             list={isbnIdentifiers.map(id => id.value)}
           />
         </div>
       )}
-      <MetaUnit headingText="Share">
+      <MetaUnit2 headingText="Share">
         <CopyUrl
           id={work.id}
           url={`https://wellcomecollection.org/works/${work.id}`}
         />
-      </MetaUnit>
+      </MetaUnit2>
     </WorkDetailsSection>
   );
   if (licenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
         <div className="spaced-text">
-          <MetaUnit
+          <MetaUnit2
             headingLevel={3}
             headingText="License information"
             text={licenseInfo.humanReadableText}
           />
-          <MetaUnit
+          <MetaUnit2
             headingLevel={3}
             headingText="Credit"
             text={[
