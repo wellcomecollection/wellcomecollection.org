@@ -129,6 +129,7 @@ export const WorkPage = ({
                 initialWorkType={workType}
                 initialItemsLocationsLocationType={itemsLocationsLocationType}
                 ariaDescribedBy="search-form-description"
+                compact={true}
               />
             </div>
           </div>
@@ -225,7 +226,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-
   const { showWorkPageChanges = false } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
