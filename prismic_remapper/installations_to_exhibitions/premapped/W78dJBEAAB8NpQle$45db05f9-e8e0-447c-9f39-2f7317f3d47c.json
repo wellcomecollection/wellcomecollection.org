@@ -1,0 +1,210 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W78dJBEAAB8NpQlg",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Made Well",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2018-10-03T23:00:00+00:00",
+  "end": "2019-04-21T23:00:00+00:00",
+  "place": {
+    "id": "WoLtlioAACoANrY_",
+    "mask": "places",
+    "wioUrl": "wio://documents/WoLtlioAACoANrY_"
+  },
+  "body": [
+    {
+      "key": "text$ae437fe2-ff9f-4400-afed-30129e5f457c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Explore how 3D flat-pack technology can respond to the needs of refugees arriving at and living in refugee camps.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      },
+      "label": "featured"
+    },
+    {
+      "key": "text$bd161ec4-8c56-4aba-8d72-7493823d2d4b",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A group of young people, responding to the mission and construction of the Global Clinic, were challenged to design products that would support the health and wellbeing of refugees.",
+                "spans": [
+                  {
+                    "start": 2,
+                    "end": 23,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "WvlygCAAACAA3yTb",
+                      "mask": "pages",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_8c09c13b-1628-42f0-8160-07c083edb702_1.+ep_000504_036.jpg",
+                        "title": "RawMinds Summer 2018 3D Design Challenge Project"
+                      },
+                      "wioUrl": "wio://documents/WvlygCAAACAA3yTb"
+                    }
+                  },
+                  {
+                    "start": 75,
+                    "end": 88,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "W3LDcCkAACcAEKqy",
+                      "mask": "installations",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_58c2b5c6-e549-485f-ac00-c8db1c8b8550_20180711_114332.jpg",
+                        "title": "Global Clinic"
+                      },
+                      "wioUrl": "wio://documents/W3LDcCkAACcAEKqy"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Whether storage solutions for records and medicines, a trolley to transport supplies, crutch splints, or creative activities, all of the  products had to use the same flat-pack technology and often the offcuts  from the clinic itself.",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "See their sketches, scale drawings, models and prototypes and listen to an interview with Ellen Waters from Doctors of the World about what it’s like to live and work in a refugee camp.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {}
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$e7215c24-cc0d-4fcd-ad76-2e1e19bdaeb0",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "A group of young people, responding to the mission and construction of the Global Clinic, were challenged to design products that would support the health and wellbeing of refugees.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W79MtREAAB0Npdhb",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f271560-417e-4f40-861b-0583e8788a71_ep_000480_051.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/d440db96421f0a18338395f17c17a2e7ac94f6bc_ep_000480_051.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": null,
+            "alt": null,
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "W79MtREAAB0Npdhb",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f271560-417e-4f40-861b-0583e8788a71_ep_000480_051.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f7d632f6d041da2226be613afc6abbc488316e88_ep_000480_051.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "W79MtREAAB0Npdhb",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f271560-417e-4f40-861b-0583e8788a71_ep_000480_051.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/219566120926734b88dd495a6d93f3ec57719687_ep_000480_051.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W79MtREAAB0Npdhb",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F2f271560-417e-4f40-861b-0583e8788a71_ep_000480_051.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/073baaafa6b7348ff53d3baa440863a7fc343e28_ep_000480_051.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": null,
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

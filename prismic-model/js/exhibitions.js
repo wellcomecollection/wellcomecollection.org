@@ -25,7 +25,7 @@ const Exhibitions = {
   },
   'In this exhibition': {
     exhibits: list('Exhibits', {
-      item: link('Exhibit', 'document', ['installations']),
+      item: link('Exhibit', 'document', ['exhibitions', 'installations']),
     }),
     events: list('Gallery tours', {
       item: link('Gallery tour', 'document', ['events']),
