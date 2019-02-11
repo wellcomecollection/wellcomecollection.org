@@ -66,8 +66,8 @@ export type UiExhibition = {|
   |},
 |};
 
-// We don't use these type for exhibits above
-// As it creates a nedds to be defined before use error.
+// We don't use these types for exhibits above
+// as it creates a `needs to be defined before use` error.
 export type Exhibit = {|
   exhibitType: 'exhibitions',
   item: Exhibition,
