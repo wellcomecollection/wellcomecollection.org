@@ -1,9 +1,11 @@
 // @flow
+// TODO: use styled components
 import { Fragment, Component } from 'react';
 import { font, spacing, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Button from '../Buttons/Button/Button';
+import Control from '../Buttons/Control/Control';
 import Icon from '../Icon/Icon';
 import Layout12 from '../Layout12/Layout12';
 import type { CaptionedImage as CaptionedImageProps } from '../../../model/captioned-image';
@@ -65,7 +67,7 @@ class ImageGallery extends Component<Props, State> {
   };
 
   render() {
-    const { title, items, isStandalone } = this.props;
+    const { title, items, isStandalone, id } = this.props;
     const { isActive, titleStyle } = this.state;
 
     return (
@@ -84,7 +86,9 @@ class ImageGallery extends Component<Props, State> {
                   name="gallery"
                   extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
                 />
-                <h2 className="h2 no-margin">{title || 'In pictures'}</h2>
+                <h2 id={`gallery-${id}`} className="h2 no-margin">
+                  {title || 'In pictures'}
+                </h2>
               </span>
             )}
             <div
@@ -130,6 +134,43 @@ class ImageGallery extends Component<Props, State> {
                       </div>
                     </Fragment>
                   )}
+
+                  <div
+                    className={classNames({
+                      [spacing({ s: 3 }, { padding: ['top'] })]: true,
+                      'image-gallery-v2__close-wrapper absolute': true,
+                    })}
+                  >
+                    <div
+                      className={classNames({
+                        'flex flex-end': true,
+                        'image-gallery-v2__close': true,
+                        [spacing(
+                          { s: 3 },
+                          { padding: ['right', 'bottom'] }
+                        )]: true,
+                      })}
+                      style={{
+                        visibility: isActive ? 'visible' : 'hidden',
+                      }}
+                    >
+                      <Control
+                        url={`#gallery-${id}`}
+                        type={`light`}
+                        text={`close`}
+                        icon={`cross`}
+                        clickHandler={event => {
+                          trackEvent({
+                            category: `Control`,
+                            action: 'close ImageGallery',
+                            label: this.props.id,
+                          });
+
+                          this.setState({ isActive: false });
+                        }}
+                      />
+                    </div>
+                  </div>
 
                   {this.itemsToShow().map((captionedImage, i) => (
                     <div
