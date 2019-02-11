@@ -241,6 +241,13 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
           url: null,
         },
       ]
+    : exhibition.format
+    ? [
+        {
+          text: exhibition.format.title,
+          url: null,
+        },
+      ]
     : [{ url: null, text: 'Exhibition' }];
 
   return { ...exhibition, labels };
@@ -386,7 +393,8 @@ export async function getExhibitionRelatedContent(
     eventPoliciesFields,
     contributorsFields,
     articleSeriesFields,
-    articleFormatsFields
+    articleFormatsFields,
+    exhibitionFields
   );
   const types = ['exhibitions', 'events', 'installations', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
