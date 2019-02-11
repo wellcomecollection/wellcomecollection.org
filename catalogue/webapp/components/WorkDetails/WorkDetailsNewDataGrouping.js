@@ -36,12 +36,11 @@ const StyledWorkDetailsSection = styled.div`
     margin: 0;
   }
 
-  /* TODO use theme for margin value */
   h2.work-details-heading {
-    margin: 0 0 12px 0;
+    margin: ${props => `0 0 ${props.theme.spacingUnit * 2}px 0`};
   }
 
-  @media (min-width: 800px) {
+  ${props => props.theme.media.large`
     h2.work-details-heading {
       margin: 0;
     }
@@ -53,7 +52,7 @@ const StyledWorkDetailsSection = styled.div`
     .work-details-body {
       grid-column: span 6;
     }
-  }
+  `}
 `;
 
 type WorkDetailsSectionProps = {|
