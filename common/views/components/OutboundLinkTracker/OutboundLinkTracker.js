@@ -26,6 +26,7 @@ const OutboundLinkTracker = ({ children }: Props) => {
   }
 
   useEffect(() => {
+    // TODO:decouple this from the document for testing
     document.addEventListener('click', handleClick);
 
     return () => {
