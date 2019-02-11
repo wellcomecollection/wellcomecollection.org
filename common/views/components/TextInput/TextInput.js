@@ -1,6 +1,6 @@
 // @flow
+import { forwardRef } from 'react';
 import styled from 'styled-components';
-import { font } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
   border: 0;
@@ -35,14 +35,12 @@ type Props = {
 };
 
 // $FlowFixMe (forwardRef)
-const TextInput = React.forwardRef(({ label, ...inputProps }: Props, ref) => ( // eslint-disable-line
+const TextInput = forwardRef((
+  { label, ...inputProps }: Props,
+  ref // eslint-disable-line
+) => (
   <label className="flex flex--v-center">
-    <StyledInput
-      ref={ref}
-      className={font({ s: 'HNL3', m: 'HNL2' })}
-      type="text"
-      {...inputProps}
-    />
+    <StyledInput ref={ref} type="text" {...inputProps} />
     <VisuallyHidden>
       <label>{label}</label>
     </VisuallyHidden>
