@@ -3,23 +3,13 @@
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import type { Node } from 'react';
+import { isExternal } from '../../../utils/domain';
 
 type Props = {|
   children: Node,
 |};
 
 const OutboundLinkTracker = ({ children }: Props) => {
-  function getDomain(url: string): string {
-    return url
-      .replace('http://', '')
-      .replace('https://', '')
-      .split('/')[0];
-  }
-
-  function isExternal(url: string): boolean {
-    return getDomain(document.location.href) !== getDomain(url);
-  }
-
   function handleClick(event: { target: any }) {
     const url = event.target.href;
 
