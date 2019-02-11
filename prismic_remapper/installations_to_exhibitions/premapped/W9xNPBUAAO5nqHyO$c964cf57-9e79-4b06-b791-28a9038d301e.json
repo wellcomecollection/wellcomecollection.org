@@ -1,0 +1,257 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W9xNPBUAAO5nqHyQ",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "The Transvengers",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2014-11-20T00:00:00+00:00",
+  "end": "2015-09-20T00:00:00+00:00",
+  "place": {
+    "id": "WrEgqSAAACAAPEw7",
+    "mask": "places",
+    "wioUrl": "wio://documents/WrEgqSAAACAAPEw7"
+  },
+  "body": [
+    {
+      "key": "text$3ee37bdb-3967-4511-ab6f-0f6a07fef7a4",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The Transvengers comic on display in 'Institute of Sexology' was created by a group of young trans people aged 13-19 from Gendered Intelligence.",
+                "spans": [
+                  {
+                    "start": 38,
+                    "end": 59,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "W31ooSkAACIAP4So",
+                      "mask": "exhibitions",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_a7876131-e8dd-47a8-96a4-69fd9983d342_c0108446.jpg",
+                        "title": "The Institute of Sexology"
+                      },
+                      "wioUrl": "wio://documents/W31ooSkAACIAP4So"
+                    }
+                  },
+                  {
+                    "start": 122,
+                    "end": 143,
+                    "type": "hyperlink",
+                    "data": {
+                      "preview": {
+                        "title": "http://genderedintelligence.co.uk/"
+                      },
+                      "url": "http://genderedintelligence.co.uk/"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "label": "featured"
+    },
+    {
+      "key": "text$adc082d4-e299-4f3c-b5f4-a3ce46b14791",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "It’s the group’s response to some of the themes and personalities in the 'Institute of Sexology' exhibition, informed by their own experiences as young trans people. They worked with artist Jason Barker to create the artwork and interviewed Dr Jana Funke as part of their research.",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The aim was to create a lighthearted response to some really complicated ideas, in a way that everyone can understand and enjoy. ",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "View the comic→",
+                "spans": [
+                  {
+                    "start": 0,
+                    "end": 15,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "W03jACYAACUAg5IR",
+                      "mask": "articles",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_8a165baf-deac-4abf-8b2c-ba591046ac1a_transvengers+2018-03-13+at+11.36.18.png",
+                        "title": "The Transvengers"
+                      },
+                      "wioUrl": "wio://documents/W03jACYAACUAg5IR"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WcUWeCgAAFws-nGh",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WcUWeCgAAFws-nGh"
+      },
+      "contributor": {
+        "id": "W03m-SYAACYAg6Op",
+        "mask": "people",
+        "wioUrl": "wio://documents/W03m-SYAACYAg6Op"
+      }
+    },
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "Wqf1mSUAAPjnVtMH",
+        "mask": "people",
+        "wioUrl": "wio://documents/Wqf1mSUAAPjnVtMH"
+      }
+    },
+    {
+      "role": {
+        "id": "WyvNmCoAACoACtwK",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WyvNmCoAACoACtwK"
+      },
+      "contributor": {
+        "id": "WsTNQx8AAM3hGUZG",
+        "mask": "people",
+        "wioUrl": "wio://documents/WsTNQx8AAM3hGUZG"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$4618797e-1867-4154-af55-d87720812ca3",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The Transvengers comic on display in 'Institute of Sexology' responded to the themes and personalities in the exhibition.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W9xLQhUAAOEPqHPf",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F0f92ea57-c91f-4eb0-8bfe-b6d86804dd86_c0110233.jpg",
+              "width": 3840,
+              "height": 2160
+            },
+            "width": 3840,
+            "height": 2160,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5c1b08b17addefff695259bf2c026c00583bd759_c0110233.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Transvengers webcomic in the Institute of Sexology exhibition | Thomas S.G. Farnetti | Wellcome Collection | | CC-BY-NC-ND | |",
+            "alt": null,
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W9xLQhUAAOEPqHPf",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F0f92ea57-c91f-4eb0-8bfe-b6d86804dd86_c0110233.jpg",
+                  "width": 3840,
+                  "height": 2160
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/fecd1864ded4e19f76565d25be2c3d54b8ed1932_c0110233.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8333333333333334,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Transvengers webcomic in the Institute of Sexology exhibition | Thomas S.G. Farnetti | Wellcome Collection | | CC-BY-NC-ND | |",
+                "alt": null
+              },
+              "square": {
+                "origin": {
+                  "id": "W9xLQhUAAOEPqHPf",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F0f92ea57-c91f-4eb0-8bfe-b6d86804dd86_c0110233.jpg",
+                  "width": 3840,
+                  "height": 2160
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/f2b509ba3dc220816f9412377b35481c875d3bbe_c0110233.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4814814814814814,
+                  "crop": {
+                    "x": -1244,
+                    "y": 0
+                  }
+                },
+                "credits": "Transvengers webcomic in the Institute of Sexology exhibition | Thomas S.G. Farnetti | Wellcome Collection | | CC-BY-NC-ND | |",
+                "alt": null
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W9xLQhUAAOEPqHPf",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F0f92ea57-c91f-4eb0-8bfe-b6d86804dd86_c0110233.jpg",
+                  "width": 3840,
+                  "height": 2160
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/e9053e7dab3cf837d3789480b240f1450301d88a_c0110233.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8333333333333334,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Transvengers webcomic in the Institute of Sexology exhibition | Thomas S.G. Farnetti | Wellcome Collection | | CC-BY-NC-ND | |",
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

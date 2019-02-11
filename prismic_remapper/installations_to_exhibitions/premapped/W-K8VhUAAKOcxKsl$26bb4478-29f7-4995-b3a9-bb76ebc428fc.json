@@ -1,0 +1,195 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "W-K8VhUAAKOcxKsn",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "Twenty-Six Things",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2008-05-28T23:00:00+00:00",
+  "end": "2008-11-07T00:00:00+00:00",
+  "body": [
+    {
+      "key": "text$554f237e-52a2-4fa3-9e8d-7f0f5f75f417",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "‘Twenty-Six Things’ was based on a simple memory game in which participants are shown a collection of objects, some of which might change position when they look away. ",
+                "spans": []
+              }
+            }
+          ]
+        }
+      },
+      "label": "featured"
+    },
+    {
+      "key": "text$924517df-3e26-41d8-bc5c-68e709ef3aad",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The film by artist Marion Coutts was an investigation into the vast museum of artefacts gathered by Henry Wellcome, many of which are on permanent display in our ‘Medicine Man’ exhibition.",
+                "spans": [
+                  {
+                    "start": 163,
+                    "end": 175,
+                    "type": "hyperlink",
+                    "data": {
+                      "id": "Weoe4SQAAKJwjcDC",
+                      "mask": "exhibitions",
+                      "preview": {
+                        "image": "https://prismic-io.s3.amazonaws.com/wellcomecollection/medium_1c4168e5-984b-451a-b37d-cddeccc7710c_c0074807-edit.jpg",
+                        "title": "Medicine Man"
+                      },
+                      "wioUrl": "wio://documents/Weoe4SQAAKJwjcDC"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "‘Twenty-Six Things’ explored common concerns in Marion Coutts’s work: the relationship between sculpture and film, and the generation of meaning in visual perception through effects of repetition, interval and pattern.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "W-K8xRUAAJSaxK0T",
+        "mask": "people",
+        "wioUrl": "wio://documents/W-K8xRUAAJSaxK0T"
+      }
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$18369278-1b2d-4d87-94d5-cb7cce79b46c",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "‘Twenty-Six Things’ was based on a simple memory game in which participants are shown a collection of objects, some of which might change position when they look away. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "W-LD7BUAAKedxMzX",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1a521fc1-8c08-48e1-9633-b6743277373c_c0044627-edit.jpg",
+              "width": 4000,
+              "height": 2250
+            },
+            "width": 4000,
+            "height": 2250,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ba3a616e01f12c2023a5454ce534286f5bafb04f_c0044627-edit.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Twenty-six Things, a film by Marion Coutts | David Sayer | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a video camera screen showing a view of a table with several objects laid out on a. black background.",
+            "thumbnails": {
+              "16:9": {
+                "origin": {
+                  "id": "W-LD7BUAAKedxMzX",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1a521fc1-8c08-48e1-9633-b6743277373c_c0044627-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a954b66dfca8f662af94dd56a25e2916b152441e_c0044627-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "credits": "Twenty-six Things, a film by Marion Coutts | David Sayer | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a video camera screen showing a view of a table with several objects laid out on a. black background."
+              },
+              "32:15": {
+                "origin": {
+                  "id": "W-LD7BUAAKedxMzX",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1a521fc1-8c08-48e1-9633-b6743277373c_c0044627-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5e484876825768e8bc8e0f6d905e21639bec12fb_c0044627-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -150
+                  }
+                },
+                "credits": "Twenty-six Things, a film by Marion Coutts | David Sayer | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a video camera screen showing a view of a table with several objects laid out on a. black background."
+              },
+              "square": {
+                "origin": {
+                  "id": "W-LD7BUAAKedxMzX",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F1a521fc1-8c08-48e1-9633-b6743277373c_c0044627-edit.jpg",
+                  "width": 4000,
+                  "height": 2250
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/6096f9935adcb27c21f8ed96ec61cafc53647ccc_c0044627-edit.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.4222222222222223,
+                  "crop": {
+                    "x": -1839,
+                    "y": 0
+                  }
+                },
+                "credits": "Twenty-six Things, a film by Marion Coutts | David Sayer | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a video camera screen showing a view of a table with several objects laid out on a. black background."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

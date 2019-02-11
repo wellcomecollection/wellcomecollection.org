@@ -1,0 +1,427 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "WryoVx8AAAjk9Xmi",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "‘Sire’ by Maria McKinney",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2018-03-08T00:00:00+00:00",
+  "end": "2018-08-26T23:00:00+00:00",
+  "place": {
+    "id": "WrEgqSAAACAAPEw7",
+    "mask": "places",
+    "wioUrl": "wio://documents/WrEgqSAAACAAPEw7"
+  },
+  "body": [
+    {
+      "key": "quote$fcc114ed-76d6-447c-95c7-0b36d1372e1b",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Articulates complicated scientific ideas in a clear way",
+                "spans": []
+              }
+            }
+          ],
+          "citation": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The Times",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "text$1ddb3b4c-113b-442c-aa4a-efa6be16c521",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "‘Sire’ makes visible the industrialised practices that have come to characterise modern cattle breeding. In the process it questions how our alienation from agriculture is changing our relationship with food.",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Weaving pagan motifs with genetic patterns, ‘Sire’ is an invitation to think critically about contemporary cultivation and consumption.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "editorialImageGallery$df79ec8e-d15e-41fc-8b61-bc38b1fe7050",
+      "value": {
+        "repeat": [
+          {
+            "image": {
+              "origin": {
+                "id": "WurwiyIAANL-15cb",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F3944f2f0-402d-42d9-8fa4-1724279d9cb8_ep_000251_074.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/a3887ecaf4c466e61209e090b360f436ef0e00fa_ep_000251_074.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of the exhibition space showing large photographs mounted on the wall and colourful sculptures in the foreground.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“I wanted to make these animals, which are quite hidden away from humans, more visible again,” explains artist Maria McKinney.",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WurwjSIAAM_-15cr",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4eb28d33-1407-4f47-befa-b8930e2660ab_ep_000285_065.jpg",
+                "width": 4000,
+                "height": 2668
+              },
+              "width": 4000,
+              "height": 2668,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/dbb3c1d56a970dd68d49b5822138fade96478d99_ep_000285_065.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Michael Bowles | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of a visitor exploring an exhibition.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“The whole proposition of using animals in an artwork is a contentious issue,” says McKinney. “I worked very closely with the bulls’ handlers, who knew each of the bulls' personalities.”",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WurwjCIAAM_-15cg",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F5cac6f4a-49c6-4213-94c3-bfde61d56ae9_ep_000280_012.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/56bbe175abfd11b74f81cbe20278f0e3f6eea599_ep_000280_012.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of visitors exploring an exhibition.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "\"I wanted to make something that wouldn't allow people to turn away easily or just call it pretty,\" explains McKinney. \"I always take materials that aren't necessarily associated with art-making and use my hands to transform them into something else.\" ",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WurwjSIAANT-15co",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F061b0b6f-8346-4a3a-a0b0-4cfe20e7a261_ep_000251_077.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/af96fd25081793f70c0e418133bee1af5f4d9f06_ep_000251_077.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of the exhibition space showing large photographs mounted on the wall and colourful sculptures in the foreground.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“The sculptures are made from woven semen straws. With this quite contemporary material, I used the ancient handcraft of straw weaving, which was used to make corn dollies,” says McKinney.",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "WurwjCIAANT-15ch",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fa8e50301-06b5-4cad-bd3b-450b1c1a6706_ep_000280_011.jpg",
+                "width": 4000,
+                "height": 2669
+              },
+              "width": 4000,
+              "height": 2669,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/5d2646a43d06ed75f910b27e491353f931e8cc5d_ep_000280_011.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of a visitor exploring an exhibition.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“In urban areas there’s often very little sense of where milk and beef actually come from: their production, the science behind it, and the health and welfare issues that link to it,” says scientist and collaborator Michael Doherty. “It’s good that ‘Sire’ gets people to think about these processes without imposing judgement on them.”",
+                  "spans": []
+                }
+              }
+            ]
+          }
+        ],
+        "non-repeat": {
+          "title": [
+            {
+              "type": "heading1",
+              "content": {
+                "text": "Inside ‘Sire’",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "Wux6DyIAAO5n3lzk",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux6DyIAAO5n3lzk"
+      },
+      "contributor": {
+        "id": "WqqSjCAAAB8AH7G1",
+        "mask": "people",
+        "wioUrl": "wio://documents/WqqSjCAAAB8AH7G1"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        }
+      ]
+    },
+    {
+      "role": {
+        "id": "Wux58SIAACh53lxV",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux58SIAACh53lxV"
+      },
+      "contributor": {
+        "id": "Wur8kiIAAM_-18zC",
+        "mask": "people",
+        "wioUrl": "wio://documents/Wur8kiIAAM_-18zC"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        }
+      ]
+    },
+    {
+      "role": {
+        "id": "Wux58SIAACh53lxV",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/Wux58SIAACh53lxV"
+      },
+      "contributor": {
+        "id": "Wur7tSIAANL-18ja",
+        "mask": "people",
+        "wioUrl": "wio://documents/Wur7tSIAANL-18ja"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "",
+            "spans": []
+          }
+        }
+      ]
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$d6892611-b4f5-48da-a6ac-04a1b0078528",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Discover the role of genetics in contemporary cattle farming through intricate sculptures and large photographic portraits. ",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "WurwiiIAANL-15ca",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F39793608-b43b-4400-abf3-d6c7e611b3b0_ep_000280_019.jpg",
+              "width": 4000,
+              "height": 2670
+            },
+            "width": 4000,
+            "height": 2670,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/32c98f19ccc0ff634cfea8f2337127ae256a4b60_ep_000280_019.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": "Photograph of a visitor exploring an exhibition.",
+            "thumbnails": {
+              "32:15": {
+                "origin": {
+                  "id": "WurwiiIAANL-15ca",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F39793608-b43b-4400-abf3-d6c7e611b3b0_ep_000280_019.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2f3e5cea6530faacd05af7af7c8bf1328df6a6cf_ep_000280_019.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -318
+                  }
+                },
+                "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring an exhibition."
+              },
+              "square": {
+                "origin": {
+                  "id": "WurwiiIAANL-15ca",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F39793608-b43b-4400-abf3-d6c7e611b3b0_ep_000280_019.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/ebc0b0bb524479a9a8befdec85e5b745dfb7f1ac_ep_000280_019.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.198501872659176,
+                  "crop": {
+                    "x": -797,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring an exhibition."
+              },
+              "16:9": {
+                "origin": {
+                  "id": "WurwiiIAANL-15ca",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F39793608-b43b-4400-abf3-d6c7e611b3b0_ep_000280_019.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/347de684b274fb5ce3f2b18dc62694cba90d2684_ep_000280_019.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -168
+                  }
+                },
+                "credits": "Somewhere in Between. Sire by Maria McKinney, in collaboration with Michael Doherty and David MacHugh  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": "Photograph of a visitor exploring an exhibition."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

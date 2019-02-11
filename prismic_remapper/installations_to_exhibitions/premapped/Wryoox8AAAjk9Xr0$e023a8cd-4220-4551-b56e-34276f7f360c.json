@@ -1,0 +1,406 @@
+{
+  "type": "installations",
+  "tags": [],
+  "lang": "en-gb",
+  "grouplang": "Wryoox8AAAjk9Xr2",
+  "title": [
+    {
+      "type": "heading1",
+      "content": {
+        "text": "‘Sensorium Tests’ and ‘At the Threshold’ by Daria Martin",
+        "spans": []
+      }
+    }
+  ],
+  "start": "2018-03-08T00:00:00+00:00",
+  "end": "2018-08-26T23:00:00+00:00",
+  "place": {
+    "id": "WrEgqSAAACAAPEw7",
+    "mask": "places",
+    "wioUrl": "wio://documents/WrEgqSAAACAAPEw7"
+  },
+  "body": [
+    {
+      "key": "quote$3fc4b84b-0473-482c-9d8c-d8faebe5cdf6",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Two short films about a fascinating and often debilitating condition",
+                "spans": []
+              }
+            }
+          ],
+          "citation": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Time Out",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "text$a8b8e121-e821-400e-b8b2-b8955e0485f7",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "text": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "‘At the Threshold’ and ‘Sensorium Tests’ explore the relationship between art, science and empathy through the experience of people with synaesthesia. This condition produces experiences in one sense that are usually felt in another or by another – for example, perceiving sounds as colours. A person with mirror-touch feels other people's sensations of touch, both painful and pleasurable.",
+                "spans": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "The films, set in the style of 1950s melodramas, encourage you to inhabit the experiences of others and truly watch with all your senses.",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "editorialImageGallery$cf5d5a02-c8a2-4609-a46a-d860d08c17a0",
+      "value": {
+        "repeat": [
+          {
+            "image": {
+              "origin": {
+                "id": "Wur_KSIAAM_-19h7",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd5b8c837-6a7e-451a-b8b4-7c80abab17a0_ep_000251_087.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/de35b53e306d82af9f3b367a8bf10e7a79cacc17_ep_000251_087.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. ‘Sensorium Tests’ and ‘At the Threshold’ by Daria Martin, in collaboration with Michael Banissy  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of the entrance to a gallery installation showing the introduction text panel.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "Artist Daria Martin says, “My films explore the mirror-touch synaesthete’s way of seeing as one that’s immersive and sensitive to touch.” ",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "Wur_KyIAANL-19iH",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F9c59257a-b780-4db5-935a-96b9dd534522_ep_000251_093.jpg",
+                "width": 3999,
+                "height": 2669
+              },
+              "width": 3999,
+              "height": 2669,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/8f3b677be1b5856e711e62b356b5eca4669c82f8_ep_000251_093.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. ‘Sensorium Tests’ and ‘At the Threshold’ by Daria Martin, in collaboration with Michael Banissy  | Steven Pocock | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of a visitor exploring an exhibition.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "“I interviewed 13 mirror-touch synaesthetes and gathered information on the social aspects of mirror-touch synaesthesia and responses that people with the condition had to objects,” Daria explains.",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "Wur_KyIAANT-19iG",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2F0b9adb7a-294b-4c00-a79c-8ada3ed275cf_ep_000280_002.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b0cf8232d55e890005c10b1214463b7d5632f9d8_ep_000280_002.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. ‘Sensorium Tests’ and ‘At the Threshold’ by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of a visitor exploring an exhibition.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "She chose film as her medium because it \"creates spaces that are between the mental and the physical. It has an ethereal, dreamlike quality whilst, especially with 16 mm film, there is real evidence of bodies, space and material, and I want that physicality to remain very present in the viewing experience.\"",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "Wur_KSIAAM_-19iA",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd848e881-81b9-4e5d-af4f-f3b46efa6fc5_ep_000280_001.jpg",
+                "width": 4000,
+                "height": 2670
+              },
+              "width": 4000,
+              "height": 2670,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/83727dde93061d4907b784632cced8f818173c64_ep_000280_001.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. ‘Sensorium Tests’ and  ‘At the Threshold’ by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Somewhere in Between exhibition; someone watching ‘Sensorium Tests’ and  ‘At the Threshold’ by Daria Martin",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "For Daria, the films are the result of a three-way collaboration: “In this project there is a triangle between myself as an artist, scientists studying synaesthesia, and the synaesthetes themselves.”",
+                  "spans": []
+                }
+              }
+            ]
+          },
+          {
+            "image": {
+              "origin": {
+                "id": "Wur_KiIAANL-19iB",
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fac547af0-5f03-4977-b24f-41f8a8405536_ep_000280_024.jpg",
+                "width": 4000,
+                "height": 2669
+              },
+              "width": 4000,
+              "height": 2669,
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/2bea99560bcb277e45d0369a768ef7c7cd97e9e9_ep_000280_024.jpg",
+              "edit": {
+                "background": "#fff",
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              "credits": "Somewhere in Between exhibition. ‘Sensorium Tests’ and ‘At the Threshold’ by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+              "alt": "Photograph of visitors exploring an exhibition.",
+              "thumbnails": {}
+            },
+            "caption": [
+              {
+                "type": "paragraph",
+                "content": {
+                  "text": "And she thinks both scientists and artists can contribute to an understanding of synaesthesia, as she says, \"There’s something valuable about scientists focusing and identifying different types of synaesthesia, which opens up a window to artists and others for exploration.\"",
+                  "spans": []
+                }
+              }
+            ]
+          }
+        ],
+        "non-repeat": {
+          "title": [
+            {
+              "type": "heading1",
+              "content": {
+                "text": "Inside ‘Sensorium Tests’ and ‘At the Threshold’",
+                "spans": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "contributors": [
+    {
+      "role": {
+        "id": "WrObhCMAAB8AU5tJ",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WrObhCMAAB8AU5tJ"
+      },
+      "contributor": {
+        "id": "WqqS9yAAAB8AH7OS",
+        "mask": "people",
+        "wioUrl": "wio://documents/WqqS9yAAAB8AH7OS"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Artist",
+            "spans": []
+          }
+        }
+      ]
+    },
+    {
+      "role": {
+        "id": "WoL2lCoAACkANt4D",
+        "mask": "editorial-contributor-roles",
+        "wioUrl": "wio://documents/WoL2lCoAACkANt4D"
+      },
+      "contributor": {
+        "id": "WurrjSIAALb814Ci",
+        "mask": "people",
+        "wioUrl": "wio://documents/WurrjSIAALb814Ci"
+      },
+      "description": [
+        {
+          "type": "paragraph",
+          "content": {
+            "text": "Scientist",
+            "spans": []
+          }
+        }
+      ]
+    }
+  ],
+  "promo": [
+    {
+      "key": "editorialImage$d6892611-b4f5-48da-a6ac-04a1b0078528",
+      "value": {
+        "repeat": [],
+        "non-repeat": {
+          "caption": [
+            {
+              "type": "paragraph",
+              "content": {
+                "text": "Explore mirror-touch synaesthesia and gain new insight into empathy, our ability to share feelings with others.",
+                "spans": []
+              }
+            }
+          ],
+          "image": {
+            "origin": {
+              "id": "Wur_KSIAAM_-19iA",
+              "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd848e881-81b9-4e5d-af4f-f3b46efa6fc5_ep_000280_001.jpg",
+              "width": 4000,
+              "height": 2670
+            },
+            "width": 4000,
+            "height": 2670,
+            "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/83727dde93061d4907b784632cced8f818173c64_ep_000280_001.jpg",
+            "edit": {
+              "background": "#fff",
+              "zoom": 1,
+              "crop": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "credits": "Somewhere in Between exhibition. Sensorium Tests At the Threshold by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+            "alt": null,
+            "thumbnails": {
+              "square": {
+                "origin": {
+                  "id": "Wur_KSIAAM_-19iA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd848e881-81b9-4e5d-af4f-f3b46efa6fc5_ep_000280_001.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 3200,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/86f503ad49c356200571411a33833c2ff470daef_ep_000280_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 1.198501872659176,
+                  "crop": {
+                    "x": -1188,
+                    "y": 0
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Sensorium Tests At the Threshold by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": null
+              },
+              "32:15": {
+                "origin": {
+                  "id": "Wur_KSIAAM_-19iA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd848e881-81b9-4e5d-af4f-f3b46efa6fc5_ep_000280_001.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1500,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/c4ffc970ca5b441b55cb7c79bfa9fea50eaa1a3f_ep_000280_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -318
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Sensorium Tests At the Threshold by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": null
+              },
+              "16:9": {
+                "origin": {
+                  "id": "Wur_KSIAAM_-19iA",
+                  "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fd848e881-81b9-4e5d-af4f-f3b46efa6fc5_ep_000280_001.jpg",
+                  "width": 4000,
+                  "height": 2670
+                },
+                "width": 3200,
+                "height": 1800,
+                "url": "https://prismic-io.s3.amazonaws.com/wellcomecollection/b7e5369799f897d33965725811ae455647e71afb_ep_000280_001.jpg",
+                "edit": {
+                  "background": "#fff",
+                  "zoom": 0.8,
+                  "crop": {
+                    "x": 0,
+                    "y": -335
+                  }
+                },
+                "credits": "Somewhere in Between exhibition. Sensorium Tests At the Threshold by Daria Martin, in collaboration with Michael Banissy  | Thomas SG Farnetti | Wellcome Collection | | CC-BY-NC | |",
+                "alt": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

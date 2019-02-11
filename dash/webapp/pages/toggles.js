@@ -39,16 +39,12 @@ const featureToggles = [
       'This will show unfilter those results, and allow for filtering.',
   },
   {
-    id: 'showWorkMetaDataGrouping',
-    title: 'Show work metadata grouped in a new way',
+    id: 'showWorkPageChanges',
+    title: 'Show work page changes',
     description:
-      'Shows the work metadata grouped together and ordered based on usability testing and workshops.',
-  },
-  {
-    id: 'showWorkHeader',
-    title: 'Show the header on individual work pages',
-    description:
-      'The header on the works page should hopefully give a summary at a glance on what the work is about.',
+      'Adds a header to the page which should hopefully summarise, at a glance, what the work is about.' + 
+      ' Changes the layout/styling of the work details section and' +
+      ' labels and groups the data in an attempt to make it easier to comprehend.'
   },
 ];
 
