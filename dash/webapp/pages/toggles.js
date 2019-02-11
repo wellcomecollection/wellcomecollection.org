@@ -222,6 +222,7 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, 'true', domain);
+                    // $FlowFixMe
                     setToggles({
                       ...toggles,
                       [toggle.id]: true,
@@ -236,6 +237,7 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, 'false', domain);
+                    // $FlowFixMe
                     setToggles({
                       ...toggles,
                       [toggle.id]: false,
@@ -250,6 +252,7 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, null, domain);
+                    // $FlowFixMe
                     setToggles({
                       ...toggles,
                       [toggle.id]: undefined,
