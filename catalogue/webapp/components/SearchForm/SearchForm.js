@@ -1,5 +1,4 @@
 // @flow
-// $FlowFixMe (hooks)
 import { Fragment, useState, useRef } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -15,6 +14,7 @@ type Props = {|
   initialWorkType: string[],
   initialItemsLocationsLocationType: string[],
   ariaDescribedBy: string,
+  compact: boolean,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -88,6 +88,7 @@ const SearchForm = ({
   initialWorkType = [],
   initialItemsLocationsLocationType = [],
   ariaDescribedBy,
+  compact,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
@@ -131,6 +132,10 @@ const SearchForm = ({
             autoFocus={query === ''}
             onChange={event => setQuery(event.currentTarget.value)}
             ref={searchInput}
+            className={font({
+              s: compact ? 'HNL4' : 'HNL3',
+              m: compact ? 'HNL3' : 'HNL2',
+            })}
           />
 
           {query && (

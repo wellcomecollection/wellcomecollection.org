@@ -195,6 +195,18 @@ const WorkDetails = ({
             />
           )}
 
+          {work.contributors.length > 0 && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Contributors"
+              text={[
+                work.contributors
+                  .map(contributor => contributor.agent.label)
+                  .join(' | '),
+              ]}
+            />
+          )}
+
           {work.production.length > 0 && (
             <MetaUnit
               headingLevel={3}
@@ -236,7 +248,7 @@ const WorkDetails = ({
                 });
                 return (
                   <NextLink key={1} {...linkAttributes}>
-                    <a>{genre.label}</a>
+                    {genre.label}
                   </NextLink>
                 );
               })}
