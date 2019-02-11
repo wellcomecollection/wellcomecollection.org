@@ -138,23 +138,20 @@ class ImageGallery extends Component<Props, State> {
                   <div
                     className={classNames({
                       [spacing({ s: 3 }, { padding: ['top'] })]: true,
-                      'image-gallery-v2__close absolute': true,
+                      'image-gallery-v2__close-wrapper absolute': true,
                     })}
                   >
                     <div
                       className={classNames({
                         'flex flex-end': true,
+                        'image-gallery-v2__close': true,
                         [spacing(
                           { s: 3 },
                           { padding: ['right', 'bottom'] }
                         )]: true,
                       })}
                       style={{
-                        position: 'sticky',
-                        top: '18px',
-                        transform: `translateX(calc((100vw - 100%) / 2))`,
                         visibility: isActive ? 'visible' : 'hidden',
-                        zIndex: 3,
                       }}
                     >
                       <Control
@@ -169,9 +166,7 @@ class ImageGallery extends Component<Props, State> {
                             label: this.props.id,
                           });
 
-                          setTimeout(() => {
-                            this.setState({ isActive: false });
-                          }, 0);
+                          this.setState({ isActive: false });
                         }}
                       />
                     </div>
