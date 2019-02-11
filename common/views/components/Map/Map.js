@@ -12,11 +12,11 @@ const MapContainer = styled.div`
   position: relative;
   width: 100%;
   padding-top: 100%;
-  @media (min-width: 800px) {
+  ${props => props.theme.media.medium`
     padding-top: 56.25%;
-  }
+  `}
 `;
-// TODO use theme for media query value
+
 const Map = ({ title, latitude, longitude }: Props) => {
   const mapContainer = useRef(null);
 
