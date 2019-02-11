@@ -389,6 +389,7 @@
               "label": "Exhibit",
               "select": "document",
               "customtypes": [
+                "exhibitions",
                 "installations"
               ]
             }
