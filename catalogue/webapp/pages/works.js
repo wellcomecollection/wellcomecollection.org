@@ -147,7 +147,6 @@ export const Works = ({
                   initialQuery={query || ''}
                   initialWorkType={workType}
                   initialItemsLocationsLocationType={itemsLocationsLocationType}
-                  showFilters={showCatalogueSearchFilters}
                   ariaDescribedBy="search-form-description"
                 />
                 <p

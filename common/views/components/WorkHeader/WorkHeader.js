@@ -10,6 +10,7 @@ import {
 import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
   work: Work,
@@ -90,33 +91,37 @@ const WorkHeader = ({ work }: Props) => {
             )}
           </div>
         )}
-
-        {(digitalLocations.length > 0 || physicalLocations.length > 0) && (
-          <div
-            className={classNames({
-              [spacing({ s: 2 }, { margin: ['top'] })]: true,
-            })}
-          >
-            <LinkLabels
-              heading={'See it'}
-              icon={'eye'}
-              items={[
-                digitalLocations.length > 0
-                  ? {
-                      text: 'Online',
-                      url: null,
-                    }
-                  : null,
-                physicalLocations.length > 0
-                  ? {
-                      text: 'Wellcome Library',
-                      url: null,
-                    }
-                  : null,
-              ].filter(Boolean)}
-            />
-          </div>
-        )}
+        <TogglesContext.Consumer>
+          {toggles =>
+            toggles.showWorkLocations &&
+            (digitalLocations.length > 0 || physicalLocations.length > 0) && (
+              <div
+                className={classNames({
+                  [spacing({ s: 2 }, { margin: ['top'] })]: true,
+                })}
+              >
+                <LinkLabels
+                  heading={'See it'}
+                  icon={'eye'}
+                  items={[
+                    digitalLocations.length > 0
+                      ? {
+                          text: 'Online',
+                          url: null,
+                        }
+                      : null,
+                    physicalLocations.length > 0
+                      ? {
+                          text: 'Wellcome Library',
+                          url: null,
+                        }
+                      : null,
+                  ].filter(Boolean)}
+                />
+              </div>
+            )
+          }
+        </TogglesContext.Consumer>
       </SpacingComponent>
     </div>
   );

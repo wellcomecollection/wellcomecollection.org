@@ -45,6 +45,12 @@ const featureToggles = [
       ' Changes the layout/styling of the work details section and' +
       ' labels and groups the data in an attempt to make it easier to comprehend.',
   },
+  {
+    id: 'showWorkLocations',
+    title: 'Show the locations of a work in the header',
+    description:
+      'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
+  },
 ];
 
 const IndexPage = () => {
