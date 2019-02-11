@@ -77,6 +77,16 @@ $image-gallery-v2-transition-properties: 400ms ease;
   }
 }
 
+.image-gallery-v2__close {
+  top: $image-gallery-v2-clip-height-s;
+  bottom: 0;
+  width: 100%;
+
+  @include respond-to('medium') {
+    top: $image-gallery-v2-clip-height-m;
+  }
+}
+
 .image-gallery-v2-title {
   .enhanced & {
     opacity: 0;
