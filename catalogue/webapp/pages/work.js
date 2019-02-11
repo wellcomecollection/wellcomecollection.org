@@ -230,6 +230,7 @@ WorkPage.getInitialProps = async (
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
   const showWorkPageChanges = Boolean(ctx.query.toggles.showWorkPageChanges);
+  console.info(showWorkPageChanges);
   const showCatalogueSearchFilters = Boolean(
     ctx.query.toggles.showCatalogueSearchFilters
   );
