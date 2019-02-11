@@ -38,19 +38,6 @@ export const Works = ({
   itemsLocationsLocationType,
   showCatalogueSearchFilters,
 }: Props) => {
-  if (works && works.type === 'Error') {
-    return (
-      <ErrorPage
-        title={
-          works.httpStatus === 500
-            ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
-            : undefined
-        }
-        statusCode={works.httpStatus}
-      />
-    );
-  }
-
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -67,6 +54,19 @@ export const Works = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
+
+  if (works && works.type === 'Error') {
+    return (
+      <ErrorPage
+        title={
+          works.httpStatus === 500
+            ? `We're experiencing technical difficulties at the moment. We're working to get this fixed.`
+            : undefined
+        }
+        statusCode={works.httpStatus}
+      />
+    );
+  }
 
   return (
     <Fragment>
