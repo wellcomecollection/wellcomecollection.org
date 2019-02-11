@@ -153,6 +153,12 @@ class ImageGallery extends Component<Props, State> {
                       text={`close`}
                       icon={`cross`}
                       clickHandler={event => {
+                        trackEvent({
+                          category: `Control`,
+                          action: 'close ImageGallery',
+                          label: this.props.id,
+                        });
+
                         setTimeout(() => {
                           this.setState({ isActive: false });
                         }, 0);
