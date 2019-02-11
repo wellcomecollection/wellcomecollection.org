@@ -25,10 +25,6 @@
       "dest": "http://localhost:3003"
     },
     {
-      "pathname": "/installations",
-      "dest": "http://localhost:3003"
-    },
-    {
       "pathname": "/**",
       "dest": "http://localhost:3000"
     }

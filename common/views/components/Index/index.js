@@ -24,7 +24,6 @@ import FramedHeader from '../PageHeaders/FramedHeader/FramedHeader';
 import Image from '../Image/Image';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import LabelsList from '../LabelsList/LabelsList';
 import License from '../License/License';
 import Map from '../Map/Map';
@@ -81,7 +80,6 @@ export {
   Image,
   ImageGallery,
   InfoBanner,
-  InstallationPromo,
   LabelsList,
   License,
   Map,

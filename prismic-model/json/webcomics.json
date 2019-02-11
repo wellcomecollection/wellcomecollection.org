@@ -303,8 +303,7 @@
                     "event-series",
                     "books",
                     "events",
-                    "articles",
-                    "installations"
+                    "articles"
                   ]
                 }
               }

@@ -1,18 +1,37 @@
 // @flow
-import type { Installation } from '../model/installations';
+import { type UiExhibition } from '../model/exhibitions';
+
 const data = ({
-  type: 'installations',
-  id: 'WyuWLioAACkACeYv',
+  type: 'exhibitions',
+  id: 'XFximBAAAPkAioW7',
   title: 'The Pharmacy of Colour',
   description: [],
   start: new Date('2018-07-23T23:00:00+0000'),
-  end: new Date('2018-09-15T23:00:00+0000'),
+  end: new Date('2019-02-17T23:00:00+0000'),
   body: [],
   standfirst: null,
   contributors: [],
   contributorsTitle: null,
   place: null,
   promo: null,
+  exhibits: [],
+  featuredImageList: [],
+  format: {
+    id: 'XFwdUhUAAA7Z0Y1d',
+    title: 'Installation',
+    description: null,
+  },
+  isPermanent: false,
+  relatedArticles: [],
+  relatedBooks: [],
+  relatedEvents: [],
+  relatedGalleries: [],
+  relatedIds: [],
+  resources: [],
+  galleryLevel: 1,
+  statusOverride: null,
+  textAndCaptionsDocument: null,
+  intro: null,
   promoImage: {
     contentUrl:
       'https://wellcomecollection.cdn.prismic.io/wellcomecollection/459df70f34b693495964c51731c4b47bdedf5cb1_ep_000423_001.jpg',
@@ -90,6 +109,6 @@ const data = ({
     },
   ],
   metadataDescription: null,
-}: Installation);
+}: UiExhibition);
 
 export default data;

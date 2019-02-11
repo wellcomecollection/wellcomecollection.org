@@ -1,23 +1,12 @@
 // @flow
 import type { HTMLString } from '../services/prismic/types';
 import type { Picture } from './picture';
-import type { Installation, UiInstallation } from './installations';
 import type { ImagePromo } from './image-promo';
 import type { Place } from './places';
 import type { Contributor } from './contributors';
 import type { ImageType } from './image';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Resource } from './resource';
-
-export type Exhibit = {|
-  exhibitType: 'installations',
-  item: Installation,
-|};
-
-export type UiExhibit = {|
-  exhibitType: 'installations',
-  item: UiInstallation,
-|};
 
 // e.g. 'Permanent'
 export type ExhibitionFormat = {|
@@ -38,7 +27,10 @@ export type Exhibition = {|
   description: HTMLString,
   contributors: Contributor[],
   place: ?Place,
-  exhibits: Exhibit[],
+  exhibits: {|
+    exhibitType: 'exhibitions',
+    item: Exhibition,
+  |},
   resources: Resource[],
   relatedIds: string[],
 |};
@@ -67,6 +59,21 @@ export type UiExhibition = {|
     relatedEvents: ImagePromo[],
     relatedGalleries: ImagePromo[],
     relatedArticles: ImagePromo[],
-    exhibits: UiExhibit[],
+    exhibits: {|
+      exhibitType: 'exhibitions',
+      item: UiExhibition,
+    |}[],
   |},
+|};
+
+// We don't use these type for exhibits above
+// As it creates a nedds to be defined before use error.
+export type Exhibit = {|
+  exhibitType: 'exhibitions',
+  item: Exhibition,
+|};
+
+export type UiExhibit = {|
+  exhibitType: 'exhibitions',
+  item: UiExhibition,
 |};

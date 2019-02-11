@@ -662,6 +662,9 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
 
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const { data } = doc;
+  if (!data) {
+    console.info('nodoc', doc);
+  }
   const promo = data.promo && parseImagePromo(data.promo);
   const contributors =
     data.contributors &&

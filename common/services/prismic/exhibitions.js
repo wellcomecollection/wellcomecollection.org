@@ -5,7 +5,6 @@ import { parseMultiContent } from './multi-content';
 import {
   exhibitionFields,
   exhibitionResourcesFields,
-  installationFields,
   eventAccessOptionsFields,
   teamsFields,
   eventFormatsFields,
@@ -36,7 +35,6 @@ import {
   parseGenericFields,
   parseBoolean,
 } from './parsers';
-import { parseInstallationDoc } from './installations';
 import { london } from '../../utils/format-date';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';
@@ -89,10 +87,10 @@ export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document
     .map(exhibit => {
-      if (exhibit.item.type === 'installations' && !exhibit.item.isBroken) {
+      if (exhibit.item.type === 'exhibitions' && !exhibit.item.isBroken) {
         return {
-          exhibitType: 'installations',
-          item: parseInstallationDoc(exhibit.item),
+          exhibitType: 'exhibitions',
+          item: parseExhibitionDoc(exhibit.item),
         };
       }
     })
@@ -285,7 +283,6 @@ export async function getExhibitions(
       fetchLinks: peopleFields.concat(
         contributorsFields,
         placesFields,
-        installationFields,
         exhibitionFields,
         exhibitionResourcesFields
       ),
@@ -356,9 +353,9 @@ export async function getExhibition(
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(
       exhibitionFields,
+
       contributorsFields,
       placesFields,
-      installationFields,
       exhibitionResourcesFields
     ),
   });
@@ -396,7 +393,7 @@ export async function getExhibitionRelatedContent(
     articleFormatsFields,
     exhibitionFields
   );
-  const types = ['exhibitions', 'events', 'installations', 'articles', 'books'];
+  const types = ['exhibitions', 'events', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
   const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
     return !(doc.type === 'events' && doc.isPast);
@@ -404,10 +401,7 @@ export async function getExhibitionRelatedContent(
 
   return {
     exhibitionOfs: parsedContent.filter(
-      doc =>
-        doc.type === 'exhibitions' ||
-        doc.type === 'installations' ||
-        doc.type === 'events'
+      doc => doc.type === 'exhibitions' || doc.type === 'events'
     ),
     exhibitionAbouts: parsedContent.filter(
       doc => doc.type === 'books' || doc.type === 'articles'
@@ -422,11 +416,7 @@ export async function getExhibitionExhibits(
 ): Promise<?PaginatedResults<UiExhibit>> {
   const predicates = [Prismic.Predicates.in('document.id', ids)];
   const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: peopleFields.concat(
-      contributorsFields,
-      placesFields,
-      installationFields
-    ),
+    fetchLinks: peopleFields.concat(contributorsFields, placesFields),
   });
 
   const exhibitResults = parseExhibits(
@@ -454,11 +444,7 @@ export async function getExhibitExhibition(
     Prismic.Predicates.at('my.exhibitions.exhibits.item', exhibitId),
   ];
   const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: peopleFields.concat(
-      contributorsFields,
-      placesFields,
-      installationFields
-    ),
+    fetchLinks: peopleFields.concat(contributorsFields, placesFields),
   });
 
   if (apiResponse.results.length > 0) {
@@ -474,11 +460,7 @@ export async function getExhibitionFromDrupalPath(
     req,
     [Prismic.Predicates.at('my.exhibitions.drupalPath', path)],
     {
-      fetchLinks: peopleFields.concat(
-        contributorsFields,
-        placesFields,
-        installationFields
-      ),
+      fetchLinks: peopleFields.concat(contributorsFields, placesFields),
     }
   );
 
