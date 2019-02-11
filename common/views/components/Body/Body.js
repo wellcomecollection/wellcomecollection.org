@@ -6,7 +6,7 @@ import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Quote from '../Quote/Quote';
-import ImageGalleryV2 from '../ImageGalleryV2/ImageGalleryV2';
+import ImageGallery from '../ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
@@ -103,7 +103,7 @@ const Body = ({ body, isDropCapped }: Props) => {
             )}
 
             {slice.type === 'imageGallery' && (
-              <ImageGalleryV2
+              <ImageGallery
                 isStandalone={slice.weight === 'standalone'}
                 {...slice.value}
                 id={imageGalleryIdCount++}
