@@ -15,16 +15,15 @@ const Button = styled.button`
   transition: background 150ms ease;
   cursor: pointer;
   margin-right: 18px;
-  opacity: ${props => (props.disabled || props.opaque ? 1 : 0.5)};
 `;
 
 const aYear = 31536000;
-function setCookie(name, value) {
+function setCookie(name, value, domain = 'wellcomecollection.org') {
   const expiration = value
     ? ` Max-Age=${aYear}`
     : `Expires=${new Date('1970-01-01').toString()}`;
   document.cookie = `toggle_${name}=${value ||
-    ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
+    ''}; Path=/; Domain=${domain}; ${expiration}`;
 }
 
 const abTests = [];
@@ -42,18 +41,23 @@ const featureToggles = [
     id: 'showWorkPageChanges',
     title: 'Show work page changes',
     description:
-      'Adds a header to the page which should hopefully summarise, at a glance, what the work is about.' + 
+      'Adds a header to the page which should hopefully summarise, at a glance, what the work is about.' +
       ' Changes the layout/styling of the work details section and' +
-      ' labels and groups the data in an attempt to make it easier to comprehend.'
+      ' labels and groups the data in an attempt to make it easier to comprehend.',
   },
 ];
 
 const IndexPage = () => {
   const [toggles, setToggles] = useState({});
+  const [domain, setDomain] = useState('wellcomecollection.org');
+  const [showDomainSetter, setShowDomainSetter] = useState(false);
 
   // We use this over getInitialProps as it's ineffectual when an app is
   // exported.
   useEffect(() => {
+    // get the domain
+    setDomain(window.location.hostname);
+
     const cookies = getCookies({});
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {
       if (key.startsWith('toggle_')) {
@@ -61,7 +65,6 @@ const IndexPage = () => {
       }
       return acc;
     }, {});
-
     setToggles(initialToggles);
   }, []);
 
@@ -78,7 +81,35 @@ const IndexPage = () => {
           margin: '0 auto',
         }}
       >
-        <h2>Feature toggles</h2>
+        <div
+          style={{
+            display: 'flex',
+          }}
+        >
+          <h2 style={{ flexGrow: 1 }}>Feature toggles</h2>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {showDomainSetter && (
+              <input
+                type="text"
+                value={domain}
+                onChange={event => setDomain(event.currentTarget.value)}
+              />
+            )}
+            {!showDomainSetter && (
+              <button
+                type="button"
+                onClick={event => setShowDomainSetter(!showDomainSetter)}
+              >
+                Set domain
+              </button>
+            )}
+          </div>
+        </div>
         <p
           style={{
             border: '1px solid rgba(92,184,191,1)',
@@ -112,27 +143,35 @@ const IndexPage = () => {
                 <p>{toggle.description}</p>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'true');
-                    toggles[toggle.id] = true;
-                    setToggles(toggles);
+                    setCookie(toggle.id, 'true', domain);
+                    setToggles({
+                      ...toggles,
+                      [toggle.id]: true,
+                    });
                   }}
-                  disabled={toggles[`${toggle.id}`] === true}
+                  style={{
+                    opacity: toggles[toggle.id] === true ? 1 : 0.5,
+                  }}
                 >
                   👍 Count me in
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'false');
-                    toggles[toggle.id] = false;
-                    setToggles(toggles);
+                    setCookie(toggle.id, 'false', domain);
+                    setToggles({
+                      ...toggles,
+                      [toggle.id]: false,
+                    });
                   }}
-                  disabled={toggles[`${toggle.id}`] === false}
+                  style={{
+                    opacity: toggles[toggle.id] === false ? 1 : 0.5,
+                  }}
                 >
                   👎 No thanks
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id);
+                    setCookie(toggle.id, null, domain);
                     delete toggles[toggle.id];
                     setToggles(toggles);
                   }}
@@ -182,29 +221,39 @@ const IndexPage = () => {
                 <p>{toggle.description}</p>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'true');
-                    toggles[toggle.id] = true;
-                    setToggles(toggles);
+                    setCookie(toggle.id, 'true', domain);
+                    setToggles({
+                      ...toggles,
+                      [toggle.id]: true,
+                    });
                   }}
-                  disabled={toggles[`${toggle.id}`] === true}
+                  style={{
+                    opacity: toggles[toggle.id] === true ? 1 : 0.5,
+                  }}
                 >
                   👍 Count me in
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'false');
-                    toggles[toggle.id] = false;
-                    setToggles(toggles);
+                    setCookie(toggle.id, 'false', domain);
+                    setToggles({
+                      ...toggles,
+                      [toggle.id]: false,
+                    });
                   }}
-                  disabled={toggles[`${toggle.id}`] === false}
+                  style={{
+                    opacity: toggles[toggle.id] === false ? 1 : 0.5,
+                  }}
                 >
                   👎 No thanks
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id);
-                    delete toggles[toggle.id];
-                    setToggles(toggles);
+                    setCookie(toggle.id, null, domain);
+                    setToggles({
+                      ...toggles,
+                      [toggle.id]: undefined,
+                    });
                   }}
                   opaque
                 >
