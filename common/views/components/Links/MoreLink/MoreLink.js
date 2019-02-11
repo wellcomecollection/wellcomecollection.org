@@ -1,7 +1,7 @@
 // @flow
 import { font, conditionalClassNames } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
-import { trackIfOutboundLink, trackEvent } from '../../../../utils/ga';
+import { trackEvent } from '../../../../utils/ga';
 import type { GaEvent } from '../../../../utils/ga';
 
 type Props = {|
@@ -20,7 +20,6 @@ const MoreLink = ({
   trackingEvent,
 }: Props) => {
   function handleClick(event) {
-    trackIfOutboundLink(event.currentTarget.href);
     if (trackingEvent) {
       trackEvent({
         category: 'MoreLink',

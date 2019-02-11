@@ -11,6 +11,7 @@ import theme from '../../views/themes/default';
 import { parseOpeningTimesFromCollectionVenues } from '../../services/prismic/opening-times';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
+import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import { trackEvent } from '../../utils/ga';
@@ -344,12 +345,14 @@ export default class WecoApp extends App {
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
               <ThemeProvider theme={theme}>
-                <Fragment>
-                  {!pageProps.statusCode && <Component {...pageProps} />}
-                  {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                    <ErrorPage statusCode={pageProps.statusCode} />
-                  )}
-                </Fragment>
+                <OutboundLinkTracker>
+                  <Fragment>
+                    {!pageProps.statusCode && <Component {...pageProps} />}
+                    {pageProps.statusCode && pageProps.statusCode !== 200 && (
+                      <ErrorPage statusCode={pageProps.statusCode} />
+                    )}
+                  </Fragment>
+                </OutboundLinkTracker>
               </ThemeProvider>
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
