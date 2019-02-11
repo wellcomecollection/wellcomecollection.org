@@ -48,6 +48,9 @@ const Map = ({ title, latitude, longitude }: Props) => {
     GoogleMapsLoader.KEY = 'AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs';
     GoogleMapsLoader.VERSION = 'quarterly';
     GoogleMapsLoader.load(google => createMap());
+    return () => {
+      GoogleMapsLoader.release();
+    };
   }, []);
 
   return <MapContainer ref={mapContainer} />;
