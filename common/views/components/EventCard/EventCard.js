@@ -1,16 +1,17 @@
 // @flow
+import { type UiEvent } from '../../../model/events';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import type { UiEvent } from '../../../model/events';
+import { classNames, font } from '../../../utils/classnames';
 
 type Props = {|
   event: UiEvent,
 |};
 
 const EventCard = ({ event }: Props) => {
-  const DateRangeComponent = EventDateRange({ event });
+  const DateRangeComponent = <EventDateRange event={event} />;
   const ImageComponent = event.promo && event.promo.image && (
     <Image {...event.promo.image} />
   );
@@ -36,6 +37,18 @@ const EventCard = ({ event }: Props) => {
       Image={ImageComponent}
       DateInfo={DateRangeComponent}
       StatusIndicator={StatusIndicatorComponent}
+      ExtraInfo={
+        !event.isPast &&
+        event.times.length > 1 && (
+          <p
+            className={classNames({
+              [font({ s: 'HNM5' })]: true,
+            })}
+          >
+            See all dates/times
+          </p>
+        )
+      }
     />
   );
 };

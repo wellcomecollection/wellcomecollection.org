@@ -1,6 +1,5 @@
 // @flow
-import type { Element, ElementProps } from 'react';
-
+import { type Element, type ElementProps, type Node } from 'react';
 import {
   grid,
   font,
@@ -10,12 +9,13 @@ import {
 } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import DateRange from '../DateRange/DateRange';
+import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { default as ImageType } from '../Image/Image';
-import type { ColorSelection } from '../../../model/color-selections';
+import { type ColorSelection } from '../../../model/color-selections';
 
 type Props = {|
   url: ?string,
@@ -27,8 +27,9 @@ type Props = {|
   partNumber: ?number,
   color: ?ColorSelection,
   Image: ?Element<typeof ImageType | typeof ImagePlaceholder>,
-  DateInfo: ?Element<typeof DateRange>,
+  DateInfo: ?(Element<typeof DateRange> | Element<typeof EventDateRange>),
   StatusIndicator: ?Element<typeof StatusIndicator>,
+  ExtraInfo?: ?Node,
 |};
 
 const CompactCard = ({
@@ -43,6 +44,7 @@ const CompactCard = ({
   Image,
   DateInfo,
   StatusIndicator,
+  ExtraInfo,
 }: Props) => {
   const textGridSizes = Image
     ? { s: 7, m: 7, l: 8, xl: 8 }
@@ -92,8 +94,9 @@ const CompactCard = ({
         >
           {title}
         </div>
-        {DateRange && <div>{DateInfo}</div>}
+        {DateInfo}
         {StatusIndicator}
+        {ExtraInfo}
         {description && (
           <div className="spaced-text">
             <p className={font({ s: 'HNL4' })}>{description}</p>
