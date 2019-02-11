@@ -17,6 +17,7 @@ import {
   eventPoliciesFields,
   audiencesFields,
   articleSeriesFields,
+  exhibitionFields,
 } from './fetch-links';
 import { parseArticleSeries } from './article-series';
 import type { MultiContent } from '../../model/multi-content';
