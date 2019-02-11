@@ -19,6 +19,7 @@
     "cookie-cutter": "^0.2.0",
     "cookies": "^0.7.2",
     "fontfaceobserver": "^2.0.13",
+    "google-maps": "^3.3.0",
     "immutable": "^3.8.2",
     "isomorphic-unfetch": "^2.1.1",
     "jest": "^23.6.0",

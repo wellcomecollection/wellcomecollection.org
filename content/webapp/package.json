@@ -13,7 +13,6 @@
     "autoprefixer": "^8.3.0",
     "cookies": "^0.7.1",
     "css-loader": "^0.28.11",
-    "google-maps": "^3.3.0",
     "isomorphic-unfetch": "^2.1.1",
     "jest": "^23.6.0",
     "koa": "^2.5.0",
