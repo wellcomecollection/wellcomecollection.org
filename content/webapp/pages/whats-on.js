@@ -37,7 +37,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-import InstallationPromo from '@weco/common/views/components/InstallationPromo/InstallationPromo';
+import ExhibitionPromo from '@weco/common/views/components/ExhibitionPromo/ExhibitionPromo';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
@@ -528,13 +528,18 @@ export class WhatsOnPage extends Component<Props> {
                         ))}
 
                         <div className={cssGrid({ s: 12, m: 6, l: 4, xl: 4 })}>
-                          <InstallationPromo
+                          <ExhibitionPromo
                             id={pharmacyOfColourData.id}
                             title={pharmacyOfColourData.title}
-                            description={pharmacyOfColourData.promoText}
+                            description={pharmacyOfColourData.promoText || ''}
+                            format={pharmacyOfColourData.format}
+                            // $FlowFixMe
                             image={pharmacyOfColourData.promoImage}
                             start={pharmacyOfColourData.start}
                             end={pharmacyOfColourData.end}
+                            statusOverride={null}
+                            url={`/exhibitions/${pharmacyOfColourData.id}`}
+                            squareImage={null}
                             position={2}
                           />
                         </div>

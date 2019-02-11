@@ -3,12 +3,11 @@ import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromoData } from '../DailyTourPromo/DailyTourPromo';
 import type { UiExhibition } from '../../../model/exhibitions';
 import type { UiEvent } from '../../../model/events';
-import type { Installation } from '../../../model/installations';
 
 type Props = {|
   exhibitions: UiExhibition[],
   events: UiEvent[],
-  extras?: (UiExhibition | UiEvent | Installation)[],
+  extras?: (UiExhibition | UiEvent)[],
 |};
 
 const ExhibitionsAndEvents = ({ exhibitions, events, extras = [] }: Props) => {

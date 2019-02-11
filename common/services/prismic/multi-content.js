@@ -7,7 +7,6 @@ import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { parseEventDoc } from './events';
 import { parseArticle } from './articles';
-import { parseInstallationDoc } from './installations';
 import { parseExhibitionDoc } from './exhibitions';
 import {
   pagesFields,
@@ -41,8 +40,6 @@ export function parseMultiContent(
         case 'articles':
         case 'webcomics':
           return parseArticle(document);
-        case 'installations':
-          return parseInstallationDoc(document);
         case 'exhibitions':
           return parseExhibitionDoc(document);
         case 'series':
@@ -100,7 +97,8 @@ export async function getMultiContent(
       eventFormatsFields,
       eventPoliciesFields,
       audiencesFields,
-      articleSeriesFields
+      articleSeriesFields,
+      exhibitionFields
     ),
     pageSize: pageSize || 100,
     orderings: `[${(orderings || []).join(',')}]`,

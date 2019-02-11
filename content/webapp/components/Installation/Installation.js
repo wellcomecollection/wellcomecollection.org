@@ -40,7 +40,7 @@ const Installation = ({ installation }: Props) => {
         text: 'Installations',
       },
       {
-        url: `/installations/${installation.id}`,
+        url: `/exhibitions/${installation.id}`,
         text: installation.title,
         isHidden: true,
       },

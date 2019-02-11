@@ -47,7 +47,6 @@ module.exports = app
     route('/exhibitions', '/exhibitions', router, app);
     route(`/exhibitions/:period(${periodPaths})`, '/exhibitions', router, app);
     route('/exhibitions/:id', '/exhibition', router, app);
-    route('/installations/:id', '/installation', router, app);
 
     route('/events', '/events', router, app);
     route(`/events/:period(${periodPaths})`, '/events', router, app);

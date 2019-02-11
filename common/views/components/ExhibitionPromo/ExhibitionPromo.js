@@ -1,11 +1,11 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font } from '../../../utils/classnames';
+import { spacing, font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { formatDate } from '../../../utils/format-date';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
-import type { ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
+import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 
 type Props = {|
@@ -23,6 +23,7 @@ const ExhibitionPromo = ({
   end,
   statusOverride,
   position = 0,
+  description,
 }: Props) => {
   return (
     <a
@@ -106,6 +107,16 @@ const ExhibitionPromo = ({
             end={end || new Date()}
             statusOverride={statusOverride}
           />
+
+          <p
+            className={classNames({
+              'no-padding': true,
+              [font({ s: 'HNL4' })]: true,
+              [spacing({ s: 2 }, { margin: ['bottom', 'top'] })]: true,
+            })}
+          >
+            {description}
+          </p>
         </div>
       </div>
     </a>

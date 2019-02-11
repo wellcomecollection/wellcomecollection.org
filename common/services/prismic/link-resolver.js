@@ -23,8 +23,6 @@ function linkResolver(doc /* :Doc */) /* :string */ {
       return `/series/${doc.id}`;
     case 'event-series':
       return `/event-series/${doc.id}`;
-    case 'installations':
-      return `/installations/${doc.id}`;
     case 'pages':
       return `/pages/${doc.id}`;
     case 'books':

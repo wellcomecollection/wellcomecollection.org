@@ -19,19 +19,17 @@ export const placesFields = [
   'places.capacity',
   'places.locationInformation',
 ];
-export const installationFields = [
-  'installations.title',
-  'installations.description',
-  'installations.start',
-  'installations.end',
-];
 export const pagesFields = ['pages.title'];
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',
   'event-series.backgroundTexture',
 ];
-export const exhibitionFields = ['exhibition-formats.title'];
+export const exhibitionFields = [
+  'exhibition-formats.title',
+  'exhibitions.title',
+  'exhibitions.format',
+];
 export const bookFields = ['books.title'];
 export const eventFormatsFields = [
   'event-formats.title',
