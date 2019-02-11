@@ -17,7 +17,6 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
-import WorkDetailsNewDataGrouping from '../components/WorkDetails/WorkDetailsNewDataGrouping';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import { worksUrl } from '../services/catalogue/urls';
@@ -29,7 +28,6 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  showWorkPageChanges: boolean,
 |};
 
 export const WorkPage = ({
@@ -38,7 +36,6 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showWorkPageChanges,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -155,20 +152,18 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {showWorkPageChanges && (
-        <div
-          className={classNames({
-            row: true,
-            [spacing({ s: 6 }, { padding: ['top'] })]: true,
-          })}
-        >
-          <div className="container">
-            <div className="grid">
-              <WorkHeader work={work} />
-            </div>
+      <div
+        className={classNames({
+          row: true,
+          [spacing({ s: 6 }, { padding: ['top'] })]: true,
+        })}
+      >
+        <div className="container">
+          <div className="grid">
+            <WorkHeader work={work} />
           </div>
         </div>
-      )}
+      </div>
 
       <Fragment>
         {iiifPresentationLocation && (
@@ -184,26 +179,14 @@ export const WorkPage = ({
           />
         )}
 
-        {showWorkPageChanges ? (
-          <WorkDetailsNewDataGrouping
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            encoreLink={encoreLink}
-          />
-        ) : (
-          <WorkDetails
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            encoreLink={encoreLink}
-            excludeTitle={showWorkPageChanges}
-          />
-        )}
+        <WorkDetails
+          work={work}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          encoreLink={encoreLink}
+        />
       </Fragment>
     </PageLayout>
   );
@@ -226,8 +209,6 @@ WorkPage.getInitialProps = async (
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
 
-  const { showWorkPageChanges = false } = ctx.query.toggles;
-
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
     if (res) {
@@ -246,7 +227,6 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      showWorkPageChanges,
     };
   }
 };
