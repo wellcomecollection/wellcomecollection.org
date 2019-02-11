@@ -7,7 +7,6 @@ import type {
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -20,6 +19,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import { workUrl, worksUrl } from '../services/catalogue/urls';
+import WorkCompactCard from '../components/WorkCompactCard.js/WorkCompactCard';
 
 type Props = {|
   query: ?string,
@@ -234,92 +234,15 @@ export const Works = ({
                         })}
                         key={result.id}
                       >
-                        <div
-                          className={classNames({
-                            'border-color-pumice': true,
-                            'border-top-width-1': true,
-                          })}
-                        >
-                          <NextLink
-                            href={
-                              workUrl({
-                                id: result.id,
-                                query,
-                                page,
-                                workType,
-                                itemsLocationsLocationType,
-                              }).href
-                            }
-                            as={
-                              workUrl({
-                                id: result.id,
-                                query,
-                                page,
-                                workType,
-                                itemsLocationsLocationType,
-                              }).as
-                            }
-                          >
-                            <a
-                              className={classNames({
-                                'plain-link': true,
-                                block: true,
-                                [spacing(
-                                  { s: 3 },
-                                  { padding: ['bottom'] }
-                                )]: true,
-                              })}
-                            >
-                              <div>
-                                <div
-                                  className={classNames({
-                                    'bg-pumice': true,
-                                    'inline-block': true,
-                                    [spacing(
-                                      { s: 1 },
-                                      { margin: ['top', 'bottom'] }
-                                    )]: true,
-                                    [spacing(
-                                      { s: 1 },
-                                      { padding: ['left', 'right'] }
-                                    )]: true,
-                                    [font({ s: 'HNL4' })]: true,
-                                  })}
-                                  style={{ borderRadius: '3px' }}
-                                >
-                                  {result.workType.label}
-                                </div>
-                              </div>
-                              <div className="flex">
-                                <div style={{ flexGrow: 1 }}>
-                                  <h2
-                                    className={classNames({
-                                      [font({ s: 'HNM3' })]: true,
-                                    })}
-                                  >
-                                    {result.title}
-                                  </h2>
-                                </div>
-                                {result.thumbnail && (
-                                  <div
-                                    className={classNames({
-                                      [spacing(
-                                        { s: 2 },
-                                        { margin: ['left'] }
-                                      )]: true,
-                                    })}
-                                    style={{ width: '100px' }}
-                                  >
-                                    <img
-                                      src={result.thumbnail.url}
-                                      style={{ width: '100px' }}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </a>
-                          </NextLink>
-                        </div>
+                        <WorkCompactCard
+                          work={result}
+                          query={query}
+                          page={page}
+                          workType={workType}
+                          itemsLocationsLocationType={
+                            itemsLocationsLocationType
+                          }
+                        />
                       </div>
                     ))}
                   {!showCatalogueSearchFilters &&
