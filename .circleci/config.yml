@@ -295,5 +295,4 @@ workflows:
           filters:
             branches:
               only:
-                - edge_lambda_deploy
-                - move_edge_lambdas
+                - master
