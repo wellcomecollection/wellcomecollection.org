@@ -1,12 +1,22 @@
 /* global google */
 import { useEffect, useRef } from 'react';
 import GoogleMapsLoader from 'google-maps';
+import styled from 'styled-components';
 type Props = {|
   title: string,
   latitude: number,
   longitude: number,
 |};
 
+const MapContainer = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  @media (min-width: 800px) {
+    padding-top: 56.25%;
+  }
+`;
+// TODO use theme for media query value
 const Map = ({ title, latitude, longitude }: Props) => {
   const mapContainer = useRef(null);
 
@@ -40,7 +50,7 @@ const Map = ({ title, latitude, longitude }: Props) => {
     GoogleMapsLoader.load(google => createMap());
   }, []);
 
-  return <div ref={mapContainer} style={{ height: '300px' }} />;
+  return <MapContainer ref={mapContainer} />;
 };
 
 export default Map;
