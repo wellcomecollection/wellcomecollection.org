@@ -2,18 +2,16 @@
 import { classNames, cssGrid } from '../../../utils/classnames';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
-import InstallationPromo from '../InstallationPromo/InstallationPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
-import type { UiExhibition } from '../../../model/exhibitions';
-import type { UiEvent } from '../../../model/events';
-import type { Installation } from '../../../model/installations';
-import type { Book } from '../../../model/books';
-import type { Article } from '../../../model/articles';
+import { type UiExhibition } from '../../../model/exhibitions';
+import { type UiEvent } from '../../../model/events';
+import { type Book } from '../../../model/books';
+import { type Article } from '../../../model/articles';
 
 // TODO: This should be MultiContent
-type ContentTypes = UiEvent | UiExhibition | Installation | Book | Article;
+type ContentTypes = UiEvent | UiExhibition | Book | Article;
 
 type Props = {|
   items: $ReadOnlyArray<ContentTypes>,
@@ -32,16 +30,7 @@ const CardGrid = ({ items, hidePromoText }: Props) => {
             })}
           >
             {item.id === 'tours' && <DailyTourPromo />}
-            {item.type === 'installations' && (
-              <InstallationPromo
-                id={item.id}
-                description={item.promoText}
-                start={item.start}
-                end={item.end}
-                image={item.promoImage}
-                title={item.title}
-              />
-            )}
+
             {item.type === 'exhibitions' && (
               // TODO: (remove Picture type)
               // $FlowFixMe
@@ -49,7 +38,6 @@ const CardGrid = ({ items, hidePromoText }: Props) => {
                 id={item.id}
                 url={`/exhibitions/${item.id}`}
                 title={item.title}
-                description={item.promoText || ''}
                 format={item.format}
                 // TODO: (remove Picture type)
                 // $FlowFixMe
@@ -58,6 +46,14 @@ const CardGrid = ({ items, hidePromoText }: Props) => {
                 end={!item.isPermanent ? item.end : null}
                 statusOverride={item.statusOverride}
                 position={i}
+                // TODO: Make this logic a little more sound
+                // This is to replicate what we have with installations at the
+                // moment
+                description={
+                  item.format && item.format.title === 'Installation'
+                    ? item.promoText
+                    : ''
+                }
               />
             )}
             {item.id !== 'tours' && item.type === 'events' && (

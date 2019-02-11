@@ -307,8 +307,7 @@
                     "event-series",
                     "books",
                     "events",
-                    "articles",
-                    "installations"
+                    "articles"
                   ]
                 }
               }
@@ -389,8 +388,7 @@
               "label": "Exhibit",
               "select": "document",
               "customtypes": [
-                "exhibitions",
-                "installations"
+                "exhibitions"
               ]
             }
           }

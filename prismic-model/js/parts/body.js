@@ -110,7 +110,6 @@ export default {
             'books',
             'events',
             'articles',
-            'installations',
           ]),
         },
       }),

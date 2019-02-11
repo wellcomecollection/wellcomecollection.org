@@ -119,9 +119,6 @@ const graphQuery = `{
       ... on event-series {
         title
       }
-      ... on installations {
-        title
-      }
       ... on pages {
         title
       }
@@ -148,9 +145,6 @@ const graphQuery = `{
       ... on event-series {
         title
       }
-      ... on installations {
-        title
-      }
       ... on pages {
         title
       }
@@ -175,9 +169,6 @@ const graphQuery = `{
         title
       }
       ... on event-series {
-        title
-      }
-      ... on installations {
         title
       }
       ... on pages {

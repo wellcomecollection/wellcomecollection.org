@@ -121,24 +121,6 @@ const SearchResults = ({
 
           {item.type === 'events' && <EventCard event={item} />}
 
-          {item.type === 'installations' && (
-            <CompactCard
-              url={`/installations/${item.id}`}
-              title={item.title}
-              partNumber={null}
-              color={null}
-              labels={{ labels: item.labels }}
-              description={item.promoText}
-              urlOverride={item.promo && item.promo.link}
-              Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
-              }
-              DateInfo={null}
-              StatusIndicator={null}
-            />
-          )}
-
           {item.type === 'exhibitions' && (
             <CompactCard
               url={`/exhibitions/${item.id}`}

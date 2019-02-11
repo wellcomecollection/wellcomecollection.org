@@ -7,7 +7,6 @@ import type { EventSeries } from './event-series';
 import type { ArticleSeries } from './article-series';
 import type { Book } from './books';
 import type { UiEvent } from './events';
-import type { Installation } from './installations';
 import type { Article } from './articles';
 import type { ArticleScheduleItem } from './article-schedule-items';
 import type { UiExhibition } from './exhibitions';
@@ -19,7 +18,6 @@ export type MultiContent =
   | Book
   | UiEvent
   | Article
-  | Installation
   | ArticleScheduleItem
   | UiExhibition
   | Weblink
