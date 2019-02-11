@@ -149,6 +149,7 @@ export const Works = ({
                   initialItemsLocationsLocationType={itemsLocationsLocationType}
                   showFilters={showCatalogueSearchFilters}
                   ariaDescribedBy="search-form-description"
+                  compact={false}
                 />
                 <p
                   className={classNames({

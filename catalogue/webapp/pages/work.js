@@ -132,6 +132,7 @@ export const WorkPage = ({
                 initialItemsLocationsLocationType={itemsLocationsLocationType}
                 showFilters={showCatalogueSearchFilters}
                 ariaDescribedBy="search-form-description"
+                compact={true}
               />
             </div>
           </div>

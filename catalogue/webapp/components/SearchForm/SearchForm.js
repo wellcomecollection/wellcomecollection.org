@@ -1,5 +1,4 @@
 // @flow
-// $FlowFixMe (hooks)
 import { Fragment, useState, useRef } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -9,38 +8,13 @@ import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '../../services/catalogue/urls';
 
-const workTypes = [
-  { id: 'a', label: 'Books' },
-  { id: 'b', label: 'Manuscripts, Asian' },
-  { id: 'c', label: 'Music' },
-  { id: 'd', label: 'Journals' },
-  { id: 'e', label: 'Maps' },
-  { id: 'f', label: 'E-videos' },
-  { id: 'g', label: 'Videorecordings' },
-  { id: 'h', label: 'Archives and manuscripts' },
-  { id: 'i', label: 'Sound' },
-  { id: 'j', label: 'E-journals' },
-  { id: 'k', label: 'Pictures' },
-  { id: 'l', label: 'Ephemera' },
-  { id: 'm', label: 'CD-Roms' },
-  { id: 'n', label: 'Cinefilm' },
-  { id: 'p', label: 'Mixed materials' },
-  { id: 'q', label: 'Digital images' },
-  { id: 'r', label: '3-D Objects' },
-  { id: 's', label: 'E-sound' },
-  { id: 'u', label: 'Standing order' },
-  { id: 'v', label: 'E-books' },
-  { id: 'w', label: 'Student dissertations' },
-  { id: 'x', label: 'E-manuscripts, Asian' },
-  { id: 'z', label: 'Web sites ' },
-];
-
 type Props = {|
   initialQuery: string,
   initialWorkType: string[],
   initialItemsLocationsLocationType: string[],
   showFilters: boolean,
   ariaDescribedBy: string,
+  compact: boolean,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -115,6 +89,7 @@ const SearchForm = ({
   initialItemsLocationsLocationType = [],
   showFilters,
   ariaDescribedBy,
+  compact,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
@@ -158,6 +133,10 @@ const SearchForm = ({
             autoFocus={query === ''}
             onChange={event => setQuery(event.currentTarget.value)}
             ref={searchInput}
+            className={font({
+              s: compact ? 'HNL4' : 'HNL3',
+              m: compact ? 'HNL3' : 'HNL2',
+            })}
           />
 
           {query && (
