@@ -1,5 +1,6 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
+import dynamic from 'next/dynamic';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import { CaptionedImage } from '../Images/Images';
@@ -11,7 +12,6 @@ import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
-import Map from '../Map/Map';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
@@ -21,6 +21,8 @@ import {
   dropCapSerializer,
 } from '../../../services/prismic/html-serialisers';
 import type { Weight } from '../../../services/prismic/parsers';
+
+const Map = dynamic(import('../Map/Map'), { ssr: false });
 
 type BodySlice = {|
   type: string,
