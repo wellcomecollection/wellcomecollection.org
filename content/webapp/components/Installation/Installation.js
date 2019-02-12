@@ -18,9 +18,10 @@ import { isPast } from '@weco/common/utils/dates';
 
 type Props = {|
   installation: UiExhibition,
+  partOf: ?UiExhibition,
 |};
 
-const Installation = ({ installation }: Props) => {
+const Installation = ({ installation, partOf }: Props) => {
   const FeaturedMedia = getFeaturedMedia({
     id: installation.id,
     title: installation.title,
@@ -38,6 +39,16 @@ const Installation = ({ installation }: Props) => {
     metadataDescription: installation.metadataDescription,
   });
 
+  function getPartOfBreadcrumb() {
+    if (partOf && partOf.id && partOf.title) {
+      return {
+        url: `/exhibitions/${partOf.id}`,
+        text: partOf.title,
+        prefix: 'Part of',
+      };
+    }
+  }
+
   const breadcrumbs = {
     items: [
       {
@@ -48,7 +59,8 @@ const Installation = ({ installation }: Props) => {
         text: installation.title,
         isHidden: true,
       },
-    ],
+      getPartOfBreadcrumb(),
+    ].filter(Boolean),
   };
 
   const Header = (

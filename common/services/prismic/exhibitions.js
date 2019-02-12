@@ -87,7 +87,11 @@ export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document
     .map(exhibit => {
-      if (exhibit.item.type === 'exhibitions' && !exhibit.item.isBroken) {
+      if (
+        exhibit.item.type === 'exhibitions' &&
+        !exhibit.item.isBroken &&
+        exhibit.item.data
+      ) {
         return {
           exhibitType: 'exhibitions',
           item: parseExhibitionDoc(exhibit.item),
@@ -437,7 +441,7 @@ export async function getExhibitionExhibits(
 }
 
 export async function getExhibitExhibition(
-  req: Request,
+  req: ?Request,
   exhibitId: string
 ): Promise<?UiExhibition> {
   const predicates = [
