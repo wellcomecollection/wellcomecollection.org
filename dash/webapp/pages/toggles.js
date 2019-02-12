@@ -38,14 +38,6 @@ const featureToggles = [
       'This will show unfilter those results, and allow for filtering.',
   },
   {
-    id: 'showWorkPageChanges',
-    title: 'Show work page changes',
-    description:
-      'Adds a header to the page which should hopefully summarise, at a glance, what the work is about.' +
-      ' Changes the layout/styling of the work details section and' +
-      ' labels and groups the data in an attempt to make it easier to comprehend.',
-  },
-  {
     id: 'showWorkLocations',
     title: 'Show the locations of a work in the header',
     description:
