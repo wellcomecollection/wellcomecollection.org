@@ -23,6 +23,133 @@ import { font, spacing, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 
+function getUpcomingExhibitionObject(exhibition) {
+  return isFuture(exhibition.start)
+    ? {
+        id: null,
+        title: null,
+        description: [
+          {
+            type: 'paragraph',
+            text: `Opening on ${formatDate(exhibition.start)}`,
+            spans: [],
+          },
+        ],
+        icon: 'calendar',
+      }
+    : null;
+}
+
+function getadmissionObject() {
+  return {
+    id: null,
+    title: null,
+    description: [
+      {
+        type: 'paragraph',
+        text: 'Free admission',
+        spans: [],
+      },
+    ],
+    icon: 'ticket',
+  };
+}
+
+function getTodaysHoursObject() {
+  const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
+
+  return {
+    id: null,
+    title: null,
+    description: [
+      {
+        type: 'paragraph',
+        text: todaysHoursText,
+        spans: [
+          {
+            type: 'hyperlink',
+            start: todaysHoursText.length - 13,
+            end: todaysHoursText.length,
+            data: {
+              url: '/opening-times',
+            },
+          },
+        ],
+      },
+    ],
+    icon: 'clock',
+  };
+}
+
+function getPlaceObject(exhibition) {
+  return (
+    exhibition.place && {
+      id: null,
+      title: null,
+      description: [
+        {
+          type: 'paragraph',
+          text: `${exhibition.place.title}, level ${exhibition.place.level}`,
+          spans: [],
+        },
+      ],
+      icon: 'location',
+    }
+  );
+}
+
+function getResourcesItems(exhibition) {
+  return exhibition.resources.map(resource => {
+    return {
+      id: null,
+      title: null,
+      description: resource.description,
+      icon: resource.icon,
+    };
+  });
+}
+
+function getAccessibilityItems() {
+  return [
+    {
+      id: null,
+      title: null,
+      description: [
+        {
+          type: 'paragraph',
+          text: 'Step-free access is available to all floors of the building',
+          spans: [],
+        },
+      ],
+      icon: 'a11y',
+    },
+    {
+      id: null,
+      title: null,
+      description: [
+        {
+          type: 'paragraph',
+          text:
+            'Large-print guides, transcripts and magnifiers are available in the gallery',
+          spans: [],
+        },
+      ],
+      icon: 'a11yVisual',
+    },
+  ];
+}
+
+export function getInfoItems(exhibition: UiExhibition) {
+  return [
+    getUpcomingExhibitionObject(exhibition),
+    getadmissionObject(),
+    getTodaysHoursObject(),
+    getPlaceObject(exhibition),
+    ...getResourcesItems(exhibition),
+    ...getAccessibilityItems(),
+  ].filter(Boolean);
+}
+
 type Props = {|
   exhibition: UiExhibition,
 |};
@@ -106,117 +233,6 @@ const Exhibition = ({ exhibition }: Props) => {
     />
   );
 
-  // Info box content
-  const admissionObject = {
-    id: null,
-    title: null,
-    description: [
-      {
-        type: 'paragraph',
-        text: 'Free admission',
-        spans: [],
-      },
-    ],
-    icon: 'ticket',
-  };
-
-  const upcomingExhibitionObject = isFuture(exhibition.start)
-    ? {
-        id: null,
-        title: null,
-        description: [
-          {
-            type: 'paragraph',
-            text: `Opening on ${formatDate(exhibition.start)}`,
-            spans: [],
-          },
-        ],
-        icon: 'calendar',
-      }
-    : null;
-
-  const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
-  const todaysHoursObject = {
-    id: null,
-    title: null,
-    description: [
-      {
-        type: 'paragraph',
-        text: todaysHoursText,
-        spans: [
-          {
-            type: 'hyperlink',
-            start: todaysHoursText.length - 13,
-            end: todaysHoursText.length,
-            data: {
-              url: '/opening-times',
-            },
-          },
-        ],
-      },
-    ],
-    icon: 'clock',
-  };
-
-  const placeObject = exhibition.place && {
-    id: null,
-    title: null,
-    description: [
-      {
-        type: 'paragraph',
-        text: `${exhibition.place.title}, level ${exhibition.place.level}`,
-        spans: [],
-      },
-    ],
-    icon: 'location',
-  };
-
-  const resourcesItems = exhibition.resources.map(resource => {
-    return {
-      id: null,
-      title: null,
-      description: resource.description,
-      icon: resource.icon,
-    };
-  });
-
-  const accessibilityItems = [
-    {
-      id: null,
-      title: null,
-      description: [
-        {
-          type: 'paragraph',
-          text: 'Step-free access is available to all floors of the building',
-          spans: [],
-        },
-      ],
-      icon: 'a11y',
-    },
-    {
-      id: null,
-      title: null,
-      description: [
-        {
-          type: 'paragraph',
-          text:
-            'Large-print guides, transcripts and magnifiers are available in the gallery',
-          spans: [],
-        },
-      ],
-      icon: 'a11yVisual',
-    },
-  ];
-
-  const infoItems = [
-    upcomingExhibitionObject,
-    admissionObject,
-    todaysHoursObject,
-    placeObject,
-    ...resourcesItems,
-    ...accessibilityItems,
-  ].filter(Boolean);
-
   return (
     <PageLayout
       title={exhibition.title}
@@ -245,7 +261,7 @@ const Exhibition = ({ exhibition }: Props) => {
           <SearchResults items={exhibitionOfs} title={`In this exhibition`} />
         )}
         {exhibition.end && !isPast(exhibition.end) && (
-          <InfoBox title="Visit us" items={infoItems}>
+          <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
             <p className={`no-margin ${font({ s: 'HNL4' })}`}>
               <a href="/access">All our accessibility services</a>
             </p>
