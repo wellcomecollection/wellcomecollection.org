@@ -29,6 +29,7 @@ type Props = {|
   oEmbedUrl?: string,
   rssUrl?: string,
   children: Node,
+  hideNewsletterPromo?: boolean,
 |};
 
 const PageLayout = ({
@@ -43,6 +44,7 @@ const PageLayout = ({
   oEmbedUrl,
   rssUrl,
   children,
+  hideNewsletterPromo = false,
 }: Props) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -111,7 +113,7 @@ const PageLayout = ({
         <div id="main" className="main" role="main">
           {children}
         </div>
-        <NewsletterPromo />
+        {!hideNewsletterPromo && <NewsletterPromo />}
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Footer
