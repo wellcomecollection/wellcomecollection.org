@@ -101,6 +101,7 @@ export const WorkPage = ({
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
       imageUrl={imageContentUrl}
       imageAltText={work.title}
+      hideNewsletterPromo={true}
     >
       <InfoBanner
         text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
