@@ -16,6 +16,9 @@ const DownloadButton = styled.button`
   padding: ${props =>
     `${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit * 2}px ${props
       .theme.spacingUnit * 2}px ${props.theme.spacingUnit * 3}px`};
+  display: inline-block;
+  margin: ${props =>
+    `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};
   cursor: pointer;
   :focus {
     outline: none;
@@ -153,20 +156,41 @@ const Download = ({
           (iiifImageLocationCredit && (
             <span
               className={classNames({
-                [spacing({ s: 1 }, { margin: ['top', 'left'] })]: true,
-                'inline-block': true,
                 nowrap: true,
               })}
             >
               {iiifImageLocationLicenseId && (
-                <License
-                  subject={''}
-                  licenseType={iiifImageLocationLicenseId}
-                />
+                <span
+                  className={classNames({
+                    'inline-block': true,
+                    [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                  })}
+                >
+                  <License
+                    subject={''}
+                    licenseType={iiifImageLocationLicenseId}
+                  />
+                </span>
               )}
-              Credit: {iiifImageLocationCredit}
+              <span
+                className={classNames({
+                  'inline-block': true,
+                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                })}
+              >
+                Credit: {iiifImageLocationCredit}{' '}
+              </span>
             </span>
           ))}
+        <a
+          href="#licenseInformation"
+          className={font({ s: 'HNM5', m: 'HNM4' })}
+        >
+          <span className="flex-inline flex--v-center">
+            <Icon name="arrowSmall" extraClasses="icon--90" />
+            Can I use this?
+          </span>
+        </a>
       </p>
     </div>
   );
