@@ -81,6 +81,7 @@ $image-gallery-v2-transition-properties: 400ms ease;
   top: $image-gallery-v2-clip-height-s;
   bottom: 0;
   width: 100%;
+  pointer-events: none;
 
   @include respond-to('medium') {
     top: $image-gallery-v2-clip-height-m;
@@ -91,6 +92,8 @@ $image-gallery-v2-transition-properties: 400ms ease;
   position: sticky;
   top: $spacing-unit * 3;
   transform: translateX(calc((100vw - 100%) / 2));
+  z-index: 3;
+  pointer-events: all;
 }
 
 .image-gallery-v2-title {
