@@ -125,7 +125,9 @@ export const Works = ({
                       spacing({ s: 0 }, { margin: ['top'] }),
                     ])}
                   >
-                    Search our images
+                    {showCatalogueSearchFilters
+                      ? 'Search our collections'
+                      : 'Search our images'}
                   </h1>
                   <div className="flex flex--v-center">
                     <Icon

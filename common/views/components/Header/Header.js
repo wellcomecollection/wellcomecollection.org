@@ -1,4 +1,5 @@
 // @flow
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { withToggler } from '../../hocs/withToggler';
 import { font, spacing } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
@@ -70,36 +71,44 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
           className="header__nav js-header-burger-drawer"
           aria-labelledby="header-burger-trigger"
         >
-          <ul
-            className={`plain-list header__list ${font({ s: 'WB7' })} ${spacing(
-              { s: 0 },
-              {
-                margin: ['top', 'left', 'bottom', 'right'],
-                padding: ['top', 'left', 'bottom', 'right'],
-              }
-            )}`}
-          >
-            {links.map((link, i) => (
-              <li
-                className={`header__item ${
-                  link.siteSection === siteSection
-                    ? ' header__item--is-current'
-                    : ''
-                }`}
-                key={i}
+          <TogglesContext.Consumer>
+            {({ showCatalogueSearchFilters }) => (
+              <ul
+                className={`plain-list header__list ${font({
+                  s: 'WB7',
+                })} ${spacing(
+                  { s: 0 },
+                  {
+                    margin: ['top', 'left', 'bottom', 'right'],
+                    padding: ['top', 'left', 'bottom', 'right'],
+                  }
+                )}`}
               >
-                <a
-                  className="header__link js-header-nav-link"
-                  href={link.href}
-                  {...(link.siteSection === siteSection
-                    ? { 'aria-current': true }
-                    : {})}
-                >
-                  {link.title}
-                </a>
-              </li>
-            ))}
-          </ul>
+                {links.map((link, i) => (
+                  <li
+                    className={`header__item ${
+                      link.siteSection === siteSection
+                        ? ' header__item--is-current'
+                        : ''
+                    }`}
+                    key={i}
+                  >
+                    <a
+                      className="header__link js-header-nav-link"
+                      href={link.href}
+                      {...(link.siteSection === siteSection
+                        ? { 'aria-current': true }
+                        : {})}
+                    >
+                      {showCatalogueSearchFilters && link.title === 'Images'
+                        ? 'Collections'
+                        : link.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </TogglesContext.Consumer>
         </nav>
         {/* we leave this here until we know exactly what we want to do with search */}
         <div id="header-search" className="header__search" />
