@@ -4,6 +4,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '../../services/catalogue/urls';
@@ -12,7 +13,6 @@ type Props = {|
   initialQuery: string,
   initialWorkType: string[],
   initialItemsLocationsLocationType: string[],
-  showFilters: boolean,
   ariaDescribedBy: string,
   compact: boolean,
 |};
@@ -87,7 +87,6 @@ const SearchForm = ({
   initialQuery = '',
   initialWorkType = [],
   initialItemsLocationsLocationType = [],
-  showFilters,
   ariaDescribedBy,
   compact,
 }: Props) => {
@@ -178,74 +177,79 @@ const SearchForm = ({
         </SearchButtonWrapper>
       </div>
 
-      {showFilters && (
-        <Fragment>
-          <fieldset
-            className={classNames({
-              [spacing({ s: 1 }, { margin: ['top'] })]: true,
-            })}
-          >
-            <legend
-              className={classNames({
-                'float-l': true,
-                [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                [font({ s: 'HNL4' })]: true,
-              })}
-              style={{ marginTop: '3px' }}
-            >
-              Filter by:
-            </legend>
-            <SearchTag
-              name={'workType'}
-              label="Images"
-              value="k,q"
-              checked={
-                workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1
-              }
-              onChange={event => {
-                const input = event.currentTarget;
-                const newWorkType = input.checked
-                  ? [...workType, 'k', 'q']
-                  : workType.filter(val => val !== 'k' && val !== 'q');
-                setWorkType(newWorkType);
-              }}
-            />
-            <SearchTag
-              name={'workType'}
-              label="Books"
-              value="a"
-              checked={workType.indexOf('a') !== -1}
-              onChange={event => {
-                const input = event.currentTarget;
-                const newWorkType = input.checked
-                  ? [...workType, 'a']
-                  : workType.filter(val => val !== 'a');
-                setWorkType(newWorkType);
-              }}
-            />
-            <SearchTag
-              name={'items.locations.locationType'}
-              label="Online"
-              value="iiif-image,iiif-presentation"
-              checked={
-                itemsLocationsLocationType.indexOf('iiif-image') !== -1 &&
-                itemsLocationsLocationType.indexOf('iiif-presentation') !== -1
-              }
-              onChange={event => {
-                const input = event.currentTarget;
-                if (input.checked) {
-                  setItemsLocationsLocationType([
-                    'iiif-image',
-                    'iiif-presentation',
-                  ]);
-                } else {
-                  setItemsLocationsLocationType([]);
-                }
-              }}
-            />
-          </fieldset>
-        </Fragment>
-      )}
+      <TogglesContext.Consumer>
+        {({ showCatalogueSearchFilters }) =>
+          showCatalogueSearchFilters && (
+            <Fragment>
+              <fieldset
+                className={classNames({
+                  [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                })}
+              >
+                <legend
+                  className={classNames({
+                    'float-l': true,
+                    [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                    [font({ s: 'HNL4' })]: true,
+                  })}
+                  style={{ marginTop: '3px' }}
+                >
+                  Filter by:
+                </legend>
+                <SearchTag
+                  name={'workType'}
+                  label="Images"
+                  value="k,q"
+                  checked={
+                    workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1
+                  }
+                  onChange={event => {
+                    const input = event.currentTarget;
+                    const newWorkType = input.checked
+                      ? [...workType, 'k', 'q']
+                      : workType.filter(val => val !== 'k' && val !== 'q');
+                    setWorkType(newWorkType);
+                  }}
+                />
+                <SearchTag
+                  name={'workType'}
+                  label="Books"
+                  value="a"
+                  checked={workType.indexOf('a') !== -1}
+                  onChange={event => {
+                    const input = event.currentTarget;
+                    const newWorkType = input.checked
+                      ? [...workType, 'a']
+                      : workType.filter(val => val !== 'a');
+                    setWorkType(newWorkType);
+                  }}
+                />
+                <SearchTag
+                  name={'items.locations.locationType'}
+                  label="Online"
+                  value="iiif-image,iiif-presentation"
+                  checked={
+                    itemsLocationsLocationType.indexOf('iiif-image') !== -1 &&
+                    itemsLocationsLocationType.indexOf('iiif-presentation') !==
+                      -1
+                  }
+                  onChange={event => {
+                    const input = event.currentTarget;
+                    if (input.checked) {
+                      setItemsLocationsLocationType([
+                        'iiif-image',
+                        'iiif-presentation',
+                      ]);
+                    } else {
+                      setItemsLocationsLocationType([]);
+                    }
+                  }}
+                />
+              </fieldset>
+            </Fragment>
+          )
+        }
+      </TogglesContext.Consumer>
     </form>
   );
 };

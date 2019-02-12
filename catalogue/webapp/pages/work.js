@@ -30,7 +30,6 @@ type Props = {|
   page: ?number,
   itemsLocationsLocationType: string[],
   showWorkPageChanges: boolean,
-  showCatalogueSearchFilters: boolean,
 |};
 
 export const WorkPage = ({
@@ -40,7 +39,6 @@ export const WorkPage = ({
   workType,
   itemsLocationsLocationType,
   showWorkPageChanges,
-  showCatalogueSearchFilters,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -130,7 +128,6 @@ export const WorkPage = ({
                 initialQuery={query || ''}
                 initialWorkType={workType}
                 initialItemsLocationsLocationType={itemsLocationsLocationType}
-                showFilters={showCatalogueSearchFilters}
                 ariaDescribedBy="search-form-description"
                 compact={true}
               />
@@ -229,11 +226,7 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const showWorkPageChanges = Boolean(ctx.query.toggles.showWorkPageChanges);
-  console.info(showWorkPageChanges);
-  const showCatalogueSearchFilters = Boolean(
-    ctx.query.toggles.showCatalogueSearchFilters
-  );
+  const { showWorkPageChanges = false } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -254,7 +247,6 @@ WorkPage.getInitialProps = async (
       workType,
       itemsLocationsLocationType,
       showWorkPageChanges,
-      showCatalogueSearchFilters,
     };
   }
 };
