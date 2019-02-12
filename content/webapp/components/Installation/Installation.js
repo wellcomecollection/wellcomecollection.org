@@ -11,6 +11,10 @@ import {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
+import { getInfoItems } from '../Exhibition/Exhibition';
+import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import { font } from '@weco/common/utils/classnames';
+import { isPast } from '@weco/common/utils/dates';
 
 type Props = {|
   installation: UiExhibition,
@@ -84,7 +88,15 @@ const Installation = ({ installation }: Props) => {
         Header={Header}
         Body={<Body body={installation.body} />}
         contributorProps={{ contributors: installation.contributors }}
-      />
+      >
+        {installation.end && !isPast(installation.end) && (
+          <InfoBox title="Visit us" items={getInfoItems(installation)}>
+            <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+              <a href="/access">All our accessibility services</a>
+            </p>
+          </InfoBox>
+        )}
+      </ContentPage>
     </PageLayout>
   );
 };
