@@ -18,6 +18,9 @@
 }
 
 .image-viewer__controls {
+  // TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
+  // for a less heavy handed solution to Openseadragon breaking on touch events
+  touch-action: none;
   height: 3em;
 
   .icon {

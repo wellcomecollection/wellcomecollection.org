@@ -1,13 +1,14 @@
 // @flow
 import { type UiExhibition } from '../model/exhibitions';
+import { london } from '../utils/format-date';
 
 const data = ({
   type: 'exhibitions',
   id: 'XFximBAAAPkAioW7',
   title: 'The Pharmacy of Colour',
   description: [],
-  start: new Date('2018-07-23T23:00:00+0000'),
-  end: new Date('2019-02-17T23:00:00+0000'),
+  start: london('2018-07-23T23:00:00+0000').toDate(),
+  end: london('2019-02-17T23:00:00+0000').toDate(),
   body: [],
   standfirst: null,
   contributors: [],
