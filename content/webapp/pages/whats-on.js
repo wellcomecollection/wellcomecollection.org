@@ -319,7 +319,7 @@ export class WhatsOnPage extends Component<Props> {
         events,
         dateRange,
         tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [cafePromo, shopPromo, restaurantPromo],
+        eatShopPromos: [shopPromo, cafePromo, restaurantPromo],
         cafePromo,
         shopPromo,
         dailyTourPromo,
@@ -493,45 +493,9 @@ export class WhatsOnPage extends Component<Props> {
                   </Fragment>
                 )}
               </div>
-              <SpacingSection>
-                <SectionHeader title={'Try these too'} />
-                <div className="css-grid__container">
-                  <div
-                    className={classNames({
-                      'css-grid': true,
-                    })}
-                  >
-                    <div
-                      className={classNames({
-                        'css-grid__scroll-container container--scroll touch-scroll': true,
-                        [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                      })}
-                    >
-                      <div className="css-grid grid--scroll">
-                        {tryTheseTooPromos.map(promo => (
-                          <div
-                            key={promo.title}
-                            className={cssGrid({ s: 12, m: 6, l: 4, xl: 4 })}
-                          >
-                            <FacilityPromo
-                              id={promo.id}
-                              title={promo.title}
-                              url={promo.url}
-                              description={promo.description}
-                              imageProps={promo.image}
-                              metaText={promo.metaText}
-                              metaIcon={promo.metaIcon}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SpacingSection>
 
               <SpacingSection>
-                <SectionHeader title="Eat and shop" />
+                <SectionHeader title="Try these too" />
 
                 <div className="css-grid__container">
                   <div
@@ -546,7 +510,7 @@ export class WhatsOnPage extends Component<Props> {
                       })}
                     >
                       <div className="css-grid grid--scroll">
-                        {eatShopPromos.map(promo => (
+                        {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
                           <div
                             key={promo.id}
                             className={cssGrid({ s: 12, m: 6, l: 3, xl: 3 })}
