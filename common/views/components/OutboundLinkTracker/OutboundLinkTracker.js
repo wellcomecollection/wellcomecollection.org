@@ -13,7 +13,8 @@ const OutboundLinkTracker = ({ children }: Props) => {
   function handleClick(event: { target: any }) {
     const url = event.target.href;
 
-    if (url && isExternal(url)) {
+    // We check for the type here as SVGs have a href type of `SVGAnimatedString`
+    if (typeof url === 'string' && isExternal(url)) {
       ReactGA.outboundLink(
         {
           category: 'outbound',
