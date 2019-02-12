@@ -15,7 +15,6 @@ import {
 } from '@weco/common/services/prismic/events';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { convertJsonToDates } from './event';
-import pharmacyOfColourData from '@weco/common/data/the-pharmacy-of-colour';
 import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -122,7 +121,6 @@ export class HomePage extends Component<Props> {
             events={orderEventsByNextAvailableDate(
               filterEventsForNext7Days(events)
             )}
-            extras={[pharmacyOfColourData]}
           />
         </SpacingSection>
 
