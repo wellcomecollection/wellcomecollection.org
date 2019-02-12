@@ -62,7 +62,7 @@ const WorkHeader = ({ work }: Props) => {
             className={classNames({
               flex: true,
               'flex--wrap': true,
-              [spacing({ s: 3, m: 6 }, { margin: ['top'] })]: true,
+              [spacing({ s: 3, m: 4 }, { margin: ['top'] })]: true,
             })}
           >
             {work.contributors.length > 0 && (
