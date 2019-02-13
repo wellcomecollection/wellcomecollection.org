@@ -91,6 +91,7 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
+  useBetaDownloadComponent: boolean,
 |};
 
 const WorkDetails = ({
@@ -100,6 +101,7 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
+  useBetaDownloadComponent,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -111,17 +113,31 @@ const WorkDetails = ({
   const WorkDetailsSections = [];
 
   if (iiifImageLocationUrl) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection>
-        <Download
-          work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-        />
-      </WorkDetailsSection>
-    );
+    if (useBetaDownloadComponent) {
+      WorkDetailsSections.push(
+        <SpacingComponent>
+          <DownloadBeta
+            work={work}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          />
+        </SpacingComponent>
+      );
+    } else {
+      WorkDetailsSections.push(
+        <WorkDetailsSection>
+          <Download
+            work={work}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          />
+        </WorkDetailsSection>
+      );
+    }
   }
   if (
     work.description ||
@@ -305,17 +321,6 @@ const WorkDetails = ({
       <div className="container">
         <div className="grid">
           <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
-            {iiifImageLocationUrl && (
-              <SpacingComponent>
-                <DownloadBeta
-                  work={work}
-                  iiifImageLocationUrl={iiifImageLocationUrl}
-                  licenseInfo={licenseInfo}
-                  iiifImageLocationCredit={iiifImageLocationCredit}
-                  iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-                />
-              </SpacingComponent>
-            )}
             {WorkDetailsSections.map((section, i) => {
               return (
                 <Fragment key={i}>
