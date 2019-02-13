@@ -99,7 +99,7 @@ const Paginator = ({
         })}
       >
         {prev && (
-          <NextLink {...prevLink}>
+          <NextLink {...prevLink} prefetch>
             <a
               onClick={event => {
                 onPageChange(event, prev);
@@ -123,7 +123,7 @@ const Paginator = ({
         </span>
 
         {next && (
-          <NextLink {...nextLink}>
+          <NextLink {...nextLink} prefetch>
             <a
               onClick={event => {
                 onPageChange(event, next);
