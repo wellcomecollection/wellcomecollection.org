@@ -1,4 +1,5 @@
 // @flow
+import { useEffect, useState } from 'react';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -15,12 +16,22 @@ import { getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
+import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
 
 type Props = {|
   installation: UiExhibition,
 |};
 
 const Installation = ({ installation }: Props) => {
+  const [partOf, setPartOf] = useState(null);
+  useEffect(() => {
+    getExhibitExhibition(null, installation.id).then(partOf => {
+      if (partOf) {
+        setPartOf(partOf);
+      }
+    });
+  }, []);
+
   const FeaturedMedia = getFeaturedMedia({
     id: installation.id,
     title: installation.title,
@@ -43,12 +54,16 @@ const Installation = ({ installation }: Props) => {
       {
         text: 'Installations',
       },
+      partOf && {
+        url: `/exhibitions/${partOf.id}`,
+        text: partOf.title,
+      },
       {
         url: `/exhibitions/${installation.id}`,
         text: installation.title,
         isHidden: true,
       },
-    ],
+    ].filter(Boolean),
   };
 
   const Header = (
