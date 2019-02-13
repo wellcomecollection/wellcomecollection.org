@@ -305,15 +305,17 @@ const WorkDetails = ({
       <div className="container">
         <div className="grid">
           <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
-            <SpacingComponent>
-              <DownloadBeta
-                work={work}
-                iiifImageLocationUrl={iiifImageLocationUrl}
-                licenseInfo={licenseInfo}
-                iiifImageLocationCredit={iiifImageLocationCredit}
-                iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-              />
-            </SpacingComponent>
+            {iiifImageLocationUrl && (
+              <SpacingComponent>
+                <DownloadBeta
+                  work={work}
+                  iiifImageLocationUrl={iiifImageLocationUrl}
+                  licenseInfo={licenseInfo}
+                  iiifImageLocationCredit={iiifImageLocationCredit}
+                  iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+                />
+              </SpacingComponent>
+            )}
             {WorkDetailsSections.map((section, i) => {
               return (
                 <Fragment key={i}>

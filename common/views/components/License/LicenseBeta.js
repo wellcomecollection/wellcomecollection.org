@@ -15,19 +15,21 @@ const LicenseBeta = ({ subject, licenseType }: Props) => {
     humanReadableText: [''],
   };
   return (
-    licenseInfo.description && (
-      <Fragment>
-        {`${licenseInfo.description} `}
-        <span about={subject}>
-          {licenseInfo.url && (
-            <a rel="license" href={licenseInfo.url}>
-              {licenseInfo.text}
-            </a>
-          )}
-          {!licenseInfo.url && licenseInfo.text}
-        </span>{' '}
-      </Fragment>
-    )
+    <Fragment>
+      {licenseInfo.description && (
+        <Fragment>
+          {licenseInfo.description}
+          <span about={subject}>
+            {licenseInfo.url && (
+              <a rel="license" href={licenseInfo.url}>
+                {licenseInfo.text}
+              </a>
+            )}
+            {!licenseInfo.url && licenseInfo.text}
+          </span>
+        </Fragment>
+      )}
+    </Fragment>
   );
 };
 

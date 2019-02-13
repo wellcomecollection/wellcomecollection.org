@@ -69,9 +69,9 @@ type Work = Object;
 type Props = {|
   work: Work,
   iiifImageLocationUrl: string,
-  licenseInfo: LicenseData,
-  iiifImageLocationCredit: string,
-  iiifImageLocationLicenseId: LicenseType,
+  licenseInfo: ?LicenseData,
+  iiifImageLocationCredit: ?string,
+  iiifImageLocationLicenseId: ?LicenseType,
 |};
 
 const DownloadBeta = ({
