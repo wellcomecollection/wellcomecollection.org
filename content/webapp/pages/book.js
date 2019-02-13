@@ -6,7 +6,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -203,7 +203,11 @@ export class ArticleSeriesPage extends Component<Props> {
               <BookMetadata book={book} />
             </div>
             {book.orderLink && (
-              <MoreLink url={book.orderLink} name="Order online" />
+              <Button
+                type={`primary`}
+                url={book.orderLink}
+                text="Order online"
+              />
             )}
           </Fragment>
         </ContentPage>
