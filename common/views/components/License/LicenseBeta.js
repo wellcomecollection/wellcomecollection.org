@@ -9,7 +9,7 @@ type Props = {|
   licenseType: LicenseType,
 |};
 
-const License = ({ subject, licenseType }: Props) => {
+const LicenseBeta = ({ subject, licenseType }: Props) => {
   const licenseInfo: LicenseData = getLicenseInfo(licenseType) || {
     text: '',
     humanReadableText: [''],
@@ -31,4 +31,4 @@ const License = ({ subject, licenseType }: Props) => {
   );
 };
 
-export default License;
+export default LicenseBeta;
