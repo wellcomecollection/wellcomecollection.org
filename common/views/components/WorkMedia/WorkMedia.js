@@ -1,5 +1,4 @@
 // @flow
-import Control from '../Buttons/Control/Control';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -37,18 +36,6 @@ const WorkMedia = ({
           'bg-black': !isV2,
         })}
       >
-        <Control
-          type="dark"
-          extraClasses="scroll-to-info js-scroll-to-info js-work-media-control flush-container-right"
-          url="#work-info"
-          trackingEvent={{
-            category: 'Control',
-            action: 'scroll to work info',
-            label: id,
-          }}
-          icon="chevron"
-          text="Scroll to info"
-        />
         {/*  TODO pass <Image> here rather than pass props down? */}
         <ImageViewer
           infoUrl={imageInfoUrl}
