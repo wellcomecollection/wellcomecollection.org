@@ -206,7 +206,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       title,
       image: promoImage && promoImage.image,
       squareImage: promoSquare && promoSquare.image,
-      description: (promoThin && promoThin.caption) || '',
       start,
       end,
       statusOverride,
