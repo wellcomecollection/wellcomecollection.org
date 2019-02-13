@@ -6,6 +6,33 @@ We have a lot of work to do, and we’ve only just begun.
 
 ---
 
+# February 2019
+
+## What's new?
+
+From the feedback we've had over the past couple of months, we've been adding
+clarity and emphasis to the information on our library item pages.
+
+This will hopefully help with getting an overview of the item and assess it's
+relevance more effectively.
+
+What we've done:
+* The title is the first piece of information seen, along with a summary of
+  the object, including contributors and it's publication date.
+* The details about the item have been grouped in sections to help with the
+  scanning of the information.
+* The ordering of the information has been slightly tweaked on the feedback of
+  what people consider important.
+
+The search bar persists through the search journey, including when and
+item is viewed to allow for refinement of search, or to just start again,
+without having to go back to the results page.
+
+We are always collecting feedback, so if you have any
+[👂 get involved, we’re listening 👂!](#get-involved)
+
+---
+
 # November 2018
 
 ## What's new?
@@ -29,9 +56,9 @@ beautiful fashion, to yourselves.
 ## What's improved
 
 * Search performance has been improved. When requesting 100 results,
-they are, on average, rendered in less than a second.
+  they are, on average, rendered in less than a second.
 * When following the links in the metadata of a work, results will be more
-specific to the field you were linked from
+  specific to the field you were linked from
   e.g. [Caricature as a subject](https://wellcomecollection.org/works?query=subject:"Caricature")
   vs [Caricature as a keyword search](https://wellcomecollection.org/works?query="Caricature")
   ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
