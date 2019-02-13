@@ -18,7 +18,7 @@ const LicenseBeta = ({ subject, licenseType }: Props) => {
     <Fragment>
       {licenseInfo.description && (
         <Fragment>
-          {licenseInfo.description}
+          {`${licenseInfo.description} `}
           <span about={subject}>
             {licenseInfo.url && (
               <a rel="license" href={licenseInfo.url}>

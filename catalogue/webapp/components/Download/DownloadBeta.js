@@ -2,7 +2,7 @@
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
@@ -35,18 +35,19 @@ const DownloadButton = styled.button`
   }
 `;
 const DownloadOptions = styled.div`
-  border: ${props => `1px solid ${props.theme.colors.marble}`};
-  background: white;
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-  position: absolute;
-  z-index: -1;
-  margin-top: ${props => `-${props.theme.spacingUnit * 2}px`};
-  padding: ${props => `${props.theme.spacingUnit * 3}px`};
-  height: none;
-  opacity: 0;
-  transition: opacity 400ms;
+  &.enhanced-styles {
+    border: ${props => `1px solid ${props.theme.colors.marble}`};
+    background: white;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+    z-index: -1;
+    margin-top: ${props => `-${props.theme.spacingUnit}px`};
+    padding: ${props => `${props.theme.spacingUnit * 3}px`};
+    height: none;
+    opacity: 0;
+    transition: opacity 400ms;
+    position: absolute;
+  }
   &.show {
-    display: block;
     z-index: 1;
     opacity: 1;
   }
@@ -81,7 +82,12 @@ const DownloadBeta = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
 }: Props) => {
-  const [showDownloads, setShowDownloads] = useState(false);
+  const [showDownloads, setShowDownloads] = useState(true);
+  const [useJavascriptControl, setUseJavascriptControl] = useState(false);
+  useEffect(() => {
+    setUseJavascriptControl(true);
+    setShowDownloads(false);
+  }, []);
   return (
     <div>
       <div
@@ -89,37 +95,48 @@ const DownloadBeta = ({
           [font({ s: 'HNL5', m: 'HNL4' })]: true,
         })}
       >
-        <h2 className="inline">
-          <DownloadButton
-            className={classNames({
-              [font({ s: 'HNM4' })]: true,
-              'flex-inline': true,
-              'flex--v-center': true,
-            })}
-            aria-controls="downloadOptions"
-            aria-expanded={showDownloads}
-            rotateIcon={showDownloads}
-            onClick={() => {
-              setShowDownloads(!showDownloads);
-            }}
-          >
-            <span className="flex-inline flex--v-center">
-              <span
-                className={classNames({
-                  [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                })}
-              >
-                Download this image
+        {useJavascriptControl ? (
+          <h2 className="inline">
+            <DownloadButton
+              className={classNames({
+                [font({ s: 'HNM4' })]: true,
+                'flex-inline': true,
+                'flex--v-center': true,
+              })}
+              aria-controls="downloadOptions"
+              aria-expanded={showDownloads}
+              rotateIcon={showDownloads}
+              onClick={() => {
+                setShowDownloads(!showDownloads);
+              }}
+            >
+              <span className="flex-inline flex--v-center">
+                <span
+                  className={classNames({
+                    [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                  })}
+                >
+                  Download this image
+                </span>
+                <Icon name="chevron" />
               </span>
-              <Icon name="chevron" />
-            </span>
-          </DownloadButton>
-        </h2>
-
+            </DownloadButton>
+          </h2>
+        ) : (
+          <h2
+            className={classNames({
+              [font({ s: 'WB6', m: 'WB5' })]: true,
+              'work-details-heading': true,
+            })}
+          >
+            Download this image
+          </h2>
+        )}
         <DownloadOptions
           id="downloadOptions"
           className={classNames({
             [font({ s: 'HNM5', m: 'HNM4' })]: true,
+            'enhanced-styles': useJavascriptControl,
             show: showDownloads,
           })}
         >
@@ -226,5 +243,3 @@ const DownloadBeta = ({
 };
 
 export default DownloadBeta;
-
-// TODO no-js
