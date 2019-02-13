@@ -1,6 +1,7 @@
 // @flow
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
+import { trackEvent } from '@weco/common/utils/ga';
 import { Fragment, useState } from 'react';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import styled from 'styled-components';
@@ -128,6 +129,13 @@ const Download = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 href={convertImageUri(iiifImageLocationUrl, 'full')}
+                onClick={() => {
+                  trackEvent({
+                    category: 'Button',
+                    action: 'download large work image',
+                    label: work.id,
+                  });
+                }}
               >
                 <span className="flex-inline flex--v-center">
                   <Icon name="download" />
@@ -150,6 +158,13 @@ const Download = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 href={convertImageUri(iiifImageLocationUrl, 760)}
+                onClick={() => {
+                  trackEvent({
+                    category: 'Button',
+                    action: 'download small work image',
+                    label: work.id,
+                  });
+                }}
               >
                 <span className="flex-inline flex--v-center">
                   <Icon name="download" />
@@ -215,15 +230,3 @@ const Download = ({
 export default Download;
 
 // TODO no-js
-// TODO put in tracking
-//        trackingEvent={{
-//   category: 'Button',
-//   action: 'download large work image',
-//   label: work.id,
-// }}
-
-// trackingEvent={{
-//   category: 'Button',
-//   action: 'download small work image',
-//   label: work.id,
-// }}
