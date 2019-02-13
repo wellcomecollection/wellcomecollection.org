@@ -437,14 +437,18 @@ export async function getExhibitionExhibits(
 }
 
 export async function getExhibitExhibition(
-  req: Request,
+  req: ?Request,
   exhibitId: string
 ): Promise<?UiExhibition> {
   const predicates = [
     Prismic.Predicates.at('my.exhibitions.exhibits.item', exhibitId),
   ];
   const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: peopleFields.concat(contributorsFields, placesFields),
+    fetchLinks: peopleFields.concat(
+      exhibitionFields,
+      contributorsFields,
+      placesFields
+    ),
   });
 
   if (apiResponse.results.length > 0) {
