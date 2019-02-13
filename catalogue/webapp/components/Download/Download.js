@@ -1,7 +1,7 @@
 // @flow
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
@@ -87,7 +87,7 @@ const Download = ({
           [font({ s: 'HNL5', m: 'HNL4' })]: true,
         })}
       >
-        <h2>
+        <h2 className="inline">
           <DownloadButton
             className={classNames({
               [font({ s: 'HNM4' })]: true,
@@ -170,45 +170,43 @@ const Download = ({
             </li>
           </ul>
         </DownloadOptions>
-        {(iiifImageLocationCredit || iiifImageLocationLicenseId) &&
-          (iiifImageLocationCredit && (
-            <span
-              className={classNames({
-                nowrap: true,
-              })}
-            >
-              {iiifImageLocationLicenseId && (
+        <div className="flex-inline flex--v-center">
+          {(iiifImageLocationCredit || iiifImageLocationLicenseId) &&
+            (iiifImageLocationCredit && (
+              <Fragment>
+                {iiifImageLocationLicenseId && (
+                  <span
+                    className={classNames({
+                      'inline-block': true,
+                      [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                    })}
+                  >
+                    <License
+                      subject={''}
+                      licenseType={iiifImageLocationLicenseId}
+                    />
+                  </span>
+                )}
                 <span
                   className={classNames({
                     'inline-block': true,
                     [spacing({ s: 2 }, { margin: ['right'] })]: true,
                   })}
                 >
-                  <License
-                    subject={''}
-                    licenseType={iiifImageLocationLicenseId}
-                  />
+                  Credit: {iiifImageLocationCredit}{' '}
                 </span>
-              )}
-              <span
-                className={classNames({
-                  'inline-block': true,
-                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                })}
-              >
-                Credit: {iiifImageLocationCredit}{' '}
-              </span>
+              </Fragment>
+            ))}
+          <a
+            href="#licenseInformation"
+            className={font({ s: 'HNM5', m: 'HNM4' })}
+          >
+            <span className="flex-inline flex--v-center nowrap">
+              <Icon name="arrowSmall" extraClasses="icon--90" />
+              Can I use this?
             </span>
-          ))}
-        <a
-          href="#licenseInformation"
-          className={font({ s: 'HNM5', m: 'HNM4' })}
-        >
-          <span className="flex-inline flex--v-center">
-            <Icon name="arrowSmall" extraClasses="icon--90" />
-            Can I use this?
-          </span>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -216,7 +214,7 @@ const Download = ({
 
 export default Download;
 
-// TODO aria stuff - controls? live?
+// TODO no-js
 // TODO put in tracking
 //        trackingEvent={{
 //   category: 'Button',
