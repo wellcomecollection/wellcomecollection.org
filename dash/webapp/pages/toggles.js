@@ -26,7 +26,16 @@ function setCookie(name, value, domain = 'wellcomecollection.org') {
     ''}; Path=/; Domain=${domain}; ${expiration}`;
 }
 
-const abTests = [];
+const abTests = [
+  {
+    id: 'useBetaDownloadComponent',
+    title: 'Use the beta download component',
+    description:
+      'Use the beta version of the download component, ' +
+      'which will be more compatible with multiple download options in the future.' +
+      "We first want to check it doesn't negatively effect current download behaviour.",
+  },
+];
 
 const featureToggles = [
   {
@@ -142,6 +151,7 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, 'true', domain);
+                    // $FlowFixMe
                     setToggles({
                       ...toggles,
                       [toggle.id]: true,
@@ -156,6 +166,7 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, 'false', domain);
+                    // $FlowFixMe
                     setToggles({
                       ...toggles,
                       [toggle.id]: false,

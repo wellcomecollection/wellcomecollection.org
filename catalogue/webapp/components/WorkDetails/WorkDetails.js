@@ -6,19 +6,17 @@ import type { LicenseType } from '@weco/common/model/license';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { worksUrl } from '../../services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import License from '@weco/common/views/components/License/License';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
+import Download from '../Download/Download';
+import DownloadBeta from '../Download/DownloadBeta';
 
 const StyledWorkDetailsSection = styled.div`
-  /* TODO: variables/functions/mixins/linting */
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   padding: 0;
@@ -93,6 +91,7 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
+  useBetaDownloadComponent: boolean,
 |};
 
 const WorkDetails = ({
@@ -102,6 +101,7 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
+  useBetaDownloadComponent,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -113,66 +113,31 @@ const WorkDetails = ({
   const WorkDetailsSections = [];
 
   if (iiifImageLocationUrl) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection>
-        <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
-          <Button
-            type="tertiary"
-            url={convertImageUri(iiifImageLocationUrl, 'full')}
-            target="_blank"
-            download={`${work.id}.jpg`}
-            rel="noopener noreferrer"
-            trackingEvent={{
-              category: 'Button',
-              action: 'download large work image',
-              label: work.id,
-            }}
-            icon="download"
-            text="Download full size"
+    if (useBetaDownloadComponent) {
+      WorkDetailsSections.push(
+        <SpacingComponent>
+          <DownloadBeta
+            work={work}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           />
-        </div>
-
-        <div
-          className={`${spacing({ s: 3 }, { margin: ['bottom'] })} ${spacing(
-            { s: 0 },
-            { margin: ['top'] }
-          )}`}
-        >
-          <Button
-            type="tertiary"
-            url={convertImageUri(iiifImageLocationUrl, 760)}
-            target="_blank"
-            download={`${work.id}.jpg`}
-            rel="noopener noreferrer"
-            trackingEvent={{
-              category: 'Button',
-              action: 'download small work image',
-              label: work.id,
-            }}
-            icon="download"
-            text="Download small (760px)"
+        </SpacingComponent>
+      );
+    } else {
+      WorkDetailsSections.push(
+        <WorkDetailsSection>
+          <Download
+            work={work}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           />
-        </div>
-
-        {(iiifImageLocationCredit || iiifImageLocationLicenseId) && (
-          <div className={spacing({ s: 0 }, { margin: ['top'] })}>
-            {iiifImageLocationCredit && (
-              <p
-                className={classNames([
-                  font({ s: 'HNL5', m: 'HNL4' }),
-                  spacing({ s: 1 }, { margin: ['bottom'] }),
-                ])}
-              >
-                Credit: {iiifImageLocationCredit}
-              </p>
-            )}
-            {iiifImageLocationLicenseId && (
-              <License subject={''} licenseType={iiifImageLocationLicenseId} />
-            )}
-          </div>
-        )}
-      </WorkDetailsSection>
-    );
+        </WorkDetailsSection>
+      );
+    }
   }
   if (
     work.description ||
@@ -299,7 +264,7 @@ const WorkDetails = ({
   if (licenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
-        <div className="spaced-text">
+        <div className="spaced-text" id="licenseInformation">
           <MetaUnit
             headingLevel={3}
             headingText="License information"
