@@ -42,7 +42,6 @@ export type ExhibitionPromo = {|
   title: string,
   image: ImageType,
   squareImage: ?Picture,
-  description: string,
   start: Date,
   end: ?Date,
   statusOverride: ?string,

@@ -23,7 +23,6 @@ const ExhibitionPromo = ({
   end,
   statusOverride,
   position = 0,
-  description,
 }: Props) => {
   return (
     <a
@@ -114,9 +113,7 @@ const ExhibitionPromo = ({
               [font({ s: 'HNL4' })]: true,
               [spacing({ s: 2 }, { margin: ['bottom', 'top'] })]: true,
             })}
-          >
-            {description}
-          </p>
+          />
         </div>
       </div>
     </a>

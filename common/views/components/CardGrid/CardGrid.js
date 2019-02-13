@@ -46,7 +46,6 @@ const CardGrid = ({ items, hidePromoText }: Props) => {
                 end={!item.isPermanent ? item.end : null}
                 statusOverride={item.statusOverride}
                 position={i}
-                description={``}
               />
             )}
             {item.id !== 'tours' && item.type === 'events' && (
