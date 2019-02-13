@@ -46,14 +46,7 @@ const CardGrid = ({ items, hidePromoText }: Props) => {
                 end={!item.isPermanent ? item.end : null}
                 statusOverride={item.statusOverride}
                 position={i}
-                // TODO: Make this logic a little more sound
-                // This is to replicate what we have with installations at the
-                // moment
-                description={
-                  item.format && item.format.title === 'Installation'
-                    ? item.promoText
-                    : ''
-                }
+                description={``}
               />
             )}
             {item.id !== 'tours' && item.type === 'events' && (
