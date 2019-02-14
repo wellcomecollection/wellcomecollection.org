@@ -5,7 +5,7 @@ import type { LicenseType } from '@weco/common/model/license';
 
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '../../services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -13,6 +13,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
 
@@ -344,7 +345,7 @@ const WorkDetails = ({
     >
       <div className="container">
         <div className="grid">
-          <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
+          <Layout12>
             {WorkDetailsSections.map((section, i) => {
               return (
                 <Fragment key={i}>
@@ -358,7 +359,7 @@ const WorkDetails = ({
                 </Fragment>
               );
             })}
-          </div>
+          </Layout12>
         </div>
       </div>
     </div>
