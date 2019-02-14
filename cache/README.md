@@ -20,4 +20,6 @@ We have 2 ditributions:
   lambda@edge version is fixed is fixed on this distro.
 
 ## Deployement of lambda@edge
-TBD
+* Run `terraform apply` to deploy the latest lambda versions to the devcache cloudfront distribution and make note of the `edge_lambda_request_version` and `edge_lambda_response_version` numbers output to the console.
+* Once deployed check devcache.wellcomecollection.org to make sure everything is working as expected.
+* To deploy to production bump the `edge_lambda_request_version` and `edge_lambda_response_version` in terraform.tf to the new version numbers and run `terraform apply`
