@@ -12,7 +12,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
+import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
