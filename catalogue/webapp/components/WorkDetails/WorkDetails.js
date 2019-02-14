@@ -16,7 +16,38 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
 
-const StyledWorkDetailsSection = styled.div`
+type WorkDetailsSectionProps = {|
+  className?: string,
+  headingText?: string,
+  children: Node,
+|};
+
+const WorkDetailsSection = ({
+  className = null,
+  headingText,
+  children,
+}: WorkDetailsSectionProps) => {
+  return (
+    <div className={className}>
+      {headingText ? (
+        <h2
+          className={classNames({
+            [font({ s: 'WB6', m: 'WB5' })]: true,
+            'work-details-heading': true,
+          })}
+        >
+          {headingText}
+        </h2>
+      ) : (
+        <div className="work-details-heading" />
+      )}
+
+      <div className="work-details-body">{children}</div>
+    </div>
+  );
+};
+
+const StyledWorkDetailsSection = styled(WorkDetailsSection)`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   padding: 0;
@@ -52,35 +83,6 @@ const StyledWorkDetailsSection = styled.div`
     }
   `}
 `;
-
-type WorkDetailsSectionProps = {|
-  headingText?: string,
-  children: Node,
-|};
-
-const WorkDetailsSection = ({
-  headingText,
-  children,
-}: WorkDetailsSectionProps) => {
-  return (
-    <StyledWorkDetailsSection>
-      {headingText ? (
-        <h2
-          className={classNames({
-            [font({ s: 'WB6', m: 'WB5' })]: true,
-            'work-details-heading': true,
-          })}
-        >
-          {headingText}
-        </h2>
-      ) : (
-        <div className="work-details-heading" />
-      )}
-
-      <div className="work-details-body">{children}</div>
-    </StyledWorkDetailsSection>
-  );
-};
 
 type Work = Object;
 
@@ -127,7 +129,7 @@ const WorkDetails = ({
       );
     } else {
       WorkDetailsSections.push(
-        <WorkDetailsSection>
+        <StyledWorkDetailsSection>
           <Download
             work={work}
             iiifImageLocationUrl={iiifImageLocationUrl}
@@ -135,7 +137,7 @@ const WorkDetails = ({
             iiifImageLocationCredit={iiifImageLocationCredit}
             iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           />
-        </WorkDetailsSection>
+        </StyledWorkDetailsSection>
       );
     }
   }
@@ -150,7 +152,9 @@ const WorkDetails = ({
     work.language
   ) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
+      <StyledWorkDetailsSection
+        headingText={`About this ${singularWorkTypeLabel}`}
+      >
         <div className="spaced-text">
           {work.description && (
             <MetaUnit
@@ -228,12 +232,12 @@ const WorkDetails = ({
             />
           )}
         </div>
-      </WorkDetailsSection>
+      </StyledWorkDetailsSection>
     );
   }
   if (work.subjects.length > 0) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Subjects">
+      <StyledWorkDetailsSection headingText="Subjects">
         <MetaUnit
           headingText=""
           links={work.subjects.map(subject => {
@@ -248,23 +252,23 @@ const WorkDetails = ({
             );
           })}
         />
-      </WorkDetailsSection>
+      </StyledWorkDetailsSection>
     );
   }
   if (encoreLink) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Find in the library">
+      <StyledWorkDetailsSection headingText="Find in the library">
         <div className="spaced-text">
           <p>
             {`This ${singularWorkTypeLabel} is available at `}
             <a href={encoreLink}>Wellcome Library</a>
           </p>
         </div>
-      </WorkDetailsSection>
+      </StyledWorkDetailsSection>
     );
   }
   WorkDetailsSections.push(
-    <WorkDetailsSection headingText="Identifiers">
+    <StyledWorkDetailsSection headingText="Identifiers">
       {isbnIdentifiers.length > 0 && (
         <div className="spaced-text" style={{ marginBottom: '1.6em' }}>
           <MetaUnit
@@ -279,11 +283,11 @@ const WorkDetails = ({
           url={`https://wellcomecollection.org/works/${work.id}`}
         />
       </MetaUnit>
-    </WorkDetailsSection>
+    </StyledWorkDetailsSection>
   );
   if (licenseInfo) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText="License information">
+      <StyledWorkDetailsSection headingText="License information">
         <div className="spaced-text" id="licenseInformation">
           <MetaUnit
             headingLevel={3}
@@ -310,11 +314,11 @@ const WorkDetails = ({
             ]}
           />
         </div>
-      </WorkDetailsSection>
+      </StyledWorkDetailsSection>
     );
   }
   WorkDetailsSections.push(
-    <WorkDetailsSection>
+    <StyledWorkDetailsSection>
       <div className="flex flex--v-center">
         <Icon name="underConstruction" extraClasses="margin-right-s2" />
         <p
@@ -327,7 +331,7 @@ const WorkDetails = ({
           <a href="/works/progress">Find out more</a>.
         </p>
       </div>
-    </WorkDetailsSection>
+    </StyledWorkDetailsSection>
   );
 
   return (
