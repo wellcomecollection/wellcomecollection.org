@@ -24,7 +24,7 @@ type WorkDetailsSectionProps = {|
 |};
 
 const WorkDetailsSection = ({
-  className = null,
+  className,
   headingText,
   children,
 }: WorkDetailsSectionProps) => {
