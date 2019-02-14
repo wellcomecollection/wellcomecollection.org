@@ -231,6 +231,26 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
+  if (work.subjects.length > 0) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection headingText="Subjects">
+        <MetaUnit
+          headingText=""
+          links={work.subjects.map(subject => {
+            const linkAttributes = worksUrl({
+              query: `"${subject.label}"`,
+              page: 1,
+            });
+            return (
+              <NextLink key={1} {...linkAttributes}>
+                {subject.label}
+              </NextLink>
+            );
+          })}
+        />
+      </WorkDetailsSection>
+    );
+  }
   if (encoreLink) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Find in the library">
