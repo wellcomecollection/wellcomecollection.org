@@ -8,6 +8,7 @@ import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, spacing, grid, font } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -17,6 +18,7 @@ import type { Article } from '@weco/common/model/articles';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
@@ -223,13 +225,15 @@ export class StoriesPage extends Component<Props> {
         </SpacingSection>
 
         <SpacingSection>
-          <SectionHeader
-            title="You may have missed"
-            linkText="More articles"
-            linkUrl="/articles"
-          />
-
-          <CardGrid items={articles.slice(5, 11)} />
+          <SpacingComponent>
+            <SectionHeader title="You may have missed" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid items={articles.slice(5, 11)} />
+          </SpacingComponent>
+          <Layout12>
+            <MoreLink name={`More articles`} url={`/articles`} />
+          </Layout12>
         </SpacingSection>
       </PageLayout>
     );

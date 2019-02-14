@@ -38,12 +38,13 @@ import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEv
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
-import type { UiEvent } from '@weco/common/model/events';
-import type { Period } from '@weco/common/model/periods';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { type UiExhibition } from '@weco/common/model/exhibitions';
+import { type UiEvent } from '@weco/common/model/events';
+import { type Period } from '@weco/common/model/periods';
+import { type PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -399,33 +400,26 @@ export class WhatsOnPage extends Component<Props> {
                         <CardGrid items={exhibitions} />
 
                         <Layout12>
-                          <div
-                            className={spacing({ s: 3 }, { margin: ['top'] })}
-                          >
-                            <MoreLink
-                              name={'View all exhibitions'}
-                              url={'/exhibitions'}
-                            />
-                          </div>
+                          <MoreLink
+                            name={'View all exhibitions'}
+                            url={'/exhibitions'}
+                          />
                         </Layout12>
                       </SpacingSection>
 
                       <SpacingSection>
-                        <SectionHeader
-                          title={'Events'}
-                          linkText={'Free admission'}
-                        />
-                        <EventsByMonth events={events} />
-                        <Layout12>
-                          <div
-                            className={spacing({ s: 3 }, { margin: ['top'] })}
-                          >
+                        <SpacingComponent>
+                          <SectionHeader title={'Events'} />
+                        </SpacingComponent>
+                        <SpacingComponent>
+                          <EventsByMonth events={events} />
+                          <Layout12>
                             <MoreLink
                               name={'View all events'}
                               url={'/events'}
                             />
-                          </div>
-                        </Layout12>
+                          </Layout12>
+                        </SpacingComponent>
                       </SpacingSection>
                     </div>
                   </Fragment>
@@ -495,41 +489,51 @@ export class WhatsOnPage extends Component<Props> {
               </div>
 
               <SpacingSection>
-                <SectionHeader title="Try these too" />
-
-                <div className="css-grid__container">
-                  <div
-                    className={classNames({
-                      'css-grid': true,
-                    })}
-                  >
+                <SpacingComponent>
+                  <SectionHeader title="Try these too" />
+                </SpacingComponent>
+                <SpacingComponent>
+                  <div className="css-grid__container">
                     <div
                       className={classNames({
-                        'css-grid__scroll-container container--scroll touch-scroll': true,
-                        [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                        'css-grid': true,
                       })}
                     >
-                      <div className="css-grid grid--scroll">
-                        {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
-                          <div
-                            key={promo.id}
-                            className={cssGrid({ s: 12, m: 6, l: 3, xl: 3 })}
-                          >
-                            <FacilityPromo
-                              id={promo.id}
-                              title={promo.title}
-                              url={promo.url}
-                              description={promo.description}
-                              imageProps={promo.image}
-                              metaText={promo.metaText}
-                              metaIcon={promo.metaIcon}
-                            />
-                          </div>
-                        ))}
+                      <div
+                        className={classNames({
+                          'css-grid__scroll-container container--scroll touch-scroll': true,
+                          [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                        })}
+                      >
+                        <div className="css-grid grid--scroll">
+                          {tryTheseTooPromos
+                            .concat(eatShopPromos)
+                            .map(promo => (
+                              <div
+                                key={promo.id}
+                                className={cssGrid({
+                                  s: 12,
+                                  m: 6,
+                                  l: 3,
+                                  xl: 3,
+                                })}
+                              >
+                                <FacilityPromo
+                                  id={promo.id}
+                                  title={promo.title}
+                                  url={promo.url}
+                                  description={promo.description}
+                                  imageProps={promo.image}
+                                  metaText={promo.metaText}
+                                  metaIcon={promo.metaIcon}
+                                />
+                              </div>
+                            ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </SpacingComponent>
               </SpacingSection>
             </Fragment>
           )}

@@ -19,12 +19,15 @@ import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
-import type { UiEvent } from '@weco/common/model/events';
-import type { Article } from '@weco/common/model/articles';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { type UiExhibition } from '@weco/common/model/exhibitions';
+import { type UiEvent } from '@weco/common/model/events';
+import { type Article } from '@weco/common/model/articles';
+import { type PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -111,45 +114,51 @@ export class HomePage extends Component<Props> {
         </SpacingSection>
 
         <SpacingSection>
-          <SectionHeader
-            title="This week at Wellcome Collection"
-            linkText="All exhibitions and events"
-            linkUrl="/whats-on"
-          />
-          <ExhibitionsAndEvents
-            exhibitions={exhibitions}
-            events={orderEventsByNextAvailableDate(
-              filterEventsForNext7Days(events)
-            )}
-          />
+          <SpacingComponent>
+            <SectionHeader title="This week at Wellcome Collection" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <ExhibitionsAndEvents
+              exhibitions={exhibitions}
+              events={orderEventsByNextAvailableDate(
+                filterEventsForNext7Days(events)
+              )}
+            />
+            <Layout12>
+              <MoreLink name={`All exhibitions and events`} url={`/whats-on`} />
+            </Layout12>
+          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
-          <SectionHeader
-            title="Latest articles, comics and more"
-            linkText="All stories"
-            linkUrl="/stories"
-          />
-          <div className="css-grid__container">
-            <div className="css-grid">
-              {articles.results.map((article, i) => {
-                return (
-                  <div
-                    key={article.id}
-                    className={classNames({
-                      [cssGrid({ s: 12, m: 6, l: 3, xl: 3 })]: true,
-                    })}
-                  >
-                    <StoryPromo
-                      item={article}
-                      position={i}
-                      hasTransparentBackground={true}
-                    />
-                  </div>
-                );
-              })}
+          <SpacingComponent>
+            <SectionHeader title="Latest articles, comics and more" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <div className="css-grid__container">
+              <div className="css-grid">
+                {articles.results.map((article, i) => {
+                  return (
+                    <div
+                      key={article.id}
+                      className={classNames({
+                        [cssGrid({ s: 12, m: 6, l: 3, xl: 3 })]: true,
+                      })}
+                    >
+                      <StoryPromo
+                        item={article}
+                        position={i}
+                        hasTransparentBackground={true}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+            <Layout12>
+              <MoreLink name={`All stories`} url={`/stories`} />
+            </Layout12>
+          </SpacingComponent>
         </SpacingSection>
       </PageLayout>
     );
