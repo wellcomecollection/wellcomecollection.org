@@ -1,5 +1,5 @@
 // @flow
-import { Fragment, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -63,7 +63,7 @@ const SearchTag = ({
         'flex--v-center': true,
         pointer: true,
         [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
-        [spacing({ s: 1 }, { margin: ['right'] })]: true,
+        [spacing({ s: 1 }, { margin: ['left'] })]: true,
         [font({ s: 'HNL3' })]: true,
       })}
       style={{ borderRadius: '3px' }}
@@ -180,16 +180,26 @@ const SearchForm = ({
       <TogglesContext.Consumer>
         {({ showCatalogueSearchFilters }) =>
           showCatalogueSearchFilters && (
-            <Fragment>
+            <div
+              className={classNames({
+                flex: true,
+                'flex--wrap': true,
+                'flex--v-center': true,
+                [spacing({ s: 1 }, { margin: ['top'] })]: true,
+              })}
+            >
               <fieldset
                 className={classNames({
-                  [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                  relative: true,
+                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
                 })}
+                style={{
+                  left: '1px',
+                }}
               >
                 <legend
                   className={classNames({
                     'float-l': true,
-                    [spacing({ s: 1 }, { margin: ['right'] })]: true,
                     [font({ s: 'HNL4' })]: true,
                   })}
                   style={{ marginTop: '3px' }}
@@ -246,7 +256,23 @@ const SearchForm = ({
                   }}
                 />
               </fieldset>
-            </Fragment>
+              <p
+                className={classNames({
+                  [font({ s: 'HNL4' })]: true,
+                  'no-margin': true,
+                  relative: true,
+                })}
+                style={{
+                  left: '1px',
+                  flexGrow: 1,
+                }}
+              >
+                Our search is currently in beta.{' '}
+                <a href="https://www.surveymonkey.co.uk/r/W3NBWV2">
+                  Let us know what you think
+                </a>
+              </p>
+            </div>
           )
         }
       </TogglesContext.Consumer>
