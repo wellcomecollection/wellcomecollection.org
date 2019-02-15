@@ -62,8 +62,11 @@ const IndexPage = () => {
   // We use this over getInitialProps as it's ineffectual when an app is
   // exported.
   useEffect(() => {
-    // get the domain
-    setDomain(window.location.hostname);
+    setDomain(
+      window.location.hostname.match('wellcomecollection.org')
+        ? 'wellcomecollection.org'
+        : window.location.pathname
+    );
 
     const cookies = getCookies({});
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {
