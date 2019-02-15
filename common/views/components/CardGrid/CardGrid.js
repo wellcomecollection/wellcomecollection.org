@@ -94,6 +94,7 @@ const CardGrid = ({
       <Layout12>
         <div
           className={classNames({
+            // TODO: update with inter-component spacing when it's formalised
             [spacing({ s: 3 }, { margin: ['top'] })]: true,
           })}
         >
