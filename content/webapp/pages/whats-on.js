@@ -397,7 +397,7 @@ export class WhatsOnPage extends Component<Props> {
                           </div>
                         </Layout12>
 
-                        <CardGrid items={exhibitions}>
+                        <CardGrid items={exhibitions} itemsPerRow={3}>
                           <MoreLink
                             name={'View all exhibitions'}
                             url={'/exhibitions'}

@@ -19,9 +19,19 @@ type Props = {|
   items: $ReadOnlyArray<ContentTypes>,
   hidePromoText?: boolean,
   children?: Node,
+  itemsPerRow: number,
+  itemsHaveTransparentBackground?: boolean,
 |};
 
-const CardGrid = ({ items, hidePromoText, children }: Props) => {
+const CardGrid = ({
+  items,
+  hidePromoText,
+  itemsPerRow,
+  itemsHaveTransparentBackground = false,
+  children,
+}: Props) => {
+  const gridColumns = itemsPerRow === 4 ? 3 : 4;
+
   return (
     <div>
       <div className="css-grid__container">
@@ -30,7 +40,12 @@ const CardGrid = ({ items, hidePromoText, children }: Props) => {
             <div
               key={item.id}
               className={classNames({
-                [cssGrid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
+                [cssGrid({
+                  s: 12,
+                  m: 6,
+                  l: gridColumns,
+                  xl: gridColumns,
+                })]: true,
               })}
             >
               {item.id === 'tours' && <DailyTourPromo />}
@@ -60,6 +75,7 @@ const CardGrid = ({ items, hidePromoText, children }: Props) => {
                   item={item}
                   position={i}
                   hidePromoText={hidePromoText}
+                  hasTransparentBackground={itemsHaveTransparentBackground}
                 />
               )}
               {item.type === 'books' && (

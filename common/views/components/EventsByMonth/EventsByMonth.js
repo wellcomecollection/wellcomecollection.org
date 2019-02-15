@@ -183,7 +183,10 @@ class EventsByMonth extends Component<Props, State> {
                 </h2>
               </div>
             </div>
-            <CardGrid items={eventsInMonths[month.id].concat(dailyTourPromo)}>
+            <CardGrid
+              items={eventsInMonths[month.id].concat(dailyTourPromo)}
+              itemsPerRow={3}
+            >
               {this.props.children}
             </CardGrid>
           </div>

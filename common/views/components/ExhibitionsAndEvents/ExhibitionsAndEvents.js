@@ -31,6 +31,10 @@ const ExhibitionsAndEvents = ({
     extras
   );
 
-  return <CardGrid items={items}>{children}</CardGrid>;
+  return (
+    <CardGrid items={items} itemsPerRow={3}>
+      {children}
+    </CardGrid>
+  );
 };
 export default ExhibitionsAndEvents;

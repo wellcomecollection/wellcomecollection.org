@@ -68,7 +68,7 @@ const SerialisedSeries = ({ series }: any) => {
           </div>
         </div>
       </Layout12>
-      <CardGrid items={series.items} hidePromoText={true} />
+      <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
     </div>
   );
 };
@@ -229,7 +229,7 @@ export class StoriesPage extends Component<Props> {
             <SectionHeader title="You may have missed" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={articles.slice(5, 11)}>
+            <CardGrid items={articles.slice(5, 11)} itemsPerRow={3}>
               <MoreLink name={`More articles`} url={`/articles`} />
             </CardGrid>
           </SpacingComponent>

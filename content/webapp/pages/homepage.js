@@ -16,14 +16,13 @@ import {
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { convertJsonToDates } from './event';
 import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
-import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { type UiExhibition } from '@weco/common/model/exhibitions';
 import { type UiEvent } from '@weco/common/model/events';
 import { type Article } from '@weco/common/model/articles';
@@ -130,34 +129,17 @@ export class HomePage extends Component<Props> {
         </SpacingSection>
 
         <SpacingSection>
-          {/* TODO: use card grid? */}
           <SpacingComponent>
             <SectionHeader title="Latest articles, comics and more" />
           </SpacingComponent>
           <SpacingComponent>
-            <div className="css-grid__container">
-              <div className="css-grid">
-                {articles.results.map((article, i) => {
-                  return (
-                    <div
-                      key={article.id}
-                      className={classNames({
-                        [cssGrid({ s: 12, m: 6, l: 3, xl: 3 })]: true,
-                      })}
-                    >
-                      <StoryPromo
-                        item={article}
-                        position={i}
-                        hasTransparentBackground={true}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <Layout12>
+            <CardGrid
+              items={articles.results}
+              itemsPerRow={4}
+              itemsHaveTransparentBackground={true}
+            >
               <MoreLink name={`All stories`} url={`/stories`} />
-            </Layout12>
+            </CardGrid>
           </SpacingComponent>
         </SpacingSection>
       </PageLayout>
