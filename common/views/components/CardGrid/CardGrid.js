@@ -18,7 +18,7 @@ type ContentTypes = UiEvent | UiExhibition | Book | Article;
 type Props = {|
   items: $ReadOnlyArray<ContentTypes>,
   hidePromoText?: boolean,
-  children: Node,
+  children?: Node,
 |};
 
 const CardGrid = ({ items, hidePromoText, children }: Props) => {
