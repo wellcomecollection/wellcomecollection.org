@@ -40,6 +40,14 @@ class ImageGallery extends Component<Props, State> {
     current: HTMLAnchorElement | HTMLButtonElement | null,
   } = createRef();
 
+  focusOpenButton = () => {
+    this.openButtonRef.current && this.openButtonRef.current.focus();
+  };
+
+  focusCloseButton = () => {
+    this.closeButtonRef.current && this.closeButtonRef.current.focus();
+  };
+
   showAllImages = (isButton?: boolean) => {
     trackEvent({
       category: `${isButton ? 'Button' : 'CaptionedImage'}`,
@@ -155,14 +163,12 @@ class ImageGallery extends Component<Props, State> {
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
+                          hidden: !isActive,
                           [spacing(
                             { s: 3 },
                             { padding: ['right', 'bottom'] }
                           )]: true,
                         })}
-                        style={{
-                          visibility: isActive ? 'visible' : 'hidden',
-                        }}
                       >
                         <Control
                           ariaControls={`image-gallery-${id}`}
@@ -178,13 +184,8 @@ class ImageGallery extends Component<Props, State> {
                               action: 'close ImageGallery',
                               label: this.props.id,
                             });
-
                             this.setState({ isActive: false });
-
-                            setTimeout(() => {
-                              this.openButtonRef.current &&
-                                this.openButtonRef.current.focus();
-                            }, 0);
+                            this.focusOpenButton();
                           }}
                         />
                       </div>
@@ -195,11 +196,7 @@ class ImageGallery extends Component<Props, State> {
                       onClick={() => {
                         if (!isActive) {
                           this.showAllImages();
-
-                          setTimeout(() => {
-                            this.closeButtonRef.current &&
-                              this.closeButtonRef.current.focus();
-                          }, 0);
+                          this.focusCloseButton();
                         }
                       }}
                       className={classNames({
@@ -249,15 +246,11 @@ class ImageGallery extends Component<Props, State> {
                       icon="gallery"
                       clickHandler={() => {
                         this.showAllImages(true);
-
-                        setTimeout(() => {
-                          this.closeButtonRef.current &&
-                            this.closeButtonRef.current.focus();
-                        }, 0);
+                        this.focusCloseButton();
                       }}
                       extraClasses={classNames({
                         'image-gallery-v2__button absolute': true,
-                        'is-hidden': isActive,
+                        hidden: isActive,
                       })}
                       text={`${items.length} images`}
                     />
