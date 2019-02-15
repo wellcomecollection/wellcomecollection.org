@@ -237,19 +237,14 @@ const SearchForm = ({
                 <SearchTag
                   name={'items.locations.locationType'}
                   label="Online"
-                  value="iiif-image,iiif-presentation"
+                  value="iiif-image"
                   checked={
-                    itemsLocationsLocationType.indexOf('iiif-image') !== -1 &&
-                    itemsLocationsLocationType.indexOf('iiif-presentation') !==
-                      -1
+                    itemsLocationsLocationType.indexOf('iiif-image') !== -1
                   }
                   onChange={event => {
                     const input = event.currentTarget;
                     if (input.checked) {
-                      setItemsLocationsLocationType([
-                        'iiif-image',
-                        'iiif-presentation',
-                      ]);
+                      setItemsLocationsLocationType(['iiif-image']);
                     } else {
                       setItemsLocationsLocationType([]);
                     }
