@@ -1,4 +1,6 @@
 // @flow
+
+import { forwardRef } from 'react';
 import Icon from '../../Icon/Icon';
 import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
@@ -12,6 +14,8 @@ type Props = {|
   text: string,
   trackingEvent?: GaEvent,
   disabled?: boolean,
+  ariaControls?: string,
+  ariaExpanded?: boolean,
   clickHandler?: (event: Event) => void,
 |};
 
@@ -23,44 +27,56 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
   </span>
 );
 
-const Control = ({
-  url,
-  id,
-  type,
-  extraClasses,
-  icon,
-  text,
-  disabled,
-  clickHandler,
-  trackingEvent,
-}: Props) => {
-  const attrs = {
-    id: id,
-    href: url,
-    className: `control control--${type} ${extraClasses || ''}`,
-    disabled: disabled,
-    onClick: handleClick,
-  };
+// $FlowFixMe (forwardRef)
+const Control = forwardRef(
+  (
+    {
+      url,
+      id,
+      type,
+      extraClasses,
+      icon,
+      text,
+      disabled,
+      clickHandler,
+      trackingEvent,
+      ariaControls,
+      ariaExpanded,
+    }: Props,
+    ref
+  ) => {
+    const attrs = {
+      'aria-controls': ariaControls || undefined,
+      'aria-expanded': ariaExpanded || undefined,
+      id: id,
+      href: url,
+      className: `control control--${type} ${extraClasses || ''}`,
+      disabled: disabled,
+      onClick: handleClick,
+    };
 
-  function handleClick(event) {
-    if (trackingEvent) {
-      trackEvent(trackingEvent);
+    function handleClick(event) {
+      if (trackingEvent) {
+        trackEvent(trackingEvent);
+      }
+
+      if (clickHandler) {
+        clickHandler(event);
+      }
     }
 
-    if (clickHandler) {
-      clickHandler(event);
-    }
+    return url ? (
+      <a ref={ref} {...attrs}>
+        <InnerControl text={text} icon={icon} />
+      </a>
+    ) : (
+      <button ref={ref} {...attrs}>
+        <InnerControl text={text} icon={icon} />
+      </button>
+    );
   }
+);
 
-  return url ? (
-    <a {...attrs}>
-      <InnerControl text={text} icon={icon} />
-    </a>
-  ) : (
-    <button {...attrs}>
-      <InnerControl text={text} icon={icon} />
-    </button>
-  );
-};
+Control.displayName = 'Control';
 
 export default Control;
