@@ -229,11 +229,10 @@ export class StoriesPage extends Component<Props> {
             <SectionHeader title="You may have missed" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={articles.slice(5, 11)} />
+            <CardGrid items={articles.slice(5, 11)}>
+              <MoreLink name={`More articles`} url={`/articles`} />
+            </CardGrid>
           </SpacingComponent>
-          <Layout12>
-            <MoreLink name={`More articles`} url={`/articles`} />
-          </Layout12>
         </SpacingSection>
       </PageLayout>
     );

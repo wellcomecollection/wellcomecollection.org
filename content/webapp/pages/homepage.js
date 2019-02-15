@@ -123,14 +123,14 @@ export class HomePage extends Component<Props> {
               events={orderEventsByNextAvailableDate(
                 filterEventsForNext7Days(events)
               )}
-            />
-            <Layout12>
+            >
               <MoreLink name={`All exhibitions and events`} url={`/whats-on`} />
-            </Layout12>
+            </ExhibitionsAndEvents>
           </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
+          {/* TODO: use card grid? */}
           <SpacingComponent>
             <SectionHeader title="Latest articles, comics and more" />
           </SpacingComponent>

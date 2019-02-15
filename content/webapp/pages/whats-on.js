@@ -397,14 +397,12 @@ export class WhatsOnPage extends Component<Props> {
                           </div>
                         </Layout12>
 
-                        <CardGrid items={exhibitions} />
-
-                        <Layout12>
+                        <CardGrid items={exhibitions}>
                           <MoreLink
                             name={'View all exhibitions'}
                             url={'/exhibitions'}
                           />
-                        </Layout12>
+                        </CardGrid>
                       </SpacingSection>
 
                       <SpacingSection>
@@ -412,13 +410,12 @@ export class WhatsOnPage extends Component<Props> {
                           <SectionHeader title={'Events'} />
                         </SpacingComponent>
                         <SpacingComponent>
-                          <EventsByMonth events={events} />
-                          <Layout12>
+                          <EventsByMonth events={events}>
                             <MoreLink
                               name={'View all events'}
                               url={'/events'}
                             />
-                          </Layout12>
+                          </EventsByMonth>
                         </SpacingComponent>
                       </SpacingSection>
                     </div>
@@ -469,21 +466,14 @@ export class WhatsOnPage extends Component<Props> {
                           ? filterEventsForWeekend(events)
                           : events
                       }
-                    />
-                    <div
-                      className={classNames({
-                        [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                      })}
                     >
-                      <Layout12>
-                        <MoreLink
-                          name={'View all exhibitions'}
-                          url={'/exhibitions'}
-                        />
-                        <br />
-                        <MoreLink name={'View all events'} url={'/events'} />
-                      </Layout12>
-                    </div>
+                      <MoreLink
+                        name={'View all exhibitions'}
+                        url={'/exhibitions'}
+                      />
+                      <br />
+                      <MoreLink name={'View all events'} url={'/events'} />
+                    </ExhibitionsAndEvents>
                   </Fragment>
                 )}
               </div>
