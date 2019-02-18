@@ -6,6 +6,7 @@ import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
 
 type Props = {|
+  tabIndex?: string,
   url?: string,
   id?: string,
   type: 'light' | 'dark',
@@ -31,6 +32,7 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
 const Control = forwardRef(
   (
     {
+      tabIndex,
       url,
       id,
       type,
@@ -48,6 +50,7 @@ const Control = forwardRef(
     const attrs = {
       'aria-controls': ariaControls || undefined,
       'aria-expanded': ariaExpanded || undefined,
+      tabIndex: tabIndex || undefined,
       id: id,
       href: url,
       className: `control control--${type} ${extraClasses || ''}`,

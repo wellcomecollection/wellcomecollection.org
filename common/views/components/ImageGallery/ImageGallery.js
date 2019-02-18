@@ -40,13 +40,34 @@ class ImageGallery extends Component<Props, State> {
     current: HTMLAnchorElement | HTMLButtonElement | null,
   } = createRef();
 
-  focusOpenButton = () => {
-    this.openButtonRef.current && this.openButtonRef.current.focus();
-  };
+  handleOpenClicked() {
+    if (this.closeButtonRef.current) {
+      this.showAllImages(true);
+      this.closeButtonRef.current.focus();
+      this.closeButtonRef.current.tabIndex = 0;
+    }
 
-  focusCloseButton = () => {
-    this.closeButtonRef.current && this.closeButtonRef.current.focus();
-  };
+    if (this.openButtonRef.current) {
+      this.openButtonRef.current.tabIndex = -1;
+    }
+  }
+
+  handleCloseClicked() {
+    if (this.openButtonRef.current) {
+      trackEvent({
+        category: `Control`,
+        action: 'close ImageGallery',
+        label: this.props.id,
+      });
+      this.setState({ isActive: false });
+      this.openButtonRef.current.focus();
+      this.openButtonRef.current.tabIndex = 0;
+    }
+
+    if (this.closeButtonRef.current) {
+      this.closeButtonRef.current.tabIndex = -1;
+    }
+  }
 
   showAllImages = (isButton?: boolean) => {
     trackEvent({
@@ -163,7 +184,7 @@ class ImageGallery extends Component<Props, State> {
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
-                          hidden: !isActive,
+                          'opacity-0': !isActive,
                           [spacing(
                             { s: 3 },
                             { padding: ['right', 'bottom'] }
@@ -171,6 +192,7 @@ class ImageGallery extends Component<Props, State> {
                         })}
                       >
                         <Control
+                          tabIndex={`-1`}
                           ariaControls={`image-gallery-${id}`}
                           ariaExpanded={isActive}
                           ref={this.closeButtonRef}
@@ -179,13 +201,11 @@ class ImageGallery extends Component<Props, State> {
                           text={`close`}
                           icon={`cross`}
                           clickHandler={event => {
-                            trackEvent({
-                              category: `Control`,
-                              action: 'close ImageGallery',
-                              label: this.props.id,
-                            });
-                            this.setState({ isActive: false });
-                            this.focusOpenButton();
+                            // Closing the gallery links back to the gallery heading.
+                            // We have to move the keyboard focus away after this happens.
+                            setTimeout(() => {
+                              this.handleCloseClicked();
+                            }, 0);
                           }}
                         />
                       </div>
@@ -195,8 +215,7 @@ class ImageGallery extends Component<Props, State> {
                     <div
                       onClick={() => {
                         if (!isActive) {
-                          this.showAllImages();
-                          this.focusCloseButton();
+                          this.handleOpenClicked();
                         }
                       }}
                       className={classNames({
@@ -245,12 +264,11 @@ class ImageGallery extends Component<Props, State> {
                       type="primary"
                       icon="gallery"
                       clickHandler={() => {
-                        this.showAllImages(true);
-                        this.focusCloseButton();
+                        this.handleOpenClicked();
                       }}
                       extraClasses={classNames({
                         'image-gallery-v2__button absolute': true,
-                        hidden: isActive,
+                        'opacity-0': isActive,
                       })}
                       text={`${items.length} images`}
                     />

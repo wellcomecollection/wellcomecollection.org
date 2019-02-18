@@ -7,6 +7,7 @@ import { font } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 
 type Props = {|
+  tabIndex?: string,
   url?: string,
   type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
