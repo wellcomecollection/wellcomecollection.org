@@ -54,6 +54,7 @@ class ImageGallery extends Component<Props, State> {
 
   handleCloseClicked() {
     if (this.openButtonRef.current) {
+      this.openButtonRef.current.tabIndex = 0;
       this.setState({ isActive: false });
 
       trackEvent({
@@ -61,11 +62,6 @@ class ImageGallery extends Component<Props, State> {
         action: 'close ImageGallery',
         label: this.props.id,
       });
-    }
-
-    if (this.openButtonRef.current) {
-      this.openButtonRef.current.tabIndex = 0;
-      this.openButtonRef.current.focus();
     }
 
     if (this.closeButtonRef.current) {
@@ -204,12 +200,8 @@ class ImageGallery extends Component<Props, State> {
                           type={`light`}
                           text={`close`}
                           icon={`cross`}
-                          clickHandler={event => {
-                            // Closing the gallery links back to the gallery heading.
-                            // We have to move the keyboard focus away after this happens.
-                            setTimeout(() => {
-                              this.handleCloseClicked();
-                            }, 0);
+                          clickHandler={() => {
+                            this.handleCloseClicked();
                           }}
                         />
                       </div>
