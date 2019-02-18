@@ -47,6 +47,7 @@ const Control = forwardRef(
     }: Props,
     ref
   ) => {
+    const HtmlTag = url ? 'a' : 'button';
     const attrs = {
       'aria-controls': ariaControls || undefined,
       'aria-expanded': ariaExpanded || undefined,
@@ -68,14 +69,11 @@ const Control = forwardRef(
       }
     }
 
-    return url ? (
-      <a ref={ref} {...attrs}>
+    return (
+      // $FlowFixMe (conditional JSX tag)
+      <HtmlTag ref={ref} {...attrs}>
         <InnerControl text={text} icon={icon} />
-      </a>
-    ) : (
-      <button ref={ref} {...attrs}>
-        <InnerControl text={text} icon={icon} />
-      </button>
+      </HtmlTag>
     );
   }
 );

@@ -60,6 +60,7 @@ const Button = forwardRef(
     }
 
     return (
+      // $FlowFixMe (conditional JSX tag)
       <HtmlTag
         ref={ref}
         aria-controls={ariaControls}

@@ -33,7 +33,7 @@ class ImageGallery extends Component<Props, State> {
   };
 
   openButtonRef: {
-    current: HTMLAnchorElement | HTMLButtonElement | null,
+    current: HTMLButtonElement | HTMLAnchorElement | null,
   } = createRef();
 
   closeButtonRef: {
@@ -42,9 +42,9 @@ class ImageGallery extends Component<Props, State> {
 
   handleOpenClicked() {
     if (this.closeButtonRef.current) {
-      this.showAllImages(true);
-      this.closeButtonRef.current.focus();
       this.closeButtonRef.current.tabIndex = 0;
+      this.closeButtonRef.current.focus();
+      this.showAllImages(true);
     }
 
     if (this.openButtonRef.current) {
@@ -54,14 +54,18 @@ class ImageGallery extends Component<Props, State> {
 
   handleCloseClicked() {
     if (this.openButtonRef.current) {
+      this.setState({ isActive: false });
+
       trackEvent({
         category: `Control`,
         action: 'close ImageGallery',
         label: this.props.id,
       });
-      this.setState({ isActive: false });
-      this.openButtonRef.current.focus();
+    }
+
+    if (this.openButtonRef.current) {
       this.openButtonRef.current.tabIndex = 0;
+      this.openButtonRef.current.focus();
     }
 
     if (this.closeButtonRef.current) {
