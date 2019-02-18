@@ -81,13 +81,18 @@ $image-gallery-v2-transition-properties: 400ms ease;
 }
 
 .image-gallery-v2__close-wrapper {
-  top: $image-gallery-v2-clip-height-s;
-  bottom: 0;
-  width: 100%;
-  pointer-events: none;
+  display: none;
 
-  @include respond-to('medium') {
-    top: $image-gallery-v2-clip-height-m;
+  .enhanced & {
+    display: inherit;
+    top: $image-gallery-v2-clip-height-s;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
+
+    @include respond-to('medium') {
+      top: $image-gallery-v2-clip-height-m;
+    }
   }
 }
 
