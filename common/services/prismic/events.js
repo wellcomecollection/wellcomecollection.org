@@ -146,14 +146,10 @@ export function parseEventDoc(
       url: data.bookingEnquiryTeam.data.url,
     }: Team);
 
-  const thirdPartyBooking = data.thirdPartyBooking
-    .filter(thirdParty => thirdParty.link.url)
-    .map(thirdParty => {
-      return {
-        name: thirdParty.name,
-        url: thirdParty.link.url,
-      };
-    });
+  const thirdPartyBooking = {
+    name: data.thirdPartyBookingName,
+    url: data.thirdPartyBookingUrl.url,
+  };
 
   const series = data.series
     .map(series =>
@@ -198,7 +194,7 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    thirdPartyBooking: thirdPartyBooking.length ? thirdPartyBooking[0] : null,
+    thirdPartyBooking: data.thirdPartyBookingUrl.url ? thirdPartyBooking : null,
     bookingInformation:
       data.bookingInformation.length > 1 ? data.bookingInformation : null,
     bookingType: parseEventBookingType(document),

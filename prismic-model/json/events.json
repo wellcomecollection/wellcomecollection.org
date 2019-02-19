@@ -474,27 +474,18 @@
         "label": "Eventbrite event"
       }
     },
-    "thirdPartyBooking": {
-      "type": "Group",
-      "fieldset": "Third party booking",
+    "thirdPartyBookingName": {
+      "type": "Text",
       "config": {
-        "repeat": false,
-        "fields": {
-          "name": {
-            "type": "Text",
-            "config": {
-              "label": "Organisation name"
-            }
-          },
-          "link": {
-            "type": "Link",
-            "config": {
-              "label": "Booking url",
-              "select": "web",
-              "customtypes": []
-            }
-          }
-        }
+        "label": "Third party booking name"
+      }
+    },
+    "thirdPartyBookingUrl": {
+      "type": "Link",
+      "config": {
+        "label": "Third party booking url",
+        "select": "web",
+        "customtypes": []
       }
     },
     "bookingInformation": {
