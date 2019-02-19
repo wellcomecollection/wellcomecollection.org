@@ -146,6 +146,11 @@ export function parseEventDoc(
       url: data.bookingEnquiryTeam.data.url,
     }: Team);
 
+  const thirdPartyBooking = {
+    name: data.thirdPartyBookingName,
+    url: data.thirdPartyBookingUrl.url,
+  };
+
   const series = data.series
     .map(series =>
       isDocumentLink(series.series) ? parseEventSeries(series.series) : null
@@ -189,6 +194,7 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
+    thirdPartyBooking: data.thirdPartyBookingUrl.url ? thirdPartyBooking : null,
     bookingInformation:
       data.bookingInformation.length > 1 ? data.bookingInformation : null,
     bookingType: parseEventBookingType(document),

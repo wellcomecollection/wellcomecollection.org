@@ -33,6 +33,7 @@ export const data = {
   bookingInformation: null,
   cost: null,
   bookingType: null,
+  thirdPartyBooking: null,
   isCompletelySoldOut: false,
   isPast: false,
   isRelaxedPerformance: false,

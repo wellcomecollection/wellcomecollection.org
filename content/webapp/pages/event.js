@@ -322,7 +322,6 @@ class EventPage extends Component<Props, State> {
               contributors={event.contributors}
             />
           )}
-
           <Fragment>
             <div
               className={`body-text border-bottom-width-1 border-color-pumice`}
@@ -331,7 +330,6 @@ class EventPage extends Component<Props, State> {
               {DateList(event)}
             </div>
           </Fragment>
-
           {event.schedule && event.schedule.length > 0 && (
             <Fragment>
               <h2 className="h2">Events</h2>
@@ -340,7 +338,6 @@ class EventPage extends Component<Props, State> {
               </ul>
             </Fragment>
           )}
-
           {event.ticketSalesStart &&
             showTicketSalesStart(event.ticketSalesStart) && (
               <Fragment>
@@ -359,6 +356,46 @@ class EventPage extends Component<Props, State> {
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
             <Fragment>
               {event.eventbriteId && <EventbriteButton event={event} />}
+
+              {event.thirdPartyBooking && (
+                <Fragment>
+                  {event.isCompletelySoldOut ? (
+                    <Fragment>
+                      <Button
+                        type="primary"
+                        disabled={true}
+                        text="Fully booked"
+                      />
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <Button
+                        type="primary"
+                        url={event.thirdPartyBooking.url}
+                        trackingEvent={{
+                          category: 'component',
+                          action: 'booking-tickets:click',
+                          label: 'event-page',
+                        }}
+                        icon="ticket"
+                        text="Check for tickets"
+                      />
+                      {event.thirdPartyBooking.name && (
+                        <p
+                          className={`font-charcoal ${font({
+                            s: 'HNL5',
+                          })} ${spacing(
+                            { s: 1 },
+                            { margin: ['top'] }
+                          )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
+                        >
+                          with {event.thirdPartyBooking.name}
+                        </p>
+                      )}
+                    </Fragment>
+                  )}
+                </Fragment>
+              )}
 
               {event.bookingEnquiryTeam && (
                 <Fragment>
@@ -428,7 +465,6 @@ class EventPage extends Component<Props, State> {
                 )}
             </Fragment>
           )}
-
           {!event.isPast && (
             <Fragment>
               <InfoBox
@@ -468,7 +504,6 @@ class EventPage extends Component<Props, State> {
               </InfoBox>
             </Fragment>
           )}
-
           {event.audiences.map(audience => {
             //  TODO remove?
             if (audience.description) {
