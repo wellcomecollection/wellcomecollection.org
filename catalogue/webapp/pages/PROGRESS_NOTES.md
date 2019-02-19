@@ -29,11 +29,12 @@ beautiful fashion, to yourselves.
 ## What's improved
 
 * Search performance has been improved. When requesting 100 results,
-they are, on average, rendered in less than a second.
-* When following the links in the metadata of a work, results will be more
-specific to the field you were linked from
-  e.g. [Caricature as a subject](https://wellcomecollection.org/works?query=subject:"Caricature")
-  vs [Caricature as a keyword search](https://wellcomecollection.org/works?query="Caricature")
+  they are, on average, rendered in less than a second.
+* ~~When following the links in the metadata of a work, results will be more
+  specific to the field you were linked from
+  e.g. [Caricature as a subject](https://wellcomecollection.org/works?query="Caricature")
+  vs [Caricature as a keyword search](https://wellcomecollection.org/works?query="Caricature")~~
+  The feature has been removed as it wasn't working as expected.
   ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
 
 We are always collecting feedback, so if you have any
