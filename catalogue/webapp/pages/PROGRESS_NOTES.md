@@ -6,6 +6,33 @@ We have a lot of work to do, and we’ve only just begun.
 
 ---
 
+# February 2019
+
+## What's new?
+
+From the feedback we've had over the past couple of months, we've been adding
+clarity and emphasis to the information on our library item pages.
+
+This will hopefully help with getting an overview of the item and to assess its
+relevance more effectively.
+
+What we've done:
+* The title is the first piece of information seen, along with a summary of
+  the object, including contributors and its publication date.
+* The details about the item have been grouped in sections to help to scan the
+  information more easily.
+* The ordering of the information has been slightly tweaked on the feedback of
+  what people consider important.
+
+The search bar persists through the search journey, including when an
+item is viewed to allow for refinement of search, or to just start again,
+without having to go back to the results page.
+
+We are always collecting feedback, so if you have any
+[👂 get involved, we’re listening 👂!](#get-involved)
+
+---
+
 # November 2018
 
 ## What's new?

@@ -410,7 +410,7 @@ class EventPage extends Component<Props, State> {
                 !event.bookingEnquiryTeam &&
                 !(event.schedule && event.schedule.length > 1) && (
                   <Fragment>
-                    {!event.hasEarlyRegistration && (
+                    {!event.hasEarlyRegistration && !event.cost && (
                       <div
                         className={spacing({ s: 4 }, { margin: ['bottom'] })}
                       >
