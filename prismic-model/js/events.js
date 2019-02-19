@@ -45,6 +45,17 @@ const Events = {
     eventbriteEvent: embed('Eventbrite event'),
     // This is what it was labelled on the UI,
     // so that's what we're calling it here
+    thirdPartyBooking: {
+      type: 'Group',
+      fieldset: 'Third party booking',
+      config: {
+        repeat: false,
+        fields: {
+          name: text('Organisation name'),
+          link: link('Booking url', 'web'),
+        },
+      },
+    },
     bookingInformation: structuredText('Extra information'),
     policies: list('Policies', {
       policy: link('Policy', 'document', ['event-policies']),
