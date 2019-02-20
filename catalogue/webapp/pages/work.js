@@ -11,7 +11,6 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
-import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
@@ -173,13 +172,6 @@ export const WorkPage = ({
         {iiifPresentationLocation && (
           <IIIFPresentationDisplay
             manifestLocation={iiifPresentationLocation.url}
-          />
-        )}
-        {iiifImageLocationUrl && (
-          <WorkMedia
-            id={work.id}
-            iiifUrl={iiifImageLocationUrl}
-            title={work.title}
           />
         )}
 
