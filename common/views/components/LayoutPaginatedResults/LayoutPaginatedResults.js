@@ -121,7 +121,7 @@ const LayoutPaginatedResults = ({
       )}
 
       <div className={spacing({ s: 4 }, { margin: ['top'] })}>
-        <CardGrid items={paginatedResults.results} />
+        <CardGrid items={paginatedResults.results} itemsPerRow={3} />
       </div>
 
       {paginatedResults.totalPages > 1 && (
