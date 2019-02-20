@@ -62,8 +62,10 @@ const SearchTag = ({
         'flex-inline': true,
         'flex--v-center': true,
         pointer: true,
-        [spacing({ s: 1 }, { padding: ['left', 'right'] })]: true,
-        [spacing({ s: 1 }, { margin: ['left'] })]: true,
+        [spacing(
+          { s: 1 },
+          { padding: ['left', 'right'], margin: ['left'] }
+        )]: true,
         [font({ s: 'HNL3' })]: true,
       })}
       style={{ borderRadius: '3px' }}
