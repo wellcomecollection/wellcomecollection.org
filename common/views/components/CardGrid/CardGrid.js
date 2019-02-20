@@ -1,5 +1,4 @@
 // @flow
-import { type Node } from 'react';
 import { classNames, cssGrid, spacing } from '../../../utils/classnames';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
@@ -7,6 +6,8 @@ import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
+import MoreLink from '../Links/MoreLink/MoreLink';
+import { type Link } from '../../../model/link';
 import { type UiExhibition } from '../../../model/exhibitions';
 import { type UiEvent } from '../../../model/events';
 import { type Book } from '../../../model/books';
@@ -18,9 +19,9 @@ type ContentTypes = UiEvent | UiExhibition | Book | Article;
 type Props = {|
   items: $ReadOnlyArray<ContentTypes>,
   hidePromoText?: boolean,
-  children?: Node,
   itemsPerRow: number,
   itemsHaveTransparentBackground?: boolean,
+  links?: Link[],
 |};
 
 const CardGrid = ({
@@ -28,7 +29,7 @@ const CardGrid = ({
   hidePromoText,
   itemsPerRow,
   itemsHaveTransparentBackground = false,
-  children,
+  links,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
 
@@ -91,16 +92,22 @@ const CardGrid = ({
           ))}
         </div>
       </div>
-      <Layout12>
-        <div
-          className={classNames({
-            // TODO: update with inter-component spacing when it's formalised
-            [spacing({ s: 3 }, { margin: ['top'] })]: true,
-          })}
-        >
-          {children}
-        </div>
-      </Layout12>
+      {links && links.length > 0 && (
+        <Layout12>
+          <div
+            className={classNames({
+              // TODO: update with inter-component spacing when it's formalised
+              [spacing({ s: 3 }, { margin: ['top'] })]: true,
+            })}
+          >
+            {links.map(link => (
+              <div key={link.url}>
+                <MoreLink url={link.url} name={link.text} />
+              </div>
+            ))}
+          </div>
+        </Layout12>
+      )}
     </div>
   );
 };

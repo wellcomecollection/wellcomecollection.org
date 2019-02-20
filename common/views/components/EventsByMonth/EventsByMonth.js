@@ -1,5 +1,6 @@
 // @flow
-import { type Node, Component } from 'react';
+
+import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
@@ -7,11 +8,12 @@ import { classNames, cssGrid, spacing } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
-import type { UiEvent } from '../../../model/events';
+import { type UiEvent } from '../../../model/events';
+import { type Link } from '../../../model/link';
 
 type Props = {|
   events: UiEvent[],
-  children: Node,
+  links?: Link[],
 |};
 
 type State = {|
@@ -34,7 +36,7 @@ class EventsByMonth extends Component<Props, State> {
     activeId: null,
   };
   render() {
-    const { events } = this.props;
+    const { events, links } = this.props;
     const { activeId } = this.state;
 
     const monthsIndex = {
@@ -186,9 +188,8 @@ class EventsByMonth extends Component<Props, State> {
             <CardGrid
               items={eventsInMonths[month.id].concat(dailyTourPromo)}
               itemsPerRow={3}
-            >
-              {this.props.children}
-            </CardGrid>
+              links={links}
+            />
           </div>
         ))}
       </div>

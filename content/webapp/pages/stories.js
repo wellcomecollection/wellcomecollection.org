@@ -8,7 +8,6 @@ import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, spacing, grid, font } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -229,9 +228,11 @@ export class StoriesPage extends Component<Props> {
             <SectionHeader title="You may have missed" />
           </SpacingComponent>
           <SpacingComponent>
-            <CardGrid items={articles.slice(5, 11)} itemsPerRow={3}>
-              <MoreLink name={`More articles`} url={`/articles`} />
-            </CardGrid>
+            <CardGrid
+              items={articles.slice(5, 11)}
+              itemsPerRow={3}
+              links={[{ text: 'More articles', url: '/articles' }]}
+            />
           </SpacingComponent>
         </SpacingSection>
       </PageLayout>

@@ -19,7 +19,6 @@ import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -122,9 +121,8 @@ export class HomePage extends Component<Props> {
               events={orderEventsByNextAvailableDate(
                 filterEventsForNext7Days(events)
               )}
-            >
-              <MoreLink name={`All exhibitions and events`} url={`/whats-on`} />
-            </ExhibitionsAndEvents>
+              links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
+            />
           </SpacingComponent>
         </SpacingSection>
 
@@ -137,9 +135,8 @@ export class HomePage extends Component<Props> {
               items={articles.results}
               itemsPerRow={4}
               itemsHaveTransparentBackground={true}
-            >
-              <MoreLink name={`All stories`} url={`/stories`} />
-            </CardGrid>
+              links={[{ text: 'All stories', url: '/stories' }]}
+            />
           </SpacingComponent>
         </SpacingSection>
       </PageLayout>

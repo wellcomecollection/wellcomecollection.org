@@ -27,7 +27,6 @@ import {
 } from '@weco/common/data/facility-promos';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -397,12 +396,16 @@ export class WhatsOnPage extends Component<Props> {
                           </div>
                         </Layout12>
 
-                        <CardGrid items={exhibitions} itemsPerRow={3}>
-                          <MoreLink
-                            name={'View all exhibitions'}
-                            url={'/exhibitions'}
-                          />
-                        </CardGrid>
+                        <CardGrid
+                          items={exhibitions}
+                          itemsPerRow={3}
+                          links={[
+                            {
+                              text: 'View all exhibitions',
+                              url: '/exhibitions',
+                            },
+                          ]}
+                        />
                       </SpacingSection>
 
                       <SpacingSection>
@@ -410,19 +413,19 @@ export class WhatsOnPage extends Component<Props> {
                           <SectionHeader title={'Events'} />
                         </SpacingComponent>
                         <SpacingComponent>
-                          <EventsByMonth events={events}>
-                            <MoreLink
-                              name={'View all events'}
-                              url={'/events'}
-                            />
-                          </EventsByMonth>
+                          <EventsByMonth
+                            events={events}
+                            links={[
+                              { text: 'View all events', url: '/events' },
+                            ]}
+                          />
                         </SpacingComponent>
                       </SpacingSection>
                     </div>
                   </Fragment>
                 )}
                 {period !== 'current-and-coming-up' && (
-                  <Fragment>
+                  <SpacingSection>
                     <div
                       className={classNames({
                         [spacing(
@@ -466,15 +469,12 @@ export class WhatsOnPage extends Component<Props> {
                           ? filterEventsForWeekend(events)
                           : events
                       }
-                    >
-                      <MoreLink
-                        name={'View all exhibitions'}
-                        url={'/exhibitions'}
-                      />
-                      <br />
-                      <MoreLink name={'View all events'} url={'/events'} />
-                    </ExhibitionsAndEvents>
-                  </Fragment>
+                      links={[
+                        { text: 'View all exhibitions', url: '/exhibitions' },
+                        { text: 'View all events', url: '/events' },
+                      ]}
+                    />
+                  </SpacingSection>
                 )}
               </div>
 

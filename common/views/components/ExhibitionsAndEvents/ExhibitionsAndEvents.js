@@ -1,22 +1,23 @@
 // @flow
-import { type Node } from 'react';
+
 import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromoData } from '../DailyTourPromo/DailyTourPromo';
 import type { UiExhibition } from '../../../model/exhibitions';
-import type { UiEvent } from '../../../model/events';
+import { type UiEvent } from '../../../model/events';
+import { type Link } from '../../../model/link';
 
 type Props = {|
   exhibitions: UiExhibition[],
   events: UiEvent[],
   extras?: (UiExhibition | UiEvent)[],
-  children: Node,
+  links?: Link[],
 |};
 
 const ExhibitionsAndEvents = ({
   exhibitions,
   events,
   extras = [],
-  children,
+  links,
 }: Props) => {
   const permanentExhibitions = exhibitions.filter(
     exhibition => exhibition.isPermanent
@@ -31,10 +32,6 @@ const ExhibitionsAndEvents = ({
     extras
   );
 
-  return (
-    <CardGrid items={items} itemsPerRow={3}>
-      {children}
-    </CardGrid>
-  );
+  return <CardGrid items={items} itemsPerRow={3} links={links} />;
 };
 export default ExhibitionsAndEvents;
