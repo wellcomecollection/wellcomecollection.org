@@ -68,6 +68,16 @@ export const Works = ({
     );
   }
 
+  // This is very convoluted, but you can't do arry equality because, JavaScript
+  // e.g. itemsLocationsLocationType === ['iiif-image'] is always false.
+  const useImagelessResult =
+    showCatalogueSearchFilters &&
+    !(
+      workType.toString() === 'k,q' &&
+      itemsLocationsLocationType.length === 1 &&
+      itemsLocationsLocationType[0] === 'iiif-image'
+    );
+
   return (
     <Fragment>
       <Head>
@@ -228,7 +238,7 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  {showCatalogueSearchFilters &&
+                  {useImagelessResult &&
                     works.results.map(result => (
                       <div
                         className={classNames({
@@ -247,7 +257,7 @@ export const Works = ({
                         />
                       </div>
                     ))}
-                  {!showCatalogueSearchFilters &&
+                  {!useImagelessResult &&
                     works.results.map(result => (
                       <div
                         key={result.id}
@@ -372,7 +382,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     'items.locations.locationType' in ctx.query
       ? ctx.query['items.locations.locationType'].split(',')
       : showCatalogueSearchFilters
-      ? ['iiif-image', 'iiif-presentation']
+      ? ['iiif-image']
       : ['iiif-image'];
 
   const filters = {
