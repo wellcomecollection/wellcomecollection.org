@@ -16,6 +16,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
+import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 
 type WorkDetailsSectionProps = {|
   className?: string,
@@ -114,7 +115,21 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-
+  if (iiifImageLocationUrl) {
+    WorkDetailsSections.push(
+      <StyledWorkDetailsSection
+        headingText={`What this ${singularWorkTypeLabel} looks like`}
+      >
+        <div style={{ width: '200px' }}>
+          <WorkMedia
+            id={work.id}
+            iiifUrl={iiifImageLocationUrl}
+            title={work.title}
+          />
+        </div>
+      </StyledWorkDetailsSection>
+    );
+  }
   if (iiifImageLocationUrl) {
     if (useBetaDownloadComponent) {
       WorkDetailsSections.push(
