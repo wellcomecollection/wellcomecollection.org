@@ -1,21 +1,10 @@
 .work-media {
   position: relative;
   min-height: 200px;
-  // height: calc(100vh - 160px);
+  height: calc(100vh - 160px);
 
   @include respond-to(large) {
-    // height: calc(100vh - 200px);
-  }
-
-  // TODO: (work redesign)
-  &.work-media--v2 {
-    max-height: 100vh;
-    min-height: 0;
-    height: auto;
-
-    .image {
-      max-height: 100vh;
-    }
+    height: calc(100vh - 200px);
   }
 
   .image {
