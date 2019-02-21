@@ -204,7 +204,7 @@ WorkPage.getInitialProps = async (
   const workOrError = await getWork({ id });
   const {
     useBetaDownloadComponent,
-    showSingleImageWorkPreview,
+    // showSingleImageWorkPreview,
   } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
@@ -226,7 +226,7 @@ WorkPage.getInitialProps = async (
       workType,
       itemsLocationsLocationType,
       useBetaDownloadComponent,
-      showSingleImageWorkPreview,
+      showSingleImageWorkPreview: true,
     };
   }
 };
