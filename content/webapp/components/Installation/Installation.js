@@ -56,7 +56,7 @@ const Installation = ({ installation }: Props) => {
       },
       partOf && {
         url: `/exhibitions/${partOf.id}`,
-        text: partOf.title,
+        text: partOf.shortTitle || partOf.title,
         prefix: 'Part of',
       },
       {
