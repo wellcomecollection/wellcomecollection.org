@@ -1,6 +1,6 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
-import { useState, useEffect } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 
 type Props = {|
   manifestLocation: string,
@@ -29,28 +29,29 @@ const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
 
   return (
     manifestData && (
-      <div>
+      <Fragment>
         {validSequences.length > 0 &&
           validSequences.map(sequence => (
-            <div
-              key={sequence['@id']}
-              style={{
-                display: 'flex',
-                maxWidth: '100%',
-                flexWrap: 'wrap',
-              }}
-            >
-              {sequence.canvases.slice(0, 1).map(canvas => {
-                return (
-                  <div key={canvas.thumbnail['@id']}>
-                    <img src={canvas.thumbnail['@id']} />
-                  </div>
-                );
-              })}
-            </div>
+            <Fragment key={sequence['@id']}>
+              {sequence.canvases.length > 1 &&
+                sequence.canvases.slice(0, 1).map(canvas => {
+                  return (
+                    <div key={canvas.thumbnail['@id']}>
+                      <img
+                        style={{ width: '64px' }}
+                        src={canvas.thumbnail['@id']}
+                      />
+                    </div>
+                  );
+                })}
+            </Fragment>
           ))}
-      </div>
+      </Fragment>
     )
   );
 };
+
 export default IIIFPresentationDisplay;
+// TODO image alt
+// TODO show specific pages e.g. cover OR title page OR first image
+// TODO don't want to show section in WorkDetails if no valid sequences
