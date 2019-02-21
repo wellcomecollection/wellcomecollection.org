@@ -11,11 +11,13 @@ import structuredText from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import boolean from './parts/boolean';
+import singleLineText from './parts/single-line-text';
 
 const Exhibitions = {
   Exhibition: {
     format: link('Format', 'document', ['exhibition-formats']),
     title,
+    shortTitle: singleLineText('Short title', 'heading1'),
     body,
     start: timestamp('Start date'),
     end: timestamp('End date'),

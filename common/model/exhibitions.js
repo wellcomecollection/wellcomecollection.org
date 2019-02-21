@@ -17,6 +17,7 @@ export type ExhibitionFormat = {|
 
 export type Exhibition = {|
   ...GenericContentFields,
+  shortTitle: ?string,
   type: 'exhibitions',
   format: ?ExhibitionFormat,
   start: Date,
