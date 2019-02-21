@@ -12,9 +12,16 @@ type Props = {|
   title: string,
   iiifUrl: string,
   width?: number,
+  isV2?: boolean,
 |};
 
-const WorkMedia = ({ id, title, iiifUrl, width = 800 }: Props) => {
+const WorkMedia = ({
+  id,
+  title,
+  iiifUrl,
+  width = 800,
+  isV2 = false,
+}: Props) => {
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
   const imageInfoUrl = convertIiifUriToInfoUri(
     convertImageUri(imageContentUrl, 'full', false)
@@ -25,7 +32,8 @@ const WorkMedia = ({ id, title, iiifUrl, width = 800 }: Props) => {
         id={`work-media-${id}`}
         className={classNames({
           'row font-white work-media js-work-media': true,
-          'bg-black': true,
+          'work-media--v2': isV2,
+          'bg-black': !isV2,
         })}
       >
         {/*  TODO pass <Image> here rather than pass props down? */}

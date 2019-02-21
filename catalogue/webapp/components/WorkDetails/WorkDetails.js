@@ -142,6 +142,7 @@ const WorkDetails = ({
               id={work.id}
               iiifUrl={iiifImageLocationUrl}
               title={work.title}
+              isV2={true}
             />
           </div>
         )}

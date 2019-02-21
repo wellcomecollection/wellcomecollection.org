@@ -7,6 +7,14 @@
     height: calc(100vh - 200px);
   }
 
+  &.work-media--v2 {
+    height: auto;
+
+    .image {
+      max-height: 100vh;
+    }
+  }
+
   .image {
     max-height: 100%;
     max-width: 100%;
