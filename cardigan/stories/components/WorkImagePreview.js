@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/react';
-import WorkMedia from '../../../common/views/components/WorkMedia/WorkMedia';
-import Readme from '../../../common/views/components/WorkMedia/README.md';
+import WorkImagePreview from '../../../common/views/components/WorkImagePreview/WorkImagePreview';
+import Readme from '../../../common/views/components/WorkImagePreview/README.md';
 
-const WorkMediaExample = () => {
+const WorkImagePreviewExample = () => {
   return (
-    <WorkMedia
+    <WorkImagePreview
       id={`z2dxwfjw`}
       iiifUrl={`https://iiif.wellcomecollection.org/image/V0021294.jpg/info.json`}
       title={`Four different species of cats, including the angora cat and the domestic cat. Coloured etching by J. D. E. Canu and L. F. Couché after Vauthier.`}
@@ -14,4 +14,4 @@ const WorkMediaExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('WorkMedia', WorkMediaExample, {info: Readme});
+stories.add('WorkImagePreview', WorkImagePreviewExample, { info: Readme });

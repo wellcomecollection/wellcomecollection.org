@@ -15,7 +15,7 @@ type Props = {|
   isV2?: boolean,
 |};
 
-const WorkMedia = ({
+const WorkImagePreview = ({
   id,
   title,
   iiifUrl,
@@ -48,4 +48,4 @@ const WorkMedia = ({
   );
 };
 
-export default WorkMedia;
+export default WorkImagePreview;
