@@ -15,7 +15,6 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
@@ -57,14 +56,6 @@ export const WorkPage = ({
   const [iiifImageLocation] = work.items
     .map(item =>
       item.locations.find(location => location.locationType.id === 'iiif-image')
-    )
-    .filter(Boolean);
-
-  const [iiifPresentationLocation] = work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
     )
     .filter(Boolean);
 
@@ -172,12 +163,7 @@ export const WorkPage = ({
       </div>
 
       <Fragment>
-        {iiifPresentationLocation && (
-          <IIIFPresentationDisplay
-            manifestLocation={iiifPresentationLocation.url}
-          />
-        )}
-        {iiifImageLocationUrl && (
+        {iiifImageLocationUrl && !showSingleImageWorkPreview && (
           <WorkMedia
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
