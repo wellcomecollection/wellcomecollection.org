@@ -17,7 +17,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
 import WorkImagePreview from '@weco/common/views/components/WorkImagePreview/WorkImagePreview';
-import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 
 type WorkDetailsSectionProps = {|
   className?: string,
@@ -132,7 +132,7 @@ const WorkDetails = ({
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
         {iiifPresentationLocation && (
-          <IIIFPresentationDisplay
+          <IIIFPresentationPreview
             manifestLocation={iiifPresentationLocation.url}
           />
         )}
