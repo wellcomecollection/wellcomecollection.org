@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '../../services/catalogue/urls';
 import { Fragment } from 'react';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -16,7 +17,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
-import WorkImagePreview from '@weco/common/views/components/WorkImagePreview/WorkImagePreview';
+// import WorkImagePreview from '@weco/common/views/components/WorkImagePreview/WorkImagePreview';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 
 type WorkDetailsSectionProps = {|
@@ -137,15 +138,20 @@ const WorkDetails = ({
           />
         )}
         {iiifImageLocationUrl && (
-          <div style={{ width: '200px' }}>
+          <img
+            style={{ width: 'auto' }}
+            src={iiifImageTemplate(iiifImageLocationUrl)({ size: `,400` })}
+          />
+        )
+        /*           <div style={{ width: '200px' }}>
             <WorkImagePreview
               id={work.id}
               iiifUrl={iiifImageLocationUrl}
               title={work.title}
               isV2={true}
             />
-          </div>
-        )}
+          </div> */
+        }
       </StyledWorkDetailsSection>
     );
   }

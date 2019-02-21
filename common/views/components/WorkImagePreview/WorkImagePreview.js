@@ -36,7 +36,6 @@ const WorkImagePreview = ({
           'bg-black': !isV2,
         })}
       >
-        {/*  TODO pass <Image> here rather than pass props down? */}
         <ImageViewer
           infoUrl={imageInfoUrl}
           contentUrl={imageContentUrl}
