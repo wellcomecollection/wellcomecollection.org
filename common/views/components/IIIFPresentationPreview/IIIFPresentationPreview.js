@@ -60,40 +60,6 @@ const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
             clickHandler={event => setShowAll(true)}
           />
         )}
-
-        {(manifestData.mediaSequences || [])
-          // This returns a broken resource
-          .filter(
-            ({ compatibilityHint }) =>
-              compatibilityHint !== 'displayIfContentUnsupported'
-          )
-          .map(sequence => {
-            return sequence.elements.map(element => {
-              if (element['@type'] === 'dctypes:MovingImage') {
-                return (
-                  <video
-                    controls
-                    style={{
-                      margin: '0 auto',
-                      display: 'block',
-                      maxWidth: '100%',
-                    }}
-                  >
-                    {element.rendering.map(render => (
-                      <source
-                        key={render['@id']}
-                        src={render['@id']}
-                        format={render.format}
-                      />
-                    ))}
-                  </video>
-                );
-              }
-              return (
-                <p key={element['@id']}>Unknown type {element['@type']}</p>
-              );
-            });
-          })}
       </div>
     )
   );
