@@ -1,5 +1,6 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { Fragment, useState, useEffect } from 'react';
 
 type Props = {|
@@ -30,22 +31,20 @@ const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
   return (
     manifestData && (
       <Fragment>
-        {validSequences.length > 0 &&
-          validSequences.map(sequence => (
-            <Fragment key={sequence['@id']}>
-              {sequence.canvases.length > 1 &&
-                sequence.canvases.slice(0, 1).map(canvas => {
-                  return (
-                    <div key={canvas.thumbnail['@id']}>
-                      <img
-                        style={{ width: '64px' }}
-                        src={canvas.thumbnail['@id']}
-                      />
-                    </div>
-                  );
-                })}
-            </Fragment>
-          ))}
+        {validSequences.map(sequence => (
+          <Fragment key={sequence['@id']}>
+            {sequence.canvases.length > 1 && (
+              <div key={sequence.canvases[0].thumbnail['@id']}>
+                <img
+                  style={{ width: 'auto' }}
+                  src={iiifImageTemplate(
+                    sequence.canvases[0].thumbnail.service['@id']
+                  )({ size: `,400` })}
+                />
+              </div>
+            )}
+          </Fragment>
+        ))}
       </Fragment>
     )
   );
