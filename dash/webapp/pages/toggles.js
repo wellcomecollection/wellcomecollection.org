@@ -52,6 +52,12 @@ const featureToggles = [
     description:
       'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
   },
+  {
+    id: 'showSingleImageWorkPreview',
+    title: 'Single image work preview',
+    description:
+      'Using a single image to preview a work. Currently focussing on images and digitised books.',
+  },
 ];
 
 const IndexPage = () => {
