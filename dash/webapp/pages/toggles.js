@@ -47,6 +47,13 @@ const featureToggles = [
       'This will show unfilter those results, and allow for filtering.',
   },
   {
+    id: 'imagelessSearchResult',
+    title: 'Imageless search results',
+    description:
+      "Uses a search results that doesn't need to have an image, but, if " +
+      'need be, can',
+  },
+  {
     id: 'showWorkLocations',
     title: 'Show the locations of a work in the header',
     description:
