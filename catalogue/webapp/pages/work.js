@@ -193,6 +193,7 @@ export const WorkPage = ({
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           encoreLink={encoreLink}
           useBetaDownloadComponent={useBetaDownloadComponent}
+          showSingleImageWorkPreview={showSingleImageWorkPreview}
         />
       </Fragment>
     </PageLayout>

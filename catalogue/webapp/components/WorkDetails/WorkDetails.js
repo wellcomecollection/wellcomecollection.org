@@ -96,6 +96,7 @@ type Props = {|
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
   useBetaDownloadComponent: boolean,
+  showSingleImageWorkPreview: boolean,
 |};
 
 const WorkDetails = ({
@@ -106,6 +107,7 @@ const WorkDetails = ({
   iiifImageLocationLicenseId,
   encoreLink,
   useBetaDownloadComponent,
+  showSingleImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
