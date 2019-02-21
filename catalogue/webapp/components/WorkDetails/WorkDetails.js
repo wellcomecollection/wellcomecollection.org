@@ -17,7 +17,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
-// import WorkImagePreview from '@weco/common/views/components/WorkImagePreview/WorkImagePreview';
+// import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 
 type WorkDetailsSectionProps = {|
@@ -144,7 +144,7 @@ const WorkDetails = ({
           />
         )
         /*           <div style={{ width: '200px' }}>
-            <WorkImagePreview
+            <WorkMedia
               id={work.id}
               iiifUrl={iiifImageLocationUrl}
               title={work.title}

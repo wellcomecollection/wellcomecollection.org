@@ -11,7 +11,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
-import WorkImagePreview from '@weco/common/views/components/WorkImagePreview/WorkImagePreview';
+import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
@@ -164,7 +164,7 @@ export const WorkPage = ({
 
       <Fragment>
         {iiifImageLocationUrl && !showSingleImageWorkPreview && (
-          <WorkImagePreview
+          <WorkMedia
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
             title={work.title}
