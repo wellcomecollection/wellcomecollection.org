@@ -17,6 +17,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
 import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
+import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 
 type WorkDetailsSectionProps = {|
   className?: string,
@@ -116,19 +117,34 @@ const WorkDetails = ({
     return id.identifierType.id === 'isbn';
   });
 
+  const [iiifPresentationLocation] = work.items
+    .map(item =>
+      item.locations.find(
+        location => location.locationType.id === 'iiif-presentation'
+      )
+    )
+    .filter(Boolean);
+
   const WorkDetailsSections = [];
-  if (iiifImageLocationUrl) {
+  if (iiifImageLocationUrl || iiifPresentationLocation) {
     WorkDetailsSections.push(
       <StyledWorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
-        <div style={{ width: '200px' }}>
-          <WorkMedia
-            id={work.id}
-            iiifUrl={iiifImageLocationUrl}
-            title={work.title}
+        {iiifPresentationLocation && (
+          <IIIFPresentationDisplay
+            manifestLocation={iiifPresentationLocation.url}
           />
-        </div>
+        )}
+        {iiifImageLocationUrl && (
+          <div style={{ width: '200px' }}>
+            <WorkMedia
+              id={work.id}
+              iiifUrl={iiifImageLocationUrl}
+              title={work.title}
+            />
+          </div>
+        )}
       </StyledWorkDetailsSection>
     );
   }
