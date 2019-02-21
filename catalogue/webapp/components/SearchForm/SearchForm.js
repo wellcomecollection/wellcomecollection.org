@@ -94,7 +94,7 @@ const SearchForm = ({
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
-  const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
+  const [itemsLocationsLocationType] = useState(
     initialItemsLocationsLocationType
   );
   const searchInput = useRef(null);
@@ -234,22 +234,6 @@ const SearchForm = ({
                       ? [...workType, 'a']
                       : workType.filter(val => val !== 'a');
                     setWorkType(newWorkType);
-                  }}
-                />
-                <SearchTag
-                  name={'items.locations.locationType'}
-                  label="Online"
-                  value="iiif-image"
-                  checked={
-                    itemsLocationsLocationType.indexOf('iiif-image') !== -1
-                  }
-                  onChange={event => {
-                    const input = event.currentTarget;
-                    if (input.checked) {
-                      setItemsLocationsLocationType(['iiif-image']);
-                    } else {
-                      setItemsLocationsLocationType([]);
-                    }
                   }}
                 />
               </fieldset>
