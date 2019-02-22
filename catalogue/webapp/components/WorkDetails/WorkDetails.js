@@ -7,11 +7,6 @@ import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '../../services/catalogue/urls';
 import { Fragment } from 'react';
-import {
-  iiifImageTemplate,
-  convertImageUri,
-  convertIiifUriToInfoUri,
-} from '@weco/common/utils/convert-image-uri';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -143,27 +138,14 @@ const WorkDetails = ({
         )}
         {iiifImageLocationUrl && (
           <Fragment>
-            <ImageViewer
-              infoUrl={convertIiifUriToInfoUri(
-                convertImageUri(
-                  iiifImageTemplate(iiifImageLocationUrl)({
-                    size: '800,',
-                  }),
-                  'full',
-                  false
-                )
-              )}
-              contentUrl={iiifImageTemplate(iiifImageLocationUrl)({
-                size: ',400',
-              })}
-              id={iiifImageLocationUrl}
-            />
+            <ImageViewer iiifImageLocationUrl={iiifImageLocationUrl} />
           </Fragment>
         )}
       </StyledWorkDetailsSection>
     );
   }
   if (iiifImageLocationUrl) {
+    // TODO prob. make part of preview section
     if (useBetaDownloadComponent) {
       WorkDetailsSections.push(
         <SpacingComponent>

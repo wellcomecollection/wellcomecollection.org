@@ -1,7 +1,8 @@
 // @flow
 import { Fragment, useState, useEffect } from 'react';
-import { spacing } from '../../../utils/classnames';
+import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import Control from '../Buttons/Control/Control';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -90,13 +91,17 @@ const ViewerContent = ({
 };
 
 type ImageViewerProps = {|
-  id: string,
-  contentUrl: string,
-  infoUrl: string,
+  iiifImageLocationUrl: string,
 |};
-
-const ImageViewer = ({ id, contentUrl, infoUrl }: ImageViewerProps) => {
+const ImageViewer = ({ iiifImageLocationUrl }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
+  const [jsEnabled, setJsEnabled] = useState(false);
+  const thumbnailUrl = iiifImageTemplate(iiifImageLocationUrl)({
+    size: ',400',
+  });
+  const fullSizeUrl = iiifImageTemplate(iiifImageLocationUrl)({
+    size: 'full',
+  });
 
   const handleViewerDisplay = (
     event,
@@ -106,16 +111,23 @@ const ImageViewer = ({ id, contentUrl, infoUrl }: ImageViewerProps) => {
     trackEvent({
       category: initiator,
       action: `${showViewer ? 'closed' : 'opened'} ImageViewer`,
-      label: id,
+      label: iiifImageLocationUrl,
     });
     setShowViewer(!showViewer);
   };
 
+  useEffect(() => {
+    setJsEnabled(true);
+  }, []);
+
   return (
     <Fragment>
       <img
+        className={classNames({
+          'cursor-zoom-in': jsEnabled,
+        })}
         style={{ width: 'auto', display: 'block', float: 'left' }}
-        src={contentUrl}
+        src={thumbnailUrl}
         alt=""
         onClick={() => {
           handleViewerDisplay(null, 'Image');
@@ -123,7 +135,7 @@ const ImageViewer = ({ id, contentUrl, infoUrl }: ImageViewerProps) => {
       />
       <Button
         type="tertiary"
-        url="http://google.co.uk"
+        url={fullSizeUrl}
         clickHandler={event => {
           handleViewerDisplay(event, 'Button');
         }}
@@ -133,9 +145,9 @@ const ImageViewer = ({ id, contentUrl, infoUrl }: ImageViewerProps) => {
         <ViewerContent
           classes=""
           viewerVisible={showViewer}
-          id={id}
+          id={iiifImageLocationUrl}
           handleViewerDisplay={handleViewerDisplay}
-          infoUrl={infoUrl}
+          infoUrl={iiifImageLocationUrl}
         />
       )}
     </Fragment>
@@ -144,6 +156,5 @@ const ImageViewer = ({ id, contentUrl, infoUrl }: ImageViewerProps) => {
 
 export default ImageViewer;
 
+// TODO component / file names
 // TODO alt
-// TODO no-js link
-// className="cursor-zoom-in" useEffect
