@@ -101,5 +101,22 @@ export async function getWork({
   }
 
   const json = await res.json();
-  return json;
+
+  const [iiifPresentationLocation] = json.items
+    .map(item =>
+      item.locations.find(
+        location => location.locationType.id === 'iiif-presentation'
+      )
+    )
+    .filter(Boolean);
+
+  if (iiifPresentationLocation) {
+    const iiifManifest = await fetch(iiifPresentationLocation.url);
+    return {
+      iiifManifest: await iiifManifest.json(),
+      ...json,
+    };
+  } else {
+    return json;
+  }
 }

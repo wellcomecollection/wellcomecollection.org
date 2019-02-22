@@ -51,9 +51,3 @@ const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
 };
 
 export default IIIFPresentationDisplay;
-// TODO image alt
-// TODO show specific pages e.g. cover OR title page OR first image
-// TODO don't want to show section in WorkDetails if no valid sequences
-// TODO what happens when no javascript available
-// TODO launch some kind of viewing experience
-// TODO IIIFVideoPreview

@@ -22,6 +22,7 @@ import { worksUrl } from '../services/catalogue/urls';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 
 type Props = {|
+  manifestData: any,
   work: Work | CatalogueApiError,
   workType: string[],
   query: ?string,

@@ -15,7 +15,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
-import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview2';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type WorkDetailsSectionProps = {|
@@ -127,14 +127,13 @@ const WorkDetails = ({
   const WorkDetailsSections = [];
   if (iiifImageLocationUrl || iiifPresentationLocation) {
     // TODO IIIFPresentationPreview
+    // TODO flow
     WorkDetailsSections.push(
       <StyledWorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
         {iiifPresentationLocation && (
-          <IIIFPresentationPreview
-            manifestLocation={iiifPresentationLocation.url}
-          />
+          <IIIFPresentationPreview manifestData={work.iiifManifest} />
         )}
         {iiifImageLocationUrl && (
           <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
