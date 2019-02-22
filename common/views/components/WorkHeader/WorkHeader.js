@@ -112,7 +112,7 @@ const WorkHeader = ({ work }: Props) => {
                       : null,
                     physicalLocations.length > 0
                       ? {
-                          text: 'Wellcome Library',
+                          text: 'Open Shelves + Closed Stores',
                           url: null,
                         }
                       : null,

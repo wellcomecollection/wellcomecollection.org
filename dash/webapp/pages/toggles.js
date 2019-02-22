@@ -55,9 +55,9 @@ const featureToggles = [
   },
   {
     id: 'showWorkLocations',
-    title: 'Show the locations of a work in the header',
+    title: 'Show the access options of a work',
     description:
-      'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
+      'These can be either physical or digital locations. We need to do a little bit of work figuring out what all the codes mean to get the messaging right.',
   },
 ];
 
