@@ -231,7 +231,17 @@ const WorkDetails = ({
                 });
                 return (
                   <NextLink key={1} {...linkAttributes}>
-                    {genre.label}
+                    <a>
+                      <WorkTag className={workTagClasses}>
+                        <span
+                          className={classNames({
+                            [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                          })}
+                        >
+                          {genre.label}
+                        </span>
+                      </WorkTag>
+                    </a>
                   </NextLink>
                 );
               })}
