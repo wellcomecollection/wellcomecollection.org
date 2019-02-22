@@ -2,13 +2,16 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
-
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '../../services/catalogue/urls';
 import { Fragment } from 'react';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import {
+  iiifImageTemplate,
+  convertImageUri,
+  convertIiifUriToInfoUri,
+} from '@weco/common/utils/convert-image-uri';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -18,6 +21,8 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import DownloadBeta from '../Download/DownloadBeta';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+// import IIIFImagePreview, which include ImageViewer - no js links to big image
+import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer2';
 
 type WorkDetailsSectionProps = {|
   className?: string,
@@ -137,10 +142,29 @@ const WorkDetails = ({
           />
         )}
         {iiifImageLocationUrl && (
-          <img
-            style={{ width: 'auto' }}
-            src={iiifImageTemplate(iiifImageLocationUrl)({ size: `,400` })}
-          />
+          <Fragment>
+            <img
+              style={{ width: 'auto' }}
+              src={iiifImageTemplate(iiifImageLocationUrl)({ size: `,400` })}
+            />
+
+            <ImageViewer
+              infoUrl={convertIiifUriToInfoUri(
+                convertImageUri(
+                  iiifImageTemplate(iiifImageLocationUrl)({
+                    size: '800,',
+                  }),
+                  'full',
+                  false
+                )
+              )}
+              contentUrl={iiifImageTemplate(iiifImageLocationUrl)({
+                size: '800,',
+              })}
+              id={'fgf'}
+              width={800}
+            />
+          </Fragment>
         )}
       </StyledWorkDetailsSection>
     );
