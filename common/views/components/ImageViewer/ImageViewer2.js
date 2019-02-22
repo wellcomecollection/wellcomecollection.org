@@ -1,39 +1,12 @@
 // @flow
 import { Fragment, useState, useEffect } from 'react';
-import { Transition } from 'react-transition-group';
-import Image from '../Image/Image';
-import Control from '../Buttons/Control/Control';
 import { spacing } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import dynamic from 'next/dynamic';
+import Control from '../Buttons/Control/Control';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
-
-type LaunchViewerButtonProps = {|
-  classes: string,
-  clickHandler: () => void,
-  didMountHandler: () => void,
-|};
-
-const LaunchViewerButton = ({
-  classes,
-  clickHandler,
-  didMountHandler,
-}: LaunchViewerButtonProps) => {
-  useEffect(() => {
-    didMountHandler();
-  }, []);
-
-  return (
-    <Control
-      type="dark"
-      text="View larger image"
-      icon="zoomIn"
-      extraClasses={`image-viewer__launch-button ${classes}`}
-      clickHandler={clickHandler}
-    />
-  );
-};
 
 type ViewerContentProps = {|
   id: string,
@@ -52,7 +25,7 @@ const ViewerContent = ({
 }: ViewerContentProps) => {
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27 && viewerVisible) {
-      handleViewerDisplay('Keyboard');
+      handleViewerDisplay(null, 'Keyboard');
     }
   };
 
@@ -106,7 +79,7 @@ const ViewerContent = ({
           icon="cross"
           extraClasses={`${spacing({ s: 2 }, { margin: ['right'] })}`}
           clickHandler={() => {
-            handleViewerDisplay('Control');
+            handleViewerDisplay(null, 'Control');
           }}
         />
       </div>
@@ -120,15 +93,16 @@ type ImageViewerProps = {|
   id: string,
   contentUrl: string,
   infoUrl: string,
-  width: number,
 |};
 
-const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
+const ImageViewer = ({ id, contentUrl, infoUrl }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
-  const [mountViewButton, setMountViewButton] = useState(false);
-  const [viewButtonMounted, setViewButtonMounted] = useState(false);
 
-  const handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
+  const handleViewerDisplay = (
+    event,
+    initiator: 'Button' | 'Control' | 'Image' | 'Keyboard'
+  ) => {
+    event && event.preventDefault();
     trackEvent({
       category: initiator,
       action: `${showViewer ? 'closed' : 'opened'} ImageViewer`,
@@ -137,45 +111,24 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
     setShowViewer(!showViewer);
   };
 
-  const viewButtonMountedHandler = () => {
-    setViewButtonMounted(!viewButtonMounted);
-  };
-
-  useEffect(() => {
-    setMountViewButton(!viewButtonMounted);
-  }, []);
-
   return (
     <Fragment>
-      <Image
-        width={width}
-        contentUrl={contentUrl}
-        lazyload={false}
-        sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
+      <img
+        style={{ width: 'auto', display: 'block', float: 'left' }}
+        src={contentUrl}
         alt=""
-        clickHandler={() => {
-          handleViewerDisplay('Image');
+        onClick={() => {
+          handleViewerDisplay(null, 'Image');
         }}
-        zoomable={viewButtonMounted}
-        defaultSize={800}
-        extraClasses="margin-h-auto width-auto full-height full-max-width block"
       />
-      <Transition in={mountViewButton} timeout={700}>
-        {status => {
-          if (status === 'exited') {
-            return null;
-          }
-          return (
-            <LaunchViewerButton
-              classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
-              didMountHandler={viewButtonMountedHandler}
-              clickHandler={() => {
-                handleViewerDisplay('Control');
-              }}
-            />
-          );
+      <Button
+        type="tertiary"
+        url="http://google.co.uk"
+        clickHandler={event => {
+          handleViewerDisplay(event, 'Button');
         }}
-      </Transition>
+        text="View larger"
+      />
       {showViewer && (
         <ViewerContent
           classes=""
@@ -190,3 +143,7 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
 };
 
 export default ImageViewer;
+
+// TODO alt
+// TODO no-js link
+// className="cursor-zoom-in" useEffect

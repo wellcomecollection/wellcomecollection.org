@@ -143,11 +143,6 @@ const WorkDetails = ({
         )}
         {iiifImageLocationUrl && (
           <Fragment>
-            <img
-              style={{ width: 'auto' }}
-              src={iiifImageTemplate(iiifImageLocationUrl)({ size: `,400` })}
-            />
-
             <ImageViewer
               infoUrl={convertIiifUriToInfoUri(
                 convertImageUri(
@@ -159,10 +154,9 @@ const WorkDetails = ({
                 )
               )}
               contentUrl={iiifImageTemplate(iiifImageLocationUrl)({
-                size: '800,',
+                size: ',400',
               })}
-              id={'fgf'}
-              width={800}
+              id={iiifImageLocationUrl}
             />
           </Fragment>
         )}
