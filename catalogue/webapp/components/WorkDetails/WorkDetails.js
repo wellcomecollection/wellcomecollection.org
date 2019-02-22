@@ -48,6 +48,19 @@ const WorkDetailsSection = ({
   );
 };
 
+const WorkTag = styled.div`
+  border-radius: 3px;
+  text-decoration: none;
+  padding: 0.05em 0.5em;
+  transition: color 250ms ease, background 250ms ease;
+`;
+
+const workTagClasses = classNames({
+  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+  'inline-block bg-hover-green font-hover-white': true,
+  'border-color-green border-width-1': true,
+});
+
 const StyledWorkDetailsSection = styled(WorkDetailsSection)`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -246,9 +259,38 @@ const WorkDetails = ({
               query: `"${subject.label}"`,
               page: 1,
             });
+
             return (
-              <NextLink key={1} {...linkAttributes}>
-                {subject.label}
+              <NextLink key={subject.label} {...linkAttributes}>
+                <a>
+                  {/* TODO: having the root-scope classes here makes the WorkTag less portable 🤔 */}
+                  <WorkTag className={workTagClasses}>
+                    {subject.concepts.map((concept, i, arr) => (
+                      <span
+                        key={concept.label}
+                        className={classNames({
+                          [font({ s: 'HNM5', m: 'HNM4' })]: i === 0,
+                          [font({ s: 'HNL5', m: 'HNL4' })]: i !== 0,
+                          [spacing({ s: 1 }, { margin: ['right'] })]:
+                            i !== arr.length - 1,
+                          'inline-block': true,
+                        })}
+                      >
+                        {concept.label}
+                        {i !== arr.length - 1 && (
+                          <span
+                            className={classNames({
+                              [font({ s: 'HNL4' })]: true,
+                            })}
+                          >
+                            {' '}
+                            {i === 0 ? '|' : '–'}
+                          </span>
+                        )}
+                      </span>
+                    ))}
+                  </WorkTag>
+                </a>
               </NextLink>
             );
           })}
