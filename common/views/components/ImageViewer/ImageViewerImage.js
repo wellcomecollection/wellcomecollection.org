@@ -1,9 +1,8 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { spacing } from '../../../utils/classnames';
-import { ImageInfoContext } from '../ImageViewer/ImageViewer';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
   fetch(imageInfoSrc)
@@ -55,12 +54,11 @@ const ErrorMessage = () => (
 
 type Props = {|
   id: string,
+  infoUrl: string,
 |};
 
-const ImageViewerImage = ({ id }: Props) => {
+const ImageViewerImage = ({ id, infoUrl }: Props) => {
   const [scriptError, setScriptError] = useState(false);
-  const infoUrl = useContext(ImageInfoContext);
-
   const handleScriptError = () => {
     setScriptError(true);
   };
