@@ -232,3 +232,5 @@ WorkPage.getInitialProps = async (
 };
 
 export default WorkPage;
+
+// TODO move all calculated consts that can be into WorkDetails
