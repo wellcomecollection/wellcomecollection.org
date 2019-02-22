@@ -3,7 +3,6 @@ import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
 
-import NextLink from 'next/link';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '../../services/catalogue/urls';
@@ -47,19 +46,6 @@ const WorkDetailsSection = ({
     </div>
   );
 };
-
-const WorkTag = styled.div`
-  border-radius: 3px;
-  text-decoration: none;
-  padding: 0.05em 0.5em;
-  transition: color 250ms ease, background 250ms ease;
-`;
-
-const workTagClasses = classNames({
-  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-  'inline-block bg-hover-green font-hover-white': true,
-  'border-color-green border-width-1': true,
-});
 
 const StyledWorkDetailsSection = styled(WorkDetailsSection)`
   display: grid;
@@ -224,26 +210,15 @@ const WorkDetails = ({
             <MetaUnit
               headingLevel={3}
               headingText="Type"
-              links={work.genres.map(genre => {
-                const linkAttributes = worksUrl({
-                  query: `"${genre.label}"`,
-                  page: 1,
-                });
-                return (
-                  <NextLink key={1} {...linkAttributes}>
-                    <a>
-                      <WorkTag className={workTagClasses}>
-                        <span
-                          className={classNames({
-                            [font({ s: 'HNM5', m: 'HNM4' })]: true,
-                          })}
-                        >
-                          {genre.label}
-                        </span>
-                      </WorkTag>
-                    </a>
-                  </NextLink>
-                );
+              tags={work.genres.map(g => {
+                return {
+                  query: g.label,
+                  textParts: g.concepts.map(c => c.label),
+                  linkAttributes: worksUrl({
+                    query: `"${g.label}"`,
+                    page: 1,
+                  }),
+                };
               })}
             />
           )}
@@ -264,45 +239,15 @@ const WorkDetails = ({
       <StyledWorkDetailsSection headingText="Subjects">
         <MetaUnit
           headingText=""
-          links={work.subjects.map(subject => {
-            const linkAttributes = worksUrl({
-              query: `"${subject.label}"`,
-              page: 1,
-            });
-
-            return (
-              <NextLink key={subject.label} {...linkAttributes}>
-                <a>
-                  {/* TODO: having the root-scope classes here makes the WorkTag less portable 🤔 */}
-                  <WorkTag className={workTagClasses}>
-                    {subject.concepts.map((concept, i, arr) => (
-                      <span
-                        key={concept.label}
-                        className={classNames({
-                          [font({ s: 'HNM5', m: 'HNM4' })]: i === 0,
-                          [font({ s: 'HNL5', m: 'HNL4' })]: i !== 0,
-                          [spacing({ s: 1 }, { margin: ['right'] })]:
-                            i !== arr.length - 1,
-                          'inline-block': true,
-                        })}
-                      >
-                        {concept.label}
-                        {i !== arr.length - 1 && (
-                          <span
-                            className={classNames({
-                              [font({ s: 'HNL4' })]: true,
-                            })}
-                          >
-                            {' '}
-                            {i === 0 ? '|' : '–'}
-                          </span>
-                        )}
-                      </span>
-                    ))}
-                  </WorkTag>
-                </a>
-              </NextLink>
-            );
+          tags={work.subjects.map(s => {
+            return {
+              query: s.label,
+              textParts: s.concepts.map(c => c.label),
+              linkAttributes: worksUrl({
+                query: `"${s.label}"`,
+                page: 1,
+              }),
+            };
           })}
         />
       </StyledWorkDetailsSection>
