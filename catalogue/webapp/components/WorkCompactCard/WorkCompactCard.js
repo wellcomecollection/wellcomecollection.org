@@ -63,79 +63,98 @@ const WorkCompactCard = ({
           className={classNames({
             'plain-link': true,
             block: true,
-            [spacing({ s: 3 }, { padding: ['bottom'] })]: true,
+            [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
+            'card-link': true,
           })}
         >
-          <div
-            className={classNames({
-              flex: true,
-              'flex--v-center': true,
-              [font({ s: 'HNL3' })]: true,
-              [spacing({ s: 1 }, { margin: ['bottom', 'top'] })]: true,
-            })}
-          >
-            {workTypeIcon && (
-              <Icon
-                name={workTypeIcon}
-                extraClasses={classNames({
-                  [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                })}
-              />
-            )}
-            {work.workType.label}
-          </div>
-
           <div className="flex">
             <div style={{ flexGrow: 1 }}>
+              <div
+                className={classNames({
+                  flex: true,
+                  'flex--v-center': true,
+                  [font({ s: 'HNL4' })]: true,
+                  [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
+                })}
+              >
+                {workTypeIcon && (
+                  <Icon
+                    name={workTypeIcon}
+                    extraClasses={classNames({
+                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                    })}
+                  />
+                )}
+                {work.workType.label}
+              </div>
               <h2
                 className={classNames({
                   [font({ s: 'HNM3' })]: true,
+                  'card-link__title': true,
                 })}
               >
                 {work.title}
               </h2>
-            </div>
-            {work.thumbnail && (
               <div
                 className={classNames({
-                  [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                  flex: true,
                 })}
-                style={{ width: '100px' }}
               >
-                <img src={work.thumbnail.url} style={{ width: '100px' }} />
+                {work.contributors.length > 0 && (
+                  <LinkLabels
+                    items={work.contributors.map(({ agent }) => ({
+                      text: agent.label,
+                      url: null,
+                    }))}
+                  />
+                )}
+                {productionDates.length > 0 && (
+                  <div
+                    className={classNames({
+                      [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                    })}
+                  >
+                    <LinkLabels
+                      heading={'Date'}
+                      items={productionDates.map(date => ({
+                        text: date,
+                        url: null,
+                      }))}
+                    />
+                  </div>
+                )}
               </div>
-            )}
+            </div>
+            {/**/}
+            <div
+              className={classNames({
+                [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                'text-align-center': true,
+              })}
+              style={{
+                flexGrow: 0,
+                flexShrink: 0,
+                flexBasis: '178px',
+                height: '178px',
+              }}
+            >
+              {work.thumbnail && (
+                <img
+                  src={work.thumbnail.url}
+                  className={classNames({
+                    'h-center': true,
+                  })}
+                  style={{
+                    width: 'auto',
+                    height: 'auto',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                  }}
+                />
+              )}
+            </div>
           </div>
 
-          <div
-            className={classNames({
-              flex: true,
-            })}
-          >
-            {work.contributors.length > 0 && (
-              <LinkLabels
-                items={work.contributors.map(({ agent }) => ({
-                  text: agent.label,
-                  url: null,
-                }))}
-              />
-            )}
-            {productionDates.length > 0 && (
-              <div
-                className={classNames({
-                  [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                })}
-              >
-                <LinkLabels
-                  heading={'Date'}
-                  items={productionDates.map(date => ({
-                    text: date,
-                    url: null,
-                  }))}
-                />
-              </div>
-            )}
-          </div>
           <TogglesContext.Consumer>
             {({ showWorkLocations }) =>
               showWorkLocations &&
