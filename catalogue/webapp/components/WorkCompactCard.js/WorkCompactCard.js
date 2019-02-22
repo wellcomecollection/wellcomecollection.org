@@ -64,6 +64,7 @@ const WorkCompactCard = ({
             'plain-link': true,
             block: true,
             [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
+            'card-link': true,
           })}
         >
           <div className="flex">
@@ -89,6 +90,7 @@ const WorkCompactCard = ({
               <h2
                 className={classNames({
                   [font({ s: 'HNM3' })]: true,
+                  'card-link__title': true,
                 })}
               >
                 {work.title}
