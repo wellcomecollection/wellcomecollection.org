@@ -1,5 +1,6 @@
 // @flow
 import NextLink from 'next/link';
+import styled from 'styled-components';
 import { type Work } from '@weco/common/model/work';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -21,6 +22,27 @@ type Props = {|
   workType: string[],
   itemsLocationsLocationType: string[],
 |};
+
+const Container = styled.div`
+  ${props => props.theme.media.medium`
+    display: flex;
+  `}
+`;
+const Details = styled.div`
+  ${props => props.theme.media.medium`
+    flex-grow: 1;
+  `}
+`;
+const Preview = styled.div`
+  margin-top: ${props => props.theme.spacingUnit * 2}px;
+  ${props => props.theme.media.medium`
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: '178px';
+    height: '178px';
+    margin-top: 0;
+  `}
+`;
 
 const WorkCard = ({
   work,
@@ -75,8 +97,8 @@ const WorkCard = ({
             });
           }}
         >
-          <div className="flex">
-            <div style={{ flexGrow: 1 }}>
+          <Container>
+            <Details>
               <div
                 className={classNames({
                   flex: true,
@@ -132,9 +154,9 @@ const WorkCard = ({
                   </div>
                 )}
               </div>
-            </div>
-            {/**/}
-            <div
+            </Details>
+
+            <Preview
               className={classNames({
                 [spacing({ s: 2 }, { margin: ['left'] })]: true,
                 'text-align-center': true,
@@ -160,8 +182,8 @@ const WorkCard = ({
                   }}
                 />
               )}
-            </div>
-          </div>
+            </Preview>
+          </Container>
 
           <TogglesContext.Consumer>
             {({ showWorkLocations }) =>
