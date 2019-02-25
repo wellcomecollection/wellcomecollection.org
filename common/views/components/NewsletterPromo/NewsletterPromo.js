@@ -1,35 +1,7 @@
 // @flow
 import Button from '../Buttons/Button/Button';
 import { grid, spacing, font, classNames } from '../../../utils/classnames';
-import styled from 'styled-components';
-
-const RepeatingLs = styled.div`
-  position: relative;
-  height: 100%;
-  background: repeating-linear-gradient(
-    -45deg,
-    hotpink,
-    hotpink 10px,
-    ${props => props.theme.colors.brown} 10px,
-    ${props => props.theme.colors.brown} 50px
-  );
-
-  &:before {
-    position: absolute;
-    content: '';
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      ${props => props.theme.colors.brown},
-      ${props => props.theme.colors.brown} 20px,
-      transparent 10px,
-      transparent 60px
-    );
-  }
-`;
+import RepeatingLs from '../RepeatingLs/RepeatingLs';
 
 const NewsletterPromo = () => (
   <div className="row">
@@ -75,6 +47,8 @@ const NewsletterPromo = () => (
           </div>
           <div
             className={classNames({
+              relative: true,
+              'flex flex--v-center': true,
               [grid({ s: 12, m: 6, l: 4, shiftL: 2, xl: 4, shiftXl: 2 })]: true,
               [spacing(
                 { s: 2 },
@@ -82,14 +56,14 @@ const NewsletterPromo = () => (
               )]: true,
             })}
           >
-            <RepeatingLs>
-              <Button
-                type="secondary"
-                extraClasses="btn--primary"
-                url="/newsletter"
-                text="Sign up"
-              />
-            </RepeatingLs>
+            <RepeatingLs foreground={'teal'} background={'brown'} />
+
+            <Button
+              type="secondary"
+              extraClasses="btn--primary relative"
+              url="/newsletter"
+              text="Sign up"
+            />
           </div>
         </div>
       </div>
