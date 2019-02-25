@@ -4,6 +4,48 @@ import { Fragment } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 
+const BookContainer = styled.div`
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+  word-spacing: 0;
+
+  & > img {
+    display: block;
+  }
+
+  & > img,
+  &::before,
+  &::after {
+    /* Add shadow to distinguish sheets from one another */
+    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+  }
+
+  /* Second sheet of paper */
+  &::before {
+    left: 7px;
+    top: 7px;
+    z-index: -1;
+  }
+
+  /* Third sheet of paper */
+  &::after {
+    left: 14px;
+    top: 14px;
+    z-index: -2;
+  }
+`;
+
 const ScrollContainer = styled.div`
   overflow-x: scroll;
 
@@ -54,14 +96,14 @@ const IIIFPresentationDisplay = ({
           {sequence.canvases.length > 1 && (
             <Fragment>
               {!showMultiImageWorkPreview && (
-                <div key={sequence.canvases[0].thumbnail['@id']}>
+                <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
                   <img
                     style={{ width: 'auto' }}
                     src={iiifImageTemplate(
                       sequence.canvases[0].thumbnail.service['@id']
                     )({ size: `,${previewSize * 2}` })}
                   />
-                </div>
+                </BookContainer>
               )}
               {showMultiImageWorkPreview && (
                 <ScrollContainer
