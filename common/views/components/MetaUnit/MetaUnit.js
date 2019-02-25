@@ -1,29 +1,8 @@
 // @flow
 import type { Node } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import type { NextLinkType } from '@weco/common/model/next-link-type';
-import styled from 'styled-components';
-
-const WorkTag = styled.div`
-  border-radius: 3px;
-  text-decoration: none;
-  padding: 0.05em 0.5em;
-  transition: color 250ms ease, background 250ms ease;
-`;
-
-const workTagClasses = classNames({
-  [spacing({ s: 1 }, { margin: ['right'] })]: true,
-  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-  'inline-block bg-hover-green font-hover-white': true,
-  'border-color-green border-width-1': true,
-});
-
-type WorkTagType = {|
-  query: string,
-  textParts: string[],
-  linkAttributes: NextLinkType,
-|};
+import { type WorkTagType, default as WorkTags } from '../WorkTags/WorkTags';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -92,63 +71,6 @@ const LinksList = ({ links }) => {
   );
 };
 
-type TagsListProps = {
-  tags: WorkTagType[],
-};
-
-const TagsList = ({ tags }: TagsListProps) => {
-  return (
-    <ul
-      className={classNames({
-        'plain-list': true,
-        [spacing({ s: 0 }, { padding: ['left'] })]: true,
-      })}
-    >
-      {tags.map(({ query, textParts, linkAttributes }) => {
-        return (
-          <li
-            key={query}
-            className={classNames({
-              'inline-block': true,
-            })}
-          >
-            <NextLink {...linkAttributes}>
-              <a>
-                <WorkTag className={workTagClasses}>
-                  {textParts.map((part, i, arr) => (
-                    <span
-                      key={part}
-                      className={classNames({
-                        [font({ s: 'HNM5', m: 'HNM4' })]: i === 0,
-                        [font({ s: 'HNL5', m: 'HNL4' })]: i !== 0,
-                        [spacing({ s: 1 }, { margin: ['right'] })]:
-                          i !== arr.length - 1,
-                        'inline-block': true,
-                      })}
-                    >
-                      {part}
-                      {i !== arr.length - 1 && (
-                        <span
-                          className={classNames({
-                            [font({ s: 'HNL4' })]: true,
-                          })}
-                        >
-                          {' '}
-                          {i === 0 ? '|' : '–'}
-                        </span>
-                      )}
-                    </span>
-                  ))}
-                </WorkTag>
-              </a>
-            </NextLink>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
-
 const List = ({ list }) => {
   return (
     list.length > 0 && (
@@ -201,7 +123,7 @@ const MetaUnit = ({
       <Paragraphs text={text} />
       <LinksList links={links} />
       <List list={list} />
-      <TagsList tags={tags} />
+      <WorkTags tags={tags} />
       {children}
     </div>
   );
