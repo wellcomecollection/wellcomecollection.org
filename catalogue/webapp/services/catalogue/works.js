@@ -117,6 +117,9 @@ export async function getWork({
       ...json,
     };
   } else {
-    return json;
+    return {
+      iiifManifest: null,
+      ...json,
+    };
   }
 }

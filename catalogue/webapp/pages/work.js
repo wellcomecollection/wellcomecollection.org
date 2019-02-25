@@ -22,7 +22,6 @@ import { worksUrl } from '../services/catalogue/urls';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 
 type Props = {|
-  manifestData: any,
   work: Work | CatalogueApiError,
   workType: string[],
   query: ?string,
@@ -205,7 +204,7 @@ WorkPage.getInitialProps = async (
   const workOrError = await getWork({ id });
   const {
     useBetaDownloadComponent,
-    // showSingleImageWorkPreview,
+    showSingleImageWorkPreview,
   } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
@@ -227,7 +226,7 @@ WorkPage.getInitialProps = async (
       workType,
       itemsLocationsLocationType,
       useBetaDownloadComponent,
-      showSingleImageWorkPreview: true,
+      showSingleImageWorkPreview,
     };
   }
 };
