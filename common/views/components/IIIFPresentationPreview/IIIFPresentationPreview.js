@@ -2,6 +2,7 @@
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { Fragment } from 'react';
 import styled from 'styled-components';
+import { classNames } from '../../../utils/classnames';
 
 const ScrollContainer = styled.div`
   overflow-x: scroll;
@@ -67,20 +68,36 @@ const IIIFPresentationDisplay = ({
                   key={`${sequence.canvases[0].thumbnail['@id']}-2`}
                 >
                   <div>
-                    {sequence.canvases.map(canvas => {
+                    {sequence.canvases.map((canvas, i) => {
                       return (
                         <img
                           key={canvas.thumbnail.service['@id']}
+                          className={classNames({
+                            'lazy-image lazyload': i > 3,
+                          })}
                           style={{
                             width: 'auto',
                             height: `${previewSize}px`,
                             marginRight: '3px',
                           }}
-                          src={iiifImageTemplate(
-                            canvas.thumbnail.service['@id']
-                          )({
-                            size: `,${previewSize}`,
-                          })}
+                          src={
+                            i < 4
+                              ? iiifImageTemplate(
+                                  canvas.thumbnail.service['@id']
+                                )({
+                                  size: `,${previewSize}`,
+                                })
+                              : null
+                          }
+                          data-src={
+                            i > 3
+                              ? iiifImageTemplate(
+                                  canvas.thumbnail.service['@id']
+                                )({
+                                  size: `,${previewSize}`,
+                                })
+                              : null
+                          }
                         />
                       );
                     })}
