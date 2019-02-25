@@ -11,6 +11,7 @@ import {
   getProductionDates,
   getWorkTypeIcon,
 } from '@weco/common/utils/works';
+import { trackEvent } from '@weco/common/utils/ga';
 import { workUrl } from '../../services/catalogue/urls';
 
 type Props = {|
@@ -21,7 +22,7 @@ type Props = {|
   itemsLocationsLocationType: string[],
 |};
 
-const WorkCompactCard = ({
+const WorkCard = ({
   work,
   query,
   page,
@@ -66,6 +67,13 @@ const WorkCompactCard = ({
             [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
             'card-link': true,
           })}
+          onClick={() => {
+            trackEvent({
+              category: 'WorkCard',
+              action: 'follow link',
+              label: work.id,
+            });
+          }}
         >
           <div className="flex">
             <div style={{ flexGrow: 1 }}>
@@ -191,4 +199,4 @@ const WorkCompactCard = ({
     </div>
   );
 };
-export default WorkCompactCard;
+export default WorkCard;
