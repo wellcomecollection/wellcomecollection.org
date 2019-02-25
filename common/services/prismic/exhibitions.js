@@ -189,6 +189,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const exhibition = {
     ...genericFields,
     type: 'exhibitions',
+    shortTitle: data.shortTitle && asText(data.shortTitle),
     format: format,
     description: description,
     intro: intro,

@@ -25,16 +25,7 @@ function setCookie(name, value, domain = 'wellcomecollection.org') {
     ''}; Path=/; Domain=${domain}; ${expiration}`;
 }
 
-const abTests = [
-  {
-    id: 'useBetaDownloadComponent',
-    title: 'Use the beta download component',
-    description:
-      'Use the beta version of the download component, ' +
-      'which will be more compatible with multiple download options in the future.' +
-      "We first want to check it doesn't negatively effect current download behaviour.",
-  },
-];
+const abTests = [];
 
 const featureToggles = [
   {
@@ -44,6 +35,13 @@ const featureToggles = [
       'We currently filter the results of the catalogue to show Pictures and ' +
       'Digital images work types, and only results with images.' +
       'This will show unfilter those results, and allow for filtering.',
+  },
+  {
+    id: 'imagelessSearchResult',
+    title: 'Imageless search results',
+    description:
+      "Uses a search results that doesn't need to have an image, but, if " +
+      'need be, can',
   },
   {
     id: 'showWorkLocations',

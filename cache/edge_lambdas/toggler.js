@@ -10,15 +10,7 @@
 // }
 
 // This is mutable for testing
-let tests = [
-  {
-    id: 'useBetaDownloadComponent',
-    title: 'Use the beta download component',
-    shouldRun(request) {
-      return request.uri.match(/^\/works\/.+/);
-    },
-  },
-];
+let tests = [];
 
 exports.setTests = function(newTests) {
   tests = newTests;
