@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
-import LicenseBeta from '@weco/common/views/components/License/LicenseBeta';
+import License from '@weco/common/views/components/License/License';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
 const DownloadButton = styled.button`
@@ -211,10 +211,7 @@ const Download = ({
                 [spacing({ s: 2 }, { margin: ['right'] })]: true,
               })}
             >
-              <LicenseBeta
-                subject={''}
-                licenseType={iiifImageLocationLicenseId}
-              />
+              <License subject={''} licenseType={iiifImageLocationLicenseId} />
             </span>
           )}
           {iiifImageLocationCredit && (
