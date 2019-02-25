@@ -1,23 +1,12 @@
 // @flow
-import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment } from 'react';
 
 type Props = {|
-  manifestLocation: string,
+  manifestData: any,
 |};
 
-const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
-  const [manifestData, setManifestData] = useState(null);
-
-  useEffect(() => {
-    fetch(manifestLocation)
-      .then(resp => resp.json())
-      .then(json => {
-        setManifestData(json);
-      });
-  }, []);
-
+const IIIFPresentationDisplay = ({ manifestData }: Props) => {
   const validSequences =
     (manifestData &&
       manifestData.sequences
@@ -29,25 +18,28 @@ const IIIFPresentationDisplay = ({ manifestLocation }: Props) => {
     [];
 
   return (
-    manifestData && (
-      <Fragment>
-        {validSequences.map(sequence => (
-          <Fragment key={sequence['@id']}>
-            {sequence.canvases.length > 1 && (
-              <div key={sequence.canvases[0].thumbnail['@id']}>
-                <img
-                  style={{ width: 'auto' }}
-                  src={iiifImageTemplate(
-                    sequence.canvases[0].thumbnail.service['@id']
-                  )({ size: `,400` })}
-                />
-              </div>
-            )}
-          </Fragment>
-        ))}
-      </Fragment>
-    )
+    <Fragment>
+      {validSequences.map(sequence => (
+        <Fragment key={sequence['@id']}>
+          {sequence.canvases.length > 1 && (
+            <div key={sequence.canvases[0].thumbnail['@id']}>
+              <img
+                style={{ width: 'auto' }}
+                src={iiifImageTemplate(
+                  sequence.canvases[0].thumbnail.service['@id']
+                )({ size: `,400` })}
+              />
+              <p>{sequence.canvases.length} images</p>
+            </div>
+          )}
+        </Fragment>
+      ))}
+    </Fragment>
   );
 };
 
 export default IIIFPresentationDisplay;
+// TODO image alt
+// TODO show specific pages e.g. cover OR title page OR first image?
+// TODO what happens when no javascript available
+// TODO import IIIFBookPreview?
