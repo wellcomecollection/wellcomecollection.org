@@ -123,7 +123,7 @@ const MetaUnit = ({
       <Paragraphs text={text} />
       <LinksList links={links} />
       <List list={list} />
-      <WorkTags tags={tags} />
+      {tags.length > 0 && <WorkTags tags={tags} />}
       {children}
     </div>
   );
