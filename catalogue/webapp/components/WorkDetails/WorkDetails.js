@@ -5,7 +5,7 @@ import type { LicenseType } from '@weco/common/model/license';
 
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
-import { worksUrl } from '../../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';

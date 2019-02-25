@@ -12,6 +12,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import WorkTags from '../WorkTags/WorkTags';
+import { worksUrl } from '../../../services/catalogue/urls';
 
 type Props = {|
   work: Work,
@@ -76,10 +77,10 @@ const WorkHeader = ({ work }: Props) => {
                     return {
                       query: agent.label,
                       textParts: [agent.label],
-                      linkAttributes: {
-                        href: `/works?query="${agent.label}"`,
-                        as: `/works?query="${agent.label}"`,
-                      },
+                      linkAttributes: worksUrl({
+                        query: `"${agent.label}"`,
+                        page: 1,
+                      }),
                     };
                   })}
                 />

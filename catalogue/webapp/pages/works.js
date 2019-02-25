@@ -18,8 +18,8 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import { workUrl, worksUrl } from '../services/catalogue/urls';
-import WorkCompactCard from '../components/WorkCompactCard.js/WorkCompactCard';
+import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
+import WorkCompactCard from '../components/WorkCompactCard/WorkCompactCard';
 
 type Props = {|
   query: ?string,

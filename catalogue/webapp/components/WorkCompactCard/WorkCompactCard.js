@@ -11,7 +11,7 @@ import {
   getProductionDates,
   getWorkTypeIcon,
 } from '@weco/common/utils/works';
-import { workUrl } from '../../services/catalogue/urls';
+import { workUrl } from '@weco/common/services/catalogue/urls';
 
 type Props = {|
   work: Work,
