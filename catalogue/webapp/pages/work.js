@@ -19,7 +19,7 @@ import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentat
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
-import { worksUrl } from '../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 
 type Props = {|
