@@ -14,7 +14,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import DownloadBeta from '../Download/DownloadBeta';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
@@ -95,7 +94,6 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  useBetaDownloadComponent: boolean,
   showSingleImageWorkPreview: boolean,
 |};
 
@@ -106,7 +104,6 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
-  useBetaDownloadComponent,
   showSingleImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
@@ -125,7 +122,10 @@ const WorkDetails = ({
     .filter(Boolean);
 
   const WorkDetailsSections = [];
-  if (iiifImageLocationUrl || iiifPresentationLocation) {
+  if (
+    showSingleImageWorkPreview &&
+    (iiifImageLocationUrl || iiifPresentationLocation)
+  ) {
     // TODO IIIFPresentationPreview
     // TODO flow
     WorkDetailsSections.push(
@@ -142,32 +142,17 @@ const WorkDetails = ({
     );
   }
   if (iiifImageLocationUrl) {
-    // TODO prob. make part of preview section
-    if (useBetaDownloadComponent) {
-      WorkDetailsSections.push(
-        <SpacingComponent>
-          <DownloadBeta
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </SpacingComponent>
-      );
-    } else {
-      WorkDetailsSections.push(
-        <StyledWorkDetailsSection>
-          <Download
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </StyledWorkDetailsSection>
-      );
-    }
+    WorkDetailsSections.push(
+      <StyledWorkDetailsSection>
+        <Download
+          work={work}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        />
+      </StyledWorkDetailsSection>
+    );
   }
   if (
     work.description ||

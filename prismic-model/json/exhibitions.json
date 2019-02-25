@@ -18,6 +18,13 @@
         "useAsTitle": true
       }
     },
+    "shortTitle": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Short title",
+        "single": "heading1"
+      }
+    },
     "body": {
       "fieldset": "Body content",
       "type": "Slices",

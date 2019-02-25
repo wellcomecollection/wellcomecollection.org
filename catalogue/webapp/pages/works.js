@@ -28,6 +28,7 @@ type Props = {|
   workType: string[],
   itemsLocationsLocationType: string[],
   showCatalogueSearchFilters: boolean,
+  imagelessSearchResult: boolean,
 |};
 
 export const Works = ({
@@ -37,6 +38,7 @@ export const Works = ({
   workType,
   itemsLocationsLocationType,
   showCatalogueSearchFilters,
+  imagelessSearchResult,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -67,6 +69,17 @@ export const Works = ({
       />
     );
   }
+
+  // This is very convoluted, but you can't do arry equality because, JavaScript
+  // e.g. itemsLocationsLocationType === ['iiif-image'] is always false.
+  const useImagelessResult =
+    imagelessSearchResult ||
+    (showCatalogueSearchFilters &&
+      !(
+        workType.toString() === 'k,q' &&
+        itemsLocationsLocationType.length === 1 &&
+        itemsLocationsLocationType[0] === 'iiif-image'
+      ));
 
   return (
     <Fragment>
@@ -228,7 +241,7 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  {showCatalogueSearchFilters &&
+                  {useImagelessResult &&
                     works.results.map(result => (
                       <div
                         className={classNames({
@@ -247,7 +260,7 @@ export const Works = ({
                         />
                       </div>
                     ))}
-                  {!showCatalogueSearchFilters &&
+                  {!useImagelessResult &&
                     works.results.map(result => (
                       <div
                         key={result.id}
@@ -366,13 +379,16 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? workTypeQuery.split(',')
     : ['k', 'q'];
 
-  const { showCatalogueSearchFilters } = ctx.query.toggles;
+  const {
+    showCatalogueSearchFilters = false,
+    imagelessSearchResult = false,
+  } = ctx.query.toggles;
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
       ? ctx.query['items.locations.locationType'].split(',')
       : showCatalogueSearchFilters
-      ? ['iiif-image', 'iiif-presentation']
+      ? ['iiif-image']
       : ['iiif-image'];
 
   const filters = {
@@ -390,6 +406,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType,
     itemsLocationsLocationType,
     showCatalogueSearchFilters,
+    imagelessSearchResult,
   };
 };
 

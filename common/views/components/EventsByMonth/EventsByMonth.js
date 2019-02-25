@@ -1,17 +1,19 @@
 // @flow
 
-import sortBy from 'lodash.sortby';
 import { Component } from 'react';
+import sortBy from 'lodash.sortby';
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
 import { classNames, cssGrid, spacing } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
-import EventPromo from '../EventPromo/EventPromo';
-import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
-import type { UiEvent } from '../../../model/events';
+import CardGrid from '../CardGrid/CardGrid';
+import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
+import { type UiEvent } from '../../../model/events';
+import { type Link } from '../../../model/link';
 
 type Props = {|
   events: UiEvent[],
+  links?: Link[],
 |};
 
 type State = {|
@@ -34,7 +36,7 @@ class EventsByMonth extends Component<Props, State> {
     activeId: null,
   };
   render() {
-    const { events } = this.props;
+    const { events, links } = this.props;
     const { activeId } = this.state;
 
     const monthsIndex = {
@@ -129,7 +131,7 @@ class EventsByMonth extends Component<Props, State> {
     });
 
     return (
-      <div className={classNames({})}>
+      <div>
         <div
           className={classNames({
             [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
@@ -183,32 +185,11 @@ class EventsByMonth extends Component<Props, State> {
                 </h2>
               </div>
             </div>
-            <div className="css-grid__container">
-              <div className="css-grid">
-                {eventsInMonths[month.id].map((event, i) => (
-                  <div
-                    key={event.id}
-                    className={classNames({
-                      [cssGrid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-                    })}
-                  >
-                    <EventPromo
-                      event={event}
-                      position={i}
-                      fromDate={london({ M: monthsIndex[month.text] })}
-                    />
-                  </div>
-                ))}
-                <div
-                  key={`${month.id}-daily-tour`}
-                  className={classNames({
-                    [cssGrid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-                  })}
-                >
-                  <DailyTourPromo />
-                </div>
-              </div>
-            </div>
+            <CardGrid
+              items={eventsInMonths[month.id].concat(dailyTourPromo)}
+              itemsPerRow={3}
+              links={links}
+            />
           </div>
         ))}
       </div>

@@ -16,15 +16,16 @@ import {
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { convertJsonToDates } from './event';
 import { exhibitionLd, eventLd, articleLd } from '@weco/common/utils/json-ld';
-import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
-import type { UiEvent } from '@weco/common/model/events';
-import type { Article } from '@weco/common/model/articles';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { type UiExhibition } from '@weco/common/model/exhibitions';
+import { type UiEvent } from '@weco/common/model/events';
+import { type Article } from '@weco/common/model/articles';
+import { type PaginatedResults } from '@weco/common/services/prismic/types';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -111,45 +112,32 @@ export class HomePage extends Component<Props> {
         </SpacingSection>
 
         <SpacingSection>
-          <SectionHeader
-            title="This week at Wellcome Collection"
-            linkText="All exhibitions and events"
-            linkUrl="/whats-on"
-          />
-          <ExhibitionsAndEvents
-            exhibitions={exhibitions}
-            events={orderEventsByNextAvailableDate(
-              filterEventsForNext7Days(events)
-            )}
-          />
+          <SpacingComponent>
+            <SectionHeader title="This week at Wellcome Collection" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <ExhibitionsAndEvents
+              exhibitions={exhibitions}
+              events={orderEventsByNextAvailableDate(
+                filterEventsForNext7Days(events)
+              )}
+              links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
+            />
+          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
-          <SectionHeader
-            title="Latest articles, comics and more"
-            linkText="All stories"
-            linkUrl="/stories"
-          />
-          <div className="css-grid__container">
-            <div className="css-grid">
-              {articles.results.map((article, i) => {
-                return (
-                  <div
-                    key={article.id}
-                    className={classNames({
-                      [cssGrid({ s: 12, m: 6, l: 3, xl: 3 })]: true,
-                    })}
-                  >
-                    <StoryPromo
-                      item={article}
-                      position={i}
-                      hasTransparentBackground={true}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <SpacingComponent>
+            <SectionHeader title="Latest articles, comics and more" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={articles.results}
+              itemsPerRow={4}
+              itemsHaveTransparentBackground={true}
+              links={[{ text: 'All stories', url: '/stories' }]}
+            />
+          </SpacingComponent>
         </SpacingSection>
       </PageLayout>
     );

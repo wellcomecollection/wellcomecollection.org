@@ -7,13 +7,9 @@ const stories = storiesOf('Components', module);
 
 const SectionHeaderExample = () => {
   const title = text('Title', 'You may have missed');
-  const linkText = text('Link text', 'More articles');
-  return (
-    <SectionHeader title={title} linkUrl='#' linkText={linkText} />
-  );
+  return <SectionHeader title={title} />;
 };
 
-stories
-  .add('Section header', SectionHeaderExample, {
-    info: Readme
-  });
+stories.add('Section header', SectionHeaderExample, {
+  info: Readme,
+});

@@ -17,6 +17,7 @@ import type { Article } from '@weco/common/model/articles';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
@@ -66,7 +67,7 @@ const SerialisedSeries = ({ series }: any) => {
           </div>
         </div>
       </Layout12>
-      <CardGrid items={series.items} hidePromoText={true} />
+      <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
     </div>
   );
 };
@@ -223,13 +224,16 @@ export class StoriesPage extends Component<Props> {
         </SpacingSection>
 
         <SpacingSection>
-          <SectionHeader
-            title="You may have missed"
-            linkText="More articles"
-            linkUrl="/articles"
-          />
-
-          <CardGrid items={articles.slice(5, 11)} />
+          <SpacingComponent>
+            <SectionHeader title="You may have missed" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={articles.slice(5, 11)}
+              itemsPerRow={3}
+              links={[{ text: 'More articles', url: '/articles' }]}
+            />
+          </SpacingComponent>
         </SpacingSection>
       </PageLayout>
     );

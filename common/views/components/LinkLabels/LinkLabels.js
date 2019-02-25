@@ -56,7 +56,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
     )}
     {items.map(({ url, text }, i) => (
       <dd
-        key={url || text}
+        key={`${url || text}-${i}`}
         className={classNames({
           'no-margin': true,
         })}
