@@ -94,7 +94,8 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  showSingleImageWorkPreview: boolean,
+  showWorkPreview: boolean,
+  showMultiImageWorkPreview: boolean,
 |};
 
 const WorkDetails = ({
@@ -104,7 +105,8 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
-  showSingleImageWorkPreview,
+  showWorkPreview,
+  showMultiImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -122,18 +124,16 @@ const WorkDetails = ({
     .filter(Boolean);
 
   const WorkDetailsSections = [];
-  if (
-    showSingleImageWorkPreview &&
-    (iiifImageLocationUrl || iiifPresentationLocation)
-  ) {
-    // TODO IIIFPresentationPreview
-    // TODO flow
+  if (showWorkPreview && (iiifImageLocationUrl || iiifPresentationLocation)) {
     WorkDetailsSections.push(
       <StyledWorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
         {iiifPresentationLocation && (
-          <IIIFPresentationPreview manifestData={work.iiifManifest} />
+          <IIIFPresentationPreview
+            manifestData={work.iiifManifest}
+            showMultiImageWorkPreview={showMultiImageWorkPreview}
+          />
         )}
         {iiifImageLocationUrl && (
           <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />

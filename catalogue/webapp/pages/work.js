@@ -27,7 +27,8 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  showSingleImageWorkPreview: boolean,
+  showWorkPreview: boolean,
+  showMultiImageWorkPreview: boolean,
 |};
 
 export const WorkPage = ({
@@ -36,7 +37,8 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showSingleImageWorkPreview,
+  showWorkPreview,
+  showMultiImageWorkPreview,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -161,7 +163,7 @@ export const WorkPage = ({
       </div>
 
       <Fragment>
-        {iiifImageLocationUrl && !showSingleImageWorkPreview && (
+        {iiifImageLocationUrl && !showWorkPreview && (
           <WorkMedia
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
@@ -176,7 +178,8 @@ export const WorkPage = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           encoreLink={encoreLink}
-          showSingleImageWorkPreview={showSingleImageWorkPreview}
+          showWorkPreview={showWorkPreview}
+          showMultiImageWorkPreview={showMultiImageWorkPreview}
         />
       </Fragment>
     </PageLayout>
@@ -199,7 +202,10 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const { showSingleImageWorkPreview } = ctx.query.toggles;
+  const {
+    showWorkPreview = false,
+    showMultiImageWorkPreview = false,
+  } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -219,7 +225,8 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      showSingleImageWorkPreview,
+      showWorkPreview,
+      showMultiImageWorkPreview,
     };
   }
 };
