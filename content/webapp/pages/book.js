@@ -206,7 +206,7 @@ export class ArticleSeriesPage extends Component<Props> {
               <Button
                 type={`primary`}
                 url={book.orderLink}
-                text="Order online"
+                text="Buy the book"
               />
             )}
           </Fragment>

@@ -14,7 +14,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import DownloadBeta from '../Download/DownloadBeta';
 
 type WorkDetailsSectionProps = {|
   className?: string,
@@ -93,7 +92,6 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  useBetaDownloadComponent: boolean,
 |};
 
 const WorkDetails = ({
@@ -103,7 +101,6 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
-  useBetaDownloadComponent,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -115,31 +112,17 @@ const WorkDetails = ({
   const WorkDetailsSections = [];
 
   if (iiifImageLocationUrl) {
-    if (useBetaDownloadComponent) {
-      WorkDetailsSections.push(
-        <SpacingComponent>
-          <DownloadBeta
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </SpacingComponent>
-      );
-    } else {
-      WorkDetailsSections.push(
-        <StyledWorkDetailsSection>
-          <Download
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </StyledWorkDetailsSection>
-      );
-    }
+    WorkDetailsSections.push(
+      <StyledWorkDetailsSection>
+        <Download
+          work={work}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        />
+      </StyledWorkDetailsSection>
+    );
   }
   if (
     work.description ||
