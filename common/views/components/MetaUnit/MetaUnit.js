@@ -2,7 +2,7 @@
 import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import { type WorkTagType, default as WorkTags } from '../WorkTags/WorkTags';
+import WorkTags, { type WorkTagType } from '../WorkTags/WorkTags';
 
 type HeadingProps = {
   headingLevel: ?number,
