@@ -161,7 +161,7 @@ const Download = ({
                   <span
                     className={classNames({
                       'font-pewter': true,
-                      'font-HNM5-s': true,
+                      [font({ s: 'HNM5' })]: true,
                       [spacing({ s: 2 }, { margin: ['left'] })]: true,
                     })}
                   >
@@ -192,7 +192,7 @@ const Download = ({
                   <span
                     className={classNames({
                       'font-pewter': true,
-                      'font-HNM5-s': true,
+                      [font({ s: 'HNM5' })]: true,
                       [spacing({ s: 2 }, { margin: ['left'] })]: true,
                     })}
                   >
