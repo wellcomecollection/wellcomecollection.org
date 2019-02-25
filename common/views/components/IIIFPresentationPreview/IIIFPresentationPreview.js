@@ -114,8 +114,8 @@ const IIIFPresentationDisplay = ({
 };
 
 export default IIIFPresentationDisplay;
-// TODO lazyLoad multi thumbnails and no-js version
-// TODO image alt
-// TODO show specific pages e.g. cover OR title page OR first image?
-// TODO what happens when no javascript available
+// TODO image alt - how do we handle this
+// TODO if we go with single image then show specific page if available title page, then cover, then first image (preferably first text image, not blank page)
 // TODO import IIIFBookPreview?
+// TODO layout / styling
+// How launch viewer and what happens in no js land
