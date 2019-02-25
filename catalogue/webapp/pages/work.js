@@ -28,7 +28,6 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  useBetaDownloadComponent: boolean,
 |};
 
 export const WorkPage = ({
@@ -37,7 +36,6 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  useBetaDownloadComponent,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -190,7 +188,6 @@ export const WorkPage = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           encoreLink={encoreLink}
-          useBetaDownloadComponent={useBetaDownloadComponent}
         />
       </Fragment>
     </PageLayout>
@@ -213,9 +210,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const useBetaDownloadComponent = Boolean(
-    ctx.query.toggles.useBetaDownloadComponent
-  );
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -235,7 +229,6 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      useBetaDownloadComponent,
     };
   }
 };
