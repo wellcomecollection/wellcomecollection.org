@@ -12,7 +12,7 @@ export type WorkTagType = {|
 const WorkTag = styled.div`
   border-radius: 3px;
   text-decoration: none;
-  padding: 0.05em 0.5em;
+  padding: 0.2em 0.5em;
   transition: color 250ms ease, background 250ms ease;
 `;
 
@@ -25,6 +25,7 @@ const WorkTags = ({ tags }: Props) => {
     <ul
       className={classNames({
         'plain-list': true,
+        [spacing({ s: 1 }, { margin: ['top'] })]: true,
         [spacing({ s: 0 }, { padding: ['left'] })]: true,
       })}
     >
@@ -42,6 +43,7 @@ const WorkTags = ({ tags }: Props) => {
                   className={classNames({
                     [spacing({ s: 1 }, { margin: ['right'] })]: true,
                     [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                    'line-height-1': true,
                     'inline-block bg-hover-green font-hover-white': true,
                     'border-color-green border-width-1': true,
                   })}
