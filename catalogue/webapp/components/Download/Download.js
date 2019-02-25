@@ -75,7 +75,7 @@ type Props = {|
   iiifImageLocationLicenseId: ?LicenseType,
 |};
 
-const DownloadBeta = ({
+const Download = ({
   work,
   iiifImageLocationUrl,
   licenseInfo,
@@ -242,4 +242,4 @@ const DownloadBeta = ({
   );
 };
 
-export default DownloadBeta;
+export default Download;
