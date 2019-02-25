@@ -125,7 +125,10 @@ const WorkDetails = ({
     .filter(Boolean);
 
   const WorkDetailsSections = [];
-  if (iiifImageLocationUrl || iiifPresentationLocation) {
+  if (
+    showSingleImageWorkPreview &&
+    (iiifImageLocationUrl || iiifPresentationLocation)
+  ) {
     // TODO IIIFPresentationPreview
     WorkDetailsSections.push(
       <StyledWorkDetailsSection
