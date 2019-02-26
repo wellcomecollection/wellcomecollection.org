@@ -89,6 +89,7 @@
 }
 
 .input__control-indicator--checkbox {
+  background: color('white');
   &:after {
     transition: opacity 400ms ease;
   }

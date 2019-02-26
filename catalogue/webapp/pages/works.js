@@ -154,6 +154,7 @@ export const Works = ({
                   ariaDescribedBy="search-form-description"
                   compact={false}
                   showFilters={Boolean(works)}
+                  reactiveFilters={query !== ''}
                 />
                 <p
                   className={classNames({

@@ -16,6 +16,7 @@ type Props = {|
   ariaDescribedBy: string,
   compact: boolean,
   showFilters: boolean,
+  reactiveFilters: boolean,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -67,21 +68,42 @@ const SearchTag = ({
           { s: 1 },
           { padding: ['left', 'right'], margin: ['left'] }
         )]: true,
-        [font({ s: 'HNL4' })]: true,
       })}
       style={{ borderRadius: '3px', textDecoration: 'underline' }}
     >
-      <input
+      <div
         className={classNames({
-          [spacing({ s: 1 }, { margin: ['right'] })]: true,
+          flex: true,
+          'flex--v-center': true,
         })}
-        type="checkbox"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      {label}
+      >
+        <input
+          className={classNames({
+            input: true,
+            'input--checkbox': true,
+            [font({ s: 'HNL3' })]: true,
+          })}
+          type="checkbox"
+          name={name}
+          value={value}
+          checked={checked}
+          onChange={onChange}
+        />
+        <span
+          className={classNames({
+            'input__control-indicator': true,
+            'input__control-indicator--checkbox': true,
+            [spacing({ s: 1 }, { margin: ['right'] })]: true,
+          })}
+        />
+        <span
+          className={classNames({
+            [font({ s: 'HNL4' })]: true,
+          })}
+        >
+          {label}
+        </span>
+      </div>
     </label>
   );
 };
@@ -94,6 +116,7 @@ const SearchForm = ({
   compact,
   // This only works in conjunction with the toggle
   showFilters,
+  reactiveFilters,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
@@ -194,9 +217,6 @@ const SearchForm = ({
               (showCatalogueSearchFilters || feedback) && (
                 <div
                   className={classNames({
-                    flex: true,
-                    'flex--wrap': true,
-                    'flex--v-center': true,
                     [spacing({ s: 1 }, { margin: ['top'] })]: true,
                   })}
                 >
@@ -228,87 +248,99 @@ const SearchForm = ({
                         left: '1px',
                       }}
                     >
-                      <legend
-                        className={classNames({
-                          'float-l': true,
-                          [font({ s: 'HNM4' })]: true,
-                        })}
-                        style={{ marginTop: '3px' }}
-                      >
-                        Filter by
-                      </legend>
-                      <SearchTag
-                        name={'workType'}
-                        label="Books"
-                        value="a"
-                        checked={workType.indexOf('a') !== -1}
-                        onChange={event => {
-                          const input = event.currentTarget;
-                          const newWorkType = input.checked
-                            ? [...workType, 'a']
-                            : workType.filter(val => val !== 'a');
-                          setWorkType(newWorkType);
+                      <div className={classNames({ flex: true })}>
+                        <legend
+                          className={classNames({
+                            'float-l': true,
+                            [font({ s: 'HNM4' })]: true,
+                          })}
+                        >
+                          Filter by
+                        </legend>
+                        <div>
+                          <SearchTag
+                            name={'workType'}
+                            label="Books"
+                            value="a"
+                            checked={workType.indexOf('a') !== -1}
+                            onChange={event => {
+                              const input = event.currentTarget;
+                              const newWorkType = input.checked
+                                ? [...workType, 'a']
+                                : workType.filter(val => val !== 'a');
 
-                          const link = worksUrl({
-                            query,
-                            workType: showCatalogueSearchFacets
-                              ? []
-                              : newWorkType,
-                            itemsLocationsLocationType,
-                            page: 1,
-                          });
+                              setWorkType(newWorkType);
 
-                          Router.push(link.href, link.as);
-                        }}
-                      />
-                      <SearchTag
-                        name={'workType'}
-                        label="Pictures"
-                        value="k"
-                        checked={workType.indexOf('k') !== -1}
-                        onChange={event => {
-                          const input = event.currentTarget;
-                          const newWorkType = input.checked
-                            ? [...workType, 'k']
-                            : workType.filter(val => val !== 'k');
-                          setWorkType(newWorkType);
+                              if (reactiveFilters && query !== '') {
+                                const link = worksUrl({
+                                  query,
+                                  workType: showCatalogueSearchFacets
+                                    ? []
+                                    : newWorkType,
+                                  itemsLocationsLocationType,
+                                  page: 1,
+                                });
 
-                          const link = worksUrl({
-                            query,
-                            workType: showCatalogueSearchFacets
-                              ? []
-                              : newWorkType,
-                            itemsLocationsLocationType,
-                            page: 1,
-                          });
+                                Router.push(link.href, link.as);
+                              }
+                            }}
+                          />
+                          <SearchTag
+                            name={'workType'}
+                            label="Pictures"
+                            value="k"
+                            checked={workType.indexOf('k') !== -1}
+                            onChange={event => {
+                              const input = event.currentTarget;
+                              const newWorkType = input.checked
+                                ? [...workType, 'k']
+                                : workType.filter(val => val !== 'k');
 
-                          Router.push(link.href, link.as);
-                        }}
-                      />
-                      <SearchTag
-                        name={'workType'}
-                        label="Digital images"
-                        value="q"
-                        checked={workType.indexOf('q') !== -1}
-                        onChange={event => {
-                          const input = event.currentTarget;
-                          const newWorkType = input.checked
-                            ? [...workType, 'q']
-                            : workType.filter(val => val !== 'q');
-                          setWorkType(newWorkType);
+                              setWorkType(newWorkType);
 
-                          const link = worksUrl({
-                            query,
-                            workType: showCatalogueSearchFacets
-                              ? []
-                              : newWorkType,
-                            itemsLocationsLocationType,
-                            page: 1,
-                          });
+                              if (reactiveFilters && query !== '') {
+                                const link = worksUrl({
+                                  query,
+                                  workType: showCatalogueSearchFacets
+                                    ? []
+                                    : newWorkType,
+                                  itemsLocationsLocationType,
+                                  page: 1,
+                                });
 
-                          Router.push(link.href, link.as);
-                        }}
-                      />
+                                Router.push(link.href, link.as);
+                              }
+                            }}
+                          />
+                          <SearchTag
+                            name={'workType'}
+                            label="Digital images"
+                            value="q"
+                            checked={workType.indexOf('q') !== -1}
+                            onChange={event => {
+                              const input = event.currentTarget;
+                              const newWorkType = input.checked
+                                ? [...workType, 'q']
+                                : workType.filter(val => val !== 'q');
+
+                              setWorkType(newWorkType);
+
+                              if (reactiveFilters && query !== '') {
+                                const link = worksUrl({
+                                  query,
+                                  workType: showCatalogueSearchFacets
+                                    ? []
+                                    : newWorkType,
+                                  itemsLocationsLocationType,
+                                  page: 1,
+                                });
+
+                                Router.push(link.href, link.as);
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
                     </fieldset>
                   )}
                 </div>
