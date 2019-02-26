@@ -19,6 +19,7 @@ import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
 
 type Props = {|
@@ -27,8 +28,6 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  showWorkPreview: boolean,
-  showMultiImageWorkPreview: boolean,
 |};
 
 export const WorkPage = ({
@@ -37,8 +36,6 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showWorkPreview,
-  showMultiImageWorkPreview,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -163,26 +160,30 @@ export const WorkPage = ({
         </div>
       </div>
 
-      <Fragment>
-        {iiifImageLocationUrl && !showWorkPreview && (
-          <WorkMedia
-            id={work.id}
-            iiifUrl={iiifImageLocationUrl}
-            title={work.title}
-          />
-        )}
+      <TogglesContext.Consumer>
+        {({ showWorkPreview, showMultiImageWorkPreview }) => (
+          <Fragment>
+            {iiifImageLocationUrl && !showWorkPreview && (
+              <WorkMedia
+                id={work.id}
+                iiifUrl={iiifImageLocationUrl}
+                title={work.title}
+              />
+            )}
 
-        <WorkDetails
-          work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          encoreLink={encoreLink}
-          showWorkPreview={showWorkPreview}
-          showMultiImageWorkPreview={showMultiImageWorkPreview}
-        />
-      </Fragment>
+            <WorkDetails
+              work={work}
+              iiifImageLocationUrl={iiifImageLocationUrl}
+              licenseInfo={licenseInfo}
+              iiifImageLocationCredit={iiifImageLocationCredit}
+              iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+              encoreLink={encoreLink}
+              showWorkPreview={showWorkPreview}
+              showMultiImageWorkPreview={showMultiImageWorkPreview}
+            />
+          </Fragment>
+        )}
+      </TogglesContext.Consumer>
     </PageLayout>
   );
 };
@@ -203,10 +204,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const {
-    showWorkPreview = false,
-    showMultiImageWorkPreview = false,
-  } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -226,8 +223,6 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      showWorkPreview,
-      showMultiImageWorkPreview,
     };
   }
 };
