@@ -70,7 +70,7 @@ const SearchTag = ({
         )]: true,
         [font({ s: 'HNL4' })]: true,
       })}
-      style={{ borderRadius: '3px' }}
+      style={{ borderRadius: '3px', textDecoration: 'underline' }}
     >
       <input
         className={classNames({
@@ -248,6 +248,17 @@ const SearchForm = ({
                             ? [...workType, 'a']
                             : workType.filter(val => val !== 'a');
                           setWorkType(newWorkType);
+
+                          const link = worksUrl({
+                            query,
+                            workType: showCatalogueSearchFacets
+                              ? []
+                              : newWorkType,
+                            itemsLocationsLocationType,
+                            page: 1,
+                          });
+
+                          Router.push(link.href, link.as);
                         }}
                       />
                       <SearchTag
@@ -261,6 +272,17 @@ const SearchForm = ({
                             ? [...workType, 'k']
                             : workType.filter(val => val !== 'k');
                           setWorkType(newWorkType);
+
+                          const link = worksUrl({
+                            query,
+                            workType: showCatalogueSearchFacets
+                              ? []
+                              : newWorkType,
+                            itemsLocationsLocationType,
+                            page: 1,
+                          });
+
+                          Router.push(link.href, link.as);
                         }}
                       />
                       <SearchTag
@@ -274,6 +296,17 @@ const SearchForm = ({
                             ? [...workType, 'q']
                             : workType.filter(val => val !== 'q');
                           setWorkType(newWorkType);
+
+                          const link = worksUrl({
+                            query,
+                            workType: showCatalogueSearchFacets
+                              ? []
+                              : newWorkType,
+                            itemsLocationsLocationType,
+                            page: 1,
+                          });
+
+                          Router.push(link.href, link.as);
                         }}
                       />
                     </fieldset>
