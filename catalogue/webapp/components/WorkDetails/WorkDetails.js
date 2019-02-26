@@ -7,6 +7,7 @@ import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
@@ -337,12 +338,14 @@ const WorkDetails = ({
               return (
                 <Fragment key={i}>
                   {i > 0 && (
-                    <SpacingComponent>
-                      <Divider extraClasses="divider--pumice divider--keyline" />
-                    </SpacingComponent>
+                    <>
+                      <SpacingComponent>
+                        <Divider extraClasses="divider--pumice divider--keyline" />
+                      </SpacingComponent>
+                      <SpacingComponent />
+                    </>
                   )}
-
-                  <SpacingComponent>{section}</SpacingComponent>
+                  <SpacingSection>{section}</SpacingSection>
                 </Fragment>
               );
             })}
