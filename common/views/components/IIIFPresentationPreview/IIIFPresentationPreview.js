@@ -3,6 +3,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { Fragment } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const BookContainer = styled.div`
   display: inline-block;
@@ -146,7 +147,14 @@ const IIIFPresentationDisplay = ({
                   </div>
                 </ScrollContainer>
               )}
-              <p className="no-margin">{sequence.canvases.length} images</p>
+              {/* TODO temporary links to large image for ttesting, while we don't have a viewer */}
+              <Button
+                type="primary"
+                url={iiifImageTemplate(
+                  sequence.canvases[0].thumbnail.service['@id']
+                )({ size: ',1024' })}
+                text={`View all ${sequence.canvases.length} images`}
+              />
             </Fragment>
           )}
         </Fragment>
@@ -160,4 +168,3 @@ export default IIIFPresentationDisplay;
 // TODO if we go with single image then show specific page if available title page, then cover, then first image (preferably first text image, not blank page)
 // TODO import IIIFBookPreview?
 // TODO layout / styling
-// How launch viewer and what happens in no js land
