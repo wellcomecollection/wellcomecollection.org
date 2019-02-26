@@ -57,7 +57,7 @@ const featureToggles = [
   },
   {
     id: 'showMultiImageWorkPreview',
-    title: 'Work preview',
+    title: 'Work preview with multiple images',
     description:
       'This toggle should be used in conjunction with the showWorkPreview toggle. Where a work has multiple images, we can try showing more of them.',
   },
