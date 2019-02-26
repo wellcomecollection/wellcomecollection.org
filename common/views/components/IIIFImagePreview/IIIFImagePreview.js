@@ -127,7 +127,7 @@ const IIIFImagePreview = ({ iiifImageLocationUrl }: IIIFImagePreviewProps) => {
           'cursor-zoom-in': jsEnabled,
           [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
         })}
-        style={{ width: 'auto', display: 'block' }}
+        style={{ width: 'auto', height: '300px', display: 'block' }}
         src={thumbnailUrl}
         alt=""
         onClick={() => {

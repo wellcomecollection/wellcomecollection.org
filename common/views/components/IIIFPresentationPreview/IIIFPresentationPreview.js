@@ -104,7 +104,7 @@ const IIIFPresentationDisplay = ({
                     )({ size: ',1024' })}
                   >
                     <img
-                      style={{ width: 'auto' }}
+                      style={{ width: 'auto', height: '300px' }}
                       src={iiifImageTemplate(
                         sequence.canvases[0].thumbnail.service['@id']
                       )({ size: `,${previewSize * 2}` })}
@@ -131,7 +131,7 @@ const IIIFPresentationDisplay = ({
                             })}
                             style={{
                               width: 'auto',
-                              height: `${previewSize}px`,
+                              height: '300px',
                               marginRight: '6px',
                             }}
                             src={
@@ -160,14 +160,16 @@ const IIIFPresentationDisplay = ({
                 </ScrollContainer>
               )}
               {/* TODO temporary links to large image for ttesting, while we don't have a viewer */}
-              <Button
-                type="primary"
-                url={iiifImageTemplate(
-                  sequence.canvases[0].thumbnail.service['@id']
-                )({ size: ',1024' })}
-                text={`View all ${sequence.canvases.length} images`}
-                icon="gallery"
-              />
+              <div>
+                <Button
+                  type="primary"
+                  url={iiifImageTemplate(
+                    sequence.canvases[0].thumbnail.service['@id']
+                  )({ size: ',1024' })}
+                  text={`View all ${sequence.canvases.length} images`}
+                  icon="gallery"
+                />
+              </div>
             </Fragment>
           )}
         </Fragment>
