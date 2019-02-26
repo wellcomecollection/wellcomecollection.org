@@ -13,6 +13,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
+import DownloadDummy from '../Download/DownloadDummy';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
@@ -142,6 +143,13 @@ const WorkDetails = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         />
+      </StyledWorkDetailsSection>
+    );
+  }
+  if (!iiifImageLocationUrl && showWorkPreview) {
+    WorkDetailsSections.push(
+      <StyledWorkDetailsSection>
+        <DownloadDummy />
       </StyledWorkDetailsSection>
     );
   }
