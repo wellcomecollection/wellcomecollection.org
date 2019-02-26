@@ -1,12 +1,15 @@
+// @flow
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import styled from 'styled-components';
 import { spacing, font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import type { NextLinkType } from '@weco/common/model/next-link-type';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 export type WorkTagType = {|
   query: string,
   textParts: string[],
   linkAttributes: NextLinkType,
+  selected?: boolean,
 |};
 
 const WorkTag = styled.div`
@@ -34,7 +37,7 @@ const WorkTags = ({ tags }: Props) => {
           [spacing({ s: 0 }, { padding: ['left'], margin: ['top'] })]: true,
         })}
       >
-        {tags.map(({ query, textParts, linkAttributes }) => {
+        {tags.map(({ query, textParts, linkAttributes, selected }) => {
           return (
             <li
               key={query}
@@ -49,7 +52,9 @@ const WorkTags = ({ tags }: Props) => {
                       [spacing({ s: 1 }, { margin: ['right'] })]: true,
                       [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
                       'line-height-1': true,
-                      'inline-block bg-hover-green font-hover-white': true,
+                      'inline-block': true,
+                      'bg-hover-green font-hover-white': !selected,
+                      'bg-green font-white': selected,
                       'border-color-green border-width-1': true,
                     })}
                   >
@@ -64,7 +69,12 @@ const WorkTags = ({ tags }: Props) => {
                           'inline-block': true,
                         })}
                       >
-                        {part}
+                        <div className="flex">
+                          {part}
+                          {selected && (
+                            <Icon name="cross" extraClasses="icon--24" />
+                          )}
+                        </div>
                         {i !== arr.length - 1 && (
                           <span
                             className={classNames({

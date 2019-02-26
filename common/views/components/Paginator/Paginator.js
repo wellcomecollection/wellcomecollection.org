@@ -117,6 +117,18 @@ const Paginator = ({
             </a>
           </NextLink>
         )}
+        {!prev && (
+          <div style={{ opacity: 0.25 }}>
+            <Control
+              type="light"
+              extraClasses={`icon--180 ${spacing(
+                { s: 2 },
+                { margin: ['right'] }
+              )}`}
+              icon="arrow"
+            />
+          </div>
+        )}
 
         <span>
           Page {currentPage} of {totalPages}
@@ -137,6 +149,15 @@ const Paginator = ({
               />
             </a>
           </NextLink>
+        )}
+        {!next && (
+          <div style={{ opacity: 0.25 }}>
+            <Control
+              type="light"
+              extraClasses={`${spacing({ s: 2 }, { margin: ['left'] })}`}
+              icon="arrow"
+            />
+          </div>
         )}
       </div>
     </Fragment>

@@ -1,9 +1,7 @@
 // @flow
 import { type CatalogueResultsList } from '@weco/common/model/catalogue';
-import { type NextLinkType } from '@weco/common/model/next-link-type';
 import { useState, useRef } from 'react';
 import Router from 'next/router';
-import NextLink from 'next/link';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -46,37 +44,46 @@ const ClearSearch = styled.button`
 `;
 
 type SearchTagProps = {
-  link: NextLinkType,
   label: string,
+  name: string,
+  value: string,
   checked: boolean,
+  onChange: (event: SyntheticEvent<HTMLInputElement>) => void,
 };
-const SearchTag = ({ link, label, checked }: SearchTagProps) => {
+
+const SearchTag = ({
+  label,
+  name,
+  value,
+  checked,
+  onChange,
+}: SearchTagProps) => {
   return (
-    <NextLink {...link}>
-      <a
+    <label
+      className={classNames({
+        'flex-inline': true,
+        'flex--v-center': true,
+        pointer: true,
+        [spacing(
+          { s: 1 },
+          { padding: ['left', 'right'], margin: ['left'] }
+        )]: true,
+        [font({ s: 'HNL4' })]: true,
+      })}
+      style={{ borderRadius: '3px' }}
+    >
+      <input
         className={classNames({
-          // 'bg-pumice': true,
-          'flex-inline': true,
-          'flex--v-center': true,
-          pointer: true,
-          [spacing(
-            { s: 1 },
-            { padding: ['left', 'right'], margin: ['left'] }
-          )]: true,
-          [font({ s: 'HNL4' })]: true,
+          [spacing({ s: 1 }, { margin: ['right'] })]: true,
         })}
-        style={{ borderRadius: '3px', textDecoration: 'underline' }}
-      >
-        <input
-          className={classNames({
-            [spacing({ s: 1 }, { margin: ['right'] })]: true,
-          })}
-          type="checkbox"
-          checked={checked}
-        />
-        {label}
-      </a>
-    </NextLink>
+        type="checkbox"
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
+      {label}
+    </label>
   );
 };
 
@@ -89,7 +96,7 @@ const SearchForm = ({
   works,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
-  const workType = initialWorkType;
+  const [workType, setWorkType] = useState(initialWorkType);
   const [itemsLocationsLocationType] = useState(
     initialItemsLocationsLocationType
   );
@@ -222,52 +229,46 @@ const SearchForm = ({
                     })}
                     style={{ marginTop: '3px' }}
                   >
-                    Filter by:
+                    Filter by
                   </legend>
                   <SearchTag
                     name={'workType'}
-                    label="Digital images"
-                    value="q"
-                    checked={workType.indexOf('q') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('q') !== -1
-                          ? workType.filter(workType => workType !== 'q')
-                          : [...workType, 'q'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
+                    label="Books"
+                    value="a"
+                    checked={workType.indexOf('a') !== -1}
+                    onChange={event => {
+                      const input = event.currentTarget;
+                      const newWorkType = input.checked
+                        ? [...workType, 'a']
+                        : workType.filter(val => val !== 'a');
+                      setWorkType(newWorkType);
+                    }}
                   />
                   <SearchTag
                     name={'workType'}
                     label="Pictures"
                     value="k"
                     checked={workType.indexOf('k') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('k') !== -1
-                          ? workType.filter(workType => workType !== 'k')
-                          : [...workType, 'k'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
+                    onChange={event => {
+                      const input = event.currentTarget;
+                      const newWorkType = input.checked
+                        ? [...workType, 'k']
+                        : workType.filter(val => val !== 'k');
+                      setWorkType(newWorkType);
+                    }}
                   />
                   <SearchTag
                     name={'workType'}
-                    label="Books"
-                    value="a"
-                    checked={workType.indexOf('a') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('a') !== -1
-                          ? workType.filter(workType => workType !== 'a')
-                          : [...workType, 'a'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
+                    label="Digital images"
+                    value="q"
+                    checked={workType.indexOf('q') !== -1}
+                    onChange={event => {
+                      const input = event.currentTarget;
+                      const newWorkType = input.checked
+                        ? [...workType, 'q']
+                        : workType.filter(val => val !== 'q');
+                      setWorkType(newWorkType);
+                    }}
                   />
                 </fieldset>
               )}

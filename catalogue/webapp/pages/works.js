@@ -8,14 +8,15 @@ import {
   type CatalogueResultsList,
 } from '@weco/common/model/catalogue';
 import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
+import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
+import WorkTags from '@weco/common/views/components/WorkTags/WorkTags';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -225,6 +226,63 @@ export const Works = ({
             </div>
 
             <div
+              className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}
+            >
+              <div className="container">
+                <div className="grid">
+                  <div className="grid__cell">
+                    <WorkTags
+                      tags={[
+                        {
+                          query: 'Books',
+                          textParts: ['Books'],
+                          selected: workType.indexOf('a') !== -1,
+                          linkAttributes: worksUrl({
+                            query,
+                            itemsLocationsLocationType,
+                            page,
+                            workType:
+                              workType.indexOf('a') !== -1
+                                ? workType.filter(workType => workType !== 'a')
+                                : [...workType, 'a'],
+                          }),
+                        },
+                        {
+                          query: 'Pictures',
+                          textParts: ['Pictures'],
+                          selected: workType.indexOf('k') !== -1,
+                          linkAttributes: worksUrl({
+                            query,
+                            itemsLocationsLocationType,
+                            page,
+                            workType:
+                              workType.indexOf('k') !== -1
+                                ? workType.filter(workType => workType !== 'k')
+                                : [...workType, 'k'],
+                          }),
+                        },
+                        {
+                          query: 'Digital images',
+                          textParts: ['Digital images'],
+                          selected: workType.indexOf('q') !== -1,
+                          linkAttributes: worksUrl({
+                            query,
+                            itemsLocationsLocationType,
+                            page,
+                            workType:
+                              workType.indexOf('q') !== -1
+                                ? workType.filter(workType => workType !== 'q')
+                                : [...workType, 'q'],
+                          }),
+                        },
+                      ]}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
               className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}
               style={{ opacity: loading ? 0 : 1 }}
             >
@@ -356,23 +414,11 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const { showCatalogueSearchFilters = false } = ctx.query.toggles;
 
   const workTypeQuery = ctx.query.workType;
-  // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
-  // considered multiple workTypes
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-        .map(workType => workType.split(','))
-        .reduce(
-          (workTypes, workTypeStringArray) => [
-            ...workTypes,
-            ...workTypeStringArray,
-          ],
-          []
-        )
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : showCatalogueSearchFilters
+  const workType = !showCatalogueSearchFilters
+    ? ['k', 'q']
+    : !workTypeQuery
     ? []
-    : ['k', 'q'];
+    : workTypeQuery.split(',').filter(Boolean);
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
@@ -383,7 +429,11 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
-    workType,
+    workType: !showCatalogueSearchFilters
+      ? workType
+      : workType.length === 0
+      ? ['a', 'k', 'q']
+      : workType,
   };
 
   const worksOrError =
