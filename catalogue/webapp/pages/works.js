@@ -225,62 +225,77 @@ export const Works = ({
               </div>
             </div>
 
-            <div
-              className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}
-            >
-              <div className="container">
-                <div className="grid">
-                  <div className="grid__cell">
-                    <WorkTags
-                      tags={[
-                        {
-                          query: 'Books',
-                          textParts: ['Books'],
-                          selected: workType.indexOf('a') !== -1,
-                          linkAttributes: worksUrl({
-                            query,
-                            itemsLocationsLocationType,
-                            page,
-                            workType:
-                              workType.indexOf('a') !== -1
-                                ? workType.filter(workType => workType !== 'a')
-                                : [...workType, 'a'],
-                          }),
-                        },
-                        {
-                          query: 'Pictures',
-                          textParts: ['Pictures'],
-                          selected: workType.indexOf('k') !== -1,
-                          linkAttributes: worksUrl({
-                            query,
-                            itemsLocationsLocationType,
-                            page,
-                            workType:
-                              workType.indexOf('k') !== -1
-                                ? workType.filter(workType => workType !== 'k')
-                                : [...workType, 'k'],
-                          }),
-                        },
-                        {
-                          query: 'Digital images',
-                          textParts: ['Digital images'],
-                          selected: workType.indexOf('q') !== -1,
-                          linkAttributes: worksUrl({
-                            query,
-                            itemsLocationsLocationType,
-                            page,
-                            workType:
-                              workType.indexOf('q') !== -1
-                                ? workType.filter(workType => workType !== 'q')
-                                : [...workType, 'q'],
-                          }),
-                        },
-                      ]}
-                    />
+            <TogglesContext.Consumer>
+              {({ showCatalogueSearchFacets }) =>
+                showCatalogueSearchFacets && (
+                  <div
+                    className={`row ${spacing(
+                      { s: 3, m: 5 },
+                      { padding: ['top'] }
+                    )}`}
+                  >
+                    <div className="container">
+                      <div className="grid">
+                        <div className="grid__cell">
+                          <WorkTags
+                            tags={[
+                              {
+                                query: 'Books',
+                                textParts: ['Books'],
+                                selected: workType.indexOf('a') !== -1,
+                                linkAttributes: worksUrl({
+                                  query,
+                                  itemsLocationsLocationType,
+                                  page,
+                                  workType:
+                                    workType.indexOf('a') !== -1
+                                      ? workType.filter(
+                                          workType => workType !== 'a'
+                                        )
+                                      : [...workType, 'a'],
+                                }),
+                              },
+                              {
+                                query: 'Pictures',
+                                textParts: ['Pictures'],
+                                selected: workType.indexOf('k') !== -1,
+                                linkAttributes: worksUrl({
+                                  query,
+                                  itemsLocationsLocationType,
+                                  page,
+                                  workType:
+                                    workType.indexOf('k') !== -1
+                                      ? workType.filter(
+                                          workType => workType !== 'k'
+                                        )
+                                      : [...workType, 'k'],
+                                }),
+                              },
+                              {
+                                query: 'Digital images',
+                                textParts: ['Digital images'],
+                                selected: workType.indexOf('q') !== -1,
+                                linkAttributes: worksUrl({
+                                  query,
+                                  itemsLocationsLocationType,
+                                  page,
+                                  workType:
+                                    workType.indexOf('q') !== -1
+                                      ? workType.filter(
+                                          workType => workType !== 'q'
+                                        )
+                                      : [...workType, 'q'],
+                                }),
+                              },
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                )
+              }
+            </TogglesContext.Consumer>
 
             <div
               className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}
@@ -411,10 +426,14 @@ export const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
+  const {
+    showCatalogueSearchFilters = false,
+    showCatalogueSearchFacets = false,
+  } = ctx.query.toggles;
+  const isShowy = showCatalogueSearchFilters || showCatalogueSearchFacets;
 
   const workTypeQuery = ctx.query.workType;
-  const workType = !showCatalogueSearchFilters
+  const workType = !isShowy
     ? ['k', 'q']
     : !workTypeQuery
     ? []
@@ -423,13 +442,13 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
       ? ctx.query['items.locations.locationType'].split(',')
-      : showCatalogueSearchFilters
+      : isShowy
       ? ['iiif-image', 'iiif-presentation']
       : ['iiif-image'];
 
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
-    workType: !showCatalogueSearchFilters
+    workType: !isShowy
       ? workType
       : workType.length === 0
       ? ['a', 'k', 'q']
