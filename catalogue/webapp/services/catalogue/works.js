@@ -1,6 +1,13 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import { getIiifPresentationLocation } from '@weco/common/utils/works';
+import {
+  type CatalogueResultsList,
+  type CatalogueApiError,
+  type Work,
+  type CatalogueApiRedirect,
+} from '@weco/common/model/catalogue';
+
 type GetWorksProps = {|
   query: string,
   page: number,
@@ -10,34 +17,6 @@ type GetWorksProps = {|
 type GetWorkProps = {|
   id: string,
 |};
-
-export type Work = {
-  type: 'Work',
-  ...Object,
-};
-
-export type CatalogueApiError = {|
-  errorType: string,
-  httpStatus: number,
-  label: string,
-  description: string,
-  type: 'Error',
-|};
-
-export type CatalogueResultsList = {
-  type: 'ResultList',
-  totalResults: number,
-  results: Work[],
-  pageSize: number,
-  prevPage: ?string,
-  nextPage: ?string,
-};
-
-export type CatalogueApiRedirect = {
-  type: 'Redirect',
-  status: number,
-  redirectToId: string,
-};
 
 const rootUri = 'https://api.wellcomecollection.org/catalogue';
 const includes = [

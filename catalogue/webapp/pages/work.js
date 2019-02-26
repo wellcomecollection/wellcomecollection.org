@@ -1,11 +1,11 @@
 // @flow
-import type {
-  Work,
-  CatalogueApiError,
-  CatalogueApiRedirect,
-} from '../services/catalogue/works';
 import { Fragment } from 'react';
 import Router from 'next/router';
+import {
+  type Work,
+  type CatalogueApiError,
+  type CatalogueApiRedirect,
+} from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -15,11 +15,11 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
+import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
-import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -123,6 +123,7 @@ export const WorkPage = ({
                 initialItemsLocationsLocationType={itemsLocationsLocationType}
                 ariaDescribedBy="search-form-description"
                 compact={true}
+                works={null}
               />
             </div>
           </div>
@@ -232,5 +233,3 @@ WorkPage.getInitialProps = async (
 };
 
 export default WorkPage;
-
-// TODO move all calculated consts that can be into WorkDetails
