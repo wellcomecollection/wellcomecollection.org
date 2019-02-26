@@ -1,4 +1,5 @@
 // @flow
+import { type CatalogueResultsList } from '@weco/common/model/catalogue';
 import { useState, useRef } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -7,7 +8,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { worksUrl } from '../../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 
 type Props = {|
   initialQuery: string,
@@ -15,6 +16,7 @@ type Props = {|
   initialItemsLocationsLocationType: string[],
   ariaDescribedBy: string,
   compact: boolean,
+  works: ?CatalogueResultsList,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -91,10 +93,11 @@ const SearchForm = ({
   initialItemsLocationsLocationType = [],
   ariaDescribedBy,
   compact,
+  works,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
-  const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
+  const [itemsLocationsLocationType] = useState(
     initialItemsLocationsLocationType
   );
   const searchInput = useRef(null);
@@ -190,74 +193,12 @@ const SearchForm = ({
                 [spacing({ s: 1 }, { margin: ['top'] })]: true,
               })}
             >
-              <fieldset
-                className={classNames({
-                  relative: true,
-                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                })}
-                style={{
-                  left: '1px',
-                }}
-              >
-                <legend
-                  className={classNames({
-                    'float-l': true,
-                    [font({ s: 'HNL4' })]: true,
-                  })}
-                  style={{ marginTop: '3px' }}
-                >
-                  Filter by:
-                </legend>
-                <SearchTag
-                  name={'workType'}
-                  label="Images"
-                  value="k,q"
-                  checked={
-                    workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1
-                  }
-                  onChange={event => {
-                    const input = event.currentTarget;
-                    const newWorkType = input.checked
-                      ? [...workType, 'k', 'q']
-                      : workType.filter(val => val !== 'k' && val !== 'q');
-                    setWorkType(newWorkType);
-                  }}
-                />
-                <SearchTag
-                  name={'workType'}
-                  label="Books"
-                  value="a"
-                  checked={workType.indexOf('a') !== -1}
-                  onChange={event => {
-                    const input = event.currentTarget;
-                    const newWorkType = input.checked
-                      ? [...workType, 'a']
-                      : workType.filter(val => val !== 'a');
-                    setWorkType(newWorkType);
-                  }}
-                />
-                <SearchTag
-                  name={'items.locations.locationType'}
-                  label="Online"
-                  value="iiif-image"
-                  checked={
-                    itemsLocationsLocationType.indexOf('iiif-image') !== -1
-                  }
-                  onChange={event => {
-                    const input = event.currentTarget;
-                    if (input.checked) {
-                      setItemsLocationsLocationType(['iiif-image']);
-                    } else {
-                      setItemsLocationsLocationType([]);
-                    }
-                  }}
-                />
-              </fieldset>
               <p
                 className={classNames({
                   [font({ s: 'HNL4' })]: true,
-                  'no-margin': true,
                   relative: true,
+                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                  [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
                 })}
                 style={{
                   left: '1px',
@@ -269,6 +210,55 @@ const SearchForm = ({
                   Let us know what you think
                 </a>
               </p>
+              {works && (
+                <fieldset
+                  className={classNames({
+                    relative: true,
+                  })}
+                  style={{
+                    left: '1px',
+                  }}
+                >
+                  <legend
+                    className={classNames({
+                      'float-l': true,
+                      [font({ s: 'HNL4' })]: true,
+                    })}
+                    style={{ marginTop: '3px' }}
+                  >
+                    Filter by:
+                  </legend>
+                  <SearchTag
+                    name={'workType'}
+                    label="Images"
+                    value="k,q"
+                    checked={
+                      workType.indexOf('k') !== -1 &&
+                      workType.indexOf('q') !== -1
+                    }
+                    onChange={event => {
+                      const input = event.currentTarget;
+                      const newWorkType = input.checked
+                        ? [...workType, 'k', 'q']
+                        : workType.filter(val => val !== 'k' && val !== 'q');
+                      setWorkType(newWorkType);
+                    }}
+                  />
+                  <SearchTag
+                    name={'workType'}
+                    label="Books"
+                    value="a"
+                    checked={workType.indexOf('a') !== -1}
+                    onChange={event => {
+                      const input = event.currentTarget;
+                      const newWorkType = input.checked
+                        ? [...workType, 'a']
+                        : workType.filter(val => val !== 'a');
+                      setWorkType(newWorkType);
+                    }}
+                  />
+                </fieldset>
+              )}
             </div>
           )
         }

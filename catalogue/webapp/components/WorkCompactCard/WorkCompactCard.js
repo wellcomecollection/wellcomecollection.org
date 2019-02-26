@@ -1,6 +1,5 @@
 // @flow
 import NextLink from 'next/link';
-import styled from 'styled-components';
 import { type Work } from '@weco/common/model/work';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -12,7 +11,6 @@ import {
   getProductionDates,
   getWorkTypeIcon,
 } from '@weco/common/utils/works';
-import { trackEvent } from '@weco/common/utils/ga';
 import { workUrl } from '@weco/common/services/catalogue/urls';
 
 type Props = {|
@@ -23,28 +21,7 @@ type Props = {|
   itemsLocationsLocationType: string[],
 |};
 
-const Container = styled.div`
-  ${props => props.theme.media.medium`
-    display: flex;
-  `}
-`;
-const Details = styled.div`
-  ${props => props.theme.media.medium`
-    flex-grow: 1;
-  `}
-`;
-const Preview = styled.div`
-  margin-top: ${props => props.theme.spacingUnit * 2}px;
-  ${props => props.theme.media.medium`
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: '178px';
-    height: '178px';
-    margin-top: 0;
-  `}
-`;
-
-const WorkCard = ({
+const WorkCompactCard = ({
   work,
   query,
   page,
@@ -89,16 +66,9 @@ const WorkCard = ({
             [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
             'card-link': true,
           })}
-          onClick={() => {
-            trackEvent({
-              category: 'WorkCard',
-              action: 'follow link',
-              label: work.id,
-            });
-          }}
         >
-          <Container>
-            <Details>
+          <div className="flex">
+            <div style={{ flexGrow: 1 }}>
               <div
                 className={classNames({
                   flex: true,
@@ -154,9 +124,9 @@ const WorkCard = ({
                   </div>
                 )}
               </div>
-            </Details>
-
-            <Preview
+            </div>
+            {/**/}
+            <div
               className={classNames({
                 [spacing({ s: 2 }, { margin: ['left'] })]: true,
                 'text-align-center': true,
@@ -182,8 +152,8 @@ const WorkCard = ({
                   }}
                 />
               )}
-            </Preview>
-          </Container>
+            </div>
+          </div>
 
           <TogglesContext.Consumer>
             {({ showWorkLocations }) =>
@@ -221,4 +191,4 @@ const WorkCard = ({
     </div>
   );
 };
-export default WorkCard;
+export default WorkCompactCard;

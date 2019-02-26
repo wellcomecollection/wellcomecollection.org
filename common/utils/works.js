@@ -24,8 +24,20 @@ export function getProductionDates(work: Work) {
 }
 
 const workTypeIcons = {
-  'e-books': 'book',
+  '3dobjects': 'threeD',
+  ebooks: 'book',
   books: 'book',
+  audio: 'audio',
+  'digital images': 'digitalImage',
+  journals: 'journal',
+  maps: 'map',
+  music: 'music',
+  sound: 'music',
+  pictures: 'picture',
+  archivesandmanuscripts: 'scroll',
+  ephemera: 'threeD',
+  evideos: 'video',
+  websites: 'website',
 };
 export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
