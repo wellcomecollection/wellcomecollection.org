@@ -26,7 +26,15 @@ function setCookie(name, value, domain = 'wellcomecollection.org') {
     ''}; Path=/; Domain=${domain}; ${expiration}`;
 }
 
-const abTests = [];
+const abTests = [
+  {
+    id: 'genericWorkCard',
+    title: 'Generic work card',
+    description:
+      'Visual treatment of the work card that accounts for other work types ' +
+      'and not exclusively images',
+  },
+];
 
 const featureToggles = [
   {
@@ -36,13 +44,6 @@ const featureToggles = [
       'We currently filter the results of the catalogue to show Pictures and ' +
       'Digital images work types, and only results with images.' +
       'This will show unfilter those results, and allow for filtering.',
-  },
-  {
-    id: 'imagelessSearchResult',
-    title: 'Imageless search results',
-    description:
-      "Uses a search results that doesn't need to have an image, but, if " +
-      'need be, can',
   },
   {
     id: 'showWorkLocations',

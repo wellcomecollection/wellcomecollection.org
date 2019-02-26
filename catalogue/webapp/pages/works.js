@@ -16,10 +16,11 @@ import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import WorkCompactCard from '../components/WorkCompactCard/WorkCompactCard';
+import WorkCard from '../components/WorkCard/WorkCard';
 
 type Props = {|
   query: ?string,
@@ -28,7 +29,6 @@ type Props = {|
   workType: string[],
   itemsLocationsLocationType: string[],
   showCatalogueSearchFilters: boolean,
-  imagelessSearchResult: boolean,
 |};
 
 export const Works = ({
@@ -38,7 +38,6 @@ export const Works = ({
   workType,
   itemsLocationsLocationType,
   showCatalogueSearchFilters,
-  imagelessSearchResult,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -69,17 +68,6 @@ export const Works = ({
       />
     );
   }
-
-  // This is very convoluted, but you can't do arry equality because, JavaScript
-  // e.g. itemsLocationsLocationType === ['iiif-image'] is always false.
-  const useImagelessResult =
-    imagelessSearchResult ||
-    (showCatalogueSearchFilters &&
-      !(
-        workType.toString() === 'k,q' &&
-        itemsLocationsLocationType.length === 1 &&
-        itemsLocationsLocationType[0] === 'iiif-image'
-      ));
 
   return (
     <Fragment>
@@ -242,49 +230,52 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  {useImagelessResult &&
-                    works.results.map(result => (
-                      <div
-                        className={classNames({
-                          [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-                        })}
-                        key={result.id}
-                      >
-                        <WorkCompactCard
-                          work={result}
-                          query={query}
-                          page={page}
-                          workType={workType}
-                          itemsLocationsLocationType={
-                            itemsLocationsLocationType
-                          }
-                        />
-                      </div>
-                    ))}
-                  {!useImagelessResult &&
-                    works.results.map(result => (
-                      <div
-                        key={result.id}
-                        className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
-                      >
-                        <WorkPromo
-                          id={result.id}
-                          image={{
-                            contentUrl: result.thumbnail
-                              ? result.thumbnail.url
-                              : 'https://via.placeholder.com/1600x900?text=%20',
-                            width: 300,
-                            height: 300,
-                            alt: '',
-                          }}
-                          datePublished={
-                            result.createdDate && result.createdDate.label
-                          }
-                          title={result.title}
-                          link={workUrl({ id: result.id, query, page })}
-                        />
-                      </div>
-                    ))}
+                  <TogglesContext.Consumer>
+                    {({ genericWorkCard }) => {
+                      return genericWorkCard
+                        ? works.results.map(result => (
+                            <div
+                              className={classNames({
+                                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                              })}
+                              key={result.id}
+                            >
+                              <WorkCard
+                                work={result}
+                                query={query}
+                                page={page}
+                                workType={workType}
+                                itemsLocationsLocationType={
+                                  itemsLocationsLocationType
+                                }
+                              />
+                            </div>
+                          ))
+                        : works.results.map(result => (
+                            <div
+                              key={result.id}
+                              className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
+                            >
+                              <WorkPromo
+                                id={result.id}
+                                image={{
+                                  contentUrl: result.thumbnail
+                                    ? result.thumbnail.url
+                                    : 'https://via.placeholder.com/1600x900?text=%20',
+                                  width: 300,
+                                  height: 300,
+                                  alt: '',
+                                }}
+                                datePublished={
+                                  result.createdDate && result.createdDate.label
+                                }
+                                title={result.title}
+                                link={workUrl({ id: result.id, query, page })}
+                              />
+                            </div>
+                          ));
+                    }}
+                  </TogglesContext.Consumer>
                 </div>
               </div>
 
@@ -380,10 +371,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? workTypeQuery.split(',')
     : ['k', 'q'];
 
-  const {
-    showCatalogueSearchFilters = false,
-    imagelessSearchResult = false,
-  } = ctx.query.toggles;
+  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
@@ -407,7 +395,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType,
     itemsLocationsLocationType,
     showCatalogueSearchFilters,
-    imagelessSearchResult,
   };
 };
 
