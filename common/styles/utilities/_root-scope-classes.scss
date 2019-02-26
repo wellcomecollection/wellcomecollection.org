@@ -498,7 +498,8 @@
   }
 }
 
-.spacing-component + .spacing-component {
+.spacing-component + .spacing-component,
+.spacing-component:empty {
   margin-top: $spacing-unit * 4;
 
   @include respond-to('medium') {

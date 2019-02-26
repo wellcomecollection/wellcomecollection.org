@@ -50,7 +50,7 @@ const WorkDetailsSection = ({
 
 const StyledWorkDetailsSection = styled(WorkDetailsSection)`
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   padding: 0;
 
   &:first-child {
@@ -76,7 +76,13 @@ const StyledWorkDetailsSection = styled(WorkDetailsSection)`
     }
 
     .work-details-body {
-      grid-column: span 6;
+      grid-column: span 8;
+    }
+  `}
+
+  ${props => props.theme.media.xlarge`
+    .work-details-body {
+      grid-column: span 7;
     }
   `}
 `;
@@ -331,27 +337,21 @@ const WorkDetails = ({
         [spacing({ s: 6, m: 8 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
-      <div className="container">
-        <div className="grid">
-          <Layout12>
-            {WorkDetailsSections.map((section, i) => {
-              return (
-                <Fragment key={i}>
-                  {i > 0 && (
-                    <>
-                      <SpacingComponent>
-                        <Divider extraClasses="divider--pumice divider--keyline" />
-                      </SpacingComponent>
-                      <SpacingComponent />
-                    </>
-                  )}
-                  <SpacingSection>{section}</SpacingSection>
-                </Fragment>
-              );
-            })}
-          </Layout12>
-        </div>
-      </div>
+      <Layout12>
+        {WorkDetailsSections.map((section, i) => {
+          return (
+            <Fragment key={i}>
+              {i > 0 && (
+                <>
+                  <Divider extraClasses="divider--pumice divider--keyline" />
+                  <SpacingComponent />
+                </>
+              )}
+              <SpacingSection>{section}</SpacingSection>
+            </Fragment>
+          );
+        })}
+      </Layout12>
     </div>
   );
 };
