@@ -112,28 +112,17 @@ const WorkDetails = ({
     return id.identifierType.id === 'isbn';
   });
 
-  const [iiifPresentationLocation] = work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean);
-
   const WorkDetailsSections = [];
   if (
     showSingleImageWorkPreview &&
-    (iiifImageLocationUrl || iiifPresentationLocation)
+    (iiifImageLocationUrl || work.iiifManifest)
   ) {
-    // TODO IIIFPresentationPreview
     WorkDetailsSections.push(
       <StyledWorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
-        {iiifPresentationLocation && (
-          <IIIFPresentationPreview
-            manifestLocation={iiifPresentationLocation.url}
-          />
+        {work.iiifManifest && (
+          <IIIFPresentationPreview manifestData={work.iiifManifest} />
         )}
         {iiifImageLocationUrl && (
           <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
