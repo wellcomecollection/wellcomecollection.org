@@ -196,9 +196,9 @@ const SearchForm = ({
               <p
                 className={classNames({
                   [font({ s: 'HNL4' })]: true,
-                  'no-margin': true,
                   relative: true,
                   [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                  [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
                 })}
                 style={{
                   left: '1px',
