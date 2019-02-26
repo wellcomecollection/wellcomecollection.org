@@ -122,7 +122,7 @@ export const WorkPage = ({
                 ariaDescribedBy="search-form-description"
                 compact={true}
                 showFilters={true}
-                reactiveFilter={false}
+                reactiveFilters={false}
               />
             </div>
           </div>
