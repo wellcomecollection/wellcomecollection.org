@@ -23,6 +23,16 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
+export function getIiifPresentationLocation(work: Work) {
+  return work.items
+    .map(item =>
+      item.locations.find(
+        location => location.locationType.id === 'iiif-presentation'
+      )
+    )
+    .filter(Boolean)[0];
+}
+
 const workTypeIcons = {
   '3dobjects': 'threeD',
   ebooks: 'book',
