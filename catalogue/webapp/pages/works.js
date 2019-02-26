@@ -153,7 +153,7 @@ export const Works = ({
                   initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
-                  works={works}
+                  showFilters={Boolean(works)}
                 />
                 <p
                   className={classNames({

@@ -1,5 +1,4 @@
 // @flow
-import { type CatalogueResultsList } from '@weco/common/model/catalogue';
 import { useState, useRef } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -16,7 +15,7 @@ type Props = {|
   initialItemsLocationsLocationType: string[],
   ariaDescribedBy: string,
   compact: boolean,
-  works: ?CatalogueResultsList,
+  showFilters: boolean,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -93,7 +92,8 @@ const SearchForm = ({
   initialItemsLocationsLocationType = [],
   ariaDescribedBy,
   compact,
-  works,
+  // This only works in conjunction with the toggle
+  showFilters,
 }: Props) => {
   const [query, setQuery] = useState(initialQuery);
   const [workType, setWorkType] = useState(initialWorkType);
@@ -219,7 +219,7 @@ const SearchForm = ({
                       </a>
                     </p>
                   )}
-                  {showCatalogueSearchFilters && works && (
+                  {showCatalogueSearchFilters && showFilters && (
                     <fieldset
                       className={classNames({
                         relative: true,
