@@ -12,10 +12,6 @@ const BookContainer = styled.div`
   margin-bottom: 20px;
   word-spacing: 0;
 
-  & > img {
-    display: block;
-  }
-
   & > img,
   &::before,
   &::after {
@@ -44,6 +40,10 @@ const BookContainer = styled.div`
     left: 14px;
     top: 14px;
     z-index: -2;
+  }
+
+  img {
+    display: block;
   }
 `;
 
@@ -98,12 +98,18 @@ const IIIFPresentationDisplay = ({
             <Fragment>
               {!showMultiImageWorkPreview && (
                 <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
-                  <img
-                    style={{ width: 'auto' }}
-                    src={iiifImageTemplate(
+                  <a
+                    href={iiifImageTemplate(
                       sequence.canvases[0].thumbnail.service['@id']
-                    )({ size: `,${previewSize * 2}` })}
-                  />
+                    )({ size: ',1024' })}
+                  >
+                    <img
+                      style={{ width: 'auto' }}
+                      src={iiifImageTemplate(
+                        sequence.canvases[0].thumbnail.service['@id']
+                      )({ size: `,${previewSize * 2}` })}
+                    />
+                  </a>
                 </BookContainer>
               )}
               {showMultiImageWorkPreview && (
@@ -113,35 +119,41 @@ const IIIFPresentationDisplay = ({
                   <div>
                     {sequence.canvases.map((canvas, i) => {
                       return (
-                        <img
+                        <a
                           key={canvas.thumbnail.service['@id']}
-                          className={classNames({
-                            'lazy-image lazyload': i > 3,
-                          })}
-                          style={{
-                            width: 'auto',
-                            height: `${previewSize}px`,
-                            marginRight: '6px',
-                          }}
-                          src={
-                            i < 4
-                              ? iiifImageTemplate(
-                                  canvas.thumbnail.service['@id']
-                                )({
-                                  size: `,${previewSize}`,
-                                })
-                              : null
-                          }
-                          data-src={
-                            i > 3
-                              ? iiifImageTemplate(
-                                  canvas.thumbnail.service['@id']
-                                )({
-                                  size: `,${previewSize}`,
-                                })
-                              : null
-                          }
-                        />
+                          href={iiifImageTemplate(
+                            canvas.thumbnail.service['@id']
+                          )({ size: ',1024' })}
+                        >
+                          <img
+                            className={classNames({
+                              'lazy-image lazyload': i > 3,
+                            })}
+                            style={{
+                              width: 'auto',
+                              height: `${previewSize}px`,
+                              marginRight: '6px',
+                            }}
+                            src={
+                              i < 4
+                                ? iiifImageTemplate(
+                                    canvas.thumbnail.service['@id']
+                                  )({
+                                    size: `,${previewSize}`,
+                                  })
+                                : null
+                            }
+                            data-src={
+                              i > 3
+                                ? iiifImageTemplate(
+                                    canvas.thumbnail.service['@id']
+                                  )({
+                                    size: `,${previewSize}`,
+                                  })
+                                : null
+                            }
+                          />
+                        </a>
                       );
                     })}
                   </div>
