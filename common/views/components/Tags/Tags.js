@@ -1,3 +1,5 @@
+// @flow
+
 import styled from 'styled-components';
 import { spacing, font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
