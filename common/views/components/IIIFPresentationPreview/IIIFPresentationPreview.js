@@ -132,7 +132,7 @@ const IIIFPresentationDisplay = ({
                             style={{
                               width: 'auto',
                               height: '300px',
-                              marginRight: '6px',
+                              marginRight: '12px',
                             }}
                             src={
                               i < 4
