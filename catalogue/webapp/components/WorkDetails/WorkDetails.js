@@ -154,7 +154,7 @@ const WorkDetails = ({
             licenseInfo={licenseInfo}
             iiifImageLocationCredit={iiifImageLocationCredit}
             iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            dummyVersion={true}
+            dummyVersion="true"
           />
         </StyledWorkDetailsSection>
       );

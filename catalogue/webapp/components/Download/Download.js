@@ -74,7 +74,7 @@ type Props = {|
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
-  dummyVersion?: boolean,
+  dummyVersion: boolean,
 |};
 
 const Download = ({
