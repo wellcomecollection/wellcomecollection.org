@@ -120,7 +120,7 @@ const IIIFPresentationDisplay = ({
                           style={{
                             width: 'auto',
                             height: `${previewSize}px`,
-                            marginRight: '3px',
+                            marginRight: '6px',
                           }}
                           src={
                             i < 4
