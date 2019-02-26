@@ -1,6 +1,6 @@
 import type { EventPromo, Event } from '../model/events';
 import {
-  wellcomeCollection,
+  wellcomeCollectionGallery,
   wellcomeCollectionAddress,
 } from '../model/organization';
 import { convertImageUri } from './convert-image-uri';
@@ -26,7 +26,7 @@ export function contentLd(content) {
       image: content.promo && imageLd(content.promo.image),
       datePublished: content.datePublished,
       dateModified: content.datePublished,
-      publisher: orgLd(wellcomeCollection),
+      publisher: orgLd(wellcomeCollectionGallery),
       mainEntityOfPage: `https://wellcomecollection.org${content.url}`,
     },
     'Article'
@@ -73,7 +73,7 @@ export function articleLd(article) {
         ),
       image: article.promoImage && article.promoImage.contentUrl,
       // TODO: isPartOf
-      publisher: orgLd(wellcomeCollection),
+      publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/articles/${article.id}`,
     },
     'Article'
@@ -175,6 +175,13 @@ export function museumLd(museum) {
   const newMuseum = Object.assign({}, museum, { logo });
   delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Museum');
+}
+
+export function libraryLd(museum) {
+  const logo = imageLd(museum.logo);
+  const newMuseum = Object.assign({}, museum, { logo, image: logo });
+  delete newMuseum.twitterHandle;
+  return objToJsonLd(newMuseum, 'Library');
 }
 
 export function eventLd(event: Event) {

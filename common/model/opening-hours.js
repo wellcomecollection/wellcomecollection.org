@@ -107,6 +107,25 @@ export const galleryOpeningHours: OpeningHours = {
   ],
 };
 
+export const libraryOpeningHours: OpeningHours = {
+  // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
+  regular: [
+    { dayOfWeek: 'Monday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Thursday', opens: '10:00', closes: '20:00' },
+    { dayOfWeek: 'Friday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Sunday' },
+  ],
+  exceptional: [
+    { overrideDate: moment('2018-04-02'), opens: '10:00', closes: '18:00' },
+    { overrideDate: moment('2018-05-07'), opens: '10:00', closes: '18:00' },
+    { overrideDate: moment('2018-05-28'), opens: '10:00', closes: '18:00' },
+    { overrideDate: moment('2018-08-27'), opens: '10:00', closes: '18:00' },
+  ],
+};
+
 // http://schema.org/specialOpeningHoursSpecification
 export type SpecialOpeningHours = {|
   opens: string,
