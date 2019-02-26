@@ -1,12 +1,12 @@
 // @flow
-import type { Context } from 'next';
-import type {
-  CatalogueApiError,
-  CatalogueResultsList,
-} from '../services/catalogue/works';
+import { type Context } from 'next';
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import {
+  type CatalogueApiError,
+  type CatalogueResultsList,
+} from '@weco/common/model/catalogue';
 import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -15,10 +15,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkCompactCard from '../components/WorkCompactCard/WorkCompactCard';
 
 type Props = {|
@@ -164,6 +164,7 @@ export const Works = ({
                   initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
+                  works={works}
                 />
                 <p
                   className={classNames({
