@@ -63,24 +63,13 @@ const WorkCard = ({
       })}
     >
       <NextLink
-        href={
-          workUrl({
-            id: work.id,
-            query,
-            page,
-            workType,
-            itemsLocationsLocationType,
-          }).href
-        }
-        as={
-          workUrl({
-            id: work.id,
-            query,
-            page,
-            workType,
-            itemsLocationsLocationType,
-          }).as
-        }
+        {...workUrl({
+          id: work.id,
+          query,
+          page,
+          workType,
+          itemsLocationsLocationType,
+        })}
       >
         <a
           className={classNames({
