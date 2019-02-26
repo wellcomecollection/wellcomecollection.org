@@ -4,7 +4,7 @@ import { spacing, font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
-import { worksUrl } from '../../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 
 const StaticWorksContent = () => (
   <Fragment>

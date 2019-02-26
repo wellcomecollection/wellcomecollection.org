@@ -2,10 +2,9 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
-import NextLink from 'next/link';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
-import { worksUrl } from '../../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -223,16 +222,15 @@ const WorkDetails = ({
             <MetaUnit
               headingLevel={3}
               headingText="Type"
-              links={work.genres.map(genre => {
-                const linkAttributes = worksUrl({
-                  query: `"${genre.label}"`,
-                  page: 1,
-                });
-                return (
-                  <NextLink key={1} {...linkAttributes}>
-                    {genre.label}
-                  </NextLink>
-                );
+              tags={work.genres.map(g => {
+                return {
+                  query: g.label,
+                  textParts: g.concepts.map(c => c.label),
+                  linkAttributes: worksUrl({
+                    query: `"${g.label}"`,
+                    page: 1,
+                  }),
+                };
               })}
             />
           )}
@@ -253,16 +251,15 @@ const WorkDetails = ({
       <StyledWorkDetailsSection headingText="Subjects">
         <MetaUnit
           headingText=""
-          links={work.subjects.map(subject => {
-            const linkAttributes = worksUrl({
-              query: `"${subject.label}"`,
-              page: 1,
-            });
-            return (
-              <NextLink key={1} {...linkAttributes}>
-                {subject.label}
-              </NextLink>
-            );
+          tags={work.subjects.map(s => {
+            return {
+              query: s.label,
+              textParts: s.concepts.map(c => c.label),
+              linkAttributes: worksUrl({
+                query: `"${s.label}"`,
+                page: 1,
+              }),
+            };
           })}
         />
       </StyledWorkDetailsSection>
