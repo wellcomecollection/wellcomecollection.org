@@ -132,33 +132,18 @@ const WorkDetails = ({
       </StyledWorkDetailsSection>
     );
   }
-  if (iiifImageLocationUrl || showWorkPreview) {
-    if (iiifImageLocationUrl) {
-      WorkDetailsSections.push(
-        <StyledWorkDetailsSection>
-          <Download
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </StyledWorkDetailsSection>
-      );
-    } else {
-      WorkDetailsSections.push(
-        <StyledWorkDetailsSection>
-          <Download
-            work={work}
-            iiifImageLocationUrl="/"
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            dummyVersion="true"
-          />
-        </StyledWorkDetailsSection>
-      );
-    }
+  if (iiifImageLocationUrl) {
+    WorkDetailsSections.push(
+      <StyledWorkDetailsSection>
+        <Download
+          work={work}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        />
+      </StyledWorkDetailsSection>
+    );
   }
   if (
     work.description ||

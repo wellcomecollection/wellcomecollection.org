@@ -34,7 +34,6 @@ const DownloadButton = styled.button`
     fill: currentColor;
   }
 `;
-
 const DownloadOptions = styled.div`
   &.enhanced-styles {
     border: ${props => `1px solid ${props.theme.colors.marble}`};
@@ -74,7 +73,6 @@ type Props = {|
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
-  dummyVersion: boolean,
 |};
 
 const Download = ({
@@ -83,7 +81,6 @@ const Download = ({
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
-  dummyVersion = false,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
@@ -119,7 +116,7 @@ const Download = ({
                     [spacing({ s: 1 }, { margin: ['right'] })]: true,
                   })}
                 >
-                  Download this {dummyVersion ? 'book' : 'image'}
+                  Download this image
                 </span>
                 <Icon name="chevron" />
               </span>
@@ -132,7 +129,7 @@ const Download = ({
               'work-details-heading': true,
             })}
           >
-            Download this {dummyVersion ? 'book' : 'image'}
+            Download this image
           </h2>
         )}
         <DownloadOptions
@@ -143,115 +140,100 @@ const Download = ({
             show: showDownloads,
           })}
         >
-          {!dummyVersion ? (
-            <ul className="plain-list no-margin no-padding">
-              <li>
-                <a
-                  tabIndex={showDownloads ? null : -1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={convertImageUri(iiifImageLocationUrl, 'full')}
-                  onClick={() => {
-                    trackEvent({
-                      category: 'Button',
-                      action: 'download large work image',
-                      label: work.id,
-                    });
-                  }}
-                >
-                  <span className="flex-inline flex--v-center">
-                    <Icon name="download" />
-                    <span className="underline-on-hover">
-                      Download full size
-                    </span>
-                    <span
-                      className={classNames({
-                        'font-pewter': true,
-                        [font({ s: 'HNM5' })]: true,
-                        [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                      })}
-                    >
-                      JPG
-                    </span>
+          <ul className="plain-list no-margin no-padding">
+            <li>
+              <a
+                tabIndex={showDownloads ? null : -1}
+                target="_blank"
+                rel="noopener noreferrer"
+                href={convertImageUri(iiifImageLocationUrl, 'full')}
+                onClick={() => {
+                  trackEvent({
+                    category: 'Button',
+                    action: 'download large work image',
+                    label: work.id,
+                  });
+                }}
+              >
+                <span className="flex-inline flex--v-center">
+                  <Icon name="download" />
+                  <span className="underline-on-hover">Download full size</span>
+                  <span
+                    className={classNames({
+                      'font-pewter': true,
+                      [font({ s: 'HNM5' })]: true,
+                      [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                    })}
+                  >
+                    JPG
                   </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  tabIndex={showDownloads ? null : -1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={convertImageUri(iiifImageLocationUrl, 760)}
-                  onClick={() => {
-                    trackEvent({
-                      category: 'Button',
-                      action: 'download small work image',
-                      label: work.id,
-                    });
-                  }}
-                >
-                  <span className="flex-inline flex--v-center">
-                    <Icon name="download" />
-                    <span className="underline-on-hover">
-                      Download small (760px)
-                    </span>
-                    <span
-                      className={classNames({
-                        'font-pewter': true,
-                        [font({ s: 'HNM5' })]: true,
-                        [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                      })}
-                    >
-                      JPG
-                    </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                tabIndex={showDownloads ? null : -1}
+                target="_blank"
+                rel="noopener noreferrer"
+                href={convertImageUri(iiifImageLocationUrl, 760)}
+                onClick={() => {
+                  trackEvent({
+                    category: 'Button',
+                    action: 'download small work image',
+                    label: work.id,
+                  });
+                }}
+              >
+                <span className="flex-inline flex--v-center">
+                  <Icon name="download" />
+                  <span className="underline-on-hover">
+                    Download small (760px)
                   </span>
-                </a>
-              </li>
-            </ul>
-          ) : (
-            <ul className="plain-list no-margin no-padding">
-              <li>Download option</li>
-              <li>Download option</li>
-              <li>Download option</li>
-            </ul>
-          )}
+                  <span
+                    className={classNames({
+                      'font-pewter': true,
+                      [font({ s: 'HNM5' })]: true,
+                      [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                    })}
+                  >
+                    JPG
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
         </DownloadOptions>
-        {!dummyVersion && (
-          <div className="flex-inline flex--v-center">
-            {iiifImageLocationLicenseId && (
-              <span
-                className={classNames({
-                  'inline-block': true,
-                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                })}
-              >
-                <License
-                  subject={''}
-                  licenseType={iiifImageLocationLicenseId}
-                />
-              </span>
-            )}
-            {iiifImageLocationCredit && (
-              <span
-                className={classNames({
-                  'inline-block': true,
-                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                })}
-              >
-                Credit: {iiifImageLocationCredit}{' '}
-              </span>
-            )}
-            <a
-              href="#licenseInformation"
-              className={font({ s: 'HNM5', m: 'HNM4' })}
+        <div className="flex-inline flex--v-center">
+          {iiifImageLocationLicenseId && (
+            <span
+              className={classNames({
+                'inline-block': true,
+                [spacing({ s: 2 }, { margin: ['right'] })]: true,
+              })}
             >
-              <span className="flex-inline flex--v-center nowrap">
-                <Icon name="arrowSmall" extraClasses="icon--90" />
-                Can I use this?
-              </span>
-            </a>
-          </div>
-        )}
+              <License subject={''} licenseType={iiifImageLocationLicenseId} />
+            </span>
+          )}
+          {iiifImageLocationCredit && (
+            <span
+              className={classNames({
+                'inline-block': true,
+                [spacing({ s: 2 }, { margin: ['right'] })]: true,
+              })}
+            >
+              Credit: {iiifImageLocationCredit}{' '}
+            </span>
+          )}
+          <a
+            href="#licenseInformation"
+            className={font({ s: 'HNM5', m: 'HNM4' })}
+          >
+            <span className="flex-inline flex--v-center nowrap">
+              <Icon name="arrowSmall" extraClasses="icon--90" />
+              Can I use this?
+            </span>
+          </a>
+        </div>
       </div>
     </div>
   );
