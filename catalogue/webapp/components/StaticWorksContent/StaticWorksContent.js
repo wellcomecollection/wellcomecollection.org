@@ -25,33 +25,42 @@ const StaticWorksContent = () => (
               <Tags
                 tags={[
                   {
-                    text: 'Quacks',
-                    link: worksUrl({ query: 'quack+OR+quacks', page: 1 }),
+                    textParts: ['Quacks'],
+                    linkAttributes: worksUrl({
+                      query: 'quack+OR+quacks',
+                      page: 1,
+                    }),
                   },
                   {
-                    text: 'James Gillray',
-                    link: worksUrl({ query: 'james+gillray', page: 1 }),
+                    textParts: ['James Gillray'],
+                    linkAttributes: worksUrl({
+                      query: 'james+gillray',
+                      page: 1,
+                    }),
                   },
                   {
-                    text: 'Botany',
-                    link: worksUrl({ query: 'botany', page: 1 }),
+                    textParts: ['Botany'],
+                    linkAttributes: worksUrl({ query: 'botany', page: 1 }),
                   },
                   {
-                    text: 'Optics',
-                    link: worksUrl({ query: 'optics', page: 1 }),
-                  },
-                  { text: 'Sun', link: worksUrl({ query: 'sun', page: 1 }) },
-                  {
-                    text: 'Health',
-                    link: worksUrl({ query: 'health', page: 1 }),
+                    textParts: ['Optics'],
+                    linkAttributes: worksUrl({ query: 'optics', page: 1 }),
                   },
                   {
-                    text: 'Paintings',
-                    link: worksUrl({ query: 'paintings', page: 1 }),
+                    textParts: ['Sun'],
+                    linkAttributes: worksUrl({ query: 'sun', page: 1 }),
                   },
                   {
-                    text: 'Science',
-                    link: worksUrl({ query: 'science', page: 1 }),
+                    textParts: ['Health'],
+                    linkAttributes: worksUrl({ query: 'health', page: 1 }),
+                  },
+                  {
+                    textParts: ['Paintings'],
+                    linkAttributes: worksUrl({ query: 'paintings', page: 1 }),
+                  },
+                  {
+                    textParts: ['Science'],
+                    linkAttributes: worksUrl({ query: 'science', page: 1 }),
                   },
                 ]}
               />

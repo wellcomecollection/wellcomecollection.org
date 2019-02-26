@@ -2,7 +2,7 @@
 import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import WorkTags, { type WorkTagType } from '../WorkTags/WorkTags';
+import Tags, { type TagType } from '../Tags/Tags';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -100,7 +100,7 @@ type MetaUnitProps = {|
   headingLevel?: number,
   headingText?: string,
   links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
-  tags?: WorkTagType[],
+  tags?: TagType[],
   text?: string[],
   list?: string[],
   children?: Node,
@@ -123,7 +123,7 @@ const MetaUnit = ({
       <Paragraphs text={text} />
       <LinksList links={links} />
       <List list={list} />
-      {tags.length > 0 && <WorkTags tags={tags} />}
+      {tags.length > 0 && <Tags tags={tags} />}
       {children}
     </div>
   );
