@@ -15,10 +15,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import { workUrl, worksUrl } from '../services/catalogue/urls';
 import WorkCompactCard from '../components/WorkCompactCard/WorkCompactCard';
 
 type Props = {|

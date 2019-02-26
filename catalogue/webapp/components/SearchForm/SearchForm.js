@@ -8,7 +8,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { worksUrl } from '../../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 
 type Props = {|
   initialQuery: string,

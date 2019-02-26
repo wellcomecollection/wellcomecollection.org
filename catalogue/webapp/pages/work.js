@@ -17,10 +17,10 @@ import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
-import { worksUrl } from '../services/catalogue/urls';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -28,7 +28,6 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  useBetaDownloadComponent: boolean,
 |};
 
 export const WorkPage = ({
@@ -37,7 +36,6 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  useBetaDownloadComponent,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -191,7 +189,6 @@ export const WorkPage = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           encoreLink={encoreLink}
-          useBetaDownloadComponent={useBetaDownloadComponent}
         />
       </Fragment>
     </PageLayout>
@@ -214,9 +211,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const useBetaDownloadComponent = Boolean(
-    ctx.query.toggles.useBetaDownloadComponent
-  );
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -236,7 +230,6 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      useBetaDownloadComponent,
     };
   }
 };
