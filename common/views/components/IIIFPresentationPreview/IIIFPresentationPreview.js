@@ -154,6 +154,7 @@ const IIIFPresentationDisplay = ({
                   sequence.canvases[0].thumbnail.service['@id']
                 )({ size: ',1024' })}
                 text={`View all ${sequence.canvases.length} images`}
+                icon="gallery"
               />
             </Fragment>
           )}
