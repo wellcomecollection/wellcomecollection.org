@@ -3,6 +3,7 @@ import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import WorkTags, { type WorkTagType } from '../WorkTags/WorkTags';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -35,12 +36,13 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   }
 };
 
-const Paragraphs = ({ text }) => {
+const Paragraphs = ({ text }: { text: string[] }) => {
   return (
-    text.length > 0 &&
-    text.map((para, i) => {
-      return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
-    })
+    <div className="spaced-text">
+      {text.map((para, i) => {
+        return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
+      })}
+    </div>
   );
 };
 
@@ -116,16 +118,18 @@ const MetaUnit = ({
   children,
 }: MetaUnitProps) => {
   return (
-    <div className={`${font({ s: 'HNL4', m: 'HNL3' })}`}>
-      {headingText && (
-        <Heading headingLevel={headingLevel} headingText={headingText} />
-      )}
-      <Paragraphs text={text} />
-      <LinksList links={links} />
-      <List list={list} />
-      {tags.length > 0 && <WorkTags tags={tags} />}
-      {children}
-    </div>
+    <SpacingComponent>
+      <div className={`${font({ s: 'HNL4', m: 'HNL3' })}`}>
+        {headingText && (
+          <Heading headingLevel={headingLevel} headingText={headingText} />
+        )}
+        {text.length > 0 && <Paragraphs text={text} />}
+        <LinksList links={links} />
+        <List list={list} />
+        {tags.length > 0 && <WorkTags tags={tags} />}
+        {children}
+      </div>
+    </SpacingComponent>
   );
 };
 
