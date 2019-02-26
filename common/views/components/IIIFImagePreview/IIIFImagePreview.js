@@ -135,7 +135,7 @@ const IIIFImagePreview = ({ iiifImageLocationUrl }: IIIFImagePreviewProps) => {
         }}
       />
       <Button
-        type="tertiary"
+        type="primary"
         url={largeSizeUrl}
         clickHandler={event => {
           handleViewerDisplay(event, 'Button');
