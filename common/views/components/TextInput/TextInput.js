@@ -16,7 +16,7 @@ const VisuallyHidden = styled.div`
 
 const StyledInput = styled.input`
   width: 100%;
-  padding: 0.4em;
+  padding: 0.4em 40px 0.4em 0.4em;
   border: 1px solid ${props => props.theme.colors.pumice};
 
   &:focus {
