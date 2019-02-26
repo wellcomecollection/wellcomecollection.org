@@ -1,6 +1,6 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
-
+import { getIiifPresentationLocation } from '@weco/common/utils/works';
 type GetWorksProps = {|
   query: string,
   page: number,
@@ -102,13 +102,7 @@ export async function getWork({
 
   const json = await res.json();
 
-  const [iiifPresentationLocation] = json.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean);
+  const iiifPresentationLocation = getIiifPresentationLocation(json);
 
   if (iiifPresentationLocation) {
     const iiifManifest = await fetch(iiifPresentationLocation.url);

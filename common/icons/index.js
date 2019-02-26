@@ -36,11 +36,24 @@ import twitter from './twitter';
 import facebook from './facebook';
 import instagram from './instagram';
 import soundcloud from './soundcloud';
+import statusIndicator from './status_indicator';
 import tumblr from './tumblr';
 import youtube from './youtube';
 import tripadvisor from './tripadvisor';
 import wellcome from './wellcome';
-import statusIndicator from './status_indicator';
+
+// Work types
+import audio from './audio';
+import digitalImage from './digital_image';
+import journal from './journal';
+import map from './map';
+import music from './music';
+import picture from './picture';
+import scroll from './scroll';
+import threeD from './three_d';
+import video from './video';
+import website from './website';
+
 export {
   a11y,
   a11yVisual,
@@ -90,4 +103,14 @@ export {
   tripadvisor,
   wellcome,
   statusIndicator,
+  audio,
+  digitalImage,
+  journal,
+  map,
+  music,
+  picture,
+  scroll,
+  threeD,
+  video,
+  website,
 };
