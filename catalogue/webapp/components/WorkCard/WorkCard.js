@@ -131,27 +131,27 @@ const WorkCard = ({
                 })}
               >
                 {work.contributors.length > 0 && (
-                  <LinkLabels
-                    items={work.contributors.map(({ agent }) => ({
-                      text: agent.label,
-                      url: null,
-                    }))}
-                  />
-                )}
-                {productionDates.length > 0 && (
                   <div
                     className={classNames({
-                      [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                      [spacing({ s: 2 }, { margin: ['right'] })]: true,
                     })}
                   >
                     <LinkLabels
-                      heading={'Date'}
-                      items={productionDates.map(date => ({
-                        text: date,
+                      items={work.contributors.map(({ agent }) => ({
+                        text: agent.label,
                         url: null,
                       }))}
                     />
                   </div>
+                )}
+                {productionDates.length > 0 && (
+                  <LinkLabels
+                    heading={'Date'}
+                    items={productionDates.map(date => ({
+                      text: date,
+                      url: null,
+                    }))}
+                  />
                 )}
               </div>
             </Details>
