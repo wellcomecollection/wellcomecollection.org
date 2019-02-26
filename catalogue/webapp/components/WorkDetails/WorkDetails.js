@@ -2,7 +2,6 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
-
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
@@ -14,6 +13,8 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type WorkDetailsSectionProps = {|
   className?: string,
@@ -92,6 +93,7 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
+  showSingleImageWorkPreview: boolean,
 |};
 
 const WorkDetails = ({
@@ -101,6 +103,7 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
+  showSingleImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -109,8 +112,35 @@ const WorkDetails = ({
     return id.identifierType.id === 'isbn';
   });
 
-  const WorkDetailsSections = [];
+  const [iiifPresentationLocation] = work.items
+    .map(item =>
+      item.locations.find(
+        location => location.locationType.id === 'iiif-presentation'
+      )
+    )
+    .filter(Boolean);
 
+  const WorkDetailsSections = [];
+  if (
+    showSingleImageWorkPreview &&
+    (iiifImageLocationUrl || iiifPresentationLocation)
+  ) {
+    // TODO IIIFPresentationPreview
+    WorkDetailsSections.push(
+      <StyledWorkDetailsSection
+        headingText={`What this ${singularWorkTypeLabel} looks like`}
+      >
+        {iiifPresentationLocation && (
+          <IIIFPresentationPreview
+            manifestLocation={iiifPresentationLocation.url}
+          />
+        )}
+        {iiifImageLocationUrl && (
+          <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
+        )}
+      </StyledWorkDetailsSection>
+    );
+  }
   if (iiifImageLocationUrl) {
     WorkDetailsSections.push(
       <StyledWorkDetailsSection>

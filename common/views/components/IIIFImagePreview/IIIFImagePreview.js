@@ -1,39 +1,13 @@
 // @flow
 import { Fragment, useState, useEffect } from 'react';
-import { Transition } from 'react-transition-group';
-import Image from '../Image/Image';
-import Control from '../Buttons/Control/Control';
-import { spacing } from '../../../utils/classnames';
+import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
+import Control from '../Buttons/Control/Control';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
-
-type LaunchViewerButtonProps = {|
-  classes: string,
-  clickHandler: () => void,
-  didMountHandler: () => void,
-|};
-
-const LaunchViewerButton = ({
-  classes,
-  clickHandler,
-  didMountHandler,
-}: LaunchViewerButtonProps) => {
-  useEffect(() => {
-    didMountHandler();
-  }, []);
-
-  return (
-    <Control
-      type="dark"
-      text="View larger image"
-      icon="zoomIn"
-      extraClasses={`image-viewer__launch-button ${classes}`}
-      clickHandler={clickHandler}
-    />
-  );
-};
 
 type ViewerContentProps = {|
   id: string,
@@ -52,7 +26,7 @@ const ViewerContent = ({
 }: ViewerContentProps) => {
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27 && viewerVisible) {
-      handleViewerDisplay('Keyboard');
+      handleViewerDisplay(null, 'Keyboard');
     }
   };
 
@@ -106,7 +80,7 @@ const ViewerContent = ({
           icon="cross"
           extraClasses={`${spacing({ s: 2 }, { margin: ['right'] })}`}
           clickHandler={() => {
-            handleViewerDisplay('Control');
+            handleViewerDisplay(null, 'Control');
           }}
         />
       </div>
@@ -116,77 +90,73 @@ const ViewerContent = ({
   );
 };
 
-type ImageViewerProps = {|
-  id: string,
-  contentUrl: string,
-  infoUrl: string,
-  width: number,
+type IIIFImagePreviewProps = {|
+  iiifImageLocationUrl: string,
 |};
-
-const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
+const IIIFImagePreview = ({ iiifImageLocationUrl }: IIIFImagePreviewProps) => {
   const [showViewer, setShowViewer] = useState(false);
-  const [mountViewButton, setMountViewButton] = useState(false);
-  const [viewButtonMounted, setViewButtonMounted] = useState(false);
+  const [jsEnabled, setJsEnabled] = useState(false);
+  const thumbnailUrl = iiifImageTemplate(iiifImageLocationUrl)({
+    size: ',400',
+  });
+  const largeSizeUrl = iiifImageTemplate(iiifImageLocationUrl)({
+    size: '1024,',
+  });
 
-  const handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
+  const handleViewerDisplay = (
+    event,
+    initiator: 'Button' | 'Control' | 'Image' | 'Keyboard'
+  ) => {
+    event && event.preventDefault();
     trackEvent({
       category: initiator,
       action: `${showViewer ? 'closed' : 'opened'} ImageViewer`,
-      label: id,
+      label: iiifImageLocationUrl,
     });
     setShowViewer(!showViewer);
   };
 
-  const viewButtonMountedHandler = () => {
-    setViewButtonMounted(!viewButtonMounted);
-  };
-
   useEffect(() => {
-    setMountViewButton(!viewButtonMounted);
+    setJsEnabled(true);
   }, []);
 
   return (
     <Fragment>
-      <Image
-        width={width}
-        contentUrl={contentUrl}
-        lazyload={false}
-        sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
+      <img
+        className={classNames({
+          'cursor-zoom-in': jsEnabled,
+          [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+        })}
+        style={{ width: 'auto', display: 'block' }}
+        src={thumbnailUrl}
         alt=""
-        clickHandler={() => {
-          handleViewerDisplay('Image');
+        onClick={() => {
+          handleViewerDisplay(null, 'Image');
         }}
-        zoomable={viewButtonMounted}
-        defaultSize={800}
-        extraClasses="margin-h-auto width-auto full-height full-max-width block"
       />
-      <Transition in={mountViewButton} timeout={700}>
-        {status => {
-          if (status === 'exited') {
-            return null;
-          }
-          return (
-            <LaunchViewerButton
-              classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
-              didMountHandler={viewButtonMountedHandler}
-              clickHandler={() => {
-                handleViewerDisplay('Control');
-              }}
-            />
-          );
+      <Button
+        type="tertiary"
+        url={largeSizeUrl}
+        clickHandler={event => {
+          handleViewerDisplay(event, 'Button');
         }}
-      </Transition>
+        text="View larger"
+      />
       {showViewer && (
         <ViewerContent
           classes=""
           viewerVisible={showViewer}
-          id={id}
+          id={iiifImageLocationUrl}
           handleViewerDisplay={handleViewerDisplay}
-          infoUrl={infoUrl}
+          infoUrl={iiifImageLocationUrl}
         />
       )}
     </Fragment>
   );
 };
 
-export default ImageViewer;
+export default IIIFImagePreview;
+// TODO put viewerContent in own file import here and in ImageViewer
+// TODO component / file names
+// TODO alt
+// TODO layout / styling

@@ -15,7 +15,6 @@ import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
@@ -28,6 +27,7 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
+  showSingleImageWorkPreview: boolean,
 |};
 
 export const WorkPage = ({
@@ -36,6 +36,7 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
+  showSingleImageWorkPreview,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -53,14 +54,6 @@ export const WorkPage = ({
   const [iiifImageLocation] = work.items
     .map(item =>
       item.locations.find(location => location.locationType.id === 'iiif-image')
-    )
-    .filter(Boolean);
-
-  const [iiifPresentationLocation] = work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
     )
     .filter(Boolean);
 
@@ -169,12 +162,7 @@ export const WorkPage = ({
       </div>
 
       <Fragment>
-        {iiifPresentationLocation && (
-          <IIIFPresentationDisplay
-            manifestLocation={iiifPresentationLocation.url}
-          />
-        )}
-        {iiifImageLocationUrl && (
+        {iiifImageLocationUrl && !showSingleImageWorkPreview && (
           <WorkMedia
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
@@ -189,6 +177,7 @@ export const WorkPage = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           encoreLink={encoreLink}
+          showSingleImageWorkPreview={showSingleImageWorkPreview}
         />
       </Fragment>
     </PageLayout>
@@ -211,6 +200,7 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
+  const { showSingleImageWorkPreview = false } = ctx.query.toggles;
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -230,6 +220,7 @@ WorkPage.getInitialProps = async (
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
+      showSingleImageWorkPreview,
     };
   }
 };

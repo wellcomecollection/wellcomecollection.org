@@ -14,4 +14,4 @@ const WorkMediaExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('WorkMedia', WorkMediaExample, {info: Readme});
+stories.add('WorkMedia', WorkMediaExample, { info: Readme });
