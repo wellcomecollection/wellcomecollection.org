@@ -125,9 +125,9 @@ const WorkDetails = ({
   }
   if (!iiifImageLocationUrl && showWorkPreview) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection>
+      <WorkDetailsSection>
         <DownloadDummy />
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   if (
