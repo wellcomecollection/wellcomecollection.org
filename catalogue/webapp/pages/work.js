@@ -1,12 +1,14 @@
 // @flow
 import { Fragment } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { getIiifPresentationLocation } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -24,6 +26,7 @@ import { getWork } from '../services/catalogue/works';
 
 type Props = {|
   work: Work | CatalogueApiError,
+  iiifManifest: ?{},
   workType: string[],
   query: ?string,
   page: ?number,
@@ -32,6 +35,7 @@ type Props = {|
 
 export const WorkPage = ({
   work,
+  iiifManifest,
   query,
   page,
   workType,
@@ -173,6 +177,7 @@ export const WorkPage = ({
 
             <WorkDetails
               work={work}
+              iiifManifest={iiifManifest}
               iiifImageLocationUrl={iiifImageLocationUrl}
               licenseInfo={licenseInfo}
               iiifImageLocationCredit={iiifImageLocationCredit}
@@ -204,6 +209,13 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
+  const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
+  let iiifManifest = null;
+  if (iiifPresentationLocation) {
+    try {
+      iiifManifest = await fetch(iiifPresentationLocation.url);
+    } catch (e) {}
+  }
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -220,6 +232,7 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
+      iiifManifest: iiifManifest ? await iiifManifest.json() : null,
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,

@@ -89,6 +89,7 @@ type Work = Object;
 
 type Props = {|
   work: Work,
+  iiifManifest: ?{},
   iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
@@ -100,6 +101,7 @@ type Props = {|
 
 const WorkDetails = ({
   work,
+  iiifManifest,
   iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
@@ -116,14 +118,14 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (showWorkPreview && (iiifImageLocationUrl || work.iiifManifest)) {
+  if (showWorkPreview && (iiifImageLocationUrl || iiifManifest)) {
     WorkDetailsSections.push(
       <StyledWorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
-        {work.iiifManifest && (
+        {iiifManifest && (
           <IIIFPresentationPreview
-            manifestData={work.iiifManifest}
+            manifestData={iiifManifest}
             showMultiImageWorkPreview={showMultiImageWorkPreview}
           />
         )}
