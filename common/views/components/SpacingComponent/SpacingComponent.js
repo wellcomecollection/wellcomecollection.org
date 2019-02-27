@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { classNames } from '../../../utils/classnames';
 
 type Props = {|
-  children: Node,
+  children?: Node,
 |};
 
 const SpacingComponent = ({ children }: Props) => {

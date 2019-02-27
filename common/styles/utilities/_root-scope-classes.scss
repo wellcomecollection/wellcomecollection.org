@@ -498,19 +498,22 @@
   }
 }
 
-.spacing-component + .spacing-component {
-  margin-top: $spacing-unit * 6;
+.spacing-component + .spacing-component,
+// HACK: allow empty <SpacingComponent /> to act as a shim where we need more
+// space but where there isn't a preceding <SpacingComponent>stuff</SpacingComponent>
+.spacing-component:empty {
+  margin-top: $spacing-unit * 4;
 
   @include respond-to('medium') {
-    margin-top: $spacing-unit * 8;
+    margin-top: $spacing-unit * 6;
   }
 }
 
 .spacing-section {
-  padding-bottom: $spacing-unit * 9;
+  padding-bottom: $spacing-unit * 8;
 
   @include respond-to('medium') {
-    padding-bottom: $spacing-unit * 13;
+    padding-bottom: $spacing-unit * 10;
   }
 }
 
@@ -519,10 +522,10 @@
 .hero-picture-bg {
   height: 50%;
   width: 100%;
-  bottom: $spacing-unit * -9;
+  bottom: $spacing-unit * -8;
 
   @include respond-to('medium') {
-    bottom: $spacing-unit * -13;
+    bottom: $spacing-unit * -10;
   }
 }
 

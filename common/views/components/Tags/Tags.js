@@ -1,5 +1,3 @@
-// @flow
-
 import styled from 'styled-components';
 import { spacing, font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
@@ -69,7 +67,7 @@ const Tags = ({ tags }: Props) => {
                         {i !== arr.length - 1 && (
                           <span
                             className={classNames({
-                              [font({ s: 'HNL4' })]: true,
+                              [font({ s: 'HNL5', m: 'HNL4' })]: true,
                             })}
                           >
                             {' '}

@@ -2,6 +2,7 @@
 import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Tags, { type TagType } from '../Tags/Tags';
 
 type HeadingProps = {
@@ -9,7 +10,7 @@ type HeadingProps = {
   headingText: string,
 };
 const Heading = ({ headingLevel, headingText }: HeadingProps) => {
-  const classes = `${font({ s: 'HNM4', m: 'HNM3' })} ${spacing(
+  const classes = `${font({ s: 'HNM5', m: 'HNM4' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
   )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`;
@@ -35,12 +36,13 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   }
 };
 
-const Paragraphs = ({ text }) => {
+const Paragraphs = ({ text }: { text: string[] }) => {
   return (
-    text.length > 0 &&
-    text.map((para, i) => {
-      return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
-    })
+    <div className="spaced-text">
+      {text.map((para, i) => {
+        return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
+      })}
+    </div>
   );
 };
 
@@ -116,16 +118,18 @@ const MetaUnit = ({
   children,
 }: MetaUnitProps) => {
   return (
-    <div className={`${font({ s: 'HNL4', m: 'HNL3' })}`}>
-      {headingText && (
-        <Heading headingLevel={headingLevel} headingText={headingText} />
-      )}
-      <Paragraphs text={text} />
-      <LinksList links={links} />
-      <List list={list} />
-      {tags.length > 0 && <Tags tags={tags} />}
-      {children}
-    </div>
+    <SpacingComponent>
+      <div className={`${font({ s: 'HNL5', m: 'HNL4' })}`}>
+        {headingText && (
+          <Heading headingLevel={headingLevel} headingText={headingText} />
+        )}
+        {text.length > 0 && <Paragraphs text={text} />}
+        <LinksList links={links} />
+        <List list={list} />
+        {tags.length > 0 && <Tags tags={tags} />}
+        {children}
+      </div>
+    </SpacingComponent>
   );
 };
 
