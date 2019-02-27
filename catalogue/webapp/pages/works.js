@@ -369,7 +369,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
       : showCatalogueSearchFilters
       ? ['iiif-image', 'iiif-presentation']
       : ['iiif-image'];
-  console.info(workType);
+
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
     workType: !showCatalogueSearchFilters
@@ -379,7 +379,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
       : workType,
   };
 
-  console.info(filters);
   const worksOrError =
     query && query !== '' ? await getWorks({ query, page, filters }) : null;
 

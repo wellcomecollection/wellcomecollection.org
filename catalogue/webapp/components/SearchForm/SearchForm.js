@@ -167,6 +167,12 @@ const SearchForm = ({
             </button>
           </SearchButtonWrapper>
         </div>
+        <input
+          type="hidden"
+          name="items.locations.locationType"
+          value={itemsLocationsLocationType}
+        />
+        <input type="hidden" name="workType" value={workType.join(',')} />
       </form>
       <TogglesContext.Consumer>
         {({ showCatalogueSearchFilters, feedback }) =>
