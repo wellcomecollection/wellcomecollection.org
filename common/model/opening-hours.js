@@ -1,5 +1,4 @@
 // @flow
-import moment from 'moment';
 import type Moment from 'moment';
 
 export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
@@ -99,12 +98,7 @@ export const galleryOpeningHours: OpeningHours = {
     { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Sunday', opens: '11:00', closes: '18:00' },
   ],
-  exceptional: [
-    { overrideDate: moment('2018-04-02'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-05-07'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-05-28'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-08-27'), opens: '10:00', closes: '18:00' },
-  ],
+  exceptional: [],
 };
 
 export const libraryOpeningHours: OpeningHours = {
@@ -118,12 +112,7 @@ export const libraryOpeningHours: OpeningHours = {
     { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Sunday' },
   ],
-  exceptional: [
-    { overrideDate: moment('2018-04-02'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-05-07'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-05-28'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-08-27'), opens: '10:00', closes: '18:00' },
-  ],
+  exceptional: [],
 };
 
 // http://schema.org/specialOpeningHoursSpecification
