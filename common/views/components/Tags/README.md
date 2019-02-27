@@ -1,3 +1,3 @@
 ## Purpose
 
-To provide navigation to groups of related content.
+To indicate the links that will trigger a search.

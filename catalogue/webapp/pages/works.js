@@ -353,6 +353,7 @@ export const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
+  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
 
   const workTypeQuery = ctx.query.workType;
   // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
@@ -369,15 +370,15 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         )
     : typeof workTypeQuery === 'string'
     ? workTypeQuery.split(',')
+    : showCatalogueSearchFilters
+    ? []
     : ['k', 'q'];
-
-  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
       ? ctx.query['items.locations.locationType'].split(',')
       : showCatalogueSearchFilters
-      ? ['iiif-image']
+      ? ['iiif-image', 'iiif-presentation']
       : ['iiif-image'];
 
   const filters = {

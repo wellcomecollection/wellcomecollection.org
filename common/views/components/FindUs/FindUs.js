@@ -4,7 +4,7 @@ import { spacing, font, classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import Icon from '../Icon/Icon';
 import {
-  wellcomeCollection,
+  wellcomeCollectionGallery,
   wellcomeCollectionAddress,
 } from '../../../model/organization';
 
@@ -56,7 +56,10 @@ const FindUs = () => (
       })}
     >
       <abbr title="telephone number">T</abbr>:{' '}
-      <a className="find-us__link" href={`tel:${wellcomeCollection.telephone}`}>
+      <a
+        className="find-us__link"
+        href={`tel:${wellcomeCollectionGallery.telephone}`}
+      >
         +44 (0)20 7611 2222
       </a>
     </p>

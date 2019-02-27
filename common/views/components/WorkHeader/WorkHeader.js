@@ -11,7 +11,7 @@ import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
-import WorkTags from '../WorkTags/WorkTags';
+import Tags from '../Tags/Tags';
 import { worksUrl } from '../../../services/catalogue/urls';
 
 type Props = {|
@@ -72,10 +72,9 @@ const WorkHeader = ({ work }: Props) => {
                   [spacing({ s: 2 }, { margin: ['right'] })]: true,
                 })}
               >
-                <WorkTags
+                <Tags
                   tags={work.contributors.map(({ agent }) => {
                     return {
-                      query: agent.label,
                       textParts: [agent.label],
                       linkAttributes: worksUrl({
                         query: `"${agent.label}"`,

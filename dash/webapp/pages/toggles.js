@@ -45,6 +45,11 @@ const featureToggles = [
       'This will show unfilter those results, and allow for filtering.',
   },
   {
+    id: 'feedback',
+    title: 'Feedback',
+    description: 'Asking people for feedback on our service',
+  },
+  {
     id: 'showWorkLocations',
     title: 'Show the locations of a work in the header',
     description:
