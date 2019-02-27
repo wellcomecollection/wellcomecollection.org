@@ -2,8 +2,7 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
-import styled from 'styled-components';
-import { font, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -18,74 +17,47 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type WorkDetailsSectionProps = {|
-  className?: string,
   headingText?: string,
   children: Node,
 |};
 
 const WorkDetailsSection = ({
-  className,
   headingText,
   children,
 }: WorkDetailsSectionProps) => {
   return (
-    <div className={className}>
-      {headingText ? (
-        <h2
-          className={classNames({
-            [font({ s: 'WB6', m: 'WB5' })]: true,
-            'work-details-heading': true,
-          })}
-        >
-          {headingText}
-        </h2>
-      ) : (
-        <div className="work-details-heading" />
-      )}
+    <div
+      className={classNames({
+        grid: true,
+      })}
+    >
+      <div
+        className={classNames({
+          [grid({ s: 12, m: 12, l: 4, xl: 4 })]: true,
+        })}
+      >
+        {headingText && (
+          <h2
+            className={classNames({
+              [font({ s: 'WB6', m: 'WB5' })]: true,
+              'work-details-heading': true,
+            })}
+          >
+            {headingText}
+          </h2>
+        )}
+      </div>
 
-      <div className="work-details-body">{children}</div>
+      <div
+        className={classNames({
+          [grid({ s: 12, m: 12, l: 8, xl: 7 })]: true,
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 };
-
-const StyledWorkDetailsSection = styled(WorkDetailsSection)`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  padding: 0;
-
-  &:first-child {
-    border-top: 0;
-  }
-
-  .work-details-heading,
-  .work-details-body {
-    grid-column: 1 / -1;
-  }
-
-  h2.work-details-heading {
-    margin: ${props => `0 0 ${props.theme.spacingUnit * 2}px 0`};
-  }
-
-  ${props => props.theme.media.large`
-    h2.work-details-heading {
-      margin: 0;
-    }
-
-    .work-details-heading {
-      grid-column: span 4;
-    }
-
-    .work-details-body {
-      grid-column: span 8;
-    }
-  `}
-
-  ${props => props.theme.media.xlarge`
-    .work-details-body {
-      grid-column: span 7;
-    }
-  `}
-`;
 
 type Work = Object;
 
@@ -121,7 +93,7 @@ const WorkDetails = ({
     (iiifImageLocationUrl || work.iiifManifest)
   ) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection
+      <WorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
       >
         {work.iiifManifest && (
@@ -130,12 +102,12 @@ const WorkDetails = ({
         {iiifImageLocationUrl && (
           <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
         )}
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   if (iiifImageLocationUrl) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection>
+      <WorkDetailsSection>
         <Download
           work={work}
           iiifImageLocationUrl={iiifImageLocationUrl}
@@ -143,7 +115,7 @@ const WorkDetails = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         />
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   if (
@@ -157,9 +129,7 @@ const WorkDetails = ({
     work.language
   ) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection
-        headingText={`About this ${singularWorkTypeLabel}`}
-      >
+      <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
         {work.description && (
           <MetaUnit
             headingLevel={3}
@@ -232,12 +202,12 @@ const WorkDetails = ({
             links={[work.language.label]}
           />
         )}
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   if (work.subjects.length > 0) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection headingText="Subjects">
+      <WorkDetailsSection headingText="Subjects">
         <MetaUnit
           tags={work.subjects.map(s => {
             return {
@@ -250,22 +220,22 @@ const WorkDetails = ({
             };
           })}
         />
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   if (encoreLink) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection headingText="Find in the library">
+      <WorkDetailsSection headingText="Find in the library">
         <MetaUnit
           text={[
             `This ${singularWorkTypeLabel} is available at <a href="${encoreLink}">Wellcome Library</a>`,
           ]}
         />
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   WorkDetailsSections.push(
-    <StyledWorkDetailsSection headingText="Identifiers">
+    <WorkDetailsSection headingText="Identifiers">
       {isbnIdentifiers.length > 0 && (
         <MetaUnit
           headingText="ISBN"
@@ -278,11 +248,11 @@ const WorkDetails = ({
           url={`https://wellcomecollection.org/works/${work.id}`}
         />
       </MetaUnit>
-    </StyledWorkDetailsSection>
+    </WorkDetailsSection>
   );
   if (licenseInfo) {
     WorkDetailsSections.push(
-      <StyledWorkDetailsSection headingText="License information">
+      <WorkDetailsSection headingText="License information">
         <div id="licenseInformation">
           <MetaUnit
             headingLevel={3}
@@ -309,11 +279,11 @@ const WorkDetails = ({
             ]}
           />
         </div>
-      </StyledWorkDetailsSection>
+      </WorkDetailsSection>
     );
   }
   WorkDetailsSections.push(
-    <StyledWorkDetailsSection>
+    <WorkDetailsSection>
       <div className="flex flex--v-center">
         <Icon name="underConstruction" extraClasses="margin-right-s2" />
         <p
@@ -326,7 +296,7 @@ const WorkDetails = ({
           <a href="/works/progress">Find out more</a>.
         </p>
       </div>
-    </StyledWorkDetailsSection>
+    </WorkDetailsSection>
   );
 
   return (
