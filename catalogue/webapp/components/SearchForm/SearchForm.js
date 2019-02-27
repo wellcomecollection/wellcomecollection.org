@@ -48,14 +48,14 @@ const ClearSearch = styled.button`
 type SearchTagProps = {
   link: NextLinkType,
   label: string,
-  checked: boolean,
+  selected: boolean,
 };
-const SearchTag = ({ link, label, checked }: SearchTagProps) => {
+const SearchTag = ({ link, label, selected }: SearchTagProps) => {
   return (
     <NextLink {...link}>
       <a
         className={classNames({
-          // 'bg-pumice': true,
+          'font-teal': selected,
           'flex-inline': true,
           'flex--v-center': true,
           pointer: true,
@@ -65,15 +65,7 @@ const SearchTag = ({ link, label, checked }: SearchTagProps) => {
           )]: true,
           [font({ s: 'HNL4' })]: true,
         })}
-        style={{ borderRadius: '3px', textDecoration: 'underline' }}
       >
-        <input
-          className={classNames({
-            [spacing({ s: 1 }, { margin: ['right'] })]: true,
-          })}
-          type="checkbox"
-          checked={checked}
-        />
         {label}
       </a>
     </NextLink>
@@ -175,6 +167,12 @@ const SearchForm = ({
             </button>
           </SearchButtonWrapper>
         </div>
+        <input
+          type="hidden"
+          name="items.locations.locationType"
+          value={itemsLocationsLocationType}
+        />
+        <input type="hidden" name="workType" value={workType.join(',')} />
       </form>
       <TogglesContext.Consumer>
         {({ showCatalogueSearchFilters, feedback }) =>
@@ -226,9 +224,24 @@ const SearchForm = ({
                   </legend>
                   <SearchTag
                     name={'workType'}
+                    label="Books"
+                    value="a"
+                    selected={workType.indexOf('a') !== -1}
+                    link={worksUrl({
+                      query,
+                      workType:
+                        workType.indexOf('a') !== -1
+                          ? workType.filter(workType => workType !== 'a')
+                          : [...workType, 'a'],
+                      itemsLocationsLocationType,
+                      page: 1,
+                    })}
+                  />
+                  <SearchTag
+                    name={'workType'}
                     label="Digital images"
                     value="q"
-                    checked={workType.indexOf('q') !== -1}
+                    selected={workType.indexOf('q') !== -1}
                     link={worksUrl({
                       query,
                       workType:
@@ -243,28 +256,13 @@ const SearchForm = ({
                     name={'workType'}
                     label="Pictures"
                     value="k"
-                    checked={workType.indexOf('k') !== -1}
+                    selected={workType.indexOf('k') !== -1}
                     link={worksUrl({
                       query,
                       workType:
                         workType.indexOf('k') !== -1
                           ? workType.filter(workType => workType !== 'k')
                           : [...workType, 'k'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
-                  />
-                  <SearchTag
-                    name={'workType'}
-                    label="Books"
-                    value="a"
-                    checked={workType.indexOf('a') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('a') !== -1
-                          ? workType.filter(workType => workType !== 'a')
-                          : [...workType, 'a'],
                       itemsLocationsLocationType,
                       page: 1,
                     })}
