@@ -127,7 +127,7 @@ const IIIFImagePreview = ({ iiifImageLocationUrl }: IIIFImagePreviewProps) => {
           'cursor-zoom-in': jsEnabled,
           [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
         })}
-        style={{ width: 'auto', display: 'block' }}
+        style={{ width: 'auto', height: '300px', display: 'block' }}
         src={thumbnailUrl}
         alt=""
         onClick={() => {
@@ -135,7 +135,7 @@ const IIIFImagePreview = ({ iiifImageLocationUrl }: IIIFImagePreviewProps) => {
         }}
       />
       <Button
-        type="tertiary"
+        type="primary"
         url={largeSizeUrl}
         clickHandler={event => {
           handleViewerDisplay(event, 'Button');
@@ -156,7 +156,5 @@ const IIIFImagePreview = ({ iiifImageLocationUrl }: IIIFImagePreviewProps) => {
 };
 
 export default IIIFImagePreview;
-// TODO put viewerContent in own file import here and in ImageViewer
-// TODO component / file names
-// TODO alt
+// TODO alt - how do we handle this
 // TODO layout / styling

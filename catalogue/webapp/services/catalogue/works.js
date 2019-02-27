@@ -1,6 +1,5 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
-import { getIiifPresentationLocation } from '@weco/common/utils/works';
 import {
   type CatalogueResultsList,
   type CatalogueApiError,
@@ -81,18 +80,5 @@ export async function getWork({
 
   const json = await res.json();
 
-  const iiifPresentationLocation = getIiifPresentationLocation(json);
-
-  if (iiifPresentationLocation) {
-    const iiifManifest = await fetch(iiifPresentationLocation.url);
-    return {
-      iiifManifest: await iiifManifest.json(),
-      ...json,
-    };
-  } else {
-    return {
-      iiifManifest: null,
-      ...json,
-    };
-  }
+  return json;
 }

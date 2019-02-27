@@ -1,12 +1,14 @@
 // @flow
 import { Fragment } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { getIiifPresentationLocation } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -19,24 +21,25 @@ import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
 
 type Props = {|
   work: Work | CatalogueApiError,
+  iiifManifest: ?{},
   workType: string[],
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  showSingleImageWorkPreview: boolean,
 |};
 
 export const WorkPage = ({
   work,
+  iiifManifest,
   query,
   page,
   workType,
   itemsLocationsLocationType,
-  showSingleImageWorkPreview,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -161,25 +164,31 @@ export const WorkPage = ({
         </div>
       </div>
 
-      <Fragment>
-        {iiifImageLocationUrl && !showSingleImageWorkPreview && (
-          <WorkMedia
-            id={work.id}
-            iiifUrl={iiifImageLocationUrl}
-            title={work.title}
-          />
-        )}
+      <TogglesContext.Consumer>
+        {({ showWorkPreview, showMultiImageWorkPreview }) => (
+          <Fragment>
+            {iiifImageLocationUrl && !showWorkPreview && (
+              <WorkMedia
+                id={work.id}
+                iiifUrl={iiifImageLocationUrl}
+                title={work.title}
+              />
+            )}
 
-        <WorkDetails
-          work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          encoreLink={encoreLink}
-          showSingleImageWorkPreview={showSingleImageWorkPreview}
-        />
-      </Fragment>
+            <WorkDetails
+              work={work}
+              iiifManifest={iiifManifest}
+              iiifImageLocationUrl={iiifImageLocationUrl}
+              licenseInfo={licenseInfo}
+              iiifImageLocationCredit={iiifImageLocationCredit}
+              iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+              encoreLink={encoreLink}
+              showWorkPreview={showWorkPreview}
+              showMultiImageWorkPreview={showMultiImageWorkPreview}
+            />
+          </Fragment>
+        )}
+      </TogglesContext.Consumer>
     </PageLayout>
   );
 };
@@ -200,7 +209,13 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const { showSingleImageWorkPreview = false } = ctx.query.toggles;
+  const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
+  let iiifManifest = null;
+  if (iiifPresentationLocation) {
+    try {
+      iiifManifest = await fetch(iiifPresentationLocation.url);
+    } catch (e) {}
+  }
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -217,10 +232,10 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
+      iiifManifest: iiifManifest ? await iiifManifest.json() : null,
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,
-      showSingleImageWorkPreview,
     };
   }
 };
