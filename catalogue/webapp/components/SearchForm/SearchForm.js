@@ -218,6 +218,21 @@ const SearchForm = ({
                   </legend>
                   <SearchTag
                     name={'workType'}
+                    label="Books"
+                    value="a"
+                    selected={workType.indexOf('a') !== -1}
+                    link={worksUrl({
+                      query,
+                      workType:
+                        workType.indexOf('a') !== -1
+                          ? workType.filter(workType => workType !== 'a')
+                          : [...workType, 'a'],
+                      itemsLocationsLocationType,
+                      page: 1,
+                    })}
+                  />
+                  <SearchTag
+                    name={'workType'}
                     label="Digital images"
                     value="q"
                     selected={workType.indexOf('q') !== -1}
@@ -242,21 +257,6 @@ const SearchForm = ({
                         workType.indexOf('k') !== -1
                           ? workType.filter(workType => workType !== 'k')
                           : [...workType, 'k'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
-                  />
-                  <SearchTag
-                    name={'workType'}
-                    label="Books"
-                    value="a"
-                    selected={workType.indexOf('a') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('a') !== -1
-                          ? workType.filter(workType => workType !== 'a')
-                          : [...workType, 'a'],
                       itemsLocationsLocationType,
                       page: 1,
                     })}

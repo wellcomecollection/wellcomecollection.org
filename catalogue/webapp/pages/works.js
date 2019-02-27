@@ -355,24 +355,13 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
   const { showCatalogueSearchFilters = false } = ctx.query.toggles;
 
+  const defaultWorkType = ['k', 'q'];
   const workTypeQuery = ctx.query.workType;
-  // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
-  // considered multiple workTypes
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-        .map(workType => workType.split(','))
-        .reduce(
-          (workTypes, workTypeStringArray) => [
-            ...workTypes,
-            ...workTypeStringArray,
-          ],
-          []
-        )
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : showCatalogueSearchFilters
+  const workType = !showCatalogueSearchFilters
+    ? defaultWorkType
+    : !workTypeQuery
     ? []
-    : ['k', 'q'];
+    : workTypeQuery.split(',').filter(Boolean);
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
@@ -380,12 +369,17 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
       : showCatalogueSearchFilters
       ? ['iiif-image', 'iiif-presentation']
       : ['iiif-image'];
-
+  console.info(workType);
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
-    workType,
+    workType: !showCatalogueSearchFilters
+      ? defaultWorkType
+      : workType.length === 0
+      ? ['a', 'k', 'q']
+      : workType,
   };
 
+  console.info(filters);
   const worksOrError =
     query && query !== '' ? await getWorks({ query, page, filters }) : null;
 
