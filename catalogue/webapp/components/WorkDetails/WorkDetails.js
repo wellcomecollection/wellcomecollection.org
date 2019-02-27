@@ -214,7 +214,6 @@ const WorkDetails = ({
               headingText="Type"
               tags={work.genres.map(g => {
                 return {
-                  query: g.label,
                   textParts: g.concepts.map(c => c.label),
                   linkAttributes: worksUrl({
                     query: `"${g.label}"`,
@@ -243,7 +242,6 @@ const WorkDetails = ({
           headingText=""
           tags={work.subjects.map(s => {
             return {
-              query: s.label,
               textParts: s.concepts.map(c => c.label),
               linkAttributes: worksUrl({
                 query: `"${s.label}"`,
