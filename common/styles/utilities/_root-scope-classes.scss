@@ -486,6 +486,10 @@
   @include clearfix;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .drop-cap {
   color: color('black');
   float: left;
