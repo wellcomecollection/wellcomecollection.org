@@ -129,7 +129,7 @@ const IIIFPresentationDisplay = ({
                       return (
                         <a
                           key={canvas.thumbnail.service['@id']}
-                          tabIndex="-1"
+                          tabIndex={i < 4 ? 0 : -1}
                           href={iiifImageTemplate(
                             canvas.thumbnail.service['@id']
                           )({ size: ',1024' })}
@@ -168,7 +168,7 @@ const IIIFPresentationDisplay = ({
                   </div>
                 </ScrollContainer>
               )}
-              {/* TODO temporary links to large image for ttesting, while we don't have a viewer */}
+              {/* TODO temporary links to large image for testing, while we don't have a viewer */}
               <div>
                 <Button
                   type="primary"
@@ -192,3 +192,4 @@ export default IIIFPresentationDisplay;
 // TODO if we go with single image then show specific page if available title page, then cover, then first image (preferably first text image, not blank page)
 // TODO import IIIFBookPreview?
 // TODO layout / styling
+// TODO tabindexes on anchors around lazyloaded images should be set to 0 with javascript when items are in view, else -1
