@@ -12,11 +12,14 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'useBetaDownloadComponent',
-    title: 'Use the beta download component',
-    shouldRun(request) {
-      return request.uri.match(/^\/works\/.+/);
+    id: 'genericWorkCard',
+    title: 'Generic work card',
+    shouldRun: request => {
+      return request.uri.match(/\/works[^/]*/);
     },
+    description:
+      'Visual treatment of the work card that accounts for other work types ' +
+      'and not exclusively images',
   },
 ];
 

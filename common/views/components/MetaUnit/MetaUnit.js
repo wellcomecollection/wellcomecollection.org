@@ -1,7 +1,9 @@
 // @flow
+import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import Divider from '../Divider/Divider';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Tags, { type TagType } from '../Tags/Tags';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -11,7 +13,7 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   const classes = `${font({ s: 'HNM5', m: 'HNM4' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
-  )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`;
+  )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`;
   const smallClasses = `${font({ s: 'HNM6', m: 'HNM5' })} ${spacing(
     { s: 0 },
     { margin: ['top'] }
@@ -22,7 +24,7 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
     case 2:
       return <h2 className={classes}>{headingText}</h2>;
     case 3:
-      return <h3 className={smallClasses}>{headingText}</h3>;
+      return <h3 className={classes}>{headingText}</h3>;
     case 4:
       return <h4 className={smallClasses}>{headingText}</h4>;
     case 5:
@@ -34,21 +36,13 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   }
 };
 
-const Paragraphs = ({ text }) => {
+const Paragraphs = ({ text }: { text: string[] }) => {
   return (
-    text.length > 0 &&
-    text.map((para, i) => {
-      return (
-        <p
-          key={i}
-          className={`${font({ s: 'HNL5', m: 'HNL4' })} ${spacing(
-            { s: 2 },
-            { margin: ['bottom'] }
-          )}`}
-          dangerouslySetInnerHTML={{ __html: para }}
-        />
-      );
-    })
+    <div className="spaced-text">
+      {text.map((para, i) => {
+        return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
+      })}
+    </div>
   );
 };
 
@@ -56,7 +50,10 @@ const LinksList = ({ links }) => {
   return (
     links.length > 0 && (
       <ul
-        className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${spacing(
+        className={`plain-list ${spacing(
+          { s: 2 },
+          { margin: ['bottom'] }
+        )} ${spacing(
           { s: 0 },
           {
             margin: ['top', 'left', 'right'],
@@ -65,7 +62,7 @@ const LinksList = ({ links }) => {
         )}`}
       >
         {links.map((link, i, arr) => (
-          <li key={i} className={`inline ${font({ s: 'HNL5', m: 'HNL4' })}`}>
+          <li key={i} className="inline">
             {link.url && <NextLink href={link.url}>{link.text}</NextLink>}
             {!link.url && link}
             {arr.length - 1 !== i && ' '}
@@ -80,7 +77,10 @@ const List = ({ list }) => {
   return (
     list.length > 0 && (
       <ul
-        className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${spacing(
+        className={`plain-list ${spacing(
+          { s: 2 },
+          { margin: ['bottom'] }
+        )} ${spacing(
           { s: 0 },
           {
             margin: ['top', 'left', 'right'],
@@ -89,11 +89,7 @@ const List = ({ list }) => {
         )}`}
       >
         {list.map((item, i, arr) => (
-          <li
-            key={i}
-            className={font({ s: 'HNL5', m: 'HNL4' })}
-            style={{ listStylePosition: 'inside' }}
-          >
+          <li key={i} style={{ listStylePosition: 'inside' }}>
             {item}
           </li>
         ))}
@@ -101,13 +97,15 @@ const List = ({ list }) => {
     )
   );
 };
+
 type MetaUnitProps = {|
   headingLevel?: number,
   headingText?: string,
   links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
+  tags?: TagType[],
   text?: string[],
   list?: string[],
-  includeDivider?: boolean,
+  children?: Node,
 |};
 
 const MetaUnit = ({
@@ -115,26 +113,23 @@ const MetaUnit = ({
   headingText,
   text = [],
   links = [],
+  tags = [],
   list = [],
-  includeDivider,
+  children,
 }: MetaUnitProps) => {
   return (
-    <div className={spacing({ s: 2 }, { margin: ['bottom'] })}>
-      {headingText && (
-        <Heading headingLevel={headingLevel} headingText={headingText} />
-      )}
-      <Paragraphs text={text} />
-      <LinksList links={links} />
-      <List list={list} />
-      {includeDivider && (
-        <Divider
-          extraClasses={`divider--pumice divider--keyline ${spacing(
-            { s: 1 },
-            { margin: ['top', 'bottom'] }
-          )}`}
-        />
-      )}
-    </div>
+    <SpacingComponent>
+      <div className={`${font({ s: 'HNL5', m: 'HNL4' })}`}>
+        {headingText && (
+          <Heading headingLevel={headingLevel} headingText={headingText} />
+        )}
+        {text.length > 0 && <Paragraphs text={text} />}
+        <LinksList links={links} />
+        <List list={list} />
+        {tags.length > 0 && <Tags tags={tags} />}
+        {children}
+      </div>
+    </SpacingComponent>
   );
 };
 

@@ -8,6 +8,9 @@
     "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
     "deployContent": "pushd deploy && ./deploy_service.js -s content"
   },
+  "engines": {
+    "node" : "10.15.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"

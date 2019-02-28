@@ -1,12 +1,12 @@
 // @flow
-import type { Context } from 'next';
-import type {
-  CatalogueApiError,
-  CatalogueResultsList,
-} from '../services/catalogue/works';
+import { type Context } from 'next';
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import {
+  type CatalogueApiError,
+  type CatalogueResultsList,
+} from '@weco/common/model/catalogue';
 import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -15,11 +15,12 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import { workUrl, worksUrl } from '../services/catalogue/urls';
-import WorkCompactCard from '../components/WorkCompactCard.js/WorkCompactCard';
+import WorkCard from '../components/WorkCard/WorkCard';
 
 type Props = {|
   query: ?string,
@@ -151,6 +152,7 @@ export const Works = ({
                   initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
+                  works={works}
                 />
                 <p
                   className={classNames({
@@ -228,49 +230,52 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  {showCatalogueSearchFilters &&
-                    works.results.map(result => (
-                      <div
-                        className={classNames({
-                          [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-                        })}
-                        key={result.id}
-                      >
-                        <WorkCompactCard
-                          work={result}
-                          query={query}
-                          page={page}
-                          workType={workType}
-                          itemsLocationsLocationType={
-                            itemsLocationsLocationType
-                          }
-                        />
-                      </div>
-                    ))}
-                  {!showCatalogueSearchFilters &&
-                    works.results.map(result => (
-                      <div
-                        key={result.id}
-                        className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
-                      >
-                        <WorkPromo
-                          id={result.id}
-                          image={{
-                            contentUrl: result.thumbnail
-                              ? result.thumbnail.url
-                              : 'https://via.placeholder.com/1600x900?text=%20',
-                            width: 300,
-                            height: 300,
-                            alt: '',
-                          }}
-                          datePublished={
-                            result.createdDate && result.createdDate.label
-                          }
-                          title={result.title}
-                          link={workUrl({ id: result.id, query, page })}
-                        />
-                      </div>
-                    ))}
+                  <TogglesContext.Consumer>
+                    {({ genericWorkCard }) => {
+                      return genericWorkCard
+                        ? works.results.map(result => (
+                            <div
+                              className={classNames({
+                                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                              })}
+                              key={result.id}
+                            >
+                              <WorkCard
+                                work={result}
+                                query={query}
+                                page={page}
+                                workType={workType}
+                                itemsLocationsLocationType={
+                                  itemsLocationsLocationType
+                                }
+                              />
+                            </div>
+                          ))
+                        : works.results.map(result => (
+                            <div
+                              key={result.id}
+                              className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
+                            >
+                              <WorkPromo
+                                id={result.id}
+                                image={{
+                                  contentUrl: result.thumbnail
+                                    ? result.thumbnail.url
+                                    : 'https://via.placeholder.com/1600x900?text=%20',
+                                  width: 300,
+                                  height: 300,
+                                  alt: '',
+                                }}
+                                datePublished={
+                                  result.createdDate && result.createdDate.label
+                                }
+                                title={result.title}
+                                link={workUrl({ id: result.id, query, page })}
+                              />
+                            </div>
+                          ));
+                    }}
+                  </TogglesContext.Consumer>
                 </div>
               </div>
 
@@ -348,25 +353,15 @@ export const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
+  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
 
+  const defaultWorkType = ['k', 'q'];
   const workTypeQuery = ctx.query.workType;
-  // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
-  // considered multiple workTypes
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-        .map(workType => workType.split(','))
-        .reduce(
-          (workTypes, workTypeStringArray) => [
-            ...workTypes,
-            ...workTypeStringArray,
-          ],
-          []
-        )
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : ['k', 'q'];
-
-  const { showCatalogueSearchFilters } = ctx.query.toggles;
+  const workType = !showCatalogueSearchFilters
+    ? defaultWorkType
+    : !workTypeQuery
+    ? []
+    : workTypeQuery.split(',').filter(Boolean);
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
@@ -377,7 +372,11 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
-    workType,
+    workType: !showCatalogueSearchFilters
+      ? defaultWorkType
+      : workType.length === 0
+      ? ['a', 'k', 'q']
+      : workType,
   };
 
   const worksOrError =

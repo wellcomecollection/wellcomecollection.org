@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   checkout_code:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     working_directory: ~/wellcomecollection.org
     steps:
       - checkout
@@ -12,13 +12,13 @@ jobs:
             -  ~/wellcomecollection.org
   root_tests:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     working_directory: ~/wellcomecollection.org
     steps:
       - restore_cache:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: root_modules_circleci_node_8_{{ checksum "package.json" }}
+          key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
           name: Install root modules
           command: yarn install --production
@@ -26,12 +26,12 @@ jobs:
           name: Flow
           command: yarn flow
       - save_cache:
-          key: root_modules_circleci_node_8_{{ checksum "package.json" }}
+          key: root_modules_circleci_node_10_{{ checksum "package.json" }}
           paths:
             -  node_modules
   catalogue:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     working_directory: ~/wellcomecollection.org/catalogue/webapp
     steps:
       - restore_cache:
@@ -66,7 +66,7 @@ jobs:
             popd
   content:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     working_directory: ~/wellcomecollection.org/content/webapp
     steps:
       - restore_cache:
@@ -101,7 +101,7 @@ jobs:
             popd
   deploy_toggles:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     working_directory: ~/wellcomecollection.org/toggles/webapp
     steps:
     - add_ssh_keys
@@ -116,7 +116,7 @@ jobs:
           aws s3 cp ./defaults.json s3://dash.wellcomecollection.org/toggles/defaults.json --only-show-errors
   deploy_pa11y:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     environment:
       NODE_ENV: test
     working_directory: ~/wellcomecollection.org/pa11y/webapp
@@ -149,7 +149,7 @@ jobs:
           aws s3 cp ./.dist/report.json s3://dash.wellcomecollection.org/pa11y/report.json --only-show-errors
   deploy_dash:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     environment:
       NODE_ENV: test
     working_directory: ~/wellcomecollection.org/dash/webapp
@@ -174,7 +174,7 @@ jobs:
           aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors
   cardigan:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:10.15.1
     working_directory: /home/circleci/wellcomecollection.org/cardigan
     steps:
       - add_ssh_keys
@@ -182,8 +182,8 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
-            - common_modules_circleci_node_8_{{ checksum "package.json" }}
-            - common_modules_circleci_node_8_
+            - common_modules_circleci_node_10_{{ checksum "package.json" }}
+            - common_modules_circleci_node_10_
       - run:
           name: Install awscli
           command: sudo apt-get install awscli
@@ -209,7 +209,7 @@ jobs:
             fi
   edge_lambdas_build:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:8.10
     working_directory: /home/circleci/wellcomecollection.org/cache/edge_lambdas
     steps:
       - add_ssh_keys
@@ -234,7 +234,7 @@ jobs:
             - edge_lambda_origin.zip
   edge_lambdas_deploy:
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:8.10
     working_directory: /tmp
     steps:
       - attach_workspace:

@@ -15,6 +15,7 @@ import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/Outb
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import { trackEvent } from '../../utils/ga';
+
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 

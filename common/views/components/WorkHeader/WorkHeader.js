@@ -11,6 +11,8 @@ import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import Tags from '../Tags/Tags';
+import { worksUrl } from '../../../services/catalogue/urls';
 
 type Props = {|
   work: Work,
@@ -60,8 +62,7 @@ const WorkHeader = ({ work }: Props) => {
         {(work.contributors.length > 0 || productionDates.length > 0) && (
           <div
             className={classNames({
-              flex: true,
-              'flex--wrap': true,
+              'flex flex--wrap flex--v-center': true,
               [spacing({ s: 3, m: 4 }, { margin: ['top'] })]: true,
             })}
           >
@@ -71,11 +72,16 @@ const WorkHeader = ({ work }: Props) => {
                   [spacing({ s: 2 }, { margin: ['right'] })]: true,
                 })}
               >
-                <LinkLabels
-                  items={work.contributors.map(({ agent }) => ({
-                    text: agent.label,
-                    url: `/works?query="${agent.label}"`,
-                  }))}
+                <Tags
+                  tags={work.contributors.map(({ agent }) => {
+                    return {
+                      textParts: [agent.label],
+                      linkAttributes: worksUrl({
+                        query: `"${agent.label}"`,
+                        page: 1,
+                      }),
+                    };
+                  })}
                 />
               </div>
             )}

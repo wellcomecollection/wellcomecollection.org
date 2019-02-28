@@ -2,56 +2,20 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
-
-import NextLink from 'next/link';
-import styled from 'styled-components';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl } from '../../services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import { Fragment } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit2';
+import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import DownloadBeta from '../Download/DownloadBeta';
-
-const StyledWorkDetailsSection = styled.div`
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  padding: 0;
-
-  &:first-child {
-    border-top: 0;
-  }
-
-  .work-details-heading,
-  .work-details-body {
-    grid-column: 1 / -1;
-  }
-
-  h3 + * {
-    margin: 0;
-  }
-
-  h2.work-details-heading {
-    margin: ${props => `0 0 ${props.theme.spacingUnit * 2}px 0`};
-  }
-
-  ${props => props.theme.media.large`
-    h2.work-details-heading {
-      margin: 0;
-    }
-
-    .work-details-heading {
-      grid-column: span 4;
-    }
-
-    .work-details-body {
-      grid-column: span 6;
-    }
-  `}
-`;
+import DownloadDummy from '../Download/DownloadDummy';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -63,22 +27,36 @@ const WorkDetailsSection = ({
   children,
 }: WorkDetailsSectionProps) => {
   return (
-    <StyledWorkDetailsSection>
-      {headingText ? (
-        <h2
-          className={classNames({
-            [font({ s: 'WB6', m: 'WB5' })]: true,
-            'work-details-heading': true,
-          })}
-        >
-          {headingText}
-        </h2>
-      ) : (
-        <div className="work-details-heading" />
-      )}
+    <div
+      className={classNames({
+        grid: true,
+      })}
+    >
+      <div
+        className={classNames({
+          [grid({ s: 12, m: 12, l: 4, xl: 4 })]: true,
+        })}
+      >
+        {headingText && (
+          <h2
+            className={classNames({
+              [font({ s: 'WB6', m: 'WB5' })]: true,
+              'work-details-heading': true,
+            })}
+          >
+            {headingText}
+          </h2>
+        )}
+      </div>
 
-      <div className="work-details-body">{children}</div>
-    </StyledWorkDetailsSection>
+      <div
+        className={classNames({
+          [grid({ s: 12, m: 12, l: 8, xl: 7 })]: true,
+        })}
+      >
+        {children}
+      </div>
+    </div>
   );
 };
 
@@ -86,22 +64,26 @@ type Work = Object;
 
 type Props = {|
   work: Work,
+  iiifManifest: ?{},
   iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  useBetaDownloadComponent: boolean,
+  showWorkPreview: boolean,
+  showMultiImageWorkPreview: boolean,
 |};
 
 const WorkDetails = ({
   work,
+  iiifManifest,
   iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
-  useBetaDownloadComponent,
+  showWorkPreview,
+  showMultiImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -111,33 +93,42 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-
+  if (showWorkPreview && (iiifImageLocationUrl || iiifManifest)) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection
+        headingText={`What this ${singularWorkTypeLabel} looks like`}
+      >
+        {iiifManifest && (
+          <IIIFPresentationPreview
+            manifestData={iiifManifest}
+            showMultiImageWorkPreview={showMultiImageWorkPreview}
+          />
+        )}
+        {iiifImageLocationUrl && (
+          <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
+        )}
+      </WorkDetailsSection>
+    );
+  }
   if (iiifImageLocationUrl) {
-    if (useBetaDownloadComponent) {
-      WorkDetailsSections.push(
-        <SpacingComponent>
-          <DownloadBeta
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </SpacingComponent>
-      );
-    } else {
-      WorkDetailsSections.push(
-        <WorkDetailsSection>
-          <Download
-            work={work}
-            iiifImageLocationUrl={iiifImageLocationUrl}
-            licenseInfo={licenseInfo}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          />
-        </WorkDetailsSection>
-      );
-    }
+    WorkDetailsSections.push(
+      <WorkDetailsSection>
+        <Download
+          work={work}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        />
+      </WorkDetailsSection>
+    );
+  }
+  if (!iiifImageLocationUrl && showWorkPreview) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection>
+        <DownloadDummy />
+      </WorkDetailsSection>
+    );
   }
   if (
     work.description ||
@@ -151,83 +142,77 @@ const WorkDetails = ({
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
-        <div className="spaced-text">
-          {work.description && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Description"
-              text={[work.description]}
-            />
-          )}
+        {work.description && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Description"
+            text={[work.description]}
+          />
+        )}
 
-          {work.contributors.length > 0 && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Contributors"
-              text={[
-                work.contributors
-                  .map(contributor => contributor.agent.label)
-                  .join(' | '),
-              ]}
-            />
-          )}
+        {work.contributors.length > 0 && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Contributors"
+            text={[
+              work.contributors
+                .map(contributor => contributor.agent.label)
+                .join(' | '),
+            ]}
+          />
+        )}
 
-          {work.production.length > 0 && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Publication/Creation"
-              text={work.production.map(
-                productionEvent => productionEvent.label
-              )}
-            />
-          )}
+        {work.production.length > 0 && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Publication/Creation"
+            text={work.production.map(productionEvent => productionEvent.label)}
+          />
+        )}
 
-          {(work.physicalDescription || work.extent || work.dimensions) && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Physical description"
-              text={[
-                [work.extent, work.physicalDescription, work.dimensions]
-                  .filter(Boolean)
-                  .join(' '),
-              ]}
-            />
-          )}
+        {(work.physicalDescription || work.extent || work.dimensions) && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Physical description"
+            text={[
+              [work.extent, work.physicalDescription, work.dimensions]
+                .filter(Boolean)
+                .join(' '),
+            ]}
+          />
+        )}
 
-          {work.lettering && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Lettering"
-              text={[work.lettering]}
-            />
-          )}
+        {work.lettering && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Lettering"
+            text={[work.lettering]}
+          />
+        )}
 
-          {work.genres.length > 0 && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Type"
-              links={work.genres.map(genre => {
-                const linkAttributes = worksUrl({
-                  query: `"${genre.label}"`,
+        {work.genres.length > 0 && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Type"
+            tags={work.genres.map(g => {
+              return {
+                textParts: g.concepts.map(c => c.label),
+                linkAttributes: worksUrl({
+                  query: `"${g.label}"`,
                   page: 1,
-                });
-                return (
-                  <NextLink key={1} {...linkAttributes}>
-                    {genre.label}
-                  </NextLink>
-                );
-              })}
-            />
-          )}
+                }),
+              };
+            })}
+          />
+        )}
 
-          {work.language && (
-            <MetaUnit
-              headingLevel={3}
-              headingText="Language"
-              links={[work.language.label]}
-            />
-          )}
-        </div>
+        {work.language && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Language"
+            links={[work.language.label]}
+          />
+        )}
       </WorkDetailsSection>
     );
   }
@@ -235,17 +220,14 @@ const WorkDetails = ({
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Subjects">
         <MetaUnit
-          headingText=""
-          links={work.subjects.map(subject => {
-            const linkAttributes = worksUrl({
-              query: `"${subject.label}"`,
-              page: 1,
-            });
-            return (
-              <NextLink key={1} {...linkAttributes}>
-                {subject.label}
-              </NextLink>
-            );
+          tags={work.subjects.map(s => {
+            return {
+              textParts: s.concepts.map(c => c.label),
+              linkAttributes: worksUrl({
+                query: `"${s.label}"`,
+                page: 1,
+              }),
+            };
           })}
         />
       </WorkDetailsSection>
@@ -254,24 +236,21 @@ const WorkDetails = ({
   if (encoreLink) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Find in the library">
-        <div className="spaced-text">
-          <p>
-            {`This ${singularWorkTypeLabel} is available at `}
-            <a href={encoreLink}>Wellcome Library</a>
-          </p>
-        </div>
+        <MetaUnit
+          text={[
+            `This ${singularWorkTypeLabel} is available at <a href="${encoreLink}">Wellcome Library</a>`,
+          ]}
+        />
       </WorkDetailsSection>
     );
   }
   WorkDetailsSections.push(
     <WorkDetailsSection headingText="Identifiers">
       {isbnIdentifiers.length > 0 && (
-        <div className="spaced-text" style={{ marginBottom: '1.6em' }}>
-          <MetaUnit
-            headingText="ISBN"
-            list={isbnIdentifiers.map(id => id.value)}
-          />
-        </div>
+        <MetaUnit
+          headingText="ISBN"
+          list={isbnIdentifiers.map(id => id.value)}
+        />
       )}
       <MetaUnit headingText="Share">
         <CopyUrl
@@ -284,7 +263,7 @@ const WorkDetails = ({
   if (licenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
-        <div className="spaced-text" id="licenseInformation">
+        <div id="licenseInformation">
           <MetaUnit
             headingLevel={3}
             headingText="License information"
@@ -295,18 +274,18 @@ const WorkDetails = ({
             headingText="Credit"
             text={[
               `${work.title.replace(/\.$/g, '')}.${' '}
-  ${
-    iiifImageLocationCredit
-      ? `Credit: <a href="https://wellcomecollection.org/works/${
-          work.id
-        }">${iiifImageLocationCredit}</a>. `
-      : ` `
-  }
-  ${
-    licenseInfo.url
-      ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-      : licenseInfo.text
-  }`,
+              ${
+                iiifImageLocationCredit
+                  ? `Credit: <a href="https://wellcomecollection.org/works/${
+                      work.id
+                    }">${iiifImageLocationCredit}</a>. `
+                  : ` `
+              }
+              ${
+                licenseInfo.url
+                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                  : licenseInfo.text
+              }`,
             ]}
           />
         </div>
@@ -338,25 +317,21 @@ const WorkDetails = ({
         [spacing({ s: 6, m: 8 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
-      <div className="container">
-        <div className="grid">
-          <div className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}>
-            {WorkDetailsSections.map((section, i) => {
-              return (
-                <Fragment key={i}>
-                  {i > 0 && (
-                    <SpacingComponent>
-                      <Divider extraClasses="divider--pumice divider--keyline" />
-                    </SpacingComponent>
-                  )}
-
-                  <SpacingComponent>{section}</SpacingComponent>
-                </Fragment>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      <Layout12>
+        {WorkDetailsSections.map((section, i) => {
+          return (
+            <Fragment key={i}>
+              {i > 0 && (
+                <>
+                  <Divider extraClasses="divider--pumice divider--keyline" />
+                  <SpacingComponent />
+                </>
+              )}
+              <SpacingSection>{section}</SpacingSection>
+            </Fragment>
+          );
+        })}
+      </Layout12>
     </div>
   );
 };

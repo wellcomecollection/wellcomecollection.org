@@ -474,6 +474,20 @@
         "label": "Eventbrite event"
       }
     },
+    "thirdPartyBookingName": {
+      "type": "Text",
+      "config": {
+        "label": "Third party booking name"
+      }
+    },
+    "thirdPartyBookingUrl": {
+      "type": "Link",
+      "config": {
+        "label": "Third party booking url",
+        "select": "web",
+        "customtypes": []
+      }
+    },
     "bookingInformation": {
       "type": "StructuredText",
       "config": {

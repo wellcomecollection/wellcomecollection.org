@@ -1,6 +1,6 @@
 // @flow
 // TODO: use styled components
-import { Fragment, Component } from 'react';
+import { Fragment, Component, createRef } from 'react';
 import { font, spacing, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
@@ -31,6 +31,43 @@ class ImageGallery extends Component<Props, State> {
     isActive: true,
     titleStyle: null,
   };
+
+  openButtonRef: {
+    current: HTMLButtonElement | HTMLAnchorElement | null,
+  } = createRef();
+
+  closeButtonRef: {
+    current: HTMLAnchorElement | HTMLButtonElement | null,
+  } = createRef();
+
+  handleOpenClicked() {
+    if (this.closeButtonRef.current) {
+      this.closeButtonRef.current.tabIndex = 0;
+      this.closeButtonRef.current.focus();
+      this.showAllImages(true);
+    }
+
+    if (this.openButtonRef.current) {
+      this.openButtonRef.current.tabIndex = -1;
+    }
+  }
+
+  handleCloseClicked() {
+    if (this.openButtonRef.current) {
+      this.openButtonRef.current.tabIndex = 0;
+      this.setState({ isActive: false });
+
+      trackEvent({
+        category: `Control`,
+        action: 'close ImageGallery',
+        label: this.props.id,
+      });
+    }
+
+    if (this.closeButtonRef.current) {
+      this.closeButtonRef.current.tabIndex = -1;
+    }
+  }
 
   showAllImages = (isButton?: boolean) => {
     trackEvent({
@@ -92,6 +129,7 @@ class ImageGallery extends Component<Props, State> {
               </span>
             )}
             <div
+              id={`image-gallery-${id}`}
               className={classNames({
                 'image-gallery-v2--standalone': isStandalone,
                 'image-gallery-v2 row relative': true,
@@ -146,28 +184,24 @@ class ImageGallery extends Component<Props, State> {
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
+                          'opacity-0': !isActive,
                           [spacing(
                             { s: 3 },
                             { padding: ['right', 'bottom'] }
                           )]: true,
                         })}
-                        style={{
-                          visibility: isActive ? 'visible' : 'hidden',
-                        }}
                       >
                         <Control
+                          tabIndex={`-1`}
+                          ariaControls={`image-gallery-${id}`}
+                          ariaExpanded={isActive}
+                          ref={this.closeButtonRef}
                           url={`#gallery-${id}`}
                           type={`light`}
                           text={`close`}
                           icon={`cross`}
-                          clickHandler={event => {
-                            trackEvent({
-                              category: `Control`,
-                              action: 'close ImageGallery',
-                              label: this.props.id,
-                            });
-
-                            this.setState({ isActive: false });
+                          clickHandler={() => {
+                            this.handleCloseClicked();
                           }}
                         />
                       </div>
@@ -175,7 +209,11 @@ class ImageGallery extends Component<Props, State> {
                   )}
                   {this.itemsToShow().map((captionedImage, i) => (
                     <div
-                      onClick={!isActive ? this.showAllImages : undefined}
+                      onClick={() => {
+                        if (!isActive) {
+                          this.handleOpenClicked();
+                        }
+                      }}
                       className={classNames({
                         [spacing({ s: 10 }, { margin: ['bottom'] })]: isActive,
                       })}
@@ -214,14 +252,20 @@ class ImageGallery extends Component<Props, State> {
                     </div>
                   ))}
 
-                  {!isActive && titleStyle && (
+                  {titleStyle && (
                     <Button
+                      ref={this.openButtonRef}
+                      ariaControls={`image-gallery-${id}`}
+                      ariaExpanded={isActive}
                       type="primary"
                       icon="gallery"
                       clickHandler={() => {
-                        this.showAllImages(true);
+                        this.handleOpenClicked();
                       }}
-                      extraClasses="image-gallery-v2__button absolute"
+                      extraClasses={classNames({
+                        'image-gallery-v2__button absolute': true,
+                        'opacity-0': isActive,
+                      })}
                       text={`${items.length} images`}
                     />
                   )}
