@@ -115,12 +115,14 @@ const IIIFPresentationDisplay = ({
               {showMultiImageWorkPreview && (
                 <ScrollContainer
                   key={`${sequence.canvases[0].thumbnail['@id']}-2`}
+                  tabIndex="0"
                 >
                   <div>
                     {sequence.canvases.map((canvas, i) => {
                       return (
                         <a
                           key={canvas.thumbnail.service['@id']}
+                          tabIndex="-1"
                           href={iiifImageTemplate(
                             canvas.thumbnail.service['@id']
                           )({ size: ',1024' })}
