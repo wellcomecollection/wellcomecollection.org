@@ -74,6 +74,13 @@ const ScrollContainer = styled.div`
   & > div {
     display: flex;
   }
+
+  a:focus {
+    outline: none;
+    img {
+      filter: hue-rotate(90deg);
+    }
+  }
 `;
 
 type Props = {|
