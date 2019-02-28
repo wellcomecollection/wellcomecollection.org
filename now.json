@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "public": true,
+  "name": "weco",
+  "build": [
+    {
+      "src": "packages/next-main/package.json",
+      "use": "@now/next@canary"
+    },
+    {
+      "src": "packages/next-blog/package.json",
+      "use": "@now/next@canary"
+    },
+  ]
+}
