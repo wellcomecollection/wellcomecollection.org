@@ -70,8 +70,8 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  showWorkPreview: boolean,
-  showMultiImageWorkPreview: boolean,
+  showWorkPreview: string,
+  showMultiImageWorkPreview: string,
 |};
 
 const WorkDetails = ({
@@ -93,7 +93,7 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (showWorkPreview && (iiifImageLocationUrl || iiifManifest)) {
+  if (showWorkPreview === 'on' && (iiifImageLocationUrl || iiifManifest)) {
     WorkDetailsSections.push(
       <WorkDetailsSection
         headingText={`What this ${singularWorkTypeLabel} looks like`}
@@ -123,7 +123,7 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (!iiifImageLocationUrl && showWorkPreview) {
+  if (!iiifImageLocationUrl && showWorkPreview === 'on') {
     WorkDetailsSections.push(
       <WorkDetailsSection>
         <DownloadDummy />

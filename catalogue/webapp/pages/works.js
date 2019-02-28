@@ -28,7 +28,7 @@ type Props = {|
   page: ?number,
   workType: string[],
   itemsLocationsLocationType: string[],
-  showCatalogueSearchFilters: boolean,
+  showCatalogueSearchFilters: string,
 |};
 
 export const Works = ({
@@ -126,7 +126,7 @@ export const Works = ({
                       spacing({ s: 0 }, { margin: ['top'] }),
                     ])}
                   >
-                    {showCatalogueSearchFilters
+                    {showCatalogueSearchFilters === 'on'
                       ? 'Search our collections'
                       : 'Search our images'}
                   </h1>
@@ -232,7 +232,7 @@ export const Works = ({
                 <div className="grid">
                   <TogglesContext.Consumer>
                     {({ genericWorkCard }) => {
-                      return genericWorkCard
+                      return genericWorkCard !== 'false'
                         ? works.results.map(result => (
                             <div
                               className={classNames({
@@ -353,30 +353,32 @@ export const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
+  const { showCatalogueSearchFilters = 'off' } = ctx.query.toggles;
 
   const defaultWorkType = ['k', 'q'];
   const workTypeQuery = ctx.query.workType;
-  const workType = !showCatalogueSearchFilters
-    ? defaultWorkType
-    : !workTypeQuery
-    ? []
-    : workTypeQuery.split(',').filter(Boolean);
+  const workType =
+    showCatalogueSearchFilters !== 'on'
+      ? defaultWorkType
+      : !workTypeQuery
+      ? []
+      : workTypeQuery.split(',').filter(Boolean);
 
   const itemsLocationsLocationType =
     'items.locations.locationType' in ctx.query
       ? ctx.query['items.locations.locationType'].split(',')
-      : showCatalogueSearchFilters
+      : showCatalogueSearchFilters === 'on'
       ? ['iiif-image', 'iiif-presentation']
       : ['iiif-image'];
 
   const filters = {
     'items.locations.locationType': itemsLocationsLocationType,
-    workType: !showCatalogueSearchFilters
-      ? defaultWorkType
-      : workType.length === 0
-      ? ['a', 'k', 'q']
-      : workType,
+    workType:
+      showCatalogueSearchFilters !== 'on'
+        ? defaultWorkType
+        : workType.length === 0
+        ? ['a', 'k', 'q']
+        : workType,
   };
 
   const worksOrError =

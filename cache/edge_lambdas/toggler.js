@@ -6,7 +6,8 @@
 //   title: 'Outro',
 //   shouldRun: (request) => {
 //     return request.uri.match(/^\/articles\/*/);
-//   }
+//   },
+//   options: ['on', 'off'],
 // }
 
 // This is mutable for testing
@@ -20,6 +21,7 @@ let tests = [
     description:
       'Visual treatment of the work card that accounts for other work types ' +
       'and not exclusively images',
+    options: ['true', 'false'],
   },
 ];
 
@@ -60,12 +62,10 @@ exports.request = (event, context) => {
       );
       try {
         if (test.shouldRun(request) && !isSet) {
-          // Flip the dice
-          if (Math.random() < 0.5) {
-            return { key: `toggle_${test.id}`, value: true };
-          } else {
-            return { key: `toggle_${test.id}`, value: false };
-          }
+          // Roll the dice
+          const value =
+            test.options[Math.floor(Math.random() * test.options.length)];
+          return { key: `toggle_${test.id}`, value: value };
         }
       } catch (error) {
         console.log(

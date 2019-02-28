@@ -100,7 +100,8 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
                         ? { 'aria-current': true }
                         : {})}
                     >
-                      {showCatalogueSearchFilters && link.title === 'Images'
+                      {showCatalogueSearchFilters === 'on' &&
+                      link.title === 'Images'
                         ? 'Collections'
                         : link.title}
                     </a>

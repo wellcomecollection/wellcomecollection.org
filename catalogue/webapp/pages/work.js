@@ -167,7 +167,7 @@ export const WorkPage = ({
       <TogglesContext.Consumer>
         {({ showWorkPreview, showMultiImageWorkPreview }) => (
           <Fragment>
-            {iiifImageLocationUrl && !showWorkPreview && (
+            {iiifImageLocationUrl && !showWorkPreview === 'on' && (
               <WorkMedia
                 id={work.id}
                 iiifUrl={iiifImageLocationUrl}

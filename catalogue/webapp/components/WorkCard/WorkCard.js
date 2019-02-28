@@ -176,7 +176,7 @@ const WorkCard = ({
 
           <TogglesContext.Consumer>
             {({ showWorkLocations }) =>
-              showWorkLocations &&
+              showWorkLocations === 'on' &&
               (digitalLocations.length > 0 || physicalLocations.length > 0) && (
                 <div
                   className={classNames({

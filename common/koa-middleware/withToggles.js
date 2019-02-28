@@ -33,7 +33,7 @@ function withToggles(ctx, next) {
   );
   const toggles = togglesCookies.reduce((acc, cookie) => {
     return Object.assign({}, acc, {
-      [cookie.key.replace('toggle_', '')]: cookie.value === 'true',
+      [cookie.key.replace('toggle_', '')]: cookie.value,
     });
   }, {});
 

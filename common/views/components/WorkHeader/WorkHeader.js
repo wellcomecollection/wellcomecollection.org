@@ -98,8 +98,8 @@ const WorkHeader = ({ work }: Props) => {
           </div>
         )}
         <TogglesContext.Consumer>
-          {toggles =>
-            toggles.showWorkLocations &&
+          {({ showWorkLocations }) =>
+            showWorkLocations === 'on' &&
             (digitalLocations.length > 0 || physicalLocations.length > 0) && (
               <div
                 className={classNames({

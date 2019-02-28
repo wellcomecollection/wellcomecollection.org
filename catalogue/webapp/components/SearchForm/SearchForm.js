@@ -176,7 +176,7 @@ const SearchForm = ({
       </form>
       <TogglesContext.Consumer>
         {({ showCatalogueSearchFilters, feedback }) =>
-          (showCatalogueSearchFilters || feedback) && (
+          (showCatalogueSearchFilters === 'on' || feedback === 'on') && (
             <div
               className={classNames({
                 flex: true,
@@ -185,7 +185,7 @@ const SearchForm = ({
                 [spacing({ s: 1 }, { margin: ['top'] })]: true,
               })}
             >
-              {feedback && (
+              {feedback === 'on' && (
                 <p
                   className={classNames({
                     [font({ s: 'HNL4' })]: true,
@@ -204,7 +204,7 @@ const SearchForm = ({
                   </a>
                 </p>
               )}
-              {showCatalogueSearchFilters && works && (
+              {showCatalogueSearchFilters === 'on' && works && (
                 <fieldset
                   className={classNames({
                     relative: true,

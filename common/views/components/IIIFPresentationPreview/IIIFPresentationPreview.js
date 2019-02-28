@@ -71,7 +71,7 @@ const ScrollContainer = styled.div`
 
 type Props = {|
   manifestData: any,
-  showMultiImageWorkPreview: boolean,
+  showMultiImageWorkPreview: string,
 |};
 
 const IIIFPresentationDisplay = ({
@@ -96,7 +96,7 @@ const IIIFPresentationDisplay = ({
         <Fragment key={sequence['@id']}>
           {sequence.canvases.length > 1 && (
             <Fragment>
-              {!showMultiImageWorkPreview && (
+              {showMultiImageWorkPreview !== 'on' && (
                 <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
                   <a
                     href={iiifImageTemplate(
@@ -112,7 +112,7 @@ const IIIFPresentationDisplay = ({
                   </a>
                 </BookContainer>
               )}
-              {showMultiImageWorkPreview && (
+              {showMultiImageWorkPreview === 'on' && (
                 <ScrollContainer
                   key={`${sequence.canvases[0].thumbnail['@id']}-2`}
                 >

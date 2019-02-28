@@ -32,6 +32,7 @@ const abTests = [
     description:
       'Visual treatment of the work card that accounts for other work types ' +
       'and not exclusively images',
+    options: ['true', 'false'],
   },
 ];
 
@@ -43,29 +44,40 @@ const featureToggles = [
       'We currently filter the results of the catalogue to show Pictures and ' +
       'Digital images work types, and only results with images.' +
       'This will show unfilter those results, and allow for filtering.',
+    options: ['on', 'off'],
   },
   {
     id: 'feedback',
     title: 'Feedback',
     description: 'Asking people for feedback on our service',
+    options: ['on', 'off'],
   },
   {
     id: 'showWorkLocations',
     title: 'Show the locations of a work in the header',
     description:
       'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
+    options: ['on', 'off'],
   },
   {
     id: 'showWorkPreview',
     title: 'Work preview',
     description:
       'Shows a simple preview of a digitised work, as part of the work details section of the work page. Currently focussing on images and digitised books. By default this is a single image.',
+    options: ['on', 'off'],
   },
   {
     id: 'showMultiImageWorkPreview',
     title: 'Work preview with multiple images',
     description:
       'This toggle should be used in conjunction with the showWorkPreview toggle. Where a work has multiple images, we can try showing more of them.',
+    options: ['on', 'off'],
+  },
+  {
+    id: 'catalogueApiQueryType',
+    title: 'Catalogue API query type',
+    description: 'Pick a query, any query.',
+    options: ['justboost', 'broaderboost', 'slop', 'minimummatch', 'off'],
   },
 ];
 
@@ -135,18 +147,7 @@ const IndexPage = () => {
             )}
           </div>
         </div>
-        <p
-          style={{
-            border: '1px solid rgba(92,184,191,1)',
-            background: 'rgba(92,184,191,0.25)',
-            padding: '6px 12px',
-            margin: 0,
-          }}
-        >
-          You can opt-in to testing a new feature (👍) or, prefer to stay
-          opted-out (👎). If you ask us to forget your choice, it is effectually
-          opting out.
-        </p>
+
         {featureToggles.length > 0 && (
           <ul
             style={{
@@ -166,36 +167,24 @@ const IndexPage = () => {
               >
                 <h3 style={{ marginRight: '6px' }}>{toggle.title}</h3>
                 <p>{toggle.description}</p>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'true', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
-                      [toggle.id]: true,
-                    });
-                  }}
-                  style={{
-                    opacity: toggles[toggle.id] === true ? 1 : 0.5,
-                  }}
-                >
-                  👍 Count me in
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'false', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
-                      [toggle.id]: false,
-                    });
-                  }}
-                  style={{
-                    opacity: toggles[toggle.id] === false ? 1 : 0.5,
-                  }}
-                >
-                  👎 No thanks
-                </Button>
+                {toggle.options.map(option => (
+                  <Button
+                    key={option.toString()}
+                    onClick={() => {
+                      setCookie(toggle.id, option, domain);
+                      // $FlowFixMe
+                      setToggles({
+                        ...toggles,
+                        [toggle.id]: option,
+                      });
+                    }}
+                    style={{
+                      opacity: toggles[toggle.id] === option ? 1 : 0.5,
+                    }}
+                  >
+                    {option}
+                  </Button>
+                ))}
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, null, domain);
@@ -246,36 +235,24 @@ const IndexPage = () => {
               >
                 <h3 style={{ marginRight: '6px' }}>{toggle.title}</h3>
                 <p>{toggle.description}</p>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'true', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
-                      [toggle.id]: true,
-                    });
-                  }}
-                  style={{
-                    opacity: toggles[toggle.id] === true ? 1 : 0.5,
-                  }}
-                >
-                  👍 Count me in
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, 'false', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
-                      [toggle.id]: false,
-                    });
-                  }}
-                  style={{
-                    opacity: toggles[toggle.id] === false ? 1 : 0.5,
-                  }}
-                >
-                  👎 No thanks
-                </Button>
+                {toggle.options.map(option => (
+                  <Button
+                    key={option.toString()}
+                    onClick={() => {
+                      setCookie(toggle.id, option, domain);
+                      // $FlowFixMe
+                      setToggles({
+                        ...toggles,
+                        [toggle.id]: option,
+                      });
+                    }}
+                    style={{
+                      opacity: toggles[toggle.id] === option ? 1 : 0.5,
+                    }}
+                  >
+                    {option}
+                  </Button>
+                ))}
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, null, domain);
