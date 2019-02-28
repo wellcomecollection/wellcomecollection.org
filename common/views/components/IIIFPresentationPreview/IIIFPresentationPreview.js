@@ -101,13 +101,13 @@ const IIIFPresentationDisplay = ({
                   <a
                     href={iiifImageTemplate(
                       sequence.canvases[0].thumbnail.service['@id']
-                    )({ size: ',1024' })}
+                    )({ size: '!1024,1024' })}
                   >
                     <img
                       style={{ width: 'auto', height: '300px' }}
                       src={iiifImageTemplate(
                         sequence.canvases[0].thumbnail.service['@id']
-                      )({ size: `,${previewSize * 2}` })}
+                      )({ size: `!${previewSize},${previewSize}` })}
                     />
                   </a>
                 </BookContainer>
@@ -123,7 +123,7 @@ const IIIFPresentationDisplay = ({
                           key={canvas.thumbnail.service['@id']}
                           href={iiifImageTemplate(
                             canvas.thumbnail.service['@id']
-                          )({ size: ',1024' })}
+                          )({ size: '!1024,1024' })}
                         >
                           <img
                             className={classNames({
@@ -139,7 +139,7 @@ const IIIFPresentationDisplay = ({
                                 ? iiifImageTemplate(
                                     canvas.thumbnail.service['@id']
                                   )({
-                                    size: `,${previewSize}`,
+                                    size: `!${previewSize},${previewSize}`,
                                   })
                                 : null
                             }
@@ -148,7 +148,7 @@ const IIIFPresentationDisplay = ({
                                 ? iiifImageTemplate(
                                     canvas.thumbnail.service['@id']
                                   )({
-                                    size: `,${previewSize}`,
+                                    size: `!${previewSize},${previewSize}`,
                                   })
                                 : null
                             }
@@ -165,7 +165,7 @@ const IIIFPresentationDisplay = ({
                   type="primary"
                   url={iiifImageTemplate(
                     sequence.canvases[0].thumbnail.service['@id']
-                  )({ size: ',1024' })}
+                  )({ size: '!1024,1024' })}
                   text={`View all ${sequence.canvases.length} images`}
                   icon="gallery"
                 />
