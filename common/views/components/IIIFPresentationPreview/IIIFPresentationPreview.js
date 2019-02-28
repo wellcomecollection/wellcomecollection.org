@@ -1,6 +1,6 @@
 // @flow
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { Fragment } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -95,7 +95,42 @@ const IIIFPresentationDisplay = ({
         )) ||
     [];
 
-  const previewSize = 400;
+  const previewSize = 200;
+  const previewArea = useRef(null);
+  const linkRefs = {};
+
+  validSequences.forEach(sequence => {
+    sequence.canvases.forEach(
+      canvas =>
+        (linkRefs[`${canvas.thumbnail.service['@id']}`] = React.createRef())
+    );
+  });
+
+  useEffect(() => {
+    const options = {
+      root: previewArea.current,
+      rootMargin: '0px',
+      threshold: 0.5,
+    };
+    function callback(links, observer) {
+      links.forEach(link => {
+        if (link.isIntersecting) {
+          link.target.setAttribute('tabindex', '0');
+        } else {
+          link.target.setAttribute('tabindex', '-1');
+        }
+      });
+    }
+
+    const observer = new window.IntersectionObserver(callback, options);
+    validSequences.forEach(sequence => {
+      sequence.canvases.forEach(canvas => {
+        observer.observe(
+          linkRefs[`${canvas.thumbnail.service['@id']}`].current
+        );
+      });
+    });
+  }, []);
 
   return (
     <Fragment>
@@ -126,6 +161,7 @@ const IIIFPresentationDisplay = ({
               )}
               {showMultiImageWorkPreview && (
                 <ScrollContainer
+                  ref={previewArea}
                   key={`${sequence.canvases[0].thumbnail['@id']}-2`}
                   tabIndex="0"
                 >
@@ -133,6 +169,7 @@ const IIIFPresentationDisplay = ({
                     {sequence.canvases.map((canvas, i) => {
                       return (
                         <a
+                          ref={linkRefs[`${canvas.thumbnail.service['@id']}`]}
                           key={canvas.thumbnail.service['@id']}
                           tabIndex={i < 4 ? 0 : -1}
                           href={iiifImageTemplate(
