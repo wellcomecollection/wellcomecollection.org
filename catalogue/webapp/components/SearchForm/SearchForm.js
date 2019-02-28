@@ -1,13 +1,12 @@
 // @flow
 import { type CatalogueResultsList } from '@weco/common/model/catalogue';
-import { type NextLinkType } from '@weco/common/model/next-link-type';
 import { useState, useRef } from 'react';
 import Router from 'next/router';
-import NextLink from 'next/link';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import SelectableTags from '@weco/common/views/components/SelectableTags/SelectableTags';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
@@ -44,33 +43,6 @@ const SearchButtonWrapper = styled.div`
 const ClearSearch = styled.button`
   right: 12px;
 `;
-
-type SearchTagProps = {
-  link: NextLinkType,
-  label: string,
-  selected: boolean,
-};
-const SearchTag = ({ link, label, selected }: SearchTagProps) => {
-  return (
-    <NextLink {...link}>
-      <a
-        className={classNames({
-          'font-teal': selected,
-          'flex-inline': true,
-          'flex--v-center': true,
-          pointer: true,
-          [spacing(
-            { s: 1 },
-            { padding: ['left', 'right'], margin: ['left'] }
-          )]: true,
-          [font({ s: 'HNL4' })]: true,
-        })}
-      >
-        {label}
-      </a>
-    </NextLink>
-  );
-};
 
 const SearchForm = ({
   initialQuery = '',
@@ -179,9 +151,6 @@ const SearchForm = ({
           (showCatalogueSearchFilters || feedback) && (
             <div
               className={classNames({
-                flex: true,
-                'flex--wrap': true,
-                'flex--v-center': true,
                 [spacing({ s: 1 }, { margin: ['top'] })]: true,
               })}
             >
@@ -205,7 +174,7 @@ const SearchForm = ({
                 </p>
               )}
               {showCatalogueSearchFilters && works && (
-                <fieldset
+                <div
                   className={classNames({
                     relative: true,
                   })}
@@ -213,61 +182,60 @@ const SearchForm = ({
                     left: '1px',
                   }}
                 >
-                  <legend
+                  <div
                     className={classNames({
                       'float-l': true,
                       [font({ s: 'HNM4' })]: true,
+                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
                     })}
                     style={{ marginTop: '3px' }}
                   >
                     Filter by:
-                  </legend>
-                  <SearchTag
-                    name={'workType'}
-                    label="Books"
-                    value="a"
-                    selected={workType.indexOf('a') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('a') !== -1
-                          ? workType.filter(workType => workType !== 'a')
-                          : [...workType, 'a'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
+                  </div>
+                  <SelectableTags
+                    tags={[
+                      {
+                        textParts: ['Books'],
+                        linkAttributes: worksUrl({
+                          query,
+                          workType:
+                            workType.indexOf('a') !== -1
+                              ? workType.filter(workType => workType !== 'a')
+                              : [...workType, 'a'],
+                          itemsLocationsLocationType,
+                          page: 1,
+                        }),
+                        selected: workType.indexOf('a') !== -1,
+                      },
+                      {
+                        textParts: ['Digital images'],
+                        linkAttributes: worksUrl({
+                          query,
+                          workType:
+                            workType.indexOf('q') !== -1
+                              ? workType.filter(workType => workType !== 'q')
+                              : [...workType, 'q'],
+                          itemsLocationsLocationType,
+                          page: 1,
+                        }),
+                        selected: workType.indexOf('q') !== -1,
+                      },
+                      {
+                        textParts: ['Pictures'],
+                        linkAttributes: worksUrl({
+                          query,
+                          workType:
+                            workType.indexOf('k') !== -1
+                              ? workType.filter(workType => workType !== 'k')
+                              : [...workType, 'k'],
+                          itemsLocationsLocationType,
+                          page: 1,
+                        }),
+                        selected: workType.indexOf('k') !== -1,
+                      },
+                    ]}
                   />
-                  <SearchTag
-                    name={'workType'}
-                    label="Digital images"
-                    value="q"
-                    selected={workType.indexOf('q') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('q') !== -1
-                          ? workType.filter(workType => workType !== 'q')
-                          : [...workType, 'q'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
-                  />
-                  <SearchTag
-                    name={'workType'}
-                    label="Pictures"
-                    value="k"
-                    selected={workType.indexOf('k') !== -1}
-                    link={worksUrl({
-                      query,
-                      workType:
-                        workType.indexOf('k') !== -1
-                          ? workType.filter(workType => workType !== 'k')
-                          : [...workType, 'k'],
-                      itemsLocationsLocationType,
-                      page: 1,
-                    })}
-                  />
-                </fieldset>
+                </div>
               )}
             </div>
           )
