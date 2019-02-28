@@ -88,7 +88,7 @@ const IIIFPresentationDisplay = ({
         )) ||
     [];
 
-  const previewSize = 200;
+  const previewSize = 400;
 
   return (
     <Fragment>
@@ -104,7 +104,12 @@ const IIIFPresentationDisplay = ({
                     )({ size: '!1024,1024' })}
                   >
                     <img
-                      style={{ width: 'auto', height: '300px' }}
+                      style={
+                        sequence.canvases[0].thumbnail.service.width <=
+                        sequence.canvases[0].thumbnail.service.height
+                          ? { width: 'auto', height: '300px' }
+                          : { width: '300px', height: 'auto' }
+                      }
                       src={iiifImageTemplate(
                         sequence.canvases[0].thumbnail.service['@id']
                       )({ size: `!${previewSize},${previewSize}` })}
@@ -129,11 +134,20 @@ const IIIFPresentationDisplay = ({
                             className={classNames({
                               'lazy-image lazyload': i > 3,
                             })}
-                            style={{
-                              width: 'auto',
-                              height: '300px',
-                              marginRight: '12px',
-                            }}
+                            style={
+                              canvas.thumbnail.service.width <=
+                              canvas.thumbnail.service.height
+                                ? {
+                                    width: 'auto',
+                                    height: '300px',
+                                    marginRight: '12px',
+                                  }
+                                : {
+                                    width: '300px',
+                                    height: 'auto',
+                                    marginRight: '12px',
+                                  }
+                            }
                             src={
                               i < 4
                                 ? iiifImageTemplate(
