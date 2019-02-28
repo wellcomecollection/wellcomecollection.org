@@ -49,6 +49,13 @@ const BookContainer = styled.div`
 
 const ScrollContainer = styled.div`
   overflow-x: scroll;
+  outline: none;
+
+  &:focus::before {
+    content: 'Scroll through the images with arrow keys';
+    position: absolute;
+    margin-top: -1.8em;
+  }
 
   &::-webkit-scrollbar {
     margin-top: ${props => `${props.theme.spacingUnit}px`};
