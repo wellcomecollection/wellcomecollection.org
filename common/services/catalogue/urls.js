@@ -7,7 +7,7 @@ type WorkUrlProps = {|
   page: ?number,
   workType?: string[],
   itemsLocationsLocationType?: string[],
-  queryType: ?string,
+  queryType?: ?string,
 |};
 
 type WorksUrlProps = {|
@@ -15,7 +15,7 @@ type WorksUrlProps = {|
   page: ?number,
   workType?: string[],
   itemsLocationsLocationType?: string[],
-  queryType: ?string,
+  queryType?: ?string,
 |};
 
 function removeEmpty(obj: Object): Object {
