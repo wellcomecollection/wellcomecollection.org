@@ -238,7 +238,7 @@ const WorkDetails = ({
       <WorkDetailsSection headingText="Find in the library">
         <MetaUnit
           text={[
-            `This ${singularWorkTypeLabel} is available at <a href="${encoreLink}">Wellcome Library</a>`,
+            `This ${singularWorkTypeLabel} is available at <a href="${encoreLink}">Wellcome library</a>`,
           ]}
         />
       </WorkDetailsSection>
