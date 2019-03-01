@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -21,6 +21,9 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import SearchContext, {
+  SearchProvider,
+} from '../components/SearchContext/SearchContext';
 
 type Props = {|
   query: ?string,
@@ -69,6 +72,21 @@ export const Works = ({
     );
   }
 
+  const T = () => {
+    const { query, setQuery } = useContext(SearchContext);
+
+    return (
+      <div>
+        {query}
+        <input
+          type="text"
+          value={query}
+          onChange={event => setQuery(event.target.value)}
+        />
+      </div>
+    );
+  };
+
   return (
     <Fragment>
       <Head>
@@ -101,6 +119,10 @@ export const Works = ({
           text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
           cookieName="WC_wellcomeImagesRedirect"
         />
+
+        <SearchProvider initialState={{}}>
+          <T />
+        </SearchProvider>
 
         <div
           className={classNames([
