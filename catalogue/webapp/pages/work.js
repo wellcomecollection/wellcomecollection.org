@@ -74,7 +74,7 @@ export const WorkPage = ({
       identifier => identifier.identifierType.id === 'sierra-system-number'
     ) || {}
   ).value;
-  // We strip the last character as that's what Wellcome Library expect
+  // We strip the last character as that's what Wellcome library expect
   const encoreLink =
     sierraId &&
     `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
