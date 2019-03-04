@@ -15,7 +15,6 @@ type WorkUrlProps = {|
 
 type ItemUrlProps = {|
   ...WorksUrlProps,
-  id: string,
   workId: string,
 |};
 
@@ -96,7 +95,6 @@ export function worksUrl({
 }
 
 export function itemUrl({
-  id,
   workId,
   query,
   page,
@@ -107,7 +105,6 @@ export function itemUrl({
     href: {
       pathname: `/item`,
       query: {
-        id,
         workId,
         ...removeEmpty({
           query: query || undefined,
@@ -117,7 +114,7 @@ export function itemUrl({
       },
     },
     as: {
-      pathname: `/works/${workId}/items/${id}`,
+      pathname: `/works/${workId}/items`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,

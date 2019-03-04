@@ -9,10 +9,7 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import {
-  getIiifPresentationLocation,
-  getIiifPresentationItemId,
-} from '@weco/common/utils/works';
+import { getIiifPresentationLocation } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -91,8 +88,6 @@ export const WorkPage = ({
   const imageContentUrl =
     iiifImageLocationUrl &&
     iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
-
-  const iiifPresentationItemId = getIiifPresentationItemId(work);
 
   return (
     <PageLayout
@@ -182,24 +177,21 @@ export const WorkPage = ({
         </div>
       </div>
 
-      <Layout12>
-        <>
-          {iiifPresentationItemId && (
-            <NextLink
-              {...itemUrl({
-                id: iiifPresentationItemId,
-                workId: work.id,
-                query,
-                page,
-                workType,
-                itemsLocationsLocationType,
-              })}
-            >
-              <a>View item</a>
-            </NextLink>
-          )}
-        </>
-      </Layout12>
+      {iiifManifest && (
+        <Layout12>
+          <NextLink
+            {...itemUrl({
+              workId: work.id,
+              query,
+              page,
+              workType,
+              itemsLocationsLocationType,
+            })}
+          >
+            <a>View item</a>
+          </NextLink>
+        </Layout12>
+      )}
 
       <TogglesContext.Consumer>
         {({ showWorkPreview, showMultiImageWorkPreview }) => (

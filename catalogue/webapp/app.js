@@ -25,7 +25,7 @@ module.exports = app
     route('/works/progress', '/progress', router, app);
     route('/works/:id', '/work', router, app);
     route('/works', '/works', router, app);
-    route('/works/:workId/items/:id', '/item', router, app);
+    route('/works/:workId/items', '/item', router, app);
 
     router.get('/works/management/healthcheck', async ctx => {
       ctx.status = 200;
