@@ -148,7 +148,9 @@ export const Works = ({
                         <div className="flex flex--v-center">
                           <Icon
                             name="underConstruction"
-                            extraClasses="margin-right-s2"
+                            extraClasses={classNames({
+                              [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                            })}
                           />
                           <p className="no-margin">
                             We’re improving how search works.{' '}
