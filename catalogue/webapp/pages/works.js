@@ -387,7 +387,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     'items.locations.locationType' in ctx.query
       ? ctx.query['items.locations.locationType'].split(',')
       : showCatalogueSearchFilters
-      ? ['iiif-image', 'iiif-presentation']
+      ? []
       : ['iiif-image'];
 
   const filters = {

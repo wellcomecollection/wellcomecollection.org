@@ -190,7 +190,7 @@ const SearchForm = ({
                     })}
                     style={{ marginTop: '3px' }}
                   >
-                    Filter by:
+                    Include:
                   </div>
                   <SelectableTags
                     tags={[
@@ -200,12 +200,17 @@ const SearchForm = ({
                           query,
                           workType:
                             workType.indexOf('a') !== -1
-                              ? workType.filter(workType => workType !== 'a')
-                              : [...workType, 'a'],
+                              ? workType.filter(
+                                  workType =>
+                                    !(workType === 'a' || workType === 'v')
+                                )
+                              : [...workType, 'a', 'v'],
                           itemsLocationsLocationType,
                           page: 1,
                         }),
-                        selected: workType.indexOf('a') !== -1,
+                        selected:
+                          workType.indexOf('a') !== -1 &&
+                          workType.indexOf('v') !== -1,
                       },
                       {
                         textParts: ['Digital images'],
