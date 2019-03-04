@@ -71,7 +71,7 @@ const featureToggles = [
     id: 'betaBar',
     title: 'Beta bar',
     description:
-      'Letting people know thta the service is being worked on, how they might ' +
+      'Letting people know that the service is being worked on, how they might ' +
       "find out about what's going on, and let us know what they think.",
   },
 ];
