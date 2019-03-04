@@ -6,7 +6,7 @@ const BetaTag = styled(({ className }) => (
   <span
     className={classNames({
       [className]: true,
-      uppercase: true,
+      caps: true,
       'bg-purple': true,
       'font-white': true,
       [font({ s: 'HNM5' })]: true,
