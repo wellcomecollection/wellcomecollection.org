@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import Router from 'next/router';
+import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import {
   type Work,
@@ -8,7 +9,10 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { getIiifPresentationLocation } from '@weco/common/utils/works';
+import {
+  getIiifPresentationLocation,
+  getIiifPresentationItemId,
+} from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -20,7 +24,7 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -87,6 +91,8 @@ export const WorkPage = ({
   const imageContentUrl =
     iiifImageLocationUrl &&
     iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
+
+  const iiifPresentationItemId = getIiifPresentationItemId(work);
 
   return (
     <PageLayout
@@ -175,6 +181,25 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
+
+      <Layout12>
+        <>
+          {iiifPresentationItemId && (
+            <NextLink
+              {...itemUrl({
+                id: iiifPresentationItemId,
+                workId: work.id,
+                query,
+                page,
+                workType,
+                itemsLocationsLocationType,
+              })}
+            >
+              <a>View item</a>
+            </NextLink>
+          )}
+        </>
+      </Layout12>
 
       <TogglesContext.Consumer>
         {({ showWorkPreview, showMultiImageWorkPreview }) => (

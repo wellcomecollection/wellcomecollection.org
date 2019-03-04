@@ -24,13 +24,23 @@ export function getProductionDates(work: Work) {
 }
 
 export function getIiifPresentationLocation(work: Work) {
-  return work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean)[0];
+  return work.items.find(item => {
+    const iiifPresentationLocation = item.locations.find(
+      location => location.locationType.id === 'iiif-presentation'
+    );
+    return iiifPresentationLocation || null;
+  });
+}
+
+export function getIiifPresentationItemId(work: Work): ?string {
+  const iiifPresentationItem = work.items.find(item => {
+    const iiifPresentationLocation = item.locations.find(
+      location => location.locationType.id === 'iiif-presentation'
+    );
+    return Boolean(iiifPresentationLocation);
+  });
+
+  return iiifPresentationItem && iiifPresentationItem.id;
 }
 
 const workTypeIcons = {
