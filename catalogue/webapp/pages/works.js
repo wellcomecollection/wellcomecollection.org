@@ -15,12 +15,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 
 type Props = {|
   query: ?string,
@@ -102,6 +104,16 @@ export const Works = ({
           cookieName="WC_wellcomeImagesRedirect"
         />
 
+        <TogglesContext.Consumer>
+          {({ betaBar }) =>
+            betaBar && (
+              <Layout12>
+                <BetaBar />
+              </Layout12>
+            )
+          }
+        </TogglesContext.Consumer>
+
         <div
           className={classNames([
             'row bg-cream',
@@ -130,16 +142,24 @@ export const Works = ({
                       ? 'Search our collections'
                       : 'Search our images'}
                   </h1>
-                  <div className="flex flex--v-center">
-                    <Icon
-                      name="underConstruction"
-                      extraClasses="margin-right-s2"
-                    />
-                    <p className="no-margin">
-                      We’re improving how search works.{' '}
-                      <a href="/works/progress">Find out more</a>.
-                    </p>
-                  </div>
+                  <TogglesContext.Consumer>
+                    {({ betaBar }) =>
+                      !betaBar && (
+                        <div className="flex flex--v-center">
+                          <Icon
+                            name="underConstruction"
+                            extraClasses={classNames({
+                              [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                            })}
+                          />
+                          <p className="no-margin">
+                            We’re improving how search works.{' '}
+                            <a href="/works/progress">Find out more</a>.
+                          </p>
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                 </div>
               </div>
             </div>

@@ -18,6 +18,8 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -103,6 +105,16 @@ export const WorkPage = ({
         text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
         cookieName="WC_wellcomeImagesRedirect"
       />
+
+      <TogglesContext.Consumer>
+        {({ betaBar }) =>
+          betaBar && (
+            <Layout12>
+              <BetaBar />
+            </Layout12>
+          )
+        }
+      </TogglesContext.Consumer>
 
       <div
         className={classNames({
