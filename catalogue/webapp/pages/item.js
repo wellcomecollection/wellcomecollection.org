@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 type Props = {|
@@ -29,6 +30,7 @@ const ItemPage = ({
   const service = currentCanvas.thumbnail.service;
   const urlTemplate = iiifImageTemplate(service['@id']);
   const title = manifest.label;
+  const largestSize = service.sizes[service.sizes.length - 1];
 
   return (
     <PageLayout
@@ -42,41 +44,44 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
-      <h1>{title}</h1>
+      <Layout12>
+        <h1>{title}</h1>
 
-      <Paginator
-        currentPage={pageIndex + 1}
-        pageSize={1}
-        totalResults={canvases.length}
-        link={itemUrl({
-          workId,
-          query: '',
-          page: pageIndex - 1,
-          workType,
-          itemsLocationsLocationType,
-          sierraId,
-        })}
-        onPageChange={async (event, newPage) => {
-          event.preventDefault();
-
-          const link = itemUrl({
+        <Paginator
+          currentPage={pageIndex + 1}
+          pageSize={1}
+          totalResults={canvases.length}
+          link={itemUrl({
             workId,
-            query: '',
+            query: null,
+            page: pageIndex - 1,
             workType,
             itemsLocationsLocationType,
-            page: newPage,
             sierraId,
-          });
-          Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
-        }}
-      />
-      <img
-        width={service.sizes[1].width}
-        height={service.sizes[1].height}
-        src={urlTemplate({
-          size: `${service.sizes[1].width},${service.sizes[1].height}`,
-        })}
-      />
+          })}
+          onPageChange={async (event, newPage) => {
+            event.preventDefault();
+
+            const link = itemUrl({
+              workId,
+              query: null,
+              workType,
+              itemsLocationsLocationType,
+              page: newPage,
+              sierraId,
+            });
+
+            Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
+          }}
+        />
+        <img
+          width={largestSize.width}
+          height={largestSize.height}
+          src={urlTemplate({
+            size: `${largestSize.width},${largestSize.height}`,
+          })}
+        />
+      </Layout12>
     </PageLayout>
   );
 };
