@@ -16,6 +16,7 @@ type Props = {|
   pageIndex: number,
   itemsLocationsLocationType: string[],
   workType: string[],
+  query: ?string,
 |};
 
 const ItemPage = ({
@@ -25,6 +26,7 @@ const ItemPage = ({
   pageIndex,
   itemsLocationsLocationType,
   workType,
+  query,
 }: Props) => {
   const canvases = manifest.sequences[0].canvases;
   const currentCanvas = canvases[pageIndex];
@@ -54,7 +56,7 @@ const ItemPage = ({
           totalResults={canvases.length}
           link={itemUrl({
             workId,
-            query: null,
+            query,
             page: pageIndex - 1,
             workType,
             itemsLocationsLocationType,
@@ -65,7 +67,7 @@ const ItemPage = ({
 
             const link = itemUrl({
               workId,
-              query: null,
+              query,
               workType,
               itemsLocationsLocationType,
               page: newPage,
@@ -88,7 +90,7 @@ const ItemPage = ({
 };
 
 ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const { workId, sierraId, page } = ctx.query;
+  const { workId, sierraId, page, query } = ctx.query;
   const pageIndex = page ? parseInt(page, 10) - 1 : 0;
   const manifest = await (await fetch(
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
@@ -115,6 +117,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     pageIndex,
     itemsLocationsLocationType,
     workType,
+    query,
   };
 };
 
