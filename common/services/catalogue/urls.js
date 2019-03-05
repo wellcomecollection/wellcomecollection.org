@@ -16,6 +16,7 @@ type WorkUrlProps = {|
 type ItemUrlProps = {|
   ...WorksUrlProps,
   workId: string,
+  sierraId: string,
 |};
 
 function removeEmpty(obj: Object): Object {
@@ -100,6 +101,7 @@ export function itemUrl({
   page,
   workType,
   itemsLocationsLocationType,
+  sierraId,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -109,6 +111,7 @@ export function itemUrl({
         ...removeEmpty({
           query: query || undefined,
           page: page && page > 1 ? page : undefined,
+          sierraId: sierraId,
           ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
         }),
       },
@@ -118,6 +121,7 @@ export function itemUrl({
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
+        sierraId: sierraId,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
       }),
     },

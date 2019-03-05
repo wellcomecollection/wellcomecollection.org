@@ -186,6 +186,7 @@ export const WorkPage = ({
               page,
               workType,
               itemsLocationsLocationType,
+              sierraId,
             })}
           >
             <a>View item</a>
