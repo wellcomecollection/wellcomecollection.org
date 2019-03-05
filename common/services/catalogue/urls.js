@@ -1,19 +1,21 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 
-type WorkUrlProps = {|
-  id: string,
+type WorksUrlProps = {|
   query: ?string,
   page: ?number,
   workType?: string[],
   itemsLocationsLocationType?: string[],
 |};
 
-type WorksUrlProps = {|
-  query: ?string,
-  page: ?number,
-  workType?: string[],
-  itemsLocationsLocationType?: string[],
+type WorkUrlProps = {|
+  ...WorksUrlProps,
+  id: string,
+|};
+
+type ItemUrlProps = {|
+  ...WorksUrlProps,
+  workId: string,
 |};
 
 function removeEmpty(obj: Object): Object {
@@ -83,6 +85,36 @@ export function worksUrl({
     },
     as: {
       pathname: `/works`,
+      query: removeEmpty({
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined,
+        ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+      }),
+    },
+  };
+}
+
+export function itemUrl({
+  workId,
+  query,
+  page,
+  workType,
+  itemsLocationsLocationType,
+}: ItemUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/item`,
+      query: {
+        workId,
+        ...removeEmpty({
+          query: query || undefined,
+          page: page && page > 1 ? page : undefined,
+          ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        }),
+      },
+    },
+    as: {
+      pathname: `/works/${workId}/items`,
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,

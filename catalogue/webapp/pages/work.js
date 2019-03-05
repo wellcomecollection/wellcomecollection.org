@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import Router from 'next/router';
+import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import {
   type Work,
@@ -20,7 +21,7 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -175,6 +176,22 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
+
+      {iiifManifest && (
+        <Layout12>
+          <NextLink
+            {...itemUrl({
+              workId: work.id,
+              query,
+              page,
+              workType,
+              itemsLocationsLocationType,
+            })}
+          >
+            <a>View item</a>
+          </NextLink>
+        </Layout12>
+      )}
 
       <TogglesContext.Consumer>
         {({ showWorkPreview, showMultiImageWorkPreview }) => (
