@@ -28,6 +28,7 @@ const ItemPage = ({
   const currentCanvas = canvases[pageIndex];
   const service = currentCanvas.thumbnail.service;
   const urlTemplate = iiifImageTemplate(service['@id']);
+  const title = manifest.label;
 
   return (
     <PageLayout
@@ -41,7 +42,8 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
-      <h1>{workId}</h1>
+      <h1>{title}</h1>
+
       <Paginator
         currentPage={pageIndex + 1}
         pageSize={1}
