@@ -179,22 +179,26 @@ export const WorkPage = ({
       </div>
 
       {iiifManifest && (
-        <>
+        <div
+          className={classNames({
+            'row font-white': true,
+            'bg-black': true,
+          })}
+        >
           <IIIFPresentationPreview manifestData={iiifManifest} />
-          <Layout12>
-            <NextLink
-              {...itemUrl({
-                workId: work.id,
-                query,
-                page,
-                workType,
-                itemsLocationsLocationType,
-              })}
-            >
-              <a>View item</a>
-            </NextLink>
-          </Layout12>
-        </>
+          {/* TODO next link and background as part of IIIFPresetationPreview */}
+          <NextLink
+            {...itemUrl({
+              workId: work.id,
+              query,
+              page,
+              workType,
+              itemsLocationsLocationType,
+            })}
+          >
+            <a>View item</a>
+          </NextLink>
+        </div>
       )}
 
       {iiifImageLocationUrl && (
