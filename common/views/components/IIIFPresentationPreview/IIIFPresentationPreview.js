@@ -51,22 +51,26 @@ function structuredImages(iiifManifest = null) {
   const structures = iiifManifest ? iiifManifest.structures : [];
   return structures.map(structure => {
     const images = structure.canvases.map(canvasId => {
-      const matchingCanvas = iiifManifest.sequences
-        .find(sequence => sequence['@type'] === 'sc:Sequence')
-        .canvases.find(canvas => {
-          return canvas['@id'] === canvasId;
-        });
-      return {
-        orientation:
-          matchingCanvas.thumbnail.service.width >
-          matchingCanvas.thumbnail.service.height
-            ? 'landscape'
-            : 'portrait',
-        uri: iiifImageTemplate(matchingCanvas.thumbnail.service['@id'])({
-          size: '!400,400',
-        }),
-        canvasId,
-      };
+      const matchingCanvas =
+        iiifManifest &&
+        iiifManifest.sequences
+          .find(sequence => sequence['@type'] === 'sc:Sequence')
+          .canvases.find(canvas => {
+            return canvas['@id'] === canvasId;
+          });
+      return (
+        matchingCanvas && {
+          orientation:
+            matchingCanvas.thumbnail.service.width >
+            matchingCanvas.thumbnail.service.height
+              ? 'landscape'
+              : 'portrait',
+          uri: iiifImageTemplate(matchingCanvas.thumbnail.service['@id'])({
+            size: '!400,400',
+          }),
+          canvasId,
+        }
+      );
     });
     return {
       label: structure.label,
