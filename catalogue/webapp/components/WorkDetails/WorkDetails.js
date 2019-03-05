@@ -13,8 +13,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
-import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -92,23 +90,6 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (showWorkPreview && (iiifImageLocationUrl || iiifManifest)) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection
-        headingText={`What this ${singularWorkTypeLabel} looks like`}
-      >
-        {iiifManifest && (
-          <IIIFPresentationPreview
-            manifestData={iiifManifest}
-            showMultiImageWorkPreview={showMultiImageWorkPreview}
-          />
-        )}
-        {iiifImageLocationUrl && (
-          <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
-        )}
-      </WorkDetailsSection>
-    );
-  }
   if (iiifImageLocationUrl) {
     WorkDetailsSections.push(
       <WorkDetailsSection>
