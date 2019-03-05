@@ -2,16 +2,17 @@
 import { type Context } from 'next';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
+import { type IIIFManifest } from '@weco/common/model/iiif';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
-
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
+
 type Props = {|
   workId: string,
   sierraId: string,
-  manifest: {},
+  manifest: IIIFManifest,
   pageIndex: number,
   itemsLocationsLocationType: string[],
   workType: string[],
