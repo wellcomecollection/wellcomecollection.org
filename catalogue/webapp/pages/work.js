@@ -237,6 +237,7 @@ WorkPage.getInitialProps = async (
   const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
   let iiifManifest = null;
   if (iiifPresentationLocation) {
+    // TODO don't need to do this here anymore, move to IIIFPresentationPreview and useEffect
     try {
       iiifManifest = await fetch(iiifPresentationLocation.url);
     } catch (e) {}
