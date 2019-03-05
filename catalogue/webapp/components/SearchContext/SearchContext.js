@@ -96,7 +96,7 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
     });
     Router.push(
       { ...link.href, pathname: '/works-context' },
-      { ...link.href, pathname: '/works-context' }
+      { ...link.as, pathname: '/works-context' }
     );
   };
   return children({ push });
