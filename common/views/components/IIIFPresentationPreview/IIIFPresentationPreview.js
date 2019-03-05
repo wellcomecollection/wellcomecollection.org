@@ -71,13 +71,9 @@ const ScrollContainer = styled.div`
 
 type Props = {|
   manifestData: any,
-  showMultiImageWorkPreview: boolean,
 |};
 
-const IIIFPresentationDisplay = ({
-  manifestData,
-  showMultiImageWorkPreview,
-}: Props) => {
+const IIIFPresentationDisplay = ({ manifestData }: Props) => {
   const validSequences =
     (manifestData &&
       manifestData.sequences
@@ -96,84 +92,80 @@ const IIIFPresentationDisplay = ({
         <Fragment key={sequence['@id']}>
           {sequence.canvases.length > 1 && (
             <Fragment>
-              {!showMultiImageWorkPreview && (
-                <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
-                  <a
-                    href={iiifImageTemplate(
-                      sequence.canvases[0].thumbnail.service['@id']
-                    )({ size: '!1024,1024' })}
-                  >
-                    <img
-                      style={
-                        sequence.canvases[0].thumbnail.service.width <=
-                        sequence.canvases[0].thumbnail.service.height
-                          ? { width: 'auto', height: '300px' }
-                          : { width: '300px', height: 'auto' }
-                      }
-                      src={iiifImageTemplate(
-                        sequence.canvases[0].thumbnail.service['@id']
-                      )({ size: `!${previewSize},${previewSize}` })}
-                    />
-                  </a>
-                </BookContainer>
-              )}
-              {showMultiImageWorkPreview && (
-                <ScrollContainer
-                  key={`${sequence.canvases[0].thumbnail['@id']}-2`}
+              <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
+                <a
+                  href={iiifImageTemplate(
+                    sequence.canvases[0].thumbnail.service['@id']
+                  )({ size: '!1024,1024' })}
                 >
-                  <div>
-                    {sequence.canvases.map((canvas, i) => {
-                      return (
-                        <a
-                          key={canvas.thumbnail.service['@id']}
-                          href={iiifImageTemplate(
-                            canvas.thumbnail.service['@id']
-                          )({ size: '!1024,1024' })}
-                        >
-                          <img
-                            className={classNames({
-                              'lazy-image lazyload': i > 3,
-                            })}
-                            style={
-                              canvas.thumbnail.service.width <=
-                              canvas.thumbnail.service.height
-                                ? {
-                                    width: 'auto',
-                                    height: '300px',
-                                    marginRight: '12px',
-                                  }
-                                : {
-                                    width: '300px',
-                                    height: 'auto',
-                                    marginRight: '12px',
-                                  }
-                            }
-                            src={
-                              i < 4
-                                ? iiifImageTemplate(
-                                    canvas.thumbnail.service['@id']
-                                  )({
-                                    size: `!${previewSize},${previewSize}`,
-                                  })
-                                : null
-                            }
-                            data-src={
-                              i > 3
-                                ? iiifImageTemplate(
-                                    canvas.thumbnail.service['@id']
-                                  )({
-                                    size: `!${previewSize},${previewSize}`,
-                                  })
-                                : null
-                            }
-                          />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </ScrollContainer>
-              )}
-              {/* TODO temporary links to large image for ttesting, while we don't have a viewer */}
+                  <img
+                    style={
+                      sequence.canvases[0].thumbnail.service.width <=
+                      sequence.canvases[0].thumbnail.service.height
+                        ? { width: 'auto', height: '300px' }
+                        : { width: '300px', height: 'auto' }
+                    }
+                    src={iiifImageTemplate(
+                      sequence.canvases[0].thumbnail.service['@id']
+                    )({ size: `!${previewSize},${previewSize}` })}
+                  />
+                </a>
+              </BookContainer>
+              <ScrollContainer
+                key={`${sequence.canvases[0].thumbnail['@id']}-2`}
+              >
+                <div>
+                  {sequence.canvases.map((canvas, i) => {
+                    return (
+                      <a
+                        key={canvas.thumbnail.service['@id']}
+                        href={iiifImageTemplate(
+                          canvas.thumbnail.service['@id']
+                        )({ size: '!1024,1024' })}
+                      >
+                        <img
+                          className={classNames({
+                            'lazy-image lazyload': i > 3,
+                          })}
+                          style={
+                            canvas.thumbnail.service.width <=
+                            canvas.thumbnail.service.height
+                              ? {
+                                  width: 'auto',
+                                  height: '300px',
+                                  marginRight: '12px',
+                                }
+                              : {
+                                  width: '300px',
+                                  height: 'auto',
+                                  marginRight: '12px',
+                                }
+                          }
+                          src={
+                            i < 4
+                              ? iiifImageTemplate(
+                                  canvas.thumbnail.service['@id']
+                                )({
+                                  size: `!${previewSize},${previewSize}`,
+                                })
+                              : null
+                          }
+                          data-src={
+                            i > 3
+                              ? iiifImageTemplate(
+                                  canvas.thumbnail.service['@id']
+                                )({
+                                  size: `!${previewSize},${previewSize}`,
+                                })
+                              : null
+                          }
+                        />
+                      </a>
+                    );
+                  })}
+                </div>
+              </ScrollContainer>
+              {/* TODO temporary links to large image for testing, while we don't have a viewer */}
               <div>
                 <Button
                   type="primary"

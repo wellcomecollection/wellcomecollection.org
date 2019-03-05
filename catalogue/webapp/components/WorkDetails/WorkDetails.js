@@ -67,8 +67,6 @@ type Props = {|
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  showWorkPreview: boolean,
-  showMultiImageWorkPreview: boolean,
 |};
 
 const WorkDetails = ({
@@ -79,8 +77,6 @@ const WorkDetails = ({
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
-  showWorkPreview,
-  showMultiImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()

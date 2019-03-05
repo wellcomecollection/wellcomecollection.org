@@ -26,8 +26,11 @@ import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
+// import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+// import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview'; // TODO rename WorkMedia?, these are the same thing
 
 // TODO flow
+// TODO move to IIIFPresentationPreview
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
 // If we don't have any of the sructured pages, we fill with random ones, so there are always 5 images if possible.
 function randomImages(iiifManifest = null, structuredImages = [], n = 1) {
@@ -319,29 +322,25 @@ export const WorkPage = ({
       )}
 
       <TogglesContext.Consumer>
-        {({ showWorkPreview, showMultiImageWorkPreview }) => (
-          <Fragment>
-            {iiifImageLocationUrl && !showWorkPreview && (
-              <WorkMedia
-                id={work.id}
-                iiifUrl={iiifImageLocationUrl}
-                title={work.title}
-              />
-            )}
-
-            <WorkDetails
-              work={work}
-              iiifManifest={iiifManifest}
-              iiifImageLocationUrl={iiifImageLocationUrl}
-              licenseInfo={licenseInfo}
-              iiifImageLocationCredit={iiifImageLocationCredit}
-              iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-              encoreLink={encoreLink}
-              showWorkPreview={showWorkPreview}
-              showMultiImageWorkPreview={showMultiImageWorkPreview}
+        <Fragment>
+          {iiifImageLocationUrl && (
+            <WorkMedia
+              id={work.id}
+              iiifUrl={iiifImageLocationUrl}
+              title={work.title}
             />
-          </Fragment>
-        )}
+          )}
+
+          <WorkDetails
+            work={work}
+            iiifManifest={iiifManifest}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            licenseInfo={licenseInfo}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+            encoreLink={encoreLink}
+          />
+        </Fragment>
       </TogglesContext.Consumer>
     </PageLayout>
   );
