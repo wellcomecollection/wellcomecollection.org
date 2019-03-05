@@ -1,9 +1,6 @@
 // @flow
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { Fragment, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 // TODO flow
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
@@ -109,28 +106,6 @@ function previewThumbnails(
     : structuredImages;
 }
 
-const ScrollContainer = styled.div`
-  overflow-x: scroll;
-
-  &::-webkit-scrollbar {
-    margin-top: ${props => `${props.theme.spacingUnit}px`};
-    height: ${props => `${props.theme.spacingUnit * 5}px`};
-    background: ${props => props.theme.colors.cream};
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 0;
-    border-style: solid;
-    border-width: ${props => `${props.theme.spacingUnit * 2}px 0`};
-    border-color: ${props => props.theme.colors.cream};
-    background: ${props => props.theme.colors.marble};
-  }
-
-  & > div {
-    display: flex;
-  }
-`;
-
 type Props = {|
   manifestData: any,
 |};
@@ -146,17 +121,6 @@ const IIIFPresentationDisplay = ({ manifestData }: Props) => {
       )
     );
   }, []);
-  const validSequences =
-    (manifestData &&
-      manifestData.sequences
-        // This returns a broken resource
-        .filter(
-          ({ compatibilityHint }) =>
-            compatibilityHint !== 'displayIfContentUnsupported'
-        )) ||
-    [];
-
-  const previewSize = 400;
 
   return (
     <Fragment>
@@ -170,79 +134,6 @@ const IIIFPresentationDisplay = ({ manifestData }: Props) => {
             />
           ));
         })}
-      {validSequences.map(sequence => (
-        <Fragment key={sequence['@id']}>
-          {sequence.canvases.length > 1 && (
-            <Fragment>
-              <ScrollContainer
-                key={`${sequence.canvases[0].thumbnail['@id']}-2`}
-              >
-                <div>
-                  {sequence.canvases.map((canvas, i) => {
-                    return (
-                      <a
-                        key={canvas.thumbnail.service['@id']}
-                        href={iiifImageTemplate(
-                          canvas.thumbnail.service['@id']
-                        )({ size: '!1024,1024' })}
-                      >
-                        <img
-                          className={classNames({
-                            'lazy-image lazyload': i > 3,
-                          })}
-                          style={
-                            canvas.thumbnail.service.width <=
-                            canvas.thumbnail.service.height
-                              ? {
-                                  width: 'auto',
-                                  height: '300px',
-                                  marginRight: '12px',
-                                }
-                              : {
-                                  width: '300px',
-                                  height: 'auto',
-                                  marginRight: '12px',
-                                }
-                          }
-                          src={
-                            i < 4
-                              ? iiifImageTemplate(
-                                  canvas.thumbnail.service['@id']
-                                )({
-                                  size: `!${previewSize},${previewSize}`,
-                                })
-                              : null
-                          }
-                          data-src={
-                            i > 3
-                              ? iiifImageTemplate(
-                                  canvas.thumbnail.service['@id']
-                                )({
-                                  size: `!${previewSize},${previewSize}`,
-                                })
-                              : null
-                          }
-                        />
-                      </a>
-                    );
-                  })}
-                </div>
-              </ScrollContainer>
-              {/* TODO temporary links to large image for testing, while we don't have a viewer */}
-              <div>
-                <Button
-                  type="primary"
-                  url={iiifImageTemplate(
-                    sequence.canvases[0].thumbnail.service['@id']
-                  )({ size: '!1024,1024' })}
-                  text={`View all ${sequence.canvases.length} images`}
-                  icon="gallery"
-                />
-              </div>
-            </Fragment>
-          )}
-        </Fragment>
-      ))}
     </Fragment>
   );
 };
