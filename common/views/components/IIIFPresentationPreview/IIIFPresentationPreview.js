@@ -109,48 +109,6 @@ function previewThumbnails(
     : structuredImages;
 }
 
-const BookContainer = styled.div`
-  display: inline-block;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 20px;
-  word-spacing: 0;
-
-  & > img,
-  &::before,
-  &::after {
-    /* Add shadow to distinguish sheets from one another */
-    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.15);
-  }
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-  }
-
-  /* Second sheet of paper */
-  &::before {
-    left: 7px;
-    top: 7px;
-    z-index: -1;
-  }
-
-  /* Third sheet of paper */
-  &::after {
-    left: 14px;
-    top: 14px;
-    z-index: -2;
-  }
-
-  img {
-    display: block;
-  }
-`;
-
 const ScrollContainer = styled.div`
   overflow-x: scroll;
 
@@ -216,25 +174,6 @@ const IIIFPresentationDisplay = ({ manifestData }: Props) => {
         <Fragment key={sequence['@id']}>
           {sequence.canvases.length > 1 && (
             <Fragment>
-              <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
-                <a
-                  href={iiifImageTemplate(
-                    sequence.canvases[0].thumbnail.service['@id']
-                  )({ size: '!1024,1024' })}
-                >
-                  <img
-                    style={
-                      sequence.canvases[0].thumbnail.service.width <=
-                      sequence.canvases[0].thumbnail.service.height
-                        ? { width: 'auto', height: '300px' }
-                        : { width: '300px', height: 'auto' }
-                    }
-                    src={iiifImageTemplate(
-                      sequence.canvases[0].thumbnail.service['@id']
-                    )({ size: `!${previewSize},${previewSize}` })}
-                  />
-                </a>
-              </BookContainer>
               <ScrollContainer
                 key={`${sequence.canvases[0].thumbnail['@id']}-2`}
               >
