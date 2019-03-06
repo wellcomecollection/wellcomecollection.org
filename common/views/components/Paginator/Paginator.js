@@ -81,12 +81,13 @@ const Paginator = ({
   return (
     <Fragment>
       <div
-        className={`flex flex--v-center font-pewter ${font({
-          s: 'LR3',
-          m: 'LR2',
-        })}`}
+        className={classNames({
+          'flex flex--v-center font-pewter': true,
+          [spacing({ s: 2 }, { margin: ['right'] })]: true,
+          [font({ s: 'LR3', m: 'LR2' })]: true,
+        })}
       >
-        Showing {rangeStart} - {rangeEnd}
+        {rangeStart} - {rangeEnd} |{' '}
       </div>
       <div
         className={classNames({
@@ -117,6 +118,17 @@ const Paginator = ({
             </a>
           </NextLink>
         )}
+        {!prev && (
+          <Control
+            type="light"
+            extraClasses={`opacity-disabled icon--180 ${spacing(
+              { s: 2 },
+              { margin: ['right'] }
+            )}`}
+            icon="arrow"
+            text={`No previous page`}
+          />
+        )}
 
         <span>
           Page {currentPage} of {totalPages}
@@ -137,6 +149,17 @@ const Paginator = ({
               />
             </a>
           </NextLink>
+        )}
+        {!next && (
+          <Control
+            type="light"
+            extraClasses={`opacity-disabled ${spacing(
+              { s: 2 },
+              { margin: ['left'] }
+            )} `}
+            icon="arrow"
+            text={`No next page`}
+          />
         )}
       </div>
     </Fragment>

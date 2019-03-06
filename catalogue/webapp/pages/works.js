@@ -186,17 +186,6 @@ export const Works = ({
                   historical library materials and museum objects to
                   contemporary digital photographs.
                 </p>
-                {works && (
-                  <p
-                    className={classNames([
-                      spacing({ s: 2 }, { margin: ['top', 'bottom'] }),
-                      font({ s: 'LR3', m: 'LR2' }),
-                    ])}
-                  >
-                    {works.totalResults !== 0 ? works.totalResults : 'No'}{' '}
-                    results for &apos;{query}&apos;
-                  </p>
-                )}
               </div>
             </div>
           </div>
@@ -212,8 +201,23 @@ export const Works = ({
               <div className="container">
                 <div className="grid">
                   <div className="grid__cell">
-                    <div className="flex flex--h-space-between flex--v-center">
+                    <div className="flex flex--h-space-between flex--v-center flex--wrap">
                       <Fragment>
+                        {works && (
+                          <p
+                            className={classNames([
+                              'font-pewter',
+                              'flex__grow',
+                              spacing({ s: 2 }, { margin: ['top', 'bottom'] }),
+                              font({ s: 'LR3', m: 'LR2' }),
+                            ])}
+                          >
+                            {works.totalResults !== 0
+                              ? works.totalResults
+                              : 'No'}{' '}
+                            results for &apos;{query}&apos;
+                          </p>
+                        )}
                         <Paginator
                           currentPage={page || 1}
                           pageSize={works.pageSize}

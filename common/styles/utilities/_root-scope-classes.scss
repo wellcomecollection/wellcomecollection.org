@@ -189,6 +189,10 @@
   justify-content: space-between;
 }
 
+.flex__grow {
+  flex-grow: 1;
+}
+
 .flex-end {
   justify-content: flex-end;
 }
@@ -458,6 +462,10 @@
 
 .opacity-0 {
   opacity: 0;
+}
+
+.opacity-disabled {
+  opacity: 0.3;
 }
 
 .hidden {
