@@ -28,8 +28,8 @@ type Props = {|
   query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
   showCatalogueSearchFilters: boolean,
 |};
 
@@ -290,7 +290,13 @@ export const Works = ({
                                   result.createdDate && result.createdDate.label
                                 }
                                 title={result.title}
-                                link={workUrl({ id: result.id, query, page })}
+                                link={workUrl({
+                                  id: result.id,
+                                  query,
+                                  page,
+                                  workType,
+                                  itemsLocationsLocationType,
+                                })}
                               />
                             </div>
                           ));
@@ -374,29 +380,34 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
   const { showCatalogueSearchFilters = false } = ctx.query.toggles;
+  const workTypeQuery = ctx.query.workType;
+  const itemsLocationsLocationTypeQuery =
+    ctx.query['items.locations.locationType'];
 
   const defaultWorkType = ['k', 'q'];
-  const workTypeQuery = ctx.query.workType;
-  const workType = !showCatalogueSearchFilters
-    ? defaultWorkType
-    : !workTypeQuery
-    ? []
-    : workTypeQuery.split(',').filter(Boolean);
+  const defaultItemsLocationsLocationType = ['iiif-image'];
 
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : showCatalogueSearchFilters
-      ? ['iiif-image', 'iiif-presentation']
-      : ['iiif-image'];
+  const defaultWorkTypeWithFilters = ['a', 'k', 'q', 'v'];
+  const defaultItemsLocationsLocationTypeWithFilters = [
+    'iiif-image',
+    'iiif-presentation',
+  ];
+
+  const workTypeFilter = workTypeQuery
+    ? workTypeQuery.split(',').filter(Boolean)
+    : showCatalogueSearchFilters
+    ? defaultWorkTypeWithFilters
+    : defaultWorkType;
+
+  const itemsLocationsLocationTypeFilter = itemsLocationsLocationTypeQuery
+    ? itemsLocationsLocationTypeQuery.split(',').filter(Boolean)
+    : showCatalogueSearchFilters
+    ? defaultItemsLocationsLocationTypeWithFilters
+    : defaultItemsLocationsLocationType;
 
   const filters = {
-    'items.locations.locationType': itemsLocationsLocationType,
-    workType: !showCatalogueSearchFilters
-      ? defaultWorkType
-      : workType.length === 0
-      ? ['a', 'k', 'q']
-      : workType,
+    workType: workTypeFilter,
+    'items.locations.locationType': itemsLocationsLocationTypeFilter,
   };
 
   const worksOrError =
@@ -406,8 +417,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     query,
     page,
-    workType,
-    itemsLocationsLocationType,
+    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+    itemsLocationsLocationType:
+      itemsLocationsLocationTypeQuery &&
+      itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
     showCatalogueSearchFilters,
   };
 };

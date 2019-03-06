@@ -19,8 +19,8 @@ type Props = {|
   work: Work,
   query: ?string,
   page: ?number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
 |};
 
 const Container = styled.div`

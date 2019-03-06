@@ -227,15 +227,8 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const workTypeQuery = ctx.query.workType;
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : ['k', 'q'];
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : ['iiif-image'];
+  const itemsLocationsLocationTypeQuery =
+    ctx.query['items.locations.locationType'];
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
@@ -264,8 +257,10 @@ WorkPage.getInitialProps = async (
       work: workOrError,
       iiifManifest: iiifManifest ? await iiifManifest.json() : null,
       page: page ? parseInt(page, 10) : null,
-      workType,
-      itemsLocationsLocationType,
+      workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+      itemsLocationsLocationType:
+        itemsLocationsLocationTypeQuery &&
+        itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
     };
   }
 };

@@ -4,8 +4,8 @@ import type { NextLinkType } from '@weco/common/model/next-link-type';
 type WorksUrlProps = {|
   query: ?string,
   page: ?number,
-  workType?: string[],
-  itemsLocationsLocationType?: string[],
+  workType?: ?(string[]),
+  itemsLocationsLocationType?: ?(string[]),
 |};
 
 type WorkUrlProps = {|
@@ -23,19 +23,15 @@ function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function workTypeAndItemsLocationType(workType, itemsLocationsLocationType) {
-  const isDefaultWorkType =
-    JSON.stringify(workType) === JSON.stringify(['k', 'q']);
-  const isDefaultItemsLocationsLocationType =
-    JSON.stringify(itemsLocationsLocationType) ===
-    JSON.stringify(['iiif-image']);
-
+function workTypeAndItemsLocationType(
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[])
+) {
   return {
-    workType: workType && !isDefaultWorkType ? workType.join(',') : undefined,
-    'items.locations.locationType':
-      itemsLocationsLocationType && !isDefaultItemsLocationsLocationType
-        ? itemsLocationsLocationType.join(',')
-        : undefined,
+    workType: workType ? workType.join(',') : undefined,
+    'items.locations.locationType': itemsLocationsLocationType
+      ? itemsLocationsLocationType.join(',')
+      : undefined,
   };
 }
 
