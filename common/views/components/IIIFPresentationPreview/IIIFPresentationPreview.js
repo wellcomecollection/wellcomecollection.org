@@ -2,8 +2,8 @@
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { Fragment, useEffect, useState } from 'react';
+import { type iiifPresentationLocation } from '@weco/common/utils/works';
 
-// TODO flow
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
 // If we don't have any of the sructured pages, we fill with random ones, so there are always 5 images if possible.
 function randomImages(iiifManifest = null, structuredImages = [], n = 1) {
@@ -112,7 +112,7 @@ function previewThumbnails(
 }
 
 type Props = {|
-  iiifPresentationLocation: any, // TODO
+  iiifPresentationLocation: iiifPresentationLocation,
 |};
 
 const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {

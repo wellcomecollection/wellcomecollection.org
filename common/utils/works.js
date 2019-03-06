@@ -23,7 +23,19 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
-export function getIiifPresentationLocation(work: Work) {
+export type iiifPresentationLocation = {|
+  locationType: {
+    id: 'iiif-presentation',
+    label: 'IIIF Presentation API',
+    type: 'LocationType',
+  },
+  url: string,
+  type: 'DigitalLocation',
+|};
+
+export function getIiifPresentationLocation(
+  work: Work
+): iiifPresentationLocation {
   return work.items
     .map(item =>
       item.locations.find(

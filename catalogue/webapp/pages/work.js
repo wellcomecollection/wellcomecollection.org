@@ -7,7 +7,10 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { getIiifPresentationLocation } from '@weco/common/utils/works';
+import {
+  type iiifPresentationLocation,
+  getIiifPresentationLocation,
+} from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -25,18 +28,16 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
-// import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview'; // TODO rename WorkMedia?, these are the same thing
+// import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview'; // TODO rename WorkMedia?, these are the same thing or delete
 
 type Props = {|
   work: Work | CatalogueApiError,
-  iiifPresentationLocation: any, // TODO
+  iiifPresentationLocation: iiifPresentationLocation,
   workType: string[],
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
 |};
-
-// {"locationType":{"id":"iiif-presentation","label":"IIIF Presentation API","type":"LocationType"},"url":"https://wellcomelibrary.org/iiif/b28090287/manifest","type":"DigitalLocation"}
 
 export const WorkPage = ({
   work,
