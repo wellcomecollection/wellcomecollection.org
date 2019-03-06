@@ -67,6 +67,13 @@ const featureToggles = [
     description:
       'This toggle should be used in conjunction with the showWorkPreview toggle. Where a work has multiple images, we can try showing more of them.',
   },
+  {
+    id: 'betaBar',
+    title: 'Beta bar',
+    description:
+      'Letting people know that the service is being worked on, how they might ' +
+      "find out about what's going on, and let us know what they think.",
+  },
 ];
 
 const IndexPage = () => {

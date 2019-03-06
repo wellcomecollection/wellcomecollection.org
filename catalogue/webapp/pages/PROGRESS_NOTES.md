@@ -1,6 +1,6 @@
 # How we're improving search
 
-We are working to make [wellcomecollection.org](https://wellcomecollection.org) a more welcoming space where you can discover more of what Wellcome Collection has to offer. As part of this work, we’re bringing together library collections, physical and digital alike, into a single location. Here you will be able to search, browse, read and do research across the breadth of Wellcome Library’s holdings.
+We are working to make [wellcomecollection.org](https://wellcomecollection.org) a more welcoming space where you can discover more of what Wellcome Collection has to offer. As part of this work, we’re bringing together library collections, physical and digital alike, into a single location. Here you will be able to search, browse, read and do research across the breadth of Wellcome library’s holdings.
 
 We have a lot of work to do, and we’ve only just begun.
 

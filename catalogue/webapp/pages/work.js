@@ -1,6 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import Router from 'next/router';
+import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import {
   type Work,
@@ -18,7 +19,9 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -74,7 +77,7 @@ export const WorkPage = ({
       identifier => identifier.identifierType.id === 'sierra-system-number'
     ) || {}
   ).value;
-  // We strip the last character as that's what Wellcome Library expect
+  // We strip the last character as that's what Wellcome library expect
   const encoreLink =
     sierraId &&
     `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
@@ -103,6 +106,16 @@ export const WorkPage = ({
         text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
         cookieName="WC_wellcomeImagesRedirect"
       />
+
+      <TogglesContext.Consumer>
+        {({ betaBar }) =>
+          betaBar && (
+            <Layout12>
+              <BetaBar />
+            </Layout12>
+          )
+        }
+      </TogglesContext.Consumer>
 
       <div
         className={classNames({
@@ -164,6 +177,23 @@ export const WorkPage = ({
         </div>
       </div>
 
+      {iiifManifest && (
+        <Layout12>
+          <NextLink
+            {...itemUrl({
+              workId: work.id,
+              query,
+              page,
+              workType,
+              itemsLocationsLocationType,
+              sierraId,
+            })}
+          >
+            <a>View item</a>
+          </NextLink>
+        </Layout12>
+      )}
+
       <TogglesContext.Consumer>
         {({ showWorkPreview, showMultiImageWorkPreview }) => (
           <Fragment>
@@ -197,15 +227,8 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const workTypeQuery = ctx.query.workType;
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : ['k', 'q'];
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : ['iiif-image'];
+  const itemsLocationsLocationTypeQuery =
+    ctx.query['items.locations.locationType'];
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
@@ -234,8 +257,10 @@ WorkPage.getInitialProps = async (
       work: workOrError,
       iiifManifest: iiifManifest ? await iiifManifest.json() : null,
       page: page ? parseInt(page, 10) : null,
-      workType,
-      itemsLocationsLocationType,
+      workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+      itemsLocationsLocationType:
+        itemsLocationsLocationTypeQuery &&
+        itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
     };
   }
 };

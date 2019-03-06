@@ -19,8 +19,8 @@ type Props = {|
   work: Work,
   query: ?string,
   page: ?number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
 |};
 
 const Container = styled.div`
@@ -195,7 +195,7 @@ const WorkCard = ({
                         : null,
                       physicalLocations.length > 0
                         ? {
-                            text: 'Wellcome Library',
+                            text: 'Wellcome library',
                             url: null,
                           }
                         : null,

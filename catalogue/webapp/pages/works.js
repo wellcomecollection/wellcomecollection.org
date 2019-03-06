@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -15,22 +15,21 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import SearchContext, {
-  SearchProvider,
-} from '../components/SearchContext/SearchContext';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 
 type Props = {|
   query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
   showCatalogueSearchFilters: boolean,
 |};
 
@@ -72,21 +71,6 @@ export const Works = ({
     );
   }
 
-  const T = () => {
-    const { query, setQuery } = useContext(SearchContext);
-
-    return (
-      <div>
-        {query}
-        <input
-          type="text"
-          value={query}
-          onChange={event => setQuery(event.target.value)}
-        />
-      </div>
-    );
-  };
-
   return (
     <Fragment>
       <Head>
@@ -120,9 +104,15 @@ export const Works = ({
           cookieName="WC_wellcomeImagesRedirect"
         />
 
-        <SearchProvider initialState={{}}>
-          <T />
-        </SearchProvider>
+        <TogglesContext.Consumer>
+          {({ betaBar }) =>
+            betaBar && (
+              <Layout12>
+                <BetaBar />
+              </Layout12>
+            )
+          }
+        </TogglesContext.Consumer>
 
         <div
           className={classNames([
@@ -152,16 +142,24 @@ export const Works = ({
                       ? 'Search our collections'
                       : 'Search our images'}
                   </h1>
-                  <div className="flex flex--v-center">
-                    <Icon
-                      name="underConstruction"
-                      extraClasses="margin-right-s2"
-                    />
-                    <p className="no-margin">
-                      We’re improving how search works.{' '}
-                      <a href="/works/progress">Find out more</a>.
-                    </p>
-                  </div>
+                  <TogglesContext.Consumer>
+                    {({ betaBar }) =>
+                      !betaBar && (
+                        <div className="flex flex--v-center">
+                          <Icon
+                            name="underConstruction"
+                            extraClasses={classNames({
+                              [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                            })}
+                          />
+                          <p className="no-margin">
+                            We’re improving how search works.{' '}
+                            <a href="/works/progress">Find out more</a>.
+                          </p>
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                 </div>
               </div>
             </div>
@@ -292,7 +290,13 @@ export const Works = ({
                                   result.createdDate && result.createdDate.label
                                 }
                                 title={result.title}
-                                link={workUrl({ id: result.id, query, page })}
+                                link={workUrl({
+                                  id: result.id,
+                                  query,
+                                  page,
+                                  workType,
+                                  itemsLocationsLocationType,
+                                })}
                               />
                             </div>
                           ));
@@ -376,29 +380,34 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
   const { showCatalogueSearchFilters = false } = ctx.query.toggles;
+  const workTypeQuery = ctx.query.workType;
+  const itemsLocationsLocationTypeQuery =
+    ctx.query['items.locations.locationType'];
 
   const defaultWorkType = ['k', 'q'];
-  const workTypeQuery = ctx.query.workType;
-  const workType = !showCatalogueSearchFilters
-    ? defaultWorkType
-    : !workTypeQuery
-    ? []
-    : workTypeQuery.split(',').filter(Boolean);
+  const defaultItemsLocationsLocationType = ['iiif-image'];
 
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : showCatalogueSearchFilters
-      ? ['iiif-image', 'iiif-presentation']
-      : ['iiif-image'];
+  const defaultWorkTypeWithFilters = ['a', 'k', 'q', 'v'];
+  const defaultItemsLocationsLocationTypeWithFilters = [
+    'iiif-image',
+    'iiif-presentation',
+  ];
+
+  const workTypeFilter = workTypeQuery
+    ? workTypeQuery.split(',').filter(Boolean)
+    : showCatalogueSearchFilters
+    ? defaultWorkTypeWithFilters
+    : defaultWorkType;
+
+  const itemsLocationsLocationTypeFilter = itemsLocationsLocationTypeQuery
+    ? itemsLocationsLocationTypeQuery.split(',').filter(Boolean)
+    : showCatalogueSearchFilters
+    ? defaultItemsLocationsLocationTypeWithFilters
+    : defaultItemsLocationsLocationType;
 
   const filters = {
-    'items.locations.locationType': itemsLocationsLocationType,
-    workType: !showCatalogueSearchFilters
-      ? defaultWorkType
-      : workType.length === 0
-      ? ['a', 'k', 'q']
-      : workType,
+    workType: workTypeFilter,
+    'items.locations.locationType': itemsLocationsLocationTypeFilter,
   };
 
   const worksOrError =
@@ -408,8 +417,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     query,
     page,
-    workType,
-    itemsLocationsLocationType,
+    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+    itemsLocationsLocationType:
+      itemsLocationsLocationTypeQuery &&
+      itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
     showCatalogueSearchFilters,
   };
 };

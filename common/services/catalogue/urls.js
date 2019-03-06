@@ -1,40 +1,38 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 
-type WorkUrlProps = {|
-  id: string,
-  query: ?string,
-  page: ?number,
-  workType?: string[],
-  itemsLocationsLocationType?: string[],
-  queryType?: ?string,
-|};
-
 type WorksUrlProps = {|
   query: ?string,
   page: ?number,
-  workType?: string[],
-  itemsLocationsLocationType?: string[],
+  workType?: ?(string[]),
+  itemsLocationsLocationType?: ?(string[]),
   queryType?: ?string,
+|};
+
+type WorkUrlProps = {|
+  ...WorksUrlProps,
+  id: string,
+|};
+
+type ItemUrlProps = {|
+  ...WorksUrlProps,
+  workId: string,
+  sierraId: string,
 |};
 
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function workTypeAndItemsLocationType(workType, itemsLocationsLocationType) {
-  const isDefaultWorkType =
-    JSON.stringify(workType) === JSON.stringify(['k', 'q']);
-  const isDefaultItemsLocationsLocationType =
-    JSON.stringify(itemsLocationsLocationType) ===
-    JSON.stringify(['iiif-image']);
-
+function workTypeAndItemsLocationType(
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[])
+) {
   return {
-    workType: workType && !isDefaultWorkType ? workType.join(',') : undefined,
-    'items.locations.locationType':
-      itemsLocationsLocationType && !isDefaultItemsLocationsLocationType
-        ? itemsLocationsLocationType.join(',')
-        : undefined,
+    workType: workType ? workType.join(',') : undefined,
+    'items.locations.locationType': itemsLocationsLocationType
+      ? itemsLocationsLocationType.join(',')
+      : undefined,
   };
 }
 
@@ -95,6 +93,39 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
         queryType: queryType && queryType !== '' ? queryType : undefined,
+      }),
+    },
+  };
+}
+
+export function itemUrl({
+  workId,
+  query,
+  page,
+  workType,
+  itemsLocationsLocationType,
+  sierraId,
+}: ItemUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/item`,
+      query: {
+        workId,
+        ...removeEmpty({
+          query: query || undefined,
+          page: page && page > 1 ? page : undefined,
+          sierraId: sierraId,
+          ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        }),
+      },
+    },
+    as: {
+      pathname: `/works/${workId}/items`,
+      query: removeEmpty({
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined,
+        sierraId: sierraId,
+        ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
       }),
     },
   };

@@ -118,7 +118,7 @@ const WorkHeader = ({ work }: Props) => {
                       : null,
                     physicalLocations.length > 0
                       ? {
-                          text: 'Wellcome Library',
+                          text: 'Wellcome library',
                           url: null,
                         }
                       : null,
