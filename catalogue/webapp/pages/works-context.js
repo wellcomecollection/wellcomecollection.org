@@ -26,8 +26,8 @@ const Checkboxes = ({ name, options, values, setter }: CheckboxesProps) => (
           onChange={event =>
             setter(
               event.currentTarget.checked
-                ? [id, ...values].sort()
-                : values.filter(val => val !== id).sort()
+                ? [id, ...values]
+                : values.filter(val => val !== id)
             )
           }
         />
