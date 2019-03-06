@@ -1,4 +1,5 @@
 // @flow
+import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -111,19 +112,26 @@ function previewThumbnails(
 }
 
 type Props = {|
-  manifestData: any,
+  iiifPresentationLocation: any, // TODO
 |};
 
-const IIIFPresentationDisplay = ({ manifestData }: Props) => {
+const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
   const [imageThumbnails, setImageThumbnails] = useState(false);
+  const fetchThumbnails = async () => {
+    try {
+      const iiifManifest = await fetch(iiifPresentationLocation.url);
+      const manifestData = await iiifManifest.json();
+      setImageThumbnails(
+        previewThumbnails(
+          manifestData,
+          orderedStructuredImages(structuredImages(manifestData)),
+          5
+        )
+      );
+    } catch (e) {}
+  };
   useEffect(() => {
-    setImageThumbnails(
-      previewThumbnails(
-        manifestData,
-        orderedStructuredImages(structuredImages(manifestData)),
-        5
-      )
-    );
+    fetchThumbnails();
   }, []);
 
   return (
@@ -144,5 +152,5 @@ const IIIFPresentationDisplay = ({ manifestData }: Props) => {
 
 export default IIIFPresentationDisplay;
 // TODO image alt - how do we handle this - no need images are just presentational now, so add correct aria
-// TODO import IIIFBookPreview?
+// TODO import IIIFBookPreview? and use that or delete it?
 // TODO layout / styling

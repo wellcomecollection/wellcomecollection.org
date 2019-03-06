@@ -1,7 +1,6 @@
 // @flow
 import Router from 'next/router';
 import NextLink from 'next/link';
-import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
@@ -30,16 +29,18 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 
 type Props = {|
   work: Work | CatalogueApiError,
-  iiifManifest: ?{},
+  iiifPresentationLocation: any, // TODO
   workType: string[],
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
 |};
 
+// {"locationType":{"id":"iiif-presentation","label":"IIIF Presentation API","type":"LocationType"},"url":"https://wellcomelibrary.org/iiif/b28090287/manifest","type":"DigitalLocation"}
+
 export const WorkPage = ({
   work,
-  iiifManifest,
+  iiifPresentationLocation,
   query,
   page,
   workType,
@@ -177,15 +178,16 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
-
-      {iiifManifest && (
+      {iiifPresentationLocation && (
         <div
           className={classNames({
             'row font-white': true,
             'bg-black': true,
           })}
         >
-          <IIIFPresentationPreview manifestData={iiifManifest} />
+          <IIIFPresentationPreview
+            iiifPresentationLocation={iiifPresentationLocation}
+          />
           {/* TODO next link and background as part of IIIFPresetationPreview */}
           <NextLink
             {...itemUrl({
@@ -211,7 +213,6 @@ export const WorkPage = ({
 
       <WorkDetails
         work={work}
-        iiifManifest={iiifManifest}
         iiifImageLocationUrl={iiifImageLocationUrl}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
@@ -239,13 +240,6 @@ WorkPage.getInitialProps = async (
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
   const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
-  let iiifManifest = null;
-  if (iiifPresentationLocation) {
-    // TODO don't need to do this here anymore, move to IIIFPresentationPreview and useEffect
-    try {
-      iiifManifest = await fetch(iiifPresentationLocation.url);
-    } catch (e) {}
-  }
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -262,7 +256,7 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
-      iiifManifest: iiifManifest ? await iiifManifest.json() : null,
+      iiifPresentationLocation,
       page: page ? parseInt(page, 10) : null,
       workType,
       itemsLocationsLocationType,

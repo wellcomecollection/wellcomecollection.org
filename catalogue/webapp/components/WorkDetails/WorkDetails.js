@@ -61,7 +61,6 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  iiifManifest: ?{},
   iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
@@ -71,7 +70,6 @@ type Props = {|
 
 const WorkDetails = ({
   work,
-  iiifManifest,
   iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
