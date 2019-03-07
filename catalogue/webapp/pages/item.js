@@ -7,7 +7,9 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import Paginator from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+import Paginator, {
+  type PaginatorRenderFunctionProps,
+} from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 
@@ -45,6 +47,45 @@ const IIIFCanvasThumbnail = ({
         size: `${size.width},${size.height}`,
       })}
     />
+  );
+};
+
+const Pagination = ({
+  currentPage,
+  totalPages,
+  prevLink,
+  nextLink,
+}: PaginatorRenderFunctionProps) => {
+  return (
+    <div
+      className={classNames({
+        'flex flex--v-center flex--h-center': true,
+        [spacing({ s: 1 }, { margin: ['top', 'bottom'] })]: true,
+      })}
+    >
+      {prevLink && (
+        <NextLink {...prevLink} prefetch scroll={false}>
+          <a>
+            <Control type="light" icon="arrow" extraClasses="icon--180" />
+          </a>
+        </NextLink>
+      )}
+      <span
+        className={classNames({
+          [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
+          [font({ s: 'LR3' })]: true,
+        })}
+      >
+        {currentPage} of {totalPages}
+      </span>
+      {nextLink && (
+        <NextLink {...nextLink} prefetch scroll={false}>
+          <a>
+            <Control type="light" icon="arrow" extraClasses="icon" />
+          </a>
+        </NextLink>
+      )}
+    </div>
   );
 };
 
@@ -97,43 +138,7 @@ const ItemPage = ({
             itemsLocationsLocationType,
             sierraId,
           })}
-          render={({ currentPage, totalPages, prevLink, nextLink }) => {
-            return (
-              <div
-                className={classNames({
-                  'flex flex--v-center flex--h-center': true,
-                  [spacing({ s: 1 }, { margin: ['top', 'bottom'] })]: true,
-                })}
-              >
-                {prevLink && (
-                  <NextLink {...prevLink} prefetch>
-                    <a>
-                      <Control
-                        type="light"
-                        icon="arrow"
-                        extraClasses="icon--180"
-                      />
-                    </a>
-                  </NextLink>
-                )}
-                <span
-                  className={classNames({
-                    [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
-                    [font({ s: 'LR3' })]: true,
-                  })}
-                >
-                  {currentPage} of {totalPages}
-                </span>
-                {nextLink && (
-                  <NextLink {...nextLink} prefetch>
-                    <a>
-                      <Control type="light" icon="arrow" extraClasses="icon" />
-                    </a>
-                  </NextLink>
-                )}
-              </div>
-            );
-          }}
+          render={Pagination}
         />
       </Layout12>
       <Layout12>
@@ -151,6 +156,22 @@ const ItemPage = ({
           src={urlTemplate({
             size: `${largestSize.width},${largestSize.height}`,
           })}
+        />
+        <Paginator
+          currentPage={pageIndex + 1}
+          pageSize={5}
+          totalResults={canvases.length}
+          linkKey={'page'}
+          link={itemUrl({
+            workId,
+            query,
+            page: pageIndex + 1,
+            canvas: canvasIndex + 1,
+            workType,
+            itemsLocationsLocationType,
+            sierraId,
+          })}
+          render={Pagination}
         />
         <div className={classNames({ flex: true })}>
           {navigationCanvases.map((canvas, i) => (
