@@ -14,10 +14,11 @@ type Props = {|
   workId: string,
   sierraId: string,
   manifest: IIIFManifest,
-  pageIndex: number,
   pageSize: number,
-  itemsLocationsLocationType: string[],
-  workType: string[],
+  pageIndex: number,
+  canvasIndex: number,
+  itemsLocationsLocationType: ?(string[]),
+  workType: ?(string[]),
   query: ?string,
 |};
 
@@ -33,8 +34,6 @@ const IIIFCanvasThumbnail = ({
         // TODO: We could make this the next size up for responsive images perhaps
         .reduce((max, size, i, arr) => (size.width > max.width ? size : max))
     : thumbnailService.sizes[0];
-
-  console.info(maxWidth, size, thumbnailService.sizes);
 
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   return (
@@ -52,14 +51,15 @@ const ItemPage = ({
   workId,
   sierraId,
   manifest,
-  pageIndex,
   pageSize,
+  pageIndex,
+  canvasIndex,
   itemsLocationsLocationType,
   workType,
   query,
 }: Props) => {
   const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[pageIndex];
+  const currentCanvas = canvases[canvasIndex];
   const service = currentCanvas.thumbnail.service;
   const urlTemplate = iiifImageTemplate(service['@id']);
   const title = manifest.label;
@@ -86,7 +86,7 @@ const ItemPage = ({
 
         <Paginator
           currentPage={pageIndex + 1}
-          pageSize={1}
+          pageSize={pageSize}
           totalResults={canvases.length}
           link={itemUrl({
             workId,
@@ -135,34 +135,30 @@ const ItemPage = ({
 };
 
 ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const { workId, sierraId, query, page = 1, pageSize = 5 } = ctx.query;
+  const {
+    workId,
+    sierraId,
+    query,
+    page = 1,
+    pageSize = 5,
+    canvas = 1,
+  } = ctx.query;
   const pageIndex = page - 1;
+  const canvasIndex = canvas - 1;
   const manifest = await (await fetch(
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : ['iiif-image'];
-
-  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
-
-  const defaultWorkType = ['k', 'q'];
-  const workTypeQuery = ctx.query.workType;
-  const workType = !showCatalogueSearchFilters
-    ? defaultWorkType
-    : !workTypeQuery
-    ? []
-    : workTypeQuery.split(',').filter(Boolean);
 
   return {
     workId,
     sierraId,
     manifest,
-    pageIndex,
     pageSize,
-    itemsLocationsLocationType,
-    workType,
+    pageIndex,
+    canvasIndex,
+    // TODO: add these back in, it's just makes it easier to check the URLs
+    itemsLocationsLocationType: null,
+    workType: null,
     query,
   };
 };
