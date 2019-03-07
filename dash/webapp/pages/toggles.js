@@ -74,6 +74,18 @@ const featureToggles = [
       'Letting people know that the service is being worked on, how they might ' +
       "find out about what's going on, and let us know what they think.",
   },
+  {
+    id: 'tabbedNavOnSearchForm',
+    title: 'Tabbed work type navigation on search results',
+    description:
+      'Tabbed navigation on search form to allow people to select between books and visuals',
+  },
+  {
+    id: 'tabbedNavOnResults',
+    title: 'Tabbed work type navigation on search form',
+    description:
+      'Tabbed navigation on search results to allow people to select between books and visuals',
+  },
 ];
 
 const IndexPage = () => {
