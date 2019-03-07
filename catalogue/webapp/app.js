@@ -26,6 +26,7 @@ module.exports = app
     route('/works/:id', '/work', router, app);
     route('/works', '/works', router, app);
     route('/works/:workId/items', '/item', router, app);
+    route('/works/:workId/iiif-viewer', '/iiif-viewer', router, app);
 
     router.get('/works/management/healthcheck', async ctx => {
       ctx.status = 200;
