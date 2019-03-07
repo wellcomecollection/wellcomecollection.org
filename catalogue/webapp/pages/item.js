@@ -2,28 +2,58 @@
 import { type Context } from 'next';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
+import { classNames } from '@weco/common/utils/classnames';
 
 type Props = {|
   workId: string,
   sierraId: string,
   manifest: IIIFManifest,
   pageIndex: number,
+  pageSize: number,
   itemsLocationsLocationType: string[],
   workType: string[],
   query: ?string,
 |};
+
+type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
+const IIIFCanvasThumbnail = ({
+  canvas,
+  maxWidth,
+}: IIIFCanvasThumbnailProps) => {
+  const thumbnailService = canvas.thumbnail.service;
+  const size = maxWidth
+    ? thumbnailService.sizes
+        .filter(size => size.width <= maxWidth)
+        // TODO: We could make this the next size up for responsive images perhaps
+        .reduce((max, size, i, arr) => (size.width > max.width ? size : max))
+    : thumbnailService.sizes[0];
+
+  console.info(maxWidth, size, thumbnailService.sizes);
+
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  return (
+    <img
+      width={size.width}
+      height={size.height}
+      src={urlTemplate({
+        size: `${size.width},${size.height}`,
+      })}
+    />
+  );
+};
 
 const ItemPage = ({
   workId,
   sierraId,
   manifest,
   pageIndex,
+  pageSize,
   itemsLocationsLocationType,
   workType,
   query,
@@ -34,6 +64,10 @@ const ItemPage = ({
   const urlTemplate = iiifImageTemplate(service['@id']);
   const title = manifest.label;
   const largestSize = service.sizes[service.sizes.length - 1];
+  const navigationCanvases = [...Array(pageSize)]
+    .map((_, i) => pageSize * pageIndex + i)
+    .map(i => canvases[i])
+    .filter(Boolean);
 
   return (
     <PageLayout
@@ -77,6 +111,17 @@ const ItemPage = ({
             Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
           }}
         />
+
+        <div className={classNames({ flex: true })}>
+          {navigationCanvases.map(canvas => (
+            <IIIFCanvasThumbnail
+              key={canvas['@id']}
+              canvas={canvas}
+              maxWidth={300}
+            />
+          ))}
+        </div>
+
         <img
           width={largestSize.width}
           height={largestSize.height}
@@ -90,8 +135,8 @@ const ItemPage = ({
 };
 
 ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const { workId, sierraId, page, query } = ctx.query;
-  const pageIndex = page ? parseInt(page, 10) - 1 : 0;
+  const { workId, sierraId, query, page = 1, pageSize = 5 } = ctx.query;
+  const pageIndex = page - 1;
   const manifest = await (await fetch(
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
@@ -115,6 +160,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     sierraId,
     manifest,
     pageIndex,
+    pageSize,
     itemsLocationsLocationType,
     workType,
     query,
