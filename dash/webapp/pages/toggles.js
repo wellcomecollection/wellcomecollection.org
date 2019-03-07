@@ -75,6 +75,17 @@ const featureToggles = [
       "find out about what's going on, and let us know what they think.",
   },
   {
+    id: 'catalogueSearchHeaderExploreMessaging',
+    title: 'Catalogue ',
+    description:
+      'Using a different type of language on the landing page for our collections',
+  },
+  {
+    id: 'collectionsInMainNavigation',
+    title: 'Catalogue ',
+    description: 'Use `Collections` as the label in the main navigation',
+  },
+  {
     id: 'tabbedNavOnSearchForm',
     title: 'Tabbed work type navigation on search results',
     description:
