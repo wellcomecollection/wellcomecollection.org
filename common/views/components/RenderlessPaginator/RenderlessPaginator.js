@@ -2,7 +2,7 @@
 import { Fragment, type Node } from 'react';
 import { type NextLinkType } from '@weco/common/model/next-link-type';
 
-type PaginatorRenderFunctionProps = {|
+export type PaginatorRenderFunctionProps = {|
   currentPage: number,
   totalPages: number,
   prevLink: ?NextLinkType,
