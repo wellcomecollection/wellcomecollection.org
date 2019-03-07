@@ -117,7 +117,7 @@ const ItemPage = ({
           />
         </div>
 
-        <div className={classNames({ flex: true })}>
+        <div className={classNames({ flex: true })} style={{ clear: 'both' }}>
           {navigationCanvases.map((canvas, i) => (
             <div key={canvas['@id']}>
               <NextLink
