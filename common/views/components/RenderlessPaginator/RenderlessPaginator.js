@@ -2,7 +2,7 @@
 import { Fragment, type Node } from 'react';
 import { type NextLinkType } from '@weco/common/model/next-link-type';
 
-type PaginatorRenderFunctionProps = {|
+export type PaginatorRenderFunctionProps = {|
   currentPage: number,
   totalPages: number,
   prevLink: ?NextLinkType,
@@ -16,6 +16,7 @@ type Props = {|
   pageSize: number,
   totalResults: number,
   link: NextLinkType,
+  linkKey?: string,
   render: (data: PaginatorRenderFunctionProps) => Node,
 |};
 
@@ -24,6 +25,7 @@ const Paginator = ({
   pageSize,
   totalResults,
   link,
+  linkKey = 'page',
   render,
 }: Props) => {
   const totalPages = Math.ceil(totalResults / pageSize);
@@ -41,14 +43,14 @@ const Paginator = ({
           ...link.href,
           query: {
             ...link.href.query,
-            page: prev,
+            [linkKey]: prev,
           },
         },
         as: {
           ...link.as,
           query: {
             ...link.as.query,
-            page: prev,
+            [linkKey]: prev,
           },
         },
       }
@@ -60,14 +62,14 @@ const Paginator = ({
           ...link.href,
           query: {
             ...link.href.query,
-            page: next,
+            [linkKey]: next,
           },
         },
         as: {
           ...link.as,
           query: {
             ...link.as.query,
-            page: next,
+            [linkKey]: next,
           },
         },
       }
