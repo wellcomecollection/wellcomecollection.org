@@ -37,6 +37,36 @@ const abTests = [
 
 const featureToggles = [
   {
+    id: 'betaBar',
+    title: 'Beta bar',
+    description:
+      'Letting people know that the service is being worked on, how they might ' +
+      "find out about what's going on, and let us know what they think.",
+  },
+  {
+    id: 'catalogueSearchHeaderExploreMessaging',
+    title: 'Search landing page messaging',
+    description:
+      'Using a different type of language on the landing page for our collections',
+  },
+  {
+    id: 'collectionsInMainNavigation',
+    title: 'Collections in main navigation',
+    description: 'Use `Collections` as the label in the main navigation',
+  },
+  {
+    id: 'tabbedNavOnSearchForm',
+    title: 'Tabbed work type navigation on search form',
+    description:
+      'Tabbed navigation on search form to allow people to select between books and visuals',
+  },
+  {
+    id: 'tabbedNavOnResults',
+    title: 'Tabbed work type navigation on search results',
+    description:
+      'Tabbed navigation on search results to allow people to select between books and visuals',
+  },
+  {
     id: 'showCatalogueSearchFilters',
     title: 'Catalogue search filters',
     description:
@@ -66,36 +96,6 @@ const featureToggles = [
     title: 'Work preview with multiple images',
     description:
       'This toggle should be used in conjunction with the showWorkPreview toggle. Where a work has multiple images, we can try showing more of them.',
-  },
-  {
-    id: 'betaBar',
-    title: 'Beta bar',
-    description:
-      'Letting people know that the service is being worked on, how they might ' +
-      "find out about what's going on, and let us know what they think.",
-  },
-  {
-    id: 'catalogueSearchHeaderExploreMessaging',
-    title: 'Catalogue ',
-    description:
-      'Using a different type of language on the landing page for our collections',
-  },
-  {
-    id: 'collectionsInMainNavigation',
-    title: 'Catalogue ',
-    description: 'Use `Collections` as the label in the main navigation',
-  },
-  {
-    id: 'tabbedNavOnSearchForm',
-    title: 'Tabbed work type navigation on search results',
-    description:
-      'Tabbed navigation on search form to allow people to select between books and visuals',
-  },
-  {
-    id: 'tabbedNavOnResults',
-    title: 'Tabbed work type navigation on search form',
-    description:
-      'Tabbed navigation on search results to allow people to select between books and visuals',
   },
 ];
 
