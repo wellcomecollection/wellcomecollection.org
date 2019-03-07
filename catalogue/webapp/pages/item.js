@@ -2,7 +2,7 @@
 import { type Context } from 'next';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -23,6 +23,31 @@ type Props = {|
   query: ?string,
 |};
 
+type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
+const IIIFCanvasThumbnail = ({
+  canvas,
+  maxWidth,
+}: IIIFCanvasThumbnailProps) => {
+  const thumbnailService = canvas.thumbnail.service;
+  const size = maxWidth
+    ? thumbnailService.sizes
+        .filter(size => size.width <= maxWidth)
+        // TODO: We could make this the next size up for responsive images perhaps
+        .reduce((max, size, i, arr) => (size.width > max.width ? size : max))
+    : thumbnailService.sizes[0];
+
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  return (
+    <img
+      width={size.width}
+      height={size.height}
+      src={urlTemplate({
+        size: `${size.width},${size.height}`,
+      })}
+    />
+  );
+};
+
 const ItemPage = ({
   workId,
   sierraId,
@@ -40,6 +65,10 @@ const ItemPage = ({
   const service = currentCanvas.thumbnail.service;
   const urlTemplate = iiifImageTemplate(service['@id']);
   const largestSize = service.sizes[service.sizes.length - 1];
+  const navigationCanvases = [...Array(pageSize)]
+    .map((_, i) => pageSize * pageIndex + i)
+    .map(i => canvases[i])
+    .filter(Boolean);
 
   return (
     <PageLayout
@@ -123,6 +152,27 @@ const ItemPage = ({
             size: `${largestSize.width},${largestSize.height}`,
           })}
         />
+        <div className={classNames({ flex: true })}>
+          {navigationCanvases.map((canvas, i) => (
+            <div key={canvas['@id']}>
+              <NextLink
+                {...itemUrl({
+                  workId,
+                  query,
+                  workType,
+                  itemsLocationsLocationType,
+                  page: pageIndex + 1,
+                  sierraId,
+                  canvas: pageSize * pageIndex + (i + 1),
+                })}
+              >
+                <a>
+                  <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
+                </a>
+              </NextLink>
+            </div>
+          ))}
+        </div>
         <h1
           className={classNames({
             [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
