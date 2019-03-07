@@ -6,6 +6,7 @@ type WorksUrlProps = {|
   page: ?number,
   workType?: ?(string[]),
   itemsLocationsLocationType?: ?(string[]),
+  queryType?: ?string,
 |};
 
 type WorkUrlProps = {|
@@ -42,6 +43,7 @@ export function workUrl({
   page,
   workType,
   itemsLocationsLocationType,
+  queryType,
 }: WorkUrlProps): NextLinkType {
   return {
     href: {
@@ -52,6 +54,7 @@ export function workUrl({
           query: query || undefined,
           page: page && page > 1 ? page : undefined,
           ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+          queryType: queryType && queryType !== '' ? queryType : undefined,
         }),
       },
     },
@@ -61,6 +64,7 @@ export function workUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
   };
@@ -71,6 +75,7 @@ export function worksUrl({
   page,
   workType,
   itemsLocationsLocationType,
+  queryType,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -79,6 +84,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
     as: {
@@ -87,6 +93,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
   };
