@@ -188,7 +188,7 @@ const SearchForm = ({
                       ),
                     },
                     {
-                      text: 'Visuals',
+                      text: 'Pictures',
                       link: worksUrl({
                         query,
                         workType: ['k', 'q'],
