@@ -31,7 +31,6 @@ type Props = {|
   page: ?number,
   workType: ?(string[]),
   itemsLocationsLocationType: ?(string[]),
-  showCatalogueSearchFilters: boolean,
 |};
 
 export const Works = ({
@@ -40,7 +39,6 @@ export const Works = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showCatalogueSearchFilters,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -141,7 +139,7 @@ export const Works = ({
                   >
                     <TogglesContext.Consumer>
                       {({ catalogueSearchHeaderExploreContent }) =>
-                        showCatalogueSearchFilters
+                        catalogueSearchHeaderExploreContent
                           ? 'Explore our collections'
                           : 'Search our images'
                       }
@@ -465,7 +463,15 @@ export const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
+
+  const {
+    tabbedNavOnSearchForm = false,
+    tabbedNavOnResults = false,
+    showCatalogueSearchFilters = false,
+  } = ctx.query.toggles;
+  const includeBooks =
+    tabbedNavOnSearchForm || tabbedNavOnResults || showCatalogueSearchFilters;
+
   const workTypeQuery = ctx.query.workType;
   const itemsLocationsLocationTypeQuery =
     ctx.query['items.locations.locationType'];
@@ -473,22 +479,22 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const defaultWorkType = ['k', 'q'];
   const defaultItemsLocationsLocationType = ['iiif-image'];
 
-  const defaultWorkTypeWithFilters = ['a', 'k', 'q', 'v'];
-  const defaultItemsLocationsLocationTypeWithFilters = [
+  const defaultWorkTypeWithBooks = ['a', 'k', 'q', 'v'];
+  const defaultItemsLocationsLocationTypeWithIIIFPresentation = [
     'iiif-image',
     'iiif-presentation',
   ];
 
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
-    : showCatalogueSearchFilters
-    ? defaultWorkTypeWithFilters
+    : includeBooks
+    ? defaultWorkTypeWithBooks
     : defaultWorkType;
 
   const itemsLocationsLocationTypeFilter = itemsLocationsLocationTypeQuery
     ? itemsLocationsLocationTypeQuery.split(',').filter(Boolean)
-    : showCatalogueSearchFilters
-    ? defaultItemsLocationsLocationTypeWithFilters
+    : includeBooks
+    ? defaultItemsLocationsLocationTypeWithIIIFPresentation
     : defaultItemsLocationsLocationType;
 
   const filters = {
@@ -507,7 +513,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     itemsLocationsLocationType:
       itemsLocationsLocationTypeQuery &&
       itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
-    showCatalogueSearchFilters,
   };
 };
 
