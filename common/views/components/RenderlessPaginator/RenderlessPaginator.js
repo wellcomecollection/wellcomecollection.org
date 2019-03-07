@@ -1,37 +1,30 @@
 // @flow
-import { Fragment, type Node as ReactNode } from 'react';
+import { Fragment, type Node } from 'react';
+import { type NextLinkType } from '@weco/common/model/next-link-type';
 
-type Link = {|
-  +pathname: string,
-  +query: Object,
-|};
-
-type LinkProps = {|
-  href: Link,
-  as: Link,
+type PaginatorRenderFunctionProps = {|
+  currentPage: number,
+  totalPages: number,
+  prevLink: ?NextLinkType,
+  nextLink: ?NextLinkType,
+  rangeStart: number,
+  rangeEnd: number,
 |};
 
 type Props = {|
   currentPage: number,
   pageSize: number,
   totalResults: number,
-  link: LinkProps,
-  children: ({|
-    currentPage: number,
-    totalPages: number,
-    prevLink: any, // FIXME: ?Link
-    nextLink: any, // FIXME: ?Link
-    rangeStart: number,
-    rangeEnd: number,
-  |}) => ReactNode,
+  link: NextLinkType,
+  render: (data: PaginatorRenderFunctionProps) => Node,
 |};
 
-const RenderlessPaginator = ({
+const Paginator = ({
   currentPage,
   pageSize,
   totalResults,
   link,
-  children,
+  render,
 }: Props) => {
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : null;
@@ -82,7 +75,7 @@ const RenderlessPaginator = ({
 
   return (
     <Fragment>
-      {children({
+      {render({
         currentPage,
         totalPages,
         prevLink,
@@ -93,4 +86,4 @@ const RenderlessPaginator = ({
     </Fragment>
   );
 };
-export default RenderlessPaginator;
+export default Paginator;
