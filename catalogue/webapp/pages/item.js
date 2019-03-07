@@ -2,6 +2,7 @@
 import { type Context } from 'next';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
+import NextLink from 'next/link';
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
@@ -83,42 +84,58 @@ const ItemPage = ({
     >
       <Layout12>
         <h1>{title}</h1>
-
-        <Paginator
-          currentPage={pageIndex + 1}
-          pageSize={pageSize}
-          totalResults={canvases.length}
-          link={itemUrl({
-            workId,
-            query,
-            page: pageIndex - 1,
-            workType,
-            itemsLocationsLocationType,
-            sierraId,
-          })}
-          onPageChange={async (event, newPage) => {
-            event.preventDefault();
-
-            const link = itemUrl({
+        {/* TODO: this div is here as it's annoyingly floating to the right */}
+        <div>
+          <Paginator
+            currentPage={pageIndex + 1}
+            pageSize={pageSize}
+            totalResults={canvases.length}
+            link={itemUrl({
               workId,
               query,
+              page: pageIndex - 1,
               workType,
               itemsLocationsLocationType,
-              page: newPage,
               sierraId,
-            });
+              canvas: canvasIndex + 1,
+            })}
+            onPageChange={async (event, newPage) => {
+              event.preventDefault();
 
-            Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
-          }}
-        />
+              const link = itemUrl({
+                workId,
+                query,
+                workType,
+                itemsLocationsLocationType,
+                page: newPage,
+                sierraId,
+                canvas: canvasIndex + 1,
+              });
+
+              Router.push(link.href, link.as).then(() => window.scrollTo(0, 0));
+            }}
+          />
+        </div>
 
         <div className={classNames({ flex: true })}>
-          {navigationCanvases.map(canvas => (
-            <IIIFCanvasThumbnail
-              key={canvas['@id']}
-              canvas={canvas}
-              maxWidth={300}
-            />
+          {navigationCanvases.map((canvas, i) => (
+            <div key={canvas['@id']}>
+              <NextLink
+                {...itemUrl({
+                  workId,
+                  query,
+                  workType,
+                  itemsLocationsLocationType,
+                  page: pageIndex + 1,
+                  sierraId,
+                  canvas: pageSize * pageIndex + (i + 1),
+                })}
+              >
+                <a>
+                  <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
+                </a>
+              </NextLink>
+            </div>
           ))}
         </div>
 
