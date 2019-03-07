@@ -74,6 +74,17 @@ const featureToggles = [
       'Letting people know that the service is being worked on, how they might ' +
       "find out about what's going on, and let us know what they think.",
   },
+  {
+    id: 'catalogueSearchHeaderExploreMessaging',
+    title: 'Catalogue ',
+    description:
+      'Using a different type of language on the landing page for our collections',
+  },
+  {
+    id: 'collectionsInMainNavigation',
+    title: 'Catalogue ',
+    description: 'Use `Collections` as the label in the main navigation',
+  },
 ];
 
 const IndexPage = () => {

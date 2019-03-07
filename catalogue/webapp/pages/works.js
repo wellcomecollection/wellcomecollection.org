@@ -138,10 +138,15 @@ export const Works = ({
                       spacing({ s: 0 }, { margin: ['top'] }),
                     ])}
                   >
-                    {showCatalogueSearchFilters
-                      ? 'Search our collections'
-                      : 'Search our images'}
+                    <TogglesContext.Consumer>
+                      {({ catalogueSearchHeaderExploreContent }) =>
+                        showCatalogueSearchFilters
+                          ? 'Explore our collections'
+                          : 'Search our images'
+                      }
+                    </TogglesContext.Consumer>
                   </h1>
+
                   <TogglesContext.Consumer>
                     {({ betaBar }) =>
                       !betaBar && (
@@ -166,6 +171,25 @@ export const Works = ({
 
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+                <TogglesContext.Consumer>
+                  {({ catalogueSearchHeaderExploreContent }) =>
+                    catalogueSearchHeaderExploreContent && (
+                      <p
+                        className={classNames({
+                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
+                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                          'visually-hidden': Boolean(works),
+                        })}
+                        id="search-form-description"
+                      >
+                        Find thousands of freely licensed digital books,
+                        artworks, photos and images of historical library
+                        materials and museum objects.
+                      </p>
+                    )
+                  }
+                </TogglesContext.Consumer>
+
                 <SearchForm
                   initialQuery={query || ''}
                   initialWorkType={workType}
@@ -174,18 +198,26 @@ export const Works = ({
                   compact={false}
                   works={works}
                 />
-                <p
-                  className={classNames({
-                    [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                    'visually-hidden': Boolean(works),
-                  })}
-                  id="search-form-description"
-                >
-                  Find thousands of Creative Commons licensed images from
-                  historical library materials and museum objects to
-                  contemporary digital photographs.
-                </p>
+
+                <TogglesContext.Consumer>
+                  {({ catalogueSearchHeaderExploreContent }) =>
+                    !catalogueSearchHeaderExploreContent && (
+                      <p
+                        className={classNames({
+                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
+                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                          'visually-hidden': Boolean(works),
+                        })}
+                        id="search-form-description"
+                      >
+                        Find thousands of Creative Commons licensed images from
+                        historical library materials and museum objects to
+                        contemporary digital photographs.
+                      </p>
+                    )
+                  }
+                </TogglesContext.Consumer>
+
                 {works && (
                   <p
                     className={classNames([
