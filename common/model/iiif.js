@@ -26,6 +26,7 @@ export type IIIFImage = {|
 |};
 
 export type IIIFCanvas = {|
+  '@id': string,
   thumbnail: IIIFThumbnail,
   images: IIIFImage[],
 |};

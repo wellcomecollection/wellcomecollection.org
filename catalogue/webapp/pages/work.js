@@ -183,10 +183,11 @@ export const WorkPage = ({
             {...itemUrl({
               workId: work.id,
               query,
-              page,
               workType,
               itemsLocationsLocationType,
               sierraId,
+              page: 1,
+              canvas: 1,
             })}
           >
             <a>View item</a>

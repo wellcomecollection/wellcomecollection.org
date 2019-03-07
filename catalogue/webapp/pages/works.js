@@ -23,6 +23,7 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   query: ?string,
@@ -235,6 +236,59 @@ export const Works = ({
         </div>
 
         {!works && <StaticWorksContent />}
+
+        <TogglesContext.Consumer>
+          {({ tabbedNavOnResults }) =>
+            tabbedNavOnResults &&
+            works && (
+              <Layout12>
+                <TabNav
+                  large={true}
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: undefined,
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !workType,
+                    },
+                    {
+                      text: 'Books',
+                      link: worksUrl({
+                        query,
+                        workType: ['a', 'v'],
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('a') !== -1 &&
+                          workType.indexOf('v') !== -1)
+                      ),
+                    },
+                    {
+                      text: 'Visuals',
+                      link: worksUrl({
+                        query,
+                        workType: ['k', 'q'],
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('k') !== -1 &&
+                          workType.indexOf('q') !== -1)
+                      ),
+                    },
+                  ]}
+                />
+              </Layout12>
+            )
+          }
+        </TogglesContext.Consumer>
 
         {works && works.results.length > 0 && (
           <Fragment>

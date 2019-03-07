@@ -85,6 +85,18 @@ const featureToggles = [
     title: 'Catalogue ',
     description: 'Use `Collections` as the label in the main navigation',
   },
+  {
+    id: 'tabbedNavOnSearchForm',
+    title: 'Tabbed work type navigation on search results',
+    description:
+      'Tabbed navigation on search form to allow people to select between books and visuals',
+  },
+  {
+    id: 'tabbedNavOnResults',
+    title: 'Tabbed work type navigation on search form',
+    description:
+      'Tabbed navigation on search results to allow people to select between books and visuals',
+  },
 ];
 
 const IndexPage = () => {
