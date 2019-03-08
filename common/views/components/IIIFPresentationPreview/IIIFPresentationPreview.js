@@ -7,9 +7,6 @@ import { useEffect, useState } from 'react';
 import { type iiifPresentationLocation } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
-// TODO use theme verticalSpacing unit
-// TODO fix button text layout
-// TODO make image preview consistent with this preview - diff. branch PR
 const BookPreviewContainer = styled.div`
   overflow: scroll;
   text-align: center;
@@ -21,11 +18,10 @@ const BookPreviewContainer = styled.div`
 
   /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
   @media (min-width: 708px) {
-    padding: ${props => `24px ${props.theme.containerPadding.medium}px 36px`};
-  }
-
-  img {
-    display: block;
+    padding: ${props =>
+      `${props.theme.spacingUnit * 4}px ${
+        props.theme.containerPadding.medium
+      }px ${props.theme.spacingUnit * 6}px`};
   }
 
   .btn {
@@ -40,7 +36,8 @@ const BookPreviewContainer = styled.div`
 const BookPreview = styled.div`
   @media (min-width: 708px) {
     display: inline-grid;
-    grid-gap: ${props => (props.columnNumber > 1 ? '12px' : 0)};
+    grid-gap: ${props =>
+      props.columnNumber > 1 ? `${props.theme.spacingUnit * 2}px` : 0};
     grid-template-columns: ${props => `repeat(3, 200px)`};
     grid-template-rows: 200px;
   }
@@ -79,7 +76,7 @@ const PagePreview = styled.div`
 
   &:first-child {
     display: block;
-    height: 412px;
+    height: ${props => `${400 + props.theme.spacingUnit * 2}px`};
     width: 100%;
     background: center / contain no-repeat
       url(${props => props.backgroundImage})
