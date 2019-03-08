@@ -38,19 +38,37 @@ const ItemContainer = styled.div`
   }
 
   .thumbs {
+    position: relative;
     display: flex;
+    justify-content: center;
     height: 20%;
     width: 100%;
     background: ${props => props.theme.colors.charcoal};
+    padding: 0 100px 0 0;
 
     @media (min-width: 600px) {
       height: 100%;
       flex-direction: column;
       width: 25%;
+      padding: 0 0 100px;
+    }
+
+    .paginator-buttons {
+      left: auto;
+      right: 6px;
+      bottom: 50%;
+      transform: translateX(0%) translateY(50%);
+
+      @media (min-width: 600px) {
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%) translateY(0%) rotate(90deg);
+      }
     }
   }
 
   .thumb {
+    position: relative;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -64,10 +82,20 @@ const ItemContainer = styled.div`
     }
 
     @media (min-width: 600px) {
-      height: 20%;
+      height: 25%;
       width: 100%;
       margin-right: 0;
     }
+  }
+
+  .thumb-number {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px 2px 0;
+    background: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.white};
   }
   .main-x-of-y {
     top: 6px;
@@ -75,7 +103,7 @@ const ItemContainer = styled.div`
     left: 50%;
     transform: translateX(-50%);
   }
-  .main-paginator {
+  .paginator-buttons {
     flex-direction: column;
     align-items: center;
     display: flex;
@@ -90,6 +118,15 @@ const ItemContainer = styled.div`
     align-items: center;
     height: 100%;
     margin: 0 auto;
+
+    img {
+      border: 3px solid transparent;
+      transition: border-color 200ms ease;
+    }
+
+    &.is-active img {
+      border-color: ${props => props.theme.colors.white};
+    }
   }
 
   img {
@@ -154,14 +191,14 @@ const MainXofY = ({
   </span>
 );
 
-const MainPagination = ({
+const PaginatorButtons = ({
   currentPage,
   totalPages,
   prevLink,
   nextLink,
 }: PaginatorRenderFunctionProps) => {
   return (
-    <div className="main-paginator">
+    <div className="paginator-buttons">
       <div
         className={classNames({
           'flex flex--v-center flex--h-center': true,
@@ -228,6 +265,22 @@ const ItemPage = ({
     }),
   };
 
+  const thumbsPaginatorProps = {
+    currentPage: pageIndex + 1,
+    pageSize: pageSize,
+    totalResults: canvases.length,
+    linkKey: 'page',
+    link: itemUrl({
+      workId,
+      query,
+      page: pageIndex + 1,
+      canvas: canvasIndex + 1,
+      workType,
+      itemsLocationsLocationType,
+      sierraId,
+    }),
+  };
+
   return (
     <PageLayout
       title={''}
@@ -254,30 +307,50 @@ const ItemPage = ({
               size: `${largestSize.width},${largestSize.height}`,
             })}
           />
-          <Paginator {...mainPaginatorProps} render={MainPagination} />
+          <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </div>
 
         <div className="thumbs">
           {navigationCanvases.map((canvas, i) => (
             <div key={canvas['@id']} className="thumb">
-              <NextLink
-                {...itemUrl({
-                  workId,
-                  query,
-                  workType,
-                  itemsLocationsLocationType,
-                  page: pageIndex + 1,
-                  sierraId,
-                  canvas: pageSize * pageIndex + (i + 1),
-                })}
-                scroll={false}
-              >
-                <a className="thumb-link">
-                  <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
-                </a>
-              </NextLink>
+              <Paginator
+                {...thumbsPaginatorProps}
+                render={({ rangeStart }) => (
+                  <NextLink
+                    {...itemUrl({
+                      workId,
+                      query,
+                      workType,
+                      itemsLocationsLocationType,
+                      page: pageIndex + 1,
+                      sierraId,
+                      canvas: pageSize * pageIndex + (i + 1),
+                    })}
+                    scroll={false}
+                  >
+                    <a
+                      className={classNames({
+                        'thumb-link': true,
+                        'is-active': canvasIndex === rangeStart + i - 1,
+                      })}
+                    >
+                      <span
+                        className={classNames({
+                          'thumb-number': true,
+                          'line-height-1': true,
+                          [font({ s: 'LR3' })]: true,
+                        })}
+                      >
+                        {rangeStart + i}
+                      </span>
+                      <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
+                    </a>
+                  </NextLink>
+                )}
+              />
             </div>
           ))}
+          <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
         </div>
       </ItemContainer>
       <Layout12>
@@ -308,7 +381,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     sierraId,
     query,
     page = 1,
-    pageSize = 5,
+    pageSize = 4,
     canvas = 1,
   } = ctx.query;
   const pageIndex = page - 1;
