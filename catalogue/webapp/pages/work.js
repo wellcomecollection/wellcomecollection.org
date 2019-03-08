@@ -189,7 +189,7 @@ export const WorkPage = ({
             itemsLocationsLocationType,
           })}
         >
-          <a>
+          <a className="plain-link">
             <IIIFPresentationPreview
               iiifPresentationLocation={iiifPresentationLocation}
             />

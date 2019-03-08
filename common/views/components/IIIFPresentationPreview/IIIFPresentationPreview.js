@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { useEffect, useState } from 'react';
 import { type iiifPresentationLocation } from '@weco/common/utils/works';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
-// TODO classes
+// TODO classes / tidy styled components
 // TODO use theme verticalSpacing unit
 const BookPreviewContainer = styled.div`
   position: relative;
@@ -22,19 +23,32 @@ const BookPreviewContainer = styled.div`
   }
 
   .cta {
-    background: green;
+    background: ${props => props.theme.colors.green};
+    color: ${props => props.theme.colors.white};
+    text-decoration: none;
     grid-column-end: -1;
     grid-row-end: 3;
+    transition: background 150ms ease;
+    a:hover &,
+    a:focus & {
+      background: ${props => props.theme.colors.black};
+    }
+    span {
+    }
   }
 `;
 
 const BookPreview = styled.div`
   margin: auto;
-  display: inline-grid;
-  grid-gap: ${props => (props.columnNumber > 1 ? '12px' : 0)};
-  ${props => props.theme.media.medium`
-    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
+  @media (min-width: 672px) {
+    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 672px */
+    display: inline-grid;
+    grid-gap: ${props => (props.columnNumber > 1 ? '12px' : 0)};
+    grid-template-columns: ${props => `repeat(3, 200px)`};
     grid-template-rows: 200px;
+  }
+  ${props => props.theme.media.large`
+    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
   `}
 `;
 
@@ -42,15 +56,24 @@ const PagePreview = styled.div`
   border: ${props => `1px solid ${props.theme.colors.pumice}`};
   overflow: hidden;
   display: none;
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 200px;
 
   /* putting the background inside a media query, prevents webkit downloading the images unnecessarily  */
   /* display none is no sufficient to achieve this  */
-  ${props => props.theme.media.medium`
+  @media (min-width: 672px) {
+    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 672px */
+    &:nth-child(2) {
+      display: block;
+      background: center / cover no-repeat
+        url(${props => props.backgroundImage});
+    }
+  }
+
+  ${props => props.theme.media.large`
     display: block;
     background: center / cover no-repeat url(${props => props.backgroundImage});
-  `}
+  `};
 
   &:nth-child(3) {
     grid-row-end: 3;
@@ -58,13 +81,19 @@ const PagePreview = styled.div`
 
   &:first-child {
     display: block;
-    grid-column-start: 1;
-    grid-column-end: span 2;
-    grid-row-start: 1;
-    grid-row-end: span 2;
     height: 412px;
+    width: 100%;
     background: center / contain no-repeat
       url(${props => props.backgroundImage});
+    @media (min-width: 672px) {
+      grid-column-start: 1;
+      grid-column-end: span 2;
+      grid-row-start: 1;
+      grid-row-end: span 2;
+    }
+    ${props => props.theme.media.large`
+    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
+  `}
   }
 `;
 
@@ -218,12 +247,15 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
               );
             });
           })}
-        <div className="cta">View all</div>
+        <div className="cta">
+          <Icon name="gallery" />
+          View item
+        </div>
       </BookPreview>
     </BookPreviewContainer>
   );
 };
 
 export default IIIFPresentationDisplay;
-// TODO work out media queries, with diff. numbers of items
-// TOOD flow
+
+// TODO make image preview consistent with this preview
