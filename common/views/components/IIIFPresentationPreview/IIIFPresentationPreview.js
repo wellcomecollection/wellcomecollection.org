@@ -97,25 +97,29 @@ const PagePreview = styled.div`
   }
 `;
 
+function getCanvases(iiifManifest) {
+  return iiifManifest.sequences.find(
+    sequence => sequence['@type'] === 'sc:Sequence'
+  ).canvases;
+}
+
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
 // If we don't have any of the sructured pages, we fill with random ones, so there are always 5 images if possible.
 function randomImages(iiifManifest = null, structuredImages = [], n = 1) {
   const images = [];
   const canvases = iiifManifest
-    ? iiifManifest.sequences
-        .find(sequence => sequence['@type'] === 'sc:Sequence')
-        .canvases.filter(canvas => {
-          // Don't include the structured pages we're using when getting random ones
-          return (
-            structuredImages
-              .map(type => {
-                return type.images.find(image => {
-                  return canvas['@id'] === image.canvasId;
-                });
-              })
-              .filter(Boolean).length === 0
-          );
-        })
+    ? getCanvases(iiifManifest).filter(canvas => {
+        // Don't include the structured pages we're using when getting random ones
+        return (
+          structuredImages
+            .map(type => {
+              return type.images.find(image => {
+                return canvas['@id'] === image.canvasId;
+              });
+            })
+            .filter(Boolean).length === 0
+        );
+      })
     : [];
 
   const numberOfImages = canvases.length < n ? canvases.length : n;
@@ -140,11 +144,9 @@ function structuredImages(iiifManifest = null) {
     const images = structure.canvases.map(canvasId => {
       const matchingCanvas =
         iiifManifest &&
-        iiifManifest.sequences
-          .find(sequence => sequence['@type'] === 'sc:Sequence')
-          .canvases.find(canvas => {
-            return canvas['@id'] === canvasId;
-          });
+        getCanvases(iiifManifest).find(canvas => {
+          return canvas['@id'] === canvasId;
+        });
       return (
         matchingCanvas && {
           id: matchingCanvas.thumbnail.service['@id'],
@@ -196,10 +198,12 @@ type Props = {|
 
 const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
   const [imageThumbnails, setImageThumbnails] = useState([]);
+  const [imageTotal, setImageTotal] = useState(null);
   const fetchThumbnails = async () => {
     try {
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
+      setImageTotal(getCanvases(manifestData).length);
       setImageThumbnails(
         previewThumbnails(
           manifestData,
@@ -249,6 +253,7 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
           })}
         <div className="cta">
           <Icon name="gallery" />
+          {imageTotal}
           View item
         </div>
       </BookPreview>
