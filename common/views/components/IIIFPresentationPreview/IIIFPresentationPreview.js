@@ -4,36 +4,24 @@ import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { useEffect, useState } from 'react';
 import { type iiifPresentationLocation } from '@weco/common/utils/works';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 // TODO classes / tidy styled components
 // TODO use theme verticalSpacing unit
+// TODO fix button text layout
+// TODO make image preview consistent with this preview - diff. branch PR
 const BookPreviewContainer = styled.div`
   position: relative;
-  text-align: center;
-  padding: 12px 24px 36px;
   overflow: scroll;
-
-  .btn {
-    display: none;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
+  text-align: center;
+  padding: 0 12px;
+  @media (min-width: 672px) {
+    padding: 24px 0 36px; /* spacing comoponent? */
   }
-
-  .cta {
-    background: ${props => props.theme.colors.green};
-    color: ${props => props.theme.colors.white};
-    text-decoration: none;
-    grid-column-end: -1;
-    grid-row-end: 3;
-    transition: background 150ms ease;
-    a:hover &,
-    a:focus & {
-      background: ${props => props.theme.colors.black};
-    }
-    span {
+  .btn {
+    transform: translateY(-50%);
+    @media (min-width: 672px) {
+      transform: none;
     }
   }
 `;
@@ -53,14 +41,14 @@ const BookPreview = styled.div`
 `;
 
 const PagePreview = styled.div`
-  border: ${props => `1px solid ${props.theme.colors.pumice}`};
   overflow: hidden;
   display: none;
   width: 200px;
   height: 200px;
 
-  /* putting the background inside a media query, prevents webkit downloading the images unnecessarily  */
-  /* display none is no sufficient to achieve this  */
+  /* Putting the background inside a media query,
+   * prevents webkit downloading the images unnecessarily.
+   * Display none is not sufficient */
   @media (min-width: 672px) {
     /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 672px */
     &:nth-child(2) {
@@ -84,7 +72,8 @@ const PagePreview = styled.div`
     height: 412px;
     width: 100%;
     background: center / contain no-repeat
-      url(${props => props.backgroundImage});
+      url(${props => props.backgroundImage})
+      ${props => props.theme.colors.pumice};
     @media (min-width: 672px) {
       grid-column-start: 1;
       grid-column-end: span 2;
@@ -251,16 +240,14 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
               );
             });
           })}
-        <div className="cta">
-          <Icon name="gallery" />
-          {imageTotal}
-          View item
-        </div>
+        <Button
+          icon="gallery"
+          type="primary"
+          text={imageTotal ? `${imageTotal} images \n View item` : 'View Item'}
+        />
       </BookPreview>
     </BookPreviewContainer>
   );
 };
 
 export default IIIFPresentationDisplay;
-
-// TODO make image preview consistent with this preview
