@@ -5,13 +5,102 @@ import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator, {
   type PaginatorRenderFunctionProps,
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+
+const ItemContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vh;
+  background: ${props => props.theme.colors.smoke};
+  flex-direction: row-reverse;
+
+  .main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    width: 100%;
+    padding: 24px 6px 60px;
+
+    @media (min-width: 600px) {
+      height: 100%;
+      width: 75%;
+    }
+  }
+
+  .thumbs {
+    display: flex;
+    height: 20%;
+    width: 100%;
+    background: ${props => props.theme.colors.charcoal};
+
+    @media (min-width: 600px) {
+      height: 100%;
+      flex-direction: column;
+      width: 25%;
+    }
+  }
+
+  .thumb {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    background: ${props => props.theme.colors.charcoal};
+    height: 100%;
+    width: 20%;
+    margin-right: 10px;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    @media (min-width: 600px) {
+      height: 20%;
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  .main-x-of-y {
+    top: 6px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .main-paginator {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .thumb-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  img {
+    margin: 0 auto;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+`;
 
 type Props = {|
   workId: string,
@@ -50,41 +139,53 @@ const IIIFCanvasThumbnail = ({
   );
 };
 
-const Pagination = ({
+const MainXofY = ({
+  currentPage,
+  totalPages,
+}: PaginatorRenderFunctionProps) => (
+  <span
+    className={classNames({
+      'main-x-of-y': true,
+      [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
+      [font({ s: 'LR3' })]: true,
+    })}
+  >
+    {currentPage} of {totalPages}
+  </span>
+);
+
+const MainPagination = ({
   currentPage,
   totalPages,
   prevLink,
   nextLink,
 }: PaginatorRenderFunctionProps) => {
   return (
-    <div
-      className={classNames({
-        'flex flex--v-center flex--h-center': true,
-        [spacing({ s: 1 }, { margin: ['top', 'bottom'] })]: true,
-      })}
-    >
-      {prevLink && (
-        <NextLink {...prevLink} prefetch scroll={false}>
-          <a>
-            <Control type="light" icon="arrow" extraClasses="icon--180" />
-          </a>
-        </NextLink>
-      )}
-      <span
+    <div className="main-paginator">
+      <div
         className={classNames({
-          [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
-          [font({ s: 'LR3' })]: true,
+          'flex flex--v-center flex--h-center': true,
         })}
       >
-        {currentPage} of {totalPages}
-      </span>
-      {nextLink && (
-        <NextLink {...nextLink} prefetch scroll={false}>
-          <a>
-            <Control type="light" icon="arrow" extraClasses="icon" />
-          </a>
-        </NextLink>
-      )}
+        {prevLink && (
+          <NextLink {...prevLink} prefetch scroll={false}>
+            <a
+              className={classNames({
+                [spacing({ s: 1 }, { margin: ['right'] })]: true,
+              })}
+            >
+              <Control type="light" icon="arrow" extraClasses="icon--180" />
+            </a>
+          </NextLink>
+        )}
+        {nextLink && (
+          <NextLink {...nextLink} prefetch scroll={false}>
+            <a>
+              <Control type="light" icon="arrow" extraClasses="icon" />
+            </a>
+          </NextLink>
+        )}
+      </div>
     </div>
   );
 };
@@ -111,6 +212,22 @@ const ItemPage = ({
     .map(i => canvases[i])
     .filter(Boolean);
 
+  const mainPaginatorProps = {
+    currentPage: canvasIndex + 1,
+    pageSize: 1,
+    totalResults: canvases.length,
+    linkKey: 'canvas',
+    link: itemUrl({
+      workId,
+      query,
+      page: pageIndex + 1,
+      canvas: canvasIndex + 1,
+      workType,
+      itemsLocationsLocationType,
+      sierraId,
+    }),
+  };
+
   return (
     <PageLayout
       title={''}
@@ -123,59 +240,26 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
-      <Layout12>
-        <Paginator
-          currentPage={canvasIndex + 1}
-          pageSize={1}
-          totalResults={canvases.length}
-          linkKey={'canvas'}
-          link={itemUrl({
-            workId,
-            query,
-            page: pageIndex + 1,
-            canvas: canvasIndex + 1,
-            workType,
-            itemsLocationsLocationType,
-            sierraId,
-          })}
-          render={Pagination}
-        />
-      </Layout12>
-      <Layout12>
-        <img
-          className={classNames({
-            'block h-center': true,
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          })}
-          style={{
-            maxHeight: '80vh',
-            width: 'auto',
-          }}
-          width={largestSize.width}
-          height={largestSize.height}
-          src={urlTemplate({
-            size: `${largestSize.width},${largestSize.height}`,
-          })}
-        />
-        <Paginator
-          currentPage={pageIndex + 1}
-          pageSize={5}
-          totalResults={canvases.length}
-          linkKey={'page'}
-          link={itemUrl({
-            workId,
-            query,
-            page: pageIndex + 1,
-            canvas: canvasIndex + 1,
-            workType,
-            itemsLocationsLocationType,
-            sierraId,
-          })}
-          render={Pagination}
-        />
-        <div className={classNames({ flex: true })}>
+      <ItemContainer>
+        <div className="main">
+          <Paginator {...mainPaginatorProps} render={MainXofY} />
+          <img
+            className={classNames({
+              'block h-center': true,
+              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+            })}
+            width={largestSize.width}
+            height={largestSize.height}
+            src={urlTemplate({
+              size: `${largestSize.width},${largestSize.height}`,
+            })}
+          />
+          <Paginator {...mainPaginatorProps} render={MainPagination} />
+        </div>
+
+        <div className="thumbs">
           {navigationCanvases.map((canvas, i) => (
-            <div key={canvas['@id']}>
+            <div key={canvas['@id']} className="thumb">
               <NextLink
                 {...itemUrl({
                   workId,
@@ -186,14 +270,17 @@ const ItemPage = ({
                   sierraId,
                   canvas: pageSize * pageIndex + (i + 1),
                 })}
+                scroll={false}
               >
-                <a>
+                <a className="thumb-link">
                   <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
                 </a>
               </NextLink>
             </div>
           ))}
         </div>
+      </ItemContainer>
+      <Layout12>
         <h1
           className={classNames({
             [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
