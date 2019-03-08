@@ -23,20 +23,11 @@ const BookPreviewContainer = styled.div`
         props.theme.containerPadding.medium
       }px ${props.theme.spacingUnit * 6}px`};
   }
-
-  .btn {
-    grid-row-end: 3;
-    transform: translateY(-50%);
-
-    @media (min-width: 708px) {
-      transform: none;
-    }
-  }
 `;
 
 const BookPreview = styled.div`
   @media (min-width: 708px) {
-    display: inline-grid;
+    display: ${props => (props.hasThumbs ? 'inline-grid' : 'inline')};
     grid-gap: ${props =>
       props.columnNumber > 1 ? `${props.theme.spacingUnit * 2}px` : 0};
     grid-template-columns: ${props => `repeat(3, 200px)`};
@@ -46,6 +37,15 @@ const BookPreview = styled.div`
   ${props => props.theme.media.large`
     grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
   `}
+
+  .btn {
+    grid-row-end: 3;
+    ${props => props.hasThumbs && 'transform: translateY(-50%)'};
+
+    @media (min-width: 708px) {
+      transform: none;
+    }
+  }
 `;
 
 const PagePreview = styled.div`
@@ -235,27 +235,27 @@ const IIIFPresentationDisplay = ({
                 ? 4
                 : 2 + Math.floor(itemsNumber / 2)
             }
+            hasThumbs={imageThumbnails.length > 0}
           >
-            {imageThumbnails &&
-              imageThumbnails.map((pageType, i) => {
-                return pageType.images.map(image => {
-                  return i === 0 ? (
-                    <PagePreview
-                      key={image.id}
-                      backgroundImage={iiifImageTemplate(image.id)({
-                        size: '!1024,1024',
-                      })}
-                    />
-                  ) : (
-                    <PagePreview
-                      key={image.id}
-                      backgroundImage={iiifImageTemplate(image.id)({
-                        size: '!400,400',
-                      })}
-                    />
-                  );
-                });
-              })}
+            {imageThumbnails.map((pageType, i) => {
+              return pageType.images.map(image => {
+                return i === 0 ? (
+                  <PagePreview
+                    key={image.id}
+                    backgroundImage={iiifImageTemplate(image.id)({
+                      size: '!1024,1024',
+                    })}
+                  />
+                ) : (
+                  <PagePreview
+                    key={image.id}
+                    backgroundImage={iiifImageTemplate(image.id)({
+                      size: '!400,400',
+                    })}
+                  />
+                );
+              });
+            })}
             <Button
               icon="gallery"
               type="primary"
