@@ -10,6 +10,12 @@ const theme = {
     large: 960,
     xlarge: 1338,
   },
+  containerPadding: {
+    small: 18,
+    medium: 42,
+    large: 60,
+    xlarge: 60,
+  },
   colors: {
     white: '#ffffff',
     black: '#010101',

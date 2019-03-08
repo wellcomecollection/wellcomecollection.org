@@ -6,35 +6,41 @@ import { useEffect, useState } from 'react';
 import { type iiifPresentationLocation } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
-// TODO classes / tidy styled components
 // TODO use theme verticalSpacing unit
+// TODO don't have anchor on whitespace either side of preview
 // TODO fix button text layout
 // TODO make image preview consistent with this preview - diff. branch PR
 const BookPreviewContainer = styled.div`
-  position: relative;
   overflow: scroll;
   text-align: center;
-  padding: 0 12px;
-  @media (min-width: 672px) {
-    padding: 24px 0 36px; /* spacing comoponent? */
+  padding: ${props => `0 ${props.theme.containerPadding.small}px`};
+
+  ${props => props.theme.media.medium`
+    padding: ${props => `0 ${props.theme.containerPadding.medium}px`};
+  `}
+
+  /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
+  @media (min-width: 708px) {
+    padding: ${props => `24px ${props.theme.containerPadding.medium}px 36px`};
   }
+
   .btn {
     transform: translateY(-50%);
-    @media (min-width: 672px) {
+
+    @media (min-width: 708px) {
       transform: none;
     }
   }
 `;
 
 const BookPreview = styled.div`
-  margin: auto;
-  @media (min-width: 672px) {
-    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 672px */
+  @media (min-width: 708px) {
     display: inline-grid;
     grid-gap: ${props => (props.columnNumber > 1 ? '12px' : 0)};
     grid-template-columns: ${props => `repeat(3, 200px)`};
     grid-template-rows: 200px;
   }
+
   ${props => props.theme.media.large`
     grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
   `}
@@ -49,8 +55,8 @@ const PagePreview = styled.div`
   /* Putting the background inside a media query,
    * prevents webkit downloading the images unnecessarily.
    * Display none is not sufficient */
-  @media (min-width: 672px) {
-    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 672px */
+  @media (min-width: 708px) {
+    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 708px */
     &:nth-child(2) {
       display: block;
       background: center / cover no-repeat
@@ -73,13 +79,15 @@ const PagePreview = styled.div`
     width: 100%;
     background: center / contain no-repeat
       url(${props => props.backgroundImage})
-      ${props => props.theme.colors.pumice};
-    @media (min-width: 672px) {
+      ${props => props.theme.colors.smoke};
+
+    @media (min-width: 708px) {
       grid-column-start: 1;
       grid-column-end: span 2;
       grid-row-start: 1;
       grid-row-end: span 2;
     }
+
     ${props => props.theme.media.large`
     grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
   `}
@@ -243,7 +251,7 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
         <Button
           icon="gallery"
           type="primary"
-          text={imageTotal ? `${imageTotal} images \n View item` : 'View Item'}
+          text={imageTotal ? `View ${imageTotal} images` : 'View images'}
         />
       </BookPreview>
     </BookPreviewContainer>
