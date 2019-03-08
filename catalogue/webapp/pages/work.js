@@ -180,28 +180,21 @@ export const WorkPage = ({
         </div>
       </div>
       {iiifPresentationLocation && (
-        <div
-          className={classNames({
-            'row font-white': true,
-            'bg-black': true,
+        <NextLink
+          {...itemUrl({
+            workId: work.id,
+            query,
+            page,
+            workType,
+            itemsLocationsLocationType,
           })}
         >
-          <IIIFPresentationPreview
-            iiifPresentationLocation={iiifPresentationLocation}
-          />
-          {/* TODO next link and background as part of IIIFPresetationPreview */}
-          <NextLink
-            {...itemUrl({
-              workId: work.id,
-              query,
-              page,
-              workType,
-              itemsLocationsLocationType,
-            })}
-          >
-            <a>View item</a>
-          </NextLink>
-        </div>
+          <a>
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+            />
+          </a>
+        </NextLink>
       )}
 
       {iiifImageLocationUrl && (

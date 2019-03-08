@@ -1,8 +1,72 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
+import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { type iiifPresentationLocation } from '@weco/common/utils/works';
+
+// TODO classes
+// TODO use theme verticalSpacing unit
+const BookPreviewContainer = styled.div`
+  position: relative;
+  text-align: center;
+  padding: 12px 24px 36px;
+  overflow: scroll;
+
+  .btn {
+    display: none;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .cta {
+    background: green;
+    grid-column-end: -1;
+    grid-row-end: 3;
+  }
+`;
+
+const BookPreview = styled.div`
+  margin: auto;
+  display: inline-grid;
+  grid-gap: ${props => (props.columnNumber > 1 ? '12px' : 0)};
+  ${props => props.theme.media.medium`
+    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
+    grid-template-rows: 200px;
+  `}
+`;
+
+const PagePreview = styled.div`
+  border: ${props => `1px solid ${props.theme.colors.pumice}`};
+  overflow: hidden;
+  display: none;
+  width: 100%;
+  height: 100%;
+
+  /* putting the background inside a media query, prevents webkit downloading the images unnecessarily  */
+  /* display none is no sufficient to achieve this  */
+  ${props => props.theme.media.medium`
+    display: block;
+    background: center / cover no-repeat url(${props => props.backgroundImage});
+  `}
+
+  &:nth-child(3) {
+    grid-row-end: 3;
+  }
+
+  &:first-child {
+    display: block;
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    grid-row-start: 1;
+    grid-row-end: span 2;
+    height: 412px;
+    background: center / contain no-repeat
+      url(${props => props.backgroundImage});
+  }
+`;
 
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
 // If we don't have any of the sructured pages, we fill with random ones, so there are always 5 images if possible.
@@ -31,14 +95,7 @@ function randomImages(iiifManifest = null, structuredImages = [], n = 1) {
     const randomNumber = Math.floor(Math.random() * canvases.length);
     const randomCanvas = canvases.splice(randomNumber, 1)[0];
     images.push({
-      orientation:
-        randomCanvas.thumbnail.service.width >
-        randomCanvas.thumbnail.service.height
-          ? 'landscape'
-          : 'portrait',
-      uri: iiifImageTemplate(randomCanvas.thumbnail.service['@id'])({
-        size: '!400,400',
-      }),
+      id: randomCanvas.thumbnail.service['@id'],
       canvasId: randomCanvas['@id'],
     });
   }
@@ -61,14 +118,7 @@ function structuredImages(iiifManifest = null) {
           });
       return (
         matchingCanvas && {
-          orientation:
-            matchingCanvas.thumbnail.service.width >
-            matchingCanvas.thumbnail.service.height
-              ? 'landscape'
-              : 'portrait',
-          uri: iiifImageTemplate(matchingCanvas.thumbnail.service['@id'])({
-            size: '!400,400',
-          }),
+          id: matchingCanvas.thumbnail.service['@id'],
           canvasId,
         }
       );
@@ -108,7 +158,7 @@ function previewThumbnails(
           idealNumber - structuredImages.length
         )
       )
-    : structuredImages;
+    : structuredImages.slice(0, idealNumber);
 }
 
 type Props = {|
@@ -116,7 +166,7 @@ type Props = {|
 |};
 
 const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
-  const [imageThumbnails, setImageThumbnails] = useState(false);
+  const [imageThumbnails, setImageThumbnails] = useState([]);
   const fetchThumbnails = async () => {
     try {
       const iiifManifest = await fetch(iiifPresentationLocation.url);
@@ -125,7 +175,7 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
         previewThumbnails(
           manifestData,
           orderedStructuredImages(structuredImages(manifestData)),
-          5
+          4
         )
       );
     } catch (e) {}
@@ -133,24 +183,47 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
   useEffect(() => {
     fetchThumbnails();
   }, []);
+  const itemsNumber = imageThumbnails.reduce((acc, pageType) => {
+    return acc + pageType.images.length;
+  }, 0);
 
   return (
-    <Fragment>
-      {imageThumbnails &&
-        imageThumbnails.map(pageType => {
-          return pageType.images.map(image => (
-            <img
-              style={{ width: 'auto', maxHeight: '300px' }}
-              key={image.uri}
-              src={image.uri}
-            />
-          ));
-        })}
-    </Fragment>
+    <BookPreviewContainer>
+      <BookPreview
+        columnNumber={
+          itemsNumber === 1
+            ? 3
+            : itemsNumber === 3
+            ? 4
+            : 2 + Math.floor(itemsNumber / 2)
+        }
+      >
+        {imageThumbnails &&
+          imageThumbnails.map((pageType, i) => {
+            return pageType.images.map(image => {
+              return i === 0 ? (
+                <PagePreview
+                  key={image.id}
+                  backgroundImage={iiifImageTemplate(image.id)({
+                    size: '!1024,1024',
+                  })}
+                />
+              ) : (
+                <PagePreview
+                  key={image.id}
+                  backgroundImage={iiifImageTemplate(image.id)({
+                    size: '!400,400',
+                  })}
+                />
+              );
+            });
+          })}
+        <div className="cta">View all</div>
+      </BookPreview>
+    </BookPreviewContainer>
   );
 };
 
 export default IIIFPresentationDisplay;
-// TODO image alt - how do we handle this - no need images are just presentational now, so add correct aria
-// TODO import IIIFBookPreview? and use that or delete it?
-// TODO layout / styling
+// TODO work out media queries, with diff. numbers of items
+// TOOD flow
