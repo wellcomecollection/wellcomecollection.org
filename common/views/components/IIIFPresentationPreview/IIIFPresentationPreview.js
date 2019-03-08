@@ -25,6 +25,7 @@ const BookPreviewContainer = styled.div`
   }
 
   .btn {
+    grid-row-end: 3;
     transform: translateY(-50%);
 
     @media (min-width: 708px) {
