@@ -193,7 +193,7 @@ const WorkDetails = ({
         {work.genres.length > 0 && (
           <MetaUnit
             headingLevel={3}
-            headingText="Type"
+            headingText="Type/Technique"
             tags={work.genres.map(g => {
               return {
                 textParts: g.concepts.map(c => c.label),
