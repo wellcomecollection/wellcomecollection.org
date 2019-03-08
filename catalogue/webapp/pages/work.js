@@ -1,6 +1,5 @@
 // @flow
 import Router from 'next/router';
-import NextLink from 'next/link';
 import {
   type Work,
   type CatalogueApiError,
@@ -180,21 +179,16 @@ export const WorkPage = ({
         </div>
       </div>
       {iiifPresentationLocation && (
-        <NextLink
-          {...itemUrl({
+        <IIIFPresentationPreview
+          iiifPresentationLocation={iiifPresentationLocation}
+          itemUrl={itemUrl({
             workId: work.id,
             query,
             page,
             workType,
             itemsLocationsLocationType,
           })}
-        >
-          <a className="plain-link">
-            <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
-            />
-          </a>
-        </NextLink>
+        />
       )}
 
       {iiifImageLocationUrl && (

@@ -1,5 +1,6 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
+import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { useEffect, useState } from 'react';
@@ -7,7 +8,6 @@ import { type iiifPresentationLocation } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 // TODO use theme verticalSpacing unit
-// TODO don't have anchor on whitespace either side of preview
 // TODO fix button text layout
 // TODO make image preview consistent with this preview - diff. branch PR
 const BookPreviewContainer = styled.div`
@@ -22,6 +22,10 @@ const BookPreviewContainer = styled.div`
   /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
   @media (min-width: 708px) {
     padding: ${props => `24px ${props.theme.containerPadding.medium}px 36px`};
+  }
+
+  img {
+    display: block;
   }
 
   .btn {
@@ -191,9 +195,13 @@ function previewThumbnails(
 
 type Props = {|
   iiifPresentationLocation: iiifPresentationLocation,
+  itemUrl: any,
 |};
 
-const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
+const IIIFPresentationDisplay = ({
+  iiifPresentationLocation,
+  itemUrl,
+}: Props) => {
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(null);
   const fetchThumbnails = async () => {
@@ -219,41 +227,45 @@ const IIIFPresentationDisplay = ({ iiifPresentationLocation }: Props) => {
 
   return (
     <BookPreviewContainer>
-      <BookPreview
-        columnNumber={
-          itemsNumber === 1
-            ? 3
-            : itemsNumber === 3
-            ? 4
-            : 2 + Math.floor(itemsNumber / 2)
-        }
-      >
-        {imageThumbnails &&
-          imageThumbnails.map((pageType, i) => {
-            return pageType.images.map(image => {
-              return i === 0 ? (
-                <PagePreview
-                  key={image.id}
-                  backgroundImage={iiifImageTemplate(image.id)({
-                    size: '!1024,1024',
-                  })}
-                />
-              ) : (
-                <PagePreview
-                  key={image.id}
-                  backgroundImage={iiifImageTemplate(image.id)({
-                    size: '!400,400',
-                  })}
-                />
-              );
-            });
-          })}
-        <Button
-          icon="gallery"
-          type="primary"
-          text={imageTotal ? `View ${imageTotal} images` : 'View images'}
-        />
-      </BookPreview>
+      <NextLink {...itemUrl}>
+        <a className="plain-link">
+          <BookPreview
+            columnNumber={
+              itemsNumber === 1
+                ? 3
+                : itemsNumber === 3
+                ? 4
+                : 2 + Math.floor(itemsNumber / 2)
+            }
+          >
+            {imageThumbnails &&
+              imageThumbnails.map((pageType, i) => {
+                return pageType.images.map(image => {
+                  return i === 0 ? (
+                    <PagePreview
+                      key={image.id}
+                      backgroundImage={iiifImageTemplate(image.id)({
+                        size: '!1024,1024',
+                      })}
+                    />
+                  ) : (
+                    <PagePreview
+                      key={image.id}
+                      backgroundImage={iiifImageTemplate(image.id)({
+                        size: '!400,400',
+                      })}
+                    />
+                  );
+                });
+              })}
+            <Button
+              icon="gallery"
+              type="primary"
+              text={imageTotal ? `${imageTotal} images` : 'View images'}
+            />
+          </BookPreview>
+        </a>
+      </NextLink>
     </BookPreviewContainer>
   );
 };
