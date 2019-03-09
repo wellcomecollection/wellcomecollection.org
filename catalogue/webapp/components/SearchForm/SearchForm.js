@@ -7,14 +7,15 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SelectableTags from '@weco/common/views/components/SelectableTags/SelectableTags';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 
 type Props = {|
   initialQuery: string,
-  initialWorkType: string[],
-  initialItemsLocationsLocationType: string[],
+  initialWorkType: ?(string[]),
+  initialItemsLocationsLocationType: ?(string[]),
   ariaDescribedBy: string,
   compact: boolean,
   works: ?CatalogueResultsList,
@@ -46,8 +47,8 @@ const ClearSearch = styled.button`
 
 const SearchForm = ({
   initialQuery = '',
-  initialWorkType = [],
-  initialItemsLocationsLocationType = [],
+  initialWorkType,
+  initialItemsLocationsLocationType,
   ariaDescribedBy,
   compact,
   works,
@@ -139,21 +140,70 @@ const SearchForm = ({
             </button>
           </SearchButtonWrapper>
         </div>
-        <input
-          type="hidden"
-          name="items.locations.locationType"
-          value={itemsLocationsLocationType}
-        />
-        <input type="hidden" name="workType" value={workType.join(',')} />
+        {itemsLocationsLocationType && (
+          <input
+            type="hidden"
+            name="items.locations.locationType"
+            value={itemsLocationsLocationType.join(',')}
+          />
+        )}
+        {workType && (
+          <input type="hidden" name="workType" value={workType.join(',')} />
+        )}
       </form>
       <TogglesContext.Consumer>
-        {({ showCatalogueSearchFilters, feedback }) =>
-          (showCatalogueSearchFilters || feedback) && (
+        {({ showCatalogueSearchFilters, feedback, tabbedNavOnSearchForm }) =>
+          (showCatalogueSearchFilters || feedback || tabbedNavOnSearchForm) && (
             <div
               className={classNames({
                 [spacing({ s: 1 }, { margin: ['top'] })]: true,
               })}
             >
+              {tabbedNavOnSearchForm && works && (
+                <TabNav
+                  large={false}
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: undefined,
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !workType,
+                    },
+                    {
+                      text: 'Books',
+                      link: worksUrl({
+                        query,
+                        workType: ['a', 'v'],
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('a') !== -1 &&
+                          workType.indexOf('v') !== -1)
+                      ),
+                    },
+                    {
+                      text: 'Pictures',
+                      link: worksUrl({
+                        query,
+                        workType: ['k', 'q'],
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('k') !== -1 &&
+                          workType.indexOf('q') !== -1)
+                      ),
+                    },
+                  ]}
+                />
+              )}
               {feedback && (
                 <p
                   className={classNames({
@@ -190,7 +240,7 @@ const SearchForm = ({
                     })}
                     style={{ marginTop: '3px' }}
                   >
-                    Include:
+                    Show:
                   </div>
                   <SelectableTags
                     tags={[
@@ -198,45 +248,39 @@ const SearchForm = ({
                         textParts: ['Books'],
                         linkAttributes: worksUrl({
                           query,
-                          workType:
-                            workType.indexOf('a') !== -1
-                              ? workType.filter(
-                                  workType =>
-                                    !(workType === 'a' || workType === 'v')
-                                )
-                              : [...workType, 'a', 'v'],
+                          workType: workType
+                            ? workType.indexOf('a') !== -1 ||
+                              workType.indexOf('v') !== -1
+                              ? workType.filter(v => !(v === 'a' || v === 'v'))
+                              : [...workType, 'a', 'v']
+                            : ['a', 'v'],
                           itemsLocationsLocationType,
                           page: 1,
                         }),
-                        selected:
-                          workType.indexOf('a') !== -1 &&
-                          workType.indexOf('v') !== -1,
+                        selected: !!(
+                          workType &&
+                          (workType.indexOf('a') !== -1 &&
+                            workType.indexOf('v') !== -1)
+                        ),
                       },
                       {
-                        textParts: ['Digital images'],
+                        textParts: ['Visual'],
                         linkAttributes: worksUrl({
                           query,
-                          workType:
-                            workType.indexOf('q') !== -1
-                              ? workType.filter(workType => workType !== 'q')
-                              : [...workType, 'q'],
+                          workType: workType
+                            ? workType.indexOf('k') !== -1 ||
+                              workType.indexOf('q') !== -1
+                              ? workType.filter(v => !(v === 'k' || v === 'q'))
+                              : [...workType, 'k', 'q']
+                            : ['k', 'q'],
                           itemsLocationsLocationType,
                           page: 1,
                         }),
-                        selected: workType.indexOf('q') !== -1,
-                      },
-                      {
-                        textParts: ['Pictures'],
-                        linkAttributes: worksUrl({
-                          query,
-                          workType:
-                            workType.indexOf('k') !== -1
-                              ? workType.filter(workType => workType !== 'k')
-                              : [...workType, 'k'],
-                          itemsLocationsLocationType,
-                          page: 1,
-                        }),
-                        selected: workType.indexOf('k') !== -1,
+                        selected: !!(
+                          workType &&
+                          (workType.indexOf('k') !== -1 &&
+                            workType.indexOf('q') !== -1)
+                        ),
                       },
                     ]}
                   />

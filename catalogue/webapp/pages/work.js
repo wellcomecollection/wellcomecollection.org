@@ -177,15 +177,18 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
+
       {iiifPresentationLocation && (
         <IIIFPresentationPreview
           iiifPresentationLocation={iiifPresentationLocation}
           itemUrl={itemUrl({
-            workId: work.id,
-            query,
-            page,
-            workType,
-            itemsLocationsLocationType,
+              workId: work.id,
+              query,
+              workType,
+              itemsLocationsLocationType,
+              sierraId,
+              page: 1,
+              canvas: 1,
           })}
         />
       )}
@@ -214,15 +217,8 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const workTypeQuery = ctx.query.workType;
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : ['k', 'q'];
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : ['iiif-image'];
+  const itemsLocationsLocationTypeQuery =
+    ctx.query['items.locations.locationType'];
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
@@ -245,8 +241,10 @@ WorkPage.getInitialProps = async (
       work: workOrError,
       iiifPresentationLocation,
       page: page ? parseInt(page, 10) : null,
-      workType,
-      itemsLocationsLocationType,
+      workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+      itemsLocationsLocationType:
+        itemsLocationsLocationTypeQuery &&
+        itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
     };
   }
 };

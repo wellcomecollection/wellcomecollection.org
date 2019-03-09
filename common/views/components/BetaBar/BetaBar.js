@@ -20,7 +20,7 @@ const BetaTag = styled(({ className }) => (
   padding: 0.2em 0.5em;
 `;
 
-const BetaBar = styled(() => (
+const BetaBar = () => (
   <div
     className={classNames({
       [font({ s: 'HNL4' })]: true,
@@ -31,6 +31,6 @@ const BetaBar = styled(() => (
     We’re improving how search works.{' '}
     <a href="/works/progress">Find out more</a>.
   </div>
-));
+);
 
 export default BetaBar;

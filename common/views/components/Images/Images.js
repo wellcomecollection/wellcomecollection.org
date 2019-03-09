@@ -194,6 +194,7 @@ export type UiCaptionedImageProps = {|
 type UiCaptionedImageState = {|
   computedImageWidth: ?number,
   isWidthAuto: boolean,
+  isEnhanced: boolean,
 |};
 
 export class CaptionedImage extends Component<
@@ -203,7 +204,14 @@ export class CaptionedImage extends Component<
   state = {
     computedImageWidth: null,
     isWidthAuto: false,
+    isEnhanced: false,
   };
+
+  componentDidMount() {
+    this.setState({
+      isEnhanced: true,
+    });
+  }
 
   setIsWidthAuto = (value: boolean) => {
     this.setState({
@@ -227,7 +235,7 @@ export class CaptionedImage extends Component<
       sizesQueries,
       shameNoMaxHeight,
     } = this.props;
-    const { computedImageWidth, isWidthAuto } = this.state;
+    const { computedImageWidth, isWidthAuto, isEnhanced } = this.state;
     const uiImageProps = { ...image, sizesQueries };
 
     return (
@@ -248,6 +256,14 @@ export class CaptionedImage extends Component<
           />
         </div>
         {isWidthAuto && (
+          <Caption
+            width={computedImageWidth}
+            caption={caption}
+            preCaptionNode={preCaptionNode}
+          />
+        )}
+
+        {!isEnhanced && ( // Render the captions for no-JS
           <Caption
             width={computedImageWidth}
             caption={caption}

@@ -4,8 +4,9 @@ import type { NextLinkType } from '@weco/common/model/next-link-type';
 type WorksUrlProps = {|
   query: ?string,
   page: ?number,
-  workType?: string[],
-  itemsLocationsLocationType?: string[],
+  workType?: ?(string[]),
+  itemsLocationsLocationType?: ?(string[]),
+  queryType?: ?string,
 |};
 
 type WorkUrlProps = {|
@@ -16,25 +17,23 @@ type WorkUrlProps = {|
 type ItemUrlProps = {|
   ...WorksUrlProps,
   workId: string,
+  sierraId: string,
+  canvas: number,
 |};
 
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function workTypeAndItemsLocationType(workType, itemsLocationsLocationType) {
-  const isDefaultWorkType =
-    JSON.stringify(workType) === JSON.stringify(['k', 'q']);
-  const isDefaultItemsLocationsLocationType =
-    JSON.stringify(itemsLocationsLocationType) ===
-    JSON.stringify(['iiif-image']);
-
+function workTypeAndItemsLocationType(
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[])
+) {
   return {
-    workType: workType && !isDefaultWorkType ? workType.join(',') : undefined,
-    'items.locations.locationType':
-      itemsLocationsLocationType && !isDefaultItemsLocationsLocationType
-        ? itemsLocationsLocationType.join(',')
-        : undefined,
+    workType: workType ? workType.join(',') : undefined,
+    'items.locations.locationType': itemsLocationsLocationType
+      ? itemsLocationsLocationType.join(',')
+      : undefined,
   };
 }
 
@@ -44,6 +43,7 @@ export function workUrl({
   page,
   workType,
   itemsLocationsLocationType,
+  queryType,
 }: WorkUrlProps): NextLinkType {
   return {
     href: {
@@ -54,6 +54,7 @@ export function workUrl({
           query: query || undefined,
           page: page && page > 1 ? page : undefined,
           ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+          queryType: queryType && queryType !== '' ? queryType : undefined,
         }),
       },
     },
@@ -63,6 +64,7 @@ export function workUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
   };
@@ -73,6 +75,7 @@ export function worksUrl({
   page,
   workType,
   itemsLocationsLocationType,
+  queryType,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -81,6 +84,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
     as: {
@@ -89,6 +93,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
   };
@@ -100,6 +105,8 @@ export function itemUrl({
   page,
   workType,
   itemsLocationsLocationType,
+  sierraId,
+  canvas,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -109,6 +116,8 @@ export function itemUrl({
         ...removeEmpty({
           query: query || undefined,
           page: page && page > 1 ? page : undefined,
+          canvas: canvas && canvas > 1 ? canvas : undefined,
+          sierraId: sierraId,
           ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
         }),
       },
@@ -118,6 +127,8 @@ export function itemUrl({
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
+        canvas: canvas && canvas > 1 ? canvas : undefined,
+        sierraId: sierraId,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
       }),
     },

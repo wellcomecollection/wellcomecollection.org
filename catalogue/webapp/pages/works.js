@@ -23,14 +23,14 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
-  showCatalogueSearchFilters: boolean,
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
 |};
 
 export const Works = ({
@@ -39,7 +39,6 @@ export const Works = ({
   page,
   workType,
   itemsLocationsLocationType,
-  showCatalogueSearchFilters,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -138,10 +137,15 @@ export const Works = ({
                       spacing({ s: 0 }, { margin: ['top'] }),
                     ])}
                   >
-                    {showCatalogueSearchFilters
-                      ? 'Search our collections'
-                      : 'Search our images'}
+                    <TogglesContext.Consumer>
+                      {({ catalogueSearchHeaderExploreContent }) =>
+                        catalogueSearchHeaderExploreContent
+                          ? 'Explore our collections'
+                          : 'Search our images'
+                      }
+                    </TogglesContext.Consumer>
                   </h1>
+
                   <TogglesContext.Consumer>
                     {({ betaBar }) =>
                       !betaBar && (
@@ -166,6 +170,25 @@ export const Works = ({
 
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+                <TogglesContext.Consumer>
+                  {({ catalogueSearchHeaderExploreContent }) =>
+                    catalogueSearchHeaderExploreContent && (
+                      <p
+                        className={classNames({
+                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
+                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                          'visually-hidden': Boolean(works),
+                        })}
+                        id="search-form-description"
+                      >
+                        Find thousands of freely licensed digital books,
+                        artworks, photos and images of historical library
+                        materials and museum objects.
+                      </p>
+                    )
+                  }
+                </TogglesContext.Consumer>
+
                 <SearchForm
                   initialQuery={query || ''}
                   initialWorkType={workType}
@@ -174,18 +197,26 @@ export const Works = ({
                   compact={false}
                   works={works}
                 />
-                <p
-                  className={classNames({
-                    [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                    'visually-hidden': Boolean(works),
-                  })}
-                  id="search-form-description"
-                >
-                  Find thousands of Creative Commons licensed images from
-                  historical library materials and museum objects to
-                  contemporary digital photographs.
-                </p>
+
+                <TogglesContext.Consumer>
+                  {({ catalogueSearchHeaderExploreContent }) =>
+                    !catalogueSearchHeaderExploreContent && (
+                      <p
+                        className={classNames({
+                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
+                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                          'visually-hidden': Boolean(works),
+                        })}
+                        id="search-form-description"
+                      >
+                        Find thousands of Creative Commons licensed images from
+                        historical library materials and museum objects to
+                        contemporary digital photographs.
+                      </p>
+                    )
+                  }
+                </TogglesContext.Consumer>
+
                 {works && (
                   <p
                     className={classNames([
@@ -203,6 +234,59 @@ export const Works = ({
         </div>
 
         {!works && <StaticWorksContent />}
+
+        <TogglesContext.Consumer>
+          {({ tabbedNavOnResults }) =>
+            tabbedNavOnResults &&
+            works && (
+              <Layout12>
+                <TabNav
+                  large={true}
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: undefined,
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !workType,
+                    },
+                    {
+                      text: 'Books',
+                      link: worksUrl({
+                        query,
+                        workType: ['a', 'v'],
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('a') !== -1 &&
+                          workType.indexOf('v') !== -1)
+                      ),
+                    },
+                    {
+                      text: 'Visuals',
+                      link: worksUrl({
+                        query,
+                        workType: ['k', 'q'],
+                        itemsLocationsLocationType,
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('k') !== -1 &&
+                          workType.indexOf('q') !== -1)
+                      ),
+                    },
+                  ]}
+                />
+              </Layout12>
+            )
+          }
+        </TogglesContext.Consumer>
 
         {works && works.results.length > 0 && (
           <Fragment>
@@ -290,7 +374,13 @@ export const Works = ({
                                   result.createdDate && result.createdDate.label
                                 }
                                 title={result.title}
-                                link={workUrl({ id: result.id, query, page })}
+                                link={workUrl({
+                                  id: result.id,
+                                  query,
+                                  page,
+                                  workType,
+                                  itemsLocationsLocationType,
+                                })}
                               />
                             </div>
                           ));
@@ -373,30 +463,43 @@ export const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-  const { showCatalogueSearchFilters = false } = ctx.query.toggles;
+
+  const {
+    tabbedNavOnSearchForm = false,
+    tabbedNavOnResults = false,
+    showCatalogueSearchFilters = false,
+  } = ctx.query.toggles;
+  const includeBooks =
+    tabbedNavOnSearchForm || tabbedNavOnResults || showCatalogueSearchFilters;
+
+  const workTypeQuery = ctx.query.workType;
+  const itemsLocationsLocationTypeQuery =
+    ctx.query['items.locations.locationType'];
 
   const defaultWorkType = ['k', 'q'];
-  const workTypeQuery = ctx.query.workType;
-  const workType = !showCatalogueSearchFilters
-    ? defaultWorkType
-    : !workTypeQuery
-    ? []
-    : workTypeQuery.split(',').filter(Boolean);
+  const defaultItemsLocationsLocationType = ['iiif-image'];
 
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : showCatalogueSearchFilters
-      ? ['iiif-image', 'iiif-presentation']
-      : ['iiif-image'];
+  const defaultWorkTypeWithBooks = ['a', 'k', 'q', 'v'];
+  const defaultItemsLocationsLocationTypeWithIIIFPresentation = [
+    'iiif-image',
+    'iiif-presentation',
+  ];
+
+  const workTypeFilter = workTypeQuery
+    ? workTypeQuery.split(',').filter(Boolean)
+    : includeBooks
+    ? defaultWorkTypeWithBooks
+    : defaultWorkType;
+
+  const itemsLocationsLocationTypeFilter = itemsLocationsLocationTypeQuery
+    ? itemsLocationsLocationTypeQuery.split(',').filter(Boolean)
+    : includeBooks
+    ? defaultItemsLocationsLocationTypeWithIIIFPresentation
+    : defaultItemsLocationsLocationType;
 
   const filters = {
-    'items.locations.locationType': itemsLocationsLocationType,
-    workType: !showCatalogueSearchFilters
-      ? defaultWorkType
-      : workType.length === 0
-      ? ['a', 'k', 'q']
-      : workType,
+    workType: workTypeFilter,
+    'items.locations.locationType': itemsLocationsLocationTypeFilter,
   };
 
   const worksOrError =
@@ -406,9 +509,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     query,
     page,
-    workType,
-    itemsLocationsLocationType,
-    showCatalogueSearchFilters,
+    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+    itemsLocationsLocationType:
+      itemsLocationsLocationTypeQuery &&
+      itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
   };
 };
 

@@ -37,6 +37,36 @@ const abTests = [
 
 const featureToggles = [
   {
+    id: 'betaBar',
+    title: 'Beta bar',
+    description:
+      'Letting people know that the service is being worked on, how they might ' +
+      "find out about what's going on, and let us know what they think.",
+  },
+  {
+    id: 'catalogueSearchHeaderExploreMessaging',
+    title: 'Search landing page messaging',
+    description:
+      'Using a different type of language on the landing page for our collections',
+  },
+  {
+    id: 'collectionsInMainNavigation',
+    title: 'Collections in main navigation',
+    description: 'Use `Collections` as the label in the main navigation',
+  },
+  {
+    id: 'tabbedNavOnSearchForm',
+    title: 'Tabbed work type navigation on search form',
+    description:
+      'Tabbed navigation on search form to allow people to select between books and visuals',
+  },
+  {
+    id: 'tabbedNavOnResults',
+    title: 'Tabbed work type navigation on search results',
+    description:
+      'Tabbed navigation on search results to allow people to select between books and visuals',
+  },
+  {
     id: 'showCatalogueSearchFilters',
     title: 'Catalogue search filters',
     description:
@@ -54,13 +84,6 @@ const featureToggles = [
     title: 'Show the locations of a work in the header',
     description:
       'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
-  },
-  {
-    id: 'betaBar',
-    title: 'Beta bar',
-    description:
-      'Letting people know that the service is being worked on, how they might ' +
-      "find out about what's going on, and let us know what they think.",
   },
 ];
 
