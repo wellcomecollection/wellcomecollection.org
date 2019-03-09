@@ -14,7 +14,6 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
-import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
@@ -27,7 +26,7 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
-// import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview'; // TODO rename WorkMedia?, these are the same thing or delete
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -192,7 +191,7 @@ export const WorkPage = ({
       )}
 
       {iiifImageLocationUrl && (
-        <WorkMedia
+        <IIIFImagePreview
           id={work.id}
           iiifUrl={iiifImageLocationUrl}
           title={work.title}
