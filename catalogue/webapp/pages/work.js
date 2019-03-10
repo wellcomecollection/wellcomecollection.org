@@ -182,13 +182,13 @@ export const WorkPage = ({
         <IIIFPresentationPreview
           iiifPresentationLocation={iiifPresentationLocation}
           itemUrl={itemUrl({
-              workId: work.id,
-              query,
-              workType,
-              itemsLocationsLocationType,
-              sierraId,
-              page: 1,
-              canvas: 1,
+            workId: work.id,
+            query,
+            workType,
+            itemsLocationsLocationType,
+            sierraId,
+            page: 1,
+            canvas: 1,
           })}
         />
       )}

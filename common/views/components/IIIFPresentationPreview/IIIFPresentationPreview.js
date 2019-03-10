@@ -1,10 +1,11 @@
 // @flow
+import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
+import { type iiifPresentationLocation } from '@weco/common/utils/works';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { useEffect, useState } from 'react';
-import { type iiifPresentationLocation } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const BookPreviewContainer = styled.div`
@@ -96,30 +97,40 @@ const PagePreview = styled.div`
   }
 `;
 
-function getCanvases(iiifManifest) {
-  return iiifManifest.sequences.find(
+function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
+  const sequence = iiifManifest.sequences.find(
     sequence => sequence['@type'] === 'sc:Sequence'
-  ).canvases;
+  );
+  return sequence ? sequence.canvases : [];
 }
+type IIIFThumbnails = {|
+  label: string,
+  images: {
+    id: string,
+    canvasId: string,
+  }[],
+|};
 
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
 // If we don't have any of the sructured pages, we fill with random ones, so there are always 5 images if possible.
-function randomImages(iiifManifest = null, structuredImages = [], n = 1) {
+function randomImages(
+  iiifManifest: IIIFManifest,
+  structuredImages: IIIFThumbnails[],
+  n = 1
+): IIIFThumbnails {
   const images = [];
-  const canvases = iiifManifest
-    ? getCanvases(iiifManifest).filter(canvas => {
-        // Don't include the structured pages we're using when getting random ones
-        return (
-          structuredImages
-            .map(type => {
-              return type.images.find(image => {
-                return canvas['@id'] === image.canvasId;
-              });
-            })
-            .filter(Boolean).length === 0
-        );
-      })
-    : [];
+  const canvases = getCanvases(iiifManifest).filter(canvas => {
+    // Don't include the structured pages we're using when getting random ones
+    return (
+      structuredImages
+        .map(type => {
+          return type.images.find(image => {
+            return canvas['@id'] === image.canvasId;
+          });
+        })
+        .filter(Boolean).length === 0
+    );
+  });
 
   const numberOfImages = canvases.length < n ? canvases.length : n;
 
@@ -137,22 +148,21 @@ function randomImages(iiifManifest = null, structuredImages = [], n = 1) {
   };
 }
 
-function structuredImages(iiifManifest = null) {
-  const structures = iiifManifest ? iiifManifest.structures : [];
-  return structures.map(structure => {
-    const images = structure.canvases.map(canvasId => {
-      const matchingCanvas =
-        iiifManifest &&
-        getCanvases(iiifManifest).find(canvas => {
+function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
+  return iiifManifest.structures.map(structure => {
+    const images = structure.canvases
+      .map(canvasId => {
+        const matchingCanvas = getCanvases(iiifManifest).find(canvas => {
           return canvas['@id'] === canvasId;
         });
-      return (
-        matchingCanvas && {
-          id: matchingCanvas.thumbnail.service['@id'],
-          canvasId,
+        if (matchingCanvas) {
+          return {
+            id: matchingCanvas.thumbnail.service['@id'],
+            canvasId: matchingCanvas && matchingCanvas['@id'],
+          };
         }
-      );
-    });
+      })
+      .filter(Boolean);
     return {
       label: structure.label,
       images,
@@ -160,7 +170,9 @@ function structuredImages(iiifManifest = null) {
   });
 }
 
-function orderedStructuredImages(structuredImages) {
+function orderedStructuredImages(
+  structuredImages: IIIFThumbnails[]
+): IIIFThumbnails[] {
   const titlePage = structuredImages.find(
     structuredImage => structuredImage.label === 'Title Page'
   );
@@ -176,10 +188,10 @@ function orderedStructuredImages(structuredImages) {
 }
 
 function previewThumbnails(
-  iiifManifest = {},
-  structuredImages = [],
-  idealNumber = 5
-) {
+  iiifManifest: IIIFManifest,
+  structuredImages: IIIFThumbnails[],
+  idealNumber: number = 4
+): IIIFThumbnails[] {
   return structuredImages.length < idealNumber
     ? structuredImages.concat(
         randomImages(
