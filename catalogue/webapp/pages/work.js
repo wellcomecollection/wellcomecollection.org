@@ -177,7 +177,6 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
-
       {iiifPresentationLocation && (
         <IIIFPresentationPreview
           iiifPresentationLocation={iiifPresentationLocation}
