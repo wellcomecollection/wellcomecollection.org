@@ -129,22 +129,36 @@ export const Works = ({
                     spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
-                  <h1
-                    className={classNames([
-                      font({ s: 'WB6', m: 'WB4' }),
-                      spacing({ s: 2 }, { margin: ['bottom'] }),
-                      spacing({ s: 4 }, { margin: ['right'] }),
-                      spacing({ s: 0 }, { margin: ['top'] }),
-                    ])}
-                  >
-                    <TogglesContext.Consumer>
-                      {({ catalogueSearchHeaderExploreContent }) =>
-                        catalogueSearchHeaderExploreContent
-                          ? 'Explore our collections'
-                          : 'Search our images'
-                      }
-                    </TogglesContext.Consumer>
-                  </h1>
+                  <TogglesContext.Consumer>
+                    {({ catalogueSearchHeaderExploreContent }) => (
+                      <>
+                        {catalogueSearchHeaderExploreContent && !works && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Explore our collections
+                          </h1>
+                        )}
+                        {!catalogueSearchHeaderExploreContent && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Search our images
+                          </h1>
+                        )}
+                      </>
+                    )}
+                  </TogglesContext.Consumer>
 
                   <TogglesContext.Consumer>
                     {({ betaBar }) =>
@@ -175,7 +189,6 @@ export const Works = ({
                     catalogueSearchHeaderExploreContent && (
                       <p
                         className={classNames({
-                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
                           [font({ s: 'HNL4', m: 'HNL3' })]: true,
                           'visually-hidden': Boolean(works),
                         })}
