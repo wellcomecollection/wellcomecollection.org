@@ -34,11 +34,6 @@ const Paginator = ({
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : null;
   const prev = currentPage > 1 ? currentPage - 1 : null;
-  const rangeStart = pageSize * currentPage - (pageSize - 1);
-  const rangeEnd =
-    pageSize * currentPage > totalResults
-      ? totalResults
-      : pageSize * currentPage;
 
   const prevLink = prev
     ? {
@@ -86,7 +81,7 @@ const Paginator = ({
           m: 'LR2',
         })}`}
       >
-        Showing {rangeStart} - {rangeEnd}
+        {totalResults} results
       </div>
       <div
         className={classNames({

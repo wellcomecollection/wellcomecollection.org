@@ -216,18 +216,6 @@ export const Works = ({
                     )
                   }
                 </TogglesContext.Consumer>
-
-                {works && (
-                  <p
-                    className={classNames([
-                      spacing({ s: 2 }, { margin: ['top', 'bottom'] }),
-                      font({ s: 'LR3', m: 'LR2' }),
-                    ])}
-                  >
-                    {works.totalResults !== 0 ? works.totalResults : 'No'}{' '}
-                    results for &apos;{query}&apos;
-                  </p>
-                )}
               </div>
             </div>
           </div>
