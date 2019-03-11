@@ -14,14 +14,14 @@ import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
-const ItemContainer = styled.div`
+const IIIFViewer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100vw;
   height: 100vh;
   flex-direction: row-reverse;
 
-  .main {
+  .iiif-viewer__main {
     position: relative;
     display: flex;
     align-items: center;
@@ -37,7 +37,7 @@ const ItemContainer = styled.div`
     }
   }
 
-  .thumbs {
+  .iiif-viewer__thumbs {
     position: relative;
     display: flex;
     justify-content: center;
@@ -53,7 +53,7 @@ const ItemContainer = styled.div`
       padding: 0 0 100px;
     }
 
-    .paginator-buttons {
+    .iiif-viewer__paginator-buttons {
       left: auto;
       right: 6px;
       bottom: 50%;
@@ -67,7 +67,7 @@ const ItemContainer = styled.div`
     }
   }
 
-  .thumb {
+  .iiif-viewer__thumb {
     position: relative;
     padding: 10px;
     display: flex;
@@ -87,7 +87,7 @@ const ItemContainer = styled.div`
     }
   }
 
-  .thumb-number {
+  .iiif-viewer__thumb-number {
     position: absolute;
     top: 6px;
     left: 50%;
@@ -96,14 +96,16 @@ const ItemContainer = styled.div`
     background: ${props => props.theme.colors.charcoal};
     color: ${props => props.theme.colors.white};
   }
-  .main-x-of-y {
+
+  .iiif-viewer__main-x-of-y {
     top: 6px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     color: ${props => props.theme.colors.white};
   }
-  .paginator-buttons {
+
+  .iiif-viewer__paginator-buttons {
     flex-direction: column;
     align-items: center;
     display: flex;
@@ -113,7 +115,7 @@ const ItemContainer = styled.div`
     transform: translateX(-50%);
   }
 
-  .thumb-link {
+  .iiif-viewer__thumb-link {
     display: flex;
     align-items: center;
     height: 100%;
@@ -184,7 +186,7 @@ const MainXofY = ({
 }: PaginatorRenderFunctionProps) => (
   <span
     className={classNames({
-      'main-x-of-y': true,
+      'iiif-viewer__main-x-of-y': true,
       [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
       [font({ s: 'LR3' })]: true,
     })}
@@ -200,14 +202,14 @@ const PaginatorButtons = ({
   nextLink,
 }: PaginatorRenderFunctionProps) => {
   return (
-    <div className="paginator-buttons">
+    <div className="iiif-viewer__paginator-buttons">
       <div
         className={classNames({
           'flex flex--v-center flex--h-center': true,
         })}
       >
         {prevLink && (
-          <NextLink {...prevLink} prefetch scroll={false}>
+          <NextLink {...prevLink} scroll={false}>
             <a
               className={classNames({
                 [spacing({ s: 1 }, { margin: ['right'] })]: true,
@@ -218,7 +220,7 @@ const PaginatorButtons = ({
           </NextLink>
         )}
         {nextLink && (
-          <NextLink {...nextLink} prefetch scroll={false}>
+          <NextLink {...nextLink} scroll={false}>
             <a>
               <Control type="light" icon="arrow" extraClasses="icon" />
             </a>
@@ -251,11 +253,8 @@ const ItemPage = ({
     .map(i => canvases[i])
     .filter(Boolean);
 
-  const mainPaginatorProps = {
-    currentPage: canvasIndex + 1,
-    pageSize: 1,
+  const sharedPaginatorProps = {
     totalResults: canvases.length,
-    linkKey: 'canvas',
     link: itemUrl({
       workId,
       query,
@@ -267,20 +266,18 @@ const ItemPage = ({
     }),
   };
 
+  const mainPaginatorProps = {
+    currentPage: canvasIndex + 1,
+    pageSize: 1,
+    linkKey: 'canvas',
+    ...sharedPaginatorProps,
+  };
+
   const thumbsPaginatorProps = {
     currentPage: pageIndex + 1,
     pageSize: pageSize,
-    totalResults: canvases.length,
     linkKey: 'page',
-    link: itemUrl({
-      workId,
-      query,
-      page: pageIndex + 1,
-      canvas: canvasIndex + 1,
-      workType,
-      itemsLocationsLocationType,
-      sierraId,
-    }),
+    ...sharedPaginatorProps,
   };
 
   return (
@@ -295,8 +292,8 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
-      <ItemContainer>
-        <div className="main">
+      <IIIFViewer>
+        <div className="iiif-viewer__main">
           <Paginator {...mainPaginatorProps} render={MainXofY} />
           <img
             className={classNames({
@@ -312,9 +309,9 @@ const ItemPage = ({
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </div>
 
-        <div className="thumbs">
+        <div className="iiif-viewer__thumbs">
           {navigationCanvases.map((canvas, i) => (
-            <div key={canvas['@id']} className="thumb">
+            <div key={canvas['@id']} className="iiif-viewer__thumb">
               <Paginator
                 {...thumbsPaginatorProps}
                 render={({ rangeStart }) => (
@@ -332,13 +329,13 @@ const ItemPage = ({
                   >
                     <a
                       className={classNames({
-                        'thumb-link': true,
+                        'iiif-viewer__thumb-link': true,
                         'is-active': canvasIndex === rangeStart + i - 1,
                       })}
                     >
                       <span
                         className={classNames({
-                          'thumb-number': true,
+                          'iiif-viewer__thumb-number': true,
                           'line-height-1': true,
                           [font({ s: 'LR3' })]: true,
                         })}
@@ -354,7 +351,7 @@ const ItemPage = ({
           ))}
           <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
         </div>
-      </ItemContainer>
+      </IIIFViewer>
       <Layout12>
         <h1
           className={classNames({
