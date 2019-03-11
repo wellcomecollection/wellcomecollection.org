@@ -85,18 +85,6 @@ const featureToggles = [
     description:
       'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
   },
-  {
-    id: 'showWorkPreview',
-    title: 'Work preview',
-    description:
-      'Shows a simple preview of a digitised work, as part of the work details section of the work page. Currently focussing on images and digitised books. By default this is a single image.',
-  },
-  {
-    id: 'showMultiImageWorkPreview',
-    title: 'Work preview with multiple images',
-    description:
-      'This toggle should be used in conjunction with the showWorkPreview toggle. Where a work has multiple images, we can try showing more of them.',
-  },
 ];
 
 const IndexPage = () => {
