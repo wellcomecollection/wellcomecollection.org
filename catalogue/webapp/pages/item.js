@@ -15,38 +15,26 @@ import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
 const IIIFViewer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   width: 100vw;
   height: 100vh;
   flex-direction: row-reverse;
 
   .iiif-viewer__main {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 80%;
     width: 100%;
-    padding: 24px 6px 60px;
-    background: ${props => props.theme.colors.charcoal};
 
-    @media (min-width: 600px) {
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
       height: 100%;
       width: 75%;
     }
   }
 
   .iiif-viewer__thumbs {
-    position: relative;
-    display: flex;
-    justify-content: center;
     height: 20%;
     width: 100%;
-    background: ${props => props.theme.colors.smoke};
     padding: 0 100px 0 0;
 
-    @media (min-width: 600px) {
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
       height: 100%;
       flex-direction: column;
       width: 25%;
@@ -55,12 +43,12 @@ const IIIFViewer = styled.div`
 
     .iiif-viewer__paginator-buttons {
       left: auto;
-      right: 6px;
+      right: ${props => props.theme.spacingUnit}px;
       bottom: 50%;
       transform: translateX(0%) translateY(50%);
 
-      @media (min-width: 600px) {
-        bottom: 32px;
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        bottom: ${props => props.theme.spacingUnit * 5}px;
         left: 50%;
         transform: translateX(-50%) translateY(0%) rotate(90deg);
       }
@@ -68,13 +56,9 @@ const IIIFViewer = styled.div`
   }
 
   .iiif-viewer__thumb {
-    position: relative;
-    padding: 10px;
-    display: flex;
-    align-items: center;
     height: 100%;
     width: 20%;
-    margin-right: 10px;
+    margin-right: ${props => props.theme.spacingUnit}px;
 
     &:last-child {
       margin: 0;
@@ -88,38 +72,26 @@ const IIIFViewer = styled.div`
   }
 
   .iiif-viewer__thumb-number {
-    position: absolute;
-    top: 6px;
+    top: ${props => props.theme.spacingUnit}px;
     left: 50%;
     transform: translateX(-50%);
     padding: 3px 2px 0;
-    background: ${props => props.theme.colors.charcoal};
-    color: ${props => props.theme.colors.white};
   }
 
   .iiif-viewer__main-x-of-y {
-    top: 6px;
-    position: absolute;
+    top: ${props => props.theme.spacingUnit}px;
     left: 50%;
     transform: translateX(-50%);
-    color: ${props => props.theme.colors.white};
   }
 
   .iiif-viewer__paginator-buttons {
-    flex-direction: column;
-    align-items: center;
-    display: flex;
-    position: absolute;
     bottom: 6px;
     left: 50%;
     transform: translateX(-50%);
   }
 
   .iiif-viewer__thumb-link {
-    display: flex;
-    align-items: center;
     height: 100%;
-    margin: 0 auto;
 
     img {
       border: 3px solid transparent;
@@ -187,6 +159,7 @@ const MainXofY = ({
   <span
     className={classNames({
       'iiif-viewer__main-x-of-y': true,
+      'absolute font-white': true,
       [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
       [font({ s: 'LR3' })]: true,
     })}
@@ -202,7 +175,12 @@ const PaginatorButtons = ({
   nextLink,
 }: PaginatorRenderFunctionProps) => {
   return (
-    <div className="iiif-viewer__paginator-buttons">
+    <div
+      className={classNames({
+        'iiif-viewer__paginator-buttons': true,
+        'flex--column flex absolute flex--h-center': true,
+      })}
+    >
       <div
         className={classNames({
           'flex flex--v-center flex--h-center': true,
@@ -292,8 +270,20 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
-      <IIIFViewer>
-        <div className="iiif-viewer__main">
+      <IIIFViewer
+        className={classNames({
+          'flex flex--wrap': true,
+        })}
+      >
+        <div
+          className={classNames({
+            'iiif-viewer__main': true,
+            'flex flex--v-center flex--h-center relative bg-charcoal': true,
+            [spacing({ s: 4 }, { padding: ['top'] })]: true,
+            [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
+            [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
+          })}
+        >
           <Paginator {...mainPaginatorProps} render={MainXofY} />
           <img
             className={classNames({
@@ -309,9 +299,24 @@ const ItemPage = ({
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </div>
 
-        <div className="iiif-viewer__thumbs">
+        <div
+          className={classNames({
+            'iiif-viewer__thumbs': true,
+            'flex flex--h-center relative bg-smoke': true,
+          })}
+        >
           {navigationCanvases.map((canvas, i) => (
-            <div key={canvas['@id']} className="iiif-viewer__thumb">
+            <div
+              key={canvas['@id']}
+              className={classNames({
+                'relative flex flex--v-center': true,
+                'iiif-viewer__thumb': true,
+                [spacing(
+                  { s: 1 },
+                  { padding: ['top', 'right', 'bottom', 'left'] }
+                )]: true,
+              })}
+            >
               <Paginator
                 {...thumbsPaginatorProps}
                 render={({ rangeStart }) => (
@@ -330,6 +335,7 @@ const ItemPage = ({
                     <a
                       className={classNames({
                         'iiif-viewer__thumb-link': true,
+                        'flex flex--v-center h-center': true,
                         'is-active': canvasIndex === rangeStart + i - 1,
                       })}
                     >
@@ -337,6 +343,7 @@ const ItemPage = ({
                         className={classNames({
                           'iiif-viewer__thumb-number': true,
                           'line-height-1': true,
+                          'absolute bg-charcoal font-white': true,
                           [font({ s: 'LR3' })]: true,
                         })}
                       >
