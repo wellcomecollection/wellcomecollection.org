@@ -105,7 +105,7 @@ type IIIFThumbnails = {|
 |};
 
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
-// If we don't have any of the sructured pages, we fill with random ones, so there are always 5 images if possible.
+// If we don't have any of the structured pages, we fill with random ones, so there are always 5 images if possible.
 function randomImages(
   iiifManifest: IIIFManifest,
   structuredImages: IIIFThumbnails[],
