@@ -80,7 +80,7 @@ export const WorkPage = ({
 
   const iiifPresentationLocation = (getIiifPresentationLocation(work) || {})
     .url;
-  const sierraIdForPresentationManifest =
+  const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     iiifPresentationLocation.match(/iiif\/(.*)\/manifest/)[1];
 
@@ -192,7 +192,7 @@ export const WorkPage = ({
               query,
               workType,
               itemsLocationsLocationType,
-              sierraId: sierraIdForPresentationManifest,
+              sierraId: sierraIdFromPresentationManifestUrl,
               page: 1,
               canvas: 1,
             })}
