@@ -73,24 +73,21 @@ export const WorkPage = ({
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
-  const sierraId = (
-    work.identifiers.find(
-      identifier => identifier.identifierType.id === 'sierra-system-number'
-    ) || {}
-  ).value;
-
-  const iiifPresentationLocation = (getIiifPresentationLocation(work) || {})
-    .url;
-  const sierraIdFromPresentationManifestUrl =
+  const sierraIdFromPresentationManifestUrlMatch =
     iiifPresentationLocation &&
-    iiifPresentationLocation.match(/iiif\/(.*)\/manifest/)[1];
+    iiifPresentationLocation.url &&
+    iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/);
+
+  const sierraIdFromPresentationManifestUrl =
+    sierraIdFromPresentationManifestUrlMatch &&
+    sierraIdFromPresentationManifestUrlMatch[1];
 
   // We strip the last character as that's what Wellcome library expect
   const encoreLink =
-    sierraId &&
-    `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+    sierraIdFromPresentationManifestUrl &&
+    `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraIdFromPresentationManifestUrl.substr(
       0,
-      sierraId.length - 1
+      sierraIdFromPresentationManifestUrl.length - 1
     )}`;
 
   const imageContentUrl =
@@ -185,7 +182,7 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {iiifPresentationLocation && (
+      {sierraIdFromPresentationManifestUrl && (
         <div className="container">
           <IIIFPresentationPreview
             iiifPresentationLocation={iiifPresentationLocation}
