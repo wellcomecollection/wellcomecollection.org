@@ -11,18 +11,11 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 const BookPreviewContainer = styled.div`
   overflow: scroll;
   text-align: center;
-  padding: ${props => `0 ${props.theme.containerPadding.small}px`};
-
-  ${props => props.theme.media.medium`
-    padding: ${props => `0 ${props.theme.containerPadding.medium}px`};
-  `}
 
   /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
   @media (min-width: 708px) {
     padding: ${props =>
-      `${props.theme.spacingUnit * 4}px ${
-        props.theme.containerPadding.medium
-      }px ${props.theme.spacingUnit * 6}px`};
+      `${props.theme.spacingUnit * 4}px 0 ${props.theme.spacingUnit * 6}px`};
   }
 `;
 

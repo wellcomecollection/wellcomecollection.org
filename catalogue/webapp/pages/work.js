@@ -179,18 +179,20 @@ export const WorkPage = ({
       </div>
 
       {iiifPresentationLocation && (
-        <IIIFPresentationPreview
-          iiifPresentationLocation={iiifPresentationLocation}
-          itemUrl={itemUrl({
-            workId: work.id,
-            query,
-            workType,
-            itemsLocationsLocationType,
-            sierraId,
-            page: 1,
-            canvas: 1,
-          })}
-        />
+        <div className="container">
+          <IIIFPresentationPreview
+            iiifPresentationLocation={iiifPresentationLocation}
+            itemUrl={itemUrl({
+              workId: work.id,
+              query,
+              workType,
+              itemsLocationsLocationType,
+              sierraId,
+              page: 1,
+              canvas: 1,
+            })}
+          />
+        </div>
       )}
 
       {iiifImageLocationUrl && (
