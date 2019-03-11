@@ -81,7 +81,7 @@ const Paginator = ({
           m: 'LR2',
         })}`}
       >
-        {totalResults} results
+        {totalResults} result{totalResults !== 1 ? 's' : ''}
       </div>
       <div
         className={classNames({
