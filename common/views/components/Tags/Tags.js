@@ -33,10 +33,10 @@ const Tags = ({ tags }: Props) => {
           [spacing({ s: 0 }, { padding: ['left'], margin: ['top'] })]: true,
         })}
       >
-        {tags.map(({ textParts, linkAttributes }) => {
+        {tags.map(({ textParts, linkAttributes }, i) => {
           return (
             <li
-              key={textParts.join('-')}
+              key={textParts.concat(i).join('-')}
               className={classNames({
                 'inline-block': true,
               })}
