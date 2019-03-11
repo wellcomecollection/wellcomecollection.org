@@ -19,7 +19,6 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   width: 100vw;
   height: 100vh;
-  background: ${props => props.theme.colors.smoke};
   flex-direction: row-reverse;
 
   .main {
@@ -30,6 +29,7 @@ const ItemContainer = styled.div`
     height: 80%;
     width: 100%;
     padding: 24px 6px 60px;
+    background: ${props => props.theme.colors.charcoal};
 
     @media (min-width: 600px) {
       height: 100%;
@@ -43,7 +43,7 @@ const ItemContainer = styled.div`
     justify-content: center;
     height: 20%;
     width: 100%;
-    background: ${props => props.theme.colors.charcoal};
+    background: ${props => props.theme.colors.smoke};
     padding: 0 100px 0 0;
 
     @media (min-width: 600px) {
@@ -72,7 +72,6 @@ const ItemContainer = styled.div`
     padding: 10px;
     display: flex;
     align-items: center;
-    background: ${props => props.theme.colors.charcoal};
     height: 100%;
     width: 20%;
     margin-right: 10px;
@@ -94,7 +93,7 @@ const ItemContainer = styled.div`
     left: 50%;
     transform: translateX(-50%);
     padding: 3px 2px 0;
-    background: ${props => props.theme.colors.black};
+    background: ${props => props.theme.colors.charcoal};
     color: ${props => props.theme.colors.white};
   }
   .main-x-of-y {
@@ -102,6 +101,7 @@ const ItemContainer = styled.div`
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    color: ${props => props.theme.colors.white};
   }
   .paginator-buttons {
     flex-direction: column;
@@ -166,12 +166,14 @@ const IIIFCanvasThumbnail = ({
 
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   return (
+    // TODO: add alt text
     <img
       width={size.width}
       height={size.height}
       src={urlTemplate({
         size: `${size.width},${size.height}`,
       })}
+      alt=""
     />
   );
 };
