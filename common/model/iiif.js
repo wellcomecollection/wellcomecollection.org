@@ -33,11 +33,19 @@ export type IIIFCanvas = {|
 
 export type IIIFSequence = {|
   '@id': string,
+  '@type': string,
   canvases: IIIFCanvas[],
+|};
+type IIIFStructure = {|
+  '@id': string,
+  '@type': string,
+  label: string,
+  canvases: string[],
 |};
 
 export type IIIFManifest = {|
   '@id': string,
   label: string,
   sequences: IIIFSequence[],
+  structures: IIIFStructure[],
 |};

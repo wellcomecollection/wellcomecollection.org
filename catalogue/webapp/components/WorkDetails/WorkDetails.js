@@ -13,9 +13,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import DownloadDummy from '../Download/DownloadDummy';
-import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
-import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -64,26 +61,20 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  iiifManifest: ?{},
   iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
   encoreLink: ?string,
-  showWorkPreview: boolean,
-  showMultiImageWorkPreview: boolean,
 |};
 
 const WorkDetails = ({
   work,
-  iiifManifest,
   iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   encoreLink,
-  showWorkPreview,
-  showMultiImageWorkPreview,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -93,23 +84,6 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (showWorkPreview && (iiifImageLocationUrl || iiifManifest)) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection
-        headingText={`What this ${singularWorkTypeLabel} looks like`}
-      >
-        {iiifManifest && (
-          <IIIFPresentationPreview
-            manifestData={iiifManifest}
-            showMultiImageWorkPreview={showMultiImageWorkPreview}
-          />
-        )}
-        {iiifImageLocationUrl && (
-          <IIIFImagePreview iiifImageLocationUrl={iiifImageLocationUrl} />
-        )}
-      </WorkDetailsSection>
-    );
-  }
   if (iiifImageLocationUrl) {
     WorkDetailsSections.push(
       <WorkDetailsSection>
@@ -120,13 +94,6 @@ const WorkDetails = ({
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         />
-      </WorkDetailsSection>
-    );
-  }
-  if (!iiifImageLocationUrl && showWorkPreview) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection>
-        <DownloadDummy />
       </WorkDetailsSection>
     );
   }
