@@ -24,7 +24,7 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
       <div
         id={`work-media-${id}`}
         className={classNames({
-          'row font-white work-media js-work-media': true,
+          'row font-white work-media': true,
           'bg-black': true,
         })}
       >
