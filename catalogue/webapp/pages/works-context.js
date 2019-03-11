@@ -75,7 +75,7 @@ const Search = () => {
       <fieldset>
         <Checkboxes
           name="workType"
-          values={workType}
+          values={workType || []}
           setter={setWorkType}
           options={[
             {
@@ -97,7 +97,7 @@ const Search = () => {
       <fieldset>
         <Checkboxes
           name="items.locations.locationType"
-          values={itemsLocationsLocationType}
+          values={itemsLocationsLocationType || []}
           setter={setItemsLocationsLocationType}
           options={[
             {

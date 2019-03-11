@@ -6,8 +6,8 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 export type CatalogueQuery = {|
   query: string,
   page: number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
   queryType: ?string,
 |};
 
@@ -15,8 +15,8 @@ type ContextProps = {|
   ...CatalogueQuery,
   setQuery: (value: string) => void,
   setPage: (value: number) => void,
-  setWorkType: (value: string[]) => void,
-  setItemsLocationsLocationType: (value: string[]) => void,
+  setWorkType: (value: ?(string[])) => void,
+  setItemsLocationsLocationType: (value: ?(string[])) => void,
   setQueryType: (value: ?string) => void,
 |};
 

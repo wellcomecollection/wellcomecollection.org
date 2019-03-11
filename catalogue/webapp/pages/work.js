@@ -132,7 +132,6 @@ export const WorkPage = ({
               })}
             >
               <SearchForm
-                initialQuery={query || ''}
                 initialWorkType={workType}
                 initialItemsLocationsLocationType={itemsLocationsLocationType}
                 ariaDescribedBy="search-form-description"
