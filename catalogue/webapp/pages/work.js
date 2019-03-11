@@ -78,6 +78,13 @@ export const WorkPage = ({
       identifier => identifier.identifierType.id === 'sierra-system-number'
     ) || {}
   ).value;
+
+  const iiifPresentationLocation = (getIiifPresentationLocation(work) || {})
+    .url;
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    iiifPresentationLocation.match(/iiif\/(.*)\/manifest/)[1];
+
   // We strip the last character as that's what Wellcome library expect
   const encoreLink =
     sierraId &&
@@ -187,7 +194,7 @@ export const WorkPage = ({
               query,
               workType,
               itemsLocationsLocationType,
-              sierraId,
+              sierraId: sierraIdFromPresentationManifestUrl,
               page: 1,
               canvas: 1,
             })}
