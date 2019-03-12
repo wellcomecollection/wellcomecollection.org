@@ -204,12 +204,8 @@ const WorkDetails = ({
   }
   if (encoreLink) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Find in the library">
-        <MetaUnit
-          text={[
-            `This ${singularWorkTypeLabel} is available at <a href="${encoreLink}">Wellcome library</a>`,
-          ]}
-        />
+      <WorkDetailsSection headingText="Where to find it">
+        <MetaUnit text={[`<a href="${encoreLink}">Wellcome library</a>`]} />
       </WorkDetailsSection>
     );
   }
