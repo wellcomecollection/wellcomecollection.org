@@ -12,7 +12,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import Download from '../Download/Download';
+// import Download from '../Download/Download';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -61,7 +61,6 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
@@ -70,7 +69,6 @@ type Props = {|
 
 const WorkDetails = ({
   work,
-  iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
@@ -84,19 +82,7 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (iiifImageLocationUrl) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection>
-        <Download
-          work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-        />
-      </WorkDetailsSection>
-    );
-  }
+
   if (
     work.description ||
     work.production.length > 0 ||

@@ -218,7 +218,6 @@ export const WorkPage = ({
 
       <WorkDetails
         work={work}
-        iiifImageLocationUrl={iiifImageLocationUrl}
         licenseInfo={licenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
         iiifImageLocationLicenseId={iiifImageLocationLicenseId}
