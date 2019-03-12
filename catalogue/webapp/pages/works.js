@@ -217,8 +217,6 @@ const Works = ({
                 </TogglesContext.Consumer>
 
                 <SearchForm
-                  initialWorkType={workType}
-                  initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
                   works={works}
