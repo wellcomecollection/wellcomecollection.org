@@ -1,14 +1,23 @@
 // @flow
-import { type Node, createContext, useState, useContext } from 'react';
+import {
+  type Node,
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+} from 'react';
 import Router from 'next/router';
+import { type NextLinkType } from '@weco/common/model/next-link-type';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
+
+type QueryType = 'justboost' | 'broaderboost' | 'slop' | 'minimummatch';
 
 export type CatalogueQuery = {|
   query: string,
   page: number,
   workType: ?(string[]),
   itemsLocationsLocationType: ?(string[]),
-  queryType: ?string,
+  queryType: ?QueryType,
 |};
 
 type ContextProps = {|
@@ -17,7 +26,8 @@ type ContextProps = {|
   setPage: (value: number) => void,
   setWorkType: (value: ?(string[])) => void,
   setItemsLocationsLocationType: (value: ?(string[])) => void,
-  setQueryType: (value: ?string) => void,
+  setQueryType: (value: ?QueryType) => void,
+  worksLink: NextLinkType,
 |};
 
 const defaultState: CatalogueQuery = {
@@ -35,6 +45,7 @@ const SearchContext = createContext<ContextProps>({
   setWorkType: () => {},
   setItemsLocationsLocationType: () => {},
   setQueryType: () => {},
+  worksLink: worksUrl({ ...defaultState }),
 });
 
 type SearchProviderProps = {
@@ -43,18 +54,30 @@ type SearchProviderProps = {
 };
 
 const SearchProvider = ({ initialState, children }: SearchProviderProps) => {
-  const [query, setQuery] = useState(initialState.query || defaultState.query);
-  const [page, setPage] = useState(initialState.page || defaultState.page);
-  const [workType, setWorkType] = useState(
-    initialState.workType || defaultState.workType
-  );
+  const state = {
+    ...defaultState,
+    ...initialState,
+  };
+  const [query, setQuery] = useState(state.query);
+  const [page, setPage] = useState(state.page);
+  const [workType, setWorkType] = useState(state.workType);
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
-    initialState.itemsLocationsLocationType ||
-      defaultState.itemsLocationsLocationType
+    state.itemsLocationsLocationType
   );
-  const [queryType, setQueryType] = useState(
-    initialState.queryType || defaultState.queryType
-  );
+  const [queryType, setQueryType] = useState(state.queryType);
+  const [worksLink, setWorksLink] = useState(worksUrl({ ...state }));
+
+  useEffect(() => {
+    setWorksLink(
+      worksUrl({
+        query,
+        page,
+        workType,
+        itemsLocationsLocationType,
+        queryType,
+      })
+    );
+  }, [query, page, workType, itemsLocationsLocationType, queryType]);
 
   const value = {
     query,
@@ -67,6 +90,7 @@ const SearchProvider = ({ initialState, children }: SearchProviderProps) => {
     setWorkType,
     setItemsLocationsLocationType,
     setQueryType,
+    worksLink,
   };
 
   return (

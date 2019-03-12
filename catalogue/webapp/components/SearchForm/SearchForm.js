@@ -44,9 +44,15 @@ const ClearSearch = styled.button`
 `;
 
 const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
-  const { query, setQuery, itemsLocationsLocationType, workType } = useContext(
-    SearchContext
-  );
+  const {
+    query,
+    setQuery,
+    itemsLocationsLocationType,
+    workType,
+    queryType,
+    setQueryType,
+    worksLink,
+  } = useContext(SearchContext);
   const searchInput = useRef(null);
 
   return (
@@ -63,14 +69,7 @@ const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
             label: query,
           });
 
-          const link = worksUrl({
-            query,
-            workType,
-            itemsLocationsLocationType,
-            page: 1,
-          });
-
-          Router.push(link.href, link.as);
+          Router.push(worksLink.href, worksLink.as);
 
           return false;
         }}
@@ -141,8 +140,16 @@ const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
         )}
       </form>
       <TogglesContext.Consumer>
-        {({ showCatalogueSearchFilters, feedback, tabbedNavOnSearchForm }) =>
-          (showCatalogueSearchFilters || feedback || tabbedNavOnSearchForm) && (
+        {({
+          showCatalogueSearchFilters,
+          feedback,
+          tabbedNavOnSearchForm,
+          searchQueryType,
+        }) =>
+          (showCatalogueSearchFilters ||
+            feedback ||
+            tabbedNavOnSearchForm ||
+            searchQueryType) && (
             <div
               className={classNames({
                 [spacing({ s: 1 }, { margin: ['top'] })]: true,
@@ -274,6 +281,43 @@ const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
                     ]}
                   />
                 </div>
+              )}
+              {searchQueryType && (
+                <select
+                  name="queryType"
+                  onChange={event =>
+                    setQueryType(
+                      event.currentTarget.value === ''
+                        ? null
+                        : event.currentTarget.value
+                    )
+                  }
+                >
+                  <option value="" selected={!queryType}>
+                    None
+                  </option>
+                  <option
+                    value="justboost"
+                    selected={queryType === 'justboost'}
+                  >
+                    justboost
+                  </option>
+                  <option
+                    value="broaderboost"
+                    selected={queryType === 'broaderboost'}
+                  >
+                    broaderboost
+                  </option>
+                  <option value="slop" selected={queryType === 'slop'}>
+                    slop
+                  </option>
+                  <option
+                    value="minimummatch"
+                    selected={queryType === 'minimummatch'}
+                  >
+                    minimummatch
+                  </option>
+                </select>
               )}
             </div>
           )
