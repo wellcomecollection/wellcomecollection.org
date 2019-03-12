@@ -1,6 +1,6 @@
 // @flow
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { type iiifPresentationLocation } from '@weco/common/utils/works';
+import { type IIIFPresentationLocation } from '@weco/common/utils/works';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
@@ -229,7 +229,7 @@ function previewThumbnails(
 }
 
 type Props = {|
-  iiifPresentationLocation: iiifPresentationLocation,
+  iiifPresentationLocation: IIIFPresentationLocation,
   itemUrl: any,
 |};
 
