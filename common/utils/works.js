@@ -24,7 +24,7 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
-export function getSequenceRendering(
+export function getDownloadOptionsFromManifest(
   iiifManifest: IIIFManifest
 ): IIIFRendering[] {
   const sequence = iiifManifest.sequences.find(

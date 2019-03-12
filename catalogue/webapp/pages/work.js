@@ -10,7 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
-  getSequenceRendering,
+  getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -36,7 +36,7 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  rendering: IIIFRendering[],
+  iiifPresentationDownloadOptions: IIIFRendering[],
 |};
 
 export const WorkPage = ({
@@ -45,7 +45,7 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  rendering,
+  iiifPresentationDownloadOptions,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -215,7 +215,7 @@ export const WorkPage = ({
         iiifImageLocationCredit={iiifImageLocationCredit}
         iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         encoreLink={encoreLink}
-        rendering={rendering}
+        downloadOptions={iiifPresentationDownloadOptions}
       />
     </PageLayout>
   );
@@ -231,12 +231,15 @@ WorkPage.getInitialProps = async (
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
   const iiifPresentationLocation = getIIIFPresentationLocation(workOrError);
-  let rendering = [];
+
+  let iiifPresentationDownloadOptions = [];
   if (iiifPresentationLocation) {
     try {
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
-      rendering = getSequenceRendering(manifestData);
+      iiifPresentationDownloadOptions = getDownloadOptionsFromManifest(
+        manifestData
+      );
     } catch (e) {}
   }
   if (workOrError && workOrError.type === 'Redirect') {
@@ -259,7 +262,7 @@ WorkPage.getInitialProps = async (
       itemsLocationsLocationType:
         itemsLocationsLocationTypeQuery &&
         itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
-      rendering,
+      iiifPresentationDownloadOptions,
     };
   }
 };
