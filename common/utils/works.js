@@ -1,6 +1,7 @@
 // @flow
 import { type Work } from '../model/work';
 import { type IIIFManifest, type IIIFRendering } from '../model/iiif';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getPhysicalLocations(work: Work) {
   return work.items
@@ -31,6 +32,23 @@ export function getDownloadOptionsFromManifest(
     sequence => sequence['@type'] === 'sc:Sequence'
   );
   return (sequence && sequence.rendering) || [];
+}
+
+export function getDownloadOptionsFromImageUrl(
+  imageUrl: string
+): IIIFRendering[] {
+  return [
+    {
+      '@id': convertImageUri(imageUrl, 'full'),
+      format: 'image/jpeg',
+      label: 'Download full size',
+    },
+    {
+      '@id': convertImageUri(imageUrl, 760),
+      format: 'image/jpeg',
+      label: 'Download small (760px)',
+    },
+  ];
 }
 
 export type IIIFPresentationLocation = {|
