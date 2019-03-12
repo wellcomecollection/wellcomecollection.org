@@ -45,6 +45,13 @@ export function getIIIFPresentationLocation(
     .filter(Boolean)[0];
 }
 
+export function getEncoreLink(sierraId: string): string {
+  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+    0,
+    sierraId.length - 1
+  )}`;
+}
+
 const workTypeIcons = {
   '3dobjects': 'threeD',
   ebooks: 'book',

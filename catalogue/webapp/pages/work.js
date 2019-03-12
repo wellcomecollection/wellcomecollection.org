@@ -6,7 +6,10 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { getIIIFPresentationLocation } from '@weco/common/utils/works';
+import {
+  getIIIFPresentationLocation,
+  getEncoreLink,
+} from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -68,24 +71,24 @@ export const WorkPage = ({
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
-  const sierraId = (
-    work.identifiers.find(
-      identifier => identifier.identifierType.id === 'sierra-system-number'
-    ) || {}
-  ).value;
-
   const iiifPresentationLocation = getIIIFPresentationLocation(work);
+
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
+  const sierraIds = work.identifiers.filter(
+    i => i.identifierType.id === 'sierra-system-number'
+  );
+
+  // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
+  // will be for a physical item.
+  const physicalSierraId = (
+    sierraIds.find(i => i.value !== sierraIdFromPresentationManifestUrl) || {}
+  ).value;
+
   // We strip the last character as that's what Wellcome library expect
-  const encoreLink =
-    sierraId &&
-    `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
-      0,
-      sierraId.length - 1
-    )}`;
+  const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
   const imageContentUrl =
     iiifImageLocationUrl &&
@@ -176,7 +179,7 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {iiifPresentationLocation && (
+      {sierraIdFromPresentationManifestUrl && (
         <div className="container">
           <IIIFPresentationPreview
             iiifPresentationLocation={iiifPresentationLocation}
