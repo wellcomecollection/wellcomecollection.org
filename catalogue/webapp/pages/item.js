@@ -14,94 +14,130 @@ import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
-const IIIFViewer = styled.div`
+const IIIFViewerPaginatorButtons = styled.div.attrs({
+  className: classNames({
+    'flex absolute flex--h-center': true,
+  }),
+})`
+  left: ${props => (props.isThumbs ? 'auto' : '50%')};
+  right: ${props => props.theme.spacingUnit}px;
+  bottom: ${props => (props.isThumbs ? '50%' : props.theme.spacingUnit + 'px')};
+  transform: ${props =>
+    props.isThumbs ? 'translateY(50%)' : 'translateX(-50%)'};
+
+  ${props =>
+    props.isThumbs &&
+    `
+    @media (min-width: ${props.theme.sizes.medium}px) {
+      bottom: ${props.theme.spacingUnit * 5}px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0%) rotate(90deg);
+    }
+  `}
+`;
+
+const IIIFViewerThumbNumber = styled.span.attrs({
+  className: classNames({
+    'line-height-1': true,
+    'absolute bg-charcoal font-white': true,
+    [font({ s: 'LR3' })]: true,
+  }),
+})`
+  top: ${props => props.theme.spacingUnit}px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 2px 0;
+`;
+
+const IIIFViewerThumb = styled.div.attrs({
+  className: classNames({
+    'relative flex flex--v-center': true,
+    [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
+  }),
+})`
+  height: 100%;
+  width: 20%;
+  margin-right: ${props => props.theme.spacingUnit}px;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    height: 25%;
+    width: 100%;
+    margin-right: 0;
+  }
+`;
+
+const IIIFViewerThumbs = styled.div.attrs({
+  className: classNames({
+    'flex flex--h-center relative bg-smoke': true,
+  }),
+})`
+  height: 20%;
+  width: 100%;
+  padding: 0 100px 0 0;
+
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    height: 100%;
+    flex-direction: column;
+    width: 25%;
+    padding: 0 0 100px;
+  }
+`;
+
+const IIIFViewerMain = styled.div.attrs({
+  className: classNames({
+    'flex flex--v-center flex--h-center relative bg-charcoal': true,
+    [spacing({ s: 4 }, { padding: ['top'] })]: true,
+    [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
+    [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
+  }),
+})`
+  height: 80%;
+  width: 100%;
+
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    height: 100%;
+    width: 75%;
+  }
+`;
+
+const IIIFViewerXOfY = styled.span.attrs({
+  className: classNames({
+    'absolute font-white': true,
+    [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
+    [font({ s: 'LR3' })]: true,
+  }),
+})`
+  top: ${props => props.theme.spacingUnit}px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const IIIFViewerThumbLink = styled.a.attrs({
+  className: classNames({
+    'flex flex--v-center h-center': true,
+  }),
+})`
+  height: 100%;
+
+  img {
+    border: 3px solid
+      ${props => (props.isActive ? props.theme.colors.white : 'transparent')};
+    transition: border-color 200ms ease;
+  }
+`;
+
+const IIIFViewer = styled.div.attrs({
+  className: classNames({
+    'flex flex--wrap': true,
+  }),
+})`
   width: 100vw;
   height: 100vh;
   flex-direction: row-reverse;
-
-  .iiif-viewer__main {
-    height: 80%;
-    width: 100%;
-
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      height: 100%;
-      width: 75%;
-    }
-  }
-
-  .iiif-viewer__thumbs {
-    height: 20%;
-    width: 100%;
-    padding: 0 100px 0 0;
-
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      height: 100%;
-      flex-direction: column;
-      width: 25%;
-      padding: 0 0 100px;
-    }
-
-    .iiif-viewer__paginator-buttons {
-      left: auto;
-      right: ${props => props.theme.spacingUnit}px;
-      bottom: 50%;
-      transform: translateX(0%) translateY(50%);
-
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
-        bottom: ${props => props.theme.spacingUnit * 5}px;
-        left: 50%;
-        transform: translateX(-50%) translateY(0%) rotate(90deg);
-      }
-    }
-  }
-
-  .iiif-viewer__thumb {
-    height: 100%;
-    width: 20%;
-    margin-right: ${props => props.theme.spacingUnit}px;
-
-    &:last-child {
-      margin: 0;
-    }
-
-    @media (min-width: 600px) {
-      height: 25%;
-      width: 100%;
-      margin-right: 0;
-    }
-  }
-
-  .iiif-viewer__thumb-number {
-    top: ${props => props.theme.spacingUnit}px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 3px 2px 0;
-  }
-
-  .iiif-viewer__main-x-of-y {
-    top: ${props => props.theme.spacingUnit}px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .iiif-viewer__paginator-buttons {
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .iiif-viewer__thumb-link {
-    height: 100%;
-
-    img {
-      border: 3px solid transparent;
-      transition: border-color 200ms ease;
-    }
-
-    &.is-active img {
-      border-color: ${props => props.theme.colors.white};
-    }
-  }
 
   img {
     margin: 0 auto;
@@ -152,20 +188,10 @@ const IIIFCanvasThumbnail = ({
   );
 };
 
-const MainXofY = ({
-  currentPage,
-  totalPages,
-}: PaginatorRenderFunctionProps) => (
-  <span
-    className={classNames({
-      'iiif-viewer__main-x-of-y': true,
-      'absolute font-white': true,
-      [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
-      [font({ s: 'LR3' })]: true,
-    })}
-  >
+const XOfY = ({ currentPage, totalPages }: PaginatorRenderFunctionProps) => (
+  <IIIFViewerXOfY>
     {currentPage} of {totalPages}
-  </span>
+  </IIIFViewerXOfY>
 );
 
 const PaginatorButtons = ({
@@ -177,34 +203,27 @@ const PaginatorButtons = ({
   return (
     <div
       className={classNames({
-        'iiif-viewer__paginator-buttons': true,
-        'flex--column flex absolute flex--h-center': true,
+        'flex flex--v-center flex--h-center': true,
       })}
     >
-      <div
-        className={classNames({
-          'flex flex--v-center flex--h-center': true,
-        })}
-      >
-        {prevLink && (
-          <NextLink {...prevLink} scroll={false}>
-            <a
-              className={classNames({
-                [spacing({ s: 1 }, { margin: ['right'] })]: true,
-              })}
-            >
-              <Control type="light" icon="arrow" extraClasses="icon--180" />
-            </a>
-          </NextLink>
-        )}
-        {nextLink && (
-          <NextLink {...nextLink} scroll={false}>
-            <a>
-              <Control type="light" icon="arrow" extraClasses="icon" />
-            </a>
-          </NextLink>
-        )}
-      </div>
+      {prevLink && (
+        <NextLink {...prevLink} scroll={false}>
+          <a
+            className={classNames({
+              [spacing({ s: 1 }, { margin: ['right'] })]: true,
+            })}
+          >
+            <Control type="light" icon="arrow" extraClasses="icon--180" />
+          </a>
+        </NextLink>
+      )}
+      {nextLink && (
+        <NextLink {...nextLink} scroll={false}>
+          <a>
+            <Control type="light" icon="arrow" extraClasses="icon" />
+          </a>
+        </NextLink>
+      )}
     </div>
   );
 };
@@ -270,21 +289,9 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
-      <IIIFViewer
-        className={classNames({
-          'flex flex--wrap': true,
-        })}
-      >
-        <div
-          className={classNames({
-            'iiif-viewer__main': true,
-            'flex flex--v-center flex--h-center relative bg-charcoal': true,
-            [spacing({ s: 4 }, { padding: ['top'] })]: true,
-            [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
-            [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
-          })}
-        >
-          <Paginator {...mainPaginatorProps} render={MainXofY} />
+      <IIIFViewer>
+        <IIIFViewerMain>
+          <Paginator {...mainPaginatorProps} render={XOfY} />
           <img
             className={classNames({
               'block h-center': true,
@@ -296,27 +303,14 @@ const ItemPage = ({
               size: `${largestSize.width},${largestSize.height}`,
             })}
           />
-          <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
-        </div>
+          <IIIFViewerPaginatorButtons>
+            <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
+          </IIIFViewerPaginatorButtons>
+        </IIIFViewerMain>
 
-        <div
-          className={classNames({
-            'iiif-viewer__thumbs': true,
-            'flex flex--h-center relative bg-smoke': true,
-          })}
-        >
+        <IIIFViewerThumbs>
           {navigationCanvases.map((canvas, i) => (
-            <div
-              key={canvas['@id']}
-              className={classNames({
-                'relative flex flex--v-center': true,
-                'iiif-viewer__thumb': true,
-                [spacing(
-                  { s: 1 },
-                  { padding: ['top', 'right', 'bottom', 'left'] }
-                )]: true,
-              })}
-            >
+            <IIIFViewerThumb key={canvas['@id']}>
               <Paginator
                 {...thumbsPaginatorProps}
                 render={({ rangeStart }) => (
@@ -332,32 +326,23 @@ const ItemPage = ({
                     })}
                     scroll={false}
                   >
-                    <a
-                      className={classNames({
-                        'iiif-viewer__thumb-link': true,
-                        'flex flex--v-center h-center': true,
-                        'is-active': canvasIndex === rangeStart + i - 1,
-                      })}
+                    <IIIFViewerThumbLink
+                      isActive={canvasIndex === rangeStart + i - 1}
                     >
-                      <span
-                        className={classNames({
-                          'iiif-viewer__thumb-number': true,
-                          'line-height-1': true,
-                          'absolute bg-charcoal font-white': true,
-                          [font({ s: 'LR3' })]: true,
-                        })}
-                      >
+                      <IIIFViewerThumbNumber>
                         {rangeStart + i}
-                      </span>
+                      </IIIFViewerThumbNumber>
                       <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
-                    </a>
+                    </IIIFViewerThumbLink>
                   </NextLink>
                 )}
               />
-            </div>
+            </IIIFViewerThumb>
           ))}
-          <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
-        </div>
+          <IIIFViewerPaginatorButtons isThumbs={true}>
+            <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
+          </IIIFViewerPaginatorButtons>
+        </IIIFViewerThumbs>
       </IIIFViewer>
       <Layout12>
         <h1
@@ -374,7 +359,7 @@ const ItemPage = ({
             query: null,
           })}
         >
-          <a>View overview</a>
+          <a>Overview</a>
         </NextLink>
       </Layout12>
     </PageLayout>
