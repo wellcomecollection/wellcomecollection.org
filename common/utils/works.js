@@ -1,5 +1,6 @@
 // @flow
 import { type Work } from '../model/work';
+import { type IIIFManifest, type IIIFRendering } from '../model/iiif';
 
 export function getPhysicalLocations(work: Work) {
   return work.items
@@ -21,6 +22,15 @@ export function getProductionDates(work: Work) {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
+}
+
+export function getSequenceRendering(
+  iiifManifest: IIIFManifest
+): IIIFRendering[] {
+  const sequence = iiifManifest.sequences.find(
+    sequence => sequence['@type'] === 'sc:Sequence'
+  );
+  return (sequence && sequence.rendering) || [];
 }
 
 export type IIIFPresentationLocation = {|

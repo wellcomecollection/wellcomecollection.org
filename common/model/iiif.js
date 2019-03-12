@@ -31,10 +31,17 @@ export type IIIFCanvas = {|
   images: IIIFImage[],
 |};
 
+export type IIIFRendering = {|
+  '@id': string,
+  format: string,
+  label: string,
+|};
+
 export type IIIFSequence = {|
   '@id': string,
   '@type': string,
   canvases: IIIFCanvas[],
+  rendering: IIIFRendering[],
 |};
 type IIIFStructure = {|
   '@id': string,
