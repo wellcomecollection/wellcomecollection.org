@@ -94,8 +94,6 @@ export function parseEventDoc(
   scheduleDocs: ?PrismicApiSearchResponse
 ): UiEvent {
   const data = document.data;
-  console.info('=+++++++++++++++++++++++++++++++++');
-  console.info(data.schedule);
   const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
     ? data.schedule.length
     : 0;
