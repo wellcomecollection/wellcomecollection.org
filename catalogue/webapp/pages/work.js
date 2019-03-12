@@ -6,10 +6,7 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import {
-  type iiifPresentationLocation,
-  getIiifPresentationLocation,
-} from '@weco/common/utils/works';
+import { getIIIFPresentationLocation } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -30,7 +27,6 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 
 type Props = {|
   work: Work | CatalogueApiError,
-  iiifPresentationLocation: iiifPresentationLocation,
   workType: string[],
   query: ?string,
   page: ?number,
@@ -39,7 +35,6 @@ type Props = {|
 
 export const WorkPage = ({
   work,
-  iiifPresentationLocation,
   query,
   page,
   workType,
@@ -79,11 +74,10 @@ export const WorkPage = ({
     ) || {}
   ).value;
 
-  const iiifPresentationLocation = (getIiifPresentationLocation(work) || {})
-    .url;
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
-    iiifPresentationLocation.match(/iiif\/(.*)\/manifest/)[1];
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
   // We strip the last character as that's what Wellcome library expect
   const encoreLink =
@@ -231,7 +225,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -248,7 +241,6 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
-      iiifPresentationLocation,
       page: page ? parseInt(page, 10) : null,
       workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
       itemsLocationsLocationType:
