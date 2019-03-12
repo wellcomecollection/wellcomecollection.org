@@ -10,6 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
+  getDownloadOptionsFromImageUrl,
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -85,6 +86,13 @@ export const WorkPage = ({
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const downloadOptions =
+    iiifPresentationDownloadOptions.length > 0
+      ? iiifPresentationDownloadOptions
+      : iiifImageLocationUrl
+      ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+      : [];
 
   // We strip the last character as that's what Wellcome library expect
   const encoreLink =
@@ -215,7 +223,7 @@ export const WorkPage = ({
         iiifImageLocationCredit={iiifImageLocationCredit}
         iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         encoreLink={encoreLink}
-        downloadOptions={iiifPresentationDownloadOptions}
+        downloadOptions={downloadOptions}
       />
     </PageLayout>
   );
