@@ -144,50 +144,52 @@ const Download = ({
         >
           {downloadOptions && (
             <ul className="plain-list no-margin no-padding">
-              {downloadOptions.map(option => {
-                // Doing this for the action so analytics is constant, speak to Hayley about removeing this
-                const action =
-                  option.label === 'Download full size'
-                    ? 'download large work image'
-                    : option.label === 'Download small (760px)'
-                    ? 'download small work image'
-                    : option.label;
-                const format = option.format.split('/')[1].toUpperCase();
+              {downloadOptions
+                .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
+                .map(option => {
+                  // Doing this for the action so analytics is constant, speak to Hayley about removing this
+                  const action =
+                    option.label === 'Download full size'
+                      ? 'download large work image'
+                      : option.label === 'Download small (760px)'
+                      ? 'download small work image'
+                      : option.label;
+                  const format = option.format.split('/')[1].toUpperCase();
 
-                return (
-                  <li key={option.label}>
-                    <a
-                      tabIndex={showDownloads ? null : -1}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={option['@id']}
-                      onClick={() => {
-                        trackEvent({
-                          category: 'Button',
-                          action: action,
-                          label: work.id,
-                        });
-                      }}
-                    >
-                      <span className="flex-inline flex--v-center">
-                        <Icon name="download" />
-                        <span className="underline-on-hover">
-                          {option.label}
+                  return (
+                    <li key={option.label}>
+                      <a
+                        tabIndex={showDownloads ? null : -1}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={option['@id']}
+                        onClick={() => {
+                          trackEvent({
+                            category: 'Button',
+                            action: action,
+                            label: work.id,
+                          });
+                        }}
+                      >
+                        <span className="flex-inline flex--v-center">
+                          <Icon name="download" />
+                          <span className="underline-on-hover">
+                            {option.label}
+                          </span>
+                          <span
+                            className={classNames({
+                              'font-pewter': true,
+                              [font({ s: 'HNM5' })]: true,
+                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                            })}
+                          >
+                            {format}
+                          </span>
                         </span>
-                        <span
-                          className={classNames({
-                            'font-pewter': true,
-                            [font({ s: 'HNM5' })]: true,
-                            [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                          })}
-                        >
-                          {format}
-                        </span>
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
+                      </a>
+                    </li>
+                  );
+                })}
             </ul>
           )}
         </DownloadOptions>
