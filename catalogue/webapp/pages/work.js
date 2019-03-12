@@ -5,8 +5,13 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { type IIIFRendering } from '@weco/common/model/iiif';
+import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { getIIIFPresentationLocation } from '@weco/common/utils/works';
+import {
+  getIIIFPresentationLocation,
+  getSequenceRendering,
+} from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -31,6 +36,7 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
+  rendering: IIIFRendering[],
 |};
 
 export const WorkPage = ({
@@ -39,6 +45,7 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
+  rendering,
 }: Props) => {
   if (work.type === 'Error') {
     return (
@@ -208,6 +215,7 @@ export const WorkPage = ({
         iiifImageLocationCredit={iiifImageLocationCredit}
         iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         encoreLink={encoreLink}
+        rendering={rendering}
       />
     </PageLayout>
   );
@@ -222,7 +230,15 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-
+  const iiifPresentationLocation = getIIIFPresentationLocation(workOrError);
+  let rendering = [];
+  if (iiifPresentationLocation) {
+    try {
+      const iiifManifest = await fetch(iiifPresentationLocation.url);
+      const manifestData = await iiifManifest.json();
+      rendering = getSequenceRendering(manifestData);
+    } catch (e) {}
+  }
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
     if (res) {
@@ -243,6 +259,7 @@ WorkPage.getInitialProps = async (
       itemsLocationsLocationType:
         itemsLocationsLocationTypeQuery &&
         itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
+      rendering,
     };
   }
 };
