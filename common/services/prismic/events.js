@@ -94,6 +94,8 @@ export function parseEventDoc(
   scheduleDocs: ?PrismicApiSearchResponse
 ): UiEvent {
   const data = document.data;
+  console.info('=+++++++++++++++++++++++++++++++++');
+  console.info(data.schedule);
   const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
     ? data.schedule.length
     : 0;
@@ -121,11 +123,12 @@ export function parseEventDoc(
     )
     .filter(Boolean);
 
-  const matchedId = /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url);
+  const matchedId =
+    data.eventbriteEvent && /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url);
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
 
-  const audiences = document.data.audiences
+  const audiences = data.audiences
     .map(audience =>
       isDocumentLink(audience.audience)
         ? {
@@ -137,7 +140,8 @@ export function parseEventDoc(
     .filter(Boolean);
 
   const bookingEnquiryTeam =
-    document.data.bookingEnquiryTeam.data &&
+    data.bookingEnquiryTeam &&
+    data.bookingEnquiryTeam.data &&
     ({
       id: data.bookingEnquiryTeam.id,
       title: asText(data.bookingEnquiryTeam.data.title) || '',
@@ -146,7 +150,7 @@ export function parseEventDoc(
       url: data.bookingEnquiryTeam.data.url,
     }: Team);
 
-  const thirdPartyBooking = {
+  const thirdPartyBooking = data.thirdPartyBookingName && {
     name: data.thirdPartyBookingName,
     url: data.thirdPartyBookingUrl.url,
   };
@@ -194,9 +198,11 @@ export function parseEventDoc(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    thirdPartyBooking: data.thirdPartyBookingUrl.url ? thirdPartyBooking : null,
+    thirdPartyBooking: thirdPartyBooking,
     bookingInformation:
-      data.bookingInformation.length > 1 ? data.bookingInformation : null,
+      data.bookingInformation && data.bookingInformation.length > 1
+        ? data.bookingInformation
+        : null,
     bookingType: parseEventBookingType(document),
     cost: data.cost,
     format: data.format && parseEventFormat(data.format),
@@ -209,7 +215,9 @@ export function parseEventDoc(
     scheduleLength,
     schedule,
     backgroundTexture:
-      data.backgroundTexture.data && data.backgroundTexture.data.image.url,
+      data.backgroundTexture &&
+      data.backgroundTexture.data &&
+      data.backgroundTexture.data.image.url,
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
