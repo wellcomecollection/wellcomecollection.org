@@ -66,6 +66,17 @@ const DownloadOptions = styled.div`
   }
 `;
 
+function getFormatString(format) {
+  switch (format) {
+    case 'application/pdf':
+      return 'PDF';
+    case 'text/plain':
+      return 'PLAIN';
+    case 'image/jpeg':
+      return 'JPG';
+  }
+}
+
 type Work = Object;
 type Props = {|
   work: Work,
@@ -152,7 +163,7 @@ const Download = ({
                       : option.label === 'Download small (760px)'
                       ? 'download small work image'
                       : option.label;
-                  const format = option.format.split('/')[1].toUpperCase();
+                  const format = getFormatString(option.format);
 
                   return (
                     <li key={option.label}>
@@ -174,15 +185,17 @@ const Download = ({
                           <span className="underline-on-hover">
                             {option.label}
                           </span>
-                          <span
-                            className={classNames({
-                              'font-pewter': true,
-                              [font({ s: 'HNM5' })]: true,
-                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                            })}
-                          >
-                            {format}
-                          </span>
+                          {format && (
+                            <span
+                              className={classNames({
+                                'font-pewter': true,
+                                [font({ s: 'HNM5' })]: true,
+                                [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                              })}
+                            >
+                              {format}
+                            </span>
+                          )}
                         </span>
                       </a>
                     </li>
