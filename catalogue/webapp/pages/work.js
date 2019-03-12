@@ -83,8 +83,8 @@ export const WorkPage = ({
 
   // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
   // will be for a physical item.
-  const physicalSierraId = sierraIds.find(
-    i => i.value !== sierraIdFromPresentationManifestUrl
+  const physicalSierraId = (
+    sierraIds.find(i => i.value !== sierraIdFromPresentationManifestUrl) || {}
   ).value;
 
   // We strip the last character as that's what Wellcome library expect
