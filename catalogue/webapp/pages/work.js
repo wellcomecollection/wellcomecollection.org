@@ -132,8 +132,6 @@ export const WorkPage = ({
               })}
             >
               <SearchForm
-                initialWorkType={workType}
-                initialItemsLocationsLocationType={itemsLocationsLocationType}
                 ariaDescribedBy="search-form-description"
                 compact={true}
                 works={null}
