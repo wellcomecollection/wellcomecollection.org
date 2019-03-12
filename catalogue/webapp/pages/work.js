@@ -7,8 +7,8 @@ import {
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
-  type iiifPresentationLocation,
-  getIiifPresentationLocation,
+  getIIIFPresentationLocation,
+  getEncoreLink,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -30,7 +30,6 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 
 type Props = {|
   work: Work | CatalogueApiError,
-  iiifPresentationLocation: iiifPresentationLocation,
   workType: string[],
   query: ?string,
   page: ?number,
@@ -39,7 +38,6 @@ type Props = {|
 
 export const WorkPage = ({
   work,
-  iiifPresentationLocation,
   query,
   page,
   workType,
@@ -73,22 +71,24 @@ export const WorkPage = ({
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
-  const sierraIdFromPresentationManifestUrlMatch =
-    iiifPresentationLocation &&
-    iiifPresentationLocation.url &&
-    iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/);
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
 
   const sierraIdFromPresentationManifestUrl =
-    sierraIdFromPresentationManifestUrlMatch &&
-    sierraIdFromPresentationManifestUrlMatch[1];
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const sierraIds = work.identifiers.filter(
+    i => i.identifierType.id === 'sierra-system-number'
+  );
+
+  // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
+  // will be for a physical item.
+  const physicalSierraId = sierraIds.find(
+    i => i.value !== sierraIdFromPresentationManifestUrl
+  ).value;
 
   // We strip the last character as that's what Wellcome library expect
-  const encoreLink =
-    sierraIdFromPresentationManifestUrl &&
-    `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraIdFromPresentationManifestUrl.substr(
-      0,
-      sierraIdFromPresentationManifestUrl.length - 1
-    )}`;
+  const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
   const imageContentUrl =
     iiifImageLocationUrl &&
@@ -228,7 +228,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -245,7 +244,6 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
-      iiifPresentationLocation,
       page: page ? parseInt(page, 10) : null,
       workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
       itemsLocationsLocationType:

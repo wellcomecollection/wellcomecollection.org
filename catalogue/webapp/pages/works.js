@@ -130,9 +130,9 @@ export const Works = ({
                   ])}
                 >
                   <TogglesContext.Consumer>
-                    {({ catalogueSearchHeaderExploreContent }) => (
+                    {({ catalogueSearchHeaderExploreMessaging }) => (
                       <>
-                        {catalogueSearchHeaderExploreContent && !works && (
+                        {catalogueSearchHeaderExploreMessaging && !works && (
                           <h1
                             className={classNames([
                               font({ s: 'WB6', m: 'WB4' }),
@@ -144,7 +144,7 @@ export const Works = ({
                             Explore our collections
                           </h1>
                         )}
-                        {!catalogueSearchHeaderExploreContent && (
+                        {!catalogueSearchHeaderExploreMessaging && (
                           <h1
                             className={classNames([
                               font({ s: 'WB6', m: 'WB4' }),
@@ -185,8 +185,8 @@ export const Works = ({
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreContent }) =>
-                    catalogueSearchHeaderExploreContent && (
+                  {({ catalogueSearchHeaderExploreMessaging }) =>
+                    catalogueSearchHeaderExploreMessaging && (
                       <p
                         className={classNames({
                           [font({ s: 'HNL4', m: 'HNL3' })]: true,
@@ -212,8 +212,8 @@ export const Works = ({
                 />
 
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreContent }) =>
-                    !catalogueSearchHeaderExploreContent && (
+                  {({ catalogueSearchHeaderExploreMessaging }) =>
+                    !catalogueSearchHeaderExploreMessaging && (
                       <p
                         className={classNames({
                           [spacing({ s: 4 }, { margin: ['top'] })]: true,
