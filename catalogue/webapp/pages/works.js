@@ -18,12 +18,13 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import { SearchProvider } from '../components/SearchContext/SearchContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   query: ?string,
@@ -33,7 +34,32 @@ type Props = {|
   itemsLocationsLocationType: ?(string[]),
 |};
 
-export const Works = ({
+const WorksSearchProvider = ({
+  works,
+  query,
+  page,
+  workType,
+  itemsLocationsLocationType,
+}: Props) => (
+  <SearchProvider
+    initialState={{
+      query: query || '',
+      page: page || 1,
+      workType,
+      itemsLocationsLocationType,
+    }}
+  >
+    <Works
+      works={works}
+      query={query}
+      page={page}
+      workType={workType}
+      itemsLocationsLocationType={itemsLocationsLocationType}
+    />
+  </SearchProvider>
+);
+
+const Works = ({
   works,
   query,
   page,
@@ -41,6 +67,7 @@ export const Works = ({
   itemsLocationsLocationType,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     function routeChangeStart(url: string) {
       setLoading(true);
@@ -203,9 +230,6 @@ export const Works = ({
                 </TogglesContext.Consumer>
 
                 <SearchForm
-                  initialQuery={query || ''}
-                  initialWorkType={workType}
-                  initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
                   works={works}
@@ -461,7 +485,7 @@ export const Works = ({
   );
 };
 
-Works.getInitialProps = async (ctx: Context): Promise<Props> => {
+WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
@@ -517,4 +541,4 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   };
 };
 
-export default Works;
+export default WorksSearchProvider;
