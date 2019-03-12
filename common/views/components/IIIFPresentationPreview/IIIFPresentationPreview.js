@@ -1,199 +1,322 @@
 // @flow
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { Fragment } from 'react';
+import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
+import { type IIIFPresentationLocation } from '@weco/common/utils/works';
+import fetch from 'isomorphic-unfetch';
+import NextLink from 'next/link';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { useEffect, useState } from 'react';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
-const BookContainer = styled.div`
-  display: inline-block;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 20px;
-  word-spacing: 0;
+const BookPreviewContainer = styled.div`
+  overflow: scroll;
+  text-align: center;
 
-  & > img,
-  &::before,
-  &::after {
-    /* Add shadow to distinguish sheets from one another */
-    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.15);
+  /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
+  @media (min-width: 708px) {
+    padding: ${props =>
+      `${props.theme.spacingUnit * 4}px 0 ${props.theme.spacingUnit * 6}px`};
+  }
+`;
+
+const BookPreview = styled.div`
+  @media (min-width: 708px) {
+    display: ${props => (props.hasThumbs ? 'inline-grid' : 'inline')};
+    grid-gap: ${props =>
+      props.columnNumber > 1 ? `${props.theme.spacingUnit * 2}px` : 0};
+    grid-template-columns: ${props => `repeat(3, 200px)`};
+    grid-template-rows: 200px;
   }
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
+  ${props => props.theme.media.large`
+    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
+  `}
+`;
+
+const PagePreview = styled.div`
+  overflow: hidden;
+  display: none;
+  width: 200px;
+  height: 200px;
+
+  /* Putting the background inside a media query,
+   * prevents webkit downloading the images unnecessarily.
+   * Display none is not sufficient */
+  @media (min-width: 708px) {
+    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 708px */
+    &:nth-child(2) {
+      display: block;
+      background: center / cover no-repeat
+        url(${props => props.backgroundImage});
+    }
+  }
+
+  ${props => props.theme.media.large`
+    display: block;
+    background: center / cover no-repeat url(${props => props.backgroundImage});
+  `};
+
+  &:nth-child(3) {
+    grid-row-end: 3;
+  }
+
+  &:first-child {
+    display: block;
+    height: ${props => `${400 + props.theme.spacingUnit * 2}px`};
     width: 100%;
-    height: 100%;
-    background-color: #fff;
+    background: center / contain no-repeat
+      url(${props => props.backgroundImage})
+      ${props => props.theme.colors.smoke};
+
+    @media (min-width: 708px) {
+      grid-column-start: 1;
+      grid-column-end: span 2;
+      grid-row-start: 1;
+      grid-row-end: span 2;
+    }
+
+    ${props => props.theme.media.large`
+    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
+  `}
+  }
+`;
+
+const CallToAction = styled.div`
+  display: inline-block;
+  padding: 6px 24px;
+  grid-row-end: 3;
+  ${props => props.hasThumbs && 'transform: translateY(-50%)'};
+  background: ${props => props.theme.colors.green};
+  color: ${props => props.theme.colors.white};
+  transition: all 500ms ease;
+
+  @media (min-width: 708px) {
+    transform: none;
   }
 
-  /* Second sheet of paper */
-  &::before {
-    left: 7px;
-    top: 7px;
-    z-index: -1;
+  a:hover &,
+  a:focus & {
+    background: ${props => props.theme.colors.black};
   }
 
-  /* Third sheet of paper */
-  &::after {
-    left: 14px;
-    top: 14px;
-    z-index: -2;
+  .icon {
+    margin-right: 6px;
   }
 
-  img {
+  .icon__shape {
+    fill: currentColor;
+  }
+
+  .cta__inner {
+    @media (min-width: 708px) {
+      display: block;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .cta__text {
     display: block;
   }
 `;
 
-const ScrollContainer = styled.div`
-  overflow-x: scroll;
+function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
+  const sequence = iiifManifest.sequences.find(
+    sequence => sequence['@type'] === 'sc:Sequence'
+  );
+  return sequence ? sequence.canvases : [];
+}
+type IIIFThumbnails = {|
+  label: string,
+  images: {
+    id: string,
+    canvasId: string,
+  }[],
+|};
 
-  &::-webkit-scrollbar {
-    margin-top: ${props => `${props.theme.spacingUnit}px`};
-    height: ${props => `${props.theme.spacingUnit * 5}px`};
-    background: ${props => props.theme.colors.cream};
-  }
+// Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
+// If we don't have any of the structured pages, we fill with random ones, so there are always 4 images if possible.
+function randomImages(
+  iiifManifest: IIIFManifest,
+  structuredImages: IIIFThumbnails[],
+  n = 1
+): IIIFThumbnails {
+  const images = [];
+  const canvases = getCanvases(iiifManifest).filter(canvas => {
+    // Don't include the structured pages we're using when getting random ones
+    return (
+      structuredImages
+        .map(type => {
+          return type.images.find(image => {
+            return canvas['@id'] === image.canvasId;
+          });
+        })
+        .filter(Boolean).length === 0
+    );
+  });
 
-  &::-webkit-scrollbar-thumb {
-    border-radius: 0;
-    border-style: solid;
-    border-width: ${props => `${props.theme.spacingUnit * 2}px 0`};
-    border-color: ${props => props.theme.colors.cream};
-    background: ${props => props.theme.colors.marble};
-  }
+  const numberOfImages = canvases.length < n ? canvases.length : n;
 
-  & > div {
-    display: flex;
+  for (var i = 1; i <= numberOfImages; i++) {
+    const randomNumber = Math.floor(Math.random() * canvases.length);
+    const randomCanvas = canvases.splice(randomNumber, 1)[0];
+    images.push({
+      id: randomCanvas.thumbnail.service['@id'],
+      canvasId: randomCanvas['@id'],
+    });
   }
-`;
+  return {
+    label: 'random',
+    images,
+  };
+}
+
+function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
+  return iiifManifest.structures.map(structure => {
+    const images = structure.canvases
+      .map(canvasId => {
+        const matchingCanvas = getCanvases(iiifManifest).find(canvas => {
+          return canvas['@id'] === canvasId;
+        });
+        if (matchingCanvas) {
+          return {
+            id: matchingCanvas.thumbnail.service['@id'],
+            canvasId: matchingCanvas && matchingCanvas['@id'],
+          };
+        }
+      })
+      .filter(Boolean);
+    return {
+      label: structure.label,
+      images,
+    };
+  });
+}
+
+function orderedStructuredImages(
+  structuredImages: IIIFThumbnails[]
+): IIIFThumbnails[] {
+  const titlePage = structuredImages.find(
+    structuredImage => structuredImage.label === 'Title Page'
+  );
+  const frontCover = structuredImages.find(
+    structuredImage =>
+      structuredImage.label === 'Front Cover' ||
+      structuredImage.label === 'Cover'
+  );
+  const firstTableOfContents = structuredImages.find(
+    structuredImage => structuredImage.label === 'Table of Contents'
+  );
+  return [titlePage, frontCover, firstTableOfContents].filter(Boolean);
+}
+
+function previewThumbnails(
+  iiifManifest: IIIFManifest,
+  structuredImages: IIIFThumbnails[],
+  idealNumber: number = 4
+): IIIFThumbnails[] {
+  return structuredImages.length < idealNumber
+    ? structuredImages.concat(
+        randomImages(
+          iiifManifest,
+          structuredImages,
+          idealNumber - structuredImages.length
+        )
+      )
+    : structuredImages.slice(0, idealNumber);
+}
 
 type Props = {|
-  manifestData: any,
-  showMultiImageWorkPreview: boolean,
+  iiifPresentationLocation: IIIFPresentationLocation,
+  itemUrl: any,
 |};
 
 const IIIFPresentationDisplay = ({
-  manifestData,
-  showMultiImageWorkPreview,
+  iiifPresentationLocation,
+  itemUrl,
 }: Props) => {
-  const validSequences =
-    (manifestData &&
-      manifestData.sequences
-        // This returns a broken resource
-        .filter(
-          ({ compatibilityHint }) =>
-            compatibilityHint !== 'displayIfContentUnsupported'
-        )) ||
-    [];
-
-  const previewSize = 400;
+  const [imageThumbnails, setImageThumbnails] = useState([]);
+  const [imageTotal, setImageTotal] = useState(null);
+  const fetchThumbnails = async () => {
+    try {
+      const iiifManifest = await fetch(iiifPresentationLocation.url);
+      const manifestData = await iiifManifest.json();
+      setImageTotal(getCanvases(manifestData).length);
+      setImageThumbnails(
+        previewThumbnails(
+          manifestData,
+          orderedStructuredImages(structuredImages(manifestData)),
+          4
+        )
+      );
+    } catch (e) {}
+  };
+  useEffect(() => {
+    fetchThumbnails();
+  }, []);
+  const itemsNumber = imageThumbnails.reduce((acc, pageType) => {
+    return acc + pageType.images.length;
+  }, 0);
 
   return (
-    <Fragment>
-      {validSequences.map(sequence => (
-        <Fragment key={sequence['@id']}>
-          {sequence.canvases.length > 1 && (
-            <Fragment>
-              {!showMultiImageWorkPreview && (
-                <BookContainer key={sequence.canvases[0].thumbnail['@id']}>
-                  <a
-                    href={iiifImageTemplate(
-                      sequence.canvases[0].thumbnail.service['@id']
-                    )({ size: '!1024,1024' })}
-                  >
-                    <img
-                      style={
-                        sequence.canvases[0].thumbnail.service.width <=
-                        sequence.canvases[0].thumbnail.service.height
-                          ? { width: 'auto', height: '300px' }
-                          : { width: '300px', height: 'auto' }
-                      }
-                      src={iiifImageTemplate(
-                        sequence.canvases[0].thumbnail.service['@id']
-                      )({ size: `!${previewSize},${previewSize}` })}
-                    />
-                  </a>
-                </BookContainer>
-              )}
-              {showMultiImageWorkPreview && (
-                <ScrollContainer
-                  key={`${sequence.canvases[0].thumbnail['@id']}-2`}
-                >
-                  <div>
-                    {sequence.canvases.map((canvas, i) => {
-                      return (
-                        <a
-                          key={canvas.thumbnail.service['@id']}
-                          href={iiifImageTemplate(
-                            canvas.thumbnail.service['@id']
-                          )({ size: '!1024,1024' })}
-                        >
-                          <img
-                            className={classNames({
-                              'lazy-image lazyload': i > 3,
-                            })}
-                            style={
-                              canvas.thumbnail.service.width <=
-                              canvas.thumbnail.service.height
-                                ? {
-                                    width: 'auto',
-                                    height: '300px',
-                                    marginRight: '12px',
-                                  }
-                                : {
-                                    width: '300px',
-                                    height: 'auto',
-                                    marginRight: '12px',
-                                  }
-                            }
-                            src={
-                              i < 4
-                                ? iiifImageTemplate(
-                                    canvas.thumbnail.service['@id']
-                                  )({
-                                    size: `!${previewSize},${previewSize}`,
-                                  })
-                                : null
-                            }
-                            data-src={
-                              i > 3
-                                ? iiifImageTemplate(
-                                    canvas.thumbnail.service['@id']
-                                  )({
-                                    size: `!${previewSize},${previewSize}`,
-                                  })
-                                : null
-                            }
-                          />
-                        </a>
-                      );
+    <BookPreviewContainer>
+      <NextLink {...itemUrl}>
+        <a className="plain-link">
+          <BookPreview
+            columnNumber={
+              itemsNumber === 1
+                ? 3
+                : itemsNumber === 3
+                ? 4
+                : 2 + Math.floor(itemsNumber / 2)
+            }
+            hasThumbs={imageThumbnails.length > 0}
+          >
+            {imageThumbnails.map((pageType, i) => {
+              return pageType.images.map(image => {
+                return i === 0 ? (
+                  <PagePreview
+                    key={image.id}
+                    backgroundImage={iiifImageTemplate(image.id)({
+                      size: '!1024,1024',
                     })}
-                  </div>
-                </ScrollContainer>
-              )}
-              {/* TODO temporary links to large image for ttesting, while we don't have a viewer */}
-              <div>
-                <Button
-                  type="primary"
-                  url={iiifImageTemplate(
-                    sequence.canvases[0].thumbnail.service['@id']
-                  )({ size: '!1024,1024' })}
-                  text={`View all ${sequence.canvases.length} images`}
-                  icon="gallery"
-                />
-              </div>
-            </Fragment>
-          )}
-        </Fragment>
-      ))}
-    </Fragment>
+                  />
+                ) : (
+                  <PagePreview
+                    key={image.id}
+                    backgroundImage={iiifImageTemplate(image.id)({
+                      size: '!400,400',
+                    })}
+                  />
+                );
+              });
+            })}
+            <CallToAction
+              hasThumbs={imageThumbnails.length > 0}
+              className={classNames({
+                [font({ s: 'HNM4' })]: true,
+              })}
+            >
+              <span className="cta__inner">
+                <span
+                  className={classNames({
+                    'flex-inline': true,
+                    'flex--v-center': true,
+                  })}
+                >
+                  <Icon name="gallery" />
+                  {imageTotal}
+                </span>
+                <span className="cta__text">Full view</span>
+              </span>
+            </CallToAction>
+          </BookPreview>
+        </a>
+      </NextLink>
+    </BookPreviewContainer>
   );
 };
 
 export default IIIFPresentationDisplay;
-// TODO image alt - how do we handle this
-// TODO if we go with single image then show specific page if available title page, then cover, then first image (preferably first text image, not blank page)
-// TODO import IIIFBookPreview?
-// TODO layout / styling

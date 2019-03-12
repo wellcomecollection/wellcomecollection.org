@@ -156,22 +156,36 @@ const Works = ({
                     spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
-                  <h1
-                    className={classNames([
-                      font({ s: 'WB6', m: 'WB4' }),
-                      spacing({ s: 2 }, { margin: ['bottom'] }),
-                      spacing({ s: 4 }, { margin: ['right'] }),
-                      spacing({ s: 0 }, { margin: ['top'] }),
-                    ])}
-                  >
-                    <TogglesContext.Consumer>
-                      {({ catalogueSearchHeaderExploreContent }) =>
-                        catalogueSearchHeaderExploreContent
-                          ? 'Explore our collections'
-                          : 'Search our images'
-                      }
-                    </TogglesContext.Consumer>
-                  </h1>
+                  <TogglesContext.Consumer>
+                    {({ catalogueSearchHeaderExploreMessaging }) => (
+                      <>
+                        {catalogueSearchHeaderExploreMessaging && !works && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Explore our collections
+                          </h1>
+                        )}
+                        {!catalogueSearchHeaderExploreMessaging && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Search our images
+                          </h1>
+                        )}
+                      </>
+                    )}
+                  </TogglesContext.Consumer>
 
                   <TogglesContext.Consumer>
                     {({ betaBar }) =>
@@ -198,11 +212,10 @@ const Works = ({
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreContent }) =>
-                    catalogueSearchHeaderExploreContent && (
+                  {({ catalogueSearchHeaderExploreMessaging }) =>
+                    catalogueSearchHeaderExploreMessaging && (
                       <p
                         className={classNames({
-                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
                           [font({ s: 'HNL4', m: 'HNL3' })]: true,
                           'visually-hidden': Boolean(works),
                         })}
@@ -223,8 +236,8 @@ const Works = ({
                 />
 
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreContent }) =>
-                    !catalogueSearchHeaderExploreContent && (
+                  {({ catalogueSearchHeaderExploreMessaging }) =>
+                    !catalogueSearchHeaderExploreMessaging && (
                       <p
                         className={classNames({
                           [spacing({ s: 4 }, { margin: ['top'] })]: true,
@@ -240,18 +253,6 @@ const Works = ({
                     )
                   }
                 </TogglesContext.Consumer>
-
-                {works && (
-                  <p
-                    className={classNames([
-                      spacing({ s: 2 }, { margin: ['top', 'bottom'] }),
-                      font({ s: 'LR3', m: 'LR2' }),
-                    ])}
-                  >
-                    {works.totalResults !== 0 ? works.totalResults : 'No'}{' '}
-                    results for &apos;{query}&apos;
-                  </p>
-                )}
               </div>
             </div>
           </div>

@@ -1,20 +1,16 @@
 // @flow
-import { Fragment } from 'react';
 import Router from 'next/router';
-import NextLink from 'next/link';
-import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { getIiifPresentationLocation } from '@weco/common/utils/works';
+import { getIIIFPresentationLocation } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
-import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
@@ -26,10 +22,11 @@ import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type Props = {|
   work: Work | CatalogueApiError,
-  iiifManifest: ?{},
   workType: string[],
   query: ?string,
   page: ?number,
@@ -38,7 +35,6 @@ type Props = {|
 
 export const WorkPage = ({
   work,
-  iiifManifest,
   query,
   page,
   workType,
@@ -77,6 +73,12 @@ export const WorkPage = ({
       identifier => identifier.identifierType.id === 'sierra-system-number'
     ) || {}
   ).value;
+
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
   // We strip the last character as that's what Wellcome library expect
   const encoreLink =
     sierraId &&
@@ -174,49 +176,39 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {iiifManifest && (
-        <Layout12>
-          <NextLink
-            {...itemUrl({
+      {iiifPresentationLocation && (
+        <div className="container">
+          <IIIFPresentationPreview
+            iiifPresentationLocation={iiifPresentationLocation}
+            itemUrl={itemUrl({
               workId: work.id,
               query,
               workType,
               itemsLocationsLocationType,
-              sierraId,
+              sierraId: sierraIdFromPresentationManifestUrl,
               page: 1,
               canvas: 1,
             })}
-          >
-            <a>View item</a>
-          </NextLink>
-        </Layout12>
+          />
+        </div>
       )}
 
-      <TogglesContext.Consumer>
-        {({ showWorkPreview, showMultiImageWorkPreview }) => (
-          <Fragment>
-            {iiifImageLocationUrl && !showWorkPreview && (
-              <WorkMedia
-                id={work.id}
-                iiifUrl={iiifImageLocationUrl}
-                title={work.title}
-              />
-            )}
+      {iiifImageLocationUrl && (
+        <IIIFImagePreview
+          id={work.id}
+          iiifUrl={iiifImageLocationUrl}
+          title={work.title}
+        />
+      )}
 
-            <WorkDetails
-              work={work}
-              iiifManifest={iiifManifest}
-              iiifImageLocationUrl={iiifImageLocationUrl}
-              licenseInfo={licenseInfo}
-              iiifImageLocationCredit={iiifImageLocationCredit}
-              iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-              encoreLink={encoreLink}
-              showWorkPreview={showWorkPreview}
-              showMultiImageWorkPreview={showMultiImageWorkPreview}
-            />
-          </Fragment>
-        )}
-      </TogglesContext.Consumer>
+      <WorkDetails
+        work={work}
+        iiifImageLocationUrl={iiifImageLocationUrl}
+        licenseInfo={licenseInfo}
+        iiifImageLocationCredit={iiifImageLocationCredit}
+        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        encoreLink={encoreLink}
+      />
     </PageLayout>
   );
 };
@@ -230,13 +222,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
-  let iiifManifest = null;
-  if (iiifPresentationLocation) {
-    try {
-      iiifManifest = await fetch(iiifPresentationLocation.url);
-    } catch (e) {}
-  }
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -253,7 +238,6 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
-      iiifManifest: iiifManifest ? await iiifManifest.json() : null,
       page: page ? parseInt(page, 10) : null,
       workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
       itemsLocationsLocationType:

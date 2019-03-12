@@ -99,7 +99,7 @@ const graphQuery = `{
     }
     outroResearchItem {
       ... on events {
-        title
+        ...eventsFields
       }
       ... on exhibitions {
         title
@@ -125,7 +125,7 @@ const graphQuery = `{
     }
     outroReadItem {
       ... on events {
-        title
+        ...eventsFields
       }
       ... on exhibitions {
         title
@@ -151,7 +151,7 @@ const graphQuery = `{
     }
     outroVisitItem {
       ... on events {
-        title
+        ...eventsFields
       }
       ... on exhibitions {
         title
