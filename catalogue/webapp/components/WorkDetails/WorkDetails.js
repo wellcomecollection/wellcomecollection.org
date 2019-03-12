@@ -2,6 +2,7 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
+import { type IIIFRendering } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import { Fragment } from 'react';
@@ -12,7 +13,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-// import Download from '../Download/Download';
+import Download from '../Download/Download';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -64,6 +65,7 @@ type Props = {|
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
+  downloadOptions: IIIFRendering[],
   encoreLink: ?string,
 |};
 
@@ -72,6 +74,7 @@ const WorkDetails = ({
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
+  downloadOptions,
   encoreLink,
 }: Props) => {
   const singularWorkTypeLabel = work.workType.label
@@ -83,6 +86,19 @@ const WorkDetails = ({
 
   const WorkDetailsSections = [];
 
+  if (downloadOptions) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection>
+        <Download
+          work={work}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          downloadOptions={downloadOptions}
+        />
+      </WorkDetailsSection>
+    );
+  }
   if (
     work.description ||
     work.production.length > 0 ||
