@@ -69,7 +69,6 @@ const DownloadOptions = styled.div`
 type Work = Object;
 type Props = {|
   work: Work,
-  iiifImageLocationUrl: string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
@@ -78,7 +77,6 @@ type Props = {|
 
 const Download = ({
   work,
-  iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
