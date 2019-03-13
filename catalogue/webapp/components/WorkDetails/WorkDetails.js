@@ -106,7 +106,7 @@ const WorkDetails = ({
     licenseInfo || (iiifPresentationLicenseInfo || null);
 
   useEffect(() => {
-    if (Object.keys(iiifPresentationManifest).length !== 0) {
+    if (iiifPresentationManifest) {
       const iiifPresentationDownloadOptions =
         getDownloadOptionsFromManifest(iiifPresentationManifest) || [];
       setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);

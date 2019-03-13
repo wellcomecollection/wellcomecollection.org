@@ -241,17 +241,18 @@ const IIIFPresentationDisplay = ({
   const [imageTotal, setImageTotal] = useState(null);
   const iiifPresentationManifest = useContext(ManifestContext);
   const fetchThumbnails = async () => {
-    const manifestData = iiifPresentationManifest;
-    try {
-      setImageTotal(getCanvases(manifestData).length);
-      setImageThumbnails(
-        previewThumbnails(
-          manifestData,
-          orderedStructuredImages(structuredImages(manifestData)),
-          4
-        )
-      );
-    } catch (e) {}
+    if (iiifPresentationManifest) {
+      try {
+        setImageTotal(getCanvases(iiifPresentationManifest).length);
+        setImageThumbnails(
+          previewThumbnails(
+            iiifPresentationManifest,
+            orderedStructuredImages(structuredImages(iiifPresentationManifest)),
+            4
+          )
+        );
+      } catch (e) {}
+    }
   };
   useEffect(() => {
     fetchThumbnails();
