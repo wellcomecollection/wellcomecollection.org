@@ -47,6 +47,7 @@ const IIIFViewerThumbNumber = styled.span.attrs({
   left: 50%;
   transform: translateX(-50%);
   padding: 3px 2px 0;
+  z-index: 1;
 `;
 
 const IIIFViewerThumb = styled.div.attrs({
@@ -89,7 +90,7 @@ const IIIFViewerThumbs = styled.div.attrs({
 
 const IIIFViewerMain = styled.div.attrs({
   className: classNames({
-    'flex flex--v-center flex--h-center relative bg-charcoal': true,
+    'relative bg-charcoal': true,
     [spacing({ s: 4 }, { padding: ['top'] })]: true,
     [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
     [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
@@ -118,7 +119,7 @@ const IIIFViewerXOfY = styled.span.attrs({
 
 const IIIFViewerThumbLink = styled.a.attrs({
   className: classNames({
-    'flex flex--v-center h-center': true,
+    'block h-center': true,
   }),
 })`
   height: 100%;
@@ -140,6 +141,9 @@ const IIIFViewer = styled.div.attrs({
   flex-direction: row-reverse;
 
   img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     margin: 0 auto;
     display: block;
     width: auto;
