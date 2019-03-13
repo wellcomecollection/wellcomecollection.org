@@ -5,13 +5,14 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { type IIIFRendering } from '@weco/common/model/iiif';
+import { useEffect, useState } from 'react';
+// import { type IIIFRendering } from '@weco/common/model/iiif';
 import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getDownloadOptionsFromImageUrl,
-  getDownloadOptionsFromManifest,
+  // getDownloadOptionsFromManifest,
   getEncoreLink,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -28,6 +29,7 @@ import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
@@ -38,7 +40,7 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  iiifPresentationDownloadOptions: IIIFRendering[],
+  // iiifPresentationDownloadOptions: IIIFRendering[],
 |};
 
 export const WorkPage = ({
@@ -47,8 +49,21 @@ export const WorkPage = ({
   page,
   workType,
   itemsLocationsLocationType,
-  iiifPresentationDownloadOptions,
 }: Props) => {
+  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState({});
+  const fetchIIIFPresentationManifest = async () => {
+    try {
+      const iiifPresentationLocation = getIIIFPresentationLocation(work);
+      const iiifManifest = await fetch(iiifPresentationLocation.url);
+      const manifestData = await iiifManifest.json();
+      setIIIFPresentationManifest(manifestData);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchIIIFPresentationManifest();
+  }, []);
+
   if (work.type === 'Error') {
     return (
       <ErrorPage
@@ -84,9 +99,9 @@ export const WorkPage = ({
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
   const downloadOptions =
-    iiifPresentationDownloadOptions.length > 0
-      ? iiifPresentationDownloadOptions
-      : iiifImageLocationUrl
+    // iiifPresentationDownloadOptions.length > 0
+    // ? iiifPresentationDownloadOptions
+    iiifImageLocationUrl
       ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
       : [];
 
@@ -191,40 +206,39 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
-
-      {sierraIdFromPresentationManifestUrl && (
-        <div className="container">
-          <IIIFPresentationPreview
-            iiifPresentationLocation={iiifPresentationLocation}
-            itemUrl={itemUrl({
-              workId: work.id,
-              query,
-              workType,
-              itemsLocationsLocationType,
-              sierraId: sierraIdFromPresentationManifestUrl,
-              page: 1,
-              canvas: 1,
-            })}
+      <ManifestContext.Provider value={iiifPresentationManifest}>
+        {sierraIdFromPresentationManifestUrl && (
+          <div className="container">
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+              itemUrl={itemUrl({
+                workId: work.id,
+                query,
+                workType,
+                itemsLocationsLocationType,
+                sierraId: sierraIdFromPresentationManifestUrl,
+                page: 1,
+                canvas: 1,
+              })}
+            />
+          </div>
+        )}
+        {iiifImageLocationUrl && (
+          <IIIFImagePreview
+            id={work.id}
+            iiifUrl={iiifImageLocationUrl}
+            title={work.title}
           />
-        </div>
-      )}
-
-      {iiifImageLocationUrl && (
-        <IIIFImagePreview
-          id={work.id}
-          iiifUrl={iiifImageLocationUrl}
-          title={work.title}
+        )}
+        <WorkDetails
+          work={work}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          encoreLink={encoreLink}
+          downloadOptions={downloadOptions}
         />
-      )}
-
-      <WorkDetails
-        work={work}
-        licenseInfo={licenseInfo}
-        iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-        encoreLink={encoreLink}
-        downloadOptions={downloadOptions}
-      />
+      </ManifestContext.Provider>
     </PageLayout>
   );
 };
@@ -238,18 +252,7 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const iiifPresentationLocation = getIIIFPresentationLocation(workOrError);
 
-  let iiifPresentationDownloadOptions = [];
-  if (iiifPresentationLocation) {
-    try {
-      const iiifManifest = await fetch(iiifPresentationLocation.url);
-      const manifestData = await iiifManifest.json();
-      iiifPresentationDownloadOptions = getDownloadOptionsFromManifest(
-        manifestData
-      );
-    } catch (e) {}
-  }
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
     if (res) {
@@ -270,7 +273,6 @@ WorkPage.getInitialProps = async (
       itemsLocationsLocationType:
         itemsLocationsLocationTypeQuery &&
         itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
-      iiifPresentationDownloadOptions,
     };
   }
 };
