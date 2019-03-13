@@ -121,11 +121,15 @@ const WorkDetails = ({
           <MetaUnit
             headingLevel={3}
             headingText="Contributors"
-            text={[
-              work.contributors
-                .map(contributor => contributor.agent.label)
-                .join(' | '),
-            ]}
+            tags={work.contributors.map(({ agent }) => {
+              return {
+                textParts: [agent.label],
+                linkAttributes: worksUrl({
+                  query: `"${agent.label}"`,
+                  page: 1,
+                }),
+              };
+            })}
           />
         )}
 
