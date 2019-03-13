@@ -33,10 +33,11 @@ const Tags = ({ tags }: Props) => {
           [spacing({ s: 0 }, { padding: ['left'], margin: ['top'] })]: true,
         })}
       >
+        {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
             <li
-              key={textParts.concat(i).join('-')}
+              key={i}
               className={classNames({
                 'inline-block': true,
               })}
