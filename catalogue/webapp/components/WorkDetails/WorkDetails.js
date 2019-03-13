@@ -16,6 +16,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
+import getLicenseInfo from '@weco/common/utils/get-license-info';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -84,6 +85,10 @@ const WorkDetails = ({
     iiifPresentationDownloadOptions,
     setIIIFPresentationDownloadOptions,
   ] = useState([]);
+  const [
+    iiifPresentationLicenseInfo,
+    setIIIFPresentationLicenseInfo,
+  ] = useState(null);
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
@@ -97,12 +102,19 @@ const WorkDetails = ({
     ...iiifPresentationDownloadOptions,
   ];
 
+  const definitiveLicenseInfo =
+    licenseInfo || (iiifPresentationLicenseInfo || null);
+
   useEffect(() => {
-    const iiifPresentationDownloadOptions =
-      Object.keys(iiifPresentationManifest).length !== 0
-        ? getDownloadOptionsFromManifest(iiifPresentationManifest)
-        : [];
-    setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
+    if (Object.keys(iiifPresentationManifest).length !== 0) {
+      const iiifPresentationDownloadOptions =
+        getDownloadOptionsFromManifest(iiifPresentationManifest) || [];
+      setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
+      const iiifPresentationLicenseInfo = iiifPresentationManifest.license
+        ? getLicenseInfo(iiifPresentationManifest.license)
+        : '';
+      setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
+    }
   }, [iiifPresentationManifest]);
 
   if (allDownloadOptions.length > 0) {
@@ -110,9 +122,9 @@ const WorkDetails = ({
       <WorkDetailsSection>
         <Download
           work={work}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
+          licenseInfo={definitiveLicenseInfo}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          iiifImageLocationCredit={iiifImageLocationCredit}
           downloadOptions={allDownloadOptions}
         />
       </WorkDetailsSection>
@@ -244,14 +256,14 @@ const WorkDetails = ({
       </MetaUnit>
     </WorkDetailsSection>
   );
-  if (licenseInfo) {
+  if (definitiveLicenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
         <div id="licenseInformation">
           <MetaUnit
             headingLevel={3}
             headingText="License information"
-            text={licenseInfo.humanReadableText}
+            text={definitiveLicenseInfo.humanReadableText}
           />
           <MetaUnit
             headingLevel={3}
@@ -266,9 +278,11 @@ const WorkDetails = ({
                   : ` `
               }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
+                definitiveLicenseInfo.url
+                  ? `<a href="${definitiveLicenseInfo.url}">${
+                      definitiveLicenseInfo.text
+                    }</a>`
+                  : definitiveLicenseInfo.text
               }`,
             ]}
           />
