@@ -1,13 +1,13 @@
 // @flow
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { type IIIFPresentationLocation } from '@weco/common/utils/works';
-import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -239,10 +239,10 @@ const IIIFPresentationDisplay = ({
 }: Props) => {
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(null);
+  const iiifPresentationManifest = useContext(ManifestContext);
   const fetchThumbnails = async () => {
+    const manifestData = iiifPresentationManifest;
     try {
-      const iiifManifest = await fetch(iiifPresentationLocation.url);
-      const manifestData = await iiifManifest.json();
       setImageTotal(getCanvases(manifestData).length);
       setImageThumbnails(
         previewThumbnails(
@@ -255,7 +255,7 @@ const IIIFPresentationDisplay = ({
   };
   useEffect(() => {
     fetchThumbnails();
-  }, []);
+  }, [iiifPresentationManifest]);
   const itemsNumber = imageThumbnails.reduce((acc, pageType) => {
     return acc + pageType.images.length;
   }, 0);
