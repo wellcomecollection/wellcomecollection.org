@@ -67,6 +67,9 @@ export const licenseMap = {
   },
 };
 
-export default function(licenseType: string): ?LicenseData {
-  return licenseMap[licenseType.toLowerCase()];
+export default function(licenseIdentifier: string): ?LicenseData {
+  return (
+    licenseMap[licenseIdentifier.toLowerCase()] ||
+    Object.values(licenseMap).find(license => license.url === licenseIdentifier)
+  );
 }
