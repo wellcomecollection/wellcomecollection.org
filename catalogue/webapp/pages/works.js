@@ -319,7 +319,11 @@ const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <div className="grid__cell">
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                    })}
+                  >
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
@@ -385,7 +389,11 @@ const Works = ({
               >
                 <div className="container">
                   <div className="grid">
-                    <div className="grid__cell">
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                    >
                       <div className="flex flex--h-space-between flex--v-center">
                         <Fragment>
                           <Paginator
