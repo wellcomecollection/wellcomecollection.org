@@ -77,19 +77,27 @@ const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
       >
         <div className="relative">
           <SearchInputWrapper className="relative">
-            <TextInput
-              label={'Search the catalogue'}
-              placeholder={'Search for books and pictures'}
-              name="query"
-              value={query}
-              autoFocus={query === ''}
-              onChange={event => setQuery(event.currentTarget.value)}
-              ref={searchInput}
-              className={font({
-                s: compact ? 'HNL4' : 'HNL3',
-                m: compact ? 'HNL3' : 'HNL2',
-              })}
-            />
+            <TogglesContext.Consumer>
+              {({ catalogueSearchHeaderExploreMessaging }) => (
+                <TextInput
+                  label={'Search the catalogue'}
+                  placeholder={`Search for ${
+                    catalogueSearchHeaderExploreMessaging
+                      ? 'books and pictures'
+                      : 'artworks, photos and more'
+                  }`}
+                  name="query"
+                  value={query}
+                  autoFocus={query === ''}
+                  onChange={event => setQuery(event.currentTarget.value)}
+                  ref={searchInput}
+                  className={font({
+                    s: compact ? 'HNL4' : 'HNL3',
+                    m: compact ? 'HNL3' : 'HNL2',
+                  })}
+                />
+              )}
+            </TogglesContext.Consumer>
 
             {query && (
               <ClearSearch
