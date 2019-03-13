@@ -79,7 +79,7 @@ const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
           <SearchInputWrapper className="relative">
             <TextInput
               label={'Search the catalogue'}
-              placeholder={'Search for artworks, photos and more'}
+              placeholder={'Search for books and pictures'}
               name="query"
               value={query}
               autoFocus={query === ''}
