@@ -6,13 +6,11 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { useEffect, useState } from 'react';
-// import { type IIIFRendering } from '@weco/common/model/iiif';
 import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getDownloadOptionsFromImageUrl,
-  // getDownloadOptionsFromManifest,
   getEncoreLink,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -40,7 +38,6 @@ type Props = {|
   query: ?string,
   page: ?number,
   itemsLocationsLocationType: string[],
-  // iiifPresentationDownloadOptions: IIIFRendering[],
 |};
 
 export const WorkPage = ({
@@ -98,12 +95,9 @@ export const WorkPage = ({
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
-  const downloadOptions =
-    // iiifPresentationDownloadOptions.length > 0
-    // ? iiifPresentationDownloadOptions
-    iiifImageLocationUrl
-      ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-      : [];
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
 
   const sierraIds = work.identifiers.filter(
     i => i.identifierType.id === 'sierra-system-number'
