@@ -111,8 +111,9 @@ jobs:
         name: Install awscli
         command: sudo apt-get install awscli
     - run:
-        name: Deploy default values
+        name: Build and deploy toggles
         command: |
+          yarn build
           aws s3 cp ./defaults.json s3://toggles.wellcomecollection.org/toggles.json --only-show-errors
   deploy_pa11y:
     docker:
