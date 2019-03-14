@@ -12,11 +12,10 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
@@ -320,7 +319,11 @@ const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <div className="grid__cell">
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                    })}
+                  >
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
@@ -359,58 +362,22 @@ const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <TogglesContext.Consumer>
-                    {({ genericWorkCard }) => {
-                      return genericWorkCard
-                        ? works.results.map(result => (
-                            <div
-                              className={classNames({
-                                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-                              })}
-                              key={result.id}
-                            >
-                              <WorkCard
-                                work={result}
-                                query={query}
-                                page={page}
-                                workType={workType}
-                                itemsLocationsLocationType={
-                                  itemsLocationsLocationType
-                                }
-                              />
-                            </div>
-                          ))
-                        : works.results.map(result => (
-                            <div
-                              key={result.id}
-                              className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
-                            >
-                              <WorkPromo
-                                id={result.id}
-                                image={{
-                                  contentUrl: result.thumbnail
-                                    ? result.thumbnail.url
-                                    : 'https://via.placeholder.com/1600x900?text=%20',
-                                  width: 300,
-                                  height: 300,
-                                  alt: '',
-                                }}
-                                datePublished={
-                                  result.createdDate && result.createdDate.label
-                                }
-                                title={result.title}
-                                link={workUrl({
-                                  id: result.id,
-                                  query,
-                                  page,
-                                  workType,
-                                  itemsLocationsLocationType,
-                                })}
-                              />
-                            </div>
-                          ));
-                    }}
-                  </TogglesContext.Consumer>
+                  {works.results.map(result => (
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                      key={result.id}
+                    >
+                      <WorkCard
+                        work={result}
+                        query={query}
+                        page={page}
+                        workType={workType}
+                        itemsLocationsLocationType={itemsLocationsLocationType}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -422,7 +389,11 @@ const Works = ({
               >
                 <div className="container">
                   <div className="grid">
-                    <div className="grid__cell">
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                    >
                       <div className="flex flex--h-space-between flex--v-center">
                         <Fragment>
                           <Paginator

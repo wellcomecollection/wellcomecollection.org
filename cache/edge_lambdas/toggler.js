@@ -10,18 +10,7 @@
 // }
 
 // This is mutable for testing
-let tests = [
-  {
-    id: 'genericWorkCard',
-    title: 'Generic work card',
-    shouldRun: request => {
-      return request.uri.match(/\/works[^/]*/);
-    },
-    description:
-      'Visual treatment of the work card that accounts for other work types ' +
-      'and not exclusively images',
-  },
-];
+let tests = [];
 
 exports.setTests = function(newTests) {
   tests = newTests;
