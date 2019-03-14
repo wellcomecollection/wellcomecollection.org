@@ -244,17 +244,14 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (iiifPresentationRepository) {
+  if (encoreLink || iiifPresentationRepository) {
+    const textArray = [
+      encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
+      iiifPresentationRepository && iiifPresentationRepository.value,
+    ].filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
-        <MetaUnit text={[iiifPresentationRepository.value]} />
-      </WorkDetailsSection>
-    );
-  }
-  if (encoreLink) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Where to find it">
-        <MetaUnit text={[`<a href="${encoreLink}">Wellcome library</a>`]} />
+        <MetaUnit text={textArray} />
       </WorkDetailsSection>
     );
   }
