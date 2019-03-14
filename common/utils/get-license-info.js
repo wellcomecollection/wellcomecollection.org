@@ -70,6 +70,12 @@ export const licenseMap = {
 export default function(licenseIdentifier: string): ?LicenseData {
   return (
     licenseMap[licenseIdentifier.toLowerCase()] ||
-    Object.values(licenseMap).find(license => license.url === licenseIdentifier)
+    Object.keys(licenseMap)
+      .map(licenseKey => {
+        if (licenseMap[licenseKey].url === licenseIdentifier) {
+          return licenseMap[licenseKey];
+        }
+      })
+      .filter(Boolean)[0]
   );
 }
