@@ -34,15 +34,7 @@ function setCookie(name, value) {
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [
-  {
-    id: 'genericWorkCard',
-    title: 'Generic work card',
-    description:
-      'Visual treatment of the work card that accounts for other work types ' +
-      'and not exclusively images',
-  },
-];
+const abTests = [];
 
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
