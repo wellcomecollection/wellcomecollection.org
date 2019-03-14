@@ -280,7 +280,7 @@ const IIIFPresentationDisplay = ({
                   <PagePreview
                     key={image.id}
                     backgroundImage={iiifImageTemplate(image.id)({
-                      size: '!1024,1024',
+                      size: 'max',
                     })}
                   />
                 ) : (
