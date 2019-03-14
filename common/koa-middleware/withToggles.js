@@ -40,7 +40,7 @@ function withToggles(ctx, next) {
     });
   }, {});
 
-  ctx.toggles = Object.assign({}, defaultToggleValues, toggles);
+  ctx.toggles = { ...defaultToggleValues, ...toggles };
   return next();
 }
 
