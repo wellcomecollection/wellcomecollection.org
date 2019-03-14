@@ -8,11 +8,12 @@ async function getDefaultToggleValues() {
     ).then(response => response.json());
 
     defaultToggleValues = togglesResp.toggles.reduce(
-      (acc, toggle) => ({ ...acc, [toggle.id]: toggle.value }),
+      (acc, toggle) => ({ ...acc, [toggle.id]: toggle.defaultValue }),
       {}
     );
   } catch (e) {}
 }
+getDefaultToggleValues();
 setInterval(getDefaultToggleValues, 2 * 60 * 1000); // 2 minutes
 
 const parseCookies = function(req) {
