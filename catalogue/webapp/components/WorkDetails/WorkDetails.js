@@ -5,7 +5,10 @@ import type { LicenseType } from '@weco/common/model/license';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
+import {
+  getDownloadOptionsFromManifest,
+  getRepositoryFromIIIFPresentationManifest,
+} from '@weco/common/utils/works';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -89,6 +92,9 @@ const WorkDetails = ({
     iiifPresentationLicenseInfo,
     setIIIFPresentationLicenseInfo,
   ] = useState(null);
+  const [iiifPresentationRepository, setIIIFPresentationRepository] = useState(
+    null
+  );
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
@@ -114,6 +120,9 @@ const WorkDetails = ({
         ? getLicenseInfo(iiifPresentationManifest.license)
         : '';
       setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
+      setIIIFPresentationRepository(
+        getRepositoryFromIIIFPresentationManifest(iiifPresentationManifest)
+      );
     }
   }, [iiifPresentationManifest]);
 
@@ -232,6 +241,13 @@ const WorkDetails = ({
             };
           })}
         />
+      </WorkDetailsSection>
+    );
+  }
+  if (iiifPresentationRepository) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection headingText="Where to find it">
+        <MetaUnit text={[iiifPresentationRepository.value]} />
       </WorkDetailsSection>
     );
   }
