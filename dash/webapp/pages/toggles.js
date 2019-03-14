@@ -50,13 +50,13 @@ const featureToggles = [
     id: 'tabbedNavOnSearchForm',
     title: 'Tabbed work type navigation on search form',
     description:
-      'Tabbed navigation on search form to allow people to select between books and visuals',
+      'Tabbed navigation on search form to allow people to select between books and pictures',
   },
   {
     id: 'tabbedNavOnResults',
     title: 'Tabbed work type navigation on search results',
     description:
-      'Tabbed navigation on search results to allow people to select between books and visuals',
+      'Tabbed navigation on search results to allow people to select between books and pictures',
   },
   {
     id: 'showCatalogueSearchFilters',
@@ -75,7 +75,7 @@ const featureToggles = [
     id: 'showWorkLocations',
     title: 'Show the locations of a work in the header',
     description:
-      'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
+      'Helping people know where they might find a book, online, or physically.',
   },
 ];
 
