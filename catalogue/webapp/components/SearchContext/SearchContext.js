@@ -43,18 +43,17 @@ type SearchProviderProps = {
 };
 
 const SearchProvider = ({ initialState, children }: SearchProviderProps) => {
-  const [query, setQuery] = useState(initialState.query || defaultState.query);
-  const [page, setPage] = useState(initialState.page || defaultState.page);
-  const [workType, setWorkType] = useState(
-    initialState.workType || defaultState.workType
-  );
+  const state = {
+    ...defaultState,
+    ...initialState,
+  };
+  const [query, setQuery] = useState(state.query);
+  const [page, setPage] = useState(state.page);
+  const [workType, setWorkType] = useState(state.workType);
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
-    initialState.itemsLocationsLocationType ||
-      defaultState.itemsLocationsLocationType
+    state.itemsLocationsLocationType
   );
-  const [queryType, setQueryType] = useState(
-    initialState.queryType || defaultState.queryType
-  );
+  const [queryType, setQueryType] = useState(state.queryType);
 
   const value = {
     query,
