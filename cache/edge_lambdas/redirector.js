@@ -10,15 +10,19 @@ exports.redirector = (event, context) => {
       status: '301',
       statusDescription: 'Found',
       headers: {
-        location: [{
-          key: 'Location',
-          value: `https://wellcomecollection.org${redirects[uriSansSlash]}`
-        }],
-        'x-powered-by': [{
-          key: 'x-powered-by',
-          value: '@weco/redirector'
-        }]
-      }
+        location: [
+          {
+            key: 'Location',
+            value: `https://wellcomecollection.org${redirects[uriSansSlash]}`,
+          },
+        ],
+        'x-powered-by': [
+          {
+            key: 'x-powered-by',
+            value: '@weco/redirector',
+          },
+        ],
+      },
     };
     cf.response = response;
   }
