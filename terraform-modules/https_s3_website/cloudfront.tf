@@ -23,12 +23,6 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
     forwarded_values {
       query_string = false
 
-      headers = [
-        "Origin",
-        "Access-Control-Request-Headers",
-        "Access-Control-Request-Method",
-      ]
-
       cookies {
         forward = "none"
       }
