@@ -8,9 +8,6 @@ type Props = {
   event: UiEvent,
 };
 
-const ticketButtonText = 'Check for tickets';
-const ticketButtonLoadingText = 'Loading…';
-
 // FIXME: add back to button extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}
 // FIXME: iframe is set to display none, don't when we fix EB
 const EventbriteButton = ({ event }: Props) => {
@@ -29,56 +26,7 @@ const EventbriteButton = ({ event }: Props) => {
               label: 'event-page',
             }}
             icon="ticket"
-            text={ticketButtonText}
-          />
-          <iframe
-            className={`js-eventbrite-widget-${event.eventbriteId || ''}`}
-            src={`/eventbrite/widget/${event.eventbriteId || ''}`}
-            frameBorder="0"
-            width="100%"
-            vspace="0"
-            hspace="0"
-            marginHeight="5"
-            marginWidth="5"
-            scrolling="auto"
-            height="1"
-            style={{ display: 'none' }}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-              (function() {
-                // Bah, IE doesn't have document.currentScript
-                var scripts = document.getElementsByTagName("script");
-                var thisScript = scripts[scripts.length - 1];
-                var parent = thisScript.parentNode;
-
-                var iframe = parent.querySelector('.js-eventbrite-widget-${event.eventbriteId ||
-                  ''}');
-                var showWidget = parent.querySelector('.js-eventbrite-show-widget-${event.eventbriteId ||
-                  ''}');
-                showWidget.classList.add('disabled');
-                showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonText}', '${ticketButtonLoadingText}');
-
-                iframe.addEventListener('load', function() {
-                  setTimeout(function() {
-                    iframe.height = iframe.contentWindow.document.body.scrollHeight;
-                    iframe.style.display = 'none';
-                    showWidget.classList.remove('disabled');
-
-                    showWidget.addEventListener('click', function(event) {
-                      event.preventDefault();
-                      showWidget.style.display = 'none';
-                      iframe.style.display = 'block';
-                      return false;
-                    });
-                    showWidget.innerHTML = showWidget.innerHTML.replace('${ticketButtonLoadingText}', '${ticketButtonText}');
-                    showWidget.disabled = null;
-                  }, 1000);
-                });
-              })();
-            `,
-            }}
+            text="Check for tickets"
           />
           <p
             className={`font-charcoal ${font({ s: 'HNL5' })} ${spacing(

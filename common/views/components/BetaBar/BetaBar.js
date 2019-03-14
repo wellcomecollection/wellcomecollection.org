@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { classNames, font, spacing } from '../../../utils/classnames';
 
-const PurpleTag = styled.span.attrs({
+const PurpleTag = styled.span.attrs(props => ({
   className: classNames({
     caps: true,
     'inline-block': true,
@@ -11,7 +11,7 @@ const PurpleTag = styled.span.attrs({
     [font({ s: 'HNM5' })]: true,
     [spacing({ s: 1 }, { margin: ['right'] })]: true,
   }),
-})`
+}))`
   padding: 0.2em 0.5em;
 `;
 

@@ -7,11 +7,6 @@ import EventPromoReadme from '../../../common/views/components/EventPromo/README
 import EventPromo from '../../../common/views/components/EventPromo/EventPromo';
 import ExhibitionPromoReadme from '../../../common/views/components/ExhibitionPromo/README.md';
 import ExhibitionPromo from '../../../common/views/components/ExhibitionPromo/ExhibitionPromo';
-import WorkPromoReadme from '../../../common/views/components/WorkPromo/README.md';
-import WorkPromo from '../../../common/views/components/WorkPromo/WorkPromo';
-import { workUrl } from '../../../common/services/catalogue/urls';
-
-const datePublished = '1685';
 
 // TODO: add StoryPromo
 
@@ -368,26 +363,6 @@ const ExhibitionPromoExample = () => {
   );
 };
 
-const WorkPromoExample = () => {
-  const title = text(
-    'Title',
-    'Diogenes, sitting in front of his barrel and being offered whatever he wants by Alexander the Great, asks Alexander to step aside so that he can see the sun. Etching by S. Rosa.'
-  );
-  return (
-    <WorkPromo
-      link={workUrl({ id: '123' })}
-      id={id}
-      image={image(
-        'https://iiif.wellcomecollection.org/image/V0049964ER.jpg/full/full/0/default.jpg',
-        800,
-        1309
-      )}
-      title={title}
-      datePublished={datePublished}
-    />
-  );
-};
-
 const stories = storiesOf('Components', module);
 
 stories
@@ -395,5 +370,4 @@ stories
   .add('Promos: Event', EventPromoExample, { info: EventPromoReadme })
   .add('Promos: Exhibition', ExhibitionPromoExample, {
     info: ExhibitionPromoReadme,
-  })
-  .add('Promos: Work', WorkPromoExample, { info: WorkPromoReadme });
+  });

@@ -14,11 +14,11 @@ import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
-const IIIFViewerPaginatorButtons = styled.div.attrs({
+const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
     'flex absolute flex--h-center': true,
   }),
-})`
+}))`
   left: ${props => (props.isThumbs ? 'auto' : '50%')};
   right: ${props => props.theme.spacingUnit}px;
   bottom: ${props => (props.isThumbs ? '50%' : props.theme.spacingUnit + 'px')};
@@ -36,25 +36,26 @@ const IIIFViewerPaginatorButtons = styled.div.attrs({
   `}
 `;
 
-const IIIFViewerThumbNumber = styled.span.attrs({
+const IIIFViewerThumbNumber = styled.span.attrs(props => ({
   className: classNames({
     'line-height-1': true,
     'absolute bg-charcoal font-white': true,
     [font({ s: 'LR3' })]: true,
   }),
-})`
+}))`
   top: ${props => props.theme.spacingUnit}px;
   left: 50%;
   transform: translateX(-50%);
   padding: 3px 2px 0;
+  z-index: 1;
 `;
 
-const IIIFViewerThumb = styled.div.attrs({
+const IIIFViewerThumb = styled.div.attrs(props => ({
   className: classNames({
     'relative flex flex--v-center': true,
     [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
   }),
-})`
+}))`
   height: 100%;
   width: 20%;
   margin-right: ${props => props.theme.spacingUnit}px;
@@ -70,11 +71,11 @@ const IIIFViewerThumb = styled.div.attrs({
   }
 `;
 
-const IIIFViewerThumbs = styled.div.attrs({
+const IIIFViewerThumbs = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--h-center relative bg-smoke': true,
   }),
-})`
+}))`
   height: 20%;
   width: 100%;
   padding: 0 100px 0 0;
@@ -87,14 +88,14 @@ const IIIFViewerThumbs = styled.div.attrs({
   }
 `;
 
-const IIIFViewerMain = styled.div.attrs({
+const IIIFViewerMain = styled.div.attrs(props => ({
   className: classNames({
-    'flex flex--v-center flex--h-center relative bg-charcoal': true,
+    'relative bg-charcoal': true,
     [spacing({ s: 4 }, { padding: ['top'] })]: true,
     [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
     [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
   }),
-})`
+}))`
   height: 80%;
   width: 100%;
 
@@ -104,23 +105,23 @@ const IIIFViewerMain = styled.div.attrs({
   }
 `;
 
-const IIIFViewerXOfY = styled.span.attrs({
+const IIIFViewerXOfY = styled.span.attrs(props => ({
   className: classNames({
     'absolute font-white': true,
     [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
     [font({ s: 'LR3' })]: true,
   }),
-})`
+}))`
   top: ${props => props.theme.spacingUnit}px;
   left: 50%;
   transform: translateX(-50%);
 `;
 
-const IIIFViewerThumbLink = styled.a.attrs({
+const IIIFViewerThumbLink = styled.a.attrs(props => ({
   className: classNames({
-    'flex flex--v-center h-center': true,
+    'block h-center': true,
   }),
-})`
+}))`
   height: 100%;
 
   img {
@@ -130,16 +131,19 @@ const IIIFViewerThumbLink = styled.a.attrs({
   }
 `;
 
-const IIIFViewer = styled.div.attrs({
+const IIIFViewer = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--wrap': true,
   }),
-})`
+}))`
   width: 100vw;
   height: 100vh;
   flex-direction: row-reverse;
 
   img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     margin: 0 auto;
     display: block;
     width: auto;
