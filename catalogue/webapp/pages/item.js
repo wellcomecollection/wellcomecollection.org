@@ -304,7 +304,7 @@ const ItemPage = ({
             width={largestSize.width}
             height={largestSize.height}
             src={urlTemplate({
-              size: `${largestSize.width},${largestSize.height}`,
+              size: `max`,
             })}
           />
           <IIIFViewerPaginatorButtons>
