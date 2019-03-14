@@ -6,15 +6,21 @@ function createRedirect(location, excludeDomain) {
     status: '301',
     statusDescription: 'Found',
     headers: {
-      location: [{
-        key: 'Location',
-        value: excludeDomain ? location : `https://wellcomecollection.org${location}`
-      }],
-      'x-powered-by': [{
-        key: 'x-powered-by',
-        value: '@weco/wiRedirector'
-      }]
-    }
+      location: [
+        {
+          key: 'Location',
+          value: excludeDomain
+            ? location
+            : `https://wellcomecollection.org${location}`,
+        },
+      ],
+      'x-powered-by': [
+        {
+          key: 'x-powered-by',
+          value: '@weco/wiRedirector',
+        },
+      ],
+    },
   };
 }
 
@@ -34,7 +40,9 @@ exports.wiRedirector = (event, context) => {
       const params = querystring.parse(request.querystring);
       if (params.MIRO) {
         const redirect = createRedirect(
-          `https://iiif.wellcomecollection.org/image/${params.MIRO}.jpg/full/125,/0/default.jpg`,
+          `https://iiif.wellcomecollection.org/image/${
+            params.MIRO
+          }.jpg/full/125,/0/default.jpg`,
           true
         );
         cf.response = redirect;
@@ -55,7 +63,9 @@ exports.wiRedirector = (event, context) => {
     }
 
     // e.g. http://wellcomeimages.org/indexplus/image/hats.html
-    const searchTermMatch = request.uri.match(/\/indexplus\/image\/(.*)\.html/i);
+    const searchTermMatch = request.uri.match(
+      /\/indexplus\/image\/(.*)\.html/i
+    );
     if (searchTermMatch) {
       const redirect = createRedirect(
         `/works?query=${searchTermMatch[1]}&wellcomeImagesUrl=${request.uri}`
