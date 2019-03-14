@@ -241,13 +241,12 @@ const IIIFPresentationDisplay = ({
   const [imageTotal, setImageTotal] = useState(null);
   const iiifPresentationManifest = useContext(ManifestContext);
   const fetchThumbnails = async () => {
-    const manifestData = iiifPresentationManifest;
     try {
-      setImageTotal(getCanvases(manifestData).length);
+      setImageTotal(getCanvases(iiifPresentationManifest).length);
       setImageThumbnails(
         previewThumbnails(
-          manifestData,
-          orderedStructuredImages(structuredImages(manifestData)),
+          iiifPresentationManifest,
+          orderedStructuredImages(structuredImages(iiifPresentationManifest)),
           4
         )
       );
