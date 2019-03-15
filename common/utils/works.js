@@ -23,7 +23,7 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
-export type iiifPresentationLocation = {|
+export type IIIFPresentationLocation = {|
   locationType: {
     id: 'iiif-presentation',
     label: 'IIIF Presentation API',
@@ -33,9 +33,9 @@ export type iiifPresentationLocation = {|
   type: 'DigitalLocation',
 |};
 
-export function getIiifPresentationLocation(
+export function getIIIFPresentationLocation(
   work: Work
-): iiifPresentationLocation {
+): IIIFPresentationLocation {
   return work.items
     .map(item =>
       item.locations.find(
@@ -43,6 +43,13 @@ export function getIiifPresentationLocation(
       )
     )
     .filter(Boolean)[0];
+}
+
+export function getEncoreLink(sierraId: string): string {
+  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+    0,
+    sierraId.length - 1
+  )}`;
 }
 
 const workTypeIcons = {

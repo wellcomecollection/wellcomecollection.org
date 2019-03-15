@@ -12,18 +12,18 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { workUrl, worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import { SearchProvider } from '../components/SearchContext/SearchContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   query: ?string,
@@ -33,7 +33,32 @@ type Props = {|
   itemsLocationsLocationType: ?(string[]),
 |};
 
-export const Works = ({
+const WorksSearchProvider = ({
+  works,
+  query,
+  page,
+  workType,
+  itemsLocationsLocationType,
+}: Props) => (
+  <SearchProvider
+    initialState={{
+      query: query || '',
+      page: page || 1,
+      workType,
+      itemsLocationsLocationType,
+    }}
+  >
+    <Works
+      works={works}
+      query={query}
+      page={page}
+      workType={workType}
+      itemsLocationsLocationType={itemsLocationsLocationType}
+    />
+  </SearchProvider>
+);
+
+const Works = ({
   works,
   query,
   page,
@@ -41,6 +66,7 @@ export const Works = ({
   itemsLocationsLocationType,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     function routeChangeStart(url: string) {
       setLoading(true);
@@ -129,22 +155,36 @@ export const Works = ({
                     spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
-                  <h1
-                    className={classNames([
-                      font({ s: 'WB6', m: 'WB4' }),
-                      spacing({ s: 2 }, { margin: ['bottom'] }),
-                      spacing({ s: 4 }, { margin: ['right'] }),
-                      spacing({ s: 0 }, { margin: ['top'] }),
-                    ])}
-                  >
-                    <TogglesContext.Consumer>
-                      {({ catalogueSearchHeaderExploreContent }) =>
-                        catalogueSearchHeaderExploreContent
-                          ? 'Explore our collections'
-                          : 'Search our images'
-                      }
-                    </TogglesContext.Consumer>
-                  </h1>
+                  <TogglesContext.Consumer>
+                    {({ catalogueSearchHeaderExploreMessaging }) => (
+                      <>
+                        {catalogueSearchHeaderExploreMessaging && !works && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Explore our collections
+                          </h1>
+                        )}
+                        {!catalogueSearchHeaderExploreMessaging && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Search our images
+                          </h1>
+                        )}
+                      </>
+                    )}
+                  </TogglesContext.Consumer>
 
                   <TogglesContext.Consumer>
                     {({ betaBar }) =>
@@ -171,11 +211,10 @@ export const Works = ({
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreContent }) =>
-                    catalogueSearchHeaderExploreContent && (
+                  {({ catalogueSearchHeaderExploreMessaging }) =>
+                    catalogueSearchHeaderExploreMessaging && (
                       <p
                         className={classNames({
-                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
                           [font({ s: 'HNL4', m: 'HNL3' })]: true,
                           'visually-hidden': Boolean(works),
                         })}
@@ -190,17 +229,14 @@ export const Works = ({
                 </TogglesContext.Consumer>
 
                 <SearchForm
-                  initialQuery={query || ''}
-                  initialWorkType={workType}
-                  initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
                   works={works}
                 />
 
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreContent }) =>
-                    !catalogueSearchHeaderExploreContent && (
+                  {({ catalogueSearchHeaderExploreMessaging }) =>
+                    !catalogueSearchHeaderExploreMessaging && (
                       <p
                         className={classNames({
                           [spacing({ s: 4 }, { margin: ['top'] })]: true,
@@ -216,18 +252,6 @@ export const Works = ({
                     )
                   }
                 </TogglesContext.Consumer>
-
-                {works && (
-                  <p
-                    className={classNames([
-                      spacing({ s: 2 }, { margin: ['top', 'bottom'] }),
-                      font({ s: 'LR3', m: 'LR2' }),
-                    ])}
-                  >
-                    {works.totalResults !== 0 ? works.totalResults : 'No'}{' '}
-                    results for &apos;{query}&apos;
-                  </p>
-                )}
               </div>
             </div>
           </div>
@@ -268,7 +292,7 @@ export const Works = ({
                       ),
                     },
                     {
-                      text: 'Visuals',
+                      text: 'Pictures',
                       link: worksUrl({
                         query,
                         workType: ['k', 'q'],
@@ -295,7 +319,11 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <div className="grid__cell">
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                    })}
+                  >
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
@@ -334,58 +362,22 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <TogglesContext.Consumer>
-                    {({ genericWorkCard }) => {
-                      return genericWorkCard
-                        ? works.results.map(result => (
-                            <div
-                              className={classNames({
-                                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-                              })}
-                              key={result.id}
-                            >
-                              <WorkCard
-                                work={result}
-                                query={query}
-                                page={page}
-                                workType={workType}
-                                itemsLocationsLocationType={
-                                  itemsLocationsLocationType
-                                }
-                              />
-                            </div>
-                          ))
-                        : works.results.map(result => (
-                            <div
-                              key={result.id}
-                              className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
-                            >
-                              <WorkPromo
-                                id={result.id}
-                                image={{
-                                  contentUrl: result.thumbnail
-                                    ? result.thumbnail.url
-                                    : 'https://via.placeholder.com/1600x900?text=%20',
-                                  width: 300,
-                                  height: 300,
-                                  alt: '',
-                                }}
-                                datePublished={
-                                  result.createdDate && result.createdDate.label
-                                }
-                                title={result.title}
-                                link={workUrl({
-                                  id: result.id,
-                                  query,
-                                  page,
-                                  workType,
-                                  itemsLocationsLocationType,
-                                })}
-                              />
-                            </div>
-                          ));
-                    }}
-                  </TogglesContext.Consumer>
+                  {works.results.map(result => (
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                      key={result.id}
+                    >
+                      <WorkCard
+                        work={result}
+                        query={query}
+                        page={page}
+                        workType={workType}
+                        itemsLocationsLocationType={itemsLocationsLocationType}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -397,7 +389,11 @@ export const Works = ({
               >
                 <div className="container">
                   <div className="grid">
-                    <div className="grid__cell">
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                    >
                       <div className="flex flex--h-space-between flex--v-center">
                         <Fragment>
                           <Paginator
@@ -460,7 +456,7 @@ export const Works = ({
   );
 };
 
-Works.getInitialProps = async (ctx: Context): Promise<Props> => {
+WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
@@ -516,4 +512,4 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   };
 };
 
-export default Works;
+export default WorksSearchProvider;

@@ -121,11 +121,13 @@ const WorkDetails = ({
           <MetaUnit
             headingLevel={3}
             headingText="Contributors"
-            text={[
-              work.contributors
-                .map(contributor => contributor.agent.label)
-                .join(' | '),
-            ]}
+            tags={work.contributors.map(contributor => ({
+              textParts: [contributor.agent.label],
+              linkAttributes: worksUrl({
+                query: `"${contributor.agent.label}"`,
+                page: 1,
+              }),
+            }))}
           />
         )}
 
@@ -160,7 +162,7 @@ const WorkDetails = ({
         {work.genres.length > 0 && (
           <MetaUnit
             headingLevel={3}
-            headingText="Type"
+            headingText="Type/Technique"
             tags={work.genres.map(g => {
               return {
                 textParts: g.concepts.map(c => c.label),
@@ -202,12 +204,8 @@ const WorkDetails = ({
   }
   if (encoreLink) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Find in the library">
-        <MetaUnit
-          text={[
-            `This ${singularWorkTypeLabel} is available at <a href="${encoreLink}">Wellcome library</a>`,
-          ]}
-        />
+      <WorkDetailsSection headingText="Where to find it">
+        <MetaUnit text={[`<a href="${encoreLink}">Wellcome library</a>`]} />
       </WorkDetailsSection>
     );
   }

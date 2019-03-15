@@ -1,6 +1,6 @@
 // @flow
 import { type CatalogueResultsList } from '@weco/common/model/catalogue';
-import { useState, useRef } from 'react';
+import { useRef, useContext } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -11,11 +11,9 @@ import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
+import SearchContext from '../SearchContext/SearchContext';
 
 type Props = {|
-  initialQuery: string,
-  initialWorkType: ?(string[]),
-  initialItemsLocationsLocationType: ?(string[]),
   ariaDescribedBy: string,
   compact: boolean,
   works: ?CatalogueResultsList,
@@ -45,18 +43,9 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
-const SearchForm = ({
-  initialQuery = '',
-  initialWorkType,
-  initialItemsLocationsLocationType,
-  ariaDescribedBy,
-  compact,
-  works,
-}: Props) => {
-  const [query, setQuery] = useState(initialQuery);
-  const workType = initialWorkType;
-  const [itemsLocationsLocationType] = useState(
-    initialItemsLocationsLocationType
+const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
+  const { query, setQuery, itemsLocationsLocationType, workType } = useContext(
+    SearchContext
   );
   const searchInput = useRef(null);
 

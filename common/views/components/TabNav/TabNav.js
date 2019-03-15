@@ -13,19 +13,14 @@ type Props = {
   large: boolean,
 };
 
-const NavItemInner = styled(({ className, selected, children, large }) => (
-  <span
-    className={classNames({
-      selected,
-      block: true,
-      relative: true,
-      [className]: true,
-      [spacing({ s: 3 }, { margin: ['right'] })]: large,
-    })}
-  >
-    {children}
-  </span>
-))`
+const NavItemInner = styled.span.attrs(props => ({
+  className: classNames({
+    selected: props.selected,
+    block: true,
+    relative: true,
+    [spacing({ s: 3 }, { margin: ['right'] })]: props.large,
+  }),
+}))`
   padding: ${props => (props.large ? '1rem 0.3rem' : '0 0.3rem 1rem')};
   z-index: 1;
 

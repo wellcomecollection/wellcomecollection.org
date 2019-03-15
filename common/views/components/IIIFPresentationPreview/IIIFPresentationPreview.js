@@ -1,12 +1,13 @@
 // @flow
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { type iiifPresentationLocation } from '@weco/common/utils/works';
+import { type IIIFPresentationLocation } from '@weco/common/utils/works';
 import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { font, classNames } from '@weco/common/utils/classnames';
 import { useEffect, useState } from 'react';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -31,15 +32,6 @@ const BookPreview = styled.div`
   ${props => props.theme.media.large`
     grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
   `}
-
-  .btn {
-    grid-row-end: 3;
-    ${props => props.hasThumbs && 'transform: translateY(-50%)'};
-
-    @media (min-width: 708px) {
-      transform: none;
-    }
-  }
 `;
 
 const PagePreview = styled.div`
@@ -89,6 +81,46 @@ const PagePreview = styled.div`
     ${props => props.theme.media.large`
     grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
   `}
+  }
+`;
+
+const CallToAction = styled.div`
+  display: inline-block;
+  padding: 6px 24px;
+  grid-row-end: 3;
+  ${props => props.hasThumbs && 'transform: translateY(-50%)'};
+  background: ${props => props.theme.colors.green};
+  color: ${props => props.theme.colors.white};
+  transition: all 500ms ease;
+
+  @media (min-width: 708px) {
+    transform: none;
+  }
+
+  a:hover &,
+  a:focus & {
+    background: ${props => props.theme.colors.black};
+  }
+
+  .icon {
+    margin-right: 6px;
+  }
+
+  .icon__shape {
+    fill: currentColor;
+  }
+
+  .cta__inner {
+    @media (min-width: 708px) {
+      display: block;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .cta__text {
+    display: block;
   }
 `;
 
@@ -199,7 +231,7 @@ function previewThumbnails(
 }
 
 type Props = {|
-  iiifPresentationLocation: iiifPresentationLocation,
+  iiifPresentationLocation: IIIFPresentationLocation,
   itemUrl: any,
 |};
 
@@ -250,7 +282,7 @@ const IIIFPresentationDisplay = ({
                   <PagePreview
                     key={image.id}
                     backgroundImage={iiifImageTemplate(image.id)({
-                      size: '!1024,1024',
+                      size: 'max',
                     })}
                   />
                 ) : (
@@ -263,11 +295,25 @@ const IIIFPresentationDisplay = ({
                 );
               });
             })}
-            <Button
-              icon="gallery"
-              type="primary"
-              text={imageTotal ? `${imageTotal} images` : 'View images'}
-            />
+            <CallToAction
+              hasThumbs={imageThumbnails.length > 0}
+              className={classNames({
+                [font({ s: 'HNM4' })]: true,
+              })}
+            >
+              <span className="cta__inner">
+                <span
+                  className={classNames({
+                    'flex-inline': true,
+                    'flex--v-center': true,
+                  })}
+                >
+                  <Icon name="gallery" />
+                  {imageTotal}
+                </span>
+                <span className="cta__text">Full view</span>
+              </span>
+            </CallToAction>
           </BookPreview>
         </a>
       </NextLink>

@@ -44,9 +44,9 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
         # consider making new urls for newsletter pages instead)
         "result",
 
-        # Works specific
         "workType",
-
+        "sierraId",
+        "canvas",
         "items.locations.locationType",
       ]
 

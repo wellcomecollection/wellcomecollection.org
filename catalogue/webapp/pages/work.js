@@ -7,8 +7,8 @@ import {
 } from '@weco/common/model/catalogue';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
-  type iiifPresentationLocation,
-  getIiifPresentationLocation,
+  getIIIFPresentationLocation,
+  getEncoreLink,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -22,6 +22,7 @@ import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import { SearchProvider } from '../components/SearchContext/SearchContext';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
@@ -30,7 +31,6 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 
 type Props = {|
   work: Work | CatalogueApiError,
-  iiifPresentationLocation: iiifPresentationLocation,
   workType: string[],
   query: ?string,
   page: ?number,
@@ -39,7 +39,6 @@ type Props = {|
 
 export const WorkPage = ({
   work,
-  iiifPresentationLocation,
   query,
   page,
   workType,
@@ -73,18 +72,24 @@ export const WorkPage = ({
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
-  const sierraId = (
-    work.identifiers.find(
-      identifier => identifier.identifierType.id === 'sierra-system-number'
-    ) || {}
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const sierraIds = work.identifiers.filter(
+    i => i.identifierType.id === 'sierra-system-number'
+  );
+
+  // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
+  // will be for a physical item.
+  const physicalSierraId = (
+    sierraIds.find(i => i.value !== sierraIdFromPresentationManifestUrl) || {}
   ).value;
+
   // We strip the last character as that's what Wellcome library expect
-  const encoreLink =
-    sierraId &&
-    `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
-      0,
-      sierraId.length - 1
-    )}`;
+  const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
   const imageContentUrl =
     iiifImageLocationUrl &&
@@ -132,14 +137,20 @@ export const WorkPage = ({
                 [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
               })}
             >
-              <SearchForm
-                initialQuery={query || ''}
-                initialWorkType={workType}
-                initialItemsLocationsLocationType={itemsLocationsLocationType}
-                ariaDescribedBy="search-form-description"
-                compact={true}
-                works={null}
-              />
+              <SearchProvider
+                initialState={{
+                  query: query || '',
+                  page: page || 1,
+                  workType,
+                  itemsLocationsLocationType,
+                }}
+              >
+                <SearchForm
+                  ariaDescribedBy="search-form-description"
+                  compact={true}
+                  works={null}
+                />
+              </SearchProvider>
             </div>
           </div>
 
@@ -177,7 +188,8 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
-      {iiifPresentationLocation && (
+
+      {sierraIdFromPresentationManifestUrl && iiifPresentationLocation && (
         <div className="container">
           <IIIFPresentationPreview
             iiifPresentationLocation={iiifPresentationLocation}
@@ -186,7 +198,7 @@ export const WorkPage = ({
               query,
               workType,
               itemsLocationsLocationType,
-              sierraId,
+              sierraId: sierraIdFromPresentationManifestUrl,
               page: 1,
               canvas: 1,
             })}
@@ -223,7 +235,6 @@ WorkPage.getInitialProps = async (
 
   const { id, query, page } = ctx.query;
   const workOrError = await getWork({ id });
-  const iiifPresentationLocation = getIiifPresentationLocation(workOrError);
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -240,7 +251,6 @@ WorkPage.getInitialProps = async (
     return {
       query,
       work: workOrError,
-      iiifPresentationLocation,
       page: page ? parseInt(page, 10) : null,
       workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
       itemsLocationsLocationType:
