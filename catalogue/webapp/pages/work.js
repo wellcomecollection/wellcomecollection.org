@@ -189,7 +189,7 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {sierraIdFromPresentationManifestUrl && (
+      {sierraIdFromPresentationManifestUrl && iiifPresentationLocation && (
         <div className="container">
           <IIIFPresentationPreview
             iiifPresentationLocation={iiifPresentationLocation}
