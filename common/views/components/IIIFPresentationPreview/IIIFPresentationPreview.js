@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { useEffect, useState } from 'react';
+import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
 const BookPreviewContainer = styled.div`
@@ -265,7 +266,16 @@ const IIIFPresentationDisplay = ({
   return (
     <BookPreviewContainer>
       <NextLink {...itemUrl}>
-        <a className="plain-link">
+        <a
+          className="plain-link"
+          onClick={() => {
+            trackEvent({
+              category: 'IIIFPresentationPreview',
+              action: 'go to full view',
+              label: itemUrl.href.query.workId,
+            });
+          }}
+        >
           <BookPreview
             columnNumber={
               itemsNumber === 1
