@@ -12,6 +12,7 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
@@ -184,6 +185,7 @@ async function getCanvasOcr(canvas) {
       .join(' ');
     return textString.length > 0 ? textString : null;
   } catch (e) {
+    Raven.captureException(e);
     return null;
   }
 }
