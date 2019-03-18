@@ -15,14 +15,13 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
     target_origin_id       = "S3-${var.website_uri}"
-    min_ttl                = 86400
-    default_ttl            = 86400
-    max_ttl                = 86400
     compress               = true
 
     forwarded_values {
       query_string = false
 
+      # this is to respect CORS
+      # see: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-cors
       headers = [
         "Origin",
         "Access-Control-Request-Headers",
