@@ -231,7 +231,6 @@ const IndexPage = () => {
                     });
                   }}
                   opaque
-                  States
                 >
                   Forget my choice
                 </Button>
