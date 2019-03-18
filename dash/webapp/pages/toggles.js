@@ -21,8 +21,9 @@ const Status = styled.div`
   width: 10px;
   height: 10px;
   margin-left: 10px;
+  margin-right: 5px;
   border-radius: 50%;
-  background: ${props => (props.active ? 'green' : 'red')};
+  background: ${props => (props.active ? 'green' : 'lightgrey')};
 `;
 
 const aYear = 31536000;
@@ -121,7 +122,8 @@ const IndexPage = () => {
                     color: 'grey',
                   }}
                 >
-                  Public status <Status active={toggle.defaultValue} />
+                  Public status: <Status active={toggle.defaultValue} />{' '}
+                  {toggle.defaultValue === true ? 'on' : 'off'}
                 </div>
                 <p>{toggle.description}</p>
                 <Button
