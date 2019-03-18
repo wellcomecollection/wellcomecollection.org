@@ -293,6 +293,43 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
+      <Layout12>
+        <div
+          className={classNames({
+            [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+            [spacing({ s: 6 }, { padding: ['top'] })]: true,
+          })}
+        >
+          <h1
+            className={classNames({
+              [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
+            })}
+            style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+            title={title}
+          >
+            {title}
+          </h1>
+          <NextLink
+            {...workUrl({
+              id: workId,
+              page: null,
+              query: null,
+            })}
+          >
+            <a
+              className={classNames({
+                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+              })}
+            >
+              Overview
+            </a>
+          </NextLink>
+        </div>
+      </Layout12>
       <IIIFViewer>
         <IIIFViewerMain>
           <Paginator {...mainPaginatorProps} render={XOfY} />
@@ -349,24 +386,6 @@ const ItemPage = ({
           </IIIFViewerPaginatorButtons>
         </IIIFViewerThumbs>
       </IIIFViewer>
-      <Layout12>
-        <h1
-          className={classNames({
-            [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
-          })}
-        >
-          {title}
-        </h1>
-        <NextLink
-          {...workUrl({
-            id: workId,
-            page: null,
-            query: null,
-          })}
-        >
-          <a>Overview</a>
-        </NextLink>
-      </Layout12>
     </PageLayout>
   );
 };
