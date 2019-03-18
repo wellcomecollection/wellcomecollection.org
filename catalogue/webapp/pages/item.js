@@ -13,6 +13,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -300,24 +301,21 @@ const ItemPage = ({
             [spacing({ s: 6 }, { padding: ['top'] })]: true,
           })}
         >
-          <h1
+          <TruncatedText
+            text={title}
+            as="h1"
             className={classNames({
               [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
             })}
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
             title={title}
           >
             {title}
-          </h1>
+          </TruncatedText>
           <NextLink
             {...workUrl({
               id: workId,
-              page: null,
-              query: null,
+              page: pageIndex + 1,
+              query,
             })}
           >
             <a
