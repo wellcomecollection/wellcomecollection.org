@@ -160,6 +160,7 @@ type Props = {|
   pageSize: number,
   pageIndex: number,
   canvasIndex: number,
+  canvasOcr: string,
   itemsLocationsLocationType: ?(string[]),
   workType: ?(string[]),
   query: ?string,
@@ -263,6 +264,7 @@ const ItemPage = ({
   pageSize,
   pageIndex,
   canvasIndex,
+  canvasOcr,
   itemsLocationsLocationType,
   workType,
   query,
@@ -422,6 +424,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     pageSize,
     pageIndex,
     canvasIndex,
+    canvasOcr,
     // TODO: add these back in, it's just makes it easier to check the URLs
     itemsLocationsLocationType: null,
     workType: null,
