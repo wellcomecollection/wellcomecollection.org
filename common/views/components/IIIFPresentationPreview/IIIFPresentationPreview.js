@@ -271,7 +271,7 @@ const IIIFPresentationDisplay = ({
           onClick={() => {
             trackEvent({
               category: 'IIIFPresentationPreview',
-              action: 'go to full view',
+              action: 'follow link',
               label: itemUrl.href.query.workId,
             });
           }}
