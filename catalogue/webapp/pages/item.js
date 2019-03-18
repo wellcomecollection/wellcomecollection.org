@@ -31,7 +31,11 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     @media (min-width: ${props.theme.sizes.medium}px) {
       bottom: ${props.theme.spacingUnit * 5}px;
       left: 50%;
-      transform: translateX(-50%) translateY(0%) rotate(90deg);
+      transform: translateX(-50%) translateY(0%);
+
+      .control__inner {
+        transform: rotate(90deg);
+      }
     }
   `}
 `;
