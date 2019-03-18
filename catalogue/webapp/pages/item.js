@@ -165,12 +165,36 @@ type Props = {|
   query: ?string,
 |};
 
+async function getCanvasOcr(canvas) {
+  const textContent = canvas.otherContent.find(
+    content =>
+      content['@type'] === 'sc:AnnotationList' &&
+      content.label === 'Text of this page'
+  );
+  const textService = textContent && textContent['@id'];
+  try {
+    const textJson = await fetch(textService);
+    const text = await textJson.json();
+    const textString = text.resources
+      .filter(resource => {
+        return resource.resource['@type'] === 'cnt:ContentAsText';
+      })
+      .map(resource => resource.resource.chars)
+      .join(' ');
+    return textString.length > 0 ? textString : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
+
 const IIIFCanvasThumbnail = ({
   canvas,
   maxWidth,
 }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
+
   const size = maxWidth
     ? thumbnailService.sizes
         .filter(size => size.width <= maxWidth)
@@ -385,6 +409,12 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
 
+  const canvases = manifest.sequences[0].canvases;
+  const currentCanvas = canvases[canvasIndex];
+  const canvasOcr =
+    (await getCanvasOcr(currentCanvas)) ||
+    'no text alternative is available for this image';
+  console.log(canvasOcr); // TODO character encode "
   return {
     workId,
     sierraId,
