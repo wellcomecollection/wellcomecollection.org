@@ -13,6 +13,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -297,6 +298,40 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
     >
+      <Layout12>
+        <div
+          className={classNames({
+            [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+            [spacing({ s: 6 }, { padding: ['top'] })]: true,
+          })}
+        >
+          <TruncatedText
+            text={title}
+            as="h1"
+            className={classNames({
+              [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
+            })}
+            title={title}
+          >
+            {title}
+          </TruncatedText>
+          <NextLink
+            {...workUrl({
+              id: workId,
+              page: pageIndex + 1,
+              query,
+            })}
+          >
+            <a
+              className={classNames({
+                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+              })}
+            >
+              Overview
+            </a>
+          </NextLink>
+        </div>
+      </Layout12>
       <IIIFViewer>
         <IIIFViewerMain>
           <Paginator {...mainPaginatorProps} render={XOfY} />
@@ -353,24 +388,6 @@ const ItemPage = ({
           </IIIFViewerPaginatorButtons>
         </IIIFViewerThumbs>
       </IIIFViewer>
-      <Layout12>
-        <h1
-          className={classNames({
-            [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
-          })}
-        >
-          {title}
-        </h1>
-        <NextLink
-          {...workUrl({
-            id: workId,
-            page: null,
-            query: null,
-          })}
-        >
-          <a>Overview</a>
-        </NextLink>
-      </Layout12>
     </PageLayout>
   );
 };
