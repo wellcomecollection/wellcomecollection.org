@@ -22,6 +22,7 @@ import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
+import { SearchProvider } from '../components/SearchContext/SearchContext';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { getWork } from '../services/catalogue/works';
@@ -136,11 +137,20 @@ export const WorkPage = ({
                 [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
               })}
             >
-              <SearchForm
-                ariaDescribedBy="search-form-description"
-                compact={true}
-                works={null}
-              />
+              <SearchProvider
+                initialState={{
+                  query: query || '',
+                  page: page || 1,
+                  workType,
+                  itemsLocationsLocationType,
+                }}
+              >
+                <SearchForm
+                  ariaDescribedBy="search-form-description"
+                  compact={true}
+                  works={null}
+                />
+              </SearchProvider>
             </div>
           </div>
 
@@ -179,7 +189,7 @@ export const WorkPage = ({
         </div>
       </div>
 
-      {sierraIdFromPresentationManifestUrl && (
+      {sierraIdFromPresentationManifestUrl && iiifPresentationLocation && (
         <div className="container">
           <IIIFPresentationPreview
             iiifPresentationLocation={iiifPresentationLocation}

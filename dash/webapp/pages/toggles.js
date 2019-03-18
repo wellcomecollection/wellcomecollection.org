@@ -35,7 +35,6 @@ function setCookie(name, value) {
 }
 
 const abTests = [];
-
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
   const [toggles, setToggles] = useState([]);
@@ -91,9 +90,8 @@ const IndexPage = () => {
             margin: 0,
           }}
         >
-          You can opt-in to testing a new feature (👍) or, prefer to stay
-          opted-out (👎). If you ask us to forget your choice, it is effectually
-          opting out.
+          You can turn on a toggle on (👍) or off (👎). Toggles also have a
+          public status which is set for 100% of users.
         </p>
         {toggles.length > 0 && (
           <ul
@@ -138,7 +136,7 @@ const IndexPage = () => {
                     opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
                   }}
                 >
-                  👍 Count me in
+                  👍 On
                 </Button>
                 <Button
                   onClick={() => {
@@ -152,17 +150,7 @@ const IndexPage = () => {
                     opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
                   }}
                 >
-                  👎 No thanks
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, null);
-                    delete toggles[toggle.id];
-                    setToggles(toggles);
-                  }}
-                  opaque
-                >
-                  Forget my choice
+                  👎 Off
                 </Button>
               </li>
             ))}

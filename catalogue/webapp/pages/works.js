@@ -292,7 +292,7 @@ const Works = ({
                       ),
                     },
                     {
-                      text: 'Visuals',
+                      text: 'Pictures',
                       link: worksUrl({
                         query,
                         workType: ['k', 'q'],
