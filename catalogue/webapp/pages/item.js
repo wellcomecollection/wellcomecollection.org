@@ -160,7 +160,7 @@ type Props = {|
   pageSize: number,
   pageIndex: number,
   canvasIndex: number,
-  canvasOcr: string,
+  canvasOcr: ?string,
   itemsLocationsLocationType: ?(string[]),
   workType: ?(string[]),
   query: ?string,
@@ -332,6 +332,10 @@ const ItemPage = ({
             src={urlTemplate({
               size: `max`,
             })}
+            alt={
+              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+              'no text alternative is available for this image'
+            }
           />
           <IIIFViewerPaginatorButtons>
             <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
@@ -413,10 +417,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const canvases = manifest.sequences[0].canvases;
   const currentCanvas = canvases[canvasIndex];
-  const canvasOcr =
-    (await getCanvasOcr(currentCanvas)) ||
-    'no text alternative is available for this image';
-  console.log(canvasOcr); // TODO character encode "
+  const canvasOcr = await getCanvasOcr(currentCanvas);
+
   return {
     workId,
     sierraId,
