@@ -91,7 +91,7 @@ const IIIFViewerThumbs = styled.div.attrs(props => ({
 
 const IIIFViewerMain = styled.div.attrs(props => ({
   className: classNames({
-    'relative bg-charcoal': true,
+    'relative bg-charcoal font-white': true,
     [spacing({ s: 4 }, { padding: ['top'] })]: true,
     [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
     [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
@@ -151,6 +151,7 @@ const IIIFViewer = styled.div.attrs(props => ({
     height: auto;
     max-width: 100%;
     max-height: 100%;
+    overflow: scroll;
   }
 `;
 
