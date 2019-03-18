@@ -211,7 +211,7 @@ const PaginatorButtons = ({
       })}
     >
       {prevLink && (
-        <NextLink {...prevLink} scroll={false}>
+        <NextLink {...prevLink} scroll={false} replace>
           <a
             className={classNames({
               [spacing({ s: 1 }, { margin: ['right'] })]: true,
@@ -222,7 +222,7 @@ const PaginatorButtons = ({
         </NextLink>
       )}
       {nextLink && (
-        <NextLink {...nextLink} scroll={false}>
+        <NextLink {...nextLink} scroll={false} replace>
           <a>
             <Control type="light" icon="arrow" extraClasses="icon" />
           </a>
@@ -329,6 +329,7 @@ const ItemPage = ({
                       canvas: pageSize * pageIndex + (i + 1),
                     })}
                     scroll={false}
+                    replace
                   >
                     <IIIFViewerThumbLink
                       isActive={canvasIndex === rangeStart + i - 1}
