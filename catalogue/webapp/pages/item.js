@@ -205,7 +205,6 @@ const IIIFCanvasThumbnail = ({
 
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   return (
-    // TODO: add alt text
     <img
       width={size.width}
       height={size.height}
@@ -364,6 +363,7 @@ const ItemPage = ({
                       isActive={canvasIndex === rangeStart + i - 1}
                     >
                       <IIIFViewerThumbNumber>
+                        <span className="visually-hidden">image </span>
                         {rangeStart + i}
                       </IIIFViewerThumbNumber>
                       <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
