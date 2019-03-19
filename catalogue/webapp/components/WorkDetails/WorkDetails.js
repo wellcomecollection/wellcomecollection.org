@@ -7,7 +7,7 @@ import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
-  getRepositoryFromIIIFPresentationManifest,
+  getIIIFMetadata,
 } from '@weco/common/utils/works';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -121,7 +121,7 @@ const WorkDetails = ({
         : '';
       setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
       setIIIFPresentationRepository(
-        getRepositoryFromIIIFPresentationManifest(iiifPresentationManifest)
+        getIIIFMetadata(iiifPresentationManifest, 'Repository')
       );
     }
   }, [iiifPresentationManifest]);

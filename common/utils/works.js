@@ -15,12 +15,11 @@ export function getPhysicalLocations(work: Work) {
     .reduce((acc, locations) => acc.concat(locations), []);
 }
 
-export function getRepositoryFromIIIFPresentationManifest(
-  iiifManifest: IIIFManifest
+export function getIIIFMetadata(
+  iiifManifest: IIIFManifest,
+  label: string
 ): ?IIIFMetadata {
-  const repository = iiifManifest.metadata.find(
-    data => data.label === 'Repository'
-  );
+  const repository = iiifManifest.metadata.find(data => data.label === label);
   return repository;
 }
 
