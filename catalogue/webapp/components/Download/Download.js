@@ -224,15 +224,17 @@ const Download = ({
               Credit: {iiifImageLocationCredit}{' '}
             </span>
           )}
-          <a
-            href="#licenseInformation"
-            className={font({ s: 'HNM5', m: 'HNM4' })}
-          >
-            <span className="flex-inline flex--v-center nowrap">
-              <Icon name="arrowSmall" extraClasses="icon--90" />
-              Can I use this?
-            </span>
-          </a>
+          {licenseInfo && (
+            <a
+              href="#licenseInformation"
+              className={font({ s: 'HNM5', m: 'HNM4' })}
+            >
+              <span className="flex-inline flex--v-center nowrap">
+                <Icon name="arrowSmall" extraClasses="icon--90" />
+                Can I use this?
+              </span>
+            </a>
+          )}
         </div>
       </div>
     </div>

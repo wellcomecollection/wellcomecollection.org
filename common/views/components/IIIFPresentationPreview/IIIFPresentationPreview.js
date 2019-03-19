@@ -244,7 +244,7 @@ const IIIFPresentationDisplay = ({
   const [imageTotal, setImageTotal] = useState(null);
   const iiifPresentationManifest = useContext(ManifestContext);
   const fetchThumbnails = async () => {
-    try {
+    if (iiifPresentationManifest) {
       setImageTotal(getCanvases(iiifPresentationManifest).length);
       setImageThumbnails(
         previewThumbnails(
@@ -253,7 +253,7 @@ const IIIFPresentationDisplay = ({
           4
         )
       );
-    } catch (e) {}
+    }
   };
   useEffect(() => {
     fetchThumbnails();
