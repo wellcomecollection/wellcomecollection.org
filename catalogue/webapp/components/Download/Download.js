@@ -1,9 +1,9 @@
 // @flow
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
+import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useEffect } from 'react';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import License from '@weco/common/views/components/License/License';
@@ -66,21 +66,32 @@ const DownloadOptions = styled.div`
   }
 `;
 
+function getFormatString(format) {
+  switch (format) {
+    case 'application/pdf':
+      return 'PDF';
+    case 'text/plain':
+      return 'PLAIN';
+    case 'image/jpeg':
+      return 'JPG';
+  }
+}
+
 type Work = Object;
 type Props = {|
   work: Work,
-  iiifImageLocationUrl: string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
+  downloadOptions: IIIFRendering[],
 |};
 
 const Download = ({
   work,
-  iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
+  downloadOptions,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
@@ -116,7 +127,7 @@ const Download = ({
                     [spacing({ s: 1 }, { margin: ['right'] })]: true,
                   })}
                 >
-                  Download this image
+                  Download
                 </span>
                 <Icon name="chevron" />
               </span>
@@ -129,7 +140,7 @@ const Download = ({
               'work-details-heading': true,
             })}
           >
-            Download this image
+            Download
           </h2>
         )}
         <DownloadOptions
@@ -141,68 +152,57 @@ const Download = ({
           })}
         >
           <ul className="plain-list no-margin no-padding">
-            <li>
-              <a
-                tabIndex={showDownloads ? null : -1}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={convertImageUri(iiifImageLocationUrl, 'full')}
-                onClick={() => {
-                  trackEvent({
-                    category: 'Button',
-                    action: 'download large work image',
-                    label: work.id,
-                  });
-                }}
-              >
-                <span className="flex-inline flex--v-center">
-                  <Icon name="download" />
-                  <span className="underline-on-hover">Download full size</span>
-                  <span
-                    className={classNames({
-                      'font-pewter': true,
-                      [font({ s: 'HNM5' })]: true,
-                      [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                    })}
-                  >
-                    JPG
-                  </span>
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                tabIndex={showDownloads ? null : -1}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={convertImageUri(iiifImageLocationUrl, 760)}
-                onClick={() => {
-                  trackEvent({
-                    category: 'Button',
-                    action: 'download small work image',
-                    label: work.id,
-                  });
-                }}
-              >
-                <span className="flex-inline flex--v-center">
-                  <Icon name="download" />
-                  <span className="underline-on-hover">
-                    Download small (760px)
-                  </span>
-                  <span
-                    className={classNames({
-                      'font-pewter': true,
-                      [font({ s: 'HNM5' })]: true,
-                      [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                    })}
-                  >
-                    JPG
-                  </span>
-                </span>
-              </a>
-            </li>
+            {downloadOptions
+              .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
+              .map(option => {
+                // Doing this for the action so analytics is constant, speak to Hayley about removing this
+                const action =
+                  option.label === 'Download full size'
+                    ? 'download large work image'
+                    : option.label === 'Download small (760px)'
+                    ? 'download small work image'
+                    : option.label;
+                const format = getFormatString(option.format);
+
+                return (
+                  <li key={option.label}>
+                    <a
+                      tabIndex={showDownloads ? null : -1}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={option['@id']}
+                      onClick={() => {
+                        trackEvent({
+                          category: 'Button',
+                          action: action,
+                          label: work.id,
+                        });
+                      }}
+                    >
+                      <span className="flex-inline flex--v-center">
+                        <Icon name="download" />
+                        <span className="underline-on-hover">
+                          {option.label}
+                        </span>
+                        {format && (
+                          <span
+                            className={classNames({
+                              'font-pewter': true,
+                              [font({ s: 'HNM5' })]: true,
+                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                            })}
+                          >
+                            {format}
+                          </span>
+                        )}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
           </ul>
         </DownloadOptions>
+
         <div className="flex-inline flex--v-center">
           {iiifImageLocationLicenseId && (
             <span

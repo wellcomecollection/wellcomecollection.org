@@ -2,9 +2,11 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
+import { type IIIFRendering } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import { Fragment } from 'react';
+import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -13,6 +15,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -61,21 +64,26 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
+  downloadOptions: IIIFRendering[],
   encoreLink: ?string,
 |};
 
 const WorkDetails = ({
   work,
-  iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
+  downloadOptions,
   encoreLink,
 }: Props) => {
+  const iiifPresentationManifest = useContext(ManifestContext);
+  const [
+    iiifPresentationDownloadOptions,
+    setIIIFPresentationDownloadOptions,
+  ] = useState([]);
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
@@ -84,15 +92,27 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (iiifImageLocationUrl) {
+  const allDownloadOptions = [
+    ...downloadOptions,
+    ...iiifPresentationDownloadOptions,
+  ];
+
+  useEffect(() => {
+    const iiifPresentationDownloadOptions = iiifPresentationManifest
+      ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+      : [];
+    setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
+  }, [iiifPresentationManifest]);
+
+  if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
       <WorkDetailsSection>
         <Download
           work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
           licenseInfo={licenseInfo}
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          downloadOptions={allDownloadOptions}
         />
       </WorkDetailsSection>
     );
