@@ -218,7 +218,7 @@ function orderedStructuredImages(
   return [
     titlePage,
     frontCover,
-    { ...tableOfContents, images: [firstImage] },
+    tableOfContents && { ...tableOfContents, images: [firstImage] },
   ].filter(Boolean);
 }
 
