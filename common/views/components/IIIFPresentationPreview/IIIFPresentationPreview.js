@@ -212,10 +212,14 @@ function orderedStructuredImages(
   const tableOfContents = structuredImages.find(
     structuredImage => structuredImage.label === 'Table of Contents'
   );
-  if (tableOfContents) {
-    tableOfContents.images = [tableOfContents.images.shift()];
-  }
-  return [titlePage, frontCover, tableOfContents].filter(Boolean);
+
+  const [firstImage] = tableOfContents ? tableOfContents.images : [];
+
+  return [
+    titlePage,
+    frontCover,
+    { ...tableOfContents, images: [firstImage] },
+  ].filter(Boolean);
 }
 
 function previewThumbnails(
