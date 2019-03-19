@@ -50,9 +50,15 @@ type IIIFStructure = {|
   canvases: string[],
 |};
 
+export type IIIFMetadata = {|
+  label: string,
+  value: string,
+|};
+
 export type IIIFManifest = {|
   '@id': string,
   label: string,
+  metadata: IIIFMetadata[],
   sequences: IIIFSequence[],
   structures: IIIFStructure[],
 |};

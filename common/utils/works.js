@@ -1,6 +1,10 @@
 // @flow
 import { type Work } from '../model/work';
-import { type IIIFManifest, type IIIFRendering } from '../model/iiif';
+import {
+  type IIIFManifest,
+  type IIIFRendering,
+  type IIIFMetadata,
+} from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getPhysicalLocations(work: Work) {
@@ -9,6 +13,14 @@ export function getPhysicalLocations(work: Work) {
       item.locations.filter(location => location.type === 'PhysicalLocation')
     )
     .reduce((acc, locations) => acc.concat(locations), []);
+}
+
+export function getIIIFMetadata(
+  iiifManifest: IIIFManifest,
+  label: string
+): ?IIIFMetadata {
+  const repository = iiifManifest.metadata.find(data => data.label === label);
+  return repository;
 }
 
 export function getDigitalLocations(work: Work) {
