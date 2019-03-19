@@ -1,13 +1,14 @@
 // @flow
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { type IIIFPresentationLocation } from '@weco/common/utils/works';
-import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -39,6 +40,9 @@ const PagePreview = styled.div`
   display: none;
   width: 200px;
   height: 200px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 
   /* Putting the background inside a media query,
    * prevents webkit downloading the images unnecessarily.
@@ -47,14 +51,13 @@ const PagePreview = styled.div`
     /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 708px */
     &:nth-child(2) {
       display: block;
-      background: center / cover no-repeat
-        url(${props => props.backgroundImage});
+      background-image: url(${props => props.backgroundImage});
     }
   }
 
   ${props => props.theme.media.large`
     display: block;
-    background: center / cover no-repeat url(${props => props.backgroundImage});
+    background-image: url(${props => props.backgroundImage});
   `};
 
   &:nth-child(3) {
@@ -65,9 +68,9 @@ const PagePreview = styled.div`
     display: block;
     height: ${props => `${400 + props.theme.spacingUnit * 2}px`};
     width: 100%;
-    background: center / contain no-repeat
-      url(${props => props.backgroundImage})
-      ${props => props.theme.colors.smoke};
+    background-size: contain;
+    background-image: url(${props => props.backgroundImage});
+    background-color: ${props => props.theme.colors.smoke};
 
     @media (min-width: 708px) {
       grid-column-start: 1;
@@ -242,23 +245,22 @@ const IIIFPresentationDisplay = ({
 }: Props) => {
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(null);
+  const iiifPresentationManifest = useContext(ManifestContext);
   const fetchThumbnails = async () => {
-    try {
-      const iiifManifest = await fetch(iiifPresentationLocation.url);
-      const manifestData = await iiifManifest.json();
-      setImageTotal(getCanvases(manifestData).length);
+    if (iiifPresentationManifest) {
+      setImageTotal(getCanvases(iiifPresentationManifest).length);
       setImageThumbnails(
         previewThumbnails(
-          manifestData,
-          orderedStructuredImages(structuredImages(manifestData)),
+          iiifPresentationManifest,
+          orderedStructuredImages(structuredImages(iiifPresentationManifest)),
           4
         )
       );
-    } catch (e) {}
+    }
   };
   useEffect(() => {
     fetchThumbnails();
-  }, []);
+  }, [iiifPresentationManifest]);
   const itemsNumber = imageThumbnails.reduce((acc, pageType) => {
     return acc + pageType.images.length;
   }, 0);
@@ -266,7 +268,16 @@ const IIIFPresentationDisplay = ({
   return (
     <BookPreviewContainer>
       <NextLink {...itemUrl}>
-        <a className="plain-link">
+        <a
+          className="plain-link"
+          onClick={() => {
+            trackEvent({
+              category: 'IIIFPresentationPreview',
+              action: 'follow link',
+              label: itemUrl.href.query.workId,
+            });
+          }}
+        >
           <BookPreview
             columnNumber={
               itemsNumber === 1
@@ -283,7 +294,7 @@ const IIIFPresentationDisplay = ({
                   <PagePreview
                     key={image.id}
                     backgroundImage={iiifImageTemplate(image.id)({
-                      size: '!1024,1024',
+                      size: 'max',
                     })}
                   />
                 ) : (

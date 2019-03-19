@@ -2,9 +2,14 @@
 import type { Node } from 'react';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
+import { type IIIFRendering } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import { Fragment } from 'react';
+import {
+  getDownloadOptionsFromManifest,
+  getIIIFMetadata,
+} from '@weco/common/utils/works';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -13,6 +18,8 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
+import getLicenseInfo from '@weco/common/utils/get-license-info';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -61,21 +68,33 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  iiifImageLocationUrl: ?string,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
+  downloadOptions: IIIFRendering[],
   encoreLink: ?string,
 |};
 
 const WorkDetails = ({
   work,
-  iiifImageLocationUrl,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
+  downloadOptions,
   encoreLink,
 }: Props) => {
+  const iiifPresentationManifest = useContext(ManifestContext);
+  const [
+    iiifPresentationDownloadOptions,
+    setIIIFPresentationDownloadOptions,
+  ] = useState([]);
+  const [
+    iiifPresentationLicenseInfo,
+    setIIIFPresentationLicenseInfo,
+  ] = useState(null);
+  const [iiifPresentationRepository, setIIIFPresentationRepository] = useState(
+    null
+  );
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
@@ -84,15 +103,38 @@ const WorkDetails = ({
   });
 
   const WorkDetailsSections = [];
-  if (iiifImageLocationUrl) {
+  const allDownloadOptions = [
+    ...downloadOptions,
+    ...iiifPresentationDownloadOptions,
+  ];
+
+  const definitiveLicenseInfo =
+    licenseInfo || (iiifPresentationLicenseInfo || null);
+
+  useEffect(() => {
+    if (iiifPresentationManifest) {
+      const iiifPresentationDownloadOptions =
+        getDownloadOptionsFromManifest(iiifPresentationManifest) || [];
+      setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
+      const iiifPresentationLicenseInfo = iiifPresentationManifest.license
+        ? getLicenseInfo(iiifPresentationManifest.license)
+        : '';
+      setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
+      setIIIFPresentationRepository(
+        getIIIFMetadata(iiifPresentationManifest, 'Repository')
+      );
+    }
+  }, [iiifPresentationManifest]);
+
+  if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
       <WorkDetailsSection>
         <Download
           work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
+          licenseInfo={definitiveLicenseInfo}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          downloadOptions={allDownloadOptions}
         />
       </WorkDetailsSection>
     );
@@ -121,11 +163,13 @@ const WorkDetails = ({
           <MetaUnit
             headingLevel={3}
             headingText="Contributors"
-            text={[
-              work.contributors
-                .map(contributor => contributor.agent.label)
-                .join(' | '),
-            ]}
+            tags={work.contributors.map(contributor => ({
+              textParts: [contributor.agent.label],
+              linkAttributes: worksUrl({
+                query: `"${contributor.agent.label}"`,
+                page: 1,
+              }),
+            }))}
           />
         )}
 
@@ -200,10 +244,14 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (encoreLink) {
+  if (encoreLink || iiifPresentationRepository) {
+    const textArray = [
+      encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
+      iiifPresentationRepository && iiifPresentationRepository.value,
+    ].filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
-        <MetaUnit text={[`<a href="${encoreLink}">Wellcome library</a>`]} />
+        <MetaUnit text={textArray} />
       </WorkDetailsSection>
     );
   }
@@ -215,7 +263,7 @@ const WorkDetails = ({
           list={isbnIdentifiers.map(id => id.value)}
         />
       )}
-      <MetaUnit headingText="Share">
+      <MetaUnit>
         <CopyUrl
           id={work.id}
           url={`https://wellcomecollection.org/works/${work.id}`}
@@ -223,14 +271,14 @@ const WorkDetails = ({
       </MetaUnit>
     </WorkDetailsSection>
   );
-  if (licenseInfo) {
+  if (definitiveLicenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
         <div id="licenseInformation">
           <MetaUnit
             headingLevel={3}
             headingText="License information"
-            text={licenseInfo.humanReadableText}
+            text={definitiveLicenseInfo.humanReadableText}
           />
           <MetaUnit
             headingLevel={3}
@@ -245,9 +293,11 @@ const WorkDetails = ({
                   : ` `
               }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
+                definitiveLicenseInfo.url
+                  ? `<a href="${definitiveLicenseInfo.url}">${
+                      definitiveLicenseInfo.text
+                    }</a>`
+                  : definitiveLicenseInfo.text
               }`,
             ]}
           />
