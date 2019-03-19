@@ -30,7 +30,7 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     props.isThumbs &&
     `
     @media (min-width: ${props.theme.sizes.medium}px) {
-      bottom: ${props.theme.spacingUnit * 5}px;
+      bottom: ${props.theme.spacingUnit}px;
       left: 50%;
       transform: translateX(-50%) translateY(0%);
 
@@ -89,7 +89,7 @@ const IIIFViewerThumbs = styled.div.attrs(props => ({
     height: 100%;
     flex-direction: column;
     width: 25%;
-    padding: 0 0 100px;
+    padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
   }
 `;
 
