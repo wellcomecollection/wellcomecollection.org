@@ -78,11 +78,11 @@ const SearchForm = ({ ariaDescribedBy, compact, works }: Props) => {
         <div className="relative">
           <SearchInputWrapper className="relative">
             <TogglesContext.Consumer>
-              {({ catalogueSearchHeaderExploreMessaging }) => (
+              {({ booksRelease }) => (
                 <TextInput
                   label={'Search the catalogue'}
                   placeholder={`Search for ${
-                    catalogueSearchHeaderExploreMessaging
+                    booksRelease
                       ? 'books and pictures'
                       : 'artworks, photos and more'
                   }`}

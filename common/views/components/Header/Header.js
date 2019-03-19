@@ -72,7 +72,7 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
           aria-labelledby="header-burger-trigger"
         >
           <TogglesContext.Consumer>
-            {({ collectionsInMainNavigation }) => (
+            {({ booksRelease }) => (
               <ul
                 className={`plain-list header__list ${font({
                   s: 'WB7',
@@ -100,7 +100,7 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
                         ? { 'aria-current': true }
                         : {})}
                     >
-                      {collectionsInMainNavigation && link.title === 'Images'
+                      {booksRelease && link.title === 'Images'
                         ? 'Collections'
                         : link.title}
                     </a>

@@ -1,19 +1,11 @@
 module.exports = {
   toggles: [
     {
-      id: 'betaBar',
-      title: 'Beta bar',
+      id: 'booksRelease',
+      title: `Janeway - Dante's inferno`,
       defaultValue: false,
       description:
-        'Letting people know that the service is being worked on, how they might ' +
-        "find out about what's going on, and let us know what they think.",
-    },
-    {
-      id: 'catalogueSearchHeaderExploreMessaging',
-      title: 'Search landing page messaging',
-      defaultValue: false,
-      description:
-        'Using a different type of language on the landing page for our collections',
+        'Surfacing books in the search results, and adding the ability to peruse said books',
     },
     {
       id: 'collectionsInMainNavigation',
@@ -27,13 +19,6 @@ module.exports = {
       defaultValue: false,
       description:
         'Tabbed navigation on search form to allow people to select between books and visuals',
-    },
-    {
-      id: 'tabbedNavOnResults',
-      title: 'Tabbed work type navigation on search results',
-      defaultValue: false,
-      description:
-        'Tabbed navigation on search results to allow people to select between books and visuals',
     },
     {
       id: 'showCatalogueSearchFilters',
