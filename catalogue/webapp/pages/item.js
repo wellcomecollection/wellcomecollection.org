@@ -14,6 +14,7 @@ import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
+import ResponsiveImage from '@weco/common/views/components/ResponsiveImage/ResponsiveImage';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -186,13 +187,12 @@ const IIIFCanvasThumbnail = ({
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   return (
     // TODO: add alt text
-    <img
+    <ResponsiveImage
+      alt=""
       width={size.width}
       height={size.height}
-      src={urlTemplate({
-        size: `${size.width},${size.height}`,
-      })}
-      alt=""
+      url={urlTemplate({ size: `${size.width},${size.height}` })}
+      sizesQueries={`(min-width: 600px) 200px, 100px`}
     />
   );
 };
@@ -335,17 +335,19 @@ const ItemPage = ({
       <IIIFViewer>
         <IIIFViewerMain>
           <Paginator {...mainPaginatorProps} render={XOfY} />
-          <img
-            className={classNames({
+
+          <ResponsiveImage
+            width={largestSize.width}
+            height={largestSize.height}
+            url={urlTemplate({ size: `max` })}
+            sizesQueries={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+            extraClasses={classNames({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
-            width={largestSize.width}
-            height={largestSize.height}
-            src={urlTemplate({
-              size: `max`,
-            })}
+            alt=""
           />
+
           <IIIFViewerPaginatorButtons>
             <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
           </IIIFViewerPaginatorButtons>
