@@ -47,7 +47,9 @@ export const WorkPage = ({
   workType,
   itemsLocationsLocationType,
 }: Props) => {
-  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState({});
+  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
+    null
+  );
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);

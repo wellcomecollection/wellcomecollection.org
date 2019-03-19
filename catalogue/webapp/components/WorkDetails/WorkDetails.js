@@ -98,10 +98,9 @@ const WorkDetails = ({
   ];
 
   useEffect(() => {
-    const iiifPresentationDownloadOptions =
-      Object.keys(iiifPresentationManifest).length !== 0
-        ? getDownloadOptionsFromManifest(iiifPresentationManifest)
-        : [];
+    const iiifPresentationDownloadOptions = iiifPresentationManifest
+      ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+      : [];
     setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
   }, [iiifPresentationManifest]);
 
