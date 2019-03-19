@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
+import fetch from 'isomorphic-unfetch';
 import Header from '../components/Header';
 const fontFamily = 'Gadget, sans-serif';
 
@@ -16,82 +17,35 @@ const Button = styled.button`
   margin-right: 18px;
 `;
 
+const Status = styled.div`
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: ${props => (props.active ? 'green' : 'lightgrey')};
+`;
+
 const aYear = 31536000;
-function setCookie(name, value, domain = 'wellcomecollection.org') {
+function setCookie(name, value) {
   const expiration = value
     ? ` Max-Age=${aYear}`
     : `Expires=${new Date('1970-01-01').toString()}`;
   document.cookie = `toggle_${name}=${value ||
-    ''}; Path=/; Domain=${domain}; ${expiration}`;
+    ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
 const abTests = [];
-
-const featureToggles = [
-  {
-    id: 'betaBar',
-    title: 'Beta bar',
-    description:
-      'Letting people know that the service is being worked on, how they might ' +
-      "find out about what's going on, and let us know what they think.",
-  },
-  {
-    id: 'catalogueSearchHeaderExploreMessaging',
-    title: 'Search landing page messaging',
-    description:
-      'Using a different type of language on the landing page for our collections',
-  },
-  {
-    id: 'collectionsInMainNavigation',
-    title: 'Collections in main navigation',
-    description: 'Use `Collections` as the label in the main navigation',
-  },
-  {
-    id: 'tabbedNavOnSearchForm',
-    title: 'Tabbed work type navigation on search form',
-    description:
-      'Tabbed navigation on search form to allow people to select between books and pictures',
-  },
-  {
-    id: 'tabbedNavOnResults',
-    title: 'Tabbed work type navigation on search results',
-    description:
-      'Tabbed navigation on search results to allow people to select between books and pictures',
-  },
-  {
-    id: 'showCatalogueSearchFilters',
-    title: 'Catalogue search filters',
-    description:
-      'We currently filter the results of the catalogue to show Pictures and ' +
-      'Digital images work types, and only results with images.' +
-      'This will show unfilter those results, and allow for filtering.',
-  },
-  {
-    id: 'feedback',
-    title: 'Feedback',
-    description: 'Asking people for feedback on our service',
-  },
-  {
-    id: 'showWorkLocations',
-    title: 'Show the locations of a work in the header',
-    description:
-      'Helping people know where they might find a book, online, or physically.',
-  },
-];
-
 const IndexPage = () => {
-  const [toggles, setToggles] = useState({});
-  const [domain, setDomain] = useState('wellcomecollection.org');
-  const [showDomainSetter, setShowDomainSetter] = useState(false);
+  const [toggleStates, setToggleStates] = useState({});
+  const [toggles, setToggles] = useState([]);
 
   // We use this over getInitialProps as it's ineffectual when an app is
   // exported.
   useEffect(() => {
-    setDomain(
-      window.location.hostname.match('wellcomecollection.org')
-        ? 'wellcomecollection.org'
-        : window.location.pathname
-    );
+    fetch('https://toggles.wellcomecollection.org/toggles.json')
+      .then(resp => resp.json())
+      .then(json => setToggles(json.toggles));
 
     const cookies = getCookies({});
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {
@@ -100,7 +54,7 @@ const IndexPage = () => {
       }
       return acc;
     }, {});
-    setToggles(initialToggles);
+    setToggleStates(initialToggles);
   }, []);
 
   return (
@@ -127,23 +81,7 @@ const IndexPage = () => {
               display: 'flex',
               alignItems: 'center',
             }}
-          >
-            {showDomainSetter && (
-              <input
-                type="text"
-                value={domain}
-                onChange={event => setDomain(event.currentTarget.value)}
-              />
-            )}
-            {!showDomainSetter && (
-              <button
-                type="button"
-                onClick={event => setShowDomainSetter(!showDomainSetter)}
-              >
-                Set domain
-              </button>
-            )}
-          </div>
+          />
         </div>
         <p
           style={{
@@ -153,11 +91,10 @@ const IndexPage = () => {
             margin: 0,
           }}
         >
-          You can opt-in to testing a new feature (👍) or, prefer to stay
-          opted-out (👎). If you ask us to forget your choice, it is effectually
-          opting out.
+          You can turn on a toggle on (👍) or off (👎). Toggles also have a
+          public status which is set for 100% of users.
         </p>
-        {featureToggles.length > 0 && (
+        {toggles.length > 0 && (
           <ul
             style={{
               listStyle: 'none',
@@ -165,7 +102,7 @@ const IndexPage = () => {
               padding: 0,
             }}
           >
-            {featureToggles.map(toggle => (
+            {toggles.map(toggle => (
               <li
                 key={toggle.id}
                 style={{
@@ -174,53 +111,54 @@ const IndexPage = () => {
                   paddingTop: '6px',
                 }}
               >
-                <h3 style={{ marginRight: '6px' }}>{toggle.title}</h3>
+                <h3 style={{ marginRight: '6px', marginBottom: '5px' }}>
+                  {toggle.title}
+                </h3>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontSize: '12px',
+                    color: 'grey',
+                  }}
+                >
+                  Public status: <Status active={toggle.defaultValue} />{' '}
+                  {toggle.defaultValue === true ? 'on' : 'off'}
+                </div>
                 <p>{toggle.description}</p>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'true', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
+                    setCookie(toggle.id, 'true');
+                    setToggleStates({
+                      ...toggleStates,
                       [toggle.id]: true,
                     });
                   }}
                   style={{
-                    opacity: toggles[toggle.id] === true ? 1 : 0.5,
+                    opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
                   }}
                 >
-                  👍 Count me in
+                  👍 On
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'false', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
+                    setCookie(toggle.id, 'false');
+                    setToggleStates({
+                      ...toggleStates,
                       [toggle.id]: false,
                     });
                   }}
                   style={{
-                    opacity: toggles[toggle.id] === false ? 1 : 0.5,
+                    opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
                   }}
                 >
-                  👎 No thanks
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCookie(toggle.id, null, domain);
-                    delete toggles[toggle.id];
-                    setToggles(toggles);
-                  }}
-                  opaque
-                >
-                  Forget my choice
+                  👎 Off
                 </Button>
               </li>
             ))}
           </ul>
         )}
-        {featureToggles.length === 0 && <p>None for now, check back later…</p>}
+        {toggles.length === 0 && <p>None for now, check back later…</p>}
 
         <hr />
 
@@ -258,40 +196,37 @@ const IndexPage = () => {
                 <p>{toggle.description}</p>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'true', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
+                    setCookie(toggle.id, 'true');
+                    setToggleStates({
+                      ...toggleStates,
                       [toggle.id]: true,
                     });
                   }}
                   style={{
-                    opacity: toggles[toggle.id] === true ? 1 : 0.5,
+                    opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
                   }}
                 >
                   👍 Count me in
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, 'false', domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
+                    setCookie(toggle.id, 'false');
+                    setToggleStates({
+                      ...toggleStates,
                       [toggle.id]: false,
                     });
                   }}
                   style={{
-                    opacity: toggles[toggle.id] === false ? 1 : 0.5,
+                    opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
                   }}
                 >
                   👎 No thanks
                 </Button>
                 <Button
                   onClick={() => {
-                    setCookie(toggle.id, null, domain);
-                    // $FlowFixMe
-                    setToggles({
-                      ...toggles,
+                    setCookie(toggle.id, null);
+                    setToggleStates({
+                      ...toggleStates,
                       [toggle.id]: undefined,
                     });
                   }}

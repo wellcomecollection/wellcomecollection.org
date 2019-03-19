@@ -1,0 +1,8 @@
+{
+  "name": "@weco/toggles",
+  "description": "Feature toggles",
+  "license": "MIT",
+  "scripts": {
+    "build": "node ./build"
+  }
+}

@@ -3,14 +3,18 @@ const fetch = require('isomorphic-unfetch');
 let defaultToggleValues = {};
 async function getDefaultToggleValues() {
   try {
-    const defaultValues = await fetch(
-      'https://dash.wellcomecollection.org/toggles/defaults.json'
+    const togglesResp = await fetch(
+      'https://toggles.wellcomecollection.org/toggles.json'
     ).then(response => response.json());
 
-    defaultToggleValues = defaultValues;
+    defaultToggleValues = togglesResp.toggles.reduce(
+      (acc, toggle) => ({ ...acc, [toggle.id]: toggle.defaultValue }),
+      {}
+    );
   } catch (e) {}
 }
-setInterval(getDefaultToggleValues, 30000);
+getDefaultToggleValues();
+setInterval(getDefaultToggleValues, 2 * 60 * 1000); // 2 minutes
 
 const parseCookies = function(req) {
   if (!req.headers.cookie) {
@@ -37,7 +41,7 @@ function withToggles(ctx, next) {
     });
   }, {});
 
-  ctx.toggles = Object.assign({}, defaultToggleValues, toggles);
+  ctx.toggles = { ...defaultToggleValues, ...toggles };
   return next();
 }
 

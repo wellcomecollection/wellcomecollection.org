@@ -237,7 +237,7 @@ const WorkDetails = ({
           list={isbnIdentifiers.map(id => id.value)}
         />
       )}
-      <MetaUnit headingText="Share">
+      <MetaUnit>
         <CopyUrl
           id={work.id}
           url={`https://wellcomecollection.org/works/${work.id}`}

@@ -2,36 +2,36 @@
 
 const redirector = require('./redirector').redirector;
 const redirectTestRequestEvent = {
-  'Records': [
+  Records: [
     {
-      'cf': {
-        'config': {
-          'distributionId': 'EXAMPLE'
+      cf: {
+        config: {
+          distributionId: 'EXAMPLE',
         },
-        'request': {
-          'uri': '/visit-us/wellcome-café/',
-          'method': 'GET',
-          'clientIp': '2001:cdba::3257:9652'
-        }
-      }
-    }
-  ]
+        request: {
+          uri: '/visit-us/wellcome-café/',
+          method: 'GET',
+          clientIp: '2001:cdba::3257:9652',
+        },
+      },
+    },
+  ],
 };
 const nonRedirectTestRequestEvent = {
-  'Records': [
+  Records: [
     {
-      'cf': {
-        'config': {
-          'distributionId': 'EXAMPLE'
+      cf: {
+        config: {
+          distributionId: 'EXAMPLE',
         },
-        'request': {
-          'uri': '/visit-us/',
-          'method': 'GET',
-          'clientIp': '2001:cdba::3257:9652'
-        }
-      }
-    }
-  ]
+        request: {
+          uri: '/visit-us/',
+          method: 'GET',
+          clientIp: '2001:cdba::3257:9652',
+        },
+      },
+    },
+  ],
 };
 
 test('redirector', () => {
@@ -42,14 +42,17 @@ test('redirector', () => {
 
   expect(redirectedResponse.headers.location[0]).toEqual({
     key: 'Location',
-    value: `https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`
+    value: `https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`,
   });
 
   // Shouldn't have been redirected, and return the same request
   const nonRedirectedCallback = jest.fn((_, request) => request);
   redirector(nonRedirectTestRequestEvent, {}, nonRedirectedCallback);
-  const nonRedirectedResponse = nonRedirectTestRequestEvent.Records[0].cf.response;
+  const nonRedirectedResponse =
+    nonRedirectTestRequestEvent.Records[0].cf.response;
   const modifiedRequest = nonRedirectTestRequestEvent.Records[0].cf.request;
   expect(nonRedirectedResponse).toBeUndefined();
-  expect(modifiedRequest).toEqual(nonRedirectTestRequestEvent.Records[0].cf.request);
+  expect(modifiedRequest).toEqual(
+    nonRedirectTestRequestEvent.Records[0].cf.request
+  );
 });
