@@ -2,7 +2,7 @@ module.exports = {
   toggles: [
     {
       id: 'booksRelease',
-      title: 'Janeway: Release the books!',
+      title: `Janeway - Dante's inferno`,
       defaultValue: false,
       description:
         'Surfacing books in the search results, and adding the ability to peruse said books',
