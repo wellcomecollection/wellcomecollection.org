@@ -130,8 +130,8 @@ const Works = ({
         />
 
         <TogglesContext.Consumer>
-          {({ betaBar }) =>
-            betaBar && (
+          {({ booksRelease }) =>
+            booksRelease && (
               <Layout12>
                 <BetaBar />
               </Layout12>
@@ -156,9 +156,9 @@ const Works = ({
                   ])}
                 >
                   <TogglesContext.Consumer>
-                    {({ catalogueSearchHeaderExploreMessaging }) => (
+                    {({ booksRelease }) => (
                       <>
-                        {catalogueSearchHeaderExploreMessaging && !works && (
+                        {booksRelease && !works && (
                           <h1
                             className={classNames([
                               font({ s: 'WB6', m: 'WB4' }),
@@ -170,7 +170,7 @@ const Works = ({
                             Explore our collections
                           </h1>
                         )}
-                        {!catalogueSearchHeaderExploreMessaging && (
+                        {!booksRelease && (
                           <h1
                             className={classNames([
                               font({ s: 'WB6', m: 'WB4' }),
@@ -187,8 +187,8 @@ const Works = ({
                   </TogglesContext.Consumer>
 
                   <TogglesContext.Consumer>
-                    {({ betaBar }) =>
-                      !betaBar && (
+                    {({ booksRelease }) =>
+                      !booksRelease && (
                         <div className="flex flex--v-center">
                           <Icon
                             name="underConstruction"
@@ -211,8 +211,8 @@ const Works = ({
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreMessaging }) =>
-                    catalogueSearchHeaderExploreMessaging && (
+                  {({ booksRelease }) =>
+                    booksRelease && (
                       <p
                         className={classNames({
                           [font({ s: 'HNL4', m: 'HNL3' })]: true,
@@ -235,8 +235,8 @@ const Works = ({
                 />
 
                 <TogglesContext.Consumer>
-                  {({ catalogueSearchHeaderExploreMessaging }) =>
-                    !catalogueSearchHeaderExploreMessaging && (
+                  {({ booksRelease }) =>
+                    !booksRelease && (
                       <p
                         className={classNames({
                           [spacing({ s: 4 }, { margin: ['top'] })]: true,
@@ -260,8 +260,8 @@ const Works = ({
         {!works && <StaticWorksContent />}
 
         <TogglesContext.Consumer>
-          {({ tabbedNavOnResults }) =>
-            tabbedNavOnResults &&
+          {({ booksRelease }) =>
+            booksRelease &&
             works && (
               <Layout12>
                 <TabNav
@@ -462,11 +462,11 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const {
     tabbedNavOnSearchForm = false,
-    tabbedNavOnResults = false,
+    booksRelease = false,
     showCatalogueSearchFilters = false,
   } = ctx.query.toggles;
   const includeBooks =
-    tabbedNavOnSearchForm || tabbedNavOnResults || showCatalogueSearchFilters;
+    tabbedNavOnSearchForm || booksRelease || showCatalogueSearchFilters;
 
   const workTypeQuery = ctx.query.workType;
   const itemsLocationsLocationTypeQuery =

@@ -114,8 +114,8 @@ export const WorkPage = ({
       />
 
       <TogglesContext.Consumer>
-        {({ betaBar }) =>
-          betaBar && (
+        {({ booksRelease }) =>
+          booksRelease && (
             <Layout12>
               <BetaBar />
             </Layout12>
