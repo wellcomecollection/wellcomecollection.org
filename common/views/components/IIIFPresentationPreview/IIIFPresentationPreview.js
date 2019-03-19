@@ -209,10 +209,17 @@ function orderedStructuredImages(
       structuredImage.label === 'Front Cover' ||
       structuredImage.label === 'Cover'
   );
-  const firstTableOfContents = structuredImages.find(
+  const tableOfContents = structuredImages.find(
     structuredImage => structuredImage.label === 'Table of Contents'
   );
-  return [titlePage, frontCover, firstTableOfContents].filter(Boolean);
+
+  const [firstImage] = tableOfContents ? tableOfContents.images : [];
+
+  return [
+    titlePage,
+    frontCover,
+    { ...tableOfContents, images: [firstImage] },
+  ].filter(Boolean);
 }
 
 function previewThumbnails(
