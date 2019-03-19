@@ -3,7 +3,6 @@ import { type Context } from 'next';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator, {
@@ -14,7 +13,7 @@ import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
-import ResponsiveImage from '@weco/common/views/components/ResponsiveImage/ResponsiveImage';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -177,21 +176,14 @@ const IIIFCanvasThumbnail = ({
   maxWidth,
 }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
-  const size = maxWidth
-    ? thumbnailService.sizes
-        .filter(size => size.width <= maxWidth)
-        // TODO: We could make this the next size up for responsive images perhaps
-        .reduce((max, size, i, arr) => (size.width > max.width ? size : max))
-    : thumbnailService.sizes[0];
 
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   return (
     // TODO: add alt text
-    <ResponsiveImage
+    <IIIFResponsiveImage
+      width={canvas.width}
+      height={canvas.height}
+      imageService={thumbnailService}
       alt=""
-      width={size.width}
-      height={size.height}
-      url={urlTemplate({ size: `${size.width},${size.height}` })}
       sizesQueries={`(min-width: 600px) 200px, 100px`}
     />
   );
@@ -251,9 +243,8 @@ const ItemPage = ({
   const canvases = manifest.sequences[0].canvases;
   const currentCanvas = canvases[canvasIndex];
   const title = manifest.label;
-  const service = currentCanvas.thumbnail.service;
-  const urlTemplate = iiifImageTemplate(service['@id']);
-  const largestSize = service.sizes[service.sizes.length - 1];
+  const mainImageService = currentCanvas.images[0].resource.service;
+
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)
     .map(i => canvases[i])
@@ -336,10 +327,10 @@ const ItemPage = ({
         <IIIFViewerMain>
           <Paginator {...mainPaginatorProps} render={XOfY} />
 
-          <ResponsiveImage
-            width={largestSize.width}
-            height={largestSize.height}
-            url={urlTemplate({ size: `max` })}
+          <IIIFResponsiveImage
+            width={currentCanvas.width}
+            height={currentCanvas.height}
+            imageService={mainImageService}
             sizesQueries={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
             extraClasses={classNames({
               'block h-center': true,

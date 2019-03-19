@@ -1,33 +1,32 @@
 // @flow
 
-import { useRef, useEffect } from 'react';
-
-import { convertImageUri } from '../../../utils/convert-image-uri';
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
+import { type IIIFImageService } from '../../../model/iiif';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
-type Props = {
-  url: string,
+type Props = {|
   width: number,
   height: ?number,
+  imageService: IIIFImageService,
   sizesQueries: ?string,
   alt: string,
   extraClasses?: string,
-};
+|};
 
 const ResponsiveImage = ({
-  url,
   width,
   height,
+  imageService,
   sizesQueries,
   alt,
   extraClasses,
 }: Props) => {
-  const imgRef = useRef();
-
-  useEffect(() => {
-    imgRef.current && imgRef.current.classList.add('lazyload');
-  });
+  const urlTemplate = iiifImageTemplate(imageService['@id']);
+  const imageServiceSizes = imageService.sizes;
+  const widths = imageServiceSizes
+    ? imageServiceSizes.map(s => s.width)
+    : imageSizes(2048);
 
   return (
     <>
@@ -37,26 +36,23 @@ const ResponsiveImage = ({
             <img width='${width}'
               height='${height || ''}'
               class='image image--noscript'
-              src=${convertImageUri(url, 640, false)}
+              src=${urlTemplate({ size: `${widths[0]},` })}
               alt='${alt || ''}' />`,
         }}
       />
 
       <img
-        ref={imgRef}
         width={width}
         height={height}
         className={classNames({
-          'lazy-image': true,
-          lazyload: true,
           image: true,
           [extraClasses || '']: true,
         })}
-        src={convertImageUri(url, 30, false)}
-        data-srcset={
+        src={urlTemplate({ size: `${widths[0]},` })}
+        srcSet={
           sizesQueries
-            ? imageSizes(width).map(size => {
-                return `${convertImageUri(url, size, false)} ${size}w`;
+            ? widths.map(width => {
+                return `${urlTemplate({ size: `${width},` })} ${width}w`;
               })
             : undefined
         }
