@@ -40,10 +40,13 @@ export function getProductionDates(work: Work) {
 export function getDownloadOptionsFromManifest(
   iiifManifest: IIIFManifest
 ): IIIFRendering[] {
-  const sequence = iiifManifest.sequences.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
-  return (sequence && sequence.rendering) || [];
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence => sequence['@type'] === 'sc:Sequence'
+    );
+  // $FlowFixMe
+  return sequence && sequence.rendering ? [sequence.rendering] : [];
 }
 
 export function getDownloadOptionsFromImageUrl(
