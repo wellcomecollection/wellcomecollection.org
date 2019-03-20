@@ -18,6 +18,7 @@ type ItemUrlProps = {|
   ...WorksUrlProps,
   workId: string,
   sierraId: string,
+  langCode: string,
   canvas: number,
 |};
 

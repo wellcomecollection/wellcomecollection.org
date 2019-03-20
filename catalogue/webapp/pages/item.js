@@ -298,6 +298,7 @@ const ItemPage = ({
       canvas: canvasIndex + 1,
       workType,
       itemsLocationsLocationType,
+      langCode,
       sierraId,
     }),
   };
@@ -401,6 +402,7 @@ const ItemPage = ({
                       itemsLocationsLocationType,
                       page: pageIndex + 1,
                       sierraId,
+                      langCode,
                       canvas: pageSize * pageIndex + (i + 1),
                     })}
                     scroll={false}
