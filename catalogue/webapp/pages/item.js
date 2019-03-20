@@ -342,6 +342,7 @@ const ItemPage = ({
               [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
             })}
             title={title}
+            lang={langCode}
           >
             {title}
           </TruncatedText>
