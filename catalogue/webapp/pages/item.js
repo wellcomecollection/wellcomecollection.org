@@ -375,6 +375,7 @@ const ItemPage = ({
             src={urlTemplate({
               size: `max`,
             })}
+            lang={langCode}
             alt={
               (canvasOcr && canvasOcr.replace(/"/g, '')) ||
               'no text alternative is available for this image'
