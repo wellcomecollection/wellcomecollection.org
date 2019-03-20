@@ -174,11 +174,13 @@ type Props = {|
 |};
 
 async function getCanvasOcr(canvas) {
-  const textContent = canvas.otherContent.find(
-    content =>
-      content['@type'] === 'sc:AnnotationList' &&
-      content.label === 'Text of this page'
-  );
+  const textContent =
+    canvas.otherContent &&
+    canvas.otherContent.find(
+      content =>
+        content['@type'] === 'sc:AnnotationList' &&
+        content.label === 'Text of this page'
+    );
   const textService = textContent && textContent['@id'];
   try {
     const textJson = await fetch(textService);
