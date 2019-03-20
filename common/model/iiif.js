@@ -6,7 +6,11 @@ export type IIIFImageServiceSize = {|
 
 export type IIIFImageService = {|
   '@id': string,
-  sizes?: IIIFImageServiceSize[],
+|};
+
+export type IIIFThumbnailService = {|
+  '@id': string,
+  sizes: IIIFImageServiceSize[],
 |};
 
 export type IIIFThumbnail = {|

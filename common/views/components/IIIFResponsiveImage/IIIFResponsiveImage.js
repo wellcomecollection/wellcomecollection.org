@@ -2,13 +2,16 @@
 
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
-import { type IIIFImageService } from '../../../model/iiif';
+import {
+  type IIIFImageService,
+  type IIIFThumbnailService,
+} from '../../../model/iiif';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 type Props = {|
   width: number,
   height: number,
-  imageService: IIIFImageService,
+  imageService: IIIFImageService | IIIFThumbnailService,
   sizes: ?string,
   alt: string,
   extraClasses?: string,
