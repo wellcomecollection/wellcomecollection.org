@@ -18,6 +18,7 @@ type ItemUrlProps = {|
   ...WorksUrlProps,
   workId: string,
   sierraId: string,
+  langCode: string,
   canvas: number,
 |};
 
@@ -106,6 +107,7 @@ export function itemUrl({
   workType,
   itemsLocationsLocationType,
   sierraId,
+  langCode,
   canvas,
 }: ItemUrlProps): NextLinkType {
   return {
@@ -118,6 +120,7 @@ export function itemUrl({
           page: page && page > 1 ? page : undefined,
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
+          langCode: langCode,
           ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
         }),
       },
@@ -129,6 +132,7 @@ export function itemUrl({
         page: page && page > 1 ? page : undefined,
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
+        langCode: langCode,
         ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
       }),
     },

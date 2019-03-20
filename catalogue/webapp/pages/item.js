@@ -163,6 +163,7 @@ const IIIFViewer = styled.div.attrs(props => ({
 type Props = {|
   workId: string,
   sierraId: string,
+  langCode: string,
   manifest: IIIFManifest,
   pageSize: number,
   pageIndex: number,
@@ -269,6 +270,7 @@ const PaginatorButtons = ({
 const ItemPage = ({
   workId,
   sierraId,
+  langCode,
   manifest,
   pageSize,
   pageIndex,
@@ -298,6 +300,7 @@ const ItemPage = ({
       canvas: canvasIndex + 1,
       workType,
       itemsLocationsLocationType,
+      langCode,
       sierraId,
     }),
   };
@@ -342,6 +345,7 @@ const ItemPage = ({
               [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
             })}
             title={title}
+            lang={langCode}
           >
             {title}
           </TruncatedText>
@@ -375,6 +379,7 @@ const ItemPage = ({
             src={urlTemplate({
               size: `max`,
             })}
+            lang={langCode}
             alt={
               (canvasOcr && canvasOcr.replace(/"/g, '')) ||
               'no text alternative is available for this image'
@@ -399,6 +404,7 @@ const ItemPage = ({
                       itemsLocationsLocationType,
                       page: pageIndex + 1,
                       sierraId,
+                      langCode,
                       canvas: pageSize * pageIndex + (i + 1),
                     })}
                     scroll={false}
@@ -431,6 +437,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     workId,
     sierraId,
+    langCode,
     query,
     page = 1,
     pageSize = 4,
@@ -449,6 +456,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   return {
     workId,
     sierraId,
+    langCode,
     manifest,
     pageSize,
     pageIndex,

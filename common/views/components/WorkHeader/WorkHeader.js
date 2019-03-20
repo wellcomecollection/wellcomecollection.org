@@ -53,6 +53,7 @@ const WorkHeader = ({ work }: Props) => {
             'no-margin': true,
             [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
           })}
+          lang={work.language && work.language.id}
         >
           {work.title}
         </h1>
