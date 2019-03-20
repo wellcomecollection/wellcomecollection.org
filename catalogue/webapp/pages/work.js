@@ -213,7 +213,7 @@ export const WorkPage = ({
         </div>
       </div>
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {sierraIdFromPresentationManifestUrl && (
+        {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
           <div className="container">
             <IIIFPresentationPreview
               iiifPresentationLocation={iiifPresentationLocation}
