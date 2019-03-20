@@ -7,9 +7,9 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 type Props = {|
   width: number,
-  height: ?number,
+  height: number,
   imageService: IIIFImageService,
-  sizesQueries: ?string,
+  sizes: ?string,
   alt: string,
   extraClasses?: string,
 |};
@@ -18,7 +18,7 @@ const IIIFResponsiveImage = ({
   width,
   height,
   imageService,
-  sizesQueries,
+  sizes,
   alt,
   extraClasses,
 }: Props) => {
@@ -41,13 +41,13 @@ const IIIFResponsiveImage = ({
       })}
       src={urlTemplate({ size: `${initialSrcWidth},` })}
       srcSet={
-        sizesQueries
+        sizes
           ? widths.map(width => {
               return `${urlTemplate({ size: `${width},` })} ${width}w`;
             })
           : undefined
       }
-      sizes={sizesQueries || undefined}
+      sizes={sizes}
       alt={alt || ''}
     />
   );
