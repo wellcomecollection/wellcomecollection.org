@@ -163,6 +163,7 @@ const IIIFViewer = styled.div.attrs(props => ({
 type Props = {|
   workId: string,
   sierraId: string,
+  langCode: string,
   manifest: IIIFManifest,
   pageSize: number,
   pageIndex: number,
@@ -267,6 +268,7 @@ const PaginatorButtons = ({
 const ItemPage = ({
   workId,
   sierraId,
+  langCode,
   manifest,
   pageSize,
   pageIndex,
@@ -429,6 +431,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     workId,
     sierraId,
+    langCode,
     query,
     page = 1,
     pageSize = 4,
@@ -447,6 +450,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   return {
     workId,
     sierraId,
+    langCode,
     manifest,
     pageSize,
     pageIndex,
