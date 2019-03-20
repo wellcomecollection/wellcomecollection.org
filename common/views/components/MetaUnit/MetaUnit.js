@@ -2,6 +2,8 @@
 import type { Node } from 'react';
 import { spacing, font } from '../../../utils/classnames';
 import NextLink from 'next/link';
+import styled from 'styled-components';
+import { classNames } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Tags, { type TagType } from '../Tags/Tags';
 
@@ -36,13 +38,23 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
   }
 };
 
+const ParagraphContainer = styled.div.attrs(props => ({
+  className: classNames({
+    'spaced-text': true,
+  }),
+}))`
+  img {
+    width: auto;
+  }
+`;
+
 const Paragraphs = ({ text }: { text: string[] }) => {
   return (
-    <div className="spaced-text">
+    <ParagraphContainer>
       {text.map((para, i) => {
         return <p key={i} dangerouslySetInnerHTML={{ __html: para }} />;
       })}
-    </div>
+    </ParagraphContainer>
   );
 };
 
