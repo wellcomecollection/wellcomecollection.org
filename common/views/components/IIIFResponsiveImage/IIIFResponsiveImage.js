@@ -23,9 +23,8 @@ const ResponsiveImage = ({
   extraClasses,
 }: Props) => {
   const urlTemplate = iiifImageTemplate(imageService['@id']);
-  const imageServiceSizes = imageService.sizes;
-  const widths = imageServiceSizes
-    ? imageServiceSizes.map(s => s.width)
+  const widths = imageService.sizes
+    ? imageService.sizes.map(s => s.width)
     : imageSizes(2048);
 
   return (
