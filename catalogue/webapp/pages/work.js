@@ -5,9 +5,12 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { useEffect, useState } from 'react';
+import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
+  getDownloadOptionsFromImageUrl,
   getEncoreLink,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -25,6 +28,7 @@ import WorkDetails from '../components/WorkDetails/WorkDetails';
 import { SearchProvider } from '../components/SearchContext/SearchContext';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
@@ -44,6 +48,22 @@ export const WorkPage = ({
   workType,
   itemsLocationsLocationType,
 }: Props) => {
+  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
+    null
+  );
+  const fetchIIIFPresentationManifest = async () => {
+    try {
+      const iiifPresentationLocation = getIIIFPresentationLocation(work);
+      const iiifManifest = await fetch(iiifPresentationLocation.url);
+      const manifestData = await iiifManifest.json();
+      setIIIFPresentationManifest(manifestData);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchIIIFPresentationManifest();
+  }, []);
+
   if (work.type === 'Error') {
     return (
       <ErrorPage
@@ -77,6 +97,10 @@ export const WorkPage = ({
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
 
   const sierraIds = work.identifiers.filter(
     i => i.identifierType.id === 'sierra-system-number'
@@ -114,8 +138,8 @@ export const WorkPage = ({
       />
 
       <TogglesContext.Consumer>
-        {({ betaBar }) =>
-          betaBar && (
+        {({ booksRelease }) =>
+          booksRelease && (
             <Layout12>
               <BetaBar />
             </Layout12>
@@ -188,40 +212,39 @@ export const WorkPage = ({
           </div>
         </div>
       </div>
-
-      {sierraIdFromPresentationManifestUrl && iiifPresentationLocation && (
-        <div className="container">
-          <IIIFPresentationPreview
-            iiifPresentationLocation={iiifPresentationLocation}
-            itemUrl={itemUrl({
-              workId: work.id,
-              query,
-              workType,
-              itemsLocationsLocationType,
-              sierraId: sierraIdFromPresentationManifestUrl,
-              page: 1,
-              canvas: 1,
-            })}
+      <ManifestContext.Provider value={iiifPresentationManifest}>
+        {sierraIdFromPresentationManifestUrl && (
+          <div className="container">
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+              itemUrl={itemUrl({
+                workId: work.id,
+                query,
+                workType,
+                itemsLocationsLocationType,
+                sierraId: sierraIdFromPresentationManifestUrl,
+                page: 1,
+                canvas: 1,
+              })}
+            />
+          </div>
+        )}
+        {iiifImageLocationUrl && (
+          <IIIFImagePreview
+            id={work.id}
+            iiifUrl={iiifImageLocationUrl}
+            title={work.title}
           />
-        </div>
-      )}
-
-      {iiifImageLocationUrl && (
-        <IIIFImagePreview
-          id={work.id}
-          iiifUrl={iiifImageLocationUrl}
-          title={work.title}
+        )}
+        <WorkDetails
+          work={work}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          encoreLink={encoreLink}
+          downloadOptions={downloadOptions}
         />
-      )}
-
-      <WorkDetails
-        work={work}
-        iiifImageLocationUrl={iiifImageLocationUrl}
-        licenseInfo={licenseInfo}
-        iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-        encoreLink={encoreLink}
-      />
+      </ManifestContext.Provider>
     </PageLayout>
   );
 };

@@ -11,6 +11,7 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
@@ -30,7 +31,7 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     props.isThumbs &&
     `
     @media (min-width: ${props.theme.sizes.medium}px) {
-      bottom: ${props.theme.spacingUnit * 5}px;
+      bottom: ${props.theme.spacingUnit}px;
       left: 50%;
       transform: translateX(-50%) translateY(0%);
 
@@ -89,13 +90,13 @@ const IIIFViewerThumbs = styled.div.attrs(props => ({
     height: 100%;
     flex-direction: column;
     width: 25%;
-    padding: 0 0 100px;
+    padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
   }
 `;
 
 const IIIFViewerMain = styled.div.attrs(props => ({
   className: classNames({
-    'relative bg-charcoal': true,
+    'relative bg-charcoal font-white': true,
     [spacing({ s: 4 }, { padding: ['top'] })]: true,
     [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
     [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
@@ -155,6 +156,7 @@ const IIIFViewer = styled.div.attrs(props => ({
     height: auto;
     max-width: 100%;
     max-height: 100%;
+    overflow: scroll;
   }
 `;
 
@@ -165,12 +167,37 @@ type Props = {|
   pageSize: number,
   pageIndex: number,
   canvasIndex: number,
+  canvasOcr: ?string,
   itemsLocationsLocationType: ?(string[]),
   workType: ?(string[]),
   query: ?string,
 |};
 
+async function getCanvasOcr(canvas) {
+  const textContent = canvas.otherContent.find(
+    content =>
+      content['@type'] === 'sc:AnnotationList' &&
+      content.label === 'Text of this page'
+  );
+  const textService = textContent && textContent['@id'];
+  try {
+    const textJson = await fetch(textService);
+    const text = await textJson.json();
+    const textString = text.resources
+      .filter(resource => {
+        return resource.resource['@type'] === 'cnt:ContentAsText';
+      })
+      .map(resource => resource.resource.chars)
+      .join(' ');
+    return textString.length > 0 ? textString : null;
+  } catch (e) {
+    Raven.captureException(e);
+    return null;
+  }
+}
+
 type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
+
 const IIIFCanvasThumbnail = ({
   canvas,
   maxWidth,
@@ -178,7 +205,6 @@ const IIIFCanvasThumbnail = ({
   const thumbnailService = canvas.thumbnail.service;
 
   return (
-    // TODO: add alt text
     <IIIFResponsiveImage
       width={canvas.width}
       height={canvas.height}
@@ -236,6 +262,7 @@ const ItemPage = ({
   pageSize,
   pageIndex,
   canvasIndex,
+  canvasOcr,
   itemsLocationsLocationType,
   workType,
   query,
@@ -243,7 +270,9 @@ const ItemPage = ({
   const canvases = manifest.sequences[0].canvases;
   const currentCanvas = canvases[canvasIndex];
   const title = manifest.label;
-  const mainImageService = currentCanvas.images[0].resource.service;
+  const mainImageService = {
+    '@id': currentCanvas.images[0].resource.service['@id'],
+  };
 
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)
@@ -336,7 +365,10 @@ const ItemPage = ({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
-            alt=""
+            alt={
+              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+              'no text alternative is available for this image'
+            }
           />
 
           <IIIFViewerPaginatorButtons>
@@ -362,11 +394,13 @@ const ItemPage = ({
                     })}
                     scroll={false}
                     replace
+                    passHref
                   >
                     <IIIFViewerThumbLink
                       isActive={canvasIndex === rangeStart + i - 1}
                     >
                       <IIIFViewerThumbNumber>
+                        <span className="visually-hidden">image </span>
                         {rangeStart + i}
                       </IIIFViewerThumbNumber>
                       <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
@@ -400,6 +434,10 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
 
+  const canvases = manifest.sequences[0].canvases;
+  const currentCanvas = canvases[canvasIndex];
+  const canvasOcr = await getCanvasOcr(currentCanvas);
+
   return {
     workId,
     sierraId,
@@ -407,6 +445,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     pageSize,
     pageIndex,
     canvasIndex,
+    canvasOcr,
     // TODO: add these back in, it's just makes it easier to check the URLs
     itemsLocationsLocationType: null,
     workType: null,

@@ -1,5 +1,11 @@
 // @flow
 import { type Work } from '../model/work';
+import {
+  type IIIFManifest,
+  type IIIFRendering,
+  type IIIFMetadata,
+} from '../model/iiif';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getPhysicalLocations(work: Work) {
   return work.items
@@ -7,6 +13,14 @@ export function getPhysicalLocations(work: Work) {
       item.locations.filter(location => location.type === 'PhysicalLocation')
     )
     .reduce((acc, locations) => acc.concat(locations), []);
+}
+
+export function getIIIFMetadata(
+  iiifManifest: IIIFManifest,
+  label: string
+): ?IIIFMetadata {
+  const repository = iiifManifest.metadata.find(data => data.label === label);
+  return repository;
 }
 
 export function getDigitalLocations(work: Work) {
@@ -21,6 +35,32 @@ export function getProductionDates(work: Work) {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
+}
+
+export function getDownloadOptionsFromManifest(
+  iiifManifest: IIIFManifest
+): IIIFRendering[] {
+  const sequence = iiifManifest.sequences.find(
+    sequence => sequence['@type'] === 'sc:Sequence'
+  );
+  return (sequence && sequence.rendering) || [];
+}
+
+export function getDownloadOptionsFromImageUrl(
+  imageUrl: string
+): IIIFRendering[] {
+  return [
+    {
+      '@id': convertImageUri(imageUrl, 'full'),
+      format: 'image/jpeg',
+      label: 'Download full size',
+    },
+    {
+      '@id': convertImageUri(imageUrl, 760),
+      format: 'image/jpeg',
+      label: 'Download small (760px)',
+    },
+  ];
 }
 
 export type IIIFPresentationLocation = {|

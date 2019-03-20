@@ -33,10 +33,17 @@ export type IIIFCanvas = {|
   height: number,
 |};
 
+export type IIIFRendering = {|
+  '@id': string,
+  format: string,
+  label: string,
+|};
+
 export type IIIFSequence = {|
   '@id': string,
   '@type': string,
   canvases: IIIFCanvas[],
+  rendering: IIIFRendering[],
 |};
 type IIIFStructure = {|
   '@id': string,
@@ -45,9 +52,15 @@ type IIIFStructure = {|
   canvases: string[],
 |};
 
+export type IIIFMetadata = {|
+  label: string,
+  value: string,
+|};
+
 export type IIIFManifest = {|
   '@id': string,
   label: string,
+  metadata: IIIFMetadata[],
   sequences: IIIFSequence[],
   structures: IIIFStructure[],
 |};
