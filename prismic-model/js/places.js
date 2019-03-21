@@ -1,5 +1,5 @@
 // @flow
-import createThing from './interfaces/Thing';
+import createLocatedThing from './interfaces/LocatedThing';
 import text from './parts/text';
 import description from './parts/description';
 import list from './parts/list';
@@ -7,7 +7,7 @@ import structuredText from './parts/structured-text';
 import number from './parts/number';
 import geolocation from './parts/geolocation';
 
-const Place = createThing('places', {
+const Place = createLocatedThing('places', {
   description: description,
   geolocation: geolocation(),
   level: number('Level'),

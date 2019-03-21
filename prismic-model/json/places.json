@@ -338,6 +338,24 @@
     }
   },
   "Info": {
+    "places": {
+      "type": "Group",
+      "fieldset": "Places",
+      "config": {
+        "fields": {
+          "place": {
+            "type": "Link",
+            "config": {
+              "label": "Place",
+              "select": "document",
+              "customtypes": [
+                "place"
+              ]
+            }
+          }
+        }
+      }
+    },
     "description": {
       "type": "StructuredText",
       "config": {
