@@ -243,22 +243,29 @@ const PaginatorButtons = ({
       })}
     >
       {prevLink && (
-        <NextLink {...prevLink} scroll={false} replace>
-          <a
-            className={classNames({
-              [spacing({ s: 1 }, { margin: ['right'] })]: true,
-            })}
-          >
-            <Control type="light" icon="arrow" extraClasses="icon--180" />
-          </a>
-        </NextLink>
+        <Control
+          scroll={false}
+          replace={true}
+          nextLink={prevLink}
+          type="light"
+          icon="arrow"
+          extraClasses={classNames({
+            [spacing({ s: 1 }, { margin: ['right'] })]: true,
+            'icon--180': true,
+          })}
+        />
       )}
       {nextLink && (
-        <NextLink {...nextLink} scroll={false} replace>
-          <a>
-            <Control type="light" icon="arrow" extraClasses="icon" />
-          </a>
-        </NextLink>
+        <Control
+          scroll={false}
+          replace={true}
+          nextLink={nextLink}
+          type="light"
+          icon="arrow"
+          extraClasses={classNames({
+            icon: true,
+          })}
+        />
       )}
     </div>
   );
