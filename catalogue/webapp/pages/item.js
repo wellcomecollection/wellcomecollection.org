@@ -3,7 +3,6 @@ import { type Context } from 'next';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator, {
@@ -15,6 +14,7 @@ import styled from 'styled-components';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -199,30 +199,27 @@ async function getCanvasOcr(canvas) {
   }
 }
 
-type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
+type IIIFCanvasThumbnailProps = {|
+  canvas: IIIFCanvas,
+  maxWidth: ?number,
+  lang: string,
+|};
 
 const IIIFCanvasThumbnail = ({
   canvas,
   maxWidth,
+  lang,
 }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
 
-  const size = maxWidth
-    ? thumbnailService.sizes
-        .filter(size => size.width <= maxWidth)
-        // TODO: We could make this the next size up for responsive images perhaps
-        .reduce((max, size, i, arr) => (size.width > max.width ? size : max))
-    : thumbnailService.sizes[0];
-
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   return (
-    <img
-      width={size.width}
-      height={size.height}
-      src={urlTemplate({
-        size: `${size.width},${size.height}`,
-      })}
+    <IIIFResponsiveImage
+      lang={lang}
+      width={canvas.width}
+      height={canvas.height}
+      imageService={thumbnailService}
       alt=""
+      sizes={`(min-width: 600px) 200px, 100px`}
     />
   );
 };
@@ -283,9 +280,10 @@ const ItemPage = ({
   const canvases = manifest.sequences[0].canvases;
   const currentCanvas = canvases[canvasIndex];
   const title = manifest.label;
-  const service = currentCanvas.thumbnail.service;
-  const urlTemplate = iiifImageTemplate(service['@id']);
-  const largestSize = service.sizes[service.sizes.length - 1];
+  const mainImageService = {
+    '@id': currentCanvas.images[0].resource.service['@id'],
+  };
+
   const navigationCanvases = [...Array(pageSize)]
     .map((_, i) => pageSize * pageIndex + i)
     .map(i => canvases[i])
@@ -369,15 +367,15 @@ const ItemPage = ({
       <IIIFViewer>
         <IIIFViewerMain>
           <Paginator {...mainPaginatorProps} render={XOfY} />
-          <img
-            className={classNames({
+
+          <IIIFResponsiveImage
+            width={currentCanvas.width}
+            height={currentCanvas.height}
+            imageService={mainImageService}
+            sizes={`(min-width: 860px) 800px, 100vw)`}
+            extraClasses={classNames({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-            })}
-            width={largestSize.width}
-            height={largestSize.height}
-            src={urlTemplate({
-              size: `max`,
             })}
             lang={langCode}
             alt={
@@ -385,6 +383,7 @@ const ItemPage = ({
               'no text alternative is available for this image'
             }
           />
+
           <IIIFViewerPaginatorButtons>
             <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
           </IIIFViewerPaginatorButtons>
@@ -409,6 +408,7 @@ const ItemPage = ({
                     })}
                     scroll={false}
                     replace
+                    passHref
                   >
                     <IIIFViewerThumbLink
                       isActive={canvasIndex === rangeStart + i - 1}
@@ -417,7 +417,11 @@ const ItemPage = ({
                         <span className="visually-hidden">image </span>
                         {rangeStart + i}
                       </IIIFViewerThumbNumber>
-                      <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
+                      <IIIFCanvasThumbnail
+                        canvas={canvas}
+                        maxWidth={300}
+                        lang={langCode}
+                      />
                     </IIIFViewerThumbLink>
                   </NextLink>
                 )}

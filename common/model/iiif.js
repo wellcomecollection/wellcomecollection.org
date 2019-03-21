@@ -6,6 +6,10 @@ export type IIIFImageServiceSize = {|
 
 export type IIIFImageService = {|
   '@id': string,
+|};
+
+export type IIIFThumbnailService = {|
+  '@id': string,
   sizes: IIIFImageServiceSize[],
 |};
 
@@ -29,6 +33,8 @@ export type IIIFCanvas = {|
   '@id': string,
   thumbnail: IIIFThumbnail,
   images: IIIFImage[],
+  width: number,
+  height: number,
 |};
 
 export type IIIFRendering = {|
