@@ -360,7 +360,7 @@ const ItemPage = ({
             width={currentCanvas.width}
             height={currentCanvas.height}
             imageService={mainImageService}
-            sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+            sizes={`(min-width: 860px) 800px, 100vw)`}
             extraClasses={classNames({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
