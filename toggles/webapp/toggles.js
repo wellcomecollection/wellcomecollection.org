@@ -8,12 +8,6 @@ module.exports = {
         'Surfacing books in the search results, and adding the ability to peruse said books',
     },
     {
-      id: 'collectionsInMainNavigation',
-      title: 'Collections in main navigation',
-      defaultValue: false,
-      description: 'Use `Collections` as the label in the main navigation',
-    },
-    {
       id: 'tabbedNavOnSearchForm',
       title: 'Tabbed work type navigation on search form',
       defaultValue: false,
