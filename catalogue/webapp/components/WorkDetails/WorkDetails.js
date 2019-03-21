@@ -247,7 +247,10 @@ const WorkDetails = ({
   if (encoreLink || iiifPresentationRepository) {
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
-      iiifPresentationRepository && iiifPresentationRepository.value,
+      iiifPresentationRepository &&
+        iiifPresentationRepository.value
+          .replace(/<img[^>]*>/g, '')
+          .replace(/<br\s*\/?>/g, ''),
     ].filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
