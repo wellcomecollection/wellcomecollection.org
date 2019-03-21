@@ -1,5 +1,5 @@
 {
-  "Place": {
+  "Main": {
     "title": {
       "type": "StructuredText",
       "config": {
@@ -8,29 +8,14 @@
         "useAsTitle": true
       }
     },
-    "geolocation": {
-      "type": "GeoPoint",
+    "format": {
+      "type": "Link",
       "config": {
-        "label": "Geolocation"
-      }
-    },
-    "level": {
-      "type": "Number",
-      "config": {
-        "label": "Level"
-      }
-    },
-    "capacity": {
-      "type": "Number",
-      "config": {
-        "label": "Capacity"
-      }
-    },
-    "locationInformation": {
-      "type": "StructuredText",
-      "config": {
-        "multi": "paragraph,hyperlink,strong,em",
-        "label": "Location information"
+        "label": "Format",
+        "select": "document",
+        "customtypes": [
+          "formats"
+        ]
       }
     },
     "body": {
@@ -351,5 +336,82 @@
         }
       }
     }
-  }
+  },
+  "Info": {
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em,heading2",
+        "label": "Description"
+      }
+    },
+    "geolocation": {
+      "type": "GeoPoint",
+      "config": {
+        "label": "Geolocation"
+      }
+    },
+    "level": {
+      "type": "Number",
+      "config": {
+        "label": "Level"
+      }
+    },
+    "capacity": {
+      "type": "Number",
+      "config": {
+        "label": "Capacity"
+      }
+    },
+    "locationInformation": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,hyperlink,strong,em",
+        "label": "Location information"
+      }
+    },
+    "sameAs": {
+      "type": "Group",
+      "fieldset": "Same as",
+      "config": {
+        "fields": {
+          "link": {
+            "type": "Text",
+            "config": {
+              "label": "Link"
+            }
+          },
+          "title": {
+            "type": "StructuredText",
+            "config": {
+              "single": "paragraph,hyperlink,strong,em",
+              "label": "Link text"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Relationships": {
+    "partOf": {
+      "type": "Group",
+      "fieldset": "Part of",
+      "config": {
+        "fields": {
+          "item": {
+            "type": "Link",
+            "config": {
+              "label": "Item",
+              "select": "document",
+              "customtypes": [
+                "series",
+                "exhibitions"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Site info": {}
 }
