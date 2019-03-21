@@ -15,6 +15,7 @@ type Props = {|
   sizes: ?string,
   alt: string,
   extraClasses?: string,
+  lang: string,
 |};
 
 const IIIFResponsiveImage = ({
@@ -24,6 +25,7 @@ const IIIFResponsiveImage = ({
   sizes,
   alt,
   extraClasses,
+  lang,
 }: Props) => {
   const urlTemplate = iiifImageTemplate(imageService['@id']);
   const widths = imageService.sizes
@@ -36,6 +38,7 @@ const IIIFResponsiveImage = ({
 
   return (
     <img
+      lang={lang}
       width={width}
       height={height}
       className={classNames({

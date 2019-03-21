@@ -43,7 +43,13 @@ export function getDownloadOptionsFromManifest(
   const sequence = iiifManifest.sequences.find(
     sequence => sequence['@type'] === 'sc:Sequence'
   );
-  return (sequence && sequence.rendering) || [];
+  const sequenceRendering = sequence && sequence.rendering;
+
+  return sequenceRendering
+    ? Array.isArray(sequenceRendering)
+      ? sequenceRendering
+      : [sequenceRendering]
+    : [];
 }
 
 export function getDownloadOptionsFromImageUrl(

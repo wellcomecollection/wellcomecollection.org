@@ -163,6 +163,7 @@ const IIIFViewer = styled.div.attrs(props => ({
 type Props = {|
   workId: string,
   sierraId: string,
+  langCode: string,
   manifest: IIIFManifest,
   pageSize: number,
   pageIndex: number,
@@ -174,11 +175,13 @@ type Props = {|
 |};
 
 async function getCanvasOcr(canvas) {
-  const textContent = canvas.otherContent.find(
-    content =>
-      content['@type'] === 'sc:AnnotationList' &&
-      content.label === 'Text of this page'
-  );
+  const textContent =
+    canvas.otherContent &&
+    canvas.otherContent.find(
+      content =>
+        content['@type'] === 'sc:AnnotationList' &&
+        content.label === 'Text of this page'
+    );
   const textService = textContent && textContent['@id'];
   try {
     const textJson = await fetch(textService);
@@ -196,16 +199,22 @@ async function getCanvasOcr(canvas) {
   }
 }
 
-type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
+type IIIFCanvasThumbnailProps = {|
+  canvas: IIIFCanvas,
+  maxWidth: ?number,
+  lang: string,
+|};
 
 const IIIFCanvasThumbnail = ({
   canvas,
   maxWidth,
+  lang,
 }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
 
   return (
     <IIIFResponsiveImage
+      lang={lang}
       width={canvas.width}
       height={canvas.height}
       imageService={thumbnailService}
@@ -258,6 +267,7 @@ const PaginatorButtons = ({
 const ItemPage = ({
   workId,
   sierraId,
+  langCode,
   manifest,
   pageSize,
   pageIndex,
@@ -288,6 +298,7 @@ const ItemPage = ({
       canvas: canvasIndex + 1,
       workType,
       itemsLocationsLocationType,
+      langCode,
       sierraId,
     }),
   };
@@ -332,6 +343,7 @@ const ItemPage = ({
               [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
             })}
             title={title}
+            lang={langCode}
           >
             {title}
           </TruncatedText>
@@ -365,6 +377,7 @@ const ItemPage = ({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
+            lang={langCode}
             alt={
               (canvasOcr && canvasOcr.replace(/"/g, '')) ||
               'no text alternative is available for this image'
@@ -390,6 +403,7 @@ const ItemPage = ({
                       itemsLocationsLocationType,
                       page: pageIndex + 1,
                       sierraId,
+                      langCode,
                       canvas: pageSize * pageIndex + (i + 1),
                     })}
                     scroll={false}
@@ -403,7 +417,11 @@ const ItemPage = ({
                         <span className="visually-hidden">image </span>
                         {rangeStart + i}
                       </IIIFViewerThumbNumber>
-                      <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
+                      <IIIFCanvasThumbnail
+                        canvas={canvas}
+                        maxWidth={300}
+                        lang={langCode}
+                      />
                     </IIIFViewerThumbLink>
                   </NextLink>
                 )}
@@ -423,6 +441,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     workId,
     sierraId,
+    langCode,
     query,
     page = 1,
     pageSize = 4,
@@ -441,6 +460,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   return {
     workId,
     sierraId,
+    langCode,
     manifest,
     pageSize,
     pageIndex,
