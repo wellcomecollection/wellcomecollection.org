@@ -249,14 +249,24 @@ const PaginatorButtons = ({
               [spacing({ s: 1 }, { margin: ['right'] })]: true,
             })}
           >
-            <Control type="light" icon="arrow" extraClasses="icon--180" />
+            <Control
+              type="light"
+              icon="arrow"
+              extraClasses="icon--180"
+              text="Previous page"
+            />
           </a>
         </NextLink>
       )}
       {nextLink && (
         <NextLink {...nextLink} scroll={false} replace>
           <a>
-            <Control type="light" icon="arrow" extraClasses="icon" />
+            <Control
+              type="light"
+              icon="arrow"
+              extraClasses="icon"
+              text="Next page"
+            />
           </a>
         </NextLink>
       )}
