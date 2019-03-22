@@ -196,7 +196,11 @@ class ImageGallery extends Component<Props, State> {
                           ariaControls={`image-gallery-${id}`}
                           ariaExpanded={isActive}
                           ref={this.closeButtonRef}
-                          url={`#gallery-${id}`}
+                          replace={true}
+                          link={{
+                            href: `#gallery-${id}`,
+                            as: `#gallery-${id}`,
+                          }}
                           type={`light`}
                           text={`close`}
                           icon={`cross`}

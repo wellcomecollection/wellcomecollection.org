@@ -1,5 +1,4 @@
 // @flow
-import NextLink from 'next/link';
 import { font, spacing } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
@@ -31,19 +30,16 @@ const Pagination = ({
     )}`}
   >
     {prevPage && prevQueryString && (
-      <NextLink href={prevQueryString}>
-        <a>
-          <Control
-            type="light"
-            extraClasses={`icon--180 ${spacing(
-              { s: 2 },
-              { margin: ['right'] }
-            )}`}
-            icon="arrow"
-            text={`Previous (page ${prevPage})`}
-          />
-        </a>
-      </NextLink>
+      <Control
+        link={{
+          href: prevQueryString,
+          as: prevQueryString,
+        }}
+        type="light"
+        extraClasses={`icon--180 ${spacing({ s: 2 }, { margin: ['right'] })}`}
+        icon="arrow"
+        text={`Previous (page ${prevPage})`}
+      />
     )}
 
     <span>
@@ -51,16 +47,16 @@ const Pagination = ({
     </span>
 
     {nextPage && nextQueryString && (
-      <NextLink href={nextQueryString}>
-        <a>
-          <Control
-            type="light"
-            extraClasses={`${spacing({ s: 2 }, { margin: ['left'] })}`}
-            icon="arrow"
-            text={`Next (page ${nextPage})`}
-          />
-        </a>
-      </NextLink>
+      <Control
+        link={{
+          href: nextQueryString,
+          as: nextQueryString,
+        }}
+        type="light"
+        extraClasses={`${spacing({ s: 2 }, { margin: ['left'] })}`}
+        icon="arrow"
+        text={`Next (page ${nextPage})`}
+      />
     )}
   </div>
 );
