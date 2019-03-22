@@ -40,9 +40,11 @@ export function getProductionDates(work: Work) {
 export function getDownloadOptionsFromManifest(
   iiifManifest: IIIFManifest
 ): IIIFRendering[] {
-  const sequence = iiifManifest.sequences.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence => sequence['@type'] === 'sc:Sequence'
+    );
   const sequenceRendering = sequence && sequence.rendering;
 
   return sequenceRendering
