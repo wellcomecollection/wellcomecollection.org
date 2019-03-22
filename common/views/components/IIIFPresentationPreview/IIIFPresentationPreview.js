@@ -177,25 +177,27 @@ function randomImages(
 }
 
 function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
-  return iiifManifest.structures.map(structure => {
-    const images = structure.canvases
-      .map(canvasId => {
-        const matchingCanvas = getCanvases(iiifManifest).find(canvas => {
-          return canvas['@id'] === canvasId;
-        });
-        if (matchingCanvas) {
-          return {
-            id: matchingCanvas.thumbnail.service['@id'],
-            canvasId: matchingCanvas && matchingCanvas['@id'],
-          };
-        }
+  return iiifManifest.structures
+    ? iiifManifest.structures.map(structure => {
+        const images = structure.canvases
+          .map(canvasId => {
+            const matchingCanvas = getCanvases(iiifManifest).find(canvas => {
+              return canvas['@id'] === canvasId;
+            });
+            if (matchingCanvas) {
+              return {
+                id: matchingCanvas.thumbnail.service['@id'],
+                canvasId: matchingCanvas && matchingCanvas['@id'],
+              };
+            }
+          })
+          .filter(Boolean);
+        return {
+          label: structure.label,
+          images,
+        };
       })
-      .filter(Boolean);
-    return {
-      label: structure.label,
-      images,
-    };
-  });
+    : [];
 }
 
 function orderedStructuredImages(
