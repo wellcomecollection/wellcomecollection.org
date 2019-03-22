@@ -11,12 +11,15 @@ export type PaginatorRenderFunctionProps = {|
   rangeEnd: number,
 |};
 
-type Props = {|
+export type PropsWithoutRenderFunction = {|
   currentPage: number,
   pageSize: number,
   totalResults: number,
   link: NextLinkType,
   linkKey?: string,
+|};
+export type Props = {|
+  ...PropsWithoutRenderFunction,
   render: (data: PaginatorRenderFunctionProps) => Node,
 |};
 
