@@ -95,7 +95,7 @@ const Paginator = ({
         {prev && (
           <Control
             prefetch={true}
-            nextLink={prevLink}
+            link={prevLink}
             clickHandler={event => onPageChange(event, prev)}
             type="light"
             extraClasses={classNames({
@@ -113,7 +113,7 @@ const Paginator = ({
 
         {next && (
           <Control
-            nextLink={nextLink}
+            link={nextLink}
             prefetch={true}
             clickHandler={event => onPageChange(event, next)}
             type="light"

@@ -246,7 +246,7 @@ const PaginatorButtons = ({
         <Control
           scroll={false}
           replace={true}
-          nextLink={prevLink}
+          link={prevLink}
           type="light"
           icon="arrow"
           extraClasses={classNames({
@@ -259,7 +259,7 @@ const PaginatorButtons = ({
         <Control
           scroll={false}
           replace={true}
-          nextLink={nextLink}
+          link={nextLink}
           type="light"
           icon="arrow"
           extraClasses={classNames({

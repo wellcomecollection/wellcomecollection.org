@@ -31,7 +31,7 @@ const Pagination = ({
   >
     {prevPage && prevQueryString && (
       <Control
-        nextLink={{
+        link={{
           href: prevQueryString,
           as: prevQueryString,
         }}
@@ -48,7 +48,7 @@ const Pagination = ({
 
     {nextPage && nextQueryString && (
       <Control
-        nextLink={{
+        link={{
           href: nextQueryString,
           as: nextQueryString,
         }}

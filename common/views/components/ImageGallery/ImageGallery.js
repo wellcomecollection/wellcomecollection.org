@@ -197,7 +197,7 @@ class ImageGallery extends Component<Props, State> {
                           ariaExpanded={isActive}
                           ref={this.closeButtonRef}
                           replace={true}
-                          nextLink={{
+                          link={{
                             href: `#gallery-${id}`,
                             as: `#gallery-${id}`,
                           }}

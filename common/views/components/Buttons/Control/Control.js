@@ -9,7 +9,7 @@ import { type NextLinkType } from '../../../../model/next-link-type';
 
 type Props = {|
   tabIndex?: string,
-  nextLink?: NextLinkType,
+  link?: NextLinkType,
   scroll?: boolean,
   replace?: boolean,
   prefetch?: boolean,
@@ -38,7 +38,7 @@ const Control = forwardRef(
   (
     {
       tabIndex,
-      nextLink,
+      link,
       scroll,
       replace,
       prefetch,
@@ -77,9 +77,9 @@ const Control = forwardRef(
 
     return (
       <>
-        {nextLink ? (
+        {link ? (
           <NextLink
-            {...nextLink}
+            {...link}
             scroll={scroll}
             replace={replace}
             prefetch={prefetch}
