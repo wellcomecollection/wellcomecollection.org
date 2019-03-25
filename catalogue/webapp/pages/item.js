@@ -249,6 +249,7 @@ const PaginatorButtons = ({
           link={prevLink}
           type="light"
           icon="arrow"
+          text="Previous page"
           extraClasses={classNames({
             [spacing({ s: 1 }, { margin: ['right'] })]: true,
             'icon--180': true,
@@ -262,6 +263,7 @@ const PaginatorButtons = ({
           link={nextLink}
           type="light"
           icon="arrow"
+          text="Next page"
           extraClasses={classNames({
             icon: true,
           })}
