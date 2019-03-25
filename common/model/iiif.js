@@ -32,6 +32,7 @@ export type IIIFImage = {|
 export type IIIFCanvas = {|
   '@id': string,
   thumbnail: IIIFThumbnail,
+  label: string,
   images: IIIFImage[],
   width: number,
   height: number,
@@ -46,6 +47,7 @@ export type IIIFRendering = {|
 export type IIIFSequence = {|
   '@id': string,
   '@type': string,
+  compatibilityHint: string,
   canvases: IIIFCanvas[],
   rendering: IIIFRendering[],
 |};
@@ -65,6 +67,6 @@ export type IIIFManifest = {|
   '@id': string,
   label: string,
   metadata: IIIFMetadata[],
-  sequences: IIIFSequence[],
-  structures: IIIFStructure[],
+  sequences?: IIIFSequence[],
+  structures?: IIIFStructure[],
 |};
