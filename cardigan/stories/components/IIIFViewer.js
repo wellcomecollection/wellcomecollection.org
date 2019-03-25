@@ -5,14 +5,28 @@ import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../../common/views/themes/default';
 import manifest from '../iiif-content/iiif-manifest';
+import Router from 'next/router';
 
 const IIIFViewerExample = () => {
+  const rejectedPromise = () => {
+    // Needed by Link.linkClicked
+    return new Promise((resolve, reject) => reject(new Error('mock')));
+  };
+
+  const mockedRouter = {
+    push: rejectedPromise,
+    replace: rejectedPromise,
+    prefetch: () => {},
+  };
+
+  Router.router = mockedRouter;
+
   const workId = 'pxc98cnk';
   const sierraId = 'b21538906';
   const langCode = 'eng';
   const pageSize = 4;
+  const pageIndex = 2;
   const canvasIndex = 8;
-  const pageIndex = 5;
   const canvases = manifest.sequences[0].canvases;
   const currentCanvas = canvases[canvasIndex];
   const sharedPaginatorProps = {
