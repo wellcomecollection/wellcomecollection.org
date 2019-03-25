@@ -63,9 +63,11 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
             <span />
           </a>
         </div>
-        <a href="/" className="header__brand">
-          <WellcomeCollectionBlack />
-        </a>
+        <div className="header__brand">
+          <a href="/" className="header__brand-link">
+            <WellcomeCollectionBlack />
+          </a>
+        </div>
         <nav
           id="header-nav"
           className="header__nav js-header-burger-drawer"

@@ -18,7 +18,6 @@ $tweakpoints: (
 }
 
 .header__burger {
-  flex: 1;
   display: block;
 
   @include respond-to('header-medium') {
@@ -72,7 +71,9 @@ $tweakpoints: (
 
 .header__brand {
   display: flex;
-  align-items: center;
+  flex: 1;
+  // This is to account for the burger as we want it to bedead centre.
+  margin-left: -20px;
 
   @include respond-to('header-medium') {
     margin-right: 1.5rem;
@@ -81,6 +82,10 @@ $tweakpoints: (
     width: auto;
     display: block;
   }
+}
+
+.header__brand-link {
+  margin: 0 auto;
 }
 
 .header__nav {
