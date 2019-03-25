@@ -4,11 +4,12 @@ import { type IIIFPresentationLocation } from '@weco/common/utils/works';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font, classNames, spacing } from '@weco/common/utils/classnames';
 import { useEffect, useState, useContext } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -342,7 +343,25 @@ const IIIFPresentationDisplay = ({
       </BookPreviewContainer>
     );
   } else {
-    return null;
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
+        })}
+      >
+        <Button
+          type="primary"
+          url={`/works/${itemUrl.href.query.workId}/items`}
+          trackingEvent={{
+            category: 'ViewBookNonJSButton',
+            action: 'follow link',
+            label: itemUrl.href.query.workId,
+          }}
+          text="View the item"
+          link={itemUrl}
+        />
+      </div>
+    );
   }
 };
 
