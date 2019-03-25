@@ -8,7 +8,6 @@ import { spacing, font, classNames } from '../../../utils/classnames';
 type SelectableTextLink = {|
   ...TextLink,
   selected: boolean,
-  onClick?: (SyntheticEvent<HTMLAnchorElement>) => void,
 |};
 
 // TODO: This large property is a bit silly but okay for while we're testing
@@ -62,7 +61,6 @@ const NavItem = ({
   text,
   selected,
   large,
-  onClick,
 }: {|
   ...SelectableTextLink,
   large: boolean,
@@ -73,7 +71,6 @@ const NavItem = ({
         'plain-link': true,
         block: true,
       })}
-      onClick={onClick}
     >
       <NavItemInner selected={selected} large={large}>
         {text}

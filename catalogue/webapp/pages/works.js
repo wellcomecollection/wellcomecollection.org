@@ -62,7 +62,7 @@ const WorksSearchProvider = ({
 
 const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { setWorkType, workType } = useContext(SearchContext);
+  const { workType } = useContext(SearchContext);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -273,9 +273,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                         page: 1,
                       }),
                       selected: !workType,
-                      onClick: event => {
-                        setWorkType(undefined);
-                      },
                     },
                     {
                       text: 'Books',
@@ -290,9 +287,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                         (workType.indexOf('a') !== -1 &&
                           workType.indexOf('v') !== -1)
                       ),
-                      onClick: event => {
-                        setWorkType(['a', 'v']);
-                      },
                     },
                     {
                       text: 'Pictures',
@@ -307,9 +301,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                         (workType.indexOf('k') !== -1 &&
                           workType.indexOf('q') !== -1)
                       ),
-                      onClick: event => {
-                        setWorkType(['k', 'q']);
-                      },
                     },
                   ]}
                 />

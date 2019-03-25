@@ -1,5 +1,11 @@
 // @flow
-import { type Node, createContext, useState, useContext } from 'react';
+import {
+  type Node,
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+} from 'react';
 import Router from 'next/router';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 
@@ -55,6 +61,38 @@ const SearchProvider = ({ initialState, children }: SearchProviderProps) => {
     state.itemsLocationsLocationType
   );
   const [queryType, setQueryType] = useState(state.queryType);
+
+  useEffect(() => {
+    function routeChangeComplete(url: string) {
+      const [, query = ''] = url.split('?');
+      query.split('&').forEach(keyAndVal => {
+        const [key, value] = keyAndVal.split('=');
+        const decodedValue = decodeURIComponent(value);
+        switch (key) {
+          case 'query':
+            setQuery(decodedValue);
+            break;
+          case 'page':
+            setPage(parseInt(value, 10));
+            break;
+          case 'workType':
+            setWorkType(decodedValue.split(','));
+            break;
+          case 'items.locations.locationType':
+            setItemsLocationsLocationType(decodedValue.split(','));
+            break;
+          case 'queryType':
+            setQueryType(decodedValue);
+            break;
+        }
+      });
+    }
+
+    Router.events.on('routeChangeComplete', routeChangeComplete);
+    return () => {
+      Router.events.off('routeChangeComplete', routeChangeComplete);
+    };
+  }, []);
 
   const value = {
     query,
