@@ -47,6 +47,7 @@ const SearchProvider = ({ initialState, children }: SearchProviderProps) => {
     ...defaultState,
     ...initialState,
   };
+
   const [query, setQuery] = useState(state.query);
   const [page, setPage] = useState(state.page);
   const [workType, setWorkType] = useState(state.workType);
