@@ -332,7 +332,7 @@ const ItemPage = ({
     <PageLayout
       title={''}
       description={''}
-      url={{ pathname: `/works/${workId}/items` }}
+      url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'works'}
