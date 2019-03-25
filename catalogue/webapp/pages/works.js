@@ -60,15 +60,9 @@ const WorksSearchProvider = ({
   </SearchProvider>
 );
 
-const Works = ({
-  works,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-}: Props) => {
+const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { setWorkType } = useContext(SearchContext);
+  const { setWorkType, workType } = useContext(SearchContext);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -127,6 +121,7 @@ const Works = ({
         imageUrl={null}
         imageAltText={null}
       >
+        {JSON.stringify(workType)}
         <InfoBanner
           text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
           cookieName="WC_wellcomeImagesRedirect"
@@ -279,7 +274,9 @@ const Works = ({
                         page: 1,
                       }),
                       selected: !workType,
-                      onClick: event => setWorkType(undefined),
+                      onClick: event => {
+                        setWorkType(undefined);
+                      },
                     },
                     {
                       text: 'Books',
@@ -294,7 +291,9 @@ const Works = ({
                         (workType.indexOf('a') !== -1 &&
                           workType.indexOf('v') !== -1)
                       ),
-                      onClick: event => setWorkType(['a', 'v']),
+                      onClick: event => {
+                        setWorkType(['a', 'v']);
+                      },
                     },
                     {
                       text: 'Pictures',
@@ -309,7 +308,9 @@ const Works = ({
                         (workType.indexOf('k') !== -1 &&
                           workType.indexOf('q') !== -1)
                       ),
-                      onClick: event => setWorkType(['k', 'q']),
+                      onClick: event => {
+                        setWorkType(['k', 'q']);
+                      },
                     },
                   ]}
                 />
