@@ -1,6 +1,7 @@
 // @flow
-
 import { forwardRef } from 'react';
+import NextLink from 'next/link';
+import { type NextLinkType } from '../../../../model/next-link-type';
 import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
 import { font } from '../../../../utils/classnames';
@@ -22,13 +23,13 @@ type Props = {|
   ariaControls?: string,
   ariaExpanded?: boolean,
   clickHandler?: (event: Event) => void,
+  link?: NextLinkType,
 |};
 
 // $FlowFixMe (forwardRef)
 const Button = forwardRef(
   (
     {
-      url,
       type,
       id,
       extraClasses,
@@ -42,6 +43,8 @@ const Button = forwardRef(
       clickHandler,
       ariaControls,
       ariaExpanded,
+      link,
+      url, // url is deprecated, we should be using link
     }: Props,
     ref
   ) => {
@@ -59,8 +62,29 @@ const Button = forwardRef(
       }
     }
 
-    return (
-      // $FlowFixMe (conditional JSX tag)
+    return link ? (
+      <NextLink {...link}>
+        <a
+          ref={ref}
+          aria-controls={ariaControls}
+          aria-expanded={ariaExpanded}
+          target={target}
+          download={download}
+          rel={rel}
+          id={id}
+          className={`btn btn--${type} ${extraClasses || ''} ${font(
+            fontClasses
+          )} flex-inline flex--v-center`}
+          onClick={handleClick}
+          disabled={disabled}
+        >
+          <span className="flex-inline flex--v-center">
+            {icon && <Icon name={icon} />}
+            <span className="btn__text">{text}</span>
+          </span>
+        </a>
+      </NextLink>
+    ) : (
       <HtmlTag
         ref={ref}
         aria-controls={ariaControls}
