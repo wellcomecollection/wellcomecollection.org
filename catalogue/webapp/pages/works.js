@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -19,7 +19,9 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import { SearchProvider } from '../components/SearchContext/SearchContext';
+import SearchContext, {
+  SearchProvider,
+} from '../components/SearchContext/SearchContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -66,6 +68,7 @@ const Works = ({
   itemsLocationsLocationType,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+  const { setWorkType } = useContext(SearchContext);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -276,6 +279,7 @@ const Works = ({
                         page: 1,
                       }),
                       selected: !workType,
+                      onClick: event => setWorkType(undefined),
                     },
                     {
                       text: 'Books',
@@ -290,6 +294,7 @@ const Works = ({
                         (workType.indexOf('a') !== -1 &&
                           workType.indexOf('v') !== -1)
                       ),
+                      onClick: event => setWorkType(['a', 'v']),
                     },
                     {
                       text: 'Pictures',
@@ -304,6 +309,7 @@ const Works = ({
                         (workType.indexOf('k') !== -1 &&
                           workType.indexOf('q') !== -1)
                       ),
+                      onClick: event => setWorkType(['k', 'q']),
                     },
                   ]}
                 />
