@@ -52,16 +52,19 @@ export function getDownloadOptionsFromManifest(
 
   const pdfRenderingArray = iiifManifest.mediaSequences
     ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
-        sequence.elements.forEach(element => {
-          if (element.format === 'application/pdf') {
-            acc.push({
-              '@id': element['@id'],
-              format: element.format,
-              label: 'Download PDF',
-            });
-          }
-        });
-        return acc;
+        return acc.concat(
+          sequence.elements
+            .map(element => {
+              if (element.format === 'application/pdf') {
+                return {
+                  '@id': element['@id'],
+                  format: element.format,
+                  label: 'Download PDF',
+                };
+              }
+            })
+            .filter(Boolean)
+        );
       }, [])
     : [];
   return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
