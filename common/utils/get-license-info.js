@@ -65,6 +65,17 @@ export const licenseMap = {
       'Creative Commons Attribution Non-Commercial No-Derivatives (CC BY-NC-ND 4.0) terms and conditions <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">https://creativecommons.org/licenses/by-nc-nd/4.0/</a>',
     ],
   },
+  'open-government-licence-for-public-sector-information': {
+    url:
+      'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/',
+    text: 'Open Government Licence for public sector information',
+    icons: [],
+    description: 'Free to use with attribution.',
+    humanReadableText: [
+      'You can use this work for any purpose, including commercial uses, without restriction under copyright law. You should also provide attribution to the original work, source and licence.',
+      '<a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence for public sector information terms and conditions</a>',
+    ],
+  },
 };
 
 export default function(licenseIdentifier: string): ?LicenseData {
