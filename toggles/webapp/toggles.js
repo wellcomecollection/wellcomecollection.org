@@ -3,7 +3,7 @@ module.exports = {
     {
       id: 'booksRelease',
       title: `Janeway - Dante's inferno`,
-      defaultValue: false,
+      defaultValue: true,
       description:
         'Surfacing books in the search results, and adding the ability to peruse said books',
     },
