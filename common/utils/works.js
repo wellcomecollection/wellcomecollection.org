@@ -46,12 +46,25 @@ export function getDownloadOptionsFromManifest(
       sequence => sequence['@type'] === 'sc:Sequence'
     );
   const sequenceRendering = sequence && sequence.rendering;
+  const sequenceRenderingArray = Array.isArray(sequenceRendering)
+    ? sequenceRendering
+    : [sequenceRendering];
 
-  return sequenceRendering
-    ? Array.isArray(sequenceRendering)
-      ? sequenceRendering
-      : [sequenceRendering]
+  const pdfRenderingArray = iiifManifest.mediaSequences
+    ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
+        sequence.elements.forEach(element => {
+          if (element.format === 'application/pdf') {
+            acc.push({
+              '@id': element['@id'],
+              format: element.format,
+              label: 'Download PDF',
+            });
+          }
+        });
+        return acc;
+      }, [])
     : [];
+  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
 }
 
 export function getDownloadOptionsFromImageUrl(
