@@ -40,7 +40,6 @@ const NavItemInner = styled.span.attrs(props => ({
     transition: width 200ms ease;
   }
 
-  &.selected,
   &:hover,
   &:focus {
     &:after {
@@ -51,6 +50,10 @@ const NavItemInner = styled.span.attrs(props => ({
         width: 0;
       }
     }
+  }
+
+  &.selected:after {
+    width: 100%;
   }
 `;
 
