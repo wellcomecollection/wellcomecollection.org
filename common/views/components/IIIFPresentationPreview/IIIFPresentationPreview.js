@@ -275,7 +275,7 @@ const IIIFPresentationDisplay = ({
     return acc + pageType.images.length;
   }, 0);
 
-  if (iiifPresentationManifest && imageTotal > 0) {
+  if (imageTotal > 0) {
     return (
       <BookPreviewContainer>
         <NextLink {...itemUrl}>
