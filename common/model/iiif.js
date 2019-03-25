@@ -44,6 +44,15 @@ export type IIIFRendering = {|
   label: string,
 |};
 
+type IIIFMediaSequence = {|
+  '@id': string,
+  '@type': string,
+  elements: {
+    '@id': string,
+    format: string,
+  }[],
+|};
+
 export type IIIFSequence = {|
   '@id': string,
   '@type': string,
@@ -67,6 +76,7 @@ export type IIIFManifest = {|
   '@id': string,
   label: string,
   metadata: IIIFMetadata[],
+  mediaSequences?: IIIFMediaSequence[],
   sequences?: IIIFSequence[],
   structures?: IIIFStructure[],
 |};
