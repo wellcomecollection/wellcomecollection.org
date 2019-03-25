@@ -59,6 +59,7 @@ const NavItem = ({
   text,
   selected,
   large,
+  onClick,
 }: {|
   ...SelectableTextLink,
   large: boolean,
@@ -69,6 +70,7 @@ const NavItem = ({
         'plain-link': true,
         block: true,
       })}
+      onClick={onClick}
     >
       <NavItemInner selected={selected} large={large}>
         {text}
