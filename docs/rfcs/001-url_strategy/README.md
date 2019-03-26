@@ -2,7 +2,7 @@
 
 **Last updated: March 2018.**
 
-## Background
+## Background
 URLs are complicated, and you don't often get a chance to do them twice.
 
 They also serve multiple purposes, especially on a client facing app where
@@ -26,7 +26,7 @@ URLs and any guiding principles we should follow while doing so.
 This could be part process, but also enforced by implementation across the
 teams.
 
-### Process
+### Process
 The process has been suggested that we go through using RFCs in adding a new
 URL type to our domain, but assumed this could be used for updating them
 too.
@@ -34,7 +34,7 @@ too.
 [An example document has been started here](./example_strategy_document.md).
 
 
-### Implementation
+### Implementation
 Implementation can be done through typing, an example for this could be:
 
 ```JS
