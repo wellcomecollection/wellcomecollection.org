@@ -1,12 +1,12 @@
 // @flow
-
+import Raven from 'raven-js';
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
 import {
   type IIIFImageService,
   type IIIFThumbnailService,
 } from '../../../model/iiif';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 
 type Props = {|
   width: number,
@@ -45,6 +45,13 @@ const IIIFResponsiveImage = ({
         image: true,
         [extraClasses || '']: true,
       })}
+      onError={event =>
+        Raven.captureException(new Error('IIIF image loading error'), {
+          tags: {
+            service: 'dlcs',
+          },
+        })
+      }
       src={urlTemplate({ size: `${initialSrcWidth},` })}
       srcSet={
         sizes
