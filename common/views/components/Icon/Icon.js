@@ -11,7 +11,6 @@ type Props = {|
 
 const Icon = ({ name, title, extraClasses, attrs = {} }: Props) => (
   <div className={`icon ${extraClasses || ''}`} aria-hidden={title && 'true'}>
-    <canvas className="icon__canvas" height="26" width="26" />
     <svg
       className="icon__svg"
       {...(title
