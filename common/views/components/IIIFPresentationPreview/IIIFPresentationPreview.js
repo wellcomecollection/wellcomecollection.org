@@ -1,6 +1,10 @@
 // @flow
-import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { type IIIFPresentationLocation } from '@weco/common/utils/works';
+import { type IIIFManifest } from '@weco/common/model/iiif';
+import {
+  type IIIFPresentationLocation,
+  getCanvases,
+  getManifestViewType,
+} from '@weco/common/utils/works';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -126,16 +130,6 @@ const CallToAction = styled.div`
   }
 `;
 
-function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence =>
-        sequence['@type'] === 'sc:Sequence' &&
-        sequence.compatibilityHint !== 'displayIfContentUnsupported'
-    );
-  return sequence ? sequence.canvases : [];
-}
 type IIIFThumbnails = {|
   label: string,
   images: {
@@ -256,17 +250,14 @@ const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
 }: Props) => {
-  const [loaded, setLoaded] = useState(false);
+  const [viewType, setViewType] = useState('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
 
   useEffect(() => {
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
     if (iiifPresentationManifest) {
+      setViewType(getManifestViewType(iiifPresentationManifest));
       setImageTotal(getCanvases(iiifPresentationManifest).length);
       setImageThumbnails(
         previewThumbnails(
@@ -281,7 +272,7 @@ const IIIFPresentationDisplay = ({
     return acc + pageType.images.length;
   }, 0);
 
-  if (!loaded) {
+  if (viewType === 'unknown' || viewType === 'pdf') {
     return (
       <div
         className={classNames({
@@ -303,7 +294,7 @@ const IIIFPresentationDisplay = ({
     );
   }
 
-  if (loaded && imageTotal > 0) {
+  if (viewType === 'iiif') {
     return (
       <BookPreviewContainer>
         <NextLink {...itemUrl}>
@@ -369,6 +360,15 @@ const IIIFPresentationDisplay = ({
           </a>
         </NextLink>
       </BookPreviewContainer>
+    );
+  }
+
+  if (viewType === 'none') {
+    return (
+      <p>
+        We are unable to show you this work online at present, but are working
+        on making it available.
+      </p>
     );
   } else {
     return null;
