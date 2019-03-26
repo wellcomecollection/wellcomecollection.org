@@ -88,5 +88,5 @@ const IIIFViewerExample = () => {
   );
 };
 
-const stories = storiesOf('Components', module);
+const stories = storiesOf('Components (WIP)', module);
 stories.add('IIIFViewer', IIIFViewerExample, { info: Readme });
