@@ -27,19 +27,24 @@ addDecorator(withInfo({
   propTables: false
 }));
 
-const styles = {
-  padding: '30px',
+const CenterDecorator = (storyFn) => {
+  const story = storyFn();
+
+  const styles = {
+    padding: story.props.context.parameters.isFullScreen ? 0 : '30px',
+  }
+
+  return (
+    <Fragment>
+      <style id='styleguide-sass'>
+        {styleguideSass}
+      </style>
+      <div style={styles} className='enhanced'>
+        { story }
+      </div>
+    </Fragment>
+  )
 };
-const CenterDecorator = (storyFn) => (
-  <Fragment>
-    <style id='styleguide-sass'>
-      {styleguideSass}
-    </style>
-    <div style={styles} className='enhanced'>
-      { storyFn() }
-    </div>
-  </Fragment>
-);
 addDecorator(CenterDecorator);
 
 setOptions({
