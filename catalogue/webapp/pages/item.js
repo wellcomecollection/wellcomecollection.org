@@ -310,11 +310,8 @@ const ItemPage = ({
     totalResults: canvases && canvases.length,
     link: itemUrl({
       workId,
-      query,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
-      workType,
-      itemsLocationsLocationType,
       langCode,
       sierraId,
     }),
@@ -367,8 +364,6 @@ const ItemPage = ({
           <NextLink
             {...workUrl({
               id: workId,
-              page: pageIndex + 1,
-              query,
             })}
           >
             <a
@@ -429,9 +424,6 @@ const ItemPage = ({
                       <NextLink
                         {...itemUrl({
                           workId,
-                          query,
-                          workType,
-                          itemsLocationsLocationType,
                           page: pageIndex + 1,
                           sierraId,
                           langCode,

@@ -14,6 +14,7 @@ import TogglesContext from '../../views/components/TogglesContext/TogglesContext
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
+import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
 import { trackEvent } from '../../utils/ga';
 
 const isServer = typeof window === 'undefined';
@@ -346,14 +347,16 @@ export default class WecoApp extends App {
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
               <ThemeProvider theme={theme}>
-                <OutboundLinkTracker>
-                  <Fragment>
-                    {!pageProps.statusCode && <Component {...pageProps} />}
-                    {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                      <ErrorPage statusCode={pageProps.statusCode} />
-                    )}
-                  </Fragment>
-                </OutboundLinkTracker>
+                <CatalogueSearchProvider>
+                  <OutboundLinkTracker>
+                    <Fragment>
+                      {!pageProps.statusCode && <Component {...pageProps} />}
+                      {pageProps.statusCode && pageProps.statusCode !== 200 && (
+                        <ErrorPage statusCode={pageProps.statusCode} />
+                      )}
+                    </Fragment>
+                  </OutboundLinkTracker>
+                </CatalogueSearchProvider>
               </ThemeProvider>
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>

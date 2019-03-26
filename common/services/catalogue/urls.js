@@ -10,63 +10,37 @@ type WorksUrlProps = {|
 |};
 
 type WorkUrlProps = {|
-  ...WorksUrlProps,
   id: string,
 |};
 
 type ItemUrlProps = {|
-  ...WorksUrlProps,
   workId: string,
   sierraId: string,
   langCode: string,
   canvas: number,
+  page: ?number,
 |};
 
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function workTypeAndItemsLocationType(
-  workType: ?(string[]),
-  itemsLocationsLocationType: ?(string[])
-) {
+function getWorkType(workType: ?(string[])) {
   return {
     workType: workType ? workType.join(',') : undefined,
-    'items.locations.locationType': itemsLocationsLocationType
-      ? itemsLocationsLocationType.join(',')
-      : undefined,
   };
 }
 
-export function workUrl({
-  id,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-  queryType,
-}: WorkUrlProps): NextLinkType {
+export function workUrl({ id }: WorkUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/work`,
       query: {
         id,
-        ...removeEmpty({
-          query: query || undefined,
-          page: page && page > 1 ? page : undefined,
-          ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
-          queryType: queryType && queryType !== '' ? queryType : undefined,
-        }),
       },
     },
     as: {
       pathname: `/works/${id}`,
-      query: removeEmpty({
-        query: query || undefined,
-        page: page && page > 1 ? page : undefined,
-        ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
-        queryType: queryType && queryType !== '' ? queryType : undefined,
-      }),
     },
   };
 }
@@ -75,7 +49,6 @@ export function worksUrl({
   query,
   page,
   workType,
-  itemsLocationsLocationType,
   queryType,
 }: WorksUrlProps): NextLinkType {
   return {
@@ -84,7 +57,7 @@ export function worksUrl({
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
-        ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        ...getWorkType(workType),
         queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
@@ -93,7 +66,7 @@ export function worksUrl({
       query: removeEmpty({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
-        ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
+        ...getWorkType(workType),
         queryType: queryType && queryType !== '' ? queryType : undefined,
       }),
     },
@@ -102,10 +75,7 @@ export function worksUrl({
 
 export function itemUrl({
   workId,
-  query,
   page,
-  workType,
-  itemsLocationsLocationType,
   sierraId,
   langCode,
   canvas,
@@ -116,24 +86,20 @@ export function itemUrl({
       query: {
         workId,
         ...removeEmpty({
-          query: query || undefined,
           page: page && page > 1 ? page : undefined,
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
           langCode: langCode,
-          ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
         }),
       },
     },
     as: {
       pathname: `/works/${workId}/items`,
       query: removeEmpty({
-        query: query || undefined,
         page: page && page > 1 ? page : undefined,
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
         langCode: langCode,
-        ...workTypeAndItemsLocationType(workType, itemsLocationsLocationType),
       }),
     },
   };

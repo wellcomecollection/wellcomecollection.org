@@ -1,31 +1,37 @@
 // @flow
-
+import { useContext } from 'react';
 import NextLink from 'next/link';
-import type { NextLinkType } from '../../../model/next-link-type';
+import CatalogueSearchContext from '../../components/CatalogueSearchContext/CatalogueSearchContext';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
+import { worksUrl } from '../../../services/catalogue/urls';
 
-type Props = {|
-  nextLink: NextLinkType,
-|};
-
-const BackToResults = ({ nextLink }: Props) => {
+const BackToResults = () => {
+  const { query, workType, page, queryType } = useContext(
+    CatalogueSearchContext
+  );
+  const link = worksUrl({
+    query,
+    page,
+    workType,
+    queryType,
+  });
   return (
-    <NextLink {...nextLink}>
+    <NextLink {...link}>
       <a
         onClick={() => {
           trackEvent({
             category: 'BackToResults',
             action: 'follow link',
-            label: `${nextLink.href.query.query} | page: ${nextLink.href.query
-              .page || 1}`,
+            label: `${link.href.query.query} | page: ${link.href.query.page ||
+              1}`,
           });
         }}
         className={classNames({
           [font({ s: 'HNM5', m: 'HNM4' })]: true,
         })}
       >
-        <span>{`Search results`}</span>
+        <span>{`Search${query ? ' results' : ''}`}</span>
       </a>
     </NextLink>
   );

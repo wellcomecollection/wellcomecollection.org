@@ -19,9 +19,7 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import SearchContext, {
-  SearchProvider,
-} from '../components/SearchContext/SearchContext';
+import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -32,37 +30,17 @@ type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
   workType: ?(string[]),
-  itemsLocationsLocationType: ?(string[]),
 |};
 
-const WorksSearchProvider = ({
-  works,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-}: Props) => (
-  <SearchProvider
-    initialState={{
-      query: query || '',
-      page: page || 1,
-      workType,
-      itemsLocationsLocationType,
-    }}
-  >
-    <Works
-      works={works}
-      query={query}
-      page={page}
-      workType={workType}
-      itemsLocationsLocationType={itemsLocationsLocationType}
-    />
-  </SearchProvider>
+const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
+  <Works works={works} query={query} page={page} workType={workType} />
 );
 
-const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
+const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { setWorkType, workType } = useContext(SearchContext);
+  const { query, page, setWorkType, workType } = useContext(
+    CatalogueSearchContext
+  );
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -228,7 +206,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   compact={false}
-                  works={works}
                 />
 
                 <TogglesContext.Consumer>
@@ -269,7 +246,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                       link: worksUrl({
                         query,
                         workType: undefined,
-                        itemsLocationsLocationType,
                         page: 1,
                       }),
                       selected: !workType,
@@ -282,7 +258,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                       link: worksUrl({
                         query,
                         workType: ['a', 'v'],
-                        itemsLocationsLocationType,
                         page: 1,
                       }),
                       selected: !!(
@@ -299,7 +274,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                       link: worksUrl({
                         query,
                         workType: ['k', 'q'],
-                        itemsLocationsLocationType,
                         page: 1,
                       }),
                       selected: !!(
@@ -339,7 +313,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                           link={worksUrl({
                             query,
                             workType,
-                            itemsLocationsLocationType,
                             page,
                           })}
                           onPageChange={async (event, newPage) => {
@@ -347,7 +320,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                             const link = worksUrl({
                               query,
                               workType,
-                              itemsLocationsLocationType,
                               page: newPage,
                             });
                             Router.push(link.href, link.as).then(() =>
@@ -375,13 +347,7 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                       })}
                       key={result.id}
                     >
-                      <WorkCard
-                        work={result}
-                        query={query}
-                        page={page}
-                        workType={workType}
-                        itemsLocationsLocationType={itemsLocationsLocationType}
-                      />
+                      <WorkCard work={result} />
                     </div>
                   ))}
                 </div>
@@ -409,7 +375,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                             link={worksUrl({
                               query,
                               workType,
-                              itemsLocationsLocationType,
                               page,
                             })}
                             onPageChange={async (event, newPage) => {
@@ -417,7 +382,6 @@ const Works = ({ works, query, page, itemsLocationsLocationType }: Props) => {
                               const link = worksUrl({
                                 query,
                                 workType,
-                                itemsLocationsLocationType,
                                 page: newPage,
                               });
                               Router.push(link.href, link.as).then(() =>
@@ -466,42 +430,15 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
-  const {
-    tabbedNavOnSearchForm = false,
-    booksRelease = false,
-    showCatalogueSearchFilters = false,
-  } = ctx.query.toggles;
-  const includeBooks =
-    tabbedNavOnSearchForm || booksRelease || showCatalogueSearchFilters;
-
   const workTypeQuery = ctx.query.workType;
-  const itemsLocationsLocationTypeQuery =
-    ctx.query['items.locations.locationType'];
-
-  const defaultWorkType = ['k', 'q'];
-  const defaultItemsLocationsLocationType = ['iiif-image'];
-
-  const defaultWorkTypeWithBooks = ['a', 'k', 'q', 'v'];
-  const defaultItemsLocationsLocationTypeWithIIIFPresentation = [
-    'iiif-image',
-    'iiif-presentation',
-  ];
-
+  const defaultWorkType = ['a', 'k', 'q', 'v'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
-    : includeBooks
-    ? defaultWorkTypeWithBooks
     : defaultWorkType;
-
-  const itemsLocationsLocationTypeFilter = itemsLocationsLocationTypeQuery
-    ? itemsLocationsLocationTypeQuery.split(',').filter(Boolean)
-    : includeBooks
-    ? defaultItemsLocationsLocationTypeWithIIIFPresentation
-    : defaultItemsLocationsLocationType;
 
   const filters = {
     workType: workTypeFilter,
-    'items.locations.locationType': itemsLocationsLocationTypeFilter,
+    'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
   };
 
   const worksOrError =
@@ -512,9 +449,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     query,
     page,
     workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
-    itemsLocationsLocationType:
-      itemsLocationsLocationTypeQuery &&
-      itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
   };
 };
 
