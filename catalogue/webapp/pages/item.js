@@ -162,6 +162,14 @@ const IIIFViewer = styled.div.attrs(props => ({
   }
 `;
 
+const IframePdfViewer = styled.iframe`
+  width: 90vw;
+  height: 90vh;
+  margin: 0 auto 24px;
+  display: block;
+  border: none;
+`;
+
 type Props = {|
   workId: string,
   sierraId: string,
@@ -395,17 +403,7 @@ const ItemPage = ({
         )}
       </Layout12>
       {pdfRendering && !mainImageService && (
-        <iframe
-          title={`PDF: ${title}`}
-          src={pdfRendering['@id']}
-          style={{
-            width: '90vw',
-            height: '90vh',
-            margin: '0 auto 24px ',
-            display: 'block',
-            border: 'none',
-          }}
-        />
+        <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
 
       {mainImageService && (
