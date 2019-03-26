@@ -16,6 +16,7 @@ import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -381,10 +382,16 @@ const ItemPage = ({
           </NextLink>
         </div>
         {!pdfRendering && !mainImageService && (
-          <p>
-            We are unable to show you this work online at present, but are
-            working on making it available.
-          </p>
+          <div
+            className={classNames({
+              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+            })}
+          >
+            <BetaMessage
+              message="We are currently unable to show this work online, but will be
+        working on making it available."
+            />
+          </div>
         )}
       </Layout12>
       {pdfRendering && !mainImageService && (

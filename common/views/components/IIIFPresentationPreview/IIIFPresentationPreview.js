@@ -14,6 +14,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -365,10 +366,16 @@ const IIIFPresentationDisplay = ({
 
   if (viewType === 'none') {
     return (
-      <p>
-        We are unable to show you this work online at present, but are working
-        on making it available.
-      </p>
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <BetaMessage
+          message="We are currently unable to show this work online, but will be
+        working on making it available."
+        />
+      </div>
     );
   } else {
     return null;
