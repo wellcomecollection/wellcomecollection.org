@@ -485,9 +485,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
 
-  const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[canvasIndex];
-  const canvasOcr = await getCanvasOcr(currentCanvas);
+  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const currentCanvas = canvases && canvases[canvasIndex];
+  const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
 
   return {
     workId,
