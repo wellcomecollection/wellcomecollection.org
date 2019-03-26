@@ -99,7 +99,7 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
-export function manifestViewable(iiifManifest: IIIFManifest) {
+export function getManifestViewType(iiifManifest: IIIFManifest) {
   const canvases = getCanvases(iiifManifest);
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
