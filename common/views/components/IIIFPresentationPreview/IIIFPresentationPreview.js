@@ -256,9 +256,15 @@ const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
 }: Props) => {
+  const [loaded, setLoaded] = useState(false);
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   useEffect(() => {
     if (iiifPresentationManifest) {
       setImageTotal(getCanvases(iiifPresentationManifest).length);
@@ -275,7 +281,29 @@ const IIIFPresentationDisplay = ({
     return acc + pageType.images.length;
   }, 0);
 
-  if (iiifPresentationManifest && imageTotal > 0) {
+  if (!loaded) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
+        })}
+      >
+        <Button
+          type="primary"
+          url={`/works/${itemUrl.href.query.workId}/items`}
+          trackingEvent={{
+            category: 'ViewBookNonJSButton',
+            action: 'follow link',
+            label: itemUrl.href.query.workId,
+          }}
+          text="View the item"
+          link={itemUrl}
+        />
+      </div>
+    );
+  }
+
+  if (loaded && imageTotal > 0) {
     return (
       <BookPreviewContainer>
         <NextLink {...itemUrl}>
@@ -343,25 +371,7 @@ const IIIFPresentationDisplay = ({
       </BookPreviewContainer>
     );
   } else {
-    return (
-      <div
-        className={classNames({
-          [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
-        })}
-      >
-        <Button
-          type="primary"
-          url={`/works/${itemUrl.href.query.workId}/items`}
-          trackingEvent={{
-            category: 'ViewBookNonJSButton',
-            action: 'follow link',
-            label: itemUrl.href.query.workId,
-          }}
-          text="View the item"
-          link={itemUrl}
-        />
-      </div>
-    );
+    return null;
   }
 };
 

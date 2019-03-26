@@ -133,8 +133,8 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
       queryType: queryType,
     });
     Router.push(
-      { ...link.href, pathname: '/works-context' },
-      { ...link.as, pathname: '/works-context' }
+      { ...link.href, pathname: '/works' },
+      { ...link.as, pathname: '/works' }
     );
   };
   return children({ push });

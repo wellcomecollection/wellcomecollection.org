@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Paginator, {
   type PaginatorRenderFunctionProps,
@@ -289,10 +290,15 @@ const ItemPage = ({
   const canvases = manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
   const title = manifest.label;
-  const mainImageService = {
-    '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
-  };
-
+  const mainImageService =
+    currentCanvas && currentCanvas.images[0].resource.service
+      ? {
+          '@id': currentCanvas.images[0].resource.service['@id'],
+        }
+      : null;
+  const downloadOptions = getDownloadOptionsFromManifest(manifest);
+  const pdfRendering =
+    downloadOptions.find(option => option.label === 'Download PDF') || null;
   const navigationCanvases =
     canvases &&
     [...Array(pageSize)]
@@ -375,76 +381,90 @@ const ItemPage = ({
           </NextLink>
         </div>
       </Layout12>
-      <IIIFViewer>
-        <IIIFViewerMain>
-          <Paginator {...mainPaginatorProps} render={XOfY} />
+      {pdfRendering && !mainImageService && (
+        <iframe
+          title={`PDF: ${title}`}
+          src={pdfRendering['@id']}
+          style={{
+            width: '90vw',
+            height: '90vh',
+            margin: '0 auto 24px ',
+            display: 'block',
+            border: 'none',
+          }}
+        />
+      )}
+      {mainImageService && (
+        <IIIFViewer>
+          <IIIFViewerMain>
+            <Paginator {...mainPaginatorProps} render={XOfY} />
+            <IIIFResponsiveImage
+              width={currentCanvas ? currentCanvas.width : 0}
+              height={currentCanvas ? currentCanvas.height : 0}
+              imageService={mainImageService}
+              sizes={`(min-width: 860px) 800px, 100vw)`}
+              extraClasses={classNames({
+                'block h-center': true,
+                [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+              })}
+              lang={langCode}
+              alt={
+                (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                'no text alternative is available for this image'
+              }
+            />
 
-          <IIIFResponsiveImage
-            width={currentCanvas ? currentCanvas.width : 0}
-            height={currentCanvas ? currentCanvas.height : 0}
-            imageService={mainImageService}
-            sizes={`(min-width: 860px) 800px, 100vw)`}
-            extraClasses={classNames({
-              'block h-center': true,
-              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-            })}
-            lang={langCode}
-            alt={
-              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-              'no text alternative is available for this image'
-            }
-          />
+            <IIIFViewerPaginatorButtons>
+              <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
+            </IIIFViewerPaginatorButtons>
+          </IIIFViewerMain>
 
-          <IIIFViewerPaginatorButtons>
-            <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
-          </IIIFViewerPaginatorButtons>
-        </IIIFViewerMain>
-
-        <IIIFViewerThumbs>
-          {navigationCanvases &&
-            navigationCanvases.map((canvas, i) => (
-              <IIIFViewerThumb key={canvas['@id']}>
-                <Paginator
-                  {...thumbsPaginatorProps}
-                  render={({ rangeStart }) => (
-                    <NextLink
-                      {...itemUrl({
-                        workId,
-                        query,
-                        workType,
-                        itemsLocationsLocationType,
-                        page: pageIndex + 1,
-                        sierraId,
-                        langCode,
-                        canvas: pageSize * pageIndex + (i + 1),
-                      })}
-                      scroll={false}
-                      replace
-                      passHref
-                    >
-                      <IIIFViewerThumbLink
-                        isActive={canvasIndex === rangeStart + i - 1}
+          <IIIFViewerThumbs>
+            {navigationCanvases &&
+              navigationCanvases.map((canvas, i) => (
+                <IIIFViewerThumb key={canvas['@id']}>
+                  <Paginator
+                    {...thumbsPaginatorProps}
+                    render={({ rangeStart }) => (
+                      <NextLink
+                        {...itemUrl({
+                          workId,
+                          query,
+                          workType,
+                          itemsLocationsLocationType,
+                          page: pageIndex + 1,
+                          sierraId,
+                          langCode,
+                          canvas: pageSize * pageIndex + (i + 1),
+                        })}
+                        scroll={false}
+                        replace
+                        passHref
                       >
-                        <IIIFViewerThumbNumber>
-                          <span className="visually-hidden">image </span>
-                          {rangeStart + i}
-                        </IIIFViewerThumbNumber>
-                        <IIIFCanvasThumbnail
-                          canvas={canvas}
-                          maxWidth={300}
-                          lang={langCode}
-                        />
-                      </IIIFViewerThumbLink>
-                    </NextLink>
-                  )}
-                />
-              </IIIFViewerThumb>
-            ))}
-          <IIIFViewerPaginatorButtons isThumbs={true}>
-            <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
-          </IIIFViewerPaginatorButtons>
-        </IIIFViewerThumbs>
-      </IIIFViewer>
+                        <IIIFViewerThumbLink
+                          isActive={canvasIndex === rangeStart + i - 1}
+                        >
+                          <IIIFViewerThumbNumber>
+                            <span className="visually-hidden">image </span>
+                            {rangeStart + i}
+                          </IIIFViewerThumbNumber>
+                          <IIIFCanvasThumbnail
+                            canvas={canvas}
+                            maxWidth={300}
+                            lang={langCode}
+                          />
+                        </IIIFViewerThumbLink>
+                      </NextLink>
+                    )}
+                  />
+                </IIIFViewerThumb>
+              ))}
+            <IIIFViewerPaginatorButtons isThumbs={true}>
+              <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
+            </IIIFViewerPaginatorButtons>
+          </IIIFViewerThumbs>
+        </IIIFViewer>
+      )}
     </PageLayout>
   );
 };
@@ -465,9 +485,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
 
-  const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[canvasIndex];
-  const canvasOcr = await getCanvasOcr(currentCanvas);
+  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const currentCanvas = canvases && canvases[canvasIndex];
+  const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
 
   return {
     workId,
