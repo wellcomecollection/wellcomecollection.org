@@ -380,6 +380,12 @@ const ItemPage = ({
             </a>
           </NextLink>
         </div>
+        {!pdfRendering && !mainImageService && (
+          <p>
+            We are unable to show you this work online at present, but are
+            working on making it available.
+          </p>
+        )}
       </Layout12>
       {pdfRendering && !mainImageService && (
         <iframe
@@ -394,6 +400,7 @@ const ItemPage = ({
           }}
         />
       )}
+
       {mainImageService && (
         <IIIFViewer>
           <IIIFViewerMain>
