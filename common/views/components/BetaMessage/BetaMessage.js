@@ -12,10 +12,6 @@ const StyledBetaMessage = styled.div.attrs(props => ({
 }))`
   border-left: ${props => `4px solid ${props.theme.colors.purple}`};
   padding-left: ${props => props.theme.spacingUnit}px;
-
-  p {
-    margin: 0;
-  }
 `;
 
 type Props = {| message: string |};
@@ -31,7 +27,7 @@ const BetaMessage = ({ message }: Props) => {
   return (
     <StyledBetaMessage>
       <Icon name="underConstruction" extraClasses="margin-right-s2" />
-      <p>{message}</p>
+      <p className="no-margin">{message}</p>
     </StyledBetaMessage>
   );
 };
