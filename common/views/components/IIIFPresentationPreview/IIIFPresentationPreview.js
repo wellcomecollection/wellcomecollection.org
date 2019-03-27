@@ -247,11 +247,17 @@ type Props = {|
   itemUrl: any,
 |};
 
+type ViewType = 'unknown' | 'iiif' | 'pdf' | 'none';
+// Can we show the user the work described by the manifest?
+// unknown === can't/haven't checked
+// iiif | pdf === checked manifest and can render
+// none === checked manifest and know we can't render it
+
 const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
 }: Props) => {
-  const [viewType, setViewType] = useState('unknown');
+  const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
