@@ -61,17 +61,12 @@ const IIIFViewerExample = () => {
     .map(i => canvases[i])
     .filter(Boolean);
 
-  const mainImageService = {
-    '@id': currentCanvas.images[0].resource.service['@id'],
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <IIIFViewer
         mainPaginatorProps={mainPaginatorProps}
         thumbsPaginatorProps={thumbsPaginatorProps}
         currentCanvas={currentCanvas}
-        mainImageService={mainImageService}
         lang={langCode}
         canvasOcr={null}
         navigationCanvases={navigationCanvases}

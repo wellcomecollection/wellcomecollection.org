@@ -176,7 +176,6 @@ const ItemPage = ({
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           currentCanvas={currentCanvas}
-          mainImageService={mainImageService}
           lang={langCode}
           canvasOcr={canvasOcr}
           navigationCanvases={navigationCanvases}
