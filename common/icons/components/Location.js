@@ -1,7 +1,13 @@
 const SvgLocation = props => (
-  <svg viewBox="0 0 24 24" {...props}>
-    <circle cx={8} cy={8.1} r={2} />
-    <path d="M8 .1c-4.4 0-8 3.6-8 8 0 3.8 5 14 8 14s8-10.2 8-14c0-4.4-3.6-8-8-8zm0 20c-1.5-.6-6-8.5-6-12 0-3.3 2.7-6 6-6s6 2.7 6 6c0 3.5-4.5 11.4-6 12z" />
+  <svg width={24} height={24} {...props}>
+    <g fill="none" fillRule="evenodd">
+      <path fill="#FFF" d="M-168-234h504v450h-504z" />
+      <path d="M0 0h24v24H0z" />
+      <g fill="#000" fillRule="nonzero" transform="translate(4 1)">
+        <circle cx={8} cy={8.14} r={2} />
+        <path d="M8 .14a8 8 0 0 0-8 8c0 3.77 5 14 8 14s8-10.23 8-14a8 8 0 0 0-8-8zm0 20c-1.49-.56-6-8.51-6-12a6 6 0 1 1 12 0c0 3.46-4.51 11.41-6 11.99v.01z" />
+      </g>
+    </g>
   </svg>
 );
 

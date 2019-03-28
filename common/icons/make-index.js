@@ -4,17 +4,21 @@ const path = require('path');
 fs.readdir(path.join(__dirname, 'components'), (err, data) => {
   if (err) throw err;
 
-  const fileInfo = data.map(fileName => {
-    const fileWithoutExtension = fileName.slice(0, -3);
-    const iconName =
-      fileWithoutExtension.charAt(0).toLowerCase() +
-      fileWithoutExtension.slice(1);
+  const fileInfo = data
+    .map(fileName => {
+      if (fileName.slice(0, 1) === '.') return;
 
-    return {
-      fileWithoutExtension,
-      iconName,
-    };
-  });
+      const fileWithoutExtension = fileName.slice(0, -3);
+      const iconName =
+        fileWithoutExtension.charAt(0).toLowerCase() +
+        fileWithoutExtension.slice(1);
+
+      return {
+        fileWithoutExtension,
+        iconName,
+      };
+    })
+    .filter(Boolean);
 
   const importData = fileInfo
     .map(f => {

@@ -1,10 +1,11 @@
 const SvgArchive = props => (
-  <svg viewBox="0 0 24 24" {...props}>
-    <g data-name="Layer 2">
-      <g data-name="Layer 1">
-        <path fill="none" d="M0 0h24v24H0z" opacity={0.26} />
-        <path d="M21.67 2.33H2.33a1 1 0 0 0-1 1v6.34a1 1 0 0 0 1 1h.33V21a1 1 0 0 0 1 1h16.67a1 1 0 0 0 1-1V10.67h.33a1 1 0 0 0 1-1V3.33a1 1 0 0 0-.99-1zM19.33 20H4.67v-9.33h14.66zm1.34-12.33v1H3.33V4.33h17.34v3.34z" />
-        <path d="M9.67 14.17h4.67a.83.83 0 0 0 0-1.67H9.67a.83.83 0 0 0 0 1.67z" />
+  <svg width={24} height={24} {...props}>
+    <g fill="none" fillRule="evenodd">
+      <path fill="#FFF" d="M-168-24h504v450h-504z" />
+      <path d="M0 0h24v24H0z" />
+      <g fill="#000" fillRule="nonzero">
+        <path d="M19.5 4.3h-15a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-10a3 3 0 0 0-3-3zm-15 2h15a1 1 0 0 1 1 1v.8h-17v-.8a1 1 0 0 1 1-1zm16 11a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-7.2h17v7.2z" />
+        <path d="M14 11.7h-4a2.5 2.5 0 0 0 0 5h4a2.5 2.5 0 1 0 0-5zm0 3h-4a.5.5 0 1 1 0-1h4a.5.5 0 1 1 0 1z" />
       </g>
     </g>
   </svg>

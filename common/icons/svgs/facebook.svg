@@ -1,1 +1,9 @@
-<svg viewBox='0 0 24 24'><path d='M17.7 12.7h-3.6v9.7h-3.7v-9.7H7.8V9.2h2.6v-3c0-2.3 1.5-4.5 5-4.5.8 0 1.7 0 2.5.1l-.1 3.3h-2.2c-1.3 0-1.5.6-1.5 1.5v2.6h3.8l-.2 3.5z'/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g fill="none" fill-rule="evenodd" transform="translate(-456 -150)">
+    <rect width="504" height="450" fill="#FFF"/>
+    <g transform="translate(456 150)">
+      <rect width="24" height="24"/>
+      <path fill="#000" fill-rule="nonzero" d="M10.7,11.67 L7.06,11.67 L7.06,21.41 L3.35,21.41 L3.35,11.67 L0.77,11.67 L0.77,8.16 L3.35,8.16 L3.35,5.16 C3.35,2.81 4.87,0.64 8.35,0.64 C9.17534976,0.638794909 10.0000725,0.685540329 10.82,0.78 L10.74,4.06 L8.53,4.06 C7.27,4.06 7.06,4.64 7.06,5.61 L7.06,8.17 L10.87,8.17 L10.7,11.67 Z" transform="translate(7 1)"/>
+    </g>
+  </g>
+</svg>
