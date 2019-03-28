@@ -160,15 +160,10 @@ const IIIFViewer = styled.div.attrs(props => ({
 
 type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
-  maxWidth: ?number,
   lang: string,
 |};
 
-const IIIFCanvasThumbnail = ({
-  canvas,
-  maxWidth,
-  lang,
-}: IIIFCanvasThumbnailProps) => {
+const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
 
   return (
@@ -320,11 +315,7 @@ const IIIFViewerComponent = ({
                     <span className="visually-hidden">image </span>
                     {rangeStart + i}
                   </IIIFViewerThumbNumber>
-                  <IIIFCanvasThumbnail
-                    canvas={canvas}
-                    maxWidth={300}
-                    lang={lang}
-                  />
+                  <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
                 </IIIFViewerThumbLink>
               </NextLink>
             )}
