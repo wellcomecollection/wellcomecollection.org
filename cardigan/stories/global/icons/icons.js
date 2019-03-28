@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import Icon from '../../../../common/views/components/Icon/Icon';
-import * as icons from '../../../../icons/';
+import * as icons from '../../../../common/icons';
 import iconsReadme from './README.md';
 
 const stories = storiesOf('Global', module);
