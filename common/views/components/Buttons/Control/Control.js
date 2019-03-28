@@ -33,8 +33,7 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
   </span>
 );
 
-// $FlowFixMe (forwardRef)
-const Control = forwardRef(
+const Control = forwardRef<Props, HTMLButtonElement | HTMLAnchorElement>(
   (
     {
       tabIndex,
@@ -89,7 +88,6 @@ const Control = forwardRef(
             </a>
           </NextLink>
         ) : (
-          // $FlowFixMe (conditional element)
           <button ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />
           </button>

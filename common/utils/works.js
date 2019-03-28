@@ -40,16 +40,34 @@ export function getProductionDates(work: Work) {
 export function getDownloadOptionsFromManifest(
   iiifManifest: IIIFManifest
 ): IIIFRendering[] {
-  const sequence = iiifManifest.sequences.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence => sequence['@type'] === 'sc:Sequence'
+    );
   const sequenceRendering = sequence && sequence.rendering;
+  const sequenceRenderingArray = Array.isArray(sequenceRendering)
+    ? sequenceRendering
+    : [sequenceRendering];
 
-  return sequenceRendering
-    ? Array.isArray(sequenceRendering)
-      ? sequenceRendering
-      : [sequenceRendering]
+  const pdfRenderingArray = iiifManifest.mediaSequences
+    ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
+        return acc.concat(
+          sequence.elements
+            .map(element => {
+              if (element.format === 'application/pdf') {
+                return {
+                  '@id': element['@id'],
+                  format: element.format,
+                  label: 'Download PDF',
+                };
+              }
+            })
+            .filter(Boolean)
+        );
+      }, [])
     : [];
+  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
 }
 
 export function getDownloadOptionsFromImageUrl(

@@ -5,7 +5,11 @@ import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { spacing, font, classNames } from '../../../utils/classnames';
 
-type SelectableTextLink = {| ...TextLink, selected: boolean |};
+type SelectableTextLink = {|
+  ...TextLink,
+  selected: boolean,
+  onClick?: (SyntheticEvent<HTMLAnchorElement>) => void,
+|};
 
 // TODO: This large property is a bit silly but okay for while we're testing
 type Props = {
@@ -36,7 +40,6 @@ const NavItemInner = styled.span.attrs(props => ({
     transition: width 200ms ease;
   }
 
-  &.selected,
   &:hover,
   &:focus {
     &:after {
@@ -48,6 +51,10 @@ const NavItemInner = styled.span.attrs(props => ({
       }
     }
   }
+
+  &.selected:after {
+    width: 100%;
+  }
 `;
 
 const NavItem = ({
@@ -55,6 +62,7 @@ const NavItem = ({
   text,
   selected,
   large,
+  onClick,
 }: {|
   ...SelectableTextLink,
   large: boolean,
@@ -65,6 +73,7 @@ const NavItem = ({
         'plain-link': true,
         block: true,
       })}
+      onClick={onClick}
     >
       <NavItemInner selected={selected} large={large}>
         {text}

@@ -4,11 +4,12 @@ import { type IIIFPresentationLocation } from '@weco/common/utils/works';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font, classNames, spacing } from '@weco/common/utils/classnames';
 import { useEffect, useState, useContext } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -126,9 +127,13 @@ const CallToAction = styled.div`
 `;
 
 function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence = iiifManifest.sequences.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence =>
+        sequence['@type'] === 'sc:Sequence' &&
+        sequence.compatibilityHint !== 'displayIfContentUnsupported'
+    );
   return sequence ? sequence.canvases : [];
 }
 type IIIFThumbnails = {|
@@ -165,10 +170,12 @@ function randomImages(
   for (var i = 1; i <= numberOfImages; i++) {
     const randomNumber = Math.floor(Math.random() * canvases.length);
     const randomCanvas = canvases.splice(randomNumber, 1)[0];
-    images.push({
-      id: randomCanvas.thumbnail.service['@id'],
-      canvasId: randomCanvas['@id'],
-    });
+    if (randomCanvas.thumbnail.service) {
+      images.push({
+        id: randomCanvas.thumbnail.service['@id'],
+        canvasId: randomCanvas['@id'],
+      });
+    }
   }
   return {
     label: 'random',
@@ -249,10 +256,16 @@ const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
 }: Props) => {
+  const [loaded, setLoaded] = useState(false);
   const [imageThumbnails, setImageThumbnails] = useState([]);
-  const [imageTotal, setImageTotal] = useState(null);
+  const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
-  const fetchThumbnails = async () => {
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
     if (iiifPresentationManifest) {
       setImageTotal(getCanvases(iiifPresentationManifest).length);
       setImageThumbnails(
@@ -263,80 +276,103 @@ const IIIFPresentationDisplay = ({
         )
       );
     }
-  };
-  useEffect(() => {
-    fetchThumbnails();
   }, [iiifPresentationManifest]);
   const itemsNumber = imageThumbnails.reduce((acc, pageType) => {
     return acc + pageType.images.length;
   }, 0);
 
-  return (
-    <BookPreviewContainer>
-      <NextLink {...itemUrl}>
-        <a
-          className="plain-link"
-          onClick={() => {
-            trackEvent({
-              category: 'IIIFPresentationPreview',
-              action: 'follow link',
-              label: itemUrl.href.query.workId,
-            });
+  if (!loaded) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
+        })}
+      >
+        <Button
+          type="primary"
+          url={`/works/${itemUrl.href.query.workId}/items`}
+          trackingEvent={{
+            category: 'ViewBookNonJSButton',
+            action: 'follow link',
+            label: itemUrl.href.query.workId,
           }}
-        >
-          <BookPreview
-            columnNumber={
-              itemsNumber === 1
-                ? 3
-                : itemsNumber === 3
-                ? 4
-                : 2 + Math.floor(itemsNumber / 2)
-            }
-            hasThumbs={imageThumbnails.length > 0}
-          >
-            {imageThumbnails.map((pageType, i) => {
-              return pageType.images.map(image => {
-                return i === 0 ? (
-                  <PagePreview
-                    key={image.id}
-                    backgroundImage={iiifImageTemplate(image.id)({
-                      size: 'max',
-                    })}
-                  />
-                ) : (
-                  <PagePreview
-                    key={image.id}
-                    backgroundImage={iiifImageTemplate(image.id)({
-                      size: '!400,400',
-                    })}
-                  />
-                );
+          text="View the item"
+          link={itemUrl}
+        />
+      </div>
+    );
+  }
+
+  if (loaded && imageTotal > 0) {
+    return (
+      <BookPreviewContainer>
+        <NextLink {...itemUrl}>
+          <a
+            className="plain-link"
+            onClick={() => {
+              trackEvent({
+                category: 'IIIFPresentationPreview',
+                action: 'follow link',
+                label: itemUrl.href.query.workId,
               });
-            })}
-            <CallToAction
+            }}
+          >
+            <BookPreview
+              columnNumber={
+                itemsNumber === 1
+                  ? 3
+                  : itemsNumber === 3
+                  ? 4
+                  : 2 + Math.floor(itemsNumber / 2)
+              }
               hasThumbs={imageThumbnails.length > 0}
-              className={classNames({
-                [font({ s: 'HNM4' })]: true,
-              })}
             >
-              <span className="cta__inner">
-                <span
-                  className={classNames({
-                    'flex-inline': true,
-                    'flex--v-center': true,
-                  })}
-                >
-                  <Icon name="gallery" />
-                  {imageTotal}
+              {imageThumbnails.map((pageType, i) => {
+                return pageType.images.map(image => {
+                  return i === 0 ? (
+                    <PagePreview
+                      key={image.id}
+                      backgroundImage={iiifImageTemplate(image.id)({
+                        size: 'max',
+                      })}
+                    />
+                  ) : (
+                    <PagePreview
+                      key={image.id}
+                      backgroundImage={iiifImageTemplate(image.id)({
+                        size: '!400,400',
+                      })}
+                    />
+                  );
+                });
+              })}
+              <CallToAction
+                hasThumbs={imageThumbnails.length > 0}
+                className={classNames({
+                  [font({ s: 'HNM4' })]: true,
+                })}
+              >
+                <span className="cta__inner">
+                  <span
+                    className={classNames({
+                      'flex-inline': true,
+                      'flex--v-center': true,
+                    })}
+                  >
+                    <Icon name="gallery" />
+                    {imageTotal}
+                  </span>
+                  <span className="cta__text">Full view</span>
                 </span>
-                <span className="cta__text">Full view</span>
-              </span>
-            </CallToAction>
-          </BookPreview>
-        </a>
-      </NextLink>
-    </BookPreviewContainer>
-  );
+              </CallToAction>
+            </BookPreview>
+          </a>
+        </NextLink>
+      </BookPreviewContainer>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default IIIFPresentationDisplay;

@@ -47,6 +47,7 @@ const SearchProvider = ({ initialState, children }: SearchProviderProps) => {
     ...defaultState,
     ...initialState,
   };
+
   const [query, setQuery] = useState(state.query);
   const [page, setPage] = useState(state.page);
   const [workType, setWorkType] = useState(state.workType);
@@ -94,8 +95,8 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
       queryType: queryType,
     });
     Router.push(
-      { ...link.href, pathname: '/works-context' },
-      { ...link.as, pathname: '/works-context' }
+      { ...link.href, pathname: '/works' },
+      { ...link.as, pathname: '/works' }
     );
   };
   return children({ push });

@@ -92,11 +92,13 @@ const Paginator = ({
           [font({ s: 'LR3', m: 'LR2' })]: true,
         })}
       >
-        {prev && (
+        {prevLink && prev && (
           <Control
             prefetch={true}
             link={prevLink}
-            clickHandler={event => onPageChange(event, prev)}
+            clickHandler={event => {
+              onPageChange(event, prev);
+            }}
             type="light"
             extraClasses={classNames({
               [spacing({ s: 2 }, { margin: ['right'] })]: true,
@@ -111,11 +113,13 @@ const Paginator = ({
           Page {currentPage} of {totalPages}
         </span>
 
-        {next && (
+        {nextLink && next && (
           <Control
             link={nextLink}
             prefetch={true}
-            clickHandler={event => onPageChange(event, next)}
+            clickHandler={event => {
+              onPageChange(event, next);
+            }}
             type="light"
             extraClasses={classNames({
               [spacing({ s: 2 }, { margin: ['left'] })]: true,

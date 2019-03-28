@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
@@ -63,20 +64,27 @@ const ItemPage = ({
   workType,
   query,
 }: Props) => {
-  const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[canvasIndex];
+  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const currentCanvas = canvases && canvases[canvasIndex];
   const title = manifest.label;
-  const mainImageService = {
-    '@id': currentCanvas.images[0].resource.service['@id'],
-  };
-
-  const navigationCanvases = [...Array(pageSize)]
-    .map((_, i) => pageSize * pageIndex + i)
-    .map(i => canvases[i])
-    .filter(Boolean);
+  const mainImageService =
+    currentCanvas && currentCanvas.images[0].resource.service
+      ? {
+          '@id': currentCanvas.images[0].resource.service['@id'],
+        }
+      : null;
+  const downloadOptions = getDownloadOptionsFromManifest(manifest);
+  const pdfRendering =
+    downloadOptions.find(option => option.label === 'Download PDF') || null;
+  const navigationCanvases =
+    canvases &&
+    [...Array(pageSize)]
+      .map((_, i) => pageSize * pageIndex + i)
+      .map(i => canvases[i])
+      .filter(Boolean);
 
   const sharedPaginatorProps = {
-    totalResults: canvases.length,
+    totalResults: canvases && canvases.length,
     link: itemUrl({
       workId,
       query,
@@ -107,7 +115,7 @@ const ItemPage = ({
     <PageLayout
       title={''}
       description={''}
-      url={{ pathname: `/works/${workId}/items` }}
+      url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'works'}
@@ -150,23 +158,38 @@ const ItemPage = ({
           </NextLink>
         </div>
       </Layout12>
-      <IIIFViewer
-        mainPaginatorProps={mainPaginatorProps}
-        thumbsPaginatorProps={thumbsPaginatorProps}
-        currentCanvas={currentCanvas}
-        mainImageService={mainImageService}
-        lang={langCode}
-        canvasOcr={canvasOcr}
-        navigationCanvases={navigationCanvases}
-        workId={workId}
-        query={query}
-        workType={workType}
-        itemsLocationsLocationType={itemsLocationsLocationType}
-        pageIndex={pageIndex}
-        sierraId={sierraId}
-        pageSize={pageSize}
-        canvasIndex={canvasIndex}
-      />
+      {pdfRendering && !mainImageService && (
+        <iframe
+          title={`PDF: ${title}`}
+          src={pdfRendering['@id']}
+          style={{
+            width: '90vw',
+            height: '90vh',
+            margin: '0 auto 24px ',
+            display: 'block',
+            border: 'none',
+          }}
+        />
+      )}
+      {mainImageService && currentCanvas && navigationCanvases && (
+        <IIIFViewer
+          mainPaginatorProps={mainPaginatorProps}
+          thumbsPaginatorProps={thumbsPaginatorProps}
+          currentCanvas={currentCanvas}
+          mainImageService={mainImageService}
+          lang={langCode}
+          canvasOcr={canvasOcr}
+          navigationCanvases={navigationCanvases}
+          workId={workId}
+          query={query}
+          workType={workType}
+          itemsLocationsLocationType={itemsLocationsLocationType}
+          pageIndex={pageIndex}
+          sierraId={sierraId}
+          pageSize={pageSize}
+          canvasIndex={canvasIndex}
+        />
+      )}
     </PageLayout>
   );
 };
@@ -187,9 +210,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
 
-  const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[canvasIndex];
-  const canvasOcr = await getCanvasOcr(currentCanvas);
+  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const currentCanvas = canvases && canvases[canvasIndex];
+  const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
 
   return {
     workId,
