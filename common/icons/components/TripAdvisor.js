@@ -1,4 +1,4 @@
-const SvgTripadvisor = props => (
+const SvgTripAdvisor = props => (
   <svg width={24} height={24} {...props}>
     <g fill="none" fillRule="evenodd">
       <path fill="#FFF" d="M-216-360h504V90h-504z" />
@@ -14,4 +14,4 @@ const SvgTripadvisor = props => (
   </svg>
 );
 
-export default SvgTripadvisor;
+export default SvgTripAdvisor;
