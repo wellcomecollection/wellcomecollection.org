@@ -372,15 +372,15 @@
     }
   },
   "Location": {
-    "places": {
+    "locations": {
       "type": "Group",
-      "fieldset": "Places",
+      "fieldset": "Locations",
       "config": {
         "fields": {
           "place": {
             "type": "Link",
             "config": {
-              "label": "Place",
+              "label": "Location",
               "select": "document",
               "customtypes": [
                 "place"
