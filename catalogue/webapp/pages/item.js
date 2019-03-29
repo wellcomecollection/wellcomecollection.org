@@ -11,6 +11,16 @@ import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import styled from 'styled-components';
+
+const IframePdfViewer = styled.iframe`
+  width: 90vw;
+  height: 90vh;
+  margin: 0 auto 24px;
+  display: block;
+  border: none;
+`;
 
 type Props = {|
   workId: string,
@@ -157,19 +167,18 @@ const ItemPage = ({
             </a>
           </NextLink>
         </div>
+        {!pdfRendering && !mainImageService && (
+          <div
+            className={classNames({
+              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+            })}
+          >
+            <BetaMessage message="We are working to make this item available online in April 2019." />
+          </div>
+        )}
       </Layout12>
       {pdfRendering && !mainImageService && (
-        <iframe
-          title={`PDF: ${title}`}
-          src={pdfRendering['@id']}
-          style={{
-            width: '90vw',
-            height: '90vh',
-            margin: '0 auto 24px ',
-            display: 'block',
-            border: 'none',
-          }}
-        />
+        <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
       {mainImageService && currentCanvas && navigationCanvases && (
         <IIIFViewer

@@ -1,6 +1,10 @@
 // @flow
-import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { type IIIFPresentationLocation } from '@weco/common/utils/works';
+import { type IIIFManifest } from '@weco/common/model/iiif';
+import {
+  type IIIFPresentationLocation,
+  getCanvases,
+  getManifestViewType,
+} from '@weco/common/utils/works';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -10,6 +14,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 const BookPreviewContainer = styled.div`
   overflow: scroll;
@@ -126,16 +131,6 @@ const CallToAction = styled.div`
   }
 `;
 
-function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence =>
-        sequence['@type'] === 'sc:Sequence' &&
-        sequence.compatibilityHint !== 'displayIfContentUnsupported'
-    );
-  return sequence ? sequence.canvases : [];
-}
 type IIIFThumbnails = {|
   label: string,
   images: {
@@ -252,21 +247,24 @@ type Props = {|
   itemUrl: any,
 |};
 
+type ViewType = 'unknown' | 'iiif' | 'pdf' | 'none';
+// Can we show the user the work described by the manifest?
+// unknown === can't/haven't checked
+// iiif | pdf === checked manifest and can render
+// none === checked manifest and know we can't render it
+
 const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
 }: Props) => {
-  const [loaded, setLoaded] = useState(false);
+  const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
 
   useEffect(() => {
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
     if (iiifPresentationManifest) {
+      setViewType(getManifestViewType(iiifPresentationManifest));
       setImageTotal(getCanvases(iiifPresentationManifest).length);
       setImageThumbnails(
         previewThumbnails(
@@ -281,7 +279,7 @@ const IIIFPresentationDisplay = ({
     return acc + pageType.images.length;
   }, 0);
 
-  if (!loaded) {
+  if (viewType === 'unknown' || viewType === 'pdf') {
     return (
       <div
         className={classNames({
@@ -303,7 +301,7 @@ const IIIFPresentationDisplay = ({
     );
   }
 
-  if (loaded && imageTotal > 0) {
+  if (viewType === 'iiif') {
     return (
       <BookPreviewContainer>
         <NextLink {...itemUrl}>
@@ -369,6 +367,18 @@ const IIIFPresentationDisplay = ({
           </a>
         </NextLink>
       </BookPreviewContainer>
+    );
+  }
+
+  if (viewType === 'none') {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <BetaMessage message="We are working to make this item available online in April 2019." />
+      </div>
     );
   } else {
     return null;
