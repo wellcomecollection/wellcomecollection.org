@@ -1,12 +1,11 @@
 // @flow
-import createThing from '../interfaces/Thing';
 import timestamp from '../parts/timestamp';
 // import link from '../parts/link';
 import list from '../parts/list';
 import boolean from '../parts/boolean';
 
-function createTimedThing(type: string, data: Object) {
-  const model = createThing(type, {
+const TimedThing = {
+  Times: {
     times: list('Times', {
       start: timestamp('Start'),
       end: timestamp('End'),
@@ -19,9 +18,7 @@ function createTimedThing(type: string, data: Object) {
       //   isPrimary: boolean('Primary interprtation'),
       // }),
     }),
-  });
+  },
+};
 
-  return model;
-}
-
-export default createTimedThing;
+export default TimedThing;

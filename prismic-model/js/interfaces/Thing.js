@@ -3,25 +3,18 @@ import title from '../parts/title';
 import body from '../parts/body';
 import link from '../parts/link';
 import singleLineText from '../parts/single-line-text';
-import list from '../parts/list';
 
-function createThing(type: string, data: Object) {
-  const model = {
+function createThing(type: string, data: Object, extenders: Object[]) {
+  const Thing = {
     Main: {
       title,
-      // maybe this should be `type`
-      // e.g. type of story, type of event, type of exhibition?
       format: link('Format', 'document', ['formats']),
       body,
     },
     Info: {
       ...data,
     },
-    Relationships: {
-      partOf: list('Part of', {
-        item: link('Item', 'document', ['series', 'exhibitions']),
-      }),
-    },
+    ...Object.assign({}, ...extenders),
     'Site info': {
       promoText: singleLineText,
       promoImage: singleLineText,
@@ -29,7 +22,7 @@ function createThing(type: string, data: Object) {
     },
   };
 
-  return model;
+  return Thing;
 }
 
 export default createThing;
