@@ -4,7 +4,7 @@ import link from '../parts/link';
 
 const LocatedThing = {
   Location: {
-    places: list('Places', {
+    locations: list('Places', {
       place: link('Place', 'document', ['place']),
     }),
   },
