@@ -29,8 +29,8 @@ type ContextProps = {|
 const defaultState: CatalogueQuery = {
   query: '',
   page: 1,
-  workType: ['k', 'q'],
-  itemsLocationsLocationType: ['iiif-image'],
+  workType: null,
+  itemsLocationsLocationType: null,
   queryType: null,
 };
 
@@ -89,28 +89,39 @@ const CatalogueSearchProvider = ({
 
   useEffect(() => {
     function routeChangeComplete(url: string) {
-      const [, query = ''] = url.split('?');
-      query.split('&').forEach(keyAndVal => {
-        const [key, value] = keyAndVal.split('=');
-        const decodedValue = decodeURIComponent(value);
-        switch (key) {
-          case 'query':
-            setQuery(decodedValue);
-            break;
-          case 'page':
-            setPage(parseInt(value, 10));
-            break;
-          case 'workType':
-            setWorkType(decodedValue.split(','));
-            break;
-          case 'items.locations.locationType':
-            setItemsLocationsLocationType(decodedValue.split(','));
-            break;
-          case 'queryType':
-            setQueryType(decodedValue);
-            break;
-        }
-      });
+      const [path, query = ''] = url.split('?');
+
+      // TODO: There must be a more non-stringy way to do this
+      // This avoids other URL updates changing the search context
+      if (path === '/works') {
+        const params = query.split('&').reduce((acc, keyAndVal) => {
+          const [key, value] = keyAndVal.split('=');
+          const decodedValue = decodeURIComponent(value);
+          const val =
+            key === 'workType' || key === 'items.locations.location.type'
+              ? decodedValue.split(',')
+              : decodedValue;
+
+          return {
+            ...acc,
+            [key === 'items.locations.location.type'
+              ? 'itemsLocationsLocationType'
+              : key]: val,
+          };
+        }, {});
+        const state = {
+          ...defaultState,
+          ...params,
+        };
+
+        setQuery(state.query);
+        setPage(parseInt(state.page, 10));
+        setWorkType(state.workType);
+        setItemsLocationsLocationType(
+          (state.itemsLocationsLocationType: string[])
+        );
+        setQueryType(state.queryType);
+      }
     }
 
     Router.events.on('routeChangeComplete', routeChangeComplete);
