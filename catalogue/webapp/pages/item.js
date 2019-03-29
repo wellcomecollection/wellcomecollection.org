@@ -395,10 +395,7 @@ const ItemPage = ({
               [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <BetaMessage
-              message="We are currently unable to show this work online, but will be
-        working on making it available."
-            />
+            <BetaMessage message="We are working to make this item available online in April 2019." />
           </div>
         )}
       </Layout12>
