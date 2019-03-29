@@ -16,6 +16,7 @@ import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -159,6 +160,14 @@ const IIIFViewer = styled.div.attrs(props => ({
     max-height: 100%;
     overflow: scroll;
   }
+`;
+
+const IframePdfViewer = styled.iframe`
+  width: 90vw;
+  height: 90vh;
+  margin: 0 auto 24px;
+  display: block;
+  border: none;
 `;
 
 type Props = {|
@@ -380,20 +389,20 @@ const ItemPage = ({
             </a>
           </NextLink>
         </div>
+        {!pdfRendering && !mainImageService && (
+          <div
+            className={classNames({
+              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+            })}
+          >
+            <BetaMessage message="We are working to make this item available online in April 2019." />
+          </div>
+        )}
       </Layout12>
       {pdfRendering && !mainImageService && (
-        <iframe
-          title={`PDF: ${title}`}
-          src={pdfRendering['@id']}
-          style={{
-            width: '90vw',
-            height: '90vh',
-            margin: '0 auto 24px ',
-            display: 'block',
-            border: 'none',
-          }}
-        />
+        <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
+
       {mainImageService && (
         <IIIFViewer>
           <IIIFViewerMain>
