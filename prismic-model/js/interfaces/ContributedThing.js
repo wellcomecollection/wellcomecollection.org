@@ -1,10 +1,12 @@
 // @flow
 import contributorsWithTitle from '../parts/contributorsWithTitle';
 
-const ContributedThing = {
-  Contributors: {
-    ...contributorsWithTitle(),
-  },
-};
+function ContributedThing() {
+  return {
+    Contributors: {
+      ...contributorsWithTitle(),
+    },
+  };
+}
 
 export default ContributedThing;

@@ -15,7 +15,7 @@ const Place = createThing(
     capacity: number('Capacity'),
     locationInformation: structuredText('Location information'),
   },
-  [LocatedThing]
+  [LocatedThing()]
 );
 
 export default Place;
