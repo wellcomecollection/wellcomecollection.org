@@ -29,9 +29,6 @@ module.exports = function(webpack, assetPrefix) {
         use: [
           {
             loader: 'css-loader',
-            options: {
-              minimize: true,
-            },
           },
           'postcss-loader',
           {

@@ -2,167 +2,30 @@
 import { type Context } from 'next';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
-import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import Paginator, {
-  type PaginatorRenderFunctionProps,
-} from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
-import styled from 'styled-components';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
+import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import styled from 'styled-components';
 
-const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
-  className: classNames({
-    'flex absolute flex--h-center': true,
-  }),
-}))`
-  left: ${props => (props.isThumbs ? 'auto' : '50%')};
-  right: ${props => props.theme.spacingUnit}px;
-  bottom: ${props => (props.isThumbs ? '50%' : props.theme.spacingUnit + 'px')};
-  transform: ${props =>
-    props.isThumbs ? 'translateY(50%)' : 'translateX(-50%)'};
-
-  ${props =>
-    props.isThumbs &&
-    `
-    @media (min-width: ${props.theme.sizes.medium}px) {
-      bottom: ${props.theme.spacingUnit}px;
-      left: 50%;
-      transform: translateX(-50%) translateY(0%);
-
-      .control__inner {
-        transform: rotate(90deg);
-      }
-    }
-  `}
-`;
-
-const IIIFViewerThumbNumber = styled.span.attrs(props => ({
-  className: classNames({
-    'line-height-1': true,
-    'absolute bg-charcoal font-white': true,
-    [font({ s: 'LR3' })]: true,
-  }),
-}))`
-  top: ${props => props.theme.spacingUnit}px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 3px 2px 0;
-  z-index: 1;
-`;
-
-const IIIFViewerThumb = styled.div.attrs(props => ({
-  className: classNames({
-    'relative flex flex--v-center': true,
-    [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
-  }),
-}))`
-  height: 100%;
-  width: 20%;
-  margin-right: ${props => props.theme.spacingUnit}px;
-
-  &:last-child {
-    margin: 0;
-  }
-
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    height: 25%;
-    width: 100%;
-    margin-right: 0;
-  }
-`;
-
-const IIIFViewerThumbs = styled.div.attrs(props => ({
-  className: classNames({
-    'flex flex--h-center relative bg-smoke': true,
-  }),
-}))`
-  height: 20%;
-  width: 100%;
-  padding: 0 100px 0 0;
-
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    height: 100%;
-    flex-direction: column;
-    width: 25%;
-    padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
-  }
-`;
-
-const IIIFViewerMain = styled.div.attrs(props => ({
-  className: classNames({
-    'relative bg-charcoal font-white': true,
-    [spacing({ s: 4 }, { padding: ['top'] })]: true,
-    [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
-    [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
-  }),
-}))`
-  height: 80%;
-  width: 100%;
-
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    height: 100%;
-    width: 75%;
-  }
-`;
-
-const IIIFViewerXOfY = styled.span.attrs(props => ({
-  className: classNames({
-    'absolute font-white': true,
-    [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
-    [font({ s: 'LR3' })]: true,
-  }),
-}))`
-  top: ${props => props.theme.spacingUnit}px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const IIIFViewerThumbLink = styled.a.attrs(props => ({
-  className: classNames({
-    'block h-center': true,
-  }),
-}))`
-  height: 100%;
-
-  img {
-    border: 3px solid
-      ${props => (props.isActive ? props.theme.colors.white : 'transparent')};
-    transition: border-color 200ms ease;
-  }
-`;
-
-const IIIFViewer = styled.div.attrs(props => ({
-  className: classNames({
-    'flex flex--wrap': true,
-  }),
-}))`
-  width: 100vw;
+const IframePdfViewer = styled.iframe`
+  width: 90vw;
   height: 90vh;
-  flex-direction: row-reverse;
-
-  img {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0 auto;
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    overflow: scroll;
-  }
+  margin: 0 auto 24px;
+  display: block;
+  border: none;
 `;
 
 type Props = {|
   workId: string,
   sierraId: string,
+  langCode: string,
   manifest: IIIFManifest,
   pageSize: number,
   pageIndex: number,
@@ -174,11 +37,13 @@ type Props = {|
 |};
 
 async function getCanvasOcr(canvas) {
-  const textContent = canvas.otherContent.find(
-    content =>
-      content['@type'] === 'sc:AnnotationList' &&
-      content.label === 'Text of this page'
-  );
+  const textContent =
+    canvas.otherContent &&
+    canvas.otherContent.find(
+      content =>
+        content['@type'] === 'sc:AnnotationList' &&
+        content.label === 'Text of this page'
+    );
   const textService = textContent && textContent['@id'];
   try {
     const textJson = await fetch(textService);
@@ -196,77 +61,10 @@ async function getCanvasOcr(canvas) {
   }
 }
 
-type IIIFCanvasThumbnailProps = {| canvas: IIIFCanvas, maxWidth: ?number |};
-
-const IIIFCanvasThumbnail = ({
-  canvas,
-  maxWidth,
-}: IIIFCanvasThumbnailProps) => {
-  const thumbnailService = canvas.thumbnail.service;
-
-  const size = maxWidth
-    ? thumbnailService.sizes
-        .filter(size => size.width <= maxWidth)
-        // TODO: We could make this the next size up for responsive images perhaps
-        .reduce((max, size, i, arr) => (size.width > max.width ? size : max))
-    : thumbnailService.sizes[0];
-
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  return (
-    <img
-      width={size.width}
-      height={size.height}
-      src={urlTemplate({
-        size: `${size.width},${size.height}`,
-      })}
-      alt=""
-    />
-  );
-};
-
-const XOfY = ({ currentPage, totalPages }: PaginatorRenderFunctionProps) => (
-  <IIIFViewerXOfY>
-    {currentPage} of {totalPages}
-  </IIIFViewerXOfY>
-);
-
-const PaginatorButtons = ({
-  currentPage,
-  totalPages,
-  prevLink,
-  nextLink,
-}: PaginatorRenderFunctionProps) => {
-  return (
-    <div
-      className={classNames({
-        'flex flex--v-center flex--h-center': true,
-      })}
-    >
-      {prevLink && (
-        <NextLink {...prevLink} scroll={false} replace>
-          <a
-            className={classNames({
-              [spacing({ s: 1 }, { margin: ['right'] })]: true,
-            })}
-          >
-            <Control type="light" icon="arrow" extraClasses="icon--180" />
-          </a>
-        </NextLink>
-      )}
-      {nextLink && (
-        <NextLink {...nextLink} scroll={false} replace>
-          <a>
-            <Control type="light" icon="arrow" extraClasses="icon" />
-          </a>
-        </NextLink>
-      )}
-    </div>
-  );
-};
-
 const ItemPage = ({
   workId,
   sierraId,
+  langCode,
   manifest,
   pageSize,
   pageIndex,
@@ -276,19 +74,27 @@ const ItemPage = ({
   workType,
   query,
 }: Props) => {
-  const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[canvasIndex];
+  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const currentCanvas = canvases && canvases[canvasIndex];
   const title = manifest.label;
-  const service = currentCanvas.thumbnail.service;
-  const urlTemplate = iiifImageTemplate(service['@id']);
-  const largestSize = service.sizes[service.sizes.length - 1];
-  const navigationCanvases = [...Array(pageSize)]
-    .map((_, i) => pageSize * pageIndex + i)
-    .map(i => canvases[i])
-    .filter(Boolean);
+  const mainImageService =
+    currentCanvas && currentCanvas.images[0].resource.service
+      ? {
+          '@id': currentCanvas.images[0].resource.service['@id'],
+        }
+      : null;
+  const downloadOptions = getDownloadOptionsFromManifest(manifest);
+  const pdfRendering =
+    downloadOptions.find(option => option.label === 'Download PDF') || null;
+  const navigationCanvases =
+    canvases &&
+    [...Array(pageSize)]
+      .map((_, i) => pageSize * pageIndex + i)
+      .map(i => canvases[i])
+      .filter(Boolean);
 
   const sharedPaginatorProps = {
-    totalResults: canvases.length,
+    totalResults: canvases && canvases.length,
     link: itemUrl({
       workId,
       query,
@@ -296,6 +102,7 @@ const ItemPage = ({
       canvas: canvasIndex + 1,
       workType,
       itemsLocationsLocationType,
+      langCode,
       sierraId,
     }),
   };
@@ -316,9 +123,9 @@ const ItemPage = ({
 
   return (
     <PageLayout
-      title={''}
+      title={title}
       description={''}
-      url={{ pathname: `/works/${workId}/items` }}
+      url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'works'}
@@ -340,6 +147,7 @@ const ItemPage = ({
               [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
             })}
             title={title}
+            lang={langCode}
           >
             {title}
           </TruncatedText>
@@ -359,68 +167,37 @@ const ItemPage = ({
             </a>
           </NextLink>
         </div>
-      </Layout12>
-      <IIIFViewer>
-        <IIIFViewerMain>
-          <Paginator {...mainPaginatorProps} render={XOfY} />
-          <img
+        {!pdfRendering && !mainImageService && (
+          <div
             className={classNames({
-              'block h-center': true,
-              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
             })}
-            width={largestSize.width}
-            height={largestSize.height}
-            src={urlTemplate({
-              size: `max`,
-            })}
-            alt={
-              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-              'no text alternative is available for this image'
-            }
-          />
-          <IIIFViewerPaginatorButtons>
-            <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
-          </IIIFViewerPaginatorButtons>
-        </IIIFViewerMain>
-
-        <IIIFViewerThumbs>
-          {navigationCanvases.map((canvas, i) => (
-            <IIIFViewerThumb key={canvas['@id']}>
-              <Paginator
-                {...thumbsPaginatorProps}
-                render={({ rangeStart }) => (
-                  <NextLink
-                    {...itemUrl({
-                      workId,
-                      query,
-                      workType,
-                      itemsLocationsLocationType,
-                      page: pageIndex + 1,
-                      sierraId,
-                      canvas: pageSize * pageIndex + (i + 1),
-                    })}
-                    scroll={false}
-                    replace
-                  >
-                    <IIIFViewerThumbLink
-                      isActive={canvasIndex === rangeStart + i - 1}
-                    >
-                      <IIIFViewerThumbNumber>
-                        <span className="visually-hidden">image </span>
-                        {rangeStart + i}
-                      </IIIFViewerThumbNumber>
-                      <IIIFCanvasThumbnail canvas={canvas} maxWidth={300} />
-                    </IIIFViewerThumbLink>
-                  </NextLink>
-                )}
-              />
-            </IIIFViewerThumb>
-          ))}
-          <IIIFViewerPaginatorButtons isThumbs={true}>
-            <Paginator {...thumbsPaginatorProps} render={PaginatorButtons} />
-          </IIIFViewerPaginatorButtons>
-        </IIIFViewerThumbs>
-      </IIIFViewer>
+          >
+            <BetaMessage message="We are working to make this item available online in April 2019." />
+          </div>
+        )}
+      </Layout12>
+      {pdfRendering && !mainImageService && (
+        <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
+      )}
+      {mainImageService && currentCanvas && navigationCanvases && (
+        <IIIFViewer
+          mainPaginatorProps={mainPaginatorProps}
+          thumbsPaginatorProps={thumbsPaginatorProps}
+          currentCanvas={currentCanvas}
+          lang={langCode}
+          canvasOcr={canvasOcr}
+          navigationCanvases={navigationCanvases}
+          workId={workId}
+          query={query}
+          workType={workType}
+          itemsLocationsLocationType={itemsLocationsLocationType}
+          pageIndex={pageIndex}
+          sierraId={sierraId}
+          pageSize={pageSize}
+          canvasIndex={canvasIndex}
+        />
+      )}
     </PageLayout>
   );
 };
@@ -429,6 +206,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     workId,
     sierraId,
+    langCode,
     query,
     page = 1,
     pageSize = 4,
@@ -440,13 +218,14 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
   )).json();
 
-  const canvases = manifest.sequences[0].canvases;
-  const currentCanvas = canvases[canvasIndex];
-  const canvasOcr = await getCanvasOcr(currentCanvas);
+  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const currentCanvas = canvases && canvases[canvasIndex];
+  const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
 
   return {
     workId,
     sierraId,
+    langCode,
     manifest,
     pageSize,
     pageIndex,

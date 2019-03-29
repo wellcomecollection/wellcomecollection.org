@@ -1,9 +1,9 @@
-// flow-typed signature: 5c6405e66f6ce7dd8b1385de7e221be6
-// flow-typed version: 1965a633bb/next_v7.x.x/flow_>=v0.53.x
+// flow-typed signature: c2cb4bca6254c6d79d860fa177024cf6
+// flow-typed version: 67a3fa05b3/next_v7.x.x/flow_>=v0.93.x
 
 declare module "next" {
   declare type RequestHandler = (
-    req: http$IncomingMessage,
+    req: http$IncomingMessage<>,
     res: http$ServerResponse,
     parsedUrl: any
   ) => Promise<void>;
@@ -13,27 +13,27 @@ declare module "next" {
     getRequestHandler(): RequestHandler,
     setAssetPrefix(url: string): void,
     render(
-      req: http$IncomingMessage,
+      req: http$IncomingMessage<>,
       res: http$ServerResponse,
       pathname: string,
       query?: Object
     ): Promise<void>,
     renderToHTML(
-      req: http$IncomingMessage,
+      req: http$IncomingMessage<>,
       res: http$ServerResponse,
       pathname: string,
       query?: Object
     ): string,
     renderError(
       err: Error,
-      req: http$IncomingMessage,
+      req: http$IncomingMessage<>,
       res: http$ServerResponse,
       pathname: string,
       query?: Object
     ): Promise<void>,
     renderErrorToHTML(
       err: Error,
-      req: http$IncomingMessage,
+      req: http$IncomingMessage<>,
       res: http$ServerResponse,
       pathname: string,
       query?: Object
@@ -68,21 +68,28 @@ declare module "next/head" {
   declare module.exports: Class<React$Component<any, any>>;
 }
 
-declare module "next/link" {
-  declare export type URLObject = {
-    +href?: string,
-    +protocol?: string,
-    +slashes?: boolean,
-    +auth?: string,
-    +hostname?: string,
-    +port?: string | number,
-    +host?: string,
-    +pathname?: string,
-    +search?: string,
-    +query?: Object,
-    +hash?: string
+declare module "next/config" {
+  declare module.exports: () => {
+    publicRuntimeConfig: { [string]: string },
+    serverRuntimeConfig: { [string]: string }
   };
+}
 
+declare type URLObject = {
+  +href?: string,
+  +protocol?: string,
+  +slashes?: boolean,
+  +auth?: string,
+  +hostname?: string,
+  +port?: string | number,
+  +host?: string,
+  +pathname?: string,
+  +search?: string,
+  +query?: Object,
+  +hash?: string
+};
+
+declare module "next/link" {
   declare export type Props = {
     prefetch?: boolean,
     shallow?: boolean,
@@ -139,13 +146,13 @@ declare module "next/router" {
     +query: Object,
     events: RouterEvents,
     push(
-      url: string,
-      as: ?string,
+      url: string | URLObject,
+      as: ?(string | URLObject),
       options?: EventChangeOptions
     ): Promise<boolean>,
     replace(
-      url: string,
-      as: ?string,
+      url: string | URLObject,
+      as: ?(string | URLObject),
       options?: EventChangeOptions
     ): Promise<boolean>,
     prefetch(url: string): Promise<*>,

@@ -1,5 +1,6 @@
 // @flow
 import { spacing, font } from '../../../utils/classnames';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 // TODO: share these with the main nav
 const navLinks = [
@@ -37,17 +38,25 @@ const FooterNav = () => (
           }
         )}`}
       >
-        {navLinks.map((link, i) => (
-          <li key={link.text} className="footer-nav__item">
-            <a
-              id={`footer-nav-${i}`}
-              href={link.url}
-              className={`footer-nav__link ${font({ s: 'WB7' })}`}
-            >
-              {link.text}
-            </a>
-          </li>
-        ))}
+        <TogglesContext.Consumer>
+          {({ booksRelease }) => (
+            <>
+              {navLinks.map((link, i) => (
+                <li key={link.text} className="footer-nav__item">
+                  <a
+                    id={`footer-nav-${i}`}
+                    href={link.url}
+                    className={`footer-nav__link ${font({ s: 'WB7' })}`}
+                  >
+                    {booksRelease && link.text === 'Images'
+                      ? 'Collections'
+                      : link.text}
+                  </a>
+                </li>
+              ))}
+            </>
+          )}
+        </TogglesContext.Consumer>
       </ul>
     </nav>
   </div>

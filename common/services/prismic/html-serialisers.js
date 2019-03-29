@@ -2,7 +2,6 @@
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
 import { font } from '../../utils/classnames';
-import { sized } from '../../utils/style';
 
 const { Elements } = PrismicDOM.RichText;
 

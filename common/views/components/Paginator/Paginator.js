@@ -1,6 +1,5 @@
 // @flow
 import { Fragment } from 'react';
-import NextLink from 'next/link';
 import { classNames, font, spacing } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
@@ -93,45 +92,41 @@ const Paginator = ({
           [font({ s: 'LR3', m: 'LR2' })]: true,
         })}
       >
-        {prev && (
-          <NextLink {...prevLink} prefetch>
-            <a
-              onClick={event => {
-                onPageChange(event, prev);
-              }}
-            >
-              <Control
-                type="light"
-                extraClasses={`icon--180 ${spacing(
-                  { s: 2 },
-                  { margin: ['right'] }
-                )}`}
-                icon="arrow"
-                text={`Previous (page ${prev})`}
-              />
-            </a>
-          </NextLink>
+        {prevLink && prev && (
+          <Control
+            prefetch={true}
+            link={prevLink}
+            clickHandler={event => {
+              onPageChange(event, prev);
+            }}
+            type="light"
+            extraClasses={classNames({
+              [spacing({ s: 2 }, { margin: ['right'] })]: true,
+              'icon--180': true,
+            })}
+            icon="arrow"
+            text={`Previous (page ${prev})`}
+          />
         )}
 
         <span>
           Page {currentPage} of {totalPages}
         </span>
 
-        {next && (
-          <NextLink {...nextLink} prefetch>
-            <a
-              onClick={event => {
-                onPageChange(event, next);
-              }}
-            >
-              <Control
-                type="light"
-                extraClasses={`${spacing({ s: 2 }, { margin: ['left'] })}`}
-                icon="arrow"
-                text={`Next (page ${next})`}
-              />
-            </a>
-          </NextLink>
+        {nextLink && next && (
+          <Control
+            link={nextLink}
+            prefetch={true}
+            clickHandler={event => {
+              onPageChange(event, next);
+            }}
+            type="light"
+            extraClasses={classNames({
+              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+            })}
+            icon="arrow"
+            text={`Next (page ${next})`}
+          />
         )}
       </div>
     </Fragment>

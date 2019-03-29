@@ -4,6 +4,7 @@ import {
   type IIIFManifest,
   type IIIFRendering,
   type IIIFMetadata,
+  type IIIFCanvas,
 } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
@@ -40,10 +41,34 @@ export function getProductionDates(work: Work) {
 export function getDownloadOptionsFromManifest(
   iiifManifest: IIIFManifest
 ): IIIFRendering[] {
-  const sequence = iiifManifest.sequences.find(
-    sequence => sequence['@type'] === 'sc:Sequence'
-  );
-  return (sequence && sequence.rendering) || [];
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence => sequence['@type'] === 'sc:Sequence'
+    );
+  const sequenceRendering = sequence && sequence.rendering;
+  const sequenceRenderingArray = Array.isArray(sequenceRendering)
+    ? sequenceRendering
+    : [sequenceRendering];
+
+  const pdfRenderingArray = iiifManifest.mediaSequences
+    ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
+        return acc.concat(
+          sequence.elements
+            .map(element => {
+              if (element.format === 'application/pdf') {
+                return {
+                  '@id': element['@id'],
+                  format: element.format,
+                  label: 'Download PDF',
+                };
+              }
+            })
+            .filter(Boolean)
+        );
+      }, [])
+    : [];
+  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
 }
 
 export function getDownloadOptionsFromImageUrl(
@@ -61,6 +86,25 @@ export function getDownloadOptionsFromImageUrl(
       label: 'Download small (760px)',
     },
   ];
+}
+
+export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence =>
+        sequence['@type'] === 'sc:Sequence' &&
+        sequence.compatibilityHint !== 'displayIfContentUnsupported'
+    );
+  return sequence ? sequence.canvases : [];
+}
+
+export function getManifestViewType(iiifManifest: IIIFManifest) {
+  const canvases = getCanvases(iiifManifest);
+  const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
+  const pdfRendering =
+    downloadOptions.find(option => option.label === 'Download PDF') || false;
+  return canvases.length > 0 ? 'iiif' : pdfRendering ? 'pdf' : 'none';
 }
 
 export type IIIFPresentationLocation = {|

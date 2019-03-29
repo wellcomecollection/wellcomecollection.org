@@ -6,6 +6,10 @@ export type IIIFImageServiceSize = {|
 
 export type IIIFImageService = {|
   '@id': string,
+|};
+
+export type IIIFThumbnailService = {|
+  '@id': string,
   sizes: IIIFImageServiceSize[],
 |};
 
@@ -28,7 +32,10 @@ export type IIIFImage = {|
 export type IIIFCanvas = {|
   '@id': string,
   thumbnail: IIIFThumbnail,
+  label: string,
   images: IIIFImage[],
+  width: number,
+  height: number,
 |};
 
 export type IIIFRendering = {|
@@ -37,9 +44,19 @@ export type IIIFRendering = {|
   label: string,
 |};
 
+type IIIFMediaSequence = {|
+  '@id': string,
+  '@type': string,
+  elements: {
+    '@id': string,
+    format: string,
+  }[],
+|};
+
 export type IIIFSequence = {|
   '@id': string,
   '@type': string,
+  compatibilityHint: string,
   canvases: IIIFCanvas[],
   rendering: IIIFRendering[],
 |};
@@ -59,6 +76,7 @@ export type IIIFManifest = {|
   '@id': string,
   label: string,
   metadata: IIIFMetadata[],
-  sequences: IIIFSequence[],
-  structures: IIIFStructure[],
+  mediaSequences?: IIIFMediaSequence[],
+  sequences?: IIIFSequence[],
+  structures?: IIIFStructure[],
 |};

@@ -4,5 +4,8 @@ module.exports = {
     require('autoprefixer')({
       /* ...options */
     }), // so imports are auto-prefixed too
+    require('cssnano')({
+      preset: 'default',
+    }),
   ],
 };
