@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/react';
 import IIIFViewer from '../../../common/views/components/IIIFViewer/IIIFViewer';
 import Readme from '../../../common/views/components/IIIFViewer/README.md';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '../../../common/services/catalogue/urls';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../../common/views/themes/default';
-import manifest from '../iiif-content/iiif-manifest';
+import manifest from '../../../common/__mocks__/iiif-manifest';
 import Router from 'next/router';
 
 const IIIFViewerExample = () => {
