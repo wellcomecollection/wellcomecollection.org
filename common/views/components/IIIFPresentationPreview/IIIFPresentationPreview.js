@@ -17,7 +17,6 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 const BookPreviewContainer = styled.div`
-  overflow: scroll;
   text-align: center;
 
   /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
