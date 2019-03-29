@@ -345,7 +345,7 @@ const ItemPage = ({
 
   return (
     <PageLayout
-      title={''}
+      title={title}
       description={''}
       url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
       openGraphType={'website'}
