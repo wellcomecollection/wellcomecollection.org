@@ -92,7 +92,7 @@ import ticketAvailable from './components/TicketAvailable';
 import ticketNotYetOnSale from './components/TicketNotYetOnSale';
 import ticketSoldOut from './components/TicketSoldOut';
 import tree from './components/Tree';
-import tripadvisor from './components/NotTripadvisor';
+import tripadvisor from './components/Tripadvisor';
 import tumblr from './components/Tumblr';
 import twitter from './components/Twitter';
 import underConstruction from './components/UnderConstruction';
