@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g fill="none" fill-rule="evenodd" transform="translate(-72 -108)">
-    <rect width="504" height="450" fill="#FFF"/>
-    <g transform="translate(72 108)">
-      <rect width="24" height="24"/>
-      <path fill="#000" fill-rule="nonzero" d="M18.13,0.64 C17.7399625,0.252276405 17.1100375,0.252276405 16.72,0.64 L7,10.34 L2,5.34 C1.60323972,5.0002232 1.01180583,5.02306773 0.642436779,5.39243678 C0.27306773,5.76180583 0.250223204,6.35323972 0.59,6.75 L6.26,12.42 C6.65003745,12.8077236 7.27996255,12.8077236 7.67,12.42 L18.07,2.02 C18.4555223,1.64992631 18.4819479,1.04213762 18.13,0.64 Z" transform="translate(3 6)"/>
-    </g>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path class="icon__shape" fill-rule="nonzero" d="M21.13 6.64a1 1 0 0 0-1.41 0L10 16.34l-5-5a1 1 0 0 0-1.41 1.41l5.67 5.67a1 1 0 0 0 1.41 0l10.4-10.4a1 1 0 0 0 .06-1.38z"/></svg>

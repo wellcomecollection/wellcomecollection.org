@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g fill="none" fill-rule="evenodd" transform="translate(-408 -318)">
-    <rect width="504" height="450" fill="#FFF"/>
-    <g transform="translate(408 318)">
-      <rect width="24" height="24"/>
-      <circle cx="10" cy="10" r="10" fill="#000" fill-rule="nonzero" transform="translate(2 2)"/>
-    </g>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><g><circle cx="10" cy="10" r="10" class="icon__shape" fill-rule="nonzero" transform="translate(2 2)"/></g></svg>

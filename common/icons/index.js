@@ -38,7 +38,9 @@ import edit from './components/Edit';
 import email from './components/Email';
 import embed from './components/Embed';
 import expand from './components/Expand';
+import eye from './components/Eye';
 import facebook from './components/Facebook';
+import family from './components/Family';
 import filter from './components/Filter';
 import folder from './components/Folder';
 import gallery from './components/Gallery';
@@ -57,7 +59,6 @@ import link from './components/Link';
 import listView from './components/ListView';
 import location from './components/Location';
 import map from './components/Map';
-import maps from './components/Maps';
 import memberCard from './components/MemberCard';
 import message from './components/Message';
 import minus from './components/Minus';
@@ -91,13 +92,12 @@ import ticketAvailable from './components/TicketAvailable';
 import ticketNotYetOnSale from './components/TicketNotYetOnSale';
 import ticketSoldOut from './components/TicketSoldOut';
 import tree from './components/Tree';
-import tripadvisor from './components/TripAdvisor';
+import tripadvisor from './components/Tripadvisor';
 import tumblr from './components/Tumblr';
 import twitter from './components/Twitter';
 import underConstruction from './components/UnderConstruction';
 import user from './components/User';
 import video from './components/Video';
-import view from './components/View';
 import volume from './components/Volume';
 import website from './components/Website';
 import wellcome from './components/Wellcome';
@@ -147,7 +147,9 @@ export {
   email,
   embed,
   expand,
+  eye,
   facebook,
+  family,
   filter,
   folder,
   gallery,
@@ -166,7 +168,6 @@ export {
   listView,
   location,
   map,
-  maps,
   memberCard,
   message,
   minus,
@@ -206,7 +207,6 @@ export {
   underConstruction,
   user,
   video,
-  view,
   volume,
   website,
   wellcome,
