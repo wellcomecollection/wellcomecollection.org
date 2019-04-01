@@ -1,0 +1,12 @@
+{
+  "name": "@weco/icons",
+  "description": "Icon set and optimisation for wellcomecollection.org",
+  "license": "MIT",
+  "scripts": {
+    "compile": "svgr svgs --out-dir components --no-svgo --template template.js && yarn makeIndex",
+    "makeIndex": "node make-index.js"
+  },
+  "dependencies": {
+    "@svgr/cli": "^4.1.0"
+  }
+}
