@@ -98,6 +98,7 @@ const CallToAction = styled.div`
   background: ${props => props.theme.colors.green};
   color: ${props => props.theme.colors.white};
   transition: all 500ms ease;
+  position: relative;
 
   @media (min-width: 708px) {
     transform: none;
@@ -119,9 +120,10 @@ const CallToAction = styled.div`
   .cta__inner {
     @media (min-width: 708px) {
       display: block;
-      position: relative;
+      position: absolute;
       top: 50%;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 
