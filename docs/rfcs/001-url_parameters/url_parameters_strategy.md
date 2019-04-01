@@ -35,15 +35,28 @@ always consider:
 If not, the information should be obfuscated and retrieved via another
 mechanism.
 
-An example of something a person would expect to be in the URL which also gives
-insight into the person's research would be the search terms when searching the
-API.
+#### Do: Expected parameters exposed through the URL
+`/works?query=hats`.
 
-e.g. `/works?query=hats`.
+Search terms when searching the API.
 
-An example of where parameters are useful for application state, not integral to
-the rendering of the core content on the page, and thus could not be expected by
-a person to be in the URL is to have that context stored to be able to go back
-to their search from a result page.
+#### Don't: Unexpected parameters exposed through the URL
+`/works/1001?query=hats`.
 
-e.g. `/works/1001?query=hats`.
+Exposing the search parameters to be able to render the search for on a work
+page. As much as this might be a useful feature, if a person was sharing the
+link they might unwittingly share their search parameters too.
+
+
+### Storing contextual information
+We have chosen a strategy that stores the least amount of information
+persistently e.g. in a cookie, `localStorage` etc.
+
+We store the information in the application state.
+
+This information is lost whenever a new application state is created.
+
+This could be opening your session in a new tab, refreshing the page, starting
+a new browser session, or anything along those lines.
+
+This will not work unless you have JavaScript enabled.
