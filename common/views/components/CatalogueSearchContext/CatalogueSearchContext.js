@@ -97,29 +97,31 @@ const CatalogueSearchProvider = ({
         const params = query.split('&').reduce((acc, keyAndVal) => {
           const [key, value] = keyAndVal.split('=');
           const decodedValue = decodeURIComponent(value);
-          const val =
-            key === 'workType' || key === 'items.locations.location.type'
-              ? decodedValue.split(',')
-              : decodedValue;
 
           return {
             ...acc,
-            [key === 'items.locations.location.type'
-              ? 'itemsLocationsLocationType'
-              : key]: val,
+            [key]: decodedValue,
           };
         }, {});
+
         const state = {
           ...defaultState,
-          ...params,
+          query: params.query || defaultState.query,
+          page: params.page || defaultState.page,
+          workType: params.workType
+            ? params.workType.split(',')
+            : defaultState.workType,
+          // $FlowFixMe
+          itemsLocationsLocationType: params['items.locations.location.type']
+            ? params['items.locations.location.type'].split(',')
+            : defaultState.itemsLocationsLocationType,
+          queryType: params.queryType || defaultState.queryType,
         };
 
         setQuery(state.query);
         setPage(parseInt(state.page, 10));
         setWorkType(state.workType);
-        setItemsLocationsLocationType(
-          (state.itemsLocationsLocationType: string[])
-        );
+        setItemsLocationsLocationType(state.itemsLocationsLocationType);
         setQueryType(state.queryType);
       }
     }
