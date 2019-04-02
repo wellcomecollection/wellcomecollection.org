@@ -12,7 +12,6 @@ import Body from '@weco/common/views/components/Body/Body';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import OpeningHours from '@weco/common/views/components/OpeningHours/OpeningHours';
 import ExceptionalOpeningHoursTable from '@weco/common/views/components/ExceptionalOpeningHoursTable/ExceptionalOpeningHoursTable';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
@@ -99,7 +98,7 @@ export class OpeningTimesPage extends Component<Props> {
               highlightHeading={true}
             />
           }
-          Body={<Body body={[]} />}
+          Body={<Body body={page.body} />}
         >
           <Fragment>
             <Fragment>
@@ -236,12 +235,6 @@ export class OpeningTimesPage extends Component<Props> {
                   }
                 )}
             </Fragment>
-
-            <div id="busy" className={`body-text`}>
-              {page.body.length > 0 && (
-                <PrismicHtmlBlock html={page.body[0].value} />
-              )}
-            </div>
           </Fragment>
         </ContentPage>
       </PageLayout>
