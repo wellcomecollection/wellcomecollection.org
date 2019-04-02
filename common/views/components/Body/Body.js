@@ -14,7 +14,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
-import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
+import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable2';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
