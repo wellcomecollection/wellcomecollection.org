@@ -1,6 +1,4 @@
 // @flow
-import Prismic from 'prismic-javascript';
-import { getDocuments } from './api';
 import { isDatePast, london } from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
 import type {
@@ -16,18 +14,6 @@ import type {
 } from '../../model/opening-hours';
 import type { PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
-
-export async function getCollectionOpeningTimes(
-  req: ?Request,
-  daysInAdvance?: number = 15
-) {
-  const collectionVenues = await getDocuments(
-    req,
-    [Prismic.Predicates.any('document.type', ['collection-venue'])],
-    {}
-  );
-  return parseVenuesToOpeningHours(collectionVenues, daysInAdvance);
-}
 
 function exceptionalOpeningDates(
   placesHoursArray: PlacesOpeningHours
