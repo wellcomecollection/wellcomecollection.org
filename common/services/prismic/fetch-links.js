@@ -20,6 +20,17 @@ export const placesFields = [
   'places.locationInformation',
 ];
 export const pagesFields = ['pages.title'];
+export const collectionVenuesFields = [
+  'collection-venue.title',
+  'collection-venue.monday',
+  'collection-venue.tuesday',
+  'collection-venue.wednesday',
+  'collection-venue.thursday',
+  'collection-venue.friday',
+  'collection-venue.saturday',
+  'collection-venue.sunday',
+  'collection-venue.modifiedDayOpeningTimes',
+];
 export const eventSeriesFields = [
   'event-series.title',
   'event-series.description',
