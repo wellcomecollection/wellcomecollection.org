@@ -40,7 +40,9 @@ const ClearSearch = styled.button`
 `;
 
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const { query, workType } = useContext(CatalogueSearchContext);
+  const { query, workType, _queryType, setQueryType } = useContext(
+    CatalogueSearchContext
+  );
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -65,6 +67,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             query: inputQuery,
             workType,
             page: 1,
+            _queryType,
           });
 
           Router.push(link.href, link.as);
@@ -138,6 +141,24 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         {workType && (
           <input type="hidden" name="workType" value={workType.join(',')} />
         )}
+
+        <TogglesContext.Consumer>
+          {({ selectableQueries }) =>
+            query &&
+            selectableQueries && (
+              <select
+                value={_queryType}
+                onChange={event => setQueryType(event.currentTarget.value)}
+              >
+                <option value="">None</option>
+                <option value="justboost">justboost</option>
+                <option value="broaderboost">broaderboost</option>
+                <option value="slop">slop</option>
+                <option value="minimummatch">minimummatch</option>
+              </select>
+            )
+          }
+        </TogglesContext.Consumer>
       </form>
     </>
   );
