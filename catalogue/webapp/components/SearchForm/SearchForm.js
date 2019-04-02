@@ -146,16 +146,19 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           {({ selectableQueries }) =>
             query &&
             selectableQueries && (
-              <select
-                value={_queryType}
-                onChange={event => setQueryType(event.currentTarget.value)}
-              >
-                <option value="">None</option>
-                <option value="justboost">justboost</option>
-                <option value="broaderboost">broaderboost</option>
-                <option value="slop">slop</option>
-                <option value="minimummatch">minimummatch</option>
-              </select>
+              <label>
+                Query type:{' '}
+                <select
+                  value={_queryType}
+                  onChange={event => setQueryType(event.currentTarget.value)}
+                >
+                  <option value="">None</option>
+                  <option value="justboost">justboost</option>
+                  <option value="broaderboost">broaderboost</option>
+                  <option value="slop">slop</option>
+                  <option value="minimummatch">minimummatch</option>
+                </select>
+              </label>
             )
           }
         </TogglesContext.Consumer>

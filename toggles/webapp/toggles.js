@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'selectableQueries',
+      title: `Selectable queries`,
+      defaultValue: false,
+      description:
+        'allow people to use different query types while seaching the catalogue',
+    },
+    {
       id: 'booksRelease',
       title: `Janeway - Dante's inferno`,
       defaultValue: true,
