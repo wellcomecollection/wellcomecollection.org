@@ -2,6 +2,7 @@
 // TODO: Sync up types with the body slices and the components they return
 import dynamic from 'next/dynamic';
 import { classNames } from '../../../utils/classnames';
+import { london } from '../../../utils/format-date';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
@@ -13,6 +14,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
+import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
@@ -20,8 +22,57 @@ import {
   defaultSerializer,
   dropCapSerializer,
 } from '../../../services/prismic/html-serialisers';
-import type { Weight } from '../../../services/prismic/parsers';
+import { type Weight } from '../../../services/prismic/parsers';
 
+// TODO move this to service/
+// TODO flow
+function parseVenueTimesToOpeningHours(venue, daysInAdvance?: number) {
+  const data = venue.data;
+  const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
+    modified => {
+      const start =
+        modified.startDateTime &&
+        london(modified.startDateTime).format('HH:mm');
+      const end =
+        modified.startDateTime && london(modified.endDateTime).format('HH:mm');
+      const overrideDate =
+        modified.overrideDate && london(modified.overrideDate);
+      const overrideType = modified.type;
+      return {
+        overrideDate,
+        overrideType,
+        opens: start,
+        closes: end,
+      };
+    }
+  );
+  const weekArray = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+  ];
+  return {
+    name: data.title,
+    openingHours: {
+      regular: weekArray.map(day => {
+        return {
+          dayOfWeek: day,
+          opens: data[day][0].startDateTime
+            ? london(data[day][0].startDateTime).format('HH:mm')
+            : null,
+          closes: data[day][0].endDateTime
+            ? london(data[day][0].endDateTime).format('HH:mm')
+            : null,
+        };
+      }),
+      exceptional: exceptionalOpeningHours,
+    },
+  };
+}
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
 type BodySlice = {|
@@ -163,6 +214,15 @@ const Body = ({ body, isDropCapped }: Props) => {
               <Layout10>
                 <Iframe {...slice.value} />
               </Layout10>
+            )}
+
+            {/* TODO parse in component */}
+            {slice.type === 'venueTimes' && (
+              <Layout8>
+                <OpeningHoursTable
+                  place={parseVenueTimesToOpeningHours(slice.value)}
+                />
+              </Layout8>
             )}
 
             {/* deprecated */}
