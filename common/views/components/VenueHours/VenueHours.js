@@ -4,6 +4,19 @@ import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 
+const VenueHoursImage = styled.div.attrs(props => ({
+  className: classNames({
+    [grid({ s: 12, m: 6, l: 4, xl: 3, shiftXl: 2 })]: true,
+    [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+  }),
+}))`
+  @media (min-width: ${props =>
+      props.theme.sizes.medium}px) and (max-width: ${props =>
+      props.theme.sizes.large}px) {
+    margin-right: 50%;
+  }
+`;
+
 const JauntyBox = styled.div.attrs(props => ({
   className: classNames({
     'bg-yellow': true,
@@ -30,23 +43,21 @@ const VenueHours = () => {
             className={classNames({
               [spacing({ s: 4 }, { padding: ['bottom'] })]: true,
               [grid({ s: 12, m: 12, l: 12, xl: 10, shiftXl: 2 })]: true,
+              'is-hidden-s': true,
             })}
           >
             <Divider extraClasses="divider--keyline divider--pumice" />
           </div>
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 12, l: 4, xl: 3, shiftXl: 2 })]: true,
-            })}
-          >
+          <VenueHoursImage>
             <img src="http://fillmurray.com/1600/900" />
-          </div>
+          </VenueHoursImage>
           <div
             className={classNames({
-              [grid({ s: 12, m: 12, l: 3, xl: 3 })]: true,
+              [grid({ s: 12, m: 6, l: 3, xl: 3 })]: true,
+              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <h3 className="h3">Gallery and Reading Room</h3>
+            <h3 className="h3">Galleries and Reading Room</h3>
             <ul
               className={classNames({
                 'plain-list no-padding no-margin': true,
@@ -64,7 +75,8 @@ const VenueHours = () => {
           </div>
           <div
             className={classNames({
-              [grid({ s: 12, m: 12, l: 5, xl: 4 })]: true,
+              [grid({ s: 12, m: 6, l: 5, xl: 4 })]: true,
+              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
             <JauntyBox
