@@ -96,10 +96,10 @@ export class OpeningTimesPage extends Component<Props> {
               <h1>Library closures</h1>
               {libraryClosedPeriods.map((period, i) => (
                 <p key={i} className="no-margin">
-                  {period[0].overrideDate.format('dddd, MMMM Do')}
+                  {period[0].overrideDate.format('dddd, MMMM Do YYYY')}
                   {period.length > 1 &&
                     `—${period[period.length - 1].overrideDate.format(
-                      'dddd, MMMM Do'
+                      'dddd, MMMM Do YYYY'
                     )}`}
                 </p>
               ))}
