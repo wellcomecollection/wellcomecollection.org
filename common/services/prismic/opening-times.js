@@ -322,7 +322,7 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-// TODO rename collectionVenueSliceToVenueOpeningTimes? Takes the slice JSON and converts it to the Venue shape: rename Venue type?
+// TODO rename!!  Takes the slice JSON and converts it to the Venue shape: rename Venue type?
 export function parseVenueTimesToOpeningHours(
   venue: any, // TODO
   daysInAdvance?: number
@@ -346,31 +346,21 @@ export function parseVenueTimesToOpeningHours(
       };
     }
   );
-  const weekArray = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday',
-  ];
+
   return {
     id: venue.id,
     order: venue.order,
     name: data.title,
     openingHours: {
-      regular: weekArray.map(day => {
-        return {
-          dayOfWeek: day,
-          opens: data[day][0].startDateTime
-            ? london(data[day][0].startDateTime).format('HH:mm')
-            : null,
-          closes: data[day][0].endDateTime
-            ? london(data[day][0].endDateTime).format('HH:mm')
-            : null,
-        };
-      }),
+      regular: [
+        createRegularDay('Monday', venue),
+        createRegularDay('Tuesday', venue),
+        createRegularDay('Wednesday', venue),
+        createRegularDay('Thursday', venue),
+        createRegularDay('Friday', venue),
+        createRegularDay('Saturday', venue),
+        createRegularDay('Sunday', venue),
+      ],
       exceptional: exceptionalOpeningHours,
     },
   };
@@ -381,42 +371,7 @@ export function parseVenuesToOpeningHours(
   daysInAdvance?: number
 ) {
   const placesOpeningHours = doc.results.map(venue => {
-    const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
-      modified => {
-        const start =
-          modified.startDateTime &&
-          london(modified.startDateTime).format('HH:mm');
-        const end =
-          modified.startDateTime &&
-          london(modified.endDateTime).format('HH:mm');
-        const overrideDate =
-          modified.overrideDate && london(modified.overrideDate);
-        const overrideType = modified.type;
-        return {
-          overrideDate,
-          overrideType,
-          opens: start,
-          closes: end,
-        };
-      }
-    );
-    return {
-      id: venue.id,
-      name: venue.data.title,
-      order: venue.data.order,
-      openingHours: {
-        regular: [
-          createRegularDay('Monday', venue),
-          createRegularDay('Tuesday', venue),
-          createRegularDay('Wednesday', venue),
-          createRegularDay('Thursday', venue),
-          createRegularDay('Friday', venue),
-          createRegularDay('Saturday', venue),
-          createRegularDay('Sunday', venue),
-        ],
-        exceptional: exceptionalOpeningHours,
-      },
-    };
+    return parseVenueTimesToOpeningHours(venue);
   });
 
   // const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
