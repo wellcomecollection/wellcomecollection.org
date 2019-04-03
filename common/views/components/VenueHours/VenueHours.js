@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 
 const VenueHoursImage = styled.div.attrs(props => ({
   className: classNames({
-    [grid({ s: 12, m: 6, l: 4, xl: 3, shiftXl: 2 })]: true,
+    [grid({ s: 12, m: 6, l: 3, xl: 3, shiftL: 1, shiftXl: 2 })]: true,
     [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
   }),
 }))`
@@ -21,6 +22,7 @@ const JauntyBox = styled.div.attrs(props => ({
   className: classNames({
     'bg-yellow': true,
     [spacing({ s: 4 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
+    [spacing({ s: -2 }, { margin: ['left', 'right'] })]: true,
   }),
 }))`
   clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
@@ -42,14 +44,30 @@ const VenueHours = () => {
           <div
             className={classNames({
               [spacing({ s: 4 }, { padding: ['bottom'] })]: true,
-              [grid({ s: 12, m: 12, l: 12, xl: 10, shiftXl: 2 })]: true,
+              [grid({
+                s: 12,
+                m: 12,
+                l: 11,
+                xl: 10,
+                shiftL: 1,
+                shiftXl: 2,
+              })]: true,
               'is-hidden-s': true,
             })}
           >
             <Divider extraClasses="divider--keyline divider--pumice" />
           </div>
           <VenueHoursImage>
-            <img src="http://fillmurray.com/1600/900" />
+            <UiImage
+              contentUrl={'http://fillmurray.com/1600/900'}
+              width={1600}
+              height={900}
+              alt="bill"
+              tasl={null}
+              sizesQueries={null}
+              extraClasses=""
+              showTasl={false}
+            />
           </VenueHoursImage>
           <div
             className={classNames({
@@ -119,7 +137,14 @@ const VenueHours = () => {
           </div>
           <div
             className={classNames({
-              [grid({ s: 12, m: 12, l: 4, xl: 3, shiftXl: 2 })]: true,
+              [grid({
+                s: 12,
+                m: 12,
+                l: 11,
+                xl: 10,
+                shiftL: 1,
+                shiftXl: 2,
+              })]: true,
             })}
           >
             <MoreLink url="#" name="See all Exhibitions and Events" />
