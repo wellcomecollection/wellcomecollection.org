@@ -14,6 +14,7 @@ type Props = {|
   page: Page,
 |};
 
+// TODO need upcoming library closures separately
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     // TODO: (Prismic perf) don't fetch these as two separate calls
