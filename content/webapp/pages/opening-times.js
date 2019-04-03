@@ -26,6 +26,37 @@ export class OpeningTimesPage extends Component<Props> {
   };
   render() {
     const { page } = this.props;
+    const libraryVenue = page.body.find(
+      bodyPart =>
+        bodyPart.type === 'venueTimes' &&
+        bodyPart.value.data.title === 'Library'
+    );
+    const libraryVenueValue = libraryVenue && libraryVenue.value;
+    const exceptionalLibraryDates =
+      libraryVenueValue &&
+      parseVenueTimesToOpeningHours(libraryVenueValue).openingHours.exceptional;
+    const libraryClosedDates = exceptionalLibraryDates.filter(
+      date => date.opens === null
+    );
+    // TODO order first
+    const libraryClosedPeriods = libraryClosedDates.reduce(
+      (acc, date) => {
+        const group = acc[acc.length - 1];
+        if (
+          date.overrideDate.diff(
+            (group[group.length - 1] && group[group.length - 1].overrideDate) ||
+              date.overrideDate,
+            'days'
+          ) > 1
+        ) {
+          acc.push([date]);
+        } else {
+          group.push(date);
+        }
+        return acc;
+      },
+      [[]]
+    ); // TODO upcoming only
     return (
       <PageLayout
         title={page && page.title}
@@ -60,31 +91,20 @@ export class OpeningTimesPage extends Component<Props> {
           }
           Body={<Body body={page.body} />}
         >
-          <h1>Library closed dates</h1>
-          <table>
-            <tbody className="opening-hours__tbody">
-              {parseVenueTimesToOpeningHours(
-                page.body.find(
-                  bodyPart =>
-                    bodyPart.type === 'venueTimes' &&
-                    bodyPart.value.data.title === 'Library'
-                ).value
-              ).openingHours.exceptional.map(day => (
-                <tr key={day.overrideDate} className="opening-hours__tr">
-                  <td className="opening-hours__td">
-                    {day.overrideDate.format('dddd, MMMM Do')}
-                  </td>
-                  {day.opens ? (
-                    <td className="opening-hours__td">
-                      {day.opens}&mdash;{day.closes}
-                    </td>
-                  ) : (
-                    <td className="opening-hours__td">Closed</td>
-                  )}
-                </tr>
+          {libraryClosedPeriods && (
+            <>
+              <h1>Library closures</h1>
+              {libraryClosedPeriods.map((period, i) => (
+                <p key={i} className="no-margin">
+                  {period[0].overrideDate.format('dddd, MMMM Do')}
+                  {period.length > 1 &&
+                    `—${period[period.length - 1].overrideDate.format(
+                      'dddd, MMMM Do'
+                    )}`}
+                </p>
               ))}
-            </tbody>
-          </table>
+            </>
+          )}
         </ContentPage>
       </PageLayout>
     );
