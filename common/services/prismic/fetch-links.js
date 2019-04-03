@@ -22,6 +22,7 @@ export const placesFields = [
 export const pagesFields = ['pages.title'];
 export const collectionVenuesFields = [
   'collection-venue.title',
+  'collection-venue.order',
   'collection-venue.monday',
   'collection-venue.tuesday',
   'collection-venue.wednesday',
