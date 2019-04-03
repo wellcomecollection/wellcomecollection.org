@@ -38,11 +38,17 @@ export class OpeningTimesPage extends Component<Props> {
     const libraryClosedDates = exceptionalLibraryDates.filter(
       date => date.opens === null
     );
+    // TODO need to get this years times into prismic
     // TODO order first
+    // TODO backfill regular times - get all dates between first and last
+    // loop through them, if it's not a date we have then check what the regular hours are for that day
+    // if it's normally closed then add it in.
+    // then do the grouping as below
     const libraryClosedPeriods = libraryClosedDates.reduce(
       (acc, date) => {
         const group = acc[acc.length - 1];
         if (
+          // if regular time is closed
           date.overrideDate.diff(
             (group[group.length - 1] && group[group.length - 1].overrideDate) ||
               date.overrideDate,
@@ -93,16 +99,21 @@ export class OpeningTimesPage extends Component<Props> {
         >
           {libraryClosedPeriods && (
             <>
-              <h1>Library closures</h1>
-              {libraryClosedPeriods.map((period, i) => (
-                <p key={i} className="no-margin">
-                  {period[0].overrideDate.format('dddd, MMMM Do YYYY')}
-                  {period.length > 1 &&
-                    `—${period[period.length - 1].overrideDate.format(
-                      'dddd, MMMM Do YYYY'
-                    )}`}
-                </p>
-              ))}
+              <h2>Library closures</h2>
+              <p className="no-margin">
+                The library will be closed on the following dates
+              </p>
+              <ul>
+                {libraryClosedPeriods.map((period, i) => (
+                  <li key={i} className="no-margin">
+                    {period[0].overrideDate.format('dddd, MMMM Do YYYY')}
+                    {period.length > 1 &&
+                      `—${period[period.length - 1].overrideDate.format(
+                        'dddd, MMMM Do YYYY'
+                      )}`}
+                  </li>
+                ))}
+              </ul>
             </>
           )}
         </ContentPage>
