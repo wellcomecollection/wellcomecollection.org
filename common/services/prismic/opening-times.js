@@ -15,7 +15,6 @@ import type {
 import type { PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
 
-// TODO move this to service/
 // TODO flow
 export function parseVenueTimesToOpeningHours(venue, daysInAdvance?: number) {
   const data = venue.data;
