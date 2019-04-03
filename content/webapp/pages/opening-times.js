@@ -9,12 +9,12 @@ import Body from '@weco/common/views/components/Body/Body';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
+import { parseVenueTimesToOpeningHours } from '@weco/common/services/prismic/opening-times';
 
 type Props = {|
   page: Page,
 |};
 
-// TODO need upcoming library closures separately
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     // TODO: (Prismic perf) don't fetch these as two separate calls
@@ -59,7 +59,33 @@ export class OpeningTimesPage extends Component<Props> {
             />
           }
           Body={<Body body={page.body} />}
-        />
+        >
+          <h1>Library closed dates</h1>
+          <table>
+            <tbody className="opening-hours__tbody">
+              {parseVenueTimesToOpeningHours(
+                page.body.find(
+                  bodyPart =>
+                    bodyPart.type === 'venueTimes' &&
+                    bodyPart.value.data.title === 'Library'
+                ).value
+              ).openingHours.exceptional.map(day => (
+                <tr key={day.overrideDate} className="opening-hours__tr">
+                  <td className="opening-hours__td">
+                    {day.overrideDate.format('dddd, MMMM Do')}
+                  </td>
+                  {day.opens ? (
+                    <td className="opening-hours__td">
+                      {day.opens}&mdash;{day.closes}
+                    </td>
+                  ) : (
+                    <td className="opening-hours__td">Closed</td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ContentPage>
       </PageLayout>
     );
   }
