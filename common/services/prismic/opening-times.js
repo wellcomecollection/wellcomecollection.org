@@ -15,6 +15,56 @@ import type {
 import type { PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
 
+// TODO move this to service/
+// TODO flow
+export function parseVenueTimesToOpeningHours(venue, daysInAdvance?: number) {
+  const data = venue.data;
+  const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
+    modified => {
+      const start =
+        modified.startDateTime &&
+        london(modified.startDateTime).format('HH:mm');
+      const end =
+        modified.startDateTime && london(modified.endDateTime).format('HH:mm');
+      const overrideDate =
+        modified.overrideDate && london(modified.overrideDate);
+      const overrideType = modified.type;
+      return {
+        overrideDate,
+        overrideType,
+        opens: start,
+        closes: end,
+      };
+    }
+  );
+  const weekArray = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
+  ];
+  return {
+    name: data.title,
+    openingHours: {
+      regular: weekArray.map(day => {
+        return {
+          dayOfWeek: day,
+          opens: data[day][0].startDateTime
+            ? london(data[day][0].startDateTime).format('HH:mm')
+            : null,
+          closes: data[day][0].endDateTime
+            ? london(data[day][0].endDateTime).format('HH:mm')
+            : null,
+        };
+      }),
+      exceptional: exceptionalOpeningHours,
+    },
+  };
+}
+
 function exceptionalOpeningDates(
   placesHoursArray: PlacesOpeningHours
 ): OverrideDate[] {
