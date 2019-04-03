@@ -17,10 +17,6 @@ import { workUrl } from '@weco/common/services/catalogue/urls';
 
 type Props = {|
   work: Work,
-  query: ?string,
-  page: ?number,
-  workType: ?(string[]),
-  itemsLocationsLocationType: ?(string[]),
 |};
 
 const Container = styled.div`
@@ -44,13 +40,7 @@ const Preview = styled.div`
   `}
 `;
 
-const WorkCard = ({
-  work,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-}: Props) => {
+const WorkCard = ({ work }: Props) => {
   const digitalLocations = getDigitalLocations(work);
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
@@ -65,10 +55,6 @@ const WorkCard = ({
       <NextLink
         {...workUrl({
           id: work.id,
-          query,
-          page,
-          workType,
-          itemsLocationsLocationType,
         })}
       >
         <a

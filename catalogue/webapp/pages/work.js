@@ -23,9 +23,8 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { worksUrl, itemUrl } from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
-import { SearchProvider } from '../components/SearchContext/SearchContext';
 import SearchForm from '../components/SearchForm/SearchForm';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
@@ -35,19 +34,9 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 
 type Props = {|
   work: Work | CatalogueApiError,
-  workType: string[],
-  query: ?string,
-  page: ?number,
-  itemsLocationsLocationType: string[],
 |};
 
-export const WorkPage = ({
-  work,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-}: Props) => {
+export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -151,7 +140,6 @@ export const WorkPage = ({
         className={classNames({
           'bg-cream': true,
           [spacing({ s: 4 }, { padding: ['top'] })]: true,
-          [spacing({ s: 4 }, { padding: ['bottom'] })]: !query,
         })}
       >
         <div className="container">
@@ -161,42 +149,23 @@ export const WorkPage = ({
                 [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
               })}
             >
-              <SearchProvider
-                initialState={{
-                  query: query || '',
-                  page: page || 1,
-                  workType,
-                  itemsLocationsLocationType,
-                }}
-              >
-                <SearchForm
-                  ariaDescribedBy="search-form-description"
-                  compact={true}
-                  works={null}
-                />
-              </SearchProvider>
+              <SearchForm
+                ariaDescribedBy="search-form-description"
+                compact={true}
+              />
             </div>
           </div>
 
-          {query && (
-            <div className="grid">
-              <div
-                className={classNames({
-                  [grid({ s: 12 })]: true,
-                  [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
-                })}
-              >
-                <BackToResults
-                  nextLink={worksUrl({
-                    query,
-                    page,
-                    workType,
-                    itemsLocationsLocationType,
-                  })}
-                />
-              </div>
+          <div className="grid">
+            <div
+              className={classNames({
+                [grid({ s: 12 })]: true,
+                [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
+              })}
+            >
+              <BackToResults />
             </div>
-          )}
+          </div>
         </div>
       </div>
 
@@ -220,9 +189,6 @@ export const WorkPage = ({
               iiifPresentationLocation={iiifPresentationLocation}
               itemUrl={itemUrl({
                 workId: work.id,
-                query,
-                workType,
-                itemsLocationsLocationType,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
                 page: 1,
@@ -254,11 +220,7 @@ export const WorkPage = ({
 WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
-  const workTypeQuery = ctx.query.workType;
-  const itemsLocationsLocationTypeQuery =
-    ctx.query['items.locations.locationType'];
-
-  const { id, query, page } = ctx.query;
+  const { id } = ctx.query;
   const workOrError = await getWork({ id });
 
   if (workOrError && workOrError.type === 'Redirect') {
@@ -274,13 +236,7 @@ WorkPage.getInitialProps = async (
     return workOrError;
   } else {
     return {
-      query,
       work: workOrError,
-      page: page ? parseInt(page, 10) : null,
-      workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
-      itemsLocationsLocationType:
-        itemsLocationsLocationTypeQuery &&
-        itemsLocationsLocationTypeQuery.split(',').filter(Boolean),
     };
   }
 };

@@ -296,9 +296,6 @@ const IIIFViewerComponent = ({
                 <NextLink
                   {...itemUrl({
                     workId,
-                    query,
-                    workType,
-                    itemsLocationsLocationType,
                     page: pageIndex + 1,
                     sierraId,
                     langCode: lang,
