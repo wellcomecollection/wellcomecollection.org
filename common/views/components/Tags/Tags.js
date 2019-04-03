@@ -53,6 +53,19 @@ const Tags = ({ tags }: Props) => {
                       'border-color-green border-width-1': true,
                     })}
                   >
+                    {/* An empty span for the light and medium font weights, so that
+                    the tag will always be the height of the larger of the two. */}
+                    <span
+                      className={classNames({
+                        [font({ s: 'HNL5', m: 'HNL4' })]: true,
+                      })}
+                    />
+                    <span
+                      className={classNames({
+                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                      })}
+                    />
+
                     {textParts.map((part, i, arr) => (
                       <span
                         key={part}

@@ -1,6 +1,6 @@
 // @flow
 
-import * as icons from '../../../icons/index';
+import * as icons from '../../../icons';
 
 type Props = {|
   name: string,

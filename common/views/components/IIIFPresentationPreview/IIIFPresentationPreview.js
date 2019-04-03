@@ -53,17 +53,21 @@ const PagePreview = styled.div`
    * prevents webkit downloading the images unnecessarily.
    * Display none is not sufficient */
   @media (min-width: 708px) {
-    /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 708px */
-    &:nth-child(2) {
-      display: block;
-      background-image: url(${props => props.backgroundImage});
+    @supports (display: grid) {
+      /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 708px */
+      &:nth-child(2) {
+        display: block;
+        background-image: url(${props => props.backgroundImage});
+      }
     }
   }
 
-  ${props => props.theme.media.large`
+  @supports (display: grid) {
+    ${props => props.theme.media.large`
     display: block;
     background-image: url(${props => props.backgroundImage});
   `};
+  }
 
   &:nth-child(3) {
     grid-row-end: 3;
@@ -98,6 +102,7 @@ const CallToAction = styled.div`
   background: ${props => props.theme.colors.green};
   color: ${props => props.theme.colors.white};
   transition: all 500ms ease;
+  position: relative;
 
   @media (min-width: 708px) {
     transform: none;
@@ -116,12 +121,15 @@ const CallToAction = styled.div`
     fill: currentColor;
   }
 
-  .cta__inner {
-    @media (min-width: 708px) {
-      display: block;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+  @supports (display: grid) {
+    .cta__inner {
+      @media (min-width: 708px) {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
   }
 
