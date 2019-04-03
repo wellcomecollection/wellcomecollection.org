@@ -16,7 +16,11 @@ import type { PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
 
 // TODO flow
-export function parseVenueTimesToOpeningHours(venue, daysInAdvance?: number) {
+// TODO rename collectionVenueSliceToVenueOpeningTimes
+export function parseVenueTimesToOpeningHours(
+  venue: any, // TODO
+  daysInAdvance?: number
+): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
     modified => {
@@ -46,6 +50,8 @@ export function parseVenueTimesToOpeningHours(venue, daysInAdvance?: number) {
     'sunday',
   ];
   return {
+    id: venue.id,
+    order: venue.order,
     name: data.title,
     openingHours: {
       regular: weekArray.map(day => {
