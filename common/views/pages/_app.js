@@ -16,6 +16,7 @@ import OpeningTimesContext from '../../views/components/OpeningTimesContext/Open
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
 import { trackEvent } from '../../utils/ga';
+import SearchLogger from '../components/SearchLogger/SearchLogger';
 
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
@@ -354,6 +355,7 @@ export default class WecoApp extends App {
                       {pageProps.statusCode && pageProps.statusCode !== 200 && (
                         <ErrorPage statusCode={pageProps.statusCode} />
                       )}
+                      <SearchLogger />
                     </Fragment>
                   </OutboundLinkTracker>
                 </CatalogueSearchProvider>
