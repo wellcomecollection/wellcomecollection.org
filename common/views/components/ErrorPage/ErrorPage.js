@@ -27,7 +27,7 @@ const ErrorPage = ({ statusCode, title }: Props) => {
         id={'error'}
         Header={
           <PageHeader
-            breadcrumbs={{ items: [{ url: '/', text: 'Home' }] }}
+            breadcrumbs={{ items: [] }}
             labels={null}
             title={
               title ||
