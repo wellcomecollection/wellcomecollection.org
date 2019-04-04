@@ -166,8 +166,7 @@ const Body = ({ body, isDropCapped }: Props) => {
               </Layout10>
             )}
 
-            {/* TODO parse in component */}
-            {slice.type === 'venueTimes' && (
+            {slice.type === 'collectionVenue' && (
               <Layout8>
                 <OpeningHoursTable place={slice.value} />
               </Layout8>

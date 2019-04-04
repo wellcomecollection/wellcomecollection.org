@@ -1,6 +1,9 @@
 // @flow
-import { /* isDatePast, */ london } from '../../utils/format-date';
-// import groupBy from 'lodash.groupby';
+import {
+  /* isDatePast, */
+  london,
+} from '../../utils/format-date';
+// import sortBy from 'lodash.groupby';
 import type {
   Day,
   // OverrideType,
@@ -8,7 +11,7 @@ import type {
   // OverrideDate,
   // ExceptionalVenueHours,
   // PlacesOpeningHours,
-  // ExceptionalOpeningHoursDay,
+  ExceptionalOpeningHoursDay,
   Venue,
   // periodModifiedHours,
 } from '../../model/opening-hours';
@@ -117,32 +120,6 @@ import type { PrismicFragment } from '../../services/prismic/types';
 //       };
 //     })
 //   );
-// }
-
-// TODO tweak this and reuse
-// function regularTimesbyDay(
-//   placesOpeningHours: PlacesOpeningHours,
-//   dateToGet: Moment
-// ) {
-//   const currentDay = dateToGet.format('dddd');
-//   return placesOpeningHours.map(place => {
-//     const hours = place.openingHours.regular.find(
-//       hours => hours.dayOfWeek === currentDay
-//     );
-//     return {
-//       exceptionalDate: dateToGet,
-//       exceptionalDay: currentDay,
-//       id: place.id,
-//       name: place.name,
-//       order: place.order,
-//       openingHours: {
-//         // overrideDate: currentDate, // TODO - check works
-//         dayOfWeek: currentDay,
-//         opens: hours && hours.opens,
-//         closes: hours && hours.closes,
-//       },
-//     };
-//   });
 // }
 
 // export function exceptionalOpeningHoursByPeriod(
@@ -302,6 +279,91 @@ import type { PrismicFragment } from '../../services/prismic/types';
 
 //   return onlyClosedByVenue;
 // }
+// TODO flow
+export function getExceptionalVenueDays(
+  venue: Venue
+): ExceptionalOpeningHoursDay[] {
+  return venue.openingHours.exceptional || [];
+}
+
+export function groupExceptionalVenueDays(
+  exceptionalDays: ExceptionalOpeningHoursDay[]
+): ExceptionalOpeningHoursDay[][] {
+  return exceptionalDays
+    .sort((a, b) => {
+      return a.overrideDate.diff(b.overrideDate, 'days');
+    })
+    .reduce(
+      (acc, date) => {
+        const group = acc[acc.length - 1];
+        if (
+          date.overrideDate.diff(
+            (group[0] && group[0].overrideDate) || date.overrideDate,
+            'days'
+          ) > 14
+        ) {
+          acc.push([date]);
+        } else {
+          group.push(date);
+        }
+        return acc;
+      },
+      [[]]
+    );
+}
+
+function exceptionalFromRegular(venue: Venue, dateToGet: Moment, type) {
+  const currentDay = dateToGet.format('dddd');
+  const regular = venue.openingHours.regular.find(
+    hours => hours.dayOfWeek === currentDay
+  );
+  return {
+    overrideDate: dateToGet,
+    overrideType: type,
+    opens: regular ? regular.opens : null,
+    closes: regular ? regular.closes : null,
+  };
+}
+
+// loop through them, if it's not a date we have then check what the regular hours are for that day
+// if it's normally closed then add it in.
+export function backfillExceptionalVenueDays(
+  venue: Venue
+): ExceptionalOpeningHoursDay[][] {
+  const groupedExceptionalDays = groupExceptionalVenueDays(
+    getExceptionalVenueDays(venue)
+  );
+  return groupedExceptionalDays.map(exceptionalDays => {
+    const sortedDays = exceptionalDays.sort((a, b) => {
+      return a.overrideDate.diff(b.overrideDate, 'days');
+    });
+    const firstDay = sortedDays[0];
+    const lastDay = sortedDays[sortedDays.length - 1];
+    const numberOfDays =
+      lastDay.overrideDate.diff(firstDay.overrideDate, 'days') + 1;
+    return [...Array(numberOfDays).keys()].map(i => {
+      const matchingDay = exceptionalDays.find(exceptionalDay => {
+        return exceptionalDay.overrideDate.isSame(
+          firstDay.overrideDate.clone().add(i, 'day'),
+          'day'
+        );
+      });
+      const backfillDay = exceptionalFromRegular(
+        venue,
+        firstDay.overrideDate.clone().add(i, 'day'),
+        'Easter' // TODO
+      );
+      return matchingDay || backfillDay;
+    });
+  });
+}
+
+export function upcomingClosedDaparseys() {
+  // filter
+  // only closed days - to use for library
+}
+
+// just today function - see gallery
 
 function createRegularDay(day: Day, venue: PrismicFragment) {
   const lowercaseDay = day.toLowerCase();

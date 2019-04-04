@@ -1,15 +1,18 @@
 import { spacing, font } from '../../../utils/classnames';
 import type { Place } from '../../../model/opening-hours';
-// import { london } from '../../../utils/format-date';
+// TODO rename
+import {
+  parseVenueTimesToOpeningHours,
+  backfillExceptionalVenueDays,
+} from '../../../services/prismic/opening-times';
 
 type Props = {|
-  id?: string,
   place: Place,
-  extraClasses?: string,
 |};
 
-const OpeningHoursTable = ({ id, place, extraClasses }: Props) => {
-  // const upcomingExceptionalDays = place.openingHours.exceptional;
+const OpeningHoursTable = ({ place }: Props) => {
+  const place2 = parseVenueTimesToOpeningHours(place);
+  // const upcomingExceptionalDays = place2.openingHours.exceptional;
   // .reduce(
   //   (acc, day) => {
   //     // TODO order the array by date?
@@ -60,7 +63,7 @@ const OpeningHoursTable = ({ id, place, extraClasses }: Props) => {
             { padding: ['top', 'bottom'] }
           )}`}
         >
-          {place.name}
+          {place2.name}
         </caption>
         <thead className={`opening-hours__thead ${font({ s: 'HNM5' })}`}>
           <tr className="opening-hours__tr">
@@ -85,7 +88,7 @@ const OpeningHoursTable = ({ id, place, extraClasses }: Props) => {
           </tr>
         </thead>
         <tbody className="opening-hours__tbody">
-          {place.openingHours.regular.map(day => (
+          {place2.openingHours.regular.map(day => (
             <tr key={day.dayOfWeek} className="opening-hours__tr">
               <td className="opening-hours__td">{day.dayOfWeek}</td>
               {day.opens ? (
@@ -99,7 +102,7 @@ const OpeningHoursTable = ({ id, place, extraClasses }: Props) => {
           ))}
         </tbody>
       </table>
-      {place.openingHours.exceptional.length > 0 && (
+      {place2.openingHours.exceptional.length > 0 && (
         <table
           className={`opening-hours__table ${font({ s: 'HNL5' })}
     `}
@@ -110,7 +113,7 @@ const OpeningHoursTable = ({ id, place, extraClasses }: Props) => {
               { padding: ['top', 'bottom'] }
             )}`}
           >
-            {place.name}
+            {place2.name}
           </caption>
           <thead className={`opening-hours__thead ${font({ s: 'HNM5' })}`}>
             <tr className="opening-hours__tr">
@@ -135,20 +138,22 @@ const OpeningHoursTable = ({ id, place, extraClasses }: Props) => {
             </tr>
           </thead>
           <tbody className="opening-hours__tbody">
-            {place.openingHours.exceptional.map(day => (
-              <tr key={day.overrideDate} className="opening-hours__tr">
-                <td className="opening-hours__td">
-                  {day.overrideDate.format('dddd, MMMM Do')}
-                </td>
-                {day.opens ? (
+            {backfillExceptionalVenueDays(place2).map(days =>
+              days.map(day => (
+                <tr key={day.overrideDate} className="opening-hours__tr">
                   <td className="opening-hours__td">
-                    {day.opens}&mdash;{day.closes}
+                    {day.overrideDate.format('dddd, MMMM Do')}
                   </td>
-                ) : (
-                  <td className="opening-hours__td">Closed</td>
-                )}
-              </tr>
-            ))}
+                  {day.opens ? (
+                    <td className="opening-hours__td">
+                      {day.opens}&mdash;{day.closes}
+                    </td>
+                  ) : (
+                    <td className="opening-hours__td">Closed</td>
+                  )}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       )}

@@ -545,9 +545,9 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             },
           };
 
-        case 'venueTimes':
+        case 'collectionVenue':
           return {
-            type: 'venueTimes',
+            type: 'collectionVenue',
             value: slice.primary.content,
           };
 

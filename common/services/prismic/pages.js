@@ -54,7 +54,7 @@ export async function getPage(req: ?Request, id: string): Promise<?Page> {
   const page = await getDocument(req, id, {
     fetchLinks: pagesFields.concat(eventSeriesFields, collectionVenuesFields),
   });
-
+  console.log(page.data.body);
   if (page) {
     return parsePage(page);
   }
