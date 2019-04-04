@@ -358,12 +358,10 @@ export function backfillExceptionalVenueDays(
   });
 }
 
-export function upcomingClosedDaparseys() {
+export function upcomingClosedDays() {
   // filter
   // only closed days - to use for library
 }
-
-// just today function - see gallery
 
 function createRegularDay(day: Day, venue: PrismicFragment) {
   const lowercaseDay = day.toLowerCase();
