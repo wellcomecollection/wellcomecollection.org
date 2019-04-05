@@ -105,7 +105,11 @@ export class Page extends Component<Props> {
         imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
         imageAltText={page.image && page.image.alt}
       >
-        <ContentPage id={page.id} Header={Header} Body={<Body body={body} />} />
+        <ContentPage
+          id={page.id}
+          Header={Header}
+          Body={<Body body={body} pageId={page.id} />}
+        />
       </PageLayout>
     );
   }

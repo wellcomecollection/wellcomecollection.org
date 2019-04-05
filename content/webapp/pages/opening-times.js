@@ -82,7 +82,7 @@ export class OpeningTimesPage extends Component<Props> {
               highlightHeading={true}
             />
           }
-          Body={<Body body={page.body} />}
+          Body={<Body body={page.body} pageId={'openingTimes'} />}
         >
           {groupedConsectiveClosedDays &&
             groupedConsectiveClosedDays.length > 0 && (

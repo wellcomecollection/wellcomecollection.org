@@ -14,8 +14,7 @@ import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
-import {
-  default as PageHeader,
+import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -251,7 +250,9 @@ export class ArticlePage extends Component<Props, State> {
           id={article.id}
           isCreamy={true}
           Header={Header}
-          Body={<Body body={article.body} isDropCapped={true} />}
+          Body={
+            <Body body={article.body} isDropCapped={true} pageId={article.id} />
+          }
           Siblings={Siblings}
           contributorProps={{ contributors: article.contributors }}
           outroProps={

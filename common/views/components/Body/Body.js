@@ -13,10 +13,10 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
-import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable2';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
+import VenueHours from '../VenueHours/VenueHours';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -36,9 +36,10 @@ export type BodyType = BodySlice[];
 type Props = {|
   body: BodyType,
   isDropCapped?: boolean,
+  pageId: string,
 |};
 
-const Body = ({ body, isDropCapped }: Props) => {
+const Body = ({ body, isDropCapped, pageId }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
@@ -167,9 +168,10 @@ const Body = ({ body, isDropCapped }: Props) => {
             )}
 
             {slice.type === 'collectionVenue' && (
-              <Layout8>
-                <OpeningHoursTable venue={slice.value} />
-              </Layout8>
+              <VenueHours
+                venue={slice.value}
+                isInList={pageId === 'openingTimes'}
+              />
             )}
 
             {/* deprecated */}

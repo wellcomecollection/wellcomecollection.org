@@ -4,6 +4,12 @@ import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
+import {
+  parseVenueTimesToOpeningHours,
+  backfillExceptionalVenueDays,
+  getUpcomingExceptionalPeriod,
+} from '../../../services/prismic/opening-times';
+import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 
 const VenueHoursImage = styled.div.attrs(props => ({
   className: classNames({
@@ -36,7 +42,54 @@ const JauntyBox = styled.div.attrs(props => ({
 
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
-const VenueHours = () => {
+type Props = {|
+  venue: any, // FIXME: Flow
+  isInList: boolean,
+|};
+
+const VenueHours = ({ venue, isInList }: Props) => {
+  const venueData = parseVenueTimesToOpeningHours(venue);
+  const upcomingExceptionalPeriod = getUpcomingExceptionalPeriod(
+    backfillExceptionalVenueDays(venueData)
+  );
+  const venueAdditionalInfo = {
+    galleries: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:f0d7c9fcc20dd187b7e656db616f7d228ffb5889_btg150421203820.jpg',
+      displayTitle: 'Galleries and Reading Room',
+      linkText: 'See all Exhibitions and events',
+      url: '/whats-on',
+    },
+    library: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
+      displayTitle: 'The Library',
+      linkText: 'Read about our Library',
+      url: '/pages/Wuw19yIAAK1Z3Smm',
+    },
+    shop: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg',
+      displayTitle: 'Wellcome Shop',
+      linkText: 'Books and Gifts',
+      url: '/pages/WwgaIh8AAB8AGhC_',
+    },
+    cafe: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:59cf3a27d3e6e0dc210b68d0d29c03cc34b9ee8d_c0144277.jpg',
+      displayTitle: 'Wellcome Café',
+      linkText: 'Take a break in our café',
+      url: '/pages/Wvl1wiAAADMJ3zNe',
+    },
+    restaurant: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:97017f7ca01717f1ca469a08b510f9a5af6a1d43_c0146591_large.jpg',
+      displayTitle: 'Wellcome Kitchen',
+      linkText: 'Explore the menus',
+      url: '/pages/Wuw19yIAAK1Z3Snk',
+    },
+  };
+
   return (
     <div className="row">
       <div className="container">
@@ -59,7 +112,7 @@ const VenueHours = () => {
           </div>
           <VenueHoursImage>
             <UiImage
-              contentUrl={'http://fillmurray.com/1600/900'}
+              contentUrl={venueAdditionalInfo[venue.slug].image}
               width={1600}
               height={900}
               alt="bill"
@@ -75,20 +128,24 @@ const VenueHours = () => {
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <h3 className="h3">Galleries and Reading Room</h3>
+            <h2 className="h2">
+              {isInList
+                ? `${venueAdditionalInfo[venue.slug].displayTitle}`
+                : 'Opening hours'}
+            </h2>
             <ul
               className={classNames({
                 'plain-list no-padding no-margin': true,
                 [font({ s: 'HNL4' })]: true,
               })}
             >
-              <li>Monday Closed</li>
-              <li>Tuesday 10:00&mdash;18:00</li>
-              <li>Wednesday 10:00&mdash;18:00</li>
-              <li>Thursday 10:00&mdash;22:00</li>
-              <li>Friday 10:00&mdash;18:00</li>
-              <li>Saturday 10:00&mdash;18:00</li>
-              <li>Sunday 11:00&mdash;18:00</li>
+              {venueData.openingHours.regular.map(
+                ({ dayOfWeek, opens, closes }) => (
+                  <li key={dayOfWeek}>
+                    {dayOfWeek} {opens ? `${opens}—${closes}` : 'Closed'}
+                  </li>
+                )
+              )}
             </ul>
           </div>
           <div
@@ -97,43 +154,50 @@ const VenueHours = () => {
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <JauntyBox
-              topLeft={randomPx()}
-              topRight={randomPx()}
-              bottomRight={randomPx()}
-              bottomLeft={randomPx()}
-            >
-              <h3
-                className={classNames({
-                  [font({ s: 'HNM4' })]: true,
-                })}
+            {upcomingExceptionalPeriod && upcomingExceptionalPeriod.length > 0 && (
+              <JauntyBox
+                topLeft={randomPx()}
+                topRight={randomPx()}
+                bottomRight={randomPx()}
+                bottomLeft={randomPx()}
               >
-                <div
+                <h3
                   className={classNames({
-                    'flex flex--v-center': true,
+                    [font({ s: 'HNM4' })]: true,
                   })}
                 >
-                  <Icon
-                    name="clock"
-                    extraClasses={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                  <div
+                    className={classNames({
+                      'flex flex--v-center': true,
                     })}
-                  />
-                  <span>Easter hours</span>
-                </div>
-              </h3>
-              <ul
-                className={classNames({
-                  'plain-list no-padding no-margin': true,
-                  [font({ s: 'HNL4' })]: true,
-                })}
-              >
-                <li>Friday 19 April Closed</li>
-                <li>Saturday 30 December 10:00&mdash;18:00</li>
-                <li>Sunday 21 April 10:00&mdash;18:00</li>
-                <li>Monday 22 April 10:00&mdash;22:00</li>
-              </ul>
-            </JauntyBox>
+                  >
+                    <Icon
+                      name="clock"
+                      extraClasses={classNames({
+                        [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                      })}
+                    />
+                    <span>
+                      {upcomingExceptionalPeriod[0][0].overrideType} hours
+                    </span>
+                  </div>
+                </h3>
+                <ul
+                  className={classNames({
+                    'plain-list no-padding no-margin': true,
+                    [font({ s: 'HNL4' })]: true,
+                  })}
+                >
+                  {upcomingExceptionalPeriod[0].map(p => (
+                    <li key={p}>
+                      {formatDay(p.overrideDate)}{' '}
+                      {formatDayMonth(p.overrideDate)}{' '}
+                      {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
+                    </li>
+                  ))}
+                </ul>
+              </JauntyBox>
+            )}
           </div>
           <div
             className={classNames({
@@ -147,7 +211,12 @@ const VenueHours = () => {
               })]: true,
             })}
           >
-            <MoreLink url="#" name="See all Exhibitions and Events" />
+            {isInList && (
+              <MoreLink
+                url={venueAdditionalInfo[venue.slug].url}
+                name={venueAdditionalInfo[venue.slug].linkText}
+              />
+            )}
           </div>
         </div>
       </div>
