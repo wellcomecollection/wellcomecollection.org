@@ -22,27 +22,20 @@ export type ExceptionalPeriod = {|
 
 export type OpeningHoursDay = {|
   dayOfWeek: Day,
-  opens?: string,
-  closes?: string,
+  opens?: ?string,
+  closes?: ?string,
 |};
 
 export type ExceptionalOpeningHoursDay = {|
   overrideDate: Moment,
-  overrideType?: OverrideType,
-  opens?: string,
-  closes?: string,
+  overrideType: ?OverrideType,
+  opens?: ?string,
+  closes?: ?string,
 |};
 
 export type OpeningHours = {|
   regular: OpeningHoursDay[],
-  exceptional?: ?(ExceptionalOpeningHoursDay[]),
-|};
-
-export type Venue = {|
-  id: string,
-  name: string,
-  order: number,
-  openingHours: OpeningHours,
+  exceptional: ?(ExceptionalOpeningHoursDay[]),
 |};
 
 export type ExceptionalVenueHours = {|
@@ -54,6 +47,12 @@ export type ExceptionalVenueHours = {|
   openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
   opensChanged?: boolean,
   closesChanged?: boolean,
+|};
+export type Venue = {|
+  id: string,
+  name: string,
+  order: number,
+  openingHours: OpeningHours,
 |};
 
 export type PlacesOpeningHours = Venue[];

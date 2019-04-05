@@ -13,6 +13,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
+import OpeningHoursTable from '../OpeningHoursTable/OpeningHoursTable2';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
@@ -20,7 +21,7 @@ import {
   defaultSerializer,
   dropCapSerializer,
 } from '../../../services/prismic/html-serialisers';
-import type { Weight } from '../../../services/prismic/parsers';
+import { type Weight } from '../../../services/prismic/parsers';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -163,6 +164,12 @@ const Body = ({ body, isDropCapped }: Props) => {
               <Layout10>
                 <Iframe {...slice.value} />
               </Layout10>
+            )}
+
+            {slice.type === 'collectionVenue' && (
+              <Layout8>
+                <OpeningHoursTable venue={slice.value} />
+              </Layout8>
             )}
 
             {/* deprecated */}
