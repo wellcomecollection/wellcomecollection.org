@@ -111,16 +111,18 @@ const VenueHours = ({ venue, isInList }: Props) => {
             <Divider extraClasses="divider--keyline divider--pumice" />
           </div>
           <VenueHoursImage>
-            <UiImage
-              contentUrl={venueAdditionalInfo[venue.slug].image}
-              width={1600}
-              height={900}
-              alt="bill"
-              tasl={null}
-              sizesQueries={null}
-              extraClasses=""
-              showTasl={false}
-            />
+            {isInList && (
+              <UiImage
+                contentUrl={venueAdditionalInfo[venue.slug].image}
+                width={1600}
+                height={900}
+                alt="bill"
+                tasl={null}
+                sizesQueries={null}
+                extraClasses=""
+                showTasl={false}
+              />
+            )}
           </VenueHoursImage>
           <div
             className={classNames({
