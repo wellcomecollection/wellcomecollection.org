@@ -15,11 +15,7 @@ import {
   groupConsecutiveDays,
   getExceptionalClosedDays,
   backfillExceptionalVenueDays,
-  exceptionalOpeningDates,
-  exceptionalOpeningPeriods,
-  exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
 type Props = {|
   page: Page,
@@ -51,9 +47,8 @@ export class OpeningTimesPage extends Component<Props> {
       getExceptionalClosedDays(libraryExceptionalPeriods);
     const groupedConsectiveClosedDays =
       onlyClosedDays && groupConsecutiveDays(onlyClosedDays);
-    // TODO need to get this years times into prismic
 
-    // TODO upcoming only
+    // TODO need to get this years times into prismic
     return (
       <PageLayout
         title={page && page.title}
@@ -88,23 +83,6 @@ export class OpeningTimesPage extends Component<Props> {
           }
           Body={<Body body={page.body} />}
         >
-          <OpeningTimesContext.Consumer>
-            {openingTimes => {
-              return (
-                <>
-                  {JSON.stringify(
-                    exceptionalOpeningPeriodsAllDates(
-                      exceptionalOpeningPeriods(
-                        exceptionalOpeningDates(
-                          openingTimes.collectionOpeningTimes
-                        )
-                      )
-                    )
-                  )}
-                </>
-              );
-            }}
-          </OpeningTimesContext.Consumer>
           {groupedConsectiveClosedDays &&
             groupedConsectiveClosedDays.length > 0 && (
               <div className="body-text">
