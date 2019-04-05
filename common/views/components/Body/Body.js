@@ -168,7 +168,7 @@ const Body = ({ body, isDropCapped }: Props) => {
 
             {slice.type === 'collectionVenue' && (
               <Layout8>
-                <OpeningHoursTable place={slice.value} />
+                <OpeningHoursTable venue={slice.value} />
               </Layout8>
             )}
 

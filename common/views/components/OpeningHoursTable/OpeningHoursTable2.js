@@ -1,56 +1,20 @@
 import { spacing, font } from '../../../utils/classnames';
-import type { Place } from '../../../model/opening-hours';
 // TODO rename
 import {
   parseVenueTimesToOpeningHours,
   backfillExceptionalVenueDays,
+  getUpcomingExceptionalPeriod,
 } from '../../../services/prismic/opening-times';
 
 type Props = {|
-  place: Place,
+  venue: any, // TODO
 |};
 
-const OpeningHoursTable = ({ place }: Props) => {
-  const place2 = parseVenueTimesToOpeningHours(place);
-  // const upcomingExceptionalDays = place2.openingHours.exceptional;
-  // .reduce(
-  //   (acc, day) => {
-  //     // TODO order the array by date?
-  //     const isCloseDate = acc.find(upcomingDay => {
-  //       console.log(upcomingDay);
-  //       return day.overrideDate.isBetween(
-  //         upcomingDay.overrideDate.clone().subtract(14, 'days'),
-  //         upcomingDay.overrideDate.clone().subtract(14, 'days'),
-  //         'day'
-  //       );
-  //     });
-  //     console.log(
-  //       london()
-  //         .clone()
-  //         .subtract(382, 'days')
-  //     );
-  //     if (
-  //       isCloseDate ||
-  //       (day.overrideDate.isSameOrAfter(
-  //         london()
-  //           .clone()
-  //           .subtract(382, 'days'),
-  //         'day'
-  //       ) &&
-  //         day.overrideDate.isSameOrBefore(
-  //           london()
-  //             .clone()
-  //             .subtract(382, 'days')
-  //             .add(14, 'days'),
-  //           'day'
-  //         ))
-  //     ) {
-  //       acc.push(day);
-  //     }
-  //     return acc;
-  //   },
-  //   []
-  // );
+const OpeningHoursTable = ({ venue }: Props) => {
+  const venueData = parseVenueTimesToOpeningHours(venue);
+  const upcomingPeriod = getUpcomingExceptionalPeriod(
+    backfillExceptionalVenueDays(venueData)
+  );
   return (
     <>
       <table
@@ -63,7 +27,7 @@ const OpeningHoursTable = ({ place }: Props) => {
             { padding: ['top', 'bottom'] }
           )}`}
         >
-          {place2.name}
+          {venueData.name}
         </caption>
         <thead className={`opening-hours__thead ${font({ s: 'HNM5' })}`}>
           <tr className="opening-hours__tr">
@@ -88,7 +52,7 @@ const OpeningHoursTable = ({ place }: Props) => {
           </tr>
         </thead>
         <tbody className="opening-hours__tbody">
-          {place2.openingHours.regular.map(day => (
+          {venueData.openingHours.regular.map(day => (
             <tr key={day.dayOfWeek} className="opening-hours__tr">
               <td className="opening-hours__td">{day.dayOfWeek}</td>
               {day.opens ? (
@@ -102,7 +66,7 @@ const OpeningHoursTable = ({ place }: Props) => {
           ))}
         </tbody>
       </table>
-      {place2.openingHours.exceptional.length > 0 && (
+      {venueData.openingHours.exceptional.length > 0 && (
         <table
           className={`opening-hours__table ${font({ s: 'HNL5' })}
     `}
@@ -113,7 +77,7 @@ const OpeningHoursTable = ({ place }: Props) => {
               { padding: ['top', 'bottom'] }
             )}`}
           >
-            {place2.name}
+            {venueData.name}
           </caption>
           <thead className={`opening-hours__thead ${font({ s: 'HNM5' })}`}>
             <tr className="opening-hours__tr">
@@ -138,22 +102,23 @@ const OpeningHoursTable = ({ place }: Props) => {
             </tr>
           </thead>
           <tbody className="opening-hours__tbody">
-            {backfillExceptionalVenueDays(place2).map(days =>
-              days.map(day => (
-                <tr key={day.overrideDate} className="opening-hours__tr">
-                  <td className="opening-hours__td">
-                    {day.overrideDate.format('dddd, MMMM Do')}
-                  </td>
-                  {day.opens ? (
+            {upcomingPeriod &&
+              upcomingPeriod.map(days =>
+                days.map(day => (
+                  <tr key={day.overrideDate} className="opening-hours__tr">
                     <td className="opening-hours__td">
-                      {day.opens}&mdash;{day.closes}
+                      {day.overrideDate.format('dddd, MMMM Do')}
                     </td>
-                  ) : (
-                    <td className="opening-hours__td">Closed</td>
-                  )}
-                </tr>
-              ))
-            )}
+                    {day.opens ? (
+                      <td className="opening-hours__td">
+                        {day.opens}&mdash;{day.closes}
+                      </td>
+                    ) : (
+                      <td className="opening-hours__td">Closed</td>
+                    )}
+                  </tr>
+                ))
+              )}
           </tbody>
         </table>
       )}

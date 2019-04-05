@@ -12,8 +12,9 @@ import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
 import {
   parseVenueTimesToOpeningHours,
-  getExceptionalVenueDays,
-  groupExceptionalVenueDays,
+  groupConsecutiveDays,
+  getExceptionalClosedDays,
+  backfillExceptionalVenueDays,
 } from '@weco/common/services/prismic/opening-times';
 
 type Props = {|
@@ -39,17 +40,13 @@ export class OpeningTimesPage extends Component<Props> {
     const libraryVenueValue = libraryVenue && libraryVenue.value;
     const parsedLibraryVenue =
       libraryVenueValue && parseVenueTimesToOpeningHours(libraryVenueValue);
-    const exceptionalLibraryDates = parsedLibraryVenue
-      ? getExceptionalVenueDays(parsedLibraryVenue)
-      : [];
-    const libraryClosedDates = exceptionalLibraryDates.filter(
-      date => date.opens === null
-    );
-
-    const groupedLibraryClosedDays = groupExceptionalVenueDays(
-      libraryClosedDates
-    );
-
+    const libraryExceptionalPeriods =
+      parsedLibraryVenue && backfillExceptionalVenueDays(parsedLibraryVenue);
+    const onlyClosedDays =
+      libraryExceptionalPeriods &&
+      getExceptionalClosedDays(libraryExceptionalPeriods);
+    const groupedConsectiveClosedDays =
+      onlyClosedDays && groupConsecutiveDays(onlyClosedDays);
     // TODO need to get this years times into prismic
 
     // TODO upcoming only
@@ -87,22 +84,25 @@ export class OpeningTimesPage extends Component<Props> {
           }
           Body={<Body body={page.body} />}
         >
-          {groupedLibraryClosedDays.length > 0 && (
-            <>
-              {/* TODO date range component
+          {groupedConsectiveClosedDays &&
+            groupedConsectiveClosedDays.length > 0 && (
+              <>
+                {/* TODO date range component
               TODO problem if days in between aren't closed...
               */}
-              The library is closed
-              {groupedLibraryClosedDays.map(
-                closedGroup =>
-                  `${formatDayDate(
-                    closedGroup[0].overrideDate.toDate()
-                  )} - ${formatDayDate(
-                    closedGroup[closedGroup.length - 1].overrideDate.toDate()
-                  )}`
-              )}
-            </>
-          )}
+                The library is closed
+                {groupedConsectiveClosedDays.map((closedGroup, i) => (
+                  <p key={i}>
+                    {`${formatDayDate(
+                      closedGroup[0].overrideDate.toDate()
+                    )}-${formatDayDate(
+                      closedGroup[closedGroup.length - 1].overrideDate.toDate()
+                    )}
+                    `}
+                  </p>
+                ))}
+              </>
+            )}
         </ContentPage>
       </PageLayout>
     );

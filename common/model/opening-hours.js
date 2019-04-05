@@ -28,7 +28,7 @@ export type OpeningHoursDay = {|
 
 export type ExceptionalOpeningHoursDay = {|
   overrideDate: Moment,
-  overrideType?: OverrideType,
+  overrideType: ?OverrideType,
   opens?: ?string,
   closes?: ?string,
 |};
