@@ -1,20 +1,29 @@
+import { useContext } from 'react';
 import { spacing, font } from '../../../utils/classnames';
-// TODO rename
 import {
-  parseVenueTimesToOpeningHours,
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriod,
+  exceptionalOpeningDates,
+  exceptionalOpeningPeriods,
+  exceptionalOpeningPeriodsAllDates,
 } from '../../../services/prismic/opening-times';
+import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
 type Props = {|
-  venue: any, // TODO
+  venue: Venue,
 |};
 
 const OpeningHoursTable = ({ venue }: Props) => {
-  const venueData = parseVenueTimesToOpeningHours(venue);
-  const upcomingPeriod = getUpcomingExceptionalPeriod(
-    backfillExceptionalVenueDays(venueData)
+  const openingTimes = useContext(OpeningTimesContext);
+  const exceptionalPeriods = exceptionalOpeningPeriodsAllDates(
+    exceptionalOpeningPeriods(
+      exceptionalOpeningDates(openingTimes.collectionOpeningTimes)
+    )
   );
+  const upcomingPeriod = getUpcomingExceptionalPeriod(
+    backfillExceptionalVenueDays(venue, exceptionalPeriods)
+  );
+
   return (
     <>
       <table
@@ -27,7 +36,7 @@ const OpeningHoursTable = ({ venue }: Props) => {
             { padding: ['top', 'bottom'] }
           )}`}
         >
-          {venueData.name}
+          {venue.name}
         </caption>
         <thead className={`opening-hours__thead ${font({ s: 'HNM5' })}`}>
           <tr className="opening-hours__tr">
@@ -52,7 +61,7 @@ const OpeningHoursTable = ({ venue }: Props) => {
           </tr>
         </thead>
         <tbody className="opening-hours__tbody">
-          {venueData.openingHours.regular.map(day => (
+          {venue.openingHours.regular.map(day => (
             <tr key={day.dayOfWeek} className="opening-hours__tr">
               <td className="opening-hours__td">{day.dayOfWeek}</td>
               {day.opens ? (
@@ -66,7 +75,7 @@ const OpeningHoursTable = ({ venue }: Props) => {
           ))}
         </tbody>
       </table>
-      {venueData.openingHours.exceptional.length > 0 && (
+      {venue.openingHours.exceptional.length > 0 && (
         <table
           className={`opening-hours__table ${font({ s: 'HNL5' })}
     `}
@@ -77,7 +86,7 @@ const OpeningHoursTable = ({ venue }: Props) => {
               { padding: ['top', 'bottom'] }
             )}`}
           >
-            {venueData.name}
+            {venue.name}
           </caption>
           <thead className={`opening-hours__thead ${font({ s: 'HNM5' })}`}>
             <tr className="opening-hours__tr">
@@ -103,22 +112,20 @@ const OpeningHoursTable = ({ venue }: Props) => {
           </thead>
           <tbody className="opening-hours__tbody">
             {upcomingPeriod &&
-              upcomingPeriod.map(days =>
-                days.map(day => (
-                  <tr key={day.overrideDate} className="opening-hours__tr">
+              upcomingPeriod[0].map(day => (
+                <tr key={day.overrideDate} className="opening-hours__tr">
+                  <td className="opening-hours__td">
+                    {day.overrideDate.format('dddd, MMMM Do')}
+                  </td>
+                  {day.opens ? (
                     <td className="opening-hours__td">
-                      {day.overrideDate.format('dddd, MMMM Do')}
+                      {day.opens}&mdash;{day.closes}
                     </td>
-                    {day.opens ? (
-                      <td className="opening-hours__td">
-                        {day.opens}&mdash;{day.closes}
-                      </td>
-                    ) : (
-                      <td className="opening-hours__td">Closed</td>
-                    )}
-                  </tr>
-                ))
-              )}
+                  ) : (
+                    <td className="opening-hours__td">Closed</td>
+                  )}
+                </tr>
+              ))}
           </tbody>
         </table>
       )}
