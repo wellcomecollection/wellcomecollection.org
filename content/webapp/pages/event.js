@@ -313,7 +313,7 @@ class EventPage extends Component<Props, State> {
         <ContentPage
           id={event.id}
           Header={Header}
-          Body={<Body body={event.body} />}
+          Body={<Body body={event.body} pageId={event.id} />}
         >
           {event.contributors.length > 0 && (
             <Contributors

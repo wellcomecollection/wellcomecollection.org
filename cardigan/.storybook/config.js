@@ -50,7 +50,7 @@ addDecorator(CenterDecorator);
 setOptions({
   name: 'Cardigan',
   url: 'https://cardigan.wellcomecollection.org',
-  addonPanelInRight: true,
+  addonPanelInRight: false,
   hierarchySeparator: /\//,
   sortStoriesByKind: true
 });
