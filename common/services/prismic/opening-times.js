@@ -407,10 +407,10 @@ export function getUpcomingExceptionalPeriod(exceptionalPeriods) {
       return (
         d.overrideDate.isSameOrBefore(
           london()
-            .subtract(372, 'day') // TODO put back to today after finished dev
+            .subtract(317, 'day') // TODO put back to today after finished dev
             .add(14, 'day'),
           'day'
-        ) && d.overrideDate.isSameOrAfter(london().subtract(372, 'day'), 'day')
+        ) && d.overrideDate.isSameOrAfter(london().subtract(317, 'day'), 'day')
       );
     });
     return upcomingPeriod || false;
@@ -500,4 +500,19 @@ export function parseVenuesToOpeningHours(doc: PrismicFragment) {
       }),
     },
   };
+}
+
+export function getTodaysVenueHours(venue: Venue) {
+  const todaysDate = london().startOf('day');
+  const todayString = todaysDate.format('dddd');
+  const exceptionalOpeningHours =
+    venue.openingHours.exceptional &&
+    venue.openingHours.exceptional.find(i => {
+      const dayOfWeek = london(i.overrideDate).startOf('day');
+      return todaysDate.isSame(dayOfWeek);
+    });
+  const regularOpeningHours =
+    venue.openingHours.regular &&
+    venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
+  return exceptionalOpeningHours || regularOpeningHours;
 }
