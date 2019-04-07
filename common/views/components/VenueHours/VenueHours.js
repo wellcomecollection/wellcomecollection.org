@@ -60,43 +60,44 @@ const VenueHours = ({ venue, isInList }: Props) => {
   const upcomingExceptionalPeriod = getUpcomingExceptionalPeriod(
     backfillExceptionalVenueDays(venue, exceptionalPeriods)
   );
-  // const venueAdditionalInfo = {
-  //   galleries: {
-  //     image:
-  //       'https://iiif.wellcomecollection.org/image/prismic:f0d7c9fcc20dd187b7e656db616f7d228ffb5889_btg150421203820.jpg',
-  //     displayTitle: 'Galleries and Reading Room',
-  //     linkText: 'See all Exhibitions and events',
-  //     url: '/whats-on',
-  //   },
-  //   library: {
-  //     image:
-  //       'https://iiif.wellcomecollection.org/image/prismic:36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
-  //     displayTitle: 'The Library',
-  //     linkText: 'Read about our Library',
-  //     url: '/pages/Wuw19yIAAK1Z3Smm',
-  //   },
-  //   shop: {
-  //     image:
-  //       'https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg',
-  //     displayTitle: 'Wellcome Shop',
-  //     linkText: 'Books and Gifts',
-  //     url: '/pages/WwgaIh8AAB8AGhC_',
-  //   },
-  //   cafe: {
-  //     image:
-  //       'https://iiif.wellcomecollection.org/image/prismic:59cf3a27d3e6e0dc210b68d0d29c03cc34b9ee8d_c0144277.jpg',
-  //     displayTitle: 'Wellcome Café',
-  //     linkText: 'Take a break in our café',
-  //     url: '/pages/Wvl1wiAAADMJ3zNe',
-  //   },
-  //   restaurant: {
-  //     image:
-  //       'https://iiif.wellcomecollection.org/image/prismic:97017f7ca01717f1ca469a08b510f9a5af6a1d43_c0146591_large.jpg',
-  //     displayTitle: 'Wellcome Kitchen',
-  //     linkText: 'Explore the menus',
-  //     url: '/pages/Wuw19yIAAK1Z3Snk',
-  //   },
-  // };
+
+  const venueAdditionalInfo = {
+    galleries: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:f0d7c9fcc20dd187b7e656db616f7d228ffb5889_btg150421203820.jpg',
+      displayTitle: 'Galleries and Reading Room',
+      linkText: 'See all Exhibitions and events',
+      url: '/whats-on',
+    },
+    library: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
+      displayTitle: 'The Library',
+      linkText: 'Read about our Library',
+      url: '/pages/Wuw19yIAAK1Z3Smm',
+    },
+    shop: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg',
+      displayTitle: 'Wellcome Shop',
+      linkText: 'Books and Gifts',
+      url: '/pages/WwgaIh8AAB8AGhC_',
+    },
+    café: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:59cf3a27d3e6e0dc210b68d0d29c03cc34b9ee8d_c0144277.jpg',
+      displayTitle: 'Wellcome Café',
+      linkText: 'Take a break in our café',
+      url: '/pages/Wvl1wiAAADMJ3zNe',
+    },
+    restaurant: {
+      image:
+        'https://iiif.wellcomecollection.org/image/prismic:97017f7ca01717f1ca469a08b510f9a5af6a1d43_c0146591_large.jpg',
+      displayTitle: 'Wellcome Kitchen',
+      linkText: 'Explore the menus',
+      url: '/pages/Wuw19yIAAK1Z3Snk',
+    },
+  };
 
   return (
     <div className="row">
@@ -121,7 +122,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
           <VenueHoursImage>
             {isInList && (
               <UiImage
-                contentUrl={''}
+                contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
                 width={1600}
                 height={900}
                 alt="bill"
@@ -138,7 +139,13 @@ const VenueHours = ({ venue, isInList }: Props) => {
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <h2 className="h2">{isInList ? `` : 'Opening hours'}</h2>
+            <h2 className="h2">
+              {isInList
+                ? `${
+                    venueAdditionalInfo[venue.name.toLowerCase()].displayTitle
+                  }`
+                : 'Opening hours'}
+            </h2>
             <ul
               className={classNames({
                 'plain-list no-padding no-margin': true,
@@ -184,7 +191,12 @@ const VenueHours = ({ venue, isInList }: Props) => {
                       })}
                     />
                     <span>
-                      {upcomingExceptionalPeriod[0][0].overrideType} hours
+                      {/* TODO get this in a better way
+                      `${upcomingExceptionalPeriod &&
+                        upcomingExceptionalPeriod[0].find(
+                          period => period.overrideType
+                        ).overrideType} */}
+                      hours
                     </span>
                   </div>
                 </h3>
@@ -217,7 +229,12 @@ const VenueHours = ({ venue, isInList }: Props) => {
               })]: true,
             })}
           >
-            {isInList && <MoreLink url={''} name={''} />}
+            {isInList && (
+              <MoreLink
+                url={venueAdditionalInfo[venue.name.toLowerCase()].url}
+                name={venueAdditionalInfo[venue.name.toLowerCase()].linkText}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -226,7 +243,3 @@ const VenueHours = ({ venue, isInList }: Props) => {
 };
 
 export default VenueHours;
-// TODO venueAdditionalInfo[venue.slug].image
-// ${venueAdditionalInfo[venue.slug].displayTitle}displayTitle
-// venueAdditionalInfo[venue.slug].url
-// venueAdditionalInfo[venue.slug].linkText

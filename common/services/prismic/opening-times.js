@@ -407,10 +407,10 @@ export function getUpcomingExceptionalPeriod(exceptionalPeriods) {
       return (
         d.overrideDate.isSameOrBefore(
           london()
-            .subtract(317, 'day') // TODO put back to today after finished dev
+            .subtract(373, 'day') // TODO put back to today after finished dev
             .add(14, 'day'),
           'day'
-        ) && d.overrideDate.isSameOrAfter(london().subtract(317, 'day'), 'day')
+        ) && d.overrideDate.isSameOrAfter(london().subtract(373, 'day'), 'day')
       );
     });
     return upcomingPeriod || false;
