@@ -1,6 +1,6 @@
 // @flow
 import type { Context } from 'next';
-import { Component } from 'react';
+import { Component, useContext } from 'react';
 import { formatDayDate } from '@weco/common/utils/format-date';
 import { getPage } from '@weco/common/services/prismic/pages';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -15,11 +15,70 @@ import {
   groupConsecutiveDays,
   getExceptionalClosedDays,
   backfillExceptionalVenueDays,
+  exceptionalOpeningDates,
+  exceptionalOpeningPeriods,
+  exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
+import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
 type Props = {|
   page: Page,
 |};
+
+const LibraryClosed = ({ page }) => {
+  const openingTimes = useContext(OpeningTimesContext);
+  // TODO names
+  const a = exceptionalOpeningDates(openingTimes.collectionOpeningTimes);
+  const b = a && exceptionalOpeningPeriods(a);
+  const exceptionalPeriods = b && exceptionalOpeningPeriodsAllDates(b);
+  const libraryVenue = page.body.find(
+    bodyPart =>
+      bodyPart.type === 'collectionVenue' &&
+      bodyPart.value.data.title === 'Library'
+  );
+
+  const libraryVenueValue = libraryVenue && libraryVenue.value;
+  const parsedLibraryVenue =
+    libraryVenueValue && parseVenueTimesToOpeningHours(libraryVenueValue);
+  const libraryExceptionalPeriods =
+    parsedLibraryVenue &&
+    backfillExceptionalVenueDays(parsedLibraryVenue, exceptionalPeriods);
+  const onlyClosedDays =
+    libraryExceptionalPeriods &&
+    getExceptionalClosedDays(libraryExceptionalPeriods);
+  const groupedConsectiveClosedDays =
+    onlyClosedDays && groupConsecutiveDays(onlyClosedDays);
+
+  return groupedConsectiveClosedDays
+    ? groupedConsectiveClosedDays.length > 0 && (
+        <div className="body-text">
+          <h2>Library closures</h2>
+          <p className="no-margin">
+            The library will be closed on the following dates:
+          </p>
+          <ul>
+            {/* TODO date range component
+             * TODO only upcoming
+             * TODO why not displaying anything
+             */}
+            {groupedConsectiveClosedDays.map((closedGroup, i) => (
+              <li key={i}>
+                {formatDayDate(closedGroup[0].overrideDate.toDate())}
+                {closedGroup.length > 1 && (
+                  <>
+                    &mdash;
+                    {formatDayDate(
+                      closedGroup[closedGroup.length - 1].overrideDate.toDate()
+                    )}
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    : null;
+};
 
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
@@ -31,22 +90,6 @@ export class OpeningTimesPage extends Component<Props> {
   };
   render() {
     const { page } = this.props;
-    const libraryVenue = page.body.find(
-      bodyPart =>
-        bodyPart.type === 'collectionVenue' &&
-        bodyPart.value.data.title === 'Library'
-    );
-
-    const libraryVenueValue = libraryVenue && libraryVenue.value;
-    const parsedLibraryVenue =
-      libraryVenueValue && parseVenueTimesToOpeningHours(libraryVenueValue);
-    const libraryExceptionalPeriods =
-      parsedLibraryVenue && backfillExceptionalVenueDays(parsedLibraryVenue);
-    const onlyClosedDays =
-      libraryExceptionalPeriods &&
-      getExceptionalClosedDays(libraryExceptionalPeriods);
-    const groupedConsectiveClosedDays =
-      onlyClosedDays && groupConsecutiveDays(onlyClosedDays);
 
     // TODO need to get this years times into prismic
     return (
@@ -83,33 +126,7 @@ export class OpeningTimesPage extends Component<Props> {
           }
           Body={<Body body={page.body} />}
         >
-          {groupedConsectiveClosedDays &&
-            groupedConsectiveClosedDays.length > 0 && (
-              <div className="body-text">
-                <h2>Library closures</h2>
-                <p className="no-margin">
-                  The library will be closed on the following dates:
-                </p>
-                <ul>
-                  {/* TODO date range component */}
-                  {groupedConsectiveClosedDays.map((closedGroup, i) => (
-                    <li key={i}>
-                      {formatDayDate(closedGroup[0].overrideDate.toDate())}
-                      {closedGroup.length > 1 && (
-                        <>
-                          &mdash;
-                          {formatDayDate(
-                            closedGroup[
-                              closedGroup.length - 1
-                            ].overrideDate.toDate()
-                          )}
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+          <LibraryClosed page={page} />
         </ContentPage>
       </PageLayout>
     );

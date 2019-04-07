@@ -15,14 +15,15 @@ type Props = {|
 
 const OpeningHoursTable = ({ venue }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
-  const exceptionalPeriods = exceptionalOpeningPeriodsAllDates(
-    exceptionalOpeningPeriods(
-      exceptionalOpeningDates(openingTimes.collectionOpeningTimes)
-    )
-  );
-  const upcomingPeriod = getUpcomingExceptionalPeriod(
-    backfillExceptionalVenueDays(venue, exceptionalPeriods)
-  );
+  // TODO names
+  const a = exceptionalOpeningDates(openingTimes.collectionOpeningTimes);
+  const b = a && exceptionalOpeningPeriods(a);
+  const exceptionalPeriods = b && exceptionalOpeningPeriodsAllDates(b);
+  const backfilled =
+    exceptionalPeriods &&
+    backfillExceptionalVenueDays(venue, exceptionalPeriods);
+  const upcomingPeriod =
+    backfilled.length > 0 ? getUpcomingExceptionalPeriod(backfilled) : [];
 
   return (
     <>
@@ -111,7 +112,7 @@ const OpeningHoursTable = ({ venue }: Props) => {
             </tr>
           </thead>
           <tbody className="opening-hours__tbody">
-            {upcomingPeriod &&
+            {upcomingPeriod.length > 0 &&
               upcomingPeriod[0].map(day => (
                 <tr key={day.overrideDate} className="opening-hours__tr">
                   <td className="opening-hours__td">
