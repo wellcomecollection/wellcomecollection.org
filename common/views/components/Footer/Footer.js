@@ -65,7 +65,7 @@ const Footer = ({
               todaysHours && (
                 <ul>
                   <li>
-                    {venue.name === 'restaurant'
+                    {venue.name.toLowerCase() === 'restaurant'
                       ? 'Kitchen '
                       : `${venue.name} `}
                     {todaysHours.opens ? (
