@@ -14,7 +14,6 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
-import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 
 type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
@@ -117,24 +116,12 @@ const PageLayout = ({
         {!hideNewsletterPromo && <NewsletterPromo />}
         <OpeningTimesContext.Consumer>
           {openingTimes => (
-            <>
-              {/* TODO move this to footer and do it properly */}
-              {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-                venue => {
-                  return JSON.stringify({
-                    name: venue.name,
-                    times: getTodaysVenueHours(venue),
-                  });
-                }
-              )}
-              <Footer
-                openingHoursId="footer"
-                groupedVenues={openingTimes.groupedVenues}
-                upcomingExceptionalOpeningPeriods={
-                  openingTimes.upcomingExceptionalOpeningPeriods
-                }
-              />
-            </>
+            <Footer
+              openingTimes={openingTimes}
+              upcomingExceptionalOpeningPeriods={
+                openingTimes.upcomingExceptionalOpeningPeriods
+              }
+            />
           )}
         </OpeningTimesContext.Consumer>
       </div>

@@ -1,17 +1,19 @@
 // @flow
 import { spacing, font, grid } from '../../../utils/classnames';
+import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
 import FindUs from '../FindUs/FindUs';
-import OpeningHours from '../OpeningHours/OpeningHours';
+// TODO import OpeningHours from '../OpeningHours/OpeningHours';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
-import type { GroupedVenues, OverrideType } from '../../../model/opening-hours';
+import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 
 type Props = {|
-  openingHoursId: string,
-  groupedVenues: GroupedVenues,
+  // openingHoursId: string,
+  // groupedVenues: GroupedVenues,
+  openingTimes: any, // TODO
   upcomingExceptionalOpeningPeriods: ?({
     dates: Moment[],
     type: OverrideType,
@@ -21,10 +23,11 @@ type Props = {|
 |};
 
 const Footer = ({
-  openingHoursId,
-  extraClasses,
-  groupedVenues,
+  // openingHoursId,
+  // extraClasses,
+  // groupedVenues,
   upcomingExceptionalOpeningPeriods,
+  openingTimes,
 }: Props) => (
   <div
     className={`footer row bg-black ${spacing(
@@ -53,16 +56,35 @@ const Footer = ({
         </div>
         <div className={`${grid({ s: 12, l: 6, xl: 6 })}`}>
           <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
-            Opening times:
+            <Icon name={'clock'} extraClasses={'margin-right-s1'} />
+            {`Today's opening times:`}
           </h3>
-          <OpeningHours
-            extraClasses={extraClasses}
-            groupedVenues={groupedVenues}
-            upcomingExceptionalOpeningPeriods={
-              upcomingExceptionalOpeningPeriods
-            }
-            idPrefix="footer-"
-          />
+          {openingTimes.collectionOpeningTimes.placesOpeningHours.map(venue => {
+            const todaysHours = getTodaysVenueHours(venue);
+            return (
+              todaysHours && (
+                <ul>
+                  <li>
+                    {venue.name === 'restaurant'
+                      ? 'Kitchen '
+                      : `${venue.name} `}
+                    {todaysHours.opens ? (
+                      <>
+                        <time>{todaysHours.opens}</time>
+                        {'—'}
+                        <time>{todaysHours.closes}</time>
+                      </>
+                    ) : (
+                      'closed'
+                    )}
+                  </li>
+                </ul>
+              )
+            );
+          })}
+          <p>
+            <a href="/opening-times">Opening times</a>
+          </p>
         </div>
       </div>
       <div className="grid">
