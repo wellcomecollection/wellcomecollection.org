@@ -63,7 +63,7 @@ const Footer = ({
             const todaysHours = getTodaysVenueHours(venue);
             return (
               todaysHours && (
-                <ul>
+                <ul key={venue.name}>
                   <li>
                     {venue.name.toLowerCase() === 'restaurant'
                       ? 'Kitchen '

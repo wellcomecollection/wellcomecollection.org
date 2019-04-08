@@ -206,8 +206,8 @@ const VenueHours = ({ venue, isInList }: Props) => {
                     [font({ s: 'HNL4' })]: true,
                   })}
                 >
-                  {upcomingExceptionalPeriod[0].map(p => (
-                    <li key={p}>
+                  {upcomingExceptionalPeriod[0].map((p, i) => (
+                    <li key={i}>
                       {formatDay(p.overrideDate)}{' '}
                       {formatDayMonth(p.overrideDate)}{' '}
                       {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
