@@ -11,7 +11,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
 import {
-  parseVenueTimesToOpeningHours,
   groupConsecutiveDays,
   getExceptionalClosedDays,
   backfillExceptionalVenueDays,
@@ -27,22 +26,16 @@ type Props = {|
 
 const LibraryClosed = ({ page }) => {
   const openingTimes = useContext(OpeningTimesContext);
-  // TODO names
+  // TODO names - do this in context
   const a = exceptionalOpeningDates(openingTimes.collectionOpeningTimes);
   const b = a && exceptionalOpeningPeriods(a);
   const exceptionalPeriods = b && exceptionalOpeningPeriodsAllDates(b);
-  const libraryVenue = page.body.find(
-    bodyPart =>
-      bodyPart.type === 'collectionVenue' &&
-      bodyPart.value.data.title === 'Library'
+  const libraryVenue = openingTimes.collectionOpeningTimes.placesOpeningHours.find(
+    venue => venue.name.toLowerCase() === 'library'
   );
-
-  const libraryVenueValue = libraryVenue && libraryVenue.value;
-  const parsedLibraryVenue =
-    libraryVenueValue && parseVenueTimesToOpeningHours(libraryVenueValue);
   const libraryExceptionalPeriods =
-    parsedLibraryVenue &&
-    backfillExceptionalVenueDays(parsedLibraryVenue, exceptionalPeriods);
+    libraryVenue &&
+    backfillExceptionalVenueDays(libraryVenue, exceptionalPeriods);
   const onlyClosedDays =
     libraryExceptionalPeriods &&
     getExceptionalClosedDays(libraryExceptionalPeriods);
@@ -57,10 +50,7 @@ const LibraryClosed = ({ page }) => {
             The library will be closed on the following dates:
           </p>
           <ul>
-            {/* TODO date range component
-             * TODO only upcoming
-             * TODO why not displaying anything
-             */}
+            {/* TODO date range component */}
             {groupedConsectiveClosedDays.map((closedGroup, i) => (
               <li key={i}>
                 {formatDayDate(closedGroup[0].overrideDate.toDate())}
@@ -90,8 +80,6 @@ export class OpeningTimesPage extends Component<Props> {
   };
   render() {
     const { page } = this.props;
-
-    // TODO need to get this years times into prismic
     return (
       <PageLayout
         title={page && page.title}
