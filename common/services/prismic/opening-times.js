@@ -471,7 +471,7 @@ export function parseVenueTimesToOpeningHours(
 
   return {
     id: venue.id,
-    order: venue.order,
+    order: data.order,
     name: data.title,
     openingHours: {
       regular: [
