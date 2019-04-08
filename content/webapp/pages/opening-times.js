@@ -14,9 +14,7 @@ import {
   groupConsecutiveDays,
   getExceptionalClosedDays,
   backfillExceptionalVenueDays,
-  exceptionalOpeningDates,
-  exceptionalOpeningPeriods,
-  exceptionalOpeningPeriodsAllDates,
+  getExceptionalOpeningPeriods,
 } from '@weco/common/services/prismic/opening-times';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
@@ -26,10 +24,8 @@ type Props = {|
 
 const LibraryClosed = ({ page }) => {
   const openingTimes = useContext(OpeningTimesContext);
-  // TODO names - do this in context
-  const a = exceptionalOpeningDates(openingTimes.collectionOpeningTimes);
-  const b = a && exceptionalOpeningPeriods(a);
-  const exceptionalPeriods = b && exceptionalOpeningPeriodsAllDates(b);
+  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
+
   const libraryVenue = openingTimes.collectionOpeningTimes.placesOpeningHours.find(
     venue => venue.name.toLowerCase() === 'library'
   );

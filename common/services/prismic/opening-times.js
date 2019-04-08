@@ -7,6 +7,7 @@ import type {
   OverrideDate,
   ExceptionalOpeningHoursDay,
   Venue,
+  PlacesOpeningHours,
 } from '../../model/opening-hours';
 import { type PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
@@ -114,6 +115,22 @@ export function exceptionalOpeningPeriodsAllDates(
         };
       })
     : [];
+}
+
+export function getExceptionalOpeningPeriods(openingTimes: {
+  collectionOpeningTimes: {
+    placesOpeningHours: PlacesOpeningHours,
+  },
+}) {
+  const allExceptionalDates = exceptionalOpeningDates(
+    openingTimes.collectionOpeningTimes
+  );
+  const groupedExceptionalDates =
+    allExceptionalDates && exceptionalOpeningPeriods(allExceptionalDates);
+  return (
+    groupedExceptionalDates &&
+    exceptionalOpeningPeriodsAllDates(groupedExceptionalDates)
+  );
 }
 
 export function getExceptionalVenueDays(

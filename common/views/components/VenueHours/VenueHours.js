@@ -8,9 +8,7 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriod,
-  exceptionalOpeningDates,
-  exceptionalOpeningPeriods,
-  exceptionalOpeningPeriodsAllDates,
+  getExceptionalOpeningPeriods,
 } from '../../../services/prismic/opening-times';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
@@ -53,10 +51,7 @@ type Props = {|
 
 const VenueHours = ({ venue, isInList }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
-  // TODO names
-  const a = exceptionalOpeningDates(openingTimes.collectionOpeningTimes);
-  const b = a && exceptionalOpeningPeriods(a);
-  const exceptionalPeriods = b && exceptionalOpeningPeriodsAllDates(b);
+  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const upcomingExceptionalPeriod = getUpcomingExceptionalPeriod(
     backfillExceptionalVenueDays(venue, exceptionalPeriods)
   );

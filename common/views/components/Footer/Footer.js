@@ -11,24 +11,15 @@ import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 
 type Props = {|
-  // openingHoursId: string,
-  // groupedVenues: GroupedVenues,
   openingTimes: any, // TODO
   upcomingExceptionalOpeningPeriods: ?({
     dates: Moment[],
     type: OverrideType,
   }[]),
-  // TODO: make this openingHoursExtraClasses (or something else)
   extraClasses?: string,
 |};
 
-const Footer = ({
-  // openingHoursId,
-  // extraClasses,
-  // groupedVenues,
-  upcomingExceptionalOpeningPeriods,
-  openingTimes,
-}: Props) => (
+const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
   <div
     className={`footer row bg-black ${spacing(
       { s: 5, m: 10 },
