@@ -11,7 +11,7 @@ import type {
 import { type PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
 
-// TODO add comprehensive comments
+// TODO add comprehensive comments and probably rename some functions
 
 export function exceptionalOpeningDates(collectionOpeningTimes: {
   placesOpeningHours: Venue[],
@@ -93,31 +93,29 @@ export function exceptionalOpeningPeriods(
 
 export function exceptionalOpeningPeriodsAllDates(
   exceptionalOpeningPeriods: ?(ExceptionalPeriod[])
-): ?({ type: OverrideType, dates: Moment[] }[]) {
-  return (
-    exceptionalOpeningPeriods &&
-    exceptionalOpeningPeriods.map(period => {
-      const startDate = london(period.dates[0].overrideDate.toDate()).startOf(
-        'day'
-      );
-      const lastDate = london(
-        period.dates[period.dates.length - 1].overrideDate.toDate()
-      ).startOf('day');
-      const completeDateArray = [];
-      while (startDate.startOf('day').isSameOrBefore(lastDate)) {
-        const current = startDate.format('YYYY-MM-DD');
-        completeDateArray.push(london(new Date(current)));
-        startDate.add(1, 'day');
-      }
-      return {
-        type: period.type,
-        dates: completeDateArray,
-      };
-    })
-  );
+): { type: OverrideType, dates: Moment[] }[] {
+  return exceptionalOpeningPeriods
+    ? exceptionalOpeningPeriods.map(period => {
+        const startDate = london(period.dates[0].overrideDate.toDate()).startOf(
+          'day'
+        );
+        const lastDate = london(
+          period.dates[period.dates.length - 1].overrideDate.toDate()
+        ).startOf('day');
+        const completeDateArray = [];
+        while (startDate.startOf('day').isSameOrBefore(lastDate)) {
+          const current = startDate.format('YYYY-MM-DD');
+          completeDateArray.push(london(new Date(current)));
+          startDate.add(1, 'day');
+        }
+        return {
+          type: period.type,
+          dates: completeDateArray,
+        };
+      })
+    : [];
 }
 
-// TODO flow
 export function getExceptionalVenueDays(
   venue: Venue
 ): ExceptionalOpeningHoursDay[] {
@@ -152,7 +150,11 @@ export function groupExceptionalVenueDays(
     : [];
 }
 
-function exceptionalFromRegular(venue: Venue, dateToGet: Moment, type: string) {
+function exceptionalFromRegular(
+  venue: Venue,
+  dateToGet: Moment,
+  type: OverrideType
+): ExceptionalOpeningHoursDay {
   const currentDay = dateToGet.format('dddd');
   const regular = venue.openingHours.regular.find(
     hours => hours.dayOfWeek === currentDay
@@ -167,7 +169,7 @@ function exceptionalFromRegular(venue: Venue, dateToGet: Moment, type: string) {
 
 export function backfillExceptionalVenueDays(
   venue: Venue,
-  allVenueExceptionalPeriods?: any // TODO
+  allVenueExceptionalPeriods?: { type: OverrideType, dates: Moment[] }[]
 ): ExceptionalOpeningHoursDay[][] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
@@ -178,7 +180,7 @@ export function backfillExceptionalVenueDays(
           const sortedDates = period.dates.sort((a, b) => {
             return a.diff(b, 'days');
           });
-          const type = period.type;
+          const type = period.type || 'other';
           const days = sortedDates.map(date => {
             const matchingVenueGroup = groupedExceptionalDays.find(group => {
               return group.find(day => day.overrideDate.isSame(date, 'day'));
@@ -275,10 +277,8 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-// TODO rename!!  Takes the slice JSON and converts it to the Venue shape: rename Venue type?
-export function parseVenueTimesToOpeningHours(
-  venue: any // TODO
-): Venue {
+// TODO rename - Takes the slice JSON and converts it to the Venue shape: rename Venue type?
+export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
     modified => {
