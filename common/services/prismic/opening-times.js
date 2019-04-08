@@ -320,14 +320,14 @@ export function groupExceptionalVenueDays(
     : [];
 }
 
-function exceptionalFromRegular(venue: Venue, dateToGet: Moment) {
+function exceptionalFromRegular(venue: Venue, dateToGet: Moment, type: string) {
   const currentDay = dateToGet.format('dddd');
   const regular = venue.openingHours.regular.find(
     hours => hours.dayOfWeek === currentDay
   );
   return {
     overrideDate: dateToGet,
-    overrideType: null,
+    overrideType: type,
     opens: regular ? regular.opens : null,
     closes: regular ? regular.closes : null,
   };
@@ -348,6 +348,7 @@ export function backfillExceptionalVenueDays(
         const sortedDates = period.dates.sort((a, b) => {
           return a.diff(b, 'days');
         });
+        const type = period.type;
         const days = sortedDates.map(date => {
           const matchingVenueGroup = groupedExceptionalDays.find(group => {
             return group.find(day => day.overrideDate.isSame(date, 'day'));
@@ -357,7 +358,7 @@ export function backfillExceptionalVenueDays(
             matchingVenueGroup.find(day =>
               day.overrideDate.isSame(date, 'day')
             );
-          const backfillDay = exceptionalFromRegular(venue, date);
+          const backfillDay = exceptionalFromRegular(venue, date, type);
           return matchingDay || backfillDay;
         });
         return days;

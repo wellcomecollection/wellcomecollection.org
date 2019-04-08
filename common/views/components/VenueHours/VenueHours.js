@@ -191,12 +191,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
                       })}
                     />
                     <span>
-                      {/* TODO get this in a better way
-                      `${upcomingExceptionalPeriod &&
-                        upcomingExceptionalPeriod[0].find(
-                          period => period.overrideType
-                        ).overrideType} */}
-                      hours
+                      {upcomingExceptionalPeriod[0][0].overrideType} hours
                     </span>
                   </div>
                 </h3>
