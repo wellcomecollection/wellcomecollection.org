@@ -245,12 +245,8 @@ export function getUpcomingExceptionalPeriod(exceptionalPeriods) {
   const nextUpcomingPeriod = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(d => {
       return (
-        d.overrideDate.isSameOrBefore(
-          london()
-            .subtract(373, 'day') // TODO put back to today after finished dev
-            .add(14, 'day'),
-          'day'
-        ) && d.overrideDate.isSameOrAfter(london().subtract(373, 'day'), 'day')
+        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrAfter(london(), 'day')
       );
     });
     return upcomingPeriod || false;
