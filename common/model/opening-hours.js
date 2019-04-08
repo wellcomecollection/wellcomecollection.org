@@ -38,16 +38,6 @@ export type OpeningHours = {|
   exceptional: ?(ExceptionalOpeningHoursDay[]),
 |};
 
-export type ExceptionalVenueHours = {|
-  exceptionalDate: Moment,
-  exceptionalDay: Day,
-  id: string,
-  name: string,
-  order: number,
-  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
-  opensChanged?: boolean,
-  closesChanged?: boolean,
-|};
 export type Venue = {|
   id: string,
   name: string,
@@ -57,33 +47,12 @@ export type Venue = {|
 
 export type PlacesOpeningHours = Venue[];
 
-export type periodModifiedHours = {
-  periodStart: Moment,
-  periodEnd: Moment,
-  dates: ExceptionalVenueHours[][],
-};
-
-export type GroupedVenues = {
-  [string]: {
-    title: string,
-    hours: PlacesOpeningHours,
-  },
-};
-
 export type CollectionOpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
   upcomingExceptionalOpeningPeriods: ?({
     dates: Moment[],
     type: OverrideType,
   }[]),
-  exceptionalOpeningHours: ?(periodModifiedHours[]),
-  exceptionalClosedDates: ?{
-    periodStart: Moment,
-    periodEnd: Moment,
-    venues: {
-      [string]: ExceptionalVenueHours[],
-    },
-  },
 };
 
 export const galleryOpeningHours: OpeningHours = {
