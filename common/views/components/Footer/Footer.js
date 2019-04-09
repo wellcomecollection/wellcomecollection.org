@@ -28,7 +28,7 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
   >
     <div className="container">
       <div className="grid">
-        <div className={` ${grid({ s: 12, m: 6, l: 3 })}`}>
+        <div className={` ${grid({ s: 12, m: 6, l: 4 })}`}>
           <h3 className={`footer__heading relative ${font({ s: 'HNL5' })}`}>
             <span className="hidden">Wellcome collection</span>
             <a href="#" className="footer-nav__brand absolute">
@@ -39,14 +39,22 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
             <FooterNav />
           </div>
         </div>
-        <div className={`${grid({ s: 12, m: 6, l: 3 })}`}>
-          <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
+        <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
+          <h3
+            className={`footer__heading hidden ${font({
+              s: 'HNL5',
+            })}`}
+          >
             Finding us:
           </h3>
           <FindUs />
         </div>
-        <div className={`${grid({ s: 12, l: 6, xl: 6 })}`}>
-          <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
+        <div className={`${grid({ s: 12, l: 4, xl: 4 })}`}>
+          <h3
+            className={`footer__heading hidden ${font({
+              s: 'HNL5',
+            })}`}
+          >
             <Icon name={'clock'} extraClasses={'margin-right-s1'} />
             {`Today's opening times:`}
           </h3>

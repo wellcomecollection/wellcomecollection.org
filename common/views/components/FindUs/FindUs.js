@@ -51,6 +51,20 @@ const FindUs = () => (
       >
         +44 (0)20 7611 2222
       </a>
+      <br />
+      <abbr title="Email">E</abbr>:{' '}
+      <a className="find-us__link" href="mailto:info@wellcomecollection.org">
+        info@wellcomecollection.org
+      </a>
+    </p>
+    <p
+      style={{ marginLeft: '38px' }}
+      className={classNames({
+        [spacing({ s: 3 }, { margin: ['bottom'] })]: true,
+        block: true,
+      })}
+    >
+      <a href="/pages/WwabUiAAAHQXGNHB">Getting here</a>
     </p>
   </div>
 );
