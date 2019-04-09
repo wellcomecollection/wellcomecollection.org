@@ -1,12 +1,20 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 
+const QueryTypes = {
+  justboost: 'justboost',
+  broaderboost: 'broaderboost',
+  slop: 'slop',
+  minimummatch: 'minimummatch',
+};
+type QueryType = $Values<typeof QueryTypes>;
+
 type WorksUrlProps = {|
   query: ?string,
   page: ?number,
   workType?: ?(string[]),
   itemsLocationsLocationType?: ?(string[]),
-  _queryType?: ?string,
+  _queryType?: ?QueryType,
 |};
 
 type WorkUrlProps = {|
