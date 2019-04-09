@@ -7,6 +7,8 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
+import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+// import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
@@ -111,10 +113,31 @@ export class OpeningTimesPage extends Component<Props> {
           Body={<Body body={page.body} pageId={'openingTimes'} />}
         >
           <LibraryClosed page={page} />
+          <CompactCard
+            url="/pages/XKNANBAAAAFWc2h-"
+            title="Entry at busy times"
+            labels={{ labels: [] }}
+            description="Our temporary exhibitions can become crowded at times, so to keep the galleries safe and comfortable, we may manage numbers with queuing or timed tickets."
+            urlOverride={null}
+            partNumber={null}
+            color={null}
+            Image={null}
+            DateInfo={null}
+            StatusIndicator={null}
+          />
         </ContentPage>
       </PageLayout>
     );
   }
 }
+
+// <Image
+// width={300}
+// contentUrl="https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg/full/1600,/0/default.jpg"
+// lazyload={false}
+// sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
+// alt=""
+// defaultSize={800}
+// />
 
 export default OpeningTimesPage;
