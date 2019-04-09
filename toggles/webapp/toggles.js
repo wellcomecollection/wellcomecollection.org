@@ -5,7 +5,7 @@ module.exports = {
       title: `Selectable queries`,
       defaultValue: false,
       description:
-        'allow people to use different query types while seaching the catalogue',
+        'Allow people to use different query types while searching the catalogue.',
     },
     {
       id: 'booksRelease',
