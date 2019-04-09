@@ -1,5 +1,5 @@
 // @flow
-import { spacing, font, grid } from '../../../utils/classnames';
+import { spacing, font, grid, classNames } from '../../../utils/classnames';
 import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
@@ -28,7 +28,7 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
   >
     <div className="container">
       <div className="grid">
-        <div className={` ${grid({ s: 12, m: 6, l: 4 })}`}>
+        <div className={` ${grid({ s: 12, m: 12, l: 4 })}`}>
           <h3 className={`footer__heading relative ${font({ s: 'HNL5' })}`}>
             <span className="hidden">Wellcome collection</span>
             <a href="#" className="footer-nav__brand absolute">
@@ -39,9 +39,9 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
             <FooterNav />
           </div>
         </div>
-        <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
+        <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
           <h3
-            className={`footer__heading hidden ${font({
+            className={`footer__heading hidden is-hidden-s is-hidden-m ${font({
               s: 'HNL5',
             })}`}
           >
@@ -49,48 +49,78 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
           </h3>
           <FindUs />
         </div>
-        <div className={`${grid({ s: 12, l: 4, xl: 4 })}`}>
+        <div
+          className={classNames({
+            [grid({ s: 12, l: 4, xl: 4 })]: true,
+            [font({ s: 'HNL5' })]: true,
+          })}
+        >
           <h3
-            className={`footer__heading hidden ${font({
+            className={`footer__heading hidden is-hidden-s is-hidden-m ${font({
               s: 'HNL5',
             })}`}
           >
-            <Icon name={'clock'} extraClasses={'margin-right-s1'} />
-            {`Today's opening times:`}
+            {`Opening times:`}
           </h3>
-          {openingTimes.collectionOpeningTimes.placesOpeningHours.map(venue => {
-            const todaysHours = getTodaysVenueHours(venue);
-            return (
-              todaysHours && (
-                <ul key={venue.name}>
-                  <li>
-                    {venue.name.toLowerCase() === 'restaurant'
-                      ? 'Kitchen '
-                      : `${venue.name} `}
-                    {todaysHours.opens ? (
-                      <>
-                        <time>{todaysHours.opens}</time>
-                        {'—'}
-                        <time>{todaysHours.closes}</time>
-                      </>
-                    ) : (
-                      'closed'
-                    )}
-                  </li>
-                </ul>
-              )
-            );
-          })}
-          <p>
-            <a href="/opening-times">Opening times</a>
-          </p>
-        </div>
-      </div>
-      <div className="grid">
-        <div className="grid__cell">
-          <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
-            Connect with us:
-          </h3>
+          <Icon
+            name="clock"
+            extraClasses={`float-l ${spacing(
+              { s: 2, m: 2, l: 2, xl: 2 },
+              { margin: ['right'] }
+            )}`}
+          />
+          <div
+            className={classNames({
+              [font({
+                s: 'HNL5',
+              })]: true,
+              'float-l': true,
+            })}
+          >
+            <h4
+              className={classNames({
+                [font({ s: 'HNM5' })]: true,
+                'no-margin': true,
+              })}
+            >{`Today's opening times`}</h4>
+            <ul className="plain-list no-padding no-margin">
+              {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
+                venue => {
+                  const todaysHours = getTodaysVenueHours(venue);
+                  return (
+                    todaysHours && (
+                      <li
+                        key={venue.name}
+                        className={classNames({
+                          [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                        })}
+                      >
+                        {venue.name.toLowerCase() === 'restaurant'
+                          ? 'Kitchen '
+                          : `${venue.name} `}
+                        {todaysHours.opens ? (
+                          <>
+                            <time>{todaysHours.opens}</time>
+                            {'—'}
+                            <time>{todaysHours.closes}</time>
+                          </>
+                        ) : (
+                          'closed'
+                        )}
+                      </li>
+                    )
+                  );
+                }
+              )}
+            </ul>
+            <p
+              className={classNames({
+                [spacing({ s: 1 }, { margin: ['top'] })]: true,
+              })}
+            >
+              <a href="/opening-times">Opening times</a>
+            </p>
+          </div>
         </div>
       </div>
       <FooterSocial />

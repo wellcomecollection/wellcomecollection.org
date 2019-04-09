@@ -4,6 +4,9 @@ $footer-strap-width: 220px;
   padding-top: $vertical-space-unit*3;
   padding-bottom: $vertical-space-unit;
   color: color('white');
+  .icon__shape {
+    fill: currentColor;
+  }
 }
 
 .footer__heading {
