@@ -98,39 +98,44 @@ const VenueHours = ({ venue, isInList }: Props) => {
     <div className="row">
       <div className="container">
         <div className="grid">
+          {isInList && (
+            <>
+              <div
+                className={classNames({
+                  [spacing({ s: 4 }, { padding: ['bottom'] })]: true,
+                  [grid({
+                    s: 12,
+                    m: 12,
+                    l: 11,
+                    xl: 10,
+                    shiftL: 1,
+                    shiftXl: 2,
+                  })]: true,
+                  'is-hidden-s': true,
+                })}
+              >
+                <Divider extraClasses="divider--keyline divider--pumice" />
+              </div>
+              <VenueHoursImage>
+                <UiImage
+                  contentUrl={
+                    venueAdditionalInfo[venue.name.toLowerCase()].image
+                  }
+                  width={1600}
+                  height={900}
+                  alt="bill"
+                  tasl={null}
+                  sizesQueries={null}
+                  extraClasses=""
+                  showTasl={false}
+                />
+              </VenueHoursImage>
+            </>
+          )}
           <div
             className={classNames({
-              [spacing({ s: 4 }, { padding: ['bottom'] })]: true,
-              [grid({
-                s: 12,
-                m: 12,
-                l: 11,
-                xl: 10,
-                shiftL: 1,
-                shiftXl: 2,
-              })]: true,
-              'is-hidden-s': true,
-            })}
-          >
-            <Divider extraClasses="divider--keyline divider--pumice" />
-          </div>
-          <VenueHoursImage>
-            {isInList && (
-              <UiImage
-                contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
-                width={1600}
-                height={900}
-                alt="bill"
-                tasl={null}
-                sizesQueries={null}
-                extraClasses=""
-                showTasl={false}
-              />
-            )}
-          </VenueHoursImage>
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 6, l: 3, xl: 3 })]: true,
+              [grid({ s: 12, m: 5, l: 3, xl: 3 })]: true,
+              [grid({ shiftM: 1, shiftL: 2, shiftXl: 2 })]: !isInList,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
@@ -158,7 +163,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
           </div>
           <div
             className={classNames({
-              [grid({ s: 12, m: 6, l: 5, xl: 4 })]: true,
+              [grid({ s: 12, m: 5, l: 5, xl: 4 })]: true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
