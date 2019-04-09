@@ -59,7 +59,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
   const venueAdditionalInfo = {
     galleries: {
       image:
-        'https://iiif.wellcomecollection.org/image/prismic:f0d7c9fcc20dd187b7e656db616f7d228ffb5889_btg150421203820.jpg',
+        'https://iiif.wellcomecollection.org/image/prismic:05eae23ee0eada0bf4d025d999dfd100c05feeb1_c0108491.jpg',
       displayTitle: 'Galleries and Reading Room',
       linkText: 'See all Exhibitions and events',
       url: '/whats-on',
