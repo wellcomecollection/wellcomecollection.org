@@ -2,10 +2,10 @@
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 
 const QueryTypes = {
-  justboost: 'justboost',
-  broaderboost: 'broaderboost',
-  slop: 'slop',
-  minimummatch: 'minimummatch',
+  Justboost: 'justboost',
+  Broaderboost: 'broaderboost',
+  Slop: 'slop',
+  Minimummatch: 'minimummatch',
 };
 type QueryType = $Values<typeof QueryTypes>;
 
