@@ -123,7 +123,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
                   }
                   width={1600}
                   height={900}
-                  alt="bill"
+                  alt=""
                   tasl={null}
                   sizesQueries={null}
                   extraClasses=""
@@ -163,7 +163,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
           </div>
           <div
             className={classNames({
-              [grid({ s: 12, m: 5, l: 5, xl: 4 })]: true,
+              [grid({ s: 12, m: 6, l: 5, xl: 4 })]: true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
