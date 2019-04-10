@@ -33,4 +33,7 @@ module "static" {
   source              = "../../terraform-modules/https_s3_website"
   website_uri         = "i.wellcomecollection.org"
   acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
+  min_ttl             = 86400
+  default_ttl         = 86400
+  max_ttl             = 86400
 }
