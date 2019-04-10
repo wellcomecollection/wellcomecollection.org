@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.11"
 
   backend "s3" {
-    key            = "build-state/client.tfstate"
+    key            = "build-state/dash.tfstate"
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
@@ -29,11 +29,8 @@ data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
   domain   = "wellcomecollection.org"
 }
 
-module "static" {
+module "dash" {
   source              = "../../terraform-modules/https_s3_website"
-  website_uri         = "i.wellcomecollection.org"
+  website_uri         = "dash.wellcomecollection.org"
   acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
-  min_ttl             = 86400
-  default_ttl         = 86400
-  max_ttl             = 86400
 }
