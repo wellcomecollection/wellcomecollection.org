@@ -66,12 +66,7 @@ export class Page extends Component<Props> {
               url: `/${page.siteSection}`,
             },
           ]
-        : [
-            {
-              url: '/',
-              text: 'Home',
-            },
-          ],
+        : [],
     };
     const Header = (
       <PageHeader

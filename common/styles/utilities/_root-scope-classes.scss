@@ -577,3 +577,9 @@
     }
   }
 }
+
+// This is used when you want an elemnt to take the line-height of the content
+// that would be in it, but you have no content.
+.empty-filler:before {
+  content: "\200b";
+}

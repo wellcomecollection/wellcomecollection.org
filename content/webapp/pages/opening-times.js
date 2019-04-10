@@ -86,7 +86,7 @@ export class OpeningTimesPage extends Component<Props> {
           id={'openingTimes'}
           Header={
             <PageHeader
-              breadcrumbs={{ items: [{ url: '/', text: 'Home' }] }}
+              breadcrumbs={{ items: [] }}
               labels={null}
               title={'Opening times'}
               ContentTypeInfo={null}
