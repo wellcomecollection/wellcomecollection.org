@@ -7,8 +7,7 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
   enabled             = true
   default_root_object = "index.html"
   is_ipv6_enabled     = true
-
-  aliases = ["${var.website_uri}"]
+  aliases             = ["${var.website_uri}"]
 
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
@@ -16,6 +15,9 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
     viewer_protocol_policy = "redirect-to-https"
     target_origin_id       = "S3-${var.website_uri}"
     compress               = true
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
 
     forwarded_values {
       query_string = false
