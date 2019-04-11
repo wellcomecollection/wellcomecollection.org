@@ -438,6 +438,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const workTypeQuery = ctx.query.workType;
+  const _queryType = ctx.query._queryType;
   const defaultWorkType = ['a', 'k', 'q', 'v'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
@@ -446,6 +447,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const filters = {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
+    _queryType,
   };
 
   const worksOrError =

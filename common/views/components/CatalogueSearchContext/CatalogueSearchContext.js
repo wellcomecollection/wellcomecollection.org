@@ -14,7 +14,7 @@ export type CatalogueQuery = {|
   page: number,
   workType: ?(string[]),
   itemsLocationsLocationType: ?(string[]),
-  queryType: ?string,
+  _queryType: ?string,
 |};
 
 type ContextProps = {|
@@ -31,7 +31,7 @@ const defaultState: CatalogueQuery = {
   page: 1,
   workType: null,
   itemsLocationsLocationType: null,
-  queryType: null,
+  _queryType: null,
 };
 
 const CatalogueSearchContext = createContext<ContextProps>({
@@ -73,13 +73,13 @@ const CatalogueSearchProvider = ({
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
     state.itemsLocationsLocationType
   );
-  const [queryType, setQueryType] = useState(state.queryType);
+  const [_queryType, setQueryType] = useState(state._queryType);
   const value = {
     query,
     page,
     workType,
     itemsLocationsLocationType,
-    queryType,
+    _queryType,
     setQuery,
     setPage,
     setWorkType,
@@ -115,14 +115,14 @@ const CatalogueSearchProvider = ({
           itemsLocationsLocationType: params['items.locations.location.type']
             ? params['items.locations.location.type'].split(',')
             : defaultState.itemsLocationsLocationType,
-          queryType: params.queryType || defaultState.queryType,
+          _queryType: params._queryType || defaultState._queryType,
         };
 
         setQuery(state.query);
         setPage(parseInt(state.page, 10));
         setWorkType(state.workType);
         setItemsLocationsLocationType(state.itemsLocationsLocationType);
-        setQueryType(state.queryType);
+        setQueryType(state._queryType);
       }
     }
 
@@ -149,7 +149,7 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
     page,
     workType,
     itemsLocationsLocationType,
-    queryType,
+    _queryType,
   } = useContext(CatalogueSearchContext);
   const push = () => {
     const link = worksUrl({
@@ -157,7 +157,7 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
       page,
       workType: workType,
       itemsLocationsLocationType: itemsLocationsLocationType,
-      queryType: queryType,
+      _queryType: _queryType,
     });
     Router.push(
       { ...link.href, pathname: '/works-context' },
