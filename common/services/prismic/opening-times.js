@@ -219,35 +219,29 @@ export function backfillExceptionalVenueDays(
 export function groupConsecutiveDays(
   openingHoursPeriods: ExceptionalOpeningHoursDay[][]
 ): ExceptionalOpeningHoursDay[][] {
-  const flattenedArray = openingHoursPeriods.reduce(
-    (acc, curr) => acc.concat(curr),
-    []
-  );
-  return flattenedArray.length > 0
-    ? flattenedArray
-        .sort((a, b) => {
-          return a.overrideDate.diff(b.overrideDate, 'days');
-        })
-        .reduce(
-          (acc, date) => {
-            const group = acc[acc.length - 1];
-            if (
-              date.overrideDate.diff(
-                (group[group.length - 1] &&
-                  group[group.length - 1].overrideDate) ||
-                  date.overrideDate,
-                'days'
-              ) > 1
-            ) {
-              acc.push([date]);
-            } else {
-              group.push(date);
-            }
-            return acc;
-          },
-          [[]]
-        )
-    : [];
+  return openingHoursPeriods
+    .reduce((acc, curr) => acc.concat(curr), [])
+    .sort((a, b) => {
+      return a.overrideDate.diff(b.overrideDate, 'days');
+    })
+    .reduce(
+      (acc, date) => {
+        const group = acc[acc.length - 1];
+        if (
+          date.overrideDate.diff(
+            (group[group.length - 1] && group[group.length - 1].overrideDate) ||
+              date.overrideDate,
+            'days'
+          ) > 1
+        ) {
+          acc.push([date]);
+        } else {
+          group.push(date);
+        }
+        return acc;
+      },
+      [[]]
+    );
 }
 
 export function getUpcomingExceptionalPeriod(
