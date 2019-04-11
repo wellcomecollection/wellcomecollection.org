@@ -113,6 +113,20 @@ export class OpeningTimesPage extends Component<Props> {
           }
           Body={<Body body={page.body} pageId={'openingTimes'} />}
         >
+          <div className="body-text">
+            <h2 className="h2" id="planning">
+              Planning your visit in advance
+            </h2>
+            <p>
+              Visiting on a{' '}
+              <a href="https://www.gov.uk/bank-holidays">bank holiday</a> or
+              during Christmas break? Our galleries, café, restaurant and shop
+              will be open with adjusted hours.
+            </p>
+            <p>
+              The building is always closed on 25-26 December and 1 January.
+            </p>
+          </div>
           <LibraryClosed page={page} />
           <CompactCard
             url="/pages/XKNANBAAAAFWc2h-"
