@@ -281,6 +281,7 @@ export async function getExhibitions(
     ),
     {
       fetchLinks: peopleFields.concat(
+        organisationsFields,
         contributorsFields,
         placesFields,
         exhibitionFields,
@@ -353,7 +354,7 @@ export async function getExhibition(
   const document = await getDocument(req, id, {
     fetchLinks: peopleFields.concat(
       exhibitionFields,
-
+      organisationsFields,
       contributorsFields,
       placesFields,
       exhibitionResourcesFields
