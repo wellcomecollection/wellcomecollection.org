@@ -17,7 +17,7 @@ import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 
 type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
-type Props = {|
+export type Props = {|
   title: string,
   description: string,
   url: Url,

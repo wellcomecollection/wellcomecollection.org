@@ -24,6 +24,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import useSearchLogger from '@weco/common/views/components/useSearchLogger/useSearchLogger';
 
 type Props = {|
   query: ?string,
@@ -41,6 +42,21 @@ const Works = ({ works }: Props) => {
   const { query, page, setWorkType, workType } = useContext(
     CatalogueSearchContext
   );
+
+  const searchLogger = useSearchLogger();
+  useEffect(() => {
+    const event = {
+      event: query !== '' ? 'Catalogue Search' : 'Catalogue Landing',
+      service: 'search_logs',
+      resource: {
+        title:
+          query !== '' ? `Catalogue search for ${query}` : 'Catalogue search',
+        id: query,
+        type: 'ResultList',
+      },
+    };
+    searchLogger.track(event);
+  }, [query, page, workType]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
