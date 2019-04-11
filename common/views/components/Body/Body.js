@@ -69,7 +69,10 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               <Layout8>
                 <div className="body-text spaced-text">
                   {slice.weight === 'featured' && (
-                    <FeaturedText html={slice.value} />
+                    <FeaturedText
+                      html={slice.value}
+                      htmlSerialiser={defaultSerializer}
+                    />
                   )}
                   {slice.weight !== 'featured' &&
                     (firstTextSliceIndex === i && isDropCapped ? (
