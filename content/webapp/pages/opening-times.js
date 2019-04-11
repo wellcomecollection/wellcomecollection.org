@@ -136,7 +136,7 @@ export class OpeningTimesPage extends Component<Props> {
             urlOverride={null}
             partNumber={null}
             color={null}
-            Image={<ImagePlaceholder />}
+            Image={<ImagePlaceholder color={`turquoise`} />}
             DateInfo={null}
             StatusIndicator={null}
           />
