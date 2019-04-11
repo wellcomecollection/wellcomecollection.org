@@ -1,5 +1,5 @@
 // @flow
-import { useRef, useContext, useState } from 'react';
+import { useRef, useContext, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -46,6 +46,16 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+
+  // We need to make sure that the changes to `query` affect `inputQuery` as
+  // when we navigate between pages which all contain `SearchForm`, each
+  // instance of that component maintains it's own state so they go out of sync.
+  // TODO: Think about if this is worth it.
+  useEffect(() => {
+    if (query !== inputQuery) {
+      setInputQuery(query);
+    }
+  }, [query]);
 
   return (
     <>
