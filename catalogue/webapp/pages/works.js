@@ -354,7 +354,13 @@ const Works = ({ works }: Props) => {
                       key={result.id}
                     >
                       <WorkCard work={result} />
-                      <RelevanceRater id={result.id} position={i} />
+                      <TogglesContext.Consumer>
+                        {({ relevanceRating }) =>
+                          relevanceRating && (
+                            <RelevanceRater id={result.id} position={i} />
+                          )
+                        }
+                      </TogglesContext.Consumer>
                     </div>
                   ))}
                 </div>
