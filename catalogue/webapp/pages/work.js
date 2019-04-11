@@ -14,7 +14,7 @@ import {
   getEncoreLink,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
@@ -31,7 +31,7 @@ import ManifestContext from '@weco/common/views/components/ManifestContext/Manif
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
-import useSearchLogger from '@weco/common/views/components/useSearchLogger/useSearchLogger';
+import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -50,7 +50,6 @@ export const WorkPage = ({ work }: Props) => {
     } catch (e) {}
   };
 
-  const searchLogger = useSearchLogger();
   useEffect(() => {
     if (work.type !== 'Error') {
       const event = {
@@ -62,7 +61,7 @@ export const WorkPage = ({ work }: Props) => {
           type: 'Work',
         },
       };
-      searchLogger.track(event);
+      track(event);
     }
   }, []);
 
@@ -126,7 +125,7 @@ export const WorkPage = ({ work }: Props) => {
     iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
 
   return (
-    <PageLayout
+    <CataloguePageLayout
       title={work.title}
       description={work.description || work.title}
       url={{ pathname: `/works/${work.id}` }}
@@ -230,7 +229,7 @@ export const WorkPage = ({ work }: Props) => {
           downloadOptions={downloadOptions}
         />
       </ManifestContext.Provider>
-    </PageLayout>
+    </CataloguePageLayout>
   );
 };
 

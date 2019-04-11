@@ -1,5 +1,5 @@
 // @flow
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 type AnalyticsResource = {|
   title: string,
@@ -16,8 +16,11 @@ export type AnalyticsEvent = {|
 // This is global to stop the script loading when the component is used in
 // multiple places through the app
 let loaded = false;
+let segment;
+
 const cachedEvents = [];
-const track = (segment: any, event: AnalyticsEvent) => {
+
+const track = (event: AnalyticsEvent) => {
   if (segment) {
     const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
       const parts = cookie.split('=');
@@ -37,12 +40,7 @@ const track = (segment: any, event: AnalyticsEvent) => {
       return acc;
     }, {});
 
-    // segment.track({
-    //   ...event,
-    //   toggles,
-    //   query,
-    // });
-    console.info({
+    segment.track({
       ...event,
       toggles,
       query,
@@ -51,34 +49,27 @@ const track = (segment: any, event: AnalyticsEvent) => {
     cachedEvents.push(event);
   }
 };
-const segmentId = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI';
-const useSearchLogger = () => {
-  const [segment, setSegment] = useState(null);
 
+const SearchLoggerScript = () => {
   useEffect(() => {
     if (!loaded) {
       const script = document.createElement('script');
       script.id = 'search-logger';
-      script.src = `https://cdn.segment.com/analytics.js/v1/${segmentId}/analytics.min.js`;
+      script.src = `https://cdn.segment.com/analytics.js/v1/78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI/analytics.min.js`;
       script.async = true;
       script.onload = () => {
-        setSegment(window.analytics);
+        segment = window.analytics;
         cachedEvents.forEach(event => {
-          track(window.analytics, event);
+          track(event);
         });
+        loaded = true;
       };
       document.body && document.body.appendChild(script);
-      loaded = true;
-    } else {
-      setSegment(window.analytics);
     }
   }, []);
 
-  return {
-    track: (event: AnalyticsEvent) => {
-      track(segment, event);
-    },
-  };
+  return null;
 };
 
-export default useSearchLogger;
+export { track };
+export { SearchLoggerScript };
