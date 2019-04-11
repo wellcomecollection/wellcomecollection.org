@@ -21,6 +21,7 @@ import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
+import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -345,7 +346,7 @@ const Works = ({ works }: Props) => {
             >
               <div className="container">
                 <div className="grid">
-                  {works.results.map(result => (
+                  {works.results.map((result, i) => (
                     <div
                       className={classNames({
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
@@ -353,6 +354,7 @@ const Works = ({ works }: Props) => {
                       key={result.id}
                     >
                       <WorkCard work={result} />
+                      <RelevanceRater id={result.id} position={i} />
                     </div>
                   ))}
                 </div>

@@ -13,6 +13,20 @@ export type AnalyticsEvent = {|
   resource: AnalyticsResource,
 |};
 
+export type RelevanceRating = {|
+  position: number,
+  id: string,
+  rating: number,
+|};
+
+export type RelevanceEvent = {|
+  event: string,
+  service: 'relevance_rating',
+  rating: RelevanceRating,
+|};
+
+type LoggerEvents = AnalyticsEvent | RelevanceEvent;
+
 // This is global to stop the script loading when the component is used in
 // multiple places through the app
 let loaded = false;
@@ -20,7 +34,7 @@ let segment;
 
 const cachedEvents = [];
 
-const track = (event: AnalyticsEvent) => {
+const track = (event: LoggerEvents) => {
   if (segment) {
     const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
       const parts = cookie.split('=');
