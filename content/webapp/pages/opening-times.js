@@ -8,7 +8,7 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Body from '@weco/common/views/components/Body/Body';
 import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
-// import Image from '@weco/common/views/components/Image/Image';
+import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder/ImagePlaceholder';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
@@ -136,7 +136,7 @@ export class OpeningTimesPage extends Component<Props> {
             urlOverride={null}
             partNumber={null}
             color={null}
-            Image={null}
+            Image={<ImagePlaceholder />}
             DateInfo={null}
             StatusIndicator={null}
           />
