@@ -171,7 +171,9 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             {slice.type === 'collectionVenue' && (
               <VenueHours
                 venue={parseVenueTimesToOpeningHours(slice.value)}
-                isInList={pageId === 'openingTimes'}
+                isInList={
+                  pageId === 'openingTimes' || pageId === 'WwQHTSAAANBfDYXU'
+                }
               />
             )}
 

@@ -24,7 +24,7 @@ type Props = {|
   page: Page,
 |};
 
-const LibraryClosed = ({ page }) => {
+export const LibraryClosed = ({ page }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
 
@@ -45,7 +45,8 @@ const LibraryClosed = ({ page }) => {
         <div className="body-text">
           <h2>Library closures</h2>
           <p className="no-margin">
-            The library will be closed on the following dates:
+            Planning a research visit? Our library is closed over bank holiday
+            weekends and Christmas:
           </p>
           <ul>
             {/* TODO date range component */}
@@ -130,14 +131,5 @@ export class OpeningTimesPage extends Component<Props> {
     );
   }
 }
-
-// <Image
-// width={300}
-// contentUrl="https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg/full/1600,/0/default.jpg"
-// lazyload={false}
-// sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-// alt=""
-// defaultSize={800}
-// />
 
 export default OpeningTimesPage;

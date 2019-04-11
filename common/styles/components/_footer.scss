@@ -30,7 +30,6 @@ $footer-strap-width: 220px;
 
 .footer__bottom {
   border-top: 1px solid color('charcoal');
-  padding-top: $vertical-space-unit;
   padding-bottom: 2 * $vertical-space-unit;
   display: flex;
   flex-wrap: wrap;
@@ -51,7 +50,6 @@ $footer-strap-width: 220px;
 .footer__strap {
   display: flex;
   align-items: center;
-  margin-bottom: $vertical-space-unit;
   min-width: $footer-strap-width;
   border-bottom: 1px solid color('charcoal');
   width: 100%;
@@ -60,11 +58,6 @@ $footer-strap-width: 220px;
     width: auto;
     border-bottom: 0;
     border-right: 1px solid color('charcoal');
-  }
-
-  .icon {
-    height: 2.6rem;
-    margin-right: 0.6rem;
   }
 
   .icon__shape {

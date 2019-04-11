@@ -28,9 +28,11 @@ const VenueHoursImage = styled.div.attrs(props => ({
 
 const JauntyBox = styled.div.attrs(props => ({
   className: classNames({
-    'bg-yellow': true,
-    [spacing({ s: 4 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
-    [spacing({ s: -2 }, { margin: ['left', 'right'] })]: true,
+    'bg-yellow inline-block': true,
+    [spacing({ s: 4 }, { padding: ['top', 'bottom'] })]: true,
+    [spacing({ s: 5 }, { padding: ['left'] })]: true,
+    [spacing({ s: 7 }, { padding: ['right'] })]: true,
+    [spacing({ s: -2, m: -4 }, { margin: ['left', 'right'] })]: true,
   }),
 }))`
   clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
@@ -61,7 +63,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
       image:
         'https://iiif.wellcomecollection.org/image/prismic:05eae23ee0eada0bf4d025d999dfd100c05feeb1_c0108491.jpg',
       displayTitle: 'Galleries and Reading Room',
-      linkText: 'See all Exhibitions and events',
+      linkText: `See what's on`,
       url: '/whats-on',
     },
     library: {
@@ -75,7 +77,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
       image:
         'https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg',
       displayTitle: 'Wellcome Shop',
-      linkText: 'Books and Gifts',
+      linkText: 'Books and gifts',
       url: '/pages/WwgaIh8AAB8AGhC_',
     },
     café: {
@@ -139,7 +141,12 @@ const VenueHours = ({ venue, isInList }: Props) => {
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <h2 className="h2">
+            <h2
+              className={classNames({
+                h2: true,
+                [spacing({ s: 2 }, { padding: ['right'] })]: true,
+              })}
+            >
               {isInList
                 ? `${
                     venueAdditionalInfo[venue.name.toLowerCase()].displayTitle
@@ -216,19 +223,22 @@ const VenueHours = ({ venue, isInList }: Props) => {
             className={classNames({
               [grid({
                 s: 12,
-                m: 12,
+                m: isInList ? 12 : 10,
                 l: 11,
                 xl: 10,
-                shiftL: 1,
+                shiftM: isInList ? 0 : 1,
+                shiftL: isInList ? 1 : 2,
                 shiftXl: 2,
               })]: true,
             })}
           >
-            {isInList && (
+            {isInList ? (
               <MoreLink
                 url={venueAdditionalInfo[venue.name.toLowerCase()].url}
                 name={venueAdditionalInfo[venue.name.toLowerCase()].linkText}
               />
+            ) : (
+              <MoreLink url={'/opening-times'} name="See all opening times" />
             )}
           </div>
         </div>

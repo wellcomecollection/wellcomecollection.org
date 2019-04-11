@@ -8,7 +8,12 @@ import {
 } from '../../../model/organization';
 
 const FindUs = () => (
-  <div className={`find-us ${font({ s: 'HNL5' })}`}>
+  <div
+    className={classNames({
+      [font({ s: 'HNL5' })]: true,
+      'find-us': true,
+    })}
+  >
     <a
       href="https://www.google.co.uk/maps/dir//Wellcome+Collection,+Euston+Road,+London/@51.5258128,-0.136211,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x48761b25f10b008f:0xed51ac6f865b038a!2m2!1d-0.133945!2d51.525851"
       className="find-us__link block"
