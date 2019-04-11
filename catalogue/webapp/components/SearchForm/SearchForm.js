@@ -1,5 +1,5 @@
 // @flow
-import { useRef, useContext, useState } from 'react';
+import { useRef, useContext, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -40,12 +40,24 @@ const ClearSearch = styled.button`
 `;
 
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const { query, workType } = useContext(CatalogueSearchContext);
+  const { query, workType, _queryType, setQueryType } = useContext(
+    CatalogueSearchContext
+  );
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+
+  // We need to make sure that the changes to `query` affect `inputQuery` as
+  // when we navigate between pages which all contain `SearchForm`, each
+  // instance of that component maintains it's own state so they go out of sync.
+  // TODO: Think about if this is worth it.
+  useEffect(() => {
+    if (query !== inputQuery) {
+      setInputQuery(query);
+    }
+  }, [query]);
 
   return (
     <>
@@ -65,6 +77,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             query: inputQuery,
             workType,
             page: 1,
+            _queryType,
           });
 
           Router.push(link.href, link.as);
@@ -138,6 +151,27 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         {workType && (
           <input type="hidden" name="workType" value={workType.join(',')} />
         )}
+
+        <TogglesContext.Consumer>
+          {({ selectableQueries }) =>
+            query &&
+            selectableQueries && (
+              <label>
+                Query type:{' '}
+                <select
+                  value={_queryType}
+                  onChange={event => setQueryType(event.currentTarget.value)}
+                >
+                  <option value="">None</option>
+                  <option value="justboost">justboost</option>
+                  <option value="broaderboost">broaderboost</option>
+                  <option value="slop">slop</option>
+                  <option value="minimummatch">minimummatch</option>
+                </select>
+              </label>
+            )
+          }
+        </TogglesContext.Consumer>
       </form>
     </>
   );

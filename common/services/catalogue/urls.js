@@ -1,12 +1,20 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 
+const QueryTypes = {
+  Justboost: 'justboost',
+  Broaderboost: 'broaderboost',
+  Slop: 'slop',
+  Minimummatch: 'minimummatch',
+};
+type QueryType = $Values<typeof QueryTypes>;
+
 type WorksUrlProps = {|
   query: ?string,
   page: ?number,
   workType?: ?(string[]),
   itemsLocationsLocationType?: ?(string[]),
-  queryType?: ?string,
+  _queryType?: ?QueryType,
 |};
 
 type WorkUrlProps = {|
@@ -49,7 +57,7 @@ export function worksUrl({
   query,
   page,
   workType,
-  queryType,
+  _queryType,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -58,7 +66,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
-        queryType: queryType && queryType !== '' ? queryType : undefined,
+        _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
       }),
     },
     as: {
@@ -67,7 +75,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
-        queryType: queryType && queryType !== '' ? queryType : undefined,
+        _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
       }),
     },
   };
