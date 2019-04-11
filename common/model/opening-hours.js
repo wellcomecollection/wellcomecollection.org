@@ -22,8 +22,8 @@ export type ExceptionalPeriod = {|
 
 export type OpeningHoursDay = {|
   dayOfWeek: Day,
-  opens?: ?string,
-  closes?: ?string,
+  opens: ?string,
+  closes: ?string,
 |};
 
 export type ExceptionalOpeningHoursDay = {|
@@ -58,7 +58,7 @@ export type CollectionOpeningTimes = {
 export const galleryOpeningHours: OpeningHours = {
   // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
   regular: [
-    { dayOfWeek: 'Monday' },
+    { dayOfWeek: 'Monday', opens: null, closes: null },
     { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Thursday', opens: '10:00', closes: '22:00' },
@@ -78,7 +78,7 @@ export const libraryOpeningHours: OpeningHours = {
     { dayOfWeek: 'Thursday', opens: '10:00', closes: '20:00' },
     { dayOfWeek: 'Friday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Sunday' },
+    { dayOfWeek: 'Sunday', opens: null, closes: null },
   ],
   exceptional: [],
 };
