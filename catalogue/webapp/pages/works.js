@@ -40,20 +40,25 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType } = useContext(CatalogueSearchContext);
-
-  useEffect(() => {
+  const trackEvent = () => {
     const event = {
       event: query !== '' ? 'Catalogue Search' : 'Catalogue Landing',
       service: 'search_logs',
       resource: {
-        title:
-          query !== '' ? `Catalogue search for ${query}` : 'Catalogue search',
-        id: query,
         type: 'ResultList',
+        query: query,
+        page,
+        workType,
       },
     };
     track(event);
-  }, [query, page, workType]);
+  };
+
+  // We have to have this for the initial page load, and have it on the router
+  // change as the page doesnt actually re-render when the URL parameters change.
+  useEffect(() => {
+    trackEvent();
+  }, []);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -61,6 +66,7 @@ const Works = ({ works }: Props) => {
     }
     function routeChangeComplete(url: string) {
       setLoading(false);
+      trackEvent();
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
