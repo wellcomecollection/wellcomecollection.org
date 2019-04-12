@@ -55,34 +55,6 @@ export type CollectionOpeningTimes = {
   }[]),
 };
 
-export const galleryOpeningHours: OpeningHours = {
-  // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
-  regular: [
-    { dayOfWeek: 'Monday', opens: null, closes: null },
-    { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Thursday', opens: '10:00', closes: '22:00' },
-    { dayOfWeek: 'Friday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Sunday', opens: '11:00', closes: '18:00' },
-  ],
-  exceptional: [],
-};
-
-export const libraryOpeningHours: OpeningHours = {
-  // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
-  regular: [
-    { dayOfWeek: 'Monday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Thursday', opens: '10:00', closes: '20:00' },
-    { dayOfWeek: 'Friday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
-    { dayOfWeek: 'Sunday', opens: null, closes: null },
-  ],
-  exceptional: [],
-};
-
 // http://schema.org/specialOpeningHoursSpecification
 export type SpecialOpeningHours = {|
   opens: string,
