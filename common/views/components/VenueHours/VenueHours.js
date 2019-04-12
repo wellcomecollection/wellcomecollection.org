@@ -111,7 +111,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
 
   useEffect(() => {
     setRandomClipPath();
-  });
+  }, []);
 
   return (
     <div className="row">
