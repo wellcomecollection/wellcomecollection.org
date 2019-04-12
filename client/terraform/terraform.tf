@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.9"
+  required_version = ">= 0.11"
 
   backend "s3" {
     key            = "build-state/client.tfstate"
@@ -10,12 +10,12 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 1.57"
+  version = "~> 2.2"
   region  = "eu-west-1"
 }
 
 provider "aws" {
-  version = "~> 1.0"
+  version = "~> 2.2"
   region  = "us-east-1"
   alias   = "us-east-1"
 }
@@ -33,4 +33,7 @@ module "static" {
   source              = "../../terraform-modules/https_s3_website"
   website_uri         = "i.wellcomecollection.org"
   acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
+  min_ttl             = 86400
+  default_ttl         = 86400
+  max_ttl             = 86400
 }

@@ -1,5 +1,4 @@
 // @flow
-import moment from 'moment';
 import type Moment from 'moment';
 
 export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
@@ -23,20 +22,20 @@ export type ExceptionalPeriod = {|
 
 export type OpeningHoursDay = {|
   dayOfWeek: Day,
-  opens?: string,
-  closes?: string,
+  opens: ?string,
+  closes: ?string,
 |};
 
 export type ExceptionalOpeningHoursDay = {|
   overrideDate: Moment,
-  overrideType?: OverrideType,
-  opens?: string,
-  closes?: string,
+  overrideType: ?OverrideType,
+  opens?: ?string,
+  closes?: ?string,
 |};
 
 export type OpeningHours = {|
   regular: OpeningHoursDay[],
-  exceptional?: ?(ExceptionalOpeningHoursDay[]),
+  exceptional: ?(ExceptionalOpeningHoursDay[]),
 |};
 
 export type Venue = {|
@@ -46,31 +45,7 @@ export type Venue = {|
   openingHours: OpeningHours,
 |};
 
-export type ExceptionalVenueHours = {|
-  exceptionalDate: Moment,
-  exceptionalDay: Day,
-  id: string,
-  name: string,
-  order: number,
-  openingHours: OpeningHoursDay | ExceptionalOpeningHoursDay,
-  opensChanged?: boolean,
-  closesChanged?: boolean,
-|};
-
 export type PlacesOpeningHours = Venue[];
-
-export type periodModifiedHours = {
-  periodStart: Moment,
-  periodEnd: Moment,
-  dates: ExceptionalVenueHours[][],
-};
-
-export type GroupedVenues = {
-  [string]: {
-    title: string,
-    hours: PlacesOpeningHours,
-  },
-};
 
 export type CollectionOpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
@@ -78,20 +53,12 @@ export type CollectionOpeningTimes = {
     dates: Moment[],
     type: OverrideType,
   }[]),
-  exceptionalOpeningHours: ?(periodModifiedHours[]),
-  exceptionalClosedDates: ?{
-    periodStart: Moment,
-    periodEnd: Moment,
-    venues: {
-      [string]: ExceptionalVenueHours[],
-    },
-  },
 };
 
 export const galleryOpeningHours: OpeningHours = {
   // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
   regular: [
-    { dayOfWeek: 'Monday' },
+    { dayOfWeek: 'Monday', opens: null, closes: null },
     { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Thursday', opens: '10:00', closes: '22:00' },
@@ -99,12 +66,21 @@ export const galleryOpeningHours: OpeningHours = {
     { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
     { dayOfWeek: 'Sunday', opens: '11:00', closes: '18:00' },
   ],
-  exceptional: [
-    { overrideDate: moment('2018-04-02'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-05-07'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-05-28'), opens: '10:00', closes: '18:00' },
-    { overrideDate: moment('2018-08-27'), opens: '10:00', closes: '18:00' },
+  exceptional: [],
+};
+
+export const libraryOpeningHours: OpeningHours = {
+  // TODO remove these once organization.js is using the gallery data from prismic github issue #2476
+  regular: [
+    { dayOfWeek: 'Monday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Tuesday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Thursday', opens: '10:00', closes: '20:00' },
+    { dayOfWeek: 'Friday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
+    { dayOfWeek: 'Sunday', opens: null, closes: null },
   ],
+  exceptional: [],
 };
 
 // http://schema.org/specialOpeningHoursSpecification

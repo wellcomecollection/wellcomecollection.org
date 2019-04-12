@@ -1,46 +1,47 @@
 // @flow
-import type { Context } from 'next';
-import type {
-  CatalogueApiError,
-  CatalogueResultsList,
-} from '../services/catalogue/works';
-import { Fragment, useEffect, useState } from 'react';
+import { type Context } from 'next';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import {
+  type CatalogueApiError,
+  type CatalogueResultsList,
+} from '@weco/common/model/catalogue';
 import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import WorkPromo from '@weco/common/views/components/WorkPromo/WorkPromo';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import { workUrl, worksUrl } from '../services/catalogue/urls';
-import WorkCompactCard from '../components/WorkCompactCard.js/WorkCompactCard';
+import WorkCard from '../components/WorkCard/WorkCard';
 
 type Props = {|
   query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
-  showCatalogueSearchFilters: boolean,
-  imagelessSearchResult: boolean,
+  workType: ?(string[]),
 |};
 
-export const Works = ({
-  works,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-  showCatalogueSearchFilters,
-  imagelessSearchResult,
-}: Props) => {
+const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
+  <Works works={works} query={query} page={page} workType={workType} />
+);
+
+const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
+  const { query, page, setWorkType, workType } = useContext(
+    CatalogueSearchContext
+  );
+
   useEffect(() => {
     function routeChangeStart(url: string) {
       setLoading(true);
@@ -69,17 +70,6 @@ export const Works = ({
       />
     );
   }
-
-  // This is very convoluted, but you can't do arry equality because, JavaScript
-  // e.g. itemsLocationsLocationType === ['iiif-image'] is always false.
-  const useImagelessResult =
-    imagelessSearchResult ||
-    (showCatalogueSearchFilters &&
-      !(
-        workType.toString() === 'k,q' &&
-        itemsLocationsLocationType.length === 1 &&
-        itemsLocationsLocationType[0] === 'iiif-image'
-      ));
 
   return (
     <Fragment>
@@ -114,6 +104,16 @@ export const Works = ({
           cookieName="WC_wellcomeImagesRedirect"
         />
 
+        <TogglesContext.Consumer>
+          {({ booksRelease }) =>
+            booksRelease && (
+              <Layout12>
+                <BetaBar />
+              </Layout12>
+            )
+          }
+        </TogglesContext.Consumer>
+
         <div
           className={classNames([
             'row bg-cream',
@@ -130,70 +130,167 @@ export const Works = ({
                     spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
-                  <h1
-                    className={classNames([
-                      font({ s: 'WB6', m: 'WB4' }),
-                      spacing({ s: 2 }, { margin: ['bottom'] }),
-                      spacing({ s: 4 }, { margin: ['right'] }),
-                      spacing({ s: 0 }, { margin: ['top'] }),
-                    ])}
-                  >
-                    {showCatalogueSearchFilters
-                      ? 'Search our collections'
-                      : 'Search our images'}
-                  </h1>
-                  <div className="flex flex--v-center">
-                    <Icon
-                      name="underConstruction"
-                      extraClasses="margin-right-s2"
-                    />
-                    <p className="no-margin">
-                      We’re improving how search works.{' '}
-                      <a href="/works/progress">Find out more</a>.
-                    </p>
-                  </div>
+                  <TogglesContext.Consumer>
+                    {({ booksRelease }) => (
+                      <>
+                        {booksRelease && !works && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Explore our collections
+                          </h1>
+                        )}
+                        {!booksRelease && (
+                          <h1
+                            className={classNames([
+                              font({ s: 'WB6', m: 'WB4' }),
+                              spacing({ s: 2 }, { margin: ['bottom'] }),
+                              spacing({ s: 4 }, { margin: ['right'] }),
+                              spacing({ s: 0 }, { margin: ['top'] }),
+                            ])}
+                          >
+                            Search our images
+                          </h1>
+                        )}
+                      </>
+                    )}
+                  </TogglesContext.Consumer>
+
+                  <TogglesContext.Consumer>
+                    {({ booksRelease }) =>
+                      !booksRelease && (
+                        <div className="flex flex--v-center">
+                          <Icon
+                            name="underConstruction"
+                            extraClasses={classNames({
+                              [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                            })}
+                          />
+                          <p className="no-margin">
+                            We’re improving how search works.{' '}
+                            <a href="/works/progress">Find out more</a>.
+                          </p>
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                 </div>
               </div>
             </div>
 
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+                <TogglesContext.Consumer>
+                  {({ booksRelease }) =>
+                    booksRelease && (
+                      <p
+                        className={classNames({
+                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                          'visually-hidden': Boolean(works),
+                        })}
+                        id="search-form-description"
+                      >
+                        Find thousands of freely licensed digital books,
+                        artworks, photos and images of historical library
+                        materials and museum objects.
+                      </p>
+                    )
+                  }
+                </TogglesContext.Consumer>
+
                 <SearchForm
-                  initialQuery={query || ''}
-                  initialWorkType={workType}
-                  initialItemsLocationsLocationType={itemsLocationsLocationType}
                   ariaDescribedBy="search-form-description"
                   compact={false}
                 />
-                <p
-                  className={classNames({
-                    [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                    'visually-hidden': Boolean(works),
-                  })}
-                  id="search-form-description"
-                >
-                  Find thousands of Creative Commons licensed images from
-                  historical library materials and museum objects to
-                  contemporary digital photographs.
-                </p>
-                {works && (
-                  <p
-                    className={classNames([
-                      spacing({ s: 2 }, { margin: ['top', 'bottom'] }),
-                      font({ s: 'LR3', m: 'LR2' }),
-                    ])}
-                  >
-                    {works.totalResults !== 0 ? works.totalResults : 'No'}{' '}
-                    results for &apos;{query}&apos;
-                  </p>
-                )}
+
+                <TogglesContext.Consumer>
+                  {({ booksRelease }) =>
+                    !booksRelease && (
+                      <p
+                        className={classNames({
+                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
+                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                          'visually-hidden': Boolean(works),
+                        })}
+                        id="search-form-description"
+                      >
+                        Find thousands of Creative Commons licensed images from
+                        historical library materials and museum objects to
+                        contemporary digital photographs.
+                      </p>
+                    )
+                  }
+                </TogglesContext.Consumer>
               </div>
             </div>
           </div>
         </div>
 
         {!works && <StaticWorksContent />}
+
+        <TogglesContext.Consumer>
+          {({ booksRelease }) =>
+            booksRelease &&
+            works && (
+              <Layout12>
+                <TabNav
+                  large={true}
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: undefined,
+                        page: 1,
+                      }),
+                      selected: !workType,
+                      onClick: event => {
+                        setWorkType(undefined);
+                      },
+                    },
+                    {
+                      text: 'Books',
+                      link: worksUrl({
+                        query,
+                        workType: ['a', 'v'],
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('a') !== -1 &&
+                          workType.indexOf('v') !== -1)
+                      ),
+                      onClick: event => {
+                        setWorkType(['a', 'v']);
+                      },
+                    },
+                    {
+                      text: 'Pictures',
+                      link: worksUrl({
+                        query,
+                        workType: ['k', 'q'],
+                        page: 1,
+                      }),
+                      selected: !!(
+                        workType &&
+                        (workType.indexOf('k') !== -1 &&
+                          workType.indexOf('q') !== -1)
+                      ),
+                      onClick: event => {
+                        setWorkType(['k', 'q']);
+                      },
+                    },
+                  ]}
+                />
+              </Layout12>
+            )
+          }
+        </TogglesContext.Consumer>
 
         {works && works.results.length > 0 && (
           <Fragment>
@@ -202,7 +299,11 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <div className="grid__cell">
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                    })}
+                  >
                     <div className="flex flex--h-space-between flex--v-center">
                       <Fragment>
                         <Paginator
@@ -212,7 +313,6 @@ export const Works = ({
                           link={worksUrl({
                             query,
                             workType,
-                            itemsLocationsLocationType,
                             page,
                           })}
                           onPageChange={async (event, newPage) => {
@@ -220,7 +320,6 @@ export const Works = ({
                             const link = worksUrl({
                               query,
                               workType,
-                              itemsLocationsLocationType,
                               page: newPage,
                             });
                             Router.push(link.href, link.as).then(() =>
@@ -241,49 +340,16 @@ export const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  {useImagelessResult &&
-                    works.results.map(result => (
-                      <div
-                        className={classNames({
-                          [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-                        })}
-                        key={result.id}
-                      >
-                        <WorkCompactCard
-                          work={result}
-                          query={query}
-                          page={page}
-                          workType={workType}
-                          itemsLocationsLocationType={
-                            itemsLocationsLocationType
-                          }
-                        />
-                      </div>
-                    ))}
-                  {!useImagelessResult &&
-                    works.results.map(result => (
-                      <div
-                        key={result.id}
-                        className={grid({ s: 6, m: 4, l: 3, xl: 2 })}
-                      >
-                        <WorkPromo
-                          id={result.id}
-                          image={{
-                            contentUrl: result.thumbnail
-                              ? result.thumbnail.url
-                              : 'https://via.placeholder.com/1600x900?text=%20',
-                            width: 300,
-                            height: 300,
-                            alt: '',
-                          }}
-                          datePublished={
-                            result.createdDate && result.createdDate.label
-                          }
-                          title={result.title}
-                          link={workUrl({ id: result.id, query, page })}
-                        />
-                      </div>
-                    ))}
+                  {works.results.map(result => (
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                      key={result.id}
+                    >
+                      <WorkCard work={result} />
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -295,7 +361,11 @@ export const Works = ({
               >
                 <div className="container">
                   <div className="grid">
-                    <div className="grid__cell">
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      })}
+                    >
                       <div className="flex flex--h-space-between flex--v-center">
                         <Fragment>
                           <Paginator
@@ -305,7 +375,6 @@ export const Works = ({
                             link={worksUrl({
                               query,
                               workType,
-                              itemsLocationsLocationType,
                               page,
                             })}
                             onPageChange={async (event, newPage) => {
@@ -313,7 +382,6 @@ export const Works = ({
                               const link = worksUrl({
                                 query,
                                 workType,
-                                itemsLocationsLocationType,
                                 page: newPage,
                               });
                               Router.push(link.href, link.as).then(() =>
@@ -358,42 +426,21 @@ export const Works = ({
   );
 };
 
-Works.getInitialProps = async (ctx: Context): Promise<Props> => {
+WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const workTypeQuery = ctx.query.workType;
-  // We sometimes get workType=k%2Cq&workType=a as some checkboxes are
-  // considered multiple workTypes
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-        .map(workType => workType.split(','))
-        .reduce(
-          (workTypes, workTypeStringArray) => [
-            ...workTypes,
-            ...workTypeStringArray,
-          ],
-          []
-        )
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : ['k', 'q'];
-
-  const {
-    showCatalogueSearchFilters = false,
-    imagelessSearchResult = false,
-  } = ctx.query.toggles;
-
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : showCatalogueSearchFilters
-      ? ['iiif-image']
-      : ['iiif-image'];
+  const _queryType = ctx.query._queryType;
+  const defaultWorkType = ['a', 'k', 'q', 'v'];
+  const workTypeFilter = workTypeQuery
+    ? workTypeQuery.split(',').filter(Boolean)
+    : defaultWorkType;
 
   const filters = {
-    'items.locations.locationType': itemsLocationsLocationType,
-    workType,
+    workType: workTypeFilter,
+    'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
+    _queryType,
   };
 
   const worksOrError =
@@ -403,11 +450,8 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     query,
     page,
-    workType,
-    itemsLocationsLocationType,
-    showCatalogueSearchFilters,
-    imagelessSearchResult,
+    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
   };
 };
 
-export default Works;
+export default WorksSearchProvider;

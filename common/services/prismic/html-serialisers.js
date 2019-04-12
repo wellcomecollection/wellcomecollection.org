@@ -2,7 +2,6 @@
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
 import { font } from '../../utils/classnames';
-import { sized } from '../../utils/style';
 
 const { Elements } = PrismicDOM.RichText;
 
@@ -103,9 +102,18 @@ export const defaultSerializer: HtmlSerializer = (
       const documentSize = isDocument
         ? Math.round(element.data.size / 1000)
         : '';
+
+      const isInPage = linkUrl.match(/^https:\/\/(#.*)/i);
+      const hashLink = isInPage && isInPage[1];
+
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
       const documentType =
         fileExtension && fileExtension[0].substr(1).toUpperCase();
+
+      if (hashLink) {
+        return `<a ${target} href="${hashLink}">${children.join('')}</a>`;
+      }
+
       if (isDocument) {
         return `<a ${target} class="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline" href="${linkUrl}">
             <span class="icon" style="top: 8px">

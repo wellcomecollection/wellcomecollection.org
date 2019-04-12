@@ -6,8 +6,7 @@ import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import {
-  default as PageHeader,
+import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -249,7 +248,7 @@ const Exhibition = ({ exhibition }: Props) => {
       <ContentPage
         id={exhibition.id}
         Header={Header}
-        Body={<Body body={exhibition.body} />}
+        Body={<Body body={exhibition.body} pageId={exhibition.id} />}
       >
         {exhibition.contributors.length > 0 && (
           <Contributors

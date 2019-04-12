@@ -7,8 +7,7 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import {
-  default as PageHeader,
+import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -123,7 +122,7 @@ export class EventSeriesPage extends Component<Props> {
         <ContentPage
           id={series.id}
           Header={Header}
-          Body={<Body body={series.body} />}
+          Body={<Body body={series.body} pageId={series.id} />}
           contributorProps={{ contributors: series.contributors }}
         >
           {upcomingEvents.length > 0 && (

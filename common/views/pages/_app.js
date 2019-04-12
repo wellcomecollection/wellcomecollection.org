@@ -8,13 +8,15 @@ import Raven from 'raven-js';
 import { Fragment } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
-import { parseOpeningTimesFromCollectionVenues } from '../../services/prismic/opening-times';
+import { parseVenuesToOpeningHours } from '../../services/prismic/opening-times';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
+import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
 import { trackEvent } from '../../utils/ga';
+
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
@@ -290,9 +292,7 @@ export default class WecoApp extends App {
       'WeakMap',
       'URL',
     ];
-    const parsedOpeningTimes = parseOpeningTimesFromCollectionVenues(
-      openingTimes
-    );
+    const parsedOpeningTimes = parseVenuesToOpeningHours(openingTimes);
 
     return (
       <Container>
@@ -345,14 +345,16 @@ export default class WecoApp extends App {
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert.text}>
               <ThemeProvider theme={theme}>
-                <OutboundLinkTracker>
-                  <Fragment>
-                    {!pageProps.statusCode && <Component {...pageProps} />}
-                    {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                      <ErrorPage statusCode={pageProps.statusCode} />
-                    )}
-                  </Fragment>
-                </OutboundLinkTracker>
+                <CatalogueSearchProvider>
+                  <OutboundLinkTracker>
+                    <Fragment>
+                      {!pageProps.statusCode && <Component {...pageProps} />}
+                      {pageProps.statusCode && pageProps.statusCode !== 200 && (
+                        <ErrorPage statusCode={pageProps.statusCode} />
+                      )}
+                    </Fragment>
+                  </OutboundLinkTracker>
+                </CatalogueSearchProvider>
               </ThemeProvider>
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>

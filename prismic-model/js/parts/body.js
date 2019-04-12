@@ -99,6 +99,11 @@ export default {
           },
         },
       }),
+      collectionVenue: slice('Collection venue', {
+        nonRepeat: {
+          content: link('Content item', 'document', ['collection-venue']),
+        },
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title,

@@ -7,8 +7,7 @@ import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusI
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
-import {
-  default as PageHeader,
+import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
@@ -102,7 +101,7 @@ const Installation = ({ installation }: Props) => {
       <ContentPage
         id={installation.id}
         Header={Header}
-        Body={<Body body={installation.body} />}
+        Body={<Body body={installation.body} pageId={installation.id} />}
         contributorProps={{ contributors: installation.contributors }}
       >
         {installation.end && !isPast(installation.end) && (

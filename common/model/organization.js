@@ -1,6 +1,6 @@
 // @flow
 import type { OpeningHoursDay, SpecialOpeningHours } from './opening-hours';
-import { galleryOpeningHours } from './opening-hours';
+import { galleryOpeningHours, libraryOpeningHours } from './opening-hours';
 import { objToJsonLd } from '../utils/json-ld';
 import moment from 'moment';
 
@@ -33,7 +33,7 @@ export const wellcomeCollectionAddress = {
   addressCountry: 'UK',
 };
 
-export const wellcomeCollection: Organization = {
+export const wellcomeCollectionGallery: Organization = {
   name: 'Wellcome Collection',
   url: 'https://wellcomecollection.org',
   logo: {
@@ -78,4 +78,32 @@ export const wellcomeCollection: Organization = {
   isAccessibleForFree: true,
   publicAccess: true,
   telephone: '+4420 7611 2222',
+};
+
+export const wellcomeCollectionLibrary: Organization = {
+  ...wellcomeCollectionGallery,
+  openingHoursSpecification: libraryOpeningHours.regular.map(
+    openingHoursDay => {
+      const specObject = objToJsonLd(
+        openingHoursDay,
+        'OpeningHoursSpecification',
+        false
+      );
+      delete specObject.note;
+      return specObject;
+    }
+  ),
+  specialOpeningHoursSpecification:
+    libraryOpeningHours.exceptional &&
+    libraryOpeningHours.exceptional.map(openingHoursDate => {
+      const specObject = {
+        opens: openingHoursDate.opens,
+        closes: openingHoursDate.closes,
+        validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
+        validThrough: moment(openingHoursDate.overrideDate).format(
+          'DD MMMM YYYY'
+        ),
+      };
+      return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+    }),
 };

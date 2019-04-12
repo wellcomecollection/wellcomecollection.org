@@ -10,29 +10,27 @@
   },
   "dependencies": {
     "@weco/common": "1.0.0",
-    "autoprefixer": "^8.3.0",
+    "autoprefixer": "^9.5.0",
     "cookies": "^0.7.1",
-    "css-loader": "^0.28.11",
-    "isomorphic-unfetch": "^2.1.1",
-    "jest": "^23.6.0",
+    "css-loader": "^2.1.1",
+    "cssnano": "^4.1.10",
+    "isomorphic-unfetch": "^3.0.0",
+    "jest": "^24.5.0",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
-    "next": "^7.0.2",
+    "next": "^8.0.1",
     "node-mocks-http": "^1.7.0",
     "node-sass": "^4.8.3",
     "nodemon": "^1.17.5",
     "postcss-easy-import": "^3.0.0",
-    "postcss-loader": "^2.1.4",
-    "prismic-javascript": "2.0.1",
-    "raw-loader": "^0.5.1",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "postcss-loader": "^3.0.0",
+    "prismic-javascript": "2.0.2",
+    "raw-loader": "^2.0.0",
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
     "react-test-renderer": "^16.4.1",
     "react-transition-group": "^2.4.0",
     "sass-loader": "^7.0.1",
-    "supertest": "^3.3.0"
-  },
-  "devDependencies": {
-    "supertest": "^3.3.0"
+    "supertest": "^4.0.2"
   }
 }

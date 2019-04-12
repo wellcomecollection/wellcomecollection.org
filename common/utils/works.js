@@ -1,5 +1,12 @@
 // @flow
 import { type Work } from '../model/work';
+import {
+  type IIIFManifest,
+  type IIIFRendering,
+  type IIIFMetadata,
+  type IIIFCanvas,
+} from '../model/iiif';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getPhysicalLocations(work: Work) {
   return work.items
@@ -7,6 +14,14 @@ export function getPhysicalLocations(work: Work) {
       item.locations.filter(location => location.type === 'PhysicalLocation')
     )
     .reduce((acc, locations) => acc.concat(locations), []);
+}
+
+export function getIIIFMetadata(
+  iiifManifest: IIIFManifest,
+  label: string
+): ?IIIFMetadata {
+  const repository = iiifManifest.metadata.find(data => data.label === label);
+  return repository;
 }
 
 export function getDigitalLocations(work: Work) {
@@ -23,9 +38,119 @@ export function getProductionDates(work: Work) {
     .reduce((a, b) => a.concat(b), []);
 }
 
+export function getDownloadOptionsFromManifest(
+  iiifManifest: IIIFManifest
+): IIIFRendering[] {
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence => sequence['@type'] === 'sc:Sequence'
+    );
+  const sequenceRendering = sequence && sequence.rendering;
+  const sequenceRenderingArray = Array.isArray(sequenceRendering)
+    ? sequenceRendering
+    : [sequenceRendering];
+
+  const pdfRenderingArray = iiifManifest.mediaSequences
+    ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
+        return acc.concat(
+          sequence.elements
+            .map(element => {
+              if (element.format === 'application/pdf') {
+                return {
+                  '@id': element['@id'],
+                  format: element.format,
+                  label: 'Download PDF',
+                };
+              }
+            })
+            .filter(Boolean)
+        );
+      }, [])
+    : [];
+  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
+}
+
+export function getDownloadOptionsFromImageUrl(
+  imageUrl: string
+): IIIFRendering[] {
+  return [
+    {
+      '@id': convertImageUri(imageUrl, 'full'),
+      format: 'image/jpeg',
+      label: 'Download full size',
+    },
+    {
+      '@id': convertImageUri(imageUrl, 760),
+      format: 'image/jpeg',
+      label: 'Download small (760px)',
+    },
+  ];
+}
+
+export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
+  const sequence =
+    iiifManifest.sequences &&
+    iiifManifest.sequences.find(
+      sequence =>
+        sequence['@type'] === 'sc:Sequence' &&
+        sequence.compatibilityHint !== 'displayIfContentUnsupported'
+    );
+  return sequence ? sequence.canvases : [];
+}
+
+export function getManifestViewType(iiifManifest: IIIFManifest) {
+  const canvases = getCanvases(iiifManifest);
+  const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
+  const pdfRendering =
+    downloadOptions.find(option => option.label === 'Download PDF') || false;
+  return canvases.length > 0 ? 'iiif' : pdfRendering ? 'pdf' : 'none';
+}
+
+export type IIIFPresentationLocation = {|
+  locationType: {
+    id: 'iiif-presentation',
+    label: 'IIIF Presentation API',
+    type: 'LocationType',
+  },
+  url: string,
+  type: 'DigitalLocation',
+|};
+
+export function getIIIFPresentationLocation(
+  work: Work
+): IIIFPresentationLocation {
+  return work.items
+    .map(item =>
+      item.locations.find(
+        location => location.locationType.id === 'iiif-presentation'
+      )
+    )
+    .filter(Boolean)[0];
+}
+
+export function getEncoreLink(sierraId: string): string {
+  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+    0,
+    sierraId.length - 1
+  )}`;
+}
+
 const workTypeIcons = {
-  'e-books': 'book',
+  '3dobjects': 'threeD',
+  ebooks: 'book',
   books: 'book',
+  audio: 'audio',
+  'digital images': 'digitalImage',
+  journals: 'journal',
+  maps: 'map',
+  music: 'music',
+  sound: 'music',
+  pictures: 'picture',
+  archivesandmanuscripts: 'scroll',
+  ephemera: 'threeD',
+  evideos: 'video',
+  websites: 'website',
 };
 export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];

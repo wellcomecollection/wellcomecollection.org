@@ -63,16 +63,18 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
             <span />
           </a>
         </div>
-        <a href="/" className="header__brand">
-          <WellcomeCollectionBlack />
-        </a>
+        <div className="header__brand">
+          <a href="/" className="header__brand-link">
+            <WellcomeCollectionBlack />
+          </a>
+        </div>
         <nav
           id="header-nav"
           className="header__nav js-header-burger-drawer"
           aria-labelledby="header-burger-trigger"
         >
           <TogglesContext.Consumer>
-            {({ showCatalogueSearchFilters }) => (
+            {({ booksRelease }) => (
               <ul
                 className={`plain-list header__list ${font({
                   s: 'WB7',
@@ -100,7 +102,7 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
                         ? { 'aria-current': true }
                         : {})}
                     >
-                      {showCatalogueSearchFilters && link.title === 'Images'
+                      {booksRelease && link.title === 'Images'
                         ? 'Collections'
                         : link.title}
                     </a>

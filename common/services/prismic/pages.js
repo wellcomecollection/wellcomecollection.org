@@ -4,7 +4,11 @@ import { getDocument, getDocuments } from './api';
 import { parseTimestamp, parseGenericFields } from './parsers';
 import type { Page } from '../../model/pages';
 import type { PrismicDocument } from './types';
-import { pagesFields, eventSeriesFields } from './fetch-links';
+import {
+  pagesFields,
+  collectionVenuesFields,
+  eventSeriesFields,
+} from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
@@ -48,9 +52,8 @@ export function parsePage(document: PrismicDocument): Page {
 
 export async function getPage(req: ?Request, id: string): Promise<?Page> {
   const page = await getDocument(req, id, {
-    fetchLinks: pagesFields.concat(eventSeriesFields),
+    fetchLinks: pagesFields.concat(eventSeriesFields, collectionVenuesFields),
   });
-
   if (page) {
     return parsePage(page);
   }

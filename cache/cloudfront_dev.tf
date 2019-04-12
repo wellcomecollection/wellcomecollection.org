@@ -35,18 +35,57 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
       query_string_cache_keys = [
         "page",
         "current",
-        "query",
         "uri",
-        "MIROPAC",                      # Wellcome Images redirect
-        "MIRO",                         # Wellcome Images redirect
+        "MIROPAC", # Wellcome Images redirect
+        "MIRO",    # Wellcome Images redirect
 
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)
         "result",
+      ]
 
-        # Works specific
+      cookies {
+        forward = "whitelist"
+
+        whitelisted_names = [
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
+        ]
+      }
+    }
+
+    lambda_function_association {
+      event_type = "origin-request"
+      lambda_arn = "${aws_lambda_function.edge_lambda_request.qualified_arn}"
+    }
+
+    lambda_function_association {
+      event_type = "origin-response"
+      lambda_arn = "${aws_lambda_function.edge_lambda_response.qualified_arn}"
+    }
+  }
+
+  ordered_cache_behavior {
+    allowed_methods        = ["HEAD", "GET", "OPTIONS"]
+    cached_methods         = ["HEAD", "GET", "OPTIONS"]
+    viewer_protocol_policy = "redirect-to-https"
+    target_origin_id       = "origin"
+    path_pattern           = "/works*"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+
+    forwarded_values {
+      headers      = ["Host"]
+      query_string = true
+
+      query_string_cache_keys = [
+        "page",
+        "current",
+        "query",
         "workType",
-
+        "sierraId",
+        "canvas",
         "items.locations.locationType",
       ]
 

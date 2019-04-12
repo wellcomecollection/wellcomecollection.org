@@ -1,44 +1,58 @@
 // @flow
-import type {
-  Work,
-  CatalogueApiError,
-  CatalogueApiRedirect,
-} from '../services/catalogue/works';
-import { Fragment } from 'react';
 import Router from 'next/router';
+import {
+  type Work,
+  type CatalogueApiError,
+  type CatalogueApiRedirect,
+} from '@weco/common/model/catalogue';
+import { useEffect, useState } from 'react';
+import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
+import {
+  getIIIFPresentationLocation,
+  getDownloadOptionsFromImageUrl,
+  getEncoreLink,
+} from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
-import WorkMedia from '@weco/common/views/components/WorkMedia/WorkMedia';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import IIIFPresentationDisplay from '@weco/common/views/components/IIIFPresentationDisplay/IIIFPresentationDisplay';
+import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
-import { worksUrl } from '../services/catalogue/urls';
-import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 
 type Props = {|
   work: Work | CatalogueApiError,
-  workType: string[],
-  query: ?string,
-  page: ?number,
-  itemsLocationsLocationType: string[],
-  useBetaDownloadComponent: boolean,
 |};
 
-export const WorkPage = ({
-  work,
-  query,
-  page,
-  workType,
-  itemsLocationsLocationType,
-  useBetaDownloadComponent,
-}: Props) => {
+export const WorkPage = ({ work }: Props) => {
+  const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
+    null
+  );
+  const fetchIIIFPresentationManifest = async () => {
+    try {
+      const iiifPresentationLocation = getIIIFPresentationLocation(work);
+      const iiifManifest = await fetch(iiifPresentationLocation.url);
+      const manifestData = await iiifManifest.json();
+      setIIIFPresentationManifest(manifestData);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchIIIFPresentationManifest();
+  }, []);
+
   if (work.type === 'Error') {
     return (
       <ErrorPage
@@ -58,14 +72,6 @@ export const WorkPage = ({
     )
     .filter(Boolean);
 
-  const [iiifPresentationLocation] = work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean);
-
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId =
@@ -75,18 +81,28 @@ export const WorkPage = ({
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
-  const sierraId = (
-    work.identifiers.find(
-      identifier => identifier.identifierType.id === 'sierra-system-number'
-    ) || {}
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
+
+  const sierraIds = work.identifiers.filter(
+    i => i.identifierType.id === 'sierra-system-number'
+  );
+
+  // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
+  // will be for a physical item.
+  const physicalSierraId = (
+    sierraIds.find(i => i.value !== sierraIdFromPresentationManifestUrl) || {}
   ).value;
-  // We strip the last character as that's what Wellcome Library expect
-  const encoreLink =
-    sierraId &&
-    `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
-      0,
-      sierraId.length - 1
-    )}`;
+
+  // We strip the last character as that's what Wellcome library expect
+  const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
   const imageContentUrl =
     iiifImageLocationUrl &&
@@ -110,11 +126,20 @@ export const WorkPage = ({
         cookieName="WC_wellcomeImagesRedirect"
       />
 
+      <TogglesContext.Consumer>
+        {({ booksRelease }) =>
+          booksRelease && (
+            <Layout12>
+              <BetaBar />
+            </Layout12>
+          )
+        }
+      </TogglesContext.Consumer>
+
       <div
         className={classNames({
           'bg-cream': true,
           [spacing({ s: 4 }, { padding: ['top'] })]: true,
-          [spacing({ s: 4 }, { padding: ['bottom'] })]: !query,
         })}
       >
         <div className="container">
@@ -125,34 +150,22 @@ export const WorkPage = ({
               })}
             >
               <SearchForm
-                initialQuery={query || ''}
-                initialWorkType={workType}
-                initialItemsLocationsLocationType={itemsLocationsLocationType}
                 ariaDescribedBy="search-form-description"
                 compact={true}
               />
             </div>
           </div>
 
-          {query && (
-            <div className="grid">
-              <div
-                className={classNames({
-                  [grid({ s: 12 })]: true,
-                  [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
-                })}
-              >
-                <BackToResults
-                  nextLink={worksUrl({
-                    query,
-                    page,
-                    workType,
-                    itemsLocationsLocationType,
-                  })}
-                />
-              </div>
+          <div className="grid">
+            <div
+              className={classNames({
+                [grid({ s: 12 })]: true,
+                [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
+              })}
+            >
+              <BackToResults />
             </div>
-          )}
+          </div>
         </div>
       </div>
 
@@ -169,30 +182,37 @@ export const WorkPage = ({
         </div>
       </div>
 
-      <Fragment>
-        {iiifPresentationLocation && (
-          <IIIFPresentationDisplay
-            manifestLocation={iiifPresentationLocation.url}
-          />
+      <ManifestContext.Provider value={iiifPresentationManifest}>
+        {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
+          <div className="container">
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+              itemUrl={itemUrl({
+                workId: work.id,
+                sierraId: sierraIdFromPresentationManifestUrl,
+                langCode: work.language && work.language.id,
+                page: 1,
+                canvas: 1,
+              })}
+            />
+          </div>
         )}
         {iiifImageLocationUrl && (
-          <WorkMedia
+          <IIIFImagePreview
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
             title={work.title}
           />
         )}
-
         <WorkDetails
           work={work}
-          iiifImageLocationUrl={iiifImageLocationUrl}
           licenseInfo={licenseInfo}
           iiifImageLocationCredit={iiifImageLocationCredit}
           iiifImageLocationLicenseId={iiifImageLocationLicenseId}
           encoreLink={encoreLink}
-          useBetaDownloadComponent={useBetaDownloadComponent}
+          downloadOptions={downloadOptions}
         />
-      </Fragment>
+      </ManifestContext.Provider>
     </PageLayout>
   );
 };
@@ -200,22 +220,8 @@ export const WorkPage = ({
 WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
-  const workTypeQuery = ctx.query.workType;
-  const workType = Array.isArray(workTypeQuery)
-    ? workTypeQuery
-    : typeof workTypeQuery === 'string'
-    ? workTypeQuery.split(',')
-    : ['k', 'q'];
-  const itemsLocationsLocationType =
-    'items.locations.locationType' in ctx.query
-      ? ctx.query['items.locations.locationType'].split(',')
-      : ['iiif-image'];
-
-  const { id, query, page } = ctx.query;
+  const { id } = ctx.query;
   const workOrError = await getWork({ id });
-  const useBetaDownloadComponent = Boolean(
-    ctx.query.toggles.useBetaDownloadComponent
-  );
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;
@@ -230,12 +236,7 @@ WorkPage.getInitialProps = async (
     return workOrError;
   } else {
     return {
-      query,
       work: workOrError,
-      page: page ? parseInt(page, 10) : null,
-      workType,
-      itemsLocationsLocationType,
-      useBetaDownloadComponent,
     };
   }
 };

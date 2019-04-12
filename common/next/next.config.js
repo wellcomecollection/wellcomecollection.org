@@ -2,7 +2,6 @@ const path = require('path');
 const withTM = require('@weco/next-plugin-transpile-modules');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
-const commonDirRegExp = /@weco(?!.*node_modules)/;
 
 module.exports = function(webpack, assetPrefix) {
   const withBundleAnalyzerConfig = withBundleAnalyzer({
@@ -30,9 +29,6 @@ module.exports = function(webpack, assetPrefix) {
         use: [
           {
             loader: 'css-loader',
-            options: {
-              minimize: true,
-            },
           },
           'postcss-loader',
           {

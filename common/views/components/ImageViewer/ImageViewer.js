@@ -1,5 +1,5 @@
 // @flow
-import { createContext, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Transition } from 'react-transition-group';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
@@ -40,6 +40,7 @@ type ViewerContentProps = {|
   classes: string,
   viewerVisible: boolean,
   handleViewerDisplay: Function,
+  infoUrl: string,
 |};
 
 const ViewerContent = ({
@@ -47,6 +48,7 @@ const ViewerContent = ({
   classes,
   viewerVisible,
   handleViewerDisplay,
+  infoUrl,
 }: ViewerContentProps) => {
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27 && viewerVisible) {
@@ -109,7 +111,7 @@ const ViewerContent = ({
         />
       </div>
 
-      {viewerVisible && <ImageViewerImage id={id} />}
+      {viewerVisible && <ImageViewerImage id={id} infoUrl={infoUrl} />}
     </div>
   );
 };
@@ -120,9 +122,6 @@ type ImageViewerProps = {|
   infoUrl: string,
   width: number,
 |};
-
-// $FlowFixMe
-export const ImageInfoContext = createContext();
 
 const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
@@ -147,7 +146,7 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
   }, []);
 
   return (
-    <ImageInfoContext.Provider value={infoUrl}>
+    <Fragment>
       <Image
         width={width}
         contentUrl={contentUrl}
@@ -183,9 +182,10 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
           viewerVisible={showViewer}
           id={id}
           handleViewerDisplay={handleViewerDisplay}
+          infoUrl={infoUrl}
         />
       )}
-    </ImageInfoContext.Provider>
+    </Fragment>
   );
 };
 

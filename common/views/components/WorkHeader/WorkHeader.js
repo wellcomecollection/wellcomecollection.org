@@ -53,6 +53,7 @@ const WorkHeader = ({ work }: Props) => {
             'no-margin': true,
             [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
           })}
+          lang={work.language && work.language.id}
         >
           {work.title}
         </h1>
@@ -60,8 +61,7 @@ const WorkHeader = ({ work }: Props) => {
         {(work.contributors.length > 0 || productionDates.length > 0) && (
           <div
             className={classNames({
-              flex: true,
-              'flex--wrap': true,
+              'flex flex--wrap flex--v-center': true,
               [spacing({ s: 3, m: 4 }, { margin: ['top'] })]: true,
             })}
           >
@@ -74,7 +74,7 @@ const WorkHeader = ({ work }: Props) => {
                 <LinkLabels
                   items={work.contributors.map(({ agent }) => ({
                     text: agent.label,
-                    url: `/works?query="${agent.label}"`,
+                    url: null,
                   }))}
                 />
               </div>
@@ -112,7 +112,7 @@ const WorkHeader = ({ work }: Props) => {
                       : null,
                     physicalLocations.length > 0
                       ? {
-                          text: 'Wellcome Library',
+                          text: 'Wellcome library',
                           url: null,
                         }
                       : null,

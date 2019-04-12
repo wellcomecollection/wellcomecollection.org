@@ -76,6 +76,26 @@ const IndexPage = () => {
             </a>
           </li>
           <li>
+            <a href="https://updown.io/2cep" rel="uptime">
+              Uptime: Homepage
+            </a>
+          </li>
+          <li>
+            <a href="https://updown.io/5t1q" rel="uptime">
+              Uptime: Stories
+            </a>
+          </li>
+          <li>
+            <a href="https://updown.io/bhef" rel="uptime">
+              Uptime: Works
+            </a>
+          </li>
+          <li>
+            <a href="https://stats.uptimerobot.com/x6RyoIGYR" rel="uptime">
+              Uptime: Whole site, no cache
+            </a>
+          </li>
+          <li>
             <a
               href="https://wellcomecollection.org/works/progress"
               rel="progress"

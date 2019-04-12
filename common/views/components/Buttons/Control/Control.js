@@ -4,10 +4,15 @@ import { forwardRef } from 'react';
 import Icon from '../../Icon/Icon';
 import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
+import NextLink from 'next/link';
+import { type NextLinkType } from '../../../../model/next-link-type';
 
 type Props = {|
   tabIndex?: string,
-  url?: string,
+  link?: NextLinkType,
+  scroll?: boolean,
+  replace?: boolean,
+  prefetch?: boolean,
   id?: string,
   type: 'light' | 'dark',
   extraClasses?: string,
@@ -28,12 +33,14 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
   </span>
 );
 
-// $FlowFixMe (forwardRef)
-const Control = forwardRef(
+const Control = forwardRef<Props, HTMLButtonElement | HTMLAnchorElement>(
   (
     {
       tabIndex,
-      url,
+      link,
+      scroll,
+      replace,
+      prefetch,
       id,
       type,
       extraClasses,
@@ -47,13 +54,11 @@ const Control = forwardRef(
     }: Props,
     ref
   ) => {
-    const HtmlTag = url ? 'a' : 'button';
     const attrs = {
       'aria-controls': ariaControls || undefined,
       'aria-expanded': ariaExpanded || undefined,
       tabIndex: tabIndex || undefined,
       id: id,
-      href: url,
       className: `control control--${type} ${extraClasses || ''}`,
       disabled: disabled,
       onClick: handleClick,
@@ -70,10 +75,24 @@ const Control = forwardRef(
     }
 
     return (
-      // $FlowFixMe (conditional JSX tag)
-      <HtmlTag ref={ref} {...attrs}>
-        <InnerControl text={text} icon={icon} />
-      </HtmlTag>
+      <>
+        {link ? (
+          <NextLink
+            {...link}
+            scroll={scroll}
+            replace={replace}
+            prefetch={prefetch}
+          >
+            <a ref={ref} {...attrs}>
+              <InnerControl text={text} icon={icon} />
+            </a>
+          </NextLink>
+        ) : (
+          <button ref={ref} {...attrs}>
+            <InnerControl text={text} icon={icon} />
+          </button>
+        )}
+      </>
     );
   }
 );

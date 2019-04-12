@@ -190,7 +190,7 @@ export class ArticleSeriesPage extends Component<Props> {
         <ContentPage
           id={book.id}
           Header={Header}
-          Body={<Body body={book.body} />}
+          Body={<Body body={book.body} pageId={book.id} />}
           contributorProps={{ contributors }}
         >
           <Fragment>
@@ -206,7 +206,7 @@ export class ArticleSeriesPage extends Component<Props> {
               <Button
                 type={`primary`}
                 url={book.orderLink}
-                text="Order online"
+                text="Buy the book"
               />
             )}
           </Fragment>

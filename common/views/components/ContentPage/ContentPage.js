@@ -105,9 +105,7 @@ const ContentPage = ({
           {outroProps && (
             <SpacingSection>
               <Layout8>
-                <SpacingSection>
-                  <Outro {...outroProps} />
-                </SpacingSection>
+                <Outro {...outroProps} />
               </Layout8>
             </SpacingSection>
           )}

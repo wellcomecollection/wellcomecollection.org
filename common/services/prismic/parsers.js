@@ -446,7 +446,7 @@ export function isStructuredText(structuredTextObject: HTMLString): boolean {
 // If a link is non-existant, it can either be returned as `null`, or as an
 // empty link object, which is why we use this
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {
-  return Boolean(fragment && fragment.isBroken === false);
+  return Boolean(fragment && fragment.isBroken === false && fragment.data);
 }
 
 // when images have crops, event if the image isn't attached, we get e.g.
@@ -543,6 +543,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                 })
                 .filter(Boolean),
             },
+          };
+
+        case 'collectionVenue':
+          return {
+            type: 'collectionVenue',
+            value: slice.primary.content,
           };
 
         case 'searchResults':

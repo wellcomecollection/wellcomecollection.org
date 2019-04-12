@@ -279,6 +279,22 @@
               }
             }
           },
+          "collectionVenue": {
+            "type": "Slice",
+            "fieldset": "Collection venue",
+            "non-repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "collection-venue"
+                  ]
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",

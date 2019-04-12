@@ -1,6 +1,7 @@
 .icon {
   display: inline-block;
   height: $icon-dimension;
+  width: $icon-dimension;
   position: relative;
   user-select: none;
 }
@@ -42,6 +43,10 @@
 
 .icon--270 {
   transform: rotate(270deg);
+}
+
+.icon--18 {
+  height: 18px;
 }
 
 .icon-rounder {

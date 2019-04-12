@@ -1,119 +1,36 @@
-# How we're improving search
+# Our beta collections search
+Our collections search is currently in beta, which means we’re developing the service in public for our users. It’s a work in progress, and subject to change based on your feedback and testing. 
 
-We are working to make [wellcomecollection.org](https://wellcomecollection.org) a more welcoming space where you can discover more of what Wellcome Collection has to offer. As part of this work, we’re bringing together library collections, physical and digital alike, into a single location. Here you will be able to search, browse, read and do research across the breadth of Wellcome Library’s holdings.
+As part of this work, we will bring together library collections, physical and digital alike, into a single place. Here you will be able to search, browse, read and do research across the whole Wellcome library catalogue.
 
-We have a lot of work to do, and we’ve only just begun.
+We will keep this page up to date with the latest information as we make more progress. 
 
----
+## What’s new? (updated March 2019)
+You can now:
+* Search for and see our single-volume books and pamphlets in a new book viewer
+* Search for digitised artworks, plus images from the insides of books, manuscripts and other visual material
+* Download images and PDFs
+*	Narrow your search to include either books or visual material
+*	Use the search and view items more easily on mobile devices.
 
-# February 2019
+### What are the limits?
+*	You may get too many results that are irrelevant to your initial search
+*	Some library catalogue data is not available yet, so there may be very little information associated with some images or not be enough information to identify the item you’re looking at. 
+*	Some images lack references to the item from which they were taken. 
+*	Our archives, manuscripts, audio, video, journals and multi-volume books are not available yet.
+*	No date filtering available yet. 
 
-## What's new?
+If you think something might be missing, or want a more comprehensive search, please try searching the catalogue on [wellcomelibrary.org](https://wellcomelibrary.org) in the meantime. 
 
-From the feedback we've had over the past couple of months, we've been adding
-clarity and emphasis to the information on our library item pages.
+For now, if you need any additional help in identifying items from library collections, please email collections@wellcome.ac.uk.
 
-This will hopefully help with getting an overview of the item and to assess its
-relevance more effectively.
-
-What we've done:
-* The title is the first piece of information seen, along with a summary of
-  the object, including contributors and its publication date.
-* The details about the item have been grouped in sections to help to scan the
-  information more easily.
-* The ordering of the information has been slightly tweaked on the feedback of
-  what people consider important.
-
-The search bar persists through the search journey, including when an
-item is viewed to allow for refinement of search, or to just start again,
-without having to go back to the results page.
-
-We are always collecting feedback, so if you have any
-[👂 get involved, we’re listening 👂!](#get-involved)
-
----
-
-# November 2018
-
-## What's new?
-
-[The Platform team at Wellcome Collection](https://github.com/wellcometrust/platform),
-who look after [our API](https://developers.wellcomecollection.org/catalogue),
-have been beavering away to help enrich and expand the data we have
-available through our search.
-
-We have been working on surfacing that data in a clear, purposeful, and
-beautiful fashion, to yourselves.
-
-* Works now come with a richer and more accurate set of data from the library catalogue
-  * The creators field has been usurped by the richer contributors field which
-    contains more information about the contributor's role, and more information about
-    the contributor, where the data is available.
-  * Subjects and genres now use the authoritative Library of Congress and Medical Subject Headings.
-  * The production of an object has now been split into production events, made up of places, agents (people, organisation etc), and dates.
-
-
-## What's improved
-
-* Search performance has been improved. When requesting 100 results,
-  they are, on average, rendered in less than a second.
-* ~~When following the links in the metadata of a work, results will be more
-  specific to the field you were linked from
-  e.g. [Caricature as a subject](https://wellcomecollection.org/works?query="Caricature")
-  vs [Caricature as a keyword search](https://wellcomecollection.org/works?query="Caricature")~~
-  The feature has been removed as it wasn't working as expected.
-  ![Screenshot of the subject metadata on a work](https://user-images.githubusercontent.com/31692/48776683-6b24fa80-ecc8-11e8-9f2e-f66224f21dbf.png)
-
-We are always collecting feedback, so if you have any
-[👂 get involved, we’re listening 👂!](#get-involved)
-
----
-
-# January 2018
-
-## What's changed?
-You can now find more than 110,000 free to use and openly licensed images from our former picture library, Wellcome Images.
-
-The first phase resulted in:
-
-* A website and search that you can use on mobile devices
-* A simpler way to download high resolution and low resolution images
-* Zoom feature that allows you to see more detailed images
-* Even more images licenced under Creative Commons licences, mostly CC-BY and CC0.
-
-Throughout this first phase we’ve been collecting feedback on the website. Thanks to more than 200 respondents, we know that there are significant improvements to make search more effective, and to improve the quality of information about the items available on this website.
-
-We’re listening.
-
-## What's coming up?
-
-Throughout 2018, you can expect to see improvements to the search experience. We’ll focus on:
-
-### Improving information about works
-
-* Joining up digital images with more complete information from the library catalogue
-* Including information about the original object, such as its size, format, publication details, and so on
-* Making reference numbers and citation information available and clear.
-
-### Improving search and filtering
-
-* Dates and date ranges
-* Filter by licence
-* Search by subject, country of publication, media type.
-
-### Improving how you can manage and share your search results
-
-* Ways to save groups of images or records
-* Simple embed option to make it easy to use an image on another website.
-
-For now, if you need any help in identifying items from library collections, please email collections@wellcome.ac.uk.
-
----
+## What’s next:
+Next we’ll be working to improve the relevance of your search results. We’re also working on improving the descriptive data, physical details and location information, and the data that allows you to filter your search by year. 
 
 # Get involved
 We want to share our work in progress with you, and to get your feedback throughout the development.
 
-If you’d like to help shape how this website works, we invite you to join our User Panel. We're looking for people at all levels of research experience to participate in the design process.
+If you’d like to help shape how this website works, we invite you to join our User Panel. We’re looking for people at all levels of research experience to participate in the design process.
 
 As a panellist, you’ll be invited to take part in occasional activities which help us test new designs, functionality and features. These activities may be in-person interviews, brief interactive tests, and surveys. You do not need to be present in London to participate; many activities can be done online.
 

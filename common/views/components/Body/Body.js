@@ -16,11 +16,13 @@ import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
+import VenueHours from '../VenueHours/VenueHours';
 import {
   defaultSerializer,
   dropCapSerializer,
 } from '../../../services/prismic/html-serialisers';
-import type { Weight } from '../../../services/prismic/parsers';
+import { type Weight } from '../../../services/prismic/parsers';
+import { parseVenueTimesToOpeningHours } from '../../../services/prismic/opening-times';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -35,9 +37,10 @@ export type BodyType = BodySlice[];
 type Props = {|
   body: BodyType,
   isDropCapped?: boolean,
+  pageId: string,
 |};
 
-const Body = ({ body, isDropCapped }: Props) => {
+const Body = ({ body, isDropCapped, pageId }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
@@ -66,7 +69,10 @@ const Body = ({ body, isDropCapped }: Props) => {
               <Layout8>
                 <div className="body-text spaced-text">
                   {slice.weight === 'featured' && (
-                    <FeaturedText html={slice.value} />
+                    <FeaturedText
+                      html={slice.value}
+                      htmlSerialiser={defaultSerializer}
+                    />
                   )}
                   {slice.weight !== 'featured' &&
                     (firstTextSliceIndex === i && isDropCapped ? (
@@ -163,6 +169,15 @@ const Body = ({ body, isDropCapped }: Props) => {
               <Layout10>
                 <Iframe {...slice.value} />
               </Layout10>
+            )}
+
+            {slice.type === 'collectionVenue' && (
+              <VenueHours
+                venue={parseVenueTimesToOpeningHours(slice.value)}
+                isInList={
+                  pageId === 'openingTimes' || pageId === 'WwQHTSAAANBfDYXU'
+                }
+              />
             )}
 
             {/* deprecated */}

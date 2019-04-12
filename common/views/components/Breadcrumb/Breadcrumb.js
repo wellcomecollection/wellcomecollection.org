@@ -48,12 +48,24 @@ const Breadcrumb = ({ items }: Props) => (
           </BoldOrSpanTag>
         );
       })}
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(breadcrumbsLd({ items })),
-      }}
-    />
+    {/* We do this so that the page doesn't bounce around if we don't have any breadcrumbs */}
+    {items.length === 0 && (
+      <span
+        className={classNames({
+          [font({ s: 'HNL4' })]: true,
+          'empty-filler': true,
+        })}
+        style={{ lineHeight: 1 }}
+      />
+    )}
+    {items.length > 0 && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbsLd({ items })),
+        }}
+      />
+    )}
   </div>
 );
 export default Breadcrumb;

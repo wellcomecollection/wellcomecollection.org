@@ -27,7 +27,7 @@ const ErrorPage = ({ statusCode, title }: Props) => {
         id={'error'}
         Header={
           <PageHeader
-            breadcrumbs={{ items: [{ url: '/', text: 'Home' }] }}
+            breadcrumbs={{ items: [] }}
             labels={null}
             title={
               title ||
@@ -43,7 +43,7 @@ const ErrorPage = ({ statusCode, title }: Props) => {
             highlightHeading={true}
           />
         }
-        Body={<Body body={[]} />}
+        Body={<Body body={[]} pageId={'error'} />}
       >
         <div className="body-text">
           <ul className="no-margin">
