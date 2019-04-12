@@ -43,7 +43,7 @@ const ErrorPage = ({ statusCode, title }: Props) => {
             highlightHeading={true}
           />
         }
-        Body={<Body body={[]} />}
+        Body={<Body body={[]} pageId={'error'} />}
       >
         <div className="body-text">
           <ul className="no-margin">

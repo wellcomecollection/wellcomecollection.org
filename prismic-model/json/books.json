@@ -280,9 +280,9 @@
               }
             }
           },
-          "venueTimes": {
+          "collectionVenue": {
             "type": "Slice",
-            "fieldset": "Venue opening times",
+            "fieldset": "Collection venue",
             "non-repeat": {
               "content": {
                 "type": "Link",

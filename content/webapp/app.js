@@ -61,10 +61,12 @@ module.exports = app
     route('/books', '/books', router, app);
     route('/books/:id', '/book', router, app);
 
+    route('/opening-times', '/opening-times', router, app);
+    route('/pages/WwQHTSAAANBfDYXU', '/opening-times', router, app);
+
     route('/places/:id', '/place', router, app);
     route('/pages/:id', '/page', router, app);
 
-    route('/opening-times', '/opening-times', router, app);
     route('/newsletter', '/newsletter', router, app);
 
     pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');

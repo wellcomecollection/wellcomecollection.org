@@ -1,42 +1,26 @@
 // @flow
-import Prismic from 'prismic-javascript';
-import { getDocuments } from './api';
-import { isDatePast, london } from '../../utils/format-date';
-import groupBy from 'lodash.groupby';
+import { london } from '../../utils/format-date';
 import type {
   Day,
   OverrideType,
   ExceptionalPeriod,
   OverrideDate,
-  ExceptionalVenueHours,
-  PlacesOpeningHours,
   ExceptionalOpeningHoursDay,
   Venue,
-  periodModifiedHours,
+  PlacesOpeningHours,
 } from '../../model/opening-hours';
-import type { PrismicFragment } from '../../services/prismic/types';
+import { type PrismicFragment } from '../../services/prismic/types';
 import type Moment from 'moment';
 
-export async function getCollectionOpeningTimes(
-  req: ?Request,
-  daysInAdvance?: number = 15
-) {
-  const collectionVenues = await getDocuments(
-    req,
-    [Prismic.Predicates.any('document.type', ['collection-venue'])],
-    {}
-  );
-  return parseVenuesToOpeningHours(collectionVenues, daysInAdvance);
-}
+// TODO add comprehensive comments and probably rename some functions
 
-function exceptionalOpeningDates(
-  placesHoursArray: PlacesOpeningHours
-): OverrideDate[] {
+export function exceptionalOpeningDates(collectionOpeningTimes: {
+  placesOpeningHours: Venue[],
+}): OverrideDate[] {
   return [].concat
     .apply(
       [],
-      placesHoursArray.map(place => {
-        // [].concat.apply to flatten the array
+      collectionOpeningTimes.placesOpeningHours.map(place => {
         if (place.openingHours.exceptional) {
           return place.openingHours.exceptional.map(exceptionalDate => {
             return {
@@ -70,7 +54,9 @@ function exceptionalOpeningDates(
     });
 }
 
-function exceptionalOpeningPeriods(dates: OverrideDate[]): ExceptionalPeriod[] {
+export function exceptionalOpeningPeriods(
+  dates: OverrideDate[]
+): ExceptionalPeriod[] {
   let groupedIndex = 0;
 
   return dates.reduce((acc, date, i, array) => {
@@ -108,211 +94,179 @@ function exceptionalOpeningPeriods(dates: OverrideDate[]): ExceptionalPeriod[] {
 
 export function exceptionalOpeningPeriodsAllDates(
   exceptionalOpeningPeriods: ?(ExceptionalPeriod[])
-): ?({ type: OverrideType, dates: Moment[] }[]) {
-  return (
-    exceptionalOpeningPeriods &&
-    exceptionalOpeningPeriods.map(period => {
-      const startDate = london(period.dates[0].overrideDate.toDate()).startOf(
-        'day'
-      );
-      const lastDate = london(
-        period.dates[period.dates.length - 1].overrideDate.toDate()
-      ).startOf('day');
-      const completeDateArray = [];
-      while (startDate.startOf('day').isSameOrBefore(lastDate)) {
-        const current = startDate.format('YYYY-MM-DD');
-        completeDateArray.push(london(new Date(current)));
-        startDate.add(1, 'day');
-      }
-      return {
-        type: period.type,
-        dates: completeDateArray,
-      };
-    })
-  );
+): { type: OverrideType, dates: Moment[] }[] {
+  return exceptionalOpeningPeriods
+    ? exceptionalOpeningPeriods.map(period => {
+        const startDate = london(period.dates[0].overrideDate.toDate()).startOf(
+          'day'
+        );
+        const lastDate = london(
+          period.dates[period.dates.length - 1].overrideDate.toDate()
+        ).startOf('day');
+        const completeDateArray = [];
+        while (startDate.startOf('day').isSameOrBefore(lastDate)) {
+          const current = startDate.format('YYYY-MM-DD');
+          completeDateArray.push(london(new Date(current)));
+          startDate.add(1, 'day');
+        }
+        return {
+          type: period.type,
+          dates: completeDateArray,
+        };
+      })
+    : [];
 }
 
-function regularTimesbyDay(
-  placesOpeningHours: PlacesOpeningHours,
-  currentDate: Moment
-) {
-  const currentDay = currentDate.format('dddd');
-  return placesOpeningHours.map(place => {
-    const hours = place.openingHours.regular.find(
-      hours => hours.dayOfWeek === currentDay
-    );
-    return {
-      exceptionalDate: currentDate,
-      exceptionalDay: currentDay,
-      id: place.id,
-      name: place.name,
-      order: place.order,
-      openingHours: {
-        // overrideDate: currentDate, // TODO - check works
-        dayOfWeek: currentDay,
-        opens: hours && hours.opens,
-        closes: hours && hours.closes,
-      },
-    };
-  });
-}
-
-export function exceptionalOpeningHoursByPeriod(
-  upcomingPeriodsComplete: ?({ type: OverrideType, dates: Moment[] }[]),
-  exceptionalHoursByDate: {
-    [string]: ExceptionalVenueHours[],
+export function getExceptionalOpeningPeriods(openingTimes: {
+  collectionOpeningTimes: {
+    placesOpeningHours: PlacesOpeningHours,
   },
-  placesOpeningHours: PlacesOpeningHours
-): ?(periodModifiedHours[]) {
+}) {
+  const allExceptionalDates = exceptionalOpeningDates(
+    openingTimes.collectionOpeningTimes
+  );
+  const groupedExceptionalDates =
+    allExceptionalDates && exceptionalOpeningPeriods(allExceptionalDates);
   return (
-    upcomingPeriodsComplete &&
-    upcomingPeriodsComplete.map(period => {
-      const periodStart = period.dates[0];
-      const periodEnd = period.dates[period.dates.length - 1];
-      const dates =
-        period &&
-        period.dates &&
-        period.dates
-          .map(periodDate => {
-            const current = periodDate.format('YYYY-MM-DD');
-            const hours = exceptionalHoursByDate[current];
-            if (hours) {
-              return hours;
-            } else {
-              return regularTimesbyDay(
-                placesOpeningHours,
-                london(periodDate.toDate())
-              );
-            }
-          })
-          .filter(Boolean);
-      return {
-        periodStart: periodStart,
-        periodEnd: periodEnd,
-        dates,
-      };
-    })
+    groupedExceptionalDates &&
+    exceptionalOpeningPeriodsAllDates(groupedExceptionalDates)
   );
 }
 
-function identifyChanges(
-  override: ?ExceptionalOpeningHoursDay,
-  place: Venue,
-  exceptionalDay: Day
-) {
-  const regular = place.openingHours.regular.find(
-    item => item.dayOfWeek === exceptionalDay
+export function getExceptionalVenueDays(
+  venue: Venue
+): ExceptionalOpeningHoursDay[] {
+  return (venue.openingHours && venue.openingHours.exceptional) || [];
+}
+
+export function groupExceptionalVenueDays(
+  exceptionalDays: ExceptionalOpeningHoursDay[]
+): ExceptionalOpeningHoursDay[][] {
+  return exceptionalDays.length > 0
+    ? exceptionalDays
+        .sort((a, b) => {
+          return a.overrideDate.diff(b.overrideDate, 'days');
+        })
+        .reduce(
+          (acc, date) => {
+            const group = acc[acc.length - 1];
+            if (
+              date.overrideDate.diff(
+                (group[0] && group[0].overrideDate) || date.overrideDate,
+                'days'
+              ) > 14
+            ) {
+              acc.push([date]);
+            } else {
+              group.push(date);
+            }
+            return acc;
+          },
+          [[]]
+        )
+    : [];
+}
+
+function exceptionalFromRegular(
+  venue: Venue,
+  dateToGet: Moment,
+  type: OverrideType
+): ExceptionalOpeningHoursDay {
+  const currentDay = dateToGet.format('dddd');
+  const regular = venue.openingHours.regular.find(
+    hours => hours.dayOfWeek === currentDay
   );
   return {
-    opensHasChanged: override && regular && regular.opens !== override.opens,
-    closesHasChanged: override && regular && regular.closes !== override.closes,
+    overrideDate: dateToGet,
+    overrideType: type,
+    opens: regular ? regular.opens : null,
+    closes: regular ? regular.closes : null,
   };
 }
 
-function exceptionalOpeningHours(
-  dates: OverrideDate[],
-  placesOpeningHours: PlacesOpeningHours
-) {
-  return [].concat
-    .apply(
-      [],
-      dates.reduce((acc, exceptionalDate) => {
-        const exceptionalDay = london(
-          exceptionalDate.overrideDate.toDate()
-        ).format('dddd');
-        const overrides = placesOpeningHours.map(place => {
-          const override =
-            place.openingHours.exceptional &&
-            place.openingHours.exceptional.find(item => {
-              if (item.overrideDate && exceptionalDate.overrideDate) {
-                return (
-                  london(item.overrideDate.toDate()).format('YYYY-MM-DD') ===
-                  london(exceptionalDate.overrideDate.toDate()).format(
-                    'YYYY-MM-DD'
-                  )
-                );
-              }
+export function backfillExceptionalVenueDays(
+  venue: Venue,
+  allVenueExceptionalPeriods?: { type: OverrideType, dates: Moment[] }[]
+): ExceptionalOpeningHoursDay[][] {
+  const groupedExceptionalDays = groupExceptionalVenueDays(
+    getExceptionalVenueDays(venue)
+  );
+  return allVenueExceptionalPeriods
+    ? allVenueExceptionalPeriods
+        .map(period => {
+          const sortedDates = period.dates.sort((a, b) => {
+            return a.diff(b, 'days');
+          });
+          const type = period.type || 'other';
+          const days = sortedDates.map(date => {
+            const matchingVenueGroup = groupedExceptionalDays.find(group => {
+              return group.find(day => day.overrideDate.isSame(date, 'day'));
             });
-          const changes = identifyChanges(override, place, exceptionalDay);
-          const openingHours =
-            override ||
-            place.openingHours.regular.find(
-              item => item.dayOfWeek === exceptionalDay
-            );
-          return {
-            exceptionalDate,
-            exceptionalDay,
-            id: place.id,
-            name: place.name,
-            order: place.order,
-            openingHours,
-            opensChanged: changes.opensHasChanged,
-            closesChanged: changes.closesHasChanged,
-          };
-        });
-        acc.push(overrides);
+            const matchingDay =
+              matchingVenueGroup &&
+              matchingVenueGroup.find(day =>
+                day.overrideDate.isSame(date, 'day')
+              );
+            const backfillDay = exceptionalFromRegular(venue, date, type);
+            return matchingDay || backfillDay;
+          });
+          return days;
+        })
+        .filter(Boolean)
+    : [];
+}
 
-        return acc;
-      }, [])
-    )
+export function groupConsecutiveDays(
+  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
+): ExceptionalOpeningHoursDay[][] {
+  return openingHoursPeriods
+    .reduce((acc, curr) => acc.concat(curr), [])
     .sort((a, b) => {
-      return a.order - b.order;
-    });
+      return a.overrideDate.diff(b.overrideDate, 'days');
+    })
+    .reduce(
+      (acc, date) => {
+        const group = acc[acc.length - 1];
+        if (
+          date.overrideDate.diff(
+            (group[group.length - 1] && group[group.length - 1].overrideDate) ||
+              date.overrideDate,
+            'days'
+          ) > 1
+        ) {
+          acc.push([date]);
+        } else {
+          group.push(date);
+        }
+        return acc;
+      },
+      [[]]
+    );
 }
 
-function upcomingExceptionalOpeningPeriods(
-  periods: ExceptionalPeriod[],
-  daysInAdvance: number = 15
+export function getUpcomingExceptionalPeriod(
+  exceptionalPeriods: ExceptionalOpeningHoursDay[][]
 ) {
-  const exceptionalPeriods =
-    periods &&
-    periods.filter(period => {
-      const displayPeriodStart = london().subtract(1, 'day');
-      const displayPeriodEnd = london().add(daysInAdvance, 'day');
-      return (
-        period.dates[0].overrideDate
-          .clone()
-          .isBetween(displayPeriodStart, displayPeriodEnd) ||
-        period.dates[period.dates.length - 1].overrideDate
-          .clone()
-          .isBetween(displayPeriodStart, displayPeriodEnd)
-      );
-    });
-
-  return exceptionalPeriods.length > 0 ? exceptionalPeriods : null;
+  const nextUpcomingPeriod = exceptionalPeriods
+    .filter(period => {
+      const upcomingPeriod = period.find(d => {
+        return (
+          d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
+          d.overrideDate.isSameOrAfter(london(), 'day')
+        );
+      });
+      return upcomingPeriod || false;
+    })
+    .filter(Boolean);
+  return nextUpcomingPeriod;
 }
 
-function exceptionalClosedDates(
-  exceptionalOpeningHours: ?(periodModifiedHours[])
-): ?({
-  periodStart: Moment,
-  periodEnd: Moment,
-  venues: {
-    [string]: [],
-  },
-}[]) {
-  const onlyClosedByVenue =
-    exceptionalOpeningHours &&
-    exceptionalOpeningHours
-      .map(period => {
-        const dates = [].concat(
-          ...period.dates.map(dates => {
-            return dates.filter(venue => !venue.openingHours.opens);
-          })
-        );
-        const venues = groupBy(dates, venue => venue.name);
-
-        return {
-          periodStart: period.periodStart,
-          periodEnd: period.periodEnd,
-          venues,
-        };
-      })
-      .filter(period => {
-        return Object.keys(period.venues).length > 0;
-      });
-
-  return onlyClosedByVenue;
+export function getExceptionalClosedDays(
+  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
+): ExceptionalOpeningHoursDay[][] {
+  return openingHoursPeriods.map(period =>
+    period.filter(date => date.opens === null)
+  );
 }
 
 function createRegularDay(day: Day, venue: PrismicFragment) {
@@ -334,121 +288,72 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-export function parseVenuesToOpeningHours(
-  doc: PrismicFragment,
-  daysInAdvance?: number
-) {
-  const placesOpeningHours = doc.results.map(venue => {
-    const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
-      modified => {
-        const start =
-          modified.startDateTime &&
-          london(modified.startDateTime).format('HH:mm');
-        const end =
-          modified.startDateTime &&
-          london(modified.endDateTime).format('HH:mm');
-        const overrideDate =
-          modified.overrideDate && london(modified.overrideDate);
-        const overrideType = modified.type;
-        return {
-          overrideDate,
-          overrideType,
-          opens: start,
-          closes: end,
-        };
-      }
-    );
-    return {
-      id: venue.id,
-      name: venue.data.title,
-      order: venue.data.order,
-      openingHours: {
-        regular: [
-          createRegularDay('Monday', venue),
-          createRegularDay('Tuesday', venue),
-          createRegularDay('Wednesday', venue),
-          createRegularDay('Thursday', venue),
-          createRegularDay('Friday', venue),
-          createRegularDay('Saturday', venue),
-          createRegularDay('Sunday', venue),
-        ],
-        exceptional: exceptionalOpeningHours,
-      },
-    };
-  });
-
-  const exceptionalDates = exceptionalOpeningDates(placesOpeningHours);
-  const futureExceptionalDates =
-    exceptionalDates &&
-    exceptionalDates.filter(
-      exceptionalDate =>
-        exceptionalDate &&
-        exceptionalDate.overrideDate &&
-        !isDatePast(exceptionalDate.overrideDate.toDate())
-    );
-  const exceptionalPeriods = exceptionalOpeningPeriods(futureExceptionalDates);
-  const individualExceptionalOpeningHours = exceptionalOpeningHours(
-    futureExceptionalDates,
-    placesOpeningHours
-  );
-  const exceptionalHours = groupBy(individualExceptionalOpeningHours, item =>
-    london(item.exceptionalDate.overrideDate).format('YYYY-MM-DD')
-  );
-  const orderedHours = {};
-  Object.keys(exceptionalHours)
-    .sort()
-    .forEach(key => (orderedHours[key] = exceptionalHours[key]));
-  const exceptionalOpening = exceptionalOpeningHoursByPeriod(
-    exceptionalOpeningPeriodsAllDates(exceptionalPeriods),
-    orderedHours,
-    placesOpeningHours
+// TODO rename - Takes the slice JSON and converts it to the Venue shape: rename Venue type?
+export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
+  const data = venue.data;
+  const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
+    modified => {
+      const start =
+        modified.startDateTime &&
+        london(modified.startDateTime).format('HH:mm');
+      const end =
+        modified.startDateTime && london(modified.endDateTime).format('HH:mm');
+      const overrideDate =
+        modified.overrideDate && london(modified.overrideDate);
+      const overrideType = modified.type;
+      return {
+        overrideDate,
+        overrideType,
+        opens: start,
+        closes: end,
+      };
+    }
   );
 
   return {
-    placesOpeningHours: placesOpeningHours.sort((a, b) => {
-      return a.order - b.order;
-    }),
-    upcomingExceptionalOpeningPeriods: exceptionalOpeningPeriodsAllDates(
-      upcomingExceptionalOpeningPeriods(exceptionalPeriods, daysInAdvance)
-    ),
-    exceptionalOpeningHours: exceptionalOpening,
-    exceptionalClosedDates: exceptionalClosedDates(exceptionalOpening),
+    id: venue.id,
+    order: data.order,
+    name: data.title,
+    openingHours: {
+      regular: [
+        createRegularDay('Monday', venue),
+        createRegularDay('Tuesday', venue),
+        createRegularDay('Wednesday', venue),
+        createRegularDay('Thursday', venue),
+        createRegularDay('Friday', venue),
+        createRegularDay('Saturday', venue),
+        createRegularDay('Sunday', venue),
+      ],
+      exceptional: exceptionalOpeningHours,
+    },
   };
 }
 
-export function parseOpeningTimesFromCollectionVenues(doc: PrismicFragment) {
-  const openingTimes = parseVenuesToOpeningHours(doc);
-  const galleriesLibrary =
-    openingTimes &&
-    openingTimes.placesOpeningHours.filter(venue => {
-      return (
-        venue.name.toLowerCase() === 'galleries' ||
-        venue.name.toLowerCase() === 'library'
-      );
-    });
-  const restaurantCafeShop =
-    openingTimes &&
-    openingTimes.placesOpeningHours.filter(venue => {
-      return (
-        venue.name.toLowerCase() === 'restaurant' ||
-        venue.name.toLowerCase() === 'café' ||
-        venue.name.toLowerCase() === 'shop'
-      );
-    });
-  const groupedVenues = {
-    galleriesLibrary: {
-      title: 'Venue',
-      hours: galleriesLibrary,
-    },
-    restaurantCafeShop: {
-      title: 'Eat & Shop',
-      hours: restaurantCafeShop,
-    },
-  };
+export function parseVenuesToOpeningHours(doc: PrismicFragment) {
+  const placesOpeningHours = doc.results.map(venue => {
+    return parseVenueTimesToOpeningHours(venue);
+  });
+
   return {
-    collectionOpeningTimes: openingTimes,
-    groupedVenues: groupedVenues,
-    upcomingExceptionalOpeningPeriods:
-      openingTimes.upcomingExceptionalOpeningPeriods,
+    collectionOpeningTimes: {
+      placesOpeningHours: placesOpeningHours.sort((a, b) => {
+        return a.order - b.order;
+      }),
+    },
   };
+}
+
+export function getTodaysVenueHours(venue: Venue) {
+  const todaysDate = london().startOf('day');
+  const todayString = todaysDate.format('dddd');
+  const exceptionalOpeningHours =
+    venue.openingHours.exceptional &&
+    venue.openingHours.exceptional.find(i => {
+      const dayOfWeek = london(i.overrideDate).startOf('day');
+      return todaysDate.isSame(dayOfWeek);
+    });
+  const regularOpeningHours =
+    venue.openingHours.regular &&
+    venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
+  return exceptionalOpeningHours || regularOpeningHours;
 }

@@ -8,7 +8,7 @@ import Raven from 'raven-js';
 import { Fragment } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
-import { parseOpeningTimesFromCollectionVenues } from '../../services/prismic/opening-times';
+import { parseVenuesToOpeningHours } from '../../services/prismic/opening-times';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -292,9 +292,7 @@ export default class WecoApp extends App {
       'WeakMap',
       'URL',
     ];
-    const parsedOpeningTimes = parseOpeningTimesFromCollectionVenues(
-      openingTimes
-    );
+    const parsedOpeningTimes = parseVenuesToOpeningHours(openingTimes);
 
     return (
       <Container>
