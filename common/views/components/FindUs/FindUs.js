@@ -26,7 +26,11 @@ const FindUs = () => (
             { margin: ['right'] }
           )}`}
         />
-        <p>
+        <p
+          className={classNames({
+            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+          })}
+        >
           <span className="find-us__street">
             {wellcomeCollectionAddress.streetAddress}
           </span>
@@ -49,6 +53,15 @@ const FindUs = () => (
         block: true,
       })}
     >
+      <a href="/pages/WwabUiAAAHQXGNHB">Getting here</a>
+    </p>
+    <p
+      style={{ marginLeft: '38px' }}
+      className={classNames({
+        [spacing({ s: 3 }, { margin: ['bottom'] })]: true,
+        block: true,
+      })}
+    >
       <abbr title="telephone number">T</abbr>:{' '}
       <a
         className="find-us__link"
@@ -61,15 +74,6 @@ const FindUs = () => (
       <a className="find-us__link" href="mailto:info@wellcomecollection.org">
         info@wellcomecollection.org
       </a>
-    </p>
-    <p
-      style={{ marginLeft: '38px' }}
-      className={classNames({
-        [spacing({ s: 3 }, { margin: ['bottom'] })]: true,
-        block: true,
-      })}
-    >
-      <a href="/pages/WwabUiAAAHQXGNHB">Getting here</a>
     </p>
   </div>
 );
