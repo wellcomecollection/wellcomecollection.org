@@ -16,7 +16,7 @@ const NewsletterPromo = () => (
       >
         <div
           className={classNames({
-            'grid bg-brown': true,
+            'grid bg-purple': true,
           })}
         >
           <div
@@ -56,7 +56,7 @@ const NewsletterPromo = () => (
               )]: true,
             })}
           >
-            <RepeatingLs foreground={'teal'} background={'brown'} />
+            <RepeatingLs foreground={'yellow'} background={'purple'} />
 
             <Button
               type="secondary"
