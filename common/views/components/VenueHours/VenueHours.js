@@ -35,7 +35,7 @@ const JauntyBox = styled.div.attrs(props => ({
     [spacing({ s: -2, m: -4 }, { margin: ['left', 'right'] })]: true,
   }),
 }))`
-  transition: clip-path 600ms ease;
+  transition: -webkit-clip-path 600ms ease-in-out, clip-path 600ms ease-in-out;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 `;
 
