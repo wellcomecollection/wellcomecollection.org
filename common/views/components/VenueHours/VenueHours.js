@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useRef, useEffect } from 'react';
 import { classNames, font, grid, spacing } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
@@ -35,13 +35,8 @@ const JauntyBox = styled.div.attrs(props => ({
     [spacing({ s: -2, m: -4 }, { margin: ['left', 'right'] })]: true,
   }),
 }))`
-  clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
-    `polygon(
-      ${topLeft} ${topLeft},
-      calc(100% - ${topRight}) ${topRight},
-      100% calc(100% - ${bottomRight}),
-      ${bottomLeft} 100%
-    )`};
+  transition: clip-path 600ms ease;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 `;
 
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
@@ -95,6 +90,28 @@ const VenueHours = ({ venue, isInList }: Props) => {
       url: '/pages/Wuw19yIAAK1Z3Snk',
     },
   };
+
+  const jauntyRef = useRef(null);
+
+  function setRandomClipPath() {
+    const topLeft = randomPx();
+    const topRight = randomPx();
+    const bottomRight = randomPx();
+    const bottomLeft = randomPx();
+
+    ['clipPath', 'webkitClipPath'].forEach(property => {
+      jauntyRef.current.style[property] = `polygon(
+        ${topLeft} ${topLeft},
+        calc(100% - ${topRight}) ${topRight},
+        100% calc(100% - ${bottomRight}),
+        ${bottomLeft} 100%
+      )`;
+    });
+  }
+
+  useEffect(() => {
+    setRandomClipPath();
+  });
 
   return (
     <div className="row">
@@ -175,12 +192,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
             })}
           >
             {upcomingExceptionalPeriod && upcomingExceptionalPeriod.length > 0 && (
-              <JauntyBox
-                topLeft={randomPx()}
-                topRight={randomPx()}
-                bottomRight={randomPx()}
-                bottomLeft={randomPx()}
-              >
+              <JauntyBox ref={jauntyRef}>
                 <h3
                   className={classNames({
                     [font({ s: 'HNM4' })]: true,
