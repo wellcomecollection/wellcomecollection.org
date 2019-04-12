@@ -69,8 +69,8 @@ const VenueHours = ({ venue, isInList }: Props) => {
     library: {
       image:
         'https://iiif.wellcomecollection.org/image/prismic:36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
-      displayTitle: 'The Library',
-      linkText: 'Read about our Library',
+      displayTitle: 'Library',
+      linkText: 'Read about the library',
       url: '/pages/Wuw19yIAAK1Z3Smm',
     },
     shop: {
