@@ -362,7 +362,7 @@ const ExhibitionPromoExample = () => {
   );
 };
 
-const stories = storiesOf('Components/Promos', module);
+const stories = storiesOf('Components', module);
 
 stories
   .add('EventPromo', EventPromoExample, { info: EventPromoReadme })
