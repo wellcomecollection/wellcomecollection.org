@@ -117,8 +117,7 @@ const PageLayout = ({
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Footer
-              openingHoursId="footer"
-              groupedVenues={openingTimes.groupedVenues}
+              openingTimes={openingTimes}
               upcomingExceptionalOpeningPeriods={
                 openingTimes.upcomingExceptionalOpeningPeriods
               }

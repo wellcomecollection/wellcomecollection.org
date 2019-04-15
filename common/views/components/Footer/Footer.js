@@ -1,31 +1,36 @@
 // @flow
-import { spacing, font, grid } from '../../../utils/classnames';
+import { spacing, font, grid, classNames } from '../../../utils/classnames';
+import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
 import FindUs from '../FindUs/FindUs';
-import OpeningHours from '../OpeningHours/OpeningHours';
+// TODO import OpeningHours from '../OpeningHours/OpeningHours';
 import FooterSocial from '../FooterSocial/FooterSocial';
 import Icon from '../Icon/Icon';
-import type { GroupedVenues, OverrideType } from '../../../model/opening-hours';
+import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
+import styled from 'styled-components';
 
+const TopBorderBox = styled.div.attrs({
+  className: classNames({
+    [spacing({ l: 4 }, { padding: ['top'] })]: true,
+  }),
+})`
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    border-top: 1px solid ${props => props.theme.colors.charcoal};
+    border-bottom: 0;
+  }
+`;
 type Props = {|
-  openingHoursId: string,
-  groupedVenues: GroupedVenues,
+  openingTimes: any, // TODO
   upcomingExceptionalOpeningPeriods: ?({
     dates: Moment[],
     type: OverrideType,
   }[]),
-  // TODO: make this openingHoursExtraClasses (or something else)
   extraClasses?: string,
 |};
 
-const Footer = ({
-  openingHoursId,
-  extraClasses,
-  groupedVenues,
-  upcomingExceptionalOpeningPeriods,
-}: Props) => (
+const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
   <div
     className={`footer row bg-black ${spacing(
       { s: 5, m: 10 },
@@ -34,7 +39,7 @@ const Footer = ({
   >
     <div className="container">
       <div className="grid">
-        <div className={` ${grid({ s: 12, m: 6, l: 3 })}`}>
+        <div className={` ${grid({ s: 12, m: 12, l: 4 })}`}>
           <h3 className={`footer__heading relative ${font({ s: 'HNL5' })}`}>
             <span className="hidden">Wellcome collection</span>
             <a href="#" className="footer-nav__brand absolute">
@@ -45,57 +50,124 @@ const Footer = ({
             <FooterNav />
           </div>
         </div>
-        <div className={`${grid({ s: 12, m: 6, l: 3 })}`}>
-          <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
+        <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
+          <h3
+            className={`footer__heading hidden is-hidden-s is-hidden-m ${font({
+              s: 'HNL5',
+            })}`}
+          >
             Finding us:
           </h3>
-          <FindUs />
+          <TopBorderBox>
+            <FindUs />
+          </TopBorderBox>
         </div>
-        <div className={`${grid({ s: 12, l: 6, xl: 6 })}`}>
-          <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
-            Opening times:
+        <div
+          className={classNames({
+            [grid({ s: 12, l: 4, xl: 4 })]: true,
+            [font({ s: 'HNL5' })]: true,
+          })}
+        >
+          <h3
+            className={`footer__heading hidden is-hidden-s is-hidden-m ${font({
+              s: 'HNL5',
+            })}`}
+          >
+            {`Opening times:`}
           </h3>
-          <OpeningHours
-            extraClasses={extraClasses}
-            groupedVenues={groupedVenues}
-            upcomingExceptionalOpeningPeriods={
-              upcomingExceptionalOpeningPeriods
-            }
-            idPrefix="footer-"
-          />
-        </div>
-      </div>
-      <div className="grid">
-        <div className="grid__cell">
-          <h3 className={`footer__heading ${font({ s: 'HNL5' })}`}>
-            Connect with us:
-          </h3>
+          <TopBorderBox>
+            <Icon
+              name="clock"
+              extraClasses={`float-l ${spacing(
+                { s: 2, m: 2, l: 2, xl: 2 },
+                { margin: ['right'] }
+              )}`}
+            />
+            <div
+              className={classNames({
+                [font({
+                  s: 'HNL5',
+                })]: true,
+                'float-l': true,
+              })}
+            >
+              <h4
+                className={classNames({
+                  [font({ s: 'HNM5' })]: true,
+                  'no-margin': true,
+                })}
+              >{`Today's opening times`}</h4>
+              <ul className="plain-list no-padding no-margin">
+                {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
+                  venue => {
+                    const todaysHours = getTodaysVenueHours(venue);
+                    return (
+                      todaysHours && (
+                        <li
+                          key={venue.name}
+                          className={classNames({
+                            [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                          })}
+                        >
+                          {venue.name.toLowerCase() === 'restaurant'
+                            ? 'Kitchen '
+                            : `${venue.name} `}
+                          {todaysHours.opens ? (
+                            <>
+                              <time>{todaysHours.opens}</time>
+                              {'—'}
+                              <time>{todaysHours.closes}</time>
+                            </>
+                          ) : (
+                            'closed'
+                          )}
+                        </li>
+                      )
+                    );
+                  }
+                )}
+              </ul>
+              <p
+                className={classNames({
+                  [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                })}
+              >
+                <a href="/opening-times">Opening times</a>
+              </p>
+            </div>
+          </TopBorderBox>
         </div>
       </div>
       <FooterSocial />
       <div className="footer__bottom">
-        <div
-          className={`footer__left ${spacing(
-            { s: 2, l: 0 },
-            { margin: ['bottom'] }
-          )}`}
-        >
+        <div className="footer__left">
           <div
-            className={`footer__strap ${font({ s: 'HNM6' })} ${spacing(
-              { m: 4, l: 6 },
-              { margin: ['right'] }
-            )}`}
+            className={classNames({
+              [font({ s: 'HNM6' })]: true,
+              [spacing({ s: 2 }, { margin: ['top'] })]: true,
+              [spacing({ m: 2 }, { margin: ['bottom'] })]: true,
+              [spacing({ m: 4, l: 6 }, { margin: ['right'] })]: true,
+              [spacing({ s: 2, m: 0 }, { padding: ['bottom'] })]: true,
+              footer__strap: true,
+            })}
           >
-            <Icon name="wellcome" />
+            <Icon
+              name="wellcome"
+              extraClasses={classNames({
+                [spacing({ s: 1 }, { margin: ['right'] })]: true,
+              })}
+            />
             <span className="footer__strap-text">
               The free museum and library from Wellcome
             </span>
           </div>
           <div
-            className={`footer__licensing ${font({ s: 'HNM6' })} ${spacing(
-              { xl: 2 },
-              { padding: ['right'] }
-            )}`}
+            className={classNames({
+              [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
+              [font({ s: 'HNM6' })]: true,
+              [spacing({ xl: 2 }, { padding: ['right'] })]: true,
+              footer__licensing: true,
+            })}
           >
             <div className="footer__licensing-icons">
               <Icon name="cc" />

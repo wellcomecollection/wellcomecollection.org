@@ -1,11 +1,26 @@
 // @flow
 import { useEffect } from 'react';
 
-type AnalyticsResource = {|
-  title: string,
-  id: string,
-  type: 'Work' | 'ResultList' | 'Item',
+type ResultListResource = {|
+  type: 'ResultList',
+  query: string,
+  page: number,
+  workType: ?(string[]),
 |};
+
+type WorkResource = {|
+  type: 'Work',
+  id: string,
+  title: string,
+|};
+
+type ItemResource = {|
+  type: 'Item',
+  id: string,
+  title: string,
+|};
+
+type AnalyticsResource = ResultListResource | WorkResource | ItemResource;
 
 export type AnalyticsEvent = {|
   event: string,

@@ -99,7 +99,7 @@ export default {
           },
         },
       }),
-      venueTimes: slice('Venue opening times', {
+      collectionVenue: slice('Collection venue', {
         nonRepeat: {
           content: link('Content item', 'document', ['collection-venue']),
         },

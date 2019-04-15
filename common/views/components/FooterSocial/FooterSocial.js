@@ -1,5 +1,5 @@
 // @flow
-import { font } from '../../../utils/classnames';
+import { font, spacing, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 
 const items = [
@@ -43,7 +43,12 @@ const items = [
 ];
 
 const FooterSocial = () => (
-  <div className="footer-social">
+  <div
+    className={classNames({
+      [spacing({ s: 4 }, { margin: ['top'] })]: true,
+      'footer-social': true,
+    })}
+  >
     {items.map(item => (
       <div key={item.title} className="footer-social__cell">
         <a

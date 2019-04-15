@@ -84,7 +84,7 @@ export class PlacePage extends Component<Props> {
         <ContentPage
           id={place.id}
           Header={Header}
-          Body={<Body body={place.body} />}
+          Body={<Body body={place.body} pageId={place.id} />}
         />
       </PageLayout>
     );

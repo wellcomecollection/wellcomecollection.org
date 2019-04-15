@@ -154,7 +154,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
         <TogglesContext.Consumer>
           {({ selectableQueries }) =>
-            query &&
             selectableQueries && (
               <label>
                 Query type:{' '}
