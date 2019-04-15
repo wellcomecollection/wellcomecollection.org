@@ -7,7 +7,7 @@ import {
   useEffect,
 } from 'react';
 import Router, { withRouter } from 'next/router';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '../../../services/catalogue/urls';
 
 export type CatalogueQuery = {|
   query: string,

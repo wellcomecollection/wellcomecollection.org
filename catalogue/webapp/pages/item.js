@@ -1,17 +1,19 @@
 // @flow
+import { useEffect } from 'react';
 import { type Context } from 'next';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
 import styled from 'styled-components';
 
 const IframePdfViewer = styled.iframe`
@@ -118,8 +120,21 @@ const ItemPage = ({
     ...sharedPaginatorProps,
   };
 
+  useEffect(() => {
+    const event = {
+      event: 'Catalogue View Item',
+      service: 'search_logs',
+      resource: {
+        title: title,
+        id: workId,
+        type: 'Item',
+      },
+    };
+    track(event);
+  }, []);
+
   return (
-    <PageLayout
+    <CataloguePageLayout
       title={title}
       description={''}
       url={{ pathname: `/works/${workId}/items`, query: { sierraId } }}
@@ -193,7 +208,7 @@ const ItemPage = ({
           canvasIndex={canvasIndex}
         />
       )}
-    </PageLayout>
+    </CataloguePageLayout>
   );
 };
 

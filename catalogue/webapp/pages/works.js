@@ -9,7 +9,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
@@ -20,6 +20,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -38,9 +39,26 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, setWorkType, workType } = useContext(
-    CatalogueSearchContext
-  );
+  const { query, page, workType } = useContext(CatalogueSearchContext);
+  const trackEvent = () => {
+    const event = {
+      event: query !== '' ? 'Catalogue Search' : 'Catalogue Landing',
+      service: 'search_logs',
+      resource: {
+        type: 'ResultList',
+        query: query,
+        page,
+        workType,
+      },
+    };
+    track(event);
+  };
+
+  // We have to have this for the initial page load, and have it on the router
+  // change as the page doesnt actually re-render when the URL parameters change.
+  useEffect(() => {
+    trackEvent();
+  }, []);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -48,6 +66,7 @@ const Works = ({ works }: Props) => {
     }
     function routeChangeComplete(url: string) {
       setLoading(false);
+      trackEvent();
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -89,7 +108,8 @@ const Works = ({ works }: Props) => {
           />
         )}
       </Head>
-      <PageLayout
+
+      <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
         url={worksUrl({ query, page }).as}
@@ -249,9 +269,6 @@ const Works = ({ works }: Props) => {
                         page: 1,
                       }),
                       selected: !workType,
-                      onClick: event => {
-                        setWorkType(undefined);
-                      },
                     },
                     {
                       text: 'Books',
@@ -265,9 +282,6 @@ const Works = ({ works }: Props) => {
                         (workType.indexOf('a') !== -1 &&
                           workType.indexOf('v') !== -1)
                       ),
-                      onClick: event => {
-                        setWorkType(['a', 'v']);
-                      },
                     },
                     {
                       text: 'Pictures',
@@ -281,9 +295,6 @@ const Works = ({ works }: Props) => {
                         (workType.indexOf('k') !== -1 &&
                           workType.indexOf('q') !== -1)
                       ),
-                      onClick: event => {
-                        setWorkType(['k', 'q']);
-                      },
                     },
                   ]}
                 />
@@ -421,7 +432,7 @@ const Works = ({ works }: Props) => {
             </div>
           </div>
         )}
-      </PageLayout>
+      </CataloguePageLayout>
     </Fragment>
   );
 };
