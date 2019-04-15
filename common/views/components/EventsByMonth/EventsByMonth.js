@@ -38,7 +38,6 @@ class EventsByMonth extends Component<Props, State> {
   render() {
     const { events, links } = this.props;
     const { activeId } = this.state;
-
     const monthsIndex = {
       January: 0,
       February: 1,
@@ -71,15 +70,24 @@ class EventsByMonth extends Component<Props, State> {
           // Only add if it has a time in the month that is the same or after today
           const hasDateInMonthRemaining = event.times.find(time => {
             const end = london(time.range.endDateTime);
+            const start = london(time.range.startDateTime);
             const monthAndYear = london(month);
             return (
-              end.isSame(
+              (end.isSame(
                 london({
                   M: monthAndYear.month(),
                   Y: monthAndYear.year(),
                 }),
                 'month'
-              ) && end.isSameOrAfter(london(), 'day')
+              ) ||
+                start.isSame(
+                  london({
+                    M: monthAndYear.month(),
+                    Y: monthAndYear.year(),
+                  }),
+                  'month'
+                )) &&
+              end.isSameOrAfter(london(), 'day')
             );
           });
           if (hasDateInMonthRemaining) {
