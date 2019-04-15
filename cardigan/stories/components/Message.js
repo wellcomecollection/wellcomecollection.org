@@ -6,11 +6,8 @@ import Readme from '../../../common/views/components/Message/README.md';
 const MessageExample = () => {
   const messageText = text('Message text', 'Just turn up');
 
-  return (
-    <Message text={messageText} />
-  );
+  return <Message text={messageText} />;
 };
 
 const stories = storiesOf('Components', module);
-stories
-  .add('Message', MessageExample, {info: Readme});
+stories.add('Message', MessageExample, { info: Readme });

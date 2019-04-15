@@ -17,6 +17,5 @@ const ButtonExample = () => {
   );
 };
 
-const stories = storiesOf('Components', module);
-stories
-  .add('Buttons: Button', ButtonExample, {info: Readme});
+const stories = storiesOf('Components/Buttons', module);
+stories.add('Button', ButtonExample, { info: Readme });

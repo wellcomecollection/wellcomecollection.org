@@ -2,7 +2,6 @@ import { storiesOf } from '@storybook/react';
 import { text, boolean, select } from '@storybook/addon-knobs/react';
 import { id, url, eventSeries, eventSchedule, image } from '../content';
 import moment from 'moment';
-import PromoReadme from '../../../common/views/components/Promo/README.md';
 import EventPromoReadme from '../../../common/views/components/EventPromo/README.md';
 import EventPromo from '../../../common/views/components/EventPromo/EventPromo';
 import ExhibitionPromoReadme from '../../../common/views/components/ExhibitionPromo/README.md';
@@ -363,11 +362,10 @@ const ExhibitionPromoExample = () => {
   );
 };
 
-const stories = storiesOf('Components', module);
+const stories = storiesOf('Components/Promos', module);
 
 stories
-  .add('Promos', () => <div />, { info: PromoReadme })
-  .add('Promos: Event', EventPromoExample, { info: EventPromoReadme })
-  .add('Promos: Exhibition', ExhibitionPromoExample, {
+  .add('EventPromo', EventPromoExample, { info: EventPromoReadme })
+  .add('ExhibitionPromo', ExhibitionPromoExample, {
     info: ExhibitionPromoReadme,
   });

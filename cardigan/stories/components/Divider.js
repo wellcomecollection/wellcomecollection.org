@@ -6,11 +6,14 @@ import { select } from '@storybook/addon-knobs/react';
 const DividerExample = () => {
   const type = select('Type', ['keyline', 'stub', 'thin', 'dashed'], 'keyline');
 
-  return <Divider
-    extraClasses={`divider--${type} ${type === 'dashed' ? '' : 'divider--black'}`}
-  />;
+  return (
+    <Divider
+      extraClasses={`divider--${type} ${
+        type === 'dashed' ? '' : 'divider--black'
+      }`}
+    />
+  );
 };
 
 const stories = storiesOf('Components', module);
-stories
-  .add('Divider', DividerExample, {info: Readme});
+stories.add('Divider', DividerExample, { info: Readme });
