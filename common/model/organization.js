@@ -1,8 +1,6 @@
 // @flow
 import type { OpeningHoursDay, SpecialOpeningHours } from './opening-hours';
-import { galleryOpeningHours, libraryOpeningHours } from './opening-hours';
 import { objToJsonLd } from '../utils/json-ld';
-import moment from 'moment';
 
 export type PostalAddress = {|
   addressLocality: string,
@@ -48,62 +46,9 @@ export const wellcomeCollectionGallery: Organization = {
     'https://soundcloud.com/wellcomecollection',
     'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
   ],
-  // TODO: This should be done elsewhere as it's not adhering to the type
-  // Annoyingly, but good for time - this is still passing in Flow.
-  openingHoursSpecification: galleryOpeningHours.regular.map(
-    openingHoursDay => {
-      const specObject = objToJsonLd(
-        openingHoursDay,
-        'OpeningHoursSpecification',
-        false
-      );
-      delete specObject.note;
-      return specObject;
-    }
-  ),
-  specialOpeningHoursSpecification:
-    galleryOpeningHours.exceptional &&
-    galleryOpeningHours.exceptional.map(openingHoursDate => {
-      const specObject = {
-        opens: openingHoursDate.opens,
-        closes: openingHoursDate.closes,
-        validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
-        validThrough: moment(openingHoursDate.overrideDate).format(
-          'DD MMMM YYYY'
-        ),
-      };
-      return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-    }),
+  openingHoursSpecification: [],
   address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
   isAccessibleForFree: true,
   publicAccess: true,
   telephone: '+4420 7611 2222',
-};
-
-export const wellcomeCollectionLibrary: Organization = {
-  ...wellcomeCollectionGallery,
-  openingHoursSpecification: libraryOpeningHours.regular.map(
-    openingHoursDay => {
-      const specObject = objToJsonLd(
-        openingHoursDay,
-        'OpeningHoursSpecification',
-        false
-      );
-      delete specObject.note;
-      return specObject;
-    }
-  ),
-  specialOpeningHoursSpecification:
-    libraryOpeningHours.exceptional &&
-    libraryOpeningHours.exceptional.map(openingHoursDate => {
-      const specObject = {
-        opens: openingHoursDate.opens,
-        closes: openingHoursDate.closes,
-        validFrom: moment(openingHoursDate.overrideDate).format('DD MMMM YYYY'),
-        validThrough: moment(openingHoursDate.overrideDate).format(
-          'DD MMMM YYYY'
-        ),
-      };
-      return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-    }),
 };

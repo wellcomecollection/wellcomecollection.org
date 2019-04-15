@@ -1,12 +1,6 @@
 // @flow
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-import JsonLd from '../../views/components/JsonLd/JsonLd';
-import { museumLd, libraryLd } from '../../utils/json-ld';
-import {
-  wellcomeCollectionGallery,
-  wellcomeCollectionLibrary,
-} from '../../model/organization';
 
 export default function WeDoc(css: string) {
   return class WecoDoc extends Document {
@@ -35,8 +29,6 @@ export default function WeDoc(css: string) {
             />
             {this.props.styleTags}
             <style dangerouslySetInnerHTML={{ __html: css }} />
-            <JsonLd data={museumLd(wellcomeCollectionGallery)} />
-            <JsonLd data={libraryLd(wellcomeCollectionLibrary)} />
           </Head>
           <body>
             {/* Google Tag Manager (noscript) */}
