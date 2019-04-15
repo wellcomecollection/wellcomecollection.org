@@ -4,8 +4,6 @@ import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
-import { classNames, cssGrid, spacing } from '../../../utils/classnames';
-import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
 import { type UiEvent } from '../../../model/events';
@@ -37,7 +35,6 @@ class EventsByMonth extends Component<Props, State> {
   };
   render() {
     const { events, links } = this.props;
-    const { activeId } = this.state;
     const monthsIndex = {
       January: 0,
       February: 1,
@@ -115,12 +112,6 @@ class EventsByMonth extends Component<Props, State> {
       })
       .map(key => (orderedMonths[key] = eventsInMonths[key]));
 
-    const months = Object.keys(orderedMonths).map(month => ({
-      id: month,
-      url: `#${month}`,
-      text: london(month).format('MMMM'),
-    }));
-
     // Need to order the events for each month based on their earliest future date range
     Object.keys(eventsInMonths).map(month => {
       eventsInMonths[month] = sortBy(eventsInMonths[month], [
@@ -137,71 +128,12 @@ class EventsByMonth extends Component<Props, State> {
         },
       ]);
     });
-
-    return (
-      <div>
-        <div
-          className={classNames({
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          })}
-        >
-          <div className="css-grid__container">
-            <div className="css-grid">
-              <div
-                className={classNames({
-                  [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                })}
-              >
-                <SegmentedControl
-                  id="monthControls"
-                  activeId={months[0].id}
-                  items={months}
-                  extraClasses={'segmented-control__list--inline'}
-                  onActiveIdChange={id => {
-                    this.setState({ activeId: id });
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {months.map(month => (
-          <div
-            key={month.id}
-            className={classNames({
-              [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-            })}
-            style={{
-              display: !activeId
-                ? 'block'
-                : activeId === month.id
-                ? 'block'
-                : 'none',
-            }}
-          >
-            <div className="css-grid__container">
-              <div className="css-grid">
-                <h2
-                  id={month.id}
-                  className={classNames({
-                    tabfocus: true,
-                    [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                  })}
-                >
-                  {month.id}
-                </h2>
-              </div>
-            </div>
-            <CardGrid
-              items={eventsInMonths[month.id].concat(dailyTourPromo)}
-              itemsPerRow={3}
-              links={links}
-            />
-          </div>
-        ))}
-      </div>
-    );
+    const eventsArray = Object.keys(eventsInMonths)
+      .reduce(function(r, k) {
+        return r.concat(eventsInMonths[k]);
+      }, [])
+      .concat(dailyTourPromo);
+    return <CardGrid items={eventsArray} itemsPerRow={3} links={links} />;
   }
 }
 
