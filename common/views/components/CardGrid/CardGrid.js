@@ -6,7 +6,7 @@ import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
-import MoreLink from '../Links/MoreLink/MoreLink';
+import MoreLink from '../MoreLink/MoreLink';
 import { type Link } from '../../../model/link';
 import { type UiExhibition } from '../../../model/exhibitions';
 import { type UiEvent } from '../../../model/events';

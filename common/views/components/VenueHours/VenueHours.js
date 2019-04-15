@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { classNames, font, grid, spacing } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
