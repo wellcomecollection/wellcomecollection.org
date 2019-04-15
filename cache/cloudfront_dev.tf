@@ -87,6 +87,7 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
         "sierraId",
         "canvas",
         "items.locations.locationType",
+        "_queryType",
       ]
 
       cookies {
