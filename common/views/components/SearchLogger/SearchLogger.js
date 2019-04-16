@@ -20,11 +20,7 @@ type ResultListResource = {|
 type WorkResultResource = {|
   type: 'Work',
   id: string,
-  title: string,
   position: number,
-  page: number,
-  query: string,
-  workType: ?(string[]),
 |};
 
 type SearchResource = ResultListResource | WorkResultResource;
@@ -45,6 +41,7 @@ type RelevanceRatingEventName = $Values<typeof RelevanceRatingEventNames>;
 export type RelevanceRatingResource = {|
   position: number,
   id: string,
+  position: number,
   rating: number,
 |};
 

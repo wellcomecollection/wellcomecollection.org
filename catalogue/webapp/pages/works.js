@@ -361,28 +361,27 @@ const Works = ({ works }: Props) => {
                 <div className="grid">
                   {works.results.map((result, i) => (
                     <div
+                      key={result.id}
                       className={classNames({
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
                       })}
-                      key={result.id}
-                      onClick={() => {
-                        const event = {
-                          service: 'search_logs',
-                          name: SearchEventNames.CatalogueViewWork,
-                          resource: {
-                            type: 'Work',
-                            title: result.title,
-                            id: result.id,
-                            page: page,
-                            position: i,
-                            query,
-                            workType,
-                          },
-                        };
-                        track(event);
-                      }}
                     >
-                      <WorkCard work={result} />
+                      <div
+                        onClick={() => {
+                          const event = {
+                            service: 'search_logs',
+                            name: SearchEventNames.CatalogueViewWork,
+                            resource: {
+                              type: 'Work',
+                              id: result.id,
+                              position: i,
+                            },
+                          };
+                          track(event);
+                        }}
+                      >
+                        <WorkCard work={result} />
+                      </div>
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
                           relevanceRating && (

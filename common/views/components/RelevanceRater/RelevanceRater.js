@@ -15,7 +15,10 @@ const RelevanceRaterStyle = styled.div.attrs(props => ({
 
 const RelevanceRating = styled.button.attrs(props => {})``;
 
-type Props = {| position: number, id: string |};
+type Props = {|
+  position: number,
+  id: string,
+|};
 
 function createEvent(rating: RelevanceRatingResource) {
   return {
