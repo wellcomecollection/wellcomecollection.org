@@ -19,6 +19,12 @@
       "type": "Slices",
       "config": {
         "labels": {
+          "collectionVenue": [
+            {
+              "name": "showClosingTimes",
+              "display": "Show closing times"
+            }
+          ],
           "text": [
             {
               "name": "featured",
