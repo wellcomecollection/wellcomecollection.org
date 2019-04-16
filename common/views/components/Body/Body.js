@@ -29,6 +29,7 @@ const Map = dynamic(import('../Map/Map'), { ssr: false });
 
 type BodySlice = {|
   type: string,
+  display: string,
   weight: Weight,
   value: any,
 |};
@@ -174,12 +175,12 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
 
             {slice.type === 'collectionVenue' && (
               <>
-                {slice.showClosingTimes && (
+                {slice.display && (
                   <VenueClosedPeriods
                     venue={parseVenueTimesToOpeningHours(slice.value)}
                   />
                 )}
-                {!slice.showClosingTimes && (
+                {!slice.display && (
                   <VenueHours
                     venue={parseVenueTimesToOpeningHours(slice.value)}
                     isInList={
