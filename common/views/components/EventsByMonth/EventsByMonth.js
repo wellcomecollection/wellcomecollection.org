@@ -127,8 +127,8 @@ class EventsByMonth extends Component<Props, State> {
       ]);
     });
     const eventsArray = Object.keys(eventsInMonths)
-      .reduce(function(r, k) {
-        return r.concat(eventsInMonths[k]);
+      .reduce((acc, curr) => {
+        return acc.concat(eventsInMonths[curr]);
       }, [])
       .concat(dailyTourPromo);
     return <CardGrid items={eventsArray} itemsPerRow={3} links={[]} />;
