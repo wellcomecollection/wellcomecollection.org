@@ -118,5 +118,5 @@ module "embed_path_rule" {
   target_group_arn       = "${module.catalogue.target_group_arn}"
   priority               = "202"
   field                  = "path-pattern"
-  values                 = ["/embed*"]
+  values                 = ["/oembed*"]
 }

@@ -8,13 +8,17 @@ import Raven from 'raven-js';
 import { Fragment } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
+import { museumLd, libraryLd, objToJsonLd } from '../../utils/json-ld';
+import { wellcomeCollectionGallery } from '../../model/organization';
 import { parseVenuesToOpeningHours } from '../../services/prismic/opening-times';
+import { type OpeningHours } from '../../model/opening-hours';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
+import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { trackEvent } from '../../utils/ga';
 
 const isServer = typeof window === 'undefined';
@@ -70,6 +74,35 @@ function calculateHiddenTimeOnPage() {
       window.performance.now() - pageVisibilityLastChanged;
   }
   pageVisibilityLastChanged = window.performance.now();
+}
+
+function openingHoursToOpeningHoursSpecification(openingHours: OpeningHours) {
+  return {
+    openingHoursSpecification:
+      openingHours && openingHours.regular
+        ? openingHours.regular.map(openingHoursDay => {
+            const specObject = objToJsonLd(
+              openingHoursDay,
+              'OpeningHoursSpecification',
+              false
+            );
+            delete specObject.note;
+            return specObject;
+          })
+        : [],
+    specialOpeningHoursSpecification:
+      openingHours &&
+      openingHours.exceptional &&
+      openingHours.exceptional.map(openingHoursDate => {
+        const specObject = {
+          opens: openingHoursDate.opens,
+          closes: openingHoursDate.closes,
+          validFrom: openingHoursDate.overrideDate.format('DD MMMM YYYY'),
+          validThrough: openingHoursDate.overrideDate.format('DD MMMM YYYY'),
+        };
+        return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+      }),
+  };
 }
 
 export default class WecoApp extends App {
@@ -293,6 +326,22 @@ export default class WecoApp extends App {
       'URL',
     ];
     const parsedOpeningTimes = parseVenuesToOpeningHours(openingTimes);
+    const galleries = parsedOpeningTimes.collectionOpeningTimes.placesOpeningHours.find(
+      venue => venue.name.toLowerCase() === 'galleries'
+    );
+    const library = parsedOpeningTimes.collectionOpeningTimes.placesOpeningHours.find(
+      venue => venue.name.toLowerCase() === 'library'
+    );
+    const galleriesOpeningHours = galleries && galleries.openingHours;
+    const libraryOpeningHours = library && library.openingHours;
+    const wellcomeCollectionGalleryWithHours = {
+      ...wellcomeCollectionGallery,
+      ...openingHoursToOpeningHoursSpecification(galleriesOpeningHours),
+    };
+    const wellcomeLibraryWithHours = {
+      ...wellcomeCollectionGallery,
+      ...openingHoursToOpeningHoursSpecification(libraryOpeningHours),
+    };
 
     return (
       <Container>
@@ -340,6 +389,8 @@ export default class WecoApp extends App {
             src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
             async
           />
+          <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
+          <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
         <TogglesContext.Provider value={toggles}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>

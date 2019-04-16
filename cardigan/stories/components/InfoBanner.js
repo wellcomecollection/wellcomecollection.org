@@ -11,5 +11,4 @@ const InfoBannerExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories
-  .add('InfoBanner', InfoBannerExample, {info: Readme});
+stories.add('InfoBanner', InfoBannerExample, { info: Readme });

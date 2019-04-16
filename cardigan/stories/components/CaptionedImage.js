@@ -8,5 +8,4 @@ const CaptionedImageExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories
-  .add('Captioned image', CaptionedImageExample, {info: Readme});
+stories.add('CaptionedImage', CaptionedImageExample, { info: Readme });

@@ -20,7 +20,10 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
+import {
+  track,
+  SearchEventNames,
+} from '@weco/common/views/components/SearchLogger/SearchLogger';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -42,9 +45,13 @@ const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
+    const name =
+      query !== ''
+        ? SearchEventNames.CatalogueSearch
+        : SearchEventNames.CatalogueLanding;
     const event = {
-      event: query !== '' ? 'Catalogue Search' : 'Catalogue Landing',
       service: 'search_logs',
+      name,
       resource: {
         type: 'ResultList',
         query: query,
@@ -358,6 +365,22 @@ const Works = ({ works }: Props) => {
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
                       })}
                       key={result.id}
+                      onClick={() => {
+                        const event = {
+                          service: 'search_logs',
+                          name: SearchEventNames.CatalogueViewWork,
+                          resource: {
+                            type: 'Work',
+                            title: result.title,
+                            id: result.id,
+                            page: page,
+                            position: i,
+                            query,
+                            workType,
+                          },
+                        };
+                        track(event);
+                      }}
                     >
                       <WorkCard work={result} />
                       <TogglesContext.Consumer>

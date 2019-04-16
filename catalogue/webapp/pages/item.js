@@ -1,5 +1,4 @@
 // @flow
-import { useEffect } from 'react';
 import { type Context } from 'next';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
@@ -13,7 +12,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
-import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
 import styled from 'styled-components';
 
 const IframePdfViewer = styled.iframe`
@@ -119,19 +117,6 @@ const ItemPage = ({
     linkKey: 'page',
     ...sharedPaginatorProps,
   };
-
-  useEffect(() => {
-    const event = {
-      event: 'Catalogue View Item',
-      service: 'search_logs',
-      resource: {
-        title: title,
-        id: workId,
-        type: 'Item',
-      },
-    };
-    track(event);
-  }, []);
 
   return (
     <CataloguePageLayout
