@@ -281,32 +281,7 @@ export const openingTimes = {
             { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
             { dayOfWeek: 'Sunday', opens: '10:00', closes: '18:00' },
           ],
-          exceptional: [
-            {
-              overrideDate: '2019-04-21T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-05-05T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-05-26T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-08-25T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '10:00',
-              closes: '18:00',
-            },
-          ],
+          exceptional: [],
         },
       },
       {
@@ -323,62 +298,7 @@ export const openingTimes = {
             { dayOfWeek: 'Saturday', opens: '10:00', closes: '16:00' },
             { dayOfWeek: 'Sunday', opens: null, closes: null },
           ],
-          exceptional: [
-            {
-              overrideDate: '2019-04-18T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-04-19T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-04-21T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-05-03T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-05-05T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-05-24T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-05-26T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-08-23T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: null,
-              closes: null,
-            },
-            {
-              overrideDate: '2019-08-25T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: null,
-              closes: null,
-            },
-          ],
+          exceptional: [],
         },
       },
       {
@@ -395,14 +315,7 @@ export const openingTimes = {
             { dayOfWeek: 'Saturday', opens: '11:00', closes: '18:00' },
             { dayOfWeek: 'Sunday', opens: '11:00', closes: '18:00' },
           ],
-          exceptional: [
-            {
-              overrideDate: '2019-04-21T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: '11:00',
-              closes: '18:00',
-            },
-          ],
+          exceptional: [],
         },
       },
       {
@@ -419,38 +332,7 @@ export const openingTimes = {
             { dayOfWeek: 'Saturday', opens: '09:30', closes: '18:00' },
             { dayOfWeek: 'Sunday', opens: '10:00', closes: '18:00' },
           ],
-          exceptional: [
-            {
-              overrideDate: '2019-04-18T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: '09:30',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-04-21T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: '09:30',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-05-05T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '09:30',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-05-26T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '09:30',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-08-25T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '09:30',
-              closes: '18:00',
-            },
-          ],
+          exceptional: [],
         },
       },
       {
@@ -467,38 +349,7 @@ export const openingTimes = {
             { dayOfWeek: 'Saturday', opens: '10:00', closes: '18:00' },
             { dayOfWeek: 'Sunday', opens: '10:00', closes: '18:00' },
           ],
-          exceptional: [
-            {
-              overrideDate: '2019-04-18T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-04-21T23:00:00.000Z',
-              overrideType: 'Easter',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-05-05T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-05-26T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '10:00',
-              closes: '18:00',
-            },
-            {
-              overrideDate: '2019-08-25T23:00:00.000Z',
-              overrideType: 'Bank holiday',
-              opens: '10:00',
-              closes: '18:00',
-            },
-          ],
+          exceptional: [],
         },
       },
     ],
