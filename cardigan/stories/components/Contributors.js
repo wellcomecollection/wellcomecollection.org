@@ -5,8 +5,9 @@ import Readme from '../../../common/views/components/Contributors/README.md';
 import { organisation, person } from '../content';
 
 const stories = storiesOf('Components', module);
-stories
-  .add('Contributors', () => {
+stories.add(
+  'Contributors',
+  () => {
     const contributorTitle = text('Contributors title', '');
     const roles = array('Roles', ['Speaker', 'Speaker']);
 
@@ -16,33 +17,38 @@ stories
           contributor: {
             type: 'organisations',
             id: 'xxx',
-            ...organisation()
+            ...organisation(),
           },
           role: {
             id: 'xxx',
-            title: role
+            title: role,
           },
-          description: null
+          description: null,
         };
       } else {
         return {
           contributor: {
             type: 'people',
             id: 'xxx',
-            ...person()
+            ...person(),
           },
           role: {
             id: 'xxx',
-            title: role
+            title: role,
           },
-          description: null
+          description: null,
         };
       }
     });
 
-    return <Contributors
-      titleOverride={contributorTitle}
-      contributors={contributors} />;
-  }, {
-    info: Readme
-  });
+    return (
+      <Contributors
+        titleOverride={contributorTitle}
+        contributors={contributors}
+      />
+    );
+  },
+  {
+    info: Readme,
+  }
+);

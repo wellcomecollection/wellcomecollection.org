@@ -124,4 +124,4 @@ const InfoBoxExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Info box', InfoBoxExample, { info: Readme });
+stories.add('InfoBox', InfoBoxExample, { info: Readme });

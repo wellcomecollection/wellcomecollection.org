@@ -18,5 +18,4 @@ const ButtonExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories
-  .add('Buttons: Button', ButtonExample, {info: Readme});
+stories.add('Button', ButtonExample, { info: Readme });
