@@ -1,4 +1,5 @@
 // @flow
+
 import { useEffect } from 'react';
 
 export const SearchEventNames = {

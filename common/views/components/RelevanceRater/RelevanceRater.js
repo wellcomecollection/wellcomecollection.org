@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import {
   track,
-  type RelevanceRating as RelevanceRatingType,
+  RelevanceRatingEventNames,
+  type RelevanceRatingResource,
 } from '../SearchLogger/SearchLogger';
 
 const RelevanceRaterStyle = styled.div.attrs(props => ({
@@ -16,11 +17,11 @@ const RelevanceRating = styled.button.attrs(props => {})``;
 
 type Props = {| position: number, id: string |};
 
-function createEvent(rating: RelevanceRatingType) {
+function createEvent(rating: RelevanceRatingResource) {
   return {
     service: 'relevance_rating',
-    event: 'Rate Result Relevance',
-    rating: rating,
+    name: RelevanceRatingEventNames.RateResultRelevance,
+    resource: rating,
   };
 }
 
