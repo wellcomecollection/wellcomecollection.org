@@ -20,7 +20,10 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
+import {
+  track,
+  SearchLoggerEvents,
+} from '@weco/common/views/components/SearchLogger/SearchLogger';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -41,7 +44,10 @@ const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
-    const eventName = query !== '' ? 'Catalogue Search' : 'Catalogue Landing';
+    const eventName =
+      query !== ''
+        ? SearchLoggerEvents.CatalogueSearch
+        : SearchLoggerEvents.CatalogueLanding;
     const event = {
       service: 'search_logs',
       resource: {
@@ -368,7 +374,7 @@ const Works = ({ works }: Props) => {
                             position: i,
                           },
                         };
-                        track('Catalogue View Work', event);
+                        track(SearchLoggerEvents.CatalogueViewWork, event);
                       }}
                     >
                       <WorkCard work={result} />

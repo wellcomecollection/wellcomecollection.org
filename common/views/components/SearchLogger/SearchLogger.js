@@ -1,6 +1,13 @@
 // @flow
 import { useEffect } from 'react';
 
+export const SearchLoggerEvents = {
+  CatalogueViewWork: 'Catalogue View Work',
+  CatalogueSearch: 'Catalogue Search',
+  CatalogueLanding: 'Catalogue Landing',
+};
+type SearchLoggerEvent = $Values<typeof SearchLoggerEvents>;
+
 type ResultListResource = {|
   type: 'ResultList',
   query: string,
@@ -23,7 +30,7 @@ export type AnalyticsEvent = {|
   resource: AnalyticsResource,
 |};
 
-const track = (name: string, event: AnalyticsEvent) => {
+const track = (name: SearchLoggerEvent, event: AnalyticsEvent) => {
   const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
     const parts = cookie.split('=');
     const key = parts[0].trim();
