@@ -17,6 +17,7 @@ import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
+import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -172,14 +173,22 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             )}
 
             {slice.type === 'collectionVenue' && (
-              <VenueHours
-                venue={parseVenueTimesToOpeningHours(slice.value)}
-                isInList={
-                  pageId === 'openingTimes' || pageId === 'WwQHTSAAANBfDYXU'
-                }
-              />
+              <>
+                {slice.showClosingTimes && (
+                  <VenueClosedPeriods
+                    venue={parseVenueTimesToOpeningHours(slice.value)}
+                  />
+                )}
+                {!slice.showClosingTimes && (
+                  <VenueHours
+                    venue={parseVenueTimesToOpeningHours(slice.value)}
+                    isInList={
+                      pageId === 'openingTimes' || pageId === 'WwQHTSAAANBfDYXU'
+                    }
+                  />
+                )}
+              </>
             )}
-
             {/* deprecated */}
             {slice.type === 'deprecatedImageList' && (
               <Layout8>
