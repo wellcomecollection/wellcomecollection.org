@@ -20,7 +20,10 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
+import {
+  track,
+  SearchLoggerEvents,
+} from '@weco/common/views/components/SearchLogger/SearchLogger';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -41,8 +44,11 @@ const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
+    const eventName =
+      query !== ''
+        ? SearchLoggerEvents.CatalogueSearch
+        : SearchLoggerEvents.CatalogueLanding;
     const event = {
-      event: query !== '' ? 'Catalogue Search' : 'Catalogue Landing',
       service: 'search_logs',
       resource: {
         type: 'ResultList',
@@ -51,7 +57,7 @@ const Works = ({ works }: Props) => {
         workType,
       },
     };
-    track(event);
+    track(eventName, event);
   };
 
   // We have to have this for the initial page load, and have it on the router
@@ -351,12 +357,27 @@ const Works = ({ works }: Props) => {
             >
               <div className="container">
                 <div className="grid">
-                  {works.results.map(result => (
+                  {works.results.map((result, i) => (
                     <div
                       className={classNames({
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
                       })}
                       key={result.id}
+                      onClick={() => {
+                        const event = {
+                          service: 'search_logs',
+                          resource: {
+                            type: 'Work',
+                            title: result.title,
+                            id: result.id,
+                            page: page,
+                            position: i,
+                            query,
+                            workType,
+                          },
+                        };
+                        track(SearchLoggerEvents.CatalogueViewWork, event);
+                      }}
                     >
                       <WorkCard work={result} />
                     </div>
