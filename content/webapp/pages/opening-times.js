@@ -46,7 +46,7 @@ export const LibraryClosed = ({ page }: Props) => {
           <h2>Library closures</h2>
           <p className="no-margin">
             Planning a research visit? Our library is closed over bank holiday
-            weekends and Christmas:
+            weekends and between Christmas Eve and New Year{`'`}s Day:
           </p>
           <ul>
             {/* TODO date range component */}
@@ -131,7 +131,7 @@ export class OpeningTimesPage extends Component<Props> {
               will be open with adjusted hours.
             </p>
             <p>
-              The building is always closed on 25-26 December and 1 January.
+              The building is always closed on 24-26 December and 1 January.
             </p>
           </div>
           <LibraryClosed page={page} />
