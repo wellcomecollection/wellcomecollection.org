@@ -54,9 +54,13 @@ type Props = {|
 const VenueHours = ({ venue, isInList }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-  const upcomingExceptionalPeriod = getUpcomingExceptionalPeriod(
-    backfillExceptionalVenueDays(venue, exceptionalPeriods)
+  const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
+    venue,
+    exceptionalPeriods
   );
+  const upcomingExceptionalPeriod =
+    backfilledExceptionalPeriods &&
+    getUpcomingExceptionalPeriod(backfilledExceptionalPeriods);
 
   const venueAdditionalInfo = {
     galleries: {
