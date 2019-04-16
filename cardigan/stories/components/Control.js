@@ -15,5 +15,5 @@ const ControlExample = () => {
   );
 };
 
-const stories = storiesOf('Components/Buttons', module);
+const stories = storiesOf('Components', module);
 stories.add('Control', ControlExample, { info: Readme });

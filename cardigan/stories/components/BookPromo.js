@@ -18,6 +18,6 @@ const BookPromoExample = () => {
   );
 };
 
-const stories = storiesOf('Components/Promos', module);
+const stories = storiesOf('Components', module);
 
-stories.add('Book promo', BookPromoExample, { info: BookPromoReadme });
+stories.add('BookPromo', BookPromoExample, { info: BookPromoReadme });
