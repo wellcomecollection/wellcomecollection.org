@@ -3,6 +3,7 @@ import type { EventPromo } from '../model/events';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',
+  id: 'readingRoomPromo',
   contentType: 'place',
   title: 'Reading Room',
   url: 'https://wellcomecollection.org/pages/Wvlk4yAAAB8A3ufp',
