@@ -21,6 +21,8 @@ type WorkResultResource = {|
   title: string,
   position: number,
   page: number,
+  query: string,
+  workType: ?(string[]),
 |};
 
 type AnalyticsResource = ResultListResource | WorkResultResource;

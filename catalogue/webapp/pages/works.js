@@ -372,6 +372,8 @@ const Works = ({ works }: Props) => {
                             id: result.id,
                             page: page,
                             position: i,
+                            query,
+                            workType,
                           },
                         };
                         track(SearchLoggerEvents.CatalogueViewWork, event);
