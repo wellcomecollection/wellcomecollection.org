@@ -41,8 +41,8 @@ const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
+    const eventName = query !== '' ? 'Catalogue Search' : 'Catalogue Landing';
     const event = {
-      event: query !== '' ? 'Catalogue Search' : 'Catalogue Landing',
       service: 'search_logs',
       resource: {
         type: 'ResultList',
@@ -51,7 +51,7 @@ const Works = ({ works }: Props) => {
         workType,
       },
     };
-    track(event);
+    track(eventName, event);
   };
 
   // We have to have this for the initial page load, and have it on the router
@@ -351,12 +351,25 @@ const Works = ({ works }: Props) => {
             >
               <div className="container">
                 <div className="grid">
-                  {works.results.map(result => (
+                  {works.results.map((result, i) => (
                     <div
                       className={classNames({
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
                       })}
                       key={result.id}
+                      onClick={() => {
+                        const event = {
+                          service: 'search_logs',
+                          resource: {
+                            type: 'Work',
+                            title: result.title,
+                            id: result.id,
+                            page: page,
+                            position: i,
+                          },
+                        };
+                        track('Catalogue View Work', event);
+                      }}
                     >
                       <WorkCard work={result} />
                     </div>

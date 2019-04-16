@@ -31,7 +31,6 @@ import ManifestContext from '@weco/common/views/components/ManifestContext/Manif
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
-import { track } from '@weco/common/views/components/SearchLogger/SearchLogger';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -49,21 +48,6 @@ export const WorkPage = ({ work }: Props) => {
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
   };
-
-  useEffect(() => {
-    if (work.type !== 'Error') {
-      const event = {
-        event: 'Catalogue View Work',
-        service: 'search_logs',
-        resource: {
-          title: work.title,
-          id: work.id,
-          type: 'Work',
-        },
-      };
-      track(event);
-    }
-  }, []);
 
   useEffect(() => {
     fetchIIIFPresentationManifest();
