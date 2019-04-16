@@ -39,7 +39,7 @@ const CardGrid = ({
         <div className="css-grid">
           {items.map((item, i) => (
             <div
-              key={item.id}
+              key={i}
               className={classNames({
                 [cssGrid({
                   s: 12,

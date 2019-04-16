@@ -413,12 +413,7 @@ export class WhatsOnPage extends Component<Props> {
                           <SectionHeader title={'Events'} />
                         </SpacingComponent>
                         <SpacingComponent>
-                          <EventsByMonth
-                            events={events}
-                            links={[
-                              { text: 'View all events', url: '/events' },
-                            ]}
-                          />
+                          <EventsByMonth events={events} />
                         </SpacingComponent>
                       </SpacingSection>
                     </div>

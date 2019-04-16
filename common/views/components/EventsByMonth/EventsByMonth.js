@@ -7,11 +7,9 @@ import { getEarliestFutureDateRange } from '../../../utils/dates';
 import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
 import { type UiEvent } from '../../../model/events';
-import { type Link } from '../../../model/link';
 
 type Props = {|
   events: UiEvent[],
-  links?: Link[],
 |};
 
 type State = {|
@@ -34,7 +32,7 @@ class EventsByMonth extends Component<Props, State> {
     activeId: null,
   };
   render() {
-    const { events, links } = this.props;
+    const { events } = this.props;
     const monthsIndex = {
       January: 0,
       February: 1,
@@ -133,7 +131,7 @@ class EventsByMonth extends Component<Props, State> {
         return r.concat(eventsInMonths[k]);
       }, [])
       .concat(dailyTourPromo);
-    return <CardGrid items={eventsArray} itemsPerRow={3} links={links} />;
+    return <CardGrid items={eventsArray} itemsPerRow={3} links={[]} />;
   }
 }
 
