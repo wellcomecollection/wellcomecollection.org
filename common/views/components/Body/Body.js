@@ -13,6 +13,7 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
+import Layout from '../Layout/Layout';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
@@ -176,17 +177,46 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             {slice.type === 'collectionVenue' && (
               <>
                 {slice.display && (
-                  <VenueClosedPeriods
-                    venue={parseVenueTimesToOpeningHours(slice.value)}
-                  />
+                  <Layout8>
+                    <VenueClosedPeriods
+                      venue={parseVenueTimesToOpeningHours(slice.value)}
+                    />
+                  </Layout8>
                 )}
                 {!slice.display && (
-                  <VenueHours
-                    venue={parseVenueTimesToOpeningHours(slice.value)}
-                    isInList={
-                      pageId === 'openingTimes' || pageId === 'WwQHTSAAANBfDYXU'
-                    }
-                  />
+                  <>
+                    <Layout
+                      gridSizes={
+                        pageId === 'openingTimes' ||
+                        pageId === 'WwQHTSAAANBfDYXU'
+                          ? {
+                              s: 12,
+                              m: 12,
+                              l: 11,
+                              shiftL: 1,
+                              xl: 10,
+                              shiftXL: 2,
+                            }
+                          : {
+                              s: 12,
+                              m: 10,
+                              shiftM: 1,
+                              l: 8,
+                              shiftL: 2,
+                              xl: 8,
+                              shiftXL: 2,
+                            }
+                      }
+                    >
+                      <VenueHours
+                        venue={parseVenueTimesToOpeningHours(slice.value)}
+                        isInList={
+                          pageId === 'openingTimes' ||
+                          pageId === 'WwQHTSAAANBfDYXU'
+                        }
+                      />
+                    </Layout>
+                  </>
                 )}
               </>
             )}
