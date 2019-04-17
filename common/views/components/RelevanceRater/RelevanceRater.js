@@ -2,10 +2,9 @@
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import {
-  track,
+  trackRelevanceRating,
   RelevanceRatingEventNames,
-  type RelevanceRatingResource,
-} from '../SearchLogger/SearchLogger';
+} from '../Tracker/Tracker';
 
 const RelevanceRaterStyle = styled.div.attrs(props => ({
   className: classNames({
@@ -20,11 +19,10 @@ type Props = {|
   id: string,
 |};
 
-function createEvent(rating: RelevanceRatingResource) {
+function createEvent(rating) {
   return {
-    service: 'relevance_rating',
     name: RelevanceRatingEventNames.RateResultRelevance,
-    resource: rating,
+    data: rating,
   };
 }
 
@@ -32,22 +30,30 @@ const RelevanceRater = ({ id, position }: Props) => {
   return (
     <RelevanceRaterStyle>
       <RelevanceRating
-        onClick={() => track(createEvent({ id, position, rating: 1 }))}
+        onClick={() =>
+          trackRelevanceRating(createEvent({ id, position, rating: 1 }))
+        }
       >
         1
       </RelevanceRating>
       <RelevanceRating
-        onClick={() => track(createEvent({ id, position, rating: 2 }))}
+        onClick={() =>
+          trackRelevanceRating(createEvent({ id, position, rating: 2 }))
+        }
       >
         2
       </RelevanceRating>
       <RelevanceRating
-        onClick={() => track(createEvent({ id, position, rating: 3 }))}
+        onClick={() =>
+          trackRelevanceRating(createEvent({ id, position, rating: 3 }))
+        }
       >
         3
       </RelevanceRating>
       <RelevanceRating
-        onClick={() => track(createEvent({ id, position, rating: 4 }))}
+        onClick={() =>
+          trackRelevanceRating(createEvent({ id, position, rating: 4 }))
+        }
       >
         4
       </RelevanceRating>

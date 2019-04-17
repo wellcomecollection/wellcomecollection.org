@@ -21,9 +21,9 @@ import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
-  track,
+  trackSearch,
   SearchEventNames,
-} from '@weco/common/views/components/SearchLogger/SearchLogger';
+} from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
@@ -45,21 +45,17 @@ const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
-    const name =
-      query !== ''
-        ? SearchEventNames.CatalogueSearch
-        : SearchEventNames.CatalogueLanding;
-    const event = {
-      service: 'search_logs',
-      name,
-      resource: {
-        type: 'ResultList',
-        query: query,
-        page,
-        workType,
-      },
-    };
-    track(event);
+    if (query && query !== '') {
+      const event = {
+        name: SearchEventNames.CatalogueSearch,
+        data: {
+          query,
+          page,
+          workType,
+        },
+      };
+      trackSearch(event);
+    }
   };
 
   // We have to have this for the initial page load, and have it on the router
@@ -369,15 +365,16 @@ const Works = ({ works }: Props) => {
                       <div
                         onClick={() => {
                           const event = {
-                            service: 'search_logs',
                             name: SearchEventNames.CatalogueViewWork,
-                            resource: {
-                              type: 'Work',
+                            data: {
                               id: result.id,
                               position: i,
+                              query,
+                              page,
+                              workType,
                             },
                           };
-                          track(event);
+                          trackSearch(event);
                         }}
                       >
                         <WorkCard work={result} />
