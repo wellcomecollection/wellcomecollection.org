@@ -47,7 +47,7 @@ const Works = ({ works }: Props) => {
   const trackEvent = () => {
     if (query && query !== '') {
       const event = {
-        name: SearchEventNames.CatalogueSearch,
+        event: SearchEventNames.CatalogueSearch,
         data: {
           query,
           page,
@@ -365,7 +365,7 @@ const Works = ({ works }: Props) => {
                       <div
                         onClick={() => {
                           const event = {
-                            name: SearchEventNames.CatalogueViewWork,
+                            event: SearchEventNames.CatalogueViewWork,
                             data: {
                               id: result.id,
                               position: i,

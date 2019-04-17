@@ -27,7 +27,7 @@ type WorkResultResource = {|
 type SearchResource = ResultListResource | WorkResultResource;
 
 type SearchEvent = {|
-  name: SearchEventName,
+  event: SearchEventName,
   data: SearchResource,
 |};
 
@@ -45,7 +45,7 @@ type RelevanceRatingResource = {|
 |};
 
 type RelevanceRatingEvent = {|
-  name: RelevanceRatingEventName,
+  event: RelevanceRatingEventName,
   data: RelevanceRatingResource,
 |};
 
@@ -69,7 +69,7 @@ const trackRelevanceRating = (event: RelevanceRatingEvent) => {
   track(servicedEvent);
 };
 
-const track = (event: LoggerEvent) => {
+const track = (eventProps: LoggerEvent) => {
   const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
     const parts = cookie.split('=');
     const key = parts[0].trim();
@@ -81,9 +81,9 @@ const track = (event: LoggerEvent) => {
     return acc;
   }, {});
 
-  const { name, ...restOfEvent } = event;
+  const { event, ...restOfEvent } = eventProps;
 
-  window.analytics.track(name, {
+  window.analytics.track(event, {
     ...restOfEvent,
     toggles,
   });
