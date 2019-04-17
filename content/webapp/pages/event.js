@@ -333,7 +333,7 @@ class EventPage extends Component<Props, State> {
           {event.schedule && event.schedule.length > 0 && (
             <Fragment>
               <h2 className="h2">Events</h2>
-              <ul className="plain-list no-marin no-padding">
+              <ul className="plain-list no-margin no-padding">
                 {event.schedule && <EventSchedule schedule={event.schedule} />}
               </ul>
             </Fragment>
