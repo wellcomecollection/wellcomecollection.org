@@ -304,7 +304,7 @@ export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
   };
 }
 
-export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
+export function parseCollectionVenue(venue: PrismicFragment): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
     modified => {
@@ -344,9 +344,9 @@ export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
   };
 }
 
-export function parseVenuesToOpeningHours(doc: PrismicFragment) {
+export function parseCollectionVenues(doc: PrismicFragment) {
   const placesOpeningHours = doc.results.map(venue => {
-    return parseVenueTimesToOpeningHours(venue);
+    return parseCollectionVenue(venue);
   });
 
   return {
