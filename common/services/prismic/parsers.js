@@ -24,6 +24,7 @@ import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
+import { parseVenueTimesToOpeningHours } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import linkResolver from './link-resolver';
@@ -549,7 +550,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
           return {
             type: 'collectionVenue',
             display: slice.slice_label === 'showClosingTimes',
-            value: slice.primary.content,
+            value: parseVenueTimesToOpeningHours(slice.primary.content),
           };
 
         case 'searchResults':

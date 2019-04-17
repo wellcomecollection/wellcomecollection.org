@@ -288,7 +288,21 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-// TODO rename - Takes the slice JSON and converts it to the Venue shape: rename Venue type?
+// TODO flow
+export function convertJsonDateStringsToMoment(jsonVenue) {
+  const exceptionalMoment = jsonVenue.openingHours.exceptional.map(e => ({
+    ...e,
+    overrideDate: london(e.overrideDate),
+  }));
+  return {
+    ...jsonVenue,
+    openingHours: {
+      regular: jsonVenue.openingHours.regular,
+      exceptional: exceptionalMoment,
+    },
+  };
+}
+
 export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(

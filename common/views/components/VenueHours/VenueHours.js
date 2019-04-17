@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
+import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -9,8 +10,8 @@ import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriod,
   getExceptionalOpeningPeriods,
+  convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
 const VenueHoursImage = styled.div.attrs(props => ({
@@ -70,7 +71,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    venue,
+    convertJsonDateStringsToMoment(venue),
     exceptionalPeriods
   );
   const upcomingExceptionalPeriod =

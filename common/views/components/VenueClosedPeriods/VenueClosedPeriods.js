@@ -5,6 +5,7 @@ import {
   getExceptionalOpeningPeriods,
   getExceptionalClosedDays,
   groupConsecutiveDays,
+  convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 import { formatDayDate } from '@weco/common/utils/format-date';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
@@ -17,7 +18,7 @@ const VenueClosedPeriods = ({ venue }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    venue,
+    convertJsonDateStringsToMoment(venue),
     exceptionalPeriods
   );
   const onlyClosedDays =

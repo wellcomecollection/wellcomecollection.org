@@ -24,7 +24,6 @@ import {
   dropCapSerializer,
 } from '../../../services/prismic/html-serialisers';
 import { type Weight } from '../../../services/prismic/parsers';
-import { parseVenueTimesToOpeningHours } from '../../../services/prismic/opening-times';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -178,9 +177,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               <>
                 {slice.display && (
                   <Layout8>
-                    <VenueClosedPeriods
-                      venue={parseVenueTimesToOpeningHours(slice.value)}
-                    />
+                    <VenueClosedPeriods venue={slice.value} />
                   </Layout8>
                 )}
                 {!slice.display && (
@@ -209,7 +206,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                       }
                     >
                       <VenueHours
-                        venue={parseVenueTimesToOpeningHours(slice.value)}
+                        venue={slice.value}
                         isInList={
                           pageId === 'openingTimes' ||
                           pageId === 'WwQHTSAAANBfDYXU'
