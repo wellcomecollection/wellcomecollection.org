@@ -451,7 +451,13 @@ function getNextDateInFuture(event: UiEvent): ?EventTime {
 function filterEventsByTimeRange(events, start, end) {
   return events.filter(event => {
     return event.times.find(time => {
-      return london(time.range.endDateTime).isBetween(start, end);
+      const eventStart = london(time.range.startDateTime);
+      const eventEnd = london(time.range.endDateTime);
+      return (
+        eventStart.isBetween(start, end) ||
+        eventEnd.isBetween(start, end) ||
+        (eventStart.isSameOrBefore(start) && eventEnd.isSameOrAfter(end))
+      );
     });
   });
 }
