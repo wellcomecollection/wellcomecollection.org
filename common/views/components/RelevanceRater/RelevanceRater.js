@@ -20,6 +20,7 @@ type Props = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  _queryType: ?string,
 |};
 
 function createEvent(rating) {
@@ -29,13 +30,28 @@ function createEvent(rating) {
   };
 }
 
-const RelevanceRater = ({ id, position, query, page, workType }: Props) => {
+const RelevanceRater = ({
+  id,
+  position,
+  query,
+  page,
+  workType,
+  _queryType,
+}: Props) => {
   return (
     <RelevanceRaterStyle>
       <RelevanceRating
         onClick={() =>
           trackRelevanceRating(
-            createEvent({ id, position, rating: 1, query, page, workType })
+            createEvent({
+              id,
+              position,
+              rating: 1,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           )
         }
       >
@@ -44,7 +60,15 @@ const RelevanceRater = ({ id, position, query, page, workType }: Props) => {
       <RelevanceRating
         onClick={() =>
           trackRelevanceRating(
-            createEvent({ id, position, rating: 2, query, page, workType })
+            createEvent({
+              id,
+              position,
+              rating: 2,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           )
         }
       >
@@ -53,7 +77,15 @@ const RelevanceRater = ({ id, position, query, page, workType }: Props) => {
       <RelevanceRating
         onClick={() =>
           trackRelevanceRating(
-            createEvent({ id, position, rating: 3, query, page, workType })
+            createEvent({
+              id,
+              position,
+              rating: 3,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           )
         }
       >
@@ -62,7 +94,15 @@ const RelevanceRater = ({ id, position, query, page, workType }: Props) => {
       <RelevanceRating
         onClick={() =>
           trackRelevanceRating(
-            createEvent({ id, position, rating: 4, query, page, workType })
+            createEvent({
+              id,
+              position,
+              rating: 4,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           )
         }
       >

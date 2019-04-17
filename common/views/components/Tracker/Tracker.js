@@ -14,6 +14,7 @@ type ResultListResource = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  _queryType: ?string,
 |};
 
 type WorkResultResource = {|
@@ -22,6 +23,7 @@ type WorkResultResource = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  _queryType: ?string,
 |};
 
 type SearchResource = ResultListResource | WorkResultResource;
@@ -45,6 +47,7 @@ type RelevanceRatingResource = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  _queryType: ?string,
 |};
 
 type RelevanceRatingEvent = {|

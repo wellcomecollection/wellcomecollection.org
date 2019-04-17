@@ -43,7 +43,9 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType } = useContext(CatalogueSearchContext);
+  const { query, page, workType, _queryType } = useContext(
+    CatalogueSearchContext
+  );
   const trackEvent = () => {
     if (query && query !== '') {
       const event = {
@@ -52,6 +54,7 @@ const Works = ({ works }: Props) => {
           query,
           page,
           workType,
+          _queryType,
         },
       };
       trackSearch(event);
@@ -372,6 +375,7 @@ const Works = ({ works }: Props) => {
                               query,
                               page,
                               workType,
+                              _queryType,
                             },
                           };
                           trackSearch(event);
@@ -388,6 +392,7 @@ const Works = ({ works }: Props) => {
                               query={query}
                               page={page}
                               workType={workType}
+                              _queryType={_queryType}
                             />
                           )
                         }
