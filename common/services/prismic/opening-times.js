@@ -289,7 +289,7 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
 }
 
 // TODO flow
-export function convertJsonDateStringsToMoment(jsonVenue) {
+export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
   const exceptionalMoment = jsonVenue.openingHours.exceptional.map(e => ({
     ...e,
     overrideDate: london(e.overrideDate),
