@@ -382,7 +382,13 @@ const Works = ({ works }: Props) => {
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
                           relevanceRating && (
-                            <RelevanceRater id={result.id} position={i} />
+                            <RelevanceRater
+                              id={result.id}
+                              position={i}
+                              query={query}
+                              page={page}
+                              workType={workType}
+                            />
                           )
                         }
                       </TogglesContext.Consumer>

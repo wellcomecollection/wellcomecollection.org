@@ -17,6 +17,9 @@ const RelevanceRating = styled.button.attrs(props => {})``;
 type Props = {|
   position: number,
   id: string,
+  query: string,
+  page: number,
+  workType: ?(string[]),
 |};
 
 function createEvent(rating) {
@@ -26,33 +29,41 @@ function createEvent(rating) {
   };
 }
 
-const RelevanceRater = ({ id, position }: Props) => {
+const RelevanceRater = ({ id, position, query, page, workType }: Props) => {
   return (
     <RelevanceRaterStyle>
       <RelevanceRating
         onClick={() =>
-          trackRelevanceRating(createEvent({ id, position, rating: 1 }))
+          trackRelevanceRating(
+            createEvent({ id, position, rating: 1, query, page, workType })
+          )
         }
       >
         1
       </RelevanceRating>
       <RelevanceRating
         onClick={() =>
-          trackRelevanceRating(createEvent({ id, position, rating: 2 }))
+          trackRelevanceRating(
+            createEvent({ id, position, rating: 2, query, page, workType })
+          )
         }
       >
         2
       </RelevanceRating>
       <RelevanceRating
         onClick={() =>
-          trackRelevanceRating(createEvent({ id, position, rating: 3 }))
+          trackRelevanceRating(
+            createEvent({ id, position, rating: 3, query, page, workType })
+          )
         }
       >
         3
       </RelevanceRating>
       <RelevanceRating
         onClick={() =>
-          trackRelevanceRating(createEvent({ id, position, rating: 4 }))
+          trackRelevanceRating(
+            createEvent({ id, position, rating: 4, query, page, workType })
+          )
         }
       >
         4

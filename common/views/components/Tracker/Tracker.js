@@ -42,6 +42,9 @@ type RelevanceRatingResource = {|
   position: number,
   id: string,
   rating: number,
+  query: string,
+  page: number,
+  workType: ?(string[]),
 |};
 
 type RelevanceRatingEvent = {|
