@@ -21,7 +21,7 @@ type Props = {|
 
 function createEvent(rating) {
   return {
-    name: RelevanceRatingEventNames.RateResultRelevance,
+    event: RelevanceRatingEventNames.RateResultRelevance,
     data: rating,
   };
 }
