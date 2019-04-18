@@ -23,4 +23,4 @@ privacy.
 We come up with a strategy document, potentially to become part of a greater
 URL strategy document, to guide us when we are thinking of using URL parameters.
 
-[Example document](../docs/url_parameters_strategy.md)
+[Example document](../../docs/url_parameters_strategy.md)
