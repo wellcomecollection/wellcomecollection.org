@@ -295,6 +295,18 @@
               }
             }
           },
+          "inPageAnchor": {
+            "type": "Slice",
+            "fieldset": "In page anchor",
+            "non-repeat": {
+              "id": {
+                "type": "Text",
+                "config": {
+                  "label": "Title"
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",

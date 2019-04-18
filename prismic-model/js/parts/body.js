@@ -104,6 +104,16 @@ export default {
           content: link('Content item', 'document', ['collection-venue']),
         },
       }),
+      inPageAnchor: slice('In page anchor', {
+        nonRepeat: {
+          id: {
+            type: 'Text',
+            config: {
+              label: 'Title',
+            },
+          },
+        },
+      }),
       contentList: slice('(β) Content list', {
         nonRepeat: {
           title,
