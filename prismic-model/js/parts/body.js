@@ -106,6 +106,7 @@ export default {
       }),
       inPageAnchor: slice('In page anchor', {
         nonRepeat: {
+          title,
           id: {
             type: 'Text',
             config: {

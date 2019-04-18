@@ -310,6 +310,14 @@
             "type": "Slice",
             "fieldset": "In page anchor",
             "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "single": "heading1",
+                  "useAsTitle": true
+                }
+              },
               "id": {
                 "type": "Text",
                 "config": {
