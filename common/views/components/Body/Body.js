@@ -1,7 +1,7 @@
 // @flow
 // TODO: Sync up types with the body slices and the components they return
 import dynamic from 'next/dynamic';
-import { classNames } from '../../../utils/classnames';
+import { classNames, spacing } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
@@ -58,6 +58,38 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
         'basic-body': true,
       })}
     >
+      {filteredBody.filter(slice => slice.type === 'inPageAnchor').length >
+        0 && (
+        <SpacingComponent>
+          <div
+            className={classNames({
+              'body-part': true,
+            })}
+          >
+            <Layout8>
+              <div className="body-text spaced-text">
+                <h2 className="inline">On this page:</h2>
+                <ol className="no-margin no-padding plain-list inline">
+                  {filteredBody
+                    .filter(slice => slice.type === 'inPageAnchor')
+                    .map((slice, i) => (
+                      <li
+                        key={`slice${i}`}
+                        className={classNames({
+                          inline: true,
+                          [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                        })}
+                      >
+                        <a href={`#${slice.value.id}`}>{slice.value.title}</a>
+                      </li>
+                    ))}
+                </ol>
+              </div>
+            </Layout8>
+          </div>
+        </SpacingComponent>
+      )}
+
       {filteredBody.map((slice, i) => (
         <SpacingComponent key={`slice${i}`}>
           <div
