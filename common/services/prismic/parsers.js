@@ -554,7 +554,10 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         case 'inPageAnchor':
           return {
             type: 'inPageAnchor',
-            value: slice.primary.id,
+            value: {
+              title: asText(slice.primary.title),
+              id: slice.primary.id,
+            },
           };
 
         case 'searchResults':
