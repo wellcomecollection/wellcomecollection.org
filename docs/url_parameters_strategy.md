@@ -2,7 +2,7 @@
 There are some potential candidates of information you might want to store as
 URL parameters.
 
-## Considerations
+## Considerations
 
 ###  Clarity
 The name of the parameter should be clear as to what it is doing.
