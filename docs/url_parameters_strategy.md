@@ -48,7 +48,7 @@ page. As much as this might be a useful feature, if a person was sharing the
 link they might unwittingly share their search parameters too.
 
 
-### Storing contextual information
+### Storing contextual information
 We have chosen a strategy that stores the least amount of information
 persistently e.g. in a cookie, `localStorage` etc.
 
