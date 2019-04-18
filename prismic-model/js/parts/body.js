@@ -110,7 +110,8 @@ export default {
           id: {
             type: 'Text',
             config: {
-              label: 'Title',
+              label: 'id',
+              placeholder: 'unique identifier without spaces',
             },
           },
         },
