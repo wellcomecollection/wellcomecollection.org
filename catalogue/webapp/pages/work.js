@@ -50,6 +50,7 @@ export const WorkPage = ({ work }: Props) => {
   };
 
   useEffect(() => {
+    window.dataLayer && window.dataLayer.push({ work: work });
     fetchIIIFPresentationManifest();
   }, []);
 
