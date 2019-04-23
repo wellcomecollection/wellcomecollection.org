@@ -26,9 +26,10 @@ const VenueClosedPeriods = ({ venue }: Props) => {
     getExceptionalClosedDays(backfilledExceptionalPeriods);
   const groupedConsectiveClosedDays = onlyClosedDays
     ? groupConsecutiveDays(onlyClosedDays)
-    : [];
+    : [[]];
 
-  return groupedConsectiveClosedDays[0].length > 0 ? (
+  return groupedConsectiveClosedDays[0] &&
+    groupedConsectiveClosedDays[0].length > 0 ? (
     <div className="body-text">
       <h2>{venue.name} closures</h2>
       {venue.name.toLowerCase() === 'library' && (
