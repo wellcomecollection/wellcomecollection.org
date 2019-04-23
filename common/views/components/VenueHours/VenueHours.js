@@ -21,7 +21,7 @@ const VenueHoursImage = styled.div.attrs(props => ({
 }))`
   ${props => props.theme.media.medium`
     width: 50%;
-    `}
+  `}
   ${props => props.theme.media.large`
     float: left;
     width: 33%;
@@ -39,7 +39,7 @@ const VenueHoursTimes = styled.div.attrs(props => ({
     width:33%;
     min-width: 240px;
     padding-right: ${props => 5 * props.theme.spacingUnit}px;
-    `}
+  `}
 `;
 
 const JauntyBox = styled.div.attrs(props => ({
