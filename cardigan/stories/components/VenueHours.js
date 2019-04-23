@@ -2,8 +2,6 @@ import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import VenueHours from '../../../common/views/components/VenueHours/VenueHours';
 import Readme from '../../../common/views/components/VenueHours/README.md';
-import { ThemeProvider } from 'styled-components';
-import theme from '../../../common/views/themes/default';
 import { openingTimes } from '../content';
 import OpeningTimesContext from '../../../common/views/components/OpeningTimesContext/OpeningTimesContext';
 import { select, boolean } from '@storybook/addon-knobs/react';
@@ -67,11 +65,9 @@ const VenueHoursExample = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <OpeningTimesContext.Provider value={dummyOpeningTimes}>
-        <VenueHours venue={venue} isInList={boolean('Is in list?', false)} />
-      </OpeningTimesContext.Provider>
-    </ThemeProvider>
+    <OpeningTimesContext.Provider value={dummyOpeningTimes}>
+      <VenueHours venue={venue} isInList={boolean('Is in list?', false)} />
+    </OpeningTimesContext.Provider>
   );
 };
 
