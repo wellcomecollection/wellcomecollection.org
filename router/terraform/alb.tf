@@ -13,3 +13,41 @@ module "router_alb" {
 
   alb_access_log_bucket = "${aws_s3_bucket.alb-logs.id}"
 }
+
+resource "aws_lb_listener_rule" "https_robots_txt" {
+  listener_arn = "${module.router_alb.listener_https_arn}"
+  priority     = 1
+
+  action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+
+      message_body = <<EOF
+User-agent: *
+Disallow: /
+EOF
+
+      status_code = "200"
+    }
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/robots.txt"]
+  }
+
+  condition {
+    field  = "path-pattern"
+    values = ["/robots.txt"]
+  }
+
+  condition {
+    field = "host-header"
+
+    values = [
+      "*.wellcomecollection.org",
+    ]
+  }
+}

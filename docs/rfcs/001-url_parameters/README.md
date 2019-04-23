@@ -19,8 +19,8 @@ With the latter, there are considerations in clarity, sharing, immutability and
 privacy.
 
 
-# Proposed solution
+# Proposed solution
 We come up with a strategy document, potentially to become part of a greater
 URL strategy document, to guide us when we are thinking of using URL parameters.
 
-[Example document](./url_parameters_strategy.md)
+[Example document](../../url_parameters_strategy.md)

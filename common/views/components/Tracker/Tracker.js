@@ -78,10 +78,10 @@ const trackRelevanceRating = (event: RelevanceRatingEvent) => {
 const track = (eventProps: LoggerEvent) => {
   const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
     const parts = cookie.split('=');
-    const key = parts[0].trim();
-    const value = parts[1].trim();
+    const key = parts[0] && parts[0].trim();
+    const value = parts[1] && parts[1].trim();
 
-    if (key.match('toggle_')) {
+    if (key && key.match('toggle_')) {
       acc[key] = value;
     }
     return acc;
