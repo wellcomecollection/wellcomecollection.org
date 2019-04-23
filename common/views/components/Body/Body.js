@@ -65,7 +65,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               'body-part': true,
             })}
           >
-            {slice.type === 'inPageAnchor' && <span id={slice.value.id} />}
+            {slice.type === 'inPageAnchor' && <span id={slice.value} />}
             {slice.type === 'text' && (
               <Layout8>
                 <div className="body-text spaced-text">
