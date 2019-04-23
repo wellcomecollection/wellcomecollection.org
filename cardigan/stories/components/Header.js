@@ -39,4 +39,4 @@ const HeaderExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Header', HeaderExample, { info: Readme });
+stories.add('Header', HeaderExample, { info: Readme, isFullScreen: true });

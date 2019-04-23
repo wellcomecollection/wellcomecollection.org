@@ -1,5 +1,5 @@
 // @flow
-import MoreLink from '../../components/Links/MoreLink/MoreLink';
+import MoreLink from '../../components/MoreLink/MoreLink';
 
 type Props = {|
   fonts: Array<{|

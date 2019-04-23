@@ -1,65 +1,101 @@
 // @flow
+
 import { useEffect } from 'react';
 
-export const SearchLoggerEvents = {
-  CatalogueViewWork: 'Catalogue View Work',
-  CatalogueSearch: 'Catalogue Search',
-  CatalogueLanding: 'Catalogue Landing',
+// Search
+export const SearchEventNames = {
+  SearchResultSelected: 'Search Result Selected',
+  Search: 'Search',
 };
-type SearchLoggerEvent = $Values<typeof SearchLoggerEvents>;
 
-type ResultListResource = {|
-  type: 'ResultList',
+type SearchEventName = $Values<typeof SearchEventNames>;
+
+type SearchEventData = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  _queryType: ?string,
 |};
 
-type WorkResultResource = {|
-  type: 'Work',
+type SearchResultEventData = {|
   id: string,
-  title: string,
   position: number,
-  page: number,
   query: string,
+  page: number,
   workType: ?(string[]),
+  _queryType: ?string,
 |};
 
-type AnalyticsResource = ResultListResource | WorkResultResource;
+type SearchData = SearchEventData | SearchResultEventData;
 
-export type AnalyticsEvent = {|
-  service: 'search_logs',
-  resource: AnalyticsResource,
+type SearchEvent = {|
+  event: SearchEventName,
+  data: SearchData,
 |};
 
-const track = (name: SearchLoggerEvent, event: AnalyticsEvent) => {
+// Relevance Rating
+export const RelevanceRatingEventNames = {
+  RateResultRelevance: 'Rate Result Relevance',
+};
+
+type RelevanceRatingEventName = $Values<typeof RelevanceRatingEventNames>;
+
+type RelevanceRatingResource = {|
+  position: number,
+  id: string,
+  rating: number,
+  query: string,
+  page: number,
+  workType: ?(string[]),
+  _queryType: ?string,
+|};
+
+type RelevanceRatingEvent = {|
+  event: RelevanceRatingEventName,
+  data: RelevanceRatingResource,
+|};
+
+type LoggerEvent =
+  | {| service: 'search', ...SearchEvent |}
+  | {| service: 'relevance_rating', ...RelevanceRatingEvent |};
+
+const trackSearch = (event: SearchEvent) => {
+  const servicedEvent = {
+    service: 'search',
+    ...event,
+  };
+  track(servicedEvent);
+};
+
+const trackRelevanceRating = (event: RelevanceRatingEvent) => {
+  const servicedEvent = {
+    service: 'relevance_rating',
+    ...event,
+  };
+  track(servicedEvent);
+};
+
+const track = (eventProps: LoggerEvent) => {
   const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
     const parts = cookie.split('=');
-    const key = parts[0].trim();
-    const value = parts[1].trim();
+    const key = parts[0] && parts[0].trim();
+    const value = parts[1] && parts[1].trim();
 
-    if (key.match('toggle_')) {
+    if (key && key.match('toggle_')) {
       acc[key] = value;
     }
     return acc;
   }, {});
 
-  const query = Array.from(new URLSearchParams(window.location.search)).reduce(
-    function(acc, keyVal) {
-      acc[keyVal[0]] = keyVal[1];
-      return acc;
-    },
-    {}
-  );
+  const { event, ...restOfEvent } = eventProps;
 
-  window.analytics.track(name, {
-    ...event,
+  window.analytics.track(event, {
+    ...restOfEvent,
     toggles,
-    query,
   });
 };
 
-const SearchLoggerScript = () => {
+const TrackerScript = () => {
   useEffect(() => {
     const analytics = (window.analytics = window.analytics || []);
     if (!analytics.initialize)
@@ -119,5 +155,6 @@ const SearchLoggerScript = () => {
   return null;
 };
 
-export { track };
-export { SearchLoggerScript };
+export { trackSearch };
+export { trackRelevanceRating };
+export { TrackerScript };
