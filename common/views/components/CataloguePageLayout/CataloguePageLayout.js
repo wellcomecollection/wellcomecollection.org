@@ -1,10 +1,10 @@
 // @flow
 import PageLayout, { type Props } from '../PageLayout/PageLayout';
-import { SearchLoggerScript } from '../SearchLogger/SearchLogger';
+import { TrackerScript } from '../Tracker/Tracker';
 
 const CataloguePageLayout = (props: Props) => (
   <>
-    <SearchLoggerScript />
+    <TrackerScript />
     <PageLayout {...props} />
   </>
 );

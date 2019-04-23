@@ -8,6 +8,13 @@ module.exports = {
         'Allow people to use different query types while searching the catalogue.',
     },
     {
+      id: 'relevanceRating',
+      title: `Search relevance rating`,
+      defaultValue: false,
+      description:
+        'Allow people rate the relevance or results on the search results page.',
+    },
+    {
       id: 'booksRelease',
       title: `Janeway - Dante's inferno`,
       defaultValue: true,

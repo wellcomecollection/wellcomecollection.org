@@ -21,9 +21,10 @@ import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
-  track,
-  SearchLoggerEvents,
-} from '@weco/common/views/components/SearchLogger/SearchLogger';
+  trackSearch,
+  SearchEventNames,
+} from '@weco/common/views/components/Tracker/Tracker';
+import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -42,22 +43,22 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType } = useContext(CatalogueSearchContext);
+  const { query, page, workType, _queryType } = useContext(
+    CatalogueSearchContext
+  );
   const trackEvent = () => {
-    const eventName =
-      query !== ''
-        ? SearchLoggerEvents.CatalogueSearch
-        : SearchLoggerEvents.CatalogueLanding;
-    const event = {
-      service: 'search_logs',
-      resource: {
-        type: 'ResultList',
-        query: query,
-        page,
-        workType,
-      },
-    };
-    track(eventName, event);
+    if (query && query !== '') {
+      const event = {
+        event: SearchEventNames.Search,
+        data: {
+          query,
+          page,
+          workType,
+          _queryType,
+        },
+      };
+      trackSearch(event);
+    }
   };
 
   // We have to have this for the initial page load, and have it on the router
@@ -359,27 +360,43 @@ const Works = ({ works }: Props) => {
                 <div className="grid">
                   {works.results.map((result, i) => (
                     <div
+                      key={result.id}
                       className={classNames({
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
                       })}
-                      key={result.id}
-                      onClick={() => {
-                        const event = {
-                          service: 'search_logs',
-                          resource: {
-                            type: 'Work',
-                            title: result.title,
-                            id: result.id,
-                            page: page,
-                            position: i,
-                            query,
-                            workType,
-                          },
-                        };
-                        track(SearchLoggerEvents.CatalogueViewWork, event);
-                      }}
                     >
-                      <WorkCard work={result} />
+                      <div
+                        onClick={() => {
+                          const event = {
+                            event: SearchEventNames.SearchResultSelected,
+                            data: {
+                              id: result.id,
+                              position: i,
+                              query,
+                              page,
+                              workType,
+                              _queryType,
+                            },
+                          };
+                          trackSearch(event);
+                        }}
+                      >
+                        <WorkCard work={result} />
+                      </div>
+                      <TogglesContext.Consumer>
+                        {({ relevanceRating }) =>
+                          relevanceRating && (
+                            <RelevanceRater
+                              id={result.id}
+                              position={i}
+                              query={query}
+                              page={page}
+                              workType={workType}
+                              _queryType={_queryType}
+                            />
+                          )
+                        }
+                      </TogglesContext.Consumer>
                     </div>
                   ))}
                 </div>
