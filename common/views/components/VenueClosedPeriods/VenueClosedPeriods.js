@@ -1,5 +1,5 @@
+import type { Venue } from '@weco/common/views/model/opening-hours';
 import { useContext } from 'react';
-
 import {
   backfillExceptionalVenueDays,
   getExceptionalOpeningPeriods,
@@ -11,7 +11,7 @@ import { formatDayDate } from '@weco/common/utils/format-date';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
 type Props = {|
-  venue: any, // FIXME: Flow
+  venue: Venue,
 |};
 
 const VenueClosedPeriods = ({ venue }: Props) => {
