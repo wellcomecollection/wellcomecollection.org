@@ -205,6 +205,7 @@ const Exhibition = ({ exhibition }: Props) => {
   ) : (
     <HTMLDate date={new Date(exhibition.start)} />
   );
+
   // This is for content that we don't have the crops for in Prismic
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture
@@ -223,6 +224,7 @@ const Exhibition = ({ exhibition }: Props) => {
           <StatusIndicator
             start={exhibition.start}
             end={exhibition.end || new Date()}
+            statusOverride={exhibition.statusOverride}
           />
         </Fragment>
       }
