@@ -4,20 +4,20 @@ import { useEffect } from 'react';
 
 // Search
 export const SearchEventNames = {
-  CatalogueViewWork: 'Select Result',
-  CatalogueSearch: 'Search',
+  SearchResultSelected: 'Search Result Selected',
+  Search: 'Search',
 };
 
 type SearchEventName = $Values<typeof SearchEventNames>;
 
-type ResultListResource = {|
+type SearchEventData = {|
   query: string,
   page: number,
   workType: ?(string[]),
   _queryType: ?string,
 |};
 
-type WorkResultResource = {|
+type SearchResultEventData = {|
   id: string,
   position: number,
   query: string,
@@ -26,11 +26,11 @@ type WorkResultResource = {|
   _queryType: ?string,
 |};
 
-type SearchResource = ResultListResource | WorkResultResource;
+type SearchData = SearchEventData | SearchResultEventData;
 
 type SearchEvent = {|
   event: SearchEventName,
-  data: SearchResource,
+  data: SearchData,
 |};
 
 // Relevance Rating
