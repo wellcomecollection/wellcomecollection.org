@@ -1,8 +1,8 @@
 // @flow
-import { font, conditionalClassNames } from '../../../../utils/classnames';
-import Icon from '../../Icon/Icon';
-import { trackEvent } from '../../../../utils/ga';
-import type { GaEvent } from '../../../../utils/ga';
+import { font, conditionalClassNames } from '../../../utils/classnames';
+import Icon from '../Icon/Icon';
+import { trackEvent } from '../../../utils/ga';
+import type { GaEvent } from '../../../utils/ga';
 
 type Props = {|
   url: string,

@@ -4,7 +4,7 @@ import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
 import Body from '../Body/Body';
-import MoreLink from '../Links/MoreLink/MoreLink';
+import MoreLink from '../MoreLink/MoreLink';
 
 type Props = {|
   statusCode: number,

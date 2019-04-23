@@ -5,6 +5,8 @@ import { checkA11y } from '@storybook/addon-a11y';
 import { withKnobs } from '@storybook/addon-knobs/react';
 import { withInfo } from '@storybook/addon-info';
 import styleguideSass from '../../common/styles/styleguide.scss';
+import { ThemeProvider } from 'styled-components';
+import theme from '../../common/views/themes/default';
 
 function loadStories() {
   const components = require.context('../stories/components', true, /\.js$/);
@@ -33,14 +35,16 @@ const CenterDecorator = (storyFn) => {
   }
 
   return (
-    <Fragment>
-      <style id='styleguide-sass'>
-        {styleguideSass}
-      </style>
-      <div style={styles} className='enhanced'>
-        { story }
-      </div>
-    </Fragment>
+    <ThemeProvider theme={theme}>
+      <>
+        <style id='styleguide-sass'>
+          {styleguideSass}
+        </style>
+        <div style={styles} className='enhanced'>
+          { story }
+        </div>
+      </>
+    </ThemeProvider>
   )
 };
 addDecorator(CenterDecorator);
