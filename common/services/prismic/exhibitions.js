@@ -205,6 +205,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       format,
       url,
       title,
+      shortTitle: data.shortTitle && asText(data.shortTitle),
       image: promoImage && promoImage.image,
       squareImage: promoSquare && promoSquare.image,
       start,

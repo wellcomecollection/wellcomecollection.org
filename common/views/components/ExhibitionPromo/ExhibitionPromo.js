@@ -7,6 +7,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   ...ExhibitionPromoProps,
@@ -18,6 +19,7 @@ const ExhibitionPromo = ({
   id,
   url,
   title,
+  shortTitle,
   image,
   start,
   end,
@@ -89,7 +91,15 @@ const ExhibitionPromo = ({
             ${spacing({ s: 1 }, { margin: ['bottom'] })}
           `}
           >
-            {title}
+            <TogglesContext.Consumer>
+              {({ showShortTitles }) => {
+                if (showShortTitles && shortTitle) {
+                  return shortTitle;
+                } else {
+                  return title;
+                }
+              }}
+            </TogglesContext.Consumer>
           </h2>
 
           {!statusOverride && start && end && (
