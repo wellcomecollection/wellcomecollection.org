@@ -58,6 +58,7 @@ const CardGrid = ({
                   id={item.id}
                   url={`/exhibitions/${item.id}`}
                   title={item.title}
+                  shortTitle={item.shortTitle}
                   format={item.format}
                   // TODO: (remove Picture type)
                   // $FlowFixMe
