@@ -30,6 +30,12 @@
       "type": "Slices",
       "config": {
         "labels": {
+          "collectionVenue": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
           "text": [
             {
               "name": "featured",
@@ -301,6 +307,15 @@
                   "select": "document",
                   "customtypes": [
                     "collection-venue"
+                  ]
+                }
+              },
+              "showClosingTimes": {
+                "type": "Select",
+                "config": {
+                  "label": "Show closing times",
+                  "options": [
+                    "yes"
                   ]
                 }
               }

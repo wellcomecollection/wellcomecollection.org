@@ -24,6 +24,7 @@ import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
+import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import linkResolver from './link-resolver';
@@ -548,7 +549,11 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         case 'collectionVenue':
           return {
             type: 'collectionVenue',
-            value: slice.primary.content,
+            weight: getWeight(slice.slice_label),
+            value: {
+              content: parseCollectionVenue(slice.primary.content),
+              showClosingTimes: slice.primary.showClosingTimes,
+            },
           };
 
         case 'inPageAnchor':

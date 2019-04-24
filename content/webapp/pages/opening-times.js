@@ -1,7 +1,6 @@
 // @flow
 import type { Context } from 'next';
-import { Component, useContext } from 'react';
-import { formatDayDate } from '@weco/common/utils/format-date';
+import { Component } from 'react';
 import { getPage } from '@weco/common/services/prismic/pages';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -12,62 +11,10 @@ import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder/Ima
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import type { Page } from '@weco/common/model/pages';
-import {
-  groupConsecutiveDays,
-  getExceptionalClosedDays,
-  backfillExceptionalVenueDays,
-  getExceptionalOpeningPeriods,
-} from '@weco/common/services/prismic/opening-times';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 
 type Props = {|
   page: Page,
 |};
-
-export const LibraryClosed = ({ page }: Props) => {
-  const openingTimes = useContext(OpeningTimesContext);
-  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-
-  const libraryVenue = openingTimes.collectionOpeningTimes.placesOpeningHours.find(
-    venue => venue.name.toLowerCase() === 'library'
-  );
-  const libraryExceptionalPeriods =
-    libraryVenue &&
-    backfillExceptionalVenueDays(libraryVenue, exceptionalPeriods);
-  const onlyClosedDays =
-    libraryExceptionalPeriods &&
-    getExceptionalClosedDays(libraryExceptionalPeriods);
-  const groupedConsectiveClosedDays =
-    onlyClosedDays && groupConsecutiveDays(onlyClosedDays);
-
-  return groupedConsectiveClosedDays
-    ? groupedConsectiveClosedDays.length > 0 && (
-        <div className="body-text">
-          <h2>Library closures</h2>
-          <p className="no-margin">
-            Planning a research visit? Our library is closed over bank holiday
-            weekends and between Christmas Eve and New Year{`'`}s Day:
-          </p>
-          <ul>
-            {/* TODO date range component */}
-            {groupedConsectiveClosedDays.map((closedGroup, i) => (
-              <li key={i}>
-                {formatDayDate(closedGroup[0].overrideDate.toDate())}
-                {closedGroup.length > 1 && (
-                  <>
-                    &mdash;
-                    {formatDayDate(
-                      closedGroup[closedGroup.length - 1].overrideDate.toDate()
-                    )}
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    : null;
-};
 
 export class OpeningTimesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
@@ -134,7 +81,6 @@ export class OpeningTimesPage extends Component<Props> {
               The building is always closed on 24-26 December and 1 January.
             </p>
           </div>
-          <LibraryClosed page={page} />
           <CompactCard
             url="/pages/XKNANBAAAAFWc2h-"
             title="Entry at busy times"

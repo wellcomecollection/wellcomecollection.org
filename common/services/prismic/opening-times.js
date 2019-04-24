@@ -246,19 +246,17 @@ export function groupConsecutiveDays(
 
 export function getUpcomingExceptionalPeriod(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
-) {
-  const nextUpcomingPeriod = exceptionalPeriods
-    .filter(period => {
-      const upcomingPeriod = period.find(d => {
-        return (
-          d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
-          d.overrideDate.isSameOrAfter(london(), 'day')
-        );
-      });
-      return upcomingPeriod || false;
-    })
-    .filter(Boolean);
-  return nextUpcomingPeriod;
+): ExceptionalOpeningHoursDay[] {
+  const nextUpcomingPeriod = exceptionalPeriods.find(period => {
+    const upcomingPeriod = period.find(d => {
+      return (
+        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrAfter(london(), 'day')
+      );
+    });
+    return upcomingPeriod || false;
+  });
+  return nextUpcomingPeriod || [];
 }
 
 export function getExceptionalClosedDays(
@@ -288,8 +286,23 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-// TODO rename - Takes the slice JSON and converts it to the Venue shape: rename Venue type?
-export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
+export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
+  const exceptionalMoment =
+    jsonVenue.openingHours.exceptional &&
+    jsonVenue.openingHours.exceptional.map(e => ({
+      ...e,
+      overrideDate: london(e.overrideDate),
+    }));
+  return {
+    ...jsonVenue,
+    openingHours: {
+      regular: jsonVenue.openingHours.regular,
+      exceptional: exceptionalMoment,
+    },
+  };
+}
+
+export function parseCollectionVenue(venue: PrismicFragment): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
     modified => {
@@ -329,9 +342,9 @@ export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
   };
 }
 
-export function parseVenuesToOpeningHours(doc: PrismicFragment) {
+export function parseCollectionVenues(doc: PrismicFragment) {
   const placesOpeningHours = doc.results.map(venue => {
-    return parseVenueTimesToOpeningHours(venue);
+    return parseCollectionVenue(venue);
   });
 
   return {

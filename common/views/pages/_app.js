@@ -10,7 +10,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from '../../views/themes/default';
 import { museumLd, libraryLd, objToJsonLd } from '../../utils/json-ld';
 import { wellcomeCollectionGallery } from '../../model/organization';
-import { parseVenuesToOpeningHours } from '../../services/prismic/opening-times';
+import { parseCollectionVenues } from '../../services/prismic/opening-times';
 import { type OpeningHours } from '../../model/opening-hours';
 import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
@@ -325,7 +325,7 @@ export default class WecoApp extends App {
       'WeakMap',
       'URL',
     ];
-    const parsedOpeningTimes = parseVenuesToOpeningHours(openingTimes);
+    const parsedOpeningTimes = parseCollectionVenues(openingTimes);
     const galleries = parsedOpeningTimes.collectionOpeningTimes.placesOpeningHours.find(
       venue => venue.name.toLowerCase() === 'galleries'
     );

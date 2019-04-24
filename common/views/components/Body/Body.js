@@ -13,16 +13,17 @@ import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
+import Layout from '../Layout/Layout';
 import Layout8 from '../Layout8/Layout8';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
+import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import {
   defaultSerializer,
   dropCapSerializer,
 } from '../../../services/prismic/html-serialisers';
 import { type Weight } from '../../../services/prismic/parsers';
-import { parseVenueTimesToOpeningHours } from '../../../services/prismic/opening-times';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
 
@@ -173,14 +174,45 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             )}
 
             {slice.type === 'collectionVenue' && (
-              <VenueHours
-                venue={parseVenueTimesToOpeningHours(slice.value)}
-                isInList={
-                  pageId === 'openingTimes' || pageId === 'WwQHTSAAANBfDYXU'
-                }
-              />
+              <>
+                {slice.value.showClosingTimes && (
+                  <Layout8>
+                    <VenueClosedPeriods venue={slice.value.content} />
+                  </Layout8>
+                )}
+                {!slice.value.showClosingTimes && (
+                  <>
+                    <Layout
+                      gridSizes={
+                        slice.weight === 'featured'
+                          ? {
+                              s: 12,
+                              m: 12,
+                              l: 11,
+                              shiftL: 1,
+                              xl: 10,
+                              shiftXL: 2,
+                            }
+                          : {
+                              s: 12,
+                              m: 10,
+                              shiftM: 1,
+                              l: 8,
+                              shiftL: 2,
+                              xl: 8,
+                              shiftXL: 2,
+                            }
+                      }
+                    >
+                      <VenueHours
+                        venue={slice.value.content}
+                        weight={slice.weight}
+                      />
+                    </Layout>
+                  </>
+                )}
+              </>
             )}
-
             {/* deprecated */}
             {slice.type === 'deprecatedImageList' && (
               <Layout8>
