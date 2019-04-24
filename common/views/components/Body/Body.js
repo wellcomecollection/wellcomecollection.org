@@ -176,12 +176,12 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
 
             {slice.type === 'collectionVenue' && (
               <>
-                {slice.display && (
+                {slice.displayClosingTimes && (
                   <Layout8>
                     <VenueClosedPeriods venue={slice.value} />
                   </Layout8>
                 )}
-                {!slice.display && (
+                {!slice.displayClosingTimes && (
                   <>
                     <Layout
                       gridSizes={

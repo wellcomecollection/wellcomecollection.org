@@ -549,7 +549,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         case 'collectionVenue':
           return {
             type: 'collectionVenue',
-            display: slice.slice_label === 'showClosingTimes',
+            displayClosingTimes: slice.primary.showClosingTimes,
             value: parseCollectionVenue(slice.primary.content),
           };
 
