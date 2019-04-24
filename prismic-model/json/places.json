@@ -40,8 +40,8 @@
         "labels": {
           "collectionVenue": [
             {
-              "name": "showClosingTimes",
-              "display": "Show closing times"
+              "name": "featured",
+              "display": "Featured"
             }
           ],
           "text": [

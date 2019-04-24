@@ -30,17 +30,12 @@ const featuredLabel = {
   display: 'Featured',
 };
 
-const showClosingTimesLabel = {
-  name: 'showClosingTimes',
-  display: 'Show closing times',
-};
-
 export default {
   fieldset: 'Body content',
   type: 'Slices',
   config: {
     labels: {
-      collectionVenue: [showClosingTimesLabel],
+      collectionVenue: [featuredLabel],
       text: [featuredLabel],
       editorialImage: [
         {
