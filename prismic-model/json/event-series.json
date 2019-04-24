@@ -302,6 +302,15 @@
                     "collection-venue"
                   ]
                 }
+              },
+              "showClosingTimes": {
+                "type": "Select",
+                "config": {
+                  "label": "Show closing times",
+                  "options": [
+                    "yes"
+                  ]
+                }
               }
             }
           },
