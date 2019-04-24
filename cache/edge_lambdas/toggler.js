@@ -15,7 +15,7 @@ let tests = [
     id: 'showShortTitles',
     title: 'Short exhibition titles',
     shouldRun: request => {
-      return !request.uri.match(/^\/works\/*/);
+      return request.uri.match(/^\/whats-on.*/) || request.uri === '/';
     },
   },
 ];
