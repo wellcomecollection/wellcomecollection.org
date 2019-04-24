@@ -268,9 +268,10 @@ export function getExceptionalClosedDays(
 }
 
 function createRegularDay(day: Day, venue: PrismicFragment) {
+  const data = venue.data;
   const lowercaseDay = day.toLowerCase();
-  const start = venue.data[lowercaseDay][0].startDateTime;
-  const end = venue.data[lowercaseDay][0].endDateTime;
+  const start = data && data[lowercaseDay][0].startDateTime;
+  const end = data && data[lowercaseDay][0].endDateTime;
   if (start && end) {
     return {
       dayOfWeek: day,
@@ -304,8 +305,9 @@ export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
 
 export function parseCollectionVenue(venue: PrismicFragment): Venue {
   const data = venue.data;
-  const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
-    modified => {
+  const exceptionalOpeningHours =
+    data &&
+    data.modifiedDayOpeningTimes.map(modified => {
       const start =
         modified.startDateTime &&
         london(modified.startDateTime).format('HH:mm');
@@ -320,13 +322,12 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
         opens: start,
         closes: end,
       };
-    }
-  );
+    });
 
   return {
     id: venue.id,
-    order: data.order,
-    name: data.title,
+    order: data && data.order,
+    name: data && data.title,
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),
