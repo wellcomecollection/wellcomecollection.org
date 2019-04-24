@@ -78,6 +78,10 @@ const VenueHours = ({ venue, isInList }: Props) => {
     backfilledExceptionalPeriods &&
     getUpcomingExceptionalPeriod(backfilledExceptionalPeriods);
 
+  const overrideType =
+    upcomingExceptionalPeriod.find(date => date.overrideType) &&
+    upcomingExceptionalPeriod.find(date => date.overrideType).overrideType;
+
   const venueAdditionalInfo = {
     galleries: {
       image:
@@ -189,7 +193,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
                   [spacing({ s: 1 }, { margin: ['right'] })]: true,
                 })}
               />
-              <span>{upcomingExceptionalPeriod[0][0].overrideType} hours</span>
+              <span>{overrideType} hours</span>
             </div>
           </h3>
           <ul
@@ -198,7 +202,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
               [font({ s: 'HNL4' })]: true,
             })}
           >
-            {upcomingExceptionalPeriod[0].map((p, i) => (
+            {upcomingExceptionalPeriod.map((p, i) => (
               <li key={i}>
                 {formatDay(p.overrideDate)} {formatDayMonth(p.overrideDate)}{' '}
                 {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}

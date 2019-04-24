@@ -246,19 +246,17 @@ export function groupConsecutiveDays(
 
 export function getUpcomingExceptionalPeriod(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
-) {
-  const nextUpcomingPeriod = exceptionalPeriods
-    .filter(period => {
-      const upcomingPeriod = period.find(d => {
-        return (
-          d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
-          d.overrideDate.isSameOrAfter(london(), 'day')
-        );
-      });
-      return upcomingPeriod || false;
-    })
-    .filter(Boolean);
-  return nextUpcomingPeriod;
+): ExceptionalOpeningHoursDay[] {
+  const nextUpcomingPeriod = exceptionalPeriods.find(period => {
+    const upcomingPeriod = period.find(d => {
+      return (
+        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrAfter(london(), 'day')
+      );
+    });
+    return upcomingPeriod || false;
+  });
+  return nextUpcomingPeriod || [];
 }
 
 export function getExceptionalClosedDays(
