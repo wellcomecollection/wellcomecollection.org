@@ -549,6 +549,7 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         case 'collectionVenue':
           return {
             type: 'collectionVenue',
+            weight: getWeight(slice.slice_label),
             value: {
               content: parseCollectionVenue(slice.primary.content),
               showClosingTimes: slice.primary.showClosingTimes,

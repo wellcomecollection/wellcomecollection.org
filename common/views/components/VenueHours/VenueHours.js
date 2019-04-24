@@ -1,3 +1,4 @@
+import { type Weight } from '@weco/common/services/prismic/parsers';
 import { useContext } from 'react';
 import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
@@ -64,10 +65,10 @@ const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
 type Props = {|
   venue: any, // FIXME: Flow
-  isInList: boolean,
+  weight: Weight,
 |};
 
-const VenueHours = ({ venue, isInList }: Props) => {
+const VenueHours = ({ venue, weight }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
@@ -122,7 +123,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
 
   return (
     <>
-      {isInList && (
+      {weight === 'featured' && (
         <>
           <Divider
             extraClasses={classNames({
@@ -153,7 +154,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
             [spacing({ s: 2 }, { padding: ['right'] })]: true,
           })}
         >
-          {isInList
+          {weight === 'featured'
             ? `${venueAdditionalInfo[venue.name.toLowerCase()].displayTitle}`
             : 'Opening hours'}
         </h2>
@@ -217,7 +218,7 @@ const VenueHours = ({ venue, isInList }: Props) => {
         })}
         style={{ clear: 'both' }}
       >
-        {isInList ? (
+        {weight === 'featured' ? (
           <MoreLink
             url={venueAdditionalInfo[venue.name.toLowerCase()].url}
             name={venueAdditionalInfo[venue.name.toLowerCase()].linkText}

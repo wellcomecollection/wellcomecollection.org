@@ -184,8 +184,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                   <>
                     <Layout
                       gridSizes={
-                        pageId === 'openingTimes' ||
-                        pageId === 'WwQHTSAAANBfDYXU'
+                        slice.weight === 'featured'
                           ? {
                               s: 12,
                               m: 12,
@@ -207,10 +206,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                     >
                       <VenueHours
                         venue={slice.value.content}
-                        isInList={
-                          pageId === 'openingTimes' ||
-                          pageId === 'WwQHTSAAANBfDYXU'
-                        }
+                        weight={slice.weight}
                       />
                     </Layout>
                   </>
