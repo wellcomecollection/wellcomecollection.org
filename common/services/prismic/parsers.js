@@ -553,6 +553,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             value: parseCollectionVenue(slice.primary.content),
           };
 
+        case 'inPageAnchor':
+          return {
+            type: 'inPageAnchor',
+            value: slice.primary.id,
+          };
+
         case 'searchResults':
           return {
             type: 'searchResults',

@@ -307,6 +307,19 @@
               }
             }
           },
+          "inPageAnchor": {
+            "type": "Slice",
+            "fieldset": "In page anchor",
+            "non-repeat": {
+              "id": {
+                "type": "Text",
+                "config": {
+                  "label": "id",
+                  "placeholder": "unique identifier without spaces"
+                }
+              }
+            }
+          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",
