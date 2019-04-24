@@ -549,8 +549,10 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         case 'collectionVenue':
           return {
             type: 'collectionVenue',
-            displayClosingTimes: slice.primary.showClosingTimes,
-            value: parseCollectionVenue(slice.primary.content),
+            value: {
+              content: parseCollectionVenue(slice.primary.content),
+              showClosingTimes: slice.primary.showClosingTimes,
+            },
           };
 
         case 'inPageAnchor':

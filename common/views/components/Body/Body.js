@@ -29,7 +29,6 @@ const Map = dynamic(import('../Map/Map'), { ssr: false });
 
 type BodySlice = {|
   type: string,
-  display: string,
   weight: Weight,
   value: any,
 |};
@@ -176,12 +175,12 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
 
             {slice.type === 'collectionVenue' && (
               <>
-                {slice.displayClosingTimes && (
+                {slice.value.showClosingTimes && (
                   <Layout8>
-                    <VenueClosedPeriods venue={slice.value} />
+                    <VenueClosedPeriods venue={slice.value.content} />
                   </Layout8>
                 )}
-                {!slice.displayClosingTimes && (
+                {!slice.value.showClosingTimes && (
                   <>
                     <Layout
                       gridSizes={
@@ -207,7 +206,7 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                       }
                     >
                       <VenueHours
-                        venue={slice.value}
+                        venue={slice.value.content}
                         isInList={
                           pageId === 'openingTimes' ||
                           pageId === 'WwQHTSAAANBfDYXU'
