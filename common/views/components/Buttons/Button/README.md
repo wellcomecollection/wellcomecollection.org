@@ -17,3 +17,5 @@ e.g. 'Download full size', 'Download small' and 'Copy Url' on Works page
 
 Used to support multiple actions in a component.
 Use icons to place more emphasise to one action over the rest or differentiate each action.
+
+[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/master/common/views/components/Buttons/Button/README.md)
