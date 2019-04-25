@@ -48,9 +48,9 @@ export const WorkPage = ({ work }: Props) => {
     } catch (e) {}
   };
   const workData = {
-    workType: work.workType && work.workType.label,
+    workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
-  console.log(workData);
+
   useEffect(() => {
     window.dataLayer &&
       window.dataLayer.push({
