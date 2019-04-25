@@ -47,10 +47,16 @@ export const WorkPage = ({ work }: Props) => {
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
   };
-
+  const workData = {
+    workType: work.workType && work.workType.label,
+  };
+  console.log(workData);
   useEffect(() => {
     window.dataLayer &&
-      window.dataLayer.push({ event: 'pageview', work: work });
+      window.dataLayer.push({
+        event: 'pageview',
+        work: JSON.stringify(workData),
+      });
     fetchIIIFPresentationManifest();
   }, []);
 
