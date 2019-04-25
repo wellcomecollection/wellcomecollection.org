@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import EventSchedule from '../../../common/views/components/EventSchedule/EventSchedule';
-import readme from '../../../common/views/components/EventSchedule/README.md';
+import Readme from '../../../common/views/components/EventSchedule/README.md';
 import moment from 'moment';
 
 const stories = storiesOf('Components', module);
@@ -87,4 +87,6 @@ const EventScheduleExample = () => (
   </ul>
 );
 
-stories.add('EventSchedule', EventScheduleExample, { info: readme });
+stories.add('EventSchedule', EventScheduleExample, {
+  readme: { sidebar: Readme },
+});

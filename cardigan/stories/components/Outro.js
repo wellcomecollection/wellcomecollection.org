@@ -36,4 +36,4 @@ const OutroExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Outro', OutroExample, { info: Readme });
+stories.add('Outro', OutroExample, { readme: { sidebar: Readme } });

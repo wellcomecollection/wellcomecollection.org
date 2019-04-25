@@ -8,4 +8,7 @@ const FooterExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Footer', FooterExample, { info: Readme, isFullScreen: true });
+stories.add('Footer', FooterExample, {
+  readme: { sidebar: Readme },
+  isFullScreen: true,
+});

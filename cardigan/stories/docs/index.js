@@ -10,7 +10,8 @@ docs.keys().forEach(filename => {
     .replace(/[^a-z0-9]/gi, ' ')
     .toLowerCase()
     .trim();
-  const title = `${sanitisedFilename.charAt(0).toUpperCase()}${sanitisedFilename.slice(1)}`;
-  stories
-    .add(title, () => (<div></div>), {info: content});
+  const title = `${sanitisedFilename
+    .charAt(0)
+    .toUpperCase()}${sanitisedFilename.slice(1)}`;
+  stories.add(title, () => <div />, { readme: { content } });
 });

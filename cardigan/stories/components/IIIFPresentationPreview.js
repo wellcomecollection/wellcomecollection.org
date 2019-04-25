@@ -39,5 +39,5 @@ const IIIFPresentationPreviewExample = () => {
 
 const stories = storiesOf('Components', module);
 stories.add('IIIFPresentationPreview', IIIFPresentationPreviewExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

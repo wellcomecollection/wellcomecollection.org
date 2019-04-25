@@ -10,4 +10,4 @@ const MessageExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Message', MessageExample, { info: Readme });
+stories.add('Message', MessageExample, { readme: { sidebar: Readme } });

@@ -1,3 +1,5 @@
-## Quote
+## Purpose
 
-By default, a quote will appear as a block quote. A label can be added to give the required styling for pull or review quotes.
+Display a block or pull quote.
+
+[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/master/common/views/components/Quote/README.md)

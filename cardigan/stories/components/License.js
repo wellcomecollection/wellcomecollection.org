@@ -20,4 +20,4 @@ const LicenseExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('License', LicenseExample, { info: Readme });
+stories.add('License', LicenseExample, { readme: { sidebar: Readme } });

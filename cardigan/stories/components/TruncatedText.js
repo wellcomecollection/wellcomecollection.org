@@ -15,5 +15,5 @@ const TruncatedTextExample = () => {
 };
 
 stories.add('TruncatedText', TruncatedTextExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

@@ -54,4 +54,4 @@ const MetaUnitExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('MetaUnit', MetaUnitExample, { info: Readme });
+stories.add('MetaUnit', MetaUnitExample, { readme: { sidebar: Readme } });

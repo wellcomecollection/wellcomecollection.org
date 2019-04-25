@@ -17,5 +17,5 @@ const AvatarExample = () => {
 };
 
 stories.add('Avatar', AvatarExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

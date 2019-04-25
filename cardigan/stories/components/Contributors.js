@@ -49,6 +49,6 @@ stories.add(
     );
   },
   {
-    info: Readme,
+    readme: { sidebar: Readme },
   }
 );

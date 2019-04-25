@@ -20,4 +20,4 @@ const QuoteExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Quote', QuoteExample, { info: Readme });
+stories.add('Quote', QuoteExample, { readme: { sidebar: Readme } });

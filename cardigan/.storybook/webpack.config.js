@@ -2,8 +2,9 @@
 // include files from external directories. The `babel.config.js` would solve
 // this but isn't supported in storybook yet
 const path = require('path');
-module.exports = (storybookBaseConfig, configType) => {
-  storybookBaseConfig.module.rules.push({
+
+module.exports = ({ config, mode }) => {
+  config.module.rules.push({
     test: /\.js$/,
     exclude: /node_modules/,
     include: [
@@ -27,25 +28,25 @@ module.exports = (storybookBaseConfig, configType) => {
     }
   });
 
-  storybookBaseConfig.module.rules.push({
+  config.module.rules.push({
     test: /\.scss$/,
     include: [
       path.resolve(__dirname, '../../common/styles')
     ],
-    use: [{
-      loader: 'css-loader',
-      options: {
-        minimize: true
-      }
-    }, {
-      loader: 'postcss-loader',
-      options: {
-        config: {
-          path: path.resolve(__dirname, '../')
+    use: [
+      {
+        loader: 'css-loader',
+      }, {
+        loader: 'postcss-loader',
+        options: {
+          config: {
+            path: path.resolve(__dirname, '../')
+          }
         }
-      }
-    }, 'sass-loader']
+      },
+      'sass-loader'
+    ]
   });
 
-  return storybookBaseConfig;
+  return config;
 };

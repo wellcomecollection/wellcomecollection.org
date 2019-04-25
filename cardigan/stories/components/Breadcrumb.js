@@ -21,4 +21,4 @@ const BreadcrumbExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Breadcrumb', BreadcrumbExample, { info: Readme });
+stories.add('Breadcrumb', BreadcrumbExample, { readme: { sidebar: Readme } });

@@ -17,5 +17,5 @@ const ImagePlaceholderExample = () => {
 
 const stories = storiesOf('Components', module);
 stories.add('ImagePlaceholder', ImagePlaceholderExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

@@ -7,4 +7,6 @@ const NewsletterPromoExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('NewsletterPromo', NewsletterPromoExample, { info: Readme });
+stories.add('NewsletterPromo', NewsletterPromoExample, {
+  readme: { sidebar: Readme },
+});

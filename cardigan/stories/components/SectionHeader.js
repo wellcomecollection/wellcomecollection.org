@@ -11,5 +11,5 @@ const SectionHeaderExample = () => {
 };
 
 stories.add('SectionHeader', SectionHeaderExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

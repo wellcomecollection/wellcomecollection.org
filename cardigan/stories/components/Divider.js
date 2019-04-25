@@ -16,4 +16,4 @@ const DividerExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Divider', DividerExample, { info: Readme });
+stories.add('Divider', DividerExample, { readme: { sidebar: Readme } });
