@@ -11,7 +11,6 @@ import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -131,15 +130,9 @@ const Works = ({ works }: Props) => {
           cookieName="WC_wellcomeImagesRedirect"
         />
 
-        <TogglesContext.Consumer>
-          {({ booksRelease }) =>
-            booksRelease && (
-              <Layout12>
-                <BetaBar />
-              </Layout12>
-            )
-          }
-        </TogglesContext.Consumer>
+        <Layout12>
+          <BetaBar />
+        </Layout12>
 
         <div
           className={classNames([
@@ -157,102 +150,42 @@ const Works = ({ works }: Props) => {
                     spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
-                  <TogglesContext.Consumer>
-                    {({ booksRelease }) => (
-                      <>
-                        {booksRelease && !works && (
-                          <h1
-                            className={classNames([
-                              font({ s: 'WB6', m: 'WB4' }),
-                              spacing({ s: 2 }, { margin: ['bottom'] }),
-                              spacing({ s: 4 }, { margin: ['right'] }),
-                              spacing({ s: 0 }, { margin: ['top'] }),
-                            ])}
-                          >
-                            Explore our collections
-                          </h1>
-                        )}
-                        {!booksRelease && (
-                          <h1
-                            className={classNames([
-                              font({ s: 'WB6', m: 'WB4' }),
-                              spacing({ s: 2 }, { margin: ['bottom'] }),
-                              spacing({ s: 4 }, { margin: ['right'] }),
-                              spacing({ s: 0 }, { margin: ['top'] }),
-                            ])}
-                          >
-                            Search our images
-                          </h1>
-                        )}
-                      </>
+                  <>
+                    {!works && (
+                      <h1
+                        className={classNames([
+                          font({ s: 'WB6', m: 'WB4' }),
+                          spacing({ s: 2 }, { margin: ['bottom'] }),
+                          spacing({ s: 4 }, { margin: ['right'] }),
+                          spacing({ s: 0 }, { margin: ['top'] }),
+                        ])}
+                      >
+                        Explore our collections
+                      </h1>
                     )}
-                  </TogglesContext.Consumer>
-
-                  <TogglesContext.Consumer>
-                    {({ booksRelease }) =>
-                      !booksRelease && (
-                        <div className="flex flex--v-center">
-                          <Icon
-                            name="underConstruction"
-                            extraClasses={classNames({
-                              [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                            })}
-                          />
-                          <p className="no-margin">
-                            We’re improving how search works.{' '}
-                            <a href="/works/progress">Find out more</a>.
-                          </p>
-                        </div>
-                      )
-                    }
-                  </TogglesContext.Consumer>
+                  </>
                 </div>
               </div>
             </div>
 
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-                <TogglesContext.Consumer>
-                  {({ booksRelease }) =>
-                    booksRelease && (
-                      <p
-                        className={classNames({
-                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                          'visually-hidden': Boolean(works),
-                        })}
-                        id="search-form-description"
-                      >
-                        Find thousands of freely licensed digital books,
-                        artworks, photos and images of historical library
-                        materials and museum objects.
-                      </p>
-                    )
-                  }
-                </TogglesContext.Consumer>
+                <p
+                  className={classNames({
+                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                    'visually-hidden': Boolean(works),
+                  })}
+                  id="search-form-description"
+                >
+                  Find thousands of freely licensed digital books, artworks,
+                  photos and images of historical library materials and museum
+                  objects.
+                </p>
 
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   compact={false}
                 />
-
-                <TogglesContext.Consumer>
-                  {({ booksRelease }) =>
-                    !booksRelease && (
-                      <p
-                        className={classNames({
-                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                          'visually-hidden': Boolean(works),
-                        })}
-                        id="search-form-description"
-                      >
-                        Find thousands of Creative Commons licensed images from
-                        historical library materials and museum objects to
-                        contemporary digital photographs.
-                      </p>
-                    )
-                  }
-                </TogglesContext.Consumer>
               </div>
             </div>
           </div>
@@ -260,55 +193,46 @@ const Works = ({ works }: Props) => {
 
         {!works && <StaticWorksContent />}
 
-        <TogglesContext.Consumer>
-          {({ booksRelease }) =>
-            booksRelease &&
-            works && (
-              <Layout12>
-                <TabNav
-                  large={true}
-                  items={[
-                    {
-                      text: 'All',
-                      link: worksUrl({
-                        query,
-                        workType: undefined,
-                        page: 1,
-                      }),
-                      selected: !workType,
-                    },
-                    {
-                      text: 'Books',
-                      link: worksUrl({
-                        query,
-                        workType: ['a', 'v'],
-                        page: 1,
-                      }),
-                      selected: !!(
-                        workType &&
-                        (workType.indexOf('a') !== -1 &&
-                          workType.indexOf('v') !== -1)
-                      ),
-                    },
-                    {
-                      text: 'Pictures',
-                      link: worksUrl({
-                        query,
-                        workType: ['k', 'q'],
-                        page: 1,
-                      }),
-                      selected: !!(
-                        workType &&
-                        (workType.indexOf('k') !== -1 &&
-                          workType.indexOf('q') !== -1)
-                      ),
-                    },
-                  ]}
-                />
-              </Layout12>
-            )
-          }
-        </TogglesContext.Consumer>
+        <Layout12>
+          <TabNav
+            large={true}
+            items={[
+              {
+                text: 'All',
+                link: worksUrl({
+                  query,
+                  workType: undefined,
+                  page: 1,
+                }),
+                selected: !workType,
+              },
+              {
+                text: 'Books',
+                link: worksUrl({
+                  query,
+                  workType: ['a', 'v'],
+                  page: 1,
+                }),
+                selected: !!(
+                  workType &&
+                  (workType.indexOf('a') !== -1 && workType.indexOf('v') !== -1)
+                ),
+              },
+              {
+                text: 'Pictures',
+                link: worksUrl({
+                  query,
+                  workType: ['k', 'q'],
+                  page: 1,
+                }),
+                selected: !!(
+                  workType &&
+                  (workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1)
+                ),
+              },
+            ]}
+          />
+        </Layout12>
 
         {works && works.results.length > 0 && (
           <Fragment>

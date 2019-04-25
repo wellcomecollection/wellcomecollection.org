@@ -21,7 +21,7 @@ const links = [
   },
   {
     href: '/works',
-    title: 'Images',
+    title: 'Collections',
     siteSection: 'works',
   },
   {
