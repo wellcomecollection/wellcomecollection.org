@@ -72,5 +72,5 @@ const VenueHoursExample = () => {
 };
 
 stories.add('VenueHours', VenueHoursExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

@@ -17,6 +17,6 @@ const ImageGalleryExample = () => {
 
 const stories = storiesOf('Components', module);
 stories.add('ImageGallery', ImageGalleryExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
   isFullScreen: true,
 });

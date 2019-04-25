@@ -19,4 +19,4 @@ const PaginationExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Pagination', PaginationExample, { info: Readme });
+stories.add('Pagination', PaginationExample, { readme: { sidebar: Readme } });

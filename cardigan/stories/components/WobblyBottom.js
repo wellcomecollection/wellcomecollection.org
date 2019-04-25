@@ -31,5 +31,5 @@ const WobblyBottomExample = () => {
 };
 
 stories.add('WobblyBottom', WobblyBottomExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

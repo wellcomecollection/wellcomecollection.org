@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import Map from '../../../common/views/components/Map/Map';
-import readme from '../../../common/views/components/Map/README.md';
+import Readme from '../../../common/views/components/Map/README.md';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../../common/views/themes/default';
 
@@ -14,6 +14,6 @@ stories.add(
     </ThemeProvider>
   ),
   {
-    info: readme,
+    readme: { sidebar: Readme },
   }
 );

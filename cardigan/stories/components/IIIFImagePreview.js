@@ -14,4 +14,6 @@ const IIIFImagePreviewExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('IIIFImagePreview', IIIFImagePreviewExample, { info: Readme });
+stories.add('IIIFImagePreview', IIIFImagePreviewExample, {
+  readme: { sidebar: Readme },
+});

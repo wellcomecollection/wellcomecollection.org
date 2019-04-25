@@ -21,5 +21,5 @@ const nextLink = {
 
 const stories = storiesOf('Components', module);
 stories.add('BackToResults', () => <BackToResults nextLink={nextLink} />, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

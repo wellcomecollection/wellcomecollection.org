@@ -56,5 +56,5 @@ stories.addDecorator(withKnobs).add(
       </Fragment>
     );
   },
-  { info: Readme }
+  { readme: { sidebar: Readme } }
 );

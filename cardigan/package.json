@@ -11,7 +11,6 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@storybook/addon-a11y": "^5.0.10",
-    "@storybook/addon-info": "^5.0.10",
     "@storybook/addon-knobs": "^5.0.10",
     "@storybook/addon-options": "^5.0.10",
     "@storybook/react": "^5.0.10",
@@ -27,6 +26,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "sass-loader": "^7.1.0",
+    "storybook-readme": "^5.0.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.30.0"
   }

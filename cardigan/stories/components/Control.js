@@ -16,4 +16,4 @@ const ControlExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Control', ControlExample, { info: Readme });
+stories.add('Control', ControlExample, { readme: { sidebar: Readme } });

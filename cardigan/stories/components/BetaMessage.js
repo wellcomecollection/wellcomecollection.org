@@ -10,6 +10,6 @@ stories.add(
     <BetaMessage message="We are working to make this item available online in April 2019." />
   ),
   {
-    info: Readme,
+    readme: { sidebar: Readme },
   }
 );

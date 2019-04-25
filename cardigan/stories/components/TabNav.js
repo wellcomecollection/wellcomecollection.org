@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import TabNav from '../../../common/views/components/TabNav/TabNav';
-import readme from '../../../common/views/components/TabNav/README.md';
+import Readme from '../../../common/views/components/TabNav/README.md';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../../common/views/themes/default';
 
@@ -46,5 +46,5 @@ const TabNavExample = () => (
 );
 
 stories.add('TabNav', TabNavExample, {
-  info: readme,
+  readme: { sidebar: Readme },
 });

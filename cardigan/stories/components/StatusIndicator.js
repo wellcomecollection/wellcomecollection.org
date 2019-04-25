@@ -51,5 +51,5 @@ const StatusIndicatorExample = () => {
 };
 
 stories.add('StatusIndicator', StatusIndicatorExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

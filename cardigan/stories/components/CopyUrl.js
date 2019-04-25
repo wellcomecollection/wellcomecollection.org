@@ -9,4 +9,4 @@ const CopyUrlExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('CopyUrl', CopyUrlExample, { info: Readme });
+stories.add('CopyUrl', CopyUrlExample, { readme: { sidebar: Readme } });
