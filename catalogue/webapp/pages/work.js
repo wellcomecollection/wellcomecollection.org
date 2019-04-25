@@ -50,7 +50,8 @@ export const WorkPage = ({ work }: Props) => {
   };
 
   useEffect(() => {
-    window.dataLayer && window.dataLayer.push({ work: work });
+    window.dataLayer &&
+      window.dataLayer.push({ event: 'pageview', work: work });
     fetchIIIFPresentationManifest();
   }, []);
 
