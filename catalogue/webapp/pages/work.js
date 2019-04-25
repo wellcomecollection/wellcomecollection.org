@@ -26,7 +26,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
@@ -127,15 +126,9 @@ export const WorkPage = ({ work }: Props) => {
         cookieName="WC_wellcomeImagesRedirect"
       />
 
-      <TogglesContext.Consumer>
-        {({ booksRelease }) =>
-          booksRelease && (
-            <Layout12>
-              <BetaBar />
-            </Layout12>
-          )
-        }
-      </TogglesContext.Consumer>
+      <Layout12>
+        <BetaBar />
+      </Layout12>
 
       <div
         className={classNames({
