@@ -22,4 +22,5 @@ We have 2 ditributions:
 ## Deployement of lambda@edge
 * Run `terraform apply` to deploy the latest lambda versions to the devcache cloudfront distribution and make note of the `edge_lambda_request_version` and `edge_lambda_response_version` numbers output to the console.
 * Once deployed check devcache.wellcomecollection.org to make sure everything is working as expected.
+  * __Note:__ these are origin (not viewer) lambdas, so if something has been cached previously, you'll either have to invalidate the cache or wait for it to flush.
 * To deploy to production bump the `edge_lambda_request_version` and `edge_lambda_response_version` in terraform.tf to the new version numbers and run `terraform apply`
