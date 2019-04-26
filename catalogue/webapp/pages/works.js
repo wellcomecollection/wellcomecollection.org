@@ -24,6 +24,7 @@ import {
   SearchEventNames,
 } from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
+import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -131,6 +132,15 @@ const Works = ({ works }: Props) => {
         />
 
         <Layout12>
+          <TogglesContext.Consumer>
+            {({ useStageApi }) =>
+              useStageApi && (
+                <MessageBar tagText="Dev alert">
+                  You are using the stage catalogue API - data mileage may vary!
+                </MessageBar>
+              )
+            }
+          </TogglesContext.Consumer>
           <BetaBar />
         </Layout12>
 
@@ -403,6 +413,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
+  const { useStageApi } = ctx.query.toggles;
   const workTypeQuery = ctx.query.workType;
   const _queryType = ctx.query._queryType;
   const defaultWorkType = ['a', 'k', 'q', 'v'];
@@ -417,7 +428,14 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   };
 
   const worksOrError =
-    query && query !== '' ? await getWorks({ query, page, filters }) : null;
+    query && query !== ''
+      ? await getWorks({
+          query,
+          page,
+          filters,
+          env: useStageApi ? 'stage' : 'prod',
+        })
+      : null;
 
   return {
     works: worksOrError,
