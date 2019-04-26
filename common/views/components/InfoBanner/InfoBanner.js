@@ -3,6 +3,7 @@ import React from 'react';
 import cookie from 'cookie-cutter';
 import { spacing, grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = {|
   cookieName?: string,
@@ -75,10 +76,9 @@ class InfoBanner extends React.Component<Props, State> {
                       >
                         <Icon name="information" />
                       </div>
-                      <div
-                        className="first-para-no-margin"
-                        dangerouslySetInnerHTML={{ __html: this.props.text }}
-                      />
+                      <div className="first-para-no-margin">
+                        <PrismicHtmlBlock html={this.props.text} />
+                      </div>
                     </span>
                   </div>
                   <div>
