@@ -203,46 +203,50 @@ const Works = ({ works }: Props) => {
 
         {!works && <StaticWorksContent />}
 
-        <Layout12>
-          <TabNav
-            large={true}
-            items={[
-              {
-                text: 'All',
-                link: worksUrl({
-                  query,
-                  workType: undefined,
-                  page: 1,
-                }),
-                selected: !workType,
-              },
-              {
-                text: 'Books',
-                link: worksUrl({
-                  query,
-                  workType: ['a', 'v'],
-                  page: 1,
-                }),
-                selected: !!(
-                  workType &&
-                  (workType.indexOf('a') !== -1 && workType.indexOf('v') !== -1)
-                ),
-              },
-              {
-                text: 'Pictures',
-                link: worksUrl({
-                  query,
-                  workType: ['k', 'q'],
-                  page: 1,
-                }),
-                selected: !!(
-                  workType &&
-                  (workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1)
-                ),
-              },
-            ]}
-          />
-        </Layout12>
+        {works && (
+          <Layout12>
+            <TabNav
+              large={true}
+              items={[
+                {
+                  text: 'All',
+                  link: worksUrl({
+                    query,
+                    workType: undefined,
+                    page: 1,
+                  }),
+                  selected: !workType,
+                },
+                {
+                  text: 'Books',
+                  link: worksUrl({
+                    query,
+                    workType: ['a', 'v'],
+                    page: 1,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('a') !== -1 &&
+                      workType.indexOf('v') !== -1)
+                  ),
+                },
+                {
+                  text: 'Pictures',
+                  link: worksUrl({
+                    query,
+                    workType: ['k', 'q'],
+                    page: 1,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('k') !== -1 &&
+                      workType.indexOf('q') !== -1)
+                  ),
+                },
+              ]}
+            />
+          </Layout12>
+        )}
 
         {works && works.results.length > 0 && (
           <Fragment>
