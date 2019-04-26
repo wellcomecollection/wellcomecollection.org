@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs/react';
 import { url, image, singleLineOfText } from '../content';
-import BookPromoReadme from '../../../common/views/components/BookPromo/README.md';
+import Readme from '../../../common/views/components/BookPromo/README.md';
 import BookPromo from '../../../common/views/components/BookPromo/BookPromo';
 
 const BookPromoExample = () => {
@@ -20,4 +20,4 @@ const BookPromoExample = () => {
 
 const stories = storiesOf('Components', module);
 
-stories.add('BookPromo', BookPromoExample, { info: BookPromoReadme });
+stories.add('BookPromo', BookPromoExample, { readme: { sidebar: Readme } });
