@@ -1,4 +1,4 @@
-## Purpose?
+## Purpose
 To be able to express a list of date ranges as a single, relevant date range
 for people to be able to get a snapshot of an event.
 
