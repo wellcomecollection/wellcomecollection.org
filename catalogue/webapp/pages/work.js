@@ -30,6 +30,8 @@ import ManifestContext from '@weco/common/views/components/ManifestContext/Manif
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -134,6 +136,15 @@ export const WorkPage = ({ work }: Props) => {
       />
 
       <Layout12>
+        <TogglesContext.Consumer>
+          {({ useStageApi }) =>
+            useStageApi && (
+              <MessageBar tagText="Dev alert">
+                You are using the stage catalogue API - data mileage may vary!
+              </MessageBar>
+            )
+          }
+        </TogglesContext.Consumer>
         <BetaBar />
       </Layout12>
 
@@ -222,7 +233,12 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
-  const workOrError = await getWork({ id });
+  const { useStageApi } = ctx.query.toggles;
+
+  const workOrError = await getWork({
+    id,
+    env: useStageApi ? 'stage' : 'prod',
+  });
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;

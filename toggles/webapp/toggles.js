@@ -15,6 +15,13 @@ module.exports = {
         'Allow people rate the relevance or results on the search results page.',
     },
     {
+      id: 'useStageApi',
+      title: `Use the staging API`,
+      defaultValue: false,
+      description:
+        'Uses api.stage for requests to the API to view data that we are testing.',
+    },
+    {
       id: 'showWorkLocations',
       title: 'Show the locations of a work in the header',
       defaultValue: false,
