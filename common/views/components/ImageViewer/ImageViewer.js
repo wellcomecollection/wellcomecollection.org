@@ -159,6 +159,7 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
         zoomable={viewButtonMounted}
         defaultSize={800}
         extraClasses="margin-h-auto width-auto full-height full-max-width block"
+        tasl={null}
       />
       <Transition in={mountViewButton} timeout={700}>
         {status => {

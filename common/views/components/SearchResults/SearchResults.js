@@ -46,10 +46,6 @@ const SearchResults = ({
     >
       {items.map(item => (
         <div className={`border-top-width-1 border-color-pumice`} key={item.id}>
-          <pre style={{ fontSize: '10px', fontFamily: 'source code pro' }}>
-            <code>{JSON.stringify(item, null, 2)}</code>
-          </pre>
-          {/* <pre style={{fontSize: '10px', fontFamily: 'source code pro'}}><code>{JSON.stringify(item.image.crops.square, null, 2)}</code></pre> */}
           {item.type === 'pages' && (
             <CompactCard
               url={`/pages/${item.id}`}
