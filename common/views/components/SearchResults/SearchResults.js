@@ -46,6 +46,10 @@ const SearchResults = ({
     >
       {items.map(item => (
         <div className={`border-top-width-1 border-color-pumice`} key={item.id}>
+          <pre style={{ fontSize: '10px', fontFamily: 'source code pro' }}>
+            <code>{JSON.stringify(item, null, 2)}</code>
+          </pre>
+          {/* <pre style={{fontSize: '10px', fontFamily: 'source code pro'}}><code>{JSON.stringify(item.image.crops.square, null, 2)}</code></pre> */}
           {item.type === 'pages' && (
             <CompactCard
               url={`/pages/${item.id}`}
@@ -56,8 +60,11 @@ const SearchResults = ({
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}
@@ -74,8 +81,11 @@ const SearchResults = ({
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}
@@ -92,8 +102,11 @@ const SearchResults = ({
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}
@@ -131,9 +144,11 @@ const SearchResults = ({
               description={item.promoText}
               urlOverride={null}
               Image={
-                item.promo &&
-                // $FlowFixMe (Images)
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}

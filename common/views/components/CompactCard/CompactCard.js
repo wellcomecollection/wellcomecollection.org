@@ -14,7 +14,7 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import { default as ImageType } from '../Image/Image';
+import ImageType from '../Image/Image';
 import { type ColorSelection } from '../../../model/color-selections';
 
 type Props = {|

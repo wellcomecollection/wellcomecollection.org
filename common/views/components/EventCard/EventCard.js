@@ -12,9 +12,10 @@ type Props = {|
 
 const EventCard = ({ event }: Props) => {
   const DateRangeComponent = <EventDateRange event={event} />;
-  const ImageComponent = event.promo && event.promo.image && (
-    <Image {...event.promo.image} />
-  );
+
+  const ImageComponent = event.image &&
+    event.image.crops &&
+    event.image.crops.square && <Image {...event.image.crops.square} />;
 
   const firstTime = event.times[0];
   const lastTime = event.times[event.times.length - 1];
