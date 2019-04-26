@@ -11,4 +11,4 @@ If this isn't available, we use the latest possible date.
 This is usually used in conjunction with a link to view the full list of date
 ranges.
 
-[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/blob/master/common/views/components/EventDateRange/README.md)
+[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/common/views/components/EventDateRange/README.md)

@@ -1,5 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import Label from '../../../common/views/components/Label/Label';
+import Readme from '../../../common/views/components/Label/README.md';
 import { boolean } from '@storybook/addon-knobs/react';
 
 const LabelExample = () => {
@@ -16,4 +17,4 @@ const LabelExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Label', LabelExample);
+stories.add('Label', LabelExample, { readme: { sidebar: Readme } });

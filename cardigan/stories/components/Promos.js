@@ -365,7 +365,9 @@ const ExhibitionPromoExample = () => {
 const stories = storiesOf('Components', module);
 
 stories
-  .add('EventPromo', EventPromoExample, { info: EventPromoReadme })
+  .add('EventPromo', EventPromoExample, {
+    readme: { sidebar: EventPromoReadme },
+  })
   .add('ExhibitionPromo', ExhibitionPromoExample, {
-    info: ExhibitionPromoReadme,
+    readme: { sidebar: ExhibitionPromoReadme },
   });

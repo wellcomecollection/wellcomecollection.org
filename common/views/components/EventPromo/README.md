@@ -1,8 +1,3 @@
-Event Promo
+## Purpose
 
-Images are always 16:9
-
-<!-- TODO dipslay type info. -->
-what is displayed
-what is always displayed
-what is optionally displayed
+[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/common/views/components/EventPromo/README.md)
