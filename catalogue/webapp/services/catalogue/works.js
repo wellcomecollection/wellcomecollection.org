@@ -7,17 +7,27 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 
+const rootUris = {
+  prod: 'https://api.wellcomecollection.org/catalogue',
+  stage: 'https://api-stage.wellcomecollection.org/catalogue',
+};
+
+type Enviable = {|
+  env?: $Keys<typeof rootUris>,
+|};
+
 type GetWorksProps = {|
   query: string,
   page: number,
   filters: Object,
+  ...Enviable,
 |};
 
 type GetWorkProps = {|
   id: string,
+  ...Enviable,
 |};
 
-const rootUri = 'https://api.wellcomecollection.org/catalogue';
 const includes = [
   'identifiers',
   'items',
@@ -31,13 +41,14 @@ export async function getWorks({
   query,
   page,
   filters,
+  env = 'prod',
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const filterQueryString = Object.keys(filters).map(key => {
     const val = filters[key];
     return `${key}=${val}`;
   });
   const url =
-    `${rootUri}/v2/works?include=${includes.join(',')}` +
+    `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
     `&pageSize=100` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '') +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
@@ -61,8 +72,9 @@ export async function getWorks({
 
 export async function getWork({
   id,
+  env = 'prod',
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
-  const url = `${rootUri}/v2/works/${id}?include=${includes.join(',')}`;
+  const url = `${rootUris[env]}/v2/works/${id}?include=${includes.join(',')}`;
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
