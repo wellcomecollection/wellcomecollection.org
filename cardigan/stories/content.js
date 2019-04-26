@@ -29,6 +29,27 @@ export const image = (
   };
 };
 
+export const squareImage = (
+  contentUrl = 'https://iiif.wellcomecollection.org/image/prismic:e0d9c99ab840cbb76e1981ed453c57f4b5d02a65_reading-room-clock.jpg/full/300,/0/default.jpg',
+  width = 300,
+  height = 300
+) => {
+  return {
+    contentUrl,
+    width,
+    height,
+    alt: '',
+    tasl: {
+      contentUrl,
+      title: 'The title of the image',
+      author: 'The author',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'https://wellcomecollection.org/works',
+      license: 'CC-BY-NC',
+    },
+  };
+};
+
 export const pictureImages = [
   {
     contentUrl:
