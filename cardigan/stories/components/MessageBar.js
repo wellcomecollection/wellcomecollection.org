@@ -5,7 +5,7 @@ import Readme from '../../../common/views/components/MessageBar/README.md';
 const stories = storiesOf('Components', module);
 
 stories.add(
-  'BetaBar',
+  'MessageBar',
   () => (
     <MessageBar tagText={'Smoke test'}>
       Things may not always be what they seem.
