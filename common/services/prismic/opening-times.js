@@ -74,7 +74,8 @@ export function exceptionalOpeningPeriods(
       acc[groupedIndex].dates.push(date);
     } else if (
       previousDate &&
-      date.overrideDate.isBefore(previousDate.clone().add(6, 'days'))
+      date.overrideDate.isBefore(previousDate.clone().add(6, 'days')) &&
+      date.overrideType === acc[groupedIndex].type
     ) {
       acc[groupedIndex].dates.push(date);
     } else {
@@ -191,14 +192,15 @@ export function backfillExceptionalVenueDays(
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
+  // if it's type is other then we don't backfill
   return allVenueExceptionalPeriods
-    ? allVenueExceptionalPeriods
-        .map(period => {
-          const sortedDates = period.dates.sort((a, b) => {
-            return a.diff(b, 'days');
-          });
-          const type = period.type || 'other';
-          const days = sortedDates.map(date => {
+    ? allVenueExceptionalPeriods.map(period => {
+        const sortedDates = period.dates.sort((a, b) => {
+          return a.diff(b, 'days');
+        });
+        const type = period.type || 'other';
+        const days = sortedDates
+          .map(date => {
             const matchingVenueGroup = groupedExceptionalDays.find(group => {
               return group.find(day => day.overrideDate.isSame(date, 'day'));
             });
@@ -208,11 +210,15 @@ export function backfillExceptionalVenueDays(
                 day.overrideDate.isSame(date, 'day')
               );
             const backfillDay = exceptionalFromRegular(venue, date, type);
-            return matchingDay || backfillDay;
-          });
-          return days;
-        })
-        .filter(Boolean)
+            if (type === 'other') {
+              return matchingDay;
+            } else {
+              return matchingDay || backfillDay;
+            }
+          })
+          .filter(Boolean);
+        return days;
+      })
     : [];
 }
 
@@ -244,10 +250,10 @@ export function groupConsecutiveDays(
     );
 }
 
-export function getUpcomingExceptionalPeriod(
+export function getUpcomingExceptionalPeriods(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
-): ExceptionalOpeningHoursDay[] {
-  const nextUpcomingPeriod = exceptionalPeriods.find(period => {
+): ExceptionalOpeningHoursDay[][] {
+  const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(d => {
       return (
         d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
@@ -256,7 +262,7 @@ export function getUpcomingExceptionalPeriod(
     });
     return upcomingPeriod || false;
   });
-  return nextUpcomingPeriod || [];
+  return nextUpcomingPeriods;
 }
 
 export function getExceptionalClosedDays(
