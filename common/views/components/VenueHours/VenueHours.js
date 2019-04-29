@@ -9,7 +9,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
   backfillExceptionalVenueDays,
-  getUpcomingExceptionalPeriod,
+  getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
@@ -75,13 +75,9 @@ const VenueHours = ({ venue, weight }: Props) => {
     convertJsonDateStringsToMoment(venue),
     exceptionalPeriods
   );
-  const upcomingExceptionalPeriod =
+  const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
-    getUpcomingExceptionalPeriod(backfilledExceptionalPeriods);
-
-  const overrideType =
-    upcomingExceptionalPeriod.find(date => date.overrideType) &&
-    upcomingExceptionalPeriod.find(date => date.overrideType).overrideType;
+    getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
 
   const venueAdditionalInfo = {
     galleries: {
@@ -171,47 +167,60 @@ const VenueHours = ({ venue, weight }: Props) => {
           ))}
         </ul>
       </VenueHoursTimes>
-      {upcomingExceptionalPeriod && upcomingExceptionalPeriod.length > 0 && (
-        <JauntyBox
-          topLeft={randomPx()}
-          topRight={randomPx()}
-          bottomRight={randomPx()}
-          bottomLeft={randomPx()}
-        >
-          <h3
-            className={classNames({
-              [font({ s: 'HNM4' })]: true,
-            })}
-          >
-            <div
-              className={classNames({
-                'flex flex--v-center': true,
-              })}
+      {upcomingExceptionalPeriods.map(upcomingExceptionalPeriod => {
+        const firstOverride = upcomingExceptionalPeriod.find(
+          date => date.overrideType
+        );
+        const overrideType =
+          firstOverride && firstOverride.overrideType === 'other'
+            ? 'Unusual'
+            : firstOverride.overrideType;
+        return (
+          <>
+            <JauntyBox
+              key={upcomingExceptionalPeriod}
+              topLeft={randomPx()}
+              topRight={randomPx()}
+              bottomRight={randomPx()}
+              bottomLeft={randomPx()}
             >
-              <Icon
-                name="clock"
-                extraClasses={classNames({
-                  [spacing({ s: 1 }, { margin: ['right'] })]: true,
+              <h3
+                className={classNames({
+                  [font({ s: 'HNM4' })]: true,
                 })}
-              />
-              <span>{overrideType} hours</span>
-            </div>
-          </h3>
-          <ul
-            className={classNames({
-              'plain-list no-padding no-margin': true,
-              [font({ s: 'HNL4' })]: true,
-            })}
-          >
-            {upcomingExceptionalPeriod.map((p, i) => (
-              <li key={i}>
-                {formatDay(p.overrideDate)} {formatDayMonth(p.overrideDate)}{' '}
-                {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
-              </li>
-            ))}
-          </ul>
-        </JauntyBox>
-      )}
+              >
+                <div
+                  className={classNames({
+                    'flex flex--v-center': true,
+                  })}
+                >
+                  <Icon
+                    name="clock"
+                    extraClasses={classNames({
+                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                    })}
+                  />
+                  <span>{overrideType} hours</span>
+                </div>
+              </h3>
+              <ul
+                className={classNames({
+                  'plain-list no-padding no-margin': true,
+                  [font({ s: 'HNL4' })]: true,
+                })}
+              >
+                {upcomingExceptionalPeriod.map(p => (
+                  <li key={p.overrideDate}>
+                    {formatDay(p.overrideDate)} {formatDayMonth(p.overrideDate)}{' '}
+                    {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
+                  </li>
+                ))}
+              </ul>
+            </JauntyBox>
+            <br />
+          </>
+        );
+      })}
       <div
         className={classNames({
           [spacing({ s: 2 }, { margin: ['top'] })]: true,
