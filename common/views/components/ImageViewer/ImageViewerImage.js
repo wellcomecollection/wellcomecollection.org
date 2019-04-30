@@ -5,10 +5,10 @@ import { useState, useEffect } from 'react';
 import { spacing } from '../../../utils/classnames';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
-  fetch(imageInfoSrc)
+  return fetch(imageInfoSrc)
     .then(response => response.json())
     .then(response => {
-      openseadragon({
+      return openseadragon({
         id: `image-viewer-${viewerId}`,
         visibilityRatio: 1,
         showFullPageControl: false,
@@ -18,7 +18,222 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
         showNavigator: true,
         controlsFadeDelay: 0,
         animationTime: 0.5,
+        collectionMode: true,
+        collectionRows: 5,
+        collectionTileSize: 1024,
+        collectionTileMargin: 5,
+        collectionLayout: 'vertical',
         tileSources: [
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
+          // {
+          //   '@context': 'http://iiif.io/api/image/2/context.json',
+          //   '@id': response['@id'],
+          //   height: response.height,
+          //   width: response.width,
+          //   profile: ['http://iiif.io/api/image/2/level2.json'],
+          //   protocol: 'http://iiif.io/api/image',
+          //   tiles: [
+          //     {
+          //       scaleFactors: [1, 2, 4, 8, 16, 32],
+          //       width: 400,
+          //     },
+          //   ],
+          // },
           {
             '@context': 'http://iiif.io/api/image/2/context.json',
             '@id': response['@id'],
@@ -59,13 +274,18 @@ type Props = {|
 
 const ImageViewerImage = ({ id, infoUrl }: Props) => {
   const [scriptError, setScriptError] = useState(false);
+  const [viewer, setViewer] = useState(null);
   const handleScriptError = () => {
     setScriptError(true);
   };
 
   useEffect(() => {
-    setupViewer(infoUrl, id, handleScriptError);
+    setViewer(setupViewer(infoUrl, id, handleScriptError));
   }, []);
+
+  useEffect(() => {
+    console.log(viewer);
+  });
 
   return (
     <div className="image-viewer__image" id={`image-viewer-${id}`}>

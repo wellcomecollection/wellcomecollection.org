@@ -110,7 +110,6 @@ const ViewerContent = ({
           }}
         />
       </div>
-
       {viewerVisible && <ImageViewerImage id={id} infoUrl={infoUrl} />}
     </div>
   );

@@ -11,6 +11,15 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
+import dynamic from 'next/dynamic';
+
+import { convertIiifUriToInfoUri } from '@weco/common/utils/convert-image-uri';
+
+const ImageViewerImage = dynamic(
+  import('@weco/common/views/components/ImageViewer/ImageViewerImage'),
+  { ssr: false }
+);
+
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
     'flex absolute flex--h-center': true,
@@ -188,39 +197,41 @@ const PaginatorButtons = ({
   nextLink,
 }: PaginatorRenderFunctionProps) => {
   return (
-    <div
-      className={classNames({
-        'flex flex--v-center flex--h-center': true,
-      })}
-    >
-      {prevLink && (
-        <Control
-          scroll={false}
-          replace={true}
-          link={prevLink}
-          type="light"
-          icon="arrow"
-          text="Previous page"
-          extraClasses={classNames({
-            [spacing({ s: 1 }, { margin: ['right'] })]: true,
-            'icon--180': true,
-          })}
-        />
-      )}
-      {nextLink && (
-        <Control
-          scroll={false}
-          replace={true}
-          link={nextLink}
-          type="light"
-          icon="arrow"
-          text="Next page"
-          extraClasses={classNames({
-            icon: true,
-          })}
-        />
-      )}
-    </div>
+    <>
+      <div
+        className={classNames({
+          'flex flex--v-center flex--h-center': true,
+        })}
+      >
+        {prevLink && (
+          <Control
+            scroll={false}
+            replace={true}
+            link={prevLink}
+            type="light"
+            icon="arrow"
+            text="Previous page"
+            extraClasses={classNames({
+              [spacing({ s: 1 }, { margin: ['right'] })]: true,
+              'icon--180': true,
+            })}
+          />
+        )}
+        {nextLink && (
+          <Control
+            scroll={false}
+            replace={true}
+            link={nextLink}
+            type="light"
+            icon="arrow"
+            text="Next page"
+            extraClasses={classNames({
+              icon: true,
+            })}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
@@ -265,7 +276,12 @@ const IIIFViewerComponent = ({
     <IIIFViewer>
       <IIIFViewerMain>
         <Paginator {...mainPaginatorProps} render={XOfY} />
-
+        {/* JSON.stringify(mainImageService) */}
+        <ImageViewerImage
+          id="test"
+          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+        />
+        {/*
         <IIIFResponsiveImage
           width={currentCanvas.width}
           height={currentCanvas.height}
@@ -280,7 +296,7 @@ const IIIFViewerComponent = ({
             (canvasOcr && canvasOcr.replace(/"/g, '')) ||
             'no text alternative is available for this image'
           }
-        />
+        /> */}
 
         <IIIFViewerPaginatorButtons>
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
