@@ -4,10 +4,11 @@ import cookie from 'cookie-cutter';
 import { spacing, grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import type { HTMLString } from '../../../../common/services/prismic/types';
 
 type Props = {|
   cookieName?: string,
-  text: string,
+  text: HTMLString,
 |};
 
 type State = {|

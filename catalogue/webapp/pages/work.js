@@ -131,7 +131,13 @@ export const WorkPage = ({ work }: Props) => {
       hideNewsletterPromo={true}
     >
       <InfoBanner
-        text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
+        text={[
+          {
+            type: 'paragraph',
+            text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
+            spans: [],
+          },
+        ]}
         cookieName="WC_wellcomeImagesRedirect"
       />
 
