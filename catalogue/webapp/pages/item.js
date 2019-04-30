@@ -44,20 +44,24 @@ async function getCanvasOcr(canvas) {
         content['@type'] === 'sc:AnnotationList' &&
         content.label === 'Text of this page'
     );
+
   const textService = textContent && textContent['@id'];
-  try {
-    const textJson = await fetch(textService);
-    const text = await textJson.json();
-    const textString = text.resources
-      .filter(resource => {
-        return resource.resource['@type'] === 'cnt:ContentAsText';
-      })
-      .map(resource => resource.resource.chars)
-      .join(' ');
-    return textString.length > 0 ? textString : null;
-  } catch (e) {
-    Raven.captureException(e);
-    return null;
+
+  if (textService) {
+    try {
+      const textJson = await fetch(textService);
+      const text = await textJson.json();
+      const textString = text.resources
+        .filter(resource => {
+          return resource.resource['@type'] === 'cnt:ContentAsText';
+        })
+        .map(resource => resource.resource.chars)
+        .join(' ');
+      return textString.length > 0 ? textString : null;
+    } catch (e) {
+      Raven.captureException(e);
+      return null;
+    }
   }
 }
 
