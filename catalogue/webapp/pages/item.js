@@ -192,7 +192,7 @@ const ItemPage = ({
             </a>
           </NextLink>
         </div>
-        {!pdfRendering && !mainImageService && (
+        {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
           <div
             className={classNames({
               [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
@@ -272,3 +272,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 };
 
 export default ItemPage;
+
+// TODO add controls to openseadragon viewer
+// TODO Add rotate
+// TODO use openseadragon in book viewer (in progress on other branch)
+// TODO make use of localStorage for work, so don't have to get it again?
