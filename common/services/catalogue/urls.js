@@ -23,7 +23,7 @@ type WorkUrlProps = {|
 
 type ItemUrlProps = {|
   workId: string,
-  sierraId: string,
+  sierraId: ?string,
   langCode: string,
   canvas: number,
   page: ?number,
