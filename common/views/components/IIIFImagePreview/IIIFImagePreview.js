@@ -3,7 +3,7 @@ import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import Image from '../Image/Image';
-
+import Control from '../Buttons/Control/Control';
 type Props = {|
   id: string,
   title: string,
@@ -18,6 +18,13 @@ const PreviewContainer = styled.div`
   text-align: center;
   padding: ${props =>
     `${props.theme.spacingUnit * 4}px 0 ${props.theme.spacingUnit * 6}px`};
+  * {
+    cursor: zoom-in;
+  }
+  button {
+    position: relative;
+    top: -20px; /* TODO this better */
+  }
 `;
 
 const IIIFImagePreview = ({
@@ -50,6 +57,7 @@ const IIIFImagePreview = ({
             defaultSize={800}
             extraClasses="margin-h-auto width-auto full-height full-max-width block"
           />
+          <Control type="dark" text="View larger image" icon="zoomIn" />
         </a>
       </NextLink>
     </PreviewContainer>
@@ -57,3 +65,5 @@ const IIIFImagePreview = ({
 };
 
 export default IIIFImagePreview;
+
+// TODO no-js, get rid of huge image...
