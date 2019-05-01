@@ -1,5 +1,6 @@
 // @flow
 import { iiifImageTemplate } from '../../../utils/convert-image-uri';
+import { trackEvent } from '../../../utils/ga';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import Image from '../Image/Image';
@@ -41,11 +42,11 @@ const IIIFImagePreview = ({
         <a
           className="plain-link"
           onClick={() => {
-            // trackEvent({
-            //   category: 'IIIFPresentationPreview', // TODO make consistent with previous image tracking...
-            //   action: 'follow link',
-            //   label: itemUrl.href.query.workId,
-            // });
+            trackEvent({
+              category: 'IIIFImagePreview', // TODO tell Hayley we're changing the event for viewing an image
+              action: 'followlink',
+              label: itemUrl.href.query.workId,
+            });
           }}
         >
           <Image
