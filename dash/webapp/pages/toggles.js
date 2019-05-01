@@ -35,13 +35,7 @@ function setCookie(name, value) {
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [
-  {
-    title: 'Short exhibition titles',
-    description: 'Display short exhibition titles',
-    id: 'showShortTitles',
-  },
-];
+const abTests = [];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
   const [toggles, setToggles] = useState([]);
