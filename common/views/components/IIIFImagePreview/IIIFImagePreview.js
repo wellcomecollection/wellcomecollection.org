@@ -1,11 +1,7 @@
 // @flow
-import {
-  iiifImageTemplate,
-  convertImageUri,
-  convertIiifUriToInfoUri,
-} from '../../../utils/convert-image-uri';
-import ImageViewer from '../ImageViewer/ImageViewer';
+import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 import { classNames } from '../../../utils/classnames';
+import Image from '../Image/Image';
 
 type Props = {|
   id: string,
@@ -16,9 +12,6 @@ type Props = {|
 
 const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
-  const imageInfoUrl = convertIiifUriToInfoUri(
-    convertImageUri(imageContentUrl, 'full', false)
-  );
   return (
     <div>
       <div
@@ -28,11 +21,14 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
           'bg-black': true,
         })}
       >
-        <ImageViewer
-          infoUrl={imageInfoUrl}
-          contentUrl={imageContentUrl}
-          id={id}
+        <Image
           width={width}
+          contentUrl={imageContentUrl}
+          lazyload={false}
+          sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
+          alt=""
+          defaultSize={800}
+          extraClasses="margin-h-auto width-auto full-height full-max-width block"
         />
       </div>
     </div>

@@ -14,13 +14,9 @@
     width: auto;
     align-self: center;
     margin: 0 auto;
-    display: none;
-
-    .enhanced & {
-      display: block;
-      padding: 0;
-      cursor: zoom-in;
-    }
+    display: block;
+    padding: 0;
+    cursor: zoom-in;
 
     @supports (object-fit: contain) {
       width: 100%;
