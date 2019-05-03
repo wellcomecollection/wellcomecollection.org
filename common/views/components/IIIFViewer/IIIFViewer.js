@@ -1,6 +1,5 @@
 // @flow
 import styled from 'styled-components';
-import { useState } from 'react';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
@@ -11,15 +10,10 @@ import Paginator, {
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
-
-import dynamic from 'next/dynamic';
+import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
+import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 
 import { convertIiifUriToInfoUri } from '@weco/common/utils/convert-image-uri';
-
-const ImageViewerImage = dynamic(
-  import('@weco/common/views/components/ImageViewer/ImageViewerImage'),
-  { ssr: false }
-);
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -269,48 +263,21 @@ const IIIFViewerComponent = ({
   pageSize,
   canvasIndex,
 }: IIIFViewerProps) => {
-  const [isZooming, setIsZooming] = useState(false);
   const mainImageService = {
     '@id': currentCanvas.images[0].resource.service['@id'],
   };
+  const urlTemplate = iiifImageTemplate(mainImageService['@id']);
 
   return (
     <IIIFViewer>
       <IIIFViewerMain>
         <Paginator {...mainPaginatorProps} render={XOfY} />
-        <button
-          onClick={() => {
-            setIsZooming(!isZooming);
-          }}
-        >
-          click
-        </button>
-
-        {isZooming ? (
-          <>
-            <ImageViewerImage
-              id="item-page"
-              infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-            />
-          </>
-        ) : (
-          <IIIFResponsiveImage
-            width={currentCanvas.width}
-            height={currentCanvas.height}
-            imageService={mainImageService}
-            sizes={`(min-width: 860px) 800px, 100vw)`}
-            extraClasses={classNames({
-              'block h-center': true,
-              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-            })}
-            lang={lang}
-            alt={
-              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-              'no text alternative is available for this image'
-            }
-          />
-        )}
-
+        <ImageViewer
+          id="item-page"
+          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+          width={currentCanvas.width}
+          contentUrl={urlTemplate({ size: `640,` })}
+        />
         <IIIFViewerPaginatorButtons>
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </IIIFViewerPaginatorButtons>
