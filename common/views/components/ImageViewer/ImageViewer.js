@@ -1,11 +1,12 @@
 // @flow
 import { Fragment, useState, useEffect } from 'react';
 import { Transition } from 'react-transition-group';
-import Image from '../Image/Image';
+import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
-import { spacing } from '../../../utils/classnames';
+import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import dynamic from 'next/dynamic';
+import { type IIIFImageService, IIIFCanvas } from '../../../model/iiif';
 
 const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
 
@@ -117,12 +118,21 @@ const ViewerContent = ({
 
 type ImageViewerProps = {|
   id: string,
-  contentUrl: string,
+  imageService: IIIFImageService,
+  canvas: IIIFCanvas,
+  canvasOcr: ?string,
   infoUrl: string,
-  width: number,
+  lang: string,
 |};
 
-const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
+const ImageViewer = ({
+  id,
+  imageService,
+  canvas,
+  canvasOcr,
+  lang,
+  infoUrl,
+}: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [mountViewButton, setMountViewButton] = useState(false);
   const [viewButtonMounted, setViewButtonMounted] = useState(false);
@@ -146,18 +156,22 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
 
   return (
     <Fragment>
-      <Image
-        width={width}
-        contentUrl={contentUrl}
-        lazyload={false}
-        sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-        alt=""
-        clickHandler={() => {
-          handleViewerDisplay('Image');
-        }}
-        zoomable={viewButtonMounted}
-        defaultSize={800}
-        extraClasses="margin-h-auto width-auto full-height full-max-width block"
+      <IIIFResponsiveImage
+        width={canvas.width}
+        height={canvas.height}
+        imageService={imageService}
+        sizes={`(min-width: 860px) 800px, 100vw)`}
+        extraClasses={classNames({
+          'block h-center': true,
+          [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+          'cursor-zoom-in': viewButtonMounted,
+        })}
+        lang={lang}
+        clickHandler={() => handleViewerDisplay('Image')}
+        alt={
+          (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+          'no text alternative is available for this image'
+        }
       />
       <Transition in={mountViewButton} timeout={700}>
         {status => {

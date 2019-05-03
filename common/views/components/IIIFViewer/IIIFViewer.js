@@ -11,7 +11,6 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 
 import { convertIiifUriToInfoUri } from '@weco/common/utils/convert-image-uri';
 
@@ -266,7 +265,6 @@ const IIIFViewerComponent = ({
   const mainImageService = {
     '@id': currentCanvas.images[0].resource.service['@id'],
   };
-  const urlTemplate = iiifImageTemplate(mainImageService['@id']);
 
   return (
     <IIIFViewer>
@@ -275,8 +273,10 @@ const IIIFViewerComponent = ({
         <ImageViewer
           id="item-page"
           infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-          width={currentCanvas.width}
-          contentUrl={urlTemplate({ size: `640,` })}
+          imageService={mainImageService}
+          canvas={currentCanvas}
+          canvasOcr={canvasOcr}
+          lang={lang}
         />
         <IIIFViewerPaginatorButtons>
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />

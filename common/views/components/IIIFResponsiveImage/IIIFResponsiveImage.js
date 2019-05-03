@@ -16,6 +16,7 @@ type Props = {|
   alt: string,
   extraClasses?: string,
   lang: string,
+  clickHandler?: () => void,
 |};
 
 const IIIFResponsiveImage = ({
@@ -26,6 +27,7 @@ const IIIFResponsiveImage = ({
   alt,
   extraClasses,
   lang,
+  clickHandler,
 }: Props) => {
   const urlTemplate = iiifImageTemplate(imageService['@id']);
   const widths = imageService.sizes
@@ -45,6 +47,7 @@ const IIIFResponsiveImage = ({
         image: true,
         [extraClasses || '']: true,
       })}
+      onClick={clickHandler}
       onError={event =>
         Raven.captureException(new Error('IIIF image loading error'), {
           tags: {
