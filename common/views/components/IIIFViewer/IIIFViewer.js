@@ -1,5 +1,6 @@
 // @flow
 import styled from 'styled-components';
+import { useState } from 'react';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
@@ -268,6 +269,7 @@ const IIIFViewerComponent = ({
   pageSize,
   canvasIndex,
 }: IIIFViewerProps) => {
+  const [isZooming, setIsZooming] = useState(false);
   const mainImageService = {
     '@id': currentCanvas.images[0].resource.service['@id'],
   };
@@ -276,27 +278,38 @@ const IIIFViewerComponent = ({
     <IIIFViewer>
       <IIIFViewerMain>
         <Paginator {...mainPaginatorProps} render={XOfY} />
-        {/* JSON.stringify(mainImageService) */}
-        <ImageViewerImage
-          id="test"
-          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-        />
-        {/*
-        <IIIFResponsiveImage
-          width={currentCanvas.width}
-          height={currentCanvas.height}
-          imageService={mainImageService}
-          sizes={`(min-width: 860px) 800px, 100vw)`}
-          extraClasses={classNames({
-            'block h-center': true,
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          })}
-          lang={lang}
-          alt={
-            (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-            'no text alternative is available for this image'
-          }
-        /> */}
+        <button
+          onClick={() => {
+            setIsZooming(!isZooming);
+          }}
+        >
+          click
+        </button>
+
+        {isZooming ? (
+          <>
+            <ImageViewerImage
+              id="item-page"
+              infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+            />
+          </>
+        ) : (
+          <IIIFResponsiveImage
+            width={currentCanvas.width}
+            height={currentCanvas.height}
+            imageService={mainImageService}
+            sizes={`(min-width: 860px) 800px, 100vw)`}
+            extraClasses={classNames({
+              'block h-center': true,
+              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+            })}
+            lang={lang}
+            alt={
+              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+              'no text alternative is available for this image'
+            }
+          />
+        )}
 
         <IIIFViewerPaginatorButtons>
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
