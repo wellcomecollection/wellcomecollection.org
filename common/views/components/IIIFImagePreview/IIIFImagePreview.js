@@ -19,6 +19,9 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
   const imageInfoUrl = convertIiifUriToInfoUri(
     convertImageUri(imageContentUrl, 'full', false)
   );
+
+  console.log(imageContentUrl);
+
   return (
     <div>
       <div
@@ -29,9 +32,12 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
         })}
       >
         <ImageViewer
+          id={id}
           infoUrl={imageInfoUrl}
           contentUrl={imageContentUrl}
-          id={id}
+          imageService={null}
+          canvasOcr={null}
+          lang={'eng'}
           width={width}
         />
       </div>

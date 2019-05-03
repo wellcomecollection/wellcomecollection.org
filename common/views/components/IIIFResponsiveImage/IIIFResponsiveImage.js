@@ -11,7 +11,8 @@ import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 type Props = {|
   width: number,
   height: number,
-  imageService: IIIFImageService | IIIFThumbnailService,
+  imageService: ?IIIFImageService | IIIFThumbnailService,
+  contentUrl: ?string,
   sizes: ?string,
   alt: string,
   extraClasses?: string,
@@ -23,20 +24,30 @@ const IIIFResponsiveImage = ({
   width,
   height,
   imageService,
+  contentUrl,
   sizes,
   alt,
   extraClasses,
   lang,
   clickHandler,
 }: Props) => {
-  const urlTemplate = iiifImageTemplate(imageService['@id']);
-  const widths = imageService.sizes
-    ? imageService.sizes.map(s => s.width)
-    : imageSizes(2048);
+  const urlTemplate = imageService && iiifImageTemplate(imageService['@id']);
+  const widths =
+    imageService && imageService.sizes
+      ? imageService.sizes.map(s => s.width)
+      : imageSizes(2048);
   // We want an appropriately sized initial src image for browsers
   // that can't handle srcset. If the service has sizes (thumbnail)
   // then we pick the smallest, otherwise we set a width of 640px
-  const initialSrcWidth = imageService.sizes ? widths[0] : 640;
+  const initialSrcWidth = imageService && imageService.sizes ? widths[0] : 640;
+
+  const srcSetString = widths.map(width => {
+    return urlTemplate
+      ? `${urlTemplate({ size: `${width},` })} ${width}w`
+      : contentUrl
+      ? `${contentUrl} ${width}w`
+      : null;
+  });
 
   return (
     <img
@@ -55,14 +66,10 @@ const IIIFResponsiveImage = ({
           },
         })
       }
-      src={urlTemplate({ size: `${initialSrcWidth},` })}
-      srcSet={
-        sizes
-          ? widths.map(width => {
-              return `${urlTemplate({ size: `${width},` })} ${width}w`;
-            })
-          : undefined
+      src={
+        urlTemplate ? urlTemplate({ size: `${initialSrcWidth},` }) : contentUrl
       }
+      srcSet={srcSetString}
       sizes={sizes}
       alt={alt || ''}
     />

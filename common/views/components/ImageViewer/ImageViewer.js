@@ -6,7 +6,8 @@ import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import dynamic from 'next/dynamic';
-import { type IIIFImageService, IIIFCanvas } from '../../../model/iiif';
+import { type IIIFImageService, type IIIFCanvas } from '../../../model/iiif';
+import { numberLiteralTypeAnnotation } from '@babel/types';
 
 const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
 
@@ -119,7 +120,8 @@ const ViewerContent = ({
 type ImageViewerProps = {|
   id: string,
   imageService: IIIFImageService,
-  canvas: IIIFCanvas,
+  width: number,
+  height: number,
   canvasOcr: ?string,
   infoUrl: string,
   lang: string,
@@ -128,10 +130,12 @@ type ImageViewerProps = {|
 const ImageViewer = ({
   id,
   imageService,
-  canvas,
+  width,
+  height,
   canvasOcr,
   lang,
   infoUrl,
+  contentUrl,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [mountViewButton, setMountViewButton] = useState(false);
@@ -157,8 +161,9 @@ const ImageViewer = ({
   return (
     <Fragment>
       <IIIFResponsiveImage
-        width={canvas.width}
-        height={canvas.height}
+        width={width}
+        height={height}
+        contentUrl={contentUrl}
         imageService={imageService}
         sizes={`(min-width: 860px) 800px, 100vw)`}
         extraClasses={classNames({

@@ -274,7 +274,8 @@ const IIIFViewerComponent = ({
           id="item-page"
           infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
           imageService={mainImageService}
-          canvas={currentCanvas}
+          width={currentCanvas.width}
+          height={currentCanvas.height}
           canvasOcr={canvasOcr}
           lang={lang}
         />
