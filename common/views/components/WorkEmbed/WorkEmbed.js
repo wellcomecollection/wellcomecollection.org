@@ -8,6 +8,7 @@ import {
   convertIiifUriToInfoUri,
 } from '../../../utils/convert-image-uri';
 import type { Work } from '../../../model/work';
+import { imageSizes } from '../../../utils/image-sizes';
 
 type Props = {|
   work: Work,
@@ -56,9 +57,13 @@ const WorkEmbed = ({ work }: Props) => {
             <Fragment>
               <ImageViewer
                 infoUrl={imageInfoUrl}
-                contentUrl={imageUrl}
+                src={imageUrl}
+                srcSet={''}
                 id={work.id}
+                canvasOcr={null}
+                lang={'eng'}
                 width={800}
+                widths={imageSizes(2048)}
               />
             </Fragment>
           </div>

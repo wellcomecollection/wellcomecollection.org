@@ -6,8 +6,6 @@ import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import dynamic from 'next/dynamic';
-import { type IIIFImageService, type IIIFCanvas } from '../../../model/iiif';
-import { numberLiteralTypeAnnotation } from '@babel/types';
 
 const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
 
@@ -119,9 +117,11 @@ const ViewerContent = ({
 
 type ImageViewerProps = {|
   id: string,
-  imageService: IIIFImageService,
+  src: string,
+  srcSet: string,
   width: number,
-  height: number,
+  widths: number[],
+  height?: number,
   canvasOcr: ?string,
   infoUrl: string,
   lang: string,
@@ -129,13 +129,14 @@ type ImageViewerProps = {|
 
 const ImageViewer = ({
   id,
-  imageService,
   width,
   height,
   canvasOcr,
   lang,
   infoUrl,
-  contentUrl,
+  src,
+  srcSet,
+  widths,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [mountViewButton, setMountViewButton] = useState(false);
@@ -163,9 +164,10 @@ const ImageViewer = ({
       <IIIFResponsiveImage
         width={width}
         height={height}
-        contentUrl={contentUrl}
-        imageService={imageService}
-        sizes={`(min-width: 860px) 800px, 100vw)`}
+        widths={widths}
+        src={src}
+        srcSet={srcSet}
+        sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better
         extraClasses={classNames({
           'block h-center': true,
           [spacing({ s: 2 }, { margin: ['bottom'] })]: true,

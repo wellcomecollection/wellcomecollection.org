@@ -6,6 +6,7 @@ import {
 } from '../../../utils/convert-image-uri';
 import ImageViewer from '../ImageViewer/ImageViewer';
 import { classNames } from '../../../utils/classnames';
+import { imageSizes } from '../../../utils/image-sizes';
 
 type Props = {|
   id: string,
@@ -20,7 +21,11 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
     convertImageUri(imageContentUrl, 'full', false)
   );
 
-  console.log(imageContentUrl);
+  const srcSet = imageSizes(2048)
+    .map(w => {
+      return `${iiifImageTemplate(iiifUrl)({ size: `${w},` })} ${w}w`;
+    })
+    .join(',');
 
   return (
     <div>
@@ -33,9 +38,10 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
       >
         <ImageViewer
           id={id}
+          widths={imageSizes(2048)}
           infoUrl={imageInfoUrl}
-          contentUrl={imageContentUrl}
-          imageService={null}
+          src={imageContentUrl}
+          srcSet={srcSet}
           canvasOcr={null}
           lang={'eng'}
           width={width}

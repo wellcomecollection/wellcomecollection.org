@@ -11,8 +11,11 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-
-import { convertIiifUriToInfoUri } from '@weco/common/utils/convert-image-uri';
+import {
+  convertIiifUriToInfoUri,
+  iiifImageTemplate,
+} from '@weco/common/utils/convert-image-uri';
+import { imageSizes } from '../../../utils/image-sizes';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -165,13 +168,22 @@ type IIIFCanvasThumbnailProps = {|
 
 const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidth = thumbnailService.sizes[0].width;
+  const srcSet = thumbnailService.sizes
+    .map(({ width }) => {
+      return `${urlTemplate({ size: `${width},` })} ${width}w`;
+    })
+    .join(',');
 
   return (
     <IIIFResponsiveImage
       lang={lang}
       width={canvas.width}
       height={canvas.height}
-      imageService={thumbnailService}
+      widths={imageSizes(2048)}
+      src={urlTemplate({ size: `${smallestWidth},` })}
+      srcSet={srcSet}
       alt=""
       sizes={`(min-width: 600px) 200px, 100px`}
     />
@@ -266,6 +278,13 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas.images[0].resource.service['@id'],
   };
 
+  const urlTemplate = iiifImageTemplate(mainImageService['@id']);
+  const srcSet = imageSizes(2048)
+    .map(width => {
+      return `${urlTemplate({ size: `${width},` })} ${width}w`;
+    })
+    .join(',');
+
   return (
     <IIIFViewer>
       <IIIFViewerMain>
@@ -273,7 +292,9 @@ const IIIFViewerComponent = ({
         <ImageViewer
           id="item-page"
           infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-          imageService={mainImageService}
+          src={urlTemplate({ size: '640,' })}
+          srcSet={srcSet}
+          widths={imageSizes(2048)} // FIXME: use imageService
           width={currentCanvas.width}
           height={currentCanvas.height}
           canvasOcr={canvasOcr}
