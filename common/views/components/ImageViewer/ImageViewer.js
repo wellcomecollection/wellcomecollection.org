@@ -123,7 +123,7 @@ type ImageViewerProps = {|
   height?: number,
   canvasOcr: ?string,
   infoUrl: string,
-  lang: string,
+  lang: ?string,
 |};
 
 const ImageViewer = ({

@@ -42,7 +42,7 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
           src={imageContentUrl}
           srcSet={srcSet}
           canvasOcr={null}
-          lang={'eng'}
+          lang={null}
           width={width}
         />
       </div>

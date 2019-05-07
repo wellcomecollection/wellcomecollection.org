@@ -60,7 +60,7 @@ const WorkEmbed = ({ work }: Props) => {
                 srcSet={''}
                 id={work.id}
                 canvasOcr={null}
-                lang={'eng'}
+                lang={null}
                 width={800}
               />
             </Fragment>

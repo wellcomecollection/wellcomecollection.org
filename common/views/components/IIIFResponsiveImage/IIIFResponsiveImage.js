@@ -10,7 +10,7 @@ type Props = {|
   sizes: ?string,
   alt: string,
   extraClasses?: string,
-  lang: string,
+  lang: ?string,
   clickHandler?: () => void,
 |};
 
