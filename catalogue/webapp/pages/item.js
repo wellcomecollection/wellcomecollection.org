@@ -273,6 +273,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 
 export default ItemPage;
 
+// TODO fix flow
 // TODO no-js version of single image
 // TODO add controls to openseadragon viewer
 // TODO Add rotate

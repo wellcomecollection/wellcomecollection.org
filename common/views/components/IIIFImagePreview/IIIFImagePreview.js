@@ -44,7 +44,7 @@ const IIIFImagePreview = ({
           onClick={() => {
             trackEvent({
               category: 'IIIFImagePreview', // TODO tell Hayley we're changing the event for viewing an image
-              action: 'followlink',
+              action: 'follow link',
               label: itemUrl.href.query.workId,
             });
           }}
