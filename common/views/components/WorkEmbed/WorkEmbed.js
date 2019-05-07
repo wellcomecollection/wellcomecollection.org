@@ -56,8 +56,11 @@ const WorkEmbed = ({ work }: Props) => {
             <Fragment>
               <ImageViewer
                 infoUrl={imageInfoUrl}
-                contentUrl={imageUrl}
+                src={imageUrl}
+                srcSet={''}
                 id={work.id}
+                canvasOcr={null}
+                lang={null}
                 width={800}
               />
             </Fragment>

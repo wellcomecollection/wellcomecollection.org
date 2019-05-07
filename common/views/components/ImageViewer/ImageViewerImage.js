@@ -5,10 +5,10 @@ import { useState, useEffect } from 'react';
 import { spacing } from '../../../utils/classnames';
 
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
-  fetch(imageInfoSrc)
+  return fetch(imageInfoSrc)
     .then(response => response.json())
     .then(response => {
-      openseadragon({
+      return openseadragon({
         id: `image-viewer-${viewerId}`,
         visibilityRatio: 1,
         showFullPageControl: false,
@@ -59,13 +59,19 @@ type Props = {|
 
 const ImageViewerImage = ({ id, infoUrl }: Props) => {
   const [scriptError, setScriptError] = useState(false);
+  const [viewer, setViewer] = useState(null);
   const handleScriptError = () => {
     setScriptError(true);
   };
 
   useEffect(() => {
-    setupViewer(infoUrl, id, handleScriptError);
-  }, []);
+    if (viewer) {
+      viewer.destroy();
+      setViewer(null);
+    }
+
+    setupViewer(infoUrl, id, handleScriptError).then(setViewer);
+  }, [infoUrl]);
 
   return (
     <div className="image-viewer__image" id={`image-viewer-${id}`}>

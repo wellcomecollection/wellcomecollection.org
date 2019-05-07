@@ -15,7 +15,7 @@ export type IIIFThumbnailService = {|
 
 export type IIIFThumbnail = {|
   '@id': string,
-  service: IIIFImageService,
+  service: IIIFThumbnailService,
 |};
 
 export type IIIFResource = {|
