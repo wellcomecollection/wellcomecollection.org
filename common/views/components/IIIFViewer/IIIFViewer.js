@@ -200,41 +200,39 @@ const PaginatorButtons = ({
   nextLink,
 }: PaginatorRenderFunctionProps) => {
   return (
-    <>
-      <div
-        className={classNames({
-          'flex flex--v-center flex--h-center': true,
-        })}
-      >
-        {prevLink && (
-          <Control
-            scroll={false}
-            replace={true}
-            link={prevLink}
-            type="light"
-            icon="arrow"
-            text="Previous page"
-            extraClasses={classNames({
-              [spacing({ s: 1 }, { margin: ['right'] })]: true,
-              'icon--180': true,
-            })}
-          />
-        )}
-        {nextLink && (
-          <Control
-            scroll={false}
-            replace={true}
-            link={nextLink}
-            type="light"
-            icon="arrow"
-            text="Next page"
-            extraClasses={classNames({
-              icon: true,
-            })}
-          />
-        )}
-      </div>
-    </>
+    <div
+      className={classNames({
+        'flex flex--v-center flex--h-center': true,
+      })}
+    >
+      {prevLink && (
+        <Control
+          scroll={false}
+          replace={true}
+          link={prevLink}
+          type="light"
+          icon="arrow"
+          text="Previous page"
+          extraClasses={classNames({
+            [spacing({ s: 1 }, { margin: ['right'] })]: true,
+            'icon--180': true,
+          })}
+        />
+      )}
+      {nextLink && (
+        <Control
+          scroll={false}
+          replace={true}
+          link={nextLink}
+          type="light"
+          icon="arrow"
+          text="Next page"
+          extraClasses={classNames({
+            icon: true,
+          })}
+        />
+      )}
+    </div>
   );
 };
 
