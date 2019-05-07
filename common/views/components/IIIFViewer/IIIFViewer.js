@@ -22,11 +22,9 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     'flex absolute flex--h-center': true,
   }),
 }))`
-  left: ${props => (props.isThumbs ? 'auto' : '50%')};
   right: ${props => props.theme.spacingUnit}px;
   bottom: ${props => (props.isThumbs ? '50%' : props.theme.spacingUnit + 'px')};
-  transform: ${props =>
-    props.isThumbs ? 'translateY(50%)' : 'translateX(-50%)'};
+  transform: ${props => (props.isThumbs ? 'translateY(50%)' : null)};
 
   ${props =>
     props.isThumbs &&
