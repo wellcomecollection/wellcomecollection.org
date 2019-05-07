@@ -173,8 +173,7 @@ const ImageViewer = ({
         lang={lang}
         clickHandler={() => handleViewerDisplay('Image')}
         alt={
-          (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-          'no text alternative is available for this image'
+          (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
         }
       />
       <Transition in={mountViewButton} timeout={700}>
