@@ -72,11 +72,10 @@ const ImageViewerImage = ({ id, infoUrl }: Props) => {
   useEffect(() => {
     if (viewer) {
       viewer.destroy();
+      setViewer(null);
     }
 
-    setupViewer(infoUrl, id, handleScriptError).then(viewer => {
-      setViewer(viewer);
-    });
+    setupViewer(infoUrl, id, handleScriptError).then(setViewer);
   }, [infoUrl]);
 
   return (
