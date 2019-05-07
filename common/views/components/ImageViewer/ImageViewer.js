@@ -84,6 +84,15 @@ const ViewerContent = ({
       <div className="image-viewer__controls flex flex-end flex--v-center">
         <Control
           type="light"
+          text="Rotate"
+          id={`rotate-right-${id}`}
+          icon="rotateRight"
+          extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
+          clickHandler={handleZoomIn}
+        />
+
+        <Control
+          type="light"
           text="Zoom in"
           id={`zoom-in-${id}`}
           icon="zoomIn"
