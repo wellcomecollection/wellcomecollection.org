@@ -90,6 +90,9 @@ const ViewerContent = ({
   return (
     <div className={`${classes} image-viewer__content image-viewer__content2`}>
       <div className="image-viewer__controls flex flex-end flex--v-center">
+        {/* Setting OpenSeaDragon's `showRotationControl` option to `true` means we have to provide
+        a dummy `rotateLeftButton` or handle rotation programatically. The former is simpler. */}
+        <span id={`rotate-left-${id}`} className={'is-hidden'} />
         <Control
           type="light"
           text="Rotate"

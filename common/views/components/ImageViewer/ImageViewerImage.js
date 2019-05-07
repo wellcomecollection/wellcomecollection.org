@@ -16,6 +16,7 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
         zoomInButton: `zoom-in-${viewerId}`,
         zoomOutButton: `zoom-out-${viewerId}`,
         rotateRightButton: `rotate-right-${viewerId}`,
+        rotateLeftButton: `rotate-left-${viewerId}`,
         showRotationControl: true,
         showNavigator: true,
         controlsFadeDelay: 0,
