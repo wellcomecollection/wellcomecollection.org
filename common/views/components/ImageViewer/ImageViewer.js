@@ -56,6 +56,14 @@ const ViewerContent = ({
     }
   };
 
+  const handleRotate = event => {
+    trackEvent({
+      category: 'Control',
+      action: 'rotate ImageViewer',
+      label: id,
+    });
+  };
+
   const handleZoomIn = event => {
     trackEvent({
       category: 'Control',
@@ -88,7 +96,7 @@ const ViewerContent = ({
           id={`rotate-right-${id}`}
           icon="rotateRight"
           extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-          clickHandler={handleZoomIn}
+          clickHandler={handleRotate}
         />
 
         <Control
