@@ -293,7 +293,6 @@ const IIIFViewerComponent = ({
           infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
           src={urlTemplate({ size: '640,' })}
           srcSet={srcSet}
-          widths={imageSizes(2048)} // FIXME: use imageService
           width={currentCanvas.width}
           height={currentCanvas.height}
           canvasOcr={canvasOcr}

@@ -38,7 +38,6 @@ const IIIFImagePreview = ({ id, title, iiifUrl, width = 800 }: Props) => {
       >
         <ImageViewer
           id={id}
-          widths={imageSizes(2048)}
           infoUrl={imageInfoUrl}
           src={imageContentUrl}
           srcSet={srcSet}

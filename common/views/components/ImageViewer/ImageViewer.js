@@ -120,7 +120,6 @@ type ImageViewerProps = {|
   src: string,
   srcSet: string,
   width: number,
-  widths: number[],
   height?: number,
   canvasOcr: ?string,
   infoUrl: string,
@@ -136,7 +135,6 @@ const ImageViewer = ({
   infoUrl,
   src,
   srcSet,
-  widths,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [mountViewButton, setMountViewButton] = useState(false);
