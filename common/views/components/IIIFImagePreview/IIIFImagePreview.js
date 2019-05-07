@@ -52,7 +52,7 @@ const IIIFImagePreview = ({
           <Image
             width={width}
             contentUrl={imageContentUrl}
-            lazyload={false}
+            lazyload={true}
             sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
             alt=""
             defaultSize={800}
@@ -66,5 +66,3 @@ const IIIFImagePreview = ({
 };
 
 export default IIIFImagePreview;
-
-// TODO no-js, get rid of huge image...
