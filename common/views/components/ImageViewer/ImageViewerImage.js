@@ -18,11 +18,6 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
         showNavigator: true,
         controlsFadeDelay: 0,
         animationTime: 0.5,
-        collectionMode: true,
-        collectionRows: 5,
-        collectionTileSize: 1024,
-        collectionTileMargin: 5,
-        collectionLayout: 'vertical',
         tileSources: [
           {
             '@context': 'http://iiif.io/api/image/2/context.json',
