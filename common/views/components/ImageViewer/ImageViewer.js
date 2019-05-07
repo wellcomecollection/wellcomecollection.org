@@ -164,7 +164,6 @@ const ImageViewer = ({
       <IIIFResponsiveImage
         width={width}
         height={height}
-        widths={widths}
         src={src}
         srcSet={srcSet}
         sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better

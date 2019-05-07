@@ -4,7 +4,6 @@ import { classNames } from '../../../utils/classnames';
 
 type Props = {|
   width: number,
-  widths: number[],
   height?: number,
   src: string,
   srcSet: string,
@@ -25,7 +24,6 @@ const IIIFResponsiveImage = ({
   extraClasses,
   lang,
   clickHandler,
-  widths,
 }: Props) => {
   return (
     <img

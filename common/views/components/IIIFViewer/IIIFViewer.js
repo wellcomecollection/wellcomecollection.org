@@ -181,7 +181,6 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
       lang={lang}
       width={canvas.width}
       height={canvas.height}
-      widths={imageSizes(2048)}
       src={urlTemplate({ size: `${smallestWidth},` })}
       srcSet={srcSet}
       alt=""
