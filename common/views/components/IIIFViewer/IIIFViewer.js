@@ -10,17 +10,21 @@ import Paginator, {
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
+import {
+  convertIiifUriToInfoUri,
+  iiifImageTemplate,
+} from '@weco/common/utils/convert-image-uri';
+import { imageSizes } from '../../../utils/image-sizes';
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
     'flex absolute flex--h-center': true,
   }),
 }))`
-  left: ${props => (props.isThumbs ? 'auto' : '50%')};
   right: ${props => props.theme.spacingUnit}px;
   bottom: ${props => (props.isThumbs ? '50%' : props.theme.spacingUnit + 'px')};
-  transform: ${props =>
-    props.isThumbs ? 'translateY(50%)' : 'translateX(-50%)'};
+  transform: ${props => (props.isThumbs ? 'translateY(50%)' : null)};
 
   ${props =>
     props.isThumbs &&
@@ -162,13 +166,21 @@ type IIIFCanvasThumbnailProps = {|
 
 const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidth = thumbnailService.sizes[0].width;
+  const srcSet = thumbnailService.sizes
+    .map(({ width }) => {
+      return `${urlTemplate({ size: `${width},` })} ${width}w`;
+    })
+    .join(',');
 
   return (
     <IIIFResponsiveImage
       lang={lang}
       width={canvas.width}
       height={canvas.height}
-      imageService={thumbnailService}
+      src={urlTemplate({ size: `${smallestWidth},` })}
+      srcSet={srcSet}
       alt=""
       sizes={`(min-width: 600px) 200px, 100px`}
     />
@@ -261,27 +273,27 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas.images[0].resource.service['@id'],
   };
 
+  const urlTemplate = iiifImageTemplate(mainImageService['@id']);
+  const srcSet = imageSizes(2048)
+    .map(width => {
+      return `${urlTemplate({ size: `${width},` })} ${width}w`;
+    })
+    .join(',');
+
   return (
     <IIIFViewer>
       <IIIFViewerMain>
         <Paginator {...mainPaginatorProps} render={XOfY} />
-
-        <IIIFResponsiveImage
+        <ImageViewer
+          id="item-page"
+          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+          src={urlTemplate({ size: '640,' })}
+          srcSet={srcSet}
           width={currentCanvas.width}
           height={currentCanvas.height}
-          imageService={mainImageService}
-          sizes={`(min-width: 860px) 800px, 100vw)`}
-          extraClasses={classNames({
-            'block h-center': true,
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          })}
+          canvasOcr={canvasOcr}
           lang={lang}
-          alt={
-            (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-            'no text alternative is available for this image'
-          }
         />
-
         <IIIFViewerPaginatorButtons>
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </IIIFViewerPaginatorButtons>

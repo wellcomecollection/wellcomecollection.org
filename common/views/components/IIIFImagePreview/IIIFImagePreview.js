@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
+
 type Props = {|
   id: string,
   title: string,
@@ -36,6 +37,7 @@ const IIIFImagePreview = ({
   itemUrl,
 }: Props) => {
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
+
   return (
     <PreviewContainer>
       <NextLink {...itemUrl}>

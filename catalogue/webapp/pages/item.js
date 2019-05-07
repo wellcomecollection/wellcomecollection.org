@@ -67,7 +67,12 @@ async function getCanvasOcr(canvas) {
         .join(' ');
       return textString.length > 0 ? textString : null;
     } catch (e) {
-      Raven.captureException(e);
+      Raven.captureException(new Error(`IIIF text service error: ${e}`), {
+        tags: {
+          service: 'dlcs',
+        },
+      });
+
       return null;
     }
   }
@@ -205,12 +210,17 @@ const ItemPage = ({
         )}
       </Layout12>
       {imageUrl && iiifImageLocationUrl && (
-        <ImageViewer
-          infoUrl={iiifImageLocationUrl}
-          contentUrl={imageUrl}
-          id={imageUrl}
-          width={800}
-        />
+        <Layout12>
+          <ImageViewer
+            infoUrl={iiifImageLocationUrl}
+            src={imageUrl}
+            id={imageUrl}
+            width={800}
+            srcSet={''}
+            canvasOcr={null}
+            lang={null}
+          />
+        </Layout12>
       )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
