@@ -24,7 +24,7 @@ const PreviewContainer = styled.div`
   }
   button {
     position: relative;
-    top: -20px; /* TODO this better */
+    transform: translateY(-50%);
   }
 `;
 
