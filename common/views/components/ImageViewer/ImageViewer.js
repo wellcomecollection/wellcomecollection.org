@@ -150,7 +150,7 @@ const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
       <Image
         width={width}
         contentUrl={contentUrl}
-        lazyload={false}
+        lazyload={true}
         sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         alt=""
         clickHandler={() => {

@@ -6,6 +6,7 @@ import {
 } from '@weco/common/model/catalogue';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
@@ -17,12 +18,8 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
-const ImageViewerImage = dynamic(
-  import('@weco/common/views/components/ImageViewer/ImageViewerImage'),
-  { ssr: false }
-);
 
 const IframePdfViewer = styled.iframe`
   width: 90vw;
@@ -106,6 +103,10 @@ const ItemPage = ({
       : [null];
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImage =
+    iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
+  const imageUrl = iiifImage && iiifImage({ size: '800,' });
+
   const mainImageService =
     currentCanvas && currentCanvas.images[0].resource.service
       ? {
@@ -203,8 +204,13 @@ const ItemPage = ({
           </div>
         )}
       </Layout12>
-      {iiifImageLocationUrl && (
-        <ImageViewerImage id={'test'} infoUrl={iiifImageLocationUrl} />
+      {imageUrl && iiifImageLocationUrl && (
+        <ImageViewer
+          infoUrl={iiifImageLocationUrl}
+          contentUrl={imageUrl}
+          id={imageUrl}
+          width={800}
+        />
       )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
@@ -274,9 +280,6 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 
 export default ItemPage;
 
-// TODO fix flow
-// TODO no-js version of single image
-// TODO add controls to openseadragon viewer
 // TODO Add rotate
 // TODO use openseadragon in book viewer (in progress on other branch)
 // TODO make use of localStorage for work, so don't have to get it again?
