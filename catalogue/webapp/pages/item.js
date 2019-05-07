@@ -94,15 +94,16 @@ const ItemPage = ({
     manifest && manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
   const title = (manifest && manifest.label) || (work && work.title) || '';
-  const [iiifImageLocation] = work
-    ? work.items
-        .map(item =>
-          item.locations.find(
-            location => location.locationType.id === 'iiif-image'
+  const [iiifImageLocation] =
+    work && work.items
+      ? work.items
+          .map(item =>
+            item.locations.find(
+              location => location.locationType.id === 'iiif-image'
+            )
           )
-        )
-        .filter(Boolean)
-    : [null];
+          .filter(Boolean)
+      : [null];
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const mainImageService =
@@ -124,7 +125,7 @@ const ItemPage = ({
       .filter(Boolean);
 
   const sharedPaginatorProps = {
-    totalResults: canvases && canvases.length,
+    totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
       workId,
       page: pageIndex + 1,
@@ -247,7 +248,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
         `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
       )).json()
     : null;
-  const work = !sierraId ? await getWork({ id: workId }) : null; // TODO or get from localStorage if coming from work page
+  const work = !sierraId ? await getWork({ id: workId }) : null;
 
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases;
