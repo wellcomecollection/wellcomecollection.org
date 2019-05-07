@@ -45,7 +45,7 @@ const IIIFResponsiveImage = ({
       src={src}
       srcSet={srcSet}
       sizes={sizes}
-      alt={alt || ''}
+      alt={alt}
     />
   );
 };
