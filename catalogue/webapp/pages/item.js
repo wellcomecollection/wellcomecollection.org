@@ -290,6 +290,5 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 
 export default ItemPage;
 
-// TODO Add rotate
-// TODO use openseadragon in book viewer (in progress on other branch)
+// TODO initial view of image on item page?
 // TODO make use of localStorage for work, so don't have to get it again?
