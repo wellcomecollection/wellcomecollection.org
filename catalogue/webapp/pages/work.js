@@ -59,6 +59,10 @@ export const WorkPage = ({ work }: Props) => {
         event: 'pageview',
         work: JSON.stringify(workData),
       });
+    try {
+      work.id &&
+        window.sessionStorage.setItem(`work-${work.id}`, JSON.stringify(work));
+    } catch (e) {}
     fetchIIIFPresentationManifest();
   }, []);
 
@@ -247,11 +251,17 @@ WorkPage.getInitialProps = async (
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
   const { useStageApi } = ctx.query.toggles;
+  const workFromSessionStorage =
+    typeof window !== 'undefined'
+      ? window.sessionStorage.getItem(`work-${id}`)
+      : null;
 
-  const workOrError = await getWork({
-    id,
-    env: useStageApi ? 'stage' : 'prod',
-  });
+  const workOrError =
+    (workFromSessionStorage && JSON.parse(workFromSessionStorage)) ||
+    (await getWork({
+      id,
+      env: useStageApi ? 'stage' : 'prod',
+    }));
 
   if (workOrError && workOrError.type === 'Redirect') {
     const { res } = ctx;

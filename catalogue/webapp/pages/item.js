@@ -264,7 +264,15 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
         `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
       )).json()
     : null;
-  const work = !sierraId ? await getWork({ id: workId }) : null;
+  const workFromSessionStorage =
+    typeof window !== 'undefined'
+      ? window.sessionStorage.getItem(`work-${workId}`)
+      : null;
+
+  const work = !sierraId
+    ? (workFromSessionStorage && JSON.parse(workFromSessionStorage)) ||
+      (await getWork({ id: workId }))
+    : null;
 
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases;
