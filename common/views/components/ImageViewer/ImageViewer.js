@@ -1,13 +1,40 @@
 // @flow
 import { Fragment, useState, useEffect } from 'react';
+import fetch from 'isomorphic-unfetch';
+import openseadragon from 'openseadragon';
 import { Transition } from 'react-transition-group';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import dynamic from 'next/dynamic';
 
-const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
+function setupViewer(imageInfoSrc, viewerId) {
+  return fetch(imageInfoSrc)
+    .then(response => response.json())
+    .then(response => {
+      return openseadragon({
+        id: `image-viewer-${viewerId}`,
+        showNavigationControl: false,
+        tileSources: [
+          {
+            '@context': 'http://iiif.io/api/image/2/context.json',
+            '@id': response['@id'],
+            height: response.height,
+            width: response.width,
+            profile: ['http://iiif.io/api/image/2/level2.json'],
+            protocol: 'http://iiif.io/api/image',
+            tiles: [
+              {
+                scaleFactors: [1, 2, 4, 8, 16, 32],
+                width: 400,
+              },
+            ],
+          },
+        ],
+      });
+    })
+    .catch(console.log);
+}
 
 type LaunchViewerButtonProps = {|
   classes: string,
@@ -43,6 +70,18 @@ type ViewerContentProps = {|
   infoUrl: string,
 |};
 
+function handleRotate(viewer) {
+  viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
+}
+
+function handleZoomIn(viewer) {
+  console.log(viewer.viewport.getZoom());
+}
+
+function handleZoomOut(viewer) {
+  console.log(viewer.viewport.getZoom());
+}
+
 const ViewerContent = ({
   id,
   classes,
@@ -50,87 +89,60 @@ const ViewerContent = ({
   handleViewerDisplay,
   infoUrl,
 }: ViewerContentProps) => {
-  const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
-    if (keyCode === 27 && viewerVisible) {
-      handleViewerDisplay('Keyboard');
-    }
-  };
-
-  const handleRotate = event => {
-    trackEvent({
-      category: 'Control',
-      action: 'rotate ImageViewer',
-      label: id,
-    });
-  };
-
-  const handleZoomIn = event => {
-    trackEvent({
-      category: 'Control',
-      action: 'zoom in ImageViewer',
-      label: id,
-    });
-  };
-
-  const handleZoomOut = event => {
-    trackEvent({
-      category: 'Control',
-      action: 'zoom out ImageViewer',
-      label: id,
-    });
-  };
+  const [viewer, setViewer] = useState(null);
 
   useEffect(() => {
-    document.addEventListener('keydown', escapeCloseViewer);
-    return function cleanup() {
-      document.removeEventListener('keydown', escapeCloseViewer);
-    };
-  }, []);
+    if (viewer) {
+      viewer.destroy();
+      setViewer(null);
+    }
+
+    setupViewer(infoUrl, id).then(setViewer);
+  }, [infoUrl]);
 
   return (
     <div className={`${classes} image-viewer__content image-viewer__content2`}>
-      <div className="image-viewer__controls flex flex-end flex--v-center">
-        {/* Setting OpenSeaDragon's `showRotationControl` option to `true` means we have to provide
-        a dummy `rotateLeftButton` or handle rotation programatically. The former is simpler. */}
-        <span id={`rotate-left-${id}`} className={'is-hidden'} />
-        <Control
-          type="light"
-          text="Rotate"
-          id={`rotate-right-${id}`}
-          icon="rotateRight"
-          extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-          clickHandler={handleRotate}
-        />
+      {viewer && (
+        <div className="image-viewer__controls flex flex-end flex--v-center">
+          <Control
+            type="light"
+            text="Rotate"
+            id={`rotate-right-${id}`}
+            icon="rotateRight"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
+            clickHandler={() => handleRotate(viewer)}
+          />
 
-        <Control
-          type="light"
-          text="Zoom in"
-          id={`zoom-in-${id}`}
-          icon="zoomIn"
-          extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-          clickHandler={handleZoomIn}
-        />
+          <Control
+            type="light"
+            text="Zoom in"
+            id={`zoom-in-${id}`}
+            icon="zoomIn"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
+            clickHandler={() => handleZoomIn(viewer)}
+          />
 
-        <Control
-          type="light"
-          text="Zoom out"
-          id={`zoom-out-${id}`}
-          icon="zoomOut"
-          extraClasses={`${spacing({ s: 8 }, { margin: ['right'] })}`}
-          clickHandler={handleZoomOut}
-        />
+          <Control
+            type="light"
+            text="Zoom out"
+            id={`zoom-out-${id}`}
+            icon="zoomOut"
+            extraClasses={`${spacing({ s: 8 }, { margin: ['right'] })}`}
+            clickHandler={() => handleZoomOut(viewer)}
+          />
 
-        <Control
-          type="light"
-          text="Close image viewer"
-          icon="cross"
-          extraClasses={`${spacing({ s: 2 }, { margin: ['right'] })}`}
-          clickHandler={() => {
-            handleViewerDisplay('Control');
-          }}
-        />
-      </div>
-      {viewerVisible && <ImageViewerImage id={id} infoUrl={infoUrl} />}
+          <Control
+            type="light"
+            text="Close image viewer"
+            icon="cross"
+            extraClasses={`${spacing({ s: 2 }, { margin: ['right'] })}`}
+            clickHandler={() => {
+              handleViewerDisplay('Control');
+            }}
+          />
+        </div>
+      )}
+      <div id={`image-viewer-${id}`} className="image-viewer__image" />
     </div>
   );
 };
