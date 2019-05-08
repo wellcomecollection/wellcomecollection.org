@@ -158,7 +158,8 @@ const ItemPage = ({
 
   useEffect(() => {
     try {
-      window.sessionStorage.setItem(`work-${workId}`, JSON.stringify(work));
+      work &&
+        window.sessionStorage.setItem(`work-${workId}`, JSON.stringify(work));
     } catch (e) {}
   }, []);
 
