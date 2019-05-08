@@ -252,7 +252,8 @@ WorkPage.getInitialProps = async (
   const { id } = ctx.query;
   const { useStageApi } = ctx.query.toggles;
   const workFromSessionStorage =
-    typeof window !== 'undefined'
+    typeof window !== 'undefined' &&
+    typeof window.sessionStorage !== 'undefined'
       ? window.sessionStorage.getItem(`work-${id}`)
       : null;
 

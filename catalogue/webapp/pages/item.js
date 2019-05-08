@@ -265,7 +265,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
       )).json()
     : null;
   const workFromSessionStorage =
-    typeof window !== 'undefined'
+    typeof window !== 'undefined' &&
+    typeof window.sessionStorage !== 'undefined'
       ? window.sessionStorage.getItem(`work-${workId}`)
       : null;
 
@@ -299,4 +300,3 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 export default ItemPage;
 
 // TODO initial view of image on item page?
-// TODO make use of localStorage for work, so don't have to get it again?
