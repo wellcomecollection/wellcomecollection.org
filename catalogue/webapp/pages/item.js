@@ -278,6 +278,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
       ? window.sessionStorage.getItem(`work-${workId}`)
       : null;
 
+  // The sierraId originates from the iiif presentation manifest url
+  // If we don't have one, we must be trying to display a work with an iiif image location,
+  // so we need to get the work object to get the necessary data to display
   const work = !sierraId
     ? (workFromSessionStorage && JSON.parse(workFromSessionStorage)) ||
       (await getWork({ id: workId }))
