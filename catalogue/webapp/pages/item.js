@@ -1,5 +1,6 @@
 // @flow
 import { type Context } from 'next';
+import { useEffect } from 'react';
 import {
   type Work,
   type CatalogueApiError,
@@ -154,6 +155,12 @@ const ItemPage = ({
     linkKey: 'page',
     ...sharedPaginatorProps,
   };
+
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem(`work-${workId}`, JSON.stringify(work));
+    } catch (e) {}
+  }, []);
 
   return (
     <CataloguePageLayout
