@@ -56,6 +56,14 @@ const ViewerContent = ({
     }
   };
 
+  const handleRotate = event => {
+    trackEvent({
+      category: 'Control',
+      action: 'rotate ImageViewer',
+      label: id,
+    });
+  };
+
   const handleZoomIn = event => {
     trackEvent({
       category: 'Control',
@@ -82,6 +90,18 @@ const ViewerContent = ({
   return (
     <div className={`${classes} image-viewer__content image-viewer__content2`}>
       <div className="image-viewer__controls flex flex-end flex--v-center">
+        {/* Setting OpenSeaDragon's `showRotationControl` option to `true` means we have to provide
+        a dummy `rotateLeftButton` or handle rotation programatically. The former is simpler. */}
+        <span id={`rotate-left-${id}`} className={'is-hidden'} />
+        <Control
+          type="light"
+          text="Rotate"
+          id={`rotate-right-${id}`}
+          icon="rotateRight"
+          extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
+          clickHandler={handleRotate}
+        />
+
         <Control
           type="light"
           text="Zoom in"
