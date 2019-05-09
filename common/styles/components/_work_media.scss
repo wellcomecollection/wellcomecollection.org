@@ -14,9 +14,6 @@
     width: auto;
     align-self: center;
     margin: 0 auto;
-    display: block;
-    padding: 0;
-    cursor: zoom-in;
 
     @supports (object-fit: contain) {
       width: 100%;
