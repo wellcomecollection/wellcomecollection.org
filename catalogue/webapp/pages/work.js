@@ -84,7 +84,6 @@ export const WorkPage = ({ work }: Props) => {
       item.locations.find(location => location.locationType.id === 'iiif-image')
     )
     .filter(Boolean);
-
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId =

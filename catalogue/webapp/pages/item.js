@@ -19,7 +19,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
-import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import styled from 'styled-components';
 
 const IframePdfViewer = styled.iframe`
@@ -217,23 +216,11 @@ const ItemPage = ({
           </div>
         )}
       </Layout12>
-      {imageUrl && iiifImageLocationUrl && (
-        <Layout12>
-          <ImageViewer
-            infoUrl={iiifImageLocationUrl}
-            src={imageUrl}
-            id={imageUrl}
-            width={800}
-            srcSet={''}
-            canvasOcr={null}
-            lang={null}
-          />
-        </Layout12>
-      )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {mainImageService && currentCanvas && navigationCanvases && (
+      {((mainImageService && currentCanvas && navigationCanvases) ||
+        (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
@@ -249,6 +236,8 @@ const ItemPage = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          imageUrl={imageUrl}
         />
       )}
     </CataloguePageLayout>
