@@ -117,7 +117,10 @@ const IndexPage = () => {
                   paddingTop: '6px',
                 }}
               >
-                <h3 style={{ marginRight: '6px', marginBottom: '5px' }}>
+                <h3
+                  style={{ marginRight: '6px', marginBottom: '5px' }}
+                  id={`toggle-${toggle.id}`}
+                >
                   {toggle.title}
                 </h3>
                 <div
@@ -198,7 +201,12 @@ const IndexPage = () => {
                   paddingTop: '6px',
                 }}
               >
-                <h3 style={{ marginRight: '6px' }}>{toggle.title}</h3>
+                <h3
+                  style={{ marginRight: '6px', marginBottom: '5px' }}
+                  id={`toggle-${toggle.id}`}
+                >
+                  {toggle.title}
+                </h3>
                 <p>{toggle.description}</p>
                 <Button
                   onClick={() => {
