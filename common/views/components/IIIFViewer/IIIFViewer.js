@@ -159,6 +159,17 @@ const IIIFViewer = styled.div.attrs(props => ({
   }
 `;
 
+const IIIFViewerImageWrapper = styled.div.attrs(props => ({
+  className: classNames({
+    absolute: true,
+  }),
+}))`
+  top: 30px;
+  right: 0;
+  bottom: 60px;
+  left: 0;
+`;
+
 type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
   lang: string,
@@ -284,16 +295,18 @@ const IIIFViewerComponent = ({
     <IIIFViewer>
       <IIIFViewerMain>
         <Paginator {...mainPaginatorProps} render={XOfY} />
-        <ImageViewer
-          id="item-page"
-          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-          src={urlTemplate({ size: '640,' })}
-          srcSet={srcSet}
-          width={currentCanvas.width}
-          height={currentCanvas.height}
-          canvasOcr={canvasOcr}
-          lang={lang}
-        />
+        <IIIFViewerImageWrapper>
+          <ImageViewer
+            id="item-page"
+            infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+            src={urlTemplate({ size: '640,' })}
+            srcSet={srcSet}
+            width={currentCanvas.width}
+            height={currentCanvas.height}
+            canvasOcr={canvasOcr}
+            lang={lang}
+          />
+        </IIIFViewerImageWrapper>
         <IIIFViewerPaginatorButtons>
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </IIIFViewerPaginatorButtons>
