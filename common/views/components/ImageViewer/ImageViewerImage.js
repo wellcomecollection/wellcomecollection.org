@@ -18,15 +18,8 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
         rotateRightButton: `rotate-right-${viewerId}`,
         rotateLeftButton: `rotate-left-${viewerId}`,
         showRotationControl: true,
-        showNavigator: true,
         controlsFadeDelay: 0,
         animationTime: 0.5,
-        navigatorBackground: '#333',
-        navigatorPosition: 'ABSOLUTE',
-        navigatorLeft: 12,
-        navigatorTop: 12,
-        navigatorWidth: 100,
-        navigatorHeight: 100,
         tileSources: [
           {
             '@context': 'http://iiif.io/api/image/2/context.json',
