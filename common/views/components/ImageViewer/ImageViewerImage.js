@@ -18,7 +18,6 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
         rotateRightButton: `rotate-right-${viewerId}`,
         rotateLeftButton: `rotate-left-${viewerId}`,
         showRotationControl: true,
-        showNavigator: true,
         controlsFadeDelay: 0,
         animationTime: 0.5,
         tileSources: [
