@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
 import OpenSeadragon from 'openseadragon';
-import { Transition } from 'react-transition-group';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
@@ -40,32 +39,6 @@ function setupViewer(imageInfoSrc, viewerId) {
     });
 }
 
-type LaunchViewerButtonProps = {|
-  classes: string,
-  clickHandler: () => void,
-  didMountHandler: () => void,
-|};
-
-const LaunchViewerButton = ({
-  classes,
-  clickHandler,
-  didMountHandler,
-}: LaunchViewerButtonProps) => {
-  useEffect(() => {
-    didMountHandler();
-  }, []);
-
-  return (
-    <Control
-      type="dark"
-      text="View larger image"
-      icon="zoomIn"
-      extraClasses={`image-viewer__launch-button ${classes}`}
-      clickHandler={clickHandler}
-    />
-  );
-};
-
 type ImageViewerProps = {|
   id: string,
   src: string,
@@ -87,8 +60,6 @@ const ImageViewer = ({
   src,
   srcSet,
 }: ImageViewerProps) => {
-  const [mountViewButton, setMountViewButton] = useState(false);
-  const [viewButtonMounted, setViewButtonMounted] = useState(false);
   const [viewer, setViewer] = useState(null);
   const [showViewer, setShowViewer] = useState(false);
 
@@ -99,20 +70,15 @@ const ImageViewer = ({
   }
 
   function handleZoomIn() {
-    if (!viewer) return;
+    if (!viewer) {
+      setupViewer(infoUrl, id).then(setViewer);
+    } else {
+      const max = viewer.viewport.getMaxZoom();
+      const nextMax = viewer.viewport.getZoom() + 0.5;
+      const newMax = nextMax <= max ? nextMax : max;
 
-    const max = viewer.viewport.getMaxZoom();
-    const nextMax = viewer.viewport.getZoom() + 0.5;
-    const newMax = nextMax <= max ? nextMax : max;
-
-    viewer.viewport.zoomTo(newMax);
-  }
-
-  function closeViewer() {
-    if (!viewer) return;
-
-    setShowViewer(false);
-    viewer.viewport.goHome();
+      viewer.viewport.zoomTo(newMax);
+    }
   }
 
   function handleZoomOut() {
@@ -142,14 +108,6 @@ const ImageViewer = ({
     });
   };
 
-  const viewButtonMountedHandler = () => {
-    setViewButtonMounted(!viewButtonMounted);
-  };
-
-  useEffect(() => {
-    setMountViewButton(!viewButtonMounted);
-  }, []);
-
   return (
     <>
       <IIIFResponsiveImage
@@ -161,7 +119,6 @@ const ImageViewer = ({
         extraClasses={classNames({
           'block h-center': true,
           [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          'cursor-zoom-in': viewButtonMounted,
         })}
         lang={lang}
         clickHandler={() => {
@@ -172,67 +129,38 @@ const ImageViewer = ({
           (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
         }
       />
-      <Transition in={mountViewButton} timeout={700}>
-        {status => {
-          if (status === 'exited') {
-            return null;
-          }
-          return (
-            <LaunchViewerButton
-              classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
-              didMountHandler={viewButtonMountedHandler}
-              clickHandler={() => {
-                setShowViewer(true);
-                handleViewerDisplay('Control');
-              }}
-            />
-          );
-        }}
-      </Transition>
       <div
         className={classNames({
           'is-hidden': !showViewer,
           'image-viewer__content image-viewer__content2': true,
         })}
       >
-        {viewer && (
-          <div className="image-viewer__controls flex flex-end flex--v-center">
-            <Control
-              type="light"
-              text="Rotate"
-              icon="rotateRight"
-              extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-              clickHandler={handleRotate}
-            />
+        <div className="image-viewer__controls flex flex-end flex--v-center">
+          <Control
+            type="light"
+            text="Rotate"
+            icon="rotateRight"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
+            clickHandler={handleRotate}
+          />
 
-            <Control
-              type="light"
-              text="Zoom in"
-              icon="zoomIn"
-              extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-              clickHandler={handleZoomIn}
-            />
+          <Control
+            type="light"
+            text="Zoom in"
+            icon="zoomIn"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
+            clickHandler={handleZoomIn}
+          />
 
-            <Control
-              type="light"
-              text="Zoom out"
-              icon="zoomOut"
-              extraClasses={`${spacing({ s: 8 }, { margin: ['right'] })}`}
-              clickHandler={handleZoomOut}
-            />
+          <Control
+            type="light"
+            text="Zoom out"
+            icon="zoomOut"
+            extraClasses={`${spacing({ s: 8 }, { margin: ['right'] })}`}
+            clickHandler={handleZoomOut}
+          />
+        </div>
 
-            <Control
-              type="light"
-              text="Close image viewer"
-              icon="cross"
-              extraClasses={`${spacing({ s: 2 }, { margin: ['right'] })}`}
-              clickHandler={() => {
-                closeViewer();
-                handleViewerDisplay('Control');
-              }}
-            />
-          </div>
-        )}
         <div
           id={`image-viewer-${id}`}
           className={classNames({
