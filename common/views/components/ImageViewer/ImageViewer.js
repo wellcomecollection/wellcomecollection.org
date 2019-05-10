@@ -1,11 +1,10 @@
 // @flow
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import fetch from 'isomorphic-unfetch';
 import OpenSeadragon from 'openseadragon';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
 
 function getTileSources(data) {
   return [
@@ -32,16 +31,7 @@ function setupViewer(imageInfoSrc, viewerId) {
     .then(data => {
       return OpenSeadragon({
         id: `image-viewer-${viewerId}`,
-        visibilityRatio: 1,
-        showFullPageControl: false,
-        showHomeControl: false,
-        zoomInButton: `zoom-in-${viewerId}`,
-        zoomOutButton: `zoom-out-${viewerId}`,
-        rotateRightButton: `rotate-right-${viewerId}`,
-        rotateLeftButton: `rotate-left-${viewerId}`,
-        showRotationControl: true,
-        controlsFadeDelay: 0,
-        animationTime: 0.5,
+        showNavigationControl: false,
         tileSources: getTileSources(data),
       });
     })
@@ -73,8 +63,17 @@ const ImageViewer = ({
 }: ImageViewerProps) => {
   const [viewer, setViewer] = useState(null);
   const [showViewer, setShowViewer] = useState(false);
+  const isInitialMount = useRef(true);
 
-  function setupOrUpdateViewer(viewer) {
+  useEffect(() => {
+    setupOrUpdateViewer();
+
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    }
+  }, [infoUrl]);
+
+  function setupOrUpdateViewer() {
     return new Promise((resolve, reject) => {
       if (viewer) {
         fetch(infoUrl)
@@ -84,7 +83,9 @@ const ImageViewer = ({
             resolve();
           });
       } else {
-        setupViewer(infoUrl, id).then(setViewer);
+        if (!isInitialMount.current) {
+          setupViewer(infoUrl, id).then(setViewer);
+        }
         resolve();
       }
     });
@@ -93,36 +94,34 @@ const ImageViewer = ({
   async function handleRotate() {
     await setupOrUpdateViewer();
 
-    viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
+    if (viewer) {
+      viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
+    }
   }
 
   async function handleZoomIn() {
     await setupOrUpdateViewer();
 
-    const max = viewer.viewport.getMaxZoom();
-    const nextMax = viewer.viewport.getZoom() + 0.5;
-    const newMax = nextMax <= max ? nextMax : max;
+    if (viewer) {
+      const max = viewer.viewport.getMaxZoom();
+      const nextMax = viewer.viewport.getZoom() + 0.5;
+      const newMax = nextMax <= max ? nextMax : max;
 
-    viewer.viewport.zoomTo(newMax);
+      viewer.viewport.zoomTo(newMax);
+    }
   }
 
   async function handleZoomOut() {
     await setupOrUpdateViewer();
 
-    const min = viewer.viewport.getMinZoom();
-    const nextMin = viewer.viewport.getZoom() - 0.5;
-    const newMin = nextMin >= min ? nextMin : min;
+    if (viewer) {
+      const min = viewer.viewport.getMinZoom();
+      const nextMin = viewer.viewport.getZoom() - 0.5;
+      const newMin = nextMin >= min ? nextMin : min;
 
-    viewer.viewport.zoomTo(newMin);
+      viewer.viewport.zoomTo(newMin);
+    }
   }
-
-  const handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
-    trackEvent({
-      category: initiator,
-      action: `${showViewer ? 'closed' : 'opened'} ImageViewer`,
-      label: id,
-    });
-  };
 
   return (
     <>
@@ -140,7 +139,6 @@ const ImageViewer = ({
           lang={lang}
           clickHandler={() => {
             setShowViewer(true);
-            handleViewerDisplay('Image');
           }}
           alt={
             (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
@@ -152,7 +150,7 @@ const ImageViewer = ({
           'image-viewer__content': true,
         })}
       >
-        <div className="image-viewer__controls flex flex-end flex--v-center">
+        <div className="image-viewer__controls">
           <Control
             type="light"
             text="Rotate"
