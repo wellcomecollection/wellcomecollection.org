@@ -1,5 +1,5 @@
 // @flow
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import OpenSeadragon from 'openseadragon';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
@@ -7,35 +7,46 @@ import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 
+function getTileSources(data) {
+  return [
+    {
+      '@context': 'http://iiif.io/api/image/2/context.json',
+      '@id': data['@id'],
+      height: data.height,
+      width: data.width,
+      profile: ['http://iiif.io/api/image/2/level2.json'],
+      protocol: 'http://iiif.io/api/image',
+      tiles: [
+        {
+          scaleFactors: [1, 2, 4, 8, 16, 32],
+          width: 400,
+        },
+      ],
+    },
+  ];
+}
+
 function setupViewer(imageInfoSrc, viewerId) {
   return fetch(imageInfoSrc)
     .then(response => response.json())
     .then(data => {
       return OpenSeadragon({
         id: `image-viewer-${viewerId}`,
-        showNavigationControl: false,
-        showNavigator: true,
-        tileSources: [
-          {
-            '@context': 'http://iiif.io/api/image/2/context.json',
-            '@id': data['@id'],
-            height: data.height,
-            width: data.width,
-            profile: ['http://iiif.io/api/image/2/level2.json'],
-            protocol: 'http://iiif.io/api/image',
-            tiles: [
-              {
-                scaleFactors: [1, 2, 4, 8, 16, 32],
-                width: 400,
-              },
-            ],
-          },
-        ],
+        visibilityRatio: 1,
+        showFullPageControl: false,
+        showHomeControl: false,
+        zoomInButton: `zoom-in-${viewerId}`,
+        zoomOutButton: `zoom-out-${viewerId}`,
+        rotateRightButton: `rotate-right-${viewerId}`,
+        rotateLeftButton: `rotate-left-${viewerId}`,
+        showRotationControl: true,
+        controlsFadeDelay: 0,
+        animationTime: 0.5,
+        tileSources: getTileSources(data),
       });
     })
-    .catch(err => {
-      console.log(err);
-      // FIXME: handle error
+    .catch(_ => {
+      // TODO: handle errors
     });
 }
 
@@ -63,26 +74,40 @@ const ImageViewer = ({
   const [viewer, setViewer] = useState(null);
   const [showViewer, setShowViewer] = useState(false);
 
-  function handleRotate() {
-    if (!viewer) return;
+  function setupOrUpdateViewer(viewer) {
+    return new Promise((resolve, reject) => {
+      if (viewer) {
+        fetch(infoUrl)
+          .then(response => response.json())
+          .then(data => {
+            viewer.open(getTileSources(data));
+            resolve();
+          });
+      } else {
+        setupViewer(infoUrl, id).then(setViewer);
+        resolve();
+      }
+    });
+  }
+
+  async function handleRotate() {
+    await setupOrUpdateViewer();
 
     viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
   }
 
-  function handleZoomIn() {
-    if (!viewer) {
-      setupViewer(infoUrl, id).then(setViewer);
-    } else {
-      const max = viewer.viewport.getMaxZoom();
-      const nextMax = viewer.viewport.getZoom() + 0.5;
-      const newMax = nextMax <= max ? nextMax : max;
+  async function handleZoomIn() {
+    await setupOrUpdateViewer();
 
-      viewer.viewport.zoomTo(newMax);
-    }
+    const max = viewer.viewport.getMaxZoom();
+    const nextMax = viewer.viewport.getZoom() + 0.5;
+    const newMax = nextMax <= max ? nextMax : max;
+
+    viewer.viewport.zoomTo(newMax);
   }
 
-  function handleZoomOut() {
-    if (!viewer) return;
+  async function handleZoomOut() {
+    await setupOrUpdateViewer();
 
     const min = viewer.viewport.getMinZoom();
     const nextMin = viewer.viewport.getZoom() - 0.5;
@@ -90,15 +115,6 @@ const ImageViewer = ({
 
     viewer.viewport.zoomTo(newMin);
   }
-
-  useEffect(() => {
-    if (viewer) {
-      viewer.destroy();
-      setViewer(null);
-    }
-
-    setupViewer(infoUrl, id).then(setViewer);
-  }, [infoUrl]);
 
   const handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
     trackEvent({
@@ -110,29 +126,30 @@ const ImageViewer = ({
 
   return (
     <>
-      <IIIFResponsiveImage
-        width={width}
-        height={height}
-        src={src}
-        srcSet={srcSet}
-        sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better
-        extraClasses={classNames({
-          'block h-center': true,
-          [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-        })}
-        lang={lang}
-        clickHandler={() => {
-          setShowViewer(true);
-          handleViewerDisplay('Image');
-        }}
-        alt={
-          (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
-        }
-      />
+      {!showViewer && (
+        <IIIFResponsiveImage
+          width={width}
+          height={height}
+          src={src}
+          srcSet={srcSet}
+          sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better
+          extraClasses={classNames({
+            'block h-center': true,
+            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+          })}
+          lang={lang}
+          clickHandler={() => {
+            setShowViewer(true);
+            handleViewerDisplay('Image');
+          }}
+          alt={
+            (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
+          }
+        />
+      )}
       <div
         className={classNames({
-          'is-hidden': !showViewer,
-          'image-viewer__content image-viewer__content2': true,
+          'image-viewer__content': true,
         })}
       >
         <div className="image-viewer__controls flex flex-end flex--v-center">
