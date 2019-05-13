@@ -4,10 +4,29 @@ import openseadragon from 'openseadragon';
 import { useState, useEffect } from 'react';
 import { spacing } from '../../../utils/classnames';
 
+function getTileSources(data) {
+  return [
+    {
+      '@context': 'http://iiif.io/api/image/2/context.json',
+      '@id': data['@id'],
+      height: data.height,
+      width: data.width,
+      profile: ['http://iiif.io/api/image/2/level2.json'],
+      protocol: 'http://iiif.io/api/image',
+      tiles: [
+        {
+          scaleFactors: [1, 2, 4, 8, 16, 32],
+          width: 400,
+        },
+      ],
+    },
+  ];
+}
+
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
   return fetch(imageInfoSrc)
     .then(response => response.json())
-    .then(response => {
+    .then(data => {
       return openseadragon({
         id: `image-viewer-${viewerId}`,
         visibilityRatio: 1,
@@ -18,31 +37,9 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
         rotateRightButton: `rotate-right-${viewerId}`,
         rotateLeftButton: `rotate-left-${viewerId}`,
         showRotationControl: true,
-        showNavigator: true,
         controlsFadeDelay: 0,
         animationTime: 0.5,
-        navigatorBackground: '#333',
-        navigatorPosition: 'ABSOLUTE',
-        navigatorLeft: 12,
-        navigatorTop: 12,
-        navigatorWidth: 100,
-        navigatorHeight: 100,
-        tileSources: [
-          {
-            '@context': 'http://iiif.io/api/image/2/context.json',
-            '@id': response['@id'],
-            height: response.height,
-            width: response.width,
-            profile: ['http://iiif.io/api/image/2/level2.json'],
-            protocol: 'http://iiif.io/api/image',
-            tiles: [
-              {
-                scaleFactors: [1, 2, 4, 8, 16, 32],
-                width: 400,
-              },
-            ],
-          },
-        ],
+        tileSources: getTileSources(data),
       });
     })
     .catch(_ => {
@@ -75,11 +72,15 @@ const ImageViewerImage = ({ id, infoUrl }: Props) => {
 
   useEffect(() => {
     if (viewer) {
-      viewer.destroy();
-      setViewer(null);
+      // If we have an instantiated viewer, we reuse it calling open() rather than destroy()
+      // This gets around some issues we were having with OSD apparently not cleaning
+      // up event handlers on zoom/rotate buttons when using destroy().
+      fetch(infoUrl)
+        .then(response => response.json())
+        .then(data => viewer.open(getTileSources(data)));
+    } else {
+      setupViewer(infoUrl, id, handleScriptError).then(setViewer);
     }
-
-    setupViewer(infoUrl, id, handleScriptError).then(setViewer);
   }, [infoUrl]);
 
   return (
