@@ -298,5 +298,3 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
 };
 
 export default ItemPage;
-
-// TODO initial view of image on item page?
