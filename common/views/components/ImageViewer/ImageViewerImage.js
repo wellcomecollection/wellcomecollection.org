@@ -30,6 +30,9 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
       return openseadragon({
         id: `image-viewer-${viewerId}`,
         visibilityRatio: 1,
+        gestureSettingsMouse: {
+          scrollToZoom: false,
+        },
         showFullPageControl: false,
         showHomeControl: false,
         zoomInButton: `zoom-in-${viewerId}`,
