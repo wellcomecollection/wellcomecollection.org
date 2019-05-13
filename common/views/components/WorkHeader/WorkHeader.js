@@ -72,10 +72,12 @@ const WorkHeader = ({ work }: Props) => {
                 })}
               >
                 <LinkLabels
-                  items={work.contributors.map(({ agent }) => ({
-                    text: agent.label,
-                    url: null,
-                  }))}
+                  items={[
+                    {
+                      text: work.contributors[0].agent.label,
+                      url: null,
+                    },
+                  ]}
                 />
               </div>
             )}
