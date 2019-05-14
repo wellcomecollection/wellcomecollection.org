@@ -47,6 +47,7 @@ const ImageViewer = ({
   srcSet,
 }: ImageViewerProps) => {
   const [viewer, setViewer] = useState(null);
+  const zoomStep = 0.5;
 
   useEffect(() => {
     if (viewer) {
@@ -92,22 +93,44 @@ const ImageViewer = ({
     v.viewport.setRotation(v.viewport.getRotation() + 90);
   }
 
-  async function handleZoomIn() {
-    const v = viewer || (await setupViewer(infoUrl, id));
-    const max = v.viewport.getMaxZoom();
-    const nextMax = v.viewport.getZoom() + 0.5;
+  function doZoomIn(viewer) {
+    const max = viewer.viewport.getMaxZoom();
+    const nextMax = viewer.viewport.getZoom() + zoomStep;
     const newMax = nextMax <= max ? nextMax : max;
 
-    v.viewport.zoomTo(newMax);
+    viewer.viewport.zoomTo(newMax);
+  }
+
+  function doZoomOut(viewer) {
+    const min = viewer.viewport.getMinZoom();
+    const nextMin = viewer.viewport.getZoom() - zoomStep;
+    const newMin = nextMin >= min ? nextMin : min;
+
+    viewer.viewport.zoomTo(newMin);
+  }
+
+  async function handleZoomIn() {
+    const v = viewer || (await setupViewer(infoUrl, id));
+
+    if (v.isOpen()) {
+      doZoomIn(v);
+    } else {
+      v.addOnceHandler('tile-loaded', _ => {
+        doZoomIn(v);
+      });
+    }
   }
 
   async function handleZoomOut() {
     const v = viewer || (await setupViewer(infoUrl, id));
-    const min = v.viewport.getMinZoom();
-    const nextMin = v.viewport.getZoom() - 0.5;
-    const newMin = nextMin >= min ? nextMin : min;
 
-    v.viewport.zoomTo(newMin);
+    if (v.isOpen()) {
+      doZoomOut(v);
+    } else {
+      v.addOnceHandler('tile-loaded', _ => {
+        doZoomOut(v);
+      });
+    }
   }
 
   return (
