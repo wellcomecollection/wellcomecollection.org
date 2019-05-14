@@ -24,26 +24,6 @@ function getTileSources(data) {
   ];
 }
 
-async function setupViewer(imageInfoSrc, viewerId) {
-  const { default: OpenSeadragon } = await import('openseadragon');
-
-  return fetch(imageInfoSrc)
-    .then(response => response.json())
-    .then(data => {
-      return OpenSeadragon({
-        id: `image-viewer-${viewerId}`,
-        showNavigationControl: false,
-        gestureSettingsMouse: {
-          scrollToZoom: false,
-        },
-        tileSources: getTileSources(data),
-      });
-    })
-    .catch(_ => {
-      // TODO: handle errors
-    });
-}
-
 type ImageViewerProps = {|
   id: string,
   src: string,
@@ -74,35 +54,56 @@ const ImageViewer = ({
         .then(data => {
           viewer.open(getTileSources(data));
         });
-    } else {
-      setupViewer(infoUrl, id).then(setViewer);
     }
   }, [infoUrl]);
 
-  function handleRotate() {
-    if (viewer) {
-      viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
-    }
+  async function setupViewer(imageInfoSrc, viewerId) {
+    const { default: OpenSeadragon } = await import('openseadragon');
+
+    return fetch(imageInfoSrc)
+      .then(response => response.json())
+      .then(data => {
+        const osdViewer = OpenSeadragon({
+          id: `image-viewer-${viewerId}`,
+          showNavigationControl: false,
+          gestureSettingsMouse: {
+            scrollToZoom: false,
+          },
+          tileSources: getTileSources(data),
+        });
+
+        setViewer(osdViewer);
+
+        return osdViewer;
+      })
+      .catch(_ => {
+        console.log(_);
+        // TODO: handle errors
+      });
   }
 
-  function handleZoomIn() {
-    if (viewer) {
-      const max = viewer.viewport.getMaxZoom();
-      const nextMax = viewer.viewport.getZoom() + 0.5;
-      const newMax = nextMax <= max ? nextMax : max;
+  async function handleRotate() {
+    const v = viewer || (await setupViewer(infoUrl, id));
 
-      viewer.viewport.zoomTo(newMax);
-    }
+    v.viewport.setRotation(v.viewport.getRotation() + 90);
   }
 
-  function handleZoomOut() {
-    if (viewer) {
-      const min = viewer.viewport.getMinZoom();
-      const nextMin = viewer.viewport.getZoom() - 0.5;
-      const newMin = nextMin >= min ? nextMin : min;
+  async function handleZoomIn() {
+    const v = viewer || (await setupViewer(infoUrl, id));
+    const max = v.viewport.getMaxZoom();
+    const nextMax = v.viewport.getZoom() + 0.5;
+    const newMax = nextMax <= max ? nextMax : max;
 
-      viewer.viewport.zoomTo(newMin);
-    }
+    v.viewport.zoomTo(newMax);
+  }
+
+  async function handleZoomOut() {
+    const v = viewer || (await setupViewer(infoUrl, id));
+    const min = v.viewport.getMinZoom();
+    const nextMin = v.viewport.getZoom() - 0.5;
+    const newMin = nextMin >= min ? nextMin : min;
+
+    v.viewport.zoomTo(newMin);
   }
 
   return (
@@ -129,7 +130,7 @@ const ImageViewer = ({
       <div
         className={classNames({
           'image-viewer__content': true,
-          'is-hidden': !viewer,
+          // 'is-hidden': !viewer,
         })}
       >
         <div className="image-viewer__controls">
