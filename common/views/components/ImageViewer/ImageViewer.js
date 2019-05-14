@@ -1,7 +1,6 @@
 // @flow
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
-import OpenSeadragon from 'openseadragon';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
@@ -25,13 +24,18 @@ function getTileSources(data) {
   ];
 }
 
-function setupViewer(imageInfoSrc, viewerId) {
+async function setupViewer(imageInfoSrc, viewerId) {
+  const { default: OpenSeadragon } = await import('openseadragon');
+
   return fetch(imageInfoSrc)
     .then(response => response.json())
     .then(data => {
       return OpenSeadragon({
         id: `image-viewer-${viewerId}`,
         showNavigationControl: false,
+        gestureSettingsMouse: {
+          scrollToZoom: false,
+        },
         tileSources: getTileSources(data),
       });
     })
@@ -62,46 +66,26 @@ const ImageViewer = ({
   srcSet,
 }: ImageViewerProps) => {
   const [viewer, setViewer] = useState(null);
-  const [showViewer, setShowViewer] = useState(false);
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    setupOrUpdateViewer();
-
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    if (viewer) {
+      fetch(infoUrl)
+        .then(response => response.json())
+        .then(data => {
+          viewer.open(getTileSources(data));
+        });
+    } else {
+      setupViewer(infoUrl, id).then(setViewer);
     }
   }, [infoUrl]);
 
-  function setupOrUpdateViewer() {
-    return new Promise((resolve, reject) => {
-      if (viewer) {
-        fetch(infoUrl)
-          .then(response => response.json())
-          .then(data => {
-            viewer.open(getTileSources(data));
-            resolve();
-          });
-      } else {
-        if (!isInitialMount.current) {
-          setupViewer(infoUrl, id).then(setViewer);
-        }
-        resolve();
-      }
-    });
-  }
-
-  async function handleRotate() {
-    await setupOrUpdateViewer();
-
+  function handleRotate() {
     if (viewer) {
       viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
     }
   }
 
-  async function handleZoomIn() {
-    await setupOrUpdateViewer();
-
+  function handleZoomIn() {
     if (viewer) {
       const max = viewer.viewport.getMaxZoom();
       const nextMax = viewer.viewport.getZoom() + 0.5;
@@ -111,9 +95,7 @@ const ImageViewer = ({
     }
   }
 
-  async function handleZoomOut() {
-    await setupOrUpdateViewer();
-
+  function handleZoomOut() {
     if (viewer) {
       const min = viewer.viewport.getMinZoom();
       const nextMin = viewer.viewport.getZoom() - 0.5;
@@ -125,7 +107,7 @@ const ImageViewer = ({
 
   return (
     <>
-      {!showViewer && (
+      {!viewer && (
         <IIIFResponsiveImage
           width={width}
           height={height}
@@ -135,11 +117,10 @@ const ImageViewer = ({
           extraClasses={classNames({
             'block h-center': true,
             [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+            'is-hidden': viewer,
           })}
           lang={lang}
-          clickHandler={() => {
-            setShowViewer(true);
-          }}
+          clickHandler={handleZoomIn}
           alt={
             (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
           }
@@ -148,6 +129,7 @@ const ImageViewer = ({
       <div
         className={classNames({
           'image-viewer__content': true,
+          'is-hidden': !viewer,
         })}
       >
         <div className="image-viewer__controls">
