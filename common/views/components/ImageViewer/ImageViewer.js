@@ -157,7 +157,7 @@ const ImageViewer = ({
             extraClasses={classNames({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-              'is-hidden': viewer,
+              'is-hidden': !!viewer,
             })}
             lang={lang}
             clickHandler={handleZoomIn}

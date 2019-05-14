@@ -22,7 +22,7 @@ type Props = {|
   disabled?: boolean,
   ariaControls?: string,
   ariaExpanded?: boolean,
-  clickHandler?: (event: Event) => void,
+  clickHandler?: (event: Event) => any,
 |};
 
 type InnerControlProps = { text: string, icon: string };

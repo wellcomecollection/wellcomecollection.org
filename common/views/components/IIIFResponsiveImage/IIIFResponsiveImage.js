@@ -11,7 +11,7 @@ type Props = {|
   alt: string,
   extraClasses?: string,
   lang: ?string,
-  clickHandler?: () => void,
+  clickHandler?: () => any,
 |};
 
 const IIIFResponsiveImage = ({
