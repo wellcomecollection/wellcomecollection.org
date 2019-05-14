@@ -3,6 +3,8 @@ Our collections search is currently in beta, which means we’re developing the 
 
 As part of this work, we will bring together library collections, physical and digital alike, into a single place. Here you will be able to search, browse, read and do research across the whole Wellcome library catalogue.
 
+For a more comprehensive search of all of our collections, [wellcomelibrary.org](https://wellcomelibrary.org) is still available. There you can search the library and archive catalogues for complete coverage of the collections and their data.
+
 We will keep this page up to date with the latest information as we make more progress. 
 
 ## What’s new? (updated March 2019)
