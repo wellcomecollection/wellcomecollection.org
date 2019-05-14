@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
+import Raven from 'raven-js';
 
 function getTileSources(data) {
   return [
@@ -76,9 +77,12 @@ const ImageViewer = ({
 
         return osdViewer;
       })
-      .catch(_ => {
-        console.log(_);
-        // TODO: handle errors
+      .catch(error => {
+        Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
+          tags: {
+            service: 'dlcs',
+          },
+        });
       });
   }
 
@@ -107,66 +111,64 @@ const ImageViewer = ({
   }
 
   return (
-    <>
-      {!viewer && (
-        <IIIFResponsiveImage
-          width={width}
-          height={height}
-          src={src}
-          srcSet={srcSet}
-          sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better
-          extraClasses={classNames({
-            'block h-center': true,
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-            'is-hidden': viewer,
-          })}
-          lang={lang}
-          clickHandler={handleZoomIn}
-          alt={
-            (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
-          }
+    <div
+      className={classNames({
+        'image-viewer__content': true,
+      })}
+    >
+      <div className="image-viewer__controls">
+        <Control
+          type="light"
+          text="Rotate"
+          icon="rotateRight"
+          extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
+          clickHandler={handleRotate}
         />
-      )}
-      <div
-        className={classNames({
-          'image-viewer__content': true,
-          // 'is-hidden': !viewer,
-        })}
-      >
-        <div className="image-viewer__controls">
-          <Control
-            type="light"
-            text="Rotate"
-            icon="rotateRight"
-            extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-            clickHandler={handleRotate}
-          />
 
-          <Control
-            type="light"
-            text="Zoom in"
-            icon="zoomIn"
-            extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-            clickHandler={handleZoomIn}
-          />
+        <Control
+          type="light"
+          text="Zoom in"
+          icon="zoomIn"
+          extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
+          clickHandler={handleZoomIn}
+        />
 
-          <Control
-            type="light"
-            text="Zoom out"
-            icon="zoomOut"
-            extraClasses={`${spacing({ s: 8 }, { margin: ['right'] })}`}
-            clickHandler={handleZoomOut}
-          />
-        </div>
-
-        <div
-          id={`image-viewer-${id}`}
-          className={classNames({
-            'image-viewer__image': true,
-          })}
+        <Control
+          type="light"
+          text="Zoom out"
+          icon="zoomOut"
+          clickHandler={handleZoomOut}
         />
       </div>
-    </>
+
+      <div
+        id={`image-viewer-${id}`}
+        className={classNames({
+          'image-viewer__image': true,
+        })}
+      >
+        {!viewer && (
+          <IIIFResponsiveImage
+            width={width}
+            height={height}
+            src={src}
+            srcSet={srcSet}
+            sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better
+            extraClasses={classNames({
+              'block h-center': true,
+              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+              'is-hidden': viewer,
+            })}
+            lang={lang}
+            clickHandler={handleZoomIn}
+            alt={
+              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+              'no text alternative'
+            }
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
