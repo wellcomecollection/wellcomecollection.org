@@ -50,7 +50,7 @@ exports.wiRedirector = (event, context) => {
       }
     }
 
-    if (request.querystring && request.uri.match('/ixbin/hixclient.exe')) {
+    if (request.querystring && request.uri.match('/ixbin/hixclient')) {
       // e.g. http://wellcomeimages.org/ixbin/hixclient.exe?MIROPAC=V0042017
       const params = querystring.parse(request.querystring);
       if (params.MIROPAC) {
