@@ -30,6 +30,9 @@ function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
       return openseadragon({
         id: `image-viewer-${viewerId}`,
         visibilityRatio: 1,
+        gestureSettingsMouse: {
+          scrollToZoom: false,
+        },
         showFullPageControl: false,
         showHomeControl: false,
         zoomInButton: `zoom-in-${viewerId}`,
@@ -72,6 +75,9 @@ const ImageViewerImage = ({ id, infoUrl }: Props) => {
 
   useEffect(() => {
     if (viewer) {
+      // If we have an instantiated viewer, we reuse it calling open() rather than destroy()
+      // This gets around some issues we were having with OSD apparently not cleaning
+      // up event handlers on zoom/rotate buttons when using destroy().
       fetch(infoUrl)
         .then(response => response.json())
         .then(data => viewer.open(getTileSources(data)));

@@ -3,7 +3,7 @@ import MessageBar from '../MessageBar/MessageBar';
 
 const BetaBar = () => (
   <MessageBar tagText={'Beta'}>
-    We’re improving how search works.{' '}
+    This search tool is in development.{' '}
     <a href="/works/progress">Find out more</a>.
   </MessageBar>
 );
