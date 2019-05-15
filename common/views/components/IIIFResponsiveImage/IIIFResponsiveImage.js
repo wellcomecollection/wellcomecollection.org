@@ -54,15 +54,16 @@ const IIIFResponsiveImage = ({
         alt={alt}
       />
       {isLazy && (
-        <noscript>
-          <img
-            width={width}
-            height={height}
-            className={'image image--noscript'}
-            src={src}
-            alt={alt}
-          />
-        </noscript>
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `
+              <img width='${width}'
+                height='${height || ''}'
+                class='image image--noscript'
+                src='${src}'
+                alt='${alt}' />`,
+          }}
+        />
       )}
     </>
   );
