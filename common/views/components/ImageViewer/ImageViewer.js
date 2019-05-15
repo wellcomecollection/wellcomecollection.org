@@ -134,6 +134,7 @@ const ImageViewer = ({
           alt={
             (canvasOcr && canvasOcr.replace(/"/g, '')) || 'no text alternative'
           }
+          isLazy={false}
         />
       )}
     </>
