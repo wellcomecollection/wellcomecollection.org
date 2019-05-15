@@ -11,6 +11,7 @@ type Props = {|
   alt: string,
   extraClasses?: string,
   lang: ?string,
+  isLazy: boolean,
   clickHandler?: () => void,
 |};
 
@@ -24,6 +25,7 @@ const IIIFResponsiveImage = ({
   extraClasses,
   lang,
   clickHandler,
+  isLazy,
 }: Props) => {
   return (
     <img
@@ -33,6 +35,7 @@ const IIIFResponsiveImage = ({
       className={classNames({
         image: true,
         [extraClasses || '']: true,
+        'lazy-image lazyload': isLazy,
       })}
       onClick={clickHandler}
       onError={event =>
@@ -43,7 +46,8 @@ const IIIFResponsiveImage = ({
         })
       }
       src={src}
-      srcSet={srcSet}
+      srcSet={isLazy ? undefined : srcSet}
+      data-srcSet={isLazy ? srcSet : undefined}
       sizes={sizes}
       alt={alt}
     />

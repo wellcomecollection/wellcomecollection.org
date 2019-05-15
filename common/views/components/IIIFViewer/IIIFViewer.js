@@ -194,6 +194,7 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
       srcSet={srcSet}
       alt=""
       sizes={`(min-width: 600px) 200px, 100px`}
+      isLazy={false}
     />
   );
 };
