@@ -5,6 +5,7 @@ import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
 import Raven from 'raven-js';
+import { trackEvent } from '../../../utils/ga';
 
 function getTileSources(data) {
   return [
@@ -91,6 +92,12 @@ const ImageViewer = ({
     const v = viewer || (await setupViewer(infoUrl, id));
 
     v.viewport.setRotation(v.viewport.getRotation() + 90);
+
+    trackEvent({
+      category: 'Control',
+      action: 'rotate ImageViewer',
+      label: id,
+    });
   }
 
   function doZoomIn(viewer) {
@@ -119,6 +126,12 @@ const ImageViewer = ({
         doZoomIn(v);
       });
     }
+
+    trackEvent({
+      category: 'Control',
+      action: 'zoom in ImageViewer',
+      label: id,
+    });
   }
 
   async function handleZoomOut() {
@@ -131,6 +144,12 @@ const ImageViewer = ({
         doZoomOut(v);
       });
     }
+
+    trackEvent({
+      category: 'Control',
+      action: 'zoom out ImageViewer',
+      label: id,
+    });
   }
 
   return (
