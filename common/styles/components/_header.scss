@@ -77,7 +77,7 @@ $tweakpoints: (
 
   @include respond-to('header-medium') {
     margin-left: 0;
-    flex: 0;
+    flex: 0 0 auto;
     margin-right: 1.5rem;
     padding-right: 1.5rem;
     border-right: 1px solid color('pumice');
