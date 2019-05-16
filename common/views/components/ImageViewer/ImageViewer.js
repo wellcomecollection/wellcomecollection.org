@@ -48,6 +48,7 @@ const ImageViewer = ({
   srcSet,
 }: ImageViewerProps) => {
   const [viewer, setViewer] = useState(null);
+  const [isError, setIsError] = useState(false);
   const zoomStep = 0.5;
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const ImageViewer = ({
           },
           tileSources: getTileSources(data),
         });
-
+        setIsError(false);
         setViewer(osdViewer);
 
         return osdViewer;
@@ -85,6 +86,7 @@ const ImageViewer = ({
             service: 'dlcs',
           },
         });
+        setIsError(true);
       });
   }
 
@@ -189,6 +191,15 @@ const ImageViewer = ({
           'image-viewer__image': true,
         })}
       >
+        {isError && (
+          <p
+            className={classNames({
+              [spacing({ s: 10 }, { padding: ['right', 'left'] })]: true,
+            })}
+          >
+            The image viewer is not working
+          </p>
+        )}
         {!viewer && (
           <IIIFResponsiveImage
             width={width}
@@ -207,6 +218,7 @@ const ImageViewer = ({
               (canvasOcr && canvasOcr.replace(/"/g, '')) ||
               'no text alternative'
             }
+            isLazy={false}
           />
         )}
       </div>

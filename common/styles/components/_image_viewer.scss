@@ -40,15 +40,6 @@
   z-index: 1;
 }
 
-.image-viewer__error {
-  position: relative;
-  top: 50%;
-  transform: translateY(-70%);
-  max-width: 500px;
-  margin: auto;
-  color: color('white');
-}
-
 .image-viewer__image {
   cursor: zoom-in;
   position: absolute;
