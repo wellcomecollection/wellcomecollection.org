@@ -1,6 +1,5 @@
 // @flow
 import { type Context } from 'next';
-import { useEffect } from 'react';
 import {
   type Work,
   type CatalogueApiError,
@@ -155,13 +154,6 @@ const ItemPage = ({
     ...sharedPaginatorProps,
   };
 
-  useEffect(() => {
-    try {
-      work &&
-        window.sessionStorage.setItem(`work-${workId}`, JSON.stringify(work));
-    } catch (e) {}
-  }, []);
-
   return (
     <CataloguePageLayout
       title={title}
@@ -261,19 +253,11 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
         `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
       )).json()
     : null;
-  const workFromSessionStorage =
-    typeof window !== 'undefined' &&
-    typeof window.sessionStorage !== 'undefined'
-      ? window.sessionStorage.getItem(`work-${workId}`)
-      : null;
 
   // The sierraId originates from the iiif presentation manifest url
   // If we don't have one, we must be trying to display a work with an iiif image location,
   // so we need to get the work object to get the necessary data to display
-  const work = !sierraId
-    ? (workFromSessionStorage && JSON.parse(workFromSessionStorage)) ||
-      (await getWork({ id: workId }))
-    : null;
+  const work = !sierraId ? await getWork({ id: workId }) : null;
 
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases;
