@@ -364,6 +364,7 @@ const IIIFViewerComponent = ({
                       srcSet={''}
                       alt=""
                       sizes={`(min-width: 600px) 200px, 100px`}
+                      isLazy={false}
                     />
                   </IIIFViewerThumbLink>
                 </NextLink>
