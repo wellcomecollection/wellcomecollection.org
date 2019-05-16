@@ -151,8 +151,8 @@ const WorkCard = ({ work }: Props) => {
               </div>
             </Details>
 
-            <Preview>
-              {work.thumbnail && (
+            {work.thumbnail && (
+              <Preview>
                 <IIIFResponsiveImage
                   width={178}
                   src={convertImageUri(work.thumbnail.url, 178)}
@@ -172,8 +172,8 @@ const WorkCard = ({ work }: Props) => {
                   })}
                   isLazy={true}
                 />
-              )}
-            </Preview>
+              </Preview>
+            )}
           </Container>
 
           <TogglesContext.Consumer>
