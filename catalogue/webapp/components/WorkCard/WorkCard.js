@@ -14,6 +14,9 @@ import {
 } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import { workUrl } from '@weco/common/services/catalogue/urls';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { imageSizes } from '@weco/common/utils/image-sizes';
 
 type Props = {|
   work: Work,
@@ -29,15 +32,28 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview = styled.div`
+const Preview = styled.div.attrs(() => ({
+  className: classNames({
+    [spacing({ s: 2 }, { margin: ['left'] })]: true,
+    'text-align-center': true,
+  }),
+}))`
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 178px;
+  height: 178px;
   margin-top: ${props => props.theme.spacingUnit * 2}px;
+
   ${props => props.theme.media.medium`
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: '178px';
-    height: '178px';
     margin-top: 0;
   `}
+
+  img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
 `;
 
 const WorkCard = ({ work }: Props) => {
@@ -112,53 +128,52 @@ const WorkCard = ({ work }: Props) => {
                     })}
                   >
                     <LinkLabels
-                      items={work.contributors.map(({ agent }) => ({
-                        text: agent.label,
-                        url: null,
-                      }))}
+                      items={[
+                        {
+                          text: work.contributors[0].agent.label,
+                          url: null,
+                        },
+                      ]}
                     />
                   </div>
                 )}
                 {productionDates.length > 0 && (
                   <LinkLabels
                     heading={'Date'}
-                    items={productionDates.map(date => ({
-                      text: date,
-                      url: null,
-                    }))}
+                    items={[
+                      {
+                        text: productionDates[0],
+                        url: null,
+                      },
+                    ]}
                   />
                 )}
               </div>
             </Details>
 
-            <Preview
-              className={classNames({
-                [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                'text-align-center': true,
-              })}
-              style={{
-                flexGrow: 0,
-                flexShrink: 0,
-                flexBasis: '178px',
-                height: '178px',
-              }}
-            >
-              {work.thumbnail && (
-                <img
-                  src={work.thumbnail.url}
-                  className={classNames({
+            {work.thumbnail && (
+              <Preview>
+                <IIIFResponsiveImage
+                  width={178}
+                  src={convertImageUri(work.thumbnail.url, 178)}
+                  srcSet={imageSizes(2048)
+                    .map(width => {
+                      return `${convertImageUri(
+                        work.thumbnail.url,
+                        width
+                      )} ${width}w`;
+                    })
+                    .join(',')}
+                  sizes={`178px`}
+                  alt={''}
+                  lang={null}
+                  extraClasses={classNames({
                     'h-center': true,
                   })}
-                  style={{
-                    width: 'auto',
-                    height: 'auto',
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                  }}
-                  alt=""
+                  isLazy={true}
                 />
-              )}
-            </Preview>
+              </Preview>
+            )}
           </Container>
 
           <TogglesContext.Consumer>

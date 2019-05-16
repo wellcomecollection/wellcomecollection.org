@@ -72,10 +72,12 @@ const WorkHeader = ({ work }: Props) => {
                 })}
               >
                 <LinkLabels
-                  items={work.contributors.map(({ agent }) => ({
-                    text: agent.label,
-                    url: null,
-                  }))}
+                  items={[
+                    {
+                      text: work.contributors[0].agent.label,
+                      url: null,
+                    },
+                  ]}
                 />
               </div>
             )}
@@ -83,10 +85,12 @@ const WorkHeader = ({ work }: Props) => {
             {productionDates.length > 0 && (
               <LinkLabels
                 heading={'Date'}
-                items={productionDates.map(date => ({
-                  text: date,
-                  url: null,
-                }))}
+                items={[
+                  {
+                    text: productionDates[0],
+                    url: null,
+                  },
+                ]}
               />
             )}
           </div>
