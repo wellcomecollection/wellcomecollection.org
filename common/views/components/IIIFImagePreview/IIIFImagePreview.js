@@ -1,4 +1,5 @@
 // @flow
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { iiifImageTemplate } from '../../../utils/convert-image-uri';
 import { trackEvent } from '../../../utils/ga';
 import styled from 'styled-components';
@@ -11,7 +12,7 @@ type Props = {|
   title: string,
   iiifUrl: string,
   width?: number,
-  itemUrl: any,
+  itemUrl: NextLinkType,
 |};
 
 const PreviewContainer = styled.div`
