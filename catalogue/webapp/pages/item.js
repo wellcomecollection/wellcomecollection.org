@@ -1,10 +1,16 @@
 // @flow
 import { type Context } from 'next';
+import {
+  type Work,
+  type CatalogueApiError,
+} from '@weco/common/model/catalogue';
 import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
+import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
@@ -26,7 +32,8 @@ type Props = {|
   workId: string,
   sierraId: string,
   langCode: string,
-  manifest: IIIFManifest,
+  manifest: ?IIIFManifest,
+  work: ?(Work | CatalogueApiError),
   pageSize: number,
   pageIndex: number,
   canvasIndex: number,
@@ -75,6 +82,7 @@ const ItemPage = ({
   sierraId,
   langCode,
   manifest,
+  work,
   pageSize,
   pageIndex,
   canvasIndex,
@@ -83,18 +91,37 @@ const ItemPage = ({
   workType,
   query,
 }: Props) => {
-  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  const canvases =
+    manifest && manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
-  const title = manifest.label;
+  const title = (manifest && manifest.label) || (work && work.title) || '';
+  const [iiifImageLocation] =
+    work && work.items
+      ? work.items
+          .map(item =>
+            item.locations.find(
+              location => location.locationType.id === 'iiif-image'
+            )
+          )
+          .filter(Boolean)
+      : [null];
+
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImage =
+    iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
+  const imageUrl = iiifImage && iiifImage({ size: '800,' });
+
   const mainImageService =
     currentCanvas && currentCanvas.images[0].resource.service
       ? {
           '@id': currentCanvas.images[0].resource.service['@id'],
         }
       : null;
-  const downloadOptions = getDownloadOptionsFromManifest(manifest);
+  const downloadOptions = manifest && getDownloadOptionsFromManifest(manifest);
   const pdfRendering =
-    downloadOptions.find(option => option.label === 'Download PDF') || null;
+    (downloadOptions &&
+      downloadOptions.find(option => option.label === 'Download PDF')) ||
+    null;
   const navigationCanvases =
     canvases &&
     [...Array(pageSize)]
@@ -103,7 +130,7 @@ const ItemPage = ({
       .filter(Boolean);
 
   const sharedPaginatorProps = {
-    totalResults: canvases && canvases.length,
+    totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
       workId,
       page: pageIndex + 1,
@@ -171,7 +198,7 @@ const ItemPage = ({
             </a>
           </NextLink>
         </div>
-        {!pdfRendering && !mainImageService && (
+        {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
           <div
             className={classNames({
               [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
@@ -184,7 +211,8 @@ const ItemPage = ({
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {mainImageService && currentCanvas && navigationCanvases && (
+      {((currentCanvas && navigationCanvases) ||
+        (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
@@ -200,6 +228,8 @@ const ItemPage = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          imageUrl={imageUrl}
         />
       )}
     </CataloguePageLayout>
@@ -218,11 +248,19 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   } = ctx.query;
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
-  const manifest = await (await fetch(
-    `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
-  )).json();
+  const manifest = sierraId
+    ? await (await fetch(
+        `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
+      )).json()
+    : null;
 
-  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  // The sierraId originates from the iiif presentation manifest url
+  // If we don't have one, we must be trying to display a work with an iiif image location,
+  // so we need to get the work object to get the necessary data to display
+  const work = !sierraId ? await getWork({ id: workId }) : null;
+
+  const canvases =
+    manifest && manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
 
@@ -235,6 +273,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     pageIndex,
     canvasIndex,
     canvasOcr,
+    work,
     // TODO: add these back in, it's just makes it easier to check the URLs
     itemsLocationsLocationType: null,
     workType: null,

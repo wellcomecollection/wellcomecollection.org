@@ -80,7 +80,6 @@ export const WorkPage = ({ work }: Props) => {
       item.locations.find(location => location.locationType.id === 'iiif-image')
     )
     .filter(Boolean);
-
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId =
@@ -219,6 +218,13 @@ export const WorkPage = ({ work }: Props) => {
           <IIIFImagePreview
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
+            itemUrl={itemUrl({
+              workId: work.id,
+              sierraId: null,
+              langCode: work.language && work.language.id,
+              page: 1,
+              canvas: 1,
+            })}
             title={work.title}
           />
         )}
