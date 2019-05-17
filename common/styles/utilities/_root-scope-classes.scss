@@ -258,6 +258,15 @@
   display: block;
 }
 
+// Flex for most browsers, block for IE
+.flex-ie-block {
+  display: block; // IE
+
+  @supports(color: red) { // IE ignores @supports
+    display: flex;
+  }
+}
+
 .inline {
   display: inline;
 }
@@ -374,10 +383,6 @@
   &:focus .promo-link__title {
     text-decoration: underline;
     text-decoration-color: color('green');
-  }
-
-  @include respond-to('medium') {
-    min-height: 370px;
   }
 }
 

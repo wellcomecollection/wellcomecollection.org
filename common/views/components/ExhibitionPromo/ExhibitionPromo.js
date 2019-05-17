@@ -32,7 +32,7 @@ const ExhibitionPromo = ({
       data-component-state={JSON.stringify({ position: position })}
       id={id}
       href={url}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column"
+      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex--column flex-ie-block"
       onClick={() => {
         trackEvent({
           category: 'ExhibitionPromo',
