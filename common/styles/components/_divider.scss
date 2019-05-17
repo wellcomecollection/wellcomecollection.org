@@ -32,6 +32,5 @@
 
 .divider--dashed {
   height: 12px;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNiAxMiI+PHJlY3Qgd2lkdGg9IjMiIGhlaWdodD0iMTIiLz48L3N2Zz4=');
-  background-repeat: repeat;
+  background-image: repeating-linear-gradient(to right, color('charcoal'), color('charcoal') 3px, transparent 3px, transparent 6px);
 }
