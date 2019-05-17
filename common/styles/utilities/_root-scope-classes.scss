@@ -536,6 +536,13 @@
 
 // TODO: this better
 .story-promo-featured {
+  // Because this item's flex-direction is row rather than column,
+  // it doesn't have the same issues as the others, so we can use
+  // flexbox and avoid a poor layout in IE.
+  .flex-ie-block {
+    display: flex;
+  }
+
   @include respond-to('medium') {
     .story-promo {
       min-height: 0;
