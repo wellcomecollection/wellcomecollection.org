@@ -128,7 +128,9 @@ class CopyUrl extends Component<Props, State> {
           <span className="flex-inline flex--v-center">
             <Icon
               name="check"
-              extraClasses={`icon--black ${isTextCopied ? '' : 'is-hidden'}`}
+              extraClasses={`icon--black icon--match-text ${
+                isTextCopied ? '' : 'is-hidden'
+              }`}
             />
             <span className="js-copy-text">
               {getButtonMarkup(isTextCopied, isClicked)}
