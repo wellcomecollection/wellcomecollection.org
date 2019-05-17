@@ -10,15 +10,7 @@
 // }
 
 // This is mutable for testing
-let tests = [
-  {
-    id: 'showShortTitles',
-    title: 'Short exhibition titles',
-    shouldRun: request => {
-      return request.uri.match(/^\/whats-on.*/) || request.uri === '/';
-    },
-  },
-];
+let tests = [];
 
 exports.setTests = function(newTests) {
   tests = newTests;
