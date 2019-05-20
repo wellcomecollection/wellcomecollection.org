@@ -198,45 +198,57 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
-
-      <ManifestContext.Provider value={iiifPresentationManifest}>
-        {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-          <div className="container">
-            <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
-              itemUrl={itemUrl({
-                workId: work.id,
-                sierraId: sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-                page: 1,
-                canvas: 1,
-              })}
-            />
+      <div
+        className={classNames({
+          'row bg-cream row--has-wobbly-background': true,
+        })}
+      >
+        <div className="container">
+          <div className="grid">
+            <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+              <ManifestContext.Provider value={iiifPresentationManifest}>
+                {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
+                  <div className="container">
+                    <IIIFPresentationPreview
+                      iiifPresentationLocation={iiifPresentationLocation}
+                      itemUrl={itemUrl({
+                        workId: work.id,
+                        sierraId: sierraIdFromPresentationManifestUrl,
+                        langCode: work.language && work.language.id,
+                        page: 1,
+                        canvas: 1,
+                      })}
+                    />
+                  </div>
+                )}
+                {iiifImageLocationUrl && (
+                  <IIIFImagePreview
+                    id={work.id}
+                    iiifUrl={iiifImageLocationUrl}
+                    itemUrl={itemUrl({
+                      workId: work.id,
+                      sierraId: null,
+                      langCode: work.language && work.language.id,
+                      page: 1,
+                      canvas: 1,
+                    })}
+                    title={work.title}
+                  />
+                )}
+              </ManifestContext.Provider>
+            </div>
           </div>
-        )}
-        {iiifImageLocationUrl && (
-          <IIIFImagePreview
-            id={work.id}
-            iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemUrl({
-              workId: work.id,
-              sierraId: null,
-              langCode: work.language && work.language.id,
-              page: 1,
-              canvas: 1,
-            })}
-            title={work.title}
-          />
-        )}
-        <WorkDetails
-          work={work}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          encoreLink={encoreLink}
-          downloadOptions={downloadOptions}
-        />
-      </ManifestContext.Provider>
+        </div>
+        <div className="row__wobbly-background" />
+      </div>
+      <WorkDetails
+        work={work}
+        licenseInfo={licenseInfo}
+        iiifImageLocationCredit={iiifImageLocationCredit}
+        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        encoreLink={encoreLink}
+        downloadOptions={downloadOptions}
+      />
     </CataloguePageLayout>
   );
 };
