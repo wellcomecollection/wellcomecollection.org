@@ -329,7 +329,6 @@ const WorkDetails = ({
     <div
       className={classNames({
         row: true,
-        'bg-cream': true,
         [spacing({ s: 6, m: 8 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
