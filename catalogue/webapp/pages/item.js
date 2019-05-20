@@ -211,7 +211,7 @@ const ItemPage = ({
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {((currentCanvas && navigationCanvases) ||
+      {((mainImageService && currentCanvas && navigationCanvases) ||
         (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
           mainPaginatorProps={mainPaginatorProps}
