@@ -198,15 +198,15 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
-      <div
-        className={classNames({
-          'row bg-cream row--has-wobbly-background': true,
-        })}
-      >
-        <div className="container">
-          <div className="grid">
-            <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-              <ManifestContext.Provider value={iiifPresentationManifest}>
+      <ManifestContext.Provider value={iiifPresentationManifest}>
+        <div
+          className={classNames({
+            'row bg-cream row--has-wobbly-background': true,
+          })}
+        >
+          <div className="container">
+            <div className="grid">
+              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
                   <div className="container">
                     <IIIFPresentationPreview
@@ -235,20 +235,20 @@ export const WorkPage = ({ work }: Props) => {
                     title={work.title}
                   />
                 )}
-              </ManifestContext.Provider>
+              </div>
             </div>
           </div>
+          <div className="row__wobbly-background" />
         </div>
-        <div className="row__wobbly-background" />
-      </div>
-      <WorkDetails
-        work={work}
-        licenseInfo={licenseInfo}
-        iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-        encoreLink={encoreLink}
-        downloadOptions={downloadOptions}
-      />
+        <WorkDetails
+          work={work}
+          licenseInfo={licenseInfo}
+          iiifImageLocationCredit={iiifImageLocationCredit}
+          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+          encoreLink={encoreLink}
+          downloadOptions={downloadOptions}
+        />
+      </ManifestContext.Provider>
     </CataloguePageLayout>
   );
 };
