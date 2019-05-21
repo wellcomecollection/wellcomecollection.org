@@ -17,7 +17,7 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 // TODO classes etc.
-const Preview = styled.div`
+const PresentationPreview = styled.div`
   overflow: hidden;
   text-align: center;
   a {
@@ -229,7 +229,7 @@ const IIIFPresentationDisplay = ({
 
   if (viewType === 'iiif') {
     return (
-      <Preview>
+      <PresentationPreview>
         <NextLink {...itemUrl}>
           <a
             className="plain-link"
@@ -269,7 +269,7 @@ const IIIFPresentationDisplay = ({
             />
           </a>
         </NextLink>
-      </Preview>
+      </PresentationPreview>
     );
   }
 
