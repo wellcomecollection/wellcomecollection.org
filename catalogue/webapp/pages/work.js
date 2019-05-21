@@ -208,18 +208,16 @@ export const WorkPage = ({ work }: Props) => {
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-                  <div className="container">
-                    <IIIFPresentationPreview
-                      iiifPresentationLocation={iiifPresentationLocation}
-                      itemUrl={itemUrl({
-                        workId: work.id,
-                        sierraId: sierraIdFromPresentationManifestUrl,
-                        langCode: work.language && work.language.id,
-                        page: 1,
-                        canvas: 1,
-                      })}
-                    />
-                  </div>
+                  <IIIFPresentationPreview
+                    iiifPresentationLocation={iiifPresentationLocation}
+                    itemUrl={itemUrl({
+                      workId: work.id,
+                      sierraId: sierraIdFromPresentationManifestUrl,
+                      langCode: work.language && work.language.id,
+                      page: 1,
+                      canvas: 1,
+                    })}
+                  />
                 )}
                 {iiifImageLocationUrl && (
                   <IIIFImagePreview
