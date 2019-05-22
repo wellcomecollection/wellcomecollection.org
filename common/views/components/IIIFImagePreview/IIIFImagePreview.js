@@ -66,9 +66,9 @@ const IIIFImagePreview = ({
             width={width}
             contentUrl={imageContentUrl}
             lazyload={true}
-            sizesQueries=""
+            sizesQueries="(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)"
             alt=""
-            defaultSize={30}
+            defaultSize={180}
           />
           <Control type="dark" text="View larger image" icon="zoomIn" />
         </a>
@@ -78,4 +78,3 @@ const IIIFImagePreview = ({
 };
 
 export default IIIFImagePreview;
-// TODO thumbnail service for non landscape...
