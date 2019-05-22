@@ -11,12 +11,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 
 const DownloadButton = styled.button`
   text-align: center;
-  border: 0;
-  background: ${props => props.theme.colors.green};
-  color: ${props => props.theme.colors.white};
+  border: ${props => `1px solid ${props.theme.colors.green}`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+  background: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.green};
   padding: ${props =>
-    `${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit * 2}px ${props
-      .theme.spacingUnit * 2}px ${props.theme.spacingUnit * 3}px`};
+    `${props.theme.spacingUnit}px ${props.theme.spacingUnit}px ${
+      props.theme.spacingUnit
+    }px ${props.theme.spacingUnit * 2}px`};
   display: inline-block;
   margin: ${props =>
     `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};

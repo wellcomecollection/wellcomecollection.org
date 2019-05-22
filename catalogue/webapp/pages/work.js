@@ -198,36 +198,46 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
-
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
+        <div
+          className={classNames({
+            'row bg-cream row--has-wobbly-background': true,
+          })}
+        >
           <div className="container">
-            <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
-              itemUrl={itemUrl({
-                workId: work.id,
-                sierraId: sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-                page: 1,
-                canvas: 1,
-              })}
-            />
+            <div className="grid">
+              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+                {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
+                  <IIIFPresentationPreview
+                    iiifPresentationLocation={iiifPresentationLocation}
+                    itemUrl={itemUrl({
+                      workId: work.id,
+                      sierraId: sierraIdFromPresentationManifestUrl,
+                      langCode: work.language && work.language.id,
+                      page: 1,
+                      canvas: 1,
+                    })}
+                  />
+                )}
+                {iiifImageLocationUrl && (
+                  <IIIFImagePreview
+                    id={work.id}
+                    iiifUrl={iiifImageLocationUrl}
+                    itemUrl={itemUrl({
+                      workId: work.id,
+                      sierraId: null,
+                      langCode: work.language && work.language.id,
+                      page: 1,
+                      canvas: 1,
+                    })}
+                    title={work.title}
+                  />
+                )}
+              </div>
+            </div>
           </div>
-        )}
-        {iiifImageLocationUrl && (
-          <IIIFImagePreview
-            id={work.id}
-            iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemUrl({
-              workId: work.id,
-              sierraId: null,
-              langCode: work.language && work.language.id,
-              page: 1,
-              canvas: 1,
-            })}
-            title={work.title}
-          />
-        )}
+          <div className="row__wobbly-background" />
+        </div>
         <WorkDetails
           work={work}
           licenseInfo={licenseInfo}

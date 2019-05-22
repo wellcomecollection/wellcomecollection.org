@@ -4,6 +4,7 @@ import { css } from 'styled-components';
 // When units are `number`s, we assume pixels
 const theme = {
   spacingUnit: 6,
+  borderRadiusUnit: 6,
   sizes: {
     small: 0,
     medium: 600,

@@ -15,18 +15,28 @@ type Props = {|
   itemUrl: NextLinkType,
 |};
 
-const PreviewContainer = styled.div`
-  min-height: 200px;
-  height: calc(100vh - 160px);
+const ImagePreview = styled.div`
+  overflow: hidden;
   text-align: center;
-  padding: ${props =>
-    `${props.theme.spacingUnit * 4}px 0 ${props.theme.spacingUnit * 6}px`};
-  * {
+
+  a {
+    display: inline-block;
+    padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
     cursor: zoom-in;
   }
+
+  img {
+    display: block;
+    max-height: 400px;
+    max-width: 100%;
+    width: auto;
+  }
+
   button {
-    position: relative;
-    transform: translateY(-50%);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
   }
 `;
 
@@ -34,19 +44,19 @@ const IIIFImagePreview = ({
   id,
   title,
   iiifUrl,
-  width = 800,
+  width = 1010,
   itemUrl,
 }: Props) => {
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
 
   return (
-    <PreviewContainer>
+    <ImagePreview>
       <NextLink {...itemUrl}>
         <a
           className="plain-link"
           onClick={() => {
             trackEvent({
-              category: 'IIIFImagePreview', // TODO tell Hayley we're changing the event for viewing an image
+              category: 'IIIFImagePreview',
               action: 'follow link',
               label: itemUrl.href.query.workId,
             });
@@ -56,15 +66,14 @@ const IIIFImagePreview = ({
             width={width}
             contentUrl={imageContentUrl}
             lazyload={true}
-            sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
+            sizesQueries="(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)"
             alt=""
-            defaultSize={800}
-            extraClasses="margin-h-auto width-auto full-height full-max-width block"
+            defaultSize={180}
           />
           <Control type="dark" text="View larger image" icon="zoomIn" />
         </a>
       </NextLink>
-    </PreviewContainer>
+    </ImagePreview>
   );
 };
 

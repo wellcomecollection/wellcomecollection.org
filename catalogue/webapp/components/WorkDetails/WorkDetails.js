@@ -128,15 +128,30 @@ const WorkDetails = ({
 
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
-      <WorkDetailsSection>
-        <Download
-          work={work}
-          licenseInfo={definitiveLicenseInfo}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          downloadOptions={allDownloadOptions}
-        />
-      </WorkDetailsSection>
+      <div
+        className={classNames({
+          grid: true,
+        })}
+      >
+        <div
+          className={classNames({
+            [grid({
+              s: 12,
+              m: 12,
+              l: 10,
+              xl: 10,
+            })]: true,
+          })}
+        >
+          <Download
+            work={work}
+            licenseInfo={definitiveLicenseInfo}
+            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+            iiifImageLocationCredit={iiifImageLocationCredit}
+            downloadOptions={allDownloadOptions}
+          />
+        </div>
+      </div>
     );
   }
   if (
@@ -329,7 +344,6 @@ const WorkDetails = ({
     <div
       className={classNames({
         row: true,
-        'bg-cream': true,
         [spacing({ s: 6, m: 8 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
