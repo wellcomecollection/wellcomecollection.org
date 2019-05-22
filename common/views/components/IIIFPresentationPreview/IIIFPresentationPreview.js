@@ -16,7 +16,6 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
-// TODO classes etc.
 const PresentationPreview = styled.div`
   overflow: hidden;
   text-align: center;
@@ -25,23 +24,18 @@ const PresentationPreview = styled.div`
     align-items: flex-end;
     padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
   }
-
+  img {
+    max-width: 800px;
+    margin-left: ${props => `${props.theme.spacingUnit * 5}px`};
+  }
+  img:first-of-type {
+    margin-left: 0;
+  }
   .btn--primary {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
-  }
-`;
-
-const PagePreview = styled.div`
-  &:first-of-type img {
-    margin-left: 0;
-  }
-  img {
-    max-width: 800px;
-    width: auto;
-    margin-left: ${props => `${props.theme.spacingUnit * 5}px`};
   }
 `;
 
@@ -244,21 +238,19 @@ const IIIFPresentationDisplay = ({
             {imageThumbnails.map((pageType, i) => {
               return pageType.images.map(image => {
                 return (
-                  <PagePreview key={image.id}>
-                    <IIIFResponsiveImage
-                      key={image.id}
-                      lang={'en'}
-                      width={image.width * (400 / image.height)}
-                      height={400}
-                      src={iiifImageTemplate(image.id)({
-                        size: ',400',
-                      })}
-                      srcSet={''}
-                      alt=""
-                      sizes={null}
-                      isLazy={true}
-                    />
-                  </PagePreview>
+                  <IIIFResponsiveImage
+                    key={image.id}
+                    lang={'en'}
+                    width={image.width * (400 / image.height)}
+                    height={400}
+                    src={iiifImageTemplate(image.id)({
+                      size: ',400',
+                    })}
+                    srcSet={''}
+                    alt=""
+                    sizes={null}
+                    isLazy={true}
+                  />
                 );
               });
             })}
@@ -290,16 +282,4 @@ const IIIFPresentationDisplay = ({
 
 export default IIIFPresentationDisplay;
 
-// align single image preview (1010px)
-// TIDY styling, styled components
-// reposition download
 // Cross browser testing
-// Cardigan
-
-// Questions
-// CTA text?
-// lazyload DONE - how restrict to fewer images?
-// Mobile?
-// Should we have a max width?
-
-// restyle download
