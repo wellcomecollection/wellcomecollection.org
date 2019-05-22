@@ -244,7 +244,7 @@ const IIIFPresentationDisplay = ({
                 return (
                   <IIIFResponsiveImage
                     key={image.id}
-                    lang={'en'}
+                    lang={null}
                     width={image.width * (400 / image.height)}
                     height={400}
                     src={iiifImageTemplate(image.id)({
