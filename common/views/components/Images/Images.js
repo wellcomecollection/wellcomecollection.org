@@ -174,9 +174,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           alt={alt || ''}
         />
 
-        {showTasl && this.state.isLazyLoaded && (
-          <Tasl {...tasl} isFull={isFull} />
-        )}
+        {showTasl && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
     );
   }
