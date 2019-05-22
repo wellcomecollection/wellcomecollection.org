@@ -22,10 +22,14 @@ const PresentationPreview = styled.div`
   a {
     display: inline-flex;
     align-items: flex-end;
+    flex-basis: min-content;
     padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
   }
   img {
+    display: block;
     max-width: 800px;
+    max-height: 400px;
+    width: auto;
     margin-left: ${props => `${props.theme.spacingUnit * 5}px`};
   }
   img:first-of-type {
@@ -281,5 +285,3 @@ const IIIFPresentationDisplay = ({
 };
 
 export default IIIFPresentationDisplay;
-
-// Cross browser testing
