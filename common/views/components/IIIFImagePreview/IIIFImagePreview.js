@@ -19,14 +19,17 @@ const ImagePreview = styled.div`
   overflow: hidden;
   text-align: center;
 
-  img {
-    width: auto;
-  }
   a {
-    display: inline-flex;
-    align-items: flex-end;
+    display: inline-block;
     padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
     cursor: zoom-in;
+  }
+
+  img {
+    display: block;
+    max-height: 400px;
+    max-width: 100%;
+    width: auto;
   }
 
   button {
@@ -63,10 +66,9 @@ const IIIFImagePreview = ({
             width={width}
             contentUrl={imageContentUrl}
             lazyload={true}
-            sizesQueries="(min-width: 940px) 800px, (min-width: 600px) 88.75vw, calc(100vw - 36px)"
+            sizesQueries=""
             alt=""
-            defaultSize={1010}
-            extraClasses="margin-h-auto width-auto full-height full-max-width block"
+            defaultSize={30}
           />
           <Control type="dark" text="View larger image" icon="zoomIn" />
         </a>
@@ -76,3 +78,4 @@ const IIIFImagePreview = ({
 };
 
 export default IIIFImagePreview;
+// TODO thumbnail service for non landscape...
