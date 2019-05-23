@@ -217,8 +217,8 @@ export const WorkPage = ({ work }: Props) => {
       </div>
 
       {iiifPresentationManifests &&
-        iiifPresentationManifests.map((test, i) => (
-          <ManifestContext.Provider value={test} key={i}>
+        iiifPresentationManifests.map((manifest, i) => (
+          <ManifestContext.Provider value={manifest} key={i}>
             <SpacingComponent>
               <div
                 className={classNames({
@@ -235,6 +235,9 @@ export const WorkPage = ({ work }: Props) => {
                             itemUrl={itemUrl({
                               workId: work.id,
                               sierraId: sierraIdFromPresentationManifestUrl,
+                              manifestId: manifest['@id'].match(
+                                /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                              )[1],
                               langCode: work.language && work.language.id,
                               page: 1,
                               canvas: 1,
@@ -267,6 +270,7 @@ export const WorkPage = ({ work }: Props) => {
                         itemUrl={itemUrl({
                           workId: work.id,
                           sierraId: sierraIdFromPresentationManifestUrl,
+                          manifestId: null,
                           langCode: work.language && work.language.id,
                           page: 1,
                           canvas: 1,

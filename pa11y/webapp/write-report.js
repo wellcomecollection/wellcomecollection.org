@@ -15,7 +15,7 @@ const urls = [
   'https://wellcomecollection.org/works',
   'https://wellcomecollection.org/works?query=health',
   'https://wellcomecollection.org/works/cjwep3ze?query=health&page=1',
-  'https://wellcomecollection.org/works/e7vav3ss/items?page=1&canvas=1&sierraId=b28136615&langCode=eng',
+  'https://wellcomecollection.org/works/e7vav3ss/items?page=1&canvas=1&sierraId=b28136615&manifestId=&langCode=eng',
   'https://wellcomecollection.org/what-we-do',
 ];
 

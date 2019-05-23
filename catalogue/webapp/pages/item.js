@@ -31,6 +31,7 @@ const IframePdfViewer = styled.iframe`
 type Props = {|
   workId: string,
   sierraId: string,
+  manifestId: string,
   langCode: string,
   manifest: ?IIIFManifest,
   work: ?(Work | CatalogueApiError),
@@ -80,6 +81,7 @@ async function getCanvasOcr(canvas) {
 const ItemPage = ({
   workId,
   sierraId,
+  manifestId,
   langCode,
   manifest,
   work,
@@ -137,6 +139,7 @@ const ItemPage = ({
       canvas: canvasIndex + 1,
       langCode,
       sierraId,
+      manifestId,
     }),
   };
 
@@ -226,6 +229,7 @@ const ItemPage = ({
           itemsLocationsLocationType={itemsLocationsLocationType}
           pageIndex={pageIndex}
           sierraId={sierraId}
+          manifestId={manifestId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
           iiifImageLocationUrl={iiifImageLocationUrl}
@@ -240,6 +244,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     workId,
     sierraId,
+    manifestId,
     langCode,
     query,
     page = 1,
@@ -248,11 +253,12 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   } = ctx.query;
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
-  const manifest = sierraId
-    ? await (await fetch(
-        `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
-      )).json()
+  const manifestUrl = manifestId
+    ? `https://wellcomelibrary.org/iiif/${manifestId}/manifest`
+    : sierraId
+    ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
+  const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null; // TODO can we just use manifestId for both - do we need sierraId for something else?
 
   // The sierraId originates from the iiif presentation manifest url
   // If we don't have one, we must be trying to display a work with an iiif image location,
@@ -267,6 +273,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   return {
     workId,
     sierraId,
+    manifestId,
     langCode,
     manifest,
     pageSize,

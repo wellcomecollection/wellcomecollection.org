@@ -24,6 +24,7 @@ type WorkUrlProps = {|
 type ItemUrlProps = {|
   workId: string,
   sierraId: ?string,
+  manifestId: ?string,
   langCode: string,
   canvas: number,
   page: ?number,
@@ -85,6 +86,7 @@ export function itemUrl({
   workId,
   page,
   sierraId,
+  manifestId,
   langCode,
   canvas,
 }: ItemUrlProps): NextLinkType {
@@ -97,6 +99,7 @@ export function itemUrl({
           page: page && page > 1 ? page : undefined,
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
+          manifestId: manifestId,
           langCode: langCode,
         }),
       },
@@ -107,6 +110,7 @@ export function itemUrl({
         page: page && page > 1 ? page : undefined,
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
+        manifestId: manifestId,
         langCode: langCode,
       }),
     },

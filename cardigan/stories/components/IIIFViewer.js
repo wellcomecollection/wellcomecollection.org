@@ -21,6 +21,7 @@ const IIIFViewerExample = () => {
 
   const workId = 'pxc98cnk';
   const sierraId = 'b21538906';
+  const manifestId = null;
   const langCode = 'eng';
   const pageSize = 4;
   const pageIndex = 2;
@@ -37,6 +38,7 @@ const IIIFViewerExample = () => {
       workType: null,
       langCode,
       sierraId,
+      manifestId,
     }),
   };
 
@@ -73,6 +75,7 @@ const IIIFViewerExample = () => {
       itemsLocationsLocationType={null}
       pageIndex={pageIndex}
       sierraId={sierraId}
+      manifestId={manifestId}
       pageSize={pageSize}
       canvasIndex={canvasIndex}
     />
