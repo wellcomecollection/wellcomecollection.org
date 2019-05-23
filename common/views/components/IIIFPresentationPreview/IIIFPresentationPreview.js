@@ -19,6 +19,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 const PresentationPreview = styled.div`
   overflow: hidden;
   text-align: center;
+  position: relative;
   a {
     display: inline-flex;
     align-items: flex-end;
@@ -37,6 +38,7 @@ const PresentationPreview = styled.div`
   }
   .btn--primary {
     position: absolute;
+    z-index: 1;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);

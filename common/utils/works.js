@@ -99,12 +99,23 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
+function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
+  return iiifManifest.manifests || [];
+}
+// TODO move these functions somewhere more appropriate
 export function getManifestViewType(iiifManifest: IIIFManifest) {
+  const manifests = getManifests(iiifManifest);
   const canvases = getCanvases(iiifManifest);
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return canvases.length > 0 ? 'iiif' : pdfRendering ? 'pdf' : 'none';
+  return manifests.length > 0
+    ? 'multi'
+    : canvases.length > 0
+    ? 'iiif'
+    : pdfRendering
+    ? 'pdf'
+    : 'none';
 }
 
 export type IIIFPresentationLocation = {|

@@ -32,13 +32,24 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
 type Props = {|
   work: Work | CatalogueApiError,
 |};
 
+const getManifests = async function(manifests) {
+  const data = Promise.all(
+    manifests.map(async manifest => (await fetch(manifest['@id'])).json())
+  );
+  return data;
+};
+
 export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
+    null
+  );
+  const [iiifPresentationManifests, setIIIFPresentationManifests] = useState(
     null
   );
   const fetchIIIFPresentationManifest = async () => {
@@ -46,6 +57,12 @@ export const WorkPage = ({ work }: Props) => {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
+      if (manifestData.manifests) {
+        setIIIFPresentationManifests(
+          await getManifests(manifestData.manifests)
+        );
+        console.log(await getManifests(manifestData.manifests));
+      }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
   };
@@ -198,46 +215,84 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
+
+      {iiifPresentationManifests &&
+        iiifPresentationManifests.map((test, i) => (
+          <ManifestContext.Provider value={test} key={i}>
+            <SpacingComponent>
+              <div
+                className={classNames({
+                  'row bg-cream row--has-wobbly-background': true,
+                })}
+              >
+                <div className="container">
+                  <div className="grid">
+                    <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+                      {sierraIdFromPresentationManifestUrl &&
+                        !iiifImageLocationUrl && (
+                          <IIIFPresentationPreview
+                            iiifPresentationLocation={iiifPresentationLocation}
+                            itemUrl={itemUrl({
+                              workId: work.id,
+                              sierraId: sierraIdFromPresentationManifestUrl,
+                              langCode: work.language && work.language.id,
+                              page: 1,
+                              canvas: 1,
+                            })}
+                          />
+                        )}
+                    </div>
+                  </div>
+                </div>
+                <div className="row__wobbly-background" />
+              </div>
+            </SpacingComponent>
+          </ManifestContext.Provider>
+        ))}
+
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        <div
-          className={classNames({
-            'row bg-cream row--has-wobbly-background': true,
-          })}
-        >
-          <div className="container">
-            <div className="grid">
-              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-                  <IIIFPresentationPreview
-                    iiifPresentationLocation={iiifPresentationLocation}
-                    itemUrl={itemUrl({
-                      workId: work.id,
-                      sierraId: sierraIdFromPresentationManifestUrl,
-                      langCode: work.language && work.language.id,
-                      page: 1,
-                      canvas: 1,
-                    })}
-                  />
-                )}
-                {iiifImageLocationUrl && (
-                  <IIIFImagePreview
-                    id={work.id}
-                    iiifUrl={iiifImageLocationUrl}
-                    itemUrl={itemUrl({
-                      workId: work.id,
-                      sierraId: null,
-                      langCode: work.language && work.language.id,
-                      page: 1,
-                      canvas: 1,
-                    })}
-                    title={work.title}
-                  />
-                )}
+        {!iiifPresentationManifests && (
+          <div
+            className={classNames({
+              'row bg-cream row--has-wobbly-background': true,
+            })}
+          >
+            <div className="container">
+              <div className="grid">
+                <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+                  {sierraIdFromPresentationManifestUrl &&
+                    !iiifImageLocationUrl && (
+                      <IIIFPresentationPreview
+                        iiifPresentationLocation={iiifPresentationLocation}
+                        itemUrl={itemUrl({
+                          workId: work.id,
+                          sierraId: sierraIdFromPresentationManifestUrl,
+                          langCode: work.language && work.language.id,
+                          page: 1,
+                          canvas: 1,
+                        })}
+                      />
+                    )}
+                  {iiifImageLocationUrl && (
+                    <IIIFImagePreview
+                      id={work.id}
+                      iiifUrl={iiifImageLocationUrl}
+                      itemUrl={itemUrl({
+                        workId: work.id,
+                        sierraId: null,
+                        langCode: work.language && work.language.id,
+                        page: 1,
+                        canvas: 1,
+                      })}
+                      title={work.title}
+                    />
+                  )}
+                </div>
               </div>
             </div>
+            <div className="row__wobbly-background" />
           </div>
-          <div className="row__wobbly-background" />
-        </div>
+        )}
         <WorkDetails
           work={work}
           licenseInfo={licenseInfo}
