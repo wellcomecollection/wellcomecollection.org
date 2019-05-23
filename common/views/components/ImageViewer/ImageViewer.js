@@ -70,6 +70,7 @@ const ImageViewer = ({
         const osdViewer = OpenSeadragon({
           id: `image-viewer-${viewerId}`,
           showNavigationControl: false,
+          visibilityRatio: 1,
           gestureSettingsMouse: {
             scrollToZoom: false,
           },
