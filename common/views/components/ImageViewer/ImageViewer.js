@@ -23,6 +23,20 @@ function getTileSources(data) {
         },
       ],
     },
+    {
+      '@context': 'http://iiif.io/api/image/2/context.json',
+      '@id': data['@id'],
+      height: data.height,
+      width: data.width,
+      profile: ['http://iiif.io/api/image/2/level2.json'],
+      protocol: 'http://iiif.io/api/image',
+      tiles: [
+        {
+          scaleFactors: [1, 2, 4, 8, 16, 32],
+          width: 400,
+        },
+      ],
+    },
   ];
 }
 
@@ -74,9 +88,38 @@ const ImageViewer = ({
             scrollToZoom: false,
           },
           tileSources: getTileSources(data),
+          collectionMode: true,
+          collectionRows: 1,
         });
         setIsError(false);
         setViewer(osdViewer);
+
+        OpenSeadragon.World.prototype.arrange = function() {
+          const tileSize = 800;
+          let x = 0;
+
+          this.setAutoRefigureSizes(false);
+
+          this._items.forEach((item, i) => {
+            const box = item.getBounds();
+            const width =
+              box.width > box.height
+                ? tileSize
+                : tileSize * (box.width / box.height);
+            const height = width * (box.height / box.width);
+            const position = new OpenSeadragon.Point(
+              x + (tileSize - width) / 2,
+              (tileSize - height) / 2
+            );
+
+            item.setPosition(position, true);
+            item.setWidth(width, true);
+
+            x += width;
+          });
+
+          this.setAutoRefigureSizes(true);
+        };
 
         return osdViewer;
       })
