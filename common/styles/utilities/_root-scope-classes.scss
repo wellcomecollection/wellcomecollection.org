@@ -262,7 +262,7 @@
 .flex-ie-block {
   display: block; // IE
 
-  @supports(color: red) { // IE ignores @supports
+  @supports(display: flex) { // IE ignores @supports
     display: flex;
   }
 }
