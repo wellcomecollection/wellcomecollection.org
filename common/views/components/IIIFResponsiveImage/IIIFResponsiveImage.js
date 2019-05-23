@@ -12,7 +12,7 @@ type Props = {|
   extraClasses?: string,
   lang: ?string,
   isLazy: boolean,
-  clickHandler?: () => void,
+  clickHandler?: () => void | Promise<void>,
 |};
 
 const IIIFResponsiveImage = ({

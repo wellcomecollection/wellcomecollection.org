@@ -6,7 +6,6 @@
   background-color: color('charcoal');
   position: absolute;
   display: none;
-  z-index: 1000;
   top: 0;
   left: 0;
   bottom: 0;
@@ -39,15 +38,6 @@
   bottom: 60px;
   width: 46px;
   z-index: 1;
-}
-
-.image-viewer__error {
-  position: relative;
-  top: 50%;
-  transform: translateY(-70%);
-  max-width: 500px;
-  margin: auto;
-  color: color('white');
 }
 
 .image-viewer__image {
