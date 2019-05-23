@@ -276,7 +276,7 @@ const IIIFPresentationDisplay = ({
           [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
         })}
       >
-        <BetaMessage message="We are working to make this item available online in the near future." />
+        <BetaMessage message="We are working to make this item available online in July 2019." />
       </div>
     );
   } else {
