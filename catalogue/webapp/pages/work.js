@@ -5,7 +5,7 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type Node } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
@@ -33,6 +33,24 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 
+type WobblyProps = {|
+  children: Node,
+|};
+
+const WobblyRow = ({ children }: WobblyProps) => (
+  <div
+    className={classNames({
+      'row bg-cream row--has-wobbly-background': true,
+    })}
+  >
+    <div className="container">
+      <div className="grid">
+        <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>{children}</div>
+      </div>
+    </div>
+    <div className="row__wobbly-background" />
+  </div>
+);
 type Props = {|
   work: Work | CatalogueApiError,
 |};
@@ -199,45 +217,38 @@ export const WorkPage = ({ work }: Props) => {
         </div>
       </div>
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        <div
-          className={classNames({
-            'row bg-cream row--has-wobbly-background': true,
-          })}
-        >
-          <div className="container">
-            <div className="grid">
-              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-                  <IIIFPresentationPreview
-                    iiifPresentationLocation={iiifPresentationLocation}
-                    itemUrl={itemUrl({
-                      workId: work.id,
-                      sierraId: sierraIdFromPresentationManifestUrl,
-                      langCode: work.language && work.language.id,
-                      page: 1,
-                      canvas: 1,
-                    })}
-                  />
-                )}
-                {iiifImageLocationUrl && (
-                  <IIIFImagePreview
-                    id={work.id}
-                    iiifUrl={iiifImageLocationUrl}
-                    itemUrl={itemUrl({
-                      workId: work.id,
-                      sierraId: null,
-                      langCode: work.language && work.language.id,
-                      page: 1,
-                      canvas: 1,
-                    })}
-                    title={work.title}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="row__wobbly-background" />
-        </div>
+        {iiifPresentationManifest &&
+          sierraIdFromPresentationManifestUrl &&
+          !iiifImageLocationUrl && (
+            <WobblyRow>
+              <IIIFPresentationPreview
+                iiifPresentationLocation={iiifPresentationLocation}
+                itemUrl={itemUrl({
+                  workId: work.id,
+                  sierraId: sierraIdFromPresentationManifestUrl,
+                  langCode: work.language && work.language.id,
+                  page: 1,
+                  canvas: 1,
+                })}
+              />
+            </WobblyRow>
+          )}
+        {iiifImageLocationUrl && (
+          <WobblyRow>
+            <IIIFImagePreview
+              id={work.id}
+              iiifUrl={iiifImageLocationUrl}
+              itemUrl={itemUrl({
+                workId: work.id,
+                sierraId: null,
+                langCode: work.language && work.language.id,
+                page: 1,
+                canvas: 1,
+              })}
+              title={work.title}
+            />
+          </WobblyRow>
+        )}
         <WorkDetails
           work={work}
           licenseInfo={licenseInfo}
