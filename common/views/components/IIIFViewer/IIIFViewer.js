@@ -265,6 +265,7 @@ type IIIFViewerProps = {|
   canvasIndex: number,
   iiifImageLocationUrl: ?string,
   imageUrl: ?string,
+  manifest: IIIFManifest,
 |};
 
 const IIIFViewerComponent = ({
@@ -284,6 +285,7 @@ const IIIFViewerComponent = ({
   canvasIndex,
   iiifImageLocationUrl,
   imageUrl,
+  manifest,
 }: IIIFViewerProps) => {
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
@@ -306,6 +308,7 @@ const IIIFViewerComponent = ({
         <IIIFViewerImageWrapper>
           {iiifImageLocationUrl && imageUrl && (
             <ImageViewer
+              manifest={manifest}
               infoUrl={iiifImageLocationUrl}
               src={imageUrl}
               id={imageUrl}
@@ -317,6 +320,7 @@ const IIIFViewerComponent = ({
           )}
           {mainImageService['@id'] && currentCanvas && (
             <ImageViewer
+              manifest={manifest}
               id="item-page"
               infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
               src={urlTemplate && urlTemplate({ size: '640,' })}

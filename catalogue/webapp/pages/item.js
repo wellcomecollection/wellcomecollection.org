@@ -214,6 +214,7 @@ const ItemPage = ({
       {((mainImageService && currentCanvas && navigationCanvases) ||
         (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
+          manifest={manifest}
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           currentCanvas={currentCanvas}

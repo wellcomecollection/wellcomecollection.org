@@ -4,40 +4,25 @@ import fetch from 'isomorphic-unfetch';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import { spacing, classNames } from '../../../utils/classnames';
-import Raven from 'raven-js';
+// import Raven from 'raven-js';
 import { trackEvent } from '../../../utils/ga';
+import { convertIiifUriToInfoUri } from '../../../utils/convert-image-uri';
 
 function getTileSources(data) {
-  return [
-    {
-      '@context': 'http://iiif.io/api/image/2/context.json',
-      '@id': data['@id'],
-      height: data.height,
-      width: data.width,
-      profile: ['http://iiif.io/api/image/2/level2.json'],
-      protocol: 'http://iiif.io/api/image',
-      tiles: [
-        {
-          scaleFactors: [1, 2, 4, 8, 16, 32],
-          width: 400,
-        },
-      ],
-    },
-    {
-      '@context': 'http://iiif.io/api/image/2/context.json',
-      '@id': data['@id'],
-      height: data.height,
-      width: data.width,
-      profile: ['http://iiif.io/api/image/2/level2.json'],
-      protocol: 'http://iiif.io/api/image',
-      tiles: [
-        {
-          scaleFactors: [1, 2, 4, 8, 16, 32],
-          width: 400,
-        },
-      ],
-    },
-  ];
+  return data.map(d => ({
+    '@context': 'http://iiif.io/api/image/2/context.json',
+    '@id': d['@id'],
+    height: d.height,
+    width: d.width,
+    profile: ['http://iiif.io/api/image/2/level2.json'],
+    protocol: 'http://iiif.io/api/image',
+    tiles: [
+      {
+        scaleFactors: [1, 2, 4, 8, 16, 32],
+        width: 400,
+      },
+    ],
+  }));
 }
 
 type ImageViewerProps = {|
@@ -49,6 +34,7 @@ type ImageViewerProps = {|
   canvasOcr: ?string,
   infoUrl: string,
   lang: ?string,
+  manifest: any,
 |};
 
 const ImageViewer = ({
@@ -60,77 +46,100 @@ const ImageViewer = ({
   infoUrl,
   src,
   srcSet,
+  manifest,
 }: ImageViewerProps) => {
+  const [pageIndex, setPageIndex] = useState(0);
   const [viewer, setViewer] = useState(null);
   const [isError, setIsError] = useState(false);
   const zoomStep = 0.5;
 
   useEffect(() => {
     if (viewer) {
-      fetch(infoUrl)
-        .then(response => response.json())
-        .then(data => {
-          viewer.open(getTileSources(data));
-        });
+      getLeftRightPageData().then(d => {
+        viewer.open(getTileSources(d));
+      });
     }
-  }, [infoUrl]);
+  }, [pageIndex]);
+
+  async function getLeftRightPageData() {
+    const leftInfoUrl = convertIiifUriToInfoUri(
+      manifest.sequences[0].canvases[pageIndex].images[0].resource.service[
+        '@id'
+      ]
+    );
+    const rightInfoUrl = convertIiifUriToInfoUri(
+      manifest.sequences[0].canvases[pageIndex + 1].images[0].resource.service[
+        '@id'
+      ]
+    );
+
+    const leftPromise = fetch(leftInfoUrl).then(res => res.json());
+    const rightPromise = fetch(rightInfoUrl).then(res => res.json());
+    const [left, right] = await Promise.all([leftPromise, rightPromise]);
+
+    return [left, right];
+  }
 
   async function setupViewer(imageInfoSrc, viewerId) {
+    const leftInfoUrl = convertIiifUriToInfoUri(
+      manifest.sequences[0].canvases[pageIndex].images[0].resource.service[
+        '@id'
+      ]
+    );
+    const rightInfoUrl = convertIiifUriToInfoUri(
+      manifest.sequences[0].canvases[pageIndex + 1].images[0].resource.service[
+        '@id'
+      ]
+    );
+
+    const leftPromise = fetch(leftInfoUrl).then(res => res.json());
+    const rightPromise = fetch(rightInfoUrl).then(res => res.json());
+    const leftAndRight = await Promise.all([leftPromise, rightPromise]);
+
     const { default: OpenSeadragon } = await import('openseadragon');
 
-    return fetch(imageInfoSrc)
-      .then(response => response.json())
-      .then(data => {
-        const osdViewer = OpenSeadragon({
-          id: `image-viewer-${viewerId}`,
-          showNavigationControl: false,
-          gestureSettingsMouse: {
-            scrollToZoom: false,
-          },
-          tileSources: getTileSources(data),
-          collectionMode: true,
-          collectionRows: 1,
-        });
-        setIsError(false);
-        setViewer(osdViewer);
+    const osdViewer = OpenSeadragon({
+      id: `image-viewer-${viewerId}`,
+      showNavigationControl: false,
+      gestureSettingsMouse: {
+        scrollToZoom: false,
+      },
+      tileSources: getTileSources(leftAndRight),
+      collectionMode: true,
+      collectionRows: 1,
+    });
+    setIsError(false);
+    setViewer(osdViewer);
 
-        OpenSeadragon.World.prototype.arrange = function() {
-          const tileSize = 800;
-          let x = 0;
+    // Arrange two-up
+    OpenSeadragon.World.prototype.arrange = function() {
+      const tileSize = 800;
+      let x = 0;
 
-          this.setAutoRefigureSizes(false);
+      this.setAutoRefigureSizes(false);
 
-          this._items.forEach((item, i) => {
-            const box = item.getBounds();
-            const width =
-              box.width > box.height
-                ? tileSize
-                : tileSize * (box.width / box.height);
-            const height = width * (box.height / box.width);
-            const position = new OpenSeadragon.Point(
-              x + (tileSize - width) / 2,
-              (tileSize - height) / 2
-            );
+      this._items.forEach((item, i) => {
+        const box = item.getBounds();
+        const width =
+          box.width > box.height
+            ? tileSize
+            : tileSize * (box.width / box.height);
+        const height = width * (box.height / box.width);
+        const position = new OpenSeadragon.Point(
+          x + (tileSize - width) / 2,
+          (tileSize - height) / 2
+        );
 
-            item.setPosition(position, true);
-            item.setWidth(width, true);
+        item.setPosition(position, true);
+        item.setWidth(width, true);
 
-            x += width;
-          });
-
-          this.setAutoRefigureSizes(true);
-        };
-
-        return osdViewer;
-      })
-      .catch(error => {
-        Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
-          tags: {
-            service: 'dlcs',
-          },
-        });
-        setIsError(true);
+        x += width;
       });
+
+      this.setAutoRefigureSizes(true);
+    };
+
+    return osdViewer;
   }
 
   async function handleRotate() {
@@ -197,6 +206,24 @@ const ImageViewer = ({
     });
   }
 
+  async function handleNext() {
+    if (pageIndex + 1 > manifest.sequences[0].canvases.length) return;
+    if (pageIndex + 2 > manifest.sequences[0].canvases.length) {
+      return setPageIndex(pageIndex + 1);
+    }
+
+    return setPageIndex(pageIndex + 2);
+  }
+
+  async function handlePrev() {
+    if (pageIndex - 1 < 0) return;
+    if (pageIndex - 2 < 0) {
+      return setPageIndex(pageIndex - 1);
+    }
+
+    return setPageIndex(pageIndex - 2);
+  }
+
   return (
     <div
       className={classNames({
@@ -224,7 +251,27 @@ const ImageViewer = ({
           type="light"
           text="Zoom out"
           icon="zoomOut"
+          extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
           clickHandler={handleZoomOut}
+        />
+
+        <Control
+          type="light"
+          text="Prev"
+          icon="chevron"
+          extraClasses={`icon--180 ${spacing(
+            { s: 1 },
+            { margin: ['bottom'] }
+          )}`}
+          clickHandler={handlePrev}
+        />
+
+        <Control
+          type="light"
+          text="Next"
+          icon="chevron"
+          extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
+          clickHandler={handleNext}
         />
       </div>
 
