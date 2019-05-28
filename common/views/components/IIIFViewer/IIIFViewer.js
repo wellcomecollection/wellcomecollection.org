@@ -1,5 +1,6 @@
 // @flow
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
@@ -106,7 +107,7 @@ const IIIFViewerMain = styled.div.attrs(props => ({
 
   @media (min-width: ${props => props.theme.sizes.medium}px) {
     height: 100%;
-    width: ${props => (props.hasThumbs ? '75%' : '100%')};
+    width: ${props => (props.hasThumbs && !props.isEnhanced ? '75%' : '100%')};
   }
 `;
 
@@ -285,6 +286,7 @@ const IIIFViewerComponent = ({
   iiifImageLocationUrl,
   imageUrl,
 }: IIIFViewerProps) => {
+  const [enhanced, setEnhanced] = useState(false);
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
@@ -300,9 +302,13 @@ const IIIFViewerComponent = ({
       .join(',');
   const showThumbnails = navigationCanvases && navigationCanvases.length > 0;
 
+  useEffect(() => {
+    setEnhanced(true);
+  }, []);
+
   return (
     <IIIFViewer>
-      <IIIFViewerMain hasThumbs={showThumbnails}>
+      <IIIFViewerMain hasThumbs={showThumbnails} isEnhanced={enhanced}>
         <Paginator {...mainPaginatorProps} render={XOfY} />
         <IIIFViewerImageWrapper>
           {iiifImageLocationUrl && imageUrl && (
@@ -334,7 +340,7 @@ const IIIFViewerComponent = ({
         </IIIFViewerPaginatorButtons>
       </IIIFViewerMain>
 
-      {showThumbnails && (
+      {showThumbnails && !enhanced && (
         <IIIFViewerThumbs>
           {imageUrl && (
             <IIIFViewerThumb key={imageUrl}>
