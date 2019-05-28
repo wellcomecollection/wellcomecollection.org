@@ -165,6 +165,7 @@ const ItemPage = ({
       imageUrl={'imageContentUrl'}
       imageAltText={''}
       hideNewsletterPromo={true}
+      hideFooter={true}
     >
       <Layout12>
         <div
