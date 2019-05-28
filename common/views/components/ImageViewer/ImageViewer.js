@@ -49,8 +49,12 @@ const ImageViewer = ({
 }: ImageViewerProps) => {
   const [viewer, setViewer] = useState(null);
   const [isError, setIsError] = useState(false);
+  const [enhanced, setEnhanced] = useState(false);
   const zoomStep = 0.5;
 
+  useEffect(() => {
+    setEnhanced(true);
+  }, []);
   useEffect(() => {
     if (viewer) {
       fetch(infoUrl)
@@ -160,30 +164,32 @@ const ImageViewer = ({
         'image-viewer__content': true,
       })}
     >
-      <div className="image-viewer__controls">
-        <Control
-          type="light"
-          text="Rotate"
-          icon="rotateRight"
-          extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
-          clickHandler={handleRotate}
-        />
+      {enhanced && (
+        <div className="image-viewer__controls">
+          <Control
+            type="light"
+            text="Rotate"
+            icon="rotateRight"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
+            clickHandler={handleRotate}
+          />
 
-        <Control
-          type="light"
-          text="Zoom in"
-          icon="zoomIn"
-          extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
-          clickHandler={handleZoomIn}
-        />
+          <Control
+            type="light"
+            text="Zoom in"
+            icon="zoomIn"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
+            clickHandler={handleZoomIn}
+          />
 
-        <Control
-          type="light"
-          text="Zoom out"
-          icon="zoomOut"
-          clickHandler={handleZoomOut}
-        />
-      </div>
+          <Control
+            type="light"
+            text="Zoom out"
+            icon="zoomOut"
+            clickHandler={handleZoomOut}
+          />
+        </div>
+      )}
 
       <div
         id={`image-viewer-${id}`}
