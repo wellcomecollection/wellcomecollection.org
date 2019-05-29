@@ -143,7 +143,7 @@ const IIIFViewer = styled.div.attrs(props => ({
     'flex flex--wrap': true,
   }),
 }))`
-  /* position: fixed; */
+  position: fixed;
   top: 100px;
   height: calc(100vh - 100px);
   width: 100vw;
@@ -191,8 +191,10 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
   return (
     <img
       lang={lang}
-      width={smallestWidthImageDimensions.width}
-      height={smallestWidthImageDimensions.height}
+      width={smallestWidthImageDimensions && smallestWidthImageDimensions.width}
+      height={
+        smallestWidthImageDimensions && smallestWidthImageDimensions.height
+      }
       className={classNames({
         image: true,
         lazyload: true,
@@ -204,7 +206,13 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
           },
         })
       }
-      data-src={urlTemplate({ size: `${smallestWidthImageDimensions.width},` })}
+      data-src={urlTemplate({
+        size: `${
+          smallestWidthImageDimensions
+            ? smallestWidthImageDimensions.width
+            : '!100'
+        },`,
+      })}
       alt={''}
     />
   );
@@ -298,6 +306,7 @@ const IIIFViewerComponent = ({
   iiifImageLocationUrl,
   imageUrl,
 }: IIIFViewerProps) => {
+  const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
@@ -320,6 +329,14 @@ const IIIFViewerComponent = ({
 
   return (
     <IIIFViewer>
+      <div
+        style={{ position: 'absolute', top: '-50px' }}
+        onClick={() => {
+          setShowThumbs(!showThumbs);
+        }}
+      >
+        toggle thumbs
+      </div>
       <IIIFViewerMain hasThumbs={showThumbnails} isEnhanced={enhanced}>
         <Paginator {...mainPaginatorProps} render={XOfY} />
         <IIIFViewerImageWrapper>
@@ -351,34 +368,49 @@ const IIIFViewerComponent = ({
           <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
         </IIIFViewerPaginatorButtons>
       </IIIFViewerMain>
-
+      {/* TODO use styled component */}
       {enhanced && (
-        <div style={{ width: '100%', height: '500px', overflow: 'scroll' }}>
+        <div
+          style={{
+            height: 'calc(100vh - 100px)',
+            width: '100%',
+            overflow: 'scroll',
+            position: 'fixed',
+            top: '100px',
+            background: 'red',
+            transform: showThumbs ? 'translateY(100%)' : 'translateY(0%)',
+            transition: 'transform 700ms ease',
+            zIndex: 1,
+          }}
+        >
           {canvases &&
-            canvases.map((canvas, i) => (
-              <IIIFViewerThumb key={canvas['@id']}>
-                <NextLink
-                  {...itemUrl({
-                    workId,
-                    page: pageIndex + 1,
-                    sierraId,
-                    langCode: lang,
-                    canvas: i + 1,
-                  })}
-                  scroll={false}
-                  replace
-                  passHref
-                >
-                  <IIIFViewerThumbLink isActive={false}>
-                    <IIIFViewerThumbNumber>
-                      <span className="visually-hidden">image </span>
-                      {i + 1}
-                    </IIIFViewerThumbNumber>
-                    <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
-                  </IIIFViewerThumbLink>
-                </NextLink>
-              </IIIFViewerThumb>
-            ))}
+            canvases.map((canvas, i) => {
+              const isActive = canvasIndex === i;
+              return (
+                <IIIFViewerThumb key={canvas['@id']}>
+                  <NextLink
+                    {...itemUrl({
+                      workId,
+                      page: pageIndex + 1,
+                      sierraId,
+                      langCode: lang,
+                      canvas: i + 1,
+                    })}
+                    scroll={false}
+                    replace
+                    passHref
+                  >
+                    <IIIFViewerThumbLink isActive={isActive}>
+                      <IIIFViewerThumbNumber>
+                        <span className="visually-hidden">image </span>
+                        {i + 1}
+                      </IIIFViewerThumbNumber>
+                      <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
+                    </IIIFViewerThumbLink>
+                  </NextLink>
+                </IIIFViewerThumb>
+              );
+            })}
         </div>
       )}
       {/* rename show static thumbs - or put in noscript? */}

@@ -78,7 +78,7 @@ type Props = {|
   canvasIndex: number,
   canvasOcr: ?string,
   canvases: ?[],
-  currentCanvas: ?{},
+  currentCanvas: ?any,
   itemsLocationsLocationType: ?(string[]),
   workType: ?(string[]),
   query: ?string,
