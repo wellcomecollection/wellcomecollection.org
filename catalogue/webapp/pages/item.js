@@ -28,20 +28,11 @@ const IframePdfViewer = styled.iframe`
   border: none;
 `;
 
-type Props = {|
-  workId: string,
-  sierraId: string,
-  langCode: string,
-  manifest: ?IIIFManifest,
-  work: ?(Work | CatalogueApiError),
-  pageSize: number,
-  pageIndex: number,
-  canvasIndex: number,
-  canvasOcr: ?string,
-  itemsLocationsLocationType: ?(string[]),
-  workType: ?(string[]),
-  query: ?string,
-|};
+const TitleContainer = styled.div`
+  position: fixed;
+  top: 100px;
+  height: 100px;
+`;
 
 async function getCanvasOcr(canvas) {
   const textContent =
@@ -76,6 +67,22 @@ async function getCanvasOcr(canvas) {
     }
   }
 }
+type Props = {|
+  workId: string,
+  sierraId: string,
+  langCode: string,
+  manifest: ?IIIFManifest,
+  work: ?(Work | CatalogueApiError),
+  pageSize: number,
+  pageIndex: number,
+  canvasIndex: number,
+  canvasOcr: ?string,
+  canvases: ?[],
+  currentCanvas: ?{},
+  itemsLocationsLocationType: ?(string[]),
+  workType: ?(string[]),
+  query: ?string,
+|};
 
 const ItemPage = ({
   workId,
@@ -87,13 +94,12 @@ const ItemPage = ({
   pageIndex,
   canvasIndex,
   canvasOcr,
+  canvases,
+  currentCanvas,
   itemsLocationsLocationType,
   workType,
   query,
 }: Props) => {
-  const canvases =
-    manifest && manifest.sequences && manifest.sequences[0].canvases;
-  const currentCanvas = canvases && canvases[canvasIndex];
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const [iiifImageLocation] =
     work && work.items
@@ -166,39 +172,42 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
+      headerFixed={true}
     >
       <Layout12>
-        <div
-          className={classNames({
-            [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-            [spacing({ s: 6 }, { padding: ['top'] })]: true,
-          })}
-        >
-          <TruncatedText
-            text={title}
-            as="h1"
+        <TitleContainer>
+          <div
             className={classNames({
-              [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
-            })}
-            title={title}
-            lang={langCode}
-          >
-            {title}
-          </TruncatedText>
-          <NextLink
-            {...workUrl({
-              id: workId,
+              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+              [spacing({ s: 6 }, { padding: ['top'] })]: true,
             })}
           >
-            <a
+            <TruncatedText
+              text={title}
+              as="h1"
               className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
+              })}
+              title={title}
+              lang={langCode}
+            >
+              {title}
+            </TruncatedText>
+            <NextLink
+              {...workUrl({
+                id: workId,
               })}
             >
-              Overview
-            </a>
-          </NextLink>
-        </div>
+              <a
+                className={classNames({
+                  [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                })}
+              >
+                Overview
+              </a>
+            </NextLink>
+          </div>
+        </TitleContainer>
         {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
           <div
             className={classNames({
@@ -220,6 +229,7 @@ const ItemPage = ({
           currentCanvas={currentCanvas}
           lang={langCode}
           canvasOcr={canvasOcr}
+          canvases={canvases}
           navigationCanvases={navigationCanvases}
           workId={workId}
           query={query}
@@ -275,6 +285,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     canvasIndex,
     canvasOcr,
     work,
+    canvases,
+    currentCanvas,
     // TODO: add these back in, it's just makes it easier to check the URLs
     itemsLocationsLocationType: null,
     workType: null,

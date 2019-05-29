@@ -1,6 +1,7 @@
 // @flow
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import Raven from 'raven-js';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
@@ -136,14 +137,16 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
     transition: border-color 200ms ease;
   }
 `;
-
+// TODO enhanced only fixed position and correct heights
 const IIIFViewer = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--wrap': true,
   }),
 }))`
+  /* position: fixed; */
+  top: 100px;
+  height: calc(100vh - 100px);
   width: 100vw;
-  height: 90vh;
   flex-direction: row-reverse;
 
   img {
@@ -169,6 +172,9 @@ const IIIFViewerImageWrapper = styled.div.attrs(props => ({
   right: 0;
   bottom: 60px;
   left: 0;
+  /* position: fixed;
+  top: 100px;
+  height: calc(100vh - 100px); */
 `;
 
 type IIIFCanvasThumbnailProps = {|
@@ -179,23 +185,27 @@ type IIIFCanvasThumbnailProps = {|
 const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidth = thumbnailService.sizes[0].width;
-  const srcSet = thumbnailService.sizes
-    .map(({ width }) => {
-      return `${urlTemplate({ size: `${width},` })} ${width}w`;
-    })
-    .join(',');
-
+  const smallestWidthImageDimensions = thumbnailService.sizes
+    .sort((a, b) => a.width - b.width)
+    .find(dimensions => dimensions.width);
   return (
-    <IIIFResponsiveImage
+    <img
       lang={lang}
-      width={canvas.width}
-      height={canvas.height}
-      src={urlTemplate({ size: `${smallestWidth},` })}
-      srcSet={srcSet}
-      alt=""
-      sizes={`(min-width: 600px) 200px, 100px`}
-      isLazy={false}
+      width={smallestWidthImageDimensions.width}
+      height={smallestWidthImageDimensions.height}
+      className={classNames({
+        image: true,
+        lazyload: true,
+      })}
+      onError={event =>
+        Raven.captureException(new Error('IIIF image loading error'), {
+          tags: {
+            service: 'dlcs',
+          },
+        })
+      }
+      data-src={urlTemplate({ size: `${smallestWidthImageDimensions.width},` })}
+      alt={''}
     />
   );
 };
@@ -255,6 +265,7 @@ type IIIFViewerProps = {|
   currentCanvas: ?IIIFCanvas,
   lang: string,
   canvasOcr: ?string,
+  canvases: ?[],
   navigationCanvases: ?(IIIFCanvas[]),
   workId: string,
   query: ?string,
@@ -274,6 +285,7 @@ const IIIFViewerComponent = ({
   currentCanvas,
   lang,
   canvasOcr,
+  canvases,
   navigationCanvases,
   workId,
   query,
@@ -340,6 +352,36 @@ const IIIFViewerComponent = ({
         </IIIFViewerPaginatorButtons>
       </IIIFViewerMain>
 
+      {enhanced && (
+        <div style={{ width: '100%', height: '500px', overflow: 'scroll' }}>
+          {canvases &&
+            canvases.map((canvas, i) => (
+              <IIIFViewerThumb key={canvas['@id']}>
+                <NextLink
+                  {...itemUrl({
+                    workId,
+                    page: pageIndex + 1,
+                    sierraId,
+                    langCode: lang,
+                    canvas: i + 1,
+                  })}
+                  scroll={false}
+                  replace
+                  passHref
+                >
+                  <IIIFViewerThumbLink isActive={false}>
+                    <IIIFViewerThumbNumber>
+                      <span className="visually-hidden">image </span>
+                      {i + 1}
+                    </IIIFViewerThumbNumber>
+                    <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
+                  </IIIFViewerThumbLink>
+                </NextLink>
+              </IIIFViewerThumb>
+            ))}
+        </div>
+      )}
+      {/* rename show static thumbs - or put in noscript? */}
       {showThumbnails && !enhanced && (
         <IIIFViewerThumbs>
           {imageUrl && (
