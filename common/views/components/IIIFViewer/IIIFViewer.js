@@ -177,6 +177,30 @@ const IIIFViewerImageWrapper = styled.div.attrs(props => ({
   height: calc(100vh - 100px); */
 `;
 
+function scrollIntoViewIfOutOfView(container, index) {
+  const itemToScroll = container.children.item(index);
+  if (itemToScroll) {
+    const inView = checkInView(container, itemToScroll, true);
+    !inView && itemToScroll.scrollIntoView();
+  }
+}
+
+function checkInView(container, element, includePartialView) {
+  const containerTop = container.scrollTop;
+  const containerBottom = containerTop + container.clientHeight;
+  const elementTop = element.offsetTop;
+  const elementBottom = elementTop + element.clientHeight;
+
+  const completelyInView =
+    elementTop >= containerTop && elementBottom <= containerBottom;
+  let partiallyInView =
+    includePartialView &&
+    ((elementTop < containerTop && elementBottom > containerTop) ||
+      (elementBottom > containerBottom && elementTop < containerBottom));
+
+  return completelyInView || partiallyInView;
+}
+
 type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
   lang: string,
@@ -330,10 +354,8 @@ const IIIFViewerComponent = ({
   }, []);
 
   useEffect(() => {
-    const currentThumbnail =
-      thumbContainer.current &&
-      thumbContainer.current.children.item(canvasIndex);
-    currentThumbnail && currentThumbnail.scrollIntoView();
+    thumbContainer.current &&
+      scrollIntoViewIfOutOfView(thumbContainer.current, canvasIndex);
   });
 
   return (
