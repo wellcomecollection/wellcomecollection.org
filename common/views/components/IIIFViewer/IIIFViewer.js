@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Raven from 'raven-js';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
@@ -308,6 +308,8 @@ const IIIFViewerComponent = ({
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
+  const thumbContainer = useRef(null);
+
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
@@ -327,16 +329,23 @@ const IIIFViewerComponent = ({
     setEnhanced(true);
   }, []);
 
+  useEffect(() => {
+    const currentThumbnail =
+      thumbContainer.current &&
+      thumbContainer.current.children.item(canvasIndex);
+    currentThumbnail && currentThumbnail.scrollIntoView();
+  });
+
   return (
     <IIIFViewer>
-      <div
+      <button
         style={{ position: 'absolute', top: '-50px' }}
         onClick={() => {
           setShowThumbs(!showThumbs);
         }}
       >
         toggle thumbs
-      </div>
+      </button>
       <IIIFViewerMain hasThumbs={showThumbnails} isEnhanced={enhanced}>
         <Paginator {...mainPaginatorProps} render={XOfY} />
         <IIIFViewerImageWrapper>
@@ -379,9 +388,10 @@ const IIIFViewerComponent = ({
             top: '100px',
             background: 'red',
             transform: showThumbs ? 'translateY(100%)' : 'translateY(0%)',
-            transition: 'transform 700ms ease',
+            transition: 'transform 400ms ease',
             zIndex: 1,
           }}
+          ref={thumbContainer}
         >
           {canvases &&
             canvases.map((canvas, i) => {
@@ -400,7 +410,12 @@ const IIIFViewerComponent = ({
                     replace
                     passHref
                   >
-                    <IIIFViewerThumbLink isActive={isActive}>
+                    <IIIFViewerThumbLink
+                      isActive={isActive}
+                      onClick={() => {
+                        setShowThumbs(!showThumbs);
+                      }}
+                    >
                       <IIIFViewerThumbNumber>
                         <span className="visually-hidden">image </span>
                         {i + 1}
