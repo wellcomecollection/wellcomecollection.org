@@ -131,7 +131,10 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
 }))`
   height: 100%;
 
-  img {
+  .lazyload {
+    display: block;
+  }
+  .lazyloaded {
     border: 3px solid
       ${props => (props.isActive ? props.theme.colors.white : 'transparent')};
     transition: border-color 200ms ease;
@@ -149,7 +152,7 @@ const IIIFViewer = styled.div.attrs(props => ({
   width: 100vw;
   flex-direction: row-reverse;
 
-  img {
+  .image-viewer__image img {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -213,32 +216,55 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
     .sort((a, b) => a.width - b.width)
     .find(dimensions => dimensions.width);
   return (
-    <img
-      lang={lang}
-      width={smallestWidthImageDimensions && smallestWidthImageDimensions.width}
-      height={
-        smallestWidthImageDimensions && smallestWidthImageDimensions.height
-      }
-      className={classNames({
-        image: true,
-        lazyload: true,
-      })}
-      onError={event =>
-        Raven.captureException(new Error('IIIF image loading error'), {
-          tags: {
-            service: 'dlcs',
-          },
-        })
-      }
-      data-src={urlTemplate({
-        size: `${
-          smallestWidthImageDimensions
-            ? smallestWidthImageDimensions.width
-            : '!100'
-        },`,
-      })}
-      alt={''}
-    />
+    <>
+      <img
+        lang={lang}
+        width={
+          smallestWidthImageDimensions && smallestWidthImageDimensions.width
+        }
+        height={
+          smallestWidthImageDimensions && smallestWidthImageDimensions.height
+        }
+        className={classNames({
+          image: true,
+          lazyload: true,
+        })}
+        onError={event =>
+          Raven.captureException(new Error('IIIF image loading error'), {
+            tags: {
+              service: 'dlcs',
+            },
+          })
+        }
+        data-src={urlTemplate({
+          size: `${
+            smallestWidthImageDimensions
+              ? smallestWidthImageDimensions.width
+              : '!100'
+          },`,
+        })}
+        alt={''}
+      />
+      <noscript>
+        <img
+          width={
+            smallestWidthImageDimensions && smallestWidthImageDimensions.width
+          }
+          height={
+            smallestWidthImageDimensions && smallestWidthImageDimensions.height
+          }
+          className={'image image--noscript'}
+          src={urlTemplate({
+            size: `${
+              smallestWidthImageDimensions
+                ? smallestWidthImageDimensions.width
+                : '!100'
+            },`,
+          })}
+          alt={''}
+        />
+      </noscript>
+    </>
   );
 };
 
@@ -408,9 +434,9 @@ const IIIFViewerComponent = ({
             overflow: 'scroll',
             position: 'fixed',
             top: '100px',
-            background: 'red',
-            transform: showThumbs ? 'translateY(100%)' : 'translateY(0%)',
-            transition: 'transform 400ms ease',
+            background: '#111111',
+            transform: showThumbs ? 'translateY(0%)' : 'translateY(100%)',
+            transition: 'transform 800ms ease',
             zIndex: 1,
           }}
           ref={thumbContainer}
