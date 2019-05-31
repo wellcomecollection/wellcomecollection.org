@@ -1,17 +1,17 @@
-.image-viewer {
-  display: none; // shown with javascript if browser has the required support
-}
+// .image-viewer {
+//   display: none; // shown with javascript if browser has the required support
+// }
 
-.image-viewer__content {
-  background-color: color('charcoal');
-  position: absolute;
-  display: none;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: block;
-}
+// .image-viewer__content {
+//   background-color: color('charcoal');
+//   position: absolute;
+//   display: none;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+//   display: block;
+// }
 
 .image-viewer__controls {
   // TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -22,7 +22,9 @@
     touch-action: none;
   }
 
-  height: 3em;
+  button {
+    display: block;
+  }
 
   .icon {
     margin: 0;
@@ -33,11 +35,11 @@
   }
 
   position: absolute;
-  top: 12px;
-  right: 6px;
-  bottom: 60px;
-  width: 46px;
+  top: 0;
+  left: 12px;
   z-index: 1;
+  background: color('black');
+  padding: 6px;
 }
 
 .image-viewer__image {
@@ -49,31 +51,31 @@
   right: 0;
 }
 
-.image-viewer__launch-button {
-  position: absolute;
-  bottom: 0;
-  right: 50%;
-  transform: translateX(50%) translateY(50%);
-  z-index: 2;
+// .image-viewer__launch-button {
+//   position: absolute;
+//   bottom: 0;
+//   right: 50%;
+//   transform: translateX(50%) translateY(50%);
+//   z-index: 2;
 
-  .icon {
-    margin: 0;
-  }
+//   .icon {
+//     margin: 0;
+//   }
 
-  .btn__text {
-    @include visually-hidden;
-  }
-}
+//   .btn__text {
+//     @include visually-hidden;
+//   }
+// }
 
 // react-transition-group classes
-.slideup-viewer-btn {
-  opacity: 0;
-  transform: translateX(50%) translateY(250%);
-  transition: transform 700ms;
-}
+// .slideup-viewer-btn {
+//   opacity: 0;
+//   transform: translateX(50%) translateY(250%);
+//   transition: transform 700ms;
+// }
 
-.slideup-viewer-btn-entered {
-  opacity: 1;
-  transform: translateX(50%) translateY(50%);
-  transition: transform 700ms, opacity 700ms;
-}
+// .slideup-viewer-btn-entered {
+//   opacity: 1;
+//   transform: translateX(50%) translateY(50%);
+//   transition: transform 700ms, opacity 700ms;
+// }

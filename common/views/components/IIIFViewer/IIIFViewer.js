@@ -552,9 +552,12 @@ const IIIFViewerComponent = ({
 
           {thumbnailsRequired && (
             <>
-              <div style={{ position: 'absolute', top: '-50px' }}>
+              <div
+                style={{ position: 'absolute', top: '-50px', right: '24px' }}
+              >
                 <Button
-                  type="primary"
+                  type="tertiary"
+                  extraClasses="btn--tertiary-black"
                   icon={showThumbs ? 'journal' : 'gridView'}
                   text={showThumbs ? 'Detail view' : 'View all'}
                   clickHandler={() => {
@@ -620,7 +623,8 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
-
+// TODO no js styling
+// TODO mobile styling
 // TODO put footer back - need for no js navigation and shouldn't make a difference
 // TODO cross browser
 
@@ -630,5 +634,7 @@ export default IIIFViewerComponent;
 // controls, only tab thumbs if they're open
 
 // QUESTIONS
-// - new black?
-// - new icons
+// - new blacks? title background, control background both different
+// - new icons: rotate, detailed view
+// - button hover state?
+// - active thumb style

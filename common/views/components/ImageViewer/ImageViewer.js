@@ -167,26 +167,24 @@ const ImageViewer = ({
       {enhanced && (
         <div className="image-viewer__controls">
           <Control
-            type="light"
-            text="Rotate"
-            icon="rotateRight"
-            extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
-            clickHandler={handleRotate}
-          />
-
-          <Control
-            type="light"
+            type="dark"
             text="Zoom in"
             icon="zoomIn"
             extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
             clickHandler={handleZoomIn}
           />
-
           <Control
-            type="light"
+            type="dark"
             text="Zoom out"
             icon="zoomOut"
+            extraClasses={`${spacing({ s: 1 }, { margin: ['bottom'] })}`}
             clickHandler={handleZoomOut}
+          />
+          <Control
+            type="dark"
+            text="Rotate"
+            icon="rotateRight"
+            clickHandler={handleRotate}
           />
         </div>
       )}

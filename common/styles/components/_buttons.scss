@@ -4,6 +4,7 @@
   text-align: center;
   transition: all $transition-properties;
   border: 0;
+  white-space: nowrap;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -68,4 +69,17 @@
 .btn--tertiary {
   padding: $spacing-unit 2 * $spacing-unit;
   border: 1px solid color('green');
+}
+
+.btn--tertiary-black {
+  border-color: color('pewter');
+  color: color('smoke');
+  background: transparent;
+  outline: none;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: color('white');
+    background: color('charcoal');
+  }
 }

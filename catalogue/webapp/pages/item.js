@@ -37,7 +37,7 @@ const TitleContainer = styled.div`
   line-height: 64px;
   width: 100%;
   background: ${props => props.theme.colors.black};
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.smoke};
 `;
 
 async function getCanvasOcr(canvas) {
@@ -195,7 +195,7 @@ const ItemPage = ({
                 'plain-link': true,
               })}
             >
-              <Icon name="arrowSmall" extraClasses="icon--white icon--180" />
+              <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
               <TruncatedText text={title} as="h1" title={title} lang={langCode}>
                 {title}
               </TruncatedText>
