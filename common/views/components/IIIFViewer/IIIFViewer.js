@@ -58,12 +58,12 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 `;
 
 const IIIFViewerThumb = styled.div.attrs(props => ({
-  className: classNames({
-    'relative flex flex--v-center': true,
-    [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
-  }),
+  // className: classNames({
+  //   'relative flex flex--v-center': true,
+  //   [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
+  // }),
 }))`
-  height: 100%;
+  /* height: 100%;
   width: 20%;
   margin-right: ${props => props.theme.spacingUnit}px;
 
@@ -75,24 +75,37 @@ const IIIFViewerThumb = styled.div.attrs(props => ({
     height: 25%;
     width: 100%;
     margin-right: 0;
+  }*/
+  width: 100px;
+  height: 200px;
+  float: left;
+  img {
+    display: block;
+    margin: auto;
+    max-height: 100%;
+    max-width: 100%;
+    width auto;
   }
 `;
-
+// TODO no js styling
 const IIIFViewerThumbs = styled.div.attrs(props => ({
-  className: classNames({
-    'flex flex--h-center relative bg-smoke': true,
-  }),
+  // className: classNames({
+  //   'flex flex--h-center relative bg-smoke': true,
+  // }),
 }))`
-  height: 20%;
+  /* height: 20%;
   width: 100%;
-  padding: 0 100px 0 0;
+  padding: 0 100px 0 0; */
 
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
+  /* @media (min-width: ${props => props.theme.sizes.medium}px) {
     height: 100%;
     flex-direction: column;
     width: 25%;
     padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
-  }
+  } */
+  width: 100px;
+  height: 100px;
+  float: left;
 `;
 
 const IIIFViewerMain = styled.div.attrs(props => ({
@@ -214,7 +227,7 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   const smallestWidthImageDimensions = thumbnailService.sizes
     .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width);
+    .find(dimensions => dimensions.width > 100);
   return (
     <>
       <img
