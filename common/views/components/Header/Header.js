@@ -37,14 +37,19 @@ type Props = {|
   toggle: () => void,
   isFixed: boolean,
 |};
-// TODO use style comp?
+
 const Header = withToggler(
   ({ siteSection, toggle, isActive, isFixed }: Props) => (
     <div
       className={`header grid js-header-burger js-focus-trap bg-white border-color-pumice border-bottom-width-1 ${
         isActive ? 'header--is-burger-open' : ''
       }`}
-      style={{ position: isFixed ? 'fixed' : 'static', height: '100px' }}
+      style={{
+        position: isFixed ? 'fixed' : 'static',
+        height: '85px',
+        width: '100vw',
+        marginLeft: 0,
+      }}
     >
       <span className="visually-hidden js-trap-reverse-end">reset focus</span>
       <div className="header__upper grid__cell">

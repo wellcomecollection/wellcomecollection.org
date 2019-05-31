@@ -18,6 +18,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 
 const IframePdfViewer = styled.iframe`
@@ -28,10 +29,15 @@ const IframePdfViewer = styled.iframe`
   border: none;
 `;
 
+// TODO move into viewer?
 const TitleContainer = styled.div`
   position: fixed;
-  top: 100px;
-  height: 100px;
+  top: 85px;
+  height: 64px;
+  line-height: 64px;
+  width: 100%;
+  background: ${props => props.theme.colors.black};
+  color: ${props => props.theme.colors.white};
 `;
 
 async function getCanvasOcr(canvas) {
@@ -174,41 +180,31 @@ const ItemPage = ({
       hideFooter={true}
       headerFixed={true}
     >
-      <Layout12>
-        <TitleContainer>
-          <div
-            className={classNames({
-              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-              [spacing({ s: 6 }, { padding: ['top'] })]: true,
+      <TitleContainer>
+        <Layout12>
+          <NextLink
+            {...workUrl({
+              id: workId,
             })}
           >
-            <TruncatedText
-              text={title}
-              as="h1"
+            <a
               className={classNames({
-                [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
-              })}
-              title={title}
-              lang={langCode}
-            >
-              {title}
-            </TruncatedText>
-            <NextLink
-              {...workUrl({
-                id: workId,
+                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                'flex-inline': true,
+                'flex-v-center': true,
+                'plain-link': true,
               })}
             >
-              <a
-                className={classNames({
-                  [font({ s: 'HNM5', m: 'HNM4' })]: true,
-                })}
-              >
-                Overview
-              </a>
-            </NextLink>
-          </div>
-        </TitleContainer>
-        {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
+              <Icon name="arrowSmall" extraClasses="icon--white icon--180" />
+              <TruncatedText text={title} as="h1" title={title} lang={langCode}>
+                {title}
+              </TruncatedText>
+            </a>
+          </NextLink>
+        </Layout12>
+      </TitleContainer>
+      {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
+        <Layout12>
           <div
             className={classNames({
               [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
@@ -216,8 +212,8 @@ const ItemPage = ({
           >
             <BetaMessage message="We are working to make this item available online in April 2019." />
           </div>
-        )}
-      </Layout12>
+        </Layout12>
+      )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
