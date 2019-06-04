@@ -36,7 +36,7 @@ const TitleContainer = styled.div`
   height: 64px;
   line-height: 64px;
   width: 100%;
-  background: ${props => props.theme.colors.black};
+  background: ${props => props.theme.colors.coal};
   color: ${props => props.theme.colors.smoke};
 `;
 
