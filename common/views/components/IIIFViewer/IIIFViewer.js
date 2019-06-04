@@ -77,6 +77,23 @@ const IIIFViewerThumb = styled.div.attrs(props => ({
   }
 `;
 
+const ThumbContainer = styled.div`
+  height: calc(100vh - 149px);
+  width: 100%;
+  overflow: scroll;
+  position: fixed;
+  top: 149px;
+  background: #323232; /*charcoal*/
+  padding: 6px; /* TODO */
+  transform: ${props =>
+    props.showThumbs ? 'translateY(0%)' : 'translateY(100%)'};
+  transition: transform 800ms ease;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+`;
+
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
   className: classNames({
     'line-height-1': true,
@@ -561,24 +578,7 @@ const IIIFViewerComponent = ({
                 />
               </div>
               {/* TODO use styled component */}
-              <div
-                style={{
-                  height: 'calc(100vh - 149px)',
-                  width: '100%',
-                  overflow: 'scroll',
-                  position: 'fixed',
-                  top: '149px',
-                  background: '#323232', // charcoal
-                  padding: '6px', // TODO
-                  transform: showThumbs ? 'translateY(0%)' : 'translateY(100%)',
-                  transition: 'transform 800ms ease',
-                  zIndex: 1,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-evenly',
-                }}
-                ref={thumbContainer}
-              >
+              <ThumbContainer ref={thumbContainer} showThumbs={showThumbs}>
                 {canvases &&
                   canvases.map((canvas, i) => {
                     const isActive = canvasIndex === i;
@@ -611,7 +611,7 @@ const IIIFViewerComponent = ({
                       </IIIFViewerThumb>
                     );
                   })}
-              </div>
+              </ThumbContainer>
             </>
           )}
         </IIIFViewer>
