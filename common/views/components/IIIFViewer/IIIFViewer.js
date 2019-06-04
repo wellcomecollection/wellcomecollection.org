@@ -623,18 +623,3 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
-// TODO no js styling
-// TODO mobile styling
-// TODO put footer back - need for no js navigation and shouldn't make a difference
-// TODO cross browser
-
-// ACCESSIBILITY
-// aria-live
-// alt when image replaced with seadragon?
-// controls, only tab thumbs if they're open
-
-// QUESTIONS
-// - new blacks? title background, control background both different
-// - new icons: rotate, detailed view
-// - button hover state?
-// - active thumb style
