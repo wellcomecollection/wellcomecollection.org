@@ -44,3 +44,18 @@
     background: color('black');
   }
 }
+
+.control--on-black {
+  border: 0;
+  border-radius: 0;
+  background: color('coal');
+
+  .icon__shape {
+    fill: color('white');
+  }
+
+  &:hover,
+  &:focus {
+    background: color('coal'); // TODO need a focus/hover state
+  }
+}

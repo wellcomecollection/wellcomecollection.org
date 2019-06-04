@@ -44,26 +44,14 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   `}
 `;
 
-const IIIFViewerThumbNumber = styled.span.attrs(props => ({
-  className: classNames({
-    'line-height-1': true,
-    'absolute bg-charcoal font-white': true,
-    [font({ s: 'LR3' })]: true,
-  }),
-}))`
-  top: ${props => props.theme.spacingUnit}px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 3px 2px 0;
-  z-index: 1;
-`;
-
 const IIIFViewerThumb = styled.div.attrs(props => ({
   // className: classNames({
   //   'relative flex flex--v-center': true,
   //   [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
   // }),
 }))`
+  width: 100px;
+  align-self: flex-end;
   /* height: 100%;
   width: 20%;
   margin-right: ${props => props.theme.spacingUnit}px;
@@ -77,9 +65,9 @@ const IIIFViewerThumb = styled.div.attrs(props => ({
     width: 100%;
     margin-right: 0;
   }*/
-  width: 100px;
-  height: 200px;
-  float: left;
+  /* width: 100px;
+    height: 200px;
+  float: left; */
   img {
     display: block;
     margin: auto;
@@ -87,6 +75,18 @@ const IIIFViewerThumb = styled.div.attrs(props => ({
     max-width: 100%;
     width auto;
   }
+`;
+
+const IIIFViewerThumbNumber = styled.span.attrs(props => ({
+  className: classNames({
+    'line-height-1': true,
+    'font-white': !props.isActive,
+    'font-orange': props.isActive,
+    'bg-coal': props.isActive,
+    [font({ s: 'LR3' })]: true,
+  }),
+}))`
+  padding: 3px 2px 0;
 `;
 // TODO no js styling
 const IIIFViewerThumbs = styled.div.attrs(props => ({
@@ -104,9 +104,9 @@ const IIIFViewerThumbs = styled.div.attrs(props => ({
     width: 25%;
     padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
   } */
-  width: 100px;
+  /* width: 100px;
   height: 100px;
-  float: left;
+  float: left; */
 `;
 
 const IIIFViewerMain = styled.div.attrs(props => ({
@@ -141,18 +141,12 @@ const IIIFViewerXOfY = styled.span.attrs(props => ({
 const IIIFViewerThumbLink = styled.a.attrs(props => ({
   className: classNames({
     'block h-center': true,
+    [spacing({ s: 1 }, { padding: ['top', 'bottom', 'left', 'right'] })]: true,
   }),
 }))`
   height: 100%;
-
-  .lazyload {
-    display: block;
-  }
-  .lazyloaded {
-    border: 3px solid
-      ${props => (props.isActive ? props.theme.colors.white : 'transparent')};
-    transition: border-color 200ms ease;
-  }
+  text-align: center;
+  display: block;
 `;
 
 const IIIFViewer = styled.div.attrs(props => ({
@@ -187,7 +181,7 @@ const IIIFViewerImageWrapper = styled.div.attrs(props => ({
 }))`
   top: 30px;
   right: 0;
-  bottom: 60px;
+  bottom: 12px;
   left: 0;
 `;
 
@@ -294,7 +288,7 @@ const PaginatorButtons = ({
   return (
     <div
       className={classNames({
-        'flex flex--v-center flex--h-center': true,
+        'flex flex--column flex--v-center flex--h-center': true,
       })}
     >
       {prevLink && (
@@ -302,12 +296,12 @@ const PaginatorButtons = ({
           scroll={false}
           replace={true}
           link={prevLink}
-          type="light"
+          type="on-black"
           icon="arrow"
           text="Previous page"
           extraClasses={classNames({
-            [spacing({ s: 1 }, { margin: ['right'] })]: true,
-            'icon--180': true,
+            'icon--270': true,
+            [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
           })}
         />
       )}
@@ -316,11 +310,12 @@ const PaginatorButtons = ({
           scroll={false}
           replace={true}
           link={nextLink}
-          type="light"
+          type="on-black"
           icon="arrow"
           text="Next page"
           extraClasses={classNames({
             icon: true,
+            'icon--90': true,
           })}
         />
       )}
@@ -451,8 +446,8 @@ const IIIFViewerComponent = ({
                         replace
                         passHref
                       >
-                        <IIIFViewerThumbLink isActive={true}>
-                          <IIIFViewerThumbNumber>
+                        <IIIFViewerThumbLink>
+                          <IIIFViewerThumbNumber isActive={true}>
                             <span className="visually-hidden">image </span>
                             {1}
                           </IIIFViewerThumbNumber>
@@ -490,14 +485,14 @@ const IIIFViewerComponent = ({
                           replace
                           passHref
                         >
-                          <IIIFViewerThumbLink
-                            isActive={canvasIndex === rangeStart + i - 1}
-                          >
-                            <IIIFViewerThumbNumber>
+                          <IIIFViewerThumbLink>
+                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
+                            <IIIFViewerThumbNumber
+                              isActive={canvasIndex === rangeStart + i - 1}
+                            >
                               <span className="visually-hidden">image </span>
                               {rangeStart + i}
                             </IIIFViewerThumbNumber>
-                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
                           </IIIFViewerThumbLink>
                         </NextLink>
                       )}
@@ -574,9 +569,13 @@ const IIIFViewerComponent = ({
                   position: 'fixed',
                   top: '149px',
                   background: '#323232', // charcoal
+                  padding: '6px', // TODO
                   transform: showThumbs ? 'translateY(0%)' : 'translateY(100%)',
                   transition: 'transform 800ms ease',
                   zIndex: 1,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-evenly',
                 }}
                 ref={thumbContainer}
               >
@@ -598,16 +597,15 @@ const IIIFViewerComponent = ({
                           passHref
                         >
                           <IIIFViewerThumbLink
-                            isActive={isActive}
                             onClick={() => {
                               setShowThumbs(!showThumbs);
                             }}
                           >
-                            <IIIFViewerThumbNumber>
+                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
+                            <IIIFViewerThumbNumber isActive={isActive}>
                               <span className="visually-hidden">image </span>
                               {i + 1}
                             </IIIFViewerThumbNumber>
-                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
                           </IIIFViewerThumbLink>
                         </NextLink>
                       </IIIFViewerThumb>
