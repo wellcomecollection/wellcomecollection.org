@@ -92,6 +92,11 @@ const ThumbContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+
+  &::after {
+    content: '';
+    flex: auto;
+  }
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
