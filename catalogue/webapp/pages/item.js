@@ -181,27 +181,26 @@ const ItemPage = ({
       headerFixed={true}
     >
       <TitleContainer>
-        <Layout12>
-          <NextLink
-            {...workUrl({
-              id: workId,
+        <NextLink
+          {...workUrl({
+            id: workId,
+          })}
+        >
+          <a
+            className={classNames({
+              [font({ s: 'HNM5', m: 'HNM4' })]: true,
+              'flex-inline': true,
+              'flex-v-center': true,
+              'plain-link': true,
+              [spacing({ s: 4 }, { margin: ['left'] })]: true,
             })}
           >
-            <a
-              className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
-                'flex-inline': true,
-                'flex-v-center': true,
-                'plain-link': true,
-              })}
-            >
-              <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
-              <TruncatedText text={title} as="h1" title={title} lang={langCode}>
-                {title}
-              </TruncatedText>
-            </a>
-          </NextLink>
-        </Layout12>
+            <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
+            <TruncatedText text={title} as="h1" title={title} lang={langCode}>
+              {title}
+            </TruncatedText>
+          </a>
+        </NextLink>
       </TitleContainer>
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
         <Layout12>
