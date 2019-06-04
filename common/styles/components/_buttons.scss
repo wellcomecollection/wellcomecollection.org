@@ -32,6 +32,11 @@
     transition: fill $transition-properties;
     fill: currentColor;
   }
+
+  .icon__stroke {
+    transition: stroke $transition-properties;
+    stroke: currentColor;
+  }
 }
 
 .btn--primary,

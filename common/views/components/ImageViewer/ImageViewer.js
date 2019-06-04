@@ -183,7 +183,7 @@ const ImageViewer = ({
           <Control
             type="dark"
             text="Rotate"
-            icon="rotateRight"
+            icon="rotatePageRight"
             clickHandler={handleRotate}
           />
         </div>

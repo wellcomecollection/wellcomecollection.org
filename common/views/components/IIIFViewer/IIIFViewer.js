@@ -558,7 +558,7 @@ const IIIFViewerComponent = ({
                 <Button
                   type="tertiary"
                   extraClasses="btn--tertiary-black"
-                  icon={showThumbs ? 'journal' : 'gridView'}
+                  icon={showThumbs ? 'detailView' : 'gridView'}
                   text={showThumbs ? 'Detail view' : 'View all'}
                   clickHandler={() => {
                     setShowThumbs(!showThumbs);
