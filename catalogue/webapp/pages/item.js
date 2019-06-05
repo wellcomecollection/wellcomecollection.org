@@ -31,11 +31,8 @@ const IframePdfViewer = styled.iframe`
 
 // TODO move into viewer?
 const TitleContainer = styled.div`
-  position: fixed;
-  top: 85px;
   height: 64px;
   line-height: 64px;
-  width: 100%;
   background: ${props => props.theme.colors.coal};
   color: ${props => props.theme.colors.smoke};
 `;
@@ -185,20 +182,24 @@ const ItemPage = ({
             id: workId,
           })}
         >
-          <a
-            className={classNames({
-              [font({ s: 'HNM5', m: 'HNM4' })]: true,
-              'flex-inline': true,
-              'flex-v-center': true,
-              'plain-link': true,
-              [spacing({ s: 4 }, { margin: ['left'] })]: true,
-            })}
-          >
-            <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
-            <TruncatedText text={title} as="h1" title={title} lang={langCode}>
-              {title}
-            </TruncatedText>
-          </a>
+          <>
+            <div>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
+              ''}`}</div>
+            <a
+              className={classNames({
+                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                'flex-inline': true,
+                'flex-v-center': true,
+                'plain-link': true,
+                [spacing({ s: 4 }, { margin: ['left'] })]: true,
+              })}
+            >
+              <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
+              <TruncatedText text={title} as="h1" title={title} lang={langCode}>
+                {title}
+              </TruncatedText>
+            </a>
+          </>
         </NextLink>
       </TitleContainer>
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
