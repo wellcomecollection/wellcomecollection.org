@@ -25,8 +25,9 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     'flex absolute flex--h-center': true,
   }),
 }))`
-  right: ${props => props.theme.spacingUnit}px;
-  bottom: ${props => (props.isThumbs ? '50%' : props.theme.spacingUnit + 'px')};
+  right: ${props => props.theme.spacingUnit * 2}px;
+  bottom: ${props =>
+    props.isThumbs ? '50%' : props.theme.spacingUnit * 2 + 'px'};
   transform: ${props => (props.isThumbs ? 'translateY(50%)' : null)};
 
   ${props =>
@@ -148,18 +149,6 @@ const IIIFViewerMain = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewerXOfY = styled.span.attrs(props => ({
-  className: classNames({
-    'absolute font-white': true,
-    [spacing({ s: 1 }, { margin: ['left', 'right'] })]: true,
-    [font({ s: 'LR3' })]: true,
-  }),
-}))`
-  top: ${props => props.theme.spacingUnit}px;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const IIIFViewerThumbLink = styled.a.attrs(props => ({
   className: classNames({
     'block h-center': true,
@@ -176,7 +165,7 @@ const IIIFViewer = styled.div.attrs(props => ({
     'flex flex--wrap': true,
   }),
 }))`
-  position: fixed;
+  position: ${props => props.isFixed && 'fixed'};
   top: 149px;
   height: calc(100vh - 149px);
   width: 100vw;
@@ -201,9 +190,9 @@ const IIIFViewerImageWrapper = styled.div.attrs(props => ({
     absolute: true,
   }),
 }))`
-  top: 30px;
+  top: ${props => `${props.theme.spacingUnit * 2}px`};
   right: 0;
-  bottom: 12px;
+  bottom: ${props => `${props.theme.spacingUnit * 2}px`};
   left: 0;
 `;
 
@@ -294,12 +283,6 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
     </>
   );
 };
-
-const XOfY = ({ currentPage, totalPages }: PaginatorRenderFunctionProps) => (
-  <IIIFViewerXOfY>
-    {currentPage} of {totalPages}
-  </IIIFViewerXOfY>
-);
 
 const PaginatorButtons = ({
   currentPage,
@@ -418,7 +401,6 @@ const IIIFViewerComponent = ({
       <noscript>
         <IIIFViewer>
           <IIIFViewerMain fullWidth={!thumbnailsRequired}>
-            <Paginator {...mainPaginatorProps} render={XOfY} />
             <IIIFViewerImageWrapper>
               {iiifImageLocationUrl && imageUrl && (
                 <ImageViewer
@@ -534,9 +516,8 @@ const IIIFViewerComponent = ({
 
       {/* enhanced javascript viewer */}
       {enhanced && (
-        <IIIFViewer>
+        <IIIFViewer isFixed={true}>
           <IIIFViewerMain fullWidth={true}>
-            <Paginator {...mainPaginatorProps} render={XOfY} />
             <IIIFViewerImageWrapper>
               {iiifImageLocationUrl && imageUrl && (
                 <ImageViewer
