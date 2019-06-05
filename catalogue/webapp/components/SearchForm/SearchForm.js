@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
@@ -48,6 +48,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+
+  const [showBoosters, setShowBoosters] = useState(false);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -143,7 +145,130 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         {workType && (
           <input type="hidden" name="workType" value={workType.join(',')} />
         )}
-
+        <fieldset
+          className={classNames({
+            [spacing({ s: 2 }, { margin: ['top'] })]: true,
+          })}
+        >
+          <legend
+            className={classNames({
+              [font({ s: 'HNM4' })]: true,
+              'font-green': true,
+              flex: true,
+            })}
+            onClick={() => setShowBoosters(!showBoosters)}
+          >
+            <Icon name="chevron" />
+            Boosters 🚀
+          </legend>
+          <datalist id="tickmarks" style={{ display: 'none' }}>
+            <option value="0" label="0%" />
+            <option value="1" />
+            <option value="2" />
+            <option value="3" />
+            <option value="4" />
+            <option value="5" label="50%" />
+            <option value="6" />
+            <option value="7" />
+            <option value="8" />
+            <option value="9" />
+            <option value="10" label="100%" />
+          </datalist>
+          {showBoosters && (
+            <>
+              <label>
+                <div
+                  className={classNames({
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  Title
+                </div>
+                <input
+                  type="range"
+                  style={{ width: '100%' }}
+                  list="tickmarks"
+                  min="0"
+                  max="10"
+                  step="1"
+                  value="9"
+                />
+              </label>
+              <label>
+                <div
+                  className={classNames({
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  Subjects
+                </div>
+                <input
+                  type="range"
+                  style={{ width: '100%' }}
+                  list="tickmarks"
+                  min="0"
+                  max="10"
+                  step="1"
+                  value="8"
+                />
+              </label>
+              <label>
+                <div
+                  className={classNames({
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  Genres
+                </div>
+                <input
+                  type="range"
+                  style={{ width: '100%' }}
+                  list="tickmarks"
+                  min="0"
+                  max="10"
+                  step="1"
+                  value="8"
+                />
+              </label>
+              <label>
+                <div
+                  className={classNames({
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  Description
+                </div>
+                <input
+                  type="range"
+                  style={{ width: '100%' }}
+                  list="tickmarks"
+                  min="0"
+                  max="10"
+                  step="1"
+                  value="5"
+                />
+              </label>
+              <label>
+                <div
+                  className={classNames({
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  Contributors
+                </div>
+                <input
+                  type="range"
+                  style={{ width: '100%' }}
+                  list="tickmarks"
+                  min="0"
+                  max="10"
+                  step="1"
+                  value="2"
+                />
+              </label>
+            </>
+          )}
+        </fieldset>
         <TogglesContext.Consumer>
           {({ selectableQueries }) =>
             selectableQueries && (
