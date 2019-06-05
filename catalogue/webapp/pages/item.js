@@ -4,21 +4,18 @@ import {
   type Work,
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
-import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
 import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, spacing } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 
 const IframePdfViewer = styled.iframe`
@@ -27,14 +24,6 @@ const IframePdfViewer = styled.iframe`
   margin: 0 auto 24px;
   display: block;
   border: none;
-`;
-
-// TODO move into viewer?
-const TitleContainer = styled.div`
-  height: 64px;
-  line-height: 64px;
-  background: ${props => props.theme.colors.coal};
-  color: ${props => props.theme.colors.smoke};
 `;
 
 async function getCanvasOcr(canvas) {
@@ -176,32 +165,6 @@ const ItemPage = ({
       hideNewsletterPromo={true}
       hideFooter={true}
     >
-      <TitleContainer>
-        <NextLink
-          {...workUrl({
-            id: workId,
-          })}
-        >
-          <>
-            <div>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
-              ''}`}</div>
-            <a
-              className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
-                'flex-inline': true,
-                'flex-v-center': true,
-                'plain-link': true,
-                [spacing({ s: 4 }, { margin: ['left'] })]: true,
-              })}
-            >
-              <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
-              <TruncatedText text={title} as="h1" title={title} lang={langCode}>
-                {title}
-              </TruncatedText>
-            </a>
-          </>
-        </NextLink>
-      </TitleContainer>
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
         <Layout12>
           <div
@@ -219,6 +182,7 @@ const ItemPage = ({
       {((mainImageService && currentCanvas && navigationCanvases) ||
         (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
+          title={title}
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           currentCanvas={currentCanvas}

@@ -1,11 +1,16 @@
 // @flow
+import { type IIIFCanvas } from '@weco/common/model/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import Raven from 'raven-js';
+import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { type IIIFCanvas } from '@weco/common/model/iiif';
+import {
+  convertIiifUriToInfoUri,
+  iiifImageTemplate,
+} from '@weco/common/utils/convert-image-uri';
+import { imageSizes } from '../../../utils/image-sizes';
 import Paginator, {
   type PaginatorRenderFunctionProps,
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
@@ -14,11 +19,15 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-import {
-  convertIiifUriToInfoUri,
-  iiifImageTemplate,
-} from '@weco/common/utils/convert-image-uri';
-import { imageSizes } from '../../../utils/image-sizes';
+import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
+import Icon from '@weco/common/views/components/Icon/Icon';
+
+const TitleContainer = styled.div`
+  height: 64px;
+  line-height: 64px;
+  background: ${props => props.theme.colors.coal};
+  color: ${props => props.theme.colors.smoke};
+`;
 
 const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   className: classNames({
@@ -45,40 +54,27 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
   `}
 `;
 
-const IIIFViewerThumb = styled.div.attrs(props => ({
-  // className: classNames({
-  //   'relative flex flex--v-center': true,
-  //   [spacing({ s: 1 }, { padding: ['top', 'right', 'bottom', 'left'] })]: true,
-  // }),
-}))`
+const IIIFViewerThumb = styled.div`
   width: 100px;
-  align-self: flex-end;
-  /* height: 100%;
-  width: 20%;
-  margin-right: ${props => props.theme.spacingUnit}px;
+  a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    &:before {
+      content: '';
+      margin-top: auto
 
-  &:last-child {
-    margin: 0;
+    }
   }
-
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    height: 25%;
-    width: 100%;
-    margin-right: 0;
-  }*/
-  /* width: 100px;
-    height: 200px;
-  float: left; */
   img {
     display: block;
-    margin: auto;
     max-height: 100%;
     max-width: 100%;
     width auto;
   }
 `;
 
-const ThumbContainer = styled.div`
+const ThumbnailContainer = styled.div`
   height: calc(100vh - 149px);
   width: 100%;
   overflow: scroll;
@@ -94,7 +90,7 @@ const ThumbContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
 
-  &::after {
+  &:after {
     content: '';
     flex: auto;
   }
@@ -113,23 +109,20 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 `;
 // TODO no js styling
 const IIIFViewerThumbs = styled.div.attrs(props => ({
-  // className: classNames({
-  //   'flex flex--h-center relative bg-smoke': true,
-  // }),
+  className: classNames({
+    'flex flex--h-center relative bg-smoke': true,
+  }),
 }))`
-  /* height: 20%;
+  height: 20%;
   width: 100%;
-  padding: 0 100px 0 0; */
+  padding: 0 100px 0 0;
 
-  /* @media (min-width: ${props => props.theme.sizes.medium}px) {
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
     height: 100%;
     flex-direction: column;
     width: 25%;
     padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
-  } */
-  /* width: 100px;
-  height: 100px;
-  float: left; */
+  }
 `;
 
 const IIIFViewerMain = styled.div.attrs(props => ({
@@ -329,6 +322,7 @@ const PaginatorButtons = ({
 };
 
 type IIIFViewerProps = {|
+  title: string,
   mainPaginatorProps: PaginatorPropsWithoutRenderFunction,
   thumbsPaginatorProps: PaginatorPropsWithoutRenderFunction,
   currentCanvas: ?IIIFCanvas,
@@ -349,6 +343,7 @@ type IIIFViewerProps = {|
 |};
 
 const IIIFViewerComponent = ({
+  title,
   mainPaginatorProps,
   thumbsPaginatorProps,
   currentCanvas,
@@ -369,7 +364,7 @@ const IIIFViewerComponent = ({
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
-  const thumbContainer = useRef(null);
+  const thumbnailContainer = useRef(null);
 
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
@@ -392,12 +387,44 @@ const IIIFViewerComponent = ({
   }, []);
 
   useEffect(() => {
-    thumbContainer.current &&
-      scrollIntoViewIfOutOfView(thumbContainer.current, canvasIndex);
+    thumbnailContainer.current &&
+      scrollIntoViewIfOutOfView(thumbnailContainer.current, canvasIndex);
   });
 
   return (
     <>
+      <TitleContainer>
+        <NextLink
+          {...workUrl({
+            id: workId,
+          })}
+        >
+          <a
+            className={classNames({
+              [font({ s: 'HNM5', m: 'HNM4' })]: true,
+              'flex-inline': true,
+              'flex-v-center': true,
+              'plain-link': true,
+              [spacing({ s: 4 }, { margin: ['left'] })]: true,
+            })}
+          >
+            <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
+            <TruncatedText as="h1">{title}</TruncatedText>
+          </a>
+        </NextLink>
+        {canvases &&
+          canvases.length > 1 &&
+          `${canvasIndex + 1 || ''} / ${(canvases && canvases.length) || ''}`}
+        <Button
+          type="tertiary"
+          extraClasses="btn--tertiary-black"
+          icon={showThumbs ? 'detailView' : 'gridView'}
+          text={showThumbs ? 'Detail view' : 'View all'}
+          clickHandler={() => {
+            setShowThumbs(!showThumbs);
+          }}
+        />
+      </TitleContainer>
       <noscript>
         <IIIFViewer>
           <IIIFViewerMain fullWidth={!thumbnailsRequired}>
@@ -451,10 +478,6 @@ const IIIFViewerComponent = ({
                         passHref
                       >
                         <IIIFViewerThumbLink>
-                          <IIIFViewerThumbNumber isActive={true}>
-                            <span className="visually-hidden">image </span>
-                            {1}
-                          </IIIFViewerThumbNumber>
                           <IIIFResponsiveImage
                             lang={lang}
                             width={100}
@@ -465,6 +488,12 @@ const IIIFViewerComponent = ({
                             sizes={`(min-width: 600px) 200px, 100px`}
                             isLazy={false}
                           />
+                          <div>
+                            <IIIFViewerThumbNumber isActive={true}>
+                              <span className="visually-hidden">image </span>
+                              {1}
+                            </IIIFViewerThumbNumber>
+                          </div>
                         </IIIFViewerThumbLink>
                       </NextLink>
                     )}
@@ -491,12 +520,14 @@ const IIIFViewerComponent = ({
                         >
                           <IIIFViewerThumbLink>
                             <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
-                            <IIIFViewerThumbNumber
-                              isActive={canvasIndex === rangeStart + i - 1}
-                            >
-                              <span className="visually-hidden">image </span>
-                              {rangeStart + i}
-                            </IIIFViewerThumbNumber>
+                            <div>
+                              <IIIFViewerThumbNumber
+                                isActive={canvasIndex === rangeStart + i - 1}
+                              >
+                                <span className="visually-hidden">image </span>
+                                {rangeStart + i}
+                              </IIIFViewerThumbNumber>
+                            </div>
                           </IIIFViewerThumbLink>
                         </NextLink>
                       )}
@@ -550,21 +581,11 @@ const IIIFViewerComponent = ({
 
           {thumbnailsRequired && (
             <>
-              <div
-                style={{ position: 'absolute', top: '-50px', right: '24px' }}
-              >
-                <Button
-                  type="tertiary"
-                  extraClasses="btn--tertiary-black"
-                  icon={showThumbs ? 'detailView' : 'gridView'}
-                  text={showThumbs ? 'Detail view' : 'View all'}
-                  clickHandler={() => {
-                    setShowThumbs(!showThumbs);
-                  }}
-                />
-              </div>
               {/* TODO use styled component */}
-              <ThumbContainer ref={thumbContainer} showThumbs={showThumbs}>
+              <ThumbnailContainer
+                ref={thumbnailContainer}
+                showThumbs={showThumbs}
+              >
                 {canvases &&
                   canvases.map((canvas, i) => {
                     const isActive = canvasIndex === i;
@@ -588,16 +609,18 @@ const IIIFViewerComponent = ({
                             }}
                           >
                             <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
-                            <IIIFViewerThumbNumber isActive={isActive}>
-                              <span className="visually-hidden">image </span>
-                              {i + 1}
-                            </IIIFViewerThumbNumber>
+                            <div>
+                              <IIIFViewerThumbNumber isActive={isActive}>
+                                <span className="visually-hidden">image </span>
+                                {i + 1}
+                              </IIIFViewerThumbNumber>
+                            </div>
                           </IIIFViewerThumbLink>
                         </NextLink>
                       </IIIFViewerThumb>
                     );
                   })}
-              </ThumbContainer>
+              </ThumbnailContainer>
             </>
           )}
         </IIIFViewer>
