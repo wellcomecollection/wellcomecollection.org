@@ -178,7 +178,6 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
-      headerFixed={true}
     >
       <TitleContainer>
         <NextLink

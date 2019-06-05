@@ -31,7 +31,6 @@ export type Props = {|
   children: Node,
   hideNewsletterPromo?: boolean,
   hideFooter?: boolean,
-  headerFixed?: boolean,
 |};
 
 const PageLayout = ({
@@ -48,7 +47,6 @@ const PageLayout = ({
   children,
   hideNewsletterPromo = false,
   hideFooter = false,
-  headerFixed = false,
 }: Props) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -106,7 +104,7 @@ const PageLayout = ({
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} isFixed={headerFixed} />
+        <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert.isShown === 'show' && (
@@ -129,6 +127,20 @@ const PageLayout = ({
               />
             )}
           </OpeningTimesContext.Consumer>
+        )}
+        {hideFooter && (
+          <noscript>
+            <OpeningTimesContext.Consumer>
+              {openingTimes => (
+                <Footer
+                  openingTimes={openingTimes}
+                  upcomingExceptionalOpeningPeriods={
+                    openingTimes.upcomingExceptionalOpeningPeriods
+                  }
+                />
+              )}
+            </OpeningTimesContext.Consumer>
+          </noscript>
         )}
       </div>
     </Fragment>
