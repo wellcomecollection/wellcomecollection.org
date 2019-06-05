@@ -47,7 +47,7 @@ Have a component on `Explore our collections` which has a selection of terms
 selected by `n`. Explain to people that by using this component, they will then
 be shown a relevance rater on the search page to help us make things better.
 
-### Candidate query selector 2000
+### Candidate query selector <sup>2000</sup>
 Create a more acceptable way of surfacing the candidate queries to people, and
 explain to them what they are.
 
@@ -58,7 +58,7 @@ and a combination of the two.
 
 Could we find a way to surface this without being to techy.
 
-### Complete control
+### Boosters: Complete control
 This is a little more nuanced and needs more work on the API, but has been
 spoken about.
 
@@ -67,3 +67,9 @@ The idea is open up more control around MSM and boost queries.
 A potential would be to add a slider to each field we select, and potentially
 one for MSM, and potentially have presets for specific scenarios (e.g. Find me
 a book with this title).
+
+
+#### Example
+<img width="798" alt="Screenshot 2019-06-05 at 17 01 00" src="https://user-images.githubusercontent.com/31692/58971606-b362c080-87b3-11e9-908a-db3dd3b70632.png" alt="a screenshot of the search boosting complete control" />
+
+[PR](https://github.com/wellcometrust/wellcomecollection.org/pull/4506)
