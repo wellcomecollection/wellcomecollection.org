@@ -4,13 +4,40 @@
 // {
 //   id: 'outro',
 //   title: 'Outro',
-//   shouldRun: (request) => {
+//   range: [0, 50] // 50% chance, this is [inclusive, exclusive)
+//   range: [50, 100] // 50% chance, this is [inclusive, exclusive)
+//   shouldRun: (request, range) => {
 //     return request.uri.match(/^\/articles\/*/);
 //   }
 // }
 
 // This is mutable for testing
-let tests = [];
+let tests = [
+  {
+    id: 'search_cadidate_query_msm',
+    title: 'Search candidate query: Minimum should match',
+    range: [0, 10],
+    shouldRun: request => {
+      return request.uri.match(/^\/works\/*/);
+    },
+  },
+  {
+    id: 'search_cadidate_query_boost',
+    title: 'Search candidate query: Minimum should match',
+    range: [10, 20],
+    shouldRun: request => {
+      return request.uri.match(/^\/works\/*/);
+    },
+  },
+  {
+    id: 'search_cadidate_query_msmboost',
+    title: 'Search candidate query: Minimum should match',
+    range: [20, 30],
+    shouldRun: request => {
+      return request.uri.match(/^\/works\/*/);
+    },
+  },
+];
 
 exports.setTests = function(newTests) {
   tests = newTests;
@@ -37,6 +64,10 @@ function parseToggleCookies(cookieHeader) {
   return cookies;
 }
 
+function randomFromRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 exports.request = (event, context) => {
   const request = event.Records[0].cf.request;
   const toggleCookies = parseToggleCookies(request.headers.cookie);
@@ -50,7 +81,11 @@ exports.request = (event, context) => {
       try {
         if (test.shouldRun(request) && !isSet) {
           // Flip the dice
-          if (Math.random() < 0.5) {
+          const point = randomFromRange(0, 99);
+          const [from, to] = test.range;
+          const inRange = point >= from && point < to;
+
+          if (inRange) {
             return { key: `toggle_${test.id}`, value: true };
           } else {
             return { key: `toggle_${test.id}`, value: false };

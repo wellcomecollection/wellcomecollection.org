@@ -6,6 +6,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     {
       id: 'outro',
       title: 'Outro',
+      range: [0, 100],
       shouldRun: request => {
         return request.uri.match(/^\/articles\/*/);
       },
@@ -13,6 +14,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     {
       id: 'wontwork',
       title: `Won't work`,
+      range: [0, 100],
       shouldRun(request) {
         throw new Error({ message: 'broken for test' });
       },
