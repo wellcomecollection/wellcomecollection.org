@@ -1,15 +1,16 @@
 // @flow
-import type { Node } from 'react';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
-import { type IIIFRendering } from '@weco/common/model/iiif';
+import { type Node, Fragment } from 'react';
+import getLicenseInfo, {
+  type LicenseData,
+} from '@weco/common/utils/get-license-info';
+import { type LicenseType } from '@weco/common/model/license';
+import { type IIIFRendering, type IIIFManifest } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
 } from '@weco/common/utils/works';
-import { Fragment, useContext, useEffect, useState } from 'react';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -18,8 +19,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -68,6 +67,7 @@ type Work = Object;
 
 type Props = {|
   work: Work,
+  iiifPresentationManifest: ?IIIFManifest,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
@@ -77,54 +77,43 @@ type Props = {|
 
 const WorkDetails = ({
   work,
+  iiifPresentationManifest,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
   downloadOptions,
   encoreLink,
 }: Props) => {
-  const iiifPresentationManifest = useContext(ManifestContext);
-  const [
-    iiifPresentationDownloadOptions,
-    setIIIFPresentationDownloadOptions,
-  ] = useState([]);
-  const [
-    iiifPresentationLicenseInfo,
-    setIIIFPresentationLicenseInfo,
-  ] = useState(null);
-  const [iiifPresentationRepository, setIIIFPresentationRepository] = useState(
-    null
-  );
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
+
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
 
   const WorkDetailsSections = [];
+
+  const iiifPresentationDownloadOptions = iiifPresentationManifest
+    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
   const allDownloadOptions = [
     ...downloadOptions,
     ...iiifPresentationDownloadOptions,
   ];
 
+  const iiifPresentationLicenseInfo =
+    iiifPresentationManifest && iiifPresentationManifest.license
+      ? getLicenseInfo(iiifPresentationManifest.license)
+      : '';
+
   const definitiveLicenseInfo =
     licenseInfo || (iiifPresentationLicenseInfo || null);
 
-  useEffect(() => {
-    if (iiifPresentationManifest) {
-      const iiifPresentationDownloadOptions =
-        getDownloadOptionsFromManifest(iiifPresentationManifest) || [];
-      setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
-      const iiifPresentationLicenseInfo = iiifPresentationManifest.license
-        ? getLicenseInfo(iiifPresentationManifest.license)
-        : '';
-      setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
-      setIIIFPresentationRepository(
-        getIIIFMetadata(iiifPresentationManifest, 'Repository')
-      );
-    }
-  }, [iiifPresentationManifest]);
+  const iiifPresentationRepository =
+    iiifPresentationManifest &&
+    getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(

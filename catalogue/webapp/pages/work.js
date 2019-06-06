@@ -64,6 +64,7 @@ export const WorkPage = ({ work }: Props) => {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
+
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
   };
@@ -249,15 +250,16 @@ export const WorkPage = ({ work }: Props) => {
             />
           </WobblyRow>
         )}
-        <WorkDetails
-          work={work}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          encoreLink={encoreLink}
-          downloadOptions={downloadOptions}
-        />
       </ManifestContext.Provider>
+      <WorkDetails
+        work={work}
+        iiifPresentationManifest={iiifPresentationManifest}
+        licenseInfo={licenseInfo}
+        iiifImageLocationCredit={iiifImageLocationCredit}
+        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        encoreLink={encoreLink}
+        downloadOptions={downloadOptions}
+      />
     </CataloguePageLayout>
   );
 };
