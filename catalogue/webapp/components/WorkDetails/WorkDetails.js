@@ -107,12 +107,17 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
   ];
 
   const iiifPresentationLicenseInfo =
-    iiifPresentationManifest && iiifPresentationManifest.license
-      ? getLicenseInfo(iiifPresentationManifest.license)
-      : '';
+    iiifPresentationManifest &&
+    (getIIIFMetadata(iiifPresentationManifest, 'Attribution') || {}).value;
 
   const definitiveLicenseInfo =
-    licenseInfo || (iiifPresentationLicenseInfo || null);
+    licenseInfo ||
+    (iiifPresentationLicenseInfo
+      ? {
+          text: '',
+          humanReadableText: [iiifPresentationLicenseInfo],
+        }
+      : null);
 
   const iiifPresentationRepository =
     iiifPresentationManifest &&
@@ -281,6 +286,7 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
       </MetaUnit>
     </WorkDetailsSection>
   );
+
   if (definitiveLicenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
