@@ -10,15 +10,14 @@ import fetch from 'isomorphic-unfetch';
 import { spacing, grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
-  getDownloadOptionsFromImageUrl,
   getEncoreLink,
+  getLocationType,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
@@ -94,29 +93,11 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const [iiifImageLocation] = work.items
-    .map(item =>
-      item.locations.find(location => location.locationType.id === 'iiif-image')
-    )
-    .filter(Boolean);
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const iiifImageLocationLicenseId =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
-    iiifImageLocation.license.id;
-  const licenseInfo =
-    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
-
   const iiifPresentationLocation = getIIIFPresentationLocation(work);
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
-
-  const downloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : [];
 
   const sierraIds = work.identifiers.filter(
     i => i.identifierType.id === 'sierra-system-number'
@@ -131,9 +112,11 @@ export const WorkPage = ({ work }: Props) => {
   // We strip the last character as that's what Wellcome library expect
   const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
+  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const imageContentUrl =
     iiifImageLocationUrl &&
-    iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
+    iiifImageTemplate(iiifImageLocation.url)({ size: `800,` });
 
   return (
     <CataloguePageLayout
@@ -254,11 +237,7 @@ export const WorkPage = ({ work }: Props) => {
       <WorkDetails
         work={work}
         iiifPresentationManifest={iiifPresentationManifest}
-        licenseInfo={licenseInfo}
-        iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         encoreLink={encoreLink}
-        downloadOptions={downloadOptions}
       />
     </CataloguePageLayout>
   );

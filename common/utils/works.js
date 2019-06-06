@@ -155,3 +155,13 @@ const workTypeIcons = {
 export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
+
+export function getLocationType(work: Work, locationType: string) {
+  const [item] = work.items
+    .map(item =>
+      item.locations.find(location => location.locationType.id === 'iiif-image')
+    )
+    .filter(Boolean);
+
+  return item;
+}

@@ -1,15 +1,14 @@
 // @flow
 import { type Node, Fragment } from 'react';
-import getLicenseInfo, {
-  type LicenseData,
-} from '@weco/common/utils/get-license-info';
-import { type LicenseType } from '@weco/common/model/license';
-import { type IIIFRendering, type IIIFManifest } from '@weco/common/model/iiif';
+import getLicenseInfo from '@weco/common/utils/get-license-info';
+import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
+  getDownloadOptionsFromImageUrl,
+  getLocationType,
 } from '@weco/common/utils/works';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -68,22 +67,22 @@ type Work = Object;
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
-  licenseInfo: ?LicenseData,
-  iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
-  downloadOptions: IIIFRendering[],
   encoreLink: ?string,
 |};
 
-const WorkDetails = ({
-  work,
-  iiifPresentationManifest,
-  licenseInfo,
-  iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
-  downloadOptions,
-  encoreLink,
-}: Props) => {
+const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
+  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
+
+  const iiifImageLocationLicenseId =
+    iiifImageLocation &&
+    iiifImageLocation.license &&
+    iiifImageLocation.license.id;
+
+  const licenseInfo =
+    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
+
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
@@ -96,6 +95,10 @@ const WorkDetails = ({
 
   const iiifPresentationDownloadOptions = iiifPresentationManifest
     ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : [];
 
   const allDownloadOptions = [
