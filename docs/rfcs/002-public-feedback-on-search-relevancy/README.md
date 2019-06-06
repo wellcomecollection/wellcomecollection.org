@@ -42,12 +42,16 @@ candidate queries.
 Explcitly tell them that we are doing this, and allow opt-out, business as usual
 searching.
 
-__Metrics:__ [Implicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#implicit)
+__Metrics:__
+* [Implicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#implicit)
 
 ### Entry to "help us help you" via `Explore our collections.
 Have a component on `Explore our collections` which has a selection of terms
 selected by `n`. Explain to people that by using this component, they will then
 be shown a relevance rater on the search page to help us make things better.
+
+__Metrics:__
+* [Explicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#explicit)
 
 ### Candidate query selector <sup>2000</sup>
 Create a more acceptable way of surfacing the candidate queries to people, and
@@ -60,7 +64,9 @@ and a combination of the two.
 
 Could we find a way to surface this without being to techy.
 
-__Metrics:__ [Explicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#explicit)
+__Metrics:__
+* [Explicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#explicit)
+* [Implicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#implicit)
 
 ### Boosters: Complete control
 This is a little more nuanced and needs more work on the API, but has been
@@ -72,9 +78,25 @@ A potential would be to add a slider to each field we select, and potentially
 one for MSM, and potentially have presets for specific scenarios (e.g. Find me
 a book with this title).
 
-__Metrics:__ [Explicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#explicit)
+__Metrics:__
+* [Explicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#explicit)
+* [Implicit](https://github.com/wellcometrust/catalogue/tree/master/docs/search%20relevance#implicit)
 
 #### Example
 <img width="798" alt="Screenshot 2019-06-05 at 17 01 00" src="https://user-images.githubusercontent.com/31692/58971606-b362c080-87b3-11e9-908a-db3dd3b70632.png" alt="a screenshot of the search boosting complete control" />
 
 [PR](https://github.com/wellcometrust/wellcomecollection.org/pull/4506)
+
+### Collecting explcit feedback
+When collecting explicit feedback we are going to have to build a component that
+does this.
+
+[We already have the relevance rater behind a toggle](https://github.com/wellcometrust/wellcomecollection.org/pull/4378).
+
+We have some nice wording for what 1-4 means, it's probably worth thinking about
+how we get this into the interface:
+
+> relevant (completely relevant to be at this rank)
+> near (not perfect but reasonable to be highly ranked)
+> misplaced (reasonable to be retrieved but should not be this highly ranked)
+> irrelevant (no apparent relationship to search term)
