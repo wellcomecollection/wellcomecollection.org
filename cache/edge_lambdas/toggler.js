@@ -38,7 +38,7 @@ let tests = [
     },
   },
 ];
-
+exports.tests = tests;
 exports.setTests = function(newTests) {
   tests = newTests;
 };
@@ -93,8 +93,13 @@ exports.request = (event, context) => {
         }
       } catch (error) {
         console.log(
-          `Toggles request: a/b test shouldRun() broke with error: ${error}`
+          `Toggles request: a/b test shouldRun() broke with error:`,
+          error.message
         );
+
+        if (process.env.NODE_ENV === 'test') {
+          throw error;
+        }
       }
     })
     .filter(Boolean);
@@ -102,7 +107,6 @@ exports.request = (event, context) => {
   if (newToggles.length > 0) {
     // We can technically send multiple Cookie headers down the pipes, but not
     // sure I want to be messing with that just yet
-    console.log('Toggles request: Setting toggled header and cookies');
     const togglesCookieString = newToggles
       .map(cookie => `${cookie.key}=${cookie.value}`)
       .join(';');
@@ -130,11 +134,9 @@ exports.response = (event, context) => {
   const request = event.Records[0].cf.request;
   const response = event.Records[0].cf.response;
 
-  console.log('Toggles response: trying to set set-cookie header');
   const toggleCookies = parseToggleCookies(request.headers['x-toggled']);
 
   if (toggleCookies.length > 0) {
-    console.log('Toggles response: setting set-cookie header');
     response.headers[`set-cookie`] = toggleCookies.map(cookie => ({
       key: 'Set-Cookie',
       value: `${cookie.key}=${cookie.value}; Path=/;`,
