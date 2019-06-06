@@ -87,7 +87,7 @@ __Metrics:__
 
 [PR](https://github.com/wellcometrust/wellcomecollection.org/pull/4506)
 
-### Collecting explcit feedback
+### Collecting explicit feedback
 When collecting explicit feedback we are going to have to build a component that
 does this.
 
