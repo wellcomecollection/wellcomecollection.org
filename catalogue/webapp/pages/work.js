@@ -217,23 +217,24 @@ export const WorkPage = ({ work }: Props) => {
               />
             </WobblyRow>
           )}
-        {iiifImageLocationUrl && (
-          <WobblyRow>
-            <IIIFImagePreview
-              id={work.id}
-              iiifUrl={iiifImageLocationUrl}
-              itemUrl={itemUrl({
-                workId: work.id,
-                sierraId: null,
-                langCode: work.language && work.language.id,
-                page: 1,
-                canvas: 1,
-              })}
-              title={work.title}
-            />
-          </WobblyRow>
-        )}
       </ManifestContext.Provider>
+      {iiifImageLocationUrl && (
+        <WobblyRow>
+          <IIIFImagePreview
+            id={work.id}
+            iiifUrl={iiifImageLocationUrl}
+            itemUrl={itemUrl({
+              workId: work.id,
+              sierraId: null,
+              langCode: work.language && work.language.id,
+              page: 1,
+              canvas: 1,
+            })}
+            title={work.title}
+          />
+        </WobblyRow>
+      )}
+
       <WorkDetails
         work={work}
         iiifPresentationManifest={iiifPresentationManifest}
