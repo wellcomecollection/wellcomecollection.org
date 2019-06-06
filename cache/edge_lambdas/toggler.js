@@ -23,7 +23,7 @@ let tests = [
   },
   {
     id: 'search_cadidate_query_boost',
-    title: 'Search candidate query: Minimum should match',
+    title: 'Search candidate query: Boost',
     range: [10, 20],
     shouldRun: request => {
       return request.uri.match(/^\/works\/*/);
