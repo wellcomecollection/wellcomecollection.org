@@ -72,6 +72,7 @@ exports.request = (event, context) => {
   const request = event.Records[0].cf.request;
   const toggleCookies = parseToggleCookies(request.headers.cookie);
 
+  const point = randomFromRange(0, 99);
   const newToggles = tests
     .map(test => {
       // Isn't already set
@@ -81,7 +82,6 @@ exports.request = (event, context) => {
       try {
         if (test.shouldRun(request) && !isSet) {
           // Flip the dice
-          const point = randomFromRange(0, 99);
           const [from, to] = test.range;
           const inRange = point >= from && point < to;
 
