@@ -58,6 +58,61 @@ const TitleContainer = styled.div.attrs(props => ({
     }
   }
 `;
+// TODO move into own component and move from images too
+const LL = styled.div`
+  position: absolute;
+  opacity: 0.2;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: none;
+  width: 50px;
+  height: 80px;
+  animation: animate-ll;
+
+  .enhanced & {
+    display: block;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: black;
+  }
+
+  &:before {
+    left: 0;
+    animation: animate-ll 1s infinite;
+  }
+
+  &:after {
+    right: 0;
+    animation: animate-ll 1s 0.5s infinite;
+  }
+}
+
+@keyframes animate-ll {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}`;
+
+const ViewerContainer = styled.div`
+  background: ${props => props.theme.colors.charcoal};
+  height: calc(100vh - 149px);
+`;
 
 const IIIFViewerImageWrapper = styled.div.attrs(props => ({
   className: classNames({
@@ -483,166 +538,178 @@ const IIIFViewerComponent = ({
           </>
         )}
       </TitleContainer>
-      <noscript>
-        <IIIFViewer>
-          <IIIFViewerMain fullWidth={!thumbnailsRequired}>
-            <IIIFViewerImageWrapper>
-              {iiifImageLocationUrl && imageUrl && (
-                <ImageViewer
-                  infoUrl={iiifImageLocationUrl}
-                  src={imageUrl}
-                  id={imageUrl}
-                  width={800}
-                  srcSet={''}
-                  canvasOcr={null}
-                  lang={null}
-                />
-              )}
-              {mainImageService['@id'] && currentCanvas && (
-                <ImageViewer
-                  id="item-page"
-                  infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-                  src={urlTemplate && urlTemplate({ size: '640,' })}
-                  srcSet={srcSet}
-                  width={currentCanvas.width}
-                  height={currentCanvas.height}
-                  canvasOcr={canvasOcr}
-                  lang={lang}
-                />
-              )}
-            </IIIFViewerImageWrapper>
-            <IIIFViewerPaginatorButtons>
-              <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
-            </IIIFViewerPaginatorButtons>
-          </IIIFViewerMain>
-
-          {thumbnailsRequired && (
-            <StaticThumbnailsContainer>
-              {navigationCanvases &&
-                navigationCanvases.map((canvas, i) => (
-                  <IIIFViewerThumb key={canvas['@id']}>
-                    <Paginator
-                      {...thumbsPaginatorProps}
-                      render={({ rangeStart }) => (
-                        <NextLink
-                          {...itemUrl({
-                            workId,
-                            page: pageIndex + 1,
-                            sierraId,
-                            langCode: lang,
-                            canvas: pageSize * pageIndex + (i + 1),
-                          })}
-                          scroll={false}
-                          replace
-                          passHref
-                        >
-                          <IIIFViewerThumbLink>
-                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
-                            <div>
-                              <IIIFViewerThumbNumber
-                                isActive={canvasIndex === rangeStart + i - 1}
-                              >
-                                <span className="visually-hidden">image </span>
-                                {rangeStart + i}
-                              </IIIFViewerThumbNumber>
-                            </div>
-                          </IIIFViewerThumbLink>
-                        </NextLink>
-                      )}
-                    />
-                  </IIIFViewerThumb>
-                ))}
-              <IIIFViewerPaginatorButtons isThumbs={true}>
-                <Paginator
-                  {...thumbsPaginatorProps}
-                  render={PaginatorButtons}
-                />
+      <ViewerContainer>
+        <LL />
+        <noscript>
+          <IIIFViewer>
+            <IIIFViewerMain fullWidth={!thumbnailsRequired}>
+              <IIIFViewerImageWrapper>
+                {iiifImageLocationUrl && imageUrl && (
+                  <ImageViewer
+                    infoUrl={iiifImageLocationUrl}
+                    src={imageUrl}
+                    id={imageUrl}
+                    width={800}
+                    srcSet={''}
+                    canvasOcr={null}
+                    lang={null}
+                  />
+                )}
+                {mainImageService['@id'] && currentCanvas && (
+                  <ImageViewer
+                    id="item-page"
+                    infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+                    src={urlTemplate && urlTemplate({ size: '640,' })}
+                    srcSet={srcSet}
+                    width={currentCanvas.width}
+                    height={currentCanvas.height}
+                    canvasOcr={canvasOcr}
+                    lang={lang}
+                  />
+                )}
+              </IIIFViewerImageWrapper>
+              <IIIFViewerPaginatorButtons>
+                <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
               </IIIFViewerPaginatorButtons>
-            </StaticThumbnailsContainer>
-          )}
-        </IIIFViewer>
-      </noscript>
+            </IIIFViewerMain>
 
-      {/* enhanced javascript viewer */}
-      {enhanced && (
-        <IIIFViewer isFixed={true}>
-          <IIIFViewerMain fullWidth={true}>
-            <IIIFViewerImageWrapper>
-              {iiifImageLocationUrl && imageUrl && (
-                <ImageViewer
-                  infoUrl={iiifImageLocationUrl}
-                  src={imageUrl}
-                  id={imageUrl}
-                  width={800}
-                  srcSet={''}
-                  canvasOcr={null}
-                  lang={null}
-                />
-              )}
-              {mainImageService['@id'] && currentCanvas && (
-                <ImageViewer
-                  id="item-page"
-                  infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-                  src={urlTemplate && urlTemplate({ size: '640,' })}
-                  srcSet={srcSet}
-                  width={currentCanvas.width}
-                  height={currentCanvas.height}
-                  canvasOcr={canvasOcr}
-                  lang={lang}
-                />
-              )}
-            </IIIFViewerImageWrapper>
-            <IIIFViewerPaginatorButtons>
-              <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
-            </IIIFViewerPaginatorButtons>
-          </IIIFViewerMain>
-
-          {thumbnailsRequired && (
-            <>
-              {/* TODO use styled component */}
-              <ScrollingThumbnailContainer
-                ref={thumbnailContainer}
-                showThumbs={showThumbs}
-              >
-                {canvases &&
-                  canvases.map((canvas, i) => {
-                    const isActive = canvasIndex === i;
-                    return (
-                      <IIIFViewerThumb key={canvas['@id']}>
-                        <NextLink
-                          {...itemUrl({
-                            workId,
-                            page: pageIndex + 1,
-                            sierraId,
-                            langCode: lang,
-                            canvas: i + 1,
-                          })}
-                          scroll={false}
-                          replace
-                          passHref
-                        >
-                          <IIIFViewerThumbLink
-                            onClick={() => {
-                              setShowThumbs(!showThumbs);
-                            }}
+            {thumbnailsRequired && (
+              <StaticThumbnailsContainer>
+                {navigationCanvases &&
+                  navigationCanvases.map((canvas, i) => (
+                    <IIIFViewerThumb key={canvas['@id']}>
+                      <Paginator
+                        {...thumbsPaginatorProps}
+                        render={({ rangeStart }) => (
+                          <NextLink
+                            {...itemUrl({
+                              workId,
+                              page: pageIndex + 1,
+                              sierraId,
+                              langCode: lang,
+                              canvas: pageSize * pageIndex + (i + 1),
+                            })}
+                            scroll={false}
+                            replace
+                            passHref
                           >
-                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
-                            <div>
-                              <IIIFViewerThumbNumber isActive={isActive}>
-                                <span className="visually-hidden">image </span>
-                                {i + 1}
-                              </IIIFViewerThumbNumber>
-                            </div>
-                          </IIIFViewerThumbLink>
-                        </NextLink>
-                      </IIIFViewerThumb>
-                    );
-                  })}
-              </ScrollingThumbnailContainer>
-            </>
-          )}
-        </IIIFViewer>
-      )}
+                            <IIIFViewerThumbLink>
+                              <IIIFCanvasThumbnail
+                                canvas={canvas}
+                                lang={lang}
+                              />
+                              <div>
+                                <IIIFViewerThumbNumber
+                                  isActive={canvasIndex === rangeStart + i - 1}
+                                >
+                                  <span className="visually-hidden">
+                                    image{' '}
+                                  </span>
+                                  {rangeStart + i}
+                                </IIIFViewerThumbNumber>
+                              </div>
+                            </IIIFViewerThumbLink>
+                          </NextLink>
+                        )}
+                      />
+                    </IIIFViewerThumb>
+                  ))}
+                <IIIFViewerPaginatorButtons isThumbs={true}>
+                  <Paginator
+                    {...thumbsPaginatorProps}
+                    render={PaginatorButtons}
+                  />
+                </IIIFViewerPaginatorButtons>
+              </StaticThumbnailsContainer>
+            )}
+          </IIIFViewer>
+        </noscript>
+
+        {/* enhanced javascript viewer */}
+        {enhanced && (
+          <IIIFViewer isFixed={true}>
+            <IIIFViewerMain fullWidth={true}>
+              <IIIFViewerImageWrapper>
+                {iiifImageLocationUrl && imageUrl && (
+                  <ImageViewer
+                    infoUrl={iiifImageLocationUrl}
+                    src={imageUrl}
+                    id={imageUrl}
+                    width={800}
+                    srcSet={''}
+                    canvasOcr={null}
+                    lang={null}
+                  />
+                )}
+                {mainImageService['@id'] && currentCanvas && (
+                  <ImageViewer
+                    id="item-page"
+                    infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+                    src={urlTemplate && urlTemplate({ size: '640,' })}
+                    srcSet={srcSet}
+                    width={currentCanvas.width}
+                    height={currentCanvas.height}
+                    canvasOcr={canvasOcr}
+                    lang={lang}
+                  />
+                )}
+              </IIIFViewerImageWrapper>
+              <IIIFViewerPaginatorButtons>
+                <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
+              </IIIFViewerPaginatorButtons>
+            </IIIFViewerMain>
+
+            {thumbnailsRequired && (
+              <>
+                <ScrollingThumbnailContainer
+                  ref={thumbnailContainer}
+                  showThumbs={showThumbs}
+                >
+                  {canvases &&
+                    canvases.map((canvas, i) => {
+                      const isActive = canvasIndex === i;
+                      return (
+                        <IIIFViewerThumb key={canvas['@id']}>
+                          <NextLink
+                            {...itemUrl({
+                              workId,
+                              page: pageIndex + 1,
+                              sierraId,
+                              langCode: lang,
+                              canvas: i + 1,
+                            })}
+                            scroll={false}
+                            replace
+                            passHref
+                          >
+                            <IIIFViewerThumbLink
+                              onClick={() => {
+                                setShowThumbs(!showThumbs);
+                              }}
+                            >
+                              <IIIFCanvasThumbnail
+                                canvas={canvas}
+                                lang={lang}
+                              />
+                              <div>
+                                <IIIFViewerThumbNumber isActive={isActive}>
+                                  <span className="visually-hidden">
+                                    image{' '}
+                                  </span>
+                                  {i + 1}
+                                </IIIFViewerThumbNumber>
+                              </div>
+                            </IIIFViewerThumbLink>
+                          </NextLink>
+                        </IIIFViewerThumb>
+                      );
+                    })}
+                </ScrollingThumbnailContainer>
+              </>
+            )}
+          </IIIFViewer>
+        )}
+      </ViewerContainer>
     </>
   );
 };
