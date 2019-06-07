@@ -69,6 +69,7 @@ const LL = styled.div`
   width: 50px;
   height: 80px;
   animation: animate-ll;
+  ${props => props.small && 'zoom: 0.5;'}
 
   .enhanced & {
     display: block;
@@ -333,8 +334,19 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
     .sort((a, b) => a.width - b.width)
     .find(dimensions => dimensions.width > 100);
   return (
-    <>
+    <div
+      style={{
+        position: 'relative',
+        paddingTop: smallestWidthImageDimensions
+          ? `${(smallestWidthImageDimensions.height /
+              smallestWidthImageDimensions.width) *
+              100}%`
+          : 0,
+      }}
+    >
+      <LL small={true} />
       <img
+        style={{ display: 'block', position: 'absolute', top: 0 }}
         lang={lang}
         width={
           smallestWidthImageDimensions && smallestWidthImageDimensions.width
@@ -364,6 +376,7 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
       />
       <noscript>
         <img
+          style={{ display: 'block', position: 'absolute', top: 0 }}
           width={
             smallestWidthImageDimensions && smallestWidthImageDimensions.width
           }
@@ -381,7 +394,7 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
           alt={''}
         />
       </noscript>
-    </>
+    </div>
   );
 };
 
@@ -448,6 +461,7 @@ type IIIFViewerProps = {|
   canvasIndex: number,
   iiifImageLocationUrl: ?string,
   imageUrl: ?string,
+  loading: boolean,
 |};
 
 const IIIFViewerComponent = ({
@@ -469,6 +483,7 @@ const IIIFViewerComponent = ({
   canvasIndex,
   iiifImageLocationUrl,
   imageUrl,
+  loading,
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
@@ -557,7 +572,6 @@ const IIIFViewerComponent = ({
                 )}
                 {mainImageService['@id'] && currentCanvas && (
                   <ImageViewer
-                    id="item-page"
                     infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
                     src={urlTemplate && urlTemplate({ size: '640,' })}
                     srcSet={srcSet}
@@ -651,6 +665,7 @@ const IIIFViewerComponent = ({
                     height={currentCanvas.height}
                     canvasOcr={canvasOcr}
                     lang={lang}
+                    loading={loading}
                   />
                 )}
               </IIIFViewerImageWrapper>

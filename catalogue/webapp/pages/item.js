@@ -1,5 +1,7 @@
 // @flow
 import { type Context } from 'next';
+import { useEffect, useState } from 'react';
+import Router from 'next/router';
 import {
   type Work,
   type CatalogueApiError,
@@ -151,6 +153,22 @@ const ItemPage = ({
     linkKey: 'page',
     ...sharedPaginatorProps,
   };
+  const [loading, setLoading] = useState(false);
+  function routeChangeStart(url: string) {
+    setLoading(true);
+  }
+  function routeChangeComplete(url: string) {
+    setLoading(false);
+  }
+  useEffect(() => {
+    Router.events.on('routeChangeStart', routeChangeStart);
+    Router.events.on('routeChangeComplete', routeChangeComplete);
+
+    return () => {
+      Router.events.off('routeChangeStart', routeChangeStart);
+      Router.events.off('routeChangeComplete', routeChangeComplete);
+    };
+  }, []);
 
   return (
     <CataloguePageLayout
@@ -200,6 +218,7 @@ const ItemPage = ({
           canvasIndex={canvasIndex}
           iiifImageLocationUrl={iiifImageLocationUrl}
           imageUrl={imageUrl}
+          loading={loading}
         />
       )}
     </CataloguePageLayout>
