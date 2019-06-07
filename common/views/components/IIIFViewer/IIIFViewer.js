@@ -29,14 +29,33 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  padding: ${props => `0 ${props.theme.spacingUnit * 4}px`};
   background: ${props => props.theme.colors.coal};
   color: ${props => props.theme.colors.smoke};
+  padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    padding: ${props => `0 ${props.theme.spacingUnit * 4}px`};
+  }
   h1 {
     margin: 0;
   }
   button {
-    width: 130px;
+    overflow: hidden;
+    .icon {
+      margin: 0;
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        margin-right: ${props => `0 ${props.theme.spacingUnit}px`};
+      }
+    }
+    .btn__text {
+      position: absolute;
+      left: 100%;
+      @media (min-width: ${props => props.theme.sizes.medium}px) {
+        position: static;
+      }
+    }
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      width: 130px;
+    }
   }
 `;
 
