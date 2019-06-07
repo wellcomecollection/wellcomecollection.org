@@ -43,12 +43,12 @@ const TitleContainer = styled.div.attrs(props => ({
     .icon {
       margin: 0;
       @media (min-width: ${props => props.theme.sizes.medium}px) {
-        margin-right: ${props => `0 ${props.theme.spacingUnit}px`};
+        margin-right: ${props => `${props.theme.spacingUnit}px`};
       }
     }
     .btn__text {
       position: absolute;
-      left: 100%;
+      right: 100%;
       @media (min-width: ${props => props.theme.sizes.medium}px) {
         position: static;
       }
@@ -77,14 +77,11 @@ const IIIFViewer = styled.div.attrs(props => ({
 }))`
   position: ${props => props.isFixed && 'fixed'};
   top: ${props => props.isFixed && '149px'};
-  height: calc(100vh - 149px);
+  height: calc(100% - 149px);
   width: 100vw;
   flex-direction: row-reverse;
 
   .image-viewer__image img {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
     margin: 0 auto;
     display: block;
     width: auto;
@@ -194,7 +191,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 `;
 
 const ScrollingThumbnailContainer = styled.div`
-  height: calc(100vh - 149px);
+  height: calc(100% - 149px);
   width: 100%;
   overflow: scroll;
   position: fixed;
