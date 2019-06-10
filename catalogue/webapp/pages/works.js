@@ -425,15 +425,15 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const {
     useStageApi,
-    searchCadidateQueryMsm,
-    searchCadidateQueryBoost,
-    searchCadidateQueryMsmBoost,
+    searchCandidateQueryMsm,
+    searchCandidateQueryBoost,
+    searchCandidateQueryMsmBoost,
   } = ctx.query.toggles;
-  const toggledQueryType = searchCadidateQueryMsm
+  const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
-    : searchCadidateQueryBoost
+    : searchCandidateQueryBoost
     ? 'boost'
-    : searchCadidateQueryMsmBoost
+    : searchCandidateQueryMsmBoost
     ? 'msmboost'
     : null;
   const workTypeQuery = ctx.query.workType;
