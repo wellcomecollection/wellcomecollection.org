@@ -83,9 +83,15 @@ const IIIFViewer = styled.div.attrs(props => ({
 }))`
   position: ${props => props.isFixed && 'fixed'};
   top: ${props => props.isFixed && '149px'};
-  height: calc(100% - 149px);
+  height: calc(
+    100% - 149px
+  ); /* using 100vh causes problems with browser chrome on mobile */
   width: 100vw;
   flex-direction: row-reverse;
+
+  noscript & {
+    height: calc(100vh - 149px);
+  }
 
   .image-viewer__image img {
     margin: 0 auto;
@@ -197,7 +203,9 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 `;
 
 const ScrollingThumbnailContainer = styled.div`
-  height: calc(100% - 149px);
+  height: calc(
+    100% - 149px
+  ); /* using 100vh causes problems with browser chrome on mobile */
   width: 100%;
   overflow: scroll;
   position: fixed;
@@ -211,6 +219,10 @@ const ScrollingThumbnailContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+
+  noscript & {
+    height: calc(100vh - 149px);
+  }
 
   /* Makes sure trailing items in last row stay next to each other rather than being evenly spaced */
   &:after {
