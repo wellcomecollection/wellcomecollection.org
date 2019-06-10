@@ -61,7 +61,7 @@ const TitleContainer = styled.div.attrs(props => ({
   }
 `;
 
-const ViewerContainer = styled.div`
+const IIIFViewerBackground = styled.div`
   background: ${props => props.theme.colors.charcoal};
   height: calc(100vh - 149px);
 `;
@@ -204,13 +204,10 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 `;
 
 const ScrollingThumbnailContainer = styled.div`
-  height: calc(
-    100% - 149px
-  ); /* using 100vh causes problems with browser chrome on mobile */
+  height: 100%;
   width: 100%;
   overflow: scroll;
-  position: fixed;
-  top: 149px;
+  position: absolute;
   background: ${props => props.theme.colors.charcoal};
   padding: ${props => props.theme.spacingUnit}px;
   transform: ${props =>
@@ -219,11 +216,7 @@ const ScrollingThumbnailContainer = styled.div`
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-
-  noscript & {
-    height: calc(100vh - 149px);
-  }
+  justify-content: space-around;
 
   /* Makes sure trailing items in last row stay next to each other rather than being evenly spaced */
   &:after {
@@ -500,7 +493,7 @@ const IIIFViewerComponent = ({
           </>
         )}
       </TitleContainer>
-      <ViewerContainer>
+      <IIIFViewerBackground>
         <LL />
         <noscript>
           <IIIFViewer>
@@ -680,7 +673,7 @@ const IIIFViewerComponent = ({
             )}
           </IIIFViewer>
         )}
-      </ViewerContainer>
+      </IIIFViewerBackground>
     </>
   );
 };
