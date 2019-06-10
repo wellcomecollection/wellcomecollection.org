@@ -423,9 +423,21 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
-  const { useStageApi } = ctx.query.toggles;
+  const {
+    useStageApi,
+    searchCadidateQueryMsm,
+    searchCadidateQueryBoost,
+    searchCadidateQueryMsmBoost,
+  } = ctx.query.toggles;
+  const toggledQueryType = searchCadidateQueryMsm
+    ? 'msm'
+    : searchCadidateQueryBoost
+    ? 'boost'
+    : searchCadidateQueryMsmBoost
+    ? 'msmboost'
+    : null;
   const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType;
+  const _queryType = ctx.query._queryType || toggledQueryType;
   const defaultWorkType = ['a', 'k', 'q', 'v'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
