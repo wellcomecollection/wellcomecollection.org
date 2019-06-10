@@ -412,7 +412,6 @@ type IIIFViewerProps = {|
   lang: string,
   canvasOcr: ?string,
   canvases: ?[],
-  navigationCanvases: ?(IIIFCanvas[]),
   workId: string,
   query: ?string,
   workType: ?(string[]),
@@ -434,7 +433,6 @@ const IIIFViewerComponent = ({
   lang,
   canvasOcr,
   canvases,
-  navigationCanvases,
   workId,
   query,
   workType,
@@ -450,6 +448,12 @@ const IIIFViewerComponent = ({
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
   const thumbnailContainer = useRef(null);
+  const navigationCanvases =
+    canvases &&
+    [...Array(pageSize)]
+      .map((_, i) => pageSize * pageIndex + i)
+      .map(i => canvases[i])
+      .filter(Boolean);
 
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',

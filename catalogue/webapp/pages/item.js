@@ -110,7 +110,6 @@ const ItemPage = ({
   const iiifImage =
     iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
   const imageUrl = iiifImage && iiifImage({ size: '800,' });
-
   const mainImageService =
     currentCanvas && currentCanvas.images[0].resource.service
       ? {
@@ -122,12 +121,6 @@ const ItemPage = ({
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -197,7 +190,7 @@ const ItemPage = ({
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {((mainImageService && currentCanvas && navigationCanvases) ||
+      {((mainImageService && currentCanvas) ||
         (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
           title={title}
@@ -207,7 +200,6 @@ const ItemPage = ({
           lang={langCode}
           canvasOcr={canvasOcr}
           canvases={canvases}
-          navigationCanvases={navigationCanvases}
           workId={workId}
           query={query}
           workType={workType}
