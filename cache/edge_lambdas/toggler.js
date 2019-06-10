@@ -14,7 +14,7 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchCadidateQueryMsm',
+    id: 'searchCandidateQueryMsm',
     title: 'Search candidate query: Minimum should match',
     range: [0, 10],
     shouldRun: request => {
@@ -22,7 +22,7 @@ let tests = [
     },
   },
   {
-    id: 'searchCadidateQueryBoost',
+    id: 'searchCandidateQueryBoost',
     title: 'Search candidate query: Boost',
     range: [10, 20],
     shouldRun: request => {
@@ -30,7 +30,7 @@ let tests = [
     },
   },
   {
-    id: 'searchCadidateQueryMsmBoost',
+    id: 'searchCandidateQueryMsmBoost',
     title: 'Search candidate query: Minimum should match with boost',
     range: [20, 30],
     shouldRun: request => {
