@@ -37,6 +37,7 @@ type ImageViewerProps = {|
   canvasOcr: ?string,
   infoUrl: string,
   lang: ?string,
+  loading: boolean,
 |};
 
 const ImageViewer = ({
@@ -48,6 +49,7 @@ const ImageViewer = ({
   infoUrl,
   src,
   srcSet,
+  loading,
 }: ImageViewerProps) => {
   const [imageLoading, setImageLoading] = useState(false);
   const [viewer, setViewer] = useState(null);

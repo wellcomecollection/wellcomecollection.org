@@ -62,6 +62,7 @@ const WorkEmbed = ({ work }: Props) => {
                 canvasOcr={null}
                 lang={null}
                 width={800}
+                loading={false}
               />
             </Fragment>
           </div>

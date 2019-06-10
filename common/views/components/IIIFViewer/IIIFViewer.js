@@ -518,10 +518,12 @@ const IIIFViewerComponent = ({
                     srcSet={''}
                     canvasOcr={null}
                     lang={null}
+                    loading={loading}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
                   <ImageViewer
+                    id="item-page"
                     infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
                     src={urlTemplate && urlTemplate({ size: '640,' })}
                     srcSet={srcSet}
@@ -529,6 +531,7 @@ const IIIFViewerComponent = ({
                     height={currentCanvas.height}
                     canvasOcr={canvasOcr}
                     lang={lang}
+                    loading={loading}
                   />
                 )}
               </IIIFViewerImageWrapper>
@@ -603,6 +606,7 @@ const IIIFViewerComponent = ({
                     srcSet={''}
                     canvasOcr={null}
                     lang={null}
+                    loading={loading}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
