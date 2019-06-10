@@ -2,7 +2,6 @@
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
-import Raven from 'raven-js';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
@@ -21,6 +20,7 @@ import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LL from '@weco/common/views/components/styled/LL';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -300,45 +300,13 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
       }}
     >
       <LL small={true} />
-      <img
-        style={{ display: 'block', position: 'absolute', top: 0 }}
-        lang={lang}
-        width={
-          smallestWidthImageDimensions && smallestWidthImageDimensions.width
-        }
-        height={
-          smallestWidthImageDimensions && smallestWidthImageDimensions.height
-        }
-        className={classNames({
-          image: true,
-          lazyload: true,
-        })}
-        onError={event =>
-          Raven.captureException(new Error('IIIF image loading error'), {
-            tags: {
-              service: 'dlcs',
-            },
-          })
-        }
-        data-src={urlTemplate({
-          size: `${
+      <div style={{ display: 'block', position: 'absolute', top: 0 }}>
+        <IIIFResponsiveImage
+          width={
             smallestWidthImageDimensions
               ? smallestWidthImageDimensions.width
-              : '!100'
-          },`,
-        })}
-        alt={''}
-      />
-      <noscript>
-        <img
-          style={{ display: 'block', position: 'absolute', top: 0 }}
-          width={
-            smallestWidthImageDimensions && smallestWidthImageDimensions.width
+              : 30
           }
-          height={
-            smallestWidthImageDimensions && smallestWidthImageDimensions.height
-          }
-          className={'image image--noscript'}
           src={urlTemplate({
             size: `${
               smallestWidthImageDimensions
@@ -346,9 +314,17 @@ const IIIFCanvasThumbnail = ({ canvas, lang }: IIIFCanvasThumbnailProps) => {
                 : '!100'
             },`,
           })}
+          srcSet={''}
+          sizes={`${
+            smallestWidthImageDimensions
+              ? smallestWidthImageDimensions.width
+              : 30
+          }px`}
           alt={''}
+          lang={lang}
+          isLazy={true}
         />
-      </noscript>
+      </div>
     </div>
   );
 };
