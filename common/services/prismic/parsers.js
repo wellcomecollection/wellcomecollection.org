@@ -24,6 +24,7 @@ import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
+import { parseExhibitionDoc } from './exhibitions';
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
@@ -540,6 +541,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parsePage(item.content);
                     case 'event-series':
                       return parseEventSeries(item.content);
+                    case 'exhibitions':
+                      return parseExhibitionDoc(item.content);
                   }
                 })
                 .filter(Boolean),
