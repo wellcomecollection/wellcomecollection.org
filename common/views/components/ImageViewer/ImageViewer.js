@@ -38,6 +38,7 @@ type ImageViewerProps = {|
   infoUrl: string,
   lang: ?string,
   loading: boolean,
+  tabbableControls: boolean,
 |};
 
 const ImageViewer = ({
@@ -50,6 +51,7 @@ const ImageViewer = ({
   src,
   srcSet,
   loading,
+  tabbableControls,
 }: ImageViewerProps) => {
   const [imageLoading, setImageLoading] = useState(false);
   const [viewer, setViewer] = useState(null);
@@ -181,18 +183,21 @@ const ImageViewer = ({
       {enhanced && (
         <div className="image-viewer__controls">
           <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
             type="on-black"
             text="Zoom in"
             icon="zoomIn"
             clickHandler={handleZoomIn}
           />
           <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
             type="on-black"
             text="Zoom out"
             icon="zoomOut"
             clickHandler={handleZoomOut}
           />
           <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
             type="on-black"
             text="Rotate"
             icon="rotatePageRight"
@@ -223,7 +228,7 @@ const ImageViewer = ({
             height={height}
             src={src}
             srcSet={srcSet}
-            sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // FIXME: do this better
+            sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
             extraClasses={classNames({
               'block h-center': true,
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,

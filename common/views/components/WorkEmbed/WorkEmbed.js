@@ -63,6 +63,7 @@ const WorkEmbed = ({ work }: Props) => {
                 lang={null}
                 width={800}
                 loading={false}
+                tabbableControls={true}
               />
             </Fragment>
           </div>

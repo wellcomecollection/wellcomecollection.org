@@ -519,6 +519,7 @@ const IIIFViewerComponent = ({
                     canvasOcr={null}
                     lang={null}
                     loading={loading}
+                    tabbableControls={!showThumbs}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
@@ -532,6 +533,7 @@ const IIIFViewerComponent = ({
                     canvasOcr={canvasOcr}
                     lang={lang}
                     loading={loading}
+                    tabbableControls={!showThumbs}
                   />
                 )}
               </IIIFViewerImageWrapper>
@@ -607,6 +609,7 @@ const IIIFViewerComponent = ({
                     canvasOcr={null}
                     lang={null}
                     loading={loading}
+                    tabbableControls={!showThumbs}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
@@ -620,6 +623,7 @@ const IIIFViewerComponent = ({
                     canvasOcr={canvasOcr}
                     lang={lang}
                     loading={loading}
+                    tabbableControls={!showThumbs}
                   />
                 )}
               </IIIFViewerImageWrapper>
@@ -652,6 +656,7 @@ const IIIFViewerComponent = ({
                             passHref
                           >
                             <IIIFViewerThumbLink
+                              tabIndex={showThumbs ? 0 : -1}
                               onClick={() => {
                                 setShowThumbs(!showThumbs);
                               }}
