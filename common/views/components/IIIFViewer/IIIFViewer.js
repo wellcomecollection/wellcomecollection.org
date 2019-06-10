@@ -1,5 +1,6 @@
 // @flow
 import { type IIIFCanvas } from '@weco/common/model/iiif';
+import Router from 'next/router';
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
@@ -391,7 +392,6 @@ type IIIFViewerProps = {|
   canvasIndex: number,
   iiifImageLocationUrl: ?string,
   imageUrl: ?string,
-  loading: boolean,
 |};
 
 const IIIFViewerComponent = ({
@@ -412,7 +412,6 @@ const IIIFViewerComponent = ({
   canvasIndex,
   iiifImageLocationUrl,
   imageUrl,
-  loading,
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
@@ -439,6 +438,19 @@ const IIIFViewerComponent = ({
       .join(',');
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
+
+  const [loading, setLoading] = useState(false);
+  function routeChangeStart(url: string) {
+    setLoading(true);
+  }
+
+  useEffect(() => {
+    Router.events.on('routeChangeStart', routeChangeStart);
+
+    return () => {
+      Router.events.off('routeChangeStart', routeChangeStart);
+    };
+  }, []);
 
   useEffect(() => {
     setEnhanced(true);
