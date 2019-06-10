@@ -263,7 +263,7 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
 function scrollIntoViewIfOutOfView(container, index) {
   const itemToScroll = container.children.item(index);
   if (itemToScroll) {
-    const inView = checkInView(container, itemToScroll, false);
+    const inView = checkInView(container, itemToScroll);
     !inView && itemToScroll.scrollIntoView();
   }
 }
@@ -274,14 +274,7 @@ function checkInView(container, element, includePartialView) {
   const elementTop = element.offsetTop;
   const elementBottom = elementTop + element.clientHeight;
 
-  const completelyInView =
-    elementTop >= containerTop && elementBottom <= containerBottom;
-  let partiallyInView =
-    includePartialView &&
-    ((elementTop < containerTop && elementBottom > containerTop) ||
-      (elementBottom > containerBottom && elementTop < containerBottom));
-
-  return completelyInView || partiallyInView;
+  return elementTop >= containerTop && elementBottom <= containerBottom;
 }
 
 type IIIFCanvasThumbnailProps = {|
