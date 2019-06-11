@@ -56,7 +56,6 @@ const ImageViewer = ({
   const [imageLoading, setImageLoading] = useState(false);
   const [viewer, setViewer] = useState(null);
   const [isError, setIsError] = useState(false);
-  const [enhanced, setEnhanced] = useState(false);
   const zoomStep = 0.5;
   function routeChangeStart(url: string) {
     setImageLoading(true);
@@ -68,9 +67,7 @@ const ImageViewer = ({
       Router.events.off('routeChangeStart', routeChangeStart);
     };
   }, []);
-  useEffect(() => {
-    setEnhanced(true);
-  }, []);
+
   useEffect(() => {
     if (viewer) {
       fetch(infoUrl)
@@ -180,31 +177,29 @@ const ImageViewer = ({
         'image-viewer__content': true,
       })}
     >
-      {enhanced && (
-        <div className="image-viewer__controls">
-          <Control
-            tabIndex={tabbableControls ? '0' : '-1'}
-            type="on-black"
-            text="Zoom in"
-            icon="zoomIn"
-            clickHandler={handleZoomIn}
-          />
-          <Control
-            tabIndex={tabbableControls ? '0' : '-1'}
-            type="on-black"
-            text="Zoom out"
-            icon="zoomOut"
-            clickHandler={handleZoomOut}
-          />
-          <Control
-            tabIndex={tabbableControls ? '0' : '-1'}
-            type="on-black"
-            text="Rotate"
-            icon="rotatePageRight"
-            clickHandler={handleRotate}
-          />
-        </div>
-      )}
+      <div className="image-viewer__controls">
+        <Control
+          tabIndex={tabbableControls ? '0' : '-1'}
+          type="on-black"
+          text="Zoom in"
+          icon="zoomIn"
+          clickHandler={handleZoomIn}
+        />
+        <Control
+          tabIndex={tabbableControls ? '0' : '-1'}
+          type="on-black"
+          text="Zoom out"
+          icon="zoomOut"
+          clickHandler={handleZoomOut}
+        />
+        <Control
+          tabIndex={tabbableControls ? '0' : '-1'}
+          type="on-black"
+          text="Rotate"
+          icon="rotatePageRight"
+          clickHandler={handleRotate}
+        />
+      </div>
 
       <div
         id={`image-viewer-${id}`}
