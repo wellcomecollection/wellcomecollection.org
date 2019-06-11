@@ -612,8 +612,9 @@ const IIIFViewerComponent = ({
         {/* enhanced javascript viewer */}
         {enhanced && (
           <IIIFViewer isFixed={true}>
-            <IIIFViewerMain fullWidth={true}>
-              <IIIFViewerImageWrapper>
+            <IIIFViewerMain fullWidth={true} aria-live="polite">
+              <IIIFViewerImageWrapper aria-hidden={showThumbs}>
+                {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
                 {iiifImageLocationUrl && imageUrl && (
                   <ImageViewer
                     infoUrl={iiifImageLocationUrl}
@@ -621,7 +622,6 @@ const IIIFViewerComponent = ({
                     id={imageUrl}
                     width={800}
                     srcSet={''}
-                    canvasOcr={null}
                     lang={null}
                     tabbableControls={!showThumbs}
                   />
@@ -634,7 +634,6 @@ const IIIFViewerComponent = ({
                     srcSet={srcSet}
                     width={currentCanvas.width}
                     height={currentCanvas.height}
-                    canvasOcr={canvasOcr}
                     lang={lang}
                     tabbableControls={!showThumbs}
                   />
@@ -649,6 +648,7 @@ const IIIFViewerComponent = ({
               <ScrollingThumbnailContainer
                 ref={thumbnailContainer}
                 showThumbs={showThumbs}
+                aria-hidden={!showThumbs}
               >
                 {canvases &&
                   canvases.map((canvas, i) => {

@@ -92,7 +92,6 @@ type ImageViewerProps = {|
   srcSet: string,
   width: number,
   height?: number,
-  canvasOcr: ?string,
   infoUrl: string,
   lang: ?string,
   tabbableControls: boolean,
@@ -102,7 +101,6 @@ const ImageViewer = ({
   id,
   width,
   height,
-  canvasOcr,
   lang,
   infoUrl,
   src,
@@ -261,7 +259,11 @@ const ImageViewer = ({
         }}
       >
         {imageLoading && <LL />}
-        <ImageWrapper imageLoading={imageLoading} id={`image-viewer-${id}`}>
+        <ImageWrapper
+          imageLoading={imageLoading}
+          id={`image-viewer-${id}`}
+          aria-hidden="true"
+        >
           {isError && (
             <p
               className={classNames({
@@ -272,6 +274,7 @@ const ImageViewer = ({
             </p>
           )}
           {!viewer && (
+            // TODO: maybe add role="presentation" to img?
             <IIIFResponsiveImage
               width={width}
               height={height}
@@ -285,10 +288,7 @@ const ImageViewer = ({
               lang={lang}
               clickHandler={handleZoomIn}
               loadHandler={() => setImageLoading(false)}
-              alt={
-                (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                'no text alternative'
-              }
+              alt=""
               isLazy={false}
             />
           )}
