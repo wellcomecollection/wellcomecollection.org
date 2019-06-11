@@ -94,6 +94,13 @@ const IIIFViewer = styled.div.attrs(props => ({
     height: calc(100vh - 149px);
   }
 
+  noscript & img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   .image-viewer__image img {
     margin: 0 auto;
     display: block;
@@ -500,30 +507,39 @@ const IIIFViewerComponent = ({
             <IIIFViewerMain fullWidth={!thumbnailsRequired}>
               <IIIFViewerImageWrapper>
                 {iiifImageLocationUrl && imageUrl && (
-                  <ImageViewer
-                    infoUrl={iiifImageLocationUrl}
-                    src={imageUrl}
-                    id={imageUrl}
+                  <IIIFResponsiveImage
                     width={800}
-                    srcSet={''}
-                    canvasOcr={null}
-                    lang={null}
-                    loading={loading}
-                    tabbableControls={!showThumbs}
+                    src={imageUrl}
+                    srcSet={srcSet}
+                    sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+                    extraClasses={classNames({
+                      'block h-center': true,
+                      [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                    })}
+                    lang={lang}
+                    alt={
+                      (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                      'no text alternative'
+                    }
+                    isLazy={false}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
-                  <ImageViewer
-                    id="item-page"
-                    infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-                    src={urlTemplate && urlTemplate({ size: '640,' })}
+                  <IIIFResponsiveImage
+                    width={800}
+                    src={urlTemplate && urlTemplate({ size: '800,' })}
                     srcSet={srcSet}
-                    width={currentCanvas.width}
-                    height={currentCanvas.height}
-                    canvasOcr={canvasOcr}
+                    sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+                    extraClasses={classNames({
+                      'block h-center': true,
+                      [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                    })}
                     lang={lang}
-                    loading={loading}
-                    tabbableControls={!showThumbs}
+                    alt={
+                      (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                      'no text alternative'
+                    }
+                    isLazy={false}
                   />
                 )}
               </IIIFViewerImageWrapper>
@@ -623,53 +639,46 @@ const IIIFViewerComponent = ({
             </IIIFViewerMain>
 
             {thumbnailsRequired && (
-              <>
-                <ScrollingThumbnailContainer
-                  ref={thumbnailContainer}
-                  showThumbs={showThumbs}
-                >
-                  {canvases &&
-                    canvases.map((canvas, i) => {
-                      const isActive = canvasIndex === i;
-                      return (
-                        <IIIFViewerThumb key={canvas['@id']}>
-                          <NextLink
-                            {...itemUrl({
-                              workId,
-                              page: pageIndex + 1,
-                              sierraId,
-                              langCode: lang,
-                              canvas: i + 1,
-                            })}
-                            scroll={false}
-                            replace
-                            passHref
+              <ScrollingThumbnailContainer
+                ref={thumbnailContainer}
+                showThumbs={showThumbs}
+              >
+                {canvases &&
+                  canvases.map((canvas, i) => {
+                    const isActive = canvasIndex === i;
+                    return (
+                      <IIIFViewerThumb key={canvas['@id']}>
+                        <NextLink
+                          {...itemUrl({
+                            workId,
+                            page: pageIndex + 1,
+                            sierraId,
+                            langCode: lang,
+                            canvas: i + 1,
+                          })}
+                          scroll={false}
+                          replace
+                          passHref
+                        >
+                          <IIIFViewerThumbLink
+                            tabIndex={showThumbs ? 0 : -1}
+                            onClick={() => {
+                              setShowThumbs(!showThumbs);
+                            }}
                           >
-                            <IIIFViewerThumbLink
-                              tabIndex={showThumbs ? 0 : -1}
-                              onClick={() => {
-                                setShowThumbs(!showThumbs);
-                              }}
-                            >
-                              <IIIFCanvasThumbnail
-                                canvas={canvas}
-                                lang={lang}
-                              />
-                              <div>
-                                <IIIFViewerThumbNumber isActive={isActive}>
-                                  <span className="visually-hidden">
-                                    image{' '}
-                                  </span>
-                                  {i + 1}
-                                </IIIFViewerThumbNumber>
-                              </div>
-                            </IIIFViewerThumbLink>
-                          </NextLink>
-                        </IIIFViewerThumb>
-                      );
-                    })}
-                </ScrollingThumbnailContainer>
-              </>
+                            <IIIFCanvasThumbnail canvas={canvas} lang={lang} />
+                            <div>
+                              <IIIFViewerThumbNumber isActive={isActive}>
+                                <span className="visually-hidden">image </span>
+                                {i + 1}
+                              </IIIFViewerThumbNumber>
+                            </div>
+                          </IIIFViewerThumbLink>
+                        </NextLink>
+                      </IIIFViewerThumb>
+                    );
+                  })}
+              </ScrollingThumbnailContainer>
             )}
           </IIIFViewer>
         )}
