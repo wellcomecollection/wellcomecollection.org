@@ -437,6 +437,8 @@ const IIIFViewerComponent = ({
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
   const thumbnailContainer = useRef(null);
+  const activeThumbnailRef = useRef(null);
+  const viewToggleRef = useRef(null);
   const navigationCanvases =
     canvases &&
     [...Array(pageSize)]
@@ -467,7 +469,7 @@ const IIIFViewerComponent = ({
   useEffect(() => {
     thumbnailContainer.current &&
       scrollIntoViewIfOutOfView(thumbnailContainer.current, canvasIndex);
-  });
+  }, [canvasIndex]);
 
   return (
     <>
@@ -501,8 +503,12 @@ const IIIFViewerComponent = ({
                 icon={showThumbs ? 'detailView' : 'gridView'}
                 text={showThumbs ? 'Detail view' : 'View all'}
                 clickHandler={() => {
+                  activeThumbnailRef &&
+                    activeThumbnailRef.current &&
+                    activeThumbnailRef.current.focus();
                   setShowThumbs(!showThumbs);
                 }}
+                ref={viewToggleRef}
               />
             )}
           </>
@@ -670,8 +676,12 @@ const IIIFViewerComponent = ({
                           <IIIFViewerThumbLink
                             tabIndex={showThumbs ? 0 : -1}
                             onClick={() => {
+                              viewToggleRef &&
+                                viewToggleRef.current &&
+                                viewToggleRef.current.focus();
                               setShowThumbs(!showThumbs);
                             }}
+                            ref={isActive ? activeThumbnailRef : undefined}
                           >
                             <IIIFCanvasThumbnail
                               canvas={canvas}
