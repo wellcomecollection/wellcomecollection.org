@@ -283,69 +283,73 @@ const IIIFCanvasThumbnail = ({
   const smallestWidthImageDimensions = thumbnailService.sizes
     .sort((a, b) => a.width - b.width)
     .find(dimensions => dimensions.width > 100);
-  if (isEnhanced) {
-    return (
-      <div
-        style={{
-          position: 'relative',
-          paddingTop: smallestWidthImageDimensions
-            ? `${(smallestWidthImageDimensions.height /
-                smallestWidthImageDimensions.width) *
-                100}%`
-            : 0,
-        }}
-      >
-        <LL small={true} />
-        <div style={{ display: 'block', position: 'absolute', top: 0 }}>
-          <IIIFResponsiveImage
-            width={
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }
-            src={urlTemplate({
-              size: `${
+  return (
+    <>
+      {isEnhanced ? (
+        <div
+          style={{
+            position: 'relative',
+            paddingTop: smallestWidthImageDimensions
+              ? `${(smallestWidthImageDimensions.height /
+                  smallestWidthImageDimensions.width) *
+                  100}%`
+              : 0,
+          }}
+        >
+          <LL small={true} />
+          <div style={{ display: 'block', position: 'absolute', top: 0 }}>
+            <IIIFResponsiveImage
+              width={
                 smallestWidthImageDimensions
                   ? smallestWidthImageDimensions.width
-                  : '!100'
-              },`,
-            })}
-            srcSet={''}
-            sizes={`${
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }px`}
-            alt={''}
-            lang={lang}
-            isLazy={true}
-          />
+                  : 30
+              }
+              src={urlTemplate({
+                size: `${
+                  smallestWidthImageDimensions
+                    ? smallestWidthImageDimensions.width
+                    : '!100'
+                },`,
+              })}
+              srcSet={''}
+              sizes={`${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : 30
+              }px`}
+              alt={''}
+              lang={lang}
+              isLazy={true}
+            />
+          </div>
         </div>
-      </div>
-    );
-  } else {
-    return (
-      <IIIFResponsiveImage
-        width={
-          smallestWidthImageDimensions ? smallestWidthImageDimensions.width : 30
-        }
-        src={urlTemplate({
-          size: `${
+      ) : (
+        <IIIFResponsiveImage
+          width={
             smallestWidthImageDimensions
               ? smallestWidthImageDimensions.width
-              : '!100'
-          },`,
-        })}
-        srcSet={''}
-        sizes={`${
-          smallestWidthImageDimensions ? smallestWidthImageDimensions.width : 30
-        }px`}
-        alt={''}
-        lang={lang}
-        isLazy={true}
-      />
-    );
-  }
+              : 30
+          }
+          src={urlTemplate({
+            size: `${
+              smallestWidthImageDimensions
+                ? smallestWidthImageDimensions.width
+                : '!100'
+            },`,
+          })}
+          srcSet={''}
+          sizes={`${
+            smallestWidthImageDimensions
+              ? smallestWidthImageDimensions.width
+              : 30
+          }px`}
+          alt={''}
+          lang={lang}
+          isLazy={true}
+        />
+      )}
+    </>
+  );
 };
 
 const PaginatorButtons = ({
