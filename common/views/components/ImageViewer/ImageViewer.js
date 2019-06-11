@@ -37,7 +37,6 @@ type ImageViewerProps = {|
   canvasOcr: ?string,
   infoUrl: string,
   lang: ?string,
-  loading: boolean,
   tabbableControls: boolean,
 |};
 
@@ -50,7 +49,6 @@ const ImageViewer = ({
   infoUrl,
   src,
   srcSet,
-  loading,
   tabbableControls,
 }: ImageViewerProps) => {
   const [imageLoading, setImageLoading] = useState(false);
@@ -75,6 +73,7 @@ const ImageViewer = ({
         .then(data => {
           viewer.open(getTileSources(data));
         });
+      viewer.open(setImageLoading(false));
     }
   }, [infoUrl]);
 
@@ -200,45 +199,54 @@ const ImageViewer = ({
           clickHandler={handleRotate}
         />
       </div>
-
       <div
-        id={`image-viewer-${id}`}
-        className={classNames({
-          'image-viewer__image': true,
-        })}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
       >
-        {isError && (
-          <p
-            className={classNames({
-              [spacing({ s: 10 }, { padding: ['right', 'left'] })]: true,
-            })}
-          >
-            The image viewer is not working
-          </p>
-        )}
         {imageLoading && <LL />}
-        {!viewer && (
-          <IIIFResponsiveImage
-            width={width}
-            height={height}
-            src={src}
-            srcSet={srcSet}
-            sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-            extraClasses={classNames({
-              'block h-center': true,
-              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-              'is-hidden': !!viewer,
-            })}
-            lang={lang}
-            clickHandler={handleZoomIn}
-            loadHandler={() => setImageLoading(false)}
-            alt={
-              (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-              'no text alternative'
-            }
-            isLazy={false}
-          />
-        )}
+        <div
+          id={`image-viewer-${id}`}
+          className={classNames({
+            'image-viewer__image': true,
+          })}
+          style={{
+            transition: 'opacity 1000ms ease',
+            opacity: imageLoading ? 0 : 1,
+          }}
+        >
+          {isError && (
+            <p
+              className={classNames({
+                [spacing({ s: 10 }, { padding: ['right', 'left'] })]: true,
+              })}
+            >
+              The image viewer is not working
+            </p>
+          )}
+          {!viewer && (
+            <IIIFResponsiveImage
+              width={width}
+              height={height}
+              src={src}
+              srcSet={srcSet}
+              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              extraClasses={classNames({
+                'block h-center': true,
+                [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+              })}
+              lang={lang}
+              clickHandler={handleZoomIn}
+              loadHandler={() => setImageLoading(false)}
+              alt={
+                (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                'no text alternative'
+              }
+              isLazy={false}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
