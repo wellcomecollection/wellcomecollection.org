@@ -59,7 +59,6 @@ const WorkEmbed = ({ work }: Props) => {
                 src={imageUrl}
                 srcSet={''}
                 id={work.id}
-                canvasOcr={null}
                 lang={null}
                 width={800}
                 tabbableControls={true}
