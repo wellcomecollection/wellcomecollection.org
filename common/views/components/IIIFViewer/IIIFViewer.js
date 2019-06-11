@@ -99,16 +99,6 @@ const IIIFViewer = styled.div.attrs(props => ({
     max-width: 100%;
     max-height: 100%;
   }
-
-  .image-viewer__image img {
-    margin: 0 auto;
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    overflow: scroll;
-  }
 `;
 
 const IIIFViewerMain = styled.div.attrs(props => ({

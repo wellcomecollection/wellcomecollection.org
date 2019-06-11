@@ -1,6 +1,7 @@
 // @flow
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
+import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import { spacing, classNames } from '../../../utils/classnames';
 import Raven from 'raven-js';
@@ -8,6 +9,64 @@ import { trackEvent } from '../../../utils/ga';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import LL from '../styled/LL';
+
+const ImageViewerControls = styled.div`
+  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
+    for a less heavy handed solution to Openseadragon breaking on touch events */
+  &,
+  button,
+  a {
+    touch-action: none;
+  }
+
+  button {
+    display: block;
+  }
+
+  .icon {
+    margin: 0;
+  }
+
+  .btn__text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  position: absolute;
+  top: 0;
+  left: 12px;
+  z-index: 1;
+}`;
+
+const ImageWrapper = styled.div`
+  cursor: zoom-in;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  transition: opacity 1000ms ease;
+  opacity: ${props => (props.imageLoading ? 0 : 1)};
+
+  & img {
+      margin: 0 auto;
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: scroll;
+    }
+  }
+`;
 
 function getTileSources(data) {
   return [
@@ -27,7 +86,6 @@ function getTileSources(data) {
     },
   ];
 }
-
 type ImageViewerProps = {|
   id: string,
   src: string,
@@ -171,12 +229,8 @@ const ImageViewer = ({
   }
 
   return (
-    <div
-      className={classNames({
-        'image-viewer__content': true,
-      })}
-    >
-      <div className="image-viewer__controls">
+    <>
+      <ImageViewerControls>
         <Control
           tabIndex={tabbableControls ? '0' : '-1'}
           type="on-black"
@@ -198,7 +252,8 @@ const ImageViewer = ({
           icon="rotatePageRight"
           clickHandler={handleRotate}
         />
-      </div>
+      </ImageViewerControls>
+
       <div
         style={{
           width: '100%',
@@ -206,16 +261,7 @@ const ImageViewer = ({
         }}
       >
         {imageLoading && <LL />}
-        <div
-          id={`image-viewer-${id}`}
-          className={classNames({
-            'image-viewer__image': true,
-          })}
-          style={{
-            transition: 'opacity 1000ms ease',
-            opacity: imageLoading ? 0 : 1,
-          }}
-        >
+        <ImageWrapper imageLoading={imageLoading} id={`image-viewer-${id}`}>
           {isError && (
             <p
               className={classNames({
@@ -246,9 +292,9 @@ const ImageViewer = ({
               isLazy={false}
             />
           )}
-        </div>
+        </ImageWrapper>
       </div>
-    </div>
+    </>
   );
 };
 
