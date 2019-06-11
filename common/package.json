@@ -20,6 +20,7 @@
     "cookies": "^0.7.2",
     "fontfaceobserver": "^2.0.13",
     "google-maps": "^3.3.0",
+    "html-react-parser": "^0.7.1",
     "immutable": "^4.0.0-rc.12",
     "isomorphic-unfetch": "^3.0.0",
     "jest": "^24.5.0",
