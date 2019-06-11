@@ -18,7 +18,6 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
@@ -484,9 +483,9 @@ const IIIFViewerComponent = ({
               'flex-inline': true,
               'flex-v-center': true,
               'plain-link': true,
+              'font-hover-yellow': true,
             })}
           >
-            <Icon name="arrowSmall" extraClasses="icon--smoke icon--180" />
             <TruncatedText as="h1">{title}</TruncatedText>
           </a>
         </NextLink>

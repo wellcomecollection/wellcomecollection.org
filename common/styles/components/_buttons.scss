@@ -81,10 +81,12 @@
   color: color('smoke');
   background: transparent;
   outline: none;
+  transition: all $transition-properties;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    border-color: color('white');
-    background: color('charcoal');
+    border-color: color('black');
+    background: color('yellow');
+    color: color('black');
   }
 }
