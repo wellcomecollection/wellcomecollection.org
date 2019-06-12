@@ -73,6 +73,12 @@ const IIIFViewerImageWrapper = styled.div.attrs(props => ({
   right: 0;
   bottom: ${props => `${props.theme.spacingUnit * 2}px`};
   left: 0;
+
+  img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;
 
 const IIIFViewer = styled.div.attrs(props => ({
@@ -97,12 +103,6 @@ const IIIFViewer = styled.div.attrs(props => ({
     height: auto;
     max-width: 100%;
     max-height: 100%;
-  }
-
-  img {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
   }
 `;
 
@@ -218,6 +218,8 @@ const ScrollingThumbnailContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  align-items: flex-start;
+  align-content: flex-start;
 
   /* Makes sure trailing items in last row stay next to each other rather than being evenly spaced */
   &:after {
