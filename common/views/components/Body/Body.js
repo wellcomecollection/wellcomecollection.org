@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
+import SearchResults from '../SearchResults/SearchResults';
 import { CaptionedImage } from '../Images/Images';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Quote from '../Quote/Quote';
@@ -109,7 +110,6 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                 <CaptionedImage {...slice.value} sizesQueries={''} />
               </Layout8>
             )}
-
             {slice.type === 'imageGallery' && (
               <ImageGallery
                 isStandalone={slice.weight === 'standalone'}
@@ -117,23 +117,20 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                 id={imageGalleryIdCount++}
               />
             )}
-
             {slice.type === 'quote' && (
               <Layout8>
                 <Quote {...slice.value} />
               </Layout8>
             )}
-
             {slice.type === 'contentList' && (
               <Layout8>
-                <AsyncSearchResults
+                <SearchResults
                   title={slice.value.title}
-                  query={slice.value.items
-                    .map(({ id }) => `id:${id}`)
-                    .join(' ')}
+                  items={slice.value.items}
                 />
               </Layout8>
             )}
+            {/* TODO: remove this slice type if we're not using it? */}
             {slice.type === 'searchResults' && (
               <Layout8>
                 <AsyncSearchResults {...slice.value} />
@@ -154,25 +151,21 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                 />
               </Layout8>
             )}
-
             {slice.type === 'map' && (
               <Layout8>
                 <Map {...slice.value} />
               </Layout8>
             )}
-
             {slice.type === 'gifVideo' && (
               <Layout8>
                 <GifVideo {...slice.value} />
               </Layout8>
             )}
-
             {slice.type === 'iframe' && (
               <Layout10>
                 <Iframe {...slice.value} />
               </Layout10>
             )}
-
             {slice.type === 'collectionVenue' && (
               <>
                 {slice.value.showClosingTimes && (
