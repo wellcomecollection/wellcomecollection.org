@@ -637,7 +637,7 @@ const IIIFViewerComponent = ({
                     width={800}
                     srcSet={''}
                     lang={null}
-                    tabbableControls={!showThumbs}
+                    tabbableControls={!showThumbs || !thumbnailsRequired}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
@@ -649,7 +649,7 @@ const IIIFViewerComponent = ({
                     width={currentCanvas.width}
                     height={currentCanvas.height}
                     lang={lang}
-                    tabbableControls={!showThumbs}
+                    tabbableControls={!showThumbs || !thumbnailsRequired}
                   />
                 )}
               </IIIFViewerImageWrapper>
