@@ -359,49 +359,55 @@ const IIIFCanvasThumbnail = ({
   );
 };
 
-const PaginatorButtons = ({
-  currentPage,
-  totalPages,
-  prevLink,
-  nextLink,
-}: PaginatorRenderFunctionProps) => {
-  return (
-    <div
-      className={classNames({
-        'flex flex--column flex--v-center flex--h-center': true,
-      })}
-    >
-      {prevLink && (
-        <Control
-          scroll={false}
-          replace={true}
-          link={prevLink}
-          type="on-black"
-          icon="arrow"
-          text="Previous page"
-          extraClasses={classNames({
-            'icon--270': true,
-            [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
-          })}
-        />
-      )}
-      {nextLink && (
-        <Control
-          scroll={false}
-          replace={true}
-          link={nextLink}
-          type="on-black"
-          icon="arrow"
-          text="Next page"
-          extraClasses={classNames({
-            icon: true,
-            'icon--90': true,
-          })}
-        />
-      )}
-    </div>
-  );
+/* eslint-disable react/display-name */
+const PaginatorButtons = (isTabbable: boolean) => {
+  return ({
+    currentPage,
+    totalPages,
+    prevLink,
+    nextLink,
+  }: PaginatorRenderFunctionProps) => {
+    return (
+      <div
+        className={classNames({
+          'flex flex--column flex--v-center flex--h-center': true,
+        })}
+      >
+        {prevLink && (
+          <Control
+            scroll={false}
+            replace={true}
+            link={prevLink}
+            type="on-black"
+            icon="arrow"
+            text="Previous page"
+            tabIndex={isTabbable ? '0' : '-1'}
+            extraClasses={classNames({
+              'icon--270': true,
+              [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
+            })}
+          />
+        )}
+        {nextLink && (
+          <Control
+            scroll={false}
+            replace={true}
+            link={nextLink}
+            type="on-black"
+            icon="arrow"
+            text="Next page"
+            tabIndex={isTabbable ? '0' : '-1'}
+            extraClasses={classNames({
+              icon: true,
+              'icon--90': true,
+            })}
+          />
+        )}
+      </div>
+    );
+  };
 };
+/* eslint-enable react/display-name */
 
 type IIIFViewerProps = {|
   title: string,
@@ -566,7 +572,10 @@ const IIIFViewerComponent = ({
                 )}
               </IIIFViewerImageWrapper>
               <IIIFViewerPaginatorButtons>
-                <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
+                <Paginator
+                  {...mainPaginatorProps}
+                  render={PaginatorButtons(true)}
+                />
               </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
 
@@ -615,7 +624,7 @@ const IIIFViewerComponent = ({
                 <IIIFViewerPaginatorButtons isThumbs={true}>
                   <Paginator
                     {...thumbsPaginatorProps}
-                    render={PaginatorButtons}
+                    render={PaginatorButtons(true)}
                   />
                 </IIIFViewerPaginatorButtons>
               </StaticThumbnailsContainer>
@@ -654,7 +663,10 @@ const IIIFViewerComponent = ({
                 )}
               </IIIFViewerImageWrapper>
               <IIIFViewerPaginatorButtons>
-                <Paginator {...mainPaginatorProps} render={PaginatorButtons} />
+                <Paginator
+                  {...mainPaginatorProps}
+                  render={PaginatorButtons(!showThumbs)}
+                />
               </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
 
