@@ -98,6 +98,12 @@ const IIIFViewer = styled.div.attrs(props => ({
     max-width: 100%;
     max-height: 100%;
   }
+
+  img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;
 
 const IIIFViewerMain = styled.div.attrs(props => ({
