@@ -2,79 +2,12 @@
 import { Fragment } from 'react';
 import { spacing, font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
-import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import Exploromatic from '../Exploromatic/Exploromatic';
 
 const StaticWorksContent = () => (
   <Fragment>
-    <div className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}>
-      <div className="container">
-        <div className="grid">
-          <div className="grid__cell">
-            <h3 className={font({ s: 'WB6', m: 'WB4' })}>Feeling curious?</h3>
-            <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font({
-                s: 'HNL4',
-                m: 'HNL3',
-              })}`}
-            >
-              Discover our collections through these topics.
-            </p>
-            <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
-              <Tags
-                tags={[
-                  {
-                    textParts: ['Quacks'],
-                    linkAttributes: worksUrl({
-                      query: 'quack+OR+quacks',
-                      page: 1,
-                    }),
-                  },
-                  {
-                    textParts: ['James Gillray'],
-                    linkAttributes: worksUrl({
-                      query: 'james+gillray',
-                      page: 1,
-                    }),
-                  },
-                  {
-                    textParts: ['Botany'],
-                    linkAttributes: worksUrl({ query: 'botany', page: 1 }),
-                  },
-                  {
-                    textParts: ['Optics'],
-                    linkAttributes: worksUrl({ query: 'optics', page: 1 }),
-                  },
-                  {
-                    textParts: ['Sun'],
-                    linkAttributes: worksUrl({ query: 'sun', page: 1 }),
-                  },
-                  {
-                    textParts: ['Health'],
-                    linkAttributes: worksUrl({ query: 'health', page: 1 }),
-                  },
-                  {
-                    textParts: ['Paintings'],
-                    linkAttributes: worksUrl({ query: 'paintings', page: 1 }),
-                  },
-                  {
-                    textParts: ['Science'],
-                    linkAttributes: worksUrl({ query: 'science', page: 1 }),
-                  },
-                ]}
-              />
-            </div>
-            <hr
-              className={`divider divider--dashed ${spacing(
-                { s: 6 },
-                { margin: ['bottom'] }
-              )}`}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <Exploromatic />
     <div
       className={`row bg-cream row--has-wobbly-background ${spacing(
         { s: 10 },

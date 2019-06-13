@@ -7,8 +7,12 @@ const QueryTypes = {
   Slop: 'msmboost',
 };
 type QueryType = $Values<typeof QueryTypes>;
+type GenericLinkProps = {|
+  fromComponent?: string,
+|};
 
 type WorksUrlProps = {|
+  ...GenericLinkProps,
   query: ?string,
   page: ?number,
   workType?: ?(string[]),
@@ -17,10 +21,12 @@ type WorksUrlProps = {|
 |};
 
 type WorkUrlProps = {|
+  ...GenericLinkProps,
   id: string,
 |};
 
 type ItemUrlProps = {|
+  ...GenericLinkProps,
   workId: string,
   sierraId: ?string,
   langCode: string,
@@ -38,16 +44,18 @@ function getWorkType(workType: ?(string[])) {
   };
 }
 
-export function workUrl({ id }: WorkUrlProps): NextLinkType {
+export function workUrl({ id, fromComponent }: WorkUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/work`,
       query: {
         id,
+        fromComponent: fromComponent || undefined,
       },
     },
     as: {
       pathname: `/works/${id}`,
+      fromComponent: fromComponent || undefined,
     },
   };
 }
@@ -57,6 +65,7 @@ export function worksUrl({
   page,
   workType,
   _queryType,
+  fromComponent,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -66,6 +75,7 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+        fromComponent: fromComponent || undefined,
       }),
     },
     as: {
@@ -75,6 +85,7 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+        fromComponent: fromComponent || undefined,
       }),
     },
   };
@@ -86,6 +97,7 @@ export function itemUrl({
   sierraId,
   langCode,
   canvas,
+  fromComponent,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -97,6 +109,7 @@ export function itemUrl({
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
           langCode: langCode,
+          fromComponent: fromComponent || undefined,
         }),
       },
     },
@@ -107,6 +120,7 @@ export function itemUrl({
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
         langCode: langCode,
+        fromComponent: fromComponent || undefined,
       }),
     },
   };
