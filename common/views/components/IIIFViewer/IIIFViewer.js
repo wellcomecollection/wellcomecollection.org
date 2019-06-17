@@ -50,6 +50,7 @@ const TitleContainer = styled.div.attrs(props => ({
   }
   button {
     overflow: hidden;
+    display: inline-block;
     .icon {
       margin: 0;
       @media (min-width: ${props => props.theme.sizes.medium}px) {
@@ -509,7 +510,6 @@ const IIIFViewerComponent = ({
     iiifImageLocation.license.id;
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
-  console.log(licenseInfo);
 
   const downloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
@@ -520,7 +520,6 @@ const IIIFViewerComponent = ({
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
-
   useEffect(() => {
     setEnhanced(true);
   }, []);
@@ -550,31 +549,29 @@ const IIIFViewerComponent = ({
             <TruncatedText as="h1">{title}</TruncatedText>
           </a>
         </NextLink>
-        <div>
-          {canvases && canvases.length > 1 && (
-            <>
-              {`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
-                ''}`}
-
-              {enhanced && (
-                <Button
-                  type="tertiary"
-                  extraClasses="btn--tertiary-black"
-                  icon={showThumbs ? 'detailView' : 'gridView'}
-                  text={showThumbs ? 'Detail view' : 'View all'}
-                  clickHandler={() => {
-                    activeThumbnailRef &&
-                      activeThumbnailRef.current &&
-                      activeThumbnailRef.current.focus();
-                    setShowThumbs(!showThumbs);
-                  }}
-                  ref={viewToggleRef}
-                />
-              )}
-            </>
-          )}
-          {enhanced && (
+        {canvases && canvases.length > 1 && (
+          <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
+            ''}`}</>
+        )}
+        {enhanced && (
+          <div>
+            {canvases && canvases.length > 1 && (
+              <Button
+                type="tertiary"
+                extraClasses="btn--tertiary-black"
+                icon={showThumbs ? 'detailView' : 'gridView'}
+                text={showThumbs ? 'Detail view' : 'View all'}
+                clickHandler={() => {
+                  activeThumbnailRef &&
+                    activeThumbnailRef.current &&
+                    activeThumbnailRef.current.focus();
+                  setShowThumbs(!showThumbs);
+                }}
+                ref={viewToggleRef}
+              />
+            )}
             <Download
+              title={title}
               work={work}
               licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
               iiifImageLocationLicenseId={iiifImageLocationLicenseId}
@@ -583,8 +580,8 @@ const IIIFViewerComponent = ({
                 downloadOptions || iiifPresentationDownloadOptions
               }
             />
-          )}
-        </div>
+          </div>
+        )}
       </TitleContainer>
       <IIIFViewerBackground>
         <LL />
