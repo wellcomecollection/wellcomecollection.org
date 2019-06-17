@@ -122,6 +122,13 @@ const ItemPage = ({
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
+  const navigationCanvases =
+    canvases &&
+    [...Array(pageSize)]
+      .map((_, i) => pageSize * pageIndex + i)
+      .map(i => canvases[i])
+      .filter(Boolean);
+
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
@@ -207,12 +214,12 @@ const ItemPage = ({
               {((mainImageService && currentCanvas) ||
                 (imageUrl && iiifImageLocationUrl)) && (
                 <IIIFViewerOld
-                  title={title}
                   mainPaginatorProps={mainPaginatorProps}
                   thumbsPaginatorProps={thumbsPaginatorProps}
                   currentCanvas={currentCanvas}
                   lang={langCode}
                   canvasOcr={canvasOcr}
+                  navigationCanvases={navigationCanvases}
                   workId={workId}
                   query={query}
                   workType={workType}
