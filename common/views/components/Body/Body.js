@@ -124,10 +124,22 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
             )}
             {slice.type === 'contentList' && (
               <Layout8>
-                <SearchResults
-                  title={slice.value.title}
-                  items={slice.value.items}
-                />
+                {/* FIXME: this makes what-we-do and visit-us contentLists synchronous,
+                but it's hacky. */}
+                {pageId === 'WwLGFCAAAPMiB_Ps' ||
+                pageId === 'WwLIBiAAAPMiB_zC' ? (
+                  <SearchResults
+                    title={slice.value.title}
+                    items={slice.value.items}
+                  />
+                ) : (
+                  <AsyncSearchResults
+                    title={slice.value.title}
+                    query={slice.value.items
+                      .map(({ id }) => `id:${id}`)
+                      .join(' ')}
+                  />
+                )}
               </Layout8>
             )}
             {/* TODO: remove this slice type if we're not using it? */}
