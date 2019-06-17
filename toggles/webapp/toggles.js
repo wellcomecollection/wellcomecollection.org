@@ -1,6 +1,12 @@
 module.exports = {
   toggles: [
     {
+      id: 'newViewer',
+      title: 'New viewer',
+      defaultValue: false,
+      description: 'Use the new viewer',
+    },
+    {
       id: 'selectableQueries',
       title: `Selectable queries`,
       defaultValue: false,

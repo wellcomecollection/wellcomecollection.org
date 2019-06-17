@@ -4,6 +4,7 @@
   text-align: center;
   transition: all $transition-properties;
   border: 0;
+  white-space: nowrap;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -30,6 +31,11 @@
   .icon__shape {
     transition: fill $transition-properties;
     fill: currentColor;
+  }
+
+  .icon__stroke {
+    transition: stroke $transition-properties;
+    stroke: currentColor;
   }
 }
 
@@ -68,4 +74,19 @@
 .btn--tertiary {
   padding: $spacing-unit 2 * $spacing-unit;
   border: 1px solid color('green');
+}
+
+.btn--tertiary-black {
+  border-color: color('pewter');
+  color: color('smoke');
+  background: transparent;
+  outline: none;
+  transition: all $transition-properties;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: color('black');
+    background: color('yellow');
+    color: color('black');
+  }
 }
