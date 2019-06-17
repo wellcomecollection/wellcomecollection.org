@@ -323,8 +323,8 @@ const IIIFViewerComponent = ({
               srcSet={srcSet}
               width={currentCanvas.width}
               height={currentCanvas.height}
-              canvasOcr={canvasOcr}
               lang={lang}
+              tabbableControls={true}
             />
           )}
         </IIIFViewerImageWrapper>
