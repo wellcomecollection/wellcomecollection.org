@@ -4,21 +4,21 @@ import {
   type Work,
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
-import NextLink from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
 import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, spacing } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewerOld from '@weco/common/views/components/IIIFViewerOld/IIIFViewerOld';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const IframePdfViewer = styled.iframe`
   width: 90vw;
@@ -27,21 +27,6 @@ const IframePdfViewer = styled.iframe`
   display: block;
   border: none;
 `;
-
-type Props = {|
-  workId: string,
-  sierraId: string,
-  langCode: string,
-  manifest: ?IIIFManifest,
-  work: ?(Work | CatalogueApiError),
-  pageSize: number,
-  pageIndex: number,
-  canvasIndex: number,
-  canvasOcr: ?string,
-  itemsLocationsLocationType: ?(string[]),
-  workType: ?(string[]),
-  query: ?string,
-|};
 
 async function getCanvasOcr(canvas) {
   const textContent =
@@ -76,6 +61,22 @@ async function getCanvasOcr(canvas) {
     }
   }
 }
+type Props = {|
+  workId: string,
+  sierraId: string,
+  langCode: string,
+  manifest: ?IIIFManifest,
+  work: ?(Work | CatalogueApiError),
+  pageSize: number,
+  pageIndex: number,
+  canvasIndex: number,
+  canvasOcr: ?string,
+  canvases: ?[],
+  currentCanvas: ?any,
+  itemsLocationsLocationType: ?(string[]),
+  workType: ?(string[]),
+  query: ?string,
+|};
 
 const ItemPage = ({
   workId,
@@ -87,13 +88,12 @@ const ItemPage = ({
   pageIndex,
   canvasIndex,
   canvasOcr,
+  canvases,
+  currentCanvas,
   itemsLocationsLocationType,
   workType,
   query,
 }: Props) => {
-  const canvases =
-    manifest && manifest.sequences && manifest.sequences[0].canvases;
-  const currentCanvas = canvases && canvases[canvasIndex];
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const [iiifImageLocation] =
     work && work.items
@@ -110,7 +110,6 @@ const ItemPage = ({
   const iiifImage =
     iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
   const imageUrl = iiifImage && iiifImage({ size: '800,' });
-
   const mainImageService =
     currentCanvas && currentCanvas.images[0].resource.service
       ? {
@@ -122,6 +121,7 @@ const ItemPage = ({
     (downloadOptions &&
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
+
   const navigationCanvases =
     canvases &&
     [...Array(pageSize)]
@@ -165,40 +165,10 @@ const ItemPage = ({
       imageUrl={'imageContentUrl'}
       imageAltText={''}
       hideNewsletterPromo={true}
+      hideFooter={true}
     >
-      <Layout12>
-        <div
-          className={classNames({
-            [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-            [spacing({ s: 6 }, { padding: ['top'] })]: true,
-          })}
-        >
-          <TruncatedText
-            text={title}
-            as="h1"
-            className={classNames({
-              [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
-            })}
-            title={title}
-            lang={langCode}
-          >
-            {title}
-          </TruncatedText>
-          <NextLink
-            {...workUrl({
-              id: workId,
-            })}
-          >
-            <a
-              className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
-              })}
-            >
-              Overview
-            </a>
-          </NextLink>
-        </div>
-        {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
+      {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
+        <Layout12>
           <div
             className={classNames({
               [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
@@ -206,32 +176,66 @@ const ItemPage = ({
           >
             <BetaMessage message="We are working to make this item available online in April 2019." />
           </div>
-        )}
-      </Layout12>
+        </Layout12>
+      )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {((mainImageService && currentCanvas && navigationCanvases) ||
-        (imageUrl && iiifImageLocationUrl)) && (
-        <IIIFViewer
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          currentCanvas={currentCanvas}
-          lang={langCode}
-          canvasOcr={canvasOcr}
-          navigationCanvases={navigationCanvases}
-          workId={workId}
-          query={query}
-          workType={workType}
-          itemsLocationsLocationType={itemsLocationsLocationType}
-          pageIndex={pageIndex}
-          sierraId={sierraId}
-          pageSize={pageSize}
-          canvasIndex={canvasIndex}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
-        />
-      )}
+
+      <TogglesContext.Consumer>
+        {({ newViewer }) =>
+          newViewer ? (
+            <>
+              {((mainImageService && currentCanvas) ||
+                (imageUrl && iiifImageLocationUrl)) && (
+                <IIIFViewer
+                  title={title}
+                  mainPaginatorProps={mainPaginatorProps}
+                  thumbsPaginatorProps={thumbsPaginatorProps}
+                  currentCanvas={currentCanvas}
+                  lang={langCode}
+                  canvasOcr={canvasOcr}
+                  canvases={canvases}
+                  workId={workId}
+                  query={query}
+                  workType={workType}
+                  itemsLocationsLocationType={itemsLocationsLocationType}
+                  pageIndex={pageIndex}
+                  sierraId={sierraId}
+                  pageSize={pageSize}
+                  canvasIndex={canvasIndex}
+                  iiifImageLocationUrl={iiifImageLocationUrl}
+                  imageUrl={imageUrl}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              {((mainImageService && currentCanvas && navigationCanvases) ||
+                (imageUrl && iiifImageLocationUrl)) && (
+                <IIIFViewerOld
+                  mainPaginatorProps={mainPaginatorProps}
+                  thumbsPaginatorProps={thumbsPaginatorProps}
+                  currentCanvas={currentCanvas}
+                  lang={langCode}
+                  canvasOcr={canvasOcr}
+                  navigationCanvases={navigationCanvases}
+                  workId={workId}
+                  query={query}
+                  workType={workType}
+                  itemsLocationsLocationType={itemsLocationsLocationType}
+                  pageIndex={pageIndex}
+                  sierraId={sierraId}
+                  pageSize={pageSize}
+                  canvasIndex={canvasIndex}
+                  iiifImageLocationUrl={iiifImageLocationUrl}
+                  imageUrl={imageUrl}
+                />
+              )}
+            </>
+          )
+        }
+      </TogglesContext.Consumer>
     </CataloguePageLayout>
   );
 };
@@ -274,6 +278,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     canvasIndex,
     canvasOcr,
     work,
+    canvases,
+    currentCanvas,
     // TODO: add these back in, it's just makes it easier to check the URLs
     itemsLocationsLocationType: null,
     workType: null,

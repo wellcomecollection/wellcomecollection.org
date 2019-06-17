@@ -44,3 +44,21 @@
     background: color('black');
   }
 }
+
+.control--on-black {
+  border: 0;
+  border-radius: 0;
+  background: color('coal');
+
+  .icon__shape {
+    fill: color('white');
+    transition: all $transition-properties;
+  }
+
+  &:hover,
+  &:focus {
+    .icon__shape {
+      fill: color('yellow');
+    }
+  }
+}

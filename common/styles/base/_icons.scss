@@ -34,6 +34,15 @@
   }
 }
 
+@each $color-key, $color-value in $colors {
+  .icon--#{$color-key} {
+    svg,
+    .icon__stroke {
+      stroke: nth($color-value, 1);
+    }
+  }
+}
+
 .icon--90 {
   transform: rotate(90deg);
 }
@@ -44,10 +53,6 @@
 
 .icon--270 {
   transform: rotate(270deg);
-}
-
-.icon--18 {
-  height: 18px;
 }
 
 .icon-rounder {
