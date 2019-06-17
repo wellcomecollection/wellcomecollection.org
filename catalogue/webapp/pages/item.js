@@ -17,6 +17,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const IframePdfViewer = styled.iframe`
   width: 90vw;
@@ -172,28 +173,39 @@ const ItemPage = ({
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {((mainImageService && currentCanvas) ||
-        (imageUrl && iiifImageLocationUrl)) && (
-        <IIIFViewer
-          title={title}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          currentCanvas={currentCanvas}
-          lang={langCode}
-          canvasOcr={canvasOcr}
-          canvases={canvases}
-          workId={workId}
-          query={query}
-          workType={workType}
-          itemsLocationsLocationType={itemsLocationsLocationType}
-          pageIndex={pageIndex}
-          sierraId={sierraId}
-          pageSize={pageSize}
-          canvasIndex={canvasIndex}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
-        />
-      )}
+
+      <TogglesContext.Consumer>
+        {({ newViewer }) =>
+          newViewer ? (
+            <>
+              {((mainImageService && currentCanvas) ||
+                (imageUrl && iiifImageLocationUrl)) && (
+                <IIIFViewer
+                  title={title}
+                  mainPaginatorProps={mainPaginatorProps}
+                  thumbsPaginatorProps={thumbsPaginatorProps}
+                  currentCanvas={currentCanvas}
+                  lang={langCode}
+                  canvasOcr={canvasOcr}
+                  canvases={canvases}
+                  workId={workId}
+                  query={query}
+                  workType={workType}
+                  itemsLocationsLocationType={itemsLocationsLocationType}
+                  pageIndex={pageIndex}
+                  sierraId={sierraId}
+                  pageSize={pageSize}
+                  canvasIndex={canvasIndex}
+                  iiifImageLocationUrl={iiifImageLocationUrl}
+                  imageUrl={imageUrl}
+                />
+              )}
+            </>
+          ) : (
+            <p>Old viewer</p>
+          )
+        }
+      </TogglesContext.Consumer>
     </CataloguePageLayout>
   );
 };
