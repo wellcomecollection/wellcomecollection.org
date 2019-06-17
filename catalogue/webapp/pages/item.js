@@ -15,6 +15,7 @@ import { classNames, spacing } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewerOld from '@weco/common/views/components/IIIFViewerOld/IIIFViewerOld';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -202,7 +203,29 @@ const ItemPage = ({
               )}
             </>
           ) : (
-            <p>Old viewer</p>
+            <>
+              {((mainImageService && currentCanvas) ||
+                (imageUrl && iiifImageLocationUrl)) && (
+                <IIIFViewerOld
+                  title={title}
+                  mainPaginatorProps={mainPaginatorProps}
+                  thumbsPaginatorProps={thumbsPaginatorProps}
+                  currentCanvas={currentCanvas}
+                  lang={langCode}
+                  canvasOcr={canvasOcr}
+                  workId={workId}
+                  query={query}
+                  workType={workType}
+                  itemsLocationsLocationType={itemsLocationsLocationType}
+                  pageIndex={pageIndex}
+                  sierraId={sierraId}
+                  pageSize={pageSize}
+                  canvasIndex={canvasIndex}
+                  iiifImageLocationUrl={iiifImageLocationUrl}
+                  imageUrl={imageUrl}
+                />
+              )}
+            </>
           )
         }
       </TogglesContext.Consumer>
