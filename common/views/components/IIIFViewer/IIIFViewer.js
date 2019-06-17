@@ -491,6 +491,7 @@ const IIIFViewerComponent = ({
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
 
+  // TODO rename consts and abstract out for use here and in item.js
   // Download info from work
   const [iiifImageLocation] =
     work && work.type !== 'Error'

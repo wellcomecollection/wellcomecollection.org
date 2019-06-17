@@ -76,9 +76,9 @@ const Download = ({
   iiifImageLocationLicenseId,
   downloadOptions,
 }: Props) => {
-  const [showDownloads, setShowDownloads] = useState(true);
+  const [showDownloads, setShowDownloads] = useState(false);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
-  console.log(licenseInfo, licenseInfo.text);
+
   useEffect(() => {
     setUseJavascriptControl(true);
     setShowDownloads(false);
