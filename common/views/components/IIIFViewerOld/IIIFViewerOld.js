@@ -311,8 +311,8 @@ const IIIFViewerComponent = ({
               id={imageUrl}
               width={800}
               srcSet={''}
-              canvasOcr={null}
               lang={null}
+              tabbableControls={true}
             />
           )}
           {mainImageService['@id'] && currentCanvas && (
