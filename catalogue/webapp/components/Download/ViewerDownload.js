@@ -62,11 +62,9 @@ function getFormatString(format) {
   }
 }
 
-type Work = Object;
 type Props = {|
   title: string,
   workId: string,
-  work: Work,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
@@ -76,7 +74,6 @@ type Props = {|
 const Download = ({
   title,
   workId,
-  work,
   licenseInfo,
   iiifImageLocationCredit,
   iiifImageLocationLicenseId,
@@ -173,9 +170,7 @@ const Download = ({
               text={[
                 `${title}. ${
                   iiifImageLocationCredit
-                    ? `Credit: <a href="https://wellcomecollection.org/works/${
-                        work.id
-                      }">${iiifImageLocationCredit}</a>. `
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
                     : ` `
                 }
                   ${
