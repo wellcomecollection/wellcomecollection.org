@@ -20,6 +20,7 @@ import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -360,7 +361,7 @@ const IIIFCanvasThumbnail = ({
 };
 
 /* eslint-disable react/display-name */
-const PaginatorButtons = (isTabbable: boolean) => {
+const PaginatorButtons = (isTabbable: boolean, workId: string) => {
   return ({
     currentPage,
     totalPages,
@@ -386,6 +387,13 @@ const PaginatorButtons = (isTabbable: boolean) => {
               'icon--270': true,
               [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
             })}
+            clickHandler={() => {
+              trackEvent({
+                category: 'Control',
+                action: 'clicked work viewer previous page link',
+                label: `${workId} | page: ${currentPage}`,
+              });
+            }}
           />
         )}
         {nextLink && (
@@ -401,6 +409,13 @@ const PaginatorButtons = (isTabbable: boolean) => {
               icon: true,
               'icon--90': true,
             })}
+            clickHandler={() => {
+              trackEvent({
+                category: 'Control',
+                action: 'clicked work viewer next page link',
+                label: `${workId} | page: ${currentPage}`,
+              });
+            }}
           />
         )}
       </div>
@@ -574,7 +589,7 @@ const IIIFViewerComponent = ({
               <IIIFViewerPaginatorButtons>
                 <Paginator
                   {...mainPaginatorProps}
-                  render={PaginatorButtons(true)}
+                  render={PaginatorButtons(true, workId)}
                 />
               </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
@@ -624,7 +639,7 @@ const IIIFViewerComponent = ({
                 <IIIFViewerPaginatorButtons isThumbs={true}>
                   <Paginator
                     {...thumbsPaginatorProps}
-                    render={PaginatorButtons(true)}
+                    render={PaginatorButtons(true, workId)}
                   />
                 </IIIFViewerPaginatorButtons>
               </StaticThumbnailsContainer>
@@ -665,7 +680,7 @@ const IIIFViewerComponent = ({
               <IIIFViewerPaginatorButtons>
                 <Paginator
                   {...mainPaginatorProps}
-                  render={PaginatorButtons(!showThumbs)}
+                  render={PaginatorButtons(!showThumbs, workId)}
                 />
               </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
