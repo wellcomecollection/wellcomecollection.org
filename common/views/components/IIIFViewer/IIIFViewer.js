@@ -536,6 +536,13 @@ const IIIFViewerComponent = ({
                     activeThumbnailRef.current &&
                     activeThumbnailRef.current.focus();
                   setShowThumbs(!showThumbs);
+                  trackEvent({
+                    category: 'Control',
+                    action: `clicked work viewer ${
+                      showThumbs ? '"Detail view"' : '"View all"'
+                    } button`,
+                    label: `${workId}`,
+                  });
                 }}
                 ref={viewToggleRef}
               />
