@@ -84,117 +84,111 @@ const Download = ({
     setShowDownloads(false);
   }, []);
   return (
-    <div className="inline-block relative">
-      <div
+    <>
+      <Button
+        type="tertiary"
+        extraClasses={classNames({
+          'btn--tertiary-black': true,
+          [spacing({ s: 1 }, { margin: ['left'] })]: true,
+        })}
+        icon="download"
+        text="Download"
+        clickHandler={() => {
+          setShowDownloads(!showDownloads);
+        }}
+      />
+      <DownloadOptions
+        id="downloadOptions"
         className={classNames({
-          [font({ s: 'HNL5', m: 'HNL4' })]: true,
+          [font({ s: 'HNM5', m: 'HNM4' })]: true,
+          'enhanced-styles': useJavascriptControl,
+          show: showDownloads,
         })}
       >
-        <Button
-          type="tertiary"
-          extraClasses={classNames({
-            'btn--tertiary-black': true,
-            [spacing({ s: 1 }, { margin: ['left'] })]: true,
-          })}
-          icon="download"
-          text="Download"
-          clickHandler={() => {
-            setShowDownloads(!showDownloads);
-          }}
-        />
-        <DownloadOptions
-          id="downloadOptions"
-          className={classNames({
-            [font({ s: 'HNM5', m: 'HNM4' })]: true,
-            'enhanced-styles': useJavascriptControl,
-            show: showDownloads,
-          })}
-        >
-          <SpacingComponent>
-            <ul className="plain-list no-margin no-padding">
-              {downloadOptions
-                .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
-                .map(option => {
-                  // Doing this for the action so analytics is constant, speak to Hayley about removing this
-                  const action =
-                    option.label === 'Download full size'
-                      ? 'download large work image'
-                      : option.label === 'Download small (760px)'
-                      ? 'download small work image'
-                      : option.label;
-                  const format = getFormatString(option.format);
+        <SpacingComponent>
+          <ul className="plain-list no-margin no-padding">
+            {downloadOptions
+              .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
+              .map(option => {
+                // Doing this for the action so analytics is constant, speak to Hayley about removing this
+                const action =
+                  option.label === 'Download full size'
+                    ? 'download large work image'
+                    : option.label === 'Download small (760px)'
+                    ? 'download small work image'
+                    : option.label;
+                const format = getFormatString(option.format);
 
-                  return (
-                    <li key={option.label}>
-                      <a
-                        tabIndex={showDownloads ? null : -1}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={option['@id']}
-                        onClick={() => {
-                          trackEvent({
-                            category: 'Button',
-                            action: action,
-                            label: work.id,
-                          });
-                        }}
-                      >
-                        <span className="flex-inline flex--v-center">
-                          <Icon name="download" />
-                          <span className="underline-on-hover">
-                            {option.label}
-                          </span>
-                          {format && (
-                            <span
-                              className={classNames({
-                                'font-pewter': true,
-                                [font({ s: 'HNM5' })]: true,
-                                [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                              })}
-                            >
-                              {format}
-                            </span>
-                          )}
+                return (
+                  <li key={option.label}>
+                    <a
+                      tabIndex={showDownloads ? null : -1}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={option['@id']}
+                      onClick={() => {
+                        trackEvent({
+                          category: 'Button',
+                          action: action,
+                          label: work.id,
+                        });
+                      }}
+                    >
+                      <span className="flex-inline flex--v-center">
+                        <Icon name="download" />
+                        <span className="underline-on-hover">
+                          {option.label}
                         </span>
-                      </a>
-                    </li>
-                  );
-                })}
-            </ul>
-          </SpacingComponent>
+                        {format && (
+                          <span
+                            className={classNames({
+                              'font-pewter': true,
+                              [font({ s: 'HNM5' })]: true,
+                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                            })}
+                          >
+                            {format}
+                          </span>
+                        )}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+          </ul>
+        </SpacingComponent>
+        <SpacingComponent>
+          <Divider extraClasses="divider--pumice divider--keyline" />
+        </SpacingComponent>
+        {licenseInfo && (
           <SpacingComponent>
-            <Divider extraClasses="divider--pumice divider--keyline" />
-          </SpacingComponent>
-          {licenseInfo && (
-            <SpacingComponent>
-              <MetaUnit
-                headingLevel={3}
-                headingText="License information"
-                text={licenseInfo.humanReadableText}
-              />
-              <MetaUnit
-                headingLevel={3}
-                headingText="Credit"
-                text={[
-                  `${title}. ${
-                    iiifImageLocationCredit
-                      ? `Credit: <a href="https://wellcomecollection.org/works/${
-                          work.id
-                        }">${iiifImageLocationCredit}</a>. `
-                      : ` `
-                  }
+            <MetaUnit
+              headingLevel={3}
+              headingText="License information"
+              text={licenseInfo.humanReadableText}
+            />
+            <MetaUnit
+              headingLevel={3}
+              headingText="Credit"
+              text={[
+                `${title}. ${
+                  iiifImageLocationCredit
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${
+                        work.id
+                      }">${iiifImageLocationCredit}</a>. `
+                    : ` `
+                }
                   ${
                     licenseInfo.url
                       ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
                       : licenseInfo.text
                   }`,
-                ]}
-              />
-            </SpacingComponent>
-          )}
-        </DownloadOptions>
-      </div>
-    </div>
+              ]}
+            />
+          </SpacingComponent>
+        )}
+      </DownloadOptions>
+    </>
   );
 };
 
