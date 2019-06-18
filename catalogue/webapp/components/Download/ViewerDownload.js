@@ -3,7 +3,7 @@ import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
@@ -12,7 +12,11 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
-const DownloadOptions = styled.div`
+const DownloadOptions = styled.div.attrs(props => ({
+  className: classNames({
+    [font({ s: 'HNM5', m: 'HNM4' })]: true,
+  }),
+}))`
   position: relative;
   border: ${props => `1px solid ${props.theme.colors.marble}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
@@ -27,11 +31,11 @@ const DownloadOptions = styled.div`
   position: absolute;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
+  ${props =>
+    props.show &&
+    `z-index: 1;
+    opacity: 1;`}
 
-  &.show {
-    z-index: 1;
-    opacity: 1;
-  }
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
@@ -79,12 +83,7 @@ const Download = ({
   downloadOptions,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(false);
-  const [useJavascriptControl, setUseJavascriptControl] = useState(false);
 
-  useEffect(() => {
-    setUseJavascriptControl(true);
-    setShowDownloads(false);
-  }, []);
   return (
     <div
       className={classNames({
@@ -106,20 +105,12 @@ const Download = ({
           setShowDownloads(!showDownloads);
         }}
       />
-      <DownloadOptions
-        id="downloadOptions"
-        className={classNames({
-          [font({ s: 'HNM5', m: 'HNM4' })]: true,
-          'enhanced-styles': useJavascriptControl,
-          show: showDownloads,
-        })}
-      >
+      <DownloadOptions id="downloadOptions" show={showDownloads}>
         <SpacingComponent>
           <ul className="plain-list no-margin no-padding">
             {downloadOptions
               .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
               .map(option => {
-                // Doing this for the action so analytics is constant, speak to Hayley about removing this
                 const action =
                   option.label === 'Download full size'
                     ? 'download large work image'
