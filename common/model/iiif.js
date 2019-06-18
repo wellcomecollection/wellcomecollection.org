@@ -79,4 +79,5 @@ export type IIIFManifest = {|
   mediaSequences?: IIIFMediaSequence[],
   sequences?: IIIFSequence[],
   structures?: IIIFStructure[],
+  license: string,
 |};

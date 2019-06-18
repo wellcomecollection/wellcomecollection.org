@@ -76,10 +76,25 @@
   border: 1px solid color('green');
 }
 
-.btn--tertiary-black {
+.btn--primary-black {
   border-color: color('pewter');
   color: color('smoke');
   background: transparent;
+  outline: none;
+  transition: all $transition-properties;
+
+  &:not([disabled]):hover,
+  &:not([disabled]):focus {
+    border-color: color('black');
+    background: color('yellow');
+    color: color('black');
+  }
+}
+
+.btn--secondary-black {
+  border-color: color('charcoal');
+  color: color('smoke');
+  background: color('charcoal');
   outline: none;
   transition: all $transition-properties;
 

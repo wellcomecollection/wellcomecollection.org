@@ -1,7 +1,16 @@
 // @flow
-import { type IIIFCanvas } from '@weco/common/model/iiif';
+import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
+import {
+  type Work,
+  type CatalogueApiError,
+} from '@weco/common/model/catalogue';
+import {
+  getDownloadOptionsFromImageUrl,
+  getDownloadOptionsFromManifest,
+} from '@weco/common/utils/works';
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
+import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { classNames, spacing, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
@@ -20,6 +29,7 @@ import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import Download from '@weco/catalogue/components/Download/ViewerDownload';
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -40,6 +50,7 @@ const TitleContainer = styled.div.attrs(props => ({
   }
   button {
     overflow: hidden;
+    display: inline-block;
     .icon {
       margin: 0;
       @media (min-width: ${props => props.theme.sizes.medium}px) {
@@ -427,6 +438,8 @@ type IIIFViewerProps = {|
   canvasIndex: number,
   iiifImageLocationUrl: ?string,
   imageUrl: ?string,
+  work: ?(Work | CatalogueApiError),
+  manifest: ?IIIFManifest,
 |};
 
 const IIIFViewerComponent = ({
@@ -447,6 +460,8 @@ const IIIFViewerComponent = ({
   canvasIndex,
   iiifImageLocationUrl,
   imageUrl,
+  work,
+  manifest,
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
@@ -476,6 +491,36 @@ const IIIFViewerComponent = ({
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
 
+  // TODO rename consts and abstract out for use here and in item.js
+  // Download info from work
+  const [iiifImageLocation] =
+    work && work.type !== 'Error'
+      ? work.items
+          .map(item =>
+            item.locations.find(
+              location => location.locationType.id === 'iiif-image'
+            )
+          )
+          .filter(Boolean)
+      : [];
+
+  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
+  const iiifImageLocationLicenseId =
+    iiifImageLocation &&
+    iiifImageLocation.license &&
+    iiifImageLocation.license.id;
+  const licenseInfo =
+    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
+
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : null;
+
+  // Download info from manifest
+  const iiifPresentationDownloadOptions =
+    (manifest && getDownloadOptionsFromManifest(manifest)) || [];
+  const iiifPresentationLicenseInfo =
+    manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   useEffect(() => {
     setEnhanced(true);
   }, []);
@@ -506,14 +551,15 @@ const IIIFViewerComponent = ({
           </a>
         </NextLink>
         {canvases && canvases.length > 1 && (
-          <>
-            {`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
-              ''}`}
-
-            {enhanced && (
+          <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
+            ''}`}</>
+        )}
+        {enhanced && (
+          <div>
+            {canvases && canvases.length > 1 && (
               <Button
                 type="tertiary"
-                extraClasses="btn--tertiary-black"
+                extraClasses="btn--primary-black btn--small"
                 icon={showThumbs ? 'detailView' : 'gridView'}
                 text={showThumbs ? 'Detail view' : 'View all'}
                 clickHandler={() => {
@@ -525,7 +571,17 @@ const IIIFViewerComponent = ({
                 ref={viewToggleRef}
               />
             )}
-          </>
+            <Download
+              title={title}
+              workId={workId}
+              licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
+              iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+              iiifImageLocationCredit={iiifImageLocationCredit}
+              downloadOptions={
+                downloadOptions || iiifPresentationDownloadOptions
+              }
+            />
+          </div>
         )}
       </TitleContainer>
       <IIIFViewerBackground>
