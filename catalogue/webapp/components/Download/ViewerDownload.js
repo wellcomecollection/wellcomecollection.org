@@ -96,7 +96,8 @@ const Download = ({
         type="tertiary"
         extraClasses={classNames({
           relative: true,
-          'btn--tertiary-black': true,
+          'btn--secondary-black': true,
+          'btn--small': true,
           [spacing({ s: 1 }, { margin: ['left'] })]: true,
         })}
         icon="download"

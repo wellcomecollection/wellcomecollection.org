@@ -29,7 +29,7 @@ import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
-import Download from '@weco/catalogue/components/Download/DownloadViewer';
+import Download from '@weco/catalogue/components/Download/ViewerDownload';
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
