@@ -193,6 +193,8 @@ const ItemPage = ({
           canvasIndex={canvasIndex}
           iiifImageLocationUrl={iiifImageLocationUrl}
           imageUrl={imageUrl}
+          work={work}
+          manifest={manifest}
         />
       )}
     </CataloguePageLayout>

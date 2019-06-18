@@ -50,7 +50,9 @@ const Button = forwardRef(
   ) => {
     const HtmlTag = url ? 'a' : 'button';
     const fontClasses =
-      extraClasses && extraClasses.indexOf('btn--tertiary') > -1
+      extraClasses &&
+      (extraClasses.indexOf('btn--tertiary') > -1 ||
+        extraClasses.indexOf('btn--small') > -1)
         ? { s: 'HNM5' }
         : { s: 'HNM4' };
     function handleClick(e) {
