@@ -61,6 +61,7 @@ function getFormatString(format) {
 type Work = Object;
 type Props = {|
   title: string,
+  workId: string,
   work: Work,
   licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
@@ -70,6 +71,7 @@ type Props = {|
 
 const Download = ({
   title,
+  workId,
   work,
   licenseInfo,
   iiifImageLocationCredit,
@@ -84,10 +86,16 @@ const Download = ({
     setShowDownloads(false);
   }, []);
   return (
-    <>
+    <div
+      className={classNames({
+        'inline-block': true,
+        relative: true,
+      })}
+    >
       <Button
         type="tertiary"
         extraClasses={classNames({
+          relative: true,
           'btn--tertiary-black': true,
           [spacing({ s: 1 }, { margin: ['left'] })]: true,
         })}
@@ -130,7 +138,7 @@ const Download = ({
                         trackEvent({
                           category: 'Button',
                           action: action,
-                          label: work.id,
+                          label: workId,
                         });
                       }}
                     >
@@ -188,7 +196,7 @@ const Download = ({
           </SpacingComponent>
         )}
       </DownloadOptions>
-    </>
+    </div>
   );
 };
 

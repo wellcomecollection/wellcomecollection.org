@@ -574,6 +574,7 @@ const IIIFViewerComponent = ({
             )}
             <Download
               title={title}
+              workId={workId}
               work={work}
               licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
               iiifImageLocationLicenseId={iiifImageLocationLicenseId}
