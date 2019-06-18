@@ -48,6 +48,9 @@ const TitleContainer = styled.div.attrs(props => ({
   h1 {
     margin: 0;
   }
+  a {
+    max-width: 30%;
+  }
   button {
     overflow: hidden;
     display: inline-block;

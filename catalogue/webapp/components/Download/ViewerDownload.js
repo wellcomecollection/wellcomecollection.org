@@ -18,6 +18,7 @@ const DownloadOptions = styled.div.attrs(props => ({
   }),
 }))`
   position: relative;
+  min-width: 300px;
   border: ${props => `1px solid ${props.theme.colors.marble}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   background: ${props => `${props.theme.colors.white}`};
