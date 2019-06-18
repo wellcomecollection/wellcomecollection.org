@@ -211,46 +211,63 @@ const Works = ({ works }: Props) => {
 
         {works && (
           <Layout12>
-            <TabNav
-              large={true}
-              items={[
-                {
-                  text: 'All',
-                  link: worksUrl({
-                    query,
-                    workType: undefined,
-                    page: 1,
-                  }),
-                  selected: !workType,
-                },
-                {
-                  text: 'Books',
-                  link: worksUrl({
-                    query,
-                    workType: ['a', 'v'],
-                    page: 1,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('a') !== -1 &&
-                      workType.indexOf('v') !== -1)
-                  ),
-                },
-                {
-                  text: 'Pictures',
-                  link: worksUrl({
-                    query,
-                    workType: ['k', 'q'],
-                    page: 1,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('k') !== -1 &&
-                      workType.indexOf('q') !== -1)
-                  ),
-                },
-              ]}
-            />
+            <TogglesContext.Consumer>
+              {({ audioVideoInSearch }) => {
+                const items = [
+                  {
+                    text: 'All',
+                    link: worksUrl({
+                      query,
+                      workType: undefined,
+                      page: 1,
+                    }),
+                    selected: !workType,
+                  },
+                  {
+                    text: 'Books',
+                    link: worksUrl({
+                      query,
+                      workType: ['a', 'v'],
+                      page: 1,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('a') !== -1 &&
+                        workType.indexOf('v') !== -1)
+                    ),
+                  },
+                  {
+                    text: 'Pictures',
+                    link: worksUrl({
+                      query,
+                      workType: ['k', 'q'],
+                      page: 1,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('k') !== -1 &&
+                        workType.indexOf('q') !== -1)
+                    ),
+                  },
+                ];
+                if (audioVideoInSearch) {
+                  items.push({
+                    text: 'Audio/Video',
+                    link: worksUrl({
+                      query,
+                      workType: ['f', 's'],
+                      page: 1,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('f') !== -1 &&
+                        workType.indexOf('s') !== -1)
+                    ),
+                  });
+                }
+                return <TabNav large={true} items={items} />;
+              }}
+            </TogglesContext.Consumer>
           </Layout12>
         )}
 
@@ -428,6 +445,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsm,
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
+    audioVideoInSearch,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -441,6 +459,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const defaultWorkType = ['a', 'k', 'q', 'v'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
+    : audioVideoInSearch
+    ? defaultWorkType.concat(['f', 's'])
     : defaultWorkType;
 
   const filters = {
