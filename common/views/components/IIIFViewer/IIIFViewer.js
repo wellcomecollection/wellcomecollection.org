@@ -560,7 +560,7 @@ const IIIFViewerComponent = ({
             {canvases && canvases.length > 1 && (
               <Button
                 type="tertiary"
-                extraClasses="btn--tertiary-black"
+                extraClasses="btn--primary-black btn--small"
                 icon={showThumbs ? 'detailView' : 'gridView'}
                 text={showThumbs ? 'Detail view' : 'View all'}
                 clickHandler={() => {
