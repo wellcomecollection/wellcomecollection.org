@@ -15,10 +15,8 @@ import { classNames, spacing } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-import IIIFViewerOld from '@weco/common/views/components/IIIFViewerOld/IIIFViewerOld';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const IframePdfViewer = styled.iframe`
   width: 90vw;
@@ -122,13 +120,6 @@ const ItemPage = ({
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
-
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
@@ -182,62 +173,30 @@ const ItemPage = ({
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
 
-      <TogglesContext.Consumer>
-        {({ newViewer }) =>
-          newViewer ? (
-            <>
-              {((mainImageService && currentCanvas) ||
-                (imageUrl && iiifImageLocationUrl)) && (
-                <IIIFViewer
-                  title={title}
-                  mainPaginatorProps={mainPaginatorProps}
-                  thumbsPaginatorProps={thumbsPaginatorProps}
-                  currentCanvas={currentCanvas}
-                  lang={langCode}
-                  canvasOcr={canvasOcr}
-                  canvases={canvases}
-                  workId={workId}
-                  query={query}
-                  workType={workType}
-                  itemsLocationsLocationType={itemsLocationsLocationType}
-                  pageIndex={pageIndex}
-                  sierraId={sierraId}
-                  pageSize={pageSize}
-                  canvasIndex={canvasIndex}
-                  iiifImageLocationUrl={iiifImageLocationUrl}
-                  imageUrl={imageUrl}
-                  work={work}
-                  manifest={manifest}
-                />
-              )}
-            </>
-          ) : (
-            <>
-              {((mainImageService && currentCanvas && navigationCanvases) ||
-                (imageUrl && iiifImageLocationUrl)) && (
-                <IIIFViewerOld
-                  mainPaginatorProps={mainPaginatorProps}
-                  thumbsPaginatorProps={thumbsPaginatorProps}
-                  currentCanvas={currentCanvas}
-                  lang={langCode}
-                  canvasOcr={canvasOcr}
-                  navigationCanvases={navigationCanvases}
-                  workId={workId}
-                  query={query}
-                  workType={workType}
-                  itemsLocationsLocationType={itemsLocationsLocationType}
-                  pageIndex={pageIndex}
-                  sierraId={sierraId}
-                  pageSize={pageSize}
-                  canvasIndex={canvasIndex}
-                  iiifImageLocationUrl={iiifImageLocationUrl}
-                  imageUrl={imageUrl}
-                />
-              )}
-            </>
-          )
-        }
-      </TogglesContext.Consumer>
+      {((mainImageService && currentCanvas) ||
+        (imageUrl && iiifImageLocationUrl)) && (
+        <IIIFViewer
+          title={title}
+          mainPaginatorProps={mainPaginatorProps}
+          thumbsPaginatorProps={thumbsPaginatorProps}
+          currentCanvas={currentCanvas}
+          lang={langCode}
+          canvasOcr={canvasOcr}
+          canvases={canvases}
+          workId={workId}
+          query={query}
+          workType={workType}
+          itemsLocationsLocationType={itemsLocationsLocationType}
+          pageIndex={pageIndex}
+          sierraId={sierraId}
+          pageSize={pageSize}
+          canvasIndex={canvasIndex}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          imageUrl={imageUrl}
+          work={work}
+          manifest={manifest}
+        />
+      )}
     </CataloguePageLayout>
   );
 };
