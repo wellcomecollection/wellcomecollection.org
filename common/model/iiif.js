@@ -48,6 +48,7 @@ type IIIFMediaSequence = {|
   '@id': string,
   '@type': string,
   elements: {
+    '@type': string,
     '@id': string,
     format: string,
   }[],

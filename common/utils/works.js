@@ -107,11 +107,18 @@ export function getManifestViewType(iiifManifest: IIIFManifest) {
         element => element['@type'] === 'dctypes:MovingImage'
       )
     );
+  const audio =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
   const canvases = getCanvases(iiifManifest);
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return video
+  return audio
+    ? 'audio'
+    : video
     ? 'video'
     : canvases.length > 0
     ? 'iiif'

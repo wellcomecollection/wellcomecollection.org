@@ -102,6 +102,7 @@ function randomImages(
     images,
   };
 }
+
 function getVideo(iiifManifest: IIIFManifest) {
   const videoSequence =
     iiifManifest.mediaSequences &&
@@ -115,6 +116,18 @@ function getVideo(iiifManifest: IIIFManifest) {
     videoSequence.elements.find(
       element => element['@type'] === 'dctypes:MovingImage'
     )
+  );
+}
+
+function getAudio(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
   );
 }
 
@@ -189,10 +202,10 @@ type Props = {|
   itemUrl: any,
 |};
 
-type ViewType = 'unknown' | 'iiif' | 'pdf' | 'video' | 'none';
+type ViewType = 'unknown' | 'iiif' | 'pdf' | 'video' | 'audio' | 'none';
 // Can we show the user the work described by the manifest?
 // unknown === can't/haven't checked
-// iiif | pdf === checked manifest and can render
+// iiif | pdf | video | audio === checked manifest and can render
 // none === checked manifest and know we can't render it
 
 const IIIFPresentationDisplay = ({
@@ -204,6 +217,7 @@ const IIIFPresentationDisplay = ({
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
   const video = getVideo(iiifPresentationManifest);
+  const audio = getAudio(iiifPresentationManifest);
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -285,7 +299,7 @@ const IIIFPresentationDisplay = ({
     );
   }
 
-  if (viewType === 'video') {
+  if (viewType === 'video' && video) {
     return (
       <div
         className={classNames({
@@ -302,8 +316,30 @@ const IIIFPresentationDisplay = ({
           }}
         >
           <source src={video['@id']} type={video.format} />
-          {`Sorry, your browser doesn't support embedded videos.`}
+          {`Sorry, your browser doesn't support embedded video.`}
         </video>
+      </div>
+    );
+  }
+
+  if (viewType === 'audio' && audio) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <audio
+          controls
+          style={{
+            maxWidth: '100%',
+            display: 'block',
+            margin: 'auto',
+          }}
+          src={audio['@id']}
+        >
+          {`Sorry, your browser doesn't support embedded audio.`}
+        </audio>
       </div>
     );
   }
