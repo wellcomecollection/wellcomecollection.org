@@ -102,6 +102,21 @@ function randomImages(
     images,
   };
 }
+function getVideo(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(
+      element => element['@type'] === 'dctypes:MovingImage'
+    )
+  );
+}
 
 function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
   return iiifManifest.structures
@@ -174,7 +189,7 @@ type Props = {|
   itemUrl: any,
 |};
 
-type ViewType = 'unknown' | 'iiif' | 'pdf' | 'none';
+type ViewType = 'unknown' | 'iiif' | 'pdf' | 'video' | 'none';
 // Can we show the user the work described by the manifest?
 // unknown === can't/haven't checked
 // iiif | pdf === checked manifest and can render
@@ -188,6 +203,7 @@ const IIIFPresentationDisplay = ({
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
+  const video = getVideo(iiifPresentationManifest);
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -266,6 +282,29 @@ const IIIFPresentationDisplay = ({
           </a>
         </NextLink>
       </PresentationPreview>
+    );
+  }
+
+  if (viewType === 'video') {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <video
+          controls
+          style={{
+            maxWidth: '100%',
+            maxHeight: '70vh',
+            display: 'block',
+            margin: 'auto',
+          }}
+        >
+          <source src={video['@id']} type={video.format} />
+          {`Sorry, your browser doesn't support embedded videos.`}
+        </video>
+      </div>
     );
   }
 
