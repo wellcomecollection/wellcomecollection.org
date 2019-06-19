@@ -1,5 +1,5 @@
 // @flow
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
@@ -9,7 +9,6 @@ import { trackEvent } from '../../../utils/ga';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import LL from '../styled/LL';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const ImageViewerControls = styled.div`
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -111,19 +110,16 @@ const ImageViewer = ({
   const [imageLoading, setImageLoading] = useState(false);
   const [viewer, setViewer] = useState(null);
   const [isError, setIsError] = useState(false);
-  const { newViewer } = useContext(TogglesContext);
   const zoomStep = 0.5;
   function routeChangeStart(url: string) {
     setImageLoading(true);
   }
   useEffect(() => {
-    if (newViewer) {
-      Router.events.on('routeChangeStart', routeChangeStart);
+    Router.events.on('routeChangeStart', routeChangeStart);
 
-      return () => {
-        Router.events.off('routeChangeStart', routeChangeStart);
-      };
-    }
+    return () => {
+      Router.events.off('routeChangeStart', routeChangeStart);
+    };
   }, []);
 
   useEffect(() => {
