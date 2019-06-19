@@ -118,12 +118,13 @@ class GifVideo extends Component<Props, State> {
 
   componentDidMount() {
     const video = this.videoRef.current;
+
     if (video) {
       video.playbackRate = this.props.playbackRate;
       if (video.readyState > 3) {
         this.initVideoGif(video);
       } else {
-        video.addEventListener('canplaythrough', () => {
+        video.addEventListener('loadedmetadata', () => {
           this.initVideoGif(video);
         });
       }
