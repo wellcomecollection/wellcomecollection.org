@@ -210,14 +210,22 @@ const Download = ({
         </DownloadOptions>
 
         <div className="flex-inline flex--v-center">
-          {iiifImageLocationLicenseId && (
+          {(iiifImageLocationLicenseId || licenseInfo) && (
             <span
               className={classNames({
                 'inline-block': true,
                 [spacing({ s: 2 }, { margin: ['right'] })]: true,
               })}
             >
-              <License subject={''} licenseType={iiifImageLocationLicenseId} />
+              {iiifImageLocationLicenseId && (
+                <License
+                  subject={''}
+                  licenseType={iiifImageLocationLicenseId}
+                />
+              )}
+              {licenseInfo && licenseInfo.url && (
+                <License subject={''} licenseType={licenseInfo.url} />
+              )}
             </span>
           )}
           {iiifImageLocationCredit && (
