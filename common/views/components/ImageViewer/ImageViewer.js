@@ -111,8 +111,11 @@ const ImageViewer = ({
   const [viewer, setViewer] = useState(null);
   const [isError, setIsError] = useState(false);
   const zoomStep = 0.5;
+
   function routeChangeStart(url: string) {
-    setImageLoading(true);
+    if (window.history.state.as !== url) {
+      setImageLoading(true);
+    }
   }
   useEffect(() => {
     Router.events.on('routeChangeStart', routeChangeStart);
