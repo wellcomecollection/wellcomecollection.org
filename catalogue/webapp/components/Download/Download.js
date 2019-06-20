@@ -223,9 +223,11 @@ const Download = ({
                   licenseType={iiifImageLocationLicenseId}
                 />
               )}
-              {licenseInfo && licenseInfo.url && (
-                <License subject={''} licenseType={licenseInfo.url} />
-              )}
+              {!iiifImageLocationLicenseId &&
+                licenseInfo &&
+                licenseInfo.url && (
+                  <License subject={''} licenseType={licenseInfo.url} />
+                )}
             </span>
           )}
           {iiifImageLocationCredit && (
