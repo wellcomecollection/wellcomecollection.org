@@ -76,6 +76,10 @@ function getFormatString(format) {
       return 'PLAIN';
     case 'image/jpeg':
       return 'JPG';
+    case 'video/mp4':
+      return 'MP4';
+    case 'audio/mp3':
+      return 'MP3';
   }
 }
 

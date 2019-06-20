@@ -56,13 +56,13 @@ export function getDownloadOptionsFromManifest(
         return acc.concat(
           sequence.elements
             .map(element => {
-              if (element.format === 'application/pdf') {
-                return {
-                  '@id': element['@id'],
-                  format: element.format,
-                  label: 'Download PDF',
-                };
-              }
+              return {
+                '@id': element['@id'],
+                format: element.format,
+                label: `Download ${
+                  element.format === 'application/pdf' ? 'PDF' : 'file'
+                }`,
+              };
             })
             .filter(Boolean)
         );
