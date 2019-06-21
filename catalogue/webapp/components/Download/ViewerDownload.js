@@ -3,7 +3,7 @@ import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { font, spacing, classNames } from '@weco/common/utils/classnames';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
@@ -81,7 +81,16 @@ const Download = ({
   downloadOptions,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(false);
-
+  const downloadText = useRef(null);
+  useEffect(() => {
+    const links =
+      downloadText.current && downloadText.current.getElementsByTagName('a');
+    if (links) {
+      for (const link of links) {
+        link.setAttribute('tabindex', showDownloads ? 0 : -1);
+      }
+    }
+  }, [showDownloads]);
   return (
     <div
       className={classNames({
@@ -160,27 +169,29 @@ const Download = ({
         </SpacingComponent>
         {licenseInfo && (
           <SpacingComponent>
-            <MetaUnit
-              headingLevel={3}
-              headingText="License information"
-              text={licenseInfo.humanReadableText}
-            />
-            <MetaUnit
-              headingLevel={3}
-              headingText="Credit"
-              text={[
-                `${title}. ${
-                  iiifImageLocationCredit
-                    ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
-                    : ` `
-                }
+            <div ref={downloadText}>
+              <MetaUnit
+                headingLevel={3}
+                headingText="License information"
+                text={licenseInfo.humanReadableText}
+              />
+              <MetaUnit
+                headingLevel={3}
+                headingText="Credit"
+                text={[
+                  `${title}. ${
+                    iiifImageLocationCredit
+                      ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
+                      : ` `
+                  }
                   ${
                     licenseInfo.url
                       ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
                       : licenseInfo.text
                   }`,
-              ]}
-            />
+                ]}
+              />
+            </div>
           </SpacingComponent>
         )}
       </DownloadOptions>
