@@ -169,9 +169,9 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
               </Layout8>
             )}
             {slice.type === 'gifVideo' && (
-              <Layout8>
+              <Layout10>
                 <GifVideo {...slice.value} />
-              </Layout8>
+              </Layout10>
             )}
             {slice.type === 'iframe' && (
               <Layout10>
