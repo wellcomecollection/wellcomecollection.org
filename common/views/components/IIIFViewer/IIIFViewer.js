@@ -540,7 +540,7 @@ const IIIFViewerComponent = ({
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   useEffect(() => {
-    setShowThumbs(Router.router.query.isOverview);
+    setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
   }, []);
 
