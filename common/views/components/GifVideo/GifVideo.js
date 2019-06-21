@@ -126,20 +126,13 @@ class GifVideo extends Component<Props, State> {
     if (video) {
       video.playbackRate = this.props.playbackRate;
 
-      // We have to poll because canplay/canplaythrough don't work in Safari
-      // and loadedmetadata doesn't fire consistently.
-      let timer;
-      const checkIfReady = () => {
-        if (video.readyState > 3) {
-          clearTimeout(timer);
-
+      if (video.readyState > 3) {
+        this.initVideoGif(video);
+      } else {
+        video.addEventListener('loadedmetadata', () => {
           this.initVideoGif(video);
-        } else {
-          timer = setTimeout(checkIfReady, 100);
-        }
-      };
-
-      checkIfReady();
+        });
+      }
     }
 
     window.addEventListener('resize', this.debounceAutoControl);
