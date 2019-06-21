@@ -229,6 +229,7 @@ export const WorkPage = ({ work }: Props) => {
                   langCode: work.language && work.language.id,
                   page: 1,
                   canvas: 1,
+                  isOverview: true,
                 })}
               />
             </WobblyRow>
@@ -244,6 +245,7 @@ export const WorkPage = ({ work }: Props) => {
                 langCode: work.language && work.language.id,
                 page: 1,
                 canvas: 1,
+                isOverview: true,
               })}
               title={work.title}
             />
