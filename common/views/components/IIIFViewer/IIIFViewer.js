@@ -145,11 +145,10 @@ const IIIFViewerMain = styled.div.attrs(props => ({
 
 const IIIFViewerThumb = styled.div.attrs(props => ({
   className: classNames({
-    'relative flex flex--v-center': false,
-    [spacing({ s: 2 }, { padding: ['bottom'] })]: false,
+    [spacing({ s: 2, m: 4, l: 6 }, { margin: ['left', 'right'] })]: true,
   }),
 }))`
-  width: 100px;
+  width: 130px;
   noscript & {
     height: 100%;
     width: 20%;
@@ -167,13 +166,15 @@ const IIIFViewerThumb = styled.div.attrs(props => ({
 
   img {
     display: block;
+    width: 100%;
   }
 `;
 
 const IIIFViewerThumbLink = styled.a.attrs(props => ({
   className: classNames({
     'block h-center': true,
-    [spacing({ s: 1 }, { padding: ['top', 'bottom', 'left', 'right'] })]: true,
+    [spacing({ s: 1 }, { margin: ['top'] })]: true,
+    [spacing({ s: 6 }, { margin: ['bottom'] })]: true,
   }),
 }))`
   height: 100%;
@@ -184,13 +185,15 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
   className: classNames({
     'line-height-1': true,
+    'inline-block': true,
     'font-white': !props.isActive,
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
-    [font({ s: 'LR3' })]: true,
+    [font({ s: 'HNL4' })]: true,
+    [spacing({ s: 2 }, { margin: ['top'] })]: true,
   }),
 }))`
-  padding: 3px 2px 0;
+  padding: 3px 2px;
 `;
 
 const StaticThumbnailsContainer = styled.div.attrs(props => ({
@@ -319,7 +322,16 @@ const IIIFCanvasThumbnail = ({
           }}
         >
           <LL small={true} />
-          <div style={{ display: 'block', position: 'absolute', top: 0 }}>
+          <div
+            style={{
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+            }}
+          >
             <IIIFResponsiveImage
               width={
                 smallestWidthImageDimensions
