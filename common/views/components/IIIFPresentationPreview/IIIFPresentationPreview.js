@@ -17,11 +17,12 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 const PresentationPreview = styled.div`
-  overflow: hidden;
   text-align: center;
   position: relative;
   a {
+    overflow: hidden;
     display: inline-flex;
+    width: 100%;
     align-items: flex-end;
     flex-basis: min-content;
     padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
