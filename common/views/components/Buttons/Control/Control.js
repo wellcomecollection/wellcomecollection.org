@@ -14,7 +14,7 @@ type Props = {|
   replace?: boolean,
   prefetch?: boolean,
   id?: string,
-  type: 'light' | 'dark',
+  type: 'light' | 'dark' | 'on-black',
   extraClasses?: string,
   icon: string,
   text: string,
@@ -22,7 +22,7 @@ type Props = {|
   disabled?: boolean,
   ariaControls?: string,
   ariaExpanded?: boolean,
-  clickHandler?: (event: Event) => void,
+  clickHandler?: (event: Event) => void | Promise<void>,
 |};
 
 type InnerControlProps = { text: string, icon: string };

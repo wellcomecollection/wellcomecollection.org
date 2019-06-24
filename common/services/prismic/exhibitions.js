@@ -358,7 +358,8 @@ export async function getExhibition(
       organisationsFields,
       contributorsFields,
       placesFields,
-      exhibitionResourcesFields
+      exhibitionResourcesFields,
+      eventSeriesFields
     ),
   });
 
@@ -384,7 +385,6 @@ export async function getExhibitionRelatedContent(
     placesFields,
     interpretationTypesFields,
     audiencesFields,
-    eventSeriesFields,
     organisationsFields,
     peopleFields,
     contributorsFields,

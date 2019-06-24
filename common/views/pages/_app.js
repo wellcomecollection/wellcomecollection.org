@@ -394,7 +394,7 @@ export default class WecoApp extends App {
         </Head>
         <TogglesContext.Provider value={toggles}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
-            <GlobalAlertContext.Provider value={globalAlert.text}>
+            <GlobalAlertContext.Provider value={globalAlert}>
               <ThemeProvider theme={theme}>
                 <CatalogueSearchProvider>
                   <OutboundLinkTracker>

@@ -129,6 +129,7 @@ export default {
             'books',
             'events',
             'articles',
+            'exhibitions',
           ]),
         },
       }),

@@ -4,6 +4,7 @@ import { css } from 'styled-components';
 // When units are `number`s, we assume pixels
 const theme = {
   spacingUnit: 6,
+  borderRadiusUnit: 6,
   sizes: {
     small: 0,
     medium: 600,
@@ -29,6 +30,9 @@ const theme = {
     marble: '#bcbab5',
     pumice: '#d9d6ce',
     smoke: '#e8e8e8',
+    // The following 'black' is only to be used for the item viewer
+    coal: '#1f1f1f',
+    //
     transparent: 'transparent',
     'transparent-black': 'rgba(29, 29, 29, 0.61)',
     // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.

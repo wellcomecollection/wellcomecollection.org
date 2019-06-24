@@ -56,13 +56,13 @@ export function getDownloadOptionsFromManifest(
         return acc.concat(
           sequence.elements
             .map(element => {
-              if (element.format === 'application/pdf') {
-                return {
-                  '@id': element['@id'],
-                  format: element.format,
-                  label: 'Download PDF',
-                };
-              }
+              return {
+                '@id': element['@id'],
+                format: element.format,
+                label: `Download ${
+                  element.format === 'application/pdf' ? 'PDF' : 'file'
+                }`,
+              };
             })
             .filter(Boolean)
         );
@@ -100,11 +100,31 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
 }
 
 export function getManifestViewType(iiifManifest: IIIFManifest) {
+  const video =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  const audio =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
   const canvases = getCanvases(iiifManifest);
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return canvases.length > 0 ? 'iiif' : pdfRendering ? 'pdf' : 'none';
+  return audio
+    ? 'audio'
+    : video
+    ? 'video'
+    : canvases.length > 0
+    ? 'iiif'
+    : pdfRendering
+    ? 'pdf'
+    : 'none';
 }
 
 export type IIIFPresentationLocation = {|

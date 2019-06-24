@@ -258,6 +258,15 @@
   display: block;
 }
 
+// Flex for most browsers, block for IE
+.flex-ie-block {
+  display: block; // IE
+
+  @supports(display: flex) { // IE ignores @supports
+    display: flex;
+  }
+}
+
 .inline {
   display: inline;
 }
@@ -374,10 +383,6 @@
   &:focus .promo-link__title {
     text-decoration: underline;
     text-decoration-color: color('green');
-  }
-
-  @include respond-to('medium') {
-    min-height: 370px;
   }
 }
 
@@ -531,6 +536,13 @@
 
 // TODO: this better
 .story-promo-featured {
+  // Because this item's flex-direction is row rather than column,
+  // it doesn't have the same issues as the others, so we can use
+  // flexbox and avoid a poor layout in IE.
+  .flex-ie-block {
+    display: flex;
+  }
+
   @include respond-to('medium') {
     .story-promo {
       min-height: 0;

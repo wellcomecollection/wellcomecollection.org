@@ -7,7 +7,7 @@ const stories = storiesOf('Components', module);
 stories.add(
   'BetaMessage',
   () => (
-    <BetaMessage message="We are working to make this item available online in April 2019." />
+    <BetaMessage message="We are working to make this item available online in July 2019." />
   ),
   {
     readme: { sidebar: Readme },

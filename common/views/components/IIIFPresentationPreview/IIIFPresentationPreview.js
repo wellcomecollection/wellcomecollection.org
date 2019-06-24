@@ -8,133 +8,38 @@ import {
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { font, classNames, spacing } from '@weco/common/utils/classnames';
+import { classNames, spacing } from '@weco/common/utils/classnames';
 import { useEffect, useState, useContext } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
-const BookPreviewContainer = styled.div`
-  text-align: center;
-
-  /* 42px(container padding) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 42px = 708px */
-  @media (min-width: 708px) {
-    padding: ${props =>
-      `${props.theme.spacingUnit * 4}px 0 ${props.theme.spacingUnit * 6}px`};
-  }
-`;
-
-const BookPreview = styled.div`
-  @media (min-width: 708px) {
-    display: ${props => (props.hasThumbs ? 'inline-grid' : 'inline')};
-    grid-gap: ${props =>
-      props.columnNumber > 1 ? `${props.theme.spacingUnit * 2}px` : 0};
-    grid-template-columns: ${props => `repeat(3, 200px)`};
-    grid-template-rows: 200px;
-  }
-
-  ${props => props.theme.media.large`
-    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
-  `}
-`;
-
-const PagePreview = styled.div`
+const PresentationPreview = styled.div`
   overflow: hidden;
-  display: none;
-  width: 200px;
-  height: 200px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  /* Putting the background inside a media query,
-   * prevents webkit downloading the images unnecessarily.
-   * Display none is not sufficient */
-  @media (min-width: 708px) {
-    @supports (display: grid) {
-      /* 24px(gutter) + 200px(image) + 12px(gap) + 200px + 12px + 200px + 24px = 708px */
-      &:nth-child(2) {
-        display: block;
-        background-image: url(${props => props.backgroundImage});
-      }
-    }
+  text-align: center;
+  a {
+    display: inline-flex;
+    align-items: flex-end;
+    flex-basis: min-content;
+    padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
   }
-
-  @supports (display: grid) {
-    ${props => props.theme.media.large`
+  img {
     display: block;
-    background-image: url(${props => props.backgroundImage});
-  `};
+    max-width: 800px;
+    max-height: 400px;
+    width: auto;
+    margin-left: ${props => `${props.theme.spacingUnit * 5}px`};
   }
-
-  &:nth-child(3) {
-    grid-row-end: 3;
+  img:first-of-type {
+    margin-left: 0;
   }
-
-  &:first-child {
-    display: block;
-    height: ${props => `${400 + props.theme.spacingUnit * 2}px`};
-    width: 100%;
-    background-size: contain;
-    background-image: url(${props => props.backgroundImage});
-    background-color: ${props => props.theme.colors.smoke};
-
-    @media (min-width: 708px) {
-      grid-column-start: 1;
-      grid-column-end: span 2;
-      grid-row-start: 1;
-      grid-row-end: span 2;
-    }
-
-    ${props => props.theme.media.large`
-    grid-template-columns: ${props => `repeat(${props.columnNumber}, 200px)`};
-  `}
-  }
-`;
-
-const CallToAction = styled.div`
-  display: inline-block;
-  padding: 6px 24px;
-  grid-row-end: 3;
-  ${props => props.hasThumbs && 'transform: translateY(-50%)'};
-  background: ${props => props.theme.colors.green};
-  color: ${props => props.theme.colors.white};
-  transition: all 500ms ease;
-  position: relative;
-
-  @media (min-width: 708px) {
-    transform: none;
-  }
-
-  a:hover &,
-  a:focus & {
-    background: ${props => props.theme.colors.black};
-  }
-
-  .icon {
-    margin-right: 6px;
-  }
-
-  .icon__shape {
-    fill: currentColor;
-  }
-
-  @supports (display: grid) {
-    .cta__inner {
-      @media (min-width: 708px) {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-  }
-
-  .cta__text {
-    display: block;
+  .btn--primary {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
   }
 `;
 
@@ -143,11 +48,22 @@ type IIIFThumbnails = {|
   images: {
     id: string,
     canvasId: string,
+    width: number,
+    height: number,
   }[],
 |};
 
+// We want to display the images at 400px high (400px is a size available from the thumbnail service)
+// However, we can only use the thumbnail service, with its associated performance benefits, if the image is not landscape.
+// When the image is landscape, the image from the thumbnail service has a width of 400px
+function appropriateServiceId(canvas) {
+  return canvas.width > canvas.height
+    ? canvas.images[0].resource.service['@id']
+    : canvas.thumbnail.service['@id'];
+}
+
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
-// If we don't have any of the structured pages, we fill with random ones, so there are always 4 images if possible.
+// If we don't have any of the structured pages, we fill with random ones, so there are up to 5 images if possible.
 function randomImages(
   iiifManifest: IIIFManifest,
   structuredImages: IIIFThumbnails[],
@@ -174,8 +90,10 @@ function randomImages(
     const randomCanvas = canvases.splice(randomNumber, 1)[0];
     if (randomCanvas.thumbnail.service) {
       images.push({
-        id: randomCanvas.thumbnail.service['@id'],
+        id: appropriateServiceId(randomCanvas),
         canvasId: randomCanvas['@id'],
+        width: randomCanvas.width,
+        height: randomCanvas.height,
       });
     }
   }
@@ -183,6 +101,34 @@ function randomImages(
     label: 'random',
     images,
   };
+}
+
+function getVideo(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(
+      element => element['@type'] === 'dctypes:MovingImage'
+    )
+  );
+}
+
+function getAudio(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+  );
 }
 
 function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
@@ -195,8 +141,10 @@ function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
             });
             if (matchingCanvas) {
               return {
-                id: matchingCanvas.thumbnail.service['@id'],
+                id: appropriateServiceId(matchingCanvas),
                 canvasId: matchingCanvas && matchingCanvas['@id'],
+                width: matchingCanvas.width,
+                height: matchingCanvas.height,
               };
             }
           })
@@ -236,7 +184,7 @@ function orderedStructuredImages(
 function previewThumbnails(
   iiifManifest: IIIFManifest,
   structuredImages: IIIFThumbnails[],
-  idealNumber: number = 4
+  idealNumber: number = 5
 ): IIIFThumbnails[] {
   return structuredImages.length < idealNumber
     ? structuredImages.concat(
@@ -254,10 +202,10 @@ type Props = {|
   itemUrl: any,
 |};
 
-type ViewType = 'unknown' | 'iiif' | 'pdf' | 'none';
+type ViewType = 'unknown' | 'iiif' | 'pdf' | 'video' | 'audio' | 'none';
 // Can we show the user the work described by the manifest?
 // unknown === can't/haven't checked
-// iiif | pdf === checked manifest and can render
+// iiif | pdf | video | audio === checked manifest and can render
 // none === checked manifest and know we can't render it
 
 const IIIFPresentationDisplay = ({
@@ -268,6 +216,8 @@ const IIIFPresentationDisplay = ({
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
+  const video = getVideo(iiifPresentationManifest);
+  const audio = getAudio(iiifPresentationManifest);
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -277,14 +227,11 @@ const IIIFPresentationDisplay = ({
         previewThumbnails(
           iiifPresentationManifest,
           orderedStructuredImages(structuredImages(iiifPresentationManifest)),
-          4
+          5
         )
       );
     }
   }, [iiifPresentationManifest]);
-  const itemsNumber = imageThumbnails.reduce((acc, pageType) => {
-    return acc + pageType.images.length;
-  }, 0);
 
   if (viewType === 'unknown' || viewType === 'pdf') {
     return (
@@ -310,7 +257,7 @@ const IIIFPresentationDisplay = ({
 
   if (viewType === 'iiif') {
     return (
-      <BookPreviewContainer>
+      <PresentationPreview>
         <NextLink {...itemUrl}>
           <a
             className="plain-link"
@@ -322,58 +269,78 @@ const IIIFPresentationDisplay = ({
               });
             }}
           >
-            <BookPreview
-              columnNumber={
-                itemsNumber === 1
-                  ? 3
-                  : itemsNumber === 3
-                  ? 4
-                  : 2 + Math.floor(itemsNumber / 2)
-              }
-              hasThumbs={imageThumbnails.length > 0}
-            >
-              {imageThumbnails.map((pageType, i) => {
-                return pageType.images.map(image => {
-                  return i === 0 ? (
-                    <PagePreview
-                      key={image.id}
-                      backgroundImage={iiifImageTemplate(image.id)({
-                        size: 'max',
-                      })}
-                    />
-                  ) : (
-                    <PagePreview
-                      key={image.id}
-                      backgroundImage={iiifImageTemplate(image.id)({
-                        size: '!400,400',
-                      })}
-                    />
-                  );
-                });
-              })}
-              <CallToAction
-                hasThumbs={imageThumbnails.length > 0}
-                className={classNames({
-                  [font({ s: 'HNM4' })]: true,
-                })}
-              >
-                <span className="cta__inner">
-                  <span
-                    className={classNames({
-                      'flex-inline': true,
-                      'flex--v-center': true,
+            {imageThumbnails.map((pageType, i) => {
+              return pageType.images.map(image => {
+                return (
+                  <IIIFResponsiveImage
+                    key={image.id}
+                    lang={null}
+                    width={image.width * (400 / image.height)}
+                    height={400}
+                    src={iiifImageTemplate(image.id)({
+                      size: ',400',
                     })}
-                  >
-                    <Icon name="gallery" />
-                    {imageTotal}
-                  </span>
-                  <span className="cta__text">Full view</span>
-                </span>
-              </CallToAction>
-            </BookPreview>
+                    srcSet={''}
+                    alt=""
+                    sizes={null}
+                    isLazy={true}
+                  />
+                );
+              });
+            })}
+            <Button
+              icon={'gallery'}
+              text={`${imageTotal} images`}
+              extraClasses={`btn--primary`}
+            />
           </a>
         </NextLink>
-      </BookPreviewContainer>
+      </PresentationPreview>
+    );
+  }
+
+  if (viewType === 'video' && video) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <video
+          controls
+          style={{
+            maxWidth: '100%',
+            maxHeight: '70vh',
+            display: 'block',
+            margin: 'auto',
+          }}
+        >
+          <source src={video['@id']} type={video.format} />
+          {`Sorry, your browser doesn't support embedded video.`}
+        </video>
+      </div>
+    );
+  }
+
+  if (viewType === 'audio' && audio) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <audio
+          controls
+          style={{
+            maxWidth: '100%',
+            display: 'block',
+            margin: 'auto',
+          }}
+          src={audio['@id']}
+        >
+          {`Sorry, your browser doesn't support embedded audio.`}
+        </audio>
+      </div>
     );
   }
 
@@ -384,7 +351,7 @@ const IIIFPresentationDisplay = ({
           [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
         })}
       >
-        <BetaMessage message="We are working to make this item available online in April 2019." />
+        <BetaMessage message="We are working to make this item available online in July 2019." />
       </div>
     );
   } else {

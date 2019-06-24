@@ -7,7 +7,6 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   ...ExhibitionPromoProps,
@@ -32,7 +31,7 @@ const ExhibitionPromo = ({
       data-component-state={JSON.stringify({ position: position })}
       id={id}
       href={url}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column"
+      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex--column flex-ie-block"
       onClick={() => {
         trackEvent({
           category: 'ExhibitionPromo',
@@ -91,15 +90,7 @@ const ExhibitionPromo = ({
             ${spacing({ s: 1 }, { margin: ['bottom'] })}
           `}
           >
-            <TogglesContext.Consumer>
-              {({ showShortTitles }) => {
-                if (showShortTitles && shortTitle) {
-                  return shortTitle;
-                } else {
-                  return title;
-                }
-              }}
-            </TogglesContext.Consumer>
+            {title}
           </h2>
 
           {!statusOverride && start && end && (

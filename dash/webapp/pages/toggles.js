@@ -37,9 +37,25 @@ function setCookie(name, value) {
 
 const abTests = [
   {
-    title: 'Short exhibition titles',
-    description: 'Display short exhibition titles',
-    id: 'showShortTitles',
+    id: 'searchCandidateQueryMsm',
+    title: 'Search candidate query: Minimum should match',
+    defaultValue: false,
+    description: '',
+    range: [0, 10],
+  },
+  {
+    id: 'searchCandidateQueryBoost',
+    title: 'Search candidate query: Boost',
+    defaultValue: false,
+    description: '',
+    range: [10, 20],
+  },
+  {
+    id: 'searchCandidateQueryMsmBoost',
+    title: 'Search candidate query: Minimum should match with boost',
+    defaultValue: false,
+    description: '',
+    range: [20, 30],
   },
 ];
 const IndexPage = () => {
@@ -117,7 +133,10 @@ const IndexPage = () => {
                   paddingTop: '6px',
                 }}
               >
-                <h3 style={{ marginRight: '6px', marginBottom: '5px' }}>
+                <h3
+                  style={{ marginRight: '6px', marginBottom: '5px' }}
+                  id={`toggle-${toggle.id}`}
+                >
                   {toggle.title}
                 </h3>
                 <div
@@ -135,10 +154,10 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, 'true');
-                    setToggleStates({
+                    setToggleStates(() => ({
                       ...toggleStates,
                       [toggle.id]: true,
-                    });
+                    }));
                   }}
                   style={{
                     opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
@@ -149,10 +168,10 @@ const IndexPage = () => {
                 <Button
                   onClick={() => {
                     setCookie(toggle.id, 'false');
-                    setToggleStates({
+                    setToggleStates(() => ({
                       ...toggleStates,
                       [toggle.id]: false,
-                    });
+                    }));
                   }}
                   style={{
                     opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
@@ -198,7 +217,15 @@ const IndexPage = () => {
                   paddingTop: '6px',
                 }}
               >
-                <h3 style={{ marginRight: '6px' }}>{toggle.title}</h3>
+                <h3
+                  style={{ marginRight: '6px', marginBottom: '5px' }}
+                  id={`toggle-${toggle.id}`}
+                >
+                  {toggle.title}{' '}
+                  <span style={{ fontSize: '12px', color: '#666' }}>
+                    ({toggle.range[0]} - {toggle.range[1]})
+                  </span>
+                </h3>
                 <p>{toggle.description}</p>
                 <Button
                   onClick={() => {
@@ -209,6 +236,7 @@ const IndexPage = () => {
                     });
                   }}
                   style={{
+                    // $FlowFixMe
                     opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
                   }}
                 >
@@ -223,6 +251,7 @@ const IndexPage = () => {
                     });
                   }}
                   style={{
+                    // $FlowFixMe
                     opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
                   }}
                 >

@@ -2,10 +2,9 @@
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 
 const QueryTypes = {
-  Justboost: 'justboost',
-  Broaderboost: 'broaderboost',
-  Slop: 'slop',
-  Minimummatch: 'minimummatch',
+  Justboost: 'boost',
+  Broaderboost: 'msm',
+  Slop: 'msmboost',
 };
 type QueryType = $Values<typeof QueryTypes>;
 
@@ -23,7 +22,7 @@ type WorkUrlProps = {|
 
 type ItemUrlProps = {|
   workId: string,
-  sierraId: string,
+  sierraId: ?string,
   langCode: string,
   canvas: number,
   page: ?number,

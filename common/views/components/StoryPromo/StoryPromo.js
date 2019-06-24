@@ -40,7 +40,7 @@ const StoryPromo = ({
         'bg-cream': !hasTransparentBackground,
         'rounded-corners': true,
         'overflow-hidden': true,
-        flex: true,
+        'flex-ie-block': true,
         'flex--column': true,
       })}
     >

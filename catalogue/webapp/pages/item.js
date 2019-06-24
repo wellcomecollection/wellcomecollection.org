@@ -1,15 +1,19 @@
 // @flow
 import { type Context } from 'next';
-import NextLink from 'next/link';
+import {
+  type Work,
+  type CatalogueApiError,
+} from '@weco/common/model/catalogue';
 import fetch from 'isomorphic-unfetch';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
+import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, spacing } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
@@ -22,20 +26,6 @@ const IframePdfViewer = styled.iframe`
   border: none;
 `;
 
-type Props = {|
-  workId: string,
-  sierraId: string,
-  langCode: string,
-  manifest: IIIFManifest,
-  pageSize: number,
-  pageIndex: number,
-  canvasIndex: number,
-  canvasOcr: ?string,
-  itemsLocationsLocationType: ?(string[]),
-  workType: ?(string[]),
-  query: ?string,
-|};
-
 async function getCanvasOcr(canvas) {
   const textContent =
     canvas.otherContent &&
@@ -44,57 +34,94 @@ async function getCanvasOcr(canvas) {
         content['@type'] === 'sc:AnnotationList' &&
         content.label === 'Text of this page'
     );
+
   const textService = textContent && textContent['@id'];
-  try {
-    const textJson = await fetch(textService);
-    const text = await textJson.json();
-    const textString = text.resources
-      .filter(resource => {
-        return resource.resource['@type'] === 'cnt:ContentAsText';
-      })
-      .map(resource => resource.resource.chars)
-      .join(' ');
-    return textString.length > 0 ? textString : null;
-  } catch (e) {
-    Raven.captureException(e);
-    return null;
+
+  if (textService) {
+    try {
+      const textJson = await fetch(textService);
+      const text = await textJson.json();
+      const textString = text.resources
+        .filter(resource => {
+          return resource.resource['@type'] === 'cnt:ContentAsText';
+        })
+        .map(resource => resource.resource.chars)
+        .join(' ');
+      return textString.length > 0 ? textString : null;
+    } catch (e) {
+      Raven.captureException(new Error(`IIIF text service error: ${e}`), {
+        tags: {
+          service: 'dlcs',
+        },
+      });
+
+      return null;
+    }
   }
 }
+type Props = {|
+  workId: string,
+  sierraId: string,
+  langCode: string,
+  manifest: ?IIIFManifest,
+  work: ?(Work | CatalogueApiError),
+  pageSize: number,
+  pageIndex: number,
+  canvasIndex: number,
+  canvasOcr: ?string,
+  canvases: ?[],
+  currentCanvas: ?any,
+  itemsLocationsLocationType: ?(string[]),
+  workType: ?(string[]),
+  query: ?string,
+|};
 
 const ItemPage = ({
   workId,
   sierraId,
   langCode,
   manifest,
+  work,
   pageSize,
   pageIndex,
   canvasIndex,
   canvasOcr,
+  canvases,
+  currentCanvas,
   itemsLocationsLocationType,
   workType,
   query,
 }: Props) => {
-  const canvases = manifest.sequences && manifest.sequences[0].canvases;
-  const currentCanvas = canvases && canvases[canvasIndex];
-  const title = manifest.label;
+  const title = (manifest && manifest.label) || (work && work.title) || '';
+  const [iiifImageLocation] =
+    work && work.items
+      ? work.items
+          .map(item =>
+            item.locations.find(
+              location => location.locationType.id === 'iiif-image'
+            )
+          )
+          .filter(Boolean)
+      : [null];
+
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImage =
+    iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);
+  const imageUrl = iiifImage && iiifImage({ size: '800,' });
   const mainImageService =
     currentCanvas && currentCanvas.images[0].resource.service
       ? {
           '@id': currentCanvas.images[0].resource.service['@id'],
         }
       : null;
-  const downloadOptions = getDownloadOptionsFromManifest(manifest);
+  const downloadOptions = manifest && getDownloadOptionsFromManifest(manifest);
   const pdfRendering =
-    downloadOptions.find(option => option.label === 'Download PDF') || null;
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
+    (downloadOptions &&
+      downloadOptions.find(option => option.label === 'Download PDF')) ||
+    null;
 
   const sharedPaginatorProps = {
-    totalResults: canvases && canvases.length,
+    totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
       workId,
       page: pageIndex + 1,
@@ -129,40 +156,10 @@ const ItemPage = ({
       imageUrl={'imageContentUrl'}
       imageAltText={''}
       hideNewsletterPromo={true}
+      hideFooter={true}
     >
-      <Layout12>
-        <div
-          className={classNames({
-            [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-            [spacing({ s: 6 }, { padding: ['top'] })]: true,
-          })}
-        >
-          <TruncatedText
-            text={title}
-            as="h1"
-            className={classNames({
-              [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
-            })}
-            title={title}
-            lang={langCode}
-          >
-            {title}
-          </TruncatedText>
-          <NextLink
-            {...workUrl({
-              id: workId,
-            })}
-          >
-            <a
-              className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
-              })}
-            >
-              Overview
-            </a>
-          </NextLink>
-        </div>
-        {!pdfRendering && !mainImageService && (
+      {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
+        <Layout12>
           <div
             className={classNames({
               [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
@@ -170,19 +167,22 @@ const ItemPage = ({
           >
             <BetaMessage message="We are working to make this item available online in April 2019." />
           </div>
-        )}
-      </Layout12>
+        </Layout12>
+      )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
       )}
-      {mainImageService && currentCanvas && navigationCanvases && (
+
+      {((mainImageService && currentCanvas) ||
+        (imageUrl && iiifImageLocationUrl)) && (
         <IIIFViewer
+          title={title}
           mainPaginatorProps={mainPaginatorProps}
           thumbsPaginatorProps={thumbsPaginatorProps}
           currentCanvas={currentCanvas}
           lang={langCode}
           canvasOcr={canvasOcr}
-          navigationCanvases={navigationCanvases}
+          canvases={canvases}
           workId={workId}
           query={query}
           workType={workType}
@@ -191,6 +191,10 @@ const ItemPage = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          imageUrl={imageUrl}
+          work={work}
+          manifest={manifest}
         />
       )}
     </CataloguePageLayout>
@@ -209,11 +213,19 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   } = ctx.query;
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
-  const manifest = await (await fetch(
-    `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
-  )).json();
+  const manifest = sierraId
+    ? await (await fetch(
+        `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
+      )).json()
+    : null;
 
-  const canvases = manifest.sequences && manifest.sequences[0].canvases;
+  // The sierraId originates from the iiif presentation manifest url
+  // If we don't have one, we must be trying to display a work with an iiif image location,
+  // so we need to get the work object to get the necessary data to display
+  const work = !sierraId ? await getWork({ id: workId }) : null;
+
+  const canvases =
+    manifest && manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
 
@@ -226,6 +238,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     pageIndex,
     canvasIndex,
     canvasOcr,
+    work,
+    canvases,
+    currentCanvas,
     // TODO: add these back in, it's just makes it easier to check the URLs
     itemsLocationsLocationType: null,
     workType: null,

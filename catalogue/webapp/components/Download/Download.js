@@ -11,12 +11,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 
 const DownloadButton = styled.button`
   text-align: center;
-  border: 0;
-  background: ${props => props.theme.colors.green};
-  color: ${props => props.theme.colors.white};
+  border: ${props => `1px solid ${props.theme.colors.green}`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+  background: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.green};
   padding: ${props =>
-    `${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit * 2}px ${props
-      .theme.spacingUnit * 2}px ${props.theme.spacingUnit * 3}px`};
+    `${props.theme.spacingUnit}px ${props.theme.spacingUnit}px ${
+      props.theme.spacingUnit
+    }px ${props.theme.spacingUnit * 2}px`};
   display: inline-block;
   margin: ${props =>
     `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};
@@ -74,6 +76,10 @@ function getFormatString(format) {
       return 'PLAIN';
     case 'image/jpeg':
       return 'JPG';
+    case 'video/mp4':
+      return 'MP4';
+    case 'audio/mp3':
+      return 'MP3';
   }
 }
 
@@ -204,14 +210,24 @@ const Download = ({
         </DownloadOptions>
 
         <div className="flex-inline flex--v-center">
-          {iiifImageLocationLicenseId && (
+          {(iiifImageLocationLicenseId || licenseInfo) && (
             <span
               className={classNames({
                 'inline-block': true,
                 [spacing({ s: 2 }, { margin: ['right'] })]: true,
               })}
             >
-              <License subject={''} licenseType={iiifImageLocationLicenseId} />
+              {iiifImageLocationLicenseId && (
+                <License
+                  subject={''}
+                  licenseType={iiifImageLocationLicenseId}
+                />
+              )}
+              {!iiifImageLocationLicenseId &&
+                licenseInfo &&
+                licenseInfo.url && (
+                  <License subject={''} licenseType={licenseInfo.url} />
+                )}
             </span>
           )}
           {iiifImageLocationCredit && (

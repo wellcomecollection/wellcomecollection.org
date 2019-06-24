@@ -127,7 +127,13 @@ const Works = ({ works }: Props) => {
         imageAltText={null}
       >
         <InfoBanner
-          text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
+          text={[
+            {
+              type: 'paragraph',
+              text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
+              spans: [],
+            },
+          ]}
           cookieName="WC_wellcomeImagesRedirect"
         />
 
@@ -203,46 +209,67 @@ const Works = ({ works }: Props) => {
 
         {!works && <StaticWorksContent />}
 
-        <Layout12>
-          <TabNav
-            large={true}
-            items={[
-              {
-                text: 'All',
-                link: worksUrl({
-                  query,
-                  workType: undefined,
-                  page: 1,
-                }),
-                selected: !workType,
-              },
-              {
-                text: 'Books',
-                link: worksUrl({
-                  query,
-                  workType: ['a', 'v'],
-                  page: 1,
-                }),
-                selected: !!(
-                  workType &&
-                  (workType.indexOf('a') !== -1 && workType.indexOf('v') !== -1)
-                ),
-              },
-              {
-                text: 'Pictures',
-                link: worksUrl({
-                  query,
-                  workType: ['k', 'q'],
-                  page: 1,
-                }),
-                selected: !!(
-                  workType &&
-                  (workType.indexOf('k') !== -1 && workType.indexOf('q') !== -1)
-                ),
-              },
-            ]}
-          />
-        </Layout12>
+        {works && (
+          <Layout12>
+            <TogglesContext.Consumer>
+              {({ audioVideoInSearch }) => {
+                const items = [
+                  {
+                    text: 'All',
+                    link: worksUrl({
+                      query,
+                      workType: undefined,
+                      page: 1,
+                    }),
+                    selected: !workType,
+                  },
+                  {
+                    text: 'Books',
+                    link: worksUrl({
+                      query,
+                      workType: ['a', 'v'],
+                      page: 1,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('a') !== -1 &&
+                        workType.indexOf('v') !== -1)
+                    ),
+                  },
+                  {
+                    text: 'Pictures',
+                    link: worksUrl({
+                      query,
+                      workType: ['k', 'q'],
+                      page: 1,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('k') !== -1 &&
+                        workType.indexOf('q') !== -1)
+                    ),
+                  },
+                ];
+                if (audioVideoInSearch) {
+                  items.push({
+                    text: 'Audio/Video',
+                    link: worksUrl({
+                      query,
+                      workType: ['f', 's'],
+                      page: 1,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('f') !== -1 &&
+                        workType.indexOf('s') !== -1)
+                    ),
+                  });
+                }
+                return <TabNav large={true} items={items} />;
+              }}
+            </TogglesContext.Consumer>
+          </Layout12>
+        )}
 
         {works && works.results.length > 0 && (
           <Fragment>
@@ -413,12 +440,27 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
-  const { useStageApi } = ctx.query.toggles;
+  const {
+    useStageApi,
+    searchCandidateQueryMsm,
+    searchCandidateQueryBoost,
+    searchCandidateQueryMsmBoost,
+    audioVideoInSearch,
+  } = ctx.query.toggles;
+  const toggledQueryType = searchCandidateQueryMsm
+    ? 'msm'
+    : searchCandidateQueryBoost
+    ? 'boost'
+    : searchCandidateQueryMsmBoost
+    ? 'msmboost'
+    : null;
   const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType;
+  const _queryType = ctx.query._queryType || toggledQueryType;
   const defaultWorkType = ['a', 'k', 'q', 'v'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
+    : audioVideoInSearch
+    ? defaultWorkType.concat(['f', 's'])
     : defaultWorkType;
 
   const filters = {

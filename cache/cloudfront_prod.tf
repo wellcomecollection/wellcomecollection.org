@@ -32,8 +32,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "works.wellcomecollection.org",
     "content.wellcomecollection.org",
     "whats-on.wellcomecollection.org",
-    "wellcomeimages.org",
-    "*.wellcomeimages.org",
   ]
 
   default_cache_behavior {
@@ -53,8 +51,6 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         "page",
         "current",
         "uri",
-        "MIROPAC", # Wellcome Images redirect
-        "MIRO",    # Wellcome Images redirect
 
         # dotmailer gives us a 'result' (if we run out of params,
         # consider making new urls for newsletter pages instead)

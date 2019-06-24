@@ -31,6 +31,7 @@ import comments from './components/Comments';
 import cookies from './components/Cookies';
 import copyEmail from './components/CopyEmail';
 import cross from './components/Cross';
+import detailView from './components/DetailView';
 import digitalImage from './components/DigitalImage';
 import document from './components/Document';
 import download from './components/Download';
@@ -75,6 +76,7 @@ import refresh from './components/Refresh';
 import request from './components/Request';
 import rotate360 from './components/Rotate360';
 import rotateLeft from './components/RotateLeft';
+import rotatePageRight from './components/RotatePageRight';
 import rotateRight from './components/RotateRight';
 import saveTo from './components/SaveTo';
 import scroll from './components/Scroll';
@@ -140,6 +142,7 @@ export {
   cookies,
   copyEmail,
   cross,
+  detailView,
   digitalImage,
   document,
   download,
@@ -184,6 +187,7 @@ export {
   request,
   rotate360,
   rotateLeft,
+  rotatePageRight,
   rotateRight,
   saveTo,
   scroll,
