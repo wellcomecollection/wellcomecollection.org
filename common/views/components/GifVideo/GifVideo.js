@@ -72,6 +72,17 @@ class GifVideo extends Component<Props, State> {
     }
   };
 
+  computeVideoWidth = () => {
+    const computedVideoWidth =
+      this.videoRef &&
+      this.videoRef.current &&
+      this.videoRef.current.clientWidth;
+
+    this.setState({
+      computedVideoWidth,
+    });
+  };
+
   manualControlGif = () => {
     const video = this.videoRef.current;
     if (video) {
@@ -98,29 +109,23 @@ class GifVideo extends Component<Props, State> {
     this.setState({
       canPlay: true,
     });
+
     setTimeout(() => {
       this.autoControlGif();
+      this.computeVideoWidth();
     }, 0); // TODO - fix properly - canPlay is still false without setTimeout
-  };
-
-  setVideoSize = () => {
-    this.setState({
-      computedVideoWidth:
-        this.videoRef &&
-        this.videoRef.current &&
-        this.videoRef.current.clientWidth,
-    });
   };
 
   debounceAutoControl = debounce(this.autoControlGif, 500);
   throttleAutoControl = throttle(this.autoControlGif, 100);
-  debouncedSetVidoSize = debounce(this.setVideoSize, 500);
+  debounceComputeVideoWidth = debounce(this.computeVideoWidth, 500);
 
   componentDidMount() {
     const video = this.videoRef.current;
 
     if (video) {
       video.playbackRate = this.props.playbackRate;
+
       if (video.readyState > 3) {
         this.initVideoGif(video);
       } else {
@@ -129,30 +134,24 @@ class GifVideo extends Component<Props, State> {
         });
       }
     }
-    this.setVideoSize();
+
     window.addEventListener('resize', this.debounceAutoControl);
+    window.addEventListener('resize', this.debounceComputeVideoWidth);
     window.addEventListener('scroll', this.throttleAutoControl);
-    window.addEventListener('resize', this.debouncedSetVidoSize);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.debounceAutoControl);
+    window.removeEventListener('resize', this.debounceComputeVideoWidth);
     window.removeEventListener('scroll', this.throttleAutoControl);
-    window.removeEventListener('resize', this.debouncedSetVidoSize);
   }
 
   render() {
     const { videoUrl, caption, tasl } = this.props;
     const { canPlay, isPlaying, computedVideoWidth } = this.state;
+
     return (
-      <figure
-        style={{
-          marginLeft: '50%',
-          transform:
-            computedVideoWidth && `translateX(${computedVideoWidth / -2}px)`,
-        }}
-        className="gif-video no-margin"
-      >
+      <figure className="gif-video no-margin text-align-center">
         <div className="gif-video__inner relative inline-block">
           <video
             ref={this.videoRef}

@@ -29,8 +29,9 @@ const ArticleCard = ({ article, showPosition }: Props) => {
       description={article.promoText}
       urlOverride={article.promo && article.promo.link}
       Image={
-        article.promo &&
-        article.promo.image && <Image {...article.promo.image} />
+        article.image &&
+        article.image.crops &&
+        article.image.crops.square && <Image {...article.image.crops.square} />
       }
       DateInfo={null}
       StatusIndicator={null}

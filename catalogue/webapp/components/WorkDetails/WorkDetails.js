@@ -110,7 +110,6 @@ const WorkDetails = ({
 
   const definitiveLicenseInfo =
     licenseInfo || (iiifPresentationLicenseInfo || null);
-
   useEffect(() => {
     if (iiifPresentationManifest) {
       const iiifPresentationDownloadOptions =

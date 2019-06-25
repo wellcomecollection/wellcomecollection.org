@@ -14,7 +14,7 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import { default as ImageType } from '../Image/Image';
+import ImageType from '../Image/Image';
 import { type ColorSelection } from '../../../model/color-selections';
 
 type Props = {|
@@ -47,7 +47,7 @@ const CompactCard = ({
   ExtraInfo,
 }: Props) => {
   const textGridSizes = Image
-    ? { s: 7, m: 7, l: 8, xl: 8 }
+    ? { s: 9, m: 9, l: 9, xl: 9 }
     : { s: 12, m: 12, l: 12, xl: 12 };
 
   const Tag = url ? 'a' : 'div';
@@ -68,20 +68,15 @@ const CompactCard = ({
         });
       }}
     >
-      {labels.labels.length > 0 && (
-        <div
-          className={conditionalClassNames({
-            [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-            [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
-          })}
-        >
-          <LabelsList {...labels} />
-        </div>
-      )}
       {Image && (
-        <div className={grid({ s: 5, m: 5, l: 4, xl: 4 })}>{Image}</div>
+        <div className={grid({ s: 3, m: 3, l: 3, xl: 3 })}>{Image}</div>
       )}
       <div className={grid(textGridSizes)}>
+        {labels.labels.length > 0 && (
+          <div>
+            <LabelsList {...labels} />
+          </div>
+        )}
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}

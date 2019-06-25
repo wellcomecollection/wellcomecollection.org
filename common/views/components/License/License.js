@@ -6,7 +6,7 @@ import type { LicenseData } from '../../../utils/get-license-info';
 
 type Props = {|
   subject: string,
-  licenseType: LicenseType,
+  licenseType: LicenseType | string,
 |};
 
 const License = ({ subject, licenseType }: Props) => {
