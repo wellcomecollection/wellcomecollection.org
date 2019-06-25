@@ -84,10 +84,12 @@ const Download = ({
   const downloadText = useRef(null);
   useEffect(() => {
     const links =
-      downloadText.current && downloadText.current.getElementsByTagName('a');
+      downloadText &&
+      downloadText.current &&
+      downloadText.current.getElementsByTagName('a');
     if (links) {
       for (const link of links) {
-        link.setAttribute('tabindex', showDownloads ? 0 : -1);
+        link.setAttribute('tabindex', showDownloads ? '0' : '-1');
       }
     }
   }, [showDownloads]);
