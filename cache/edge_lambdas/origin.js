@@ -1,11 +1,9 @@
 'use-strict';
 const abTesting = require('./toggler');
 const redirector = require('./redirector').redirector;
-const wiRedirector = require('./wiRedirector').wiRedirector;
 
 exports.request = (event, context, callback) => {
   redirector(event, context);
-  wiRedirector(event, context);
 
   // If we've attached a response, send it through straight away
   const response = event.Records[0].cf.response;

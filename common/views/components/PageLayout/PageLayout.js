@@ -30,6 +30,7 @@ export type Props = {|
   rssUrl?: string,
   children: Node,
   hideNewsletterPromo?: boolean,
+  hideFooter?: boolean,
 |};
 
 const PageLayout = ({
@@ -45,6 +46,7 @@ const PageLayout = ({
   rssUrl,
   children,
   hideNewsletterPromo = false,
+  hideFooter = false,
 }: Props) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -114,16 +116,32 @@ const PageLayout = ({
           {children}
         </div>
         {!hideNewsletterPromo && <NewsletterPromo />}
-        <OpeningTimesContext.Consumer>
-          {openingTimes => (
-            <Footer
-              openingTimes={openingTimes}
-              upcomingExceptionalOpeningPeriods={
-                openingTimes.upcomingExceptionalOpeningPeriods
-              }
-            />
-          )}
-        </OpeningTimesContext.Consumer>
+        {!hideFooter && (
+          <OpeningTimesContext.Consumer>
+            {openingTimes => (
+              <Footer
+                openingTimes={openingTimes}
+                upcomingExceptionalOpeningPeriods={
+                  openingTimes.upcomingExceptionalOpeningPeriods
+                }
+              />
+            )}
+          </OpeningTimesContext.Consumer>
+        )}
+        {hideFooter && (
+          <noscript>
+            <OpeningTimesContext.Consumer>
+              {openingTimes => (
+                <Footer
+                  openingTimes={openingTimes}
+                  upcomingExceptionalOpeningPeriods={
+                    openingTimes.upcomingExceptionalOpeningPeriods
+                  }
+                />
+              )}
+            </OpeningTimesContext.Consumer>
+          </noscript>
+        )}
       </div>
     </Fragment>
   );

@@ -154,10 +154,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                   onChange={event => setQueryType(event.currentTarget.value)}
                 >
                   <option value="">None</option>
-                  <option value="justboost">justboost</option>
-                  <option value="broaderboost">broaderboost</option>
-                  <option value="slop">slop</option>
-                  <option value="minimummatch">minimummatch</option>
+                  <option value="boost">boost</option>
+                  <option value="msm">msm</option>
+                  <option value="msmboost">msmboost</option>
                 </select>
               </label>
             )

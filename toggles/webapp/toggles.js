@@ -28,5 +28,11 @@ module.exports = {
       description:
         'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
     },
+    {
+      id: 'audioVideoInSearch',
+      title: 'Include audio and video in search results',
+      defaultValue: false,
+      description: 'Include audio and video in search results',
+    },
   ],
 };
