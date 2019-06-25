@@ -452,7 +452,6 @@ type IIIFViewerProps = {|
   itemsLocationsLocationType: ?(string[]),
   pageIndex: number,
   sierraId: string,
-  manifestId: string,
   pageSize: number,
   canvasIndex: number,
   iiifImageLocationUrl: ?string,
@@ -475,7 +474,6 @@ const IIIFViewerComponent = ({
   itemsLocationsLocationType,
   pageIndex,
   sierraId,
-  manifestId,
   pageSize,
   canvasIndex,
   iiifImageLocationUrl,
@@ -676,7 +674,6 @@ const IIIFViewerComponent = ({
                               sierraId,
                               langCode: lang,
                               canvas: pageSize * pageIndex + (i + 1),
-                              manifestId,
                             })}
                             scroll={false}
                             replace
@@ -771,7 +768,6 @@ const IIIFViewerComponent = ({
                             sierraId,
                             langCode: lang,
                             canvas: i + 1,
-                            manifestId,
                           })}
                           scroll={false}
                           replace

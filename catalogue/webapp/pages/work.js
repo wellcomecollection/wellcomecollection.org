@@ -243,10 +243,10 @@ export const WorkPage = ({ work }: Props) => {
                     iiifPresentationLocation={iiifPresentationLocation}
                     itemUrl={itemUrl({
                       workId: work.id,
-                      sierraId: sierraIdFromPresentationManifestUrl,
-                      manifestId: manifest['@id'].match(
-                        /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                      )[1],
+                      sierraId:
+                        manifest['@id'].match(
+                          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                        )[1] || sierraIdFromPresentationManifestUrl,
                       langCode: work.language && work.language.id,
                       page: 1,
                       canvas: 1,
@@ -267,7 +267,6 @@ export const WorkPage = ({ work }: Props) => {
                 itemUrl={itemUrl({
                   workId: work.id,
                   sierraId: sierraIdFromPresentationManifestUrl,
-                  manifestId: null,
                   langCode: work.language && work.language.id,
                   page: 1,
                   canvas: 1,
@@ -281,7 +280,6 @@ export const WorkPage = ({ work }: Props) => {
                 itemUrl={itemUrl({
                   workId: work.id,
                   sierraId: null,
-                  manifestId: null,
                   langCode: work.language && work.language.id,
                   page: 1,
                   canvas: 1,
