@@ -26,6 +26,7 @@ type ItemUrlProps = {|
   langCode: string,
   canvas: number,
   page: ?number,
+  isOverview?: boolean,
 |};
 
 function removeEmpty(obj: Object): Object {
@@ -86,6 +87,7 @@ export function itemUrl({
   sierraId,
   langCode,
   canvas,
+  isOverview,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -97,6 +99,7 @@ export function itemUrl({
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
           langCode: langCode,
+          isOverview: isOverview,
         }),
       },
     },

@@ -31,6 +31,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
+import Router from 'next/router';
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -493,7 +494,7 @@ const IIIFViewerComponent = ({
   work,
   manifest,
 }: IIIFViewerProps) => {
-  const [showThumbs, setShowThumbs] = useState(true);
+  const [showThumbs, setShowThumbs] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
   const thumbnailContainer = useRef(null);
   const activeThumbnailRef = useRef(null);
@@ -551,6 +552,7 @@ const IIIFViewerComponent = ({
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   useEffect(() => {
+    setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
   }, []);
 
