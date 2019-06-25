@@ -100,7 +100,7 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
 }
 
 function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
-  return iiifManifest.manifests || [];
+  return iiifManifest.manifests || null;
 }
 
 export function getManifestViewType(iiifManifest: IIIFManifest) {
@@ -121,7 +121,7 @@ export function getManifestViewType(iiifManifest: IIIFManifest) {
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return manifests.length > 0
+  return manifests
     ? 'multi'
     : audio
     ? 'audio'
