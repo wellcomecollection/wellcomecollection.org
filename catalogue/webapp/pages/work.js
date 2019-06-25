@@ -33,6 +33,7 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 type WobblyProps = {|
   children: Node,
@@ -233,30 +234,49 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
-      {iiifPresentationManifests &&
-        iiifPresentationManifests.map((manifest, i) => (
-          <ManifestContext.Provider value={manifest} key={i}>
-            <SpacingComponent>
+      <TogglesContext.Consumer>
+        {({ showMultiVolumePreviews }) => (
+          <>
+            {!showMultiVolumePreviews ? (
               <WobblyRow>
-                {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-                  <IIIFPresentationPreview
-                    iiifPresentationLocation={iiifPresentationLocation}
-                    itemUrl={itemUrl({
-                      workId: work.id,
-                      sierraId:
-                        manifest['@id'].match(
-                          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                        )[1] || sierraIdFromPresentationManifestUrl,
-                      langCode: work.language && work.language.id,
-                      page: 1,
-                      canvas: 1,
-                    })}
-                  />
-                )}
+                <div
+                  className={classNames({
+                    [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+                  })}
+                >
+                  <BetaMessage message="We are working to make this item available online in July 2019." />
+                </div>
               </WobblyRow>
-            </SpacingComponent>
-          </ManifestContext.Provider>
-        ))}
+            ) : (
+              iiifPresentationManifests &&
+              iiifPresentationManifests.map((manifest, i) => (
+                <ManifestContext.Provider value={manifest} key={i}>
+                  <SpacingComponent>
+                    <WobblyRow>
+                      {sierraIdFromPresentationManifestUrl &&
+                        !iiifImageLocationUrl && (
+                          <IIIFPresentationPreview
+                            iiifPresentationLocation={iiifPresentationLocation}
+                            itemUrl={itemUrl({
+                              workId: work.id,
+                              sierraId:
+                                manifest['@id'].match(
+                                  /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                                )[1] || sierraIdFromPresentationManifestUrl,
+                              langCode: work.language && work.language.id,
+                              page: 1,
+                              canvas: 1,
+                            })}
+                          />
+                        )}
+                    </WobblyRow>
+                  </SpacingComponent>
+                </ManifestContext.Provider>
+              ))
+            )}
+          </>
+        )}
+      </TogglesContext.Consumer>
 
       <ManifestContext.Provider value={iiifPresentationManifest}>
         {!iiifPresentationManifests && (
