@@ -270,23 +270,27 @@ export const WorkPage = ({ work }: Props) => {
                   langCode: work.language && work.language.id,
                   page: 1,
                   canvas: 1,
+                  isOverview: true,
                 })}
               />
             )}
-            {iiifImageLocationUrl && (
-              <IIIFImagePreview
-                id={work.id}
-                iiifUrl={iiifImageLocationUrl}
-                itemUrl={itemUrl({
-                  workId: work.id,
-                  sierraId: null,
-                  langCode: work.language && work.language.id,
-                  page: 1,
-                  canvas: 1,
-                })}
-                title={work.title}
-              />
-            )}
+          </WobblyRow>
+        )}
+        {iiifImageLocationUrl && (
+          <WobblyRow>
+            <IIIFImagePreview
+              id={work.id}
+              iiifUrl={iiifImageLocationUrl}
+              itemUrl={itemUrl({
+                workId: work.id,
+                sierraId: null,
+                langCode: work.language && work.language.id,
+                page: 1,
+                canvas: 1,
+                isOverview: true,
+              })}
+              title={work.title}
+            />
           </WobblyRow>
         )}
         <WorkDetails
