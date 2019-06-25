@@ -3,17 +3,14 @@ import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import { Fragment } from 'react';
-
-type ImageCrops = {|
-  '16:9': { contentUrl: string },
-  '32:15': { contentUrl: string },
-  square: { contentUrl: string },
-|};
+import type { Tasl } from '../../../model/tasl';
+import type { ImageType } from '../../../model/image';
 
 export type Props = {|
   contentUrl: string,
   width: number,
   alt: string,
+  tasl: ?Tasl,
   height?: number,
   clipPathClass?: ?string,
   caption?: string,
@@ -24,7 +21,7 @@ export type Props = {|
   clickHandler?: () => void,
   zoomable?: boolean,
   extraClasses?: string,
-  crops?: ImageCrops,
+  crops?: {| [string]: ImageType |},
   style?: { [string]: any }, // TODO: find flowtype for this
 |};
 

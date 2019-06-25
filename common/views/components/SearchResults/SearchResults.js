@@ -56,8 +56,11 @@ const SearchResults = ({
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}
@@ -74,8 +77,11 @@ const SearchResults = ({
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}
@@ -92,8 +98,11 @@ const SearchResults = ({
               description={item.promo && item.promo.caption}
               urlOverride={item.promo && item.promo.link}
               Image={
-                item.promo &&
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}
@@ -131,9 +140,11 @@ const SearchResults = ({
               description={item.promoText}
               urlOverride={null}
               Image={
-                item.promo &&
-                // $FlowFixMe (Images)
-                item.promo.image && <Image {...item.promo.image} />
+                item.image &&
+                item.image.crops &&
+                item.image.crops.square && (
+                  <Image {...item.image.crops.square} />
+                )
               }
               DateInfo={null}
               StatusIndicator={null}

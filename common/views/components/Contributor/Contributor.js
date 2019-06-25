@@ -15,12 +15,14 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           width: 78,
           contentUrl: contributor.image && contributor.image.contentUrl,
           alt: `Logo for ${contributor.name}`,
+          tasl: null,
         }
       : {
           width: 78,
           height: 78,
           contentUrl: contributor.image && contributor.image.contentUrl,
           alt: `Photograph of ${contributor.name}`,
+          tasl: null,
         };
 
   return (
