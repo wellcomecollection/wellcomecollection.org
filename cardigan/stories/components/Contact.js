@@ -7,13 +7,11 @@ const stories = storiesOf('Components', module);
 stories.add(
   'Contact',
   () => (
-    <div className={`body-text`}>
-      <Contact
-        title={`Joe Bloggs`}
-        phone={`+44 (0)20 7444 4444`}
-        email={`j.bloggs@wellcome.ac.uk`}
-      />
-    </div>
+    <Contact
+      title={`Joe Bloggs`}
+      phone={`+44 (0)20 7444 4444`}
+      email={`j.bloggs@wellcome.ac.uk`}
+    />
   ),
   {
     readme: { sidebar: Readme },

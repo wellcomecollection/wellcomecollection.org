@@ -13,17 +13,17 @@ function Contact({ title, phone, email }: Props) {
     <div
       className={classNames({
         [spacing({ s: 2 }, { padding: ['left'] })]: true,
-        'border-color-turquoise border-left-width-5': true,
+        'border-color-turquoise border-left-width-5 body-text': true,
       })}
     >
-      <strong
+      <span
         className={classNames({
           [font({ s: 'HNM3' })]: true,
           block: true,
         })}
       >
         {title}
-      </strong>
+      </span>
       {phone && (
         <span
           className={classNames({

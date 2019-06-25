@@ -22,7 +22,7 @@ import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
-import { parsePage } from './pages';
+import { parsePage, parseTeamToContact } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseExhibitionDoc } from './exhibitions';
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
@@ -609,6 +609,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
               playbackRate: slice.primary.playbackRate || 1,
               tasl: parseTaslFromString(slice.primary.tasl),
             },
+          };
+
+        case 'contact':
+          return {
+            type: 'contact',
+            value: parseTeamToContact(slice.primary.content),
           };
 
         case 'embed':

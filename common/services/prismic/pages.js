@@ -1,15 +1,28 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
-import { parseTimestamp, parseGenericFields } from './parsers';
+import { parseTimestamp, parseGenericFields, asText } from './parsers';
 import type { Page } from '../../model/pages';
-import type { PrismicDocument } from './types';
+import type { PrismicDocument, PrismicFragment } from './types';
 import {
   pagesFields,
   collectionVenuesFields,
   eventSeriesFields,
   exhibitionFields,
+  teamsFields,
 } from './fetch-links';
+
+export function parseTeamToContact(team: PrismicFragment) {
+  const {
+    data: { title, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    email,
+    phone,
+  };
+}
 
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
@@ -56,9 +69,11 @@ export async function getPage(req: ?Request, id: string): Promise<?Page> {
     fetchLinks: pagesFields.concat(
       eventSeriesFields,
       collectionVenuesFields,
-      exhibitionFields
+      exhibitionFields,
+      teamsFields
     ),
   });
+
   if (page) {
     return parsePage(page);
   }
