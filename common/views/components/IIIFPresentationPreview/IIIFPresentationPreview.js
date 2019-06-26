@@ -17,10 +17,12 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 const PresentationPreview = styled.div`
-  overflow: hidden;
   text-align: center;
+  position: relative;
   a {
+    overflow: hidden;
     display: inline-flex;
+    width: 100%;
     align-items: flex-end;
     flex-basis: min-content;
     padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
@@ -37,6 +39,7 @@ const PresentationPreview = styled.div`
   }
   .btn--primary {
     position: absolute;
+    z-index: 1;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
@@ -105,6 +108,7 @@ function randomImages(
 
 function getVideo(iiifManifest: IIIFManifest) {
   const videoSequence =
+    iiifManifest &&
     iiifManifest.mediaSequences &&
     iiifManifest.mediaSequences.find(sequence =>
       sequence.elements.find(
@@ -121,6 +125,7 @@ function getVideo(iiifManifest: IIIFManifest) {
 
 function getAudio(iiifManifest: IIIFManifest) {
   const videoSequence =
+    iiifManifest &&
     iiifManifest.mediaSequences &&
     iiifManifest.mediaSequences.find(sequence =>
       sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
@@ -202,7 +207,14 @@ type Props = {|
   itemUrl: any,
 |};
 
-type ViewType = 'unknown' | 'iiif' | 'pdf' | 'video' | 'audio' | 'none';
+type ViewType =
+  | 'unknown'
+  | 'multi'
+  | 'iiif'
+  | 'pdf'
+  | 'video'
+  | 'audio'
+  | 'none';
 // Can we show the user the work described by the manifest?
 // unknown === can't/haven't checked
 // iiif | pdf | video | audio === checked manifest and can render

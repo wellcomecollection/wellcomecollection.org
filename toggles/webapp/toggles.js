@@ -34,5 +34,12 @@ module.exports = {
       defaultValue: false,
       description: 'Include audio and video in search results',
     },
+    {
+      id: 'showMultiVolumePreviews',
+      title: 'Show multi volume previews',
+      defaultValue: false,
+      description:
+        'Shows a preview for each volume in a multi volume work on the work page.',
+    },
   ],
 };

@@ -99,7 +99,12 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
+function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
+  return iiifManifest.manifests || null;
+}
+
 export function getManifestViewType(iiifManifest: IIIFManifest) {
+  const manifests = getManifests(iiifManifest);
   const video =
     iiifManifest.mediaSequences &&
     iiifManifest.mediaSequences.find(sequence =>
@@ -116,7 +121,9 @@ export function getManifestViewType(iiifManifest: IIIFManifest) {
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return audio
+  return manifests
+    ? 'multi'
+    : audio
     ? 'audio'
     : video
     ? 'video'

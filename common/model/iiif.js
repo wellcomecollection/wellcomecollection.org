@@ -76,6 +76,7 @@ export type IIIFMetadata = {|
 export type IIIFManifest = {|
   '@id': string,
   label: string,
+  manifests: any, // TODO
   metadata: IIIFMetadata[],
   mediaSequences?: IIIFMediaSequence[],
   sequences?: IIIFSequence[],

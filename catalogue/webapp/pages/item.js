@@ -213,11 +213,10 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   } = ctx.query;
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
-  const manifest = sierraId
-    ? await (await fetch(
-        `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
-      )).json()
+  const manifestUrl = sierraId
+    ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
+  const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
 
   // The sierraId originates from the iiif presentation manifest url
   // If we don't have one, we must be trying to display a work with an iiif image location,
