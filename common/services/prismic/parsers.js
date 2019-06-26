@@ -22,7 +22,7 @@ import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
-import { parsePage, parseTeamToContact } from './pages';
+import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseExhibitionDoc } from './exhibitions';
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
@@ -318,6 +318,18 @@ export function parseTaslFromString(pipedString: string): Tasl {
       copyrightLink: null,
     };
   }
+}
+
+function parseTeamToContact(team: PrismicFragment) {
+  const {
+    data: { title, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    email,
+    phone,
+  };
 }
 
 // null is valid to use the default image,

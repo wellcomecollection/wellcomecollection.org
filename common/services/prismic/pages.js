@@ -1,9 +1,9 @@
 // @flow
 import Prismic from 'prismic-javascript';
 import { getDocument, getDocuments } from './api';
-import { parseTimestamp, parseGenericFields, asText } from './parsers';
+import { parseTimestamp, parseGenericFields } from './parsers';
 import type { Page } from '../../model/pages';
-import type { PrismicDocument, PrismicFragment } from './types';
+import type { PrismicDocument } from './types';
 import {
   pagesFields,
   collectionVenuesFields,
@@ -11,18 +11,6 @@ import {
   exhibitionFields,
   teamsFields,
 } from './fetch-links';
-
-export function parseTeamToContact(team: PrismicFragment) {
-  const {
-    data: { title, email, phone },
-  } = team;
-
-  return {
-    title: asText(title),
-    email,
-    phone,
-  };
-}
 
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
