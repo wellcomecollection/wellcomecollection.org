@@ -237,7 +237,7 @@ export const WorkPage = ({ work }: Props) => {
       <TogglesContext.Consumer>
         {({ showMultiVolumePreviews }) => (
           <>
-            {!showMultiVolumePreviews ? (
+            {!showMultiVolumePreviews && iiifPresentationManifests ? (
               <WobblyRow>
                 <div
                   className={classNames({
