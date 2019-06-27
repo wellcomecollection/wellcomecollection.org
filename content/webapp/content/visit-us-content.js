@@ -878,6 +878,45 @@ export const eatShopList = {
   },
 };
 
+export const pictureImages = [
+  {
+    contentUrl:
+      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/58311b341bbcab74990e2ad0917b51162452b58f_tf_190405_3790149.jpg',
+    width: 3200,
+    height: 1800,
+    alt: '',
+    tasl: {
+      title: "Naomi Paxton as the magician's assistant",
+      author: 'Thomas SG Farnetti',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+    minWidth: '600px',
+  },
+  {
+    contentUrl:
+      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/17c12bebf53c50311e288f2fe8654d8400a0129a_tf_190405_3790149.jpg',
+    width: 3200,
+    height: 3200,
+    alt: '',
+    tasl: {
+      title: "Naomi Paxton as the magician's assistant",
+      author: 'Thomas SG Farnetti',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC',
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+    minWidth: null,
+  },
+];
+
 export const firstPara = {
   type: 'text',
   weight: 'featured',
