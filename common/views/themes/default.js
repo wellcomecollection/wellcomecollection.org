@@ -1,5 +1,5 @@
 // @flow
-import { css } from 'styled-components';
+import { css, keyframes } from 'styled-components';
 
 // When units are `number`s, we assume pixels
 const theme = {
@@ -38,6 +38,23 @@ const theme = {
     // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
     inherit: 'inherit',
     currentColor: 'currentColor',
+  },
+  keyframes: {
+    hoverBounce: keyframes`
+      0% {
+        top: 0;
+        animation-timing-function: ease-in;
+      }
+
+      50% {
+        top: -0.4em;
+        animation-timing-function: ease-out;
+      }
+
+      100% {
+        top: 0;
+      }
+      `,
   },
 };
 
