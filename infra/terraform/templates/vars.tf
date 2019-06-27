@@ -11,3 +11,7 @@ variable "alb_log_prefix" {
 }
 
 variable "platform_team_account_id" {}
+
+# Endpoints
+
+variable "service-libsys" {}

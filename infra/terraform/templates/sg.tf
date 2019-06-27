@@ -102,6 +102,24 @@ resource "aws_security_group" "ssh_in" {
   }
 }
 
+
+resource "aws_security_group" "interservice_security_group" {
+  name        = "interservice_security_group"
+  description = "Allow traffic between services"
+  vpc_id      = "${aws_vpc.wellcomecollection.id}"
+
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
+  }
+
+  tags {
+    Name = "${var.project_name}-interservice"
+  }
+}
+
 output "https_sg_id" {
   value = "${aws_security_group.https.id}"
 }
