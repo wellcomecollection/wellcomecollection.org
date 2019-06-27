@@ -9,15 +9,16 @@ We will keep this page up to date with the latest information as we make more pr
 
 ## What’s new? (updated June 2019)
 
-We made it easier to view inside the book and review individual pages in detail. We are currently working to improve the relevance of your search results which will be released shortly.
+We made it easier to get an overview of a book's content and review individual pages in detail. We are currently working to improve the relevance of your search results which will be released shortly.
 
 You can now:
 * Browse all pages at a glance to get a sense of the book
 * Get to the individual pages quickly
-* Get same viewing experience for all materials
-* Made it more accessible: text is available to screen readers, all controls can be accessed by keyboard
-* View items more easily on mobile devices.
-* Download images and PDFs in more places
+* Download an image or PDF while viewing the item
+* Get the same viewing experience for books and images
+* Easily navigate an item with keyboard controls
+* Use screen reader software to listen to the text contained in images
+* View items more easily on mobile devices
 
 ### What are the limits?
 *	You may get too many results that are irrelevant to your initial search
@@ -31,7 +32,7 @@ If you think something might be missing, or want a more comprehensive search, pl
 For now, if you need any additional help in identifying items from library collections, please email collections@wellcome.ac.uk.
 
 ## What’s next:
-Next we’ll be working to improve the relevance of your search results. We’re also working on improving the descriptive data, physical details and location information, and the data that allows you to filter your search by year. And more items will be available to browse e.g. manuscripts, audio, video, journals and multi-volume books.
+Next we’ll be working to improve the relevance of your search results. We’re also working on improving the descriptive data, physical details and location information, and the data that allows you to filter your search by year. We will be making more items available including audio, video and multi-volume books.
 
 # Get involved
 We want to share our work in progress with you, and to get your feedback throughout the development.
