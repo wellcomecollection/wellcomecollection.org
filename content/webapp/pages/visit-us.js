@@ -20,11 +20,14 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serialisers';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import {
+  firstPara,
   planList,
   findList,
   eatShopList,
@@ -137,9 +140,15 @@ export class Page extends Component<Props> {
         imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
         imageAltText={page.image && page.image.alt}
       >
+        <Container>
+          <FeaturedText
+            html={firstPara.value}
+            htmlSerialiser={defaultSerializer}
+          />
+        </Container>
         <OpeningTimesContext.Consumer>
           {openingTimes => (
-            <Layout8>
+            <Container>
               <div className="grid">
                 <div
                   className={classNames({
@@ -219,20 +228,103 @@ export class Page extends Component<Props> {
                   </div>
                 </div>
               </div>
-            </Layout8>
+            </Container>
           )}
         </OpeningTimesContext.Consumer>
+
         <Container>
           <SearchResults
             title={planList.value.title}
             items={planList.value.items}
           />
+          <div
+            className={classNames({
+              grid: true,
+              [spacing({ s: 2 }, { padding: ['top'] })]: true,
+            })}
+          >
+            <div
+              className={classNames({
+                [grid({ s: 12, l: 6, xl: 6 })]: true,
+                [font({ s: 'HNL5' })]: true,
+              })}
+            >
+              <div
+                className={classNames({
+                  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                })}
+              >
+                <MoreLink
+                  url={`/pages/Wuw19yIAAK1Z3Smk`}
+                  name={`Group visits`}
+                />
+              </div>
+              <div
+                className={classNames({
+                  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                })}
+              >
+                <MoreLink
+                  url={`/pages/Wuw2MSIAACtd3StS`}
+                  name={`School visits`}
+                />
+              </div>
+            </div>
+            <div
+              className={classNames({
+                [grid({ s: 12, l: 6, xl: 6 })]: true,
+                [font({ s: 'HNL5' })]: true,
+              })}
+            >
+              <div
+                className={classNames({
+                  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                })}
+              >
+                <MoreLink url={`/pages/W1CenyYAACUAj4Oy`} name={`Families`} />
+              </div>
+              <div
+                className={classNames({
+                  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                })}
+              >
+                <MoreLink
+                  url={`/pages/Wuw2MSIAACtd3Ssg`}
+                  name={`Young people`}
+                />
+              </div>
+            </div>
+          </div>
         </Container>
         <Container>
           <SearchResults
             title={findList.value.title}
             items={findList.value.items}
           />
+          <div
+            className={classNames({
+              grid: true,
+              [spacing({ s: 2 }, { padding: ['top'] })]: true,
+            })}
+          >
+            <div
+              className={classNames({
+                [grid({ s: 12, l: 6, xl: 6 })]: true,
+                [font({ s: 'HNL5' })]: true,
+              })}
+            >
+              <div
+                className={classNames({
+                  [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                })}
+              >
+                <MoreLink
+                  url={`/pages/Wuw2MSIAACtd3SsC`}
+                  name={`Find out about venue hire`}
+                />
+              </div>
+            </div>
+          </div>
         </Container>
         <Container>
           <SearchResults

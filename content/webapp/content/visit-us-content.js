@@ -878,6 +878,18 @@ export const eatShopList = {
   },
 };
 
+export const firstPara = {
+  type: 'text',
+  weight: 'featured',
+  value: [
+    {
+      type: 'paragraph',
+      text: 'We are located in central London and open to everyone.',
+      spans: [],
+    },
+  ],
+};
+
 export const lastPara = {
   type: 'text',
   weight: 'default',
