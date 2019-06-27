@@ -16,7 +16,7 @@ const StyledFindUs = styled.div.attrs(props => ({
   margin-bottom: ${props => `${props.theme.spacingUnit * 5}px`};
   border-bottom: 1px solid ${props => props.theme.colors.charcoal};
 
-  ${props => props.theme.media.large`
+  ${props => props.theme.media.medium`
     border-bottom: 0;
   `}
 

@@ -139,98 +139,87 @@ export class Page extends Component<Props> {
       >
         <OpeningTimesContext.Consumer>
           {openingTimes => (
-            <>
-              <div className="container">
-                <div className="grid">
+            <Layout8>
+              <div className="grid">
+                <div
+                  className={classNames({
+                    [grid({ s: 12, l: 6, xl: 6 })]: true,
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  <FindUs />
+                </div>
+                <div
+                  className={classNames({
+                    [grid({ s: 12, l: 6, xl: 6 })]: true,
+                    [font({ s: 'HNL5' })]: true,
+                  })}
+                >
+                  <Icon
+                    name="clock"
+                    extraClasses={`float-l ${spacing(
+                      { s: 2, m: 2, l: 2, xl: 2 },
+                      { margin: ['right'] }
+                    )}`}
+                  />
                   <div
                     className={classNames({
-                      [grid({ s: 12, l: 4, xl: 4 })]: true,
-                      [font({ s: 'HNL5' })]: true,
+                      [font({
+                        s: 'HNL5',
+                      })]: true,
+                      'float-l': true,
                     })}
                   >
-                    <FindUs />
-                  </div>
-                  <div
-                    className={classNames({
-                      [grid({ s: 12, l: 4, xl: 4 })]: true,
-                      [font({ s: 'HNL5' })]: true,
-                    })}
-                  >
-                    <h3
-                      className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                        {
-                          s: 'HNL5',
-                        }
-                      )}`}
-                    >
-                      {`Opening times:`}
-                    </h3>
-                    <Icon
-                      name="clock"
-                      extraClasses={`float-l ${spacing(
-                        { s: 2, m: 2, l: 2, xl: 2 },
-                        { margin: ['right'] }
-                      )}`}
-                    />
-                    <div
+                    <h2
                       className={classNames({
-                        [font({
-                          s: 'HNL5',
-                        })]: true,
-                        'float-l': true,
+                        [font({ s: 'HNM5' })]: true,
+                        'no-margin': true,
+                      })}
+                    >{`Today's opening times`}</h2>
+                    <ul className="plain-list no-padding no-margin">
+                      {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
+                        venue => {
+                          const todaysHours = getTodaysVenueHours(venue);
+                          return (
+                            todaysHours && (
+                              <li
+                                key={venue.name}
+                                className={classNames({
+                                  [spacing(
+                                    { s: 1 },
+                                    { margin: ['top'] }
+                                  )]: true,
+                                })}
+                              >
+                                {venue.name.toLowerCase() === 'restaurant'
+                                  ? 'Kitchen '
+                                  : `${venue.name} `}
+                                {todaysHours.opens ? (
+                                  <>
+                                    <time>{todaysHours.opens}</time>
+                                    {'—'}
+                                    <time>{todaysHours.closes}</time>
+                                  </>
+                                ) : (
+                                  'closed'
+                                )}
+                              </li>
+                            )
+                          );
+                        }
+                      )}
+                    </ul>
+                    <p
+                      className={classNames({
+                        [spacing({ s: 1 }, { margin: ['top'] })]: true,
                       })}
                     >
-                      <h4
-                        className={classNames({
-                          [font({ s: 'HNM5' })]: true,
-                          'no-margin': true,
-                        })}
-                      >{`Today's opening times`}</h4>
-                      <ul className="plain-list no-padding no-margin">
-                        {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-                          venue => {
-                            const todaysHours = getTodaysVenueHours(venue);
-                            return (
-                              todaysHours && (
-                                <li
-                                  key={venue.name}
-                                  className={classNames({
-                                    [spacing(
-                                      { s: 1 },
-                                      { margin: ['top'] }
-                                    )]: true,
-                                  })}
-                                >
-                                  {venue.name.toLowerCase() === 'restaurant'
-                                    ? 'Kitchen '
-                                    : `${venue.name} `}
-                                  {todaysHours.opens ? (
-                                    <>
-                                      <time>{todaysHours.opens}</time>
-                                      {'—'}
-                                      <time>{todaysHours.closes}</time>
-                                    </>
-                                  ) : (
-                                    'closed'
-                                  )}
-                                </li>
-                              )
-                            );
-                          }
-                        )}
-                      </ul>
-                      <p
-                        className={classNames({
-                          [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                        })}
-                      >
-                        <a href="/opening-times">Opening times</a>
-                      </p>
-                    </div>
+                      <a href="/opening-times">Opening times</a>
+                    </p>
                   </div>
                 </div>
               </div>
-            </>
+            </Layout8>
           )}
         </OpeningTimesContext.Consumer>
         <Container>
