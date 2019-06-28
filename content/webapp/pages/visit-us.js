@@ -1,6 +1,7 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
+import Head from 'next/head';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -297,25 +298,30 @@ export class Page extends Component<Props> {
     );
 
     return (
-      <PageLayout
-        title={page.title}
-        description={page.metadataDescription || page.promoText || ''}
-        url={{ pathname: `/pages/${page.id}` }}
-        jsonLd={contentLd(page)}
-        openGraphType={'website'}
-        siteSection={'visit-us'}
-        imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
-        imageAltText={page.image && page.image.alt}
-      >
-        <article data-wio-id={page.id}>
-          <SpacingSection>{Header}</SpacingSection>
-          <div>
-            <SpacingSection>
-              <div className="basic-page">{BespokeBody}</div>
-            </SpacingSection>
-          </div>
-        </article>
-      </PageLayout>
+      <>
+        <Head>
+          <meta name="robots" content="noindex" />
+        </Head>
+        <PageLayout
+          title={page.title}
+          description={page.metadataDescription || page.promoText || ''}
+          url={{ pathname: `/pages/${page.id}` }}
+          jsonLd={contentLd(page)}
+          openGraphType={'website'}
+          siteSection={'visit-us'}
+          imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
+          imageAltText={page.image && page.image.alt}
+        >
+          <article data-wio-id={page.id}>
+            <SpacingSection>{Header}</SpacingSection>
+            <div>
+              <SpacingSection>
+                <div className="basic-page">{BespokeBody}</div>
+              </SpacingSection>
+            </div>
+          </article>
+        </PageLayout>
+      </>
     );
   }
 }
