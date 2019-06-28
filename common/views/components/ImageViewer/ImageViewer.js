@@ -41,10 +41,8 @@ const ImageViewerControls = styled.div`
   }
 
   position: absolute;
-  top: ${props => (props.isGroupedWithPagination ? undefined : 0)};
-  left: ${props => (props.isGroupedWithPagination ? undefined : '12px')};
-  right: ${props => (props.isGroupedWithPagination ? '12px' : undefined)};
-  bottom: ${props => (props.isGroupedWithPagination ? '110px' : undefined)};
+  top: ${props => (props.isGroupedWithPagination ? '100px' : 0)};
+  left: 12px;
   z-index: 1;
 }`;
 
@@ -237,7 +235,9 @@ const ImageViewer = ({
     <>
       <TogglesContext.Consumer>
         {({ groupImageControlsWithPagination }) => (
-          <ImageViewerControls isGroupedWithPagination={true}>
+          <ImageViewerControls
+            isGroupedWithPagination={groupImageControlsWithPagination}
+          >
             <Control
               tabIndex={tabbableControls ? '0' : '-1'}
               type="on-black"

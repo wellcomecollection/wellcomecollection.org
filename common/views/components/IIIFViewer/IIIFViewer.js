@@ -32,6 +32,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import Router from 'next/router';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -252,28 +253,10 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     absolute: true,
   }),
 }))`
-  right: ${props => props.theme.spacingUnit * 2}px;
-  bottom: ${props =>
-    !props.isThumbs ? `${props.theme.spacingUnit * 2}px` : 0};
-  top: ${props => props.isThumbs && `${props.theme.spacingUnit}px`};
-
-  ${props =>
-    props.isThumbs &&
-    `
-    @media (min-width: ${props.theme.sizes.medium}px) {
-      top: auto;
-    bottom: ${props.theme.spacingUnit}px;
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    div {
-      flex-direction: row;
-      .control {
-        margin: 0;
-      }
-    }
-    }
-  `}
+  right: ${props => (props.isGroupedWithControls ? undefined : '12px')};
+  left: ${props => (props.isGroupedWithControls ? '12px' : undefined)};
+  bottom: ${props => (props.isGroupedWithControls ? undefined : '12px')};
+  top: ${props => (props.isGroupedWithControls ? '12px' : undefined)};
 `;
 
 function scrollIntoViewIfOutOfView(container, index) {
@@ -412,7 +395,6 @@ const PaginatorButtons = (isTabbable: boolean, workId: string) => {
             tabIndex={isTabbable ? '0' : '-1'}
             extraClasses={classNames({
               'icon--270': true,
-              [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
             })}
             clickHandler={() => {
               trackEvent({
@@ -756,12 +738,18 @@ const IIIFViewerComponent = ({
                   />
                 )}
               </IIIFViewerImageWrapper>
-              <IIIFViewerPaginatorButtons>
-                <Paginator
-                  {...mainPaginatorProps}
-                  render={PaginatorButtons(!showThumbs, workId)}
-                />
-              </IIIFViewerPaginatorButtons>
+              <TogglesContext.Consumer>
+                {({ groupImageControlsWithPagination }) => (
+                  <IIIFViewerPaginatorButtons
+                    isGroupedWithControls={groupImageControlsWithPagination}
+                  >
+                    <Paginator
+                      {...mainPaginatorProps}
+                      render={PaginatorButtons(!showThumbs, workId)}
+                    />
+                  </IIIFViewerPaginatorButtons>
+                )}
+              </TogglesContext.Consumer>
             </IIIFViewerMain>
 
             {thumbnailsRequired && (
