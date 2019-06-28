@@ -50,7 +50,7 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
             <FooterNav />
           </div>
         </div>
-        <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
+        <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
           <h3
             className={`footer__heading hidden is-hidden-s is-hidden-m ${font({
               s: 'HNL5',
@@ -64,7 +64,7 @@ const Footer = ({ upcomingExceptionalOpeningPeriods, openingTimes }: Props) => (
         </div>
         <div
           className={classNames({
-            [grid({ s: 12, l: 4, xl: 4 })]: true,
+            [grid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
             [font({ s: 'HNL5' })]: true,
           })}
         >
