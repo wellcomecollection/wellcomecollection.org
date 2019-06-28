@@ -21,13 +21,12 @@ const StyledFindUs = styled.div.attrs(props => ({
   `}
 
   &:hover,
-    &:focus {
-      .icon {
-        animation-duration: 400ms;
-        animation-name: ${props => {
-          return props.theme.keyframes.hoverBounce;
-        }};
-      }
+  &:focus {
+    .icon {
+      animation-duration: 400ms;
+      animation-name: ${props => {
+        return props.theme.keyframes.hoverBounce;
+      }};
     }
   }
 
