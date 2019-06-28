@@ -41,12 +41,5 @@ module.exports = {
       description:
         'Shows a preview for each volume in a multi volume work on the work page.',
     },
-    {
-      id: 'groupImageControlsWithPagination',
-      title: 'Group image controls with pagination',
-      defaultValue: false,
-      description:
-        'Moves the zoom/rotate controls to the same location as the previous/next page controls',
-    },
   ],
 };
