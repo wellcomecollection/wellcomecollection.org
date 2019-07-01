@@ -322,11 +322,12 @@ export function parseTaslFromString(pipedString: string): Tasl {
 
 function parseTeamToContact(team: PrismicFragment) {
   const {
-    data: { title, email, phone },
+    data: { title, subtitle, email, phone },
   } = team;
 
   return {
     title: asText(title),
+    subtitle: asText(subtitle),
     email,
     phone,
   };
