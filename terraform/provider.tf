@@ -6,7 +6,7 @@ terraform {
     dynamodb_table = "terraform-locktable"
     bucket         = "wellcomecollection-infra"
 
-    profile        = "experience-admin"
+    profile        = "experience-dev"
     region         = "eu-west-1"
   }
 }
@@ -14,7 +14,7 @@ terraform {
 provider "aws" {
   version = "~> 1.56.0"
 
-  profile = "experience-admin"
+  profile = "experience-dev"
   region  = "eu-west-1"
 }
 
