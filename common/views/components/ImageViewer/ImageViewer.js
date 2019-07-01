@@ -109,6 +109,7 @@ const ImageViewer = ({
   tabbableControls,
 }: ImageViewerProps) => {
   const [imageLoading, setImageLoading] = useState(false);
+  const [isLoadingViewer, setIsLoadingViewer] = useState(false);
   const [viewer, setViewer] = useState(null);
   const [isError, setIsError] = useState(false);
   const zoomStep = 0.5;
@@ -138,6 +139,14 @@ const ImageViewer = ({
   }, [infoUrl]);
 
   async function setupViewer(imageInfoSrc, viewerId) {
+    setIsLoadingViewer(true);
+
+    if (viewer) {
+      setIsLoadingViewer(false);
+
+      return viewer;
+    }
+
     const { default: OpenSeadragon } = await import('openseadragon');
 
     return fetch(imageInfoSrc)
@@ -154,6 +163,7 @@ const ImageViewer = ({
         });
         setIsError(false);
         setViewer(osdViewer);
+        setIsLoadingViewer(false);
 
         return osdViewer;
       })
@@ -168,7 +178,9 @@ const ImageViewer = ({
   }
 
   async function handleRotate() {
-    const v = viewer || (await setupViewer(infoUrl, id));
+    if (isLoadingViewer) return;
+
+    const v = await setupViewer(infoUrl, id);
 
     v.viewport.setRotation(v.viewport.getRotation() + 90);
 
@@ -196,7 +208,9 @@ const ImageViewer = ({
   }
 
   async function handleZoomIn() {
-    const v = viewer || (await setupViewer(infoUrl, id));
+    if (isLoadingViewer) return;
+
+    const v = await setupViewer(infoUrl, id);
 
     if (v.isOpen()) {
       doZoomIn(v);
@@ -214,7 +228,9 @@ const ImageViewer = ({
   }
 
   async function handleZoomOut() {
-    const v = viewer || (await setupViewer(infoUrl, id));
+    if (isLoadingViewer) return;
+
+    const v = await setupViewer(infoUrl, id);
 
     if (v.isOpen()) {
       doZoomOut(v);
