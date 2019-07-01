@@ -37,6 +37,14 @@ let tests = [
       return request.uri.match(/^\/works\/*/);
     },
   },
+  {
+    id: 'groupImageControlsWithPagination',
+    title: 'Group image controls with pagination',
+    range: [0, 50],
+    shouldRun(request) {
+      return request.uri.match(/^\/works\/.*/);
+    },
+  },
 ];
 exports.tests = tests;
 exports.setTests = function(newTests) {

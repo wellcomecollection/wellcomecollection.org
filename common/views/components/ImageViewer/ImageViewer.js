@@ -9,6 +9,7 @@ import { trackEvent } from '../../../utils/ga';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import LL from '../styled/LL';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const ImageViewerControls = styled.div`
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -40,7 +41,7 @@ const ImageViewerControls = styled.div`
   }
 
   position: absolute;
-  top: 0;
+  top: ${props => (props.isGroupedWithPagination ? '100px' : 0)};
   left: 12px;
   z-index: 1;
 }`;
@@ -232,29 +233,35 @@ const ImageViewer = ({
 
   return (
     <>
-      <ImageViewerControls>
-        <Control
-          tabIndex={tabbableControls ? '0' : '-1'}
-          type="on-black"
-          text="Zoom in"
-          icon="zoomIn"
-          clickHandler={handleZoomIn}
-        />
-        <Control
-          tabIndex={tabbableControls ? '0' : '-1'}
-          type="on-black"
-          text="Zoom out"
-          icon="zoomOut"
-          clickHandler={handleZoomOut}
-        />
-        <Control
-          tabIndex={tabbableControls ? '0' : '-1'}
-          type="on-black"
-          text="Rotate"
-          icon="rotatePageRight"
-          clickHandler={handleRotate}
-        />
-      </ImageViewerControls>
+      <TogglesContext.Consumer>
+        {({ groupImageControlsWithPagination }) => (
+          <ImageViewerControls
+            isGroupedWithPagination={groupImageControlsWithPagination}
+          >
+            <Control
+              tabIndex={tabbableControls ? '0' : '-1'}
+              type="on-black"
+              text="Zoom in"
+              icon="zoomIn"
+              clickHandler={handleZoomIn}
+            />
+            <Control
+              tabIndex={tabbableControls ? '0' : '-1'}
+              type="on-black"
+              text="Zoom out"
+              icon="zoomOut"
+              clickHandler={handleZoomOut}
+            />
+            <Control
+              tabIndex={tabbableControls ? '0' : '-1'}
+              type="on-black"
+              text="Rotate"
+              icon="rotatePageRight"
+              clickHandler={handleRotate}
+            />
+          </ImageViewerControls>
+        )}
+      </TogglesContext.Consumer>
 
       <div
         style={{
