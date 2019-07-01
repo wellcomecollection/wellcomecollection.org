@@ -4,11 +4,12 @@ import { spacing, font, classNames } from '../../../utils/classnames';
 
 type Props = {|
   title: string,
+  subtitle: ?string,
   phone: ?string,
   email: ?string,
 |};
 
-function Contact({ title, phone, email }: Props) {
+function Contact({ title, subtitle, phone, email }: Props) {
   return (
     <div
       className={classNames({
@@ -18,11 +19,26 @@ function Contact({ title, phone, email }: Props) {
     >
       <span
         className={classNames({
-          [font({ s: 'HNM3' })]: true,
           block: true,
         })}
       >
-        {title}
+        <span
+          className={classNames({
+            [font({ s: 'HNM3' })]: true,
+          })}
+        >
+          {title}
+        </span>
+        {subtitle && (
+          <span
+            className={classNames({
+              [font({ s: 'HNL3' })]: true,
+              [spacing({ s: 1 }, { margin: ['left'] })]: true,
+            })}
+          >
+            {subtitle}
+          </span>
+        )}
       </span>
       {phone && (
         <span
