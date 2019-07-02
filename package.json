@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Products and services relating to wellcomecollection.org.",
   "scripts": {
+    "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
     "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",

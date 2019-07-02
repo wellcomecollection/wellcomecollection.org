@@ -8,8 +8,9 @@
       }
     },
     "subtitle": {
-      "type": "Text",
+      "type": "StructuredText",
       "config": {
+        "single": "paragraph,hyperlink,strong,em",
         "label": "Subtitle"
       }
     },

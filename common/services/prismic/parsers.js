@@ -327,7 +327,7 @@ function parseTeamToContact(team: PrismicFragment) {
 
   return {
     title: asText(title),
-    subtitle,
+    subtitle: asText(subtitle),
     email,
     phone,
   };
