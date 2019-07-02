@@ -42,6 +42,10 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
+  position: fixed;
+  top: 85px;
+  left: 0;
+  right: 0;
   background: ${props => props.theme.colors.coal};
   color: ${props => props.theme.colors.smoke};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
