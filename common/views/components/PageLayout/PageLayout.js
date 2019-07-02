@@ -104,7 +104,7 @@ const PageLayout = ({
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} hasFooterLink={!hideFooter} />
+        <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert.isShown === 'show' && (
