@@ -320,6 +320,19 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
+function parseTeamToContact(team: PrismicFragment) {
+  const {
+    data: { title, subtitle, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    subtitle,
+    email,
+    phone,
+  };
+}
+
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 type CropType = null | '16:9' | '32:15' | 'square';
@@ -609,6 +622,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
               playbackRate: slice.primary.playbackRate || 1,
               tasl: parseTaslFromString(slice.primary.tasl),
             },
+          };
+
+        case 'contact':
+          return {
+            type: 'contact',
+            value: parseTeamToContact(slice.primary.content),
           };
 
         case 'embed':

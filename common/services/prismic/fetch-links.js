@@ -61,6 +61,7 @@ export const interpretationTypesFields = [
 ];
 export const teamsFields = [
   'teams.title',
+  'teams.subtitle',
   'teams.email',
   'teams.phone',
   'teams.url',
