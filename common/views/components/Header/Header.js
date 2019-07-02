@@ -48,6 +48,7 @@ const Header = withToggler(
       style={{
         height: '85px',
         position: isFixed ? 'fixed' : 'static',
+        top: 0,
         left: 0,
         right: 0,
       }}

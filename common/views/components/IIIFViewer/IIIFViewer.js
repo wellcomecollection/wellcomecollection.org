@@ -83,6 +83,7 @@ const TitleContainer = styled.div.attrs(props => ({
 const IIIFViewerBackground = styled.div`
   background: ${props => props.theme.colors.charcoal};
   height: calc(100vh - 149px);
+  margin-top: 149px;
   noscript {
     color: ${props => props.theme.colors.white};
   }
