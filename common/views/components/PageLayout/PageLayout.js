@@ -116,32 +116,17 @@ const PageLayout = ({
           {children}
         </div>
         {!hideNewsletterPromo && <NewsletterPromo />}
-        {!hideFooter && (
-          <OpeningTimesContext.Consumer>
-            {openingTimes => (
-              <Footer
-                openingTimes={openingTimes}
-                upcomingExceptionalOpeningPeriods={
-                  openingTimes.upcomingExceptionalOpeningPeriods
-                }
-              />
-            )}
-          </OpeningTimesContext.Consumer>
-        )}
-        {hideFooter && (
-          <noscript>
-            <OpeningTimesContext.Consumer>
-              {openingTimes => (
-                <Footer
-                  openingTimes={openingTimes}
-                  upcomingExceptionalOpeningPeriods={
-                    openingTimes.upcomingExceptionalOpeningPeriods
-                  }
-                />
-              )}
-            </OpeningTimesContext.Consumer>
-          </noscript>
-        )}
+        <OpeningTimesContext.Consumer>
+          {openingTimes => (
+            <Footer
+              hide={hideFooter}
+              openingTimes={openingTimes}
+              upcomingExceptionalOpeningPeriods={
+                openingTimes.upcomingExceptionalOpeningPeriods
+              }
+            />
+          )}
+        </OpeningTimesContext.Consumer>
       </div>
     </Fragment>
   );
