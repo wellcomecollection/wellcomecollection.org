@@ -116,7 +116,7 @@ const IIIFViewer = styled.div.attrs(props => ({
   height: calc(
     100% - 149px
   ); /* using 100vh causes problems with browser chrome on mobile */
-  width: 100vw;
+  width: 100%;
   flex-direction: row-reverse;
 
   noscript & {
