@@ -48,6 +48,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             height={image.height || 0}
             alt={image.alt || ''}
             sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
+            tasl={null}
           />
         )}
       </div>

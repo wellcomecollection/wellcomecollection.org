@@ -17,10 +17,12 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 
 const PresentationPreview = styled.div`
-  overflow: hidden;
   text-align: center;
+  position: relative;
   a {
+    overflow: hidden;
     display: inline-flex;
+    width: 100%;
     align-items: flex-end;
     flex-basis: min-content;
     padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
@@ -37,6 +39,7 @@ const PresentationPreview = styled.div`
   }
   .btn--primary {
     position: absolute;
+    z-index: 1;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
@@ -101,6 +104,36 @@ function randomImages(
     label: 'random',
     images,
   };
+}
+
+function getVideo(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest &&
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(
+      element => element['@type'] === 'dctypes:MovingImage'
+    )
+  );
+}
+
+function getAudio(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest &&
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+  );
 }
 
 function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
@@ -174,10 +207,17 @@ type Props = {|
   itemUrl: any,
 |};
 
-type ViewType = 'unknown' | 'iiif' | 'pdf' | 'none';
+type ViewType =
+  | 'unknown'
+  | 'multi'
+  | 'iiif'
+  | 'pdf'
+  | 'video'
+  | 'audio'
+  | 'none';
 // Can we show the user the work described by the manifest?
 // unknown === can't/haven't checked
-// iiif | pdf === checked manifest and can render
+// iiif | pdf | video | audio === checked manifest and can render
 // none === checked manifest and know we can't render it
 
 const IIIFPresentationDisplay = ({
@@ -188,6 +228,8 @@ const IIIFPresentationDisplay = ({
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
   const iiifPresentationManifest = useContext(ManifestContext);
+  const video = getVideo(iiifPresentationManifest);
+  const audio = getAudio(iiifPresentationManifest);
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -266,6 +308,51 @@ const IIIFPresentationDisplay = ({
           </a>
         </NextLink>
       </PresentationPreview>
+    );
+  }
+
+  if (viewType === 'video' && video) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <video
+          controls
+          style={{
+            maxWidth: '100%',
+            maxHeight: '70vh',
+            display: 'block',
+            margin: 'auto',
+          }}
+        >
+          <source src={video['@id']} type={video.format} />
+          {`Sorry, your browser doesn't support embedded video.`}
+        </video>
+      </div>
+    );
+  }
+
+  if (viewType === 'audio' && audio) {
+    return (
+      <div
+        className={classNames({
+          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+        })}
+      >
+        <audio
+          controls
+          style={{
+            maxWidth: '100%',
+            display: 'block',
+            margin: 'auto',
+          }}
+          src={audio['@id']}
+        >
+          {`Sorry, your browser doesn't support embedded audio.`}
+        </audio>
+      </div>
     );
   }
 

@@ -1,28 +1,32 @@
 const abTesting = require('./toggler');
 const testEventRequest = require('./test_event_request');
 
+function copy(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
 test('x-toggled header gets added, and sends the cookie to the client', () => {
   abTesting.setTests([
     {
       id: 'outro',
       title: 'Outro',
+      range: [0, 100],
       shouldRun: request => {
         return request.uri.match(/^\/articles\/*/);
       },
     },
     {
-      id: 'wontwork',
-      title: `Won't work`,
+      id: 'wontrun',
+      title: `Won't run`,
+      range: [0, 100],
       shouldRun(request) {
-        throw new Error({ message: 'broken for test' });
+        return false;
       },
     },
   ]);
 
-  // To avoid the mutation that happens
-  const oldRequest = JSON.parse(
-    JSON.stringify(testEventRequest.Records[0].cf.request)
-  );
+  const oldRequest = copy(testEventRequest.Records[0].cf.request);
+
   abTesting.request(testEventRequest, {});
   const modifiedRequest = testEventRequest.Records[0].cf.request;
 
@@ -48,7 +52,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
     /toggle_outro=(true|false)/
   );
 
-  // This is just the shape of the
+  // This is just the shape of the CloudFront event
   const testEventResponse = {
     Records: [
       {
@@ -69,8 +73,20 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
   abTesting.response(testEventResponse, {});
   const modifiedResponse = testEventResponse.Records[0].cf.response;
 
-  // 3. set cookie is set fromxz-toggled to lock the person in for the session
+  // 3. set cookie is set from x-toggled to lock the person in for the session
   expect(modifiedResponse.headers['set-cookie'][0].value).toMatch(
     /toggle_outro=(true|false); Path=\/;/
   );
+});
+
+// This is to make sure we haven't got type errors in our tests because we don't
+// have flow here
+test('It runs all the current a/b tests without fail', () => {
+  const event = copy(testEventRequest);
+  const request = event.Records[0].cf.request;
+  abTesting.tests.forEach(test => {
+    test.shouldRun(request);
+    expect(test.range.length).toBe(2);
+    expect(typeof test.id).toBe('string');
+  });
 });

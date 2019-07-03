@@ -42,6 +42,9 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
     className={`header grid js-header-burger js-focus-trap bg-white border-color-pumice border-bottom-width-1 ${
       isActive ? 'header--is-burger-open' : ''
     }`}
+    style={{
+      height: '85px',
+    }}
   >
     <span className="visually-hidden js-trap-reverse-end">reset focus</span>
     <div className="header__upper grid__cell">

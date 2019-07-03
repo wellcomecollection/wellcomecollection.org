@@ -106,18 +106,25 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationLicenseInfo =
+  const iiifPresentationLicense =
+    iiifPresentationManifest && iiifPresentationManifest.license;
+  const iiifPresentationAttribution =
     iiifPresentationManifest &&
-    (getIIIFMetadata(iiifPresentationManifest, 'Attribution') || {}).value;
+    getIIIFMetadata(iiifPresentationManifest, 'Attribution');
 
-  const definitiveLicenseInfo =
-    licenseInfo ||
-    (iiifPresentationLicenseInfo
+  const iiifPresentationLicenseInfo =
+    (iiifPresentationManifest &&
+      (iiifPresentationLicense
+        ? getLicenseInfo(iiifPresentationLicense)
+        : null)) ||
+    (iiifPresentationAttribution
       ? {
           text: '',
-          humanReadableText: [iiifPresentationLicenseInfo],
+          humanReadableText: [iiifPresentationAttribution.value],
         }
       : null);
+
+  const definitiveLicenseInfo = licenseInfo || iiifPresentationLicenseInfo;
 
   const iiifPresentationRepository =
     iiifPresentationManifest &&
@@ -303,16 +310,12 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
               `${work.title.replace(/\.$/g, '')}.${' '}
               ${
                 iiifImageLocationCredit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${
-                      work.id
-                    }">${iiifImageLocationCredit}</a>. `
+                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. `
                   : ` `
               }
               ${
                 definitiveLicenseInfo.url
-                  ? `<a href="${definitiveLicenseInfo.url}">${
-                      definitiveLicenseInfo.text
-                    }</a>`
+                  ? `<a href="${definitiveLicenseInfo.url}">${definitiveLicenseInfo.text}</a>`
                   : definitiveLicenseInfo.text
               }`,
             ]}

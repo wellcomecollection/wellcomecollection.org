@@ -4,14 +4,49 @@
 // {
 //   id: 'outro',
 //   title: 'Outro',
-//   shouldRun: (request) => {
+//   range: [0, 50] // 50% chance, this is [inclusive, exclusive)
+//   range: [50, 100] // 50% chance, this is [inclusive, exclusive)
+//   shouldRun: (request, range) => {
 //     return request.uri.match(/^\/articles\/*/);
 //   }
 // }
 
 // This is mutable for testing
-let tests = [];
-
+let tests = [
+  {
+    id: 'searchCandidateQueryMsm',
+    title: 'Search candidate query: Minimum should match',
+    range: [0, 10],
+    shouldRun: request => {
+      return request.uri.match(/^\/works\/*/);
+    },
+  },
+  {
+    id: 'searchCandidateQueryBoost',
+    title: 'Search candidate query: Boost',
+    range: [10, 20],
+    shouldRun: request => {
+      return request.uri.match(/^\/works\/*/);
+    },
+  },
+  {
+    id: 'searchCandidateQueryMsmBoost',
+    title: 'Search candidate query: Minimum should match with boost',
+    range: [20, 30],
+    shouldRun: request => {
+      return request.uri.match(/^\/works\/*/);
+    },
+  },
+  {
+    id: 'groupImageControlsWithPagination',
+    title: 'Group image controls with pagination',
+    range: [0, 50],
+    shouldRun(request) {
+      return request.uri.match(/^\/works\/.*/);
+    },
+  },
+];
+exports.tests = tests;
 exports.setTests = function(newTests) {
   tests = newTests;
 };
@@ -37,10 +72,15 @@ function parseToggleCookies(cookieHeader) {
   return cookies;
 }
 
+function randomFromRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 exports.request = (event, context) => {
   const request = event.Records[0].cf.request;
   const toggleCookies = parseToggleCookies(request.headers.cookie);
 
+  const point = randomFromRange(0, 99);
   const newToggles = tests
     .map(test => {
       // Isn't already set
@@ -50,7 +90,10 @@ exports.request = (event, context) => {
       try {
         if (test.shouldRun(request) && !isSet) {
           // Flip the dice
-          if (Math.random() < 0.5) {
+          const [from, to] = test.range;
+          const inRange = point >= from && point < to;
+
+          if (inRange) {
             return { key: `toggle_${test.id}`, value: true };
           } else {
             return { key: `toggle_${test.id}`, value: false };
@@ -58,8 +101,13 @@ exports.request = (event, context) => {
         }
       } catch (error) {
         console.log(
-          `Toggles request: a/b test shouldRun() broke with error: ${error}`
+          `Toggles request: a/b test shouldRun() broke with error:`,
+          error.message
         );
+
+        if (process.env.NODE_ENV === 'test') {
+          throw error;
+        }
       }
     })
     .filter(Boolean);
@@ -67,7 +115,6 @@ exports.request = (event, context) => {
   if (newToggles.length > 0) {
     // We can technically send multiple Cookie headers down the pipes, but not
     // sure I want to be messing with that just yet
-    console.log('Toggles request: Setting toggled header and cookies');
     const togglesCookieString = newToggles
       .map(cookie => `${cookie.key}=${cookie.value}`)
       .join(';');
@@ -95,11 +142,9 @@ exports.response = (event, context) => {
   const request = event.Records[0].cf.request;
   const response = event.Records[0].cf.response;
 
-  console.log('Toggles response: trying to set set-cookie header');
   const toggleCookies = parseToggleCookies(request.headers['x-toggled']);
 
   if (toggleCookies.length > 0) {
-    console.log('Toggles response: setting set-cookie header');
     response.headers[`set-cookie`] = toggleCookies.map(cookie => ({
       key: 'Set-Cookie',
       value: `${cookie.key}=${cookie.value}; Path=/;`,

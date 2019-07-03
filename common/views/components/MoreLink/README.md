@@ -1,6 +1,11 @@
 ## Purpose
 
-Used to highlight more information, as an onward journey, link to a page, or a category.
+Used to link to list pages as an onward journey, where the destination = all things of that type.
+
+**Examples**
+See all exhibitions
+All past events
+
 
 [Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/common/views/components/MoreLink/README.md)
 

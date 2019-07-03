@@ -28,8 +28,8 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-function pageVanityUrl(router, app, url, pageId) {
-  route(url, '/page', router, app, { id: pageId });
+function pageVanityUrl(router, app, url, pageId, template = '/page') {
+  route(url, template, router, app, { id: pageId });
 }
 
 module.exports = app
@@ -74,6 +74,7 @@ module.exports = app
     pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
+    pageVanityUrl(router, app, '/visit-us-v2', 'WwLIBiAAAPMiB_zC', '/visit-us');
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.

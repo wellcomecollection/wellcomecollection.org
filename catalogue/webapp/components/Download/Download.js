@@ -76,6 +76,10 @@ function getFormatString(format) {
       return 'PLAIN';
     case 'image/jpeg':
       return 'JPG';
+    case 'video/mp4':
+      return 'MP4';
+    case 'audio/mp3':
+      return 'MP3';
   }
 }
 
@@ -206,14 +210,24 @@ const Download = ({
         </DownloadOptions>
 
         <div className="flex-inline flex--v-center">
-          {iiifImageLocationLicenseId && (
+          {(iiifImageLocationLicenseId || licenseInfo) && (
             <span
               className={classNames({
                 'inline-block': true,
                 [spacing({ s: 2 }, { margin: ['right'] })]: true,
               })}
             >
-              <License subject={''} licenseType={iiifImageLocationLicenseId} />
+              {iiifImageLocationLicenseId && (
+                <License
+                  subject={''}
+                  licenseType={iiifImageLocationLicenseId}
+                />
+              )}
+              {!iiifImageLocationLicenseId &&
+                licenseInfo &&
+                licenseInfo.url && (
+                  <License subject={''} licenseType={licenseInfo.url} />
+                )}
             </span>
           )}
           {iiifImageLocationCredit && (

@@ -1,28 +1,35 @@
 {
-  "Team" : {
-    "title" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading1",
-        "label" : "Title"
+  "Contact": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em,heading1",
+        "label": "Title"
       }
     },
-    "email" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "email"
+    "subtitle": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em",
+        "label": "Subtitle"
       }
     },
-    "phone" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Phone"
+    "email": {
+      "type": "Text",
+      "config": {
+        "label": "Email"
       }
     },
-    "url" : {
-      "type" : "Text",
-      "config" : {
-        "label" : "Web address"
+    "phone": {
+      "type": "Text",
+      "config": {
+        "label": "Phone"
+      }
+    },
+    "url": {
+      "type": "Text",
+      "config": {
+        "label": "URL"
       }
     }
   }

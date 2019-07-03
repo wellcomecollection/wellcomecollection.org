@@ -30,6 +30,7 @@ export type Props = {|
   rssUrl?: string,
   children: Node,
   hideNewsletterPromo?: boolean,
+  hideFooter?: boolean,
 |};
 
 const PageLayout = ({
@@ -45,6 +46,7 @@ const PageLayout = ({
   rssUrl,
   children,
   hideNewsletterPromo = false,
+  hideFooter = false,
 }: Props) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -117,6 +119,7 @@ const PageLayout = ({
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Footer
+              hide={hideFooter}
               openingTimes={openingTimes}
               upcomingExceptionalOpeningPeriods={
                 openingTimes.upcomingExceptionalOpeningPeriods

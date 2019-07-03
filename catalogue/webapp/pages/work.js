@@ -31,6 +31,8 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 type WobblyProps = {|
   children: Node,
@@ -50,12 +52,23 @@ const WobblyRow = ({ children }: WobblyProps) => (
     <div className="row__wobbly-background" />
   </div>
 );
+
 type Props = {|
   work: Work | CatalogueApiError,
 |};
 
+const getManifests = async function(manifests) {
+  const data = Promise.all(
+    manifests.map(async manifest => (await fetch(manifest['@id'])).json())
+  );
+  return data;
+};
+
 export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
+    null
+  );
+  const [iiifPresentationManifests, setIIIFPresentationManifests] = useState(
     null
   );
   const fetchIIIFPresentationManifest = async () => {
@@ -64,6 +77,11 @@ export const WorkPage = ({ work }: Props) => {
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
 
+      if (manifestData.manifests) {
+        setIIIFPresentationManifests(
+          await getManifests(manifestData.manifests)
+        );
+      }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
   };
@@ -200,11 +218,55 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </div>
+      <TogglesContext.Consumer>
+        {({ showMultiVolumePreviews }) => (
+          <>
+            {!showMultiVolumePreviews && iiifPresentationManifests ? (
+              <WobblyRow>
+                <div
+                  className={classNames({
+                    [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+                  })}
+                >
+                  <BetaMessage message="We are working to make this item available online in July 2019." />
+                </div>
+              </WobblyRow>
+            ) : (
+              iiifPresentationManifests &&
+              iiifPresentationManifests.map((manifest, i) => (
+                <ManifestContext.Provider value={manifest} key={i}>
+                  <SpacingComponent>
+                    <WobblyRow>
+                      {sierraIdFromPresentationManifestUrl &&
+                        !iiifImageLocationUrl && (
+                          <IIIFPresentationPreview
+                            iiifPresentationLocation={iiifPresentationLocation}
+                            itemUrl={itemUrl({
+                              workId: work.id,
+                              sierraId:
+                                manifest['@id'].match(
+                                  /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                                )[1] || sierraIdFromPresentationManifestUrl,
+                              langCode: work.language && work.language.id,
+                              page: 1,
+                              canvas: 1,
+                              isOverview: true,
+                            })}
+                          />
+                        )}
+                    </WobblyRow>
+                  </SpacingComponent>
+                </ManifestContext.Provider>
+              ))
+            )}
+          </>
+        )}
+      </TogglesContext.Consumer>
+
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {iiifPresentationManifest &&
-          sierraIdFromPresentationManifestUrl &&
-          !iiifImageLocationUrl && (
-            <WobblyRow>
+        {!iiifPresentationManifests && (
+          <WobblyRow>
+            {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
               <IIIFPresentationPreview
                 iiifPresentationLocation={iiifPresentationLocation}
                 itemUrl={itemUrl({
@@ -213,11 +275,14 @@ export const WorkPage = ({ work }: Props) => {
                   langCode: work.language && work.language.id,
                   page: 1,
                   canvas: 1,
+                  isOverview: true,
                 })}
               />
-            </WobblyRow>
-          )}
+            )}
+          </WobblyRow>
+        )}
       </ManifestContext.Provider>
+
       {iiifImageLocationUrl && (
         <WobblyRow>
           <IIIFImagePreview

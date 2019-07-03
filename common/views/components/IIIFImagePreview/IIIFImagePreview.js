@@ -69,6 +69,7 @@ const IIIFImagePreview = ({
             sizesQueries="(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)"
             alt=""
             defaultSize={180}
+            tasl={null}
           />
           <Control type="dark" text="View larger image" icon="zoomIn" />
         </a>
