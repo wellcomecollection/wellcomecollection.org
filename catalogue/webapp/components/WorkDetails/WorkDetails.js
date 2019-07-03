@@ -300,8 +300,8 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
             text={[
               `${work.title.replace(/\.$/g, '')}.${' '}
               ${
-                iiifImageLocationCredit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${iiifImageLocationCredit}</a>. `
+                credit
+                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
                   : ` `
               }
               ${
