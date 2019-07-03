@@ -34,6 +34,8 @@ import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import Router from 'next/router';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
+const headerHeight = 149;
+
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--v-center': true,
@@ -82,8 +84,8 @@ const TitleContainer = styled.div.attrs(props => ({
 
 const IIIFViewerBackground = styled.div`
   background: ${props => props.theme.colors.charcoal};
-  height: calc(100vh - 149px);
-  margin-top: 149px;
+  height: calc(100vh - ${`${headerHeight}px`});
+  margin-top: ${`${headerHeight}px`};
   noscript {
     color: ${props => props.theme.colors.white};
   }
@@ -112,15 +114,15 @@ const IIIFViewer = styled.div.attrs(props => ({
   }),
 }))`
   position: ${props => props.isFixed && 'fixed'};
-  top: ${props => props.isFixed && '149px'};
+  top: ${props => props.isFixed && `${headerHeight}px`};
   height: calc(
-    100% - 149px
+    100% - ${`${headerHeight}px`}
   ); /* using 100vh causes problems with browser chrome on mobile */
   width: 100%;
   flex-direction: row-reverse;
 
   noscript & {
-    height: calc(100vh - 149px);
+    height: calc(100vh - ${`${headerHeight}px`});
   }
 
   noscript & img {
