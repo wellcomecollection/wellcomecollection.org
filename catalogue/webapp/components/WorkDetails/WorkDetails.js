@@ -1,6 +1,5 @@
 // @flow
 import { type Node, Fragment } from 'react';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
@@ -10,6 +9,12 @@ import {
   getDownloadOptionsFromImageUrl,
   getLocationType,
 } from '@weco/common/utils/works';
+import {
+  getIIIFPresentationLicenceInfo,
+  getIIIFImageLicenceInfo,
+  getIIIFPresentationCredit,
+  getIIIFImageCredit,
+} from '@weco/common/utils/iiif';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -73,15 +78,8 @@ type Props = {|
 const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-
-  const iiifImageLocationLicenseId =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
-    iiifImageLocation.license.id;
-
-  const licenseInfo =
-    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
+  const iiifImageLocationCredit =
+    iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
@@ -106,25 +104,19 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationLicense =
-    iiifPresentationManifest && iiifPresentationManifest.license;
-  const iiifPresentationAttribution =
-    iiifPresentationManifest &&
-    getIIIFMetadata(iiifPresentationManifest, 'Attribution');
-
   const iiifPresentationLicenseInfo =
-    (iiifPresentationManifest &&
-      (iiifPresentationLicense
-        ? getLicenseInfo(iiifPresentationLicense)
-        : null)) ||
-    (iiifPresentationAttribution
-      ? {
-          text: '',
-          humanReadableText: [iiifPresentationAttribution.value],
-        }
-      : null);
+    iiifPresentationManifest &&
+    getIIIFPresentationLicenceInfo(iiifPresentationManifest);
 
-  const definitiveLicenseInfo = licenseInfo || iiifPresentationLicenseInfo;
+  const iiifImageLicenseInfo =
+    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+
+  const iiifPresentationCredit =
+    iiifPresentationManifest &&
+    getIIIFPresentationCredit(iiifPresentationManifest);
+
+  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
   const iiifPresentationRepository =
     iiifPresentationManifest &&
@@ -149,9 +141,8 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
         >
           <Download
             work={work}
-            licenseInfo={definitiveLicenseInfo}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            iiifImageLocationCredit={iiifImageLocationCredit}
+            licenseInfo={licenseInfo}
+            credit={credit}
             downloadOptions={allDownloadOptions}
           />
         </div>
@@ -294,14 +285,14 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
     </WorkDetailsSection>
   );
 
-  if (definitiveLicenseInfo) {
+  if (licenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
         <div id="licenseInformation">
           <MetaUnit
             headingLevel={3}
             headingText="License information"
-            text={definitiveLicenseInfo.humanReadableText}
+            text={licenseInfo.humanReadableText}
           />
           <MetaUnit
             headingLevel={3}
@@ -314,9 +305,9 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
                   : ` `
               }
               ${
-                definitiveLicenseInfo.url
-                  ? `<a href="${definitiveLicenseInfo.url}">${definitiveLicenseInfo.text}</a>`
-                  : definitiveLicenseInfo.text
+                licenseInfo.url
+                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                  : licenseInfo.text
               }`,
             ]}
           />

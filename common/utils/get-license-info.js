@@ -67,7 +67,9 @@ export const licenseMap = {
   },
 };
 
-export default function(licenseIdentifier: string): ?LicenseData {
+export default function getLicenseInfo(
+  licenseIdentifier: string
+): ?LicenseData {
   return (
     licenseMap[licenseIdentifier.toLowerCase()] ||
     Object.keys(licenseMap)
