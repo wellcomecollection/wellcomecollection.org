@@ -47,9 +47,8 @@ const Footer = ({
   return (
     <div
       ref={footer}
-      style={{ position: 'relative' }}
       className={classNames({
-        'footer row bg-black': true,
+        'footer row bg-black relative': true,
         [spacing({ s: 5, m: 10 }, { padding: ['top'] })]: true,
       })}
     >
