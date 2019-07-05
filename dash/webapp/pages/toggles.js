@@ -57,6 +57,13 @@ const abTests = [
     description: '',
     range: [20, 30],
   },
+  {
+    id: 'groupImageControlsWithPagination',
+    title: 'Group image controls with pagination',
+    defaultValue: false,
+    description: '',
+    range: [0, 50],
+  },
 ];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
