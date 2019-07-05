@@ -373,7 +373,7 @@ const IIIFCanvasThumbnail = ({
           }px`}
           alt={''}
           lang={lang}
-          isLazy={true}
+          isLazy={false}
         />
       )}
     </>
