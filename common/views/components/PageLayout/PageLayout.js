@@ -31,6 +31,7 @@ export type Props = {|
   children: Node,
   hideNewsletterPromo?: boolean,
   hideFooter?: boolean,
+  fixHeader?: boolean,
 |};
 
 const PageLayout = ({
@@ -47,6 +48,7 @@ const PageLayout = ({
   children,
   hideNewsletterPromo = false,
   hideFooter = false,
+  fixHeader = false,
 }: Props) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -104,7 +106,7 @@ const PageLayout = ({
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} />
+        <Header siteSection={siteSection} isFixed={fixHeader} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert.isShown === 'show' && (

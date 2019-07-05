@@ -157,6 +157,7 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
+      fixHeader={true}
     >
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
         <Layout12>
