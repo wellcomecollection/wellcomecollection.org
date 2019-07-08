@@ -1,6 +1,5 @@
 // @flow
 import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useEffect } from 'react';
@@ -87,18 +86,11 @@ type Work = Object;
 type Props = {|
   work: Work,
   licenseInfo: ?LicenseData,
-  iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
+  credit: ?string,
   downloadOptions: IIIFRendering[],
 |};
 
-const Download = ({
-  work,
-  licenseInfo,
-  iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
-  downloadOptions,
-}: Props) => {
+const Download = ({ work, licenseInfo, credit, downloadOptions }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
   useEffect(() => {
@@ -210,34 +202,26 @@ const Download = ({
         </DownloadOptions>
 
         <div className="flex-inline flex--v-center">
-          {(iiifImageLocationLicenseId || licenseInfo) && (
+          {licenseInfo && (
             <span
               className={classNames({
                 'inline-block': true,
                 [spacing({ s: 2 }, { margin: ['right'] })]: true,
               })}
             >
-              {iiifImageLocationLicenseId && (
-                <License
-                  subject={''}
-                  licenseType={iiifImageLocationLicenseId}
-                />
+              {licenseInfo && (
+                <License subject={''} licenseInfo={licenseInfo} />
               )}
-              {!iiifImageLocationLicenseId &&
-                licenseInfo &&
-                licenseInfo.url && (
-                  <License subject={''} licenseType={licenseInfo.url} />
-                )}
             </span>
           )}
-          {iiifImageLocationCredit && (
+          {credit && (
             <span
               className={classNames({
                 'inline-block': true,
                 [spacing({ s: 2 }, { margin: ['right'] })]: true,
               })}
             >
-              Credit: {iiifImageLocationCredit}{' '}
+              Credit: {credit}{' '}
             </span>
           )}
           {licenseInfo && (
