@@ -44,6 +44,7 @@ const TitleContainer = styled.div.attrs(props => ({
   justify-content: space-between;
   height: 64px;
   position: fixed;
+  z-index: 1;
   top: 85px;
   left: 0;
   right: 0;
