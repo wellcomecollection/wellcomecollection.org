@@ -21,6 +21,7 @@ import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import { font, spacing, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -220,7 +221,9 @@ const Exhibition = ({ exhibition }: Props) => {
       Background={null}
       ContentTypeInfo={
         <Fragment>
-          {!exhibition.isPermanent && DateInfo}
+          {!exhibition.isPermanent && (
+            <VerticalSpace size="xs">{DateInfo}</VerticalSpace>
+          )}
           <StatusIndicator
             start={exhibition.start}
             end={exhibition.end || new Date()}
