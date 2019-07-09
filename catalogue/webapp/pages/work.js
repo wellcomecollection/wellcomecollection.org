@@ -302,6 +302,7 @@ export const WorkPage = ({ work }: Props) => {
 
       <WorkDetails
         work={work}
+        sierraId={sierraIdFromPresentationManifestUrl}
         iiifPresentationManifest={iiifPresentationManifest}
         encoreLink={encoreLink}
       />
