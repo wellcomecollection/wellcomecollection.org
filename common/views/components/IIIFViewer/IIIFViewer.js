@@ -32,7 +32,6 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import Router from 'next/router';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 const headerHeight = 149;
 
@@ -45,6 +44,7 @@ const TitleContainer = styled.div.attrs(props => ({
   justify-content: space-between;
   height: 64px;
   position: fixed;
+  z-index: 1;
   top: 85px;
   left: 0;
   right: 0;
@@ -263,10 +263,8 @@ const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
     absolute: true,
   }),
 }))`
-  right: ${props => (props.isGroupedWithControls ? undefined : '12px')};
-  left: ${props => (props.isGroupedWithControls ? '12px' : undefined)};
-  bottom: ${props => (props.isGroupedWithControls ? undefined : '12px')};
-  top: ${props => (props.isGroupedWithControls ? '12px' : undefined)};
+  left: 12px;
+  top: 12px;
 `;
 
 function scrollIntoViewIfOutOfView(container, index) {
@@ -748,18 +746,12 @@ const IIIFViewerComponent = ({
                   />
                 )}
               </IIIFViewerImageWrapper>
-              <TogglesContext.Consumer>
-                {({ groupImageControlsWithPagination }) => (
-                  <IIIFViewerPaginatorButtons
-                    isGroupedWithControls={groupImageControlsWithPagination}
-                  >
-                    <Paginator
-                      {...mainPaginatorProps}
-                      render={PaginatorButtons(!showThumbs, workId)}
-                    />
-                  </IIIFViewerPaginatorButtons>
-                )}
-              </TogglesContext.Consumer>
+              <IIIFViewerPaginatorButtons>
+                <Paginator
+                  {...mainPaginatorProps}
+                  render={PaginatorButtons(!showThumbs, workId)}
+                />
+              </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
 
             {thumbnailsRequired && (

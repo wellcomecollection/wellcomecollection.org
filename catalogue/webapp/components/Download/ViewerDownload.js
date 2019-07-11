@@ -17,7 +17,6 @@ const DownloadOptions = styled.div.attrs(props => ({
     [font({ s: 'HNM5', m: 'HNM4' })]: true,
   }),
 }))`
-  position: relative;
   min-width: 300px;
   border: ${props => `1px solid ${props.theme.colors.marble}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
@@ -26,7 +25,6 @@ const DownloadOptions = styled.div.attrs(props => ({
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   z-index: -1;
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
-  height: none;
   opacity: 0;
   transition: opacity 400ms;
   position: absolute;
@@ -35,7 +33,7 @@ const DownloadOptions = styled.div.attrs(props => ({
   ${props =>
     props.show &&
     `z-index: 1;
-    opacity: 1;`}
+     opacity: 1;`}
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
