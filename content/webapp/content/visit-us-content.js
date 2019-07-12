@@ -880,7 +880,7 @@ export const pictureImages = [
     height: 1800,
     alt: '',
     tasl: {
-      title: "Naomi Paxton as the magician's assistant",
+      title: 'Wellcome Collection',
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
