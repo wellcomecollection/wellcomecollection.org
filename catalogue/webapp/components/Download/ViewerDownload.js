@@ -24,11 +24,10 @@ const DownloadOptions = styled.div.attrs(props => ({
   color: ${props => `${props.theme.colors.black}`};
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
-  display: none;
   position: absolute;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
-  ${props => props.show && `display: block;`}
+  display: ${props => (props.show ? 'block' : 'none')};
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
