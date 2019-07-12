@@ -23,17 +23,12 @@ const DownloadOptions = styled.div.attrs(props => ({
   background: ${props => `${props.theme.colors.white}`};
   color: ${props => `${props.theme.colors.black}`};
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-  z-index: -1;
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
-  opacity: 0;
-  transition: opacity 400ms;
+  display: none;
   position: absolute;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
-  ${props =>
-    props.show &&
-    `z-index: 1;
-     opacity: 1;`}
+  ${props => props.show && `display: block;`}
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
