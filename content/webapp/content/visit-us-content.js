@@ -169,7 +169,7 @@ export const planList = {
       {
         type: 'pages', // TODO what's on content  - image / id? / link
         id: '/whats-on',
-        title: "What's On",
+        title: "What's on",
         contributors: [],
         body: [],
         promo: {

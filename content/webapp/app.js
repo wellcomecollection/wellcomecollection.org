@@ -67,14 +67,13 @@ module.exports = app
     route('/newsletter', '/newsletter', router, app);
 
     pageVanityUrl(router, app, '/opening-times', 'WwQHTSAAANBfDYXU');
-    pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
     pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
     pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
     pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
     pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
-    pageVanityUrl(router, app, '/visit-us-v2', 'WwLIBiAAAPMiB_zC', '/visit-us');
+    pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC', '/visit-us');
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
