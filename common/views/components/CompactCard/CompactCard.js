@@ -54,7 +54,7 @@ const CompactCard = ({
   return (
     <VerticalSpace
       size="l"
-      properties={['margin-top', 'margin-bottom']}
+      properties={['padding-top', 'padding-bottom']}
       as={url ? 'a' : 'div'}
       href={urlOverride || url}
       className={conditionalClassNames({
