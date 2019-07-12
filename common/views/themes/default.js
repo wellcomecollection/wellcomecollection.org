@@ -56,7 +56,50 @@ const theme = {
       }
       `,
   },
+  spaceAtBreakpoints: {
+    small: {
+      xs: 4,
+      s: 6,
+      m: 8,
+      l: 16,
+      xl: 30,
+    },
+    medium: {
+      xs: 4,
+      s: 6,
+      m: 12,
+      l: 24,
+      xl: 46,
+    },
+    large: {
+      xs: 4,
+      s: 8,
+      m: 16,
+      l: 32,
+      xl: 64,
+    },
+  },
 };
+
+type SpaceSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceProperty =
+  | 'margin-bottom'
+  | 'margin-top'
+  | 'padding-bottom'
+  | 'padding-top';
+
+function makeSpacePropertyValues(
+  size: SpaceSizes,
+  property: ?SpaceProperty
+): string {
+  return ['small', 'medium', 'large']
+    .map(bp => {
+      return `@media (min-width: ${theme.sizes[bp]}px) {
+      ${property || 'margin-bottom'}: ${theme.spaceAtBreakpoints[bp][size]}px;
+    }`;
+    })
+    .join('');
+}
 
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
 // using min-width because of
@@ -74,4 +117,5 @@ const media = Object.keys(theme.sizes).reduce((acc, label) => {
 export default {
   ...theme,
   media,
+  makeSpacePropertyValues,
 };
