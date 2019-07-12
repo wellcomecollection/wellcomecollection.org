@@ -177,11 +177,10 @@ export const planList = {
             'All our exhibitions and most of our events are free. See all our upcoming exhibitions, events and more.',
           image: {
             contentUrl:
-              'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+              'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
             width: 3200,
             height: 1800,
-            alt:
-              'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+            alt: 'A person in Wellcome Library',
             tasl: {
               title: 'Speech-to-text tour',
               author: 'Mike Massaro',
@@ -193,17 +192,16 @@ export const planList = {
             },
             crops: {},
           },
-          link: '/access',
+          link: '/whats-on',
         },
         promoText:
           'Wellcome Collection is wheelchair accessible and offers a range of services for visitors with disabilities.',
         promoImage: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3200,
           height: 1800,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -217,11 +215,10 @@ export const planList = {
         },
         image: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/332f1aff454f547a54e839b62d7c95e9934a07c5_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3929,
           height: 2210,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -234,11 +231,10 @@ export const planList = {
           crops: {
             '32:15': {
               contentUrl:
-                'https://wellcomecollection.cdn.prismic.io/wellcomecollection/6ac3d750f1002954a133566cd789f3ed89bc2388_c0112768.jpg',
+                'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
               width: 3200,
               height: 1500,
-              alt:
-                'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+              alt: 'A person in Wellcome Library',
               tasl: {
                 title: 'Speech-to-text tour',
                 author: 'Mike Massaro',
@@ -252,11 +248,10 @@ export const planList = {
             },
             '16:9': {
               contentUrl:
-                'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+                'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
               width: 3200,
               height: 1800,
-              alt:
-                'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+              alt: 'A person in Wellcome Library',
               tasl: {
                 title: 'Speech-to-text tour',
                 author: 'Mike Massaro',
@@ -270,11 +265,10 @@ export const planList = {
             },
             square: {
               contentUrl:
-                'https://wellcomecollection.cdn.prismic.io/wellcomecollection/45c60576fed2b6ec42218e284040d5423741ebdf_c0112768.jpg',
+                'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
               width: 3200,
               height: 3200,
-              alt:
-                'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+              alt: 'A person in Wellcome Library',
               tasl: {
                 title: 'Speech-to-text tour',
                 author: 'Mike Massaro',
@@ -290,11 +284,10 @@ export const planList = {
         },
         squareImage: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/45c60576fed2b6ec42218e284040d5423741ebdf_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3200,
           height: 3200,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -308,11 +301,10 @@ export const planList = {
         },
         widescreenImage: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3200,
           height: 1800,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -881,7 +873,7 @@ export const eatShopList = {
 export const pictureImages = [
   {
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/58311b341bbcab74990e2ad0917b51162452b58f_tf_190405_3790149.jpg',
+      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4e2aafdb-aa29-4a7a-8689-be7d2ad64bc9_ep_000013_083.jpg',
     width: 3200,
     height: 1800,
     alt: '',
@@ -896,24 +888,6 @@ export const pictureImages = [
     },
     crops: {},
     minWidth: '600px',
-  },
-  {
-    contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/17c12bebf53c50311e288f2fe8654d8400a0129a_tf_190405_3790149.jpg',
-    width: 3200,
-    height: 3200,
-    alt: '',
-    tasl: {
-      title: "Naomi Paxton as the magician's assistant",
-      author: 'Thomas SG Farnetti',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC',
-      copyrightHolder: null,
-      copyrightLink: null,
-    },
-    crops: {},
-    minWidth: null,
   },
 ];
 
