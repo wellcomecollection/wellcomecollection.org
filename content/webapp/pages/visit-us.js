@@ -167,7 +167,7 @@ const BespokeBody = (
               [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
             })}
           >
-            <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`School visits`} />
+            <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`Schools`} />
           </div>
         </div>
         <div
