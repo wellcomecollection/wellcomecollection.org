@@ -90,12 +90,14 @@ type SpaceProperty =
 
 function makeSpacePropertyValues(
   size: SpaceSizes,
-  property: ?SpaceProperty
+  properties: SpaceProperty[] = ['margin-bottom']
 ): string {
   return ['small', 'medium', 'large']
     .map(bp => {
       return `@media (min-width: ${theme.sizes[bp]}px) {
-      ${property || 'margin-bottom'}: ${theme.spaceAtBreakpoints[bp][size]}px;
+      ${properties
+        .map(p => `${p}: ${theme.spaceAtBreakpoints[bp][size]}px;`)
+        .join('')}
     }`;
     })
     .join('');

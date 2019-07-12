@@ -150,8 +150,7 @@ const PageHeader = ({
             <FreeSticker />
           </div>
         )}
-        <VerticalSpace size="l" />
-        <VerticalSpace size="l">
+        <VerticalSpace size="l" properties={['margin-top', 'margin-bottom']}>
           <VerticalSpace size="m">
             {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
             {asyncBreadcrumbsRoute && (
