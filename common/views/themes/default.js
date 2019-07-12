@@ -86,17 +86,25 @@ type SpaceProperty =
   | 'margin-bottom'
   | 'margin-top'
   | 'padding-bottom'
-  | 'padding-top';
+  | 'padding-top'
+  | 'top'
+  | 'bottom';
 
 function makeSpacePropertyValues(
   size: SpaceSizes,
-  properties: SpaceProperty[] = ['margin-bottom']
+  properties: SpaceProperty[] = ['margin-bottom'],
+  negative: ?boolean
 ): string {
   return ['small', 'medium', 'large']
     .map(bp => {
       return `@media (min-width: ${theme.sizes[bp]}px) {
       ${properties
-        .map(p => `${p}: ${theme.spaceAtBreakpoints[bp][size]}px;`)
+        .map(
+          p =>
+            `${p}: ${negative ? '-' : ''}${
+              theme.spaceAtBreakpoints[bp][size]
+            }px;`
+        )
         .join('')}
     }`;
     })

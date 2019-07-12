@@ -75,9 +75,9 @@ const CompactCard = ({
       )}
       <div className={grid(textGridSizes)}>
         {labels.labels.length > 0 && (
-          <div className="flex">
+          <VerticalSpace size="s" className="flex">
             <LabelsList {...labels} />
-          </div>
+          </VerticalSpace>
         )}
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />

@@ -10,10 +10,14 @@ type Props = {|
 |};
 
 const LabelsList = ({ labels }: Props) => (
-  <ul
+  <VerticalSpace
+    size="xs"
+    properties={['margin-bottom']}
+    negative
+    as="ul"
     className={`flex-inline plain-list no-margin ${spacing(
       { s: 0 },
-      { padding: ['top', 'bottom', 'left'] }
+      { padding: ['top', 'left'] }
     )} ${spacing({ s: 2 }, { padding: ['right'] })}`}
     style={{ flexWrap: 'wrap' }}
   >
@@ -30,7 +34,7 @@ const LabelsList = ({ labels }: Props) => (
         <Label label={label} />
       </VerticalSpace>
     ))}
-  </ul>
+  </VerticalSpace>
 );
 
 export default LabelsList;
