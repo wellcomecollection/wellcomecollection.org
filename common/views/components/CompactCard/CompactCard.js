@@ -16,6 +16,7 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { type ColorSelection } from '../../../model/color-selections';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   url: ?string,
@@ -50,14 +51,15 @@ const CompactCard = ({
     ? { s: 9, m: 9, l: 9, xl: 9 }
     : { s: 12, m: 12, l: 12, xl: 12 };
 
-  const Tag = url ? 'a' : 'div';
   return (
-    <Tag
+    <VerticalSpace
+      size="l"
+      properties={['margin-top', 'margin-bottom']}
+      as={url ? 'a' : 'div'}
       href={urlOverride || url}
       className={conditionalClassNames({
         grid: true,
         'card-link': Boolean(url),
-        [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
         [extraClasses || '']: Boolean(extraClasses),
       })}
       onClick={() => {
@@ -73,7 +75,7 @@ const CompactCard = ({
       )}
       <div className={grid(textGridSizes)}>
         {labels.labels.length > 0 && (
-          <div>
+          <div className="flex">
             <LabelsList {...labels} />
           </div>
         )}
@@ -98,7 +100,7 @@ const CompactCard = ({
           </div>
         )}
       </div>
-    </Tag>
+    </VerticalSpace>
   );
 };
 

@@ -1,8 +1,9 @@
 // @flow
+import type { Label as LabelType } from '../../../model/labels';
 import { sized } from '../../../utils/style';
 import { spacing } from '../../../utils/classnames';
 import Label from '../../components/Label/Label';
-import type { Label as LabelType } from '../../../model/labels';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   labels: LabelType[],
@@ -17,16 +18,17 @@ const LabelsList = ({ labels }: Props) => (
     style={{ flexWrap: 'wrap' }}
   >
     {labels.filter(Boolean).map((label, i) => (
-      <li
+      <VerticalSpace
+        size="xs"
+        as="li"
         key={`${label.text}-${i}`}
         style={{
           float: 'left',
           marginRight: sized(0.5),
-          marginTop: sized(0.5),
         }}
       >
         <Label label={label} />
-      </li>
+      </VerticalSpace>
     ))}
   </ul>
 );
