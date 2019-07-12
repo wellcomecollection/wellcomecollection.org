@@ -1,22 +1,14 @@
 // @flow
 
 import type { Node } from 'react';
-import { classNames } from '../../../utils/classnames';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   children: Node,
 |};
 
 const SpacingSection = ({ children }: Props) => {
-  return (
-    <div
-      className={classNames({
-        'spacing-section': true,
-      })}
-    >
-      {children}
-    </div>
-  );
+  return <VerticalSpace size="xl">{children}</VerticalSpace>;
 };
 
 export default SpacingSection;

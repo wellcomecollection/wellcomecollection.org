@@ -15,6 +15,22 @@ import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
 import type { GenericContentFields } from '../../../model/generic-content-fields';
 import VerticalSpace from '../styled/VerticalSpace';
+import styled from 'styled-components';
+
+// TODO: use spacings from theme
+const HeroPictureBackground = styled.div`
+  height: 50%;
+  width: 100%;
+  bottom: -30px;
+
+  ${props => props.theme.media.medium`
+    bottom: -46px;
+  `}
+
+  ${props => props.theme.media.large`
+    bottom: -64px;
+  `}
+`;
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -178,12 +194,10 @@ const PageHeader = ({
           })}
           style={{ height: '100%' }}
         >
-          <div
-            className={classNames({
-              [`bg-${heroImageBgColor}`]: true,
-              'hero-picture-bg absolute': true,
-            })}
+          <HeroPictureBackground
+            className={`bg-${heroImageBgColor} absolute`}
           />
+
           <div
             style={{ maxWidth: '1450px' }}
             className={classNames({

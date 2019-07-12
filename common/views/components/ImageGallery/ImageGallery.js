@@ -13,6 +13,7 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
 import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   id: string,
@@ -112,11 +113,12 @@ class ImageGallery extends Component<Props, State> {
         {theme => (
           <Fragment>
             {!isStandalone && (
-              <span
+              <VerticalSpace
+                as="span"
+                size="m"
                 style={titleStyle}
                 className={classNames({
                   'flex flex--v-top image-gallery-v2-title': true,
-                  [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
                 })}
               >
                 <Icon
@@ -126,7 +128,7 @@ class ImageGallery extends Component<Props, State> {
                 <h2 id={`gallery-${id}`} className="h2 no-margin">
                   {title || 'In pictures'}
                 </h2>
-              </span>
+              </VerticalSpace>
             )}
             <div
               id={`image-gallery-${id}`}
@@ -231,9 +233,7 @@ class ImageGallery extends Component<Props, State> {
                         caption={captionedImage.caption}
                         setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
                         sizesQueries={`
-                          (min-width: ${breakpoints.xlarge}) calc(${
-                          breakpoints.xlarge
-                        } - 120px),
+                          (min-width: ${breakpoints.xlarge}) calc(${breakpoints.xlarge} - 120px),
                           calc(100vw - 84px)
                         `}
                         preCaptionNode={
