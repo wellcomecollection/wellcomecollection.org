@@ -50,6 +50,7 @@ const EventCard = ({ event }: Props) => {
           </p>
         )
       }
+      xOfY={{ x: 1, y: 1 }}
     />
   );
 };

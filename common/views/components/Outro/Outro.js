@@ -80,39 +80,42 @@ const Outro = ({
           'plain-list': true,
         })}
       >
-        {[researchItem, readItem, visitItem].filter(Boolean).map(item => {
-          const { type, title, description } = getItemInfo(item);
+        {[researchItem, readItem, visitItem]
+          .filter(Boolean)
+          .map((item, index, arr) => {
+            const { type, title, description } = getItemInfo(item);
 
-          return (
-            <li
-              key={item.id}
-              onClick={() => {
-                trackEvent({
-                  category: 'Outro',
-                  action: `follow ${type} link`,
-                  label: item.id,
-                });
-              }}
-            >
-              <CompactCard
-                partNumber={null}
-                Image={null}
-                urlOverride={null}
-                color={null}
-                StatusIndicator={null}
-                DateInfo={null}
-                title={title}
-                labels={{ labels: item.labels || [] }}
-                url={
-                  item.type === 'weblinks'
-                    ? item.url
-                    : `/${item.type}/${item.id}`
-                }
-                description={description}
-              />
-            </li>
-          );
-        })}
+            return (
+              <li
+                key={item.id}
+                onClick={() => {
+                  trackEvent({
+                    category: 'Outro',
+                    action: `follow ${type} link`,
+                    label: item.id,
+                  });
+                }}
+              >
+                <CompactCard
+                  partNumber={null}
+                  Image={null}
+                  urlOverride={null}
+                  color={null}
+                  StatusIndicator={null}
+                  DateInfo={null}
+                  title={title}
+                  labels={{ labels: item.labels || [] }}
+                  url={
+                    item.type === 'weblinks'
+                      ? item.url
+                      : `/${item.type}/${item.id}`
+                  }
+                  description={description}
+                  xOfY={{ x: index, y: arr.length }}
+                />
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

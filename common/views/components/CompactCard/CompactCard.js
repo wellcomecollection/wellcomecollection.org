@@ -31,6 +31,7 @@ type Props = {|
   DateInfo: ?(Element<typeof DateRange> | Element<typeof EventDateRange>),
   StatusIndicator: ?Element<typeof StatusIndicator>,
   ExtraInfo?: ?Node,
+  xOfY: {| x: number, y: number |},
 |};
 
 const CompactCard = ({
@@ -46,7 +47,9 @@ const CompactCard = ({
   DateInfo,
   StatusIndicator,
   ExtraInfo,
+  xOfY,
 }: Props) => {
+  const { x, y } = xOfY;
   const textGridSizes = Image
     ? { s: 9, m: 9, l: 9, xl: 9 }
     : { s: 12, m: 12, l: 12, xl: 12 };
@@ -54,7 +57,7 @@ const CompactCard = ({
   return (
     <VerticalSpace
       size="l"
-      properties={['padding-top', 'padding-bottom']}
+      properties={['padding-top', x === y ? undefined : 'padding-bottom']}
       as={url ? 'a' : 'div'}
       href={urlOverride || url}
       className={conditionalClassNames({

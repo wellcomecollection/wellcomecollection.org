@@ -35,7 +35,7 @@ const SearchResults = ({
     )}
     {summary && <VerticalSpace size={!title && 'l'}>{summary}</VerticalSpace>}
 
-    {items.map(item => (
+    {items.map((item, index) => (
       <div className={`border-top-width-1 border-color-pumice`} key={item.id}>
         {item.type === 'pages' && (
           <CompactCard
@@ -53,6 +53,7 @@ const SearchResults = ({
             }
             DateInfo={null}
             StatusIndicator={null}
+            xOfY={{ x: index + 1, y: items.length }}
           />
         )}
 
@@ -72,6 +73,7 @@ const SearchResults = ({
             }
             DateInfo={null}
             StatusIndicator={null}
+            xOfY={{ x: index + 1, y: items.length }}
           />
         )}
 
@@ -91,6 +93,7 @@ const SearchResults = ({
             }
             DateInfo={null}
             StatusIndicator={null}
+            xOfY={{ x: index + 1, y: items.length }}
           />
         )}
 
@@ -110,6 +113,7 @@ const SearchResults = ({
             Image={<ImagePlaceholder color={item.color} />}
             DateInfo={null}
             StatusIndicator={null}
+            xOfY={{ x: index + 1, y: items.length }}
           />
         )}
 
@@ -131,6 +135,7 @@ const SearchResults = ({
             }
             DateInfo={null}
             StatusIndicator={null}
+            xOfY={{ x: index + 1, y: items.length }}
           />
         )}
       </div>

@@ -35,6 +35,7 @@ const ArticleCard = ({ article, showPosition }: Props) => {
       }
       DateInfo={null}
       StatusIndicator={null}
+      xOfY={{ x: 1, y: 1 }}
     />
   );
 };
