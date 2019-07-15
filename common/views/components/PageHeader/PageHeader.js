@@ -183,7 +183,7 @@ const PageHeader = ({
 
           {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
         </VerticalSpace>
-        {FeaturedMedia}
+        <div className="relative">{FeaturedMedia}</div>
       </Layout10>
 
       {HeroPicture && (
