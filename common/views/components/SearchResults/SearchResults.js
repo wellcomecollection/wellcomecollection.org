@@ -56,7 +56,6 @@ const SearchResults = ({
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
-
         {item.type === 'event-series' && (
           <CompactCard
             url={`/event-series/${item.id}`}
@@ -76,7 +75,6 @@ const SearchResults = ({
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
-
         {item.type === 'books' && (
           <CompactCard
             url={`/books/${item.id}`}
@@ -96,11 +94,13 @@ const SearchResults = ({
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
-
         {item.type === 'articles' && (
-          <ArticleCard article={item} showPosition={showPosition} />
+          <ArticleCard
+            article={item}
+            showPosition={showPosition}
+            xOfY={{ x: index + 1, y: items.length }}
+          />
         )}
-
         {item.type === 'article-schedule-items' && (
           <CompactCard
             url={null}
@@ -116,9 +116,9 @@ const SearchResults = ({
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
-
-        {item.type === 'events' && <EventCard event={item} />}
-
+        {item.type === 'events' && (
+          <EventCard event={item} xOfY={{ x: index + 1, y: items.length }} />
+        )}
         {item.type === 'exhibitions' && (
           <CompactCard
             url={`/exhibitions/${item.id}`}
