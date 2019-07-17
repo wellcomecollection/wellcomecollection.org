@@ -1,5 +1,5 @@
 // @flow
-import { spacing, font } from '../../../utils/classnames';
+import { spacing, font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -7,6 +7,7 @@ import Icon from '../Icon/Icon';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -57,25 +58,25 @@ const EventPromo = ({
         )}
       </div>
 
-      <div
-        className={`
-          flex flex--column flex-1 flex--h-space-between
-          ${spacing({ s: 2 }, { padding: ['top'] })}
-          ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-          ${spacing({ s: 4 }, { padding: ['bottom'] })}
-        `}
+      <VerticalSpace
+        size="m"
+        properties={['padding-top', 'padding-bottom']}
+        className={classNames({
+          'flex flex--column flex-1 flex--h-space-between': true,
+          [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
+        })}
       >
         <div>
-          <h2
-            className={`
-            promo-link__title
-            ${font({ s: 'WB5' })}
-            ${spacing({ s: 0 }, { margin: ['top'] })}
-            ${spacing({ s: 1 }, { margin: ['bottom'] })}
-          `}
+          <VerticalSpace
+            size="s"
+            as="h2"
+            className={classNames({
+              'promo-link__title': true,
+              [font({ s: 'WB5' })]: true,
+            })}
           >
             {event.title}
-          </h2>
+          </VerticalSpace>
 
           {!isPast && (
             <p className={`${font({ s: 'HNL4' })} no-padding no-margin`}>
@@ -158,7 +159,7 @@ const EventPromo = ({
             ))}
           </div>
         )}
-      </div>
+      </VerticalSpace>
     </a>
   );
 };
