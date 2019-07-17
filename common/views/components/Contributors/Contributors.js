@@ -1,8 +1,8 @@
 // @flow
-import { spacing } from '../../../utils/classnames';
 import Contributor from '../Contributor/Contributor';
 import { Fragment } from 'react';
 import type { Contributor as ContributorType } from '../../../model/contributors';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   contributors: ContributorType[],
@@ -69,10 +69,7 @@ const Contributors = ({
       )}
 
       {contributors.map(({ contributor, role, description }) => (
-        <div
-          className={spacing({ s: 4 }, { margin: ['top'] })}
-          key={contributor.id}
-        >
+        <VerticalSpace size="l" key={contributor.id}>
           {/*
             we don't show the role if there is only 1 as it will be
             displayed in the title
@@ -82,7 +79,7 @@ const Contributors = ({
             role={roles.length > 1 ? role : null}
             description={description}
           />
-        </div>
+        </VerticalSpace>
       ))}
     </Fragment>
   );
