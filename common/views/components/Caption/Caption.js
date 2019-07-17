@@ -1,8 +1,9 @@
 // @flow
+import type { HTMLString } from '../../../services/prismic/types';
 import { font, spacing, classNames } from '../../../utils/classnames';
 import type { Node } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import type { HTMLString } from '../../../services/prismic/types';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   caption: HTMLString,
@@ -12,12 +13,14 @@ type Props = {|
 
 const Caption = ({ caption, preCaptionNode, width }: Props) => {
   return (
-    <figcaption
+    <VerticalSpace
+      as="figcaption"
+      size="m"
       style={width ? { width: `${width}px` } : undefined}
-      className={`caption h-center ${font({ s: 'LR3', m: 'LR2' })} ${spacing(
-        { s: 3 },
-        { padding: ['top'] }
-      )}`}
+      className={classNames({
+        [font({ s: 'LR3', m: 'LR2' })]: true,
+        'caption h-center': true,
+      })}
     >
       <div
         className={classNames({
@@ -39,7 +42,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
         </div>
         <style>{'.caption p { display: inline; }'}</style>
       </div>
-    </figcaption>
+    </VerticalSpace>
   );
 };
 
