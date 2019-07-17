@@ -33,6 +33,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked } from '@weco/common/model/events';
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -355,7 +356,11 @@ class EventPage extends Component<Props, State> {
 
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
             <Fragment>
-              {event.eventbriteId && <EventbriteButton event={event} />}
+              {event.eventbriteId && (
+                <VerticalSpace size="m">
+                  <EventbriteButton event={event} />
+                </VerticalSpace>
+              )}
 
               {event.thirdPartyBooking && (
                 <Fragment>
@@ -404,9 +409,7 @@ class EventPage extends Component<Props, State> {
                   ) : (
                     <Button
                       type="primary"
-                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${
-                        event.title
-                      }`}
+                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                       trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',

@@ -12,6 +12,7 @@ import {
   isDatePast,
 } from '../../../utils/format-date';
 import type { UiEvent } from '../../../model/events';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -128,7 +129,11 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
 
             {!isDatePast(event.dateRange.lastDate) &&
               event.eventbriteId &&
-              !waitForTicketSales && <EventbriteButton event={event} />}
+              !waitForTicketSales && (
+                <VerticalSpace size="m">
+                  <EventbriteButton event={event} />
+                </VerticalSpace>
+              )}
 
             {!isDatePast(event.dateRange.lastDate) &&
               event.bookingEnquiryTeam &&
