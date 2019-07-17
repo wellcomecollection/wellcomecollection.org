@@ -1,0 +1,91 @@
+// @flow
+// TODO this component is temporary while awaiting designs
+// TODO import { trackEvent } from '@weco/common/utils/ga';
+import { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { font, spacing, classNames } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+
+const HiddenContent = styled.div.attrs(props => ({
+  className: classNames({
+    [font({ s: 'HNM5', m: 'HNM4' })]: true,
+  }),
+}))`
+  min-width: 300px;
+  max-height: 400px;
+  overflow: scroll;
+  border: ${props => `1px solid ${props.theme.colors.marble}`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+  background: ${props => `${props.theme.colors.white}`};
+  color: ${props => `${props.theme.colors.black}`};
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+  padding: ${props => `${props.theme.spacingUnit * 3}px`};
+  position: absolute;
+  top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
+  right: 0;
+  display: ${props => (props.show ? 'block' : 'none')};
+
+  li + li {
+    margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
+  }
+  a {
+    color: ${props => props.theme.colors.green};
+    text-decoration: none;
+  }
+  .icon__canvas {
+    height: 1.3em;
+  }
+  .icon__shape {
+    fill: currentColor;
+  }
+`;
+
+type Props = {|
+  buttonText: string,
+  children: any,
+|};
+
+const ViewerExtraContent = ({ buttonText, children }: Props) => {
+  const [showHidden, setShowHidden] = useState(false);
+  const downloadText = useRef(null);
+  useEffect(() => {
+    const links =
+      downloadText &&
+      downloadText.current &&
+      downloadText.current.getElementsByTagName('a');
+    if (links) {
+      for (const link of links) {
+        link.setAttribute('tabindex', showHidden ? '0' : '-1');
+      }
+    }
+  }, [showHidden]);
+  return (
+    <div
+      className={classNames({
+        'inline-block': true,
+        relative: true,
+      })}
+    >
+      <Button
+        type="tertiary"
+        extraClasses={classNames({
+          relative: true,
+          'btn--secondary-black': true,
+          'btn--small': true,
+          [spacing({ s: 1 }, { margin: ['left'] })]: true,
+        })}
+        icon="chevron"
+        text={buttonText}
+        clickHandler={() => {
+          setShowHidden(!showHidden);
+        }}
+      />
+      <HiddenContent show={showHidden}>
+        <SpacingComponent>{children}</SpacingComponent>
+      </HiddenContent>
+    </div>
+  );
+};
+
+export default ViewerExtraContent;

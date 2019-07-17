@@ -82,4 +82,5 @@ export type IIIFManifest = {|
   sequences?: IIIFSequence[],
   structures?: IIIFStructure[],
   license: string,
+  within?: string,
 |};

@@ -1,5 +1,6 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
+import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
@@ -31,6 +32,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
+import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Router from 'next/router';
 
 const headerHeight = 149;
@@ -486,6 +488,7 @@ const IIIFViewerComponent = ({
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
+  const [parentManifest, setParentManifest] = useState(false);
   const thumbnailContainer = useRef(null);
   const activeThumbnailRef = useRef(null);
   const viewToggleRef = useRef(null);
@@ -541,9 +544,21 @@ const IIIFViewerComponent = ({
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
+  const parentManifestUrl = manifest && manifest.within;
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
+  }, []);
+
+  useEffect(() => {
+    const fetchParentManifest = async () => {
+      const parentManifest =
+        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+
+      setParentManifest(parentManifest);
+    };
+
+    fetchParentManifest();
   }, []);
 
   useEffect(() => {
@@ -609,6 +624,29 @@ const IIIFViewerComponent = ({
                 downloadOptions || iiifPresentationDownloadOptions
               }
             />
+            {parentManifest && parentManifest.manifests && (
+              <ViewerExtraContent buttonText={'Volumes'}>
+                <ul>
+                  {parentManifest.manifests.map((manifest, i) => (
+                    <li key={manifest['@id']}>
+                      <NextLink
+                        {...itemUrl({
+                          workId,
+                          page: 1,
+                          sierraId: (manifest['@id'].match(
+                            /iiif\/(.*)\/manifest/
+                          ) || [])[1],
+                          langCode: lang,
+                          canvas: 0,
+                        })}
+                      >
+                        <a>{manifest.label}</a>
+                      </NextLink>
+                    </li>
+                  ))}
+                </ul>
+              </ViewerExtraContent>
+            )}
           </div>
         )}
       </TitleContainer>
