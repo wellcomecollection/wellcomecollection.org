@@ -1,12 +1,13 @@
 // TODO: Colours still being worked on by Tomi - using 'smoke' temporarily
+// FIXME: vertical spacing values don't fit into design system
 .book-promo {
   display: block;
   text-decoration: none;
   background: color('cream');
+  margin-top: 60px + ($spacing-unit * 4);
 }
 
 .book-promo__image-container {
-
   margin-top: -(60px + ($spacing-unit * 4));
 
   .image {
