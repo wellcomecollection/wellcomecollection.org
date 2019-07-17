@@ -17,18 +17,17 @@ import type { GenericContentFields } from '../../../model/generic-content-fields
 import VerticalSpace from '../styled/VerticalSpace';
 import styled from 'styled-components';
 
-// TODO: use spacings from theme
 const HeroPictureBackground = styled.div`
   height: 50%;
   width: 100%;
-  bottom: -30px;
+  bottom: -${props => props.theme.spaceAtBreakpoints.small.xl}px;
 
   ${props => props.theme.media.medium`
-    bottom: -46px;
+    bottom: -${props => props.theme.spaceAtBreakpoints.medium.xl}px;
   `}
 
   ${props => props.theme.media.large`
-    bottom: -64px;
+    bottom: -${props => props.theme.spaceAtBreakpoints.large.xl}px;
   `}
 `;
 

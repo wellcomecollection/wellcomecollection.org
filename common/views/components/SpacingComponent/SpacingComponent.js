@@ -3,20 +3,19 @@
 import type { Node } from 'react';
 import styled from 'styled-components';
 
-// TODO: use spacings from theme
 const SpacingComponentEl = styled.div.attrs({
   className: 'spacing-component',
 })`
   &:empty,
   & + .spacing-component {
-    margin-top: 16px;
+    margin-top: ${props => props.theme.spaceAtBreakpoints.small.l}px;
 
     ${props => props.theme.media.medium`
-      margin-top: 24px;
+      margin-top: ${props => props.theme.spaceAtBreakpoints.medium.l}px;
     `}
 
     ${props => props.theme.media.medium`
-      margin-top: 32px;
+      margin-top: ${props => props.theme.spaceAtBreakpoints.large.l}px;
     `}
   }
 `;

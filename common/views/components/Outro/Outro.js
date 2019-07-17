@@ -111,7 +111,7 @@ const Outro = ({
                       : `/${item.type}/${item.id}`
                   }
                   description={description}
-                  xOfY={{ x: index, y: arr.length }}
+                  xOfY={{ x: index + 1, y: arr.length }}
                 />
               </li>
             );
