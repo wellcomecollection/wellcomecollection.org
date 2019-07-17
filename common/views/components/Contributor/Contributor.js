@@ -6,6 +6,7 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Contributor as ContributorType } from '../../../model/contributors';
 import type { Props as ImageProps } from '../Image/Image';
+import VerticalSpace from '../styled/VerticalSpace';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -78,15 +79,16 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           )}
 
           {descriptionToRender && (
-            <div
+            <VerticalSpace
+              size="s"
+              properties={['margin-top']}
               className={classNames({
-                [spacing({ s: 1 }, { margin: ['top'] })]: true,
                 [font({ s: 'HNL4' })]: true,
                 'spaced-text': true,
               })}
             >
               <PrismicHtmlBlock html={descriptionToRender} />
-            </div>
+            </VerticalSpace>
           )}
         </div>
       </div>
