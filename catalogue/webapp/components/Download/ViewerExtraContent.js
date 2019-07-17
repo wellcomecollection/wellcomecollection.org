@@ -12,8 +12,9 @@ const HiddenContent = styled.div.attrs(props => ({
     [font({ s: 'HNM5', m: 'HNM4' })]: true,
   }),
 }))`
-  min-width: 300px;
-  max-height: 400px;
+  min-width: 200px;
+  max-width: 100%;
+  max-height: calc(100vh - 200px);
   overflow-y: scroll;
   border: ${props => `1px solid ${props.theme.colors.marble}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
