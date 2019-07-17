@@ -17,7 +17,7 @@ const LabelsList = ({ labels }: Props) => (
     as="ul"
     className={`flex-inline plain-list no-margin ${spacing(
       { s: 0 },
-      { padding: ['top', 'left'] }
+      { padding: ['left'] }
     )} ${spacing({ s: 2 }, { padding: ['right'] })}`}
     style={{ flexWrap: 'wrap' }}
   >
