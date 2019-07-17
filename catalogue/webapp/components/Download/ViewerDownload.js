@@ -73,7 +73,20 @@ const Download = ({
   downloadOptions,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(false);
+  const wrapperRef = useRef(null);
   const downloadText = useRef(null);
+  useEffect(() => {
+    window.document.addEventListener('click', handleClickOutside, false);
+    return () => {
+      window.document.removeEventListener('click', handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setShowDownloads(false);
+    }
+  };
   useEffect(() => {
     const links =
       downloadText &&
@@ -87,6 +100,7 @@ const Download = ({
   }, [showDownloads]);
   return (
     <div
+      ref={wrapperRef}
       className={classNames({
         'inline-block': true,
         relative: true,

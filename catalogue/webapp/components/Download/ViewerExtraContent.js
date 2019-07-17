@@ -14,7 +14,7 @@ const HiddenContent = styled.div.attrs(props => ({
 }))`
   min-width: 300px;
   max-height: 400px;
-  overflow: scroll;
+  overflow-y: scroll;
   border: ${props => `1px solid ${props.theme.colors.marble}`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   background: ${props => `${props.theme.colors.white}`};
@@ -48,7 +48,20 @@ type Props = {|
 
 const ViewerExtraContent = ({ buttonText, children }: Props) => {
   const [showHidden, setShowHidden] = useState(false);
+  const wrapperRef = useRef(null);
   const downloadText = useRef(null);
+  useEffect(() => {
+    window.document.addEventListener('click', handleClickOutside, false);
+    return () => {
+      window.document.removeEventListener('click', handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setShowHidden(false);
+    }
+  };
   useEffect(() => {
     const links =
       downloadText &&
@@ -62,6 +75,7 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
   }, [showHidden]);
   return (
     <div
+      ref={wrapperRef}
       className={classNames({
         'inline-block': true,
         relative: true,
