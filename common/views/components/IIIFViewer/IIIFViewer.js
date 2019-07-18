@@ -67,18 +67,18 @@ const TitleContainer = styled.div.attrs(props => ({
     display: inline-block;
     .icon {
       margin: 0;
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      @media (min-width: ${props => props.theme.sizes.large}px) {
         margin-right: ${props => `${props.theme.spacingUnit}px`};
       }
     }
     .btn__text {
       position: absolute;
       right: 100%;
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      @media (min-width: ${props => props.theme.sizes.large}px) {
         position: static;
       }
     }
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
+    @media (min-width: ${props => props.theme.sizes.large}px) {
       width: 130px;
     }
   }
@@ -626,7 +626,7 @@ const IIIFViewerComponent = ({
             />
             {parentManifest && parentManifest.manifests && (
               <ViewerExtraContent buttonText={'Volumes'}>
-                <ul>
+                <ul className="no-margin">
                   {parentManifest.manifests.map((manifest, i) => (
                     <li key={manifest['@id']}>
                       <NextLink
