@@ -27,6 +27,9 @@ const HiddenContent = styled.div.attrs(props => ({
   right: 0;
   display: ${props => (props.show ? 'block' : 'none')};
 
+  .current {
+    text-decoration: underline;
+  }
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }

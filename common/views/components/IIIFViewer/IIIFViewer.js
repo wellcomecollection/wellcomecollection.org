@@ -651,9 +651,16 @@ const IIIFViewerComponent = ({
             />
             {parentManifest && parentManifest.manifests && (
               <ViewerExtraContent buttonText={currentManifestLabel || 'Choose'}>
-                <ul className="no-margin">
+                <ul className="no-margin no-padding plain-list">
                   {parentManifest.manifests.map((manifest, i) => (
-                    <li key={manifest['@id']}>
+                    <li
+                      key={manifest['@id']}
+                      className={
+                        manifest.label === currentManifestLabel
+                          ? 'current'
+                          : null
+                      }
+                    >
                       <NextLink
                         {...itemUrl({
                           workId,
@@ -878,4 +885,3 @@ const IIIFViewerComponent = ({
 export default IIIFViewerComponent;
 
 // TODO aria-controls for extra content and downloads
-// Hightlight current volume
