@@ -8,13 +8,14 @@ import {
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { classNames, spacing } from '@weco/common/utils/classnames';
+import { classNames, spacing, grid } from '@weco/common/utils/classnames';
 import { useEffect, useState, useContext } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 
 const PresentationPreview = styled.div`
   text-align: center;
@@ -247,123 +248,149 @@ const IIIFPresentationDisplay = ({
 
   if (viewType === 'unknown' || viewType === 'pdf') {
     return (
-      <div
-        className={classNames({
-          [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
-        })}
-      >
-        <Button
-          type="primary"
-          url={`/works/${itemUrl.href.query.workId}/items`}
-          trackingEvent={{
-            category: 'ViewBookNonJSButton',
-            action: 'follow link',
-            label: itemUrl.href.query.workId,
-          }}
-          text="View the item"
-          link={itemUrl}
-        />
+      <div className="container">
+        <div className="grid">
+          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div
+              className={classNames({
+                [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
+              })}
+            >
+              <Button
+                type="primary"
+                url={`/works/${itemUrl.href.query.workId}/items`}
+                trackingEvent={{
+                  category: 'ViewBookNonJSButton',
+                  action: 'follow link',
+                  label: itemUrl.href.query.workId,
+                }}
+                text="View the item"
+                link={itemUrl}
+              />
+            </div>{' '}
+          </div>{' '}
+        </div>{' '}
       </div>
     );
   }
 
   if (viewType === 'iiif') {
     return (
-      <PresentationPreview>
-        <NextLink {...itemUrl}>
-          <a
-            className="plain-link"
-            onClick={() => {
-              trackEvent({
-                category: 'IIIFPresentationPreview',
-                action: 'follow link',
-                label: itemUrl.href.query.workId,
-              });
-            }}
-          >
-            {imageThumbnails.map((pageType, i) => {
-              return pageType.images.map(image => {
-                return (
-                  <IIIFResponsiveImage
-                    key={image.id}
-                    lang={null}
-                    width={image.width * (400 / image.height)}
-                    height={400}
-                    src={iiifImageTemplate(image.id)({
-                      size: ',400',
-                    })}
-                    srcSet={''}
-                    alt=""
-                    sizes={null}
-                    isLazy={true}
-                  />
-                );
-              });
-            })}
-            <Button
-              icon={'gallery'}
-              text={`${imageTotal} images`}
-              extraClasses={`btn--primary`}
-            />
-          </a>
-        </NextLink>
-      </PresentationPreview>
+      <WobblyRow>
+        <PresentationPreview>
+          <NextLink {...itemUrl}>
+            <a
+              className="plain-link"
+              onClick={() => {
+                trackEvent({
+                  category: 'IIIFPresentationPreview',
+                  action: 'follow link',
+                  label: itemUrl.href.query.workId,
+                });
+              }}
+            >
+              {imageThumbnails.map((pageType, i) => {
+                return pageType.images.map(image => {
+                  return (
+                    <IIIFResponsiveImage
+                      key={image.id}
+                      lang={null}
+                      width={image.width * (400 / image.height)}
+                      height={400}
+                      src={iiifImageTemplate(image.id)({
+                        size: ',400',
+                      })}
+                      srcSet={''}
+                      alt=""
+                      sizes={null}
+                      isLazy={true}
+                    />
+                  );
+                });
+              })}
+              <Button
+                icon={'gallery'}
+                text={`${imageTotal} images`}
+                extraClasses={`btn--primary`}
+              />
+            </a>
+          </NextLink>
+        </PresentationPreview>
+      </WobblyRow>
     );
   }
 
   if (viewType === 'video' && video) {
     return (
-      <div
-        className={classNames({
-          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-        })}
-      >
-        <video
-          controls
-          style={{
-            maxWidth: '100%',
-            maxHeight: '70vh',
-            display: 'block',
-            margin: 'auto',
-          }}
-        >
-          <source src={video['@id']} type={video.format} />
-          {`Sorry, your browser doesn't support embedded video.`}
-        </video>
+      <div className="container">
+        <div className="grid">
+          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div
+              className={classNames({
+                [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+              })}
+            >
+              <video
+                controls
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '70vh',
+                  display: 'block',
+                  margin: 'auto',
+                }}
+              >
+                <source src={video['@id']} type={video.format} />
+                {`Sorry, your browser doesn't support embedded video.`}
+              </video>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (viewType === 'audio' && audio) {
     return (
-      <div
-        className={classNames({
-          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-        })}
-      >
-        <audio
-          controls
-          style={{
-            maxWidth: '100%',
-            display: 'block',
-            margin: 'auto',
-          }}
-          src={audio['@id']}
-        >
-          {`Sorry, your browser doesn't support embedded audio.`}
-        </audio>
+      <div className="container">
+        <div className="grid">
+          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div
+              className={classNames({
+                [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+              })}
+            >
+              <audio
+                controls
+                style={{
+                  maxWidth: '100%',
+                  display: 'block',
+                  margin: 'auto',
+                }}
+                src={audio['@id']}
+              >
+                {`Sorry, your browser doesn't support embedded audio.`}
+              </audio>
+            </div>{' '}
+          </div>{' '}
+        </div>{' '}
       </div>
     );
   }
 
   if (viewType === 'none') {
     return (
-      <div
-        className={classNames({
-          [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-        })}
-      >
-        <BetaMessage message="We are working to make this item available online in July 2019." />
+      <div className="container">
+        <div className="grid">
+          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+            <div
+              className={classNames({
+                [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
+              })}
+            >
+              <BetaMessage message="We are working to make this item available online in July 2019." />
+            </div>
+          </div>
+        </div>
       </div>
     );
   } else {
