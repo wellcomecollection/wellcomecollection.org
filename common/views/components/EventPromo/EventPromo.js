@@ -147,7 +147,7 @@ const EventPromo = ({
         </div>
 
         {event.series.length > 0 && (
-          <div className={spacing({ s: 4 }, { margin: ['top'] })}>
+          <VerticalSpace size="l" properties={['margin-top']}>
             {event.series.map(series => (
               <p
                 key={series.title}
@@ -157,7 +157,7 @@ const EventPromo = ({
                 {series.title}
               </p>
             ))}
-          </div>
+          </VerticalSpace>
         )}
       </VerticalSpace>
     </a>
