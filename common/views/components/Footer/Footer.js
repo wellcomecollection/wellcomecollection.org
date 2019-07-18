@@ -62,9 +62,13 @@ const Footer = ({
                 <FooterWellcomeLogo />
               </a>
             </VerticalSpace>
-            <div className="border-top-width-1 border-color-charcoal">
+            <VerticalSpace
+              size="m"
+              properties={['padding-top', 'padding-bottom']}
+              className="border-top-width-1 border-bottom-width-1 border-color-charcoal"
+            >
               <FooterNav />
-            </div>
+            </VerticalSpace>
           </div>
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
             <VerticalSpace
