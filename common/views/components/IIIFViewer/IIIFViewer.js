@@ -488,7 +488,8 @@ const IIIFViewerComponent = ({
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
-  const [parentManifest, setParentManifest] = useState(false);
+  const [parentManifest, setParentManifest] = useState(null);
+  const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
   const thumbnailContainer = useRef(null);
   const activeThumbnailRef = useRef(null);
   const viewToggleRef = useRef(null);
@@ -554,12 +555,23 @@ const IIIFViewerComponent = ({
     const fetchParentManifest = async () => {
       const parentManifest =
         parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
-
-      setParentManifest(parentManifest);
+      parentManifest && setParentManifest(parentManifest);
     };
 
     fetchParentManifest();
   }, []);
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find(manifest => {
+        return (
+          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === sierraId
+        );
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
 
   useEffect(() => {
     thumbnailContainer.current &&
@@ -625,7 +637,7 @@ const IIIFViewerComponent = ({
               }
             />
             {parentManifest && parentManifest.manifests && (
-              <ViewerExtraContent buttonText={'Volumes'}>
+              <ViewerExtraContent buttonText={currentManifestLabel || 'Choose'}>
                 <ul className="no-margin">
                   {parentManifest.manifests.map((manifest, i) => (
                     <li key={manifest['@id']}>
@@ -851,3 +863,7 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
+
+// TODO aria-controls for extra content and downloads
+// Hightlight current volume
+// Add manifest label above title on mobile
