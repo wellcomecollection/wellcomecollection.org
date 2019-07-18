@@ -95,11 +95,13 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
         })}
         icon="chevron"
         text={buttonText}
+        ariaConftrols="hiddenContent"
+        ariaExpfanded={showHidden}
         clickHandler={() => {
           setShowHidden(!showHidden);
         }}
       />
-      <HiddenContent show={showHidden}>
+      <HiddenContent id="hiddenContent" show={showHidden}>
         <SpacingComponent>{children}</SpacingComponent>
       </HiddenContent>
     </div>

@@ -884,4 +884,4 @@ const IIIFViewerComponent = ({
 
 export default IIIFViewerComponent;
 
-// TODO aria-controls for extra content and downloads
+// TODO aria-controls for extra content

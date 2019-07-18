@@ -116,6 +116,8 @@ const Download = ({
         })}
         icon="download"
         text="Download"
+        ariaControls="downloadOptions"
+        ariaExpanded={showDownloads}
         clickHandler={() => {
           setShowDownloads(!showDownloads);
         }}
