@@ -59,8 +59,18 @@ const TitleContainer = styled.div.attrs(props => ({
   h1 {
     margin: 0;
   }
-  a {
+  .title {
     max-width: 30%;
+    .part {
+      max-width: 100%;
+      display: block;
+      @media (min-width: ${props => props.theme.sizes.large}px) {
+        display: none;
+      }
+    }
+    .plain-link {
+      max-width: 100%;
+    }
   }
   button {
     overflow: hidden;
@@ -581,23 +591,26 @@ const IIIFViewerComponent = ({
   return (
     <>
       <TitleContainer>
-        <NextLink
-          {...workUrl({
-            id: workId,
-          })}
-        >
-          <a
-            className={classNames({
-              [font({ s: 'HNM5', m: 'HNM4' })]: true,
-              'flex-inline': true,
-              'flex-v-center': true,
-              'plain-link': true,
-              'font-hover-yellow': true,
+        <div className="title">
+          <span className="part">{currentManifestLabel}</span>
+          <NextLink
+            {...workUrl({
+              id: workId,
             })}
           >
-            <TruncatedText as="h1">{title}</TruncatedText>
-          </a>
-        </NextLink>
+            <a
+              className={classNames({
+                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                'flex-inline': true,
+                'flex-v-center': true,
+                'plain-link': true,
+                'font-hover-yellow': true,
+              })}
+            >
+              <TruncatedText as="h1">{title}</TruncatedText>
+            </a>
+          </NextLink>
+        </div>
         {canvases && canvases.length > 1 && (
           <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
             ''}`}</>
@@ -866,4 +879,3 @@ export default IIIFViewerComponent;
 
 // TODO aria-controls for extra content and downloads
 // Hightlight current volume
-// Add manifest label above title on mobile
