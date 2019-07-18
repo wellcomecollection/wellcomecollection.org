@@ -36,7 +36,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
           size="m"
           className={classNames({
             [grid({ s: 12, m: 12, l: 3, xl: 2 })]: true,
-            [spacing({ l: 0 }, { margin: ['bottom'] })]: true,
+            'no-margin-l': true,
           })}
         >
           {event.times &&
