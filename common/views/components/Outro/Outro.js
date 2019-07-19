@@ -1,10 +1,11 @@
 // @flow
 import type { MultiContent } from '../../../model/multi-content';
 
-import { classNames, spacing } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import CompactCard from '../../components/CompactCard/CompactCard';
 import Divider from '../../components/Divider/Divider';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   researchLinkText: ?string,
@@ -64,14 +65,16 @@ const Outro = ({
   return (
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
-      <h2
+      <VerticalSpace
+        as="h2"
+        size="m"
+        properties={['margin-top']}
         className={classNames({
           h1: true,
-          [spacing({ s: 2 }, { margin: ['top'] })]: true,
         })}
       >
         Try these next
-      </h2>
+      </VerticalSpace>
 
       <ul
         className={classNames({
