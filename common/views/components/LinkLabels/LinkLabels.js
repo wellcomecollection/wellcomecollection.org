@@ -40,7 +40,6 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
         className={classNames({
           flex: true,
           [spacing({ s: 1 }, { margin: ['right'] })]: true,
-          [spacing({ s: 0 }, { margin: ['left', 'top', 'bottom'] })]: true,
         })}
       >
         {icon && (
