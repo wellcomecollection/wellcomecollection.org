@@ -16,6 +16,7 @@ import type {
   HTMLString,
 } from '../../../services/prismic/types';
 import SpacingSection from '../SpacingSection/SpacingSection';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>
@@ -42,11 +43,12 @@ const LayoutPaginatedResults = ({
 }: Props) => (
   <Fragment>
     <SpacingSection>
-      <div
+      <VerticalSpace
+        size="l"
+        properties={['padding-top', 'padding-bottom']}
         className={classNames({
           row: true,
           'bg-cream': true,
-          [spacing({ s: 3, m: 5, l: 5 }, { padding: ['top', 'bottom'] })]: true,
         })}
       >
         <div className="container">
@@ -66,30 +68,32 @@ const LayoutPaginatedResults = ({
               </h1>
 
               {description && (
-                <div
+                <VerticalSpace
+                  size="m"
+                  properties={['margin-top']}
                   className={classNames({
                     'first-para-no-margin body-text': true,
-                    [spacing({ s: 2 }, { margin: ['top'] })]: true,
                   })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </div>
+                </VerticalSpace>
               )}
             </div>
           </div>
         </div>
-      </div>
+      </VerticalSpace>
     </SpacingSection>
 
     <SpacingSection>
       {paginatedResults.totalPages > 1 && (
         <Layout12>
-          <div
+          <VerticalSpace
+            size="l"
+            properties={['padding-bottom']}
             className={classNames({
               flex: true,
               'flex--v-center': true,
               'font-pewter': true,
-              [spacing({ s: 5, m: 5, l: 5 }, { padding: ['bottom'] })]: true,
               [font({ s: 'LR3', m: 'LR2' })]: true,
             })}
           >
@@ -102,7 +106,7 @@ const LayoutPaginatedResults = ({
             {paginatedResults.currentPage === paginatedResults.totalPages
               ? paginatedResults.totalResults
               : null}
-          </div>
+          </VerticalSpace>
           <Divider extraClasses={'divider--keyline divider--pumice'} />
         </Layout12>
       )}
@@ -120,17 +124,16 @@ const LayoutPaginatedResults = ({
         </Layout12>
       )}
 
-      <div className={spacing({ s: 4 }, { margin: ['top'] })}>
+      <VerticalSpace
+        size="l"
+        properties={['margin-top']}
+        className={spacing({ s: 4 }, { margin: ['top'] })}
+      >
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
-      </div>
+      </VerticalSpace>
 
       {paginatedResults.totalPages > 1 && (
-        <div
-          className={classNames({
-            [spacing({ s: 2, m: 2, l: 2 }, { padding: ['top'] })]: true,
-            [spacing({ s: 3, m: 3, l: 3 }, { padding: ['bottom'] })]: true,
-          })}
-        >
+        <VerticalSpace size="m" properties={['padding-top', 'padding-bottom']}>
           <Layout12>
             <div className="text-align-right">
               <Pagination
@@ -164,7 +167,7 @@ const LayoutPaginatedResults = ({
               />
             </div>
           </Layout12>
-        </div>
+        </VerticalSpace>
       )}
     </SpacingSection>
   </Fragment>
