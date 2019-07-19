@@ -99,6 +99,7 @@ function makeSpacePropertyValues(
     .map(bp => {
       return `@media (min-width: ${theme.sizes[bp]}px) {
       ${properties
+        .filter(Boolean)
         .map(
           p =>
             `${p}: ${negative ? '-' : ''}${

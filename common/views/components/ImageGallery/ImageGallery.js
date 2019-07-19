@@ -150,13 +150,11 @@ class ImageGallery extends Component<Props, State> {
                 }}
               />
               <Layout12>
-                <div
+                <VerticalSpace
+                  size="xl"
+                  properties={[isStandalone ? 'padding-top' : undefined]}
                   className={classNames({
                     relative: true,
-                    [spacing(
-                      { s: 5, m: 10 },
-                      { padding: ['top'] }
-                    )]: isStandalone,
                   })}
                 >
                   {isStandalone && (
@@ -176,21 +174,21 @@ class ImageGallery extends Component<Props, State> {
                   )}
 
                   {!isStandalone && (
-                    <div
+                    <VerticalSpace
+                      size="m"
+                      properties={['padding-top']}
                       className={classNames({
-                        [spacing({ s: 3 }, { padding: ['top'] })]: true,
                         'image-gallery-v2__close-wrapper absolute': true,
                       })}
                     >
-                      <div
+                      <VerticalSpace
+                        size="m"
+                        properties={['padding-bottom']}
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
                           'opacity-0': !isActive,
-                          [spacing(
-                            { s: 3 },
-                            { padding: ['right', 'bottom'] }
-                          )]: true,
+                          [spacing({ s: 3 }, { padding: ['right'] })]: true,
                         })}
                       >
                         <Control
@@ -210,19 +208,18 @@ class ImageGallery extends Component<Props, State> {
                             this.handleCloseClicked();
                           }}
                         />
-                      </div>
-                    </div>
+                      </VerticalSpace>
+                    </VerticalSpace>
                   )}
                   {this.itemsToShow().map((captionedImage, i) => (
-                    <div
+                    <VerticalSpace
+                      size="xl"
+                      properties={[isActive ? 'margin-bottom' : undefined]}
                       onClick={() => {
                         if (!isActive) {
                           this.handleOpenClicked();
                         }
                       }}
-                      className={classNames({
-                        [spacing({ s: 10 }, { margin: ['bottom'] })]: isActive,
-                      })}
                       key={captionedImage.image.contentUrl}
                       style={{
                         cursor: !isActive ? 'pointer' : 'default',
@@ -238,22 +235,19 @@ class ImageGallery extends Component<Props, State> {
                         `}
                         preCaptionNode={
                           items.length > 1 ? (
-                            <div
+                            <VerticalSpace
+                              size="m"
                               className={classNames({
                                 [font({ s: 'HNM5', m: 'HNM4' })]: true,
-                                [spacing(
-                                  { s: 2 },
-                                  { margin: ['bottom'] }
-                                )]: true,
                               })}
                             >
                               <span className="visually-hidden">slide </span>
                               {i + 1} of {items.length}
-                            </div>
+                            </VerticalSpace>
                           ) : null
                         }
                       />
-                    </div>
+                    </VerticalSpace>
                   ))}
 
                   {titleStyle && (
@@ -273,7 +267,7 @@ class ImageGallery extends Component<Props, State> {
                       text={`${items.length} images`}
                     />
                   )}
-                </div>
+                </VerticalSpace>
               </Layout12>
             </div>
           </Fragment>
