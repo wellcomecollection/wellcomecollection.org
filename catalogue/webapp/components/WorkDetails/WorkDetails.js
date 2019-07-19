@@ -2,7 +2,7 @@
 import { type Node, Fragment } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
@@ -15,6 +15,7 @@ import {
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
+import NextLink from 'next/link';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -71,11 +72,17 @@ type Work = Object;
 
 type Props = {|
   work: Work,
+  sierraId: ?string,
   iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
 |};
 
-const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
+const WorkDetails = ({
+  work,
+  sierraId,
+  iiifPresentationManifest,
+  encoreLink,
+}: Props) => {
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
@@ -144,7 +151,36 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
             licenseInfo={licenseInfo}
             credit={credit}
             downloadOptions={allDownloadOptions}
+            licenseInfoLink={true}
           />
+        </div>
+      </div>
+    );
+  } else if (sierraId) {
+    WorkDetailsSections.push(
+      <div
+        className={classNames({
+          grid: true,
+        })}
+      >
+        <div
+          className={classNames({
+            [grid({
+              s: 12,
+              m: 12,
+              l: 10,
+              xl: 10,
+            })]: true,
+          })}
+        >
+          <NextLink
+            {...downloadUrl({
+              workId: work.id,
+              sierraId: sierraId,
+            })}
+          >
+            <a>Download options</a>
+          </NextLink>
         </div>
       </div>
     );
