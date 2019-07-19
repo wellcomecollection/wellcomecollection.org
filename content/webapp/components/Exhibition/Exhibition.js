@@ -18,7 +18,7 @@ import SearchResults from '@weco/common/views/components/SearchResults/SearchRes
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
-import { font, spacing, grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
@@ -282,10 +282,10 @@ const Exhibition = ({ exhibition }: Props) => {
         {exhibition.relatedBooks && exhibition.relatedBooks.length > 0 && (
           <Fragment>
             <h2 className="h2">From the bookshop</h2>
-            <div
-              className={`
-                ${spacing({ s: 4 }, { margin: ['top'] })} grid
-              `}
+            <VerticalSpace
+              size="l"
+              properties={['margin-top']}
+              className={`grid`}
             >
               {exhibition.relatedBooks.map(item => (
                 <div
@@ -301,7 +301,7 @@ const Exhibition = ({ exhibition }: Props) => {
                   />
                 </div>
               ))}
-            </div>
+            </VerticalSpace>
           </Fragment>
         )}
       </ContentPage>
