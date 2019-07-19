@@ -1,16 +1,16 @@
 // @flow
 import Button from '../Buttons/Button/Button';
-import { grid, spacing, font } from '../../../utils/classnames';
+import { grid, font } from '../../../utils/classnames';
+import VerticalSpace from '../styled/VerticalSpace';
 
 const NewsletterPromo = () => (
   <div className="row bg-cream">
     <div className="container">
       <div className="grid">
-        <div
-          className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })} ${spacing(
-            { s: 4 },
-            { padding: ['top'] }
-          )} ${spacing({ s: 8 }, { padding: ['bottom'] })}`}
+        <VerticalSpace
+          size="l"
+          properties={['padding-top', 'padding-bottom']}
+          className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
         >
           <h2 className="h2">
             Stay connected with email updates from Wellcome Collection
@@ -26,7 +26,7 @@ const NewsletterPromo = () => (
             url="/newsletter"
             text="Sign up"
           />
-        </div>
+        </VerticalSpace>
       </div>
     </div>
   </div>
