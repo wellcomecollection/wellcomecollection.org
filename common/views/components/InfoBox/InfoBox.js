@@ -42,14 +42,7 @@ const InfoBox = ({ title, items, children }: Props) => {
                 </span>
               )}
               {title && (
-                <h3
-                  className={classNames([
-                    font({ s: 'HNM4' }),
-                    spacing({ s: 0 }, { margin: ['top'] }),
-                  ])}
-                >
-                  {title}
-                </h3>
+                <h3 className={classNames([font({ s: 'HNM4' })])}>{title}</h3>
               )}
               {description && (
                 <VerticalSpace
