@@ -265,7 +265,7 @@ const Works = ({ works }: Props) => {
                     ),
                   });
                 }
-                return <TabNav large={true} items={items} />;
+                return <TabNav items={items} />;
               }}
             </TogglesContext.Consumer>
           </Layout12>
