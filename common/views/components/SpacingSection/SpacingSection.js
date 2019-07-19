@@ -8,7 +8,11 @@ type Props = {|
 |};
 
 const SpacingSection = ({ children }: Props) => {
-  return <VerticalSpace size="xl">{children}</VerticalSpace>;
+  return (
+    <VerticalSpace size="xl" properties={['padding-bottom']}>
+      {children}
+    </VerticalSpace>
+  );
 };
 
 export default SpacingSection;
