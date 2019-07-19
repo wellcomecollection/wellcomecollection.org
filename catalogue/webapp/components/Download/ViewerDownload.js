@@ -27,7 +27,7 @@ const DownloadOptions = styled.div.attrs(props => ({
   position: absolute;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
-  display: ${props => (props.show ? 'block' : 'none')};
+  display: ${props => (props.hidden ? 'none' : 'show')};
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
@@ -122,7 +122,7 @@ const Download = ({
           setShowDownloads(!showDownloads);
         }}
       />
-      <DownloadOptions id="downloadOptions" show={showDownloads}>
+      <DownloadOptions id="downloadOptions" hidden={!showDownloads}>
         <SpacingComponent>
           <ul className="plain-list no-margin no-padding">
             {downloadOptions

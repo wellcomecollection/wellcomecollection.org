@@ -25,7 +25,7 @@ const HiddenContent = styled.div.attrs(props => ({
   position: absolute;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
-  display: ${props => (props.show ? 'block' : 'none')};
+  display: ${props => (props.hidden ? 'none' : 'block')};
 
   .current {
     text-decoration: underline;
@@ -101,7 +101,7 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
           setShowHidden(!showHidden);
         }}
       />
-      <HiddenContent id="hiddenContent" show={showHidden}>
+      <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>{children}</SpacingComponent>
       </HiddenContent>
     </div>
