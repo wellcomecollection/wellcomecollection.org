@@ -3,6 +3,7 @@ import { spacing, font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';
 import { Component, Fragment } from 'react';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   isSuccess?: boolean,
@@ -179,7 +180,7 @@ class NewsletterSignup extends Component<Props, State> {
               value=""
             />
 
-            <div className={spacing({ s: 5 }, { margin: ['bottom'] })}>
+            <VerticalSpace size="l">
               <HTMLInput
                 required={true}
                 id="email"
@@ -190,18 +191,15 @@ class NewsletterSignup extends Component<Props, State> {
                 isLabelHidden={true}
                 onChange={this.handleEmailInput}
               />
-            </div>
+            </VerticalSpace>
 
-            <fieldset className={spacing({ s: 2 }, { margin: ['bottom'] })}>
+            <VerticalSpace size="m" as="fieldset">
               <legend className="h3">
                 What are you interested in? Choose as many as you like:
               </legend>
               <ul className="plain-list no-padding">
                 {addressBooks.map(addressBook => (
-                  <li
-                    className={spacing({ s: 3 }, { margin: ['bottom'] })}
-                    key={addressBook.id}
-                  >
+                  <VerticalSpace as="li" size="m" key={addressBook.id}>
                     <HTMLInput
                       id={addressBook.id}
                       type="checkbox"
@@ -209,10 +207,10 @@ class NewsletterSignup extends Component<Props, State> {
                       label={addressBook.label}
                       onChange={this.updateCheckedInputs}
                     />
-                  </li>
+                  </VerticalSpace>
                 ))}
               </ul>
-            </fieldset>
+            </VerticalSpace>
 
             <p className={`${font({ s: 'HNL6' })}`}>
               We use a third-party provider,{' '}
@@ -228,41 +226,42 @@ class NewsletterSignup extends Component<Props, State> {
               receive.
             </p>
 
-            <Button
-              type={'primary'}
-              extraClasses={`btn--primary ${spacing(
-                { s: 2 },
-                { margin: ['bottom'] }
-              )}`}
-              text="Submit"
-            />
+            <VerticalSpace size="m">
+              <Button
+                type={'primary'}
+                extraClasses={`btn--primary`}
+                text="Submit"
+              />
+            </VerticalSpace>
 
             {this.state.isCheckboxError && this.state.isSubmitAttempted && (
-              <p
+              <VerticalSpace
+                as="p"
+                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
                 className={`${spacing(
                   { s: 2 },
                   {
-                    padding: ['top', 'right', 'bottom', 'left'],
-                    margin: ['bottom'],
+                    padding: ['right', 'left'],
                   }
                 )} border-width-1 border-color-red font-red`}
               >
                 Please select at least one option.
-              </p>
+              </VerticalSpace>
             )}
 
             {this.state.isEmailError && this.state.isSubmitAttempted && (
-              <p
+              <VerticalSpace
+                as="p"
+                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
                 className={`${spacing(
                   { s: 2 },
                   {
-                    padding: ['top', 'right', 'bottom', 'left'],
-                    margin: ['bottom'],
+                    padding: ['right', 'left'],
                   }
                 )} border-width-1 border-color-red font-red`}
               >
                 Please enter a valid email address.
-              </p>
+              </VerticalSpace>
             )}
           </form>
         )}
