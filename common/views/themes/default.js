@@ -81,7 +81,7 @@ const theme = {
   },
 };
 
-type SpaceSizes = 'xs' | 's' | 'm' | 'l' | 'xl';
+type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty =
   | 'margin-bottom'
   | 'margin-top'
@@ -91,13 +91,15 @@ type SpaceProperty =
   | 'bottom';
 
 function makeSpacePropertyValues(
-  size: SpaceSizes,
+  size: SpaceSize,
   properties: SpaceProperty[] = ['margin-bottom'],
   negative: ?boolean
 ): string {
-  return ['small', 'medium', 'large']
-    .map(bp => {
-      return `@media (min-width: ${theme.sizes[bp]}px) {
+  return (
+    size &&
+    ['small', 'medium', 'large']
+      .map(bp => {
+        return `@media (min-width: ${theme.sizes[bp]}px) {
       ${properties
         .filter(Boolean)
         .map(
@@ -108,8 +110,9 @@ function makeSpacePropertyValues(
         )
         .join('')}
     }`;
-    })
-    .join('');
+      })
+      .join('')
+  );
 }
 
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates
