@@ -602,7 +602,3 @@
 .empty-filler:before {
   content: "\200b";
 }
-
-@each $breakpoint-key, $breakpoint-value in $grid-config {
-
-}
