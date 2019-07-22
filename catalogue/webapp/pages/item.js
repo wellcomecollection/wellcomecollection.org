@@ -11,19 +11,20 @@ import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
 import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import { classNames, spacing } from '@weco/common/utils/classnames';
 import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
-const IframePdfViewer = styled.iframe`
+const IframePdfViewer = styled(VerticalSpace).attrs({
+  className: 'h-center',
+})`
   width: 90vw;
   height: 90vh;
-  margin: 0 auto 24px;
   display: block;
-  border: none;
+  border: 0;
 `;
 
 async function getCanvasOcr(canvas) {
@@ -161,17 +162,18 @@ const ItemPage = ({
     >
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
         <Layout12>
-          <div
-            className={classNames({
-              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-            })}
-          >
+          <VerticalSpace size="l">
             <BetaMessage message="We are working to make this item available online in April 2019." />
-          </div>
+          </VerticalSpace>
         </Layout12>
       )}
       {pdfRendering && !mainImageService && (
-        <IframePdfViewer title={`PDF: ${title}`} src={pdfRendering['@id']} />
+        <IframePdfViewer
+          as="iframe"
+          size="l"
+          title={`PDF: ${title}`}
+          src={pdfRendering['@id']}
+        />
       )}
 
       {((mainImageService && currentCanvas) ||
