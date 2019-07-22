@@ -7,7 +7,7 @@ import {
   type CatalogueApiError,
   type CatalogueResultsList,
 } from '@weco/common/model/catalogue';
-import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -29,6 +29,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   query: ?string,
@@ -150,37 +151,32 @@ const Works = ({ works }: Props) => {
           <BetaBar />
         </Layout12>
 
-        <div
-          className={classNames([
-            'row bg-cream',
-            spacing({ s: 3, m: 5 }, { padding: ['top'] }),
-            spacing({ s: 3, m: 4, l: 6 }, { padding: ['bottom'] }),
-          ])}
+        <VerticalSpace
+          size="l"
+          properties={['padding-top', 'padding-bottom']}
+          className={classNames(['row bg-cream'])}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <div
+                <VerticalSpace
+                  size="m"
                   className={classNames([
                     'flex flex--h-space-between flex--v-center flex--wrap',
-                    spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
                   <>
                     {!works && (
-                      <h1
-                        className={classNames([
-                          font({ s: 'WB6', m: 'WB4' }),
-                          spacing({ s: 2 }, { margin: ['bottom'] }),
-                          spacing({ s: 4 }, { margin: ['right'] }),
-                          spacing({ s: 0 }, { margin: ['top'] }),
-                        ])}
+                      <VerticalSpace
+                        as="h1"
+                        size="m"
+                        className={classNames([font({ s: 'WB6', m: 'WB4' })])}
                       >
                         Explore our collections
-                      </h1>
+                      </VerticalSpace>
                     )}
                   </>
-                </div>
+                </VerticalSpace>
               </div>
             </div>
 
@@ -205,7 +201,7 @@ const Works = ({ works }: Props) => {
               </div>
             </div>
           </div>
-        </div>
+        </VerticalSpace>
 
         {!works && <StaticWorksContent />}
 
@@ -273,9 +269,7 @@ const Works = ({ works }: Props) => {
 
         {works && works.results.length > 0 && (
           <Fragment>
-            <div
-              className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}
-            >
+            <VerticalSpace size="l" properties={['padding-top']}>
               <div className="container">
                 <div className="grid">
                   <div
@@ -311,10 +305,11 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </VerticalSpace>
 
-            <div
-              className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}
+            <VerticalSpace
+              size="l"
+              properties={['padding-top']}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
@@ -363,11 +358,9 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
 
-              <div
-                className={`row ${spacing(
-                  { s: 10 },
-                  { padding: ['top', 'bottom'] }
-                )}`}
+              <VerticalSpace
+                size="l"
+                properties={['padding-top', 'padding-bottom']}
               >
                 <div className="container">
                   <div className="grid">
@@ -404,13 +397,13 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </VerticalSpace>
+            </VerticalSpace>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <div className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}>
+          <VerticalSpace size="l" properties={['padding-top']}>
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
@@ -429,7 +422,7 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
             </div>
-          </div>
+          </VerticalSpace>
         )}
       </CataloguePageLayout>
     </Fragment>
