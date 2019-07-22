@@ -1,3 +1,4 @@
+// @flow
 import styled from 'styled-components';
 
 // This component will output vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
