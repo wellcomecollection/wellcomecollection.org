@@ -109,7 +109,6 @@ class CopyUrl extends Component<Props, State> {
           label="share url"
           defaultValue={url}
           isLabelHidden={true}
-          fontStyles={('hnl', 4)}
         />
 
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
