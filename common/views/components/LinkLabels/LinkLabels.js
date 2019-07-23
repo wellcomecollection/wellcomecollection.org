@@ -32,7 +32,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
       flex: true,
       'flex--wrap': true,
       'no-margin': true,
-      [font('hnm', 5)]: true,
+      [font('hnl', 5)]: true,
     })}
   >
     {heading && (

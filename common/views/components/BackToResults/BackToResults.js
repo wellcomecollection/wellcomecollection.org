@@ -28,7 +28,7 @@ const BackToResults = () => {
           });
         }}
         className={classNames({
-          [font('hnm', 4)]: true,
+          [font('hnm', 5)]: true,
         })}
       >
         <span>{`Search${query ? ' results' : ''}`}</span>

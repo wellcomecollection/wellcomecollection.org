@@ -87,7 +87,7 @@ const TabNav = ({ items, large }: Props) => {
     <div
       className={classNames({
         // Cancel out space below individual tags
-        [font('hnm', large ? 3 : 4)]: true,
+        [font('hnm', 4)]: true,
         [spacing({ s: -2 }, { margin: ['bottom'] })]: true,
       })}
     >

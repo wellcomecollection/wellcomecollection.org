@@ -319,7 +319,7 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
     <WorkDetailsSection>
       <div className="flex flex--v-center">
         <Icon name="underConstruction" extraClasses="margin-right-s2" />
-        <p className={`${font('hnl', 4)} no-margin`}>
+        <p className={`${font('hnl', 5)} no-margin`}>
           We’re improving the information on this page.{' '}
           <a href="/works/progress">Find out more</a>.
         </p>

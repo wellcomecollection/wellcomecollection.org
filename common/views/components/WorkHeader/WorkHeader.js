@@ -33,7 +33,7 @@ const WorkHeader = ({ work }: Props) => {
           className={classNames({
             flex: true,
             'flex--v-center': true,
-            [font('hnm', 4)]: true,
+            [font('hnl', 5)]: true,
           })}
         >
           {workTypeIcon && (

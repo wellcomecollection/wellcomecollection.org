@@ -170,7 +170,7 @@ const Works = ({ works }: Props) => {
                     {!works && (
                       <h1
                         className={classNames([
-                          font('wb', 4),
+                          'h1',
                           spacing({ s: 2 }, { margin: ['bottom'] }),
                           spacing({ s: 4 }, { margin: ['right'] }),
                           spacing({ s: 0 }, { margin: ['top'] }),

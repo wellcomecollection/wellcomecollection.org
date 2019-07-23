@@ -101,7 +101,7 @@ const Download = ({ work, licenseInfo, credit, downloadOptions }: Props) => {
     <div>
       <div
         className={classNames({
-          [font('hnl', 4)]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         {useJavascriptControl ? (
@@ -228,7 +228,7 @@ const Download = ({ work, licenseInfo, credit, downloadOptions }: Props) => {
             <a
               href="#licenseInformation"
               className={classNames({
-                [font('hnm', 4)]: true,
+                [font('hnm', 5)]: true,
               })}
             >
               <span className="flex-inline flex--v-center nowrap">

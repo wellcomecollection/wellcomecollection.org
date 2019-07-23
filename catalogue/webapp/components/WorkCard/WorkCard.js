@@ -94,7 +94,7 @@ const WorkCard = ({ work }: Props) => {
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
-                  [font('hnl', 4)]: true,
+                  [font('hnl', 5)]: true,
                   [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
                 })}
               >

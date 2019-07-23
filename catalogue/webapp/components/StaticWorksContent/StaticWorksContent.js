@@ -12,7 +12,7 @@ const StaticWorksContent = () => (
       <div className="container">
         <div className="grid">
           <div className="grid__cell">
-            <h3 className={font('wb', 4)}>Feeling curious?</h3>
+            <h3 className="h2">Feeling curious?</h3>
             <p
               className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
                 'hnl',
@@ -86,7 +86,7 @@ const StaticWorksContent = () => (
         <div className="grid grid--dividers">
           <div className={grid({ s: 12, m: 10, l: 7, xl: 7 })}>
             <h2
-              className={`${font('wb', 4)} ${spacing(
+              className={`h2 ${spacing(
                 { s: 6 },
                 { margin: ['bottom'] }
               )} ${spacing({ s: 0 }, { margin: ['top'] })}`}

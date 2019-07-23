@@ -6,7 +6,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 
 const StyledBetaMessage = styled.div.attrs(props => ({
   className: classNames({
-    [font('hnl', 4)]: true,
+    [font('hnl', 5)]: true,
     'flex flex--v-center': true,
   }),
 }))`

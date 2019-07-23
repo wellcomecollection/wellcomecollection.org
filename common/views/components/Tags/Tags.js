@@ -57,12 +57,12 @@ const Tags = ({ tags }: Props) => {
                     the tag will always be the height of the larger of the two. */}
                     <span
                       className={classNames({
-                        [font('hnl', 4)]: true,
+                        [font('hnl', 5)]: true,
                       })}
                     />
                     <span
                       className={classNames({
-                        [font('hnm', 4)]: true,
+                        [font('hnm', 5)]: true,
                       })}
                     />
 
@@ -70,8 +70,8 @@ const Tags = ({ tags }: Props) => {
                       <span
                         key={part}
                         className={classNames({
-                          [font('hnm', 4)]: i === 0,
-                          [font('hnl', 4)]: i !== 0,
+                          [font('hnm', 5)]: i === 0,
+                          [font('hnl', 5)]: i !== 0,
                           [spacing({ s: 1 }, { margin: ['right'] })]:
                             i !== arr.length - 1,
                           'inline-block': true,
@@ -81,7 +81,7 @@ const Tags = ({ tags }: Props) => {
                         {i !== arr.length - 1 && (
                           <span
                             className={classNames({
-                              [font('hnl', 4)]: true,
+                              [font('hnl', 5)]: true,
                             })}
                           >
                             {' '}

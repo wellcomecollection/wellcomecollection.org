@@ -74,7 +74,7 @@ const Paginator = ({
 
   return (
     <Fragment>
-      <div className={`flex flex--v-center font-pewter ${font('lr', 5)}`}>
+      <div className={`flex flex--v-center font-pewter ${font('lr', 6)}`}>
         {totalResults} result{totalResults !== 1 ? 's' : ''}
       </div>
       <div
