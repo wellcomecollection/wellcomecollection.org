@@ -14,7 +14,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
   return (
     <figcaption
       style={width ? { width: `${width}px` } : undefined}
-      className={`caption h-center ${font('lr', 5)} ${spacing(
+      className={`caption h-center ${font('lr', 6)} ${spacing(
         { s: 3 },
         { padding: ['top'] }
       )}`}
