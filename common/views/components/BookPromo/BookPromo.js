@@ -77,7 +77,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
 
         {description && (
           <p
-            className={`${font('hnl', 4)} ${spacing(
+            className={`${font('hnl', 5)} ${spacing(
               { s: 2 },
               { margin: ['top'] }
             )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
@@ -87,7 +87,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         )}
 
         <span
-          className={`flex-inline ${font('hnm', 4)} ${spacing(
+          className={`flex-inline ${font('hnm', 5)} ${spacing(
             { s: 2 },
             { margin: ['top'] }
           )}`}

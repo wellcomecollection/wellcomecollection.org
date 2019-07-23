@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { spacing, font } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { formatDate } from '../../../utils/format-date';
 import { UiImage } from '../Images/Images';
@@ -94,7 +94,7 @@ const ExhibitionPromo = ({
           </h2>
 
           {!statusOverride && start && end && (
-            <p className={`${font('hnm', 4)} no-margin no-padding`}>
+            <p className={`${font('hnl', 5)} no-margin no-padding`}>
               <Fragment>
                 <time dateTime={start}>{formatDate(start)}</time>—
                 <time dateTime={end}>{formatDate(end)}</time>
@@ -106,14 +106,6 @@ const ExhibitionPromo = ({
             start={start}
             end={end || new Date()}
             statusOverride={statusOverride}
-          />
-
-          <p
-            className={classNames({
-              'no-padding': true,
-              [font('hnm', 4)]: true,
-              [spacing({ s: 2 }, { margin: ['bottom', 'top'] })]: true,
-            })}
           />
         </div>
       </div>

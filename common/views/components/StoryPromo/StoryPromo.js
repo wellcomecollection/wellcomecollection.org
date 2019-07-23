@@ -96,7 +96,7 @@ const StoryPromo = ({
             <div
               className={classNames({
                 'inline-block': true,
-                [font('hnm', 4)]: true,
+                [font('hnl', 5)]: true,
                 [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
               })}
             >
@@ -109,8 +109,8 @@ const StoryPromo = ({
           {item.series.length > 0 && (
             <div className={spacing({ s: 4 }, { margin: ['top'] })}>
               {item.series.map(series => (
-                <p key={series.title} className={`${font('hnm', 4)} no-margin`}>
-                  <span className={font('hnl', 4)}>Part of</span> {series.title}
+                <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
+                  <span className={font('hnl', 6)}>Part of</span> {series.title}
                 </p>
               ))}
             </div>

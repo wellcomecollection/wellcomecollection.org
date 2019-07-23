@@ -492,7 +492,7 @@ class EventPage extends Component<Props, State> {
                   )
                   .filter(Boolean)}
               >
-                <p className={`no-margin ${font('hnm', 4)}`}>
+                <p className={`no-margin ${font('hnl', 5)}`}>
                   <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
                     Our event terms and conditions
                   </a>

@@ -20,7 +20,7 @@ type Props = {|
 
 function getClassName(i) {
   return conditionalClassNames({
-    [`${font('hnm', 4)}`]: true,
+    [`${font('hnm', 5)}`]: true,
     'border-left-width-1 border-color-marble': i !== 0,
     [spacing({ s: 1 }, { padding: ['left'] })]: i !== 0,
     [spacing({ s: 1 }, { margin: ['right'] })]: true,
@@ -32,7 +32,7 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
       flex: true,
       'flex--wrap': true,
       'no-margin': true,
-      [font('hnm', 4)]: true,
+      [font('hnm', 5)]: true,
     })}
   >
     {heading && (

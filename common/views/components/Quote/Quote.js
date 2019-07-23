@@ -14,8 +14,7 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
     className={classNames({
       quote: true,
       'quote--pull': isPullOrReview,
-      [font('hnl', 3)]: isPullOrReview,
-      [spacing({ s: 3 }, { padding: ['left'] })]: true,
+      [font('hnl', 2)]: isPullOrReview,
       [spacing({ s: 0 }, { margin: ['left', 'top', 'bottom'] })]: true,
     })}
   >
@@ -25,7 +24,7 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
         <cite
           className={`quote__cite flex flex--v-end font-pewter ${font(
             'hnl',
-            4
+            5
           )}`}
         >
           <PrismicHtmlBlock html={citation} />

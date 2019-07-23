@@ -68,9 +68,8 @@ const Footer = ({
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
             <h3
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                {
-                  s: 'HNL5',
-                }
+                'hnl',
+                5
               )}`}
             >
               Finding us:
@@ -82,13 +81,13 @@ const Footer = ({
           <div
             className={classNames({
               [grid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-              [font('hnl', 4)]: true,
+              [font('hnl', 5)]: true,
             })}
           >
             <h3
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
                 'hnl',
-                4
+                5
               )}`}
             >
               {`Opening times:`}
@@ -103,13 +102,13 @@ const Footer = ({
               />
               <div
                 className={classNames({
-                  [font('hnl', 4)]: true,
+                  [font('hnl', 5)]: true,
                   'float-l': true,
                 })}
               >
                 <h4
                   className={classNames({
-                    [font('hnm', 4)]: true,
+                    [font('hnm', 5)]: true,
                     'no-margin': true,
                   })}
                 >{`Today's opening times`}</h4>

@@ -94,7 +94,7 @@ const CompactCard = ({
         {ExtraInfo}
         {description && (
           <div className="spaced-text">
-            <p className={font('hnl', 4)}>{description}</p>
+            <p className={font('hnl', 5)}>{description}</p>
           </div>
         )}
       </div>

@@ -36,7 +36,7 @@ const MoreLink = ({
         'more-link': true,
         'flex-inline': true,
         'flex-v-center': true,
-        [font('hnm', 4)]: true,
+        [font('hnm', 5)]: true,
         'js-scroll-to-info': url.startsWith('#'),
       })}
       href={url}

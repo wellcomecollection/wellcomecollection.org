@@ -172,7 +172,7 @@ class SegmentedControl extends Component<Props, State> {
             <li
               key={item.id}
               className={classNames({
-                [font('wb', 5)]: true,
+                [font('wb', 6)]: true,
                 'border-right-width-1 border-right-color-black':
                   i !== items.length - 1,
                 'segmented-control__item': true,

@@ -49,12 +49,6 @@ const Button = forwardRef(
     ref
   ) => {
     const HtmlTag = url ? 'a' : 'button';
-    const fontClasses =
-      extraClasses &&
-      (extraClasses.indexOf('btn--tertiary') > -1 ||
-        extraClasses.indexOf('btn--small') > -1)
-        ? ('hnm', 4)
-        : ('hnm', 4);
     function handleClick(e) {
       if (clickHandler) {
         clickHandler(e);
@@ -75,7 +69,8 @@ const Button = forwardRef(
           rel={rel}
           id={id}
           className={`btn btn--${type} ${extraClasses || ''} ${font(
-            fontClasses
+            'hnm',
+            5
           )} flex-inline flex--v-center`}
           onClick={handleClick}
           disabled={disabled}
@@ -97,7 +92,8 @@ const Button = forwardRef(
         rel={rel}
         id={id}
         className={`btn btn--${type} ${extraClasses || ''} ${font(
-          fontClasses
+          'hnm',
+          5
         )} flex-inline flex--v-center`}
         onClick={handleClick}
         disabled={disabled}

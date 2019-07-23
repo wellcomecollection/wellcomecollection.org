@@ -28,7 +28,7 @@ const Breadcrumb = ({ items }: Props) => (
           <BoldOrSpanTag
             key={text}
             className={classNames({
-              [font('hnl', 4)]: true,
+              [font('hnl', 5)]: true,
               'border-left-width-1 border-color-black': i !== 0,
               [spacing({ s: 2 }, { padding: ['right'] })]: true,
               [spacing({ s: 2 }, { padding: ['left'] })]: i !== 0,
@@ -38,7 +38,7 @@ const Breadcrumb = ({ items }: Props) => (
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('hnm', 4)]: Boolean(prefix),
+                [font('hnm', 5)]: Boolean(prefix),
               })}
               href={url}
               style={{ lineHeight: 1 }}
@@ -52,7 +52,7 @@ const Breadcrumb = ({ items }: Props) => (
     {items.length === 0 && (
       <span
         className={classNames({
-          [font('hnl', 4)]: true,
+          [font('hnl', 5)]: true,
           'empty-filler': true,
         })}
         style={{ lineHeight: 1 }}

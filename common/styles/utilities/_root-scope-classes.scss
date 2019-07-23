@@ -551,7 +551,7 @@
 
   .promo-link__title {
     @extend %font-wb;
-    @extend %font-size-1;
+    @extend %font-size-2;
   }
 }
 
@@ -601,6 +601,14 @@ $font-sizes-at-breakpoints: (
     6: 14px
   )
 );
+
+%font-hnm,
+.font-hnm,
+%font-hnl,
+.font-hnl {
+  font-weight: normal;
+  letter-spacing: 0.02em;
+}
 
 %font-hnm,
 .font-hnm {

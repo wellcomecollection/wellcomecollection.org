@@ -141,7 +141,7 @@ const DateRange = ({
     <Fragment>
       <p
         className={classNames({
-          [font('hnm', 4)]: true,
+          [font('hnm', 5)]: true,
           [spacing({ s: 0 }, { margin: ['top'] })]: true,
           [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
         })}
@@ -221,7 +221,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                   <div className="flex flex--v-center">
                     <span
                       className={classNames({
-                        [font('hnm', 4)]: true,
+                        [font('hnm', 5)]: true,
                         [spacing({ s: 2 }, { margin: ['right'] })]: true,
                       })}
                     >
@@ -234,7 +234,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                         <Icon name={'clock'} extraClasses={'margin-right-s1'} />
                         <span
                           className={classNames({
-                            [font('hnl', 4)]: true,
+                            [font('hnl', 5)]: true,
                             [spacing({ s: 2 }, { margin: ['right'] })]: true,
                           })}
                         >
@@ -251,7 +251,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                 <NextLink href={`/opening-times`} as={`/opening-times`}>
                   <a
                     className={classNames({
-                      [font('hnm', 4)]: true,
+                      [font('hnm', 5)]: true,
                     })}
                   >{`Full opening times`}</a>
                 </NextLink>
@@ -390,7 +390,7 @@ export class WhatsOnPage extends Component<Props> {
                           />
                           <div className="flex flex--v-center flex--h-space-between">
                             <h2 className="h1">Exhibitions</h2>
-                            <span className={font('hnm', 4)}>
+                            <span className={font('hnm', 5)}>
                               Free admission
                             </span>
                           </div>

@@ -83,7 +83,7 @@ const Header = withToggler(
             aria-labelledby="header-burger-trigger"
           >
             <ul
-              className={`plain-list header__list ${font('wb', 3)} ${spacing(
+              className={`plain-list header__list ${font('wb', 5)} ${spacing(
                 { s: 0 },
                 {
                   margin: ['top', 'left', 'bottom', 'right'],
