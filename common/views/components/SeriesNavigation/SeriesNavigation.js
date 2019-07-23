@@ -7,6 +7,7 @@ import type { ArticleSeries } from '../../../model/article-series';
 import type { Article } from '../../../model/articles';
 import type { ArticleScheduleItem } from '../../../model/article-schedule-items';
 import type { UiEvent } from '../../../model/events';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   series: ArticleSeries | EventSeries,
@@ -24,10 +25,12 @@ const SeriesNavigation = ({ series, items }: Props) => {
         items={items}
         showPosition={showPosition}
       />
-      <MoreLink
-        name={`More from ${series.title}`}
-        url={`/${series.type}/${series.id}`}
-      />
+      <VerticalSpace size="m" properties={['margin-top']}>
+        <MoreLink
+          name={`More from ${series.title}`}
+          url={`/${series.type}/${series.id}`}
+        />
+      </VerticalSpace>
     </Fragment>
   );
 };

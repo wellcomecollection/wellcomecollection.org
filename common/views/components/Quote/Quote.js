@@ -1,6 +1,6 @@
 // @flow
 import type { HTMLString } from '../../../services/prismic/types';
-import { font, classNames, spacing } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import VerticalSpace from '../styled/VerticalSpace';
 
@@ -15,7 +15,6 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
     className={classNames({
       'quote--pull': isPullOrReview,
       [font('hnl', 2)]: isPullOrReview,
-      [spacing({ s: 3 }, { padding: ['left'] })]: true,
       'quote no-margin': true,
     })}
   >

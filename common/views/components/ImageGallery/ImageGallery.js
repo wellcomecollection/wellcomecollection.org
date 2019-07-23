@@ -238,7 +238,7 @@ class ImageGallery extends Component<Props, State> {
                             <VerticalSpace
                               size="m"
                               className={classNames({
-                                [font('hnm', 4)]: true,
+                                [font('hnm', 5)]: true,
                               })}
                             >
                               <span className="visually-hidden">slide </span>

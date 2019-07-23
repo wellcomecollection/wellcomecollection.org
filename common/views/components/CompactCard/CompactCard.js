@@ -88,7 +88,7 @@ const CompactCard = ({
         <div
           className={classNames({
             'card-link__title': true,
-            [font('wb', 4)]: true,
+            [font('wb', 3)]: true,
             [spacing({ s: 0 }, { margin: ['top'] })]: true,
           })}
         >
