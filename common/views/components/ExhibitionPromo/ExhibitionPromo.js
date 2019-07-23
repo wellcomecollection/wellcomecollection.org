@@ -7,6 +7,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   ...ExhibitionPromoProps,
@@ -73,25 +74,25 @@ const ExhibitionPromo = ({
         </div>
       </div>
 
-      <div
+      <VerticalSpace
+        size="m"
+        properties={['padding-top', 'padding-bottom']}
         className={`
           flex flex--column flex-1 flex--h-space-between
-          ${spacing({ s: 2 }, { padding: ['top'] })}
           ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-          ${spacing({ s: 4 }, { padding: ['bottom'] })}
+
         `}
       >
         <div>
-          <h2
-            className={`
-            promo-link__title
-            ${font({ s: 'WB5' })}
-            ${spacing({ s: 0 }, { margin: ['top'] })}
-            ${spacing({ s: 1 }, { margin: ['bottom'] })}
-          `}
+          <VerticalSpace
+            size="s"
+            className={classNames({
+              'promo-link__title': true,
+              [font({ s: 'WB5' })]: true,
+            })}
           >
             {title}
-          </h2>
+          </VerticalSpace>
 
           {!statusOverride && start && end && (
             <p className={`${font({ s: 'HNL4' })} no-margin no-padding`}>
@@ -107,16 +108,8 @@ const ExhibitionPromo = ({
             end={end || new Date()}
             statusOverride={statusOverride}
           />
-
-          <p
-            className={classNames({
-              'no-padding': true,
-              [font({ s: 'HNL4' })]: true,
-              [spacing({ s: 2 }, { margin: ['bottom', 'top'] })]: true,
-            })}
-          />
         </div>
-      </div>
+      </VerticalSpace>
     </a>
   );
 };

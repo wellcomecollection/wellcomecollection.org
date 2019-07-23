@@ -1,6 +1,6 @@
 // @flow
 import { withToggler } from '../../hocs/withToggler';
-import { font, spacing, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
 const links = [
@@ -42,7 +42,7 @@ const Header = withToggler(
   ({ siteSection, toggle, isActive, isFixed }: Props) => (
     <div
       className={classNames({
-        'header grid js-header-burger js-focus-trap bg-white border-color-pumice border-bottom-width-1': true,
+        'header grid bg-white border-color-pumice border-bottom-width-1': true,
         'header--is-burger-open': isActive,
       })}
       style={{
@@ -53,14 +53,14 @@ const Header = withToggler(
         right: 0,
       }}
     >
-      <span className="visually-hidden js-trap-reverse-end">reset focus</span>
+      <span className="visually-hidden">reset focus</span>
       <div className="header__upper grid__cell">
         <div className="header__inner container">
           <div className="header__burger">
             <a
               href="#footer-nav-1"
               id="header-burger-trigger"
-              className="header__burger-trigger js-header-burger-trigger js-trap-start"
+              className="header__burger-trigger"
               aria-label="menu"
               onClick={event => {
                 event.preventDefault();
@@ -79,19 +79,13 @@ const Header = withToggler(
           </div>
           <nav
             id="header-nav"
-            className="header__nav js-header-burger-drawer"
+            className="header__nav"
             aria-labelledby="header-burger-trigger"
           >
             <ul
               className={`plain-list header__list ${font({
                 s: 'WB7',
-              })} ${spacing(
-                { s: 0 },
-                {
-                  margin: ['top', 'left', 'bottom', 'right'],
-                  padding: ['top', 'left', 'bottom', 'right'],
-                }
-              )}`}
+              })} no-margin no-padding`}
             >
               {links.map((link, i) => (
                 <li
@@ -103,7 +97,7 @@ const Header = withToggler(
                   key={i}
                 >
                   <a
-                    className="header__link js-header-nav-link"
+                    className="header__link"
                     href={link.href}
                     {...(link.siteSection === siteSection
                       ? { 'aria-current': true }
@@ -117,7 +111,6 @@ const Header = withToggler(
           </nav>
           {/* we leave this here until we know exactly what we want to do with search */}
           <div id="header-search" className="header__search" />
-          <span className="visually-hidden js-trap-end">reset focus</span>
         </div>
       </div>
     </div>

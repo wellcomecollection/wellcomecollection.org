@@ -6,9 +6,10 @@ import type { Article } from '../../../model/articles';
 type Props = {|
   article: Article,
   showPosition: boolean,
+  xOfY: {| x: number, y: number |},
 |};
 
-const ArticleCard = ({ article, showPosition }: Props) => {
+const ArticleCard = ({ article, showPosition, xOfY }: Props) => {
   const partOfSerial = showPosition
     ? article.series
         .map(series => {
@@ -35,6 +36,7 @@ const ArticleCard = ({ article, showPosition }: Props) => {
       }
       DateInfo={null}
       StatusIndicator={null}
+      xOfY={xOfY}
     />
   );
 };

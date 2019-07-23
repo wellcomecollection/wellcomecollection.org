@@ -1,6 +1,7 @@
 // @flow
-import { spacing, grid, font } from '../../../utils/classnames';
+import { grid, font } from '../../../utils/classnames';
 import Divider from '../Divider/Divider';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   title: string,
@@ -14,14 +15,12 @@ const SectionHeader = ({ title }: Props) => {
     <div className={`row`}>
       <div className="container">
         <div className="grid">
-          <div
-            className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })} ${spacing(
-              { s: 1 },
-              { margin: ['bottom'] }
-            )}`}
+          <VerticalSpace
+            size="s"
+            className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}
           >
             <Divider extraClasses="divider--dashed" />
-          </div>
+          </VerticalSpace>
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div>
               <h2 className={`no-margin ${font({ s: 'WB5', m: 'WB4' })}`}>

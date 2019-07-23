@@ -7,7 +7,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getEncoreLink,
@@ -34,6 +34,7 @@ import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -155,10 +156,11 @@ export const WorkPage = ({ work }: Props) => {
         <BetaBar />
       </Layout12>
 
-      <div
+      <VerticalSpace
+        size="l"
+        properties={['padding-top']}
         className={classNames({
           'bg-cream': true,
-          [spacing({ s: 4 }, { padding: ['top'] })]: true,
         })}
       >
         <div className="container">
@@ -176,22 +178,24 @@ export const WorkPage = ({ work }: Props) => {
           </div>
 
           <div className="grid">
-            <div
+            <VerticalSpace
+              size="s"
+              properties={['padding-top', 'padding-bottom']}
               className={classNames({
                 [grid({ s: 12 })]: true,
-                [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
               })}
             >
               <BackToResults />
-            </div>
+            </VerticalSpace>
           </div>
         </div>
-      </div>
+      </VerticalSpace>
 
-      <div
+      <VerticalSpace
+        size="xl"
+        properties={['padding-top']}
         className={classNames({
           row: true,
-          [spacing({ s: 6 }, { padding: ['top'] })]: true,
         })}
       >
         <div className="container">
@@ -199,18 +203,14 @@ export const WorkPage = ({ work }: Props) => {
             <WorkHeader work={work} />
           </div>
         </div>
-      </div>
+      </VerticalSpace>
       <TogglesContext.Consumer>
         {({ showMultiVolumePreviews }) => (
           <>
             {!showMultiVolumePreviews && iiifPresentationManifests ? (
-              <div
-                className={classNames({
-                  [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-                })}
-              >
+              <VerticalSpace size="l">
                 <BetaMessage message="We are working to make this item available online in July 2019." />
-              </div>
+              </VerticalSpace>
             ) : (
               iiifPresentationManifests &&
               iiifPresentationManifests.map((manifest, i) => (

@@ -1,21 +1,23 @@
 // @flow
 import { classNames, spacing, font } from '../../../utils/classnames';
+import VerticalSpace from '../styled/VerticalSpace';
 type Props = {|
   text: string,
 |};
 
 const Message = ({ text }: Props) => (
-  <div
+  <VerticalSpace
+    size="m"
+    properties={['padding-top', 'padding-bottom']}
     className={classNames({
       'border-left-width-5': true,
       'border-color-yellow': true,
       'inline-block': true,
       [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
-      [spacing({ s: 2 }, { padding: ['top', 'bottom'] })]: true,
       [font({ s: 'HNM4' })]: true,
     })}
   >
     {text}
-  </div>
+  </VerticalSpace>
 );
 export default Message;

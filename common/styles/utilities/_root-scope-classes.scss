@@ -122,6 +122,8 @@
   }
 }
 
+
+
 // stylelint-enable declaration-no-important
 
 .line-height-1 {
@@ -349,8 +351,44 @@
   margin: 0;
 }
 
+.no-margin-s.no-margin-s {
+  @include respond-between('small', 'medium') {
+    margin: 0;
+  }
+}
+
+.no-margin-m.no-margin-m {
+  @include respond-between('medium', 'large') {
+    margin: 0;
+  }
+}
+
+.no-margin-l.no-margin-l {
+  @include respond-to('large') {
+    margin: 0;
+  }
+}
+
 .no-padding {
   padding: 0;
+}
+
+.no-padding-s.no-padding-s {
+  @include respond-between('small', 'medium') {
+    padding: 0;
+  }
+}
+
+.no-padding-m.no-padding-m {
+  @include respond-between('medium', 'large') {
+    padding: 0;
+  }
+}
+
+.no-padding-l.no-padding-l {
+  @include respond-to('large') {
+    padding: 0;
+  }
 }
 
 .margin-h-auto {
@@ -500,37 +538,6 @@
   @include respond-to('medium') {
     line-height: $spacing-unit * 11;
     margin-bottom: -$spacing-unit;
-  }
-}
-
-.spacing-component + .spacing-component,
-// HACK: allow empty <SpacingComponent /> to act as a shim where we need more
-// space but where there isn't a preceding <SpacingComponent>stuff</SpacingComponent>
-.spacing-component:empty {
-  margin-top: $spacing-unit * 4;
-
-  @include respond-to('medium') {
-    margin-top: $spacing-unit * 6;
-  }
-}
-
-.spacing-section {
-  padding-bottom: $spacing-unit * 8;
-
-  @include respond-to('medium') {
-    padding-bottom: $spacing-unit * 10;
-  }
-}
-
-// TODO: move this back into PageHeader if/when we
-// use e.g. styled JSX with media query support
-.hero-picture-bg {
-  height: 50%;
-  width: 100%;
-  bottom: $spacing-unit * -8;
-
-  @include respond-to('medium') {
-    bottom: $spacing-unit * -10;
   }
 }
 

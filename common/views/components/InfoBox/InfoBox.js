@@ -5,6 +5,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
 import type { LabelField } from '../../../model/label-field';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   title: string,
@@ -19,13 +20,12 @@ const InfoBox = ({ title, items, children }: Props) => {
   return (
     <Fragment>
       <h2 className="h2">{title}</h2>
-      <div
+      <VerticalSpace
+        size="l"
+        properties={['padding-top', 'padding-bottom']}
         className={classNames({
           'bg-yellow': true,
-          [spacing(
-            { s: 4 },
-            { padding: ['top', 'right', 'bottom', 'left'] }
-          )]: true,
+          [spacing({ s: 4 }, { padding: ['right', 'left'] })]: true,
         })}
       >
         {items.map(({ title, description, icon }, i) => (
@@ -42,32 +42,24 @@ const InfoBox = ({ title, items, children }: Props) => {
                 </span>
               )}
               {title && (
-                <h3
-                  className={classNames([
-                    font({ s: 'HNM4' }),
-                    spacing({ s: 0 }, { margin: ['top'] }),
-                  ])}
-                >
-                  {title}
-                </h3>
+                <h3 className={classNames([font({ s: 'HNM4' })])}>{title}</h3>
               )}
               {description && (
-                <div
-                  className={classNames([
-                    font({ s: 'HNL4' }),
-                    spacing({ s: 4 }, { margin: ['bottom'] }),
-                  ])}
+                <VerticalSpace
+                  size="m"
+                  className={classNames({
+                    [font({ s: 'HNL4' })]: true,
+                    'first-para-no-margin': true,
+                  })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </div>
+                </VerticalSpace>
               )}
             </div>
           </Fragment>
         ))}
-        <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
-          {children}
-        </div>
-      </div>
+        {children}
+      </VerticalSpace>
     </Fragment>
   );
 };
