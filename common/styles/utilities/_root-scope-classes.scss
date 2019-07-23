@@ -573,7 +573,10 @@
   content: "\200b";
 }
 
-
+$helvetica-neue-medium-base: 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+$helvetica-neue-light-base: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$wellcome-bold-base: 'Arial Black', sans-serif;
+$lettera-base: 'Courier New', Courier, Monospace;
 $font-sizes-at-breakpoints: (
   'small': (
     1: 28px,
@@ -611,37 +614,37 @@ $font-sizes-at-breakpoints: (
 
 %font-hnm,
 .font-hnm {
-  font-family: 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+  font-family: $helvetica-neue-medium-base;
 
   .fonts-loaded & {
-    font-family: 'Helvetica Neue Medium Web', 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+    font-family: 'Helvetica Neue Medium Web', $helvetica-neue-medium-base;
   }
 }
 
 %font-hnl,
 .font-hnl {
-  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: $helvetica-neue-light-base;
 
   .fonts-loaded & {
-    font-family: 'Helvetica Neue Light Web', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue Light Web', $helvetica-neue-light-base;
   }
 }
 
 %font-wb,
 .font-wb {
-  font-family: 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;
+  font-family: 'Wellcome Bold Web Subset', $wellcome-bold-base;
 
   .fonts-loaded & {
-    font-family: 'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;
+    font-family: 'Wellcome Bold Web', 'Wellcome Bold Web Subset', $wellcome-bold-base;
   }
 }
 
 %font-lr,
 .font-lr {
-  font-family: 'Courier New', Courier, Monospace;
+  font-family: $lettera-base;
 
   .fonts-loaded & {
-    font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
+    font-family: 'Lettera Regular Web', $lettera-base;
   }
 }
 
