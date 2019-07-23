@@ -5,20 +5,19 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { useEffect, useState, type Node } from 'react';
+import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
-  getDownloadOptionsFromImageUrl,
   getEncoreLink,
+  getLocationType,
 } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
@@ -34,26 +33,8 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
+import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
-
-type WobblyProps = {|
-  children: Node,
-|};
-
-const WobblyRow = ({ children }: WobblyProps) => (
-  <div
-    className={classNames({
-      'row bg-cream row--has-wobbly-background': true,
-    })}
-  >
-    <div className="container">
-      <div className="grid">
-        <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>{children}</div>
-      </div>
-    </div>
-    <div className="row__wobbly-background" />
-  </div>
-);
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -78,6 +59,7 @@ export const WorkPage = ({ work }: Props) => {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
+
       if (manifestData.manifests) {
         setIIIFPresentationManifests(
           await getManifests(manifestData.manifests)
@@ -112,29 +94,11 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const [iiifImageLocation] = work.items
-    .map(item =>
-      item.locations.find(location => location.locationType.id === 'iiif-image')
-    )
-    .filter(Boolean);
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const iiifImageLocationLicenseId =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
-    iiifImageLocation.license.id;
-  const licenseInfo =
-    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
-
   const iiifPresentationLocation = getIIIFPresentationLocation(work);
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
-
-  const downloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : [];
 
   const sierraIds = work.identifiers.filter(
     i => i.identifierType.id === 'sierra-system-number'
@@ -149,9 +113,11 @@ export const WorkPage = ({ work }: Props) => {
   // We strip the last character as that's what Wellcome library expect
   const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
+  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const imageContentUrl =
     iiifImageLocationUrl &&
-    iiifImageTemplate(iiifImageLocationUrl)({ size: `800,` });
+    iiifImageTemplate(iiifImageLocation.url)({ size: `800,` });
 
   return (
     <CataloguePageLayout
@@ -242,35 +208,31 @@ export const WorkPage = ({ work }: Props) => {
         {({ showMultiVolumePreviews }) => (
           <>
             {!showMultiVolumePreviews && iiifPresentationManifests ? (
-              <WobblyRow>
-                <VerticalSpace size="l">
-                  <BetaMessage message="We are working to make this item available online in July 2019." />
-                </VerticalSpace>
-              </WobblyRow>
+              <VerticalSpace size="l">
+                <BetaMessage message="We are working to make this item available online in July 2019." />
+              </VerticalSpace>
             ) : (
               iiifPresentationManifests &&
               iiifPresentationManifests.map((manifest, i) => (
                 <ManifestContext.Provider value={manifest} key={i}>
                   <SpacingComponent>
-                    <WobblyRow>
-                      {sierraIdFromPresentationManifestUrl &&
-                        !iiifImageLocationUrl && (
-                          <IIIFPresentationPreview
-                            iiifPresentationLocation={iiifPresentationLocation}
-                            itemUrl={itemUrl({
-                              workId: work.id,
-                              sierraId:
-                                manifest['@id'].match(
-                                  /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                                )[1] || sierraIdFromPresentationManifestUrl,
-                              langCode: work.language && work.language.id,
-                              page: 1,
-                              canvas: 1,
-                              isOverview: true,
-                            })}
-                          />
-                        )}
-                    </WobblyRow>
+                    {sierraIdFromPresentationManifestUrl &&
+                      !iiifImageLocationUrl && (
+                        <IIIFPresentationPreview
+                          iiifPresentationLocation={iiifPresentationLocation}
+                          itemUrl={itemUrl({
+                            workId: work.id,
+                            sierraId:
+                              manifest['@id'].match(
+                                /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                              )[1] || sierraIdFromPresentationManifestUrl,
+                            langCode: work.language && work.language.id,
+                            page: 1,
+                            canvas: 1,
+                            isOverview: true,
+                          })}
+                        />
+                      )}
                   </SpacingComponent>
                 </ManifestContext.Provider>
               ))
@@ -280,49 +242,46 @@ export const WorkPage = ({ work }: Props) => {
       </TogglesContext.Consumer>
 
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!iiifPresentationManifests && (
-          <WobblyRow>
-            {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-              <IIIFPresentationPreview
-                iiifPresentationLocation={iiifPresentationLocation}
-                itemUrl={itemUrl({
-                  workId: work.id,
-                  sierraId: sierraIdFromPresentationManifestUrl,
-                  langCode: work.language && work.language.id,
-                  page: 1,
-                  canvas: 1,
-                  isOverview: true,
-                })}
-              />
-            )}
-          </WobblyRow>
-        )}
-        {iiifImageLocationUrl && (
-          <WobblyRow>
-            <IIIFImagePreview
-              id={work.id}
-              iiifUrl={iiifImageLocationUrl}
+        {!iiifPresentationManifests &&
+          sierraIdFromPresentationManifestUrl &&
+          !iiifImageLocationUrl && (
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
               itemUrl={itemUrl({
                 workId: work.id,
-                sierraId: null,
+                sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
                 page: 1,
                 canvas: 1,
                 isOverview: true,
               })}
-              title={work.title}
             />
-          </WobblyRow>
-        )}
-        <WorkDetails
-          work={work}
-          licenseInfo={licenseInfo}
-          iiifImageLocationCredit={iiifImageLocationCredit}
-          iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-          encoreLink={encoreLink}
-          downloadOptions={downloadOptions}
-        />
+          )}
       </ManifestContext.Provider>
+
+      {iiifImageLocationUrl && (
+        <WobblyRow>
+          <IIIFImagePreview
+            id={work.id}
+            iiifUrl={iiifImageLocationUrl}
+            itemUrl={itemUrl({
+              workId: work.id,
+              sierraId: null,
+              langCode: work.language && work.language.id,
+              page: 1,
+              canvas: 1,
+            })}
+            title={work.title}
+          />
+        </WobblyRow>
+      )}
+
+      <WorkDetails
+        work={work}
+        sierraId={sierraIdFromPresentationManifestUrl}
+        iiifPresentationManifest={iiifPresentationManifest}
+        encoreLink={encoreLink}
+      />
     </CataloguePageLayout>
   );
 };

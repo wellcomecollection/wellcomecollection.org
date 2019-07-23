@@ -12,7 +12,7 @@ export const planList = {
         body: [],
         promo: {
           caption:
-            'Wellcome Collection is wheelchair accessible and offers a range of services for visitors with disabilities.',
+            'All floors of our building have step-free access and accessible toilets. We regularly run tours and events for visitors with access needs.',
           image: {
             contentUrl:
               'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
@@ -34,7 +34,7 @@ export const planList = {
           link: '/access',
         },
         promoText:
-          'Wellcome Collection is wheelchair accessible and offers a range of services for visitors with disabilities.',
+          'All floors of our building have step-free access and accessible toilets. We regularly run tours and events for visitors with access needs.',
         promoImage: {
           contentUrl:
             'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
@@ -169,7 +169,7 @@ export const planList = {
       {
         type: 'pages', // TODO what's on content  - image / id? / link
         id: '/whats-on',
-        title: "What's On",
+        title: "What's on",
         contributors: [],
         body: [],
         promo: {
@@ -177,11 +177,10 @@ export const planList = {
             'All our exhibitions and most of our events are free. See all our upcoming exhibitions, events and more.',
           image: {
             contentUrl:
-              'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+              'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
             width: 3200,
             height: 1800,
-            alt:
-              'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+            alt: 'A person in Wellcome Library',
             tasl: {
               title: 'Speech-to-text tour',
               author: 'Mike Massaro',
@@ -193,17 +192,16 @@ export const planList = {
             },
             crops: {},
           },
-          link: '/access',
+          link: '/whats-on',
         },
         promoText:
           'Wellcome Collection is wheelchair accessible and offers a range of services for visitors with disabilities.',
         promoImage: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3200,
           height: 1800,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -217,11 +215,10 @@ export const planList = {
         },
         image: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/332f1aff454f547a54e839b62d7c95e9934a07c5_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3929,
           height: 2210,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -234,11 +231,10 @@ export const planList = {
           crops: {
             '32:15': {
               contentUrl:
-                'https://wellcomecollection.cdn.prismic.io/wellcomecollection/6ac3d750f1002954a133566cd789f3ed89bc2388_c0112768.jpg',
+                'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
               width: 3200,
               height: 1500,
-              alt:
-                'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+              alt: 'A person in Wellcome Library',
               tasl: {
                 title: 'Speech-to-text tour',
                 author: 'Mike Massaro',
@@ -252,11 +248,10 @@ export const planList = {
             },
             '16:9': {
               contentUrl:
-                'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+                'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
               width: 3200,
               height: 1800,
-              alt:
-                'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+              alt: 'A person in Wellcome Library',
               tasl: {
                 title: 'Speech-to-text tour',
                 author: 'Mike Massaro',
@@ -270,11 +265,10 @@ export const planList = {
             },
             square: {
               contentUrl:
-                'https://wellcomecollection.cdn.prismic.io/wellcomecollection/45c60576fed2b6ec42218e284040d5423741ebdf_c0112768.jpg',
+                'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
               width: 3200,
               height: 3200,
-              alt:
-                'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+              alt: 'A person in Wellcome Library',
               tasl: {
                 title: 'Speech-to-text tour',
                 author: 'Mike Massaro',
@@ -290,11 +284,10 @@ export const planList = {
         },
         squareImage: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/45c60576fed2b6ec42218e284040d5423741ebdf_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3200,
           height: 3200,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -308,11 +301,10 @@ export const planList = {
         },
         widescreenImage: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/0423f1a60de3cf07a47c15396aa6d1731621ff2b_c0112768.jpg',
+            'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F92699136-05e6-41ec-8d00-4190e330a2df_ep_000391_056squ.jpg',
           width: 3200,
           height: 1800,
-          alt:
-            'Photograph of a Wellcome Visitor Experience Assistant speaking into a phone whilst giving a speech-to-text tour of a gallery. In the foreground is a tablet displaying the transition.',
+          alt: 'A person in Wellcome Library',
           tasl: {
             title: 'Speech-to-text tour',
             author: 'Mike Massaro',
@@ -341,12 +333,12 @@ export const findList = {
       {
         type: 'pages',
         id: 'Wuw19yIAAK1Z3Smy',
-        title: 'Getting around the building',
+        title: 'Getting around our building',
         contributors: [],
         body: [],
         promo: {
           caption:
-            'Information about our toilets, security, cloakroom and more to help you plan your visit.',
+            'Our building is for everyone. At the information point on the ground floor you’ll find someone to answer all your questions about our collections, facilities and events.',
           image: {
             contentUrl:
               'https://wellcomecollection.cdn.prismic.io/wellcomecollection/8e7dbb6c2ffdc59ba55244772276c7490995160a_c0112128.jpg',
@@ -367,7 +359,7 @@ export const findList = {
           link: null,
         },
         promoText:
-          'Information about our toilets, security, cloakroom and more to help you plan your visit.',
+          'Our building is for everyone. At the information point on the ground floor you’ll find someone to answer all your questions about our collections, facilities and events.',
         promoImage: {
           contentUrl:
             'https://wellcomecollection.cdn.prismic.io/wellcomecollection/8e7dbb6c2ffdc59ba55244772276c7490995160a_c0112128.jpg',
@@ -500,7 +492,7 @@ export const findList = {
         body: [],
         promo: {
           caption:
-            'Our Reading Room is open to all as an innovative hybrid of gallery, library and events space.',
+            'The Reading Room is a calm and welcoming space with pop-up events.',
           image: {
             contentUrl:
               'https://wellcomecollection.cdn.prismic.io/wellcomecollection/4d440d585cd202485947ddd4a2ba81e0a222f3ac_reading-room-event-main.jpg',
@@ -521,7 +513,7 @@ export const findList = {
           link: null,
         },
         promoText:
-          'Our Reading Room is open to all as an innovative hybrid of gallery, library and events space.',
+          'The Reading Room is a calm and welcoming space with pop-up events.',
         promoImage: {
           contentUrl:
             'https://wellcomecollection.cdn.prismic.io/wellcomecollection/4d440d585cd202485947ddd4a2ba81e0a222f3ac_reading-room-event-main.jpg',
@@ -653,7 +645,8 @@ export const findList = {
         contributors: [],
         body: [],
         promo: {
-          caption: 'Explore the rich and fascinating story of medicine.',
+          caption:
+            'One of the best health, medicine and medical history collections in the world. Anyone can join.',
           image: {
             contentUrl:
               'https://wellcomecollection.cdn.prismic.io/wellcomecollection/36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
@@ -673,7 +666,8 @@ export const findList = {
           },
           link: null,
         },
-        promoText: 'Explore the rich and fascinating story of medicine.',
+        promoText:
+          'One of the best health, medicine and medical history collections in the world. Anyone can join.',
         promoImage: {
           contentUrl:
             'https://wellcomecollection.cdn.prismic.io/wellcomecollection/36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
@@ -816,12 +810,12 @@ export const eatShopList = {
         body: [],
         promo: {
           caption:
-            'Join us for delicious lunches, drinks and afternoon tea on level 2.',
+            'Join us for delicious lunches, drinks and afternoon tea in our bright, lively and fully licensed restaurant on level 2.',
           image: null,
           link: null,
         },
         promoText:
-          'Join us for delicious lunches, drinks and afternoon tea on level 2.',
+          'Join us for delicious lunches, drinks and afternoon tea in our bright, lively and fully licensed restaurant on level 2.',
         promoImage: null,
         image: null,
         squareImage: null,
@@ -838,12 +832,12 @@ export const eatShopList = {
         body: [],
         promo: {
           caption:
-            'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
+            'Catch up with friends over coffee and pastry, afternoon tea or a glass of wine in our café on the ground floor.',
           image: null,
           link: null,
         },
         promoText:
-          'Join us for a quick cup of coffee and a pastry, afternoon tea, or a light meal with a glass of wine.',
+          'Catch up with friends over coffee and pastry, afternoon tea or a glass of wine in our café on the ground floor.',
         promoImage: null,
         image: null,
         squareImage: null,
@@ -860,12 +854,12 @@ export const eatShopList = {
         body: [],
         promo: {
           caption:
-            'Books, stationery, gifts and toys for the incurably curious. Visit our shop on the ground floor, next to Wellcome Café.',
+            'Stretch your mind with books, stationery, gifts and toys themed around health and wellbeing.',
           image: null,
           link: null,
         },
         promoText:
-          'Books, stationery, gifts and toys for the incurably curious. Visit our shop on the ground floor, next to Wellcome Café.',
+          'Stretch your mind with books, stationery, gifts and toys themed around health and wellbeing.',
         promoImage: null,
         image: null,
         squareImage: null,
@@ -881,12 +875,12 @@ export const eatShopList = {
 export const pictureImages = [
   {
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/58311b341bbcab74990e2ad0917b51162452b58f_tf_190405_3790149.jpg',
+      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F4e2aafdb-aa29-4a7a-8689-be7d2ad64bc9_ep_000013_083.jpg',
     width: 3200,
     height: 1800,
     alt: '',
     tasl: {
-      title: "Naomi Paxton as the magician's assistant",
+      title: 'Wellcome Collection',
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
@@ -897,24 +891,6 @@ export const pictureImages = [
     crops: {},
     minWidth: '600px',
   },
-  {
-    contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/17c12bebf53c50311e288f2fe8654d8400a0129a_tf_190405_3790149.jpg',
-    width: 3200,
-    height: 3200,
-    alt: '',
-    tasl: {
-      title: "Naomi Paxton as the magician's assistant",
-      author: 'Thomas SG Farnetti',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC',
-      copyrightHolder: null,
-      copyrightLink: null,
-    },
-    crops: {},
-    minWidth: null,
-  },
 ];
 
 export const firstPara = {
@@ -923,7 +899,7 @@ export const firstPara = {
   value: [
     {
       type: 'paragraph',
-      text: 'We are located in central London and open to everyone.',
+      text: `We’re located in central London and we'd love to see you. All our exhibitions and most of our events are free and open to everyone.`,
       spans: [],
     },
   ],

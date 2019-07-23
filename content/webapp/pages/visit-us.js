@@ -161,7 +161,7 @@ const BespokeBody = (
             <MoreLink url={`/pages/Wuw19yIAAK1Z3Smk`} name={`Group visits`} />
           </VerticalSpace>
           <VerticalSpace size="m">
-            <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`School visits`} />
+            <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`Schools`} />
           </VerticalSpace>
         </div>
         <div

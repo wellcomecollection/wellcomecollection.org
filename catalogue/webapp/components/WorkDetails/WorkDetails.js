@@ -1,15 +1,21 @@
 // @flow
-import type { Node } from 'react';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
-import { type IIIFRendering } from '@weco/common/model/iiif';
+import { type Node, Fragment } from 'react';
+import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
+  getDownloadOptionsFromImageUrl,
+  getLocationType,
 } from '@weco/common/utils/works';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import {
+  getIIIFPresentationLicenceInfo,
+  getIIIFImageLicenceInfo,
+  getIIIFPresentationCredit,
+  getIIIFImageCredit,
+} from '@weco/common/utils/iiif';
+import NextLink from 'next/link';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -18,8 +24,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -68,62 +72,62 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  licenseInfo: ?LicenseData,
-  iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
-  downloadOptions: IIIFRendering[],
+  sierraId: ?string,
+  iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
 |};
 
 const WorkDetails = ({
   work,
-  licenseInfo,
-  iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
-  downloadOptions,
+  sierraId,
+  iiifPresentationManifest,
   encoreLink,
 }: Props) => {
-  const iiifPresentationManifest = useContext(ManifestContext);
-  const [
-    iiifPresentationDownloadOptions,
-    setIIIFPresentationDownloadOptions,
-  ] = useState([]);
-  const [
-    iiifPresentationLicenseInfo,
-    setIIIFPresentationLicenseInfo,
-  ] = useState(null);
-  const [iiifPresentationRepository, setIIIFPresentationRepository] = useState(
-    null
-  );
+  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationCredit =
+    iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
+
   const singularWorkTypeLabel = work.workType.label
     ? work.workType.label.replace(/s$/g, '').toLowerCase()
     : 'item';
+
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
 
   const WorkDetailsSections = [];
+
+  const iiifPresentationDownloadOptions = iiifPresentationManifest
+    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
+
   const allDownloadOptions = [
     ...downloadOptions,
     ...iiifPresentationDownloadOptions,
   ];
 
-  const definitiveLicenseInfo =
-    licenseInfo || (iiifPresentationLicenseInfo || null);
-  useEffect(() => {
-    if (iiifPresentationManifest) {
-      const iiifPresentationDownloadOptions =
-        getDownloadOptionsFromManifest(iiifPresentationManifest) || [];
-      setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
-      const iiifPresentationLicenseInfo = iiifPresentationManifest.license
-        ? getLicenseInfo(iiifPresentationManifest.license)
-        : '';
-      setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
-      setIIIFPresentationRepository(
-        getIIIFMetadata(iiifPresentationManifest, 'Repository')
-      );
-    }
-  }, [iiifPresentationManifest]);
+  const iiifPresentationLicenseInfo =
+    iiifPresentationManifest &&
+    getIIIFPresentationLicenceInfo(iiifPresentationManifest);
+
+  const iiifImageLicenseInfo =
+    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+
+  const iiifPresentationCredit =
+    iiifPresentationManifest &&
+    getIIIFPresentationCredit(iiifPresentationManifest);
+
+  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const credit = iiifPresentationCredit || iiifImageLocationCredit;
+
+  const iiifPresentationRepository =
+    iiifPresentationManifest &&
+    getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
@@ -144,11 +148,39 @@ const WorkDetails = ({
         >
           <Download
             work={work}
-            licenseInfo={definitiveLicenseInfo}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            iiifImageLocationCredit={iiifImageLocationCredit}
+            licenseInfo={licenseInfo}
+            credit={credit}
             downloadOptions={allDownloadOptions}
+            licenseInfoLink={true}
           />
+        </div>
+      </div>
+    );
+  } else if (sierraId) {
+    WorkDetailsSections.push(
+      <div
+        className={classNames({
+          grid: true,
+        })}
+      >
+        <div
+          className={classNames({
+            [grid({
+              s: 12,
+              m: 12,
+              l: 10,
+              xl: 10,
+            })]: true,
+          })}
+        >
+          <NextLink
+            {...downloadUrl({
+              workId: work.id,
+              sierraId: sierraId,
+            })}
+          >
+            <a>Download options</a>
+          </NextLink>
         </div>
       </div>
     );
@@ -288,14 +320,15 @@ const WorkDetails = ({
       </MetaUnit>
     </WorkDetailsSection>
   );
-  if (definitiveLicenseInfo) {
+
+  if (licenseInfo) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="License information">
         <div id="licenseInformation">
           <MetaUnit
             headingLevel={3}
             headingText="License information"
-            text={definitiveLicenseInfo.humanReadableText}
+            text={licenseInfo.humanReadableText}
           />
           <MetaUnit
             headingLevel={3}
@@ -303,18 +336,14 @@ const WorkDetails = ({
             text={[
               `${work.title.replace(/\.$/g, '')}.${' '}
               ${
-                iiifImageLocationCredit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${
-                      work.id
-                    }">${iiifImageLocationCredit}</a>. `
+                credit
+                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
                   : ` `
               }
               ${
-                definitiveLicenseInfo.url
-                  ? `<a href="${definitiveLicenseInfo.url}">${
-                      definitiveLicenseInfo.text
-                    }</a>`
-                  : definitiveLicenseInfo.text
+                licenseInfo.url
+                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                  : licenseInfo.text
               }`,
             ]}
           />
