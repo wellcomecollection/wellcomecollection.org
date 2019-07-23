@@ -82,7 +82,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
               id="work-info"
               className={classNames({
                 [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
+                [font('hnm', 1)]: true,
               })}
             >
               {title}
