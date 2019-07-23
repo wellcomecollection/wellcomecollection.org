@@ -14,24 +14,6 @@
   }
 }
 
-@each $breakpoint-key, $breakpoint-value in $grid-config {
-  @each $font-key, $font-value in $fonts {
-    $breakpoint-respond: map-get($breakpoint-value, 'respond');
-
-    .font-#{$font-key}-#{$breakpoint-key} {
-      @if (length($breakpoint-respond) > 1) {
-        @include respond-to(nth($breakpoint-respond, 1)) {
-          @include font($font-key);
-        }
-      } @else {
-        @include respond-to($breakpoint-respond) {
-          @include font($font-key);
-        }
-      }
-    }
-  }
-}
-
 @for $i from 1 through 5 {
   .border-width-#{$i} {
     border-width: #{$i}px;
@@ -447,7 +429,8 @@
 // This is for when we receive content from a CMS,
 // making it easier to style the first node
 .first-para-bold p:first-of-type {
-  @include font('HNM3');
+  @extend %font-hnm;
+  @extend %font-size-4;
   font-weight: bold;
 }
 
@@ -567,13 +550,8 @@
   }
 
   .promo-link__title {
-    @include respond-to('large') {
-      @include font('WB4');
-    }
-
-    @include respond-to('xlarge') {
-      @include font('WB3');
-    }
+    @extend %font-wb;
+    @extend %font-size-1;
   }
 }
 

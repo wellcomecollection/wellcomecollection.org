@@ -90,7 +90,8 @@
 }
 
 .styleguide__font__name {
-  @include font('HNM5');
+  @extend %font-hnm;
+  @extend %font-size-5;
   color: color('red');
 }
 
