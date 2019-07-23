@@ -65,8 +65,7 @@ const Tags = ({ tags }: Props) => {
                       <span
                         key={part}
                         className={classNames({
-                          [font('hnm', 5)]: i === 0,
-                          [font('hnl', 5)]: i !== 0,
+                          [font(i === 0 ? 'hnm' : 'hnl', 5)]: true,
                           [spacing({ s: 1 }, { margin: ['right'] })]:
                             i !== arr.length - 1,
                           'inline-block': true,
