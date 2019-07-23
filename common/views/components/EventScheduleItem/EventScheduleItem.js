@@ -45,7 +45,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               return (
                 <p
                   key={`${event.title} ${startTimeString}`}
-                  className={`${font('hnm', 4)} no-margin`}
+                  className={`${font('hnm', 5)} no-margin`}
                 >
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
@@ -66,7 +66,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               </div>
             )}
             <h3
-              className={`${font('wb', 5)} ${spacing(
+              className={`h2 ${spacing(
                 { s: 0 },
                 { margin: ['top'] }
               )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`}
@@ -76,8 +76,8 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             {event.place && (
               <p
                 className={`${spacing({ s: 1 }, { margin: ['bottom'] })} ${font(
-                  'hnm',
-                  4
+                  'hnl',
+                  5
                 )}`}
               >
                 {event.place.title}
@@ -87,14 +87,14 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             <p
               className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
                 'hnl',
-                4
+                5
               )}`}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
             {!isNotLinked && (
               <div className={spacing({ s: 2 }, { margin: ['top', 'bottom'] })}>
-                <p className={`${font('hnl', 4)} no-margin`}>
+                <p className={`${font('hnl', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className={`visually-hidden`}>
@@ -115,7 +115,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   )} ${spacing(
                     { s: 2 },
                     { padding: ['top', 'bottom'] }
-                  )} ${font('hnm', 4)}`}
+                  )} ${font('hnm', 5)}`}
                 >
                   {/* TODO: work out why the second method below will fail Flow without a null check */}
                   <span>

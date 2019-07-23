@@ -46,7 +46,7 @@ type State = {|
 function EventStatus(text, color) {
   return (
     <div className="flex">
-      <div className={`${font('hnm', 4)} flex flex--v-center`}>
+      <div className={`${font('hnm', 6)} flex flex--v-center`}>
         <span
           className={`${spacing(
             { s: 1 },
@@ -382,7 +382,7 @@ class EventPage extends Component<Props, State> {
                       />
                       {event.thirdPartyBooking.name && (
                         <p
-                          className={`font-charcoal ${font('hnl', 4)} ${spacing(
+                          className={`font-charcoal ${font('hnl', 5)} ${spacing(
                             { s: 1 },
                             { margin: ['top'] }
                           )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
@@ -430,7 +430,7 @@ class EventPage extends Component<Props, State> {
                       className={classNames({
                         'block font-charcoal': true,
                         [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                        [font('hnm', 4)]: true,
+                        [font('hnm', 5)]: true,
                       })}
                     >
                       <span>{event.bookingEnquiryTeam.email}</span>

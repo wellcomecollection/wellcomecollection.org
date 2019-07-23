@@ -144,7 +144,7 @@ const Download = ({ work, licenseInfo, credit, downloadOptions }: Props) => {
         <DownloadOptions
           id="downloadOptions"
           className={classNames({
-            [font('hnm', 4)]: true,
+            [font('hnm', 5)]: true,
             'enhanced-styles': useJavascriptControl,
             show: showDownloads,
           })}

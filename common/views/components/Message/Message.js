@@ -12,7 +12,7 @@ const Message = ({ text }: Props) => (
       'inline-block': true,
       [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
       [spacing({ s: 2 }, { padding: ['top', 'bottom'] })]: true,
-      [font('hnm', 4)]: true,
+      [font('hnm', 5)]: true,
     })}
   >
     {text}
