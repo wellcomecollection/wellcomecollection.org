@@ -15,7 +15,7 @@
 
 .styleguide__icon__id {
   @extend %font-lr;
-  @extend %font-size-4;
+  @extend %font-size-6;
   hyphens: auto;
 }
 
@@ -63,16 +63,16 @@
 
 .styleguide__palette__name {
   @extend %font-lr;
-  @extend %font-size-4;
+  @extend %font-size-6;
 }
 
 .styleguide__palette__hex {
   @extend %font-lr;
-  @extend %font-size-4;
+  @extend %font-size-6;
 }
 
 .styleguide__palette__code {
-  font-family: $lettera-regular;
+  @extend %font-lr;
 }
 
 .styleguide__icon-wrap {

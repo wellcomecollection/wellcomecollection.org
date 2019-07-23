@@ -157,7 +157,7 @@ const VenueHours = ({ venue, weight }: Props) => {
         <ul
           className={classNames({
             'plain-list no-padding no-margin': true,
-            [font('hnm', 4)]: true,
+            [font('hnl', 5)]: true,
           })}
         >
           {venue.openingHours.regular.map(({ dayOfWeek, opens, closes }) => (
@@ -186,7 +186,7 @@ const VenueHours = ({ venue, weight }: Props) => {
             >
               <h3
                 className={classNames({
-                  [font('hnm', 4)]: true,
+                  [font('hnm', 5)]: true,
                 })}
               >
                 <div
@@ -206,7 +206,7 @@ const VenueHours = ({ venue, weight }: Props) => {
               <ul
                 className={classNames({
                   'plain-list no-padding no-margin': true,
-                  [font('hnm', 4)]: true,
+                  [font('hnl', 5)]: true,
                 })}
               >
                 {upcomingExceptionalPeriod.map(p => (

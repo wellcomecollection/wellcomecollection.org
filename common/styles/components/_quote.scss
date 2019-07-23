@@ -20,7 +20,7 @@
   position: relative;
 
   &:before {
-    font-family: $wellcome-bold;
+    @extend %font-wb;
     position: absolute;
     content: '\201c';
     color: color('teal');

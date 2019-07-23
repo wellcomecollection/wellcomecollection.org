@@ -64,7 +64,7 @@ class InfoBanner extends React.Component<Props, State> {
                 <div
                   className={`flex flex--v-center flex--h-space-between ${font(
                     'hnl',
-                    4
+                    5
                   )}`}
                 >
                   <div>
