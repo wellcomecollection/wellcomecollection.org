@@ -6,6 +6,7 @@ import { getPositionInSeries, getArticleColor } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   item: Article,
@@ -62,17 +63,16 @@ const StoryPromo = ({
         )}
       </div>
 
-      <div
+      <VerticalSpace
+        size="m"
+        properties={['padding-top', 'padding-bottom']}
         className={classNames({
-          'story-promo__text': true,
-          'flex flex--column flex-1': true,
+          'story-promo__text flex flex--column flex-1': true,
           'flex--h-space-between': !hasTransparentBackground,
-          [spacing({ s: 2 }, { padding: ['top'] })]: true,
           [spacing(
             { s: hasTransparentBackground ? 0 : 2 },
             { padding: ['left', 'right'] }
           )]: true,
-          [spacing({ s: 4 }, { padding: ['bottom'] })]: true,
         })}
       >
         <div>
@@ -82,41 +82,38 @@ const StoryPromo = ({
               color={getArticleColor(item)}
             />
           )}
-          <h2
+          <VerticalSpace
+            as="h2"
+            size="s"
             className={`
             promo-link__title
             ${font('wb', 4)}
-            ${spacing({ s: 0 }, { margin: ['top'] })}
-            ${spacing({ s: 1 }, { margin: ['bottom'] })}
           `}
           >
             {item.title}
-          </h2>
+          </VerticalSpace>
           {!hidePromoText && (
-            <div
+            <p
               className={classNames({
-                'inline-block': true,
+                'inline-block no-margin': true,
                 [font('hnl', 5)]: true,
-                [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
               })}
             >
               {item.promoText}
-            </div>
+            </p>
           )}
         </div>
 
-        <div>
-          {item.series.length > 0 && (
-            <div className={spacing({ s: 4 }, { margin: ['top'] })}>
-              {item.series.map(series => (
-                <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
-                  <span className={font('hnl', 6)}>Part of</span> {series.title}
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+        {item.series.length > 0 && (
+          <VerticalSpace size="l" properties={['margin-top']}>
+            {item.series.map(series => (
+              <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
+                <span className={font('hnl', 6)}>Part of</span> {series.title}
+              </p>
+            ))}
+          </VerticalSpace>
+        )}
+      </VerticalSpace>
     </a>
   );
 };

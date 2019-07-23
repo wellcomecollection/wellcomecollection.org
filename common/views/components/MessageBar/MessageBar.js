@@ -2,6 +2,7 @@
 import { type Node } from 'react';
 import styled from 'styled-components';
 import { classNames, font, spacing } from '../../../utils/classnames';
+import VerticalSpace from '../styled/VerticalSpace';
 
 const PurpleTag = styled.span.attrs(props => ({
   className: classNames({
@@ -22,14 +23,15 @@ type Props = {|
 |};
 
 const MessageBar = ({ tagText, children }: Props) => (
-  <div
+  <VerticalSpace
+    size="m"
+    properties={['padding-top', 'padding-bottom']}
     className={classNames({
       [font('hnl', 5)]: true,
-      [spacing({ s: 3 }, { padding: ['top', 'bottom'] })]: true,
     })}
   >
     {tagText && <PurpleTag>{tagText}</PurpleTag>}
     {children}
-  </div>
+  </VerticalSpace>
 );
 export default MessageBar;

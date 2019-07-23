@@ -3,6 +3,7 @@ import { Component, Fragment } from 'react';
 import { classNames, spacing, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   id: string,
@@ -60,13 +61,12 @@ class SegmentedControl extends Component<Props, State> {
               .filter(item => item.id === activeId)
               .map(item => (
                 <Fragment key={item.id}>
-                  <span
+                  <VerticalSpace
+                    size="m"
+                    properties={['padding-top', 'padding-bottom']}
                     className={classNames({
                       [font('wb', 4)]: true,
-                      [spacing(
-                        { s: 2 },
-                        { padding: ['top', 'right', 'bottom', 'left'] }
-                      )]: true,
+                      [spacing({ s: 2 }, { padding: ['right', 'left'] })]: true,
                       'segmented-control__button-text': true,
                       flex: true,
                       'bg-black': true,
@@ -78,7 +78,7 @@ class SegmentedControl extends Component<Props, State> {
                   >
                     <span>{item.text}</span>
                     <Icon name="chevron" extraClasses="icon--white" />
-                  </span>
+                  </VerticalSpace>
                   <span
                     className="segmented-control__close"
                     onClick={() => this.setState({ isActive: false })}
@@ -96,23 +96,25 @@ class SegmentedControl extends Component<Props, State> {
               'bg-white': true,
             })}
           >
-            <span
+            <VerticalSpace
+              size="m"
               className={classNames({
-                [spacing({ s: 3 }, { margin: ['bottom'] })]: true,
                 'segmented-control__label': true,
                 block: true,
               })}
             >
               See:
-            </span>
+            </VerticalSpace>
 
             <ul className="segmented-control__drawer-list no-margin no-padding plain-list">
               {items.map((item, i) => (
-                <li
+                <VerticalSpace
+                  as="li"
+                  size="m"
+                  properties={['padding-top', 'padding-bottom']}
                   key={item.id}
                   className={classNames({
                     [font('wb', 4)]: true,
-                    [spacing({ s: 3 }, { padding: ['top', 'bottom'] })]: true,
                     'border-top-width-1': i === 0,
                     'segmented-control__drawer-item': true,
                     'border-bottom-width-1': true,
@@ -150,7 +152,7 @@ class SegmentedControl extends Component<Props, State> {
                   >
                     {item.text}
                   </a>
-                </li>
+                </VerticalSpace>
               ))}
             </ul>
             <span className="visually-hidden">reset focus</span>
@@ -180,7 +182,10 @@ class SegmentedControl extends Component<Props, State> {
                 flex: true,
               })}
             >
-              <a
+              <VerticalSpace
+                as="a"
+                properties={['padding-top', 'padding-bottom']}
+                size="m"
                 onClick={e => {
                   const url = e.target.getAttribute('href');
                   const isHash = url.startsWith('#');
@@ -201,10 +206,7 @@ class SegmentedControl extends Component<Props, State> {
                 }}
                 href={item.url}
                 className={classNames({
-                  [spacing(
-                    { s: 2 },
-                    { padding: ['top', 'right', 'bottom', 'left'] }
-                  )]: true,
+                  [spacing({ s: 2 }, { padding: ['right', 'left'] })]: true,
                   'is-active bg-black font-white bg-hover-pewter':
                     item.id === activeId,
                   'bg-white font-black bg-hover-pumice': item.id !== activeId,
@@ -216,7 +218,7 @@ class SegmentedControl extends Component<Props, State> {
                 })}
               >
                 {item.text}
-              </a>
+              </VerticalSpace>
             </li>
           ))}
         </ul>

@@ -33,6 +33,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked } from '@weco/common/model/events';
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -70,12 +71,11 @@ function DateList(event) {
       <Fragment>
         {event.times.map((eventTime, index) => {
           return (
-            <div
+            <VerticalSpace
+              size="m"
+              properties={['padding-top', 'padding-bottom']}
               key={index}
-              className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing(
-                { s: 2 },
-                { padding: ['top', 'bottom'] }
-              )}`}
+              className={`flex flex--h-space-between border-top-width-1 border-color-pumice`}
             >
               <div
                 className={`${
@@ -93,7 +93,7 @@ function DateList(event) {
               ) : eventTime.isFullyBooked ? (
                 EventStatus('Full', 'red')
               ) : null}
-            </div>
+            </VerticalSpace>
           );
         })}
       </Fragment>
@@ -273,10 +273,10 @@ class EventPage extends Component<Props, State> {
         }
         ContentTypeInfo={
           <Fragment>
-            <div
+            <VerticalSpace
+              size="s"
               className={classNames({
                 'flex flex--wrap': true,
-                [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
               })}
             >
               <EventDateRange event={event} />
@@ -287,7 +287,7 @@ class EventPage extends Component<Props, State> {
               >
                 {!event.isPast && <EventDatesLink id={event.id} />}
               </div>
-            </div>
+            </VerticalSpace>
             {event.isPast && EventStatus('Past', 'marble')}
             {!event.isPast &&
               isEventFullyBooked(event) &&
@@ -355,7 +355,11 @@ class EventPage extends Component<Props, State> {
 
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
             <Fragment>
-              {event.eventbriteId && <EventbriteButton event={event} />}
+              {event.eventbriteId && (
+                <VerticalSpace size="m">
+                  <EventbriteButton event={event} />
+                </VerticalSpace>
+              )}
 
               {event.thirdPartyBooking && (
                 <Fragment>
@@ -381,14 +385,16 @@ class EventPage extends Component<Props, State> {
                         text="Check for tickets"
                       />
                       {event.thirdPartyBooking.name && (
-                        <p
-                          className={`font-charcoal ${font('hnl', 5)} ${spacing(
-                            { s: 1 },
-                            { margin: ['top'] }
-                          )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
-                        >
-                          with {event.thirdPartyBooking.name}
-                        </p>
+                        <VerticalSpace size="s" properties={['margin-top']}>
+                          <p
+                            className={`no-margin font-charcoal ${font(
+                              'hnl',
+                              5
+                            )}`}
+                          >
+                            with {event.thirdPartyBooking.name}
+                          </p>
+                        </VerticalSpace>
                       )}
                     </Fragment>
                   )}
@@ -426,15 +432,17 @@ class EventPage extends Component<Props, State> {
                         : ''
                     }?subject=${event.title}`}
                   >
-                    <a
+                    <VerticalSpace
+                      as="a"
+                      size="s"
+                      properties={['margin-top']}
                       className={classNames({
                         'block font-charcoal': true,
-                        [spacing({ s: 1 }, { margin: ['top'] })]: true,
                         [font('hnm', 5)]: true,
                       })}
                     >
                       <span>{event.bookingEnquiryTeam.email}</span>
-                    </a>
+                    </VerticalSpace>
                   </NextLink>
                 </Fragment>
               )}
@@ -444,18 +452,14 @@ class EventPage extends Component<Props, State> {
                 !(event.schedule && event.schedule.length > 1) && (
                   <Fragment>
                     {!event.hasEarlyRegistration && !event.cost && (
-                      <div
-                        className={spacing({ s: 4 }, { margin: ['bottom'] })}
-                      >
+                      <VerticalSpace size="l">
                         <Message text="Just turn up" />
-                      </div>
+                      </VerticalSpace>
                     )}
                     {event.hasEarlyRegistration && (
-                      <div
-                        className={spacing({ s: 4 }, { margin: ['bottom'] })}
-                      >
+                      <VerticalSpace size="l">
                         <Message text="Arrive early to register" />
-                      </div>
+                      </VerticalSpace>
                     )}
                   </Fragment>
                 )}

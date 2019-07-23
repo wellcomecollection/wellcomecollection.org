@@ -2,7 +2,8 @@
 import type { UiEvent } from '../../../model/events';
 import Button from '../Buttons/Button/Button';
 import { Fragment } from 'react';
-import { spacing, font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {
   event: UiEvent,
@@ -12,27 +13,29 @@ type Props = {
 // FIXME: iframe is set to display none, don't when we fix EB
 const EventbriteButton = ({ event }: Props) => {
   return (
-    <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
+    <div>
       {event.isCompletelySoldOut ? (
         <Button type="primary" disabled={true} text="Fully booked" />
       ) : (
         <Fragment>
-          <Button
-            type="primary"
-            url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
-            trackingEvent={{
-              category: 'component',
-              action: 'booking-tickets:click',
-              label: 'event-page',
-            }}
-            icon="ticket"
-            text="Check for tickets"
-          />
+          <VerticalSpace size="s">
+            <Button
+              type="primary"
+              url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
+              trackingEvent={{
+                category: 'component',
+                action: 'booking-tickets:click',
+                label: 'event-page',
+              }}
+              icon="ticket"
+              text="Check for tickets"
+            />
+          </VerticalSpace>
           <p
-            className={`font-charcoal ${font('hnl', 4)} ${spacing(
-              { s: 1 },
-              { margin: ['top'] }
-            )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
+            className={classNames({
+              'font-charcoal no-margin': true,
+              [font('hnl', 4)]: true,
+            })}
           >
             with Eventbrite
           </p>

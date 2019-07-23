@@ -1,12 +1,7 @@
 // @flow
 import type { Context } from 'next';
 import { Component } from 'react';
-import {
-  classNames,
-  font,
-  spacing,
-  cssGrid,
-} from '@weco/common/utils/classnames';
+import { classNames, font, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -26,6 +21,7 @@ import { type UiExhibition } from '@weco/common/model/exhibitions';
 import { type UiEvent } from '@weco/common/model/events';
 import { type Article } from '@weco/common/model/articles';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -97,15 +93,17 @@ export class HomePage extends Component<Props> {
                   [cssGrid({ s: 12, m: 12, l: 10, xl: 9 })]: true,
                 })}
               >
-                <h1
+                <VerticalSpace
+                  as="h1"
+                  size="m"
+                  properties={['margin-top']}
                   className={classNames({
+                    'no-margin': true,
                     [font('wb', 1)]: true,
-                    [spacing({ s: 3 }, { margin: ['top'] })]: true,
-                    [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
                   })}
                 >
                   The free museum and library for the incurably curious
-                </h1>
+                </VerticalSpace>
               </div>
             </div>
           </div>

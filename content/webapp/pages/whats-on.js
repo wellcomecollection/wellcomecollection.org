@@ -1,5 +1,9 @@
 // @flow
 import type { Context } from 'next';
+import { type UiExhibition } from '@weco/common/model/exhibitions';
+import { type UiEvent } from '@weco/common/model/events';
+import { type Period } from '@weco/common/model/periods';
+import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
 import {
@@ -40,10 +44,7 @@ import OpeningTimesContext from '@weco/common/views/components/OpeningTimesConte
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { type UiExhibition } from '@weco/common/model/exhibitions';
-import { type UiEvent } from '@weco/common/model/events';
-import { type Period } from '@weco/common/model/periods';
-import { type PaginatedResults } from '@weco/common/services/prismic/types';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -139,11 +140,12 @@ const DateRange = ({
 
   return (
     <Fragment>
-      <p
+      <VerticalSpace
+        as="p"
+        size="s"
+        properties={['margin-bottom']}
         className={classNames({
           [font('hnm', 5)]: true,
-          [spacing({ s: 0 }, { margin: ['top'] })]: true,
-          [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
         })}
       >
         {period === 'today' && (
@@ -161,30 +163,27 @@ const DateRange = ({
             From <time dateTime={fromDate}>{formatDate(fromDate)}</time>
           </Fragment>
         )}
-      </p>
+      </VerticalSpace>
       {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
         period === 'today' && (
           <Fragment>
-            <p
+            <VerticalSpace
+              as="p"
+              size="m"
               className={classNames({
                 [font('wb', 2)]: true,
-                [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
               })}
             >
               Our exhibitions are closed today, but our{' '}
               <a href={cafePromo.url}>café</a> and{' '}
               <a href={shopPromo.url}>shop</a> are open for your visit.
-            </p>
-            <div
-              className={classNames({
-                [spacing(
-                  { s: 3, m: 4, l: 5 },
-                  { margin: ['top', 'bottom'] }
-                )]: true,
-              })}
+            </VerticalSpace>
+            <VerticalSpace
+              size="l"
+              properties={['margin-top', 'margin-bottom']}
             >
               <Divider extraClasses={'divider--dashed'} />
-            </div>
+            </VerticalSpace>
           </Fragment>
         )}
     </Fragment>
@@ -202,11 +201,12 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
   const todayOpeningHours = listHeader.todayOpeningHours;
 
   return (
-    <div
+    <VerticalSpace
+      size="l"
+      properties={['padding-top', 'padding-bottom']}
       className={classNames({
         row: true,
         'bg-cream': true,
-        [spacing({ s: 3, m: 5, l: 5 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
       <div className="container">
@@ -258,10 +258,11 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
               </div>
             </div>
           </div>
-          <div
+          <VerticalSpace
+            size="m"
+            properties={['margin-top', 'margin-bottom']}
             className={classNames({
               [grid({ s: 12, m: 10, l: 8, xl: 6 })]: true,
-              [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
             })}
           >
             <SegmentedControl
@@ -285,10 +286,10 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                 },
               ]}
             />
-          </div>
+          </VerticalSpace>
         </div>
       </div>
-    </div>
+    </VerticalSpace>
   );
 };
 
@@ -364,21 +365,10 @@ export class WhatsOnPage extends Component<Props> {
             <Fragment>
               <Header activeId={period} openingTimes={openingTimes} />
 
-              <div
-                className={classNames({
-                  [spacing({ s: 2, m: 4 }, { margin: ['top'] })]: true,
-                })}
-              >
+              <VerticalSpace size="l" properties={['margin-top']}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
-                    <div
-                      className={classNames({
-                        [spacing(
-                          { s: 3, m: 5, l: 5 },
-                          { margin: ['top'] }
-                        )]: true,
-                      })}
-                    >
+                    <VerticalSpace size="l" properties={['padding-top']}>
                       <SpacingSection>
                         <Layout12>
                           <DateRange
@@ -421,45 +411,29 @@ export class WhatsOnPage extends Component<Props> {
                           />
                         </SpacingComponent>
                       </SpacingSection>
-                    </div>
+                    </VerticalSpace>
                   </Fragment>
                 )}
                 {period !== 'current-and-coming-up' && (
                   <SpacingSection>
-                    <div
-                      className={classNames({
-                        [spacing(
-                          { s: 3, m: 5, l: 5 },
-                          { margin: ['top'] }
-                        )]: true,
-                        [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-                      })}
+                    <VerticalSpace
+                      size="m"
+                      properties={['padding-top', 'margin-bottom']}
                     >
                       <Layout12>
-                        <div
-                          className={classNames({
-                            [spacing(
-                              { s: 0 },
-                              { margin: ['top', 'bottom'] }
-                            )]: true,
-                          })}
-                        >
-                          <DateRange
-                            dateRange={dateRange}
-                            period={period}
-                            cafePromo={eatShopPromos[0]}
-                            shopPromo={eatShopPromos[1]}
-                            openingTimes={openingTimes}
-                          />
-                          <div className="flex flex--v-center flex--h-space-between">
-                            <h2 className="h1">Exhibitions and Events</h2>
-                            <span className={font('hnm', 4)}>
-                              Free admission
-                            </span>
-                          </div>
+                        <DateRange
+                          dateRange={dateRange}
+                          period={period}
+                          cafePromo={eatShopPromos[0]}
+                          shopPromo={eatShopPromos[1]}
+                          openingTimes={openingTimes}
+                        />
+                        <div className="flex flex--v-center flex--h-space-between">
+                          <h2 className="h1">Exhibitions and Events</h2>
+                          <span className={font('hnm', 4)}>Free admission</span>
                         </div>
                       </Layout12>
-                    </div>
+                    </VerticalSpace>
                     <ExhibitionsAndEvents
                       exhibitions={exhibitions}
                       events={
@@ -476,7 +450,7 @@ export class WhatsOnPage extends Component<Props> {
                     />
                   </SpacingSection>
                 )}
-              </div>
+              </VerticalSpace>
 
               <SpacingSection>
                 <SpacingComponent>

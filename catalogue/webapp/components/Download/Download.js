@@ -88,9 +88,16 @@ type Props = {|
   licenseInfo: ?LicenseData,
   credit: ?string,
   downloadOptions: IIIFRendering[],
+  licenseInfoLink: boolean,
 |};
 
-const Download = ({ work, licenseInfo, credit, downloadOptions }: Props) => {
+const Download = ({
+  work,
+  licenseInfo,
+  credit,
+  downloadOptions,
+  licenseInfoLink,
+}: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
   useEffect(() => {
@@ -224,7 +231,7 @@ const Download = ({ work, licenseInfo, credit, downloadOptions }: Props) => {
               Credit: {credit}{' '}
             </span>
           )}
-          {licenseInfo && (
+          {licenseInfo && licenseInfoLink && (
             <a
               href="#licenseInformation"
               className={classNames({

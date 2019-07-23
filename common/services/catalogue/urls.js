@@ -29,6 +29,11 @@ type ItemUrlProps = {|
   isOverview?: boolean,
 |};
 
+type downloadUrlProps = {|
+  workId: string,
+  sierraId: ?string,
+|};
+
 function removeEmpty(obj: Object): Object {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -110,6 +115,29 @@ export function itemUrl({
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
         langCode: langCode,
+      }),
+    },
+  };
+}
+
+export function downloadUrl({
+  workId,
+  sierraId,
+}: downloadUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/download`,
+      query: {
+        workId,
+        ...removeEmpty({
+          sierraId: sierraId,
+        }),
+      },
+    },
+    as: {
+      pathname: `/works/${workId}/download`,
+      query: removeEmpty({
+        sierraId: sierraId,
       }),
     },
   };

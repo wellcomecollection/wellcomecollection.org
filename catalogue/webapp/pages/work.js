@@ -5,9 +5,9 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { useEffect, useState, type Node } from 'react';
+import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getEncoreLink,
@@ -33,25 +33,8 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
-
-type WobblyProps = {|
-  children: Node,
-|};
-
-const WobblyRow = ({ children }: WobblyProps) => (
-  <div
-    className={classNames({
-      'row bg-cream row--has-wobbly-background': true,
-    })}
-  >
-    <div className="container">
-      <div className="grid">
-        <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>{children}</div>
-      </div>
-    </div>
-    <div className="row__wobbly-background" />
-  </div>
-);
+import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -173,10 +156,11 @@ export const WorkPage = ({ work }: Props) => {
         <BetaBar />
       </Layout12>
 
-      <div
+      <VerticalSpace
+        size="l"
+        properties={['padding-top']}
         className={classNames({
           'bg-cream': true,
-          [spacing({ s: 4 }, { padding: ['top'] })]: true,
         })}
       >
         <div className="container">
@@ -194,22 +178,24 @@ export const WorkPage = ({ work }: Props) => {
           </div>
 
           <div className="grid">
-            <div
+            <VerticalSpace
+              size="s"
+              properties={['padding-top', 'padding-bottom']}
               className={classNames({
                 [grid({ s: 12 })]: true,
-                [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
               })}
             >
               <BackToResults />
-            </div>
+            </VerticalSpace>
           </div>
         </div>
-      </div>
+      </VerticalSpace>
 
-      <div
+      <VerticalSpace
+        size="xl"
+        properties={['padding-top']}
         className={classNames({
           row: true,
-          [spacing({ s: 6 }, { padding: ['top'] })]: true,
         })}
       >
         <div className="container">
@@ -217,44 +203,36 @@ export const WorkPage = ({ work }: Props) => {
             <WorkHeader work={work} />
           </div>
         </div>
-      </div>
+      </VerticalSpace>
       <TogglesContext.Consumer>
         {({ showMultiVolumePreviews }) => (
           <>
             {!showMultiVolumePreviews && iiifPresentationManifests ? (
-              <WobblyRow>
-                <div
-                  className={classNames({
-                    [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-                  })}
-                >
-                  <BetaMessage message="We are working to make this item available online in July 2019." />
-                </div>
-              </WobblyRow>
+              <VerticalSpace size="l">
+                <BetaMessage message="We are working to make this item available online in July 2019." />
+              </VerticalSpace>
             ) : (
               iiifPresentationManifests &&
               iiifPresentationManifests.map((manifest, i) => (
                 <ManifestContext.Provider value={manifest} key={i}>
                   <SpacingComponent>
-                    <WobblyRow>
-                      {sierraIdFromPresentationManifestUrl &&
-                        !iiifImageLocationUrl && (
-                          <IIIFPresentationPreview
-                            iiifPresentationLocation={iiifPresentationLocation}
-                            itemUrl={itemUrl({
-                              workId: work.id,
-                              sierraId:
-                                manifest['@id'].match(
-                                  /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                                )[1] || sierraIdFromPresentationManifestUrl,
-                              langCode: work.language && work.language.id,
-                              page: 1,
-                              canvas: 1,
-                              isOverview: true,
-                            })}
-                          />
-                        )}
-                    </WobblyRow>
+                    {sierraIdFromPresentationManifestUrl &&
+                      !iiifImageLocationUrl && (
+                        <IIIFPresentationPreview
+                          iiifPresentationLocation={iiifPresentationLocation}
+                          itemUrl={itemUrl({
+                            workId: work.id,
+                            sierraId:
+                              manifest['@id'].match(
+                                /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                              )[1] || sierraIdFromPresentationManifestUrl,
+                            langCode: work.language && work.language.id,
+                            page: 1,
+                            canvas: 1,
+                            isOverview: true,
+                          })}
+                        />
+                      )}
                   </SpacingComponent>
                 </ManifestContext.Provider>
               ))
@@ -264,23 +242,21 @@ export const WorkPage = ({ work }: Props) => {
       </TogglesContext.Consumer>
 
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!iiifPresentationManifests && (
-          <WobblyRow>
-            {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-              <IIIFPresentationPreview
-                iiifPresentationLocation={iiifPresentationLocation}
-                itemUrl={itemUrl({
-                  workId: work.id,
-                  sierraId: sierraIdFromPresentationManifestUrl,
-                  langCode: work.language && work.language.id,
-                  page: 1,
-                  canvas: 1,
-                  isOverview: true,
-                })}
-              />
-            )}
-          </WobblyRow>
-        )}
+        {!iiifPresentationManifests &&
+          sierraIdFromPresentationManifestUrl &&
+          !iiifImageLocationUrl && (
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+              itemUrl={itemUrl({
+                workId: work.id,
+                sierraId: sierraIdFromPresentationManifestUrl,
+                langCode: work.language && work.language.id,
+                page: 1,
+                canvas: 1,
+                isOverview: true,
+              })}
+            />
+          )}
       </ManifestContext.Provider>
 
       {iiifImageLocationUrl && (
@@ -302,6 +278,7 @@ export const WorkPage = ({ work }: Props) => {
 
       <WorkDetails
         work={work}
+        sierraId={sierraIdFromPresentationManifestUrl}
         iiifPresentationManifest={iiifPresentationManifest}
         encoreLink={encoreLink}
       />

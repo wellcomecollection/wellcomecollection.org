@@ -1,14 +1,15 @@
 import styled from 'styled-components';
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { spacing, font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import type { NextLinkType } from '@weco/common/model/next-link-type';
+import VerticalSpace from '../styled/VerticalSpace';
 
 export type TagType = {|
   textParts: string[],
   linkAttributes: NextLinkType,
 |};
 
-const Tag = styled.div`
+const Tag = styled(VerticalSpace)`
   border-radius: 3px;
   text-decoration: none;
   padding: 0.2em 0.5em;
@@ -21,16 +22,10 @@ type Props = {
 
 const Tags = ({ tags }: Props) => {
   return (
-    <div
-      className={classNames({
-        // Cancel out space below individual tags
-        [spacing({ s: -2 }, { margin: ['bottom'] })]: true,
-      })}
-    >
+    <VerticalSpace size="s" negative>
       <ul
         className={classNames({
-          'plain-list': true,
-          [spacing({ s: 0 }, { padding: ['left'], margin: ['top'] })]: true,
+          'plain-list no-margin no-padding': true,
         })}
       >
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
@@ -45,9 +40,9 @@ const Tags = ({ tags }: Props) => {
               <NextLink {...linkAttributes}>
                 <a>
                   <Tag
+                    size="s"
                     className={classNames({
                       [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                      [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
                       'line-height-1': true,
                       'inline-block bg-hover-green font-hover-white': true,
                       'border-color-green border-width-1': true,
@@ -97,7 +92,7 @@ const Tags = ({ tags }: Props) => {
           );
         })}
       </ul>
-    </div>
+    </VerticalSpace>
   );
 };
 
