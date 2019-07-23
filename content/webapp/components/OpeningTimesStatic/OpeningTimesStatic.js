@@ -25,7 +25,7 @@ const OpeningTimesStatic = () => (
 
     <h2
       className={classNames({
-        [font({ s: 'WB6', m: 'WB5' })]: true,
+        [font('wb', 3)]: true,
       })}
       id="regular"
     >
@@ -172,7 +172,7 @@ const OpeningTimesStatic = () => (
 
     <h2
       className={classNames({
-        [font({ s: 'WB6', m: 'WB5' })]: true,
+        [font('wb', 3)]: true,
       })}
     >
       Eat and shop
@@ -340,7 +340,7 @@ const OpeningTimesStatic = () => (
 
     <h2
       className={classNames({
-        [font({ s: 'WB6', m: 'WB5' })]: true,
+        [font('wb', 3)]: true,
       })}
       id="planned"
     >

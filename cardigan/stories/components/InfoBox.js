@@ -2,7 +2,6 @@ import { storiesOf } from '@storybook/react';
 import InfoBox from '../../../common/views/components/InfoBox/InfoBox';
 import { boolean, text } from '@storybook/addon-knobs/react';
 import Readme from '../../../common/views/components/InfoBox/README.md';
-import { font } from '../../../common/utils/classnames';
 
 const InfoBoxExample = () => {
   const title = text('Title', 'Visit us');
@@ -115,7 +114,7 @@ const InfoBoxExample = () => {
       ]}
     >
       {hasMoreInfoLink && (
-        <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+        <p className={`no-margin font-hnl font-size-5`}>
           <a href="/access">More information link</a>
         </p>
       )}

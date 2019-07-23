@@ -109,7 +109,7 @@ class CopyUrl extends Component<Props, State> {
           label="share url"
           defaultValue={url}
           isLabelHidden={true}
-          fontStyles={{ s: 'HNL5', m: 'HNL4' }}
+          fontStyles={('hnl', 4)}
         />
 
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
@@ -119,9 +119,10 @@ class CopyUrl extends Component<Props, State> {
           aria-live="polite"
           onClick={this.handleButtonClick}
           data-copy-text={url}
-          className={`${spacing({ s: 2 }, { margin: ['top'] })} ${font({
-            s: 'HNM5',
-          })} btn btn--tertiary flex-inline flex--v-center ${
+          className={`${spacing({ s: 2 }, { margin: ['top'] })} ${font(
+            'hnm',
+            5
+          )} btn btn--tertiary flex-inline flex--v-center ${
             this.state.isEnhanced ? '' : 'is-hidden'
           } js-copy-url pointer`}
         >

@@ -58,7 +58,7 @@ const EventBookingButton = ({ event }: Props) => {
       {getBookingEnquiryMarkup(event)}
       {team && (
         <a
-          className={`block font-charcoal ${font({ s: 'HNL5' })} ${spacing(
+          className={`block font-charcoal ${font('hnl', 4)} ${spacing(
             { s: 1 },
             { margin: ['top'] }
           )}`}

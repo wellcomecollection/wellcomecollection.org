@@ -174,7 +174,7 @@ class GifVideo extends Component<Props, State> {
             >
               <span
                 className={classNames({
-                  [font({ s: 'LR3' })]: true,
+                  [font('lr', 5)]: true,
                   'gif-video__text block': true,
                   'gif-video__text--is-playing': isPlaying,
                 })}

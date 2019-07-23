@@ -55,7 +55,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
       <div className="book-promo__text-container">
         {title && (
           <h3
-            className={`book-promo__title ${font({ s: 'HNM3' })} ${spacing(
+            className={`book-promo__title ${font('hnm', 4)} ${spacing(
               { s: 0 },
               { margin: ['top', 'bottom'] }
             )}`}
@@ -66,7 +66,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
 
         {subtitle && (
           <h4
-            className={`${font({ s: 'HNM4' })} ${spacing(
+            className={`${font('hnm', 4)} ${spacing(
               { s: 0 },
               { margin: ['top', 'bottom'] }
             )}`}
@@ -77,7 +77,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
 
         {description && (
           <p
-            className={`${font({ s: 'HNL4' })} ${spacing(
+            className={`${font('hnl', 4)} ${spacing(
               { s: 2 },
               { margin: ['top'] }
             )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
@@ -87,7 +87,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         )}
 
         <span
-          className={`flex-inline ${font({ s: 'HNM4' })} ${spacing(
+          className={`flex-inline ${font('hnm', 4)} ${spacing(
             { s: 2 },
             { margin: ['top'] }
           )}`}

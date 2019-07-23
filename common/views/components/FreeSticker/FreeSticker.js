@@ -4,7 +4,7 @@ const FreeSticker = () => (
   <span
     className={classNames({
       'font-white bg-black rotate-r-8 absolute': true,
-      [font({ s: 'WB7' })]: true,
+      [font('wb', 5)]: true,
       [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
       [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
     })}

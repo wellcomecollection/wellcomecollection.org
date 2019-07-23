@@ -24,10 +24,10 @@ export const dropCapSerializer: HtmlSerializer = (
     const firstLetter = children[0].charAt(0);
     const restOfLetters = [...children[0].substr(1), ...children.slice(1)];
 
-    return `<p><span class="drop-cap ${font({
-      s: 'WB3',
-      m: 'WB2',
-    })}">${firstLetter}</span>${restOfLetters.join('')}</p>`;
+    return `<p><span class="drop-cap ${font(
+      'wb',
+      1
+    )}">${firstLetter}</span>${restOfLetters.join('')}</p>`;
   }
   return defaultSerializer(type, element, content, children, i);
 };

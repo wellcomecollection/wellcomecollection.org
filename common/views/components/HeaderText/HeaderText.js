@@ -26,11 +26,11 @@ const HeaderText = ({
       </div>
       {Heading}
 
-      {DateInfo && <div className={`${font({ s: 'HNL3' })}`}>{DateInfo}</div>}
+      {DateInfo && <div className={`${font('hnl', 4)}`}>{DateInfo}</div>}
 
       {Description && (
         <div
-          className={`${font({ s: 'HNL4' })} ${spacing(
+          className={`${font('hnm', 4)} ${spacing(
             { s: 3 },
             { margin: ['top'] }
           )} first-para-no-margin`}
@@ -41,7 +41,7 @@ const HeaderText = ({
 
       {InfoBar && (
         <div
-          className={`${font({ s: 'HNL4' })} ${spacing(
+          className={`${font('hnm', 4)} ${spacing(
             { s: 3 },
             { margin: ['top', 'bottom'] }
           )}`}

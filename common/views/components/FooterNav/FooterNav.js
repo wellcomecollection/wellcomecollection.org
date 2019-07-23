@@ -42,7 +42,7 @@ const FooterNav = () => (
             <a
               id={`footer-nav-${i}`}
               href={link.url}
-              className={`footer-nav__link ${font({ s: 'WB7' })}`}
+              className={`footer-nav__link ${font('wb', 5)}`}
             >
               {link.text}
             </a>

@@ -9,7 +9,7 @@ import {
 const RelevanceRaterStyle = styled.div.attrs(props => ({
   className: classNames({
     flex: true,
-    [font({ s: 'HNL5' })]: true,
+    [font('hnl', 4)]: true,
   }),
 }))`
   height: 100%;

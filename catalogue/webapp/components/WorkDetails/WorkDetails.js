@@ -47,7 +47,7 @@ const WorkDetailsSection = ({
         {headingText && (
           <h2
             className={classNames({
-              [font({ s: 'WB6', m: 'WB5' })]: true,
+              [font('wb', 4)]: true,
               'work-details-heading': true,
             })}
           >
@@ -319,12 +319,7 @@ const WorkDetails = ({ work, iiifPresentationManifest, encoreLink }: Props) => {
     <WorkDetailsSection>
       <div className="flex flex--v-center">
         <Icon name="underConstruction" extraClasses="margin-right-s2" />
-        <p
-          className={`${font({
-            s: 'HNL5',
-            m: 'HNL4',
-          })} no-margin`}
-        >
+        <p className={`${font('hnl', 4)} no-margin`}>
           We’re improving the information on this page.{' '}
           <a href="/works/progress">Find out more</a>.
         </p>

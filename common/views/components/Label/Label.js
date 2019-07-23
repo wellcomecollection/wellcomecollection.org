@@ -19,7 +19,7 @@ const Label = ({ label }: Props) => {
           ? 'plain-link font-white bg-green bg-hover-black'
           : 'font-black bg-yellow'
       }
-      ${font({ s: 'HNM5' })}
+      ${font('hnm', 4)}
       ${spacing({ s: 1 }, { padding: ['top', 'bottom', 'left', 'right'] })}
     `}
       style={{ display: 'block', whiteSpace: 'nowrap' }}

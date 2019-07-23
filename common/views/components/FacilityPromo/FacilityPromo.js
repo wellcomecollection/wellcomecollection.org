@@ -51,20 +51,20 @@ const FacilityPromo = ({
         </div>
 
         <h2
-          className={`"promo-link__title ${font({ s: 'WB6' })} ${spacing(
+          className={`"promo-link__title ${font('wb', 4)} ${spacing(
             { s: 2 },
             { margin: ['top'] }
           )}`}
         >
           {title}
         </h2>
-        <p className={`${font({ s: 'HNL5' })} no-margin no-padding`}>
+        <p className={`${font('hnl', 4)} no-margin no-padding`}>
           {description}
         </p>
 
         {metaText && (
           <div className={`${spacing({ s: 3 }, { padding: ['top'] })}`}>
-            <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
+            <div className={`${font('hnm', 4)} flex flex--v-center`}>
               {metaIcon && (
                 <Icon name={metaIcon} extraClasses="margin-right-s1" />
               )}

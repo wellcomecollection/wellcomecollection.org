@@ -14,7 +14,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 
 const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
-    [font({ s: 'HNM5', m: 'HNM4' })]: true,
+    [font('hnm', 4)]: true,
   }),
 }))`
   min-width: 300px;
@@ -144,7 +144,7 @@ const Download = ({
                           <span
                             className={classNames({
                               'font-pewter': true,
-                              [font({ s: 'HNM5' })]: true,
+                              [font('hnm', 5)]: true,
                               [spacing({ s: 2 }, { margin: ['left'] })]: true,
                             })}
                           >

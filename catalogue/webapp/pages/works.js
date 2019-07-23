@@ -170,7 +170,7 @@ const Works = ({ works }: Props) => {
                     {!works && (
                       <h1
                         className={classNames([
-                          font({ s: 'WB6', m: 'WB4' }),
+                          font('wb', 4),
                           spacing({ s: 2 }, { margin: ['bottom'] }),
                           spacing({ s: 4 }, { margin: ['right'] }),
                           spacing({ s: 0 }, { margin: ['top'] }),
@@ -188,7 +188,7 @@ const Works = ({ works }: Props) => {
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <p
                   className={classNames({
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                    [font('hnl', 4)]: true,
                     'visually-hidden': Boolean(works),
                   })}
                   id="search-form-description"
@@ -418,7 +418,7 @@ const Works = ({ works }: Props) => {
                     We couldn{`'`}t find anything that matched{' '}
                     <span
                       className={classNames({
-                        [font({ s: 'HNL1' })]: true,
+                        [font('hnl', 2)]: true,
                       })}
                       style={{ fontWeight: '400' }}
                     >

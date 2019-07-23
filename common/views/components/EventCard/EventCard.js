@@ -43,7 +43,7 @@ const EventCard = ({ event }: Props) => {
         event.times.length > 1 && (
           <p
             className={classNames({
-              [font({ s: 'HNM5' })]: true,
+              [font('hnm', 4)]: true,
             })}
           >
             See all dates/times

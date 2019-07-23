@@ -15,7 +15,7 @@ const NewsletterPromo = () => (
           <h2 className="h2">
             Stay connected with email updates from Wellcome Collection
           </h2>
-          <p className={font({ s: 'HNL4' })}>
+          <p className={font('hnm', 4)}>
             Be the first to know about our upcoming exhibitions, events and
             other activities, with extra options for youth, schools and access
             events.

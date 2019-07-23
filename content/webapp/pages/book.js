@@ -118,7 +118,7 @@ export class ArticleSeriesPage extends Component<Props> {
               <p
                 className={classNames({
                   'no-margin': true,
-                  [font({ s: 'HNM4', m: 'HNM3' })]: true,
+                  [font('hnm', 3)]: true,
                 })}
               >
                 {book.subtitle}

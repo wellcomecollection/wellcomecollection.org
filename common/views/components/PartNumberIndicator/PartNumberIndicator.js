@@ -10,7 +10,7 @@ type Props = {|
 const PartNumberIndicator = ({ number, color }: Props) => (
   <div
     className={classNames({
-      [font({ s: 'WB7' })]: true,
+      [font('wb', 5)]: true,
     })}
   >
     Part

@@ -35,21 +35,21 @@ const ContentTypeInfo = (
           [spacing({ s: 1 }, { margin: ['top'] })]: true,
           [spacing({ s: 1 }, { margin: ['right'] })]: true,
           [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
-          [font({ s: 'HNL5' })]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         <span>By </span>
         <span
           className={classNames({
-            [font({ s: 'HNM5' })]: true,
+            [font('hnm', 5)]: true,
           })}
         >
           Naomi Paxton
         </span>{' '}
         <span
           className={classNames({
+            [font('hnl', 5)]: true,
             'font-pewter': true,
-            [font({ s: 'HNL5' })]: true,
           })}
         >
           17 April 2019

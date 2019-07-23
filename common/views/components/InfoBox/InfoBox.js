@@ -30,7 +30,7 @@ const InfoBox = ({ title, items, children }: Props) => {
       >
         {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
-            <div className={font({ s: 'HNM4' })}>
+            <div className={font('hnm', 4)}>
               {icon && (title || description) && (
                 <span
                   className={`float-l ${spacing(
@@ -44,7 +44,7 @@ const InfoBox = ({ title, items, children }: Props) => {
               {title && (
                 <h3
                   className={classNames([
-                    font({ s: 'HNM4' }),
+                    font('hnm', 4),
                     spacing({ s: 0 }, { margin: ['top'] }),
                   ])}
                 >
@@ -54,7 +54,7 @@ const InfoBox = ({ title, items, children }: Props) => {
               {description && (
                 <div
                   className={classNames([
-                    font({ s: 'HNL4' }),
+                    font('hnm', 4),
                     spacing({ s: 4 }, { margin: ['bottom'] }),
                   ])}
                 >

@@ -85,7 +85,7 @@ const ExhibitionPromo = ({
           <h2
             className={`
             promo-link__title
-            ${font({ s: 'WB5' })}
+            ${font('wb', 4)}
             ${spacing({ s: 0 }, { margin: ['top'] })}
             ${spacing({ s: 1 }, { margin: ['bottom'] })}
           `}
@@ -94,7 +94,7 @@ const ExhibitionPromo = ({
           </h2>
 
           {!statusOverride && start && end && (
-            <p className={`${font({ s: 'HNL4' })} no-margin no-padding`}>
+            <p className={`${font('hnm', 4)} no-margin no-padding`}>
               <Fragment>
                 <time dateTime={start}>{formatDate(start)}</time>—
                 <time dateTime={end}>{formatDate(end)}</time>
@@ -111,7 +111,7 @@ const ExhibitionPromo = ({
           <p
             className={classNames({
               'no-padding': true,
-              [font({ s: 'HNL4' })]: true,
+              [font('hnm', 4)]: true,
               [spacing({ s: 2 }, { margin: ['bottom', 'top'] })]: true,
             })}
           />

@@ -17,7 +17,9 @@ const Typography = () => {
       {fontsArr.map(font => (
         <div key={font.name} className="styleguide__font">
           <h2 className="styleguide__font__name">{font.name}</h2>
-          <p className={`styleguide__font__example--${font.name}`}>{example}</p>
+          <p className={`no-margin styleguide__font__example--${font.name}`}>
+            {example}
+          </p>
           <dl className="styleguide__font__properties">
             <dt className="styleguide__font__property">Font-size: </dt>
             <dd className="styleguide__font__value">{font["'font-size'"]}</dd>

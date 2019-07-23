@@ -37,7 +37,7 @@ const HTMLInput = ({
   autofocus,
   label,
   isLabelHidden,
-  fontStyles = { s: 'HNL3', m: 'HNL2' },
+  fontStyles = ('hnl', 3),
   onChange,
 }: Props) => (
   <label

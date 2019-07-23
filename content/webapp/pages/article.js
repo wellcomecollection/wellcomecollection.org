@@ -139,7 +139,7 @@ export class ArticlePage extends Component<Props, State> {
               [spacing({ s: 1 }, { margin: ['top'] })]: true,
               [spacing({ s: 1 }, { margin: ['right'] })]: true,
               [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
-              [font({ s: 'HNL5' })]: true,
+              [font('hnl', 4)]: true,
             })}
           >
             {article.contributors.length > 0 && <span>By </span>}
@@ -148,7 +148,7 @@ export class ArticlePage extends Component<Props, State> {
               <Fragment key={contributor.id}>
                 <span
                   className={classNames({
-                    [font({ s: 'HNM5' })]: true,
+                    [font('hnm', 4)]: true,
                   })}
                 >
                   {contributor.name}
@@ -163,7 +163,7 @@ export class ArticlePage extends Component<Props, State> {
             <span
               className={classNames({
                 'font-pewter': true,
-                [font({ s: 'HNL5' })]: true,
+                [font('hnl', 4)]: true,
               })}
             >
               <HTMLDate date={new Date(article.datePublished)} />

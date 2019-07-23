@@ -24,9 +24,7 @@ const SectionHeader = ({ title }: Props) => {
           </div>
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div>
-              <h2 className={`no-margin ${font({ s: 'WB5', m: 'WB4' })}`}>
-                {title}
-              </h2>
+              <h2 className={`no-margin ${font('wb', 2)}`}>{title}</h2>
             </div>
           </div>
         </div>

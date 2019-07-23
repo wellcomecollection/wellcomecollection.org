@@ -14,7 +14,7 @@ const StatusIndicator = ({ start, end, statusOverride }: Props) => {
     ? { color: 'marble', text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
   return (
-    <span className={`flex flex--v-center ${font({ s: 'HNL5' })}`}>
+    <span className={`flex flex--v-center ${font('hnl', 4)}`}>
       <span
         className={`${spacing(
           { s: 1 },

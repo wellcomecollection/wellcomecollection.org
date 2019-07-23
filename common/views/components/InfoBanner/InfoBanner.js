@@ -62,10 +62,10 @@ class InfoBanner extends React.Component<Props, State> {
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <div
-                  className={`flex flex--v-center flex--h-space-between ${font({
-                    s: 'HNL5',
-                    m: 'HNL4',
-                  })}`}
+                  className={`flex flex--v-center flex--h-space-between ${font(
+                    'hnl',
+                    4
+                  )}`}
                 >
                   <div>
                     <span className="flex flex--v-center">

@@ -10,7 +10,7 @@ import {
 
 const StyledFindUs = styled.div.attrs(props => ({
   className: classNames({
-    [font({ s: 'HNL5' })]: true,
+    [font('hnl', 4)]: true,
   }),
 }))`
   margin-bottom: ${props => `${props.theme.spacingUnit * 5}px`};

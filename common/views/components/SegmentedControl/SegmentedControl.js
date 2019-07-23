@@ -62,7 +62,7 @@ class SegmentedControl extends Component<Props, State> {
                 <Fragment key={item.id}>
                   <span
                     className={classNames({
-                      [font({ s: 'WB6' })]: true,
+                      [font('wb', 4)]: true,
                       [spacing(
                         { s: 2 },
                         { padding: ['top', 'right', 'bottom', 'left'] }
@@ -111,7 +111,7 @@ class SegmentedControl extends Component<Props, State> {
                 <li
                   key={item.id}
                   className={classNames({
-                    [font({ s: 'WB6' })]: true,
+                    [font('wb', 4)]: true,
                     [spacing({ s: 3 }, { padding: ['top', 'bottom'] })]: true,
                     'border-top-width-1': i === 0,
                     'segmented-control__drawer-item': true,
@@ -172,7 +172,7 @@ class SegmentedControl extends Component<Props, State> {
             <li
               key={item.id}
               className={classNames({
-                [font({ s: 'WB7' })]: true,
+                [font('wb', 5)]: true,
                 'border-right-width-1 border-right-color-black':
                   i !== items.length - 1,
                 'segmented-control__item': true,

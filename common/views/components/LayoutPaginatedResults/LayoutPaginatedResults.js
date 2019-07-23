@@ -59,7 +59,7 @@ const LayoutPaginatedResults = ({
               <h1
                 className={classNames({
                   'no-margin': true,
-                  [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                  [font('wb', 2)]: true,
                 })}
               >
                 {title}
@@ -90,7 +90,7 @@ const LayoutPaginatedResults = ({
               'flex--v-center': true,
               'font-pewter': true,
               [spacing({ s: 5, m: 5, l: 5 }, { padding: ['bottom'] })]: true,
-              [font({ s: 'LR3', m: 'LR2' })]: true,
+              [font('lr', 6)]: true,
             })}
           >
             {paginatedResults.pageSize * paginatedResults.currentPage -
@@ -111,7 +111,7 @@ const LayoutPaginatedResults = ({
           <div className="flex-inline flex--v-center">
             <span
               className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                [font('hnm', 4)]: true,
               })}
             >
               Free admission

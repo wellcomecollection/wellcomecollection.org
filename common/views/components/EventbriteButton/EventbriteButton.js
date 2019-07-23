@@ -29,7 +29,7 @@ const EventbriteButton = ({ event }: Props) => {
             text="Check for tickets"
           />
           <p
-            className={`font-charcoal ${font({ s: 'HNL5' })} ${spacing(
+            className={`font-charcoal ${font('hnl', 4)} ${spacing(
               { s: 1 },
               { margin: ['top'] }
             )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}

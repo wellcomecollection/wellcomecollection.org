@@ -99,7 +99,7 @@ export class HomePage extends Component<Props> {
               >
                 <h1
                   className={classNames({
-                    [font({ s: 'WB4', m: 'WB3' })]: true,
+                    [font('wb', 1)]: true,
                     [spacing({ s: 3 }, { margin: ['top'] })]: true,
                     [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
                   })}

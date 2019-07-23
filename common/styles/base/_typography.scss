@@ -5,11 +5,8 @@ html {
 }
 
 body {
-  @include font('HNL4');
-
-  @include respond-to('medium') {
-    @include font('HNL3');
-  }
+  @extend %font-hnl;
+  @extend %font-size-4;
 
   font-variant-ligatures: no-common-ligatures;
   -webkit-font-smoothing: antialiased;
@@ -62,38 +59,26 @@ hr {
 // Standard heading sizes
 %h0,
 .h0 {
-  @include font('WB4');
-
-  @include respond-to('medium') {
-    @include font('WB3');
-  }
+  @extend %font-wb;
+  @extend %font-size-1;
 }
 
 %h1,
 .h1 {
-  @include font('WB5');
-
-  @include respond-to('medium') {
-    @include font('WB4');
-  }
+  @extend %font-wb;
+  @extend %font-size-2;
 }
 
 %h2,
 .h2 {
-  @include font('WB6');
-
-  @include respond-to('medium') {
-    @include font('WB5');
-  }
+  @extend %font-wb;
+  @extend %font-size-3;
 }
 
 %h3,
 .h3 {
-  @include font('WB7');
-
-  @include respond-to('medium') {
-    @include font('WB6');
-  }
+  @extend %font-wb;
+  @extend %font-size-4;
 }
 
 .more-link { // Applied to the MoreLink component

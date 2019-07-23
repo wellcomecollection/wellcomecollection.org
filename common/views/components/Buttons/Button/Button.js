@@ -53,8 +53,8 @@ const Button = forwardRef(
       extraClasses &&
       (extraClasses.indexOf('btn--tertiary') > -1 ||
         extraClasses.indexOf('btn--small') > -1)
-        ? { s: 'HNM5' }
-        : { s: 'HNM4' };
+        ? ('hnm', 4)
+        : ('hnm', 4);
     function handleClick(e) {
       if (clickHandler) {
         clickHandler(e);

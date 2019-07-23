@@ -595,3 +595,80 @@
 .empty-filler:before {
   content: "\200b";
 }
+
+
+$font-sizes-at-breakpoints: (
+  'small': (
+    1: 28px,
+    2: 24px,
+    3: 22px,
+    4: 16px,
+    5: 15px,
+    6: 14px
+  ),
+  'medium': (
+    1: 32px,
+    2: 28px,
+    3: 22px,
+    4: 18px,
+    5: 15px,
+    6: 14px
+  ),
+  'large': (
+    1: 40px,
+    2: 32px,
+    3: 24px,
+    4: 20px,
+    5: 16px,
+    6: 14px
+  )
+);
+
+%font-hnm,
+.font-hnm {
+  font-family: 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+
+  .fonts-loaded & {
+    font-family: 'Helvetica Neue Medium Web', 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+  }
+}
+
+%font-hnl,
+.font-hnl {
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  .fonts-loaded & {
+    font-family: 'Helvetica Neue Light Web', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+}
+
+%font-wb,
+.font-wb {
+  font-family: 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;
+
+  .fonts-loaded & {
+    font-family: 'Wellcome Bold Web', 'Wellcome Bold Web Subset', 'Arial Black', sans-serif;
+  }
+}
+
+%font-lr,
+.font-lr {
+  font-family: 'Courier New', Courier, Monospace;
+
+  .fonts-loaded & {
+    font-family: 'Lettera Regular Web', 'Courier New', Courier, Monospace;
+  }
+}
+
+@each $font-breakpoint-key, $font-breakpoint-value in $font-sizes-at-breakpoints {
+  @include respond-to($font-breakpoint-key) {
+    @each $font-size-key, $font-size-value in $font-breakpoint-value {
+      %font-size-#{$font-size-key},
+      .font-size-#{$font-size-key} {
+        font-size: $font-size-value;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+

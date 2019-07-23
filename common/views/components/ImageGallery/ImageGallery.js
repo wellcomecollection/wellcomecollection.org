@@ -231,16 +231,14 @@ class ImageGallery extends Component<Props, State> {
                         caption={captionedImage.caption}
                         setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
                         sizesQueries={`
-                          (min-width: ${breakpoints.xlarge}) calc(${
-                          breakpoints.xlarge
-                        } - 120px),
+                          (min-width: ${breakpoints.xlarge}) calc(${breakpoints.xlarge} - 120px),
                           calc(100vw - 84px)
                         `}
                         preCaptionNode={
                           items.length > 1 ? (
                             <div
                               className={classNames({
-                                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                                [font('hnm', 4)]: true,
                                 [spacing(
                                   { s: 2 },
                                   { margin: ['bottom'] }

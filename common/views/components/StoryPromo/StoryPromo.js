@@ -85,7 +85,7 @@ const StoryPromo = ({
           <h2
             className={`
             promo-link__title
-            ${font({ s: 'WB5' })}
+            ${font('wb', 4)}
             ${spacing({ s: 0 }, { margin: ['top'] })}
             ${spacing({ s: 1 }, { margin: ['bottom'] })}
           `}
@@ -96,7 +96,7 @@ const StoryPromo = ({
             <div
               className={classNames({
                 'inline-block': true,
-                [font({ s: 'HNL4' })]: true,
+                [font('hnm', 4)]: true,
                 [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
               })}
             >
@@ -109,12 +109,8 @@ const StoryPromo = ({
           {item.series.length > 0 && (
             <div className={spacing({ s: 4 }, { margin: ['top'] })}>
               {item.series.map(series => (
-                <p
-                  key={series.title}
-                  className={`${font({ s: 'HNM5' })} no-margin`}
-                >
-                  <span className={font({ s: 'HNL5' })}>Part of</span>{' '}
-                  {series.title}
+                <p key={series.title} className={`${font('hnm', 4)} no-margin`}>
+                  <span className={font('hnl', 4)}>Part of</span> {series.title}
                 </p>
               ))}
             </div>

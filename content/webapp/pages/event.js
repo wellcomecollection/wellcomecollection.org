@@ -46,7 +46,7 @@ type State = {|
 function EventStatus(text, color) {
   return (
     <div className="flex">
-      <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
+      <div className={`${font('hnm', 4)} flex flex--v-center`}>
         <span
           className={`${spacing(
             { s: 1 },
@@ -382,9 +382,7 @@ class EventPage extends Component<Props, State> {
                       />
                       {event.thirdPartyBooking.name && (
                         <p
-                          className={`font-charcoal ${font({
-                            s: 'HNL5',
-                          })} ${spacing(
+                          className={`font-charcoal ${font('hnl', 4)} ${spacing(
                             { s: 1 },
                             { margin: ['top'] }
                           )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
@@ -404,9 +402,7 @@ class EventPage extends Component<Props, State> {
                   ) : (
                     <Button
                       type="primary"
-                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${
-                        event.title
-                      }`}
+                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                       trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
@@ -434,7 +430,7 @@ class EventPage extends Component<Props, State> {
                       className={classNames({
                         'block font-charcoal': true,
                         [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                        [font('hnm', 4)]: true,
                       })}
                     >
                       <span>{event.bookingEnquiryTeam.email}</span>
@@ -496,7 +492,7 @@ class EventPage extends Component<Props, State> {
                   )
                   .filter(Boolean)}
               >
-                <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+                <p className={`no-margin ${font('hnm', 4)}`}>
                   <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
                     Our event terms and conditions
                   </a>

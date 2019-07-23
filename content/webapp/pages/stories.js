@@ -139,7 +139,7 @@ export class StoriesPage extends Component<Props> {
                   <h1
                     className={classNames({
                       'no-margin': true,
-                      [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                      [font('wb', 2)]: true,
                     })}
                   >
                     Stories

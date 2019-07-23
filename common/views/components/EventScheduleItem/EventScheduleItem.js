@@ -45,7 +45,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               return (
                 <p
                   key={`${event.title} ${startTimeString}`}
-                  className={`${font({ s: 'HNM4' })} no-margin`}
+                  className={`${font('hnm', 4)} no-margin`}
                 >
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
@@ -66,7 +66,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               </div>
             )}
             <h3
-              className={`${font({ s: 'WB6', l: 'WB5' })} ${spacing(
+              className={`${font('wb', 5)} ${spacing(
                 { s: 0 },
                 { margin: ['top'] }
               )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`}
@@ -76,7 +76,8 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             {event.place && (
               <p
                 className={`${spacing({ s: 1 }, { margin: ['bottom'] })} ${font(
-                  { s: 'HNL4' }
+                  'hnm',
+                  4
                 )}`}
               >
                 {event.place.title}
@@ -84,16 +85,16 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             )}
 
             <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font({
-                s: 'HNL5',
-                m: 'HNL4',
-              })}`}
+              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
+                'hnl',
+                4
+              )}`}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
             {!isNotLinked && (
               <div className={spacing({ s: 2 }, { margin: ['top', 'bottom'] })}>
-                <p className={`${font({ s: 'HNL5', m: 'HNL4' })} no-margin`}>
+                <p className={`${font('hnl', 4)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className={`visually-hidden`}>
@@ -114,7 +115,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   )} ${spacing(
                     { s: 2 },
                     { padding: ['top', 'bottom'] }
-                  )} ${font({ s: 'HNM4' })}`}
+                  )} ${font('hnm', 4)}`}
                 >
                   {/* TODO: work out why the second method below will fail Flow without a null check */}
                   <span>
