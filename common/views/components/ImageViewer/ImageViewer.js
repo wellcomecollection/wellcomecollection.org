@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
-import { spacing, classNames } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import Raven from 'raven-js';
 import { trackEvent } from '../../../utils/ga';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
@@ -287,7 +287,7 @@ const ImageViewer = ({
           {isError && (
             <p
               className={classNames({
-                [spacing({ s: 10 }, { padding: ['right', 'left'] })]: true,
+                'padding-left-12 padding-right-12': true,
               })}
             >
               The image viewer is not working

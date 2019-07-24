@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font, grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
@@ -61,21 +61,19 @@ const StaticWorksContent = () => (
                 ]}
               />
             </VerticalSpace>
-            <hr
-              className={`divider divider--dashed ${spacing(
-                { s: 6 },
-                { margin: ['bottom'] }
-              )}`}
+            <VerticalSpace
+              size="l"
+              as="hr"
+              className={`divider divider--dashed`}
             />
           </div>
         </div>
       </div>
     </VerticalSpace>
-    <div
-      className={`row bg-cream row--has-wobbly-background ${spacing(
-        { s: 10 },
-        { padding: ['bottom'] }
-      )}`}
+    <VerticalSpace
+      size="xl"
+      properties={['padding-bottom']}
+      className={`row bg-cream row--has-wobbly-background`}
     >
       <div className="container">
         <div className="row__wobbly-background" />
@@ -174,7 +172,7 @@ const StaticWorksContent = () => (
           </VerticalSpace>
         </div>
       </div>
-    </div>
+    </VerticalSpace>
   </Fragment>
 );
 

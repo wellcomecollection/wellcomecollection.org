@@ -2,7 +2,7 @@
 import React from 'react';
 import type { HTMLString } from '../../../../common/services/prismic/types';
 import cookie from 'cookie-cutter';
-import { spacing, grid, font } from '../../../utils/classnames';
+import { grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import VerticalSpace from '../styled/VerticalSpace';
@@ -69,12 +69,7 @@ class InfoBanner extends React.Component<Props, State> {
                 >
                   <div>
                     <span className="flex flex--v-center">
-                      <div
-                        className={`flex flex--v-center ${spacing(
-                          { s: 2 },
-                          { margin: ['right'] }
-                        )}`}
-                      >
+                      <div className={`flex flex--v-center margin-right-12`}>
                         <Icon name="information" />
                       </div>
                       <div className="first-para-no-margin">

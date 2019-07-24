@@ -2,7 +2,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { type Work } from '@weco/common/model/work';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -35,7 +35,7 @@ const Details = styled.div`
 `;
 const Preview = styled.div.attrs(() => ({
   className: classNames({
-    [spacing({ s: 2 }, { margin: ['left'] })]: true,
+    'margin-left-12': true,
     'text-align-center': true,
   }),
 }))`
@@ -105,7 +105,7 @@ const WorkCard = ({ work }: Props) => {
                   <Icon
                     name={workTypeIcon}
                     extraClasses={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                      'margin-right-6': true,
                     })}
                   />
                 )}
@@ -127,7 +127,7 @@ const WorkCard = ({ work }: Props) => {
                 {work.contributors.length > 0 && (
                   <div
                     className={classNames({
-                      [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                      'margin-right-12': true,
                     })}
                   >
                     <LinkLabels

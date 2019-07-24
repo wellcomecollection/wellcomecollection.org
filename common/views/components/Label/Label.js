@@ -1,6 +1,6 @@
 // @flow
 import type { Label as LabelType } from '../../../model/labels';
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 
 export type Props = {|
@@ -22,7 +22,7 @@ const Label = ({ label }: Props) => {
           : 'font-black bg-yellow'
       }
       ${font('hnm', 6)}
-      ${spacing({ s: 1 }, { padding: ['left', 'right'] })}
+      padding-left-6 padding-right-6
     `}
       style={{ display: 'block', whiteSpace: 'nowrap' }}
     >

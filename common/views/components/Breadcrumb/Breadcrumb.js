@@ -1,5 +1,5 @@
 // @flow
-import { font, classNames, spacing } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
 
 export type Breadcrumbs = {|
@@ -30,8 +30,8 @@ const Breadcrumb = ({ items }: Props) => (
             className={classNames({
               [font('hnl', 5)]: true,
               'border-left-width-1 border-color-black': i !== 0,
-              [spacing({ s: 2 }, { padding: ['right'] })]: true,
-              [spacing({ s: 2 }, { padding: ['left'] })]: i !== 0,
+              'padding-right-12': true,
+              'padding-left-12': i !== 0,
             })}
             style={{ lineHeight: 1 }}
           >

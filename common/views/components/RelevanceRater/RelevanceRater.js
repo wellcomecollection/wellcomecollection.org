@@ -1,6 +1,6 @@
 // @flow
 import styled from 'styled-components';
-import { classNames, font, spacing } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import {
   trackRelevanceRating,
   RelevanceRatingEventNames,
@@ -19,7 +19,7 @@ const RelevanceRaterStyle = styled.div.attrs(props => ({
 const RelevanceRating = styled(VerticalSpace).attrs(props => ({
   className: classNames({
     'plain-button': true,
-    [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
+    'padding-left-12 padding-right-12': true,
   }),
 }))`
   width: 25%;

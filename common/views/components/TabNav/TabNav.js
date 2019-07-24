@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 
 type SelectableTextLink = {|
@@ -21,7 +21,7 @@ const NavItemInner = styled.span.attrs(props => ({
     selected: props.selected,
     block: true,
     relative: true,
-    [spacing({ s: 3 }, { margin: ['right'] })]: true,
+    'margin-right-12': true,
   }),
 }))`
   z-index: 1;

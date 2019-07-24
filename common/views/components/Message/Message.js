@@ -1,5 +1,5 @@
 // @flow
-import { classNames, spacing, font } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 type Props = {|
   text: string,
@@ -13,7 +13,7 @@ const Message = ({ text }: Props) => (
       'border-left-width-5': true,
       'border-color-yellow': true,
       'inline-block': true,
-      [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
+      'padding-left-12 padding-right-12': true,
       [font('hnm', 5)]: true,
     })}
   >

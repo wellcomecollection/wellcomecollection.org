@@ -2,7 +2,7 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 import VerticalSpace from '../styled/VerticalSpace';
-import { classNames, spacing } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
   border: 0;
@@ -18,7 +18,7 @@ const VisuallyHidden = styled.div`
 
 const StyledInput = styled(VerticalSpace).attrs({
   className: classNames({
-    [spacing({ s: 2 }, { padding: ['left'] })]: true,
+    'padding-left-12': true,
   }),
 })`
   width: 100%;

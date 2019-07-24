@@ -1,5 +1,5 @@
 // @flow
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -63,7 +63,7 @@ const EventPromo = ({
         properties={['padding-top', 'padding-bottom']}
         className={classNames({
           'flex flex--column flex-1 flex--h-space-between': true,
-          [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
+          'padding-left-12 padding-right-12': true,
         })}
       >
         <div>
@@ -102,12 +102,7 @@ const EventPromo = ({
 
           {!isPast && fullyBooked && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
-              <span
-                className={`${spacing(
-                  { s: 1 },
-                  { margin: ['right'] }
-                )} flex flex--v-center`}
-              >
+              <span className={`margin-right-6 flex flex--v-center`}>
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--red icon--match-text'}
@@ -130,12 +125,7 @@ const EventPromo = ({
 
           {isPast && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
-              <span
-                className={`${spacing(
-                  { s: 1 },
-                  { margin: ['right'] }
-                )} flex flex--v-center`}
-              >
+              <span className={`margin-right-6 flex flex--v-center`}>
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--marble icon--match-text'}

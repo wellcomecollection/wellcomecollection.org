@@ -1,7 +1,7 @@
 // @flow
 // TODO: use styled components
 import { Fragment, Component, createRef } from 'react';
-import { font, spacing, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Button from '../Buttons/Button/Button';
@@ -121,10 +121,7 @@ class ImageGallery extends Component<Props, State> {
                   'flex flex--v-top image-gallery-v2-title': true,
                 })}
               >
-                <Icon
-                  name="gallery"
-                  extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-                />
+                <Icon name="gallery" extraClasses={`margin-right-6`} />
                 <h2 id={`gallery-${id}`} className="h2 no-margin">
                   {title || 'In pictures'}
                 </h2>
@@ -188,7 +185,7 @@ class ImageGallery extends Component<Props, State> {
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
                           'opacity-0': !isActive,
-                          [spacing({ s: 3 }, { padding: ['right'] })]: true,
+                          'padding-right-12': true,
                         })}
                       >
                         <Control

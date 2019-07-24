@@ -1,6 +1,6 @@
 // @flow
 import { Component, Fragment } from 'react';
-import { classNames, spacing, font } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
 import VerticalSpace from '../styled/VerticalSpace';
@@ -66,7 +66,7 @@ class SegmentedControl extends Component<Props, State> {
                     properties={['padding-top', 'padding-bottom']}
                     className={classNames({
                       [font('wb', 4)]: true,
-                      [spacing({ s: 2 }, { padding: ['right', 'left'] })]: true,
+                      'padding-left-12 padding-right-12': true,
                       'segmented-control__button-text': true,
                       flex: true,
                       'bg-black': true,
@@ -91,7 +91,7 @@ class SegmentedControl extends Component<Props, State> {
           <div
             id={id}
             className={classNames({
-              [spacing({ s: 3 }, { padding: ['left', 'right'] })]: true,
+              'padding-left-12 padding-right-12': true,
               'segmented-control__body': true,
               'bg-white': true,
             })}
@@ -206,7 +206,7 @@ class SegmentedControl extends Component<Props, State> {
                 }}
                 href={item.url}
                 className={classNames({
-                  [spacing({ s: 2 }, { padding: ['right', 'left'] })]: true,
+                  'padding-left-12 padding-right-12': true,
                   'is-active bg-black font-white bg-hover-pewter':
                     item.id === activeId,
                   'bg-white font-black bg-hover-pumice': item.id !== activeId,
