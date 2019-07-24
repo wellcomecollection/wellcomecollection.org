@@ -6,6 +6,7 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Contributor as ContributorType } from '../../../model/contributors';
 import type { Props as ImageProps } from '../Image/Image';
+import VerticalSpace from '../styled/VerticalSpace';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -43,7 +44,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           {contributor.type === 'organisations' && contributor.url && (
             <h3
               className={classNames({
-                [font({ s: 'HNM3' })]: true,
+                [font('hnm', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -55,7 +56,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           {!contributor.url && (
             <h3
               className={classNames({
-                [font({ s: 'HNM3' })]: true,
+                [font('hnm', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -63,9 +64,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
             </h3>
           )}
           {role && role.title && (
-            <div className={'font-pewter ' + font({ s: 'HNM4' })}>
-              {role.title}
-            </div>
+            <div className={'font-pewter ' + font('hnm', 5)}>{role.title}</div>
           )}
 
           {contributor.sameAs.length > 0 && (
@@ -78,15 +77,16 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           )}
 
           {descriptionToRender && (
-            <div
+            <VerticalSpace
+              size="s"
+              properties={['margin-top']}
               className={classNames({
-                [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                [font({ s: 'HNL4' })]: true,
+                [font('hnl', 5)]: true,
                 'spaced-text': true,
               })}
             >
               <PrismicHtmlBlock html={descriptionToRender} />
-            </div>
+            </VerticalSpace>
           )}
         </div>
       </div>

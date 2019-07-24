@@ -4,7 +4,8 @@ import type { UiEvent } from '../../../model/events';
 import { Fragment } from 'react';
 import Button from '../Buttons/Button/Button';
 import Message from '../Message/Message';
-import { spacing, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -57,15 +58,14 @@ const EventBookingButton = ({ event }: Props) => {
       {getButtonMarkup(event)}
       {getBookingEnquiryMarkup(event)}
       {team && (
-        <a
-          className={`block font-charcoal ${font({ s: 'HNL5' })} ${spacing(
-            { s: 1 },
-            { margin: ['top'] }
-          )}`}
+        <VerticalSpace
+          size="s"
+          properties={['margin-top']}
+          className={`block font-charcoal ${font('hnl', 4)}`}
           href={`mailto:${team.email}?subject=${event.title}`}
         >
           {team.email}
-        </a>
+        </VerticalSpace>
       )}
     </Fragment>
   );

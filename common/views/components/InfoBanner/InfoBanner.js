@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
+import type { HTMLString } from '../../../../common/services/prismic/types';
 import cookie from 'cookie-cutter';
 import { spacing, grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import type { HTMLString } from '../../../../common/services/prismic/types';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   cookieName?: string,
@@ -52,20 +53,19 @@ class InfoBanner extends React.Component<Props, State> {
   render() {
     if (this.state.showInfoBanner) {
       return (
-        <div
-          className={`row bg-yellow ${spacing(
-            { s: 3 },
-            { padding: ['top', 'bottom'] }
-          )}`}
+        <VerticalSpace
+          size="m"
+          properties={['padding-top', 'padding-bottom']}
+          className={`row bg-yellow`}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <div
-                  className={`flex flex--v-center flex--h-space-between ${font({
-                    s: 'HNL5',
-                    m: 'HNL4',
-                  })}`}
+                  className={`flex flex--v-center flex--h-space-between ${font(
+                    'hnl',
+                    5
+                  )}`}
                 >
                   <div>
                     <span className="flex flex--v-center">
@@ -97,7 +97,7 @@ class InfoBanner extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-        </div>
+        </VerticalSpace>
       );
     } else {
       return null;

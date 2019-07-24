@@ -1,3 +1,90 @@
+$helvetica-neue-medium-base: 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+$helvetica-neue-light-base: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$wellcome-bold-base: 'Arial Black', sans-serif;
+$lettera-base: 'Courier New', Courier, Monospace;
+$font-sizes-at-breakpoints: (
+  'small': (
+    1: 28px,
+    2: 24px,
+    3: 22px,
+    4: 16px,
+    5: 15px,
+    6: 14px
+  ),
+  'medium': (
+    1: 32px,
+    2: 28px,
+    3: 22px,
+    4: 18px,
+    5: 15px,
+    6: 14px
+  ),
+  'large': (
+    1: 40px,
+    2: 32px,
+    3: 24px,
+    4: 20px,
+    5: 16px,
+    6: 14px
+  )
+);
+
+%font-hnm,
+.font-hnm,
+%font-hnl,
+.font-hnl {
+  font-weight: normal;
+  letter-spacing: 0.02em;
+}
+
+%font-hnm,
+.font-hnm {
+  font-family: $helvetica-neue-medium-base;
+
+  .fonts-loaded & {
+    font-family: 'Helvetica Neue Medium Web', $helvetica-neue-medium-base;
+  }
+}
+
+%font-hnl,
+.font-hnl {
+  font-family: $helvetica-neue-light-base;
+
+  .fonts-loaded & {
+    font-family: 'Helvetica Neue Light Web', $helvetica-neue-light-base;
+  }
+}
+
+%font-wb,
+.font-wb {
+  font-family: 'Wellcome Bold Web Subset', $wellcome-bold-base;
+
+  .fonts-loaded & {
+    font-family: 'Wellcome Bold Web', 'Wellcome Bold Web Subset', $wellcome-bold-base;
+  }
+}
+
+%font-lr,
+.font-lr {
+  font-family: $lettera-base;
+
+  .fonts-loaded & {
+    font-family: 'Lettera Regular Web', $lettera-base;
+  }
+}
+
+@each $font-breakpoint-key, $font-breakpoint-value in $font-sizes-at-breakpoints {
+  @include respond-to($font-breakpoint-key) {
+    @each $font-size-key, $font-size-value in $font-breakpoint-value {
+      %font-size-#{$font-size-key},
+      .font-size-#{$font-size-key} {
+        font-size: $font-size-value;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
 html {
   // stylelint-disable sh-waqar/declaration-use-variable
   font-size: 100%;
@@ -5,11 +92,8 @@ html {
 }
 
 body {
-  @include font('HNL4');
-
-  @include respond-to('medium') {
-    @include font('HNL3');
-  }
+  @extend %font-hnl;
+  @extend %font-size-4;
 
   font-variant-ligatures: no-common-ligatures;
   -webkit-font-smoothing: antialiased;
@@ -48,13 +132,6 @@ p {
   }
 }
 
-ul,
-ol {
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
 hr {
   margin: 0;
 }
@@ -62,38 +139,26 @@ hr {
 // Standard heading sizes
 %h0,
 .h0 {
-  @include font('WB4');
-
-  @include respond-to('medium') {
-    @include font('WB3');
-  }
+  @extend %font-wb;
+  @extend %font-size-1;
 }
 
 %h1,
 .h1 {
-  @include font('WB5');
-
-  @include respond-to('medium') {
-    @include font('WB4');
-  }
+  @extend %font-wb;
+  @extend %font-size-2;
 }
 
 %h2,
 .h2 {
-  @include font('WB6');
-
-  @include respond-to('medium') {
-    @include font('WB5');
-  }
+  @extend %font-wb;
+  @extend %font-size-3;
 }
 
 %h3,
 .h3 {
-  @include font('WB7');
-
-  @include respond-to('medium') {
-    @include font('WB6');
-  }
+  @extend %font-wb;
+  @extend %font-size-4;
 }
 
 .more-link { // Applied to the MoreLink component

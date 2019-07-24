@@ -8,9 +8,10 @@ import { classNames, font } from '../../../utils/classnames';
 
 type Props = {|
   event: UiEvent,
+  xOfY: {| x: number, y: number |},
 |};
 
-const EventCard = ({ event }: Props) => {
+const EventCard = ({ event, xOfY }: Props) => {
   const DateRangeComponent = <EventDateRange event={event} />;
 
   const ImageComponent = event.image &&
@@ -43,13 +44,15 @@ const EventCard = ({ event }: Props) => {
         event.times.length > 1 && (
           <p
             className={classNames({
-              [font({ s: 'HNM5' })]: true,
+              [font('hnm', 4)]: true,
+              'no-margin': true,
             })}
           >
             See all dates/times
           </p>
         )
       }
+      xOfY={xOfY}
     />
   );
 };

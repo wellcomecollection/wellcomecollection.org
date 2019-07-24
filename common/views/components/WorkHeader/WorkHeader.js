@@ -11,6 +11,7 @@ import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   work: Work,
@@ -22,18 +23,16 @@ const WorkHeader = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
-    <div
-      className={classNames([
-        grid({ s: 12, m: 12, l: 10, xl: 10 }),
-        spacing({ s: 4 }, { margin: ['bottom'] }),
-      ])}
+    <VerticalSpace
+      size="l"
+      className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
     >
       <SpacingComponent>
         <div
           className={classNames({
             flex: true,
             'flex--v-center': true,
-            [font({ s: 'HNL4' })]: true,
+            [font('hnl', 5)]: true,
           })}
         >
           {workTypeIcon && (
@@ -51,7 +50,7 @@ const WorkHeader = ({ work }: Props) => {
           id="work-info"
           className={classNames({
             'no-margin': true,
-            [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
+            [font('hnm', 2)]: true,
           })}
           lang={work.language && work.language.id}
         >
@@ -59,10 +58,11 @@ const WorkHeader = ({ work }: Props) => {
         </h1>
 
         {(work.contributors.length > 0 || productionDates.length > 0) && (
-          <div
+          <VerticalSpace
+            size="l"
+            properties={['margin-top']}
             className={classNames({
               'flex flex--wrap flex--v-center': true,
-              [spacing({ s: 3, m: 4 }, { margin: ['top'] })]: true,
             })}
           >
             {work.contributors.length > 0 && (
@@ -93,17 +93,13 @@ const WorkHeader = ({ work }: Props) => {
                 ]}
               />
             )}
-          </div>
+          </VerticalSpace>
         )}
         <TogglesContext.Consumer>
           {toggles =>
             toggles.showWorkLocations &&
             (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-              <div
-                className={classNames({
-                  [spacing({ s: 2 }, { margin: ['top'] })]: true,
-                })}
-              >
+              <VerticalSpace size="m" properties={['margin-top']}>
                 <LinkLabels
                   heading={'See it'}
                   icon={'eye'}
@@ -122,12 +118,12 @@ const WorkHeader = ({ work }: Props) => {
                       : null,
                   ].filter(Boolean)}
                 />
-              </div>
+              </VerticalSpace>
             )
           }
         </TogglesContext.Consumer>
       </SpacingComponent>
-    </div>
+    </VerticalSpace>
   );
 };
 export default WorkHeader;

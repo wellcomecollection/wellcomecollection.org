@@ -11,12 +11,9 @@ import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 import styled from 'styled-components';
+import VerticalSpace from '../styled/VerticalSpace';
 
-const TopBorderBox = styled.div.attrs({
-  className: classNames({
-    [spacing({ l: 4 }, { padding: ['top'] })]: true,
-  }),
-})`
+const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
     border-top: 1px solid ${props => props.theme.colors.charcoal};
     border-bottom: 0;
@@ -49,124 +46,131 @@ const Footer = ({
       ref={footer}
       className={classNames({
         'footer row bg-black relative': true,
-        [spacing({ s: 5, m: 10 }, { padding: ['top'] })]: true,
+        [spacing({ s: 9 }, { padding: ['top'] })]: true,
       })}
     >
       <div className="container">
         <div className="grid">
-          <div className={` ${grid({ s: 12, m: 12, l: 4 })}`}>
-            <h3 className={`footer__heading relative ${font({ s: 'HNL5' })}`}>
+          <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
+            <VerticalSpace
+              as="h3"
+              size="m"
+              className={`footer__heading relative ${font('hnl', 4)}`}
+            >
               <span className="hidden">Wellcome collection</span>
               <a href="#" className="footer-nav__brand absolute">
                 <FooterWellcomeLogo />
               </a>
-            </h3>
-            <div className="border-top-width-1 border-color-charcoal">
+            </VerticalSpace>
+            <VerticalSpace
+              size="m"
+              properties={['padding-top', 'padding-bottom']}
+              className="border-top-width-1 border-bottom-width-1 border-color-charcoal"
+            >
               <FooterNav />
-            </div>
+            </VerticalSpace>
           </div>
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
-            <h3
+            <VerticalSpace
+              as="h3"
+              size="m"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                {
-                  s: 'HNL5',
-                }
+                'hnl',
+                5
               )}`}
             >
               Finding us:
-            </h3>
+            </VerticalSpace>
             <TopBorderBox>
-              <FindUs />
+              <VerticalSpace size="l" properties={['padding-top']}>
+                <FindUs />
+              </VerticalSpace>
             </TopBorderBox>
           </div>
           <div
             className={classNames({
               [grid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-              [font({ s: 'HNL5' })]: true,
+              [font('hnl', 5)]: true,
             })}
           >
-            <h3
+            <VerticalSpace
+              as="h3"
+              size="m"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
-                {
-                  s: 'HNL5',
-                }
+                'hnl',
+                5
               )}`}
             >
               {`Opening times:`}
-            </h3>
+            </VerticalSpace>
             <TopBorderBox>
-              <Icon
-                name="clock"
-                extraClasses={`float-l ${spacing(
-                  { s: 2, m: 2, l: 2, xl: 2 },
-                  { margin: ['right'] }
-                )}`}
-              />
-              <div
-                className={classNames({
-                  [font({
-                    s: 'HNL5',
-                  })]: true,
-                  'float-l': true,
-                })}
-              >
-                <h4
+              <VerticalSpace size="l" properties={['padding-top']}>
+                <Icon
+                  name="clock"
+                  extraClasses={`float-l ${spacing(
+                    { s: 2, m: 2, l: 2, xl: 2 },
+                    { margin: ['right'] }
+                  )}`}
+                />
+                <div
                   className={classNames({
-                    [font({ s: 'HNM5' })]: true,
-                    'no-margin': true,
-                  })}
-                >{`Today's opening times`}</h4>
-                <ul className="plain-list no-padding no-margin">
-                  {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-                    venue => {
-                      const todaysHours = getTodaysVenueHours(venue);
-                      return (
-                        todaysHours && (
-                          <li
-                            key={venue.name}
-                            className={classNames({
-                              [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                            })}
-                          >
-                            {venue.name.toLowerCase() === 'restaurant'
-                              ? 'Kitchen '
-                              : `${venue.name} `}
-                            {todaysHours.opens ? (
-                              <>
-                                <time>{todaysHours.opens}</time>
-                                {'—'}
-                                <time>{todaysHours.closes}</time>
-                              </>
-                            ) : (
-                              'closed'
-                            )}
-                          </li>
-                        )
-                      );
-                    }
-                  )}
-                </ul>
-                <p
-                  className={classNames({
-                    [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                    [font('hnl', 5)]: true,
+                    'float-l': true,
                   })}
                 >
-                  <a href="/opening-times">Opening times</a>
-                </p>
-              </div>
+                  <h4
+                    className={classNames({
+                      [font('hnm', 5)]: true,
+                      'no-margin': true,
+                    })}
+                  >{`Today's opening times`}</h4>
+                  <ul className="plain-list no-padding no-margin">
+                    {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
+                      venue => {
+                        const todaysHours = getTodaysVenueHours(venue);
+                        return (
+                          todaysHours && (
+                            <VerticalSpace
+                              size="s"
+                              as="li"
+                              properties={['margin-top']}
+                              key={venue.name}
+                            >
+                              {venue.name.toLowerCase() === 'restaurant'
+                                ? 'Kitchen '
+                                : `${venue.name} `}
+                              {todaysHours.opens ? (
+                                <>
+                                  <time>{todaysHours.opens}</time>
+                                  {'—'}
+                                  <time>{todaysHours.closes}</time>
+                                </>
+                              ) : (
+                                'closed'
+                              )}
+                            </VerticalSpace>
+                          )
+                        );
+                      }
+                    )}
+                  </ul>
+                  <VerticalSpace as="p" size="s" properties={['margin-top']}>
+                    <a href="/opening-times">Opening times</a>
+                  </VerticalSpace>
+                </div>
+              </VerticalSpace>
             </TopBorderBox>
           </div>
         </div>
         <FooterSocial />
         <div className="footer__bottom">
           <div className="footer__left">
-            <div
+            <VerticalSpace
+              size="m"
+              properties={['margin-top', 'padding-bottom', 'margin-bottom']}
               className={classNames({
-                [font({ s: 'HNM6' })]: true,
-                [spacing({ s: 2 }, { margin: ['top'] })]: true,
-                [spacing({ m: 2 }, { margin: ['bottom'] })]: true,
+                [font('hnm', 6)]: true,
                 [spacing({ m: 4, l: 6 }, { margin: ['right'] })]: true,
-                [spacing({ s: 2, m: 0 }, { padding: ['bottom'] })]: true,
                 footer__strap: true,
               })}
             >
@@ -179,11 +183,12 @@ const Footer = ({
               <span className="footer__strap-text">
                 The free museum and library from Wellcome
               </span>
-            </div>
-            <div
+            </VerticalSpace>
+            <VerticalSpace
+              size="m"
+              properties={['margin-top', 'padding-bottom', 'margin-bottom']}
               className={classNames({
-                [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
-                [font({ s: 'HNM6' })]: true,
+                [font('hnm', 6)]: true,
                 [spacing({ xl: 2 }, { padding: ['right'] })]: true,
                 footer__licensing: true,
               })}
@@ -203,19 +208,13 @@ const Footer = ({
                   Creative Commons Attribution 4.0 International Licence
                 </a>
               </p>
-            </div>
+            </VerticalSpace>
           </div>
           <nav className="footer__hygiene-nav">
             <ul
-              className={`plain-list footer__hygiene-list ${spacing(
-                { s: 0 },
-                {
-                  margin: ['top', 'left', 'bottom', 'right'],
-                  padding: ['left', 'bottom', 'right'],
-                }
-              )}`}
+              className={`plain-list footer__hygiene-list no-margin no-padding`}
             >
-              <li className={`footer__hygiene-item ${font({ s: 'HNM6' })}`}>
+              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
                 <a
                   href="https://wellcome.ac.uk/jobs"
                   className="footer__hygiene-link"
@@ -223,7 +222,7 @@ const Footer = ({
                   Jobs
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font({ s: 'HNM6' })}`}>
+              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
                 <a
                   href="https://wellcome.ac.uk/about-us/terms-use"
                   className="footer__hygiene-link"
@@ -231,7 +230,7 @@ const Footer = ({
                   Privacy
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font({ s: 'HNM6' })}`}>
+              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
                 <a
                   href="https://wellcome.ac.uk/about-us/terms-use"
                   className="footer__hygiene-link"
@@ -239,7 +238,7 @@ const Footer = ({
                   Cookies
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font({ s: 'HNM6' })}`}>
+              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
                 <a
                   href="https://wellcomecollection.org/press"
                   className="footer__hygiene-link"
@@ -247,7 +246,7 @@ const Footer = ({
                   Press
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font({ s: 'HNM6' })}`}>
+              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
                 <a
                   href="https://developers.wellcomecollection.org"
                   className="footer__hygiene-link"
@@ -255,7 +254,7 @@ const Footer = ({
                   Developers
                 </a>
               </li>
-              <li className={`footer__hygiene-item ${font({ s: 'HNM6' })}`}>
+              <li className={`footer__hygiene-item ${font('hnm', 6)}`}>
                 <a
                   href="#top"
                   className="footer__hygiene-link footer__hygiene-link--back-to-top"

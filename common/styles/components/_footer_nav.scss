@@ -2,7 +2,6 @@
 
 .footer-nav {
   color: color('white');
-  margin-bottom: 2 * $vertical-space-unit;
 }
 
 .footer-nav__brand {
@@ -10,15 +9,9 @@
   bottom: 0;
 }
 
-.footer-nav__nav {
-  padding: 1rem 0;
-  border-bottom: 1px solid color('charcoal');
-}
-
 .footer-nav__link {
   display: block;
   text-decoration: none;
-  padding: 0.6em 0;
   transition: color 200ms ease;
 
   &:hover {

@@ -60,7 +60,7 @@ const Typography = ({ fonts }: Props) => (
     {fonts.map(font => (
       <div key={font.name} className="styleguide__font">
         <h2 className="styleguide__font__name">{font.name}</h2>
-        <p className={`styleguide__font__example--${font.name}`}>
+        <p className={`no-margin styleguide__font__example--${font.name}`}>
           {font.example}
         </p>
         <dl className="styleguide__font__properties">

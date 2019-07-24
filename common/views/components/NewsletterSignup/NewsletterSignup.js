@@ -3,6 +3,7 @@ import { spacing, font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';
 import { Component, Fragment } from 'react';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   isSuccess?: boolean,
@@ -21,44 +22,49 @@ type State = {|
 const addressBooks = [
   {
     id: 'whats_on',
-    label: `<span class="${font({ s: 'HNL5' })}"><span class="${font({
-      s: 'HNM5',
-    })}">What’s On</span> at Wellcome Collection: our roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
+    label: `<span class="${font('hnl', 5)}"><span class="${font(
+      'hnm',
+      6
+    )}">What’s On</span> at Wellcome Collection: our roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
     name: 'addressbook_40131',
   },
   {
     id: 'accessibility',
-    label: `<span class="${font({ s: 'HNL5' })}"><span class="${font({
-      s: 'HNM5',
-    })}">Access</span> events, tours and opportunities to get involved, including British Sign Language, Audio Description and Speech-To-Text activities. Sent quarterly with occasional updates.</span>`,
+    label: `<span class="${font('hnl', 5)}"><span class="${font(
+      'hnm',
+      6
+    )}">Access</span> events, tours and opportunities to get involved, including British Sign Language, Audio Description and Speech-To-Text activities. Sent quarterly with occasional updates.</span>`,
     name: 'addressbook_40129',
   },
   {
     id: 'young_people_14-19',
-    label: `<span class="${font({
-      s: 'HNL5',
-    })}">Events and opportunities to get involved for <span class="${font({
-      s: 'HNM5',
-    })}">14-to-19-year-olds</span>, including RawMinds and Saturday Studios. Sent monthly with occasional updates.</span>`,
+    label: `<span class="${font(
+      'hnl',
+      5
+    )}">Events and opportunities to get involved for <span class="${font(
+      'hnm',
+      5
+    )}">14-to-19-year-olds</span>, including RawMinds and Saturday Studios. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40132',
   },
   {
     id: 'teachers',
-    label: `<span class="${font({
-      s: 'HNL5',
-    })}">Events and opportunities to get involved for <span class="${font({
-      s: 'HNM5',
-    })}">teachers and schools</span>, including study days and other events. Sent monthly with occasional updates.</span>`,
+    label: `<span class="${font(
+      'hnl',
+      5
+    )}">Events and opportunities to get involved for <span class="${font(
+      'hnm',
+      5
+    )}">teachers and schools</span>, including study days and other events. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40130',
     description: `Study days and other events for secondary school teachers and school groups`,
   },
   {
     id: 'youth_and_community_workers',
-    label: `<span class="${font({
-      s: 'HNL5',
-    })}">Updates for <span class="${font({
-      s: 'HNM5',
-    })}">youth and community workers</span>, featuring events and activities for 14-19 year-olds. Sent monthly with occasional updates.</span>`,
+    label: `<span class="${font('hnl', 5)}">Updates for <span class="${font(
+      'hnm',
+      5
+    )}">youth and community workers</span>, featuring events and activities for 14-19 year-olds. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40133',
   },
 ];
@@ -179,7 +185,7 @@ class NewsletterSignup extends Component<Props, State> {
               value=""
             />
 
-            <div className={spacing({ s: 5 }, { margin: ['bottom'] })}>
+            <VerticalSpace size="l">
               <HTMLInput
                 required={true}
                 id="email"
@@ -190,18 +196,15 @@ class NewsletterSignup extends Component<Props, State> {
                 isLabelHidden={true}
                 onChange={this.handleEmailInput}
               />
-            </div>
+            </VerticalSpace>
 
-            <fieldset className={spacing({ s: 2 }, { margin: ['bottom'] })}>
+            <VerticalSpace size="m" as="fieldset">
               <legend className="h3">
                 What are you interested in? Choose as many as you like:
               </legend>
               <ul className="plain-list no-padding">
                 {addressBooks.map(addressBook => (
-                  <li
-                    className={spacing({ s: 3 }, { margin: ['bottom'] })}
-                    key={addressBook.id}
-                  >
+                  <VerticalSpace as="li" size="m" key={addressBook.id}>
                     <HTMLInput
                       id={addressBook.id}
                       type="checkbox"
@@ -209,12 +212,12 @@ class NewsletterSignup extends Component<Props, State> {
                       label={addressBook.label}
                       onChange={this.updateCheckedInputs}
                     />
-                  </li>
+                  </VerticalSpace>
                 ))}
               </ul>
-            </fieldset>
+            </VerticalSpace>
 
-            <p className={`${font({ s: 'HNL6' })}`}>
+            <p className={`${font('hnl', 6)}`}>
               We use a third-party provider,{' '}
               <a href="https://www.dotmailer.com/terms/privacy-policy/">
                 Dotmailer
@@ -228,41 +231,42 @@ class NewsletterSignup extends Component<Props, State> {
               receive.
             </p>
 
-            <Button
-              type={'primary'}
-              extraClasses={`btn--primary ${spacing(
-                { s: 2 },
-                { margin: ['bottom'] }
-              )}`}
-              text="Submit"
-            />
+            <VerticalSpace size="m">
+              <Button
+                type={'primary'}
+                extraClasses={`btn--primary`}
+                text="Submit"
+              />
+            </VerticalSpace>
 
             {this.state.isCheckboxError && this.state.isSubmitAttempted && (
-              <p
+              <VerticalSpace
+                as="p"
+                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
                 className={`${spacing(
                   { s: 2 },
                   {
-                    padding: ['top', 'right', 'bottom', 'left'],
-                    margin: ['bottom'],
+                    padding: ['right', 'left'],
                   }
                 )} border-width-1 border-color-red font-red`}
               >
                 Please select at least one option.
-              </p>
+              </VerticalSpace>
             )}
 
             {this.state.isEmailError && this.state.isSubmitAttempted && (
-              <p
+              <VerticalSpace
+                as="p"
+                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
                 className={`${spacing(
                   { s: 2 },
                   {
-                    padding: ['top', 'right', 'bottom', 'left'],
-                    margin: ['bottom'],
+                    padding: ['right', 'left'],
                   }
                 )} border-width-1 border-color-red font-red`}
               >
                 Please enter a valid email address.
-              </p>
+              </VerticalSpace>
             )}
           </form>
         )}

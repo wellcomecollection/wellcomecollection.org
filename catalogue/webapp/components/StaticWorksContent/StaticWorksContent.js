@@ -12,12 +12,12 @@ const StaticWorksContent = () => (
       <div className="container">
         <div className="grid">
           <div className="grid__cell">
-            <h3 className={font({ s: 'WB6', m: 'WB4' })}>Feeling curious?</h3>
+            <h3 className="h2">Feeling curious?</h3>
             <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font({
-                s: 'HNL4',
-                m: 'HNL3',
-              })}`}
+              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
+                'hnl',
+                4
+              )}`}
             >
               Discover our collections through these topics.
             </p>
@@ -86,7 +86,7 @@ const StaticWorksContent = () => (
         <div className="grid grid--dividers">
           <div className={grid({ s: 12, m: 10, l: 7, xl: 7 })}>
             <h2
-              className={`${font({ s: 'WB6', m: 'WB4' })} ${spacing(
+              className={`h2 ${spacing(
                 { s: 6 },
                 { margin: ['bottom'] }
               )} ${spacing({ s: 0 }, { margin: ['top'] })}`}
@@ -94,7 +94,7 @@ const StaticWorksContent = () => (
               About the historical images
             </h2>
             <div className="body-text">
-              <div className={`standfirst ${font({ s: 'HNL3', m: 'HNL2' })}`}>
+              <div className={`standfirst ${font('hnl', 3)}`}>
                 <p>
                   These artworks and photographs are from the library at
                   Wellcome Collection and have been collected over several

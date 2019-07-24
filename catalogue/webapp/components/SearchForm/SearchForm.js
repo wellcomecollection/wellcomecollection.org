@@ -95,9 +95,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               autoFocus={inputQuery === ''}
               onChange={event => setInputQuery(event.currentTarget.value)}
               ref={searchInput}
-              className={font({
-                s: compact ? 'HNL4' : 'HNL3',
-                m: compact ? 'HNL3' : 'HNL2',
+              className={classNames({
+                [font('hnl', compact ? 4 : 3)]: true,
               })}
             />
 
@@ -129,7 +128,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                 'full-height': true,
                 'line-height-1': true,
                 'plain-button no-padding': true,
-                [font({ s: 'HNL3', m: 'HNL2' })]: true,
+                [font('hnl', 3)]: true,
               })}
             >
               <span className="visually-hidden">Search</span>

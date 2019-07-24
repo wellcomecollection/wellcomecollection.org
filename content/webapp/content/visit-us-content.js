@@ -333,7 +333,7 @@ export const findList = {
       {
         type: 'pages',
         id: 'Wuw19yIAAK1Z3Smy',
-        title: 'Our building',
+        title: 'Getting around our building',
         contributors: [],
         body: [],
         promo: {

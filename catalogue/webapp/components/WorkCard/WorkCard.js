@@ -94,7 +94,7 @@ const WorkCard = ({ work }: Props) => {
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
-                  [font({ s: 'HNL4' })]: true,
+                  [font('hnl', 5)]: true,
                   [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
                 })}
               >
@@ -110,7 +110,7 @@ const WorkCard = ({ work }: Props) => {
               </div>
               <h2
                 className={classNames({
-                  [font({ s: 'HNM3' })]: true,
+                  [font('hnm', 4)]: true,
                   'card-link__title': true,
                 })}
               >
