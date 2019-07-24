@@ -32,9 +32,7 @@ const ContentTypeInfo = (
     >
       <p
         className={classNames({
-          [spacing({ s: 1 }, { margin: ['top'] })]: true,
           [spacing({ s: 1 }, { margin: ['right'] })]: true,
-          [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
           [font('hnl', 5)]: true,
         })}
       >
