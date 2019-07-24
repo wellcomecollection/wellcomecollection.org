@@ -83,9 +83,10 @@ const Header = withToggler(
             aria-labelledby="header-burger-trigger"
           >
             <ul
-              className={`plain-list header__list ${font({
-                s: 'WB7',
-              })} no-margin no-padding`}
+              className={`plain-list header__list ${font(
+                'wb',
+                5
+              )} no-margin no-padding`}
             >
               {links.map((link, i) => (
                 <li

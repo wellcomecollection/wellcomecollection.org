@@ -32,7 +32,7 @@ const WorkHeader = ({ work }: Props) => {
           className={classNames({
             flex: true,
             'flex--v-center': true,
-            [font({ s: 'HNL4' })]: true,
+            [font('hnl', 5)]: true,
           })}
         >
           {workTypeIcon && (
@@ -50,7 +50,7 @@ const WorkHeader = ({ work }: Props) => {
           id="work-info"
           className={classNames({
             'no-margin': true,
-            [font({ s: 'HNM3', m: 'HNM2', l: 'HNM1' })]: true,
+            [font('hnm', 2)]: true,
           })}
           lang={work.language && work.language.id}
         >

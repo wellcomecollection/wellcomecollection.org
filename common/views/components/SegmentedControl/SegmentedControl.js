@@ -65,7 +65,7 @@ class SegmentedControl extends Component<Props, State> {
                     size="m"
                     properties={['padding-top', 'padding-bottom']}
                     className={classNames({
-                      [font({ s: 'WB6' })]: true,
+                      [font('wb', 4)]: true,
                       [spacing({ s: 2 }, { padding: ['right', 'left'] })]: true,
                       'segmented-control__button-text': true,
                       flex: true,
@@ -114,7 +114,7 @@ class SegmentedControl extends Component<Props, State> {
                   properties={['padding-top', 'padding-bottom']}
                   key={item.id}
                   className={classNames({
-                    [font({ s: 'WB6' })]: true,
+                    [font('wb', 4)]: true,
                     'border-top-width-1': i === 0,
                     'segmented-control__drawer-item': true,
                     'border-bottom-width-1': true,
@@ -174,7 +174,7 @@ class SegmentedControl extends Component<Props, State> {
             <li
               key={item.id}
               className={classNames({
-                [font({ s: 'WB7' })]: true,
+                [font('wb', 6)]: true,
                 'border-right-width-1 border-right-color-black':
                   i !== items.length - 1,
                 'segmented-control__item': true,

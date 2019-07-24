@@ -22,44 +22,49 @@ type State = {|
 const addressBooks = [
   {
     id: 'whats_on',
-    label: `<span class="${font({ s: 'HNL5' })}"><span class="${font({
-      s: 'HNM5',
-    })}">What’s On</span> at Wellcome Collection: our roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
+    label: `<span class="${font('hnl', 5)}"><span class="${font(
+      'hnm',
+      6
+    )}">What’s On</span> at Wellcome Collection: our roundup of the latest exhibitions, events, new books and opportunities to get involved. Sent monthly with up to one extra update per month.</span>`,
     name: 'addressbook_40131',
   },
   {
     id: 'accessibility',
-    label: `<span class="${font({ s: 'HNL5' })}"><span class="${font({
-      s: 'HNM5',
-    })}">Access</span> events, tours and opportunities to get involved, including British Sign Language, Audio Description and Speech-To-Text activities. Sent quarterly with occasional updates.</span>`,
+    label: `<span class="${font('hnl', 5)}"><span class="${font(
+      'hnm',
+      6
+    )}">Access</span> events, tours and opportunities to get involved, including British Sign Language, Audio Description and Speech-To-Text activities. Sent quarterly with occasional updates.</span>`,
     name: 'addressbook_40129',
   },
   {
     id: 'young_people_14-19',
-    label: `<span class="${font({
-      s: 'HNL5',
-    })}">Events and opportunities to get involved for <span class="${font({
-      s: 'HNM5',
-    })}">14-to-19-year-olds</span>, including RawMinds and Saturday Studios. Sent monthly with occasional updates.</span>`,
+    label: `<span class="${font(
+      'hnl',
+      5
+    )}">Events and opportunities to get involved for <span class="${font(
+      'hnm',
+      5
+    )}">14-to-19-year-olds</span>, including RawMinds and Saturday Studios. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40132',
   },
   {
     id: 'teachers',
-    label: `<span class="${font({
-      s: 'HNL5',
-    })}">Events and opportunities to get involved for <span class="${font({
-      s: 'HNM5',
-    })}">teachers and schools</span>, including study days and other events. Sent monthly with occasional updates.</span>`,
+    label: `<span class="${font(
+      'hnl',
+      5
+    )}">Events and opportunities to get involved for <span class="${font(
+      'hnm',
+      5
+    )}">teachers and schools</span>, including study days and other events. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40130',
     description: `Study days and other events for secondary school teachers and school groups`,
   },
   {
     id: 'youth_and_community_workers',
-    label: `<span class="${font({
-      s: 'HNL5',
-    })}">Updates for <span class="${font({
-      s: 'HNM5',
-    })}">youth and community workers</span>, featuring events and activities for 14-19 year-olds. Sent monthly with occasional updates.</span>`,
+    label: `<span class="${font('hnl', 5)}">Updates for <span class="${font(
+      'hnm',
+      5
+    )}">youth and community workers</span>, featuring events and activities for 14-19 year-olds. Sent monthly with occasional updates.</span>`,
     name: 'addressbook_40133',
   },
 ];
@@ -212,7 +217,7 @@ class NewsletterSignup extends Component<Props, State> {
               </ul>
             </VerticalSpace>
 
-            <p className={`${font({ s: 'HNL6' })}`}>
+            <p className={`${font('hnl', 6)}`}>
               We use a third-party provider,{' '}
               <a href="https://www.dotmailer.com/terms/privacy-policy/">
                 Dotmailer

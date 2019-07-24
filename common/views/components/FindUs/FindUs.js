@@ -11,7 +11,7 @@ import VerticalSpace from '../styled/VerticalSpace';
 
 const StyledFindUs = styled.div.attrs(props => ({
   className: classNames({
-    [font({ s: 'HNL5' })]: true,
+    [font('hnl', 5)]: true,
   }),
 }))`
   border-bottom: 1px solid ${props => props.theme.colors.charcoal};

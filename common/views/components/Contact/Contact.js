@@ -24,7 +24,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
       >
         <span
           className={classNames({
-            [font({ s: 'HNM3' })]: true,
+            [font('hnm', 4)]: true,
           })}
         >
           {title}
@@ -32,7 +32,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
         {subtitle && (
           <span
             className={classNames({
-              [font({ s: 'HNL3' })]: true,
+              [font('hnl', 4)]: true,
               [spacing({ s: 1 }, { margin: ['left'] })]: true,
             })}
           >
@@ -43,7 +43,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
       {phone && (
         <span
           className={classNames({
-            [font({ s: 'HNL3' })]: true,
+            [font('hnl', 4)]: true,
             block: true,
           })}
         >
@@ -54,7 +54,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
         <div>
           <a
             className={classNames({
-              [font({ s: 'HNL3' })]: true,
+              [font('hnl', 4)]: true,
             })}
             href={`mailto:${email}`}
           >

@@ -108,14 +108,14 @@ const Download = ({
     <div>
       <div
         className={classNames({
-          [font({ s: 'HNL5', m: 'HNL4' })]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         {useJavascriptControl ? (
           <h2 className="inline">
             <DownloadButton
               className={classNames({
-                [font({ s: 'HNM4' })]: true,
+                [font('hnm', 5)]: true,
                 'flex-inline': true,
                 'flex--v-center': true,
               })}
@@ -141,7 +141,7 @@ const Download = ({
         ) : (
           <h2
             className={classNames({
-              [font({ s: 'WB6', m: 'WB5' })]: true,
+              [font('wb', 3)]: true,
               'work-details-heading': true,
             })}
           >
@@ -151,7 +151,7 @@ const Download = ({
         <DownloadOptions
           id="downloadOptions"
           className={classNames({
-            [font({ s: 'HNM5', m: 'HNM4' })]: true,
+            [font('hnm', 5)]: true,
             'enhanced-styles': useJavascriptControl,
             show: showDownloads,
           })}
@@ -192,8 +192,8 @@ const Download = ({
                         {format && (
                           <span
                             className={classNames({
+                              [font('hnm', 5)]: true,
                               'font-pewter': true,
-                              [font({ s: 'HNM5' })]: true,
                               [spacing({ s: 2 }, { margin: ['left'] })]: true,
                             })}
                           >
@@ -234,7 +234,9 @@ const Download = ({
           {licenseInfo && licenseInfoLink && (
             <a
               href="#licenseInformation"
-              className={font({ s: 'HNM5', m: 'HNM4' })}
+              className={classNames({
+                [font('hnm', 5)]: true,
+              })}
             >
               <span className="flex-inline flex--v-center nowrap">
                 <Icon name="arrowSmall" extraClasses="icon--90" />

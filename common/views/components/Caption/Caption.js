@@ -18,7 +18,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
       size="m"
       style={width ? { width: `${width}px` } : undefined}
       className={classNames({
-        [font({ s: 'LR3', m: 'LR2' })]: true,
+        [font('lr', 6)]: true,
         'caption h-center': true,
       })}
     >

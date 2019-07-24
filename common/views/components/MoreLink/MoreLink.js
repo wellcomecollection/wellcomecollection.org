@@ -36,7 +36,7 @@ const MoreLink = ({
         'more-link': true,
         'flex-inline': true,
         'flex-v-center': true,
-        [font({ s: 'HNM4' })]: true,
+        [font('hnm', 5)]: true,
       })}
       href={url}
     >

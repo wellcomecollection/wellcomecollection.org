@@ -57,18 +57,18 @@ const FacilityPromo = ({
           properties={['margin-top']}
           className={classNames({
             'promo-link__title': true,
-            [font({ s: 'WB6' })]: true,
+            [font('wb', 4)]: true,
           })}
         >
           {title}
         </VerticalSpace>
-        <p className={`${font({ s: 'HNL5' })} no-margin no-padding`}>
+        <p className={`${font('hnl', 5)} no-margin no-padding`}>
           {description}
         </p>
 
         {metaText && (
           <VerticalSpace size="m" properties={['padding-top']}>
-            <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
+            <div className={`${font('hnm', 6)} flex flex--v-center`}>
               {metaIcon && (
                 <Icon name={metaIcon} extraClasses="margin-right-s1" />
               )}

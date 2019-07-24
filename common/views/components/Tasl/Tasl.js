@@ -137,7 +137,7 @@ const Tasl = withToggler(
         <div
           className={`
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
-      ${font({ s: 'LR3', m: 'LR2' })}
+      ${font('lr', 6)}
       ${isActive ? 'is-active' : ''}
       tasl drawer plain-text
     `}

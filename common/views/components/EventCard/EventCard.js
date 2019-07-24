@@ -44,7 +44,7 @@ const EventCard = ({ event, xOfY }: Props) => {
         event.times.length > 1 && (
           <p
             className={classNames({
-              [font({ s: 'HNM5' })]: true,
+              [font('hnm', 4)]: true,
               'no-margin': true,
             })}
           >

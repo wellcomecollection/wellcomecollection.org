@@ -99,7 +99,7 @@ export class HomePage extends Component<Props> {
                   properties={['margin-top']}
                   className={classNames({
                     'no-margin': true,
-                    [font({ s: 'WB4', m: 'WB3' })]: true,
+                    [font('wb', 1)]: true,
                   })}
                 >
                   The free museum and library for the incurably curious

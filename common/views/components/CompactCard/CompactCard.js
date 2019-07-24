@@ -88,7 +88,7 @@ const CompactCard = ({
         <div
           className={classNames({
             'card-link__title': true,
-            [font({ s: 'WB5' })]: true,
+            [font('wb', 3)]: true,
             [spacing({ s: 0 }, { margin: ['top'] })]: true,
           })}
         >
@@ -99,7 +99,7 @@ const CompactCard = ({
         {ExtraInfo}
         {description && (
           <div className="spaced-text">
-            <p className={font({ s: 'HNL4' })}>{description}</p>
+            <p className={font('hnl', 5)}>{description}</p>
           </div>
         )}
       </div>

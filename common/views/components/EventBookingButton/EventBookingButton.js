@@ -61,7 +61,7 @@ const EventBookingButton = ({ event }: Props) => {
         <VerticalSpace
           size="s"
           properties={['margin-top']}
-          className={`block font-charcoal ${font({ s: 'HNL5' })}`}
+          className={`block font-charcoal ${font('hnl', 4)}`}
           href={`mailto:${team.email}?subject=${event.title}`}
         >
           {team.email}

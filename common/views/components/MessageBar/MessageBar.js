@@ -10,7 +10,7 @@ const PurpleTag = styled.span.attrs(props => ({
     'inline-block': true,
     'bg-purple': true,
     'font-white': true,
-    [font({ s: 'HNM5' })]: true,
+    [font('hnm', 5)]: true,
     [spacing({ s: 1 }, { margin: ['right'] })]: true,
   }),
 }))`
@@ -27,7 +27,7 @@ const MessageBar = ({ tagText, children }: Props) => (
     size="m"
     properties={['padding-top', 'padding-bottom']}
     className={classNames({
-      [font({ s: 'HNL4' })]: true,
+      [font('hnl', 5)]: true,
     })}
   >
     {tagText && <PurpleTag>{tagText}</PurpleTag>}

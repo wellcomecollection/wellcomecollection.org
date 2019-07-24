@@ -26,7 +26,8 @@ const Pagination = ({
 }: Props) => (
   <div
     className={`pagination float-r flex-inline flex--v-center font-pewter ${font(
-      { s: 'LR3', m: 'LR2' }
+      'lr',
+      6
     )}`}
   >
     {prevPage && prevQueryString && (

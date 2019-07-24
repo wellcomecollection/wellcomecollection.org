@@ -47,7 +47,7 @@ type State = {|
 function EventStatus(text, color) {
   return (
     <div className="flex">
-      <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
+      <div className={`${font('hnm', 6)} flex flex--v-center`}>
         <span
           className={`${spacing(
             { s: 1 },
@@ -387,9 +387,10 @@ class EventPage extends Component<Props, State> {
                       {event.thirdPartyBooking.name && (
                         <VerticalSpace size="s" properties={['margin-top']}>
                           <p
-                            className={`no-margin font-charcoal ${font({
-                              s: 'HNL5',
-                            })}`}
+                            className={`no-margin font-charcoal ${font(
+                              'hnl',
+                              5
+                            )}`}
                           >
                             with {event.thirdPartyBooking.name}
                           </p>
@@ -437,7 +438,7 @@ class EventPage extends Component<Props, State> {
                       properties={['margin-top']}
                       className={classNames({
                         'block font-charcoal': true,
-                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                        [font('hnm', 5)]: true,
                       })}
                     >
                       <span>{event.bookingEnquiryTeam.email}</span>
@@ -495,7 +496,7 @@ class EventPage extends Component<Props, State> {
                   )
                   .filter(Boolean)}
               >
-                <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+                <p className={`no-margin ${font('hnl', 5)}`}>
                   <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
                     Our event terms and conditions
                   </a>

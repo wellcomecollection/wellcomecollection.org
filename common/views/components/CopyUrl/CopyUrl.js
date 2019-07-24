@@ -110,7 +110,6 @@ class CopyUrl extends Component<Props, State> {
           label="share url"
           defaultValue={url}
           isLabelHidden={true}
-          fontStyles={{ s: 'HNL5', m: 'HNL4' }}
         />
 
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
@@ -123,7 +122,7 @@ class CopyUrl extends Component<Props, State> {
           onClick={this.handleButtonClick}
           data-copy-text={url}
           className={classNames({
-            [font({ s: 'HNM5' })]: true,
+            [font('hnm', 5)]: true,
             'btn btn--tertiary flex-inline flex--v-center pointer': true,
             'is-hidden': !this.state.isEnhanced,
           })}

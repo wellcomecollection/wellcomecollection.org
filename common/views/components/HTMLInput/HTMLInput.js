@@ -9,7 +9,6 @@ type Props = {|
   value?: string,
   defaultValue?: string,
   label: string,
-  fontStyles?: {},
   name?: string,
   placeholder?: string,
   disabled?: boolean,
@@ -37,7 +36,6 @@ const HTMLInput = ({
   autofocus,
   label,
   isLabelHidden,
-  fontStyles = { s: 'HNL3', m: 'HNL2' },
   onChange,
 }: Props) => (
   <label
@@ -49,7 +47,7 @@ const HTMLInput = ({
       required={required}
       ref={inputRef}
       id={id}
-      className={`input input--${type} ${font(fontStyles)} js-input`}
+      className={`input input--${type} ${font('hnl', 4)} js-input`}
       type={type}
       name={name}
       value={value}

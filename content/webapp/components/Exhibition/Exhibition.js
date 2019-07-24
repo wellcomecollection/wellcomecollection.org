@@ -266,7 +266,7 @@ const Exhibition = ({ exhibition }: Props) => {
         )}
         {exhibition.end && !isPast(exhibition.end) && (
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+            <p className={`no-margin ${font('hnl', 5)}`}>
               <a href="/access">All our accessibility services</a>
             </p>
           </InfoBox>

@@ -167,11 +167,7 @@ const Works = ({ works }: Props) => {
                 >
                   <>
                     {!works && (
-                      <VerticalSpace
-                        as="h1"
-                        size="m"
-                        className={classNames([font({ s: 'WB6', m: 'WB4' })])}
-                      >
+                      <VerticalSpace as="h1" size="m" className="h1">
                         Explore our collections
                       </VerticalSpace>
                     )}
@@ -184,7 +180,7 @@ const Works = ({ works }: Props) => {
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <p
                   className={classNames({
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                    [font('hnl', 4)]: true,
                     'visually-hidden': Boolean(works),
                   })}
                   id="search-form-description"
@@ -411,7 +407,7 @@ const Works = ({ works }: Props) => {
                     We couldn{`'`}t find anything that matched{' '}
                     <span
                       className={classNames({
-                        [font({ s: 'HNL1' })]: true,
+                        [font('hnl', 2)]: true,
                       })}
                       style={{ fontWeight: '400' }}
                     >

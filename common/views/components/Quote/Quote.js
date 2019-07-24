@@ -1,6 +1,6 @@
 // @flow
 import type { HTMLString } from '../../../services/prismic/types';
-import { font, classNames, spacing } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import VerticalSpace from '../styled/VerticalSpace';
 
@@ -14,8 +14,7 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
   <blockquote
     className={classNames({
       'quote--pull': isPullOrReview,
-      [font({ s: 'HNL3', m: 'HNL2' })]: isPullOrReview,
-      [spacing({ s: 3 }, { padding: ['left'] })]: true,
+      [font('hnl', 2)]: isPullOrReview,
       'quote no-margin': true,
     })}
   >
@@ -25,10 +24,10 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
     {citation && (
       <footer className="quote__footer flex">
         <cite
-          className={`quote__cite flex flex--v-end font-pewter ${font({
-            s: 'HNL5',
-            m: 'HNL4',
-          })}`}
+          className={`quote__cite flex flex--v-end font-pewter ${font(
+            'hnl',
+            5
+          )}`}
         >
           <PrismicHtmlBlock html={citation} />
         </cite>

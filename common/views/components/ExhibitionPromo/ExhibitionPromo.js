@@ -88,14 +88,14 @@ const ExhibitionPromo = ({
             size="s"
             className={classNames({
               'promo-link__title': true,
-              [font({ s: 'WB5' })]: true,
+              [font('wb', 3)]: true,
             })}
           >
             {title}
           </VerticalSpace>
 
           {!statusOverride && start && end && (
-            <p className={`${font({ s: 'HNL4' })} no-margin no-padding`}>
+            <p className={`${font('hnl', 5)} no-margin no-padding`}>
               <Fragment>
                 <time dateTime={start}>{formatDate(start)}</time>—
                 <time dateTime={end}>{formatDate(end)}</time>

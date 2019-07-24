@@ -57,7 +57,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
           <h3
             className={classNames({
               'no-margin book-promo__title': true,
-              [font({ s: 'HNM3' })]: true,
+              [font('hnm', 4)]: true,
             })}
           >
             {title}
@@ -68,7 +68,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
           <h4
             className={classNames({
               'no-margin': true,
-              [font({ s: 'HNM4' })]: true,
+              [font('hnm', 4)]: true,
             })}
           >
             {subtitle}
@@ -79,7 +79,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
           <VerticalSpace size="m" properties={['margin-top']}>
             <p
               className={classNames({
-                [font({ s: 'HNL4' })]: true,
+                [font('hnl', 5)]: true,
                 'no-margin': true,
               })}
             >
@@ -93,7 +93,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
           properties={['margin-top']}
           className={classNames({
             'flex-inline': true,
-            [font({ s: 'HNM4' })]: true,
+            [font('hnm', 5)]: true,
           })}
         >
           <Icon name="arrow" extraClasses="icon--green" />

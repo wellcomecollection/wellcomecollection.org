@@ -145,7 +145,7 @@ const DateRange = ({
         size="s"
         properties={['margin-bottom']}
         className={classNames({
-          [font({ s: 'HNM4', m: 'HNM4' })]: true,
+          [font('hnm', 5)]: true,
         })}
       >
         {period === 'today' && (
@@ -171,7 +171,7 @@ const DateRange = ({
               as="p"
               size="m"
               className={classNames({
-                [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                [font('wb', 2)]: true,
               })}
             >
               Our exhibitions are closed today, but our{' '}
@@ -221,7 +221,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                   <div className="flex flex--v-center">
                     <span
                       className={classNames({
-                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                        [font('hnm', 5)]: true,
                         [spacing({ s: 2 }, { margin: ['right'] })]: true,
                       })}
                     >
@@ -234,7 +234,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                         <Icon name={'clock'} extraClasses={'margin-right-s1'} />
                         <span
                           className={classNames({
-                            [font({ s: 'HNL5', m: 'HNL4' })]: true,
+                            [font('hnl', 5)]: true,
                             [spacing({ s: 2 }, { margin: ['right'] })]: true,
                           })}
                         >
@@ -251,7 +251,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                 <NextLink href={`/opening-times`} as={`/opening-times`}>
                   <a
                     className={classNames({
-                      [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                      [font('hnm', 5)]: true,
                     })}
                   >{`Full opening times`}</a>
                 </NextLink>
@@ -380,7 +380,7 @@ export class WhatsOnPage extends Component<Props> {
                           />
                           <div className="flex flex--v-center flex--h-space-between">
                             <h2 className="h1">Exhibitions</h2>
-                            <span className={font({ s: 'HNM5', m: 'HNM4' })}>
+                            <span className={font('hnm', 5)}>
                               Free admission
                             </span>
                           </div>
@@ -430,9 +430,7 @@ export class WhatsOnPage extends Component<Props> {
                         />
                         <div className="flex flex--v-center flex--h-space-between">
                           <h2 className="h1">Exhibitions and Events</h2>
-                          <span className={font({ s: 'HNM5', m: 'HNM4' })}>
-                            Free admission
-                          </span>
+                          <span className={font('hnm', 4)}>Free admission</span>
                         </div>
                       </Layout12>
                     </VerticalSpace>

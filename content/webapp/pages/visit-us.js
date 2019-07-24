@@ -63,7 +63,7 @@ const BespokeBody = (
             <div
               className={classNames({
                 [grid({ s: 12, l: 6, xl: 6 })]: true,
-                [font({ s: 'HNL5' })]: true,
+                [font('hnl', 4)]: true,
               })}
             >
               <FindUs />
@@ -71,7 +71,7 @@ const BespokeBody = (
             <div
               className={classNames({
                 [grid({ s: 12, l: 6, xl: 6 })]: true,
-                [font({ s: 'HNL5' })]: true,
+                [font('hnl', 4)]: true,
               })}
             >
               <Icon
@@ -83,15 +83,13 @@ const BespokeBody = (
               />
               <div
                 className={classNames({
-                  [font({
-                    s: 'HNL5',
-                  })]: true,
+                  [font('hnl', 4)]: true,
                   'float-l': true,
                 })}
               >
                 <h2
                   className={classNames({
-                    [font({ s: 'HNM5' })]: true,
+                    [font('hnm', 4)]: true,
                     'no-margin': true,
                   })}
                 >{`Today's opening times`}</h2>
@@ -154,7 +152,7 @@ const BespokeBody = (
         <div
           className={classNames({
             [grid({ s: 12, l: 6, xl: 6 })]: true,
-            [font({ s: 'HNL5' })]: true,
+            [font('hnl', 4)]: true,
           })}
         >
           <VerticalSpace size="m">
@@ -167,7 +165,7 @@ const BespokeBody = (
         <div
           className={classNames({
             [grid({ s: 12, l: 6, xl: 6 })]: true,
-            [font({ s: 'HNL5' })]: true,
+            [font('hnl', 4)]: true,
           })}
         >
           <VerticalSpace size="m">
@@ -188,7 +186,7 @@ const BespokeBody = (
         <div
           className={classNames({
             [grid({ s: 12, l: 6, xl: 6 })]: true,
-            [font({ s: 'HNL5' })]: true,
+            [font('hnl', 4)]: true,
           })}
         >
           <VerticalSpace size="m">

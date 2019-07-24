@@ -38,7 +38,7 @@ const headerHeight = 149;
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--v-center': true,
-    [font({ s: 'HNL5' })]: true,
+    [font('hnl', 5)]: true,
   }),
 }))`
   justify-content: space-between;
@@ -201,7 +201,7 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
     'font-white': !props.isActive,
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
-    [font({ s: 'HNL4' })]: true,
+    [font('hnl', 5)]: true,
     [spacing({ s: 2 }, { margin: ['top'] })]: true,
   }),
 }))`
@@ -561,7 +561,7 @@ const IIIFViewerComponent = ({
         >
           <a
             className={classNames({
-              [font({ s: 'HNM5', m: 'HNM4' })]: true,
+              [font('hnm', 5)]: true,
               'flex-inline': true,
               'flex-v-center': true,
               'plain-link': true,

@@ -56,7 +56,7 @@ const FooterSocial = () => (
         <VerticalSpace
           as="a"
           size="l"
-          className={`footer-social__link ${font({ s: 'HNM6' })}`}
+          className={`footer-social__link ${font('hnm', 6)}`}
           href={item.url}
         >
           <Icon name={item.icon} extraClasses="margin-right-s1" />

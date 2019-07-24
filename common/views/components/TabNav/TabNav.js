@@ -84,7 +84,7 @@ const TabNav = ({ items }: Props) => {
   return (
     <div
       className={classNames({
-        [font({ s: 'HNM3' })]: true,
+        [font('hnm', 4)]: true,
       })}
     >
       <ul

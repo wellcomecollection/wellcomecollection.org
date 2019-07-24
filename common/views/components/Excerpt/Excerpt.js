@@ -22,9 +22,7 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
           className={`${spacing(
             { s: 3 },
             { padding: ['left', 'right'] }
-          )} ${font({
-            s: 'LR3',
-          })} pre  border-color-smoke border-left-width-5`}
+          )} ${font('lr', 5)} pre  border-color-smoke border-left-width-5`}
         >
           {content}
         </pre>
@@ -33,7 +31,7 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
     {audio && <audio controls src={audio} style={{ width: '100%' }} />}
     {source && (
       <p>
-        <a href={`/books/${source.id}`} className={`${font({ s: 'HNL5' })}`}>
+        <a href={`/books/${source.id}`} className={`${font('hnl', 4)}`}>
           {source.title}
         </a>
       </p>

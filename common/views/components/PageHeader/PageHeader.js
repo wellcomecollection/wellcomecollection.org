@@ -173,7 +173,7 @@ const PageHeader = ({
             <VerticalSpace
               size="m"
               className={classNames({
-                [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                [font('hnl', 4)]: true,
               })}
             >
               {ContentTypeInfo}

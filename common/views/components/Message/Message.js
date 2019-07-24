@@ -14,7 +14,7 @@ const Message = ({ text }: Props) => (
       'border-color-yellow': true,
       'inline-block': true,
       [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
-      [font({ s: 'HNM4' })]: true,
+      [font('hnm', 5)]: true,
     })}
   >
     {text}
