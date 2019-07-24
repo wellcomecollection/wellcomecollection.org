@@ -17,6 +17,7 @@ import { workUrl } from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   work: Work,
@@ -73,11 +74,13 @@ const WorkCard = ({ work }: Props) => {
           id: work.id,
         })}
       >
-        <a
+        <VerticalSpace
+          as="a"
+          properties={['padding-top', 'padding-bottom']}
+          size="m"
           className={classNames({
             'plain-link': true,
             block: true,
-            [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
             'card-link': true,
           })}
           onClick={() => {
@@ -90,12 +93,12 @@ const WorkCard = ({ work }: Props) => {
         >
           <Container>
             <Details>
-              <div
+              <VerticalSpace
+                size="s"
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
                   [font('hnl', 5)]: true,
-                  [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
                 })}
               >
                 {workTypeIcon && (
@@ -107,7 +110,7 @@ const WorkCard = ({ work }: Props) => {
                   />
                 )}
                 {work.workType.label}
-              </div>
+              </VerticalSpace>
               <h2
                 className={classNames({
                   [font('hnm', 4)]: true,
@@ -180,11 +183,7 @@ const WorkCard = ({ work }: Props) => {
             {({ showWorkLocations }) =>
               showWorkLocations &&
               (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <div
-                  className={classNames({
-                    [spacing({ s: 2 }, { margin: ['top'] })]: true,
-                  })}
-                >
+                <VerticalSpace size="m" properties={['margin-top']}>
                   <LinkLabels
                     heading={'See it'}
                     icon={'eye'}
@@ -203,11 +202,11 @@ const WorkCard = ({ work }: Props) => {
                         : null,
                     ].filter(Boolean)}
                   />
-                </div>
+                </VerticalSpace>
               )
             }
           </TogglesContext.Consumer>
-        </a>
+        </VerticalSpace>
       </NextLink>
     </div>
   );
