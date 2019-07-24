@@ -9,7 +9,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 
 const HiddenContent = styled.div.attrs(props => ({
   className: classNames({
-    [font({ s: 'HNM5', m: 'HNM4' })]: true,
+    [font('hnm', 5)]: true,
   }),
 }))`
   min-width: 200px;
