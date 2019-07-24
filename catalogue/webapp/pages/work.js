@@ -54,6 +54,7 @@ export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifests, setIIIFPresentationManifests] = useState(
     null
   );
+  const [manifestsCount, setManifestsCount] = useState(0);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);
@@ -61,6 +62,7 @@ export const WorkPage = ({ work }: Props) => {
       const manifestData = await iiifManifest.json();
 
       if (manifestData.manifests) {
+        setManifestsCount(manifestData.manifests.length);
         setIIIFPresentationManifests(
           await getManifests(manifestData.manifests)
         );
@@ -200,7 +202,7 @@ export const WorkPage = ({ work }: Props) => {
       >
         <div className="container">
           <div className="grid">
-            <WorkHeader work={work} />
+            <WorkHeader work={work} manifestsCount={manifestsCount} />
           </div>
         </div>
       </VerticalSpace>

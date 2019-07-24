@@ -22,7 +22,7 @@ const Label = ({ label }: Props) => {
       ${font('hnm', 6)}
       ${spacing({ s: 1 }, { padding: ['top', 'bottom', 'left', 'right'] })}
     `}
-      style={{ display: 'block', whiteSpace: 'nowrap' }}
+      style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
     >
       {label.text}
     </HtmlTag>
