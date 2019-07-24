@@ -5,7 +5,7 @@ import Layout12 from '../Layout12/Layout12';
 import Divider from '../Divider/Divider';
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { classNames, spacing, font, grid } from '../../../utils/classnames';
+import { classNames, font, grid } from '../../../utils/classnames';
 import type { Period } from '../../../model/periods';
 import type { UiExhibition } from '../../../model/exhibitions';
 import type { UiEvent } from '../../../model/events';
@@ -124,11 +124,7 @@ const LayoutPaginatedResults = ({
         </Layout12>
       )}
 
-      <VerticalSpace
-        size="l"
-        properties={['margin-top']}
-        className={spacing({ s: 4 }, { margin: ['top'] })}
-      >
+      <VerticalSpace size="l" properties={['margin-top']}>
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
       </VerticalSpace>
 
