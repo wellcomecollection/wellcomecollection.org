@@ -88,7 +88,7 @@ const ExhibitionPromo = ({
             size="s"
             className={classNames({
               'promo-link__title': true,
-              [font('wb', 4)]: true,
+              [font('wb', 3)]: true,
             })}
           >
             {title}

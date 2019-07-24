@@ -72,7 +72,7 @@ const EventPromo = ({
             as="h2"
             className={classNames({
               'promo-link__title': true,
-              [font('wb', 4)]: true,
+              [font('wb', 3)]: true,
             })}
           >
             {event.title}

@@ -87,7 +87,7 @@ const StoryPromo = ({
             size="s"
             className={`
             promo-link__title
-            ${font('wb', 4)}
+            ${font('wb', 3)}
           `}
           >
             {item.title}
