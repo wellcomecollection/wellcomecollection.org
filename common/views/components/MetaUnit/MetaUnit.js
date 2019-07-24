@@ -1,6 +1,6 @@
 // @flow
 import type { Node } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Tags, { type TagType } from '../Tags/Tags';
@@ -61,8 +61,7 @@ const LinksList = ({ links }) => {
         as="ul"
         size="m"
         className={classNames({
-          'plain-list no-padding': true,
-          [spacing({ s: 0 }, { margin: ['top'] })]: true,
+          'plain-list no-margin no-padding': true,
         })}
       >
         {links.map((link, i, arr) => (
@@ -84,8 +83,7 @@ const List = ({ list }) => {
         as="ul"
         size="m"
         className={classNames({
-          'plain-list no-padding': true,
-          [spacing({ s: 0 }, { margin: ['top'] })]: true,
+          'plain-list no-margin no-padding': true,
         })}
       >
         {list.map((item, i, arr) => (
