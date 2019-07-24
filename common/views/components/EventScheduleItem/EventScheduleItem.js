@@ -81,11 +81,9 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               </VerticalSpace>
             )}
 
-            <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
-                'hnl',
-                5
-              )}`}
+            <VerticalSpace
+              size="m"
+              className={font('hnl', 5)}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
