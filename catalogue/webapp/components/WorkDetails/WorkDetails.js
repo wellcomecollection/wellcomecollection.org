@@ -1,7 +1,7 @@
 // @flow
 import { type Node, Fragment } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
@@ -24,6 +24,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -364,10 +365,11 @@ const WorkDetails = ({
   );
 
   return (
-    <div
+    <VerticalSpace
+      size="xl"
+      properties={['padding-top', 'padding-bottom']}
       className={classNames({
         row: true,
-        [spacing({ s: 6, m: 8 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
       <Layout12>
@@ -385,7 +387,7 @@ const WorkDetails = ({
           );
         })}
       </Layout12>
-    </div>
+    </VerticalSpace>
   );
 };
 
