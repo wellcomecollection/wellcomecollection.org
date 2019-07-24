@@ -27,7 +27,7 @@ const DownloadOptions = styled.div.attrs(props => ({
   position: absolute;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
-  display: ${props => (props.show ? 'block' : 'none')};
+  display: ${props => (props.hidden ? 'none' : 'show')};
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
@@ -73,7 +73,20 @@ const Download = ({
   downloadOptions,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(false);
+  const wrapperRef = useRef(null);
   const downloadText = useRef(null);
+  useEffect(() => {
+    window.document.addEventListener('click', handleClickOutside, false);
+    return () => {
+      window.document.removeEventListener('click', handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setShowDownloads(false);
+    }
+  };
   useEffect(() => {
     const links =
       downloadText &&
@@ -87,6 +100,7 @@ const Download = ({
   }, [showDownloads]);
   return (
     <div
+      ref={wrapperRef}
       className={classNames({
         'inline-block': true,
         relative: true,
@@ -102,11 +116,13 @@ const Download = ({
         })}
         icon="download"
         text="Download"
+        ariaControls="downloadOptions"
+        ariaExpanded={showDownloads}
         clickHandler={() => {
           setShowDownloads(!showDownloads);
         }}
       />
-      <DownloadOptions id="downloadOptions" show={showDownloads}>
+      <DownloadOptions id="downloadOptions" hidden={!showDownloads}>
         <SpacingComponent>
           <ul className="plain-list no-margin no-padding">
             {downloadOptions

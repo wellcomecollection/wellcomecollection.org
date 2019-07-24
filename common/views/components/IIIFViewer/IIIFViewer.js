@@ -1,5 +1,6 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
+import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
@@ -31,6 +32,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
+import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Router from 'next/router';
 
 const headerHeight = 149;
@@ -57,26 +59,36 @@ const TitleContainer = styled.div.attrs(props => ({
   h1 {
     margin: 0;
   }
-  a {
+  .title {
     max-width: 30%;
+    .part {
+      max-width: 100%;
+      display: block;
+      @media (min-width: ${props => props.theme.sizes.large}px) {
+        display: none;
+      }
+    }
+    .plain-link {
+      max-width: 100%;
+    }
   }
   button {
     overflow: hidden;
     display: inline-block;
     .icon {
       margin: 0;
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      @media (min-width: ${props => props.theme.sizes.large}px) {
         margin-right: ${props => `${props.theme.spacingUnit}px`};
       }
     }
     .btn__text {
       position: absolute;
       right: 100%;
-      @media (min-width: ${props => props.theme.sizes.medium}px) {
+      @media (min-width: ${props => props.theme.sizes.large}px) {
         position: static;
       }
     }
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
+    @media (min-width: ${props => props.theme.sizes.large}px) {
       width: 130px;
     }
   }
@@ -486,6 +498,8 @@ const IIIFViewerComponent = ({
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
+  const [parentManifest, setParentManifest] = useState(null);
+  const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
   const thumbnailContainer = useRef(null);
   const activeThumbnailRef = useRef(null);
   const viewToggleRef = useRef(null);
@@ -541,10 +555,33 @@ const IIIFViewerComponent = ({
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
+  const parentManifestUrl = manifest && manifest.within;
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
   }, []);
+
+  useEffect(() => {
+    const fetchParentManifest = async () => {
+      const parentManifest =
+        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+      parentManifest && setParentManifest(parentManifest);
+    };
+
+    fetchParentManifest();
+  }, []);
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find(manifest => {
+        return (
+          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === sierraId
+        );
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
 
   useEffect(() => {
     thumbnailContainer.current &&
@@ -554,23 +591,26 @@ const IIIFViewerComponent = ({
   return (
     <>
       <TitleContainer>
-        <NextLink
-          {...workUrl({
-            id: workId,
-          })}
-        >
-          <a
-            className={classNames({
-              [font('hnm', 5)]: true,
-              'flex-inline': true,
-              'flex-v-center': true,
-              'plain-link': true,
-              'font-hover-yellow': true,
+        <div className="title">
+          <span className="part">{currentManifestLabel}</span>
+          <NextLink
+            {...workUrl({
+              id: workId,
             })}
           >
-            <TruncatedText as="h1">{title}</TruncatedText>
-          </a>
-        </NextLink>
+            <a
+              className={classNames({
+                [font('hnm', 5)]: true,
+                'flex-inline': true,
+                'flex-v-center': true,
+                'plain-link': true,
+                'font-hover-yellow': true,
+              })}
+            >
+              <TruncatedText as="h1">{title}</TruncatedText>
+            </a>
+          </NextLink>
+        </div>
         {canvases && canvases.length > 1 && (
           <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
             ''}`}</>
@@ -609,6 +649,36 @@ const IIIFViewerComponent = ({
                 downloadOptions || iiifPresentationDownloadOptions
               }
             />
+            {parentManifest && parentManifest.manifests && (
+              <ViewerExtraContent buttonText={currentManifestLabel || 'Choose'}>
+                <ul className="no-margin no-padding plain-list">
+                  {parentManifest.manifests.map((manifest, i) => (
+                    <li
+                      key={manifest['@id']}
+                      className={
+                        manifest.label === currentManifestLabel
+                          ? 'current'
+                          : null
+                      }
+                    >
+                      <NextLink
+                        {...itemUrl({
+                          workId,
+                          page: 1,
+                          sierraId: (manifest['@id'].match(
+                            /iiif\/(.*)\/manifest/
+                          ) || [])[1],
+                          langCode: lang,
+                          canvas: 0,
+                        })}
+                      >
+                        <a>{manifest.label}</a>
+                      </NextLink>
+                    </li>
+                  ))}
+                </ul>
+              </ViewerExtraContent>
+            )}
           </div>
         )}
       </TitleContainer>
@@ -813,3 +883,5 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
+
+// TODO aria-controls for extra content

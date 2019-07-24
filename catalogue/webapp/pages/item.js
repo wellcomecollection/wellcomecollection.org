@@ -48,7 +48,7 @@ async function getCanvasOcr(canvas) {
         })
         .map(resource => resource.resource.chars)
         .join(' ');
-      return textString.length > 0 ? textString : null;
+      return textString.length > 0 ? textString : 'text unavailable';
     } catch (e) {
       Raven.captureException(new Error(`IIIF text service error: ${e}`), {
         tags: {
@@ -56,7 +56,7 @@ async function getCanvasOcr(canvas) {
         },
       });
 
-      return null;
+      return 'text unavailable';
     }
   }
 }
