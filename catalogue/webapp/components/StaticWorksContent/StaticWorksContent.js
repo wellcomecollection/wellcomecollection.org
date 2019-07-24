@@ -5,23 +5,19 @@ import { createPrismicParagraph } from '@weco/common/utils/prismic';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 const StaticWorksContent = () => (
   <Fragment>
-    <div className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}>
+    <VerticalSpace size="l" properties={['padding-top']} className={`row`}>
       <div className="container">
         <div className="grid">
           <div className="grid__cell">
             <h3 className="h2">Feeling curious?</h3>
-            <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
-                'hnl',
-                4
-              )}`}
-            >
+            <VerticalSpace as="p" size="m" className={font('hnl', 4)}>
               Discover our collections through these topics.
-            </p>
-            <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
+            </VerticalSpace>
+            <VerticalSpace size="l">
               <Tags
                 tags={[
                   {
@@ -64,7 +60,7 @@ const StaticWorksContent = () => (
                   },
                 ]}
               />
-            </div>
+            </VerticalSpace>
             <hr
               className={`divider divider--dashed ${spacing(
                 { s: 6 },
@@ -74,7 +70,7 @@ const StaticWorksContent = () => (
           </div>
         </div>
       </div>
-    </div>
+    </VerticalSpace>
     <div
       className={`row bg-cream row--has-wobbly-background ${spacing(
         { s: 10 },
@@ -85,14 +81,9 @@ const StaticWorksContent = () => (
         <div className="row__wobbly-background" />
         <div className="grid grid--dividers">
           <div className={grid({ s: 12, m: 10, l: 7, xl: 7 })}>
-            <h2
-              className={`h2 ${spacing(
-                { s: 6 },
-                { margin: ['bottom'] }
-              )} ${spacing({ s: 0 }, { margin: ['top'] })}`}
-            >
+            <VerticalSpace as="h2" size="l" className={`h2`}>
               About the historical images
-            </h2>
+            </VerticalSpace>
             <div className="body-text">
               <div className={`standfirst ${font('hnl', 3)}`}>
                 <p>
@@ -152,11 +143,9 @@ const StaticWorksContent = () => (
               </p>
             </div>
           </div>
-          <div
-            className={`${grid({ s: 12, m: 8, l: 5, xl: 5 })} ${spacing(
-              { s: 1 },
-              { margin: ['bottom'] }
-            )}`}
+          <VerticalSpace
+            size="s"
+            className={grid({ s: 12, m: 8, l: 5, xl: 5 })}
           >
             <CaptionedImage
               caption={createPrismicParagraph(
@@ -182,7 +171,7 @@ const StaticWorksContent = () => (
                 crops: {},
               }}
             />
-          </div>
+          </VerticalSpace>
         </div>
       </div>
     </div>
