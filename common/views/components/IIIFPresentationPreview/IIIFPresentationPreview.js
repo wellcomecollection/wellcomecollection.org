@@ -206,6 +206,7 @@ function previewThumbnails(
 type Props = {|
   iiifPresentationLocation: IIIFPresentationLocation,
   itemUrl: any,
+  childManifestsCount?: number,
 |};
 
 type ViewType =
@@ -224,6 +225,7 @@ type ViewType =
 const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
+  childManifestsCount = 0,
 }: Props) => {
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
@@ -289,28 +291,53 @@ const IIIFPresentationDisplay = ({
                 });
               }}
             >
-              {imageThumbnails.map((pageType, i) => {
-                return pageType.images.map(image => {
-                  return (
-                    <IIIFResponsiveImage
-                      key={image.id}
-                      lang={null}
-                      width={image.width * (400 / image.height)}
-                      height={400}
-                      src={iiifImageTemplate(image.id)({
-                        size: ',400',
-                      })}
-                      srcSet={''}
-                      alt=""
-                      sizes={null}
-                      isLazy={true}
-                    />
-                  );
-                });
-              })}
+              {childManifestsCount === 0 &&
+                imageThumbnails.map((pageType, i) => {
+                  return pageType.images.map(image => {
+                    return (
+                      <IIIFResponsiveImage
+                        key={image.id}
+                        lang={null}
+                        width={image.width * (400 / image.height)}
+                        height={400}
+                        src={iiifImageTemplate(image.id)({
+                          size: ',400',
+                        })}
+                        srcSet={''}
+                        alt=""
+                        sizes={null}
+                        isLazy={true}
+                      />
+                    );
+                  });
+                })}
+              {childManifestsCount > 0 &&
+                imageThumbnails.slice(0, 1).map((pageType, i) => {
+                  return pageType.images.map(image => {
+                    return (
+                      <IIIFResponsiveImage
+                        key={image.id}
+                        lang={null}
+                        width={image.width * (400 / image.height)}
+                        height={400}
+                        src={iiifImageTemplate(image.id)({
+                          size: ',400',
+                        })}
+                        srcSet={''}
+                        alt=""
+                        sizes={null}
+                        isLazy={true}
+                      />
+                    );
+                  });
+                })}
               <Button
-                icon={'gallery'}
-                text={`${imageTotal} images`}
+                icon={childManifestsCount > 0 ? 'zoomIn' : 'gallery'}
+                text={
+                  childManifestsCount > 0
+                    ? `${childManifestsCount} volumes online`
+                    : `${imageTotal} images`
+                }
                 extraClasses={`btn--primary`}
               />
             </a>

@@ -39,13 +39,6 @@ type Props = {|
   work: Work | CatalogueApiError,
 |};
 
-const getManifests = async function(manifests) {
-  const data = Promise.all(
-    manifests.map(async manifest => (await fetch(manifest['@id'])).json())
-  );
-  return data;
-};
-
 const getFirstChildManifest = async function(manifests) {
   const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
   const data = await (await fetch(firstManifestUrl)).json();
@@ -54,9 +47,6 @@ const getFirstChildManifest = async function(manifests) {
 
 export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
-    null
-  );
-  const [iiifPresentationManifests, setIIIFPresentationManifests] = useState(
     null
   );
   const [childManifestsCount, setChildManifestsCount] = useState(0);
@@ -71,9 +61,6 @@ export const WorkPage = ({ work }: Props) => {
         setChildManifestsCount(manifestData.manifests.length);
         setFirstChildManifest(
           await getFirstChildManifest(manifestData.manifests)
-        );
-        setIIIFPresentationManifests(
-          await getManifests(manifestData.manifests)
         );
       }
       setIIIFPresentationManifest(manifestData);
@@ -217,51 +204,29 @@ export const WorkPage = ({ work }: Props) => {
       </VerticalSpace>
 
       {firstChildManifest && (
-        <SpacingComponent>
-          <IIIFPresentationPreview
-            iiifPresentationLocation={iiifPresentationLocation}
-            itemUrl={itemUrl({
-              workId: work.id,
-              sierraId:
-                firstChildManifest['@id'].match(
-                  /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                )[1] || sierraIdFromPresentationManifestUrl,
-              langCode: work.language && work.language.id,
-              page: 1,
-              canvas: 1,
-              isOverview: true,
-            })}
-          />
-        </SpacingComponent>
+        <ManifestContext.Provider value={firstChildManifest}>
+          <SpacingComponent>
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+              childManifestsCount={childManifestsCount}
+              itemUrl={itemUrl({
+                workId: work.id,
+                sierraId:
+                  firstChildManifest['@id'].match(
+                    /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                  )[1] || sierraIdFromPresentationManifestUrl,
+                langCode: work.language && work.language.id,
+                page: 1,
+                canvas: 1,
+                isOverview: true,
+              })}
+            />
+          </SpacingComponent>
+        </ManifestContext.Provider>
       )}
 
-      {iiifPresentationManifests &&
-        iiifPresentationManifests.map((manifest, i) => (
-          <ManifestContext.Provider value={manifest} key={i}>
-            <SpacingComponent>
-              {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
-                <IIIFPresentationPreview
-                  iiifPresentationLocation={iiifPresentationLocation}
-                  itemUrl={itemUrl({
-                    workId: work.id,
-                    sierraId:
-                      manifest['@id'].match(
-                        /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                      )[1] || sierraIdFromPresentationManifestUrl,
-                    langCode: work.language && work.language.id,
-                    page: 1,
-                    canvas: 1,
-                    isOverview: true,
-                  })}
-                />
-              )}
-            </SpacingComponent>
-          </ManifestContext.Provider>
-        ))}
-
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!iiifPresentationManifests &&
-          !(childManifestsCount > 0) &&
+        {!firstChildManifest &&
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
@@ -336,4 +301,5 @@ WorkPage.getInitialProps = async (
 
 export default WorkPage;
 
+// TODO remove download options
 // TODO non js version - need link to list of parts - manifests /parts /volumes /???
