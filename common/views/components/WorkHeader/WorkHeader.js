@@ -16,10 +16,10 @@ import Label from '@weco/common/views/components/Label/Label';
 
 type Props = {|
   work: Work,
-  manifestsCount?: number,
+  childManifestsCount?: number,
 |};
 
-const WorkHeader = ({ work, manifestsCount = 0 }: Props) => {
+const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
   const digitalLocations = getDigitalLocations(work);
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
@@ -124,10 +124,13 @@ const WorkHeader = ({ work, manifestsCount = 0 }: Props) => {
             )
           }
         </TogglesContext.Consumer>
-        {manifestsCount > 0 && (
+        {childManifestsCount > 0 && (
           <VerticalSpace size="m" properties={['margin-top']}>
             <Label
-              label={{ url: null, text: `${manifestsCount} volumes online` }}
+              label={{
+                url: null,
+                text: `${childManifestsCount} volumes online`,
+              }}
             />
           </VerticalSpace>
         )}

@@ -32,7 +32,6 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
@@ -47,6 +46,12 @@ const getManifests = async function(manifests) {
   return data;
 };
 
+const getFirstChildManifest = async function(manifests) {
+  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
+  const data = await (await fetch(firstManifestUrl)).json();
+  return data;
+};
+
 export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
@@ -54,7 +59,8 @@ export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifests, setIIIFPresentationManifests] = useState(
     null
   );
-  const [manifestsCount, setManifestsCount] = useState(0);
+  const [childManifestsCount, setChildManifestsCount] = useState(0);
+  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);
@@ -62,7 +68,10 @@ export const WorkPage = ({ work }: Props) => {
       const manifestData = await iiifManifest.json();
 
       if (manifestData.manifests) {
-        setManifestsCount(manifestData.manifests.length);
+        setChildManifestsCount(manifestData.manifests.length);
+        setFirstChildManifest(
+          await getFirstChildManifest(manifestData.manifests)
+        );
         setIIIFPresentationManifests(
           await getManifests(manifestData.manifests)
         );
@@ -202,49 +211,57 @@ export const WorkPage = ({ work }: Props) => {
       >
         <div className="container">
           <div className="grid">
-            <WorkHeader work={work} manifestsCount={manifestsCount} />
+            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </VerticalSpace>
-      <TogglesContext.Consumer>
-        {({ showMultiVolumePreviews }) => (
-          <>
-            {!showMultiVolumePreviews && iiifPresentationManifests ? (
-              <VerticalSpace size="l">
-                <BetaMessage message="We are working to make this item available online in July 2019." />
-              </VerticalSpace>
-            ) : (
-              iiifPresentationManifests &&
-              iiifPresentationManifests.map((manifest, i) => (
-                <ManifestContext.Provider value={manifest} key={i}>
-                  <SpacingComponent>
-                    {sierraIdFromPresentationManifestUrl &&
-                      !iiifImageLocationUrl && (
-                        <IIIFPresentationPreview
-                          iiifPresentationLocation={iiifPresentationLocation}
-                          itemUrl={itemUrl({
-                            workId: work.id,
-                            sierraId:
-                              manifest['@id'].match(
-                                /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                              )[1] || sierraIdFromPresentationManifestUrl,
-                            langCode: work.language && work.language.id,
-                            page: 1,
-                            canvas: 1,
-                            isOverview: true,
-                          })}
-                        />
-                      )}
-                  </SpacingComponent>
-                </ManifestContext.Provider>
-              ))
-            )}
-          </>
-        )}
-      </TogglesContext.Consumer>
+
+      {firstChildManifest && (
+        <SpacingComponent>
+          <IIIFPresentationPreview
+            iiifPresentationLocation={iiifPresentationLocation}
+            itemUrl={itemUrl({
+              workId: work.id,
+              sierraId:
+                firstChildManifest['@id'].match(
+                  /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                )[1] || sierraIdFromPresentationManifestUrl,
+              langCode: work.language && work.language.id,
+              page: 1,
+              canvas: 1,
+              isOverview: true,
+            })}
+          />
+        </SpacingComponent>
+      )}
+
+      {iiifPresentationManifests &&
+        iiifPresentationManifests.map((manifest, i) => (
+          <ManifestContext.Provider value={manifest} key={i}>
+            <SpacingComponent>
+              {sierraIdFromPresentationManifestUrl && !iiifImageLocationUrl && (
+                <IIIFPresentationPreview
+                  iiifPresentationLocation={iiifPresentationLocation}
+                  itemUrl={itemUrl({
+                    workId: work.id,
+                    sierraId:
+                      manifest['@id'].match(
+                        /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                      )[1] || sierraIdFromPresentationManifestUrl,
+                    langCode: work.language && work.language.id,
+                    page: 1,
+                    canvas: 1,
+                    isOverview: true,
+                  })}
+                />
+              )}
+            </SpacingComponent>
+          </ManifestContext.Provider>
+        ))}
 
       <ManifestContext.Provider value={iiifPresentationManifest}>
         {!iiifPresentationManifests &&
+          !(childManifestsCount > 0) &&
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
@@ -318,3 +335,5 @@ WorkPage.getInitialProps = async (
 };
 
 export default WorkPage;
+
+// TODO non js version - need link to list of parts - manifests /parts /volumes /???
