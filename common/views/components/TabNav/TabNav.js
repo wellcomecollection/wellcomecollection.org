@@ -64,7 +64,7 @@ const NavItem = ({
 }: {|
   ...SelectableTextLink,
 |}) => (
-  <NextLink {...link}>
+  <NextLink {...link} passHref>
     <VerticalSpace
       as="a"
       size="m"
