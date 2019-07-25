@@ -265,6 +265,7 @@ export const WorkPage = ({ work }: Props) => {
         sierraId={sierraIdFromPresentationManifestUrl}
         iiifPresentationManifest={iiifPresentationManifest}
         encoreLink={encoreLink}
+        childManifestsCount={childManifestsCount}
       />
     </CataloguePageLayout>
   );
