@@ -34,6 +34,7 @@ const ImagePreview = styled.div`
 
   button {
     position: absolute;
+    z-index: 3;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
