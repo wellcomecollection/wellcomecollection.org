@@ -38,9 +38,12 @@ const PresentationPreview = styled.div`
   img:first-of-type {
     margin-left: 0;
   }
+  img:first-of-type:last-of-type {
+    margin: auto;
+  }
   .btn--primary {
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
