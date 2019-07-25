@@ -41,5 +41,12 @@ module.exports = {
       description:
         'Shows a preview for each volume in a multi volume work on the work page.',
     },
+    {
+      id: 'showDatesPrototype',
+      title: 'Show exploratory work on faceting by date',
+      defaultValue: false,
+      description:
+        'Shows additional UI to allow a user to narrow search results by a date range.',
+    },
   ],
 };

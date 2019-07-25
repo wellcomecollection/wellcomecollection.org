@@ -9,6 +9,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -40,14 +41,21 @@ const ClearSearch = styled.button`
 `;
 
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const { query, workType, _queryType, setQueryType } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    workType,
+    _queryType,
+    setQueryType,
+    dateFrom,
+    dateTo,
+  } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+  const [inputDateFrom, setInputDateFrom] = useState(dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(dateTo);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -57,7 +65,23 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     if (query !== inputQuery) {
       setInputQuery(query);
     }
-  }, [query]);
+
+    if (dateFrom !== inputDateFrom) {
+      setInputDateFrom(dateFrom);
+    }
+
+    if (dateTo !== inputDateTo) {
+      setInputDateTo(dateTo);
+    }
+  }, [query, dateFrom, dateTo]);
+
+  function updateDateFrom(event) {
+    setInputDateFrom(event.currentTarget.value);
+  }
+
+  function updateDateTo(event) {
+    setInputDateTo(event.currentTarget.value);
+  }
 
   return (
     <>
@@ -78,6 +102,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             workType,
             page: 1,
             _queryType,
+            dateFrom: inputDateFrom,
+            dateTo: inputDateTo,
           });
 
           Router.push(link.href, link.as);
@@ -160,6 +186,42 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               </label>
             )
           }
+        </TogglesContext.Consumer>
+
+        <TogglesContext.Consumer>
+          {({ showDatesPrototype }) => (
+            <>
+              {showDatesPrototype && (
+                <VerticalSpace
+                  as="details"
+                  size="m"
+                  properties={['margin-top']}
+                >
+                  <summary>Date range</summary>
+                  <VerticalSpace size="s" properties={['margin-top']}>
+                    <label>
+                      from:{' '}
+                      <input
+                        value={inputDateFrom}
+                        onChange={updateDateFrom}
+                        placeholder="YYYY"
+                        style={{ width: '5em', padding: '0.5em' }}
+                      />
+                    </label>{' '}
+                    <label>
+                      to:{' '}
+                      <input
+                        value={inputDateTo}
+                        onChange={updateDateTo}
+                        placeholder="YYYY"
+                        style={{ width: '5em', padding: '0.5em' }}
+                      />
+                    </label>
+                  </VerticalSpace>
+                </VerticalSpace>
+              )}
+            </>
+          )}
         </TogglesContext.Consumer>
       </form>
     </>

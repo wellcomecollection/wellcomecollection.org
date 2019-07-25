@@ -45,7 +45,7 @@ export async function getWorks({
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const filterQueryString = Object.keys(filters).map(key => {
     const val = filters[key];
-    return `${key}=${val}`;
+    return val && `${key}=${val}`;
   });
   const url =
     `${rootUris[env]}/v2/works?include=${includes.join(',')}` +

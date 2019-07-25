@@ -44,7 +44,7 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType } = useContext(
+  const { query, page, workType, _queryType, dateFrom, dateTo } = useContext(
     CatalogueSearchContext
   );
   const trackEvent = () => {
@@ -212,6 +212,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: undefined,
                       page: 1,
+                      dateFrom,
+                      dateTo,
                     }),
                     selected: !workType,
                   },
@@ -221,6 +223,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: ['a', 'v'],
                       page: 1,
+                      dateFrom,
+                      dateTo,
                     }),
                     selected: !!(
                       workType &&
@@ -234,6 +238,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: ['k', 'q'],
                       page: 1,
+                      dateFrom,
+                      dateTo,
                     }),
                     selected: !!(
                       workType &&
@@ -249,6 +255,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: ['f', 's'],
                       page: 1,
+                      dateFrom,
+                      dateTo,
                     }),
                     selected: !!(
                       workType &&
@@ -427,7 +435,15 @@ const Works = ({ works }: Props) => {
 
 WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
+  const dateFrom = makeYearMonthDayString(ctx.query.dateFrom);
+  const dateTo = makeYearMonthDayString(ctx.query.dateTo);
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
+
+  function makeYearMonthDayString(year) {
+    const isYear = year && year.match(/\d{4}/);
+
+    return isYear && `${isYear}-01-01`;
+  }
 
   const {
     useStageApi,
@@ -456,6 +472,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
     _queryType,
+    _dateFrom: dateFrom,
+    _dateTo: dateTo,
   };
 
   const worksOrError =

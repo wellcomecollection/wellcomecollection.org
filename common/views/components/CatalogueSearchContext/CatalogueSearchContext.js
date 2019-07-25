@@ -15,6 +15,8 @@ export type CatalogueQuery = {|
   workType: ?(string[]),
   itemsLocationsLocationType: ?(string[]),
   _queryType: ?string,
+  dateFrom: ?string,
+  dateTo: ?string,
 |};
 
 type ContextProps = {|
@@ -24,6 +26,8 @@ type ContextProps = {|
   setWorkType: (value: ?(string[])) => void,
   setItemsLocationsLocationType: (value: ?(string[])) => void,
   setQueryType: (value: ?string) => void,
+  setDateFrom: (value: ?string) => void,
+  setDateTo: (value: ?string) => void,
 |};
 
 const defaultState: CatalogueQuery = {
@@ -32,6 +36,8 @@ const defaultState: CatalogueQuery = {
   workType: null,
   itemsLocationsLocationType: null,
   _queryType: null,
+  dateFrom: null,
+  dateTo: null,
 };
 
 const CatalogueSearchContext = createContext<ContextProps>({
@@ -41,6 +47,8 @@ const CatalogueSearchContext = createContext<ContextProps>({
   setWorkType: () => {},
   setItemsLocationsLocationType: () => {},
   setQueryType: () => {},
+  setDateFrom: () => {},
+  setDateTo: () => {},
 });
 
 type CatalogueSearchProviderProps = {
@@ -61,6 +69,8 @@ const CatalogueSearchProvider = ({
     itemsLocationsLocationType: router.query['items.locations.locationType']
       ? router.query['items.locations.locationType'].split(',')
       : null,
+    dateFrom: router.query.dateFrom ? router.query.dateFrom : null,
+    dateTo: router.query.dateTo ? router.query.dateTo : null,
   };
   const state = {
     ...defaultState,
@@ -70,6 +80,8 @@ const CatalogueSearchProvider = ({
   const [query, setQuery] = useState(state.query);
   const [page, setPage] = useState(state.page);
   const [workType, setWorkType] = useState(state.workType);
+  const [dateFrom, setDateFrom] = useState(state.dateFrom);
+  const [dateTo, setDateTo] = useState(state.dateTo);
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
     state.itemsLocationsLocationType
   );
@@ -80,11 +92,15 @@ const CatalogueSearchProvider = ({
     workType,
     itemsLocationsLocationType,
     _queryType,
+    dateFrom,
+    dateTo,
     setQuery,
     setPage,
     setWorkType,
     setItemsLocationsLocationType,
     setQueryType,
+    setDateFrom,
+    setDateTo,
   };
 
   useEffect(() => {
@@ -116,6 +132,8 @@ const CatalogueSearchProvider = ({
             ? params['items.locations.location.type'].split(',')
             : defaultState.itemsLocationsLocationType,
           _queryType: params._queryType || defaultState._queryType,
+          dateFrom: params.dateFrom || null,
+          dateTo: params.dateTo || null,
         };
 
         setQuery(state.query);
@@ -123,6 +141,8 @@ const CatalogueSearchProvider = ({
         setWorkType(state.workType);
         setItemsLocationsLocationType(state.itemsLocationsLocationType);
         setQueryType(state._queryType);
+        setDateFrom(state.dateFrom);
+        setDateTo(state.dateTo);
       }
     }
 
