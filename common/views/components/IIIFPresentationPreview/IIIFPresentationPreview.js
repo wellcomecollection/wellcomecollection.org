@@ -242,7 +242,7 @@ type MultiVolumePreviewProps = {|
 const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
   const [hasBeenSeen, setHasBeenSeen] = useState(false);
   const multiPreview = useRef();
-  const isOnScreen = useOnScreen({ ref: multiPreview, threshold: 0.5 });
+  const isOnScreen = useOnScreen({ ref: multiPreview, threshold: 0.75 });
   useEffect(() => {
     if (!hasBeenSeen) {
       setHasBeenSeen(isOnScreen);
