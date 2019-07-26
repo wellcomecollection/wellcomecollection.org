@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { classNames, spacing, grid } from '@weco/common/utils/classnames';
-import { useEffect, useState, useContext, useRef } from 'react';
+import { type Node, useEffect, useState, useContext, useRef } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -353,7 +353,7 @@ const IIIFPresentationDisplay = ({
                 imageThumbnails.slice(0, 1).map((pageType, i) => {
                   return pageType.images.map(image => {
                     return (
-                      <MultiVolumePreview key={image.id} image={image}>
+                      <MultiVolumePreview key={image.id}>
                         <IIIFResponsiveImage
                           lang={null}
                           width={image.width * (400 / image.height)}
