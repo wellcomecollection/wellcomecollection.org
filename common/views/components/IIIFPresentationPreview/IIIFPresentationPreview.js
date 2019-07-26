@@ -16,14 +16,16 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import useOnScreen from '@weco/common/hooks/useOnScreen';
 
 const MultiVolumeContainer = styled.div`
   box-shadow: ${props =>
-    props.loaded
+    props.isOnScreen || props.hasBeenSeen
       ? `12px 12px 0px 0px ${props.theme.colors.yellow}`
       : `0px 0px 0px 0px ${props.theme.colors.yellow}`};
-  margin: ${props => (props.loaded ? '0 auto 12px' : '0 auto')};
-  transition: all 700ms ease;
+  margin: ${props =>
+    props.isOnScreen || props.hasBeenSeen ? '0 auto 12px' : '0 auto'};
+  transition: all 1200ms ease;
 `;
 
 const PresentationPreview = styled.div`
@@ -233,6 +235,30 @@ type ViewType =
 // unknown === can't/haven't checked
 // iiif | pdf | video | audio === checked manifest and can render
 // none === checked manifest and know we can't render it
+type MultiVolumePreviewProps = {|
+  children: Node,
+|};
+
+const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
+  const [hasBeenSeen, setHasBeenSeen] = useState(false);
+  const multiPreview = useRef();
+  const isOnScreen = useOnScreen({ ref: multiPreview, threshold: 0.5 });
+  useEffect(() => {
+    if (!hasBeenSeen) {
+      setHasBeenSeen(isOnScreen);
+    }
+  }, [isOnScreen]);
+
+  return (
+    <MultiVolumeContainer
+      ref={multiPreview}
+      hasBeenSeen={hasBeenSeen}
+      isOnScreen={isOnScreen}
+    >
+      {children}
+    </MultiVolumeContainer>
+  );
+};
 
 const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
@@ -242,9 +268,7 @@ const IIIFPresentationDisplay = ({
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
-  const [previewImageLoaded, setPreviewImageLoaded] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
-  const multiPreview = useRef(null);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
 
@@ -329,11 +353,7 @@ const IIIFPresentationDisplay = ({
                 imageThumbnails.slice(0, 1).map((pageType, i) => {
                   return pageType.images.map(image => {
                     return (
-                      <MultiVolumeContainer
-                        ref={multiPreview}
-                        key={image.id}
-                        loaded={previewImageLoaded}
-                      >
+                      <MultiVolumePreview key={image.id} image={image}>
                         <IIIFResponsiveImage
                           lang={null}
                           width={image.width * (400 / image.height)}
@@ -345,11 +365,8 @@ const IIIFPresentationDisplay = ({
                           alt=""
                           sizes={null}
                           isLazy={true}
-                          loadHandler={() => {
-                            setPreviewImageLoaded(true);
-                          }}
                         />
-                      </MultiVolumeContainer>
+                      </MultiVolumePreview>
                     );
                   });
                 })}

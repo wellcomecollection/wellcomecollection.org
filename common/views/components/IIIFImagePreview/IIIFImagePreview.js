@@ -30,6 +30,8 @@ const ImagePreview = styled.div`
     max-height: 400px;
     max-width: 100%;
     width: auto;
+    position: relative;
+    z-index: 1;
   }
 
   button {
