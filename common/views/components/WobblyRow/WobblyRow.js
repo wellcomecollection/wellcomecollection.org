@@ -14,17 +14,19 @@ const WobblyRow = ({ children }: WobblyProps) => (
     })}
   >
     <div
-      className={classNames({
-        absolute: true,
-      })}
       style={{
+        position: 'absolute',
         backgroundImage: `url(${repeatingLsBlack})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'top center',
-        opacity: 0.1,
-        height: '100%',
+        opacity: 0.15,
+        height: '65%',
+        overflow: 'hidden',
+        top: 0,
         left: 0,
         right: 0,
+        transform: 'scale(1.5)',
+        transformOrigin: 'top left',
       }}
     ></div>
     <div className="container">
@@ -37,7 +39,7 @@ const WobblyRow = ({ children }: WobblyProps) => (
         </div>
       </div>
     </div>
-    <WobblyEdge isValley={true} intensity={20} background={'white'} />
+    <WobblyEdge isValley={true} intensity={25} background={'white'} />
   </div>
 );
 
