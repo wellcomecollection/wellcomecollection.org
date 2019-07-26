@@ -9,13 +9,22 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { classNames, spacing, grid } from '@weco/common/utils/classnames';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+
+const MultiVolumeContainer = styled.div`
+  box-shadow: ${props =>
+    props.loaded
+      ? `12px 12px 0px 0px ${props.theme.colors.yellow}`
+      : `0px 0px 0px 0px ${props.theme.colors.yellow}`};
+  margin: ${props => (props.loaded ? '0 auto 12px' : '0 auto')};
+  transition: all 700ms ease;
+`;
 
 const PresentationPreview = styled.div`
   text-align: center;
@@ -233,7 +242,9 @@ const IIIFPresentationDisplay = ({
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
+  const [previewImageLoaded, setPreviewImageLoaded] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
+  const multiPreview = useRef(null);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
 
@@ -318,19 +329,27 @@ const IIIFPresentationDisplay = ({
                 imageThumbnails.slice(0, 1).map((pageType, i) => {
                   return pageType.images.map(image => {
                     return (
-                      <IIIFResponsiveImage
+                      <MultiVolumeContainer
+                        ref={multiPreview}
                         key={image.id}
-                        lang={null}
-                        width={image.width * (400 / image.height)}
-                        height={400}
-                        src={iiifImageTemplate(image.id)({
-                          size: ',400',
-                        })}
-                        srcSet={''}
-                        alt=""
-                        sizes={null}
-                        isLazy={true}
-                      />
+                        loaded={previewImageLoaded}
+                      >
+                        <IIIFResponsiveImage
+                          lang={null}
+                          width={image.width * (400 / image.height)}
+                          height={400}
+                          src={iiifImageTemplate(image.id)({
+                            size: ',400',
+                          })}
+                          srcSet={''}
+                          alt=""
+                          sizes={null}
+                          isLazy={true}
+                          loadHandler={() => {
+                            setPreviewImageLoaded(true);
+                          }}
+                        />
+                      </MultiVolumeContainer>
                     );
                   });
                 })}
