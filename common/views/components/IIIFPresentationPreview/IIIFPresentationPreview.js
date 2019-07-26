@@ -20,11 +20,10 @@ import useOnScreen from '@weco/common/hooks/useOnScreen';
 
 const MultiVolumeContainer = styled.div`
   box-shadow: ${props =>
-    props.isOnScreen || props.hasBeenSeen
+    props.isOnScreen
       ? `12px 12px 0px 0px ${props.theme.colors.yellow}`
       : `0px 0px 0px 0px ${props.theme.colors.yellow}`};
-  margin: ${props =>
-    props.isOnScreen || props.hasBeenSeen ? '0 auto 12px' : '0 auto'};
+  margin: 0 auto 12px;
   transition: all 1200ms ease;
 `;
 
@@ -240,21 +239,11 @@ type MultiVolumePreviewProps = {|
 |};
 
 const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
-  const [hasBeenSeen, setHasBeenSeen] = useState(false);
   const multiPreview = useRef();
   const isOnScreen = useOnScreen({ ref: multiPreview, threshold: 0.75 });
-  useEffect(() => {
-    if (!hasBeenSeen) {
-      setHasBeenSeen(isOnScreen);
-    }
-  }, [isOnScreen]);
 
   return (
-    <MultiVolumeContainer
-      ref={multiPreview}
-      hasBeenSeen={hasBeenSeen}
-      isOnScreen={isOnScreen}
-    >
+    <MultiVolumeContainer ref={multiPreview} isOnScreen={isOnScreen}>
       {children}
     </MultiVolumeContainer>
   );
