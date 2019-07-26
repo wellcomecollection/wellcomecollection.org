@@ -20,13 +20,11 @@ const WobblyRow = ({ children }: WobblyProps) => (
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'top center',
         opacity: 0.15,
-        height: '65%',
         overflow: 'hidden',
         top: 0,
         left: 0,
         right: 0,
-        transform: 'scale(1.5)',
-        transformOrigin: 'top left',
+        height: '100%',
       }}
     ></div>
     <div className="container">
