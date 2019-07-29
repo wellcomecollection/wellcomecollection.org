@@ -292,6 +292,8 @@ const Works = ({ works }: Props) => {
                             query,
                             workType,
                             page,
+                            _dateFrom,
+                            _dateTo,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
@@ -299,6 +301,8 @@ const Works = ({ works }: Props) => {
                               query,
                               workType,
                               page: newPage,
+                              _dateFrom,
+                              _dateTo,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -442,9 +446,9 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   // API doesn't seem to like dates above the year 9999
   function makeApiSafeDateString(dateString) {
-    const date = moment(dateString);
+    const date = dateString && moment(dateString);
 
-    return date.isValid() && date.isBefore('9999-12-31')
+    return date && date.isValid() && date.isBefore('9999-12-31')
       ? date.format('YYYY-MM-DD')
       : undefined;
   }
