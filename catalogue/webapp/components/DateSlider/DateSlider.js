@@ -89,7 +89,7 @@ function ISODateFromYear(year, start) {
 const DateSlider = ({ values, updateTo, updateFrom, formButton }) => {
   const domain = { from: 0, to: 2100 };
   return (
-    <div style={{ marginTop: '30px' }}>
+    <div style={{ marginTop: '42px' }}>
       <Slider
         rootStyle={sliderStyle}
         domain={[domain.from, domain.to]}
