@@ -48,5 +48,12 @@ module.exports = {
       description:
         'Shows additional UI to allow a user to narrow search results by a date range.',
     },
+    {
+      id: 'showDatesSliderPrototype',
+      title: 'Show exploratory work on using a slider UI to facet by date',
+      defaultValue: false,
+      description:
+        'Shows additional UI to allow a user to narrow search results by using a date range slider.',
+    },
   ],
 };
