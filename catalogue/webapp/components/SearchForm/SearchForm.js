@@ -55,8 +55,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
-  const [inputDateFrom, setInputDateFrom] = useState(dateFrom);
-  const [inputDateTo, setInputDateTo] = useState(dateTo);
+  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(_dateTo);
   const searchForm = useRef();
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
