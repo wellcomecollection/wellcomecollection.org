@@ -30,6 +30,7 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import moment from 'moment';
 
 type Props = {|
   query: ?string,
@@ -435,9 +436,18 @@ const Works = ({ works }: Props) => {
 
 WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
-  const _dateFrom = ctx.query._dateFrom;
-  const _dateTo = ctx.query._dateTo;
+  const _dateFrom = makeApiSafeDateString(ctx.query._dateFrom);
+  const _dateTo = makeApiSafeDateString(ctx.query._dateTo);
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
+
+  // API doesn't seem to like dates above the year 9999
+  function makeApiSafeDateString(dateString) {
+    const date = moment(dateString);
+
+    return date.isValid() && date.isBefore('9999-12-31')
+      ? date.format('YYYY-MM-DD')
+      : undefined;
+  }
 
   const {
     useStageApi,
@@ -466,8 +476,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
     _queryType,
-    ...(Date.parse(_dateFrom) ? { _dateFrom } : {}),
-    ...(Date.parse(_dateTo) ? { _dateTo } : {}),
+    ...(_dateFrom ? { _dateFrom } : {}),
+    ...(_dateTo ? { _dateTo } : {}),
   };
 
   const worksOrError =
