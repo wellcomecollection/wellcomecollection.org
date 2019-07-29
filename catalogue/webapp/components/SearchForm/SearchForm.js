@@ -192,46 +192,55 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         </TogglesContext.Consumer>
 
         <TogglesContext.Consumer>
-          {({ showDatesPrototype }) => (
+          {({ showDatesPrototype, showDatesSliderPrototype }) => (
             <>
-              {showDatesPrototype && (
+              {(showDatesPrototype || showDatesSliderPrototype) && (
                 <VerticalSpace as="div" size="m" properties={['margin-top']}>
                   <summary>Date range</summary>
-                  <VerticalSpace size="s" properties={['margin-top']}>
-                    <label>
-                      from:{' '}
-                      <input
-                        value={inputDateFrom}
-                        onChange={updateDateFrom}
-                        placeholder="YYYY-MM-DD"
-                        pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
-                        style={{ width: '8em', padding: '0.5em' }}
+                  <div
+                    style={{
+                      display: showDatesSliderPrototype ? 'none' : 'block',
+                    }}
+                  >
+                    <VerticalSpace size="s" properties={['margin-top']}>
+                      <label>
+                        from:{' '}
+                        <input
+                          value={inputDateFrom}
+                          onChange={updateDateFrom}
+                          placeholder="YYYY-MM-DD"
+                          pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+                          style={{ width: '8em', padding: '0.5em' }}
+                        />
+                      </label>{' '}
+                      <label>
+                        to:{' '}
+                        <input
+                          value={inputDateTo}
+                          onChange={updateDateTo}
+                          placeholder="YYYY-MM-DD"
+                          pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+                          style={{ width: '8em', padding: '0.5em' }}
+                        />
+                      </label>
+                    </VerticalSpace>
+                  </div>
+                  {showDatesSliderPrototype && (
+                    <VerticalSpace>
+                      <DateSlider
+                        values={{
+                          to:
+                            inputDateTo && Number(inputDateTo.substring(0, 4)),
+                          from:
+                            inputDateFrom &&
+                            Number(inputDateFrom.substring(0, 4)),
+                        }}
+                        form={searchForm}
+                        updateFrom={setInputDateFrom}
+                        updateTo={setInputDateTo}
                       />
-                    </label>{' '}
-                    <label>
-                      to:{' '}
-                      <input
-                        value={inputDateTo}
-                        onChange={updateDateTo}
-                        placeholder="YYYY-MM-DD"
-                        pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
-                        style={{ width: '8em', padding: '0.5em' }}
-                      />
-                    </label>
-                  </VerticalSpace>
-                  <VerticalSpace>
-                    <DateSlider
-                      values={{
-                        to: inputDateTo && Number(inputDateTo.substring(0, 4)),
-                        from:
-                          inputDateFrom &&
-                          Number(inputDateFrom.substring(0, 4)),
-                      }}
-                      form={searchForm}
-                      updateFrom={setInputDateFrom}
-                      updateTo={setInputDateTo}
-                    />
-                  </VerticalSpace>
+                    </VerticalSpace>
+                  )}
                 </VerticalSpace>
               )}
             </>
