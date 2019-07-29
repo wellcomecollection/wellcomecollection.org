@@ -1,4 +1,4 @@
-import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
+import { Slider, Rail, Handles, Tracks } from 'react-compound-slider';
 import theme from '@weco/common/views/themes/default';
 
 const KeyboardHandle = ({
@@ -77,23 +77,34 @@ const railStyle = {
   opacity: 0.3,
 };
 
+function ISODateFromYear(year, start) {
+  let fullDate;
+  if (start) {
+    fullDate = new Date(year.toString());
+  } else {
+    fullDate = new Date(`${year.toString()}-12-31`);
+  }
+  return fullDate.toISOString('YYYY-MM-DD').split('T')[0];
+}
 const DateSlider = ({ values, updateTo, updateFrom, form }) => {
-  const domain = { to: 0, from: 2100 };
+  const domain = { from: 0, to: 2100 };
   return (
     <div style={{ marginTop: '30px' }}>
       <Slider
         rootStyle={sliderStyle}
-        domain={[domain.to, domain.from]}
+        domain={[domain.from, domain.to]}
         step={100}
         mode={2}
-        values={[values.to || domain.to, values.from || domain.from]}
+        values={[values.from || domain.from, values.to || domain.to]}
         onUpdate={values => {
-          updateFrom(values[0]);
-          updateTo(values[1]);
+          updateFrom(ISODateFromYear(values[0], true));
+          updateTo(ISODateFromYear(values[1]), false);
         }}
-        // onChange={values => {
-        //   form && form.current && form.current.click();
-        // }}
+        onChange={values => {
+          updateFrom(ISODateFromYear(values[0], true));
+          updateTo(ISODateFromYear(values[1]), false);
+          form && form.current && form.current.click();
+        }}
       >
         <div style={railStyle} />
         <Rail>
