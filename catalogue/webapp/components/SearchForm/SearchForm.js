@@ -221,7 +221,12 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                   </VerticalSpace>
                   <VerticalSpace>
                     <DateSlider
-                      values={{ to: inputDateTo, from: inputDateFrom }}
+                      values={{
+                        to: inputDateTo && Number(inputDateTo.substring(0, 4)),
+                        from:
+                          inputDateFrom &&
+                          Number(inputDateFrom.substring(0, 4)),
+                      }}
                       form={searchForm}
                       updateFrom={setInputDateFrom}
                       updateTo={setInputDateTo}
