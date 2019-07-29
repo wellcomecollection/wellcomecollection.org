@@ -439,10 +439,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const _dateTo = ctx.query._dateTo;
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
-  function isIsoDate(string) {
-    return string && string.match(/^\d{4}-\d{2}-\d{2}$/);
-  }
-
   const {
     useStageApi,
     searchCandidateQueryMsm,
@@ -470,8 +466,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
     _queryType,
-    ...(isIsoDate(_dateFrom) && { _dateFrom }),
-    ...(isIsoDate(_dateTo) && { _dateTo }),
+    ...(Date.parse(_dateFrom) ? { _dateFrom } : {}),
+    ...(Date.parse(_dateTo) ? { _dateTo } : {}),
   };
 
   const worksOrError =

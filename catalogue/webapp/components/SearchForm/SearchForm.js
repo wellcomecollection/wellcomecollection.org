@@ -66,12 +66,12 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       setInputQuery(query);
     }
 
-    if (_dateFrom !== `${inputDateFrom || ''}-01-01`) {
-      setInputDateFrom((_dateFrom || '').split('-')[0]);
+    if (_dateFrom !== inputDateFrom) {
+      setInputDateFrom(_dateFrom);
     }
 
-    if (_dateTo !== `${inputDateTo || ''}-01-01`) {
-      setInputDateTo((_dateTo || '').split('-')[0]);
+    if (_dateTo !== inputDateTo) {
+      setInputDateTo(_dateTo);
     }
   }, [query, _dateFrom, _dateTo]);
 
@@ -204,8 +204,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                       <input
                         value={inputDateFrom}
                         onChange={updateDateFrom}
-                        placeholder="YYYY"
-                        style={{ width: '5em', padding: '0.5em' }}
+                        placeholder="YYYY-MM-DD"
+                        pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+                        style={{ width: '8em', padding: '0.5em' }}
                       />
                     </label>{' '}
                     <label>
@@ -213,8 +214,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                       <input
                         value={inputDateTo}
                         onChange={updateDateTo}
-                        placeholder="YYYY"
-                        style={{ width: '5em', padding: '0.5em' }}
+                        placeholder="YYYY-MM-DD"
+                        pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
+                        style={{ width: '8em', padding: '0.5em' }}
                       />
                     </label>
                   </VerticalSpace>
