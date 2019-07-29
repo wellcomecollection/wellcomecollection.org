@@ -1,5 +1,5 @@
 // @flow
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import UiImage from '../Image/Image';
 import Icon from '../Icon/Icon';
@@ -24,7 +24,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
       href={url}
       className={classNames({
         'book-promo rounded-diagonal': true,
-        [spacing({ s: 4 }, { padding: ['right', 'left'] })]: true,
+        'padding-left-12 padding-right-12': true,
       })}
       onClick={() => {
         trackEvent({
@@ -38,7 +38,6 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         size="m"
         className={classNames({
           'book-promo__image-container': true,
-          [spacing({ s: 4 }, { margin: ['right'] })]: true,
         })}
       >
         {image && image.contentUrl && (
@@ -97,9 +96,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
           })}
         >
           <Icon name="arrow" extraClasses="icon--green" />
-          <span className={spacing({ s: 1 }, { margin: ['left'] })}>
-            More information
-          </span>
+          <span className={'margin-left-6'}>More information</span>
         </VerticalSpace>
       </div>
     </VerticalSpace>

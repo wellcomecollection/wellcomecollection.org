@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { classNames, font, spacing } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 type Link = {|
@@ -96,7 +96,7 @@ const Paginator = ({
             }}
             type="light"
             extraClasses={classNames({
-              [spacing({ s: 2 }, { margin: ['right'] })]: true,
+              'margin-right-12': true,
               'icon--180': true,
             })}
             icon="arrow"
@@ -117,7 +117,7 @@ const Paginator = ({
             }}
             type="light"
             extraClasses={classNames({
-              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+              'margin-left-12': true,
             })}
             icon="arrow"
             text={`Next (page ${next})`}

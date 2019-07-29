@@ -1,7 +1,7 @@
 // @flow
 import { type Node } from 'react';
 import styled from 'styled-components';
-import { classNames, font, spacing } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 
 const PurpleTag = styled.span.attrs(props => ({
@@ -11,7 +11,7 @@ const PurpleTag = styled.span.attrs(props => ({
     'bg-purple': true,
     'font-white': true,
     [font('hnm', 5)]: true,
-    [spacing({ s: 1 }, { margin: ['right'] })]: true,
+    'margin-right-6': true,
   }),
 }))`
   padding: 0.2em 0.5em;

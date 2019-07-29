@@ -1,5 +1,5 @@
 // @flow
-import { classNames, spacing, font } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import type { ColorSelection } from '../../../model/color-selections';
 
 type Props = {|
@@ -17,7 +17,7 @@ const PartNumberIndicator = ({ number, color }: Props) => (
     <span
       className={classNames({
         [`bg-${color || 'purple'}`]: true,
-        [spacing({ s: 1 }, { margin: ['left'] })]: true,
+        'margin-left-6': true,
       })}
       style={{
         transform: 'rotateZ(-6deg)',

@@ -1,6 +1,6 @@
 // @flow
 import { useRef, useEffect } from 'react';
-import { spacing, font, grid, classNames } from '../../../utils/classnames';
+import { font, grid, classNames } from '../../../utils/classnames';
 import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
@@ -104,13 +104,7 @@ const Footer = ({
             </VerticalSpace>
             <TopBorderBox>
               <VerticalSpace size="l" properties={['padding-top']}>
-                <Icon
-                  name="clock"
-                  extraClasses={`float-l ${spacing(
-                    { s: 2, m: 2, l: 2, xl: 2 },
-                    { margin: ['right'] }
-                  )}`}
-                />
+                <Icon name="clock" extraClasses={`float-l margin-right-12`} />
                 <div
                   className={classNames({
                     [font('hnl', 5)]: true,
@@ -169,14 +163,13 @@ const Footer = ({
               properties={['margin-top', 'padding-bottom', 'margin-bottom']}
               className={classNames({
                 [font('hnm', 6)]: true,
-                [spacing({ m: 4, l: 6 }, { margin: ['right'] })]: true,
                 footer__strap: true,
               })}
             >
               <Icon
                 name="wellcome"
                 extraClasses={classNames({
-                  [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                  'margin-right-6': true,
                 })}
               />
               <span className="footer__strap-text">
@@ -188,7 +181,6 @@ const Footer = ({
               properties={['margin-top', 'padding-bottom', 'margin-bottom']}
               className={classNames({
                 [font('hnm', 6)]: true,
-                [spacing({ xl: 2 }, { padding: ['right'] })]: true,
                 footer__licensing: true,
               })}
             >

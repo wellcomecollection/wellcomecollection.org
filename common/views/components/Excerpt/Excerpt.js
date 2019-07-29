@@ -1,7 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import type { Book } from '../../../model/books';
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
@@ -19,10 +19,10 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
         properties={['margin-bottom', 'padding-top', 'padding-bottom']}
       >
         <pre
-          className={`${spacing(
-            { s: 3 },
-            { padding: ['left', 'right'] }
-          )} ${font('lr', 5)} pre  border-color-smoke border-left-width-5`}
+          className={`padding-left-12 padding-right-12 ${font(
+            'lr',
+            5
+          )} pre  border-color-smoke border-left-width-5`}
         >
           {content}
         </pre>

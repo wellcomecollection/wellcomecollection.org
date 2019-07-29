@@ -17,7 +17,7 @@ import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import type { UiEvent } from '@weco/common/model/events';
-import { spacing, font, classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import camelize from '@weco/common/utils/camelize';
 import {
   formatDayDate,
@@ -48,12 +48,7 @@ function EventStatus(text, color) {
   return (
     <div className="flex">
       <div className={`${font('hnm', 6)} flex flex--v-center`}>
-        <span
-          className={`${spacing(
-            { s: 1 },
-            { margin: ['right'] }
-          )} flex flex--v-center`}
-        >
+        <span className={`margin-right-6 flex flex--v-center`}>
           <Icon
             name="statusIndicator"
             extraClasses={`icon--match-text icon--${color}`}
@@ -282,7 +277,7 @@ class EventPage extends Component<Props, State> {
               <EventDateRange event={event} />
               <div
                 className={classNames({
-                  [spacing({ s: 0, m: 2 }, { margin: ['left'] })]: true,
+                  'margin-left-12': true,
                 })}
               >
                 {!event.isPast && <EventDatesLink id={event.id} />}

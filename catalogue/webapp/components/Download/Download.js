@@ -4,7 +4,7 @@ import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { font, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import License from '@weco/common/views/components/License/License';
 import Icon from '@weco/common/views/components/Icon/Icon';
 
@@ -129,7 +129,7 @@ const Download = ({
               <span className="flex-inline flex--v-center">
                 <span
                   className={classNames({
-                    [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                    'margin-right-6': true,
                   })}
                 >
                   Download
@@ -194,7 +194,7 @@ const Download = ({
                             className={classNames({
                               [font('hnm', 5)]: true,
                               'font-pewter': true,
-                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                              'margin-left-12': true,
                             })}
                           >
                             {format}
@@ -213,7 +213,7 @@ const Download = ({
             <span
               className={classNames({
                 'inline-block': true,
-                [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                'margin-right-12': true,
               })}
             >
               {licenseInfo && (
@@ -225,7 +225,7 @@ const Download = ({
             <span
               className={classNames({
                 'inline-block': true,
-                [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                'margin-right-12': true,
               })}
             >
               Credit: {credit}{' '}

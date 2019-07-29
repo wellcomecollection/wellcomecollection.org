@@ -1,6 +1,6 @@
 // @flow
 
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import getLicenseInfo from '../../../utils/get-license-info';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment } from 'react';
@@ -166,8 +166,8 @@ const Tasl = withToggler(
             properties={['padding-top', 'padding-bottom']}
             className={`
               drawer__body bg-black font-white
-              ${spacing({ s: 1 }, { padding: ['left'] })}
-              ${spacing({ s: 6 }, { padding: ['right'] })}`}
+              padding-left-6`}
+            style={{ paddingRight: '36px' }}
           >
             {getMarkup(
               title,

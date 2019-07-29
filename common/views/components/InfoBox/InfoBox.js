@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
@@ -25,19 +25,14 @@ const InfoBox = ({ title, items, children }: Props) => {
         properties={['padding-top', 'padding-bottom']}
         className={classNames({
           'bg-yellow': true,
-          [spacing({ s: 4 }, { padding: ['right', 'left'] })]: true,
+          'padding-left-12 padding-right-12': true,
         })}
       >
         {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
             <div className={font('hnm', 4)}>
               {icon && (title || description) && (
-                <span
-                  className={`float-l ${spacing(
-                    { s: 1 },
-                    { margin: ['right'] }
-                  )}`}
-                >
+                <span className={`float-l margin-right-6`}>
                   <Icon name={icon} />
                 </span>
               )}
