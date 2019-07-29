@@ -16,6 +16,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
     <VerticalSpace
       as="figcaption"
       size="m"
+      properties={['margin-top']}
       style={width ? { width: `${width}px` } : undefined}
       className={classNames({
         [font('lr', 6)]: true,

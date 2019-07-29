@@ -8,7 +8,7 @@ import {
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { classNames, spacing, grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import { useEffect, useState, useContext } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
@@ -16,6 +16,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import VerticalSpace from '../styled/VerticalSpace';
 
 const PresentationPreview = styled.div`
   text-align: center;
@@ -251,10 +252,9 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div
-              className={classNames({
-                [spacing({ s: 2 }, { margin: ['top', 'bottom'] })]: true,
-              })}
+            <VerticalSpace
+              size="m"
+              properties={['margin-top', 'margin-bottom']}
             >
               <Button
                 type="primary"
@@ -267,7 +267,7 @@ const IIIFPresentationDisplay = ({
                 text="View the item"
                 link={itemUrl}
               />
-            </div>{' '}
+            </VerticalSpace>{' '}
           </div>{' '}
         </div>{' '}
       </div>
@@ -325,11 +325,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div
-              className={classNames({
-                [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-              })}
-            >
+            <VerticalSpace size="l">
               <video
                 controls
                 style={{
@@ -342,7 +338,7 @@ const IIIFPresentationDisplay = ({
                 <source src={video['@id']} type={video.format} />
                 {`Sorry, your browser doesn't support embedded video.`}
               </video>
-            </div>
+            </VerticalSpace>
           </div>
         </div>
       </div>
@@ -354,11 +350,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div
-              className={classNames({
-                [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-              })}
-            >
+            <VerticalSpace size="l">
               <audio
                 controls
                 style={{
@@ -370,7 +362,7 @@ const IIIFPresentationDisplay = ({
               >
                 {`Sorry, your browser doesn't support embedded audio.`}
               </audio>
-            </div>{' '}
+            </VerticalSpace>{' '}
           </div>{' '}
         </div>{' '}
       </div>
@@ -382,13 +374,9 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div
-              className={classNames({
-                [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-              })}
-            >
+            <VerticalSpace size="l">
               <BetaMessage message="We are working to make this item available online in July 2019." />
-            </div>
+            </VerticalSpace>
           </div>
         </div>
       </div>

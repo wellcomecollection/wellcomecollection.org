@@ -3,7 +3,6 @@ import { type Element, type ElementProps, type Node } from 'react';
 import {
   grid,
   font,
-  spacing,
   conditionalClassNames,
   classNames,
 } from '../../../utils/classnames';
@@ -89,7 +88,6 @@ const CompactCard = ({
           className={classNames({
             'card-link__title': true,
             [font('wb', 3)]: true,
-            [spacing({ s: 0 }, { margin: ['top'] })]: true,
           })}
         >
           {title}

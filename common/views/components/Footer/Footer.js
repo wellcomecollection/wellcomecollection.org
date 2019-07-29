@@ -46,7 +46,6 @@ const Footer = ({
       ref={footer}
       className={classNames({
         'footer row bg-black relative': true,
-        [spacing({ s: 9 }, { padding: ['top'] })]: true,
       })}
     >
       <div className="container">

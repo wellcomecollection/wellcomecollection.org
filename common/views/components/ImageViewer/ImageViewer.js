@@ -301,10 +301,6 @@ const ImageViewer = ({
               src={src}
               srcSet={srcSet}
               sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-              extraClasses={classNames({
-                'block h-center': true,
-                [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-              })}
               lang={lang}
               clickHandler={handleZoomIn}
               loadHandler={() => setImageLoading(false)}
