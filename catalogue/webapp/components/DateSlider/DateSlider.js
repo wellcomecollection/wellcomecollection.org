@@ -49,7 +49,7 @@ const Track = ({ source, target, getTrackProps }) => {
         height: 10,
         zIndex: 1,
         marginTop: 6,
-        backgroundColor: `${theme.colors.green}`,
+        backgroundColor: theme.colors.green,
         borderRadius: 5,
         cursor: 'pointer',
         left: `${source.percent}%`,
@@ -73,8 +73,7 @@ const railStyle = {
   height: 10,
   marginTop: 6,
   borderRadius: 5,
-  backgroundColor: `${theme.colors.green}`,
-  opacity: 0.3,
+  backgroundColor: theme.colors.green,
 };
 
 function ISODateFromYear(year, start) {
