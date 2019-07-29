@@ -74,15 +74,11 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
         border: 0,
         textAlign: 'center',
         cursor: 'pointer',
-        borderRadius: '50%',
-        backgroundColor: '#2C4870',
         color: '#333',
       }}
       {...getHandleProps(id)}
     >
-      <div style={{ fontFamily: 'Roboto', fontSize: 11, marginTop: -35 }}>
-        {value}
-      </div>
+      <div style={{ marginTop: -35 }}>{value}</div>
     </div>
   );
 };
@@ -124,7 +120,7 @@ const railStyle = {
   backgroundColor: '#8B9CB6',
 };
 
-const DateSlider = () => {
+const DateSlider = ({ updateTo, updateFrom }) => {
   return (
     <Slider
       rootStyle={sliderStyle}
@@ -132,6 +128,10 @@ const DateSlider = () => {
       step={100}
       mode={2}
       values={[0, 2020]}
+      onUpdate={values => {
+        updateFrom(values[0]);
+        updateTo(values[1]);
+      }}
     >
       <div style={railStyle} />
       <Rail>

@@ -193,11 +193,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           {({ showDatesPrototype }) => (
             <>
               {showDatesPrototype && (
-                <VerticalSpace
-                  as="details"
-                  size="m"
-                  properties={['margin-top']}
-                >
+                <VerticalSpace as="div" size="m" properties={['margin-top']}>
                   <summary>Date range</summary>
                   <VerticalSpace size="s" properties={['margin-top']}>
                     <label>
@@ -222,7 +218,10 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     </label>
                   </VerticalSpace>
                   <VerticalSpace>
-                    <DateSlider />
+                    <DateSlider
+                      updateFrom={setInputDateFrom}
+                      updateTo={setInputDateTo}
+                    />
                   </VerticalSpace>
                 </VerticalSpace>
               )}
