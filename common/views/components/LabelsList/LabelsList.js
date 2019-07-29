@@ -1,7 +1,6 @@
 // @flow
 import type { Label as LabelType } from '../../../model/labels';
 import { sized } from '../../../utils/style';
-import { spacing } from '../../../utils/classnames';
 import Label from '../../components/Label/Label';
 import VerticalSpace from '../styled/VerticalSpace';
 
@@ -15,10 +14,7 @@ const LabelsList = ({ labels }: Props) => (
     properties={['margin-bottom']}
     negative
     as="ul"
-    className={`flex-inline plain-list no-margin ${spacing(
-      { s: 0 },
-      { padding: ['left'] }
-    )} ${spacing({ s: 2 }, { padding: ['right'] })}`}
+    className={`flex-inline plain-list no-margin no-padding padding-right-12`}
     style={{ flexWrap: 'wrap' }}
   >
     {labels.filter(Boolean).map((label, i) => (

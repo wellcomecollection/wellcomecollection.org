@@ -1,6 +1,6 @@
 // @flow
 
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 
 type Props = {|
   title: string,
@@ -13,7 +13,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
   return (
     <div
       className={classNames({
-        [spacing({ s: 2 }, { padding: ['left'] })]: true,
+        'padding-left-12': true,
         'border-color-turquoise border-left-width-5 body-text': true,
       })}
     >
@@ -33,7 +33,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
           <span
             className={classNames({
               [font('hnl', 4)]: true,
-              [spacing({ s: 1 }, { margin: ['left'] })]: true,
+              'margin-left-6': true,
             })}
           >
             {subtitle}

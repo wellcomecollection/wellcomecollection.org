@@ -1,6 +1,6 @@
 // @flow
 import type { Article } from '../../../model/articles';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { getPositionInSeries, getArticleColor } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
@@ -69,10 +69,8 @@ const StoryPromo = ({
         className={classNames({
           'story-promo__text flex flex--column flex-1': true,
           'flex--h-space-between': !hasTransparentBackground,
-          [spacing(
-            { s: hasTransparentBackground ? 0 : 2 },
-            { padding: ['left', 'right'] }
-          )]: true,
+          'padding-left-12': !hasTransparentBackground,
+          'padding-right-12': !hasTransparentBackground,
         })}
       >
         <div>

@@ -6,13 +6,7 @@ import { type Period } from '@weco/common/model/periods';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
-import {
-  classNames,
-  font,
-  spacing,
-  grid,
-  cssGrid,
-} from '@weco/common/utils/classnames';
+import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -222,7 +216,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                     <span
                       className={classNames({
                         [font('hnm', 5)]: true,
-                        [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                        'margin-right-12': true,
                       })}
                     >
                       Galleries
@@ -235,7 +229,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                         <span
                           className={classNames({
                             [font('hnl', 5)]: true,
-                            [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                            'margin-right-12': true,
                           })}
                         >
                           <Fragment>

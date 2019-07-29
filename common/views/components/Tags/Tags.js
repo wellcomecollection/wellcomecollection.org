@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import VerticalSpace from '../styled/VerticalSpace';
 
@@ -42,7 +42,7 @@ const Tags = ({ tags }: Props) => {
                   <Tag
                     size="s"
                     className={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                      'margin-right-6': true,
                       'line-height-1': true,
                       'inline-block bg-hover-green font-hover-white': true,
                       'border-color-green border-width-1': true,
@@ -66,8 +66,7 @@ const Tags = ({ tags }: Props) => {
                         key={part}
                         className={classNames({
                           [font(i === 0 ? 'hnm' : 'hnl', 5)]: true,
-                          [spacing({ s: 1 }, { margin: ['right'] })]:
-                            i !== arr.length - 1,
+                          'margin-right-6': i !== arr.length - 1,
                           'inline-block': true,
                         })}
                       >

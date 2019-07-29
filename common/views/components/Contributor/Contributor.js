@@ -1,5 +1,5 @@
 // @flow
-import { font, grid, spacing, classNames } from '../../../utils/classnames';
+import { font, grid, classNames } from '../../../utils/classnames';
 import Image from '../Image/Image';
 import Avatar from '../Avatar/Avatar';
 import LinkLabels from '../LinkLabels/LinkLabels';
@@ -29,10 +29,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
   return (
     <div className="grid">
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
-        <div
-          style={{ minWidth: '78px' }}
-          className={spacing({ s: 2 }, { margin: ['right'] })}
-        >
+        <div style={{ minWidth: '78px' }} className={'margin-right-12'}>
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' && (
             <div style={{ width: '72px' }}>

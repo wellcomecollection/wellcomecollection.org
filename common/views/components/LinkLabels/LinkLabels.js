@@ -1,7 +1,6 @@
 // @flow
 import {
   font,
-  spacing,
   conditionalClassNames,
   classNames,
 } from '../../../utils/classnames';
@@ -22,8 +21,8 @@ function getClassName(i) {
   return conditionalClassNames({
     [`${font('hnm', 5)}`]: true,
     'border-left-width-1 border-color-marble': i !== 0,
-    [spacing({ s: 1 }, { padding: ['left'] })]: i !== 0,
-    [spacing({ s: 1 }, { margin: ['right'] })]: true,
+    'padding-left-6': i !== 0,
+    'margin-right-6': true,
   });
 }
 const LinkLabels = ({ items, heading, icon }: Props) => (
@@ -39,14 +38,14 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
       <dt
         className={classNames({
           flex: true,
-          [spacing({ s: 1 }, { margin: ['right'] })]: true,
+          'margin-right-6': true,
         })}
       >
         {icon && (
           <Icon
             name={icon}
             extraClasses={classNames({
-              [spacing({ s: 1 }, { margin: ['right'] })]: true,
+              'margin-right-6': true,
             })}
           />
         )}

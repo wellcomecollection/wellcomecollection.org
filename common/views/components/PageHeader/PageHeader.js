@@ -1,6 +1,6 @@
 // @flow
 
-import { font, spacing, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
@@ -28,6 +28,16 @@ const HeroPictureBackground = styled.div`
 
   ${props => props.theme.media.large`
     bottom: -${props => props.theme.spaceAtBreakpoints.large.xl}px;
+  `}
+`;
+
+const HeroPictureContainer = styled.div`
+  max-width: 1450px;
+  margin: 0 auto;
+
+  ${props => props.theme.media.medium`
+    padding-left: 24px;
+    padding-right: 24px;
   `}
 `;
 
@@ -196,15 +206,9 @@ const PageHeader = ({
             className={`bg-${heroImageBgColor} absolute`}
           />
 
-          <div
-            style={{ maxWidth: '1450px' }}
-            className={classNames({
-              'margin-h-auto': true,
-              [spacing({ m: 4 }, { padding: ['left', 'right'] })]: true,
-            })}
-          >
+          <HeroPictureContainer>
             <WobblyBottom color={heroImageBgColor}>{HeroPicture}</WobblyBottom>
-          </div>
+          </HeroPictureContainer>
         </div>
       )}
     </div>

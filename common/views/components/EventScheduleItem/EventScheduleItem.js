@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { grid, font, spacing, classNames } from '../../../utils/classnames';
+import { grid, font, classNames } from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '../LabelsList/LabelsList';
@@ -27,7 +27,6 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
       size="l"
       properties={['margin-bottom', 'padding-bottom']}
       className={classNames({
-        [spacing({ l: 0 }, { padding: ['left'] })]: true,
         'border-color-smoke border-bottom-width-1': true,
       })}
     >
@@ -81,11 +80,9 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               </VerticalSpace>
             )}
 
-            <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font(
-                'hnl',
-                5
-              )}`}
+            <VerticalSpace
+              size="m"
+              className={font('hnl', 5)}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
@@ -118,7 +115,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   ]}
                   className={classNames({
                     'bg-yellow inline-block': true,
-                    [spacing({ s: 4 }, { padding: ['left', 'right'] })]: true,
+                    'padding-left-12 padding-right-12': true,
                     [font('hnm', 5)]: true,
                   })}
                 >

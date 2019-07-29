@@ -1,6 +1,6 @@
 // @flow
 import { type Work } from '../../../model/work';
-import { font, classNames, spacing, grid } from '../../../utils/classnames';
+import { font, classNames, grid } from '../../../utils/classnames';
 import {
   getDigitalLocations,
   getPhysicalLocations,
@@ -41,7 +41,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             <Icon
               name={workTypeIcon}
               extraClasses={classNames({
-                [spacing({ s: 1 }, { margin: ['right'] })]: true,
+                'margin-right-6': true,
               })}
             />
           )}
@@ -70,7 +70,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             {work.contributors.length > 0 && (
               <div
                 className={classNames({
-                  [spacing({ s: 2 }, { margin: ['right'] })]: true,
+                  'margin-right-12': true,
                 })}
               >
                 <LinkLabels

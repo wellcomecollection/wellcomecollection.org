@@ -4,7 +4,7 @@ import {
   type Work,
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
-import { classNames, font, spacing } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
@@ -25,6 +25,7 @@ import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   workId: string,
@@ -78,15 +79,17 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
       <Layout8>
         <SpacingSection>
           <SpacingComponent>
-            <h1
+            <VerticalSpace
+              size="l"
+              as="h1"
+              properties={['margin-top']}
               id="work-info"
               className={classNames({
-                [spacing({ s: 4 }, { margin: ['top'] })]: true,
                 [font('hnm', 1)]: true,
               })}
             >
               {title}
-            </h1>
+            </VerticalSpace>
           </SpacingComponent>
           <SpacingComponent>
             <Download

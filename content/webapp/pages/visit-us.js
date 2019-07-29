@@ -9,7 +9,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { getPage } from '@weco/common/services/prismic/pages';
 import { contentLd } from '@weco/common/utils/json-ld';
-import { classNames, spacing, font, grid } from '@weco/common/utils/classnames';
+import { classNames, font, grid } from '@weco/common/utils/classnames';
 import type { Page as PageType } from '@weco/common/model/pages';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -74,13 +74,7 @@ const BespokeBody = (
                 [font('hnl', 4)]: true,
               })}
             >
-              <Icon
-                name="clock"
-                extraClasses={`float-l ${spacing(
-                  { s: 2, m: 2, l: 2, xl: 2 },
-                  { margin: ['right'] }
-                )}`}
-              />
+              <Icon name="clock" extraClasses={`float-l margin-right-12`} />
               <div
                 className={classNames({
                   [font('hnl', 4)]: true,
