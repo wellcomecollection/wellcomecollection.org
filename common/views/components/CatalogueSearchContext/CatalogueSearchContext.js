@@ -15,8 +15,8 @@ export type CatalogueQuery = {|
   workType: ?(string[]),
   itemsLocationsLocationType: ?(string[]),
   _queryType: ?string,
-  dateFrom: ?string,
-  dateTo: ?string,
+  _dateFrom: ?string,
+  _dateTo: ?string,
 |};
 
 type ContextProps = {|
@@ -36,8 +36,8 @@ const defaultState: CatalogueQuery = {
   workType: null,
   itemsLocationsLocationType: null,
   _queryType: null,
-  dateFrom: null,
-  dateTo: null,
+  _dateFrom: null,
+  _dateTo: null,
 };
 
 const CatalogueSearchContext = createContext<ContextProps>({
@@ -69,8 +69,8 @@ const CatalogueSearchProvider = ({
     itemsLocationsLocationType: router.query['items.locations.locationType']
       ? router.query['items.locations.locationType'].split(',')
       : null,
-    dateFrom: router.query.dateFrom ? router.query.dateFrom : null,
-    dateTo: router.query.dateTo ? router.query.dateTo : null,
+    _dateFrom: router.query._dateFrom ? router.query._dateFrom : null,
+    _dateTo: router.query._dateTo ? router.query._dateTo : null,
   };
   const state = {
     ...defaultState,
@@ -80,8 +80,8 @@ const CatalogueSearchProvider = ({
   const [query, setQuery] = useState(state.query);
   const [page, setPage] = useState(state.page);
   const [workType, setWorkType] = useState(state.workType);
-  const [dateFrom, setDateFrom] = useState(state.dateFrom);
-  const [dateTo, setDateTo] = useState(state.dateTo);
+  const [_dateFrom, setDateFrom] = useState(state._dateFrom);
+  const [_dateTo, setDateTo] = useState(state._dateTo);
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
     state.itemsLocationsLocationType
   );
@@ -92,8 +92,8 @@ const CatalogueSearchProvider = ({
     workType,
     itemsLocationsLocationType,
     _queryType,
-    dateFrom,
-    dateTo,
+    _dateFrom,
+    _dateTo,
     setQuery,
     setPage,
     setWorkType,
@@ -132,8 +132,8 @@ const CatalogueSearchProvider = ({
             ? params['items.locations.location.type'].split(',')
             : defaultState.itemsLocationsLocationType,
           _queryType: params._queryType || defaultState._queryType,
-          dateFrom: params.dateFrom || null,
-          dateTo: params.dateTo || null,
+          _dateFrom: params._dateFrom || null,
+          _dateTo: params._dateTo || null,
         };
 
         setQuery(state.query);
@@ -141,8 +141,8 @@ const CatalogueSearchProvider = ({
         setWorkType(state.workType);
         setItemsLocationsLocationType(state.itemsLocationsLocationType);
         setQueryType(state._queryType);
-        setDateFrom(state.dateFrom);
-        setDateTo(state.dateTo);
+        setDateFrom(state._dateFrom);
+        setDateTo(state._dateTo);
       }
     }
 
@@ -170,6 +170,8 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
     workType,
     itemsLocationsLocationType,
     _queryType,
+    _dateFrom,
+    _dateTo,
   } = useContext(CatalogueSearchContext);
   const push = () => {
     const link = worksUrl({
@@ -178,6 +180,8 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
       workType: workType,
       itemsLocationsLocationType: itemsLocationsLocationType,
       _queryType: _queryType,
+      _dateFrom: _dateFrom,
+      _dateTo: _dateTo,
     });
     Router.push(
       { ...link.href, pathname: '/works-context' },

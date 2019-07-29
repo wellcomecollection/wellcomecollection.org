@@ -46,16 +46,16 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     workType,
     _queryType,
     setQueryType,
-    dateFrom,
-    dateTo,
+    _dateFrom,
+    _dateTo,
   } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
-  const [inputDateFrom, setInputDateFrom] = useState(dateFrom);
-  const [inputDateTo, setInputDateTo] = useState(dateTo);
+  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(_dateTo);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -66,14 +66,14 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       setInputQuery(query);
     }
 
-    if (dateFrom !== inputDateFrom) {
-      setInputDateFrom(dateFrom);
+    if (_dateFrom !== `${inputDateFrom || ''}-01-01`) {
+      setInputDateFrom((_dateFrom || '').split('-')[0]);
     }
 
-    if (dateTo !== inputDateTo) {
-      setInputDateTo(dateTo);
+    if (_dateTo !== `${inputDateTo || ''}-01-01`) {
+      setInputDateTo((_dateTo || '').split('-')[0]);
     }
-  }, [query, dateFrom, dateTo]);
+  }, [query, _dateFrom, _dateTo]);
 
   function updateDateFrom(event) {
     setInputDateFrom(event.currentTarget.value);
@@ -102,8 +102,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             workType,
             page: 1,
             _queryType,
-            dateFrom: inputDateFrom,
-            dateTo: inputDateTo,
+            _dateFrom: inputDateFrom,
+            _dateTo: inputDateTo,
           });
 
           Router.push(link.href, link.as);

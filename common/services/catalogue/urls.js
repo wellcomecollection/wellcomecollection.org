@@ -14,8 +14,8 @@ type WorksUrlProps = {|
   workType?: ?(string[]),
   itemsLocationsLocationType?: ?(string[]),
   _queryType?: ?QueryType,
-  dateFrom?: ?string,
-  dateTo?: ?string,
+  _dateFrom?: ?string,
+  _dateTo?: ?string,
 |};
 
 type WorkUrlProps = {|
@@ -63,10 +63,10 @@ export function workUrl({ id }: WorkUrlProps): NextLinkType {
 export function worksUrl({
   query,
   page,
-  dateFrom,
-  dateTo,
   workType,
   _queryType,
+  _dateFrom,
+  _dateTo,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -76,8 +76,8 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        dateFrom: dateFrom || undefined,
-        dateTo: dateTo || undefined,
+        _dateFrom: _dateFrom ? `${_dateFrom}-01-01` : undefined,
+        _dateTo: _dateTo ? `${_dateTo}-01-01` : undefined,
       }),
     },
     as: {
@@ -87,8 +87,8 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        dateFrom: dateFrom || undefined,
-        dateTo: dateTo || undefined,
+        _dateFrom: _dateFrom ? `${_dateFrom}-01-01` : undefined,
+        _dateTo: _dateTo ? `${_dateTo}-01-01` : undefined,
       }),
     },
   };
