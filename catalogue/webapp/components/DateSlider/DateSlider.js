@@ -1,36 +1,5 @@
 import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
-
-const Tick = ({ tick, count }) => {
-  // your own tick component
-  return (
-    <div>
-      <div
-        style={{
-          position: 'absolute',
-          marginTop: 52,
-          marginLeft: -0.5,
-          width: 1,
-          height: 8,
-          backgroundColor: 'silver',
-          left: `${tick.percent}%`,
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          marginTop: 60,
-          fontSize: 10,
-          textAlign: 'center',
-          marginLeft: `${-(100 / count) / 2}%`,
-          width: `${100 / count}%`,
-          left: `${tick.percent}%`,
-        }}
-      >
-        {tick.value}
-      </div>
-    </div>
-  );
-};
+import theme from '@weco/common/views/themes/default';
 
 const KeyboardHandle = ({
   domain: [min, max],
@@ -40,6 +9,7 @@ const KeyboardHandle = ({
 }) => {
   return (
     <button
+      type="button"
       role="slider"
       aria-valuemin={min}
       aria-valuemax={max}
@@ -47,39 +17,26 @@ const KeyboardHandle = ({
       style={{
         left: `${percent}%`,
         position: 'absolute',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, 0)',
+        borderRadius: '50%',
+        backgroundColor: disabled ? '#666' : 'black',
         zIndex: 2,
         width: 24,
         height: 24,
-        borderRadius: '50%',
-        boxShadow: '1px 1px 1px 1px rgba(0, 0, 0, 0.3)',
-        backgroundColor: disabled ? '#666' : '#ffc400',
-      }}
-      {...getHandleProps(id)}
-    />
-  );
-};
-
-const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
-  return (
-    <div
-      style={{
-        left: `${percent}%`,
-        position: 'absolute',
-        marginLeft: -15,
-        marginTop: 25,
-        zIndex: 2,
-        width: 30,
-        height: 30,
-        border: 0,
-        textAlign: 'center',
         cursor: 'pointer',
-        color: '#333',
       }}
       {...getHandleProps(id)}
     >
-      <div style={{ marginTop: -35 }}>{value}</div>
-    </div>
+      <span
+        style={{
+          display: 'block',
+          position: 'absolute',
+          transform: 'translate(-50%, -36px)',
+        }}
+      >
+        {value}
+      </span>
+    </button>
   );
 };
 
@@ -91,8 +48,8 @@ const Track = ({ source, target, getTrackProps }) => {
         position: 'absolute',
         height: 10,
         zIndex: 1,
-        marginTop: 35,
-        backgroundColor: '#546C91',
+        marginTop: 6,
+        backgroundColor: `${theme.colors.green}`,
         borderRadius: 5,
         cursor: 'pointer',
         left: `${source.percent}%`,
@@ -108,83 +65,74 @@ const sliderStyle = {
   position: 'relative',
   width: '100%',
   height: 80,
-  border: '1px solid steelblue',
 };
 
 const railStyle = {
   position: 'absolute',
   width: '100%',
   height: 10,
-  marginTop: 35,
+  marginTop: 6,
   borderRadius: 5,
-  backgroundColor: '#8B9CB6',
+  backgroundColor: `${theme.colors.green}`,
+  opacity: 0.3,
 };
 
-const DateSlider = ({ updateTo, updateFrom }) => {
+const DateSlider = ({ values, updateTo, updateFrom, form }) => {
+  const domain = { to: 0, from: 2100 };
   return (
-    <Slider
-      rootStyle={sliderStyle}
-      domain={[0, 2020]}
-      step={100}
-      mode={2}
-      values={[0, 2020]}
-      onUpdate={values => {
-        updateFrom(values[0]);
-        updateTo(values[1]);
-      }}
-    >
-      <div style={railStyle} />
-      <Rail>
-        {(
-          { getRailProps } // adding the rail props sets up events on the rail
-        ) => <div style={railStyle} {...getRailProps()} />}
-      </Rail>
-      <Handles>
-        {({ handles, getHandleProps }) => (
-          <div className="slider-handles">
-            {handles.map(handle => (
-              <>
-                <KeyboardHandle
-                  key={handle.id}
-                  handle={handle}
-                  domain={[0, 2020]}
-                  getHandleProps={getHandleProps}
-                  disabled={false}
+    <div style={{ marginTop: '30px' }}>
+      <Slider
+        rootStyle={sliderStyle}
+        domain={[domain.to, domain.from]}
+        step={100}
+        mode={2}
+        values={[values.to || domain.to, values.from || domain.from]}
+        onUpdate={values => {
+          updateFrom(values[0]);
+          updateTo(values[1]);
+        }}
+        // onChange={values => {
+        //   form && form.current && form.current.click();
+        // }}
+      >
+        <div style={railStyle} />
+        <Rail>
+          {(
+            { getRailProps } // adding the rail props sets up events on the rail
+          ) => <div style={railStyle} {...getRailProps()} />}
+        </Rail>
+        <Handles>
+          {({ handles, getHandleProps }) => (
+            <div className="slider-handles">
+              {handles.map(handle => (
+                <div key={handle.id}>
+                  <KeyboardHandle
+                    handle={handle}
+                    domain={[0, 2020]}
+                    getHandleProps={getHandleProps}
+                    disabled={false}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </Handles>
+        <Tracks right={false}>
+          {({ tracks, getTrackProps }) => (
+            <div className="slider-tracks">
+              {tracks.map(({ id, source, target }) => (
+                <Track
+                  key={id}
+                  source={source}
+                  target={target}
+                  getTrackProps={getTrackProps}
                 />
-                <Handle
-                  key={handle.id}
-                  handle={handle}
-                  getHandleProps={getHandleProps}
-                />
-              </>
-            ))}
-          </div>
-        )}
-      </Handles>
-      <Tracks right={false}>
-        {({ tracks, getTrackProps }) => (
-          <div className="slider-tracks">
-            {tracks.map(({ id, source, target }) => (
-              <Track
-                key={id}
-                source={source}
-                target={target}
-                getTrackProps={getTrackProps}
-              />
-            ))}
-          </div>
-        )}
-      </Tracks>
-      <Ticks count={15}>
-        {({ ticks }) => (
-          <div className="slider-ticks">
-            {ticks.map(tick => (
-              <Tick key={tick.id} tick={tick} count={ticks.length} />
-            ))}
-          </div>
-        )}
-      </Ticks>
-    </Slider>
+              ))}
+            </div>
+          )}
+        </Tracks>
+      </Slider>
+    </div>
   );
 };
 
