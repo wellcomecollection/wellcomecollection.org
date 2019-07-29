@@ -3,7 +3,7 @@
 // TODO import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { font, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
@@ -91,7 +91,7 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
           relative: true,
           'btn--secondary-black': true,
           'btn--small': true,
-          [spacing({ s: 1 }, { margin: ['left'] })]: true,
+          'margin-left-6': true,
         })}
         icon="chevron"
         text={buttonText}
