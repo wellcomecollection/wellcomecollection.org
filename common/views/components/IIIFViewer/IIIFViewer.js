@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import {
   convertIiifUriToInfoUri,
@@ -148,9 +148,7 @@ const IIIFViewer = styled.div.attrs(props => ({
 const IIIFViewerMain = styled.div.attrs(props => ({
   className: classNames({
     'relative bg-charcoal font-white': true,
-    [spacing({ s: 4 }, { padding: ['top'] })]: true,
-    [spacing({ s: 1 }, { padding: ['right', 'left'] })]: true,
-    [spacing({ s: 10 }, { padding: ['bottom'] })]: true,
+    'padding-left-6 padding-right-6': true,
   }),
 }))`
   noscript & {
@@ -160,6 +158,8 @@ const IIIFViewerMain = styled.div.attrs(props => ({
     }
   }
   width: 100%;
+  padding-top: 24px;
+  padding-bottom: 60px;
 
   @media (min-width: ${props => props.theme.sizes.medium}px) {
     height: 100%;
@@ -167,11 +167,20 @@ const IIIFViewerMain = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewerThumb = styled.div.attrs(props => ({
-  className: classNames({
-    [spacing({ s: 2, m: 4, l: 6 }, { margin: ['left', 'right'] })]: true,
-  }),
-}))`
+const IIIFViewerThumb = styled.div`
+  margin-left: 12px;
+  margin-right: 12px;
+
+  ${props => props.theme.media.medium`
+    margin-left: 24px;
+    margin-right: 24px;
+  `}
+
+  ${props => props.theme.media.large`
+    margin-left: 36px;
+    margin-right: 36px;
+  `}
+
   width: 130px;
   noscript & {
     height: 100%;
@@ -197,13 +206,13 @@ const IIIFViewerThumb = styled.div.attrs(props => ({
 const IIIFViewerThumbLink = styled.a.attrs(props => ({
   className: classNames({
     'block h-center': true,
-    [spacing({ s: 1 }, { margin: ['top'] })]: true,
-    [spacing({ s: 6 }, { margin: ['bottom'] })]: true,
   }),
 }))`
   height: 100%;
   text-align: center;
   display: block;
+  margin-top: 6px;
+  margin-bottom: 36px;
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
@@ -214,9 +223,9 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
     [font('hnl', 5)]: true,
-    [spacing({ s: 2 }, { margin: ['top'] })]: true,
   }),
 }))`
+  margin-top: 12px;
   padding: 3px 2px;
 `;
 
@@ -696,7 +705,6 @@ const IIIFViewerComponent = ({
                     sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
                     extraClasses={classNames({
                       'block h-center': true,
-                      [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
                     })}
                     lang={lang}
                     alt={
@@ -714,7 +722,6 @@ const IIIFViewerComponent = ({
                     sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
                     extraClasses={classNames({
                       'block h-center': true,
-                      [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
                     })}
                     lang={lang}
                     alt={

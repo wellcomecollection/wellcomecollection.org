@@ -1,5 +1,5 @@
 // @flow
-import { spacing, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
 import Button from '../Buttons/Button/Button';
 import { Component, Fragment } from 'react';
@@ -243,12 +243,7 @@ class NewsletterSignup extends Component<Props, State> {
               <VerticalSpace
                 as="p"
                 properties={['padding-top', 'padding-bottom', 'margin-bottom']}
-                className={`${spacing(
-                  { s: 2 },
-                  {
-                    padding: ['right', 'left'],
-                  }
-                )} border-width-1 border-color-red font-red`}
+                className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
               >
                 Please select at least one option.
               </VerticalSpace>
@@ -258,12 +253,7 @@ class NewsletterSignup extends Component<Props, State> {
               <VerticalSpace
                 as="p"
                 properties={['padding-top', 'padding-bottom', 'margin-bottom']}
-                className={`${spacing(
-                  { s: 2 },
-                  {
-                    padding: ['right', 'left'],
-                  }
-                )} border-width-1 border-color-red font-red`}
+                className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
               >
                 Please enter a valid email address.
               </VerticalSpace>

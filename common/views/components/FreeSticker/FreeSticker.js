@@ -1,4 +1,4 @@
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 
 const FreeSticker = () => (
@@ -9,7 +9,7 @@ const FreeSticker = () => (
     className={classNames({
       'font-white bg-black rotate-r-8 absolute': true,
       [font('wb', 5)]: true,
-      [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
+      'padding-left-12 padding-right-12': true,
     })}
     style={{ marginTop: '-20px', right: '0' }}
   >

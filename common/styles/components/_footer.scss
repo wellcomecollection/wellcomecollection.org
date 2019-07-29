@@ -1,7 +1,9 @@
 $footer-strap-width: 220px;
 
 .footer {
+  padding-top: 46px;
   color: color('white');
+
   .icon__shape {
     fill: currentColor;
   }
@@ -37,6 +39,8 @@ $footer-strap-width: 220px;
     width: auto;
     border-bottom: 0;
     border-right: 1px solid color('charcoal');
+    margin-right: 24px;
+    padding-right: 24px;
   }
 
   .icon__shape {

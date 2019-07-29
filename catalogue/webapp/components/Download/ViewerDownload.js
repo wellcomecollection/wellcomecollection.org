@@ -5,7 +5,7 @@ import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { font, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -112,7 +112,7 @@ const Download = ({
           relative: true,
           'btn--secondary-black': true,
           'btn--small': true,
-          [spacing({ s: 1 }, { margin: ['left'] })]: true,
+          'margin-left-6': true,
         })}
         icon="download"
         text="Download"
@@ -161,7 +161,7 @@ const Download = ({
                             className={classNames({
                               'font-pewter': true,
                               [font('hnm', 5)]: true,
-                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
+                              'margin-left-12': true,
                             })}
                           >
                             {format}

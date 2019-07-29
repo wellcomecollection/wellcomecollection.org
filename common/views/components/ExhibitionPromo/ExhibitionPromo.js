@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { formatDate } from '../../../utils/format-date';
 import { UiImage } from '../Images/Images';
@@ -79,8 +79,7 @@ const ExhibitionPromo = ({
         properties={['padding-top', 'padding-bottom']}
         className={`
           flex flex--column flex-1 flex--h-space-between
-          ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-
+          padding-left-12 padding-right-12
         `}
       >
         <div>

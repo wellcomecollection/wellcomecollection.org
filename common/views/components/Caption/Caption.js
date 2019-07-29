@@ -1,6 +1,6 @@
 // @flow
 import type { HTMLString } from '../../../services/prismic/types';
-import { font, spacing, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import type { Node } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import VerticalSpace from '../styled/VerticalSpace';
@@ -16,6 +16,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
     <VerticalSpace
       as="figcaption"
       size="m"
+      properties={['margin-top']}
       style={width ? { width: `${width}px` } : undefined}
       className={classNames({
         [font('lr', 6)]: true,
@@ -25,17 +26,13 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
       <div
         className={classNames({
           'overflow-hidden': true,
-          [spacing({ s: 3, m: 4, l: 5 }, { padding: ['right'] })]: true,
         })}
         style={{ maxWidth: '55em' }}
         tabIndex="0"
       >
         {preCaptionNode}
         <div
-          className={`border-left-width-1 ${spacing(
-            { s: 2 },
-            { padding: ['left'] }
-          )}`}
+          className={`border-left-width-1 padding-left-12`}
           style={{ borderColor: 'currentColor' }}
         >
           <PrismicHtmlBlock html={caption} />

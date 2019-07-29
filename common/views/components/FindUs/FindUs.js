@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'styled-components';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import {
   wellcomeCollectionGallery,
@@ -49,13 +49,7 @@ const FindUs = () => (
         className="plain-link block"
       >
         <span className="flex">
-          <Icon
-            name="location"
-            extraClasses={`float-l ${spacing(
-              { s: 2, m: 2, l: 2, xl: 2 },
-              { margin: ['right'] }
-            )}`}
-          />
+          <Icon name="location" extraClasses={`float-l margin-right-12`} />
           <VerticalSpace size="m" as="p">
             <span className="block">
               {wellcomeCollectionAddress.streetAddress}
