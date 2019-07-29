@@ -86,7 +86,7 @@ function ISODateFromYear(year, start) {
   }
   return fullDate.toISOString('YYYY-MM-DD').split('T')[0];
 }
-const DateSlider = ({ values, updateTo, updateFrom, form }) => {
+const DateSlider = ({ values, updateTo, updateFrom, formButton }) => {
   const domain = { from: 0, to: 2100 };
   return (
     <div style={{ marginTop: '30px' }}>
@@ -103,7 +103,7 @@ const DateSlider = ({ values, updateTo, updateFrom, form }) => {
         onChange={values => {
           updateFrom(ISODateFromYear(values[0], true));
           updateTo(ISODateFromYear(values[1]), false);
-          form && form.current && form.current.click();
+          formButton && formButton.current && formButton.current.click();
         }}
       >
         <div style={railStyle} />
