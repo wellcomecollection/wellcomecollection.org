@@ -77,14 +77,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     }
   }, [query, _dateFrom, _dateTo]);
 
-  function updateDateFrom(event) {
-    setInputDateFrom(event.currentTarget.value);
-  }
-
-  function updateDateTo(event) {
-    setInputDateTo(event.currentTarget.value);
-  }
-
   return (
     <>
       <form
@@ -211,7 +203,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         from:{' '}
                         <input
                           value={inputDateFrom}
-                          onChange={updateDateFrom}
+                          onChange={event => {
+                            setInputDateFrom(event.currentTarget.value);
+                          }}
                           placeholder="YYYY-MM-DD"
                           pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
                           style={{ width: '8em', padding: '0.5em' }}
@@ -221,7 +215,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         to:{' '}
                         <input
                           value={inputDateTo}
-                          onChange={updateDateTo}
+                          onChange={event => {
+                            setInputDateTo(event.currentTarget.value);
+                          }}
                           placeholder="YYYY-MM-DD"
                           pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
                           style={{ width: '8em', padding: '0.5em' }}
