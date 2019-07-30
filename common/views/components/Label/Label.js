@@ -24,7 +24,7 @@ const Label = ({ label }: Props) => {
       ${font('hnm', 6)}
       padding-left-6 padding-right-6
     `}
-      style={{ display: 'block', whiteSpace: 'nowrap' }}
+      style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
     >
       {label.text}
     </VerticalSpace>

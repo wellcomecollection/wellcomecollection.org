@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { grid } from '@weco/common/utils/classnames';
-import { useEffect, useState, useContext } from 'react';
+import { type Node, useEffect, useState, useContext, useRef } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -17,6 +17,16 @@ import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import VerticalSpace from '../styled/VerticalSpace';
+import useOnScreen from '@weco/common/hooks/useOnScreen';
+
+const MultiVolumeContainer = styled.div`
+  box-shadow: ${props =>
+    props.isOnScreen
+      ? `12px 12px 0px 0px ${props.theme.colors.yellow}`
+      : `0px 0px 0px 0px ${props.theme.colors.yellow}`};
+  margin: 0 auto 12px;
+  transition: all 600ms ease;
+`;
 
 const PresentationPreview = styled.div`
   text-align: center;
@@ -39,9 +49,12 @@ const PresentationPreview = styled.div`
   img:first-of-type {
     margin-left: 0;
   }
+  img:first-of-type:last-of-type {
+    margin: auto;
+  }
   .btn--primary {
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
@@ -207,6 +220,7 @@ function previewThumbnails(
 type Props = {|
   iiifPresentationLocation: IIIFPresentationLocation,
   itemUrl: any,
+  childManifestsCount?: number,
 |};
 
 type ViewType =
@@ -221,10 +235,25 @@ type ViewType =
 // unknown === can't/haven't checked
 // iiif | pdf | video | audio === checked manifest and can render
 // none === checked manifest and know we can't render it
+type MultiVolumePreviewProps = {|
+  children: Node,
+|};
+
+const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
+  const multiPreview = useRef();
+  const isOnScreen = useOnScreen({ ref: multiPreview, threshold: 0.75 });
+
+  return (
+    <MultiVolumeContainer ref={multiPreview} isOnScreen={isOnScreen}>
+      {children}
+    </MultiVolumeContainer>
+  );
+};
 
 const IIIFPresentationDisplay = ({
   iiifPresentationLocation,
   itemUrl,
+  childManifestsCount = 0,
 }: Props) => {
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
@@ -289,28 +318,54 @@ const IIIFPresentationDisplay = ({
                 });
               }}
             >
-              {imageThumbnails.map((pageType, i) => {
-                return pageType.images.map(image => {
-                  return (
-                    <IIIFResponsiveImage
-                      key={image.id}
-                      lang={null}
-                      width={image.width * (400 / image.height)}
-                      height={400}
-                      src={iiifImageTemplate(image.id)({
-                        size: ',400',
-                      })}
-                      srcSet={''}
-                      alt=""
-                      sizes={null}
-                      isLazy={true}
-                    />
-                  );
-                });
-              })}
+              {childManifestsCount === 0 &&
+                imageThumbnails.map((pageType, i) => {
+                  return pageType.images.map(image => {
+                    return (
+                      <IIIFResponsiveImage
+                        key={image.id}
+                        lang={null}
+                        width={image.width * (400 / image.height)}
+                        height={400}
+                        src={iiifImageTemplate(image.id)({
+                          size: ',400',
+                        })}
+                        srcSet={''}
+                        alt=""
+                        sizes={null}
+                        isLazy={true}
+                      />
+                    );
+                  });
+                })}
+              {childManifestsCount > 0 &&
+                imageThumbnails.slice(0, 1).map((pageType, i) => {
+                  return pageType.images.map(image => {
+                    return (
+                      <MultiVolumePreview key={image.id}>
+                        <IIIFResponsiveImage
+                          lang={null}
+                          width={image.width * (400 / image.height)}
+                          height={400}
+                          src={iiifImageTemplate(image.id)({
+                            size: ',400',
+                          })}
+                          srcSet={''}
+                          alt=""
+                          sizes={null}
+                          isLazy={true}
+                        />
+                      </MultiVolumePreview>
+                    );
+                  });
+                })}
               <Button
-                icon={'gallery'}
-                text={`${imageTotal} images`}
+                icon={childManifestsCount > 0 ? 'zoomIn' : 'gallery'}
+                text={
+                  childManifestsCount > 0
+                    ? `${childManifestsCount} volumes online`
+                    : `${imageTotal} images`
+                }
                 extraClasses={`btn--primary`}
               />
             </a>
