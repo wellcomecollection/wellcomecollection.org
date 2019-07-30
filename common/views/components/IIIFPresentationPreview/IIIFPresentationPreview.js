@@ -25,7 +25,7 @@ const MultiVolumeContainer = styled.div`
       ? `12px 12px 0px 0px ${props.theme.colors.yellow}`
       : `0px 0px 0px 0px ${props.theme.colors.yellow}`};
   margin: 0 auto 12px;
-  transition: all 1200ms ease;
+  transition: all 600ms ease;
 `;
 
 const PresentationPreview = styled.div`
