@@ -80,11 +80,11 @@ const railStyle = {
 function ISODateFromYear(year, start) {
   let fullDate;
   if (start) {
-    fullDate = new Date(year.toString());
+    fullDate = year && new Date(year.toString());
   } else {
-    fullDate = new Date(`${year.toString()}-12-31`);
+    fullDate = year && new Date(`${year.toString()}-12-31`);
   }
-  return fullDate.toISOString('YYYY-MM-DD').split('T')[0];
+  return fullDate && fullDate.toISOString('YYYY-MM-DD').split('T')[0];
 }
 const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
   const [fromValue, setFromValue] = useState(
@@ -101,13 +101,13 @@ const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
     updateTo(toValue);
   }, [toValue]);
 
-  const domain = { from: 0, to: 2100 };
+  const domain = { from: 1780, to: 2020 };
   return (
     <div style={{ marginTop: '42px' }}>
       <Slider
         rootStyle={sliderStyle}
         domain={[domain.from, domain.to]}
-        step={100}
+        step={10}
         mode={2}
         values={[startValues.from || domain.from, startValues.to || domain.to]}
         onUpdate={values => {
