@@ -33,7 +33,7 @@ const HeaderBackground = ({
 
   return (
     <div
-      className="absolute overflow-hidden full-width bg-charcoal"
+      className="absolute overflow-hidden full-width bg-cream"
       style={styles}
     >
       {hasWobblyEdge && (
