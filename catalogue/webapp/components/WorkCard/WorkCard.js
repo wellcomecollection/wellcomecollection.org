@@ -62,6 +62,7 @@ const WorkCard = ({ work }: Props) => {
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
+  const nextLinkProps = workUrl({ id: work.id });
   return (
     <div
       className={classNames({
@@ -69,13 +70,11 @@ const WorkCard = ({ work }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <NextLink
-        {...workUrl({
-          id: work.id,
-        })}
-      >
+      {JSON.stringify()}
+      <NextLink {...nextLinkProps}>
         <VerticalSpace
           as="a"
+          href={nextLinkProps.as.pathname}
           properties={['padding-top', 'padding-bottom']}
           size="m"
           className={classNames({
