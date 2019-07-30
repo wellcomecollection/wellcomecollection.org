@@ -1,5 +1,6 @@
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider';
 import theme from '@weco/common/views/themes/default';
+import { useState, useEffect } from 'react';
 
 const KeyboardHandle = ({
   domain: [min, max],
@@ -85,7 +86,21 @@ function ISODateFromYear(year, start) {
   }
   return fullDate.toISOString('YYYY-MM-DD').split('T')[0];
 }
-const DateSlider = ({ values, updateTo, updateFrom, formButton }) => {
+const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
+  const [fromValue, setFromValue] = useState(
+    ISODateFromYear(startValues.from, true)
+  );
+  const [toValue, setToValue] = useState(
+    ISODateFromYear(startValues.to, false)
+  );
+
+  useEffect(() => {
+    updateFrom(fromValue);
+  }, [fromValue]);
+  useEffect(() => {
+    updateTo(toValue);
+  }, [toValue]);
+
   const domain = { from: 0, to: 2100 };
   return (
     <div style={{ marginTop: '42px' }}>
@@ -94,14 +109,14 @@ const DateSlider = ({ values, updateTo, updateFrom, formButton }) => {
         domain={[domain.from, domain.to]}
         step={100}
         mode={2}
-        values={[values.from || domain.from, values.to || domain.to]}
+        values={[startValues.from || domain.from, startValues.to || domain.to]}
         onUpdate={values => {
-          updateFrom(ISODateFromYear(values[0], true));
-          updateTo(ISODateFromYear(values[1]), false);
+          setFromValue(ISODateFromYear(values[0], true));
+          setToValue(ISODateFromYear(values[1], true));
         }}
         onChange={values => {
-          updateFrom(ISODateFromYear(values[0], true));
-          updateTo(ISODateFromYear(values[1]), false);
+          setFromValue(ISODateFromYear(values[0], true));
+          setToValue(ISODateFromYear(values[1], true));
           formButton && formButton.current && formButton.current.click();
         }}
       >
