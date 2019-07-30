@@ -59,7 +59,7 @@ const FooterSocial = () => (
           className={`footer-social__link ${font('hnm', 6)}`}
           href={item.url}
         >
-          <Icon name={item.icon} extraClasses="margin-right-s1" />
+          <Icon name={item.icon} extraClasses="margin-right-6" />
           <span className="footer-social__title">{item.title}</span>
           <span className="footer-social__service">{item.service}</span>
         </VerticalSpace>

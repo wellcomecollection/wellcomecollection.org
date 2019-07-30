@@ -225,7 +225,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                     </span>
                     {todayOpeningHours.opens && (
                       <Fragment>
-                        <Icon name={'clock'} extraClasses={'margin-right-s1'} />
+                        <Icon name={'clock'} extraClasses={'margin-right-6'} />
                         <span
                           className={classNames({
                             [font('hnl', 5)]: true,
