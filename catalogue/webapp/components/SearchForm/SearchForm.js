@@ -241,6 +241,14 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                       />
                     </VerticalSpace>
                   )}
+                  <button
+                    onClick={() => {
+                      setInputDateFrom('');
+                      setInputDateTo('');
+                    }}
+                  >
+                    Clear dates
+                  </button>
                 </VerticalSpace>
               )}
             </>
