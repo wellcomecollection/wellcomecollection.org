@@ -51,7 +51,7 @@ const IIIFImagePreview = ({
 
   return (
     <ImagePreview>
-      <NextLink {...itemUrl}>
+      <NextLink {...itemUrl} passHref>
         <VerticalSpace
           size="xl"
           properties={['padding-bottom']}
