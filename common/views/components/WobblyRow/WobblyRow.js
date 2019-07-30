@@ -37,7 +37,7 @@ const WobblyRow = ({ children }: WobblyProps) => (
         </div>
       </div>
     </div>
-    <WobblyEdge isValley={true} intensity={25} background={'white'} />
+    <WobblyEdge isValley={false} intensity={35} background={'white'} />
   </div>
 );
 
