@@ -194,7 +194,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     <label>
                       from:{' '}
                       <input
-                        value={inputDateFrom}
+                        value={inputDateFrom || ''}
                         onChange={event => {
                           setInputDateFrom(event.currentTarget.value);
                         }}
@@ -206,7 +206,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     <label>
                       to:{' '}
                       <input
-                        value={inputDateTo}
+                        value={inputDateTo || ''}
                         onChange={event => {
                           setInputDateTo(event.currentTarget.value);
                         }}
