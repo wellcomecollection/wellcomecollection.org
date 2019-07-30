@@ -426,6 +426,7 @@ class EventPage extends Component<Props, State> {
                         ? event.bookingEnquiryTeam.email
                         : ''
                     }?subject=${event.title}`}
+                    passHref
                   >
                     <VerticalSpace
                       as="a"

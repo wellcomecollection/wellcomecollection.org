@@ -77,13 +77,13 @@ const BespokeBody = (
               <Icon name="clock" extraClasses={`float-l margin-right-12`} />
               <div
                 className={classNames({
-                  [font('hnl', 4)]: true,
+                  [font('hnl', 5)]: true,
                   'float-l': true,
                 })}
               >
                 <h2
                   className={classNames({
-                    [font('hnm', 4)]: true,
+                    [font('hnm', 5)]: true,
                     'no-margin': true,
                   })}
                 >{`Today's opening times`}</h2>
