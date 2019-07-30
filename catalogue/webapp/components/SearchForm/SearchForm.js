@@ -184,38 +184,27 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           {({ showDatesPrototype }) => (
             <>
               {showDatesPrototype && (
-                <VerticalSpace
-                  as="details"
-                  size="m"
-                  properties={['margin-top']}
-                >
-                  <summary>Date range</summary>
-                  <VerticalSpace size="s" properties={['margin-top']}>
-                    <label>
-                      from:{' '}
-                      <input
-                        value={inputDateFrom || ''}
-                        onChange={event => {
-                          setInputDateFrom(event.currentTarget.value);
-                        }}
-                        placeholder="YYYY-MM-DD"
-                        pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
-                        style={{ width: '8em', padding: '0.5em' }}
-                      />
-                    </label>{' '}
-                    <label>
-                      to:{' '}
-                      <input
-                        value={inputDateTo || ''}
-                        onChange={event => {
-                          setInputDateTo(event.currentTarget.value);
-                        }}
-                        placeholder="YYYY-MM-DD"
-                        pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
-                        style={{ width: '8em', padding: '0.5em' }}
-                      />
-                    </label>
-                  </VerticalSpace>
+                <VerticalSpace size="m" properties={['margin-top']}>
+                  <label>
+                    from:{' '}
+                    <input
+                      value={inputDateFrom || ''}
+                      onChange={event => {
+                        setInputDateFrom(event.currentTarget.value);
+                      }}
+                      style={{ width: '8em', padding: '0.5em' }}
+                    />
+                  </label>{' '}
+                  <label>
+                    to:{' '}
+                    <input
+                      value={inputDateTo || ''}
+                      onChange={event => {
+                        setInputDateTo(event.currentTarget.value);
+                      }}
+                      style={{ width: '8em', padding: '0.5em' }}
+                    />
+                  </label>
                 </VerticalSpace>
               )}
             </>
