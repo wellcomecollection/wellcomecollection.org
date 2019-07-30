@@ -73,6 +73,7 @@ const WorkCard = ({ work }: Props) => {
         {...workUrl({
           id: work.id,
         })}
+        passHref
       >
         <VerticalSpace
           as="a"
