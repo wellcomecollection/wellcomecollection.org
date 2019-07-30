@@ -12,7 +12,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import VerticalSpace from '../styled/VerticalSpace';
-import Label from '@weco/common/views/components/Label/Label';
+import Number from '@weco/common/views/components/Number/Number';
 
 type Props = {|
   work: Work,
@@ -126,12 +126,15 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
         </TogglesContext.Consumer>
         {childManifestsCount > 0 && (
           <VerticalSpace size="m" properties={['margin-top']}>
-            <Label
-              label={{
-                url: null,
-                text: `${childManifestsCount} volumes online`,
-              }}
-            />
+            <p
+              className={classNames({
+                [font('hnm', 5)]: true,
+                'no-margin': true,
+              })}
+            >
+              <Number color="yellow" number={childManifestsCount} /> Volumes
+              online
+            </p>
           </VerticalSpace>
         )}
       </SpacingComponent>
