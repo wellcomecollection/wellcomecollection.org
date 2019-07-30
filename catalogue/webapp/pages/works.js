@@ -30,7 +30,7 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
-import moment from 'moment';
+import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
   query: ?string,
@@ -440,15 +440,9 @@ const Works = ({ works }: Props) => {
 
 WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
-  const _dateFrom = makeApiSafeDateString(ctx.query._dateFrom);
-  const _dateTo = makeApiSafeDateString(ctx.query._dateTo);
+  const _dateFrom = formatDateForApi(ctx.query._dateFrom);
+  const _dateTo = formatDateForApi(ctx.query._dateTo);
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-
-  function makeApiSafeDateString(dateString) {
-    const date = dateString && moment(dateString);
-
-    return date && date.isValid() ? date.format('YYYY-MM-DD') : undefined;
-  }
 
   const {
     useStageApi,
