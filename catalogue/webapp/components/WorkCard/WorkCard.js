@@ -70,7 +70,6 @@ const WorkCard = ({ work }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      {JSON.stringify()}
       <NextLink {...nextLinkProps}>
         <VerticalSpace
           as="a"
