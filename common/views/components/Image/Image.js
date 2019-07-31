@@ -27,7 +27,7 @@ export type Props = {|
 
 const Image = (props: Props) => {
   const classes = classNames({
-    'image image--noscript': true,
+    'image image--noscript bg-charcoal font-white': true,
     [`${props.extraClasses || ''}`]: Boolean(props.extraClasses),
   });
   return (
@@ -78,6 +78,7 @@ const Img = ({
       height={height}
       className={classNames({
         image: true,
+        'bg-charcoal font-white': true,
         'lazy-image lazyload': lazyload,
         'cursor-zoom-in': Boolean(zoomable),
         [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
