@@ -35,7 +35,7 @@ const KeyboardHandle = ({
           transform: 'translate(-50%, -36px)',
         }}
       >
-        {value}
+        {value || ''}
       </span>
     </button>
   );
@@ -77,12 +77,6 @@ const railStyle = {
   backgroundColor: theme.colors.green,
 };
 
-function ISODateFromYear(year) {
-  const fullDate = year && new Date(`${year.toString()}-01-01`);
-
-  return fullDate && fullDate.toISOString('YYYY-MM-DD').split('T')[0];
-}
-
 const DateSlider = ({ startValues, updateTo, updateFrom, handleOnChange }) => {
   const domain = { from: 1780, to: 2020 };
   return (
@@ -94,8 +88,8 @@ const DateSlider = ({ startValues, updateTo, updateFrom, handleOnChange }) => {
         mode={2}
         values={[startValues.from || domain.from, startValues.to || domain.to]}
         onUpdate={([from, to]) => {
-          updateFrom(ISODateFromYear(from));
-          updateTo(ISODateFromYear(to));
+          updateFrom(`${from}`);
+          updateTo(`${to}`);
         }}
         onChange={handleOnChange}
       >

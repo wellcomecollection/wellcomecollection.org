@@ -57,7 +57,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
-  const formButton = useRef();
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -86,7 +85,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       _dateFrom: inputDateFrom,
       _dateTo: inputDateTo,
     });
-
+    console.log({ inputDateTo });
     Router.push(link.href, link.as);
   }
 
@@ -147,7 +146,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
           <SearchButtonWrapper className="absolute bg-green">
             <button
-              ref={formButton}
               className={classNames({
                 'full-width': true,
                 'full-height': true,
@@ -194,7 +192,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                 <VerticalSpace size="m" properties={['margin-top']}>
                   <div
                     style={{
-                      display: showDatesSliderPrototype ? 'none' : 'block',
+                      // display: showDatesSliderPrototype ? 'none' : 'block',
+                      display: 'block',
                     }}
                   >
                     <VerticalSpace size="s" properties={['margin-top']}>
@@ -203,7 +202,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         <input
                           value={inputDateFrom || ''}
                           onChange={event => {
-                            setInputDateFrom(event.currentTarget.value);
+                            setInputDateFrom(`${event.currentTarget.value}`);
                           }}
                           style={{ width: '8em', padding: '0.5em' }}
                         />
@@ -213,7 +212,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         <input
                           value={inputDateTo || ''}
                           onChange={event => {
-                            setInputDateTo(event.currentTarget.value);
+                            setInputDateTo(`${event.currentTarget.value}`);
                           }}
                           style={{ width: '8em', padding: '0.5em' }}
                         />
@@ -224,11 +223,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     <VerticalSpace>
                       <DateSlider
                         startValues={{
-                          to:
-                            inputDateTo && Number(inputDateTo.substring(0, 4)),
-                          from:
-                            inputDateFrom &&
-                            Number(inputDateFrom.substring(0, 4)),
+                          to: inputDateTo,
+                          from: inputDateFrom,
                         }}
                         handleOnChange={updateUrl}
                         updateFrom={setInputDateFrom}

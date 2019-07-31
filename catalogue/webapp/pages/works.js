@@ -442,6 +442,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const _dateFrom = formatDateForApi(ctx.query._dateFrom);
   const _dateTo = formatDateForApi(ctx.query._dateTo);
+
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const {
