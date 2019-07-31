@@ -17,6 +17,10 @@ const urls = [
   'https://wellcomecollection.org/works/cjwep3ze?query=health&page=1',
   'https://wellcomecollection.org/works/e7vav3ss/items?page=1&canvas=1&sierraId=b28136615&langCode=eng',
   'https://wellcomecollection.org/what-we-do',
+  'https://wellcomecollection.org/series/WsSUrR8AAL3KGFPF',
+  'https://wellcomecollection.org/exhibitions/XOVfTREAAOJmx-Uw',
+  'https://wellcomecollection.org/events/Wqkd1yUAAB8sW4By',
+  'https://wellcomecollection.org/event-series/WlYT_SQAACcAWccj',
 ];
 
 const promises = urls.map(url => pa11y(url));
