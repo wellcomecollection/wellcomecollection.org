@@ -85,7 +85,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       _dateFrom: inputDateFrom,
       _dateTo: inputDateTo,
     });
-    console.log({ inputDateTo });
+
     Router.push(link.href, link.as);
   }
 
@@ -192,8 +192,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                 <VerticalSpace size="m" properties={['margin-top']}>
                   <div
                     style={{
-                      // display: showDatesSliderPrototype ? 'none' : 'block',
-                      display: 'block',
+                      display: showDatesSliderPrototype ? 'none' : 'block',
                     }}
                   >
                     <VerticalSpace size="s" properties={['margin-top']}>
