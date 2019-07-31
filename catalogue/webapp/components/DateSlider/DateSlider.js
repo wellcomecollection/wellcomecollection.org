@@ -77,7 +77,7 @@ const railStyle = {
   backgroundColor: theme.colors.green,
 };
 
-const DateSlider = ({ startValues, updateTo, updateFrom, handleOnChange }) => {
+const DateSlider = ({ startValues, updateTo, updateFrom }) => {
   const domain = { from: 1780, to: 2020 };
   return (
     <div style={{ marginTop: '42px' }}>
@@ -91,7 +91,6 @@ const DateSlider = ({ startValues, updateTo, updateFrom, handleOnChange }) => {
           updateFrom(`${from}`);
           updateTo(`${to}`);
         }}
-        onChange={handleOnChange}
       >
         <div style={railStyle} />
         <Rail>

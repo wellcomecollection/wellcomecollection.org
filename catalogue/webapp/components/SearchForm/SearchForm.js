@@ -76,6 +76,10 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     }
   }, [query, _dateFrom, _dateTo]);
 
+  useEffect(() => {
+    updateUrl();
+  }, [inputDateFrom, inputDateTo]);
+
   function updateUrl() {
     const link = worksUrl({
       query: inputQuery,
@@ -86,7 +90,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       _dateTo: inputDateTo,
     });
 
-    Router.push(link.href, link.as);
+    typeof window !== 'undefined' && Router.push(link.href, link.as);
   }
 
   return (
@@ -110,6 +114,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       >
         <div className="relative">
           <SearchInputWrapper className="relative">
+            {inputDateFrom}
+            {inputDateTo}
             <TextInput
               label={'Search the catalogue'}
               placeholder={'Search for books and pictures'}
@@ -225,13 +231,13 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                           to: inputDateTo,
                           from: inputDateFrom,
                         }}
-                        handleOnChange={updateUrl}
                         updateFrom={setInputDateFrom}
                         updateTo={setInputDateTo}
                       />
                     </VerticalSpace>
                   )}
                   <button
+                    type="button"
                     onClick={() => {
                       setInputDateFrom('');
                       setInputDateTo('');
