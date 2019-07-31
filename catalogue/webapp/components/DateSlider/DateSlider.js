@@ -77,31 +77,13 @@ const railStyle = {
   backgroundColor: theme.colors.green,
 };
 
-function ISODateFromYear(year, start) {
-  let fullDate;
-  if (start) {
-    fullDate = year && new Date(year.toString());
-  } else {
-    fullDate = year && new Date(`${year.toString()}-12-31`);
-  }
+function ISODateFromYear(year) {
+  const fullDate = year && new Date(`${year.toString()}-01-01`);
+
   return fullDate && fullDate.toISOString('YYYY-MM-DD').split('T')[0];
 }
-const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
-  const [fromValue, setFromValue] = useState(
-    ISODateFromYear(startValues.from, true)
-  );
-  const [toValue, setToValue] = useState(
-    ISODateFromYear(startValues.to, false)
-  );
 
-  useEffect(() => {
-    updateFrom(fromValue);
-  }, [fromValue]);
-
-  useEffect(() => {
-    updateTo(toValue);
-  }, [toValue]);
-
+const DateSlider = ({ startValues, updateTo, updateFrom, handleOnChange }) => {
   const domain = { from: 1780, to: 2020 };
   return (
     <div style={{ marginTop: '42px' }}>
@@ -111,18 +93,11 @@ const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
         step={10}
         mode={2}
         values={[startValues.from || domain.from, startValues.to || domain.to]}
-        onUpdate={values => {
-          setFromValue(ISODateFromYear(values[0], true));
-          setToValue(ISODateFromYear(values[1], true));
+        onUpdate={([from, to]) => {
+          updateFrom(ISODateFromYear(from));
+          updateTo(ISODateFromYear(to));
         }}
-        onChange={values => {
-          setFromValue(ISODateFromYear(values[0], true));
-          setToValue(ISODateFromYear(values[1], true));
-
-          console.log('about to click');
-          formButton && formButton.current && formButton.current.click();
-          console.log('click');
-        }}
+        onChange={handleOnChange}
       >
         <div style={railStyle} />
         <Rail>

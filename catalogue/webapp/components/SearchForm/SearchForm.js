@@ -77,6 +77,19 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     }
   }, [query, _dateFrom, _dateTo]);
 
+  function updateUrl() {
+    const link = worksUrl({
+      query: inputQuery,
+      workType,
+      page: 1,
+      _queryType,
+      _dateFrom: inputDateFrom,
+      _dateTo: inputDateTo,
+    });
+
+    Router.push(link.href, link.as);
+  }
+
   return (
     <>
       <form
@@ -91,16 +104,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             label: query,
           });
 
-          const link = worksUrl({
-            query: inputQuery,
-            workType,
-            page: 1,
-            _queryType,
-            _dateFrom: inputDateFrom,
-            _dateTo: inputDateTo,
-          });
-
-          Router.push(link.href, link.as);
+          updateUrl();
 
           return false;
         }}
@@ -226,7 +230,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                             inputDateFrom &&
                             Number(inputDateFrom.substring(0, 4)),
                         }}
-                        formButton={formButton}
+                        handleOnChange={updateUrl}
                         updateFrom={setInputDateFrom}
                         updateTo={setInputDateTo}
                       />
