@@ -95,7 +95,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             __html: `
           <img width='${width}'
             height='${height || ''}'
-            class='image image--noscript'
+            class='image image--noscript bg-charcoal font-white'
             src=${convertImageUri(contentUrl, 640, false)}
             alt='${alt || ''}' />`,
           }}
@@ -110,7 +110,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             width: isWidthAuto ? 'auto' : undefined,
           }}
           className={classNames({
-            'lazy-image': true,
+            'lazy-image bg-charcoal font-white': true,
             lazyload: true,
             image: true,
             [extraClasses || '']: true,
