@@ -1,13 +1,23 @@
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider';
 import theme from '@weco/common/views/themes/default';
-import { useState, useEffect } from 'react';
+
+type KeyboardHandleProps = {|
+  domain: [number, number],
+  handle: {
+    id: string,
+    value: number,
+    percent: number,
+  },
+  disabled: boolean,
+  getHandleProps: () => void,
+|};
 
 const KeyboardHandle = ({
   domain: [min, max],
   handle: { id, value, percent },
   disabled,
   getHandleProps,
-}) => {
+}: KeyboardHandleProps) => {
   return (
     <button
       type="button"
@@ -41,8 +51,12 @@ const KeyboardHandle = ({
   );
 };
 
-const Track = ({ source, target, getTrackProps }) => {
-  // your own track component
+type TrackProps = {|
+  source: {| id: string, value: number, percent: number |},
+  target: {| id: string, value: number, percent: number |},
+  getTrackProps: () => void,
+|};
+const Track = ({ source, target, getTrackProps }: TrackProps) => {
   return (
     <div
       style={{
@@ -77,7 +91,13 @@ const railStyle = {
   backgroundColor: theme.colors.green,
 };
 
-const DateSlider = ({ startValues, updateTo, updateFrom }) => {
+type DateSliderProps = {|
+  startValues: {| to: number, from: number |},
+  updateTo: () => void,
+  updateFrom: () => void,
+|};
+
+const DateSlider = ({ startValues, updateTo, updateFrom }: DateSliderProps) => {
   const domain = { from: 1780, to: 2020 };
   return (
     <div style={{ marginTop: '42px' }}>
