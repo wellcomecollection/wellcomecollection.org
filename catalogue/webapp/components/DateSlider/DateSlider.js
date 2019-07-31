@@ -76,10 +76,9 @@ const Track = ({ source, target, getTrackProps }: TrackProps) => {
 };
 
 const sliderStyle = {
-  // Give the slider some width
   position: 'relative',
   width: '100%',
-  height: 80,
+  height: 50,
 };
 
 const railStyle = {

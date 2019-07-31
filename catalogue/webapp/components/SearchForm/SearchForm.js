@@ -11,6 +11,7 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -221,9 +222,19 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         />
                       </label>
                     </VerticalSpace>
+                    <VerticalSpace size="m" properties={['margin-top']}>
+                      <Button
+                        type="primary"
+                        text="Clear dates"
+                        clickHandler={() => {
+                          setInputDateFrom('');
+                          setInputDateTo('');
+                        }}
+                      />
+                    </VerticalSpace>
                   </div>
                   {showDatesSliderPrototype && (
-                    <VerticalSpace>
+                    <>
                       <DateSlider
                         startValues={{
                           to: inputDateTo,
@@ -232,17 +243,16 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         updateFrom={setInputDateFrom}
                         updateTo={setInputDateTo}
                       />
-                    </VerticalSpace>
+                      <Button
+                        type="primary"
+                        text="Clear dates"
+                        clickHandler={() => {
+                          setInputDateFrom('');
+                          setInputDateTo('');
+                        }}
+                      />
+                    </>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setInputDateFrom('');
-                      setInputDateTo('');
-                    }}
-                  >
-                    Clear dates
-                  </button>
                 </VerticalSpace>
               )}
             </>
