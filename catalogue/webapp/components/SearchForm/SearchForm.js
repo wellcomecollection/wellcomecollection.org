@@ -114,8 +114,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       >
         <div className="relative">
           <SearchInputWrapper className="relative">
-            {inputDateFrom}
-            {inputDateTo}
             <TextInput
               label={'Search the catalogue'}
               placeholder={'Search for books and pictures'}
