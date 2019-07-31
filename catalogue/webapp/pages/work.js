@@ -32,7 +32,6 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
@@ -40,10 +39,9 @@ type Props = {|
   work: Work | CatalogueApiError,
 |};
 
-const getManifests = async function(manifests) {
-  const data = Promise.all(
-    manifests.map(async manifest => (await fetch(manifest['@id'])).json())
-  );
+const getFirstChildManifest = async function(manifests) {
+  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
+  const data = await (await fetch(firstManifestUrl)).json();
   return data;
 };
 
@@ -51,9 +49,8 @@ export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
-  const [iiifPresentationManifests, setIIIFPresentationManifests] = useState(
-    null
-  );
+  const [childManifestsCount, setChildManifestsCount] = useState(0);
+  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getIIIFPresentationLocation(work);
@@ -61,8 +58,9 @@ export const WorkPage = ({ work }: Props) => {
       const manifestData = await iiifManifest.json();
 
       if (manifestData.manifests) {
-        setIIIFPresentationManifests(
-          await getManifests(manifestData.manifests)
+        setChildManifestsCount(manifestData.manifests.length);
+        setFirstChildManifest(
+          await getFirstChildManifest(manifestData.manifests)
         );
       }
       setIIIFPresentationManifest(manifestData);
@@ -200,49 +198,35 @@ export const WorkPage = ({ work }: Props) => {
       >
         <div className="container">
           <div className="grid">
-            <WorkHeader work={work} />
+            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </VerticalSpace>
-      <TogglesContext.Consumer>
-        {({ showMultiVolumePreviews }) => (
-          <>
-            {!showMultiVolumePreviews && iiifPresentationManifests ? (
-              <VerticalSpace size="l">
-                <BetaMessage message="We are working to make this item available online in July 2019." />
-              </VerticalSpace>
-            ) : (
-              iiifPresentationManifests &&
-              iiifPresentationManifests.map((manifest, i) => (
-                <ManifestContext.Provider value={manifest} key={i}>
-                  <SpacingComponent>
-                    {sierraIdFromPresentationManifestUrl &&
-                      !iiifImageLocationUrl && (
-                        <IIIFPresentationPreview
-                          iiifPresentationLocation={iiifPresentationLocation}
-                          itemUrl={itemUrl({
-                            workId: work.id,
-                            sierraId:
-                              manifest['@id'].match(
-                                /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                              )[1] || sierraIdFromPresentationManifestUrl,
-                            langCode: work.language && work.language.id,
-                            page: 1,
-                            canvas: 1,
-                            isOverview: true,
-                          })}
-                        />
-                      )}
-                  </SpacingComponent>
-                </ManifestContext.Provider>
-              ))
-            )}
-          </>
-        )}
-      </TogglesContext.Consumer>
+
+      {firstChildManifest && (
+        <ManifestContext.Provider value={firstChildManifest}>
+          <SpacingComponent>
+            <IIIFPresentationPreview
+              iiifPresentationLocation={iiifPresentationLocation}
+              childManifestsCount={childManifestsCount}
+              itemUrl={itemUrl({
+                workId: work.id,
+                sierraId:
+                  firstChildManifest['@id'].match(
+                    /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+                  )[1] || sierraIdFromPresentationManifestUrl,
+                langCode: work.language && work.language.id,
+                page: 1,
+                canvas: 1,
+                isOverview: true,
+              })}
+            />
+          </SpacingComponent>
+        </ManifestContext.Provider>
+      )}
 
       <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!iiifPresentationManifests &&
+        {!firstChildManifest &&
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
@@ -281,6 +265,7 @@ export const WorkPage = ({ work }: Props) => {
         sierraId={sierraIdFromPresentationManifestUrl}
         iiifPresentationManifest={iiifPresentationManifest}
         encoreLink={encoreLink}
+        childManifestsCount={childManifestsCount}
       />
     </CataloguePageLayout>
   );
@@ -316,3 +301,6 @@ WorkPage.getInitialProps = async (
 };
 
 export default WorkPage;
+
+// TODO remove download options
+// TODO non js version - need link to list of parts - manifests /parts /volumes /???

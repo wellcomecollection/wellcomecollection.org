@@ -76,6 +76,7 @@ type Props = {|
   sierraId: ?string,
   iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
+  childManifestsCount?: number,
 |};
 
 const WorkDetails = ({
@@ -83,6 +84,7 @@ const WorkDetails = ({
   sierraId,
   iiifPresentationManifest,
   encoreLink,
+  childManifestsCount,
 }: Props) => {
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -157,7 +159,7 @@ const WorkDetails = ({
         </div>
       </div>
     );
-  } else if (sierraId) {
+  } else if (sierraId && childManifestsCount === 0) {
     WorkDetailsSections.push(
       <div
         className={classNames({

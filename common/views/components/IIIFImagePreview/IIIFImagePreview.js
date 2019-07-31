@@ -30,10 +30,13 @@ const ImagePreview = styled.div`
     max-height: 400px;
     max-width: 100%;
     width: auto;
+    position: relative;
+    z-index: 1;
   }
 
   button {
     position: absolute;
+    z-index: 3;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
@@ -51,7 +54,7 @@ const IIIFImagePreview = ({
 
   return (
     <ImagePreview>
-      <NextLink {...itemUrl}>
+      <NextLink {...itemUrl} passHref>
         <VerticalSpace
           size="xl"
           properties={['padding-bottom']}

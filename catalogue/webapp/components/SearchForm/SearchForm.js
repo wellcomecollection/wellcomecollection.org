@@ -187,12 +187,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           {({ showDatesPrototype, showDatesSliderPrototype }) => (
             <>
               {(showDatesPrototype || showDatesSliderPrototype) && (
-                <VerticalSpace
-                  as="details"
-                  size="m"
-                  properties={['margin-top']}
-                >
-                  <summary>Date range</summary>
+                <VerticalSpace size="m" properties={['margin-top']}>
                   <div
                     style={{
                       display: showDatesSliderPrototype ? 'none' : 'block',
@@ -206,8 +201,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                           onChange={event => {
                             setInputDateFrom(event.currentTarget.value);
                           }}
-                          placeholder="YYYY-MM-DD"
-                          pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
                           style={{ width: '8em', padding: '0.5em' }}
                         />
                       </label>{' '}
@@ -218,8 +211,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                           onChange={event => {
                             setInputDateTo(event.currentTarget.value);
                           }}
-                          placeholder="YYYY-MM-DD"
-                          pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])"
                           style={{ width: '8em', padding: '0.5em' }}
                         />
                       </label>

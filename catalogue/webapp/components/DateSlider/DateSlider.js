@@ -97,6 +97,7 @@ const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
   useEffect(() => {
     updateFrom(fromValue);
   }, [fromValue]);
+
   useEffect(() => {
     updateTo(toValue);
   }, [toValue]);
@@ -117,7 +118,10 @@ const DateSlider = ({ startValues, updateTo, updateFrom, formButton }) => {
         onChange={values => {
           setFromValue(ISODateFromYear(values[0], true));
           setToValue(ISODateFromYear(values[1], true));
+
+          console.log('about to click');
           formButton && formButton.current && formButton.current.click();
+          console.log('click');
         }}
       >
         <div style={railStyle} />

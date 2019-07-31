@@ -70,7 +70,7 @@ const FacilityPromo = ({
           <VerticalSpace size="m" properties={['padding-top']}>
             <div className={`${font('hnm', 6)} flex flex--v-center`}>
               {metaIcon && (
-                <Icon name={metaIcon} extraClasses="margin-right-s1" />
+                <Icon name={metaIcon} extraClasses="margin-right-6" />
               )}
               <span>{metaText}</span>
             </div>
