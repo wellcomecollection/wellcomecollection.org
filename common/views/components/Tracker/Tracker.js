@@ -89,10 +89,11 @@ const track = (eventProps: LoggerEvent) => {
 
   const { event, ...restOfEvent } = eventProps;
 
-  window.analytics.track(event, {
-    ...restOfEvent,
-    toggles,
-  });
+  window.analytics &&
+    window.analytics.track(event, {
+      ...restOfEvent,
+      toggles,
+    });
 };
 
 const TrackerScript = () => {

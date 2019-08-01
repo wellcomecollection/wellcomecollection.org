@@ -9,6 +9,9 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -40,14 +43,22 @@ const ClearSearch = styled.button`
 `;
 
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const { query, workType, _queryType, setQueryType } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    workType,
+    _queryType,
+    setQueryType,
+    _dateFrom,
+    _dateTo,
+  } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  const [showSlider, setShowSlider] = useState(true);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -57,7 +68,34 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     if (query !== inputQuery) {
       setInputQuery(query);
     }
-  }, [query]);
+
+    if (_dateFrom !== inputDateFrom) {
+      setInputDateFrom(_dateFrom);
+    }
+
+    if (_dateTo !== inputDateTo) {
+      setInputDateTo(_dateTo);
+    }
+  }, [query, _dateFrom, _dateTo]);
+
+  useEffect(() => {
+    if (inputDateFrom !== _dateFrom || inputDateTo !== _dateTo) {
+      updateUrl();
+    }
+  }, [inputDateFrom, inputDateTo]);
+
+  function updateUrl() {
+    const link = worksUrl({
+      query: inputQuery,
+      workType,
+      page: 1,
+      _queryType,
+      _dateFrom: inputDateFrom,
+      _dateTo: inputDateTo,
+    });
+
+    typeof window !== 'undefined' && Router.push(link.href, link.as);
+  }
 
   return (
     <>
@@ -73,14 +111,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             label: query,
           });
 
-          const link = worksUrl({
-            query: inputQuery,
-            workType,
-            page: 1,
-            _queryType,
-          });
-
-          Router.push(link.href, link.as);
+          updateUrl();
 
           return false;
         }}
@@ -160,6 +191,80 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               </label>
             )
           }
+        </TogglesContext.Consumer>
+
+        <TogglesContext.Consumer>
+          {({ showDatesPrototype, showDatesSliderPrototype }) => (
+            <>
+              {(showDatesPrototype || showDatesSliderPrototype) && (
+                <VerticalSpace size="m" properties={['margin-top']}>
+                  <div
+                    style={{
+                      display: showDatesSliderPrototype ? 'none' : 'block',
+                    }}
+                  >
+                    <VerticalSpace size="s" properties={['margin-top']}>
+                      <label>
+                        from:{' '}
+                        <input
+                          value={inputDateFrom || ''}
+                          onChange={event => {
+                            setInputDateFrom(`${event.currentTarget.value}`);
+                          }}
+                          style={{ width: '8em', padding: '0.5em' }}
+                        />
+                      </label>{' '}
+                      <label>
+                        to:{' '}
+                        <input
+                          value={inputDateTo || ''}
+                          onChange={event => {
+                            setInputDateTo(`${event.currentTarget.value}`);
+                          }}
+                          style={{ width: '8em', padding: '0.5em' }}
+                        />
+                      </label>
+                    </VerticalSpace>
+                    <VerticalSpace size="m" properties={['margin-top']}>
+                      <Button
+                        type="primary"
+                        text="Clear dates"
+                        clickHandler={() => {
+                          setInputDateFrom('');
+                          setInputDateTo('');
+                        }}
+                      />
+                    </VerticalSpace>
+                  </div>
+                  {showDatesSliderPrototype && (
+                    <>
+                      {showSlider && (
+                        <DateSlider
+                          startValues={{
+                            to: inputDateTo,
+                            from: inputDateFrom,
+                          }}
+                          updateFrom={setInputDateFrom}
+                          updateTo={setInputDateTo}
+                        />
+                      )}
+                      <Button
+                        type="primary"
+                        text={showSlider ? 'Clear dates' : 'Show date filter'}
+                        clickHandler={() => {
+                          setShowSlider(!showSlider);
+                          if (showSlider) {
+                            setInputDateFrom('');
+                            setInputDateTo('');
+                          }
+                        }}
+                      />
+                    </>
+                  )}
+                </VerticalSpace>
+              )}
+            </>
+          )}
         </TogglesContext.Consumer>
       </form>
     </>
