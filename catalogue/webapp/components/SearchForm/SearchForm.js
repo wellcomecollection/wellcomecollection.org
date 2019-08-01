@@ -12,6 +12,7 @@ import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearc
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -42,6 +43,69 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+const twentyYearRange = [
+  {
+    from: '1780',
+    to: '1800',
+    results: 22,
+  },
+  {
+    from: '1800',
+    to: '1820',
+    results: 14,
+  },
+  {
+    from: '1820',
+    to: '1840',
+    results: 6,
+  },
+  {
+    from: '1840',
+    to: '1860',
+    results: 7,
+  },
+  {
+    from: '1860',
+    to: '1880',
+    results: 61,
+  },
+  {
+    from: '1880',
+    to: '1900',
+    results: 66,
+  },
+  {
+    from: '1900',
+    to: '1920',
+    results: 33,
+  },
+  {
+    from: '1920',
+    to: '1940',
+    results: 11,
+  },
+  {
+    from: '1940',
+    to: '1960',
+    results: 6,
+  },
+  {
+    from: '1960',
+    to: '1980',
+    results: 8,
+  },
+  {
+    from: '1980',
+    to: '2000',
+    results: 6,
+  },
+  {
+    from: '2000',
+    to: '2020',
+    results: 3,
+  },
+];
+
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const {
     query,
@@ -59,6 +123,25 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
   const [showSlider, setShowSlider] = useState(true);
+
+  const dateRangeItems = twentyYearRange.map(range => {
+    return {
+      text: `${range.from}-${range.to} (${range.results})`,
+      link: worksUrl({
+        query,
+        workType,
+        page: 1,
+        _dateFrom: range.from,
+        _dateTo: range.to,
+      }),
+      selected: !!(
+        _dateFrom &&
+        _dateFrom === range.from &&
+        _dateTo &&
+        _dateTo === range.to
+      ),
+    };
+  });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -96,21 +179,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
     typeof window !== 'undefined' && Router.push(link.href, link.as);
   }
-
-  const twentyYearRange = {
-    '1780-1800': 22,
-    '1800-1820': 14,
-    '1820-1840': 6,
-    '1840-1860': 7,
-    '1860-1880': 61,
-    '1880-1900': 66,
-    '1900-1920': 33,
-    '1920-1940': 11,
-    '1940-1960': 6,
-    '1960-1980': 8,
-    '1980-2000': 6,
-    '2000-2020': 3,
-  };
 
   return (
     <>
@@ -215,79 +283,75 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             showDatesAggregatePrototype,
           }) => (
             <>
-              {(showDatesPrototype || showDatesSliderPrototype) && (
-                <VerticalSpace size="m" properties={['margin-top']}>
-                  <div
-                    style={{
-                      display: showDatesSliderPrototype ? 'none' : 'block',
-                    }}
-                  >
-                    <VerticalSpace size="s" properties={['margin-top']}>
-                      <label>
-                        from:{' '}
-                        <input
-                          value={inputDateFrom || ''}
-                          onChange={event => {
-                            setInputDateFrom(`${event.currentTarget.value}`);
-                          }}
-                          style={{ width: '8em', padding: '0.5em' }}
-                        />
-                      </label>{' '}
-                      <label>
-                        to:{' '}
-                        <input
-                          value={inputDateTo || ''}
-                          onChange={event => {
-                            setInputDateTo(`${event.currentTarget.value}`);
-                          }}
-                          style={{ width: '8em', padding: '0.5em' }}
-                        />
-                      </label>
-                    </VerticalSpace>
-                    <VerticalSpace size="m" properties={['margin-top']}>
-                      <Button
-                        type="primary"
-                        text="Clear dates"
-                        clickHandler={() => {
-                          setInputDateFrom('');
-                          setInputDateTo('');
-                        }}
-                      />
-                    </VerticalSpace>
-                  </div>
-                  {showDatesSliderPrototype && (
-                    <>
-                      {showSlider && (
-                        <DateSlider
-                          startValues={{
-                            to: inputDateTo,
-                            from: inputDateFrom,
-                          }}
-                          updateFrom={setInputDateFrom}
-                          updateTo={setInputDateTo}
-                        />
-                      )}
-                      <Button
-                        type="primary"
-                        text={showSlider ? 'Clear dates' : 'Show date filter'}
-                        clickHandler={() => {
-                          setShowSlider(!showSlider);
-                          if (showSlider) {
+              {(showDatesPrototype || showDatesSliderPrototype) &&
+                !showDatesAggregatePrototype && (
+                  <VerticalSpace size="m" properties={['margin-top']}>
+                    <div
+                      style={{
+                        display: showDatesSliderPrototype ? 'none' : 'block',
+                      }}
+                    >
+                      <VerticalSpace size="s" properties={['margin-top']}>
+                        <label>
+                          from:{' '}
+                          <input
+                            value={inputDateFrom || ''}
+                            onChange={event => {
+                              setInputDateFrom(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>{' '}
+                        <label>
+                          to:{' '}
+                          <input
+                            value={inputDateTo || ''}
+                            onChange={event => {
+                              setInputDateTo(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>
+                      </VerticalSpace>
+                      <VerticalSpace size="m" properties={['margin-top']}>
+                        <Button
+                          type="primary"
+                          text="Clear dates"
+                          clickHandler={() => {
                             setInputDateFrom('');
                             setInputDateTo('');
-                          }
-                        }}
-                      />
-                    </>
-                  )}
-                  {showDatesAggregatePrototype &&
-                    Object.keys(twentyYearRange).map(key => (
-                      <p key={key}>
-                        {key} ({twentyYearRange[key]})
-                      </p>
-                    ))}
-                </VerticalSpace>
-              )}
+                          }}
+                        />
+                      </VerticalSpace>
+                    </div>
+                    {showDatesSliderPrototype && !showDatesAggregatePrototype && (
+                      <>
+                        {showSlider && (
+                          <DateSlider
+                            startValues={{
+                              to: inputDateTo,
+                              from: inputDateFrom,
+                            }}
+                            updateFrom={setInputDateFrom}
+                            updateTo={setInputDateTo}
+                          />
+                        )}
+                        <Button
+                          type="primary"
+                          text={showSlider ? 'Clear dates' : 'Show date filter'}
+                          clickHandler={() => {
+                            setShowSlider(!showSlider);
+                            if (showSlider) {
+                              setInputDateFrom('');
+                              setInputDateTo('');
+                            }
+                          }}
+                        />
+                      </>
+                    )}
+                  </VerticalSpace>
+                )}
+              {showDatesAggregatePrototype && <TabNav items={dateRangeItems} />}
             </>
           )}
         </TogglesContext.Consumer>
