@@ -96,6 +96,21 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     typeof window !== 'undefined' && Router.push(link.href, link.as);
   }
 
+  const twentyYearRange = {
+    '1780-1800': 22,
+    '1800-1820': 14,
+    '1820-1840': 6,
+    '1840-1860': 7,
+    '1860-1880': 61,
+    '1880-1900': 66,
+    '1900-1920': 33,
+    '1920-1940': 11,
+    '1940-1960': 6,
+    '1960-1980': 8,
+    '1980-2000': 6,
+    '2000-2020': 3,
+  };
+
   return (
     <>
       <form
@@ -193,7 +208,11 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         </TogglesContext.Consumer>
 
         <TogglesContext.Consumer>
-          {({ showDatesPrototype, showDatesSliderPrototype }) => (
+          {({
+            showDatesPrototype,
+            showDatesSliderPrototype,
+            showDatesAggregatePrototype,
+          }) => (
             <>
               {(showDatesPrototype || showDatesSliderPrototype) && (
                 <VerticalSpace size="m" properties={['margin-top']}>
@@ -255,6 +274,12 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                       />
                     </>
                   )}
+                  {showDatesAggregatePrototype &&
+                    Object.keys(twentyYearRange).map(key => (
+                      <p key={key}>
+                        {key} ({twentyYearRange[key]})
+                      </p>
+                    ))}
                 </VerticalSpace>
               )}
             </>
