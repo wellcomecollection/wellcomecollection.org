@@ -10,7 +10,7 @@ type WobblyProps = {|
 const WobblyRow = ({ children }: WobblyProps) => (
   <div
     className={classNames({
-      'row bg-charcoal relative': true,
+      'row bg-charcoal font-white relative': true,
     })}
   >
     <div
