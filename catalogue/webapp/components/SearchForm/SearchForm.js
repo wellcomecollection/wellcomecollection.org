@@ -78,7 +78,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   }, [query, _dateFrom, _dateTo]);
 
   useEffect(() => {
-    updateUrl();
+    if (inputDateFrom !== _dateFrom || inputDateTo !== _dateTo) {
+      updateUrl();
+    }
   }, [inputDateFrom, inputDateTo]);
 
   function updateUrl() {
