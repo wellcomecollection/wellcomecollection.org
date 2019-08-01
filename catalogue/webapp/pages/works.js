@@ -458,15 +458,21 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     _queryType,
   };
 
-  const worksOrError =
-    query && query !== ''
-      ? await getWorks({
-          query,
-          page,
-          filters,
-          env: useStageApi ? 'stage' : 'prod',
-        })
-      : null;
+  const worksOrError = await getWorks({
+    query,
+    page,
+    filters,
+    env: useStageApi ? 'stage' : 'prod',
+  });
+  // const worksOrError =
+  //   query && query !== ''
+  //     ? await getWorks({
+  //         query,
+  //         page,
+  //         filters,
+  //         env: useStageApi ? 'stage' : 'prod',
+  //       })
+  //     : null;
 
   return {
     works: worksOrError,
