@@ -55,5 +55,13 @@ module.exports = {
       description:
         'Shows additional UI to allow a user to narrow search results by using a date range slider.',
     },
+    {
+      id: 'showDatesAggregatePrototype',
+      title:
+        'Show exploratory work on using date ranges (showing number of results) to facet by date',
+      defaultValue: false,
+      description:
+        'Shows additional UI to allow a user to narrow search results by using date ranges',
+    },
   ],
 };
