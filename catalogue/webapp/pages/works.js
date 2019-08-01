@@ -30,6 +30,7 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
   query: ?string,
@@ -44,7 +45,7 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType } = useContext(
+  const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
     CatalogueSearchContext
   );
   const trackEvent = () => {
@@ -212,6 +213,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: undefined,
                       page: 1,
+                      _dateFrom,
+                      _dateTo,
                     }),
                     selected: !workType,
                   },
@@ -221,6 +224,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: ['a', 'v'],
                       page: 1,
+                      _dateFrom,
+                      _dateTo,
                     }),
                     selected: !!(
                       workType &&
@@ -234,6 +239,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: ['k', 'q'],
                       page: 1,
+                      _dateFrom,
+                      _dateTo,
                     }),
                     selected: !!(
                       workType &&
@@ -249,6 +256,8 @@ const Works = ({ works }: Props) => {
                       query,
                       workType: ['f', 's'],
                       page: 1,
+                      _dateFrom,
+                      _dateTo,
                     }),
                     selected: !!(
                       workType &&
@@ -283,6 +292,8 @@ const Works = ({ works }: Props) => {
                             query,
                             workType,
                             page,
+                            _dateFrom,
+                            _dateTo,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
@@ -290,6 +301,8 @@ const Works = ({ works }: Props) => {
                               query,
                               workType,
                               page: newPage,
+                              _dateFrom,
+                              _dateTo,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -427,6 +440,9 @@ const Works = ({ works }: Props) => {
 
 WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
+  const _dateFrom = formatDateForApi(ctx.query._dateFrom);
+  const _dateTo = formatDateForApi(ctx.query._dateTo);
+
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const {
@@ -456,6 +472,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
     _queryType,
+    ...(_dateFrom ? { _dateFrom } : {}),
+    ...(_dateTo ? { _dateTo } : {}),
   };
 
   const worksOrError = await getWorks({
