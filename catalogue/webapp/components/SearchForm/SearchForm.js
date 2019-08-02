@@ -338,6 +338,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                           />
                         )}
                         <button
+                          type="button"
                           className="plain-button underline-on-hover no-visible-focus"
                           onClick={() => {
                             setShowSlider(!showSlider);
