@@ -1,6 +1,6 @@
 // @flow
 import { font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 // TODO: share these with the main nav
 const navLinks = [
@@ -32,7 +32,7 @@ const FooterNav = () => (
       <ul className={`plain-list footer-nav__list no-margin no-padding`}>
         {navLinks.map((link, i) => (
           <li key={link.text} className="footer-nav__item">
-            <VerticalSpace
+            <Space
               v={{
                 size: 's',
                 properties: ['padding-top', 'padding-bottom'],
@@ -43,7 +43,7 @@ const FooterNav = () => (
               className={`footer-nav__link ${font('wb', 5)}`}
             >
               {link.text}
-            </VerticalSpace>
+            </Space>
           </li>
         ))}
       </ul>

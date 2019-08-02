@@ -2,7 +2,7 @@
 import type { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   text: HTMLString,
@@ -18,11 +18,11 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
       'quote no-margin': true,
     })}
   >
-    <VerticalSpace
+    <Space
       v={citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined}
     >
       <PrismicHtmlBlock html={text} />
-    </VerticalSpace>
+    </Space>
     {citation && (
       <footer className="quote__footer flex">
         <cite

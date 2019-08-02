@@ -6,7 +6,7 @@ import { getPositionInSeries, getArticleColor } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   item: Article,
@@ -63,7 +63,7 @@ const StoryPromo = ({
         )}
       </div>
 
-      <VerticalSpace
+      <Space
         v={{
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
@@ -82,7 +82,7 @@ const StoryPromo = ({
               color={getArticleColor(item)}
             />
           )}
-          <VerticalSpace
+          <Space
             v={{
               size: 's',
               properties: ['margin-bottom'],
@@ -94,7 +94,7 @@ const StoryPromo = ({
           `}
           >
             {item.title}
-          </VerticalSpace>
+          </Space>
           {!hidePromoText && (
             <p
               className={classNames({
@@ -108,15 +108,15 @@ const StoryPromo = ({
         </div>
 
         {item.series.length > 0 && (
-          <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {item.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
               </p>
             ))}
-          </VerticalSpace>
+          </Space>
         )}
-      </VerticalSpace>
+      </Space>
     </a>
   );
 };

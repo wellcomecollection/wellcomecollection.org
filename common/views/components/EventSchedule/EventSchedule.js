@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import type { EventSchedule as EventScheduleType } from '../../../model/events';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import { groupEventsBy } from '../../../services/prismic/events';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   schedule: EventScheduleType,
@@ -25,13 +25,13 @@ const EventSchedule = ({ schedule }: Props) => {
           eventsGroup.events.length > 0 && (
             <Fragment key={eventsGroup.label}>
               {groupedEvents.length > 1 && (
-                <VerticalSpace
+                <Space
                   v={{ size: 'm', properties: ['margin-bottom'] }}
                   as="h3"
                   className="h3"
                 >
                   {eventsGroup.label}
-                </VerticalSpace>
+                </Space>
               )}
               {eventsGroup.events.map(event => (
                 <EventScheduleItem

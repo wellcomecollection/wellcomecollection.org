@@ -15,7 +15,7 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { type ColorSelection } from '../../../model/color-selections';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   url: ?string,
@@ -54,7 +54,7 @@ const CompactCard = ({
     : { s: 12, m: 12, l: 12, xl: 12 };
 
   return (
-    <VerticalSpace
+    <Space
       v={{
         size: 'l',
         properties: [
@@ -82,12 +82,12 @@ const CompactCard = ({
       )}
       <div className={grid(textGridSizes)}>
         {labels.labels.length > 0 && (
-          <VerticalSpace
+          <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
             className="flex"
           >
             <LabelsList {...labels} />
-          </VerticalSpace>
+          </Space>
         )}
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
@@ -109,7 +109,7 @@ const CompactCard = ({
           </div>
         )}
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 

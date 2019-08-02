@@ -6,8 +6,8 @@ import type { ComponentType } from 'react';
 // The component expects a `size` prop, and by default will use `margin-bottom` to add space.
 // This can be overriden to include one or more of `margin-top`, `margin-bottom`, `padding-top`, `padding-bottom`, `top`, and `bottom`.
 
-// <VerticalSpace size='s' /> -- outputs a small amount of (default) margin-bottom
-// <VerticalSpace size='xl' properties=`{['padding-top', 'padding-bottom']}` /> -- outputs extra-large padding-top and padding-bottom
+// <Space size='s' /> -- outputs a small amount of (default) margin-bottom
+// <Space size='xl' properties=`{['padding-top', 'padding-bottom']}` /> -- outputs extra-large padding-top and padding-bottom
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type VerticalSpaceProperty =
@@ -43,7 +43,7 @@ type SpaceComponentProps = {
   h?: HorizontalSpaceProps,
 };
 
-const VerticalSpace: ComponentType<SpaceComponentProps> = styled.div`
+const Space: ComponentType<SpaceComponentProps> = styled.div`
   ${props =>
     props.v &&
     props.theme.makeSpacePropertyValues(
@@ -60,4 +60,4 @@ const VerticalSpace: ComponentType<SpaceComponentProps> = styled.div`
     )}
 `;
 
-export default VerticalSpace;
+export default Space;

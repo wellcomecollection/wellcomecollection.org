@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 export type TagType = {|
   textParts: string[],
   linkAttributes: NextLinkType,
 |};
 
-const Tag = styled(VerticalSpace)`
+const Tag = styled(Space)`
   border-radius: 3px;
   text-decoration: none;
   padding: 0.2em 0.5em;
@@ -23,9 +23,7 @@ type Props = {
 
 const Tags = ({ tags }: Props) => {
   return (
-    <VerticalSpace
-      v={{ size: 's', negative: true, properties: ['margin-bottom'] }}
-    >
+    <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <ul
         className={classNames({
           'plain-list no-margin no-padding': true,
@@ -96,7 +94,7 @@ const Tags = ({ tags }: Props) => {
           );
         })}
       </ul>
-    </VerticalSpace>
+    </Space>
   );
 };
 

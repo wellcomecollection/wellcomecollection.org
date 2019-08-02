@@ -17,7 +17,7 @@ import { workUrl } from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work,
@@ -75,7 +75,7 @@ const WorkCard = ({ work }: Props) => {
         })}
         passHref
       >
-        <VerticalSpace
+        <Space
           as="a"
           v={{
             size: 'm',
@@ -96,7 +96,7 @@ const WorkCard = ({ work }: Props) => {
         >
           <Container>
             <Details>
-              <VerticalSpace
+              <Space
                 v={{
                   size: 's',
                   properties: ['margin-bottom'],
@@ -116,7 +116,7 @@ const WorkCard = ({ work }: Props) => {
                   />
                 )}
                 {work.workType.label}
-              </VerticalSpace>
+              </Space>
               <h2
                 className={classNames({
                   [font('hnm', 4)]: true,
@@ -189,7 +189,7 @@ const WorkCard = ({ work }: Props) => {
             {({ showWorkLocations }) =>
               showWorkLocations &&
               (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
                   <LinkLabels
                     heading={'See it'}
                     icon={'eye'}
@@ -208,11 +208,11 @@ const WorkCard = ({ work }: Props) => {
                         : null,
                     ].filter(Boolean)}
                   />
-                </VerticalSpace>
+                </Space>
               )
             }
           </TogglesContext.Consumer>
-        </VerticalSpace>
+        </Space>
       </NextLink>
     </div>
   );

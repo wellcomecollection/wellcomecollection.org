@@ -12,7 +12,7 @@ import { type UiExhibition } from '../../../model/exhibitions';
 import { type UiEvent } from '../../../model/events';
 import { type Book } from '../../../model/books';
 import { type Article } from '../../../model/articles';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 // TODO: This should be MultiContent
 type ContentTypes = UiEvent | UiExhibition | Book | Article;
@@ -96,13 +96,13 @@ const CardGrid = ({
       </div>
       {links && links.length > 0 && (
         <Layout12>
-          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {links.map(link => (
               <div key={link.url}>
                 <MoreLink url={link.url} name={link.text} />
               </div>
             ))}
-          </VerticalSpace>
+          </Space>
         </Layout12>
       )}
     </div>

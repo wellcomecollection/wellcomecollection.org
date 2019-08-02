@@ -7,7 +7,7 @@ import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   ...ExhibitionPromoProps,
@@ -74,7 +74,7 @@ const ExhibitionPromo = ({
         </div>
       </div>
 
-      <VerticalSpace
+      <Space
         v={{
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
@@ -85,7 +85,7 @@ const ExhibitionPromo = ({
         `}
       >
         <div>
-          <VerticalSpace
+          <Space
             v={{
               size: 's',
               properties: ['margin-bottom'],
@@ -96,7 +96,7 @@ const ExhibitionPromo = ({
             })}
           >
             {title}
-          </VerticalSpace>
+          </Space>
 
           {!statusOverride && start && end && (
             <p className={`${font('hnl', 5)} no-margin no-padding`}>
@@ -113,7 +113,7 @@ const ExhibitionPromo = ({
             statusOverride={statusOverride}
           />
         </div>
-      </VerticalSpace>
+      </Space>
     </a>
   );
 };

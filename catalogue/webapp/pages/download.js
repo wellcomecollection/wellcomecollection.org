@@ -25,7 +25,7 @@ import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   workId: string,
@@ -79,7 +79,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
       <Layout8>
         <SpacingSection>
           <SpacingComponent>
-            <VerticalSpace
+            <Space
               v={{
                 size: 'l',
                 properties: ['margin-top'],
@@ -91,7 +91,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
               })}
             >
               {title}
-            </VerticalSpace>
+            </Space>
           </SpacingComponent>
           <SpacingComponent>
             <Download

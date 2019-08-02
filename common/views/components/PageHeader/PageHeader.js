@@ -14,7 +14,7 @@ import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
 import type { GenericContentFields } from '../../../model/generic-content-fields';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import styled from 'styled-components';
 
 const HeroPictureBackground = styled.div`
@@ -159,10 +159,8 @@ const PageHeader = ({
             <FreeSticker />
           </div>
         )}
-        <VerticalSpace
-          v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-        >
-          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
             {asyncBreadcrumbsRoute && (
               <div
@@ -175,14 +173,14 @@ const PageHeader = ({
                 <Breadcrumb {...breadcrumbs} />
               </div>
             )}
-          </VerticalSpace>
-          <VerticalSpace v={{ size: 'xs', properties: ['margin-bottom'] }}>
+          </Space>
+          <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
             {TitleTopper}
             {Heading}
-          </VerticalSpace>
+          </Space>
 
           {ContentTypeInfo && (
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-bottom'],
@@ -192,11 +190,11 @@ const PageHeader = ({
               })}
             >
               {ContentTypeInfo}
-            </VerticalSpace>
+            </Space>
           )}
 
           {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
-        </VerticalSpace>
+        </Space>
         <div className="relative">{FeaturedMedia}</div>
       </Layout10>
 

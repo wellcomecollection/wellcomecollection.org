@@ -101,13 +101,11 @@ function makeSpacePropertyValues(
   properties: SpaceProperty[],
   negative: ?boolean
 ): string {
-  return (
-    size &&
-    ['small', 'medium', 'large']
-      .map(bp => {
-        return `@media (min-width: ${theme.sizes[bp]}px) {
+  console.log(negative);
+  return ['small', 'medium', 'large']
+    .map(bp => {
+      return `@media (min-width: ${theme.sizes[bp]}px) {
       ${properties
-        .filter(Boolean)
         .map(
           p =>
             `${p}: ${negative ? '-' : ''}${
@@ -116,9 +114,8 @@ function makeSpacePropertyValues(
         )
         .join('')}
     }`;
-      })
-      .join('')
-  );
+    })
+    .join('');
 }
 
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates

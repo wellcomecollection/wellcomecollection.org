@@ -3,7 +3,7 @@ import type { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
 import type { Node } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   caption: HTMLString,
@@ -13,7 +13,7 @@ type Props = {|
 
 const Caption = ({ caption, preCaptionNode, width }: Props) => {
   return (
-    <VerticalSpace
+    <Space
       v={{
         size: 'm',
         properties: ['margin-top'],
@@ -41,7 +41,7 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
         </div>
         <style>{'.caption p { display: inline; }'}</style>
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 

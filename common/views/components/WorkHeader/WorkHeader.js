@@ -11,7 +11,7 @@ import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 
 type Props = {|
@@ -25,7 +25,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
-    <VerticalSpace
+    <Space
       v={{
         size: 'l',
         properties: ['margin-bottom'],
@@ -63,7 +63,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
         </h1>
 
         {(work.contributors.length > 0 || productionDates.length > 0) && (
-          <VerticalSpace
+          <Space
             v={{
               size: 'l',
               properties: ['margin-top'],
@@ -100,13 +100,13 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                 ]}
               />
             )}
-          </VerticalSpace>
+          </Space>
         )}
         <TogglesContext.Consumer>
           {toggles =>
             toggles.showWorkLocations &&
             (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-              <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space v={{ size: 'm', properties: ['margin-top'] }}>
                 <LinkLabels
                   heading={'See it'}
                   icon={'eye'}
@@ -125,12 +125,12 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                       : null,
                   ].filter(Boolean)}
                 />
-              </VerticalSpace>
+              </Space>
             )
           }
         </TogglesContext.Consumer>
         {childManifestsCount > 0 && (
-          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 [font('hnm', 5)]: true,
@@ -140,10 +140,10 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
               <Number color="yellow" number={childManifestsCount} /> Volumes
               online
             </p>
-          </VerticalSpace>
+          </Space>
         )}
       </SpacingComponent>
-    </VerticalSpace>
+    </Space>
   );
 };
 export default WorkHeader;

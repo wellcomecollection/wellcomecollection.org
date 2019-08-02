@@ -5,7 +5,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
 import type { LabelField } from '../../../model/label-field';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   title: string,
@@ -20,7 +20,7 @@ const InfoBox = ({ title, items, children }: Props) => {
   return (
     <Fragment>
       <h2 className="h2">{title}</h2>
-      <VerticalSpace
+      <Space
         v={{
           size: 'l',
           properties: ['padding-top', 'padding-bottom'],
@@ -42,7 +42,7 @@ const InfoBox = ({ title, items, children }: Props) => {
                 <h3 className={classNames([font('hnm', 5)])}>{title}</h3>
               )}
               {description && (
-                <VerticalSpace
+                <Space
                   v={{
                     size: 'm',
                     properties: ['margin-bottom'],
@@ -53,13 +53,13 @@ const InfoBox = ({ title, items, children }: Props) => {
                   })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </VerticalSpace>
+                </Space>
               )}
             </div>
           </Fragment>
         ))}
         {children}
-      </VerticalSpace>
+      </Space>
     </Fragment>
   );
 };

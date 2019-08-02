@@ -18,7 +18,7 @@ import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
@@ -28,7 +28,7 @@ const SerialisedSeries = ({ series }: any) => {
   return (
     <div>
       <Layout12>
-        <VerticalSpace v={{ size: 'xl', properties: ['margin-bottom'] }}>
+        <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <h2
             className={classNames({
               h1: true,
@@ -46,7 +46,7 @@ const SerialisedSeries = ({ series }: any) => {
               {series.title}
             </a>
           </h2>
-          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 'no-margin': true,
@@ -54,8 +54,8 @@ const SerialisedSeries = ({ series }: any) => {
             >
               {series.promoText}
             </p>
-          </VerticalSpace>
-        </VerticalSpace>
+          </Space>
+        </Space>
       </Layout12>
       <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
     </div>
@@ -109,7 +109,7 @@ export class StoriesPage extends Component<Props> {
         rssUrl={'https://rss.wellcomecollection.org/stories'}
       >
         <SpacingSection>
-          <VerticalSpace
+          <Space
             v={{
               size: 'l',
               properties: ['padding-top', 'padding-bottom'],
@@ -135,7 +135,7 @@ export class StoriesPage extends Component<Props> {
                     Stories
                   </h1>
 
-                  <VerticalSpace
+                  <Space
                     v={{
                       size: 'm',
                       properties: ['margin-top'],
@@ -166,11 +166,11 @@ export class StoriesPage extends Component<Props> {
                         },
                       ]}
                     />
-                  </VerticalSpace>
+                  </Space>
                 </div>
               </div>
             </div>
-          </VerticalSpace>
+          </Space>
         </SpacingSection>
 
         <SpacingSection>
@@ -179,7 +179,7 @@ export class StoriesPage extends Component<Props> {
               'row bg-cream row--has-wobbly-background': true,
             })}
           >
-            <VerticalSpace
+            <Space
               v={{ size: 'l', properties: ['margin-bottom'] }}
               className="container"
             >
@@ -188,7 +188,7 @@ export class StoriesPage extends Component<Props> {
                   <StoryPromoFeatured item={articles[0]} />
                 </div>
               </div>
-            </VerticalSpace>
+            </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">
               <div className="grid grid--scroll grid--theme-4">

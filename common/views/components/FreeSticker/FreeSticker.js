@@ -1,9 +1,9 @@
 // @flow
 import { font, classNames } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const FreeSticker = () => (
-  <VerticalSpace
+  <Space
     v={{
       size: 's',
       properties: ['padding-top', 'padding-bottom'],
@@ -17,7 +17,7 @@ const FreeSticker = () => (
     style={{ marginTop: '-20px', right: '0' }}
   >
     Free
-  </VerticalSpace>
+  </Space>
 );
 
 export default FreeSticker;

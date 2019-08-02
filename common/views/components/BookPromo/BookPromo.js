@@ -4,7 +4,7 @@ import { trackEvent } from '../../../utils/ga';
 import UiImage from '../Image/Image';
 import Icon from '../Icon/Icon';
 import type { ImageType } from '../../../model/image';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   url: string,
@@ -16,7 +16,7 @@ type Props = {|
 
 const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
   return (
-    <VerticalSpace
+    <Space
       v={{
         size: 'l',
         properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
@@ -36,7 +36,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         });
       }}
     >
-      <VerticalSpace
+      <Space
         v={{
           size: 'm',
           properties: ['margin-bottom'],
@@ -55,7 +55,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             tasl={null}
           />
         )}
-      </VerticalSpace>
+      </Space>
       <div className="book-promo__text-container">
         {title && (
           <h3
@@ -80,7 +80,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         )}
 
         {description && (
-          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 [font('hnl', 5)]: true,
@@ -89,10 +89,10 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             >
               {description}
             </p>
-          </VerticalSpace>
+          </Space>
         )}
 
-        <VerticalSpace
+        <Space
           v={{
             size: 'm',
             properties: ['margin-top'],
@@ -104,9 +104,9 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         >
           <Icon name="arrow" extraClasses="icon--green" />
           <span className={'margin-left-6'}>More information</span>
-        </VerticalSpace>
+        </Space>
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 

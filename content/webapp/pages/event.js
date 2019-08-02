@@ -33,7 +33,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked } from '@weco/common/model/events';
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   event: UiEvent,
@@ -66,7 +66,7 @@ function DateList(event) {
       <Fragment>
         {event.times.map((eventTime, index) => {
           return (
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['padding-top', 'padding-bottom'],
@@ -90,7 +90,7 @@ function DateList(event) {
               ) : eventTime.isFullyBooked ? (
                 EventStatus('Full', 'red')
               ) : null}
-            </VerticalSpace>
+            </Space>
           );
         })}
       </Fragment>
@@ -270,7 +270,7 @@ class EventPage extends Component<Props, State> {
         }
         ContentTypeInfo={
           <Fragment>
-            <VerticalSpace
+            <Space
               v={{
                 size: 's',
                 properties: ['margin-bottom'],
@@ -287,7 +287,7 @@ class EventPage extends Component<Props, State> {
               >
                 {!event.isPast && <EventDatesLink id={event.id} />}
               </div>
-            </VerticalSpace>
+            </Space>
             {event.isPast && EventStatus('Past', 'marble')}
             {!event.isPast &&
               isEventFullyBooked(event) &&
@@ -356,9 +356,9 @@ class EventPage extends Component<Props, State> {
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
             <Fragment>
               {event.eventbriteId && (
-                <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                   <EventbriteButton event={event} />
-                </VerticalSpace>
+                </Space>
               )}
 
               {event.thirdPartyBooking && (
@@ -385,9 +385,7 @@ class EventPage extends Component<Props, State> {
                         text="Check for tickets"
                       />
                       {event.thirdPartyBooking.name && (
-                        <VerticalSpace
-                          v={{ size: 's', properties: ['margin-top'] }}
-                        >
+                        <Space v={{ size: 's', properties: ['margin-top'] }}>
                           <p
                             className={`no-margin font-charcoal ${font(
                               'hnl',
@@ -396,7 +394,7 @@ class EventPage extends Component<Props, State> {
                           >
                             with {event.thirdPartyBooking.name}
                           </p>
-                        </VerticalSpace>
+                        </Space>
                       )}
                     </Fragment>
                   )}
@@ -435,7 +433,7 @@ class EventPage extends Component<Props, State> {
                     }?subject=${event.title}`}
                     passHref
                   >
-                    <VerticalSpace
+                    <Space
                       v={{
                         size: 's',
                         properties: ['margin-top'],
@@ -447,7 +445,7 @@ class EventPage extends Component<Props, State> {
                       })}
                     >
                       <span>{event.bookingEnquiryTeam.email}</span>
-                    </VerticalSpace>
+                    </Space>
                   </NextLink>
                 </Fragment>
               )}
@@ -457,18 +455,14 @@ class EventPage extends Component<Props, State> {
                 !(event.schedule && event.schedule.length > 1) && (
                   <Fragment>
                     {!event.hasEarlyRegistration && !event.cost && (
-                      <VerticalSpace
-                        v={{ size: 'l', properties: ['margin-bottom'] }}
-                      >
+                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                         <Message text="Just turn up" />
-                      </VerticalSpace>
+                      </Space>
                     )}
                     {event.hasEarlyRegistration && (
-                      <VerticalSpace
-                        v={{ size: 'l', properties: ['margin-bottom'] }}
-                      >
+                      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                         <Message text="Arrive early to register" />
-                      </VerticalSpace>
+                      </Space>
                     )}
                   </Fragment>
                 )}

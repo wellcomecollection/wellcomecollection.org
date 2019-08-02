@@ -8,7 +8,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   title?: string,
@@ -25,7 +25,7 @@ const SearchResults = ({
 }: Props) => (
   <Fragment>
     {title && (
-      <VerticalSpace
+      <Space
         v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
       >
         <div className="grid">
@@ -33,14 +33,14 @@ const SearchResults = ({
             <h2 className="h2 no-margin">{title}</h2>
           </div>
         </div>
-      </VerticalSpace>
+      </Space>
     )}
     {summary && (
-      <VerticalSpace
+      <Space
         v={!title ? { size: 'l', properties: ['margin-bottom'] } : undefined}
       >
         {summary}
-      </VerticalSpace>
+      </Space>
     )}
 
     {items.map((item, index) => (

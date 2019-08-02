@@ -7,7 +7,7 @@ import Icon from '../Icon/Icon';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   event: UiEvent,
@@ -58,7 +58,7 @@ const EventPromo = ({
         )}
       </div>
 
-      <VerticalSpace
+      <Space
         v={{
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
@@ -69,7 +69,7 @@ const EventPromo = ({
         })}
       >
         <div>
-          <VerticalSpace
+          <Space
             v={{
               size: 's',
               properties: ['margin-bottom'],
@@ -81,7 +81,7 @@ const EventPromo = ({
             })}
           >
             {event.title}
-          </VerticalSpace>
+          </Space>
 
           {!isPast && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
@@ -142,15 +142,15 @@ const EventPromo = ({
         </div>
 
         {event.series.length > 0 && (
-          <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {event.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
               </p>
             ))}
-          </VerticalSpace>
+          </Space>
         )}
-      </VerticalSpace>
+      </Space>
     </a>
   );
 };

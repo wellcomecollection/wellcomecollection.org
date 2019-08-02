@@ -16,7 +16,7 @@ import type {
   HTMLString,
 } from '../../../services/prismic/types';
 import SpacingSection from '../SpacingSection/SpacingSection';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>
@@ -43,7 +43,7 @@ const LayoutPaginatedResults = ({
 }: Props) => (
   <Fragment>
     <SpacingSection>
-      <VerticalSpace
+      <Space
         v={{
           size: 'l',
           properties: ['padding-top', 'padding-bottom'],
@@ -70,7 +70,7 @@ const LayoutPaginatedResults = ({
               </h1>
 
               {description && (
-                <VerticalSpace
+                <Space
                   v={{
                     size: 'm',
                     properties: ['margin-top'],
@@ -80,18 +80,18 @@ const LayoutPaginatedResults = ({
                   })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </VerticalSpace>
+                </Space>
               )}
             </div>
           </div>
         </div>
-      </VerticalSpace>
+      </Space>
     </SpacingSection>
 
     <SpacingSection>
       {paginatedResults.totalPages > 1 && (
         <Layout12>
-          <VerticalSpace
+          <Space
             v={{
               size: 'l',
               properties: ['padding-bottom'],
@@ -112,7 +112,7 @@ const LayoutPaginatedResults = ({
             {paginatedResults.currentPage === paginatedResults.totalPages
               ? paginatedResults.totalResults
               : null}
-          </VerticalSpace>
+          </Space>
           <Divider extraClasses={'divider--keyline divider--pumice'} />
         </Layout12>
       )}
@@ -130,14 +130,12 @@ const LayoutPaginatedResults = ({
         </Layout12>
       )}
 
-      <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space v={{ size: 'l', properties: ['margin-top'] }}>
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
-      </VerticalSpace>
+      </Space>
 
       {paginatedResults.totalPages > 1 && (
-        <VerticalSpace
-          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-        >
+        <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
           <Layout12>
             <div className="text-align-right">
               <Pagination
@@ -171,7 +169,7 @@ const LayoutPaginatedResults = ({
               />
             </div>
           </Layout12>
-        </VerticalSpace>
+        </Space>
       )}
     </SpacingSection>
   </Fragment>

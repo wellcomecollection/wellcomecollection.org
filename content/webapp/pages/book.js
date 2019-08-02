@@ -13,7 +13,7 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   book: Book,
@@ -21,7 +21,7 @@ type Props = {|
 
 // FIXME: This is nonsense
 const BookMetadata = ({ book }: Props) => (
-  <VerticalSpace
+  <Space
     v={{
       size: 'm',
       properties: ['margin-top', 'margin-bottom'],
@@ -55,7 +55,7 @@ const BookMetadata = ({ book }: Props) => (
     <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
       {book.isbn}
     </dd>
-  </VerticalSpace>
+  </Space>
 );
 
 export class ArticleSeriesPage extends Component<Props> {

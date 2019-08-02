@@ -2,7 +2,7 @@
 import Contributor from '../Contributor/Contributor';
 import { Fragment } from 'react';
 import type { Contributor as ContributorType } from '../../../model/contributors';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   contributors: ContributorType[],
@@ -69,7 +69,7 @@ const Contributors = ({
       )}
 
       {contributors.map(({ contributor, role, description }) => (
-        <VerticalSpace
+        <Space
           v={{ size: 'l', properties: ['margin-bottom'] }}
           key={contributor.id}
         >
@@ -82,7 +82,7 @@ const Contributors = ({
             role={roles.length > 1 ? role : null}
             description={description}
           />
-        </VerticalSpace>
+        </Space>
       ))}
     </Fragment>
   );

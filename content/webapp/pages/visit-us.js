@@ -32,7 +32,7 @@ import {
   eatShopList,
   lastPara,
 } from '@weco/content/content/visit-us-content';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type ContainerProps = {|
   children: any,
@@ -93,7 +93,7 @@ const BespokeBody = (
                       const todaysHours = getTodaysVenueHours(venue);
                       return (
                         todaysHours && (
-                          <VerticalSpace
+                          <Space
                             v={{
                               size: 's',
                               properties: ['margin-top'],
@@ -113,13 +113,13 @@ const BespokeBody = (
                             ) : (
                               'closed'
                             )}
-                          </VerticalSpace>
+                          </Space>
                         )
                       );
                     }
                   )}
                 </ul>
-                <VerticalSpace
+                <Space
                   v={{
                     size: 's',
                     properties: ['margin-top'],
@@ -127,7 +127,7 @@ const BespokeBody = (
                   className={`no-margin`}
                 >
                   <a href="/opening-times">Opening times</a>
-                </VerticalSpace>
+                </Space>
               </div>
             </div>
           </div>
@@ -140,7 +140,7 @@ const BespokeBody = (
         title={planList.value.title}
         items={planList.value.items}
       />
-      <VerticalSpace
+      <Space
         v={{
           size: 'm',
           properties: ['padding-top'],
@@ -155,12 +155,12 @@ const BespokeBody = (
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw19yIAAK1Z3Smk`} name={`Group visits`} />
-          </VerticalSpace>
-          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+          </Space>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`Schools`} />
-          </VerticalSpace>
+          </Space>
         </div>
         <div
           className={classNames({
@@ -168,38 +168,35 @@ const BespokeBody = (
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/W1CenyYAACUAj4Oy`} name={`Families`} />
-          </VerticalSpace>
-          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+          </Space>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw2MSIAACtd3Ssg`} name={`Young people`} />
-          </VerticalSpace>
+          </Space>
         </div>
-      </VerticalSpace>
+      </Space>
     </Container>
     <Container>
       <SearchResults
         title={findList.value.title}
         items={findList.value.items}
       />
-      <VerticalSpace
-        v={{ size: 'm', properties: ['padding-top'] }}
-        className={`grid`}
-      >
+      <Space v={{ size: 'm', properties: ['padding-top'] }} className={`grid`}>
         <div
           className={classNames({
             [grid({ s: 12, l: 6, xl: 6 })]: true,
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink
               url={`/pages/Wuw2MSIAACtd3SsC`}
               name={`Find out about venue hire`}
             />
-          </VerticalSpace>
+          </Space>
         </div>
-      </VerticalSpace>
+      </Space>
     </Container>
     <Container>
       <SearchResults

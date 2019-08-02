@@ -4,7 +4,7 @@ import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import { UiImage } from '../Images/Images';
 import type { ImageType } from '../../../model/image';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -51,7 +51,7 @@ const FacilityPromo = ({
           <UiImage {...uiImageProps} />
         </div>
 
-        <VerticalSpace
+        <Space
           v={{
             size: 's',
             properties: ['margin-top'],
@@ -63,20 +63,20 @@ const FacilityPromo = ({
           })}
         >
           {title}
-        </VerticalSpace>
+        </Space>
         <p className={`${font('hnl', 5)} no-margin no-padding`}>
           {description}
         </p>
 
         {metaText && (
-          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <div className={`${font('hnm', 6)} flex flex--v-center`}>
               {metaIcon && (
                 <Icon name={metaIcon} extraClasses="margin-right-6" />
               )}
               <span>{metaText}</span>
             </div>
-          </VerticalSpace>
+          </Space>
         )}
       </div>
     </a>

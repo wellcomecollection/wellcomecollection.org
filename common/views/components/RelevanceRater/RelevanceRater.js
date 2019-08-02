@@ -5,7 +5,7 @@ import {
   trackRelevanceRating,
   RelevanceRatingEventNames,
 } from '../Tracker/Tracker';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const RelevanceRaterStyle = styled.div.attrs(props => ({
   className: classNames({
@@ -16,7 +16,7 @@ const RelevanceRaterStyle = styled.div.attrs(props => ({
   height: 100%;
 `;
 
-const RelevanceRating = styled(VerticalSpace).attrs(props => ({
+const RelevanceRating = styled(Space).attrs(props => ({
   className: classNames({
     'plain-button': true,
     'padding-left-12 padding-right-12': true,

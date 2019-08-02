@@ -1,7 +1,7 @@
 // @flow
 import { forwardRef } from 'react';
 import styled from 'styled-components';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
@@ -16,7 +16,7 @@ const VisuallyHidden = styled.div`
   white-space: nowrap;
 `;
 
-const StyledInput = styled(VerticalSpace).attrs({
+const StyledInput = styled(Space).attrs({
   className: classNames({
     'padding-left-12': true,
   }),

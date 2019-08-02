@@ -2,14 +2,14 @@
 import type { Label as LabelType } from '../../../model/labels';
 import { sized } from '../../../utils/style';
 import Label from '../../components/Label/Label';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   labels: LabelType[],
 |};
 
 const LabelsList = ({ labels }: Props) => (
-  <VerticalSpace
+  <Space
     v={{
       size: 'xs',
       properties: ['margin-bottom'],
@@ -19,7 +19,7 @@ const LabelsList = ({ labels }: Props) => (
     style={{ flexWrap: 'wrap' }}
   >
     {labels.filter(Boolean).map((label, i) => (
-      <VerticalSpace
+      <Space
         v={{
           size: 'xs',
           properties: ['margin-bottom'],
@@ -32,9 +32,9 @@ const LabelsList = ({ labels }: Props) => (
         }}
       >
         <Label label={label} />
-      </VerticalSpace>
+      </Space>
     ))}
-  </VerticalSpace>
+  </Space>
 );
 
 export default LabelsList;

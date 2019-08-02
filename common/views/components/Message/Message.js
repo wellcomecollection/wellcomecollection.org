@@ -1,12 +1,12 @@
 // @flow
 import { classNames, font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 type Props = {|
   text: string,
 |};
 
 const Message = ({ text }: Props) => (
-  <VerticalSpace
+  <Space
     v={{
       size: 'm',
       properties: ['padding-top', 'padding-bottom'],
@@ -20,6 +20,6 @@ const Message = ({ text }: Props) => (
     })}
   >
     {text}
-  </VerticalSpace>
+  </Space>
 );
 export default Message;

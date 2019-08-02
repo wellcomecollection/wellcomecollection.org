@@ -4,7 +4,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import { grid } from '../../../utils/classnames';
 import { search } from '../../../services/prismic/search';
 import type { MultiContent } from '../../../model/multi-content';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   title: ?string,
@@ -26,13 +26,13 @@ class AsyncSearchResults extends Component<Props, State> {
     return (
       <Fragment>
         {this.props.title && (
-          <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div className="grid">
               <div className={grid({ s: 12 })}>
                 <h2 className="h2 no-margin">{this.props.title}</h2>
               </div>
             </div>
-          </VerticalSpace>
+          </Space>
         )}
 
         {!(this.state.items && this.state.items.length > 0) && (

@@ -9,7 +9,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
@@ -197,15 +197,13 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           {({ showDatesPrototype, showDatesSliderPrototype }) => (
             <>
               {(showDatesPrototype || showDatesSliderPrototype) && (
-                <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
                   <div
                     style={{
                       display: showDatesSliderPrototype ? 'none' : 'block',
                     }}
                   >
-                    <VerticalSpace
-                      v={{ size: 's', properties: ['margin-top'] }}
-                    >
+                    <Space v={{ size: 's', properties: ['margin-top'] }}>
                       <label>
                         from:{' '}
                         <input
@@ -226,10 +224,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                           style={{ width: '8em', padding: '0.5em' }}
                         />
                       </label>
-                    </VerticalSpace>
-                    <VerticalSpace
-                      v={{ size: 'm', properties: ['margin-top'] }}
-                    >
+                    </Space>
+                    <Space v={{ size: 'm', properties: ['margin-top'] }}>
                       <Button
                         type="primary"
                         text="Clear dates"
@@ -238,7 +234,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                           setInputDateTo('');
                         }}
                       />
-                    </VerticalSpace>
+                    </Space>
                   </div>
                   {showDatesSliderPrototype && (
                     <>
@@ -265,7 +261,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                       />
                     </>
                   )}
-                </VerticalSpace>
+                </Space>
               )}
             </>
           )}

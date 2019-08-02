@@ -29,7 +29,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
@@ -152,7 +152,7 @@ const Works = ({ works }: Props) => {
           <BetaBar />
         </Layout12>
 
-        <VerticalSpace
+        <Space
           v={{
             size: 'l',
             properties: ['padding-top', 'padding-bottom'],
@@ -162,7 +162,7 @@ const Works = ({ works }: Props) => {
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <VerticalSpace
+                <Space
                   v={{
                     size: 'm',
                     properties: ['margin-bottom'],
@@ -173,16 +173,16 @@ const Works = ({ works }: Props) => {
                 >
                   <>
                     {!works && (
-                      <VerticalSpace
+                      <Space
                         as="h1"
                         v={{ size: 'm', properties: ['margin-bottom'] }}
                         className="h1"
                       >
                         Explore our collections
-                      </VerticalSpace>
+                      </Space>
                     )}
                   </>
-                </VerticalSpace>
+                </Space>
               </div>
             </div>
 
@@ -207,7 +207,7 @@ const Works = ({ works }: Props) => {
               </div>
             </div>
           </div>
-        </VerticalSpace>
+        </Space>
 
         {!works && <StaticWorksContent />}
 
@@ -283,7 +283,7 @@ const Works = ({ works }: Props) => {
 
         {works && works.results.length > 0 && (
           <Fragment>
-            <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
                   <div
@@ -323,9 +323,9 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </VerticalSpace>
+            </Space>
 
-            <VerticalSpace
+            <Space
               v={{
                 size: 'l',
                 properties: ['padding-top'],
@@ -378,7 +378,7 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
 
-              <VerticalSpace
+              <Space
                 v={{
                   size: 'l',
                   properties: ['padding-top', 'padding-bottom'],
@@ -419,13 +419,13 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </VerticalSpace>
-            </VerticalSpace>
+              </Space>
+            </Space>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
@@ -444,7 +444,7 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
             </div>
-          </VerticalSpace>
+          </Space>
         )}
       </CataloguePageLayout>
     </Fragment>

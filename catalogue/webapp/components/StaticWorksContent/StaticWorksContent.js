@@ -5,26 +5,23 @@ import { createPrismicParagraph } from '@weco/common/utils/prismic';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 const StaticWorksContent = () => (
   <Fragment>
-    <VerticalSpace
-      v={{ size: 'l', properties: ['padding-top'] }}
-      className={`row`}
-    >
+    <Space v={{ size: 'l', properties: ['padding-top'] }} className={`row`}>
       <div className="container">
         <div className="grid">
           <div className="grid__cell">
             <h3 className="h2">Feeling curious?</h3>
-            <VerticalSpace
+            <Space
               as="p"
               v={{ size: 'm', properties: ['margin-bottom'] }}
               className={font('hnl', 4)}
             >
               Discover our collections through these topics.
-            </VerticalSpace>
-            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
+            </Space>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <Tags
                 tags={[
                   {
@@ -67,8 +64,8 @@ const StaticWorksContent = () => (
                   },
                 ]}
               />
-            </VerticalSpace>
-            <VerticalSpace
+            </Space>
+            <Space
               v={{ size: 'l', properties: ['margin-bottom'] }}
               as="hr"
               className={`divider divider--dashed`}
@@ -76,8 +73,8 @@ const StaticWorksContent = () => (
           </div>
         </div>
       </div>
-    </VerticalSpace>
-    <VerticalSpace
+    </Space>
+    <Space
       v={{
         size: 'xl',
         properties: ['padding-bottom'],
@@ -88,13 +85,13 @@ const StaticWorksContent = () => (
         <div className="row__wobbly-background" />
         <div className="grid grid--dividers">
           <div className={grid({ s: 12, m: 10, l: 7, xl: 7 })}>
-            <VerticalSpace
+            <Space
               as="h2"
               v={{ size: 'l', properties: ['margin-bottom'] }}
               className={`h2`}
             >
               About the historical images
-            </VerticalSpace>
+            </Space>
             <div className="body-text">
               <div className={`standfirst ${font('hnl', 3)}`}>
                 <p>
@@ -154,7 +151,7 @@ const StaticWorksContent = () => (
               </p>
             </div>
           </div>
-          <VerticalSpace
+          <Space
             v={{
               size: 's',
               properties: ['margin-bottom'],
@@ -185,10 +182,10 @@ const StaticWorksContent = () => (
                 crops: {},
               }}
             />
-          </VerticalSpace>
+          </Space>
         </div>
       </div>
-    </VerticalSpace>
+    </Space>
   </Fragment>
 );
 

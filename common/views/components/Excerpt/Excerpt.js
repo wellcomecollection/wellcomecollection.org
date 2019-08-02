@@ -2,7 +2,7 @@
 import { Fragment } from 'react';
 import type { Book } from '../../../model/books';
 import { font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   title: string,
@@ -14,7 +14,7 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
   <Fragment>
     <h2 className="h2">{title}</h2>
     <div className="bg-white">
-      <VerticalSpace
+      <Space
         v={{
           size: 'm',
           properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
@@ -28,7 +28,7 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
         >
           {content}
         </pre>
-      </VerticalSpace>
+      </Space>
     </div>
     {audio && <audio controls src={audio} style={{ width: '100%' }} />}
     {source && (

@@ -21,7 +21,7 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { ContentFormatIds } from '@weco/common/model/content-format-id';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   article: Article,
@@ -135,7 +135,7 @@ export class ArticlePage extends Component<Props, State> {
             'flex--h-baseline': true,
           })}
         >
-          <VerticalSpace v={{ size: 's', properties: ['margin-top'] }}>
+          <Space v={{ size: 's', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 'no-margin': true,
@@ -169,7 +169,7 @@ export class ArticlePage extends Component<Props, State> {
                 <HTMLDate date={new Date(article.datePublished)} />
               </span>
             </p>
-          </VerticalSpace>
+          </Space>
         </div>
       </Fragment>
     );

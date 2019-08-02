@@ -13,7 +13,7 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
 import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -113,7 +113,7 @@ class ImageGallery extends Component<Props, State> {
         {theme => (
           <Fragment>
             {!isStandalone && (
-              <VerticalSpace
+              <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 as="span"
                 style={titleStyle}
@@ -125,7 +125,7 @@ class ImageGallery extends Component<Props, State> {
                 <h2 id={`gallery-${id}`} className="h2 no-margin">
                   {title || 'In pictures'}
                 </h2>
-              </VerticalSpace>
+              </Space>
             )}
             <div
               id={`image-gallery-${id}`}
@@ -147,7 +147,7 @@ class ImageGallery extends Component<Props, State> {
                 }}
               />
               <Layout12>
-                <VerticalSpace
+                <Space
                   v={
                     isStandalone
                       ? {
@@ -177,7 +177,7 @@ class ImageGallery extends Component<Props, State> {
                   )}
 
                   {!isStandalone && (
-                    <VerticalSpace
+                    <Space
                       v={{
                         size: 'm',
                         properties: ['padding-top'],
@@ -186,7 +186,7 @@ class ImageGallery extends Component<Props, State> {
                         'image-gallery-v2__close-wrapper absolute': true,
                       })}
                     >
-                      <VerticalSpace
+                      <Space
                         v={{
                           size: 'm',
                           properties: ['padding-bottom'],
@@ -215,11 +215,11 @@ class ImageGallery extends Component<Props, State> {
                             this.handleCloseClicked();
                           }}
                         />
-                      </VerticalSpace>
-                    </VerticalSpace>
+                      </Space>
+                    </Space>
                   )}
                   {this.itemsToShow().map((captionedImage, i) => (
-                    <VerticalSpace
+                    <Space
                       v={
                         isActive
                           ? {
@@ -248,7 +248,7 @@ class ImageGallery extends Component<Props, State> {
                         `}
                         preCaptionNode={
                           items.length > 1 ? (
-                            <VerticalSpace
+                            <Space
                               v={{
                                 size: 'm',
                                 properties: ['margin-bottom'],
@@ -259,11 +259,11 @@ class ImageGallery extends Component<Props, State> {
                             >
                               <span className="visually-hidden">slide </span>
                               {i + 1} of {items.length}
-                            </VerticalSpace>
+                            </Space>
                           ) : null
                         }
                       />
-                    </VerticalSpace>
+                    </Space>
                   ))}
 
                   {titleStyle && (
@@ -283,7 +283,7 @@ class ImageGallery extends Component<Props, State> {
                       text={`${items.length} images`}
                     />
                   )}
-                </VerticalSpace>
+                </Space>
               </Layout12>
             </div>
           </Fragment>

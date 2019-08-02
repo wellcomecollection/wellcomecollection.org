@@ -14,9 +14,9 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
-const VenueHoursImage = styled(VerticalSpace)`
+const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
     width: 50%;
   `}
@@ -27,7 +27,7 @@ const VenueHoursImage = styled(VerticalSpace)`
   `}
 `;
 
-const VenueHoursTimes = styled(VerticalSpace)`
+const VenueHoursTimes = styled(Space)`
   ${props => props.theme.media.medium`
     float: left;
     width:33%;
@@ -36,7 +36,7 @@ const VenueHoursTimes = styled(VerticalSpace)`
   `}
 `;
 
-const JauntyBox = styled(VerticalSpace).attrs(props => ({
+const JauntyBox = styled(Space).attrs(props => ({
   className: classNames({
     'bg-yellow inline-block': true,
   }),
@@ -119,7 +119,7 @@ const VenueHours = ({ venue, weight }: Props) => {
     <>
       {weight === 'featured' && (
         <>
-          <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <Divider
               extraClasses={classNames({
                 'divider--keyline': true,
@@ -127,7 +127,7 @@ const VenueHours = ({ venue, weight }: Props) => {
                 'is-hidden-s': true,
               })}
             />
-          </VerticalSpace>
+          </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
             <UiImage
               contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
@@ -222,7 +222,7 @@ const VenueHours = ({ venue, weight }: Props) => {
           </>
         );
       })}
-      <VerticalSpace
+      <Space
         v={{
           size: 's',
           properties: ['margin-top'],
@@ -237,7 +237,7 @@ const VenueHours = ({ venue, weight }: Props) => {
         ) : (
           <MoreLink url={'/opening-times'} name="See all opening times" />
         )}
-      </VerticalSpace>
+      </Space>
     </>
   );
 };

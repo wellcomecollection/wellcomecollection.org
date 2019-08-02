@@ -33,7 +33,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -154,7 +154,7 @@ export const WorkPage = ({ work }: Props) => {
         <BetaBar />
       </Layout12>
 
-      <VerticalSpace
+      <Space
         v={{
           size: 'l',
           properties: ['padding-top'],
@@ -178,7 +178,7 @@ export const WorkPage = ({ work }: Props) => {
           </div>
 
           <div className="grid">
-            <VerticalSpace
+            <Space
               v={{
                 size: 's',
                 properties: ['padding-top', 'padding-bottom'],
@@ -188,12 +188,12 @@ export const WorkPage = ({ work }: Props) => {
               })}
             >
               <BackToResults />
-            </VerticalSpace>
+            </Space>
           </div>
         </div>
-      </VerticalSpace>
+      </Space>
 
-      <VerticalSpace
+      <Space
         v={{
           size: 'xl',
           properties: ['padding-top'],
@@ -207,7 +207,7 @@ export const WorkPage = ({ work }: Props) => {
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
-      </VerticalSpace>
+      </Space>
 
       {firstChildManifest && (
         <ManifestContext.Provider value={firstChildManifest}>

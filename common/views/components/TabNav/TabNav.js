@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type SelectableTextLink = {|
   ...TextLink,
@@ -65,7 +65,7 @@ const NavItem = ({
   ...SelectableTextLink,
 |}) => (
   <NextLink {...link} passHref>
-    <VerticalSpace
+    <Space
       v={{
         size: 'm',
         properties: ['padding-top', 'padding-bottom'],
@@ -78,7 +78,7 @@ const NavItem = ({
       onClick={onClick}
     >
       <NavItemInner selected={selected}>{text}</NavItemInner>
-    </VerticalSpace>
+    </Space>
   </NextLink>
 );
 

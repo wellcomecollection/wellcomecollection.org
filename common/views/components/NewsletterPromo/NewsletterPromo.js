@@ -1,13 +1,13 @@
 // @flow
 import Button from '../Buttons/Button/Button';
 import { grid, font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const NewsletterPromo = () => (
   <div className="row bg-cream">
     <div className="container">
       <div className="grid">
-        <VerticalSpace
+        <Space
           v={{
             size: 'l',
             properties: ['padding-top', 'padding-bottom'],
@@ -28,7 +28,7 @@ const NewsletterPromo = () => (
             url="/newsletter"
             text="Sign up"
           />
-        </VerticalSpace>
+        </Space>
       </div>
     </div>
   </div>

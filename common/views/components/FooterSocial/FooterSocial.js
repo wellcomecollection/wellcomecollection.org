@@ -1,7 +1,7 @@
 // @flow
 import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const items = [
   {
@@ -44,7 +44,7 @@ const items = [
 ];
 
 const FooterSocial = () => (
-  <VerticalSpace
+  <Space
     v={{
       size: 'm',
       properties: ['margin-top'],
@@ -55,7 +55,7 @@ const FooterSocial = () => (
   >
     {items.map(item => (
       <div key={item.title} className="footer-social__cell">
-        <VerticalSpace
+        <Space
           v={{
             size: 'l',
             properties: ['margin-bottom'],
@@ -67,10 +67,10 @@ const FooterSocial = () => (
           <Icon name={item.icon} extraClasses="margin-right-6" />
           <span className="footer-social__title">{item.title}</span>
           <span className="footer-social__service">{item.service}</span>
-        </VerticalSpace>
+        </Space>
       </div>
     ))}
-  </VerticalSpace>
+  </Space>
 );
 
 export default FooterSocial;

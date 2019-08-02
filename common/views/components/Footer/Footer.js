@@ -11,7 +11,7 @@ import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 import styled from 'styled-components';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
@@ -51,7 +51,7 @@ const Footer = ({
       <div className="container">
         <div className="grid">
           <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-bottom'],
@@ -63,8 +63,8 @@ const Footer = ({
               <a href="#" className="footer-nav__brand absolute">
                 <FooterWellcomeLogo />
               </a>
-            </VerticalSpace>
-            <VerticalSpace
+            </Space>
+            <Space
               v={{
                 size: 'm',
                 properties: ['padding-top', 'padding-bottom'],
@@ -72,10 +72,10 @@ const Footer = ({
               className="border-top-width-1 border-bottom-width-1 border-color-charcoal"
             >
               <FooterNav />
-            </VerticalSpace>
+            </Space>
           </div>
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-bottom'],
@@ -87,11 +87,11 @@ const Footer = ({
               )}`}
             >
               Finding us:
-            </VerticalSpace>
+            </Space>
             <TopBorderBox>
-              <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <FindUs />
-              </VerticalSpace>
+              </Space>
             </TopBorderBox>
           </div>
           <div
@@ -100,7 +100,7 @@ const Footer = ({
               [font('hnl', 5)]: true,
             })}
           >
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-bottom'],
@@ -112,9 +112,9 @@ const Footer = ({
               )}`}
             >
               {`Opening times:`}
-            </VerticalSpace>
+            </Space>
             <TopBorderBox>
-              <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <Icon name="clock" extraClasses={`float-l margin-right-12`} />
                 <div
                   className={classNames({
@@ -134,7 +134,7 @@ const Footer = ({
                         const todaysHours = getTodaysVenueHours(venue);
                         return (
                           todaysHours && (
-                            <VerticalSpace
+                            <Space
                               v={{
                                 size: 's',
                                 properties: ['margin-top'],
@@ -154,27 +154,24 @@ const Footer = ({
                               ) : (
                                 'closed'
                               )}
-                            </VerticalSpace>
+                            </Space>
                           )
                         );
                       }
                     )}
                   </ul>
-                  <VerticalSpace
-                    v={{ size: 's', properties: ['margin-top'] }}
-                    as="p"
-                  >
+                  <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
-                  </VerticalSpace>
+                  </Space>
                 </div>
-              </VerticalSpace>
+              </Space>
             </TopBorderBox>
           </div>
         </div>
         <FooterSocial />
         <div className="footer__bottom">
           <div className="footer__left">
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
@@ -193,8 +190,8 @@ const Footer = ({
               <span className="footer__strap-text">
                 The free museum and library from Wellcome
               </span>
-            </VerticalSpace>
-            <VerticalSpace
+            </Space>
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
@@ -219,7 +216,7 @@ const Footer = ({
                   Creative Commons Attribution 4.0 International Licence
                 </a>
               </p>
-            </VerticalSpace>
+            </Space>
           </div>
           <nav className="footer__hygiene-nav">
             <ul

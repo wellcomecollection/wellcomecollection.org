@@ -16,7 +16,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 
 const MultiVolumeContainer = styled.div`
@@ -281,7 +281,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace
+            <Space
               v={{
                 size: 'm',
                 properties: ['margin-top', 'margin-bottom'],
@@ -298,7 +298,7 @@ const IIIFPresentationDisplay = ({
                 text="View the item"
                 link={itemUrl}
               />
-            </VerticalSpace>{' '}
+            </Space>{' '}
           </div>{' '}
         </div>{' '}
       </div>
@@ -382,7 +382,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <video
                 controls
                 style={{
@@ -395,7 +395,7 @@ const IIIFPresentationDisplay = ({
                 <source src={video['@id']} type={video.format} />
                 {`Sorry, your browser doesn't support embedded video.`}
               </video>
-            </VerticalSpace>
+            </Space>
           </div>
         </div>
       </div>
@@ -407,7 +407,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <audio
                 controls
                 style={{
@@ -419,7 +419,7 @@ const IIIFPresentationDisplay = ({
               >
                 {`Sorry, your browser doesn't support embedded audio.`}
               </audio>
-            </VerticalSpace>{' '}
+            </Space>{' '}
           </div>{' '}
         </div>{' '}
       </div>
@@ -431,9 +431,9 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <BetaMessage message="We are working to make this item available online in July 2019." />
-            </VerticalSpace>
+            </Space>
           </div>
         </div>
       </div>

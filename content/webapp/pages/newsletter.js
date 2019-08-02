@@ -4,7 +4,7 @@ import { Component } from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { grid } from '@weco/common/utils/classnames';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   result: ?string,
@@ -35,8 +35,8 @@ export class NewsletterPage extends Component<Props> {
         }
         imageAltText={''}
       >
-        <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
-          <VerticalSpace
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space
             v={{
               size: 'xl',
               properties: ['padding-bottom'],
@@ -64,8 +64,8 @@ export class NewsletterPage extends Component<Props> {
                 </div>
               </div>
             </div>
-          </VerticalSpace>
-        </VerticalSpace>
+          </Space>
+        </Space>
       </PageLayout>
     );
   }

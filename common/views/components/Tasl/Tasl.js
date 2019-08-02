@@ -6,7 +6,7 @@ import { trackEvent } from '../../../utils/ga';
 import { Fragment } from 'react';
 import { withToggler } from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 export type Props = {
   isFull: boolean,
@@ -161,7 +161,7 @@ const Tasl = withToggler(
             </button>
           )}
 
-          <VerticalSpace
+          <Space
             v={{
               size: 's',
               properties: ['padding-top', 'padding-bottom'],
@@ -180,7 +180,7 @@ const Tasl = withToggler(
               copyrightHolder,
               copyrightLink
             )}
-          </VerticalSpace>
+          </Space>
           {isFull && (
             <button
               onClick={toggleWithAnalytics}
