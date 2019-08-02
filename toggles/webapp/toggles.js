@@ -35,25 +35,28 @@ module.exports = {
       description: 'Include audio and video in search results',
     },
     {
-      id: 'showMultiVolumePreviews',
-      title: 'Show multi volume previews',
-      defaultValue: false,
-      description:
-        'Shows a preview for each volume in a multi volume work on the work page.',
-    },
-    {
       id: 'showDatesPrototype',
-      title: 'Show exploratory work on faceting by date',
+      title:
+        'Display input boxes to allow a user to refine results by a date range',
       defaultValue: false,
       description:
         'Shows additional UI to allow a user to narrow search results by a date range.',
     },
     {
       id: 'showDatesSliderPrototype',
-      title: 'Show exploratory work on using a slider UI to facet by date',
+      title:
+        'Display a slider to allow a user to refine results by a date range',
       defaultValue: false,
       description:
         'Shows additional UI to allow a user to narrow search results by using a date range slider.',
+    },
+    {
+      id: 'showDatesAggregatePrototype',
+      title:
+        'Display list of date ranges to allow a user to refine results by a date range',
+      defaultValue: false,
+      description:
+        'Shows additional UI to allow a user to narrow search results by using date ranges',
     },
   ],
 };
