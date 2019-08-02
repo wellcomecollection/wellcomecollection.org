@@ -185,7 +185,7 @@ class NewsletterSignup extends Component<Props, State> {
               value=""
             />
 
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <HTMLInput
                 required={true}
                 id="email"
@@ -198,13 +198,20 @@ class NewsletterSignup extends Component<Props, State> {
               />
             </VerticalSpace>
 
-            <VerticalSpace size="m" as="fieldset">
+            <VerticalSpace
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+              as="fieldset"
+            >
               <legend className="h3">
                 What are you interested in? Choose as many as you like:
               </legend>
               <ul className="plain-list no-padding">
                 {addressBooks.map(addressBook => (
-                  <VerticalSpace as="li" size="m" key={addressBook.id}>
+                  <VerticalSpace
+                    as="li"
+                    v={{ size: 'm', properties: ['margin-bottom'] }}
+                    key={addressBook.id}
+                  >
                     <HTMLInput
                       id={addressBook.id}
                       type="checkbox"
@@ -231,7 +238,7 @@ class NewsletterSignup extends Component<Props, State> {
               receive.
             </p>
 
-            <VerticalSpace size="m">
+            <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
               <Button
                 type={'primary'}
                 extraClasses={`btn--primary`}
@@ -242,7 +249,14 @@ class NewsletterSignup extends Component<Props, State> {
             {this.state.isCheckboxError && this.state.isSubmitAttempted && (
               <VerticalSpace
                 as="p"
-                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
+                v={{
+                  size: 's',
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-bottom',
+                  ],
+                }}
                 className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
               >
                 Please select at least one option.
@@ -252,7 +266,14 @@ class NewsletterSignup extends Component<Props, State> {
             {this.state.isEmailError && this.state.isSubmitAttempted && (
               <VerticalSpace
                 as="p"
-                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
+                v={{
+                  size: 's',
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-bottom',
+                  ],
+                }}
                 className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
               >
                 Please enter a valid email address.

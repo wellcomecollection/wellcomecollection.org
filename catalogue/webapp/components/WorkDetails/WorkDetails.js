@@ -368,8 +368,10 @@ const WorkDetails = ({
 
   return (
     <VerticalSpace
-      size="xl"
-      properties={['padding-top', 'padding-bottom']}
+      v={{
+        size: 'xl',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       className={classNames({
         row: true,
       })}

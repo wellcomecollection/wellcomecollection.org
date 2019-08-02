@@ -77,8 +77,10 @@ const WorkCard = ({ work }: Props) => {
       >
         <VerticalSpace
           as="a"
-          properties={['padding-top', 'padding-bottom']}
-          size="m"
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={classNames({
             'plain-link': true,
             block: true,
@@ -95,7 +97,10 @@ const WorkCard = ({ work }: Props) => {
           <Container>
             <Details>
               <VerticalSpace
-                size="s"
+                v={{
+                  size: 's',
+                  properties: ['margin-bottom'],
+                }}
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
@@ -184,7 +189,7 @@ const WorkCard = ({ work }: Props) => {
             {({ showWorkLocations }) =>
               showWorkLocations &&
               (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <VerticalSpace size="m" properties={['margin-top']}>
+                <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
                   <LinkLabels
                     heading={'See it'}
                     icon={'eye'}

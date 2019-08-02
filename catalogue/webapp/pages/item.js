@@ -162,7 +162,7 @@ const ItemPage = ({
     >
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
         <Layout12>
-          <VerticalSpace size="l">
+          <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
             <BetaMessage message="We are working to make this item available online in April 2019." />
           </VerticalSpace>
         </Layout12>

@@ -88,7 +88,13 @@ type SpaceProperty =
   | 'padding-bottom'
   | 'padding-top'
   | 'top'
-  | 'bottom';
+  | 'bottom'
+  | 'margin-left'
+  | 'margin-right'
+  | 'padding-left'
+  | 'padding-right'
+  | 'left'
+  | 'right';
 
 function makeSpacePropertyValues(
   size: SpaceSize,

@@ -9,15 +9,22 @@ import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 const StaticWorksContent = () => (
   <Fragment>
-    <VerticalSpace size="l" properties={['padding-top']} className={`row`}>
+    <VerticalSpace
+      v={{ size: 'l', properties: ['padding-top'] }}
+      className={`row`}
+    >
       <div className="container">
         <div className="grid">
           <div className="grid__cell">
             <h3 className="h2">Feeling curious?</h3>
-            <VerticalSpace as="p" size="m" className={font('hnl', 4)}>
+            <VerticalSpace
+              as="p"
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+              className={font('hnl', 4)}
+            >
               Discover our collections through these topics.
             </VerticalSpace>
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <Tags
                 tags={[
                   {
@@ -62,7 +69,7 @@ const StaticWorksContent = () => (
               />
             </VerticalSpace>
             <VerticalSpace
-              size="l"
+              v={{ size: 'l', properties: ['margin-bottom'] }}
               as="hr"
               className={`divider divider--dashed`}
             />
@@ -71,15 +78,21 @@ const StaticWorksContent = () => (
       </div>
     </VerticalSpace>
     <VerticalSpace
-      size="xl"
-      properties={['padding-bottom']}
+      v={{
+        size: 'xl',
+        properties: ['padding-bottom'],
+      }}
       className={`row bg-cream row--has-wobbly-background`}
     >
       <div className="container">
         <div className="row__wobbly-background" />
         <div className="grid grid--dividers">
           <div className={grid({ s: 12, m: 10, l: 7, xl: 7 })}>
-            <VerticalSpace as="h2" size="l" className={`h2`}>
+            <VerticalSpace
+              as="h2"
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              className={`h2`}
+            >
               About the historical images
             </VerticalSpace>
             <div className="body-text">
@@ -142,7 +155,10 @@ const StaticWorksContent = () => (
             </div>
           </div>
           <VerticalSpace
-            size="s"
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             className={grid({ s: 12, m: 8, l: 5, xl: 5 })}
           >
             <CaptionedImage

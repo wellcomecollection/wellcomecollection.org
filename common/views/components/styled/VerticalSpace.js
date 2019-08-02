@@ -11,10 +11,18 @@ import styled from 'styled-components';
 
 const VerticalSpace = styled.div`
   ${props =>
+    props.v &&
     props.theme.makeSpacePropertyValues(
-      props.size,
-      props.properties,
-      props.negative
+      props.v.size,
+      props.v.properties,
+      props.v.negative
+    )}
+  ${props =>
+    props.h &&
+    props.theme.makeSpacePropertyValues(
+      props.h.size,
+      props.h.properties,
+      props.h.negative
     )}
 `;
 

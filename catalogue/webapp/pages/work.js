@@ -155,8 +155,10 @@ export const WorkPage = ({ work }: Props) => {
       </Layout12>
 
       <VerticalSpace
-        size="l"
-        properties={['padding-top']}
+        v={{
+          size: 'l',
+          properties: ['padding-top'],
+        }}
         className={classNames({
           'bg-cream': true,
         })}
@@ -177,8 +179,10 @@ export const WorkPage = ({ work }: Props) => {
 
           <div className="grid">
             <VerticalSpace
-              size="s"
-              properties={['padding-top', 'padding-bottom']}
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               className={classNames({
                 [grid({ s: 12 })]: true,
               })}
@@ -190,8 +194,10 @@ export const WorkPage = ({ work }: Props) => {
       </VerticalSpace>
 
       <VerticalSpace
-        size="xl"
-        properties={['padding-top']}
+        v={{
+          size: 'xl',
+          properties: ['padding-top'],
+        }}
         className={classNames({
           row: true,
         })}

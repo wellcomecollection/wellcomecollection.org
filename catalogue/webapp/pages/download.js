@@ -80,9 +80,11 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
         <SpacingSection>
           <SpacingComponent>
             <VerticalSpace
-              size="l"
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
               as="h1"
-              properties={['margin-top']}
               id="work-info"
               className={classNames({
                 [font('hnm', 1)]: true,

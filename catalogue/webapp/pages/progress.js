@@ -38,7 +38,7 @@ const ProgressPage = () => (
     imageUrl={null}
     imageAltText={null}
   >
-    <VerticalSpace size="l" properties={['padding-top']}>
+    <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
       <div className="container">
         <div className="grid">
           <div className={`${grid({ s: 12, m: 11, l: 8, xl: 7 })}`}>

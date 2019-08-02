@@ -197,13 +197,15 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           {({ showDatesPrototype, showDatesSliderPrototype }) => (
             <>
               {(showDatesPrototype || showDatesSliderPrototype) && (
-                <VerticalSpace size="m" properties={['margin-top']}>
+                <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
                   <div
                     style={{
                       display: showDatesSliderPrototype ? 'none' : 'block',
                     }}
                   >
-                    <VerticalSpace size="s" properties={['margin-top']}>
+                    <VerticalSpace
+                      v={{ size: 's', properties: ['margin-top'] }}
+                    >
                       <label>
                         from:{' '}
                         <input
@@ -225,7 +227,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         />
                       </label>
                     </VerticalSpace>
-                    <VerticalSpace size="m" properties={['margin-top']}>
+                    <VerticalSpace
+                      v={{ size: 'm', properties: ['margin-top'] }}
+                    >
                       <Button
                         type="primary"
                         text="Clear dates"
