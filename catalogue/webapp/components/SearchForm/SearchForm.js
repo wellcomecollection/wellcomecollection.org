@@ -337,17 +337,19 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                             updateTo={setInputDateTo}
                           />
                         )}
-                        <Button
-                          type="primary"
-                          text={showSlider ? 'Clear dates' : 'Show date filter'}
-                          clickHandler={() => {
+                        <button
+                          className="plain-button underline-on-hover no-visible-focus"
+                          href="#"
+                          onClick={() => {
                             setShowSlider(!showSlider);
                             if (showSlider) {
                               setInputDateFrom('');
                               setInputDateTo('');
                             }
                           }}
-                        />
+                        >
+                          {showSlider ? 'Clear dates' : 'Show date filter'}
+                        </button>
                       </>
                     )}
                   </VerticalSpace>
