@@ -58,6 +58,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  const [showSlider, setShowSlider] = useState(true);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -237,20 +238,25 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                   </div>
                   {showDatesSliderPrototype && (
                     <>
-                      <DateSlider
-                        startValues={{
-                          to: inputDateTo,
-                          from: inputDateFrom,
-                        }}
-                        updateFrom={setInputDateFrom}
-                        updateTo={setInputDateTo}
-                      />
+                      {showSlider && (
+                        <DateSlider
+                          startValues={{
+                            to: inputDateTo,
+                            from: inputDateFrom,
+                          }}
+                          updateFrom={setInputDateFrom}
+                          updateTo={setInputDateTo}
+                        />
+                      )}
                       <Button
                         type="primary"
-                        text="Clear dates"
+                        text={showSlider ? 'Clear dates' : 'Show date filter'}
                         clickHandler={() => {
-                          setInputDateFrom('');
-                          setInputDateTo('');
+                          setShowSlider(!showSlider);
+                          if (showSlider) {
+                            setInputDateFrom('');
+                            setInputDateTo('');
+                          }
                         }}
                       />
                     </>

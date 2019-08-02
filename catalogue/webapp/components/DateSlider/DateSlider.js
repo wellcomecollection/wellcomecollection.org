@@ -106,7 +106,7 @@ const DateSlider = ({ startValues, updateTo, updateFrom }: DateSliderProps) => {
         step={10}
         mode={2}
         values={[startValues.from || domain.from, startValues.to || domain.to]}
-        onUpdate={([from, to]) => {
+        onChange={([from, to]) => {
           updateFrom(`${from}`);
           updateTo(`${to}`);
         }}
