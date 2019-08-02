@@ -35,13 +35,6 @@ module.exports = {
       description: 'Include audio and video in search results',
     },
     {
-      id: 'showMultiVolumePreviews',
-      title: 'Show multi volume previews',
-      defaultValue: false,
-      description:
-        'Shows a preview for each volume in a multi volume work on the work page.',
-    },
-    {
       id: 'showDatesPrototype',
       title:
         'Display input boxes to allow a user to refine results by a date range',
