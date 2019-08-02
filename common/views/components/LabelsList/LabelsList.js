@@ -13,6 +13,7 @@ const LabelsList = ({ labels }: Props) => (
     v={{
       size: 'xs',
       properties: ['margin-bottom'],
+      negative: true,
     }}
     as="ul"
     className={`flex-inline plain-list no-margin no-padding padding-right-12`}

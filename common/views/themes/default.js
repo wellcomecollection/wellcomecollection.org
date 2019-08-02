@@ -101,7 +101,6 @@ function makeSpacePropertyValues(
   properties: SpaceProperty[],
   negative: ?boolean
 ): string {
-  console.log(negative);
   return ['small', 'medium', 'large']
     .map(bp => {
       return `@media (min-width: ${theme.sizes[bp]}px) {
