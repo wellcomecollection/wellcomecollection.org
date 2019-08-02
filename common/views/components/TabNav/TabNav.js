@@ -62,12 +62,16 @@ const NavItemInnerTemp = styled.span.attrs(props => ({
     selected: props.selected,
     block: true,
     relative: true,
-    'font-size-6 font-hnl': true,
+    'font-size-5 font-hnl': true,
   }),
 }))`
   z-index: 1;
   padding: 0 0.3em;
   white-space: nowrap;
+
+  &.selected {
+    text-decoration: underline;
+  }
 `;
 
 const NavItem = ({
@@ -115,7 +119,7 @@ const TabNav = ({ items }: Props) => {
       <ul
         className={classNames({
           'plain-list no-margin no-padding': true,
-          flex: true,
+          'flex flex--wrap': true,
         })}
       >
         {items.map(item => (
