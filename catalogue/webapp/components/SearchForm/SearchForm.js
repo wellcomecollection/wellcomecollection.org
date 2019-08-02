@@ -43,6 +43,7 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+// For search term "Darwin"
 const twentyYearRange = [
   {
     from: '1780',

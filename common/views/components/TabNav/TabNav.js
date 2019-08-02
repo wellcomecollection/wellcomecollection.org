@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type SelectableTextLink = {|
   ...TextLink,
@@ -56,6 +57,19 @@ const NavItemInner = styled.span.attrs(props => ({
   }
 `;
 
+const NavItemInnerTemp = styled.span.attrs(props => ({
+  className: classNames({
+    selected: props.selected,
+    block: true,
+    relative: true,
+    'font-size-6 font-hnl': true,
+  }),
+}))`
+  z-index: 1;
+  padding: 0 0.3em;
+  white-space: nowrap;
+`;
+
 const NavItem = ({
   link,
   text,
@@ -75,7 +89,18 @@ const NavItem = ({
       })}
       onClick={onClick}
     >
-      <NavItemInner selected={selected}>{text}</NavItemInner>
+      <TogglesContext.Consumer>
+        {({ showDatesAggregatePrototype }) => (
+          <>
+            {!showDatesAggregatePrototype && (
+              <NavItemInner selected={selected}>{text}</NavItemInner>
+            )}
+            {showDatesAggregatePrototype && (
+              <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
+            )}
+          </>
+        )}
+      </TogglesContext.Consumer>
     </VerticalSpace>
   </NextLink>
 );
