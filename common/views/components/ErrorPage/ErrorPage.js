@@ -46,20 +46,38 @@ const ErrorPage = ({ statusCode, title }: Props) => {
         Body={<Body body={[]} pageId={'error'} />}
       >
         <div className="body-text">
-          <VerticalSpace as="ul" size="xl">
-            <VerticalSpace size="l" as="li">
+          <VerticalSpace
+            as="ul"
+            v={{ size: 'xl', properties: ['margin-bottom'] }}
+          >
+            <VerticalSpace
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              as="li"
+            >
               <MoreLink url="/whats-on" name="Our exhibitions and events" />
             </VerticalSpace>
-            <VerticalSpace size="l" as="li">
+            <VerticalSpace
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              as="li"
+            >
               <MoreLink url="https://wellcomelibrary.org" name="Our library" />
             </VerticalSpace>
-            <VerticalSpace size="l" as="li">
+            <VerticalSpace
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              as="li"
+            >
               <MoreLink url="/stories" name="Our stories" />
             </VerticalSpace>
-            <VerticalSpace size="l" as="li">
+            <VerticalSpace
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              as="li"
+            >
               <MoreLink url="/books" name="Our books" />
             </VerticalSpace>
-            <VerticalSpace size="l" as="li">
+            <VerticalSpace
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              as="li"
+            >
               <MoreLink url="/works" name="Our images" />
             </VerticalSpace>
             <li size="l" as="li">
@@ -77,13 +95,13 @@ const ErrorPage = ({ statusCode, title }: Props) => {
               <a href="https://archive.org">Internet Archive</a> in its{' '}
               <a href="https://web.archive.org/">Wayback Machine</a>.
             </p>
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <MoreLink
                 url="https://web.archive.org/web/*/wellcomecollection.org"
                 name="See the Wellcome Collection website from 2007-present"
               />
             </VerticalSpace>
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <MoreLink
                 url="https://web.archive.org/web/*/blog.wellcomecollection.org"
                 name="Read blog posts from 2013-2017"

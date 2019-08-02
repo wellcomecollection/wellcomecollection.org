@@ -21,8 +21,10 @@ const InfoBox = ({ title, items, children }: Props) => {
     <Fragment>
       <h2 className="h2">{title}</h2>
       <VerticalSpace
-        size="l"
-        properties={['padding-top', 'padding-bottom']}
+        v={{
+          size: 'l',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
         className={classNames({
           'bg-yellow': true,
           'padding-left-12 padding-right-12': true,
@@ -41,7 +43,10 @@ const InfoBox = ({ title, items, children }: Props) => {
               )}
               {description && (
                 <VerticalSpace
-                  size="m"
+                  v={{
+                    size: 'm',
+                    properties: ['margin-bottom'],
+                  }}
                   className={classNames({
                     [font('hnl', 5)]: true,
                     'first-para-no-margin': true,

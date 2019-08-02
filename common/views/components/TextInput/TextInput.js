@@ -47,9 +47,11 @@ const TextInput = forwardRef((
 ) => (
   <label className="flex flex--v-center">
     <StyledInput
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       as="input"
-      size="m"
-      properties={['padding-top', 'padding-bottom']}
       ref={ref}
       type="text"
       {...inputProps}

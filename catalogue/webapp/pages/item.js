@@ -169,8 +169,11 @@ const ItemPage = ({
       )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
           as="iframe"
-          size="l"
           title={`PDF: ${title}`}
           src={pdfRendering['@id']}
         />

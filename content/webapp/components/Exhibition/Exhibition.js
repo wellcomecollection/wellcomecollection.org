@@ -222,7 +222,9 @@ const Exhibition = ({ exhibition }: Props) => {
       ContentTypeInfo={
         <Fragment>
           {!exhibition.isPermanent && (
-            <VerticalSpace size="xs">{DateInfo}</VerticalSpace>
+            <VerticalSpace v={{ size: 'xs', properties: ['margin-bottom'] }}>
+              {DateInfo}
+            </VerticalSpace>
           )}
           <StatusIndicator
             start={exhibition.start}
@@ -283,8 +285,10 @@ const Exhibition = ({ exhibition }: Props) => {
           <Fragment>
             <h2 className="h2">From the bookshop</h2>
             <VerticalSpace
-              size="l"
-              properties={['margin-top']}
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
               className={`grid`}
             >
               {exhibition.relatedBooks.map(item => (

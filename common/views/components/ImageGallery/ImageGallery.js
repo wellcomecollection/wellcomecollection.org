@@ -114,8 +114,8 @@ class ImageGallery extends Component<Props, State> {
           <Fragment>
             {!isStandalone && (
               <VerticalSpace
+                v={{ size: 'm', properties: ['margin-bottom'] }}
                 as="span"
-                size="m"
                 style={titleStyle}
                 className={classNames({
                   'flex flex--v-top image-gallery-v2-title': true,
@@ -148,8 +148,14 @@ class ImageGallery extends Component<Props, State> {
               />
               <Layout12>
                 <VerticalSpace
-                  size="xl"
-                  properties={[isStandalone ? 'padding-top' : undefined]}
+                  v={
+                    isStandalone
+                      ? {
+                          size: 'xl',
+                          properties: ['padding-top'],
+                        }
+                      : undefined
+                  }
                   className={classNames({
                     relative: true,
                   })}
@@ -172,15 +178,19 @@ class ImageGallery extends Component<Props, State> {
 
                   {!isStandalone && (
                     <VerticalSpace
-                      size="m"
-                      properties={['padding-top']}
+                      v={{
+                        size: 'm',
+                        properties: ['padding-top'],
+                      }}
                       className={classNames({
                         'image-gallery-v2__close-wrapper absolute': true,
                       })}
                     >
                       <VerticalSpace
-                        size="m"
-                        properties={['padding-bottom']}
+                        v={{
+                          size: 'm',
+                          properties: ['padding-bottom'],
+                        }}
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
@@ -210,8 +220,14 @@ class ImageGallery extends Component<Props, State> {
                   )}
                   {this.itemsToShow().map((captionedImage, i) => (
                     <VerticalSpace
-                      size="xl"
-                      properties={[isActive ? 'margin-bottom' : undefined]}
+                      v={
+                        isActive
+                          ? {
+                              size: 'xl',
+                              properties: ['margin-bottom'],
+                            }
+                          : undefined
+                      }
                       onClick={() => {
                         if (!isActive) {
                           this.handleOpenClicked();
@@ -233,7 +249,10 @@ class ImageGallery extends Component<Props, State> {
                         preCaptionNode={
                           items.length > 1 ? (
                             <VerticalSpace
-                              size="m"
+                              v={{
+                                size: 'm',
+                                properties: ['margin-bottom'],
+                              }}
                               className={classNames({
                                 [font('hnm', 5)]: true,
                               })}

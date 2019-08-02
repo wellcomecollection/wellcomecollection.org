@@ -35,10 +35,12 @@ export class NewsletterPage extends Component<Props> {
         }
         imageAltText={''}
       >
-        <VerticalSpace size="m" properties={['margin-top']}>
+        <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
           <VerticalSpace
-            size="xl"
-            properties={['padding-bottom']}
+            v={{
+              size: 'xl',
+              properties: ['padding-bottom'],
+            }}
             className={`row`}
           >
             <div className="container">

@@ -66,9 +66,11 @@ const Outro = ({
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
       <VerticalSpace
+        v={{
+          size: 'm',
+          properties: ['margin-top'],
+        }}
         as="h2"
-        size="m"
-        properties={['margin-top']}
         className={classNames({
           h1: true,
         })}

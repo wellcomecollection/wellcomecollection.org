@@ -69,7 +69,10 @@ const Contributors = ({
       )}
 
       {contributors.map(({ contributor, role, description }) => (
-        <VerticalSpace size="l" key={contributor.id}>
+        <VerticalSpace
+          v={{ size: 'l', properties: ['margin-bottom'] }}
+          key={contributor.id}
+        >
           {/*
             we don't show the role if there is only 1 as it will be
             displayed in the title

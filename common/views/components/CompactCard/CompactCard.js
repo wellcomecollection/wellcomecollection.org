@@ -55,8 +55,13 @@ const CompactCard = ({
 
   return (
     <VerticalSpace
-      size="l"
-      properties={['padding-top', x === y ? undefined : 'padding-bottom']}
+      v={{
+        size: 'l',
+        properties: [
+          'padding-top',
+          x === y ? undefined : 'padding-bottom',
+        ].filter(Boolean),
+      }}
       as={url ? 'a' : 'div'}
       href={urlOverride || url}
       className={conditionalClassNames({
@@ -77,7 +82,10 @@ const CompactCard = ({
       )}
       <div className={grid(textGridSizes)}>
         {labels.labels.length > 0 && (
-          <VerticalSpace size="s" className="flex">
+          <VerticalSpace
+            v={{ size: 's', properties: ['margin-bottom'] }}
+            className="flex"
+          >
             <LabelsList {...labels} />
           </VerticalSpace>
         )}

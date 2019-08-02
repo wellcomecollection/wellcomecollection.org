@@ -54,8 +54,10 @@ class InfoBanner extends React.Component<Props, State> {
     if (this.state.showInfoBanner) {
       return (
         <VerticalSpace
-          size="m"
-          properties={['padding-top', 'padding-bottom']}
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={`row bg-yellow`}
         >
           <div className="container">

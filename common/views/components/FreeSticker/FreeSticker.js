@@ -1,11 +1,14 @@
+// @flow
 import { font, classNames } from '../../../utils/classnames';
 import VerticalSpace from '../styled/VerticalSpace';
 
 const FreeSticker = () => (
   <VerticalSpace
+    v={{
+      size: 's',
+      properties: ['padding-top', 'padding-bottom'],
+    }}
     as="span"
-    size="s"
-    properties={['padding-top', 'padding-bottom']}
     className={classNames({
       'font-white bg-black rotate-r-8 absolute': true,
       [font('wb', 5)]: true,

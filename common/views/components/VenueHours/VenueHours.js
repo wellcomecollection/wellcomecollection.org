@@ -119,7 +119,7 @@ const VenueHours = ({ venue, weight }: Props) => {
     <>
       {weight === 'featured' && (
         <>
-          <VerticalSpace size="l">
+          <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
             <Divider
               extraClasses={classNames({
                 'divider--keyline': true,
@@ -128,7 +128,7 @@ const VenueHours = ({ venue, weight }: Props) => {
               })}
             />
           </VerticalSpace>
-          <VenueHoursImage size="m">
+          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
             <UiImage
               contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
               width={1600}
@@ -142,7 +142,7 @@ const VenueHours = ({ venue, weight }: Props) => {
           </VenueHoursImage>
         </>
       )}
-      <VenueHoursTimes size="m">
+      <VenueHoursTimes v={{ size: 'm', properties: ['margin-bottom'] }}>
         <h2
           className={classNames({
             h2: true,
@@ -223,8 +223,10 @@ const VenueHours = ({ venue, weight }: Props) => {
         );
       })}
       <VerticalSpace
-        size="s"
-        properties={['margin-top']}
+        v={{
+          size: 's',
+          properties: ['margin-top'],
+        }}
         style={{ clear: 'both' }}
       >
         {weight === 'featured' ? (

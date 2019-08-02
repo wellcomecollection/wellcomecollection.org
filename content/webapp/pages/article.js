@@ -135,7 +135,7 @@ export class ArticlePage extends Component<Props, State> {
             'flex--h-baseline': true,
           })}
         >
-          <VerticalSpace size="s" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 's', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 'no-margin': true,

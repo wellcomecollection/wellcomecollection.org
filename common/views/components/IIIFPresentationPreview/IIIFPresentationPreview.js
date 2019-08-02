@@ -282,8 +282,10 @@ const IIIFPresentationDisplay = ({
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <VerticalSpace
-              size="m"
-              properties={['margin-top', 'margin-bottom']}
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
             >
               <Button
                 type="primary"
@@ -380,7 +382,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <video
                 controls
                 style={{
@@ -405,7 +407,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <audio
                 controls
                 style={{
@@ -429,7 +431,7 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace size="l">
+            <VerticalSpace v={{ size: 'l', properties: ['margin-bottom'] }}>
               <BetaMessage message="We are working to make this item available online in July 2019." />
             </VerticalSpace>
           </div>

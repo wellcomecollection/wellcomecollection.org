@@ -43,14 +43,17 @@ const StyledFindUs = styled.div.attrs(props => ({
 
 const FindUs = () => (
   <StyledFindUs>
-    <VerticalSpace size="l" properties={['padding-bottom']}>
+    <VerticalSpace v={{ size: 'l', properties: ['padding-bottom'] }}>
       <a
         href="https://www.google.co.uk/maps/dir//Wellcome+Collection,+Euston+Road,+London/@51.5258128,-0.136211,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x48761b25f10b008f:0xed51ac6f865b038a!2m2!1d-0.133945!2d51.525851"
         className="plain-link block"
       >
         <span className="flex">
           <Icon name="location" extraClasses={`float-l margin-right-12`} />
-          <VerticalSpace size="m" as="p">
+          <VerticalSpace
+            v={{ size: 'm', properties: ['margin-bottom'] }}
+            as="p"
+          >
             <span className="block">
               {wellcomeCollectionAddress.streetAddress}
             </span>
@@ -63,8 +66,11 @@ const FindUs = () => (
         </span>
       </a>
       <VerticalSpace
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         as="p"
-        size="m"
         style={{ marginLeft: '38px' }}
         className={classNames({
           block: true,

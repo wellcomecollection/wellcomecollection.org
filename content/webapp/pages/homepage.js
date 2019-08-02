@@ -94,9 +94,11 @@ export class HomePage extends Component<Props> {
                 })}
               >
                 <VerticalSpace
+                  v={{
+                    size: 'm',
+                    properties: ['margin-top'],
+                  }}
                   as="h1"
-                  size="m"
-                  properties={['margin-top']}
                   className={classNames({
                     'no-margin': true,
                     [font('wb', 1)]: true,

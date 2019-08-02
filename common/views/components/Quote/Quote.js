@@ -18,7 +18,9 @@ const Quote = ({ text, citation, isPullOrReview }: Props) => (
       'quote no-margin': true,
     })}
   >
-    <VerticalSpace size={citation ? 'xs' : undefined}>
+    <VerticalSpace
+      v={citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined}
+    >
       <PrismicHtmlBlock html={text} />
     </VerticalSpace>
     {citation && (

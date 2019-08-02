@@ -25,7 +25,11 @@ const EventSchedule = ({ schedule }: Props) => {
           eventsGroup.events.length > 0 && (
             <Fragment key={eventsGroup.label}>
               {groupedEvents.length > 1 && (
-                <VerticalSpace size="m" as="h3" className="h3">
+                <VerticalSpace
+                  v={{ size: 'm', properties: ['margin-bottom'] }}
+                  as="h3"
+                  className="h3"
+                >
                   {eventsGroup.label}
                 </VerticalSpace>
               )}

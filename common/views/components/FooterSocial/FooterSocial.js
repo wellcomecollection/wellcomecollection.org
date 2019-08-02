@@ -45,8 +45,10 @@ const items = [
 
 const FooterSocial = () => (
   <VerticalSpace
-    size="m"
-    properties={['margin-top']}
+    v={{
+      size: 'm',
+      properties: ['margin-top'],
+    }}
     className={classNames({
       'footer-social': true,
     })}
@@ -54,8 +56,11 @@ const FooterSocial = () => (
     {items.map(item => (
       <div key={item.title} className="footer-social__cell">
         <VerticalSpace
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
           as="a"
-          size="l"
           className={`footer-social__link ${font('hnm', 6)}`}
           href={item.url}
         >

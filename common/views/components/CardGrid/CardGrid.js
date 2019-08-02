@@ -96,7 +96,7 @@ const CardGrid = ({
       </div>
       {links && links.length > 0 && (
         <Layout12>
-          <VerticalSpace size="m" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
             {links.map(link => (
               <div key={link.url}>
                 <MoreLink url={link.url} name={link.text} />

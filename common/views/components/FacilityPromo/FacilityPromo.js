@@ -52,9 +52,11 @@ const FacilityPromo = ({
         </div>
 
         <VerticalSpace
+          v={{
+            size: 's',
+            properties: ['margin-top'],
+          }}
           as="h2"
-          size="s"
-          properties={['margin-top']}
           className={classNames({
             'promo-link__title': true,
             [font('wb', 4)]: true,
@@ -67,7 +69,7 @@ const FacilityPromo = ({
         </p>
 
         {metaText && (
-          <VerticalSpace size="m" properties={['padding-top']}>
+          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
             <div className={`${font('hnm', 6)} flex flex--v-center`}>
               {metaIcon && (
                 <Icon name={metaIcon} extraClasses="margin-right-6" />

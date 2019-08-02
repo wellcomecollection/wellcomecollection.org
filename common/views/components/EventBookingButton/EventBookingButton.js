@@ -59,8 +59,10 @@ const EventBookingButton = ({ event }: Props) => {
       {getBookingEnquiryMarkup(event)}
       {team && (
         <VerticalSpace
-          size="s"
-          properties={['margin-top']}
+          v={{
+            size: 's',
+            properties: ['margin-top'],
+          }}
           className={`block font-charcoal ${font('hnl', 4)}`}
           href={`mailto:${team.email}?subject=${event.title}`}
         >

@@ -75,8 +75,10 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
 
           {descriptionToRender && (
             <VerticalSpace
-              size="s"
-              properties={['margin-top']}
+              v={{
+                size: 's',
+                properties: ['margin-top'],
+              }}
               className={classNames({
                 [font('hnl', 5)]: true,
                 'spaced-text': true,

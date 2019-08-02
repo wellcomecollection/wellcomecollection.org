@@ -14,9 +14,11 @@ type Props = {|
 const Caption = ({ caption, preCaptionNode, width }: Props) => {
   return (
     <VerticalSpace
+      v={{
+        size: 'm',
+        properties: ['margin-top'],
+      }}
       as="figcaption"
-      size="m"
-      properties={['margin-top']}
       style={width ? { width: `${width}px` } : undefined}
       className={classNames({
         [font('lr', 6)]: true,

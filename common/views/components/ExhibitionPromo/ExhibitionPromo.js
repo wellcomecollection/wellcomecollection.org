@@ -75,8 +75,10 @@ const ExhibitionPromo = ({
       </div>
 
       <VerticalSpace
-        size="m"
-        properties={['padding-top', 'padding-bottom']}
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
         className={`
           flex flex--column flex-1 flex--h-space-between
           padding-left-12 padding-right-12
@@ -84,7 +86,10 @@ const ExhibitionPromo = ({
       >
         <div>
           <VerticalSpace
-            size="s"
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             className={classNames({
               'promo-link__title': true,
               [font('wb', 3)]: true,

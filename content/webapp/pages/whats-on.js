@@ -135,9 +135,11 @@ const DateRange = ({
   return (
     <Fragment>
       <VerticalSpace
+        v={{
+          size: 's',
+          properties: ['margin-bottom'],
+        }}
         as="p"
-        size="s"
-        properties={['margin-bottom']}
         className={classNames({
           [font('hnm', 5)]: true,
         })}
@@ -162,8 +164,11 @@ const DateRange = ({
         period === 'today' && (
           <Fragment>
             <VerticalSpace
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="p"
-              size="m"
               className={classNames({
                 [font('wb', 2)]: true,
               })}
@@ -173,8 +178,10 @@ const DateRange = ({
               <a href={shopPromo.url}>shop</a> are open for your visit.
             </VerticalSpace>
             <VerticalSpace
-              size="l"
-              properties={['margin-top', 'margin-bottom']}
+              v={{
+                size: 'l',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
             >
               <Divider extraClasses={'divider--dashed'} />
             </VerticalSpace>
@@ -196,8 +203,10 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
 
   return (
     <VerticalSpace
-      size="l"
-      properties={['padding-top', 'padding-bottom']}
+      v={{
+        size: 'l',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       className={classNames({
         row: true,
         'bg-cream': true,
@@ -253,8 +262,10 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
             </div>
           </div>
           <VerticalSpace
-            size="m"
-            properties={['margin-top', 'margin-bottom']}
+            v={{
+              size: 'm',
+              properties: ['margin-top', 'margin-bottom'],
+            }}
             className={classNames({
               [grid({ s: 12, m: 10, l: 8, xl: 6 })]: true,
             })}
@@ -359,10 +370,12 @@ export class WhatsOnPage extends Component<Props> {
             <Fragment>
               <Header activeId={period} openingTimes={openingTimes} />
 
-              <VerticalSpace size="l" properties={['margin-top']}>
+              <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
-                    <VerticalSpace size="l" properties={['padding-top']}>
+                    <VerticalSpace
+                      v={{ size: 'l', properties: ['padding-top'] }}
+                    >
                       <SpacingSection>
                         <Layout12>
                           <DateRange
@@ -411,8 +424,10 @@ export class WhatsOnPage extends Component<Props> {
                 {period !== 'current-and-coming-up' && (
                   <SpacingSection>
                     <VerticalSpace
-                      size="m"
-                      properties={['padding-top', 'margin-bottom']}
+                      v={{
+                        size: 'm',
+                        properties: ['padding-top', 'margin-bottom'],
+                      }}
                     >
                       <Layout12>
                         <DateRange

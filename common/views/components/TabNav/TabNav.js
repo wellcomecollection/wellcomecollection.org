@@ -66,9 +66,11 @@ const NavItem = ({
 |}) => (
   <NextLink {...link} passHref>
     <VerticalSpace
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       as="a"
-      size="m"
-      properties={['padding-top', 'padding-bottom']}
       className={classNames({
         'plain-link': true,
         block: true,

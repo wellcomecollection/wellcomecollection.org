@@ -64,8 +64,10 @@ const StoryPromo = ({
       </div>
 
       <VerticalSpace
-        size="m"
-        properties={['padding-top', 'padding-bottom']}
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
         className={classNames({
           'story-promo__text flex flex--column flex-1': true,
           'flex--h-space-between': !hasTransparentBackground,
@@ -81,8 +83,11 @@ const StoryPromo = ({
             />
           )}
           <VerticalSpace
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             as="h2"
-            size="s"
             className={`
             promo-link__title
             ${font('wb', 3)}
@@ -103,7 +108,7 @@ const StoryPromo = ({
         </div>
 
         {item.series.length > 0 && (
-          <VerticalSpace size="l" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
             {item.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}

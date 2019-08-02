@@ -8,8 +8,10 @@ const NewsletterPromo = () => (
     <div className="container">
       <div className="grid">
         <VerticalSpace
-          size="l"
-          properties={['padding-top', 'padding-bottom']}
+          v={{
+            size: 'l',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
         >
           <h2 className="h2">

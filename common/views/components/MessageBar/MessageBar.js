@@ -24,8 +24,10 @@ type Props = {|
 
 const MessageBar = ({ tagText, children }: Props) => (
   <VerticalSpace
-    size="m"
-    properties={['padding-top', 'padding-bottom']}
+    v={{
+      size: 'm',
+      properties: ['padding-top', 'padding-bottom'],
+    }}
     className={classNames({
       [font('hnl', 5)]: true,
     })}

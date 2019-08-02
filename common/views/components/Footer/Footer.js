@@ -52,8 +52,11 @@ const Footer = ({
         <div className="grid">
           <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
             <VerticalSpace
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="h3"
-              size="m"
               className={`footer__heading relative ${font('hnl', 4)}`}
             >
               <span className="hidden">Wellcome collection</span>
@@ -62,8 +65,10 @@ const Footer = ({
               </a>
             </VerticalSpace>
             <VerticalSpace
-              size="m"
-              properties={['padding-top', 'padding-bottom']}
+              v={{
+                size: 'm',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               className="border-top-width-1 border-bottom-width-1 border-color-charcoal"
             >
               <FooterNav />
@@ -71,8 +76,11 @@ const Footer = ({
           </div>
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
             <VerticalSpace
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="h3"
-              size="m"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
                 'hnl',
                 5
@@ -81,7 +89,7 @@ const Footer = ({
               Finding us:
             </VerticalSpace>
             <TopBorderBox>
-              <VerticalSpace size="l" properties={['padding-top']}>
+              <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
                 <FindUs />
               </VerticalSpace>
             </TopBorderBox>
@@ -93,8 +101,11 @@ const Footer = ({
             })}
           >
             <VerticalSpace
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="h3"
-              size="m"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
                 'hnl',
                 5
@@ -103,7 +114,7 @@ const Footer = ({
               {`Opening times:`}
             </VerticalSpace>
             <TopBorderBox>
-              <VerticalSpace size="l" properties={['padding-top']}>
+              <VerticalSpace v={{ size: 'l', properties: ['padding-top'] }}>
                 <Icon name="clock" extraClasses={`float-l margin-right-12`} />
                 <div
                   className={classNames({
@@ -124,9 +135,11 @@ const Footer = ({
                         return (
                           todaysHours && (
                             <VerticalSpace
-                              size="s"
+                              v={{
+                                size: 's',
+                                properties: ['margin-top'],
+                              }}
                               as="li"
-                              properties={['margin-top']}
                               key={venue.name}
                             >
                               {venue.name.toLowerCase() === 'restaurant'
@@ -147,7 +160,10 @@ const Footer = ({
                       }
                     )}
                   </ul>
-                  <VerticalSpace as="p" size="s" properties={['margin-top']}>
+                  <VerticalSpace
+                    v={{ size: 's', properties: ['margin-top'] }}
+                    as="p"
+                  >
                     <a href="/opening-times">Opening times</a>
                   </VerticalSpace>
                 </div>
@@ -159,8 +175,10 @@ const Footer = ({
         <div className="footer__bottom">
           <div className="footer__left">
             <VerticalSpace
-              size="m"
-              properties={['margin-top', 'padding-bottom', 'margin-bottom']}
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
+              }}
               className={classNames({
                 [font('hnm', 6)]: true,
                 footer__strap: true,
@@ -177,8 +195,10 @@ const Footer = ({
               </span>
             </VerticalSpace>
             <VerticalSpace
-              size="m"
-              properties={['margin-top', 'padding-bottom', 'margin-bottom']}
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
+              }}
               className={classNames({
                 [font('hnm', 6)]: true,
                 footer__licensing: true,

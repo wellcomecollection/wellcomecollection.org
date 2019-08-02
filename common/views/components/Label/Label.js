@@ -10,9 +10,11 @@ export type Props = {|
 const Label = ({ label }: Props) => {
   return (
     <VerticalSpace
+      v={{
+        size: 's',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       as={label.url ? 'a' : 'span'}
-      size="s"
-      properties={['padding-top', 'padding-bottom']}
       href={label.url}
       className={`
       line-height-1

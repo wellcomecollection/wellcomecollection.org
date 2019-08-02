@@ -28,7 +28,7 @@ const SerialisedSeries = ({ series }: any) => {
   return (
     <div>
       <Layout12>
-        <VerticalSpace size="xl">
+        <VerticalSpace v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <h2
             className={classNames({
               h1: true,
@@ -46,7 +46,7 @@ const SerialisedSeries = ({ series }: any) => {
               {series.title}
             </a>
           </h2>
-          <VerticalSpace size="m" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 'no-margin': true,
@@ -110,8 +110,10 @@ export class StoriesPage extends Component<Props> {
       >
         <SpacingSection>
           <VerticalSpace
-            size="l"
-            properties={['padding-top', 'padding-bottom']}
+            v={{
+              size: 'l',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
             className={classNames({
               row: true,
               'bg-cream': true,
@@ -134,8 +136,10 @@ export class StoriesPage extends Component<Props> {
                   </h1>
 
                   <VerticalSpace
-                    size="m"
-                    properties={['margin-top']}
+                    v={{
+                      size: 'm',
+                      properties: ['margin-top'],
+                    }}
                     className={classNames({
                       'first-para-no-margin body-text': true,
                     })}
@@ -175,7 +179,10 @@ export class StoriesPage extends Component<Props> {
               'row bg-cream row--has-wobbly-background': true,
             })}
           >
-            <VerticalSpace size="l" className="container">
+            <VerticalSpace
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              className="container"
+            >
               <div className="grid">
                 <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                   <StoryPromoFeatured item={articles[0]} />

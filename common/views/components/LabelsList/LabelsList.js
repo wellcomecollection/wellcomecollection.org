@@ -10,16 +10,20 @@ type Props = {|
 
 const LabelsList = ({ labels }: Props) => (
   <VerticalSpace
-    size="xs"
-    properties={['margin-bottom']}
-    negative
+    v={{
+      size: 'xs',
+      properties: ['margin-bottom'],
+    }}
     as="ul"
     className={`flex-inline plain-list no-margin no-padding padding-right-12`}
     style={{ flexWrap: 'wrap' }}
   >
     {labels.filter(Boolean).map((label, i) => (
       <VerticalSpace
-        size="xs"
+        v={{
+          size: 'xs',
+          properties: ['margin-bottom'],
+        }}
         as="li"
         key={`${label.text}-${i}`}
         style={{

@@ -141,7 +141,7 @@ class EventsByMonth extends Component<Props, State> {
 
     return (
       <div>
-        <VerticalSpace size="m">
+        <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
           <div className="css-grid__container">
             <div className="css-grid">
               <div

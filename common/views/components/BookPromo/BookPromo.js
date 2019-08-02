@@ -17,9 +17,11 @@ type Props = {|
 const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
   return (
     <VerticalSpace
-      size="l"
+      v={{
+        size: 'l',
+        properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
+      }}
       as={url ? 'a' : 'span'}
-      properties={['margin-bottom', 'padding-top', 'padding-bottom']}
       data-component="BookPromo"
       href={url}
       className={classNames({
@@ -35,7 +37,10 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
       }}
     >
       <VerticalSpace
-        size="m"
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         className={classNames({
           'book-promo__image-container': true,
         })}
@@ -75,7 +80,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         )}
 
         {description && (
-          <VerticalSpace size="m" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 [font('hnl', 5)]: true,
@@ -88,8 +93,10 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         )}
 
         <VerticalSpace
-          size="m"
-          properties={['margin-top']}
+          v={{
+            size: 'm',
+            properties: ['margin-top'],
+          }}
           className={classNames({
             'flex-inline': true,
             [font('hnm', 5)]: true,

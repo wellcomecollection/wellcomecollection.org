@@ -7,8 +7,10 @@ import VerticalSpace from '../styled/VerticalSpace';
 type Props = { html: HTMLString };
 const PageHeaderStandfirst = ({ html }: Props) => (
   <VerticalSpace
-    size="s"
-    properties={['margin-top']}
+    v={{
+      size: 's',
+      properties: ['margin-top'],
+    }}
     className={classNames({
       'body-text': true,
       'first-para-no-margin': true,

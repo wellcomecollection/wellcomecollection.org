@@ -25,7 +25,7 @@ const SeriesNavigation = ({ series, items }: Props) => {
         items={items}
         showPosition={showPosition}
       />
-      <VerticalSpace size="m" properties={['margin-top']}>
+      <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
         <MoreLink
           name={`More from ${series.title}`}
           url={`/${series.type}/${series.id}`}

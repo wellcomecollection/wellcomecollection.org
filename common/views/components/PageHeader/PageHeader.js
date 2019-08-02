@@ -159,8 +159,10 @@ const PageHeader = ({
             <FreeSticker />
           </div>
         )}
-        <VerticalSpace size="l" properties={['margin-top', 'margin-bottom']}>
-          <VerticalSpace size="m">
+        <VerticalSpace
+          v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        >
+          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
             {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
             {asyncBreadcrumbsRoute && (
               <div
@@ -174,14 +176,17 @@ const PageHeader = ({
               </div>
             )}
           </VerticalSpace>
-          <VerticalSpace size="xs">
+          <VerticalSpace v={{ size: 'xs', properties: ['margin-bottom'] }}>
             {TitleTopper}
             {Heading}
           </VerticalSpace>
 
           {ContentTypeInfo && (
             <VerticalSpace
-              size="m"
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               className={classNames({
                 [font('hnl', 4)]: true,
               })}

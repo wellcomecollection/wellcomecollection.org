@@ -162,8 +162,10 @@ const Tasl = withToggler(
           )}
 
           <VerticalSpace
-            size="s"
-            properties={['padding-top', 'padding-bottom']}
+            v={{
+              size: 's',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
             className={`
               drawer__body bg-black font-white
               padding-left-6`}

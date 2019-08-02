@@ -135,7 +135,7 @@ export class EventSeriesPage extends Component<Props> {
           )}
 
           {pastEvents.length > 0 && (
-            <VerticalSpace size="xl" properties={['margin-top']}>
+            <VerticalSpace v={{ size: 'xl', properties: ['margin-top'] }}>
               <SearchResults
                 items={pastEvents}
                 title={`What we've done before`}

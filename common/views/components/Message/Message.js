@@ -7,8 +7,10 @@ type Props = {|
 
 const Message = ({ text }: Props) => (
   <VerticalSpace
-    size="m"
-    properties={['padding-top', 'padding-bottom']}
+    v={{
+      size: 'm',
+      properties: ['padding-top', 'padding-bottom'],
+    }}
     className={classNames({
       'border-left-width-5': true,
       'border-color-yellow': true,

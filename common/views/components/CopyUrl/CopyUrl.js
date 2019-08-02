@@ -116,8 +116,10 @@ class CopyUrl extends Component<Props, State> {
         once we're fully reactified */}
 
         <VerticalSpace
-          size="m"
-          properties={['margin-top']}
+          v={{
+            size: 'm',
+            properties: ['margin-top'],
+          }}
           aria-live="polite"
           onClick={this.handleButtonClick}
           data-copy-text={url}

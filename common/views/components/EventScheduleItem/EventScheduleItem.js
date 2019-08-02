@@ -24,15 +24,20 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
     event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
   return (
     <VerticalSpace
-      size="l"
-      properties={['margin-bottom', 'padding-bottom']}
+      v={{
+        size: 'l',
+        properties: ['margin-bottom', 'padding-bottom'],
+      }}
       className={classNames({
         'border-color-smoke border-bottom-width-1': true,
       })}
     >
       <div className="grid">
         <VerticalSpace
-          size="m"
+          v={{
+            size: 'm',
+            properties: ['margin-bottom'],
+          }}
           className={classNames({
             [grid({ s: 12, m: 12, l: 3, xl: 2 })]: true,
             'no-margin-l': true,
@@ -61,16 +66,20 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
         <div className={`${grid({ s: 12, m: 12, l: 9, xl: 10 })}`}>
           <div>
             {event.labels.length > 0 && (
-              <VerticalSpace size="s">
+              <VerticalSpace v={{ size: 's', properties: ['margin-bottom'] }}>
                 <LabelsList labels={event.labels} />
               </VerticalSpace>
             )}
-            <VerticalSpace size="s" as="h3" className="h2">
+            <VerticalSpace
+              v={{ size: 's', properties: ['margin-bottom'] }}
+              as="h3"
+              className="h2"
+            >
               {event.title}
             </VerticalSpace>
             {event.place && (
               <VerticalSpace
-                size="s"
+                v={{ size: 's', properties: ['margin-bottom'] }}
                 as="p"
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -81,15 +90,17 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             )}
 
             <VerticalSpace
-              size="m"
+              v={{ size: 'm', properties: ['margin-bottom'] }}
               className={font('hnl', 5)}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
             {!isNotLinked && (
               <VerticalSpace
-                size="m"
-                properties={['margin-top', 'margin-bottom']}
+                v={{
+                  size: 'm',
+                  properties: ['margin-top', 'margin-bottom'],
+                }}
               >
                 <p className={`${font('hnl', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
@@ -106,13 +117,15 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             {event.ticketSalesStart && waitForTicketSales && (
               <Fragment>
                 <VerticalSpace
-                  size="m"
-                  properties={[
-                    'margin-top',
-                    'margin-bottom',
-                    'padding-top',
-                    'padding-bottom',
-                  ]}
+                  v={{
+                    size: 'm',
+                    properties: [
+                      'margin-top',
+                      'margin-bottom',
+                      'padding-top',
+                      'padding-bottom',
+                    ],
+                  }}
                   className={classNames({
                     'bg-yellow inline-block': true,
                     'padding-left-12 padding-right-12': true,
@@ -132,7 +145,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             {!isDatePast(event.dateRange.lastDate) &&
               event.eventbriteId &&
               !waitForTicketSales && (
-                <VerticalSpace size="m">
+                <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
                   <EventbriteButton event={event} />
                 </VerticalSpace>
               )}
@@ -140,7 +153,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             {!isDatePast(event.dateRange.lastDate) &&
               event.bookingEnquiryTeam &&
               !waitForTicketSales && (
-                <VerticalSpace size="m" properties={['margin-top']}>
+                <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
                   <EventBookingButton event={event} />
                 </VerticalSpace>
               )}
@@ -148,7 +161,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             {!event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
-                <VerticalSpace size="m" properties={['margin-top']}>
+                <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
                   <Message text="Just turn up" />
                 </VerticalSpace>
               )}

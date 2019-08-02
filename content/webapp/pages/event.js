@@ -67,8 +67,10 @@ function DateList(event) {
         {event.times.map((eventTime, index) => {
           return (
             <VerticalSpace
-              size="m"
-              properties={['padding-top', 'padding-bottom']}
+              v={{
+                size: 'm',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               key={index}
               className={`flex flex--h-space-between border-top-width-1 border-color-pumice`}
             >
@@ -269,7 +271,10 @@ class EventPage extends Component<Props, State> {
         ContentTypeInfo={
           <Fragment>
             <VerticalSpace
-              size="s"
+              v={{
+                size: 's',
+                properties: ['margin-bottom'],
+              }}
               className={classNames({
                 'flex flex--wrap': true,
               })}
@@ -351,7 +356,7 @@ class EventPage extends Component<Props, State> {
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
             <Fragment>
               {event.eventbriteId && (
-                <VerticalSpace size="m">
+                <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
                   <EventbriteButton event={event} />
                 </VerticalSpace>
               )}
@@ -380,7 +385,9 @@ class EventPage extends Component<Props, State> {
                         text="Check for tickets"
                       />
                       {event.thirdPartyBooking.name && (
-                        <VerticalSpace size="s" properties={['margin-top']}>
+                        <VerticalSpace
+                          v={{ size: 's', properties: ['margin-top'] }}
+                        >
                           <p
                             className={`no-margin font-charcoal ${font(
                               'hnl',
@@ -429,9 +436,11 @@ class EventPage extends Component<Props, State> {
                     passHref
                   >
                     <VerticalSpace
+                      v={{
+                        size: 's',
+                        properties: ['margin-top'],
+                      }}
                       as="a"
-                      size="s"
-                      properties={['margin-top']}
                       className={classNames({
                         'block font-charcoal': true,
                         [font('hnm', 5)]: true,
@@ -448,12 +457,16 @@ class EventPage extends Component<Props, State> {
                 !(event.schedule && event.schedule.length > 1) && (
                   <Fragment>
                     {!event.hasEarlyRegistration && !event.cost && (
-                      <VerticalSpace size="l">
+                      <VerticalSpace
+                        v={{ size: 'l', properties: ['margin-bottom'] }}
+                      >
                         <Message text="Just turn up" />
                       </VerticalSpace>
                     )}
                     {event.hasEarlyRegistration && (
-                      <VerticalSpace size="l">
+                      <VerticalSpace
+                        v={{ size: 'l', properties: ['margin-bottom'] }}
+                      >
                         <Message text="Arrive early to register" />
                       </VerticalSpace>
                     )}

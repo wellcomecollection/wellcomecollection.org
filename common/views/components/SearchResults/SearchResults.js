@@ -25,7 +25,9 @@ const SearchResults = ({
 }: Props) => (
   <Fragment>
     {title && (
-      <VerticalSpace size={!summary && 'l'}>
+      <VerticalSpace
+        v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
+      >
         <div className="grid">
           <div className={grid({ s: 12 })}>
             <h2 className="h2 no-margin">{title}</h2>
@@ -33,7 +35,13 @@ const SearchResults = ({
         </div>
       </VerticalSpace>
     )}
-    {summary && <VerticalSpace size={!title && 'l'}>{summary}</VerticalSpace>}
+    {summary && (
+      <VerticalSpace
+        v={!title ? { size: 'l', properties: ['margin-bottom'] } : undefined}
+      >
+        {summary}
+      </VerticalSpace>
+    )}
 
     {items.map((item, index) => (
       <div className={`border-top-width-1 border-color-pumice`} key={item.id}>

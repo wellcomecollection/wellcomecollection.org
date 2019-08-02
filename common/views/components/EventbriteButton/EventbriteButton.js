@@ -18,7 +18,7 @@ const EventbriteButton = ({ event }: Props) => {
         <Button type="primary" disabled={true} text="Fully booked" />
       ) : (
         <Fragment>
-          <VerticalSpace size="s">
+          <VerticalSpace v={{ size: 's', properties: ['margin-bottom'] }}>
             <Button
               type="primary"
               url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}

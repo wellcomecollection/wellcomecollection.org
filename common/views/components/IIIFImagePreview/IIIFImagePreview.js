@@ -56,8 +56,10 @@ const IIIFImagePreview = ({
     <ImagePreview>
       <NextLink {...itemUrl} passHref>
         <VerticalSpace
-          size="xl"
-          properties={['padding-bottom']}
+          v={{
+            size: 'xl',
+            properties: ['padding-bottom'],
+          }}
           as="a"
           className="plain-link"
           onClick={() => {

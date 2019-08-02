@@ -22,8 +22,10 @@ type Props = {|
 // FIXME: This is nonsense
 const BookMetadata = ({ book }: Props) => (
   <VerticalSpace
-    size="m"
-    properties={['margin-top', 'margin-bottom']}
+    v={{
+      size: 'm',
+      properties: ['margin-top', 'margin-bottom'],
+    }}
     as="dl"
     className="grid"
   >

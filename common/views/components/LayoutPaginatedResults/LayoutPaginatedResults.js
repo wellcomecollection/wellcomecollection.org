@@ -44,8 +44,10 @@ const LayoutPaginatedResults = ({
   <Fragment>
     <SpacingSection>
       <VerticalSpace
-        size="l"
-        properties={['padding-top', 'padding-bottom']}
+        v={{
+          size: 'l',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
         className={classNames({
           row: true,
           'bg-cream': true,
@@ -69,8 +71,10 @@ const LayoutPaginatedResults = ({
 
               {description && (
                 <VerticalSpace
-                  size="m"
-                  properties={['margin-top']}
+                  v={{
+                    size: 'm',
+                    properties: ['margin-top'],
+                  }}
                   className={classNames({
                     'first-para-no-margin body-text': true,
                   })}
@@ -88,8 +92,10 @@ const LayoutPaginatedResults = ({
       {paginatedResults.totalPages > 1 && (
         <Layout12>
           <VerticalSpace
-            size="l"
-            properties={['padding-bottom']}
+            v={{
+              size: 'l',
+              properties: ['padding-bottom'],
+            }}
             className={classNames({
               flex: true,
               'flex--v-center': true,
@@ -124,12 +130,14 @@ const LayoutPaginatedResults = ({
         </Layout12>
       )}
 
-      <VerticalSpace size="l" properties={['margin-top']}>
+      <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
       </VerticalSpace>
 
       {paginatedResults.totalPages > 1 && (
-        <VerticalSpace size="m" properties={['padding-top', 'padding-bottom']}>
+        <VerticalSpace
+          v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        >
           <Layout12>
             <div className="text-align-right">
               <Pagination

@@ -98,7 +98,7 @@ type SpaceProperty =
 
 function makeSpacePropertyValues(
   size: SpaceSize,
-  properties: SpaceProperty[] = ['margin-bottom'],
+  properties: SpaceProperty[],
   negative: ?boolean
 ): string {
   return (

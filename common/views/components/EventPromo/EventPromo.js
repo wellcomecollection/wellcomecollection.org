@@ -59,8 +59,10 @@ const EventPromo = ({
       </div>
 
       <VerticalSpace
-        size="m"
-        properties={['padding-top', 'padding-bottom']}
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
         className={classNames({
           'flex flex--column flex-1 flex--h-space-between': true,
           'padding-left-12 padding-right-12': true,
@@ -68,7 +70,10 @@ const EventPromo = ({
       >
         <div>
           <VerticalSpace
-            size="s"
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             as="h2"
             className={classNames({
               'promo-link__title': true,
@@ -137,7 +142,7 @@ const EventPromo = ({
         </div>
 
         {event.series.length > 0 && (
-          <VerticalSpace size="l" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 'l', properties: ['margin-top'] }}>
             {event.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}

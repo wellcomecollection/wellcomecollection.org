@@ -15,8 +15,10 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
     <h2 className="h2">{title}</h2>
     <div className="bg-white">
       <VerticalSpace
-        size="m"
-        properties={['margin-bottom', 'padding-top', 'padding-bottom']}
+        v={{
+          size: 'm',
+          properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
+        }}
       >
         <pre
           className={`padding-left-12 padding-right-12 ${font(

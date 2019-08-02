@@ -26,7 +26,10 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
   const workTypeIcon = getWorkTypeIcon(work);
   return (
     <VerticalSpace
-      size="l"
+      v={{
+        size: 'l',
+        properties: ['margin-bottom'],
+      }}
       className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
     >
       <SpacingComponent>
@@ -61,8 +64,10 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
 
         {(work.contributors.length > 0 || productionDates.length > 0) && (
           <VerticalSpace
-            size="l"
-            properties={['margin-top']}
+            v={{
+              size: 'l',
+              properties: ['margin-top'],
+            }}
             className={classNames({
               'flex flex--wrap flex--v-center': true,
             })}
@@ -101,7 +106,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           {toggles =>
             toggles.showWorkLocations &&
             (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-              <VerticalSpace size="m" properties={['margin-top']}>
+              <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
                 <LinkLabels
                   heading={'See it'}
                   icon={'eye'}
@@ -125,7 +130,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           }
         </TogglesContext.Consumer>
         {childManifestsCount > 0 && (
-          <VerticalSpace size="m" properties={['margin-top']}>
+          <VerticalSpace v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 [font('hnm', 5)]: true,

@@ -94,9 +94,11 @@ const BespokeBody = (
                       return (
                         todaysHours && (
                           <VerticalSpace
+                            v={{
+                              size: 's',
+                              properties: ['margin-top'],
+                            }}
                             as="li"
-                            size="s"
-                            properties={['margin-top']}
                             key={venue.name}
                           >
                             {venue.name.toLowerCase() === 'restaurant'
@@ -118,8 +120,10 @@ const BespokeBody = (
                   )}
                 </ul>
                 <VerticalSpace
-                  size="s"
-                  properties={['margin-top']}
+                  v={{
+                    size: 's',
+                    properties: ['margin-top'],
+                  }}
                   className={`no-margin`}
                 >
                   <a href="/opening-times">Opening times</a>
@@ -137,8 +141,10 @@ const BespokeBody = (
         items={planList.value.items}
       />
       <VerticalSpace
-        size="m"
-        properties={['padding-top']}
+        v={{
+          size: 'm',
+          properties: ['padding-top'],
+        }}
         className={classNames({
           grid: true,
         })}
@@ -149,10 +155,10 @@ const BespokeBody = (
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace size="m">
+          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw19yIAAK1Z3Smk`} name={`Group visits`} />
           </VerticalSpace>
-          <VerticalSpace size="m">
+          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`Schools`} />
           </VerticalSpace>
         </div>
@@ -162,10 +168,10 @@ const BespokeBody = (
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace size="m">
+          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/W1CenyYAACUAj4Oy`} name={`Families`} />
           </VerticalSpace>
-          <VerticalSpace size="m">
+          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw2MSIAACtd3Ssg`} name={`Young people`} />
           </VerticalSpace>
         </div>
@@ -176,14 +182,17 @@ const BespokeBody = (
         title={findList.value.title}
         items={findList.value.items}
       />
-      <VerticalSpace size="m" properties={['padding-top']} className={`grid`}>
+      <VerticalSpace
+        v={{ size: 'm', properties: ['padding-top'] }}
+        className={`grid`}
+      >
         <div
           className={classNames({
             [grid({ s: 12, l: 6, xl: 6 })]: true,
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace size="m">
+          <VerticalSpace v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink
               url={`/pages/Wuw2MSIAACtd3SsC`}
               name={`Find out about venue hire`}

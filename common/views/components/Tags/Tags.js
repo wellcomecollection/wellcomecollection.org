@@ -1,3 +1,4 @@
+// @flow
 import styled from 'styled-components';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, classNames } from '../../../utils/classnames';
@@ -22,7 +23,9 @@ type Props = {
 
 const Tags = ({ tags }: Props) => {
   return (
-    <VerticalSpace size="s" negative>
+    <VerticalSpace
+      v={{ size: 's', negative: true, properties: ['margin-bottom'] }}
+    >
       <ul
         className={classNames({
           'plain-list no-margin no-padding': true,
@@ -40,7 +43,10 @@ const Tags = ({ tags }: Props) => {
               <NextLink {...linkAttributes}>
                 <a>
                   <Tag
-                    size="s"
+                    v={{
+                      size: 's',
+                      properties: ['margin-bottom'],
+                    }}
                     className={classNames({
                       'margin-right-6': true,
                       'line-height-1': true,

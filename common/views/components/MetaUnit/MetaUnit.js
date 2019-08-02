@@ -23,19 +23,31 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
       return <h3 className={classes}>{headingText}</h3>;
     case 4:
       return (
-        <VerticalSpace as="h4" size="s" className={smallClasses}>
+        <VerticalSpace
+          as="h4"
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={smallClasses}
+        >
           {headingText}
         </VerticalSpace>
       );
     case 5:
       return (
-        <VerticalSpace as="h5" size="s" className={smallClasses}>
+        <VerticalSpace
+          as="h5"
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={smallClasses}
+        >
           {headingText}
         </VerticalSpace>
       );
     case 6:
       return (
-        <VerticalSpace as="h6" size="s" className={smallClasses}>
+        <VerticalSpace
+          as="h6"
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={smallClasses}
+        >
           {headingText}
         </VerticalSpace>
       );
@@ -58,8 +70,11 @@ const LinksList = ({ links }) => {
   return (
     links.length > 0 && (
       <VerticalSpace
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         as="ul"
-        size="m"
         className={classNames({
           'plain-list no-margin no-padding': true,
         })}
@@ -80,8 +95,11 @@ const List = ({ list }) => {
   return (
     list.length > 0 && (
       <VerticalSpace
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         as="ul"
-        size="m"
         className={classNames({
           'plain-list no-margin no-padding': true,
         })}

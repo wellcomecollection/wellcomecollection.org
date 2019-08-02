@@ -33,9 +33,11 @@ const FooterNav = () => (
         {navLinks.map((link, i) => (
           <li key={link.text} className="footer-nav__item">
             <VerticalSpace
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               as="a"
-              size="s"
-              properties={['padding-top', 'padding-bottom']}
               id={`footer-nav-${i}`}
               href={link.url}
               className={`footer-nav__link ${font('wb', 5)}`}

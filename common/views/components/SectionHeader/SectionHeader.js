@@ -16,7 +16,10 @@ const SectionHeader = ({ title }: Props) => {
       <div className="container">
         <div className="grid">
           <VerticalSpace
-            size="s"
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}
           >
             <Divider extraClasses="divider--dashed" />

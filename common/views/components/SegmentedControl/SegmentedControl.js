@@ -62,8 +62,10 @@ class SegmentedControl extends Component<Props, State> {
               .map(item => (
                 <Fragment key={item.id}>
                   <VerticalSpace
-                    size="m"
-                    properties={['padding-top', 'padding-bottom']}
+                    v={{
+                      size: 'm',
+                      properties: ['padding-top', 'padding-bottom'],
+                    }}
                     className={classNames({
                       [font('wb', 4)]: true,
                       'padding-left-12 padding-right-12': true,
@@ -97,7 +99,10 @@ class SegmentedControl extends Component<Props, State> {
             })}
           >
             <VerticalSpace
-              size="m"
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               className={classNames({
                 'segmented-control__label': true,
                 block: true,
@@ -109,9 +114,11 @@ class SegmentedControl extends Component<Props, State> {
             <ul className="segmented-control__drawer-list no-margin no-padding plain-list">
               {items.map((item, i) => (
                 <VerticalSpace
+                  v={{
+                    size: 'm',
+                    properties: ['padding-top', 'padding-bottom'],
+                  }}
                   as="li"
-                  size="m"
-                  properties={['padding-top', 'padding-bottom']}
                   key={item.id}
                   className={classNames({
                     [font('wb', 4)]: true,
@@ -183,9 +190,11 @@ class SegmentedControl extends Component<Props, State> {
               })}
             >
               <VerticalSpace
+                v={{
+                  size: 'm',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
                 as="a"
-                properties={['padding-top', 'padding-bottom']}
-                size="m"
                 onClick={e => {
                   const url = e.target.getAttribute('href');
                   const isHash = url.startsWith('#');
