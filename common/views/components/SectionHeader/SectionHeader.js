@@ -1,7 +1,22 @@
 // @flow
 import { grid, font } from '../../../utils/classnames';
-import Divider from '../Divider/Divider';
 import VerticalSpace from '../styled/VerticalSpace';
+import styled from 'styled-components';
+
+const YellowBorder = styled.div`
+  position: relative;
+  padding-left: 100px;
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: 6px;
+    width: 86px;
+    left: 0;
+    height: 20px;
+    background: ${props => props.theme.colors.yellow};
+  }
+`;
 
 type Props = {|
   title: string,
@@ -18,13 +33,11 @@ const SectionHeader = ({ title }: Props) => {
           <VerticalSpace
             size="s"
             className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}
-          >
-            <Divider extraClasses="divider--dashed" />
-          </VerticalSpace>
+          ></VerticalSpace>
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div>
-              <h2 className={`no-margin ${font('wb', 2)}`}>{title}</h2>
-            </div>
+            <YellowBorder>
+              <h2 className={`no-margin ${font('wb', 3)}`}>{title}</h2>
+            </YellowBorder>
           </div>
         </div>
       </div>
