@@ -1,6 +1,7 @@
 // @flow
-import { classNames, font } from '../../../utils/classnames';
 import type { ColorSelection } from '../../../model/color-selections';
+import { classNames, font } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   number: number,
@@ -8,11 +9,12 @@ type Props = {|
 |};
 
 const Number = ({ number, color }: Props) => (
-  <span
+  <Space
+    as="span"
+    h={{ size: 's', properties: ['margin-left'] }}
     className={classNames({
       [font('wb', 5)]: true,
       [`bg-${color || 'purple'}`]: true,
-      'margin-left-6': true,
     })}
     style={{
       transform: 'rotateZ(-6deg)',
@@ -29,7 +31,7 @@ const Number = ({ number, color }: Props) => (
     >
       {number}
     </span>
-  </span>
+  </Space>
 );
 
 export default Number;

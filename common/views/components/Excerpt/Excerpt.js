@@ -20,14 +20,16 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
           properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
         }}
       >
-        <pre
-          className={`padding-left-12 padding-right-12 ${font(
+        <Space
+          as="pre"
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          className={`${font(
             'lr',
             5
           )} pre  border-color-smoke border-left-width-5`}
         >
           {content}
-        </pre>
+        </Space>
       </Space>
     </div>
     {audio && <audio controls src={audio} style={{ width: '100%' }} />}

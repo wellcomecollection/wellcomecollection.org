@@ -12,7 +12,8 @@ const HighlightedHeading = ({ text }: Props) => {
           size: 's',
           properties: ['padding-top', 'padding-bottom'],
         }}
-        className={`highlighted-heading bg-white padding-left-12 padding-right-12`}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={`highlighted-heading bg-white`}
       >
         {text}
       </Space>

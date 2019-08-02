@@ -33,12 +33,13 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
         tabIndex="0"
       >
         {preCaptionNode}
-        <div
-          className={`border-left-width-1 padding-left-12`}
+        <Space
+          h={{ size: 'm', properties: ['padding-left'] }}
+          className={`border-left-width-1`}
           style={{ borderColor: 'currentColor' }}
         >
           <PrismicHtmlBlock html={caption} />
-        </div>
+        </Space>
         <style>{'.caption p { display: inline; }'}</style>
       </div>
     </Space>

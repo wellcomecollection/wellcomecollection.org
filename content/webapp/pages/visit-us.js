@@ -74,7 +74,9 @@ const BespokeBody = (
                 [font('hnl', 4)]: true,
               })}
             >
-              <Icon name="clock" extraClasses={`float-l margin-right-12`} />
+              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+                <Icon name="clock" extraClasses={`float-l`} />
+              </Space>
               <div
                 className={classNames({
                   [font('hnl', 5)]: true,

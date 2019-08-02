@@ -63,9 +63,9 @@ const EventPromo = ({
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
         }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
           'flex flex--column flex-1 flex--h-space-between': true,
-          'padding-left-12 padding-right-12': true,
         })}
       >
         <div>
@@ -107,12 +107,16 @@ const EventPromo = ({
 
           {!isPast && fullyBooked && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
-              <span className={`margin-right-6 flex flex--v-center`}>
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`flex flex--v-center`}
+              >
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--red icon--match-text'}
                 />
-              </span>
+              </Space>
               Fully booked
             </div>
           )}
@@ -130,12 +134,16 @@ const EventPromo = ({
 
           {isPast && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
-              <span className={`margin-right-6 flex flex--v-center`}>
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`flex flex--v-center`}
+              >
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--marble icon--match-text'}
                 />
-              </span>
+              </Space>
               Past
             </div>
           )}

@@ -4,14 +4,13 @@ import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
-const PurpleTag = styled.span.attrs(props => ({
+const PurpleTag = styled(Space).attrs(props => ({
   className: classNames({
     caps: true,
     'inline-block': true,
     'bg-purple': true,
     'font-white': true,
     [font('hnm', 5)]: true,
-    'margin-right-6': true,
   }),
 }))`
   padding: 0.2em 0.5em;
@@ -32,7 +31,17 @@ const MessageBar = ({ tagText, children }: Props) => (
       [font('hnl', 5)]: true,
     })}
   >
-    {tagText && <PurpleTag>{tagText}</PurpleTag>}
+    {tagText && (
+      <PurpleTag
+        as="span"
+        h={{
+          size: 's',
+          properties: ['margin-right'],
+        }}
+      >
+        {tagText}
+      </PurpleTag>
+    )}
     {children}
   </Space>
 );

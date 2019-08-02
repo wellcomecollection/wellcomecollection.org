@@ -4,6 +4,7 @@ import PageHeader from '../../../common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '../../../common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import Picture from '../../../common/views/components/Picture/Picture';
 import Readme from '../../../common/views/components/PageHeader/README.md';
+import Space from '@weco/common/views/components/styled/Space';
 
 const breadcrumbItems = [
   {
@@ -30,9 +31,10 @@ const ContentTypeInfo = (
         'flex--h-baseline': true,
       })}
     >
-      <p
+      <Space
+        as="p"
+        h={{ size: 's', properties: ['margin-right'] }}
         className={classNames({
-          'margin-right-6': true,
           [font('hnl', 5)]: true,
         })}
       >
@@ -52,7 +54,7 @@ const ContentTypeInfo = (
         >
           17 April 2019
         </span>
-      </p>
+      </Space>
     </div>
   </>
 );

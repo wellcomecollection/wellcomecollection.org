@@ -72,7 +72,12 @@ const FacilityPromo = ({
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <div className={`${font('hnm', 6)} flex flex--v-center`}>
               {metaIcon && (
-                <Icon name={metaIcon} extraClasses="margin-right-6" />
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <Icon name={metaIcon} />
+                </Space>
               )}
               <span>{metaText}</span>
             </div>

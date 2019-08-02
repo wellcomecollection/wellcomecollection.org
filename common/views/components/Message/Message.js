@@ -11,11 +11,11 @@ const Message = ({ text }: Props) => (
       size: 'm',
       properties: ['padding-top', 'padding-bottom'],
     }}
+    h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
     className={classNames({
       'border-left-width-5': true,
       'border-color-yellow': true,
       'inline-block': true,
-      'padding-left-12 padding-right-12': true,
       [font('hnm', 5)]: true,
     })}
   >

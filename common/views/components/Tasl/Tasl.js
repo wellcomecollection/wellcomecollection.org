@@ -166,9 +166,8 @@ const Tasl = withToggler(
               size: 's',
               properties: ['padding-top', 'padding-bottom'],
             }}
-            className={`
-              drawer__body bg-black font-white
-              padding-left-6`}
+            h={{ size: 's', properties: ['padding-left'] }}
+            className={`drawer__body bg-black font-white`}
             style={{ paddingRight: '36px' }}
           >
             {getMarkup(

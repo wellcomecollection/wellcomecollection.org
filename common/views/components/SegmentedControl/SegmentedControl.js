@@ -66,9 +66,12 @@ class SegmentedControl extends Component<Props, State> {
                       size: 'm',
                       properties: ['padding-top', 'padding-bottom'],
                     }}
+                    h={{
+                      size: 'm',
+                      properties: ['padding-left', 'padding-right'],
+                    }}
                     className={classNames({
                       [font('wb', 4)]: true,
-                      'padding-left-12 padding-right-12': true,
                       'segmented-control__button-text': true,
                       flex: true,
                       'bg-black': true,
@@ -90,10 +93,10 @@ class SegmentedControl extends Component<Props, State> {
                 </Fragment>
               ))}
           </button>
-          <div
+          <Space
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             id={id}
             className={classNames({
-              'padding-left-12 padding-right-12': true,
               'segmented-control__body': true,
               'bg-white': true,
             })}
@@ -163,7 +166,7 @@ class SegmentedControl extends Component<Props, State> {
               ))}
             </ul>
             <span className="visually-hidden">reset focus</span>
-          </div>
+          </Space>
         </div>
         <ul
           className={classNames({
@@ -194,6 +197,7 @@ class SegmentedControl extends Component<Props, State> {
                   size: 'm',
                   properties: ['padding-top', 'padding-bottom'],
                 }}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
                 as="a"
                 onClick={e => {
                   const url = e.target.getAttribute('href');
@@ -215,7 +219,6 @@ class SegmentedControl extends Component<Props, State> {
                 }}
                 href={item.url}
                 className={classNames({
-                  'padding-left-12 padding-right-12': true,
                   'is-active bg-black font-white bg-hover-pewter':
                     item.id === activeId,
                   'bg-white font-black bg-hover-pumice': item.id !== activeId,

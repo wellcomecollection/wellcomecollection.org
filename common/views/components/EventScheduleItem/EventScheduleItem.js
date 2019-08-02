@@ -126,9 +126,12 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                       'padding-bottom',
                     ],
                   }}
+                  h={{
+                    size: 'm',
+                    properties: ['padding-left', 'padding-right'],
+                  }}
                   className={classNames({
                     'bg-yellow inline-block': true,
-                    'padding-left-12 padding-right-12': true,
                     [font('hnm', 5)]: true,
                   })}
                 >

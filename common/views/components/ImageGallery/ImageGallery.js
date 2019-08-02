@@ -121,7 +121,12 @@ class ImageGallery extends Component<Props, State> {
                   'flex flex--v-top image-gallery-v2-title': true,
                 })}
               >
-                <Icon name="gallery" extraClasses={`margin-right-6`} />
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <Icon name="gallery" />
+                </Space>
                 <h2 id={`gallery-${id}`} className="h2 no-margin">
                   {title || 'In pictures'}
                 </h2>
@@ -191,11 +196,11 @@ class ImageGallery extends Component<Props, State> {
                           size: 'm',
                           properties: ['padding-bottom'],
                         }}
+                        h={{ size: 'm', properties: ['padding-right'] }}
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
                           'opacity-0': !isActive,
-                          'padding-right-12': true,
                         })}
                       >
                         <Control

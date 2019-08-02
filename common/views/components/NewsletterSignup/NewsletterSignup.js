@@ -257,7 +257,8 @@ class NewsletterSignup extends Component<Props, State> {
                     'margin-bottom',
                   ],
                 }}
-                className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                className={`border-width-1 border-color-red font-red`}
               >
                 Please select at least one option.
               </Space>
@@ -274,7 +275,8 @@ class NewsletterSignup extends Component<Props, State> {
                     'margin-bottom',
                   ],
                 }}
-                className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                className={`border-width-1 border-color-red font-red`}
               >
                 Please enter a valid email address.
               </Space>

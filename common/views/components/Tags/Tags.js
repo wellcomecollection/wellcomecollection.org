@@ -45,8 +45,8 @@ const Tags = ({ tags }: Props) => {
                       size: 's',
                       properties: ['margin-bottom'],
                     }}
+                    h={{ size: 's', properties: ['margin-right'] }}
                     className={classNames({
-                      'margin-right-6': true,
                       'line-height-1': true,
                       'inline-block bg-hover-green font-hover-white': true,
                       'border-color-green border-width-1': true,
@@ -66,11 +66,16 @@ const Tags = ({ tags }: Props) => {
                     />
 
                     {textParts.map((part, i, arr) => (
-                      <span
+                      <Space
+                        as="span"
+                        h={
+                          i !== arr.length
+                            ? { size: 's', properties: ['margin-right'] }
+                            : undefined
+                        }
                         key={part}
                         className={classNames({
                           [font(i === 0 ? 'hnm' : 'hnl', 5)]: true,
-                          'margin-right-6': i !== arr.length - 1,
                           'inline-block': true,
                         })}
                       >
@@ -85,7 +90,7 @@ const Tags = ({ tags }: Props) => {
                             {i === 0 ? '|' : '–'}
                           </span>
                         )}
-                      </span>
+                      </Space>
                     ))}
                   </Tag>
                 </a>

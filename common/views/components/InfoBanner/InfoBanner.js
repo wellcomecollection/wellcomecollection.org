@@ -71,9 +71,12 @@ class InfoBanner extends React.Component<Props, State> {
                 >
                   <div>
                     <span className="flex flex--v-center">
-                      <div className={`flex flex--v-center margin-right-12`}>
+                      <Space
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                        className={`flex flex--v-center`}
+                      >
                         <Icon name="information" />
-                      </div>
+                      </Space>
                       <div className="first-para-no-margin">
                         <PrismicHtmlBlock html={this.props.text} />
                       </div>

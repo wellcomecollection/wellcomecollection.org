@@ -17,12 +17,11 @@ type Props = {
   items: SelectableTextLink[],
 };
 
-const NavItemInner = styled.span.attrs(props => ({
+const NavItemInner = styled(Space).attrs(props => ({
   className: classNames({
     selected: props.selected,
     block: true,
     relative: true,
-    'margin-right-12': true,
   }),
 }))`
   z-index: 1;
@@ -99,7 +98,13 @@ const NavItem = ({
         {({ showDatesAggregatePrototype }) => (
           <>
             {!showDatesAggregatePrototype && (
-              <NavItemInner selected={selected}>{text}</NavItemInner>
+              <NavItemInner
+                as="span"
+                h={{ size: 'm', properties: ['margin-right'] }}
+                selected={selected}
+              >
+                {text}
+              </NavItemInner>
             )}
             {showDatesAggregatePrototype && (
               <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>

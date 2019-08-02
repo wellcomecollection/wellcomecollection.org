@@ -25,18 +25,21 @@ const InfoBox = ({ title, items, children }: Props) => {
           size: 'l',
           properties: ['padding-top', 'padding-bottom'],
         }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
           'bg-yellow': true,
-          'padding-left-12 padding-right-12': true,
         })}
       >
         {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
             <div className={font('hnm', 4)}>
               {icon && (title || description) && (
-                <span className={`float-l margin-right-6`}>
+                <Space
+                  h={{ size: 's', properties: ['margin-right'] }}
+                  className={`float-l`}
+                >
                   <Icon name={icon} />
-                </span>
+                </Space>
               )}
               {title && (
                 <h3 className={classNames([font('hnm', 5)])}>{title}</h3>

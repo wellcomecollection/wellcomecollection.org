@@ -143,16 +143,17 @@ const VenueHours = ({ venue, weight }: Props) => {
         </>
       )}
       <VenueHoursTimes v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <h2
+        <Space
+          as="h2"
+          h={{ size: 'm', properties: ['padding-right'] }}
           className={classNames({
             h2: true,
-            'padding-right-12': true,
           })}
         >
           {weight === 'featured'
             ? `${venueAdditionalInfo[venue.name.toLowerCase()].displayTitle}`
             : 'Opening hours'}
-        </h2>
+        </Space>
         <ul
           className={classNames({
             'plain-list no-padding no-margin': true,
@@ -195,12 +196,12 @@ const VenueHours = ({ venue, weight }: Props) => {
                     'flex flex--v-center': true,
                   })}
                 >
-                  <Icon
-                    name="clock"
-                    extraClasses={classNames({
-                      'margin-right-6': true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name="clock" />
+                  </Space>
                   <span>{overrideType} hours</span>
                 </div>
               </h3>

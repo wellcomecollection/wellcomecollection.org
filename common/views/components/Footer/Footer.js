@@ -115,7 +115,12 @@ const Footer = ({
             </Space>
             <TopBorderBox>
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                <Icon name="clock" extraClasses={`float-l margin-right-12`} />
+                <Space
+                  as="span"
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                >
+                  <Icon name="clock" extraClasses={`float-l`} />
+                </Space>
                 <div
                   className={classNames({
                     [font('hnl', 5)]: true,
@@ -181,12 +186,9 @@ const Footer = ({
                 footer__strap: true,
               })}
             >
-              <Icon
-                name="wellcome"
-                extraClasses={classNames({
-                  'margin-right-6': true,
-                })}
-              />
+              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+                <Icon name="wellcome" />
+              </Space>
               <span className="footer__strap-text">
                 The free museum and library from Wellcome
               </span>

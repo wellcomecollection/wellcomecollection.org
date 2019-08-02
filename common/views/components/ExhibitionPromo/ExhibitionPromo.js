@@ -79,9 +79,9 @@ const ExhibitionPromo = ({
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
         }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={`
           flex flex--column flex-1 flex--h-space-between
-          padding-left-12 padding-right-12
         `}
       >
         <div>

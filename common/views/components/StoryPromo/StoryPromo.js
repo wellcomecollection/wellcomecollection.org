@@ -68,11 +68,14 @@ const StoryPromo = ({
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
         }}
+        h={
+          !hasTransparentBackground
+            ? { size: 'm', properties: ['padding-left', 'padding-right'] }
+            : undefined
+        }
         className={classNames({
           'story-promo__text flex flex--column flex-1': true,
           'flex--h-space-between': !hasTransparentBackground,
-          'padding-left-12': !hasTransparentBackground,
-          'padding-right-12': !hasTransparentBackground,
         })}
       >
         <div>

@@ -222,23 +222,30 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
               <div className="flex flex--v-center flex--wrap">
                 {todayOpeningHours && (
                   <div className="flex flex--v-center">
-                    <span
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
                       className={classNames({
                         [font('hnm', 5)]: true,
-                        'margin-right-12': true,
                       })}
                     >
                       Galleries
                       {todayOpeningHours.opens ? ' open ' : ' closed '}
                       today
-                    </span>
+                    </Space>
                     {todayOpeningHours.opens && (
                       <Fragment>
-                        <Icon name={'clock'} extraClasses={'margin-right-6'} />
-                        <span
+                        <Space
+                          as="span"
+                          h={{ size: 's', properties: ['margin-right'] }}
+                        >
+                          <Icon name={'clock'} />
+                        </Space>
+                        <Space
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
                           className={classNames({
                             [font('hnl', 5)]: true,
-                            'margin-right-12': true,
                           })}
                         >
                           <Fragment>
@@ -246,7 +253,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                             {'—'}
                             <time>{todayOpeningHours.closes}</time>
                           </Fragment>
-                        </span>
+                        </Space>
                       </Fragment>
                     )}
                   </div>

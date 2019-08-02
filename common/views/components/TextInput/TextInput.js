@@ -17,9 +17,7 @@ const VisuallyHidden = styled.div`
 `;
 
 const StyledInput = styled(Space).attrs({
-  className: classNames({
-    'padding-left-12': true,
-  }),
+  className: classNames({}),
 })`
   width: 100%;
   padding-right: 40px;
@@ -51,6 +49,7 @@ const TextInput = forwardRef((
         size: 'm',
         properties: ['padding-top', 'padding-bottom'],
       }}
+      h={{ size: 'm', properties: ['padding-left'] }}
       as="input"
       ref={ref}
       type="text"

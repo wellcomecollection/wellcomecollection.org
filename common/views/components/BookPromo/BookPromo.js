@@ -21,12 +21,12 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         size: 'l',
         properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
       }}
+      h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       as={url ? 'a' : 'span'}
       data-component="BookPromo"
       href={url}
       className={classNames({
         'book-promo rounded-diagonal': true,
-        'padding-left-12 padding-right-12': true,
       })}
       onClick={() => {
         trackEvent({
@@ -103,7 +103,9 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
           })}
         >
           <Icon name="arrow" extraClasses="icon--green" />
-          <span className={'margin-left-6'}>More information</span>
+          <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+            More information
+          </Space>
         </Space>
       </div>
     </Space>

@@ -19,7 +19,6 @@ const RelevanceRaterStyle = styled.div.attrs(props => ({
 const RelevanceRating = styled(Space).attrs(props => ({
   className: classNames({
     'plain-button': true,
-    'padding-left-12 padding-right-12': true,
   }),
 }))`
   width: 25%;
@@ -61,6 +60,7 @@ const RelevanceRater = ({
             size: 's',
             properties: ['padding-top', 'padding-bottom'],
           }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
           index={0}
           onClick={() =>
@@ -84,6 +84,7 @@ const RelevanceRater = ({
             size: 's',
             properties: ['padding-top', 'padding-bottom'],
           }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
           index={1}
           onClick={() =>
@@ -107,6 +108,7 @@ const RelevanceRater = ({
             size: 's',
             properties: ['padding-top', 'padding-bottom'],
           }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
           index={2}
           onClick={() =>
@@ -130,6 +132,7 @@ const RelevanceRater = ({
             size: 's',
             properties: ['padding-top', 'padding-bottom'],
           }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
           index={3}
           onClick={() =>

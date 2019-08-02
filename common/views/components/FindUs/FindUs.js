@@ -49,7 +49,9 @@ const FindUs = () => (
         className="plain-link block"
       >
         <span className="flex">
-          <Icon name="location" extraClasses={`float-l margin-right-12`} />
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <Icon name="location" extraClasses={`float-l`} />
+          </Space>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
             <span className="block">
               {wellcomeCollectionAddress.streetAddress}

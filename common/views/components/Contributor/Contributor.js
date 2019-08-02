@@ -29,14 +29,17 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
   return (
     <div className="grid">
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
-        <div style={{ minWidth: '78px' }} className={'margin-right-12'}>
+        <Space
+          style={{ minWidth: '78px' }}
+          h={{ size: 'm', properties: ['margin-right'] }}
+        >
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' && (
             <div style={{ width: '72px' }}>
               <Image {...imageProps} extraClasses={'width-inherit'} />
             </div>
           )}
-        </div>
+        </Space>
         <div>
           {contributor.type === 'organisations' && contributor.url && (
             <h3

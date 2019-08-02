@@ -1,6 +1,7 @@
 // @flow
 
 import { font } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   inputRef?: ?Function,
@@ -64,8 +65,10 @@ const HTMLInput = ({
       />
     )}
 
-    <span
-      className={`input__label-wrap line-height-1 margin-left-12 ${
+    <Space
+      as="span"
+      h={{ size: 'm', properties: ['margin-left'] }}
+      className={`input__label-wrap line-height-1 ${
         isLabelHidden ? 'input__label-wrap--hidden' : ''
       }`}
       dangerouslySetInnerHTML={{ __html: label }}

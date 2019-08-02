@@ -34,6 +34,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Router from 'next/router';
+import Space from '../styled/Space';
 
 const headerHeight = 149;
 
@@ -145,10 +146,9 @@ const IIIFViewer = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewerMain = styled.div.attrs(props => ({
+const IIIFViewerMain = styled(Space).attrs(props => ({
   className: classNames({
     'relative bg-charcoal font-white': true,
-    'padding-left-6 padding-right-6': true,
   }),
 }))`
   noscript & {
@@ -695,7 +695,10 @@ const IIIFViewerComponent = ({
         <LL />
         <noscript>
           <IIIFViewer>
-            <IIIFViewerMain fullWidth={!thumbnailsRequired}>
+            <IIIFViewerMain
+              h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+              fullWidth={!thumbnailsRequired}
+            >
               <IIIFViewerImageWrapper>
                 {iiifImageLocationUrl && imageUrl && (
                   <IIIFResponsiveImage

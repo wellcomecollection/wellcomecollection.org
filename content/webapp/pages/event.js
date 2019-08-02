@@ -48,12 +48,16 @@ function EventStatus(text, color) {
   return (
     <div className="flex">
       <div className={`${font('hnm', 6)} flex flex--v-center`}>
-        <span className={`margin-right-6 flex flex--v-center`}>
+        <Space
+          as="span"
+          h={{ size: 's', properties: ['margin-right'] }}
+          className={`flex flex--v-center`}
+        >
           <Icon
             name="statusIndicator"
             extraClasses={`icon--match-text icon--${color}`}
           />
-        </span>
+        </Space>
         {text}
       </div>
     </div>
@@ -280,13 +284,9 @@ class EventPage extends Component<Props, State> {
               })}
             >
               <EventDateRange event={event} />
-              <div
-                className={classNames({
-                  'margin-left-12': true,
-                })}
-              >
+              <Space h={{ size: 's', properties: ['margin-left'] }}>
                 {!event.isPast && <EventDatesLink id={event.id} />}
-              </div>
+              </Space>
             </Space>
             {event.isPast && EventStatus('Past', 'marble')}
             {!event.isPast &&

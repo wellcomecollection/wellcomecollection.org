@@ -33,9 +33,8 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview = styled.div.attrs(() => ({
+const Preview = styled(Space).attrs(() => ({
   className: classNames({
-    'margin-left-12': true,
     'text-align-center': true,
   }),
 }))`
@@ -108,12 +107,12 @@ const WorkCard = ({ work }: Props) => {
                 })}
               >
                 {workTypeIcon && (
-                  <Icon
-                    name={workTypeIcon}
-                    extraClasses={classNames({
-                      'margin-right-6': true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name={workTypeIcon} />
+                  </Space>
                 )}
                 {work.workType.label}
               </Space>
@@ -131,11 +130,7 @@ const WorkCard = ({ work }: Props) => {
                 })}
               >
                 {work.contributors.length > 0 && (
-                  <div
-                    className={classNames({
-                      'margin-right-12': true,
-                    })}
-                  >
+                  <Space h={{ size: 'm', properties: ['margin-right'] }}>
                     <LinkLabels
                       items={[
                         {
@@ -144,7 +139,7 @@ const WorkCard = ({ work }: Props) => {
                         },
                       ]}
                     />
-                  </div>
+                  </Space>
                 )}
                 {productionDates.length > 0 && (
                   <LinkLabels
@@ -161,7 +156,7 @@ const WorkCard = ({ work }: Props) => {
             </Details>
 
             {work.thumbnail && (
-              <Preview>
+              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
                 <IIIFResponsiveImage
                   width={178}
                   src={convertImageUri(work.thumbnail.url, 178)}

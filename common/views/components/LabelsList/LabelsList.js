@@ -15,8 +15,9 @@ const LabelsList = ({ labels }: Props) => (
       properties: ['margin-bottom'],
       negative: true,
     }}
+    h={{ size: 'm', properties: ['padding-right'] }}
     as="ul"
-    className={`flex-inline plain-list no-margin no-padding padding-right-12`}
+    className={`flex-inline plain-list no-margin no-padding`}
     style={{ flexWrap: 'wrap' }}
   >
     {labels.filter(Boolean).map((label, i) => (

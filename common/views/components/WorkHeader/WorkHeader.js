@@ -41,12 +41,9 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           })}
         >
           {workTypeIcon && (
-            <Icon
-              name={workTypeIcon}
-              extraClasses={classNames({
-                'margin-right-6': true,
-              })}
-            />
+            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+              <Icon name={workTypeIcon} />
+            </Space>
           )}
           <div className="line-height-1">{work.workType.label}</div>
         </div>
@@ -73,11 +70,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             })}
           >
             {work.contributors.length > 0 && (
-              <div
-                className={classNames({
-                  'margin-right-12': true,
-                })}
-              >
+              <Space h={{ size: 'm', properties: ['margin-right'] }}>
                 <LinkLabels
                   items={[
                     {
@@ -86,7 +79,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                     },
                   ]}
                 />
-              </div>
+              </Space>
             )}
 
             {productionDates.length > 0 && (
