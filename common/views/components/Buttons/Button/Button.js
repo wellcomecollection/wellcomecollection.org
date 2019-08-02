@@ -98,7 +98,7 @@ const Button = forwardRef(
         )} flex-inline flex--v-center`}
         onClick={handleClick}
         disabled={disabled}
-        type="button"
+        type={url ? null : 'button'}
       >
         <span className="flex-inline flex--v-center">
           {icon && <Icon name={icon} />}
