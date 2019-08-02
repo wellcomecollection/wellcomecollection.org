@@ -58,7 +58,7 @@ module.exports = {
     {
       id: 'showDatesAggregatePrototype',
       title:
-        'Show exploratory work on using date ranges (showing number of results) to facet by date',
+        'Display list of date ranges to allow a user to refine results by a date range',
       defaultValue: false,
       description:
         'Shows additional UI to allow a user to narrow search results by using date ranges',
