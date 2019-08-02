@@ -352,7 +352,10 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     )}
                   </VerticalSpace>
                 )}
-              {showDatesAggregatePrototype && <TabNav items={dateRangeItems} />}
+              {showDatesAggregatePrototype &&
+                (inputQuery && inputQuery.toLowerCase() === 'darwin') && (
+                  <TabNav items={dateRangeItems} />
+                )}
             </>
           )}
         </TogglesContext.Consumer>
