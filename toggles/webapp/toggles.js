@@ -57,5 +57,13 @@ module.exports = {
       description:
         'Shows additional UI to allow a user to narrow search results by using a date range slider.',
     },
+    {
+      id: 'showDatesAggregatePrototype',
+      title:
+        'Display list of date ranges to allow a user to refine results by a date range',
+      defaultValue: false,
+      description:
+        'Shows additional UI to allow a user to narrow search results by using date ranges',
+    },
   ],
 };
