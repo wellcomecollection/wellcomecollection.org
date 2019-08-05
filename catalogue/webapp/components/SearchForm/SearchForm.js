@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { classNames, font, spacing } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
@@ -259,14 +259,10 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         {workType && (
           <input type="hidden" name="workType" value={workType.join(',')} />
         )}
-        <fieldset
-          className={classNames({
-            [spacing({ s: 2 }, { margin: ['top'] })]: true,
-          })}
-        >
+        <VerticalSpace as="fieldset" size="m" properties={['margin-top']}>
           <legend
             className={classNames({
-              [font({ s: 'HNM4' })]: true,
+              [font('hnm', 5)]: true,
               'font-green': true,
               flex: true,
             })}
@@ -293,7 +289,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               <label>
                 <div
                   className={classNames({
-                    [font({ s: 'HNL5' })]: true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
                   Title
@@ -311,7 +307,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               <label>
                 <div
                   className={classNames({
-                    [font({ s: 'HNL5' })]: true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
                   Subjects
@@ -329,7 +325,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               <label>
                 <div
                   className={classNames({
-                    [font({ s: 'HNL5' })]: true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
                   Genres
@@ -347,7 +343,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               <label>
                 <div
                   className={classNames({
-                    [font({ s: 'HNL5' })]: true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
                   Description
@@ -365,7 +361,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               <label>
                 <div
                   className={classNames({
-                    [font({ s: 'HNL5' })]: true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
                   Contributors
@@ -382,7 +378,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               </label>
             </>
           )}
-        </fieldset>
+        </VerticalSpace>
         <TogglesContext.Consumer>
           {({ selectableQueries }) =>
             selectableQueries && (
