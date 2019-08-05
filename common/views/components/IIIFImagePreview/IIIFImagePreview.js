@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   id: string,
@@ -21,7 +22,6 @@ const ImagePreview = styled.div`
 
   a {
     display: inline-block;
-    padding-bottom: ${props => `${props.theme.spacingUnit * 8}px`};
     cursor: zoom-in;
   }
 
@@ -30,10 +30,13 @@ const ImagePreview = styled.div`
     max-height: 400px;
     max-width: 100%;
     width: auto;
+    position: relative;
+    z-index: 1;
   }
 
   button {
     position: absolute;
+    z-index: 3;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 50%);
@@ -51,8 +54,11 @@ const IIIFImagePreview = ({
 
   return (
     <ImagePreview>
-      <NextLink {...itemUrl}>
-        <a
+      <NextLink {...itemUrl} passHref>
+        <VerticalSpace
+          size="xl"
+          properties={['padding-bottom']}
+          as="a"
           className="plain-link"
           onClick={() => {
             trackEvent({
@@ -69,9 +75,10 @@ const IIIFImagePreview = ({
             sizesQueries="(min-width: 1420px) 1218px, (min-width: 600px) 87.75vw, calc(100vw - 36px)"
             alt=""
             defaultSize={180}
+            tasl={null}
           />
           <Control type="dark" text="View larger image" icon="zoomIn" />
-        </a>
+        </VerticalSpace>
       </NextLink>
     </ImagePreview>
   );

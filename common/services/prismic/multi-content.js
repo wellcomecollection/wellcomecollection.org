@@ -17,6 +17,10 @@ import {
   audiencesFields,
   articleSeriesFields,
   exhibitionFields,
+  peopleFields,
+  organisationsFields,
+  contributorsFields,
+  teamsFields,
 } from './fetch-links';
 import { parseArticleSeries } from './article-series';
 import type { MultiContent } from '../../model/multi-content';
@@ -98,7 +102,11 @@ export async function getMultiContent(
       eventPoliciesFields,
       audiencesFields,
       articleSeriesFields,
-      exhibitionFields
+      exhibitionFields,
+      peopleFields,
+      organisationsFields,
+      contributorsFields,
+      teamsFields
     ),
     pageSize: pageSize || 100,
     orderings: `[${(orderings || []).join(',')}]`,

@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import { spacing, font, classNames } from '../../../utils/classnames';
-import NextLink from 'next/link';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import { font, classNames } from '../../../utils/classnames';
+import NextLink from 'next/link';
+import VerticalSpace from '../styled/VerticalSpace';
 
 export type TagType = {|
   textParts: string[],
   linkAttributes: NextLinkType,
 |};
 
-const Tag = styled.div`
+const Tag = styled(VerticalSpace)`
   border-radius: 3px;
   text-decoration: none;
   padding: 0.2em 0.5em;
@@ -21,16 +22,10 @@ type Props = {
 
 const Tags = ({ tags }: Props) => {
   return (
-    <div
-      className={classNames({
-        // Cancel out space below individual tags
-        [spacing({ s: -2 }, { margin: ['bottom'] })]: true,
-      })}
-    >
+    <VerticalSpace size="s" negative>
       <ul
         className={classNames({
-          'plain-list': true,
-          [spacing({ s: 0 }, { padding: ['left'], margin: ['top'] })]: true,
+          'plain-list no-margin no-padding': true,
         })}
       >
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
@@ -45,9 +40,9 @@ const Tags = ({ tags }: Props) => {
               <NextLink {...linkAttributes}>
                 <a>
                   <Tag
+                    size="s"
                     className={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                      [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
+                      'margin-right-6': true,
                       'line-height-1': true,
                       'inline-block bg-hover-green font-hover-white': true,
                       'border-color-green border-width-1': true,
@@ -57,12 +52,12 @@ const Tags = ({ tags }: Props) => {
                     the tag will always be the height of the larger of the two. */}
                     <span
                       className={classNames({
-                        [font({ s: 'HNL5', m: 'HNL4' })]: true,
+                        [font('hnl', 5)]: true,
                       })}
                     />
                     <span
                       className={classNames({
-                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                        [font('hnm', 5)]: true,
                       })}
                     />
 
@@ -70,10 +65,8 @@ const Tags = ({ tags }: Props) => {
                       <span
                         key={part}
                         className={classNames({
-                          [font({ s: 'HNM5', m: 'HNM4' })]: i === 0,
-                          [font({ s: 'HNL5', m: 'HNL4' })]: i !== 0,
-                          [spacing({ s: 1 }, { margin: ['right'] })]:
-                            i !== arr.length - 1,
+                          [font(i === 0 ? 'hnm' : 'hnl', 5)]: true,
+                          'margin-right-6': i !== arr.length - 1,
                           'inline-block': true,
                         })}
                       >
@@ -81,7 +74,7 @@ const Tags = ({ tags }: Props) => {
                         {i !== arr.length - 1 && (
                           <span
                             className={classNames({
-                              [font({ s: 'HNL5', m: 'HNL4' })]: true,
+                              [font('hnl', 5)]: true,
                             })}
                           >
                             {' '}
@@ -97,7 +90,7 @@ const Tags = ({ tags }: Props) => {
           );
         })}
       </ul>
-    </div>
+    </VerticalSpace>
   );
 };
 

@@ -1,5 +1,5 @@
 // @flow
-import { font, classNames, spacing } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
 
 export type Breadcrumbs = {|
@@ -28,17 +28,17 @@ const Breadcrumb = ({ items }: Props) => (
           <BoldOrSpanTag
             key={text}
             className={classNames({
-              [font({ s: 'HNL4' })]: true,
+              [font('hnl', 5)]: true,
               'border-left-width-1 border-color-black': i !== 0,
-              [spacing({ s: 2 }, { padding: ['right'] })]: true,
-              [spacing({ s: 2 }, { padding: ['left'] })]: i !== 0,
+              'padding-right-12': true,
+              'padding-left-12': i !== 0,
             })}
             style={{ lineHeight: 1 }}
           >
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font({ s: 'HNM4' })]: Boolean(prefix),
+                [font('hnm', 5)]: Boolean(prefix),
               })}
               href={url}
               style={{ lineHeight: 1 }}
@@ -52,7 +52,7 @@ const Breadcrumb = ({ items }: Props) => (
     {items.length === 0 && (
       <span
         className={classNames({
-          [font({ s: 'HNL4' })]: true,
+          [font('hnl', 5)]: true,
           'empty-filler': true,
         })}
         style={{ lineHeight: 1 }}

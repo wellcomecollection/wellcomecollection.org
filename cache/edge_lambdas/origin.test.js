@@ -1,6 +1,6 @@
 const origin = require('./origin');
-const testRequest = require('./test_event_request.json');
-const testResponse = require('./test_event_response.json');
+const testRequest = require('./test_event_request');
+const testResponse = require('./test_event_response');
 
 test('request', () => {
   const requestCallback = jest.fn((_, request) => request);

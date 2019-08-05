@@ -1,5 +1,5 @@
 // @flow
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { formatDateRangeWithMessage } from '../../../utils/format-date';
 import Icon from '../Icon/Icon';
 
@@ -14,13 +14,8 @@ const StatusIndicator = ({ start, end, statusOverride }: Props) => {
     ? { color: 'marble', text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
   return (
-    <span className={`flex flex--v-center ${font({ s: 'HNL5' })}`}>
-      <span
-        className={`${spacing(
-          { s: 1 },
-          { margin: ['right'] }
-        )} flex flex--v-center`}
-      >
+    <span className={`flex flex--v-center ${font('hnl', 6)}`}>
+      <span className={`margin-right-6 flex flex--v-center`}>
         <Icon
           name="statusIndicator"
           extraClasses={`icon--match-text icon--${color}`}

@@ -24,6 +24,7 @@ import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
+import { parseExhibitionDoc } from './exhibitions';
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
@@ -319,6 +320,19 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
+function parseTeamToContact(team: PrismicFragment) {
+  const {
+    data: { title, subtitle, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    subtitle: asText(subtitle),
+    email,
+    phone,
+  };
+}
+
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 type CropType = null | '16:9' | '32:15' | 'square';
@@ -540,6 +554,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parsePage(item.content);
                     case 'event-series':
                       return parseEventSeries(item.content);
+                    case 'exhibitions':
+                      return parseExhibitionDoc(item.content);
                   }
                 })
                 .filter(Boolean),
@@ -606,6 +622,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
               playbackRate: slice.primary.playbackRate || 1,
               tasl: parseTaslFromString(slice.primary.tasl),
             },
+          };
+
+        case 'contact':
+          return {
+            type: 'contact',
+            value: parseTeamToContact(slice.primary.content),
           };
 
         case 'embed':

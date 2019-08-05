@@ -1,6 +1,6 @@
 // @flow
 import { Fragment } from 'react';
-import { grid, font, spacing } from '../../../utils/classnames';
+import { grid, font, classNames } from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '../LabelsList/LabelsList';
@@ -12,6 +12,7 @@ import {
   isDatePast,
 } from '../../../utils/format-date';
 import type { UiEvent } from '../../../model/events';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -22,21 +23,20 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
   return (
-    <li
-      className={`${spacing({ l: 0 }, { padding: ['left'] })} ${spacing(
-        { s: 4, l: 6 },
-        { padding: ['bottom'] }
-      )} ${spacing(
-        { s: 4 },
-        { margin: ['bottom'] }
-      )} border-color-smoke border-bottom-width-1`}
+    <VerticalSpace
+      size="l"
+      properties={['margin-bottom', 'padding-bottom']}
+      className={classNames({
+        'border-color-smoke border-bottom-width-1': true,
+      })}
     >
       <div className="grid">
-        <div
-          className={`${grid({ s: 12, m: 12, l: 3, xl: 2 })} ${spacing(
-            { s: 2, l: 0 },
-            { margin: ['bottom'] }
-          )}`}
+        <VerticalSpace
+          size="m"
+          className={classNames({
+            [grid({ s: 12, m: 12, l: 3, xl: 2 })]: true,
+            'no-margin-l': true,
+          })}
         >
           {event.times &&
             event.times.map(t => {
@@ -45,7 +45,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               return (
                 <p
                   key={`${event.title} ${startTimeString}`}
-                  className={`${font({ s: 'HNM4' })} no-margin`}
+                  className={`${font('hnm', 5)} no-margin`}
                 >
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
@@ -57,43 +57,41 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                 </p>
               );
             })}
-        </div>
+        </VerticalSpace>
         <div className={`${grid({ s: 12, m: 12, l: 9, xl: 10 })}`}>
           <div>
             {event.labels.length > 0 && (
-              <div className={spacing({ s: 1 }, { margin: ['bottom'] })}>
+              <VerticalSpace size="s">
                 <LabelsList labels={event.labels} />
-              </div>
+              </VerticalSpace>
             )}
-            <h3
-              className={`${font({ s: 'WB6', l: 'WB5' })} ${spacing(
-                { s: 0 },
-                { margin: ['top'] }
-              )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`}
-            >
+            <VerticalSpace size="s" as="h3" className="h2">
               {event.title}
-            </h3>
+            </VerticalSpace>
             {event.place && (
-              <p
-                className={`${spacing({ s: 1 }, { margin: ['bottom'] })} ${font(
-                  { s: 'HNL4' }
-                )}`}
+              <VerticalSpace
+                size="s"
+                as="p"
+                className={classNames({
+                  [font('hnl', 5)]: true,
+                })}
               >
                 {event.place.title}
-              </p>
+              </VerticalSpace>
             )}
 
-            <p
-              className={`${spacing({ s: 2 }, { margin: ['bottom'] })} ${font({
-                s: 'HNL5',
-                m: 'HNL4',
-              })}`}
+            <VerticalSpace
+              size="m"
+              className={font('hnl', 5)}
               dangerouslySetInnerHTML={{ __html: event.promoText }}
             />
 
             {!isNotLinked && (
-              <div className={spacing({ s: 2 }, { margin: ['top', 'bottom'] })}>
-                <p className={`${font({ s: 'HNL5', m: 'HNL4' })} no-margin`}>
+              <VerticalSpace
+                size="m"
+                properties={['margin-top', 'margin-bottom']}
+              >
+                <p className={`${font('hnl', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className={`visually-hidden`}>
@@ -102,19 +100,24 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                     </span>
                   </a>
                 </p>
-              </div>
+              </VerticalSpace>
             )}
 
             {event.ticketSalesStart && waitForTicketSales && (
               <Fragment>
-                <div
-                  className={`bg-yellow inline-block ${spacing(
-                    { s: 4 },
-                    { padding: ['left', 'right'], margin: ['top', 'bottom'] }
-                  )} ${spacing(
-                    { s: 2 },
-                    { padding: ['top', 'bottom'] }
-                  )} ${font({ s: 'HNM4' })}`}
+                <VerticalSpace
+                  size="m"
+                  properties={[
+                    'margin-top',
+                    'margin-bottom',
+                    'padding-top',
+                    'padding-bottom',
+                  ]}
+                  className={classNames({
+                    'bg-yellow inline-block': true,
+                    'padding-left-12 padding-right-12': true,
+                    [font('hnm', 5)]: true,
+                  })}
                 >
                   {/* TODO: work out why the second method below will fail Flow without a null check */}
                   <span>
@@ -122,33 +125,37 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                     {event.ticketSalesStart &&
                       formatTime(event.ticketSalesStart)}
                   </span>
-                </div>
+                </VerticalSpace>
               </Fragment>
             )}
 
             {!isDatePast(event.dateRange.lastDate) &&
               event.eventbriteId &&
-              !waitForTicketSales && <EventbriteButton event={event} />}
+              !waitForTicketSales && (
+                <VerticalSpace size="m">
+                  <EventbriteButton event={event} />
+                </VerticalSpace>
+              )}
 
             {!isDatePast(event.dateRange.lastDate) &&
               event.bookingEnquiryTeam &&
               !waitForTicketSales && (
-                <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <VerticalSpace size="m" properties={['margin-top']}>
                   <EventBookingButton event={event} />
-                </div>
+                </VerticalSpace>
               )}
 
             {!event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
-                <div className={spacing({ s: 2 }, { margin: ['top'] })}>
+                <VerticalSpace size="m" properties={['margin-top']}>
                   <Message text="Just turn up" />
-                </div>
+                </VerticalSpace>
               )}
           </div>
         </div>
       </div>
-    </li>
+    </VerticalSpace>
   );
 };
 

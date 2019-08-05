@@ -1,23 +1,19 @@
 // @flow
 import type { Node } from 'react';
-import { spacing, font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Tags, { type TagType } from '../Tags/Tags';
+import VerticalSpace from '../styled/VerticalSpace';
 
 type HeadingProps = {
   headingLevel: ?number,
   headingText: string,
 };
 const Heading = ({ headingLevel, headingText }: HeadingProps) => {
-  const classes = `${font({ s: 'HNM5', m: 'HNM4' })} ${spacing(
-    { s: 0 },
-    { margin: ['top'] }
-  )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`;
-  const smallClasses = `${font({ s: 'HNM6', m: 'HNM5' })} ${spacing(
-    { s: 0 },
-    { margin: ['top'] }
-  )} ${spacing({ s: 1 }, { margin: ['bottom'] })}`;
+  const classes = `${font('hnm', 5)} no-margin`;
+  const smallClasses = `${font('hnm', 5)}`;
+
   switch (headingLevel) {
     case 1:
       return <h1 className={classes}>{headingText}</h1>;
@@ -26,11 +22,23 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
     case 3:
       return <h3 className={classes}>{headingText}</h3>;
     case 4:
-      return <h4 className={smallClasses}>{headingText}</h4>;
+      return (
+        <VerticalSpace as="h4" size="s" className={smallClasses}>
+          {headingText}
+        </VerticalSpace>
+      );
     case 5:
-      return <h5 className={smallClasses}>{headingText}</h5>;
+      return (
+        <VerticalSpace as="h5" size="s" className={smallClasses}>
+          {headingText}
+        </VerticalSpace>
+      );
     case 6:
-      return <h6 className={smallClasses}>{headingText}</h6>;
+      return (
+        <VerticalSpace as="h6" size="s" className={smallClasses}>
+          {headingText}
+        </VerticalSpace>
+      );
     default:
       return <h2 className={classes}>{headingText}</h2>;
   }
@@ -49,17 +57,12 @@ const Paragraphs = ({ text }: { text: string[] }) => {
 const LinksList = ({ links }) => {
   return (
     links.length > 0 && (
-      <ul
-        className={`plain-list ${spacing(
-          { s: 2 },
-          { margin: ['bottom'] }
-        )} ${spacing(
-          { s: 0 },
-          {
-            margin: ['top', 'left', 'right'],
-            padding: ['top', 'left', 'right'],
-          }
-        )}`}
+      <VerticalSpace
+        as="ul"
+        size="m"
+        className={classNames({
+          'plain-list no-margin no-padding': true,
+        })}
       >
         {links.map((link, i, arr) => (
           <li key={i} className="inline">
@@ -68,7 +71,7 @@ const LinksList = ({ links }) => {
             {arr.length - 1 !== i && ' '}
           </li>
         ))}
-      </ul>
+      </VerticalSpace>
     )
   );
 };
@@ -76,24 +79,19 @@ const LinksList = ({ links }) => {
 const List = ({ list }) => {
   return (
     list.length > 0 && (
-      <ul
-        className={`plain-list ${spacing(
-          { s: 2 },
-          { margin: ['bottom'] }
-        )} ${spacing(
-          { s: 0 },
-          {
-            margin: ['top', 'left', 'right'],
-            padding: ['top', 'left', 'right'],
-          }
-        )}`}
+      <VerticalSpace
+        as="ul"
+        size="m"
+        className={classNames({
+          'plain-list no-margin no-padding': true,
+        })}
       >
         {list.map((item, i, arr) => (
           <li key={i} style={{ listStylePosition: 'inside' }}>
             {item}
           </li>
         ))}
-      </ul>
+      </VerticalSpace>
     )
   );
 };
@@ -119,7 +117,7 @@ const MetaUnit = ({
 }: MetaUnitProps) => {
   return (
     <SpacingComponent>
-      <div className={`${font({ s: 'HNL5', m: 'HNL4' })}`}>
+      <div className={`${font('hnl', 5)}`}>
         {headingText && (
           <Heading headingLevel={headingLevel} headingText={headingText} />
         )}

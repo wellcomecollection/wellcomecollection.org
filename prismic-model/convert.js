@@ -7,7 +7,9 @@ if (modelName) {
   fs.writeFile(
     `./json/${modelName}.json`,
     JSON.stringify(model, null, 2),
-    (err) => { if (err) throw err; }
+    err => {
+      if (err) throw err;
+    }
   );
 } else {
   fs.readdir('./js', (err, files) => {
@@ -19,7 +21,9 @@ if (modelName) {
         fs.writeFile(
           `./json/${modelName}.json`,
           JSON.stringify(model, null, 2),
-          (err) => { if (err) throw err; }
+          err => {
+            if (err) throw err;
+          }
         );
       }
     });

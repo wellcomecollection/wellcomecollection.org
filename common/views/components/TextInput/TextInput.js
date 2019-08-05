@@ -1,6 +1,8 @@
 // @flow
 import { forwardRef } from 'react';
 import styled from 'styled-components';
+import VerticalSpace from '../styled/VerticalSpace';
+import { classNames } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
   border: 0;
@@ -14,9 +16,13 @@ const VisuallyHidden = styled.div`
   white-space: nowrap;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled(VerticalSpace).attrs({
+  className: classNames({
+    'padding-left-12': true,
+  }),
+})`
   width: 100%;
-  padding: 0.4em 40px 0.4em 0.4em;
+  padding-right: 40px;
   border: 1px solid ${props => props.theme.colors.pumice};
 
   &:focus {
@@ -40,7 +46,14 @@ const TextInput = forwardRef((
   ref // eslint-disable-line
 ) => (
   <label className="flex flex--v-center">
-    <StyledInput ref={ref} type="text" {...inputProps} />
+    <StyledInput
+      as="input"
+      size="m"
+      properties={['padding-top', 'padding-bottom']}
+      ref={ref}
+      type="text"
+      {...inputProps}
+    />
     <VisuallyHidden>
       <label>{label}</label>
     </VisuallyHidden>

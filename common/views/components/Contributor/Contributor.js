@@ -1,11 +1,12 @@
 // @flow
-import { font, grid, spacing, classNames } from '../../../utils/classnames';
+import { font, grid, classNames } from '../../../utils/classnames';
 import Image from '../Image/Image';
 import Avatar from '../Avatar/Avatar';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Contributor as ContributorType } from '../../../model/contributors';
 import type { Props as ImageProps } from '../Image/Image';
+import VerticalSpace from '../styled/VerticalSpace';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -15,21 +16,20 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           width: 78,
           contentUrl: contributor.image && contributor.image.contentUrl,
           alt: `Logo for ${contributor.name}`,
+          tasl: null,
         }
       : {
           width: 78,
           height: 78,
           contentUrl: contributor.image && contributor.image.contentUrl,
           alt: `Photograph of ${contributor.name}`,
+          tasl: null,
         };
 
   return (
     <div className="grid">
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
-        <div
-          style={{ minWidth: '78px' }}
-          className={spacing({ s: 2 }, { margin: ['right'] })}
-        >
+        <div style={{ minWidth: '78px' }} className={'margin-right-12'}>
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' && (
             <div style={{ width: '72px' }}>
@@ -41,7 +41,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           {contributor.type === 'organisations' && contributor.url && (
             <h3
               className={classNames({
-                [font({ s: 'HNM3' })]: true,
+                [font('hnm', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -53,7 +53,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           {!contributor.url && (
             <h3
               className={classNames({
-                [font({ s: 'HNM3' })]: true,
+                [font('hnm', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -61,9 +61,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
             </h3>
           )}
           {role && role.title && (
-            <div className={'font-pewter ' + font({ s: 'HNM4' })}>
-              {role.title}
-            </div>
+            <div className={'font-pewter ' + font('hnm', 5)}>{role.title}</div>
           )}
 
           {contributor.sameAs.length > 0 && (
@@ -76,15 +74,16 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           )}
 
           {descriptionToRender && (
-            <div
+            <VerticalSpace
+              size="s"
+              properties={['margin-top']}
               className={classNames({
-                [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                [font({ s: 'HNL4' })]: true,
+                [font('hnl', 5)]: true,
                 'spaced-text': true,
               })}
             >
               <PrismicHtmlBlock html={descriptionToRender} />
-            </div>
+            </VerticalSpace>
           )}
         </div>
       </div>

@@ -7,7 +7,7 @@ import {
   type CatalogueApiError,
   type CatalogueResultsList,
 } from '@weco/common/model/catalogue';
-import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -29,6 +29,8 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
   query: ?string,
@@ -43,7 +45,7 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType } = useContext(
+  const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
     CatalogueSearchContext
   );
   const trackEvent = () => {
@@ -150,37 +152,28 @@ const Works = ({ works }: Props) => {
           <BetaBar />
         </Layout12>
 
-        <div
-          className={classNames([
-            'row bg-cream',
-            spacing({ s: 3, m: 5 }, { padding: ['top'] }),
-            spacing({ s: 3, m: 4, l: 6 }, { padding: ['bottom'] }),
-          ])}
+        <VerticalSpace
+          size="l"
+          properties={['padding-top', 'padding-bottom']}
+          className={classNames(['row bg-cream'])}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <div
+                <VerticalSpace
+                  size="m"
                   className={classNames([
                     'flex flex--h-space-between flex--v-center flex--wrap',
-                    spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
                   <>
                     {!works && (
-                      <h1
-                        className={classNames([
-                          font({ s: 'WB6', m: 'WB4' }),
-                          spacing({ s: 2 }, { margin: ['bottom'] }),
-                          spacing({ s: 4 }, { margin: ['right'] }),
-                          spacing({ s: 0 }, { margin: ['top'] }),
-                        ])}
-                      >
+                      <VerticalSpace as="h1" size="m" className="h1">
                         Explore our collections
-                      </h1>
+                      </VerticalSpace>
                     )}
                   </>
-                </div>
+                </VerticalSpace>
               </div>
             </div>
 
@@ -188,7 +181,7 @@ const Works = ({ works }: Props) => {
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
                 <p
                   className={classNames({
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                    [font('hnl', 4)]: true,
                     'visually-hidden': Boolean(works),
                   })}
                   id="search-form-description"
@@ -205,60 +198,83 @@ const Works = ({ works }: Props) => {
               </div>
             </div>
           </div>
-        </div>
+        </VerticalSpace>
 
         {!works && <StaticWorksContent />}
 
         {works && (
           <Layout12>
-            <TabNav
-              large={true}
-              items={[
-                {
-                  text: 'All',
-                  link: worksUrl({
-                    query,
-                    workType: undefined,
-                    page: 1,
-                  }),
-                  selected: !workType,
-                },
-                {
-                  text: 'Books',
-                  link: worksUrl({
-                    query,
-                    workType: ['a', 'v'],
-                    page: 1,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('a') !== -1 &&
-                      workType.indexOf('v') !== -1)
-                  ),
-                },
-                {
-                  text: 'Pictures',
-                  link: worksUrl({
-                    query,
-                    workType: ['k', 'q'],
-                    page: 1,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('k') !== -1 &&
-                      workType.indexOf('q') !== -1)
-                  ),
-                },
-              ]}
-            />
+            <TogglesContext.Consumer>
+              {({ audioVideoInSearch }) => {
+                const items = [
+                  {
+                    text: 'All',
+                    link: worksUrl({
+                      query,
+                      workType: undefined,
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                    }),
+                    selected: !workType,
+                  },
+                  {
+                    text: 'Books',
+                    link: worksUrl({
+                      query,
+                      workType: ['a', 'v'],
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('a') !== -1 &&
+                        workType.indexOf('v') !== -1)
+                    ),
+                  },
+                  {
+                    text: 'Pictures',
+                    link: worksUrl({
+                      query,
+                      workType: ['k', 'q'],
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('k') !== -1 &&
+                        workType.indexOf('q') !== -1)
+                    ),
+                  },
+                ];
+                if (audioVideoInSearch) {
+                  items.push({
+                    text: 'Audio/Video',
+                    link: worksUrl({
+                      query,
+                      workType: ['f', 's'],
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                    }),
+                    selected: !!(
+                      workType &&
+                      (workType.indexOf('f') !== -1 &&
+                        workType.indexOf('s') !== -1)
+                    ),
+                  });
+                }
+                return <TabNav items={items} />;
+              }}
+            </TogglesContext.Consumer>
           </Layout12>
         )}
 
         {works && works.results.length > 0 && (
           <Fragment>
-            <div
-              className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}
-            >
+            <VerticalSpace size="l" properties={['padding-top']}>
               <div className="container">
                 <div className="grid">
                   <div
@@ -276,6 +292,8 @@ const Works = ({ works }: Props) => {
                             query,
                             workType,
                             page,
+                            _dateFrom,
+                            _dateTo,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
@@ -283,6 +301,8 @@ const Works = ({ works }: Props) => {
                               query,
                               workType,
                               page: newPage,
+                              _dateFrom,
+                              _dateTo,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -294,10 +314,11 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </VerticalSpace>
 
-            <div
-              className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}
+            <VerticalSpace
+              size="l"
+              properties={['padding-top']}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
@@ -346,11 +367,9 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
 
-              <div
-                className={`row ${spacing(
-                  { s: 10 },
-                  { padding: ['top', 'bottom'] }
-                )}`}
+              <VerticalSpace
+                size="l"
+                properties={['padding-top', 'padding-bottom']}
               >
                 <div className="container">
                   <div className="grid">
@@ -387,13 +406,13 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </VerticalSpace>
+            </VerticalSpace>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <div className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}>
+          <VerticalSpace size="l" properties={['padding-top']}>
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
@@ -401,7 +420,7 @@ const Works = ({ works }: Props) => {
                     We couldn{`'`}t find anything that matched{' '}
                     <span
                       className={classNames({
-                        [font({ s: 'HNL1' })]: true,
+                        [font('hnl', 2)]: true,
                       })}
                       style={{ fontWeight: '400' }}
                     >
@@ -412,7 +431,7 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
             </div>
-          </div>
+          </VerticalSpace>
         )}
       </CataloguePageLayout>
     </Fragment>
@@ -421,20 +440,40 @@ const Works = ({ works }: Props) => {
 
 WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
+  const _dateFrom = formatDateForApi(ctx.query._dateFrom);
+  const _dateTo = formatDateForApi(ctx.query._dateTo);
+
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
-  const { useStageApi } = ctx.query.toggles;
+  const {
+    useStageApi,
+    searchCandidateQueryMsm,
+    searchCandidateQueryBoost,
+    searchCandidateQueryMsmBoost,
+    audioVideoInSearch,
+  } = ctx.query.toggles;
+  const toggledQueryType = searchCandidateQueryMsm
+    ? 'msm'
+    : searchCandidateQueryBoost
+    ? 'boost'
+    : searchCandidateQueryMsmBoost
+    ? 'msmboost'
+    : null;
   const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType;
+  const _queryType = ctx.query._queryType || toggledQueryType;
   const defaultWorkType = ['a', 'k', 'q', 'v'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
+    : audioVideoInSearch
+    ? defaultWorkType.concat(['f', 's'])
     : defaultWorkType;
 
   const filters = {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
     _queryType,
+    ...(_dateFrom ? { _dateFrom } : {}),
+    ...(_dateTo ? { _dateTo } : {}),
   };
 
   const worksOrError =

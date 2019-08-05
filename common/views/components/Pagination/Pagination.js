@@ -1,5 +1,5 @@
 // @flow
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 
 export type Props = {|
@@ -26,7 +26,8 @@ const Pagination = ({
 }: Props) => (
   <div
     className={`pagination float-r flex-inline flex--v-center font-pewter ${font(
-      { s: 'LR3', m: 'LR2' }
+      'lr',
+      6
     )}`}
   >
     {prevPage && prevQueryString && (
@@ -36,7 +37,7 @@ const Pagination = ({
           as: prevQueryString,
         }}
         type="light"
-        extraClasses={`icon--180 ${spacing({ s: 2 }, { margin: ['right'] })}`}
+        extraClasses={`icon--180 margin-right-12`}
         icon="arrow"
         text={`Previous (page ${prevPage})`}
       />
@@ -53,7 +54,7 @@ const Pagination = ({
           as: nextQueryString,
         }}
         type="light"
-        extraClasses={`${spacing({ s: 2 }, { margin: ['left'] })}`}
+        extraClasses={`margin-left-12`}
         icon="arrow"
         text={`Next (page ${nextPage})`}
       />

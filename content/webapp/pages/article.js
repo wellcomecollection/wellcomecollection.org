@@ -6,7 +6,7 @@ import type { ArticleScheduleItem } from '@weco/common/model/article-schedule-it
 import type { PrismicApiError } from '@weco/common/services/prismic/types';
 import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -21,6 +21,7 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { ContentFormatIds } from '@weco/common/model/content-format-id';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   article: Article,
@@ -134,41 +135,41 @@ export class ArticlePage extends Component<Props, State> {
             'flex--h-baseline': true,
           })}
         >
-          <p
-            className={classNames({
-              [spacing({ s: 1 }, { margin: ['top'] })]: true,
-              [spacing({ s: 1 }, { margin: ['right'] })]: true,
-              [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
-              [font({ s: 'HNL5' })]: true,
-            })}
-          >
-            {article.contributors.length > 0 && <span>By </span>}
-
-            {article.contributors.map(({ contributor }, i, arr) => (
-              <Fragment key={contributor.id}>
-                <span
-                  className={classNames({
-                    [font({ s: 'HNM5' })]: true,
-                  })}
-                >
-                  {contributor.name}
-                </span>
-                {arr.length > 1 && i < arr.length - 2 && ', '}
-                {arr.length > 1 && i === arr.length - 2 && ' and '}
-              </Fragment>
-            ))}
-
-            {article.contributors.length > 0 && ' '}
-
-            <span
+          <VerticalSpace size="s" properties={['margin-top']}>
+            <p
               className={classNames({
-                'font-pewter': true,
-                [font({ s: 'HNL5' })]: true,
+                'no-margin': true,
+                [font('hnl', 6)]: true,
               })}
             >
-              <HTMLDate date={new Date(article.datePublished)} />
-            </span>
-          </p>
+              {article.contributors.length > 0 && <span>By </span>}
+
+              {article.contributors.map(({ contributor }, i, arr) => (
+                <Fragment key={contributor.id}>
+                  <span
+                    className={classNames({
+                      [font('hnm', 6)]: true,
+                    })}
+                  >
+                    {contributor.name}
+                  </span>
+                  {arr.length > 1 && i < arr.length - 2 && ', '}
+                  {arr.length > 1 && i === arr.length - 2 && ' and '}
+                </Fragment>
+              ))}
+
+              {article.contributors.length > 0 && ' '}
+
+              <span
+                className={classNames({
+                  'font-pewter': true,
+                  [font('hnl', 6)]: true,
+                })}
+              >
+                <HTMLDate date={new Date(article.datePublished)} />
+              </span>
+            </p>
+          </VerticalSpace>
         </div>
       </Fragment>
     );

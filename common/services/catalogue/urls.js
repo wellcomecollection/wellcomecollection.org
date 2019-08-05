@@ -14,6 +14,8 @@ type WorksUrlProps = {|
   workType?: ?(string[]),
   itemsLocationsLocationType?: ?(string[]),
   _queryType?: ?QueryType,
+  _dateFrom?: ?string,
+  _dateTo?: ?string,
 |};
 
 type WorkUrlProps = {|
@@ -26,6 +28,12 @@ type ItemUrlProps = {|
   langCode: string,
   canvas: number,
   page: ?number,
+  isOverview?: boolean,
+|};
+
+type downloadUrlProps = {|
+  workId: string,
+  sierraId: ?string,
 |};
 
 function removeEmpty(obj: Object): Object {
@@ -57,6 +65,8 @@ export function worksUrl({
   page,
   workType,
   _queryType,
+  _dateFrom,
+  _dateTo,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -66,6 +76,8 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+        _dateFrom: _dateFrom,
+        _dateTo: _dateTo,
       }),
     },
     as: {
@@ -75,6 +87,8 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+        _dateFrom: _dateFrom,
+        _dateTo: _dateTo,
       }),
     },
   };
@@ -86,6 +100,7 @@ export function itemUrl({
   sierraId,
   langCode,
   canvas,
+  isOverview,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -97,6 +112,7 @@ export function itemUrl({
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
           langCode: langCode,
+          isOverview: isOverview,
         }),
       },
     },
@@ -107,6 +123,29 @@ export function itemUrl({
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
         langCode: langCode,
+      }),
+    },
+  };
+}
+
+export function downloadUrl({
+  workId,
+  sierraId,
+}: downloadUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/download`,
+      query: {
+        workId,
+        ...removeEmpty({
+          sierraId: sierraId,
+        }),
+      },
+    },
+    as: {
+      pathname: `/works/${workId}/download`,
+      query: removeEmpty({
+        sierraId: sierraId,
       }),
     },
   };

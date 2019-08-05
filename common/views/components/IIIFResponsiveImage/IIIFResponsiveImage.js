@@ -13,6 +13,7 @@ type Props = {|
   lang: ?string,
   isLazy: boolean,
   clickHandler?: () => void | Promise<void>,
+  loadHandler?: () => void | Promise<void>,
 |};
 
 const IIIFResponsiveImage = ({
@@ -25,6 +26,7 @@ const IIIFResponsiveImage = ({
   extraClasses,
   lang,
   clickHandler,
+  loadHandler,
   isLazy,
 }: Props) => {
   return (
@@ -38,6 +40,7 @@ const IIIFResponsiveImage = ({
           [extraClasses || '']: true,
           'lazy-image lazyload': isLazy,
         })}
+        onLoad={loadHandler}
         onClick={clickHandler}
         onError={event =>
           Raven.captureException(new Error('IIIF image loading error'), {

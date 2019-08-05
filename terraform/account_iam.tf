@@ -18,3 +18,10 @@ module "account" {
 data "template_file" "pgp_key" {
   template = "${file("${path.module}/wellcomedigitalplatform.key")}"
 }
+
+module "aws_account" {
+  source = "git::https://github.com/wellcometrust/terraform.git//iam/prebuilt/account/aws?ref=1a9b2fc61027814148571a8f2769bf5165404ed0"
+
+  prefix    = "experience"
+  principal = ["${local.platform_account_root}"]
+}

@@ -48,11 +48,8 @@ const Button = forwardRef(
     }: Props,
     ref
   ) => {
+    const fontSize = type === 'tertiary' ? 6 : 5;
     const HtmlTag = url ? 'a' : 'button';
-    const fontClasses =
-      extraClasses && extraClasses.indexOf('btn--tertiary') > -1
-        ? { s: 'HNM5' }
-        : { s: 'HNM4' };
     function handleClick(e) {
       if (clickHandler) {
         clickHandler(e);
@@ -73,7 +70,8 @@ const Button = forwardRef(
           rel={rel}
           id={id}
           className={`btn btn--${type} ${extraClasses || ''} ${font(
-            fontClasses
+            'hnm',
+            fontSize
           )} flex-inline flex--v-center`}
           onClick={handleClick}
           disabled={disabled}
@@ -95,10 +93,12 @@ const Button = forwardRef(
         rel={rel}
         id={id}
         className={`btn btn--${type} ${extraClasses || ''} ${font(
-          fontClasses
+          'hnm',
+          fontSize
         )} flex-inline flex--v-center`}
         onClick={handleClick}
         disabled={disabled}
+        type={url ? null : 'button'}
       >
         <span className="flex-inline flex--v-center">
           {icon && <Icon name={icon} />}

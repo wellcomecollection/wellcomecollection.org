@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import { classNames, spacing, font } from '../../../common/utils/classnames';
+import { classNames, font } from '../../../common/utils/classnames';
 import PageHeader from '../../../common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '../../../common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import Picture from '../../../common/views/components/Picture/Picture';
@@ -32,24 +32,22 @@ const ContentTypeInfo = (
     >
       <p
         className={classNames({
-          [spacing({ s: 1 }, { margin: ['top'] })]: true,
-          [spacing({ s: 1 }, { margin: ['right'] })]: true,
-          [spacing({ s: 0 }, { margin: ['bottom'] })]: true,
-          [font({ s: 'HNL5' })]: true,
+          'margin-right-6': true,
+          [font('hnl', 5)]: true,
         })}
       >
         <span>By </span>
         <span
           className={classNames({
-            [font({ s: 'HNM5' })]: true,
+            [font('hnm', 5)]: true,
           })}
         >
           Naomi Paxton
         </span>{' '}
         <span
           className={classNames({
+            [font('hnl', 5)]: true,
             'font-pewter': true,
-            [font({ s: 'HNL5' })]: true,
           })}
         >
           17 April 2019

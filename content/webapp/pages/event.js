@@ -17,7 +17,7 @@ import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import type { UiEvent } from '@weco/common/model/events';
-import { spacing, font, classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import camelize from '@weco/common/utils/camelize';
 import {
   formatDayDate,
@@ -33,6 +33,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked } from '@weco/common/model/events';
 import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
 
 type Props = {|
   event: UiEvent,
@@ -46,13 +47,8 @@ type State = {|
 function EventStatus(text, color) {
   return (
     <div className="flex">
-      <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
-        <span
-          className={`${spacing(
-            { s: 1 },
-            { margin: ['right'] }
-          )} flex flex--v-center`}
-        >
+      <div className={`${font('hnm', 6)} flex flex--v-center`}>
+        <span className={`margin-right-6 flex flex--v-center`}>
           <Icon
             name="statusIndicator"
             extraClasses={`icon--match-text icon--${color}`}
@@ -70,12 +66,11 @@ function DateList(event) {
       <Fragment>
         {event.times.map((eventTime, index) => {
           return (
-            <div
+            <VerticalSpace
+              size="m"
+              properties={['padding-top', 'padding-bottom']}
               key={index}
-              className={`flex flex--h-space-between border-top-width-1 border-color-pumice ${spacing(
-                { s: 2 },
-                { padding: ['top', 'bottom'] }
-              )}`}
+              className={`flex flex--h-space-between border-top-width-1 border-color-pumice`}
             >
               <div
                 className={`${
@@ -93,7 +88,7 @@ function DateList(event) {
               ) : eventTime.isFullyBooked ? (
                 EventStatus('Full', 'red')
               ) : null}
-            </div>
+            </VerticalSpace>
           );
         })}
       </Fragment>
@@ -273,21 +268,21 @@ class EventPage extends Component<Props, State> {
         }
         ContentTypeInfo={
           <Fragment>
-            <div
+            <VerticalSpace
+              size="s"
               className={classNames({
                 'flex flex--wrap': true,
-                [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
               })}
             >
               <EventDateRange event={event} />
               <div
                 className={classNames({
-                  [spacing({ s: 0, m: 2 }, { margin: ['left'] })]: true,
+                  'margin-left-12': true,
                 })}
               >
                 {!event.isPast && <EventDatesLink id={event.id} />}
               </div>
-            </div>
+            </VerticalSpace>
             {event.isPast && EventStatus('Past', 'marble')}
             {!event.isPast &&
               isEventFullyBooked(event) &&
@@ -355,7 +350,11 @@ class EventPage extends Component<Props, State> {
 
           {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
             <Fragment>
-              {event.eventbriteId && <EventbriteButton event={event} />}
+              {event.eventbriteId && (
+                <VerticalSpace size="m">
+                  <EventbriteButton event={event} />
+                </VerticalSpace>
+              )}
 
               {event.thirdPartyBooking && (
                 <Fragment>
@@ -381,16 +380,16 @@ class EventPage extends Component<Props, State> {
                         text="Check for tickets"
                       />
                       {event.thirdPartyBooking.name && (
-                        <p
-                          className={`font-charcoal ${font({
-                            s: 'HNL5',
-                          })} ${spacing(
-                            { s: 1 },
-                            { margin: ['top'] }
-                          )} ${spacing({ s: 0 }, { margin: ['bottom'] })}`}
-                        >
-                          with {event.thirdPartyBooking.name}
-                        </p>
+                        <VerticalSpace size="s" properties={['margin-top']}>
+                          <p
+                            className={`no-margin font-charcoal ${font(
+                              'hnl',
+                              5
+                            )}`}
+                          >
+                            with {event.thirdPartyBooking.name}
+                          </p>
+                        </VerticalSpace>
                       )}
                     </Fragment>
                   )}
@@ -404,9 +403,7 @@ class EventPage extends Component<Props, State> {
                   ) : (
                     <Button
                       type="primary"
-                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${
-                        event.title
-                      }`}
+                      url={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                       trackingEvent={{
                         category: 'component',
                         action: 'booking-tickets:click',
@@ -429,16 +426,19 @@ class EventPage extends Component<Props, State> {
                         ? event.bookingEnquiryTeam.email
                         : ''
                     }?subject=${event.title}`}
+                    passHref
                   >
-                    <a
+                    <VerticalSpace
+                      as="a"
+                      size="s"
+                      properties={['margin-top']}
                       className={classNames({
                         'block font-charcoal': true,
-                        [spacing({ s: 1 }, { margin: ['top'] })]: true,
-                        [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                        [font('hnm', 5)]: true,
                       })}
                     >
                       <span>{event.bookingEnquiryTeam.email}</span>
-                    </a>
+                    </VerticalSpace>
                   </NextLink>
                 </Fragment>
               )}
@@ -448,18 +448,14 @@ class EventPage extends Component<Props, State> {
                 !(event.schedule && event.schedule.length > 1) && (
                   <Fragment>
                     {!event.hasEarlyRegistration && !event.cost && (
-                      <div
-                        className={spacing({ s: 4 }, { margin: ['bottom'] })}
-                      >
+                      <VerticalSpace size="l">
                         <Message text="Just turn up" />
-                      </div>
+                      </VerticalSpace>
                     )}
                     {event.hasEarlyRegistration && (
-                      <div
-                        className={spacing({ s: 4 }, { margin: ['bottom'] })}
-                      >
+                      <VerticalSpace size="l">
                         <Message text="Arrive early to register" />
-                      </div>
+                      </VerticalSpace>
                     )}
                   </Fragment>
                 )}
@@ -496,7 +492,7 @@ class EventPage extends Component<Props, State> {
                   )
                   .filter(Boolean)}
               >
-                <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+                <p className={`no-margin ${font('hnl', 5)}`}>
                   <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
                     Our event terms and conditions
                   </a>

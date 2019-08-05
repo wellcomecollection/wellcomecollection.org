@@ -9,6 +9,10 @@ import { classNames, font, spacing } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -39,15 +43,106 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+// For search term "Darwin"
+const twentyYearRange = [
+  {
+    from: '1780',
+    to: '1800',
+    results: 22,
+  },
+  {
+    from: '1800',
+    to: '1820',
+    results: 14,
+  },
+  {
+    from: '1820',
+    to: '1840',
+    results: 6,
+  },
+  {
+    from: '1840',
+    to: '1860',
+    results: 7,
+  },
+  {
+    from: '1860',
+    to: '1880',
+    results: 61,
+  },
+  {
+    from: '1880',
+    to: '1900',
+    results: 66,
+  },
+  {
+    from: '1900',
+    to: '1920',
+    results: 33,
+  },
+  {
+    from: '1920',
+    to: '1940',
+    results: 11,
+  },
+  {
+    from: '1940',
+    to: '1960',
+    results: 6,
+  },
+  {
+    from: '1960',
+    to: '1980',
+    results: 8,
+  },
+  {
+    from: '1980',
+    to: '2000',
+    results: 6,
+  },
+  {
+    from: '2000',
+    to: '2020',
+    results: 3,
+  },
+];
+
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const { query, workType, _queryType, setQueryType } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    workType,
+    _queryType,
+    setQueryType,
+    _dateFrom,
+    _dateTo,
+  } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  const [showSlider, setShowSlider] = useState(true);
+
+  const dateRangeItems = twentyYearRange.map(range => {
+    return {
+      text: `${range.from}-${range.to} (${range.results})`,
+      link: worksUrl({
+        query,
+        workType,
+        page: 1,
+        _dateFrom: range.from,
+        _dateTo: range.to,
+      }),
+      selected: !!(
+        _dateFrom &&
+        _dateFrom === range.from &&
+        _dateTo &&
+        _dateTo === range.to
+      ),
+    };
+  });
 
   const [showBoosters, setShowBoosters] = useState(false);
 
@@ -59,7 +154,34 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     if (query !== inputQuery) {
       setInputQuery(query);
     }
-  }, [query]);
+
+    if (_dateFrom !== inputDateFrom) {
+      setInputDateFrom(_dateFrom);
+    }
+
+    if (_dateTo !== inputDateTo) {
+      setInputDateTo(_dateTo);
+    }
+  }, [query, _dateFrom, _dateTo]);
+
+  useEffect(() => {
+    if (inputDateFrom !== _dateFrom || inputDateTo !== _dateTo) {
+      updateUrl();
+    }
+  }, [inputDateFrom, inputDateTo]);
+
+  function updateUrl() {
+    const link = worksUrl({
+      query: inputQuery,
+      workType,
+      page: 1,
+      _queryType,
+      _dateFrom: inputDateFrom,
+      _dateTo: inputDateTo,
+    });
+
+    typeof window !== 'undefined' && Router.push(link.href, link.as);
+  }
 
   return (
     <>
@@ -75,14 +197,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             label: query,
           });
 
-          const link = worksUrl({
-            query: inputQuery,
-            workType,
-            page: 1,
-            _queryType,
-          });
-
-          Router.push(link.href, link.as);
+          updateUrl();
 
           return false;
         }}
@@ -97,9 +212,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               autoFocus={inputQuery === ''}
               onChange={event => setInputQuery(event.currentTarget.value)}
               ref={searchInput}
-              className={font({
-                s: compact ? 'HNL4' : 'HNL3',
-                m: compact ? 'HNL3' : 'HNL2',
+              className={classNames({
+                [font('hnl', compact ? 4 : 3)]: true,
               })}
             />
 
@@ -131,7 +245,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                 'full-height': true,
                 'line-height-1': true,
                 'plain-button no-padding': true,
-                [font({ s: 'HNL3', m: 'HNL2' })]: true,
+                [font('hnl', 3)]: true,
               })}
             >
               <span className="visually-hidden">Search</span>
@@ -286,6 +400,91 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               </label>
             )
           }
+        </TogglesContext.Consumer>
+
+        <TogglesContext.Consumer>
+          {({
+            showDatesPrototype,
+            showDatesSliderPrototype,
+            showDatesAggregatePrototype,
+          }) => (
+            <>
+              {(showDatesPrototype || showDatesSliderPrototype) &&
+                !showDatesAggregatePrototype && (
+                  <VerticalSpace size="m" properties={['margin-top']}>
+                    <div
+                      style={{
+                        display: showDatesSliderPrototype ? 'none' : 'block',
+                      }}
+                    >
+                      <VerticalSpace size="s" properties={['margin-top']}>
+                        <label>
+                          from:{' '}
+                          <input
+                            value={inputDateFrom || ''}
+                            onChange={event => {
+                              setInputDateFrom(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>{' '}
+                        <label>
+                          to:{' '}
+                          <input
+                            value={inputDateTo || ''}
+                            onChange={event => {
+                              setInputDateTo(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>
+                      </VerticalSpace>
+                      <VerticalSpace size="m" properties={['margin-top']}>
+                        <Button
+                          type="primary"
+                          text="Clear dates"
+                          clickHandler={() => {
+                            setInputDateFrom('');
+                            setInputDateTo('');
+                          }}
+                        />
+                      </VerticalSpace>
+                    </div>
+                    {showDatesSliderPrototype && !showDatesAggregatePrototype && (
+                      <>
+                        {showSlider && (
+                          <DateSlider
+                            startValues={{
+                              to: inputDateTo,
+                              from: inputDateFrom,
+                            }}
+                            updateFrom={setInputDateFrom}
+                            updateTo={setInputDateTo}
+                          />
+                        )}
+                        <button
+                          type="button"
+                          className="plain-button underline-on-hover no-visible-focus"
+                          onClick={() => {
+                            setShowSlider(!showSlider);
+                            if (showSlider) {
+                              setInputDateFrom('');
+                              setInputDateTo('');
+                            }
+                          }}
+                        >
+                          {showSlider ? 'Clear dates' : 'Show date filter'}
+                        </button>
+                      </>
+                    )}
+                  </VerticalSpace>
+                )}
+              {showDatesAggregatePrototype &&
+                (inputQuery && inputQuery.toLowerCase() === 'darwin') && (
+                  <TabNav items={dateRangeItems} />
+                )}
+            </>
+          )}
         </TogglesContext.Consumer>
       </form>
     </>

@@ -56,13 +56,13 @@ export function getDownloadOptionsFromManifest(
         return acc.concat(
           sequence.elements
             .map(element => {
-              if (element.format === 'application/pdf') {
-                return {
-                  '@id': element['@id'],
-                  format: element.format,
-                  label: 'Download PDF',
-                };
-              }
+              return {
+                '@id': element['@id'],
+                format: element.format,
+                label: `Download ${
+                  element.format === 'application/pdf' ? 'PDF' : 'file'
+                }`,
+              };
             })
             .filter(Boolean)
         );
@@ -99,12 +99,39 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
+function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
+  return iiifManifest.manifests || null;
+}
+
 export function getManifestViewType(iiifManifest: IIIFManifest) {
+  const manifests = getManifests(iiifManifest);
+  const video =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  const audio =
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
   const canvases = getCanvases(iiifManifest);
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return canvases.length > 0 ? 'iiif' : pdfRendering ? 'pdf' : 'none';
+  return manifests
+    ? 'multi'
+    : audio
+    ? 'audio'
+    : video
+    ? 'video'
+    : canvases.length > 0
+    ? 'iiif'
+    : pdfRendering
+    ? 'pdf'
+    : 'none';
 }
 
 export type IIIFPresentationLocation = {|
@@ -154,4 +181,14 @@ const workTypeIcons = {
 };
 export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
+}
+
+export function getLocationType(work: Work, locationType: string) {
+  const [item] = work.items
+    .map(item =>
+      item.locations.find(location => location.locationType.id === 'iiif-image')
+    )
+    .filter(Boolean);
+
+  return item;
 }

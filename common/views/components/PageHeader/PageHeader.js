@@ -1,6 +1,6 @@
 // @flow
 
-import { font, spacing, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
@@ -14,6 +14,32 @@ import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import { breakpoints } from '../../../utils/breakpoints';
 import type { Node, Element, ElementProps } from 'react';
 import type { GenericContentFields } from '../../../model/generic-content-fields';
+import VerticalSpace from '../styled/VerticalSpace';
+import styled from 'styled-components';
+
+const HeroPictureBackground = styled.div`
+  height: 50%;
+  width: 100%;
+  bottom: -${props => props.theme.spaceAtBreakpoints.small.xl}px;
+
+  ${props => props.theme.media.medium`
+    bottom: -${props => props.theme.spaceAtBreakpoints.medium.xl}px;
+  `}
+
+  ${props => props.theme.media.large`
+    bottom: -${props => props.theme.spaceAtBreakpoints.large.xl}px;
+  `}
+`;
+
+const HeroPictureContainer = styled.div`
+  max-width: 1450px;
+  margin: 0 auto;
+
+  ${props => props.theme.media.medium`
+    padding-left: 24px;
+    padding-right: 24px;
+  `}
+`;
 
 export type FeaturedMedia =
   | Element<typeof UiImage>
@@ -133,9 +159,8 @@ const PageHeader = ({
             <FreeSticker />
           </div>
         )}
-
-        <div className={spacing({ s: 3, m: 4 }, { padding: ['top'] })}>
-          <div className={spacing({ s: 2, m: 3 }, { margin: ['bottom'] })}>
+        <VerticalSpace size="l" properties={['margin-top', 'margin-bottom']}>
+          <VerticalSpace size="m">
             {!asyncBreadcrumbsRoute && <Breadcrumb {...breadcrumbs} />}
             {asyncBreadcrumbsRoute && (
               <div
@@ -148,64 +173,42 @@ const PageHeader = ({
                 <Breadcrumb {...breadcrumbs} />
               </div>
             )}
-          </div>
-          {TitleTopper}
-          {Heading}
+          </VerticalSpace>
+          <VerticalSpace size="xs">
+            {TitleTopper}
+            {Heading}
+          </VerticalSpace>
 
           {ContentTypeInfo && (
-            <div
+            <VerticalSpace
+              size="m"
               className={classNames({
-                [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                [spacing({ s: 1 }, { margin: ['top'] })]: true,
+                [font('hnl', 4)]: true,
               })}
             >
               {ContentTypeInfo}
-            </div>
+            </VerticalSpace>
           )}
 
-          {labels && labels.labels.length > 0 && (
-            <div
-              className={classNames({
-                [spacing({ s: 2, m: 3 }, { margin: ['top'] })]: true,
-              })}
-            >
-              <LabelsList {...labels} />
-            </div>
-          )}
-
-          {FeaturedMedia && (
-            <div
-              className={`${spacing({ s: 4 }, { margin: ['top'] })} relative`}
-            >
-              {FeaturedMedia}
-            </div>
-          )}
-        </div>
+          {labels && labels.labels.length > 0 && <LabelsList {...labels} />}
+        </VerticalSpace>
+        <div className="relative">{FeaturedMedia}</div>
       </Layout10>
 
       {HeroPicture && (
         <div
           className={classNames({
             relative: true,
-            [spacing({ s: 3, m: 4 }, { padding: ['top'] })]: true,
           })}
           style={{ height: '100%' }}
         >
-          <div
-            className={classNames({
-              [`bg-${heroImageBgColor}`]: true,
-              'hero-picture-bg absolute': true,
-            })}
+          <HeroPictureBackground
+            className={`bg-${heroImageBgColor} absolute`}
           />
-          <div
-            style={{ maxWidth: '1450px' }}
-            className={classNames({
-              'margin-h-auto': true,
-              [spacing({ m: 4 }, { padding: ['left', 'right'] })]: true,
-            })}
-          >
+
+          <HeroPictureContainer>
             <WobblyBottom color={heroImageBgColor}>{HeroPicture}</WobblyBottom>
-          </div>
+          </HeroPictureContainer>
         </div>
       )}
     </div>
