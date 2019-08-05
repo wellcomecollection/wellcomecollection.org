@@ -132,8 +132,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         query,
         workType,
         page: 1,
-        _dateFrom: range.from,
-        _dateTo: range.to,
+        _dateFrom: `${range.from}-01-01`,
+        _dateTo: `${range.to}-01-01`,
       }),
       selected: !!(
         _dateFrom &&
