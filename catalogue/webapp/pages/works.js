@@ -440,7 +440,7 @@ const Works = ({ works }: Props) => {
                     {(_dateFrom || _dateTo) && (
                       <> within the date range provided</>
                     )}
-                    .
+                    . Please try different search terms or attributes.
                   </p>
                 </div>
               </div>
