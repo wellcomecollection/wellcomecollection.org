@@ -412,7 +412,10 @@ const Works = ({ works }: Props) => {
         )}
 
         {works && works.results.length === 0 && (
-          <VerticalSpace size="l" properties={['padding-top']}>
+          <VerticalSpace
+            size="xl"
+            properties={['padding-top', 'padding-bottom']}
+          >
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
@@ -440,7 +443,7 @@ const Works = ({ works }: Props) => {
                     {(_dateFrom || _dateTo) && (
                       <> within the date range provided</>
                     )}
-                    . Please try different search terms or attributes.
+                    . Please try again.
                   </p>
                 </div>
               </div>
