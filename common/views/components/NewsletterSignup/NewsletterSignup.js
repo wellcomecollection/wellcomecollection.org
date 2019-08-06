@@ -1,7 +1,6 @@
 // @flow
 import { font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
-import Button from '../Buttons/Button/Button';
 import { Component, Fragment } from 'react';
 import Space from '../styled/Space';
 
@@ -239,11 +238,7 @@ class NewsletterSignup extends Component<Props, State> {
             </p>
 
             <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <Button
-                type={'primary'}
-                extraClasses={`btn--primary`}
-                text="Submit"
-              />
+              <button className="btn btn--primary">Submit</button>
             </Space>
 
             {this.state.isCheckboxError && this.state.isSubmitAttempted && (

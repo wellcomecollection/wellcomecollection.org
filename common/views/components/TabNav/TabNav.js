@@ -97,7 +97,10 @@ const NavItem = ({
       <TogglesContext.Consumer>
         {({ showDatesAggregatePrototype }) => (
           <>
-            {!showDatesAggregatePrototype && (
+            {showDatesAggregatePrototype &&
+            (text !== 'All' && text !== 'Pictures' && text !== 'Books') ? (
+              <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
+            ) : (
               <NavItemInner
                 as="span"
                 h={{ size: 'm', properties: ['margin-right'] }}
@@ -105,9 +108,6 @@ const NavItem = ({
               >
                 {text}
               </NavItemInner>
-            )}
-            {showDatesAggregatePrototype && (
-              <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
             )}
           </>
         )}

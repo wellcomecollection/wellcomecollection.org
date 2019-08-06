@@ -132,8 +132,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         query,
         workType,
         page: 1,
-        _dateFrom: range.from,
-        _dateTo: range.to,
+        _dateFrom: `${range.from}-01-01`,
+        _dateTo: `${range.to}-01-01`,
       }),
       selected: !!(
         _dateFrom &&
@@ -337,23 +337,27 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                             updateTo={setInputDateTo}
                           />
                         )}
-                        <Button
-                          type="primary"
-                          text={showSlider ? 'Clear dates' : 'Show date filter'}
-                          clickHandler={() => {
+                        <button
+                          type="button"
+                          className="plain-button underline-on-hover no-visible-focus"
+                          onClick={() => {
                             setShowSlider(!showSlider);
                             if (showSlider) {
                               setInputDateFrom('');
                               setInputDateTo('');
                             }
                           }}
-                        />
+                        >
+                          {showSlider ? 'Clear dates' : 'Show date filter'}
+                        </button>
                       </>
                     )}
                   </Space>
                 )}
               {showDatesAggregatePrototype &&
-                (inputQuery && inputQuery.toLowerCase() === 'darwin') && (
+                (query &&
+                  inputQuery &&
+                  inputQuery.toLowerCase() === 'darwin') && (
                   <TabNav items={dateRangeItems} />
                 )}
             </>
