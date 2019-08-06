@@ -469,7 +469,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsm,
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
-    audioVideoInSearch,
     showDatesPrototype,
     showDatesSliderPrototype,
   } = ctx.query.toggles;
@@ -482,11 +481,9 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     : null;
   const workTypeQuery = ctx.query.workType;
   const _queryType = ctx.query._queryType || toggledQueryType;
-  const defaultWorkType = ['a', 'k', 'q', 'v'];
+  const defaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
-    : audioVideoInSearch
-    ? defaultWorkType.concat(['f', 's'])
     : defaultWorkType;
 
   const filters = {
