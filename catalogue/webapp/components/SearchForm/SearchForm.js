@@ -143,6 +143,15 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       ),
     };
   });
+  dateRangeItems.push({
+    text: `unknown (299)`,
+    link: worksUrl({
+      query,
+      workType,
+      page: 1,
+    }),
+    selected: !!false,
+  });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
