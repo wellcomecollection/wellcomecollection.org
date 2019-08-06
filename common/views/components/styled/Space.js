@@ -1,13 +1,17 @@
 // @flow
 import styled from 'styled-components';
 import type { ComponentType } from 'react';
-// This component will output vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
+// This component will output horizontal/vertical space from one of five pre-defined sizes: xs, s, m, l, and xl.
 // Each of these sizes has a pixel value for each of the three breakpoints, 'small', 'medium', and 'large'.
-// The component expects a `size` prop, and by default will use `margin-bottom` to add space.
-// This can be overriden to include one or more of `margin-top`, `margin-bottom`, `padding-top`, `padding-bottom`, `top`, and `bottom`.
+// The component can receive `h` and/or `v` props to determine the horizontal/vertical space respectively.
 
-// <Space size='s' /> -- outputs a small amount of (default) margin-bottom
-// <Space size='xl' properties=`{['padding-top', 'padding-bottom']}` /> -- outputs extra-large padding-top and padding-bottom
+// An example Space component which outputs a small amount of space to the left via padding, and a large amount of
+// space top and bottom via margins:
+
+// <Space
+//   h={size: 's', properties: ['padding-left'],
+//   v={size: 'l', properties: ['margin-top', 'margin-bottom']}}
+// />
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type VerticalSpaceProperty =
