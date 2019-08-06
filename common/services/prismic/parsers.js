@@ -612,17 +612,17 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             },
           };
 
-        case 'gifVideo':
-          return {
-            type: 'gifVideo',
-            weight: slice.slice_label,
-            value: {
-              caption: parseRichText(slice.primary.caption),
-              videoUrl: slice.primary.video && slice.primary.video.url,
-              playbackRate: slice.primary.playbackRate || 1,
-              tasl: parseTaslFromString(slice.primary.tasl),
-            },
-          };
+        // case 'gifVideo':
+        //   return {
+        //     type: 'gifVideo',
+        //     weight: slice.slice_label,
+        //     value: {
+        //       caption: parseRichText(slice.primary.caption),
+        //       videoUrl: slice.primary.video && slice.primary.video.url,
+        //       playbackRate: slice.primary.playbackRate || 1,
+        //       tasl: parseTaslFromString(slice.primary.tasl),
+        //     },
+        //   };
 
         case 'contact':
           return {
@@ -651,18 +651,20 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             const apiUrl = embed.html.match(/url=([^&]*)&/);
             const secretToken = embed.html.match(/secret_token=([^"]*)"/);
 
-            return {
-              type: 'soundcloudEmbed',
-              weight: getWeight(slice.slice_label),
-              value: {
-                embedUrl: `https://w.soundcloud.com/player/?url=${
-                  apiUrl[1]
-                }%3Fsecret_token%3D${
-                  secretToken[1]
-                }&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
-                caption: slice.primary.caption,
-              },
-            };
+            return (
+              secretToken && {
+                type: 'soundcloudEmbed',
+                weight: getWeight(slice.slice_label),
+                value: {
+                  embedUrl: `https://w.soundcloud.com/player/?url=${
+                    apiUrl[1]
+                  }%3Fsecret_token%3D${
+                    secretToken[1]
+                  }&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                  caption: slice.primary.caption,
+                },
+              }
+            );
           }
 
           if (embed.provider_name === 'YouTube') {
