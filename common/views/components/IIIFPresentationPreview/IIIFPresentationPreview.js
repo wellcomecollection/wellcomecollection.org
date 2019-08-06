@@ -379,9 +379,7 @@ const IIIFPresentationDisplay = ({
 
   if (viewType === 'video' && video) {
     return (
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+      <WobblyRow>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <video
                 controls
@@ -396,17 +394,14 @@ const IIIFPresentationDisplay = ({
                 {`Sorry, your browser doesn't support embedded video.`}
               </video>
             </Space>
-          </div>
-        </div>
-      </div>
+        </WobblyRow>
     );
   }
 
   if (viewType === 'audio' && audio) {
     return (
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+      <WobblyRow>
+
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <audio
                 controls
@@ -420,9 +415,7 @@ const IIIFPresentationDisplay = ({
                 {`Sorry, your browser doesn't support embedded audio.`}
               </audio>
             </Space>{' '}
-          </div>{' '}
-        </div>{' '}
-      </div>
+  </WobblyRow>
     );
   }
 
