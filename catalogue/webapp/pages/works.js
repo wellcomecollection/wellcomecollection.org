@@ -213,71 +213,61 @@ const Works = ({ works }: Props) => {
 
         {works && (
           <Layout12>
-            <TogglesContext.Consumer>
-              {({ audioVideoInSearch }) => {
-                const items = [
-                  {
-                    text: 'All',
-                    link: worksUrl({
-                      query,
-                      workType: undefined,
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !workType,
-                  },
-                  {
-                    text: 'Books',
-                    link: worksUrl({
-                      query,
-                      workType: ['a', 'v'],
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !!(
-                      workType &&
-                      (workType.indexOf('a') !== -1 &&
-                        workType.indexOf('v') !== -1)
-                    ),
-                  },
-                  {
-                    text: 'Pictures',
-                    link: worksUrl({
-                      query,
-                      workType: ['k', 'q'],
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !!(
-                      workType &&
-                      (workType.indexOf('k') !== -1 &&
-                        workType.indexOf('q') !== -1)
-                    ),
-                  },
-                ];
-                if (audioVideoInSearch) {
-                  items.push({
-                    text: 'Audio/Video',
-                    link: worksUrl({
-                      query,
-                      workType: ['f', 's'],
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !!(
-                      workType &&
-                      (workType.indexOf('f') !== -1 &&
-                        workType.indexOf('s') !== -1)
-                    ),
-                  });
-                }
-                return <TabNav items={items} />;
-              }}
-            </TogglesContext.Consumer>
+            <TabNav
+              large={true}
+              items={[
+                {
+                  text: 'All',
+                  link: worksUrl({
+                    query,
+                    workType: undefined,
+                    page: 1,
+                  }),
+                  selected: !workType,
+                },
+                {
+                  text: 'Books',
+                  link: worksUrl({
+                    query,
+                    workType: ['a', 'v'],
+                    page: 1,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('a') !== -1 &&
+                      workType.indexOf('v') !== -1)
+                  ),
+                },
+                {
+                  text: 'Pictures',
+                  link: worksUrl({
+                    query,
+                    workType: ['k', 'q'],
+                    page: 1,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('k') !== -1 &&
+                      workType.indexOf('q') !== -1)
+                  ),
+                },
+                {
+                  text: 'Audio/Video',
+                  link: worksUrl({
+                    query,
+                    workType: ['f', 's'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('f') !== -1 &&
+                      workType.indexOf('s') !== -1)
+                  ),
+                },
+              ]}
+            />
           </Layout12>
         )}
 
