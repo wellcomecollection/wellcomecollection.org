@@ -134,6 +134,36 @@ export function getManifestViewType(iiifManifest: IIIFManifest) {
     : 'none';
 }
 
+export function getVideo(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest &&
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(
+        element => element['@type'] === 'dctypes:MovingImage'
+      )
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(
+      element => element['@type'] === 'dctypes:MovingImage'
+    )
+  );
+}
+
+export function getAudio(iiifManifest: IIIFManifest) {
+  const videoSequence =
+    iiifManifest &&
+    iiifManifest.mediaSequences &&
+    iiifManifest.mediaSequences.find(sequence =>
+      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+    );
+  return (
+    videoSequence &&
+    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+  );
+}
+
 export type IIIFPresentationLocation = {|
   locationType: {
     id: 'iiif-presentation',
