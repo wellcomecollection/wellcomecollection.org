@@ -23,11 +23,10 @@ const Breadcrumb = ({ items }: Props) => (
     {items
       .filter(({ isHidden }) => !isHidden)
       .map(({ text, url, prefix }, i) => {
-        const BoldOrSpanTag = prefix ? 'b' : 'span';
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
           <Space
-            as="span"
+            as={prefix ? 'b' : 'span'}
             h={{
               size: 'm',
               properties: [
@@ -36,25 +35,20 @@ const Breadcrumb = ({ items }: Props) => (
               ].filter(Boolean),
             }}
             key={text}
+            className={classNames({
+              [font('hnl', 5)]: true,
+              'border-left-width-1 border-color-black': i !== 0,
+            })}
           >
-            <BoldOrSpanTag
+            {prefix}{' '}
+            <LinkOrSpanTag
               className={classNames({
-                [font('hnl', 5)]: true,
-                'border-left-width-1 border-color-black': i !== 0,
+                [font('hnm', 5)]: Boolean(prefix),
               })}
-              style={{ lineHeight: 1 }}
+              href={url}
             >
-              {prefix}{' '}
-              <LinkOrSpanTag
-                className={classNames({
-                  [font('hnm', 5)]: Boolean(prefix),
-                })}
-                href={url}
-                style={{ lineHeight: 1 }}
-              >
-                {text}
-              </LinkOrSpanTag>
-            </BoldOrSpanTag>
+              {text}
+            </LinkOrSpanTag>
           </Space>
         );
       })}
