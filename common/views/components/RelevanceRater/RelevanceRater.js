@@ -1,11 +1,12 @@
 // @flow
+import { type ComponentType } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import {
   trackRelevanceRating,
   RelevanceRatingEventNames,
 } from '../Tracker/Tracker';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const RelevanceRaterStyle = styled.div.attrs(props => ({
   className: classNames({
@@ -16,11 +17,13 @@ const RelevanceRaterStyle = styled.div.attrs(props => ({
   height: 100%;
 `;
 
-const RelevanceRating = styled(Space).attrs(props => ({
-  className: classNames({
-    'plain-button': true,
-  }),
-}))`
+const RelevanceRating: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'plain-button': true,
+    }),
+  })
+)`
   width: 25%;
   cursor: pointer;
   border: 1px solid ${props => props.theme.colors.smoke};

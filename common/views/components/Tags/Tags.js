@@ -1,16 +1,17 @@
 // @flow
-import styled from 'styled-components';
+import type { ComponentType } from 'react';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 export type TagType = {|
   textParts: string[],
   linkAttributes: NextLinkType,
 |};
 
-const Tag = styled(Space)`
+const Tag: ComponentType<SpaceComponentProps> = styled(Space)`
   border-radius: 3px;
   text-decoration: none;
   padding: 0.2em 0.5em;

@@ -42,7 +42,7 @@ type HorizontalSpaceProps = {|
   negative?: boolean,
 |};
 
-type SpaceComponentProps = {
+export type SpaceComponentProps = {
   v?: VerticalSpaceProps,
   h?: HorizontalSpaceProps,
 };

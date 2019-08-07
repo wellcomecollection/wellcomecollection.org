@@ -10,7 +10,7 @@ import {
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -34,7 +34,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Router from 'next/router';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const headerHeight = 149;
 
@@ -146,11 +146,13 @@ const IIIFViewer = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewerMain = styled(Space).attrs(props => ({
-  className: classNames({
-    'relative bg-charcoal font-white': true,
-  }),
-}))`
+const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'relative bg-charcoal font-white': true,
+    }),
+  })
+)`
   noscript & {
     height: 80%;
     @media (min-width: ${props => props.theme.sizes.medium}px) {

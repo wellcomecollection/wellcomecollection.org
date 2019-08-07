@@ -1,4 +1,5 @@
 // @flow
+import { type ComponentType } from 'react';
 import { type Context } from 'next';
 import {
   type Work,
@@ -16,11 +17,15 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+import Space, {
+  type SpaceComponentProps,
+} from '@weco/common/views/components/styled/Space';
 
-const IframePdfViewer = styled(Space).attrs({
-  className: 'h-center',
-})`
+const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  {
+    className: 'h-center',
+  }
+)`
   width: 90vw;
   height: 90vh;
   display: block;
