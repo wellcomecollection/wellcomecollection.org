@@ -7,7 +7,7 @@ import Icon from '../Icon/Icon';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   event: UiEvent,
@@ -58,17 +58,22 @@ const EventPromo = ({
         )}
       </div>
 
-      <VerticalSpace
-        size="m"
-        properties={['padding-top', 'padding-bottom']}
+      <Space
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
           'flex flex--column flex-1 flex--h-space-between': true,
-          'padding-left-12 padding-right-12': true,
         })}
       >
         <div>
-          <VerticalSpace
-            size="s"
+          <Space
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             as="h2"
             className={classNames({
               'promo-link__title': true,
@@ -76,7 +81,7 @@ const EventPromo = ({
             })}
           >
             {event.title}
-          </VerticalSpace>
+          </Space>
 
           {!isPast && (
             <p className={`${font('hnl', 5)} no-padding no-margin`}>
@@ -102,12 +107,16 @@ const EventPromo = ({
 
           {!isPast && fullyBooked && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
-              <span className={`margin-right-6 flex flex--v-center`}>
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`flex flex--v-center`}
+              >
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--red icon--match-text'}
                 />
-              </span>
+              </Space>
               Fully booked
             </div>
           )}
@@ -125,27 +134,31 @@ const EventPromo = ({
 
           {isPast && (
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
-              <span className={`margin-right-6 flex flex--v-center`}>
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`flex flex--v-center`}
+              >
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--marble icon--match-text'}
                 />
-              </span>
+              </Space>
               Past
             </div>
           )}
         </div>
 
         {event.series.length > 0 && (
-          <VerticalSpace size="l" properties={['margin-top']}>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {event.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
               </p>
             ))}
-          </VerticalSpace>
+          </Space>
         )}
-      </VerticalSpace>
+      </Space>
     </a>
   );
 };

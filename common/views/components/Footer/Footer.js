@@ -11,7 +11,7 @@ import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
 import type Moment from 'moment';
 import styled from 'styled-components';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const TopBorderBox = styled.div`
   @media (min-width: ${props => props.theme.sizes.large}px) {
@@ -51,39 +51,47 @@ const Footer = ({
       <div className="container">
         <div className="grid">
           <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
-            <VerticalSpace
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="h3"
-              size="m"
               className={`footer__heading relative ${font('hnl', 4)}`}
             >
               <span className="hidden">Wellcome collection</span>
               <a href="#" className="footer-nav__brand absolute">
                 <FooterWellcomeLogo />
               </a>
-            </VerticalSpace>
-            <VerticalSpace
-              size="m"
-              properties={['padding-top', 'padding-bottom']}
+            </Space>
+            <Space
+              v={{
+                size: 'm',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               className="border-top-width-1 border-bottom-width-1 border-color-charcoal"
             >
               <FooterNav />
-            </VerticalSpace>
+            </Space>
           </div>
           <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
-            <VerticalSpace
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="h3"
-              size="m"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
                 'hnl',
                 5
               )}`}
             >
               Finding us:
-            </VerticalSpace>
+            </Space>
             <TopBorderBox>
-              <VerticalSpace size="l" properties={['padding-top']}>
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <FindUs />
-              </VerticalSpace>
+              </Space>
             </TopBorderBox>
           </div>
           <div
@@ -92,19 +100,27 @@ const Footer = ({
               [font('hnl', 5)]: true,
             })}
           >
-            <VerticalSpace
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="h3"
-              size="m"
               className={`footer__heading hidden is-hidden-s is-hidden-m ${font(
                 'hnl',
                 5
               )}`}
             >
               {`Opening times:`}
-            </VerticalSpace>
+            </Space>
             <TopBorderBox>
-              <VerticalSpace size="l" properties={['padding-top']}>
-                <Icon name="clock" extraClasses={`float-l margin-right-12`} />
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                <Space
+                  as="span"
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                >
+                  <Icon name="clock" extraClasses={`float-l`} />
+                </Space>
                 <div
                   className={classNames({
                     [font('hnl', 5)]: true,
@@ -123,10 +139,12 @@ const Footer = ({
                         const todaysHours = getTodaysVenueHours(venue);
                         return (
                           todaysHours && (
-                            <VerticalSpace
-                              size="s"
+                            <Space
+                              v={{
+                                size: 's',
+                                properties: ['margin-top'],
+                              }}
                               as="li"
-                              properties={['margin-top']}
                               key={venue.name}
                             >
                               {venue.name.toLowerCase() === 'restaurant'
@@ -141,44 +159,45 @@ const Footer = ({
                               ) : (
                                 'closed'
                               )}
-                            </VerticalSpace>
+                            </Space>
                           )
                         );
                       }
                     )}
                   </ul>
-                  <VerticalSpace as="p" size="s" properties={['margin-top']}>
+                  <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
-                  </VerticalSpace>
+                  </Space>
                 </div>
-              </VerticalSpace>
+              </Space>
             </TopBorderBox>
           </div>
         </div>
         <FooterSocial />
         <div className="footer__bottom">
           <div className="footer__left">
-            <VerticalSpace
-              size="m"
-              properties={['margin-top', 'padding-bottom', 'margin-bottom']}
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
+              }}
               className={classNames({
                 [font('hnm', 6)]: true,
                 footer__strap: true,
               })}
             >
-              <Icon
-                name="wellcome"
-                extraClasses={classNames({
-                  'margin-right-6': true,
-                })}
-              />
+              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+                <Icon name="wellcome" />
+              </Space>
               <span className="footer__strap-text">
                 The free museum and library from Wellcome
               </span>
-            </VerticalSpace>
-            <VerticalSpace
-              size="m"
-              properties={['margin-top', 'padding-bottom', 'margin-bottom']}
+            </Space>
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
+              }}
               className={classNames({
                 [font('hnm', 6)]: true,
                 footer__licensing: true,
@@ -199,7 +218,7 @@ const Footer = ({
                   Creative Commons Attribution 4.0 International Licence
                 </a>
               </p>
-            </VerticalSpace>
+            </Space>
           </div>
           <nav className="footer__hygiene-nav">
             <ul

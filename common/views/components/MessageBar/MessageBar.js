@@ -2,16 +2,15 @@
 import { type Node } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
-const PurpleTag = styled.span.attrs(props => ({
+const PurpleTag = styled(Space).attrs(props => ({
   className: classNames({
     caps: true,
     'inline-block': true,
     'bg-purple': true,
     'font-white': true,
     [font('hnm', 5)]: true,
-    'margin-right-6': true,
   }),
 }))`
   padding: 0.2em 0.5em;
@@ -23,15 +22,27 @@ type Props = {|
 |};
 
 const MessageBar = ({ tagText, children }: Props) => (
-  <VerticalSpace
-    size="m"
-    properties={['padding-top', 'padding-bottom']}
+  <Space
+    v={{
+      size: 'm',
+      properties: ['padding-top', 'padding-bottom'],
+    }}
     className={classNames({
       [font('hnl', 5)]: true,
     })}
   >
-    {tagText && <PurpleTag>{tagText}</PurpleTag>}
+    {tagText && (
+      <PurpleTag
+        as="span"
+        h={{
+          size: 's',
+          properties: ['margin-right'],
+        }}
+      >
+        {tagText}
+      </PurpleTag>
+    )}
     {children}
-  </VerticalSpace>
+  </Space>
 );
 export default MessageBar;

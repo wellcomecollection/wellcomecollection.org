@@ -5,7 +5,7 @@ import cookie from 'cookie-cutter';
 import { grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   cookieName?: string,
@@ -53,9 +53,11 @@ class InfoBanner extends React.Component<Props, State> {
   render() {
     if (this.state.showInfoBanner) {
       return (
-        <VerticalSpace
-          size="m"
-          properties={['padding-top', 'padding-bottom']}
+        <Space
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={`row bg-yellow`}
         >
           <div className="container">
@@ -69,9 +71,12 @@ class InfoBanner extends React.Component<Props, State> {
                 >
                   <div>
                     <span className="flex flex--v-center">
-                      <div className={`flex flex--v-center margin-right-12`}>
+                      <Space
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                        className={`flex flex--v-center`}
+                      >
                         <Icon name="information" />
-                      </div>
+                      </Space>
                       <div className="first-para-no-margin">
                         <PrismicHtmlBlock html={this.props.text} />
                       </div>
@@ -92,7 +97,7 @@ class InfoBanner extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-        </VerticalSpace>
+        </Space>
       );
     } else {
       return null;

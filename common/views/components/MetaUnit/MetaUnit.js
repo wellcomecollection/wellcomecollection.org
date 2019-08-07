@@ -4,7 +4,7 @@ import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Tags, { type TagType } from '../Tags/Tags';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type HeadingProps = {
   headingLevel: ?number,
@@ -23,21 +23,33 @@ const Heading = ({ headingLevel, headingText }: HeadingProps) => {
       return <h3 className={classes}>{headingText}</h3>;
     case 4:
       return (
-        <VerticalSpace as="h4" size="s" className={smallClasses}>
+        <Space
+          as="h4"
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={smallClasses}
+        >
           {headingText}
-        </VerticalSpace>
+        </Space>
       );
     case 5:
       return (
-        <VerticalSpace as="h5" size="s" className={smallClasses}>
+        <Space
+          as="h5"
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={smallClasses}
+        >
           {headingText}
-        </VerticalSpace>
+        </Space>
       );
     case 6:
       return (
-        <VerticalSpace as="h6" size="s" className={smallClasses}>
+        <Space
+          as="h6"
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={smallClasses}
+        >
           {headingText}
-        </VerticalSpace>
+        </Space>
       );
     default:
       return <h2 className={classes}>{headingText}</h2>;
@@ -57,9 +69,12 @@ const Paragraphs = ({ text }: { text: string[] }) => {
 const LinksList = ({ links }) => {
   return (
     links.length > 0 && (
-      <VerticalSpace
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         as="ul"
-        size="m"
         className={classNames({
           'plain-list no-margin no-padding': true,
         })}
@@ -71,7 +86,7 @@ const LinksList = ({ links }) => {
             {arr.length - 1 !== i && ' '}
           </li>
         ))}
-      </VerticalSpace>
+      </Space>
     )
   );
 };
@@ -79,9 +94,12 @@ const LinksList = ({ links }) => {
 const List = ({ list }) => {
   return (
     list.length > 0 && (
-      <VerticalSpace
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         as="ul"
-        size="m"
         className={classNames({
           'plain-list no-margin no-padding': true,
         })}
@@ -91,7 +109,7 @@ const List = ({ list }) => {
             {item}
           </li>
         ))}
-      </VerticalSpace>
+      </Space>
     )
   );
 };

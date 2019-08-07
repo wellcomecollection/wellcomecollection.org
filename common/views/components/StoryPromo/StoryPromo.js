@@ -6,7 +6,7 @@ import { getPositionInSeries, getArticleColor } from '../../../model/articles';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   item: Article,
@@ -63,14 +63,19 @@ const StoryPromo = ({
         )}
       </div>
 
-      <VerticalSpace
-        size="m"
-        properties={['padding-top', 'padding-bottom']}
+      <Space
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={
+          !hasTransparentBackground
+            ? { size: 'm', properties: ['padding-left', 'padding-right'] }
+            : undefined
+        }
         className={classNames({
           'story-promo__text flex flex--column flex-1': true,
           'flex--h-space-between': !hasTransparentBackground,
-          'padding-left-12': !hasTransparentBackground,
-          'padding-right-12': !hasTransparentBackground,
         })}
       >
         <div>
@@ -80,16 +85,19 @@ const StoryPromo = ({
               color={getArticleColor(item)}
             />
           )}
-          <VerticalSpace
+          <Space
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             as="h2"
-            size="s"
             className={`
             promo-link__title
             ${font('wb', 3)}
           `}
           >
             {item.title}
-          </VerticalSpace>
+          </Space>
           {!hidePromoText && (
             <p
               className={classNames({
@@ -103,15 +111,15 @@ const StoryPromo = ({
         </div>
 
         {item.series.length > 0 && (
-          <VerticalSpace size="l" properties={['margin-top']}>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {item.series.map(series => (
               <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
                 <span className={font('hnl', 6)}>Part of</span> {series.title}
               </p>
             ))}
-          </VerticalSpace>
+          </Space>
         )}
-      </VerticalSpace>
+      </Space>
     </a>
   );
 };

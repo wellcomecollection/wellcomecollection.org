@@ -15,7 +15,7 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '../Image/Image';
 import { type ColorSelection } from '../../../model/color-selections';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   url: ?string,
@@ -54,9 +54,14 @@ const CompactCard = ({
     : { s: 12, m: 12, l: 12, xl: 12 };
 
   return (
-    <VerticalSpace
-      size="l"
-      properties={['padding-top', x === y ? undefined : 'padding-bottom']}
+    <Space
+      v={{
+        size: 'l',
+        properties: [
+          'padding-top',
+          x === y ? undefined : 'padding-bottom',
+        ].filter(Boolean),
+      }}
       as={url ? 'a' : 'div'}
       href={urlOverride || url}
       className={conditionalClassNames({
@@ -77,9 +82,12 @@ const CompactCard = ({
       )}
       <div className={grid(textGridSizes)}>
         {labels.labels.length > 0 && (
-          <VerticalSpace size="s" className="flex">
+          <Space
+            v={{ size: 's', properties: ['margin-bottom'] }}
+            className="flex"
+          >
             <LabelsList {...labels} />
-          </VerticalSpace>
+          </Space>
         )}
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
@@ -101,7 +109,7 @@ const CompactCard = ({
           </div>
         )}
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 

@@ -1,7 +1,7 @@
 // @flow
 import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const items = [
   {
@@ -44,28 +44,35 @@ const items = [
 ];
 
 const FooterSocial = () => (
-  <VerticalSpace
-    size="m"
-    properties={['margin-top']}
+  <Space
+    v={{
+      size: 'm',
+      properties: ['margin-top'],
+    }}
     className={classNames({
       'footer-social': true,
     })}
   >
     {items.map(item => (
       <div key={item.title} className="footer-social__cell">
-        <VerticalSpace
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
           as="a"
-          size="l"
           className={`footer-social__link ${font('hnm', 6)}`}
           href={item.url}
         >
-          <Icon name={item.icon} extraClasses="margin-right-6" />
+          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon name={item.icon} />
+          </Space>
           <span className="footer-social__title">{item.title}</span>
           <span className="footer-social__service">{item.service}</span>
-        </VerticalSpace>
+        </Space>
       </div>
     ))}
-  </VerticalSpace>
+  </Space>
 );
 
 export default FooterSocial;

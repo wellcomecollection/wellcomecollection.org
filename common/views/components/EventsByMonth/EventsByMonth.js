@@ -10,7 +10,7 @@ import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
 import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   events: UiEvent[],
@@ -141,7 +141,7 @@ class EventsByMonth extends Component<Props, State> {
 
     return (
       <div>
-        <VerticalSpace size="m">
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <div className="css-grid__container">
             <div className="css-grid">
               <div
@@ -161,7 +161,7 @@ class EventsByMonth extends Component<Props, State> {
               </div>
             </div>
           </div>
-        </VerticalSpace>
+        </Space>
 
         {months.map(month => (
           <div

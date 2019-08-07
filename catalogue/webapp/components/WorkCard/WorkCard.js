@@ -17,7 +17,7 @@ import { workUrl } from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work,
@@ -33,9 +33,8 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview = styled.div.attrs(() => ({
+const Preview = styled(Space).attrs(() => ({
   className: classNames({
-    'margin-left-12': true,
     'text-align-center': true,
   }),
 }))`
@@ -75,10 +74,12 @@ const WorkCard = ({ work }: Props) => {
         })}
         passHref
       >
-        <VerticalSpace
+        <Space
           as="a"
-          properties={['padding-top', 'padding-bottom']}
-          size="m"
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={classNames({
             'plain-link': true,
             block: true,
@@ -94,8 +95,11 @@ const WorkCard = ({ work }: Props) => {
         >
           <Container>
             <Details>
-              <VerticalSpace
-                size="s"
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-bottom'],
+                }}
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
@@ -103,15 +107,15 @@ const WorkCard = ({ work }: Props) => {
                 })}
               >
                 {workTypeIcon && (
-                  <Icon
-                    name={workTypeIcon}
-                    extraClasses={classNames({
-                      'margin-right-6': true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name={workTypeIcon} />
+                  </Space>
                 )}
                 {work.workType.label}
-              </VerticalSpace>
+              </Space>
               <h2
                 className={classNames({
                   [font('hnm', 4)]: true,
@@ -126,11 +130,7 @@ const WorkCard = ({ work }: Props) => {
                 })}
               >
                 {work.contributors.length > 0 && (
-                  <div
-                    className={classNames({
-                      'margin-right-12': true,
-                    })}
-                  >
+                  <Space h={{ size: 'm', properties: ['margin-right'] }}>
                     <LinkLabels
                       items={[
                         {
@@ -139,7 +139,7 @@ const WorkCard = ({ work }: Props) => {
                         },
                       ]}
                     />
-                  </div>
+                  </Space>
                 )}
                 {productionDates.length > 0 && (
                   <LinkLabels
@@ -156,7 +156,7 @@ const WorkCard = ({ work }: Props) => {
             </Details>
 
             {work.thumbnail && (
-              <Preview>
+              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
                 <IIIFResponsiveImage
                   width={178}
                   src={convertImageUri(work.thumbnail.url, 178)}
@@ -184,7 +184,7 @@ const WorkCard = ({ work }: Props) => {
             {({ showWorkLocations }) =>
               showWorkLocations &&
               (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <VerticalSpace size="m" properties={['margin-top']}>
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
                   <LinkLabels
                     heading={'See it'}
                     icon={'eye'}
@@ -203,11 +203,11 @@ const WorkCard = ({ work }: Props) => {
                         : null,
                     ].filter(Boolean)}
                   />
-                </VerticalSpace>
+                </Space>
               )
             }
           </TogglesContext.Consumer>
-        </VerticalSpace>
+        </Space>
       </NextLink>
     </div>
   );

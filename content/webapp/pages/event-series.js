@@ -15,7 +15,7 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { convertJsonToDates } from './event';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   series: EventSeries,
@@ -135,12 +135,12 @@ export class EventSeriesPage extends Component<Props> {
           )}
 
           {pastEvents.length > 0 && (
-            <VerticalSpace size="xl" properties={['margin-top']}>
+            <Space v={{ size: 'xl', properties: ['margin-top'] }}>
               <SearchResults
                 items={pastEvents}
                 title={`What we've done before`}
               />
-            </VerticalSpace>
+            </Space>
           )}
         </ContentPage>
       </PageLayout>

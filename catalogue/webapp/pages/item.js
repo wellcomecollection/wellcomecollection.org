@@ -16,9 +16,9 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
-const IframePdfViewer = styled(VerticalSpace).attrs({
+const IframePdfViewer = styled(Space).attrs({
   className: 'h-center',
 })`
   width: 90vw;
@@ -162,15 +162,18 @@ const ItemPage = ({
     >
       {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
         <Layout12>
-          <VerticalSpace size="l">
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <BetaMessage message="We are working to make this item available online in April 2019." />
-          </VerticalSpace>
+          </Space>
         </Layout12>
       )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
           as="iframe"
-          size="l"
           title={`PDF: ${title}`}
           src={pdfRendering['@id']}
         />

@@ -4,7 +4,7 @@ import { trackEvent } from '../../../utils/ga';
 import UiImage from '../Image/Image';
 import Icon from '../Icon/Icon';
 import type { ImageType } from '../../../model/image';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   url: string,
@@ -16,15 +16,17 @@ type Props = {|
 
 const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
   return (
-    <VerticalSpace
-      size="l"
+    <Space
+      v={{
+        size: 'l',
+        properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
+      }}
+      h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       as={url ? 'a' : 'span'}
-      properties={['margin-bottom', 'padding-top', 'padding-bottom']}
       data-component="BookPromo"
       href={url}
       className={classNames({
         'book-promo rounded-diagonal': true,
-        'padding-left-12 padding-right-12': true,
       })}
       onClick={() => {
         trackEvent({
@@ -34,8 +36,11 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         });
       }}
     >
-      <VerticalSpace
-        size="m"
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-bottom'],
+        }}
         className={classNames({
           'book-promo__image-container': true,
         })}
@@ -50,7 +55,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             tasl={null}
           />
         )}
-      </VerticalSpace>
+      </Space>
       <div className="book-promo__text-container">
         {title && (
           <h3
@@ -75,7 +80,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         )}
 
         {description && (
-          <VerticalSpace size="m" properties={['margin-top']}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 [font('hnl', 5)]: true,
@@ -84,22 +89,26 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             >
               {description}
             </p>
-          </VerticalSpace>
+          </Space>
         )}
 
-        <VerticalSpace
-          size="m"
-          properties={['margin-top']}
+        <Space
+          v={{
+            size: 'm',
+            properties: ['margin-top'],
+          }}
           className={classNames({
             'flex-inline': true,
             [font('hnm', 5)]: true,
           })}
         >
           <Icon name="arrow" extraClasses="icon--green" />
-          <span className={'margin-left-6'}>More information</span>
-        </VerticalSpace>
+          <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+            More information
+          </Space>
+        </Space>
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 

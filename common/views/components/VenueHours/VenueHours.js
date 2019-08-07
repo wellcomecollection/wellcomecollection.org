@@ -14,9 +14,9 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
-const VenueHoursImage = styled(VerticalSpace)`
+const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
     width: 50%;
   `}
@@ -27,7 +27,7 @@ const VenueHoursImage = styled(VerticalSpace)`
   `}
 `;
 
-const VenueHoursTimes = styled(VerticalSpace)`
+const VenueHoursTimes = styled(Space)`
   ${props => props.theme.media.medium`
     float: left;
     width:33%;
@@ -36,7 +36,7 @@ const VenueHoursTimes = styled(VerticalSpace)`
   `}
 `;
 
-const JauntyBox = styled(VerticalSpace).attrs(props => ({
+const JauntyBox = styled(Space).attrs(props => ({
   className: classNames({
     'bg-yellow inline-block': true,
   }),
@@ -119,7 +119,7 @@ const VenueHours = ({ venue, weight }: Props) => {
     <>
       {weight === 'featured' && (
         <>
-          <VerticalSpace size="l">
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <Divider
               extraClasses={classNames({
                 'divider--keyline': true,
@@ -127,8 +127,8 @@ const VenueHours = ({ venue, weight }: Props) => {
                 'is-hidden-s': true,
               })}
             />
-          </VerticalSpace>
-          <VenueHoursImage size="m">
+          </Space>
+          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
             <UiImage
               contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
               width={1600}
@@ -142,17 +142,18 @@ const VenueHours = ({ venue, weight }: Props) => {
           </VenueHoursImage>
         </>
       )}
-      <VenueHoursTimes size="m">
-        <h2
+      <VenueHoursTimes v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space
+          as="h2"
+          h={{ size: 'm', properties: ['padding-right'] }}
           className={classNames({
             h2: true,
-            'padding-right-12': true,
           })}
         >
           {weight === 'featured'
             ? `${venueAdditionalInfo[venue.name.toLowerCase()].displayTitle}`
             : 'Opening hours'}
-        </h2>
+        </Space>
         <ul
           className={classNames({
             'plain-list no-padding no-margin': true,
@@ -195,12 +196,12 @@ const VenueHours = ({ venue, weight }: Props) => {
                     'flex flex--v-center': true,
                   })}
                 >
-                  <Icon
-                    name="clock"
-                    extraClasses={classNames({
-                      'margin-right-6': true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name="clock" />
+                  </Space>
                   <span>{overrideType} hours</span>
                 </div>
               </h3>
@@ -222,9 +223,11 @@ const VenueHours = ({ venue, weight }: Props) => {
           </>
         );
       })}
-      <VerticalSpace
-        size="s"
-        properties={['margin-top']}
+      <Space
+        v={{
+          size: 's',
+          properties: ['margin-top'],
+        }}
         style={{ clear: 'both' }}
       >
         {weight === 'featured' ? (
@@ -235,7 +238,7 @@ const VenueHours = ({ venue, weight }: Props) => {
         ) : (
           <MoreLink url={'/opening-times'} name="See all opening times" />
         )}
-      </VerticalSpace>
+      </Space>
     </>
   );
 };

@@ -6,7 +6,7 @@ import { grid } from '@weco/common/utils/classnames';
 // $FlowFixMe
 import PROGRESS_NOTES from './PROGRESS_NOTES.md';
 import { webpageLd } from '@weco/common/utils/json-ld';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 function flatten(text, child) {
   return typeof child === 'string'
@@ -38,7 +38,7 @@ const ProgressPage = () => (
     imageUrl={null}
     imageAltText={null}
   >
-    <VerticalSpace size="l" properties={['padding-top']}>
+    <Space v={{ size: 'l', properties: ['padding-top'] }}>
       <div className="container">
         <div className="grid">
           <div className={`${grid({ s: 12, m: 11, l: 8, xl: 7 })}`}>
@@ -51,7 +51,7 @@ const ProgressPage = () => (
           </div>
         </div>
       </div>
-    </VerticalSpace>
+    </Space>
   </PageLayout>
 );
 

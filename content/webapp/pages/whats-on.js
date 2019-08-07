@@ -38,7 +38,7 @@ import OpeningTimesContext from '@weco/common/views/components/OpeningTimesConte
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -134,10 +134,12 @@ const DateRange = ({
 
   return (
     <Fragment>
-      <VerticalSpace
+      <Space
+        v={{
+          size: 's',
+          properties: ['margin-bottom'],
+        }}
         as="p"
-        size="s"
-        properties={['margin-bottom']}
         className={classNames({
           [font('hnm', 5)]: true,
         })}
@@ -157,13 +159,16 @@ const DateRange = ({
             From <time dateTime={fromDate}>{formatDate(fromDate)}</time>
           </Fragment>
         )}
-      </VerticalSpace>
+      </Space>
       {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
         period === 'today' && (
           <Fragment>
-            <VerticalSpace
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               as="p"
-              size="m"
               className={classNames({
                 [font('wb', 2)]: true,
               })}
@@ -171,13 +176,15 @@ const DateRange = ({
               Our exhibitions are closed today, but our{' '}
               <a href={cafePromo.url}>café</a> and{' '}
               <a href={shopPromo.url}>shop</a> are open for your visit.
-            </VerticalSpace>
-            <VerticalSpace
-              size="l"
-              properties={['margin-top', 'margin-bottom']}
+            </Space>
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
             >
               <Divider extraClasses={'divider--dashed'} />
-            </VerticalSpace>
+            </Space>
           </Fragment>
         )}
     </Fragment>
@@ -195,9 +202,11 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
   const todayOpeningHours = listHeader.todayOpeningHours;
 
   return (
-    <VerticalSpace
-      size="l"
-      properties={['padding-top', 'padding-bottom']}
+    <Space
+      v={{
+        size: 'l',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       className={classNames({
         row: true,
         'bg-cream': true,
@@ -213,23 +222,30 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
               <div className="flex flex--v-center flex--wrap">
                 {todayOpeningHours && (
                   <div className="flex flex--v-center">
-                    <span
+                    <Space
+                      as="span"
+                      h={{ size: 'm', properties: ['margin-right'] }}
                       className={classNames({
                         [font('hnm', 5)]: true,
-                        'margin-right-12': true,
                       })}
                     >
                       Galleries
                       {todayOpeningHours.opens ? ' open ' : ' closed '}
                       today
-                    </span>
+                    </Space>
                     {todayOpeningHours.opens && (
                       <Fragment>
-                        <Icon name={'clock'} extraClasses={'margin-right-6'} />
-                        <span
+                        <Space
+                          as="span"
+                          h={{ size: 's', properties: ['margin-right'] }}
+                        >
+                          <Icon name={'clock'} />
+                        </Space>
+                        <Space
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
                           className={classNames({
                             [font('hnl', 5)]: true,
-                            'margin-right-12': true,
                           })}
                         >
                           <Fragment>
@@ -237,7 +253,7 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                             {'—'}
                             <time>{todayOpeningHours.closes}</time>
                           </Fragment>
-                        </span>
+                        </Space>
                       </Fragment>
                     )}
                   </div>
@@ -252,9 +268,11 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
               </div>
             </div>
           </div>
-          <VerticalSpace
-            size="m"
-            properties={['margin-top', 'margin-bottom']}
+          <Space
+            v={{
+              size: 'm',
+              properties: ['margin-top', 'margin-bottom'],
+            }}
             className={classNames({
               [grid({ s: 12, m: 10, l: 8, xl: 6 })]: true,
             })}
@@ -280,10 +298,10 @@ const Header = ({ activeId, openingTimes }: HeaderProps) => {
                 },
               ]}
             />
-          </VerticalSpace>
+          </Space>
         </div>
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 
@@ -359,10 +377,10 @@ export class WhatsOnPage extends Component<Props> {
             <Fragment>
               <Header activeId={period} openingTimes={openingTimes} />
 
-              <VerticalSpace size="l" properties={['margin-top']}>
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 {period === 'current-and-coming-up' && (
                   <Fragment>
-                    <VerticalSpace size="l" properties={['padding-top']}>
+                    <Space v={{ size: 'l', properties: ['padding-top'] }}>
                       <SpacingSection>
                         <Layout12>
                           <DateRange
@@ -405,14 +423,16 @@ export class WhatsOnPage extends Component<Props> {
                           />
                         </SpacingComponent>
                       </SpacingSection>
-                    </VerticalSpace>
+                    </Space>
                   </Fragment>
                 )}
                 {period !== 'current-and-coming-up' && (
                   <SpacingSection>
-                    <VerticalSpace
-                      size="m"
-                      properties={['padding-top', 'margin-bottom']}
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['padding-top', 'margin-bottom'],
+                      }}
                     >
                       <Layout12>
                         <DateRange
@@ -427,7 +447,7 @@ export class WhatsOnPage extends Component<Props> {
                           <span className={font('hnm', 4)}>Free admission</span>
                         </div>
                       </Layout12>
-                    </VerticalSpace>
+                    </Space>
                     <ExhibitionsAndEvents
                       exhibitions={exhibitions}
                       events={
@@ -444,7 +464,7 @@ export class WhatsOnPage extends Component<Props> {
                     />
                   </SpacingSection>
                 )}
-              </VerticalSpace>
+              </Space>
 
               <SpacingSection>
                 <SpacingComponent>

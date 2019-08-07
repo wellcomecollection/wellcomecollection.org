@@ -11,7 +11,7 @@ import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import TogglesContext from '../TogglesContext/TogglesContext';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 
 type Props = {|
@@ -25,8 +25,11 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
-    <VerticalSpace
-      size="l"
+    <Space
+      v={{
+        size: 'l',
+        properties: ['margin-bottom'],
+      }}
       className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
     >
       <SpacingComponent>
@@ -38,12 +41,9 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           })}
         >
           {workTypeIcon && (
-            <Icon
-              name={workTypeIcon}
-              extraClasses={classNames({
-                'margin-right-6': true,
-              })}
-            />
+            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+              <Icon name={workTypeIcon} />
+            </Space>
           )}
           <div className="line-height-1">{work.workType.label}</div>
         </div>
@@ -60,19 +60,17 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
         </h1>
 
         {(work.contributors.length > 0 || productionDates.length > 0) && (
-          <VerticalSpace
-            size="l"
-            properties={['margin-top']}
+          <Space
+            v={{
+              size: 'l',
+              properties: ['margin-top'],
+            }}
             className={classNames({
               'flex flex--wrap flex--v-center': true,
             })}
           >
             {work.contributors.length > 0 && (
-              <div
-                className={classNames({
-                  'margin-right-12': true,
-                })}
-              >
+              <Space h={{ size: 'm', properties: ['margin-right'] }}>
                 <LinkLabels
                   items={[
                     {
@@ -81,7 +79,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                     },
                   ]}
                 />
-              </div>
+              </Space>
             )}
 
             {productionDates.length > 0 && (
@@ -95,13 +93,13 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                 ]}
               />
             )}
-          </VerticalSpace>
+          </Space>
         )}
         <TogglesContext.Consumer>
           {toggles =>
             toggles.showWorkLocations &&
             (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-              <VerticalSpace size="m" properties={['margin-top']}>
+              <Space v={{ size: 'm', properties: ['margin-top'] }}>
                 <LinkLabels
                   heading={'See it'}
                   icon={'eye'}
@@ -120,12 +118,12 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                       : null,
                   ].filter(Boolean)}
                 />
-              </VerticalSpace>
+              </Space>
             )
           }
         </TogglesContext.Consumer>
         {childManifestsCount > 0 && (
-          <VerticalSpace size="m" properties={['margin-top']}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 [font('hnm', 5)]: true,
@@ -135,10 +133,10 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
               <Number color="yellow" number={childManifestsCount} /> Volumes
               online
             </p>
-          </VerticalSpace>
+          </Space>
         )}
       </SpacingComponent>
-    </VerticalSpace>
+    </Space>
   );
 };
 export default WorkHeader;

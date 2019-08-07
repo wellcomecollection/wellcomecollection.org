@@ -1,6 +1,7 @@
 // @flow
 import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
+import Space from '../styled/Space';
 
 export type Breadcrumbs = {|
   text: string,
@@ -25,27 +26,36 @@ const Breadcrumb = ({ items }: Props) => (
         const BoldOrSpanTag = prefix ? 'b' : 'span';
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
-          <BoldOrSpanTag
+          <Space
+            as="span"
+            h={{
+              size: 'm',
+              properties: [
+                'padding-right',
+                i !== 0 ? 'padding-left' : undefined,
+              ].filter(Boolean),
+            }}
             key={text}
-            className={classNames({
-              [font('hnl', 5)]: true,
-              'border-left-width-1 border-color-black': i !== 0,
-              'padding-right-12': true,
-              'padding-left-12': i !== 0,
-            })}
-            style={{ lineHeight: 1 }}
           >
-            {prefix}{' '}
-            <LinkOrSpanTag
+            <BoldOrSpanTag
               className={classNames({
-                [font('hnm', 5)]: Boolean(prefix),
+                [font('hnl', 5)]: true,
+                'border-left-width-1 border-color-black': i !== 0,
               })}
-              href={url}
               style={{ lineHeight: 1 }}
             >
-              {text}
-            </LinkOrSpanTag>
-          </BoldOrSpanTag>
+              {prefix}{' '}
+              <LinkOrSpanTag
+                className={classNames({
+                  [font('hnm', 5)]: Boolean(prefix),
+                })}
+                href={url}
+                style={{ lineHeight: 1 }}
+              >
+                {text}
+              </LinkOrSpanTag>
+            </BoldOrSpanTag>
+          </Space>
         );
       })}
     {/* We do this so that the page doesn't bounce around if we don't have any breadcrumbs */}

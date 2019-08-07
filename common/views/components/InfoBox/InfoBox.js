@@ -5,7 +5,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
 import type { LabelField } from '../../../model/label-field';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   title: string,
@@ -20,41 +20,49 @@ const InfoBox = ({ title, items, children }: Props) => {
   return (
     <Fragment>
       <h2 className="h2">{title}</h2>
-      <VerticalSpace
-        size="l"
-        properties={['padding-top', 'padding-bottom']}
+      <Space
+        v={{
+          size: 'l',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
           'bg-yellow': true,
-          'padding-left-12 padding-right-12': true,
         })}
       >
         {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
             <div className={font('hnm', 4)}>
               {icon && (title || description) && (
-                <span className={`float-l margin-right-6`}>
+                <Space
+                  h={{ size: 's', properties: ['margin-right'] }}
+                  className={`float-l`}
+                >
                   <Icon name={icon} />
-                </span>
+                </Space>
               )}
               {title && (
                 <h3 className={classNames([font('hnm', 5)])}>{title}</h3>
               )}
               {description && (
-                <VerticalSpace
-                  size="m"
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-bottom'],
+                  }}
                   className={classNames({
                     [font('hnl', 5)]: true,
                     'first-para-no-margin': true,
                   })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </VerticalSpace>
+                </Space>
               )}
             </div>
           </Fragment>
         ))}
         {children}
-      </VerticalSpace>
+      </Space>
     </Fragment>
   );
 };

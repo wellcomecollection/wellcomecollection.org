@@ -21,7 +21,7 @@ import { type UiExhibition } from '@weco/common/model/exhibitions';
 import { type UiEvent } from '@weco/common/model/events';
 import { type Article } from '@weco/common/model/articles';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -93,17 +93,19 @@ export class HomePage extends Component<Props> {
                   [cssGrid({ s: 12, m: 12, l: 10, xl: 9 })]: true,
                 })}
               >
-                <VerticalSpace
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-top'],
+                  }}
                   as="h1"
-                  size="m"
-                  properties={['margin-top']}
                   className={classNames({
                     'no-margin': true,
                     [font('wb', 1)]: true,
                   })}
                 >
                   The free museum and library for the incurably curious
-                </VerticalSpace>
+                </Space>
               </div>
             </div>
           </div>

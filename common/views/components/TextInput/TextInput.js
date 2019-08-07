@@ -1,7 +1,7 @@
 // @flow
 import { forwardRef } from 'react';
 import styled from 'styled-components';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
@@ -16,10 +16,8 @@ const VisuallyHidden = styled.div`
   white-space: nowrap;
 `;
 
-const StyledInput = styled(VerticalSpace).attrs({
-  className: classNames({
-    'padding-left-12': true,
-  }),
+const StyledInput = styled(Space).attrs({
+  className: classNames({}),
 })`
   width: 100%;
   padding-right: 40px;
@@ -47,9 +45,12 @@ const TextInput = forwardRef((
 ) => (
   <label className="flex flex--v-center">
     <StyledInput
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
+      h={{ size: 'm', properties: ['padding-left'] }}
       as="input"
-      size="m"
-      properties={['padding-top', 'padding-bottom']}
       ref={ref}
       type="text"
       {...inputProps}

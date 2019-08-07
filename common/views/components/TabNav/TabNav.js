@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type SelectableTextLink = {|
@@ -17,12 +17,11 @@ type Props = {
   items: SelectableTextLink[],
 };
 
-const NavItemInner = styled.span.attrs(props => ({
+const NavItemInner = styled(Space).attrs(props => ({
   className: classNames({
     selected: props.selected,
     block: true,
     relative: true,
-    'margin-right-12': true,
   }),
 }))`
   z-index: 1;
@@ -83,10 +82,12 @@ const NavItem = ({
   ...SelectableTextLink,
 |}) => (
   <NextLink {...link} passHref>
-    <VerticalSpace
+    <Space
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       as="a"
-      size="m"
-      properties={['padding-top', 'padding-bottom']}
       className={classNames({
         'plain-link': true,
         block: true,
@@ -100,12 +101,18 @@ const NavItem = ({
             (text !== 'All' && text !== 'Pictures' && text !== 'Books') ? (
               <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
             ) : (
-              <NavItemInner selected={selected}>{text}</NavItemInner>
+              <NavItemInner
+                as="span"
+                h={{ size: 'm', properties: ['margin-right'] }}
+                selected={selected}
+              >
+                {text}
+              </NavItemInner>
             )}
           </>
         )}
       </TogglesContext.Consumer>
-    </VerticalSpace>
+    </Space>
   </NextLink>
 );
 

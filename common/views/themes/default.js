@@ -88,20 +88,23 @@ type SpaceProperty =
   | 'padding-bottom'
   | 'padding-top'
   | 'top'
-  | 'bottom';
+  | 'bottom'
+  | 'margin-left'
+  | 'margin-right'
+  | 'padding-left'
+  | 'padding-right'
+  | 'left'
+  | 'right';
 
 function makeSpacePropertyValues(
   size: SpaceSize,
-  properties: SpaceProperty[] = ['margin-bottom'],
+  properties: SpaceProperty[],
   negative: ?boolean
 ): string {
-  return (
-    size &&
-    ['small', 'medium', 'large']
-      .map(bp => {
-        return `@media (min-width: ${theme.sizes[bp]}px) {
+  return ['small', 'medium', 'large']
+    .map(bp => {
+      return `@media (min-width: ${theme.sizes[bp]}px) {
       ${properties
-        .filter(Boolean)
         .map(
           p =>
             `${p}: ${negative ? '-' : ''}${
@@ -110,9 +113,8 @@ function makeSpacePropertyValues(
         )
         .join('')}
     }`;
-      })
-      .join('')
-  );
+    })
+    .join('');
 }
 
 // https://github.com/styled-components/styled-components/blob/master/docs/tips-and-tricks.md#media-templates

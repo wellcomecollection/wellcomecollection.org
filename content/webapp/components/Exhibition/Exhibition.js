@@ -21,7 +21,7 @@ import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -222,7 +222,9 @@ const Exhibition = ({ exhibition }: Props) => {
       ContentTypeInfo={
         <Fragment>
           {!exhibition.isPermanent && (
-            <VerticalSpace size="xs">{DateInfo}</VerticalSpace>
+            <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
+              {DateInfo}
+            </Space>
           )}
           <StatusIndicator
             start={exhibition.start}
@@ -282,9 +284,11 @@ const Exhibition = ({ exhibition }: Props) => {
         {exhibition.relatedBooks && exhibition.relatedBooks.length > 0 && (
           <Fragment>
             <h2 className="h2">From the bookshop</h2>
-            <VerticalSpace
-              size="l"
-              properties={['margin-top']}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
               className={`grid`}
             >
               {exhibition.relatedBooks.map(item => (
@@ -301,7 +305,7 @@ const Exhibition = ({ exhibition }: Props) => {
                   />
                 </div>
               ))}
-            </VerticalSpace>
+            </Space>
           </Fragment>
         )}
       </ContentPage>

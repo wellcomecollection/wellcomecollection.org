@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import License from '@weco/common/views/components/License/License';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 const DownloadButton = styled.button`
   text-align: center;
@@ -127,13 +128,12 @@ const Download = ({
               }}
             >
               <span className="flex-inline flex--v-center">
-                <span
-                  className={classNames({
-                    'margin-right-6': true,
-                  })}
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
                 >
                   Download
-                </span>
+                </Space>
                 <Icon name="chevron" />
               </span>
             </DownloadButton>
@@ -190,15 +190,16 @@ const Download = ({
                           {option.label}
                         </span>
                         {format && (
-                          <span
+                          <Space
+                            as="span"
+                            h={{ size: 'm', properties: ['margin-left'] }}
                             className={classNames({
                               [font('hnm', 5)]: true,
                               'font-pewter': true,
-                              'margin-left-12': true,
                             })}
                           >
                             {format}
-                          </span>
+                          </Space>
                         )}
                       </span>
                     </a>
@@ -210,26 +211,28 @@ const Download = ({
 
         <div className="flex-inline flex--v-center">
           {licenseInfo && (
-            <span
+            <Space
+              as="span"
+              h={{ size: 'm', properties: ['margin-right'] }}
               className={classNames({
                 'inline-block': true,
-                'margin-right-12': true,
               })}
             >
               {licenseInfo && (
                 <License subject={''} licenseInfo={licenseInfo} />
               )}
-            </span>
+            </Space>
           )}
           {credit && (
-            <span
+            <Space
+              as="span"
+              h={{ size: 'm', properties: ['margin-right'] }}
               className={classNames({
                 'inline-block': true,
-                'margin-right-12': true,
               })}
             >
               Credit: {credit}{' '}
-            </span>
+            </Space>
           )}
           {licenseInfo && licenseInfoLink && (
             <a

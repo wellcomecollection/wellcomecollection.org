@@ -1,7 +1,7 @@
 // @flow
 import type { Label as LabelType } from '../../../model/labels';
 import { font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 export type Props = {|
   label: LabelType,
@@ -9,10 +9,13 @@ export type Props = {|
 
 const Label = ({ label }: Props) => {
   return (
-    <VerticalSpace
+    <Space
+      v={{
+        size: 's',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
+      h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
       as={label.url ? 'a' : 'span'}
-      size="s"
-      properties={['padding-top', 'padding-bottom']}
       href={label.url}
       className={`
       line-height-1
@@ -22,12 +25,11 @@ const Label = ({ label }: Props) => {
           : 'font-black bg-yellow'
       }
       ${font('hnm', 6)}
-      padding-left-6 padding-right-6
     `}
       style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
     >
       {label.text}
-    </VerticalSpace>
+    </Space>
   );
 };
 

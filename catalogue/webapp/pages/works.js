@@ -29,7 +29,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
@@ -152,28 +152,37 @@ const Works = ({ works }: Props) => {
           <BetaBar />
         </Layout12>
 
-        <VerticalSpace
-          size="l"
-          properties={['padding-top', 'padding-bottom']}
+        <Space
+          v={{
+            size: 'l',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={classNames(['row bg-cream'])}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <VerticalSpace
-                  size="m"
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-bottom'],
+                  }}
                   className={classNames([
                     'flex flex--h-space-between flex--v-center flex--wrap',
                   ])}
                 >
                   <>
                     {!works && (
-                      <VerticalSpace as="h1" size="m" className="h1">
+                      <Space
+                        as="h1"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        className="h1"
+                      >
                         Explore our collections
-                      </VerticalSpace>
+                      </Space>
                     )}
                   </>
-                </VerticalSpace>
+                </Space>
               </div>
             </div>
 
@@ -198,7 +207,7 @@ const Works = ({ works }: Props) => {
               </div>
             </div>
           </div>
-        </VerticalSpace>
+        </Space>
 
         {!works && <StaticWorksContent />}
 
@@ -274,7 +283,7 @@ const Works = ({ works }: Props) => {
 
         {works && works.results.length > 0 && (
           <Fragment>
-            <VerticalSpace size="l" properties={['padding-top']}>
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
                   <div
@@ -314,11 +323,13 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </VerticalSpace>
+            </Space>
 
-            <VerticalSpace
-              size="l"
-              properties={['padding-top']}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top'],
+              }}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
@@ -367,9 +378,11 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
 
-              <VerticalSpace
-                size="l"
-                properties={['padding-top', 'padding-bottom']}
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
               >
                 <div className="container">
                   <div className="grid">
@@ -406,15 +419,14 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </VerticalSpace>
-            </VerticalSpace>
+              </Space>
+            </Space>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <VerticalSpace
-            size="xl"
-            properties={['padding-top', 'padding-bottom']}
+          <Space
+            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
           >
             <div className="container">
               <div className="grid">
@@ -448,7 +460,7 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
             </div>
-          </VerticalSpace>
+          </Space>
         )}
       </CataloguePageLayout>
     </Fragment>

@@ -1,7 +1,7 @@
 // @flow
 
 import type { Node } from 'react';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   children: Node,
@@ -9,9 +9,7 @@ type Props = {|
 
 const SpacingSection = ({ children }: Props) => {
   return (
-    <VerticalSpace size="xl" properties={['padding-bottom']}>
-      {children}
-    </VerticalSpace>
+    <Space v={{ size: 'xl', properties: ['padding-bottom'] }}>{children}</Space>
   );
 };
 

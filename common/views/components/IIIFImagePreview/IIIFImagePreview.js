@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import Image from '../Image/Image';
 import Control from '../Buttons/Control/Control';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -55,9 +55,11 @@ const IIIFImagePreview = ({
   return (
     <ImagePreview>
       <NextLink {...itemUrl} passHref>
-        <VerticalSpace
-          size="xl"
-          properties={['padding-bottom']}
+        <Space
+          v={{
+            size: 'xl',
+            properties: ['padding-bottom'],
+          }}
           as="a"
           className="plain-link"
           onClick={() => {
@@ -78,7 +80,7 @@ const IIIFImagePreview = ({
             tasl={null}
           />
           <Control type="dark" text="View larger image" icon="zoomIn" />
-        </VerticalSpace>
+        </Space>
       </NextLink>
     </ImagePreview>
   );
