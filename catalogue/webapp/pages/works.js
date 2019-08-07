@@ -480,6 +480,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
     audioVideoInSearch,
+    showDatesPrototype,
+    showDatesSliderPrototype,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -505,15 +507,19 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const worksOrError =
-    query && query !== ''
-      ? await getWorks({
-          query,
-          page,
-          filters,
-          env: useStageApi ? 'stage' : 'prod',
-        })
-      : null;
+  const isDatesPrototype = showDatesPrototype || showDatesSliderPrototype;
+  const shouldGetWorks = isDatesPrototype
+    ? filters._dateTo || filters._dateFrom || (query && query !== '')
+    : query && query !== '';
+
+  const worksOrError = shouldGetWorks
+    ? await getWorks({
+        query,
+        page,
+        filters,
+        env: useStageApi ? 'stage' : 'prod',
+      })
+    : null;
 
   return {
     works: worksOrError,
