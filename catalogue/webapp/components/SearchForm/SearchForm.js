@@ -150,7 +150,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       workType,
       page: 1,
     }),
-    selected: !!false,
+    selected: false,
   });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
