@@ -88,7 +88,7 @@ const LayoutPaginatedResults = ({
       </Space>
     </SpacingSection>
 
-    <SpacingSection>
+    <>
       {paginatedResults.totalPages > 1 && (
         <Layout12>
           <Space
@@ -171,7 +171,7 @@ const LayoutPaginatedResults = ({
           </Layout12>
         </Space>
       )}
-    </SpacingSection>
+    </>
   </Fragment>
 );
 

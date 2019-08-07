@@ -9,6 +9,7 @@ import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -56,19 +57,21 @@ export class ExhibitionsPage extends Component<Props> {
           firstExhibition && firstExhibition.image && firstExhibition.image.alt
         }
       >
-        <LayoutPaginatedResults
-          showFreeAdmissionMessage={true}
-          title={displayTitle}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescription,
-              spans: [],
-            },
-          ]}
-          paginatedResults={exhibitions}
-          paginationRoot={`exhibitions${period ? `/${period}` : ''}`}
-        />
+        <SpacingSection>
+          <LayoutPaginatedResults
+            showFreeAdmissionMessage={true}
+            title={displayTitle}
+            description={[
+              {
+                type: 'paragraph',
+                text: pageDescription,
+                spans: [],
+              },
+            ]}
+            paginatedResults={exhibitions}
+            paginationRoot={`exhibitions${period ? `/${period}` : ''}`}
+          />
+        </SpacingSection>
       </PageLayout>
     );
   }
