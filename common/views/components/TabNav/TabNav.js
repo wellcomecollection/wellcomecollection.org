@@ -1,10 +1,11 @@
 // @flow
 
+import { type ComponentType } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type SelectableTextLink = {|
@@ -17,13 +18,15 @@ type Props = {
   items: SelectableTextLink[],
 };
 
-const NavItemInner = styled(Space).attrs(props => ({
-  className: classNames({
-    selected: props.selected,
-    block: true,
-    relative: true,
-  }),
-}))`
+const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      selected: props.selected,
+      block: true,
+      relative: true,
+    }),
+  })
+)`
   z-index: 1;
   padding: 0 0.3em;
 

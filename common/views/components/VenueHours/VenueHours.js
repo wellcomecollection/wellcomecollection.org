@@ -1,5 +1,5 @@
 import { type Weight } from '@weco/common/services/prismic/parsers';
-import { useContext } from 'react';
+import { useContext, type ComponentType } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
@@ -14,9 +14,9 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
-const VenueHoursImage = styled(Space)`
+const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
     width: 50%;
   `}
@@ -27,7 +27,7 @@ const VenueHoursImage = styled(Space)`
   `}
 `;
 
-const VenueHoursTimes = styled(Space)`
+const VenueHoursTimes: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
     float: left;
     width:33%;
@@ -36,11 +36,13 @@ const VenueHoursTimes = styled(Space)`
   `}
 `;
 
-const JauntyBox = styled(Space).attrs(props => ({
-  className: classNames({
-    'bg-yellow inline-block': true,
-  }),
-}))`
+const JauntyBox: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'bg-yellow inline-block': true,
+    }),
+  })
+)`
   padding-left: 30px;
   padding-right: 42px;
   margin-left: -12px;
@@ -178,8 +180,10 @@ const VenueHours = ({ venue, weight }: Props) => {
         return (
           <>
             <JauntyBox
-              size="l"
-              properties={['padding-top', 'padding-bottom']}
+              v={{
+                size: 'l',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               key={upcomingExceptionalPeriod}
               topLeft={randomPx()}
               topRight={randomPx()}

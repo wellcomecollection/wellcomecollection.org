@@ -1,7 +1,7 @@
 // @flow
-import { forwardRef } from 'react';
+import { forwardRef, type ComponentType } from 'react';
 import styled from 'styled-components';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 import { classNames } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
@@ -16,7 +16,7 @@ const VisuallyHidden = styled.div`
   white-space: nowrap;
 `;
 
-const StyledInput = styled(Space).attrs({
+const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
   className: classNames({}),
 })`
   width: 100%;

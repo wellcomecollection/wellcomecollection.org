@@ -1,4 +1,5 @@
 // @flow
+import type { ComponentType } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { type Work } from '@weco/common/model/work';
@@ -17,7 +18,9 @@ import { workUrl } from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import Space from '@weco/common/views/components/styled/Space';
+import Space, {
+  type SpaceComponentProps,
+} from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work,
@@ -33,7 +36,7 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview = styled(Space).attrs(() => ({
+const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
   className: classNames({
     'text-align-center': true,
   }),

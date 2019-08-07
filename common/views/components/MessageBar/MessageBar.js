@@ -1,18 +1,20 @@
 // @flow
-import { type Node } from 'react';
+import { type Node, type ComponentType } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
-const PurpleTag = styled(Space).attrs(props => ({
-  className: classNames({
-    caps: true,
-    'inline-block': true,
-    'bg-purple': true,
-    'font-white': true,
-    [font('hnm', 5)]: true,
-  }),
-}))`
+const PurpleTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      caps: true,
+      'inline-block': true,
+      'bg-purple': true,
+      'font-white': true,
+      [font('hnm', 5)]: true,
+    }),
+  })
+)`
   padding: 0.2em 0.5em;
 `;
 
