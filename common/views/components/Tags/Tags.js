@@ -69,7 +69,7 @@ const Tags = ({ tags }: Props) => {
                       <Space
                         as="span"
                         h={
-                          i !== arr.length
+                          i !== arr.length - 1
                             ? { size: 's', properties: ['margin-right'] }
                             : undefined
                         }
