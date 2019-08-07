@@ -1,3 +1,5 @@
+// @flow
+
 import { type Weight } from '@weco/common/services/prismic/parsers';
 import { useContext, type ComponentType } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -135,8 +137,17 @@ const VenueHours = ({ venue, weight }: Props) => {
               contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
               width={1600}
               height={900}
+              crops={{}}
               alt=""
-              tasl={null}
+              tasl={{
+                title: null,
+                author: null,
+                sourceName: null,
+                sourceLink: null,
+                license: null,
+                copyrightHolder: null,
+                copyrightLink: null,
+              }}
               sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
               extraClasses=""
               showTasl={false}
@@ -169,14 +180,14 @@ const VenueHours = ({ venue, weight }: Props) => {
           ))}
         </ul>
       </VenueHoursTimes>
-      {upcomingExceptionalPeriods.map(upcomingExceptionalPeriod => {
+      {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
         const firstOverride = upcomingExceptionalPeriod.find(
           date => date.overrideType
         );
         const overrideType =
           firstOverride && firstOverride.overrideType === 'other'
             ? 'Unusual'
-            : firstOverride.overrideType;
+            : firstOverride && firstOverride.overrideType;
         return (
           <>
             <JauntyBox
@@ -184,7 +195,7 @@ const VenueHours = ({ venue, weight }: Props) => {
                 size: 'l',
                 properties: ['padding-top', 'padding-bottom'],
               }}
-              key={upcomingExceptionalPeriod}
+              key={i}
               topLeft={randomPx()}
               topRight={randomPx()}
               bottomRight={randomPx()}
@@ -216,9 +227,10 @@ const VenueHours = ({ venue, weight }: Props) => {
                 })}
               >
                 {upcomingExceptionalPeriod.map(p => (
-                  <li key={p.overrideDate}>
-                    {formatDay(p.overrideDate)} {formatDayMonth(p.overrideDate)}{' '}
-                    {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
+                  <li key={p.overrideDate.toString()}>
+                    {formatDay(p.overrideDate.toDate())}{' '}
+                    {formatDayMonth(p.overrideDate.toDate())}{' '}
+                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
                   </li>
                 ))}
               </ul>
