@@ -214,7 +214,6 @@ const Works = ({ works }: Props) => {
         {works && (
           <Layout12>
             <TabNav
-              large={true}
               items={[
                 {
                   text: 'All',
