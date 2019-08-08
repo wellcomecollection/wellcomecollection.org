@@ -30,17 +30,13 @@ const SearchResults = ({
       >
         <div className="grid">
           <div className={grid({ s: 12 })}>
-            <h2 className="h2 no-margin">{title}</h2>
+            <h2 className="h2">{title}</h2>
           </div>
         </div>
       </Space>
     )}
     {summary && (
-      <Space
-        v={!title ? { size: 'l', properties: ['margin-bottom'] } : undefined}
-      >
-        {summary}
-      </Space>
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
     )}
 
     {items.map((item, index) => (
