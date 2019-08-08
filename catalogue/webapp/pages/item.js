@@ -85,8 +85,13 @@ type Props = {|
   itemsLocationsLocationType: ?(string[]),
   workType: ?(string[]),
   query: ?string,
-  video: ?{}, // TODO
-  audio: ?{}, // TODO
+  video: ?{
+    '@id': string,
+    format: string,
+  },
+  audio: ?{
+    '@id': string,
+  },
 |};
 
 const ItemPage = ({
@@ -194,7 +199,7 @@ const ItemPage = ({
 
       {video && (
         <Layout12>
-         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <video
               controls
               style={{
