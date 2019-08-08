@@ -221,6 +221,8 @@ const Works = ({ works }: Props) => {
                     query,
                     workType: undefined,
                     page: 1,
+                    _dateFrom,
+                    _dateTo,
                   }),
                   selected: !workType,
                 },
@@ -230,6 +232,8 @@ const Works = ({ works }: Props) => {
                     query,
                     workType: ['a', 'v'],
                     page: 1,
+                    _dateFrom,
+                    _dateTo,
                   }),
                   selected: !!(
                     workType &&
@@ -243,6 +247,8 @@ const Works = ({ works }: Props) => {
                     query,
                     workType: ['k', 'q'],
                     page: 1,
+                    _dateFrom,
+                    _dateTo,
                   }),
                   selected: !!(
                     workType &&
