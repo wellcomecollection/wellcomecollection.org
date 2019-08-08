@@ -9,7 +9,11 @@ import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { getDownloadOptionsFromManifest } from '@weco/common/utils/works';
+import {
+  getDownloadOptionsFromManifest,
+  getVideo,
+  getAudio,
+} from '@weco/common/utils/works';
 import { getWork } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Raven from 'raven-js';
@@ -30,6 +34,7 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   height: 90vh;
   display: block;
   border: 0;
+  margin-top: 98px;
 `;
 
 async function getCanvasOcr(canvas) {
@@ -80,6 +85,13 @@ type Props = {|
   itemsLocationsLocationType: ?(string[]),
   workType: ?(string[]),
   query: ?string,
+  video: ?{
+    '@id': string,
+    format: string,
+  },
+  audio: ?{
+    '@id': string,
+  },
 |};
 
 const ItemPage = ({
@@ -97,6 +109,8 @@ const ItemPage = ({
   itemsLocationsLocationType,
   workType,
   query,
+  video,
+  audio,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const [iiifImageLocation] =
@@ -165,13 +179,55 @@ const ItemPage = ({
       hideFooter={true}
       fixHeader={true}
     >
-      {!pdfRendering && !mainImageService && !iiifImageLocationUrl && (
+      {audio && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <BetaMessage message="We are working to make this item available online in April 2019." />
+            <audio
+              controls
+              style={{
+                maxWidth: '100%',
+                display: 'block',
+                margin: '98px auto 0',
+              }}
+              src={audio['@id']}
+            >
+              {`Sorry, your browser doesn't support embedded audio.`}
+            </audio>
           </Space>
         </Layout12>
       )}
+
+      {video && (
+        <Layout12>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <video
+              controls
+              style={{
+                maxWidth: '100%',
+                maxHeight: '70vh',
+                display: 'block',
+                margin: '98px auto auto',
+              }}
+            >
+              <source src={video['@id']} type={video.format} />
+              {`Sorry, your browser doesn't support embedded video.`}
+            </video>
+          </Space>
+        </Layout12>
+      )}
+      {!audio &&
+        !video &&
+        !pdfRendering &&
+        !mainImageService &&
+        !iiifImageLocationUrl && (
+          <Layout12>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <div style={{ marginTop: '98px' }}>
+                <BetaMessage message="We are working to make this item available online." />
+              </div>
+            </Space>
+          </Layout12>
+        )}
       {pdfRendering && !mainImageService && (
         <IframePdfViewer
           v={{
@@ -228,12 +284,12 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
-
+  const video = manifest && getVideo(manifest);
+  const audio = manifest && getAudio(manifest);
   // The sierraId originates from the iiif presentation manifest url
   // If we don't have one, we must be trying to display a work with an iiif image location,
   // so we need to get the work object to get the necessary data to display
   const work = !sierraId ? await getWork({ id: workId }) : null;
-
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
@@ -255,6 +311,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     itemsLocationsLocationType: null,
     workType: null,
     query,
+    video,
+    audio,
   };
 };
 
