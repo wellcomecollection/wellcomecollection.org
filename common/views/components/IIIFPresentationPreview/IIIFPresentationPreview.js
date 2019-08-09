@@ -352,42 +352,55 @@ const IIIFPresentationDisplay = ({
   if (viewType === 'video' && video) {
     return (
       <WobblyRow>
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <video
-                controls
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '70vh',
-                  display: 'block',
-                  margin: 'auto',
-                }}
-              >
-                <source src={video['@id']} type={video.format} />
-                {`Sorry, your browser doesn't support embedded video.`}
-              </video>
-            </Space>
-        </WobblyRow>
+        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <video
+            onPlay={() => {
+              trackEvent({
+                category: 'Video',
+                action: 'play video',
+                label: video['@id'],
+              });
+            }}
+            controls
+            style={{
+              maxWidth: '100%',
+              maxHeight: '70vh',
+              display: 'block',
+              margin: 'auto',
+            }}
+          >
+            <source src={video['@id']} type={video.format} />
+            {`Sorry, your browser doesn't support embedded video.`}
+          </video>
+        </Space>
+      </WobblyRow>
     );
   }
 
   if (viewType === 'audio' && audio) {
     return (
       <WobblyRow>
-
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <audio
-                controls
-                style={{
-                  maxWidth: '100%',
-                  display: 'block',
-                  margin: 'auto',
-                }}
-                src={audio['@id']}
-              >
-                {`Sorry, your browser doesn't support embedded audio.`}
-              </audio>
-            </Space>{' '}
-  </WobblyRow>
+        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <audio
+            onPlay={() => {
+              trackEvent({
+                category: 'Audio',
+                action: 'play audio',
+                label: audio['@id'],
+              });
+            }}
+            controls
+            style={{
+              maxWidth: '100%',
+              display: 'block',
+              margin: 'auto',
+            }}
+            src={audio['@id']}
+          >
+            {`Sorry, your browser doesn't support embedded audio.`}
+          </audio>
+        </Space>{' '}
+      </WobblyRow>
     );
   }
 
