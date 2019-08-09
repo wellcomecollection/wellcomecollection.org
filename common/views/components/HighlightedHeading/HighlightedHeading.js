@@ -1,4 +1,4 @@
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   text: string,
@@ -7,13 +7,16 @@ type Props = {|
 const HighlightedHeading = ({ text }: Props) => {
   return (
     <h1 className="h1">
-      <VerticalSpace
-        size="s"
-        properties={['padding-top', 'padding-bottom']}
-        className={`highlighted-heading bg-white padding-left-12 padding-right-12`}
+      <Space
+        v={{
+          size: 's',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={`highlighted-heading bg-white`}
       >
         {text}
-      </VerticalSpace>
+      </Space>
     </h1>
   );
 };

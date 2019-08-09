@@ -1,15 +1,17 @@
 // @flow
 import Button from '../Buttons/Button/Button';
 import { grid, font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const NewsletterPromo = () => (
   <div className="row bg-cream">
     <div className="container">
       <div className="grid">
-        <VerticalSpace
-          size="l"
-          properties={['padding-top', 'padding-bottom']}
+        <Space
+          v={{
+            size: 'l',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
         >
           <h2 className="h2">
@@ -26,7 +28,7 @@ const NewsletterPromo = () => (
             url="/newsletter"
             text="Sign up"
           />
-        </VerticalSpace>
+        </Space>
       </div>
     </div>
   </div>

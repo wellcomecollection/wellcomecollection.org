@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Space from '@weco/common/views/components/styled/Space';
 
 const HiddenContent = styled.div.attrs(props => ({
   className: classNames({
@@ -85,22 +86,23 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
         relative: true,
       })}
     >
-      <Button
-        type="tertiary"
-        extraClasses={classNames({
-          relative: true,
-          'btn--secondary-black': true,
-          'btn--small': true,
-          'margin-left-6': true,
-        })}
-        icon="chevron"
-        text={buttonText}
-        ariaConftrols="hiddenContent"
-        ariaExpfanded={showHidden}
-        clickHandler={() => {
-          setShowHidden(!showHidden);
-        }}
-      />
+      <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+        <Button
+          type="tertiary"
+          extraClasses={classNames({
+            relative: true,
+            'btn--secondary-black': true,
+            'btn--small': true,
+          })}
+          icon="chevron"
+          text={buttonText}
+          ariaConftrols="hiddenContent"
+          ariaExpfanded={showHidden}
+          clickHandler={() => {
+            setShowHidden(!showHidden);
+          }}
+        />
+      </Space>
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
         <SpacingComponent>{children}</SpacingComponent>
       </HiddenContent>

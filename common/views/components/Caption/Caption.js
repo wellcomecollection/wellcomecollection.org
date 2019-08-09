@@ -3,7 +3,7 @@ import type { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
 import type { Node } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   caption: HTMLString,
@@ -13,10 +13,12 @@ type Props = {|
 
 const Caption = ({ caption, preCaptionNode, width }: Props) => {
   return (
-    <VerticalSpace
+    <Space
+      v={{
+        size: 'm',
+        properties: ['margin-top'],
+      }}
       as="figcaption"
-      size="m"
-      properties={['margin-top']}
       style={width ? { width: `${width}px` } : undefined}
       className={classNames({
         [font('lr', 6)]: true,
@@ -31,15 +33,16 @@ const Caption = ({ caption, preCaptionNode, width }: Props) => {
         tabIndex="0"
       >
         {preCaptionNode}
-        <div
-          className={`border-left-width-1 padding-left-12`}
+        <Space
+          h={{ size: 'm', properties: ['padding-left'] }}
+          className={`border-left-width-1`}
           style={{ borderColor: 'currentColor' }}
         >
           <PrismicHtmlBlock html={caption} />
-        </div>
+        </Space>
         <style>{'.caption p { display: inline; }'}</style>
       </div>
-    </VerticalSpace>
+    </Space>
   );
 };
 

@@ -24,7 +24,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -367,9 +367,11 @@ const WorkDetails = ({
   );
 
   return (
-    <VerticalSpace
-      size="xl"
-      properties={['padding-top', 'padding-bottom']}
+    <Space
+      v={{
+        size: 'xl',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       className={classNames({
         row: true,
       })}
@@ -389,7 +391,7 @@ const WorkDetails = ({
           );
         })}
       </Layout12>
-    </VerticalSpace>
+    </Space>
   );
 };
 

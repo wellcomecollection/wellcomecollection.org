@@ -33,7 +33,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -154,9 +154,11 @@ export const WorkPage = ({ work }: Props) => {
         <BetaBar />
       </Layout12>
 
-      <VerticalSpace
-        size="l"
-        properties={['padding-top']}
+      <Space
+        v={{
+          size: 'l',
+          properties: ['padding-top'],
+        }}
         className={classNames({
           'bg-cream': true,
         })}
@@ -176,22 +178,26 @@ export const WorkPage = ({ work }: Props) => {
           </div>
 
           <div className="grid">
-            <VerticalSpace
-              size="s"
-              properties={['padding-top', 'padding-bottom']}
+            <Space
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
               className={classNames({
                 [grid({ s: 12 })]: true,
               })}
             >
               <BackToResults />
-            </VerticalSpace>
+            </Space>
           </div>
         </div>
-      </VerticalSpace>
+      </Space>
 
-      <VerticalSpace
-        size="xl"
-        properties={['padding-top']}
+      <Space
+        v={{
+          size: 'xl',
+          properties: ['padding-top'],
+        }}
         className={classNames({
           row: true,
         })}
@@ -201,7 +207,7 @@ export const WorkPage = ({ work }: Props) => {
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
-      </VerticalSpace>
+      </Space>
 
       {firstChildManifest && (
         <ManifestContext.Provider value={firstChildManifest}>

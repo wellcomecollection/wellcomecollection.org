@@ -1,11 +1,12 @@
 // @flow
+import { type ComponentType } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import {
   trackRelevanceRating,
   RelevanceRatingEventNames,
 } from '../Tracker/Tracker';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const RelevanceRaterStyle = styled.div.attrs(props => ({
   className: classNames({
@@ -16,12 +17,13 @@ const RelevanceRaterStyle = styled.div.attrs(props => ({
   height: 100%;
 `;
 
-const RelevanceRating = styled(VerticalSpace).attrs(props => ({
-  className: classNames({
-    'plain-button': true,
-    'padding-left-12 padding-right-12': true,
-  }),
-}))`
+const RelevanceRating: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'plain-button': true,
+    }),
+  })
+)`
   width: 25%;
   cursor: pointer;
   border: 1px solid ${props => props.theme.colors.smoke};
@@ -57,9 +59,12 @@ const RelevanceRater = ({
     <div>
       <RelevanceRaterStyle>
         <RelevanceRating
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
-          size="s"
-          properties={['padding-top', 'padding-bottom']}
           index={0}
           onClick={() =>
             trackRelevanceRating(
@@ -78,9 +83,12 @@ const RelevanceRater = ({
           No apparent relationship to search term
         </RelevanceRating>
         <RelevanceRating
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
-          size="s"
-          properties={['padding-top', 'padding-bottom']}
           index={1}
           onClick={() =>
             trackRelevanceRating(
@@ -99,9 +107,12 @@ const RelevanceRater = ({
           Reasonable to be retrieved but should not be this highly ranked
         </RelevanceRating>
         <RelevanceRating
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
-          size="s"
-          properties={['padding-top', 'padding-bottom']}
           index={2}
           onClick={() =>
             trackRelevanceRating(
@@ -120,9 +131,12 @@ const RelevanceRater = ({
           Not perfect but reasonable to be highly ranked
         </RelevanceRating>
         <RelevanceRating
+          v={{
+            size: 's',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           as="button"
-          size="s"
-          properties={['padding-top', 'padding-bottom']}
           index={3}
           onClick={() =>
             trackRelevanceRating(

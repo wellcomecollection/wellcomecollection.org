@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
-import { classNames } from '../../../utils/classnames';
 import Raven from 'raven-js';
 import { trackEvent } from '../../../utils/ga';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
 import LL from '../styled/LL';
+import Space from '../styled/Space';
 
 const ImageViewerControls = styled.div`
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -285,13 +285,12 @@ const ImageViewer = ({
           aria-hidden="true"
         >
           {isError && (
-            <p
-              className={classNames({
-                'padding-left-12 padding-right-12': true,
-              })}
+            <Space
+              as="p"
+              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             >
               The image viewer is not working
-            </p>
+            </Space>
           )}
           {!viewer && (
             // TODO: maybe add role="presentation" to img?

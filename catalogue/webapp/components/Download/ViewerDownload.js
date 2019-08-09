@@ -11,6 +11,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Space from '@weco/common/views/components/styled/Space';
 
 const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
@@ -106,22 +107,23 @@ const Download = ({
         relative: true,
       })}
     >
-      <Button
-        type="tertiary"
-        extraClasses={classNames({
-          relative: true,
-          'btn--secondary-black': true,
-          'btn--small': true,
-          'margin-left-6': true,
-        })}
-        icon="download"
-        text="Download"
-        ariaControls="downloadOptions"
-        ariaExpanded={showDownloads}
-        clickHandler={() => {
-          setShowDownloads(!showDownloads);
-        }}
-      />
+      <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
+        <Button
+          type="tertiary"
+          extraClasses={classNames({
+            relative: true,
+            'btn--secondary-black': true,
+            'btn--small': true,
+          })}
+          icon="download"
+          text="Download"
+          ariaControls="downloadOptions"
+          ariaExpanded={showDownloads}
+          clickHandler={() => {
+            setShowDownloads(!showDownloads);
+          }}
+        />
+      </Space>
       <DownloadOptions id="downloadOptions" hidden={!showDownloads}>
         <SpacingComponent>
           <ul className="plain-list no-margin no-padding">
@@ -157,15 +159,16 @@ const Download = ({
                           {option.label}
                         </span>
                         {format && (
-                          <span
+                          <Space
+                            as="span"
+                            h={{ size: 'm', properties: ['margin-left'] }}
                             className={classNames({
                               'font-pewter': true,
                               [font('hnm', 5)]: true,
-                              'margin-left-12': true,
                             })}
                           >
                             {format}
-                          </span>
+                          </Space>
                         )}
                       </span>
                     </a>

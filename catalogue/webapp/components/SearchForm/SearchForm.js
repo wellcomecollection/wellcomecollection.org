@@ -9,9 +9,10 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -42,6 +43,70 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+// For search term "Darwin"
+const twentyYearRange = [
+  {
+    from: '1780',
+    to: '1800',
+    results: 22,
+  },
+  {
+    from: '1800',
+    to: '1820',
+    results: 14,
+  },
+  {
+    from: '1820',
+    to: '1840',
+    results: 6,
+  },
+  {
+    from: '1840',
+    to: '1860',
+    results: 7,
+  },
+  {
+    from: '1860',
+    to: '1880',
+    results: 61,
+  },
+  {
+    from: '1880',
+    to: '1900',
+    results: 66,
+  },
+  {
+    from: '1900',
+    to: '1920',
+    results: 33,
+  },
+  {
+    from: '1920',
+    to: '1940',
+    results: 11,
+  },
+  {
+    from: '1940',
+    to: '1960',
+    results: 6,
+  },
+  {
+    from: '1960',
+    to: '1980',
+    results: 8,
+  },
+  {
+    from: '1980',
+    to: '2000',
+    results: 6,
+  },
+  {
+    from: '2000',
+    to: '2020',
+    results: 3,
+  },
+];
+
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const {
     query,
@@ -59,6 +124,34 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
   const [showSlider, setShowSlider] = useState(true);
+
+  const dateRangeItems = twentyYearRange.map(range => {
+    return {
+      text: `${range.from}-${range.to} (${range.results})`,
+      link: worksUrl({
+        query,
+        workType,
+        page: 1,
+        _dateFrom: `${range.from}-01-01`,
+        _dateTo: `${range.to}-01-01`,
+      }),
+      selected: !!(
+        _dateFrom &&
+        _dateFrom === range.from &&
+        _dateTo &&
+        _dateTo === range.to
+      ),
+    };
+  });
+  dateRangeItems.push({
+    text: `unknown (299)`,
+    link: worksUrl({
+      query,
+      workType,
+      page: 1,
+    }),
+    selected: false,
+  });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -194,75 +287,88 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         </TogglesContext.Consumer>
 
         <TogglesContext.Consumer>
-          {({ showDatesPrototype, showDatesSliderPrototype }) => (
+          {({
+            showDatesPrototype,
+            showDatesSliderPrototype,
+            showDatesAggregatePrototype,
+          }) => (
             <>
-              {(showDatesPrototype || showDatesSliderPrototype) && (
-                <VerticalSpace size="m" properties={['margin-top']}>
-                  <div
-                    style={{
-                      display: showDatesSliderPrototype ? 'none' : 'block',
-                    }}
-                  >
-                    <VerticalSpace size="s" properties={['margin-top']}>
-                      <label>
-                        from:{' '}
-                        <input
-                          value={inputDateFrom || ''}
-                          onChange={event => {
-                            setInputDateFrom(`${event.currentTarget.value}`);
-                          }}
-                          style={{ width: '8em', padding: '0.5em' }}
-                        />
-                      </label>{' '}
-                      <label>
-                        to:{' '}
-                        <input
-                          value={inputDateTo || ''}
-                          onChange={event => {
-                            setInputDateTo(`${event.currentTarget.value}`);
-                          }}
-                          style={{ width: '8em', padding: '0.5em' }}
-                        />
-                      </label>
-                    </VerticalSpace>
-                    <VerticalSpace size="m" properties={['margin-top']}>
-                      <Button
-                        type="primary"
-                        text="Clear dates"
-                        clickHandler={() => {
-                          setInputDateFrom('');
-                          setInputDateTo('');
-                        }}
-                      />
-                    </VerticalSpace>
-                  </div>
-                  {showDatesSliderPrototype && (
-                    <>
-                      {showSlider && (
-                        <DateSlider
-                          startValues={{
-                            to: inputDateTo,
-                            from: inputDateFrom,
-                          }}
-                          updateFrom={setInputDateFrom}
-                          updateTo={setInputDateTo}
-                        />
-                      )}
-                      <Button
-                        type="primary"
-                        text={showSlider ? 'Clear dates' : 'Show date filter'}
-                        clickHandler={() => {
-                          setShowSlider(!showSlider);
-                          if (showSlider) {
+              {(showDatesPrototype || showDatesSliderPrototype) &&
+                !showDatesAggregatePrototype && (
+                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                    <div
+                      style={{
+                        display: showDatesSliderPrototype ? 'none' : 'block',
+                      }}
+                    >
+                      <Space v={{ size: 's', properties: ['margin-top'] }}>
+                        <label>
+                          from:{' '}
+                          <input
+                            value={inputDateFrom || ''}
+                            onChange={event => {
+                              setInputDateFrom(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>{' '}
+                        <label>
+                          to:{' '}
+                          <input
+                            value={inputDateTo || ''}
+                            onChange={event => {
+                              setInputDateTo(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>
+                      </Space>
+                      <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                        <Button
+                          type="primary"
+                          text="Clear dates"
+                          clickHandler={() => {
                             setInputDateFrom('');
                             setInputDateTo('');
-                          }
-                        }}
-                      />
-                    </>
-                  )}
-                </VerticalSpace>
-              )}
+                          }}
+                        />
+                      </Space>
+                    </div>
+                    {showDatesSliderPrototype && !showDatesAggregatePrototype && (
+                      <>
+                        {showSlider && (
+                          <DateSlider
+                            startValues={{
+                              to: inputDateTo,
+                              from: inputDateFrom,
+                            }}
+                            updateFrom={setInputDateFrom}
+                            updateTo={setInputDateTo}
+                          />
+                        )}
+                        <button
+                          type="button"
+                          className="plain-button underline-on-hover no-visible-focus"
+                          onClick={() => {
+                            setShowSlider(!showSlider);
+                            if (showSlider) {
+                              setInputDateFrom('');
+                              setInputDateTo('');
+                            }
+                          }}
+                        >
+                          {showSlider ? 'Clear dates' : 'Show date filter'}
+                        </button>
+                      </>
+                    )}
+                  </Space>
+                )}
+              {showDatesAggregatePrototype &&
+                (query &&
+                  inputQuery &&
+                  inputQuery.toLowerCase() === 'darwin') && (
+                  <TabNav items={dateRangeItems} />
+                )}
             </>
           )}
         </TogglesContext.Consumer>

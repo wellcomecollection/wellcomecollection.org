@@ -1,21 +1,13 @@
 // @flow
 import { grid, font } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import styled from 'styled-components';
 
-const YellowBorder = styled.div`
-  position: relative;
-  padding-left: 100px;
-
-  &:before {
-    position: absolute;
-    content: '';
-    top: 6px;
-    width: 86px;
-    left: 0;
-    height: 20px;
-    background: ${props => props.theme.colors.yellow};
-  }
+const YellowBox = styled.div`
+  display: inline-block;
+  width: 60px;
+  height: 20px;
+  background: ${props => props.theme.colors.yellow};
 `;
 
 type Props = {|
@@ -30,14 +22,22 @@ const SectionHeader = ({ title }: Props) => {
     <div className={`row`}>
       <div className="container">
         <div className="grid">
-          <VerticalSpace
-            size="s"
+          <Space
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
             className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}
-          ></VerticalSpace>
+          ></Space>
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <YellowBorder>
-              <h2 className={`no-margin ${font('wb', 3)}`}>{title}</h2>
-            </YellowBorder>
+            <YellowBox />
+            <Space
+              as="h2"
+              h={{ size: 's', properties: ['margin-left'] }}
+              className={`inline no-margin ${font('wb', 3)}`}
+            >
+              {title}
+            </Space>
           </div>
         </div>
       </div>

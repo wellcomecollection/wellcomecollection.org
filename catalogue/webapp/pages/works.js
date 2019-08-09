@@ -29,7 +29,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
@@ -152,28 +152,37 @@ const Works = ({ works }: Props) => {
           <BetaBar />
         </Layout12>
 
-        <VerticalSpace
-          size="l"
-          properties={['padding-top', 'padding-bottom']}
+        <Space
+          v={{
+            size: 'l',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={classNames(['row bg-cream'])}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <VerticalSpace
-                  size="m"
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-bottom'],
+                  }}
                   className={classNames([
                     'flex flex--h-space-between flex--v-center flex--wrap',
                   ])}
                 >
                   <>
                     {!works && (
-                      <VerticalSpace as="h1" size="m" className="h1">
+                      <Space
+                        as="h1"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        className="h1"
+                      >
                         Explore our collections
-                      </VerticalSpace>
+                      </Space>
                     )}
                   </>
-                </VerticalSpace>
+                </Space>
               </div>
             </div>
 
@@ -198,83 +207,78 @@ const Works = ({ works }: Props) => {
               </div>
             </div>
           </div>
-        </VerticalSpace>
+        </Space>
 
         {!works && <StaticWorksContent />}
 
         {works && (
           <Layout12>
-            <TogglesContext.Consumer>
-              {({ audioVideoInSearch }) => {
-                const items = [
-                  {
-                    text: 'All',
-                    link: worksUrl({
-                      query,
-                      workType: undefined,
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !workType,
-                  },
-                  {
-                    text: 'Books',
-                    link: worksUrl({
-                      query,
-                      workType: ['a', 'v'],
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !!(
-                      workType &&
-                      (workType.indexOf('a') !== -1 &&
-                        workType.indexOf('v') !== -1)
-                    ),
-                  },
-                  {
-                    text: 'Pictures',
-                    link: worksUrl({
-                      query,
-                      workType: ['k', 'q'],
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !!(
-                      workType &&
-                      (workType.indexOf('k') !== -1 &&
-                        workType.indexOf('q') !== -1)
-                    ),
-                  },
-                ];
-                if (audioVideoInSearch) {
-                  items.push({
-                    text: 'Audio/Video',
-                    link: worksUrl({
-                      query,
-                      workType: ['f', 's'],
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    }),
-                    selected: !!(
-                      workType &&
-                      (workType.indexOf('f') !== -1 &&
-                        workType.indexOf('s') !== -1)
-                    ),
-                  });
-                }
-                return <TabNav items={items} />;
-              }}
-            </TogglesContext.Consumer>
+            <TabNav
+              items={[
+                {
+                  text: 'All',
+                  link: worksUrl({
+                    query,
+                    workType: undefined,
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !workType,
+                },
+                {
+                  text: 'Books',
+                  link: worksUrl({
+                    query,
+                    workType: ['a', 'v'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('a') !== -1 &&
+                      workType.indexOf('v') !== -1)
+                  ),
+                },
+                {
+                  text: 'Pictures',
+                  link: worksUrl({
+                    query,
+                    workType: ['k', 'q'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('k') !== -1 &&
+                      workType.indexOf('q') !== -1)
+                  ),
+                },
+                {
+                  text: 'Audio/Video',
+                  link: worksUrl({
+                    query,
+                    workType: ['f', 's'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('f') !== -1 &&
+                      workType.indexOf('s') !== -1)
+                  ),
+                },
+              ]}
+            />
           </Layout12>
         )}
 
         {works && works.results.length > 0 && (
           <Fragment>
-            <VerticalSpace size="l" properties={['padding-top']}>
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
                   <div
@@ -314,11 +318,13 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </VerticalSpace>
+            </Space>
 
-            <VerticalSpace
-              size="l"
-              properties={['padding-top']}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top'],
+              }}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
@@ -367,9 +373,11 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
 
-              <VerticalSpace
-                size="l"
-                properties={['padding-top', 'padding-bottom']}
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
               >
                 <div className="container">
                   <div className="grid">
@@ -406,32 +414,48 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </VerticalSpace>
-            </VerticalSpace>
+              </Space>
+            </Space>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <VerticalSpace size="l" properties={['padding-top']}>
+          <Space
+            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-                  <p className="h1">
+                  <p className={font('hnl', 2)}>
                     We couldn{`'`}t find anything that matched{' '}
                     <span
                       className={classNames({
-                        [font('hnl', 2)]: true,
+                        [font('hnm', 2)]: true,
                       })}
                       style={{ fontWeight: '400' }}
                     >
                       {query}
                     </span>
-                    .
+                    {workType && (
+                      <>
+                        {' '}
+                        in{' '}
+                        <span className={font('hnm', 2)}>
+                          {(workType.includes('k') && 'pictures') ||
+                            (workType.includes('f') && 'audio/video') ||
+                            (workType.includes('a') && 'books')}
+                        </span>
+                      </>
+                    )}
+                    {(_dateFrom || _dateTo) && (
+                      <> within the date range provided</>
+                    )}
+                    . Please try again.
                   </p>
                 </div>
               </div>
             </div>
-          </VerticalSpace>
+          </Space>
         )}
       </CataloguePageLayout>
     </Fragment>
@@ -450,7 +474,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsm,
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
-    audioVideoInSearch,
+    showDatesPrototype,
+    showDatesSliderPrototype,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -461,11 +486,9 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     : null;
   const workTypeQuery = ctx.query.workType;
   const _queryType = ctx.query._queryType || toggledQueryType;
-  const defaultWorkType = ['a', 'k', 'q', 'v'];
+  const defaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
-    : audioVideoInSearch
-    ? defaultWorkType.concat(['f', 's'])
     : defaultWorkType;
 
   const filters = {
@@ -476,15 +499,19 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const worksOrError =
-    query && query !== ''
-      ? await getWorks({
-          query,
-          page,
-          filters,
-          env: useStageApi ? 'stage' : 'prod',
-        })
-      : null;
+  const isDatesPrototype = showDatesPrototype || showDatesSliderPrototype;
+  const shouldGetWorks = isDatesPrototype
+    ? filters._dateTo || filters._dateFrom || (query && query !== '')
+    : query && query !== '';
+
+  const worksOrError = shouldGetWorks
+    ? await getWorks({
+        query,
+        page,
+        filters,
+        env: useStageApi ? 'stage' : 'prod',
+      })
+    : null;
 
   return {
     works: worksOrError,

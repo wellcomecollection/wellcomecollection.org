@@ -4,7 +4,7 @@ import { trackEvent } from '../../../utils/ga';
 import { Fragment, Component } from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -115,9 +115,11 @@ class CopyUrl extends Component<Props, State> {
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
         once we're fully reactified */}
 
-        <VerticalSpace
-          size="m"
-          properties={['margin-top']}
+        <Space
+          v={{
+            size: 'm',
+            properties: ['margin-top'],
+          }}
           aria-live="polite"
           onClick={this.handleButtonClick}
           data-copy-text={url}
@@ -137,7 +139,7 @@ class CopyUrl extends Component<Props, State> {
             />
             <span>{getButtonMarkup(isTextCopied, isClicked)}</span>
           </span>
-        </VerticalSpace>
+        </Space>
       </div>
     );
   }

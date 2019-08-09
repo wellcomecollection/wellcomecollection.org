@@ -10,7 +10,7 @@ import {
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -34,6 +34,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Router from 'next/router';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const headerHeight = 149;
 
@@ -145,12 +146,13 @@ const IIIFViewer = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewerMain = styled.div.attrs(props => ({
-  className: classNames({
-    'relative bg-charcoal font-white': true,
-    'padding-left-6 padding-right-6': true,
-  }),
-}))`
+const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'relative bg-charcoal font-white': true,
+    }),
+  })
+)`
   noscript & {
     height: 80%;
     @media (min-width: ${props => props.theme.sizes.medium}px) {
@@ -695,7 +697,10 @@ const IIIFViewerComponent = ({
         <LL />
         <noscript>
           <IIIFViewer>
-            <IIIFViewerMain fullWidth={!thumbnailsRequired}>
+            <IIIFViewerMain
+              h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+              fullWidth={!thumbnailsRequired}
+            >
               <IIIFViewerImageWrapper>
                 {iiifImageLocationUrl && imageUrl && (
                   <IIIFResponsiveImage

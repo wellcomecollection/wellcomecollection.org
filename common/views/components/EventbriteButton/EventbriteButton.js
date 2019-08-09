@@ -3,7 +3,7 @@ import type { UiEvent } from '../../../model/events';
 import Button from '../Buttons/Button/Button';
 import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {
   event: UiEvent,
@@ -18,7 +18,7 @@ const EventbriteButton = ({ event }: Props) => {
         <Button type="primary" disabled={true} text="Fully booked" />
       ) : (
         <Fragment>
-          <VerticalSpace size="s">
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
             <Button
               type="primary"
               url={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
@@ -30,7 +30,7 @@ const EventbriteButton = ({ event }: Props) => {
               icon="ticket"
               text="Check for tickets"
             />
-          </VerticalSpace>
+          </Space>
           <p
             className={classNames({
               'font-charcoal no-margin': true,

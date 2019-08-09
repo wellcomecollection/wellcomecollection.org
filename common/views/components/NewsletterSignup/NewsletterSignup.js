@@ -1,9 +1,8 @@
 // @flow
 import { font } from '../../../utils/classnames';
 import HTMLInput from '../HTMLInput/HTMLInput';
-import Button from '../Buttons/Button/Button';
 import { Component, Fragment } from 'react';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   isSuccess?: boolean,
@@ -185,7 +184,7 @@ class NewsletterSignup extends Component<Props, State> {
               value=""
             />
 
-            <VerticalSpace size="l">
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <HTMLInput
                 required={true}
                 id="email"
@@ -196,15 +195,22 @@ class NewsletterSignup extends Component<Props, State> {
                 isLabelHidden={true}
                 onChange={this.handleEmailInput}
               />
-            </VerticalSpace>
+            </Space>
 
-            <VerticalSpace size="m" as="fieldset">
+            <Space
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+              as="fieldset"
+            >
               <legend className="h3">
                 What are you interested in? Choose as many as you like:
               </legend>
               <ul className="plain-list no-padding">
                 {addressBooks.map(addressBook => (
-                  <VerticalSpace as="li" size="m" key={addressBook.id}>
+                  <Space
+                    as="li"
+                    v={{ size: 'm', properties: ['margin-bottom'] }}
+                    key={addressBook.id}
+                  >
                     <HTMLInput
                       id={addressBook.id}
                       type="checkbox"
@@ -212,10 +218,10 @@ class NewsletterSignup extends Component<Props, State> {
                       label={addressBook.label}
                       onChange={this.updateCheckedInputs}
                     />
-                  </VerticalSpace>
+                  </Space>
                 ))}
               </ul>
-            </VerticalSpace>
+            </Space>
 
             <p className={`${font('hnl', 6)}`}>
               We use a third-party provider,{' '}
@@ -231,32 +237,44 @@ class NewsletterSignup extends Component<Props, State> {
               receive.
             </p>
 
-            <VerticalSpace size="m">
-              <Button
-                type={'primary'}
-                extraClasses={`btn--primary`}
-                text="Submit"
-              />
-            </VerticalSpace>
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <button className="btn btn--primary">Submit</button>
+            </Space>
 
             {this.state.isCheckboxError && this.state.isSubmitAttempted && (
-              <VerticalSpace
+              <Space
                 as="p"
-                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
-                className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
+                v={{
+                  size: 's',
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-bottom',
+                  ],
+                }}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                className={`border-width-1 border-color-red font-red`}
               >
                 Please select at least one option.
-              </VerticalSpace>
+              </Space>
             )}
 
             {this.state.isEmailError && this.state.isSubmitAttempted && (
-              <VerticalSpace
+              <Space
                 as="p"
-                properties={['padding-top', 'padding-bottom', 'margin-bottom']}
-                className={`padding-left-12 padding-right-12 border-width-1 border-color-red font-red`}
+                v={{
+                  size: 's',
+                  properties: [
+                    'padding-top',
+                    'padding-bottom',
+                    'margin-bottom',
+                  ],
+                }}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                className={`border-width-1 border-color-red font-red`}
               >
                 Please enter a valid email address.
-              </VerticalSpace>
+              </Space>
             )}
           </form>
         )}

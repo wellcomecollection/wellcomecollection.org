@@ -32,7 +32,7 @@ import {
   eatShopList,
   lastPara,
 } from '@weco/content/content/visit-us-content';
-import VerticalSpace from '@weco/common/views/components/styled/VerticalSpace';
+import Space from '@weco/common/views/components/styled/Space';
 
 type ContainerProps = {|
   children: any,
@@ -74,7 +74,9 @@ const BespokeBody = (
                 [font('hnl', 4)]: true,
               })}
             >
-              <Icon name="clock" extraClasses={`float-l margin-right-12`} />
+              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+                <Icon name="clock" extraClasses={`float-l`} />
+              </Space>
               <div
                 className={classNames({
                   [font('hnl', 5)]: true,
@@ -93,10 +95,12 @@ const BespokeBody = (
                       const todaysHours = getTodaysVenueHours(venue);
                       return (
                         todaysHours && (
-                          <VerticalSpace
+                          <Space
+                            v={{
+                              size: 's',
+                              properties: ['margin-top'],
+                            }}
                             as="li"
-                            size="s"
-                            properties={['margin-top']}
                             key={venue.name}
                           >
                             {venue.name.toLowerCase() === 'restaurant'
@@ -111,19 +115,21 @@ const BespokeBody = (
                             ) : (
                               'closed'
                             )}
-                          </VerticalSpace>
+                          </Space>
                         )
                       );
                     }
                   )}
                 </ul>
-                <VerticalSpace
-                  size="s"
-                  properties={['margin-top']}
+                <Space
+                  v={{
+                    size: 's',
+                    properties: ['margin-top'],
+                  }}
                   className={`no-margin`}
                 >
                   <a href="/opening-times">Opening times</a>
-                </VerticalSpace>
+                </Space>
               </div>
             </div>
           </div>
@@ -136,9 +142,11 @@ const BespokeBody = (
         title={planList.value.title}
         items={planList.value.items}
       />
-      <VerticalSpace
-        size="m"
-        properties={['padding-top']}
+      <Space
+        v={{
+          size: 'm',
+          properties: ['padding-top'],
+        }}
         className={classNames({
           grid: true,
         })}
@@ -149,12 +157,12 @@ const BespokeBody = (
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace size="m">
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw19yIAAK1Z3Smk`} name={`Group visits`} />
-          </VerticalSpace>
-          <VerticalSpace size="m">
+          </Space>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw2MSIAACtd3StS`} name={`Schools`} />
-          </VerticalSpace>
+          </Space>
         </div>
         <div
           className={classNames({
@@ -162,35 +170,35 @@ const BespokeBody = (
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace size="m">
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/W1CenyYAACUAj4Oy`} name={`Families`} />
-          </VerticalSpace>
-          <VerticalSpace size="m">
+          </Space>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink url={`/pages/Wuw2MSIAACtd3Ssg`} name={`Young people`} />
-          </VerticalSpace>
+          </Space>
         </div>
-      </VerticalSpace>
+      </Space>
     </Container>
     <Container>
       <SearchResults
         title={findList.value.title}
         items={findList.value.items}
       />
-      <VerticalSpace size="m" properties={['padding-top']} className={`grid`}>
+      <Space v={{ size: 'm', properties: ['padding-top'] }} className={`grid`}>
         <div
           className={classNames({
             [grid({ s: 12, l: 6, xl: 6 })]: true,
             [font('hnl', 4)]: true,
           })}
         >
-          <VerticalSpace size="m">
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <MoreLink
               url={`/pages/Wuw2MSIAACtd3SsC`}
               name={`Find out about venue hire`}
             />
-          </VerticalSpace>
+          </Space>
         </div>
-      </VerticalSpace>
+      </Space>
     </Container>
     <Container>
       <SearchResults

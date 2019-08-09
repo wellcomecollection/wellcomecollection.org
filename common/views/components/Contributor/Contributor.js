@@ -6,7 +6,7 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { Contributor as ContributorType } from '../../../model/contributors';
 import type { Props as ImageProps } from '../Image/Image';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -29,14 +29,17 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
   return (
     <div className="grid">
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
-        <div style={{ minWidth: '78px' }} className={'margin-right-12'}>
+        <Space
+          style={{ minWidth: '78px' }}
+          h={{ size: 'm', properties: ['margin-right'] }}
+        >
           {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
           {contributor.type !== 'people' && (
             <div style={{ width: '72px' }}>
               <Image {...imageProps} extraClasses={'width-inherit'} />
             </div>
           )}
-        </div>
+        </Space>
         <div>
           {contributor.type === 'organisations' && contributor.url && (
             <h3
@@ -74,16 +77,18 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           )}
 
           {descriptionToRender && (
-            <VerticalSpace
-              size="s"
-              properties={['margin-top']}
+            <Space
+              v={{
+                size: 's',
+                properties: ['margin-top'],
+              }}
               className={classNames({
                 [font('hnl', 5)]: true,
                 'spaced-text': true,
               })}
             >
               <PrismicHtmlBlock html={descriptionToRender} />
-            </VerticalSpace>
+            </Space>
           )}
         </div>
       </div>

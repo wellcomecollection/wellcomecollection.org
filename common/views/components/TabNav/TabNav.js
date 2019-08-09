@@ -1,10 +1,12 @@
 // @flow
 
+import { type ComponentType } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space, { type SpaceComponentProps } from '../styled/Space';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type SelectableTextLink = {|
   ...TextLink,
@@ -16,14 +18,15 @@ type Props = {
   items: SelectableTextLink[],
 };
 
-const NavItemInner = styled.span.attrs(props => ({
-  className: classNames({
-    selected: props.selected,
-    block: true,
-    relative: true,
-    'margin-right-12': true,
-  }),
-}))`
+const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      selected: props.selected,
+      block: true,
+      relative: true,
+    }),
+  })
+)`
   z-index: 1;
   padding: 0 0.3em;
 
@@ -56,6 +59,23 @@ const NavItemInner = styled.span.attrs(props => ({
   }
 `;
 
+const NavItemInnerTemp = styled.span.attrs(props => ({
+  className: classNames({
+    selected: props.selected,
+    block: true,
+    relative: true,
+    'font-size-5 font-hnl': true,
+  }),
+}))`
+  z-index: 1;
+  padding: 0 0.3em;
+  white-space: nowrap;
+
+  &.selected {
+    text-decoration: underline;
+  }
+`;
+
 const NavItem = ({
   link,
   text,
@@ -65,18 +85,40 @@ const NavItem = ({
   ...SelectableTextLink,
 |}) => (
   <NextLink {...link} passHref>
-    <VerticalSpace
+    <Space
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       as="a"
-      size="m"
-      properties={['padding-top', 'padding-bottom']}
       className={classNames({
         'plain-link': true,
         block: true,
       })}
       onClick={onClick}
     >
-      <NavItemInner selected={selected}>{text}</NavItemInner>
-    </VerticalSpace>
+      <TogglesContext.Consumer>
+        {({ showDatesAggregatePrototype }) => (
+          <>
+            {showDatesAggregatePrototype &&
+            (text !== 'All' &&
+              text !== 'Pictures' &&
+              text !== 'Books' &&
+              text !== 'Audio/Video') ? (
+              <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
+            ) : (
+              <NavItemInner
+                as="span"
+                h={{ size: 'm', properties: ['margin-right'] }}
+                selected={selected}
+              >
+                {text}
+              </NavItemInner>
+            )}
+          </>
+        )}
+      </TogglesContext.Consumer>
+    </Space>
   </NextLink>
 );
 
@@ -90,7 +132,7 @@ const TabNav = ({ items }: Props) => {
       <ul
         className={classNames({
           'plain-list no-margin no-padding': true,
-          flex: true,
+          'flex flex--wrap': true,
         })}
       >
         {items.map(item => (

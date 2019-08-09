@@ -1,15 +1,17 @@
-import styled from 'styled-components';
+// @flow
+import type { ComponentType } from 'react';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 export type TagType = {|
   textParts: string[],
   linkAttributes: NextLinkType,
 |};
 
-const Tag = styled(VerticalSpace)`
+const Tag: ComponentType<SpaceComponentProps> = styled(Space)`
   border-radius: 3px;
   text-decoration: none;
   padding: 0.2em 0.5em;
@@ -22,7 +24,7 @@ type Props = {
 
 const Tags = ({ tags }: Props) => {
   return (
-    <VerticalSpace size="s" negative>
+    <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <ul
         className={classNames({
           'plain-list no-margin no-padding': true,
@@ -40,9 +42,12 @@ const Tags = ({ tags }: Props) => {
               <NextLink {...linkAttributes}>
                 <a>
                   <Tag
-                    size="s"
+                    v={{
+                      size: 's',
+                      properties: ['margin-bottom'],
+                    }}
+                    h={{ size: 's', properties: ['margin-right'] }}
                     className={classNames({
-                      'margin-right-6': true,
                       'line-height-1': true,
                       'inline-block bg-hover-green font-hover-white': true,
                       'border-color-green border-width-1': true,
@@ -62,11 +67,16 @@ const Tags = ({ tags }: Props) => {
                     />
 
                     {textParts.map((part, i, arr) => (
-                      <span
+                      <Space
+                        as="span"
+                        h={
+                          i !== arr.length - 1
+                            ? { size: 's', properties: ['margin-right'] }
+                            : undefined
+                        }
                         key={part}
                         className={classNames({
                           [font(i === 0 ? 'hnm' : 'hnl', 5)]: true,
-                          'margin-right-6': i !== arr.length - 1,
                           'inline-block': true,
                         })}
                       >
@@ -81,7 +91,7 @@ const Tags = ({ tags }: Props) => {
                             {i === 0 ? '|' : '–'}
                           </span>
                         )}
-                      </span>
+                      </Space>
                     ))}
                   </Tag>
                 </a>
@@ -90,7 +100,7 @@ const Tags = ({ tags }: Props) => {
           );
         })}
       </ul>
-    </VerticalSpace>
+    </Space>
   );
 };
 

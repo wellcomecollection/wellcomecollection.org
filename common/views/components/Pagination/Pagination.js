@@ -1,6 +1,7 @@
 // @flow
 import { font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
+import Space from '../styled/Space';
 
 export type Props = {|
   total: number,
@@ -31,16 +32,18 @@ const Pagination = ({
     )}`}
   >
     {prevPage && prevQueryString && (
-      <Control
-        link={{
-          href: prevQueryString,
-          as: prevQueryString,
-        }}
-        type="light"
-        extraClasses={`icon--180 margin-right-12`}
-        icon="arrow"
-        text={`Previous (page ${prevPage})`}
-      />
+      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        <Control
+          link={{
+            href: prevQueryString,
+            as: prevQueryString,
+          }}
+          type="light"
+          extraClasses={`icon--180`}
+          icon="arrow"
+          text={`Previous (page ${prevPage})`}
+        />
+      </Space>
     )}
 
     <span>
@@ -48,16 +51,17 @@ const Pagination = ({
     </span>
 
     {nextPage && nextQueryString && (
-      <Control
-        link={{
-          href: nextQueryString,
-          as: nextQueryString,
-        }}
-        type="light"
-        extraClasses={`margin-left-12`}
-        icon="arrow"
-        text={`Next (page ${nextPage})`}
-      />
+      <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
+        <Control
+          link={{
+            href: nextQueryString,
+            as: nextQueryString,
+          }}
+          type="light"
+          icon="arrow"
+          text={`Next (page ${nextPage})`}
+        />
+      </Space>
     )}
   </div>
 );

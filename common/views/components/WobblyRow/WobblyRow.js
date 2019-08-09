@@ -31,7 +31,7 @@ const WobblyRow = ({ children }: WobblyProps) => (
       <div className="grid" style={{ marginTop: '50px' }}>
         <div
           className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
-          style={{ marginTop: '-50px' }}
+          style={{ marginTop: '-50px', position: 'relative' }}
         >
           {children}
         </div>

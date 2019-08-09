@@ -4,6 +4,8 @@ import {
   type IIIFPresentationLocation,
   getCanvases,
   getManifestViewType,
+  getAudio,
+  getVideo,
 } from '@weco/common/utils/works';
 import NextLink from 'next/link';
 import styled from 'styled-components';
@@ -16,7 +18,7 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 
 const MultiVolumeContainer = styled.div`
@@ -119,36 +121,6 @@ function randomImages(
     label: 'random',
     images,
   };
-}
-
-function getVideo(iiifManifest: IIIFManifest) {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(
-      element => element['@type'] === 'dctypes:MovingImage'
-    )
-  );
-}
-
-function getAudio(iiifManifest: IIIFManifest) {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-  );
 }
 
 function structuredImages(iiifManifest: IIIFManifest): IIIFThumbnails[] {
@@ -281,9 +253,11 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace
-              size="m"
-              properties={['margin-top', 'margin-bottom']}
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
             >
               <Button
                 type="primary"
@@ -296,7 +270,7 @@ const IIIFPresentationDisplay = ({
                 text="View the item"
                 link={itemUrl}
               />
-            </VerticalSpace>{' '}
+            </Space>{' '}
           </div>{' '}
         </div>{' '}
       </div>
@@ -377,50 +351,42 @@ const IIIFPresentationDisplay = ({
 
   if (viewType === 'video' && video) {
     return (
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace size="l">
-              <video
-                controls
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '70vh',
-                  display: 'block',
-                  margin: 'auto',
-                }}
-              >
-                <source src={video['@id']} type={video.format} />
-                {`Sorry, your browser doesn't support embedded video.`}
-              </video>
-            </VerticalSpace>
-          </div>
-        </div>
-      </div>
+      <WobblyRow>
+        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <video
+            controls
+            style={{
+              maxWidth: '100%',
+              maxHeight: '70vh',
+              display: 'block',
+              margin: 'auto',
+            }}
+          >
+            <source src={video['@id']} type={video.format} />
+            {`Sorry, your browser doesn't support embedded video.`}
+          </video>
+        </Space>
+      </WobblyRow>
     );
   }
 
   if (viewType === 'audio' && audio) {
     return (
-      <div className="container">
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace size="l">
-              <audio
-                controls
-                style={{
-                  maxWidth: '100%',
-                  display: 'block',
-                  margin: 'auto',
-                }}
-                src={audio['@id']}
-              >
-                {`Sorry, your browser doesn't support embedded audio.`}
-              </audio>
-            </VerticalSpace>{' '}
-          </div>{' '}
-        </div>{' '}
-      </div>
+      <WobblyRow>
+        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <audio
+            controls
+            style={{
+              maxWidth: '100%',
+              display: 'block',
+              margin: 'auto',
+            }}
+            src={audio['@id']}
+          >
+            {`Sorry, your browser doesn't support embedded audio.`}
+          </audio>
+        </Space>{' '}
+      </WobblyRow>
     );
   }
 
@@ -429,9 +395,9 @@ const IIIFPresentationDisplay = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <VerticalSpace size="l">
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <BetaMessage message="We are working to make this item available online in July 2019." />
-            </VerticalSpace>
+            </Space>
           </div>
         </div>
       </div>

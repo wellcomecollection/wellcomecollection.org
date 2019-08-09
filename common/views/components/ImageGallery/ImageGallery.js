@@ -13,7 +13,7 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
 import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -113,19 +113,24 @@ class ImageGallery extends Component<Props, State> {
         {theme => (
           <Fragment>
             {!isStandalone && (
-              <VerticalSpace
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
                 as="span"
-                size="m"
                 style={titleStyle}
                 className={classNames({
                   'flex flex--v-top image-gallery-v2-title': true,
                 })}
               >
-                <Icon name="gallery" extraClasses={`margin-right-6`} />
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <Icon name="gallery" />
+                </Space>
                 <h2 id={`gallery-${id}`} className="h2 no-margin">
                   {title || 'In pictures'}
                 </h2>
-              </VerticalSpace>
+              </Space>
             )}
             <div
               id={`image-gallery-${id}`}
@@ -147,9 +152,15 @@ class ImageGallery extends Component<Props, State> {
                 }}
               />
               <Layout12>
-                <VerticalSpace
-                  size="xl"
-                  properties={[isStandalone ? 'padding-top' : undefined]}
+                <Space
+                  v={
+                    isStandalone
+                      ? {
+                          size: 'xl',
+                          properties: ['padding-top'],
+                        }
+                      : undefined
+                  }
                   className={classNames({
                     relative: true,
                   })}
@@ -171,21 +182,25 @@ class ImageGallery extends Component<Props, State> {
                   )}
 
                   {!isStandalone && (
-                    <VerticalSpace
-                      size="m"
-                      properties={['padding-top']}
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['padding-top'],
+                      }}
                       className={classNames({
                         'image-gallery-v2__close-wrapper absolute': true,
                       })}
                     >
-                      <VerticalSpace
-                        size="m"
-                        properties={['padding-bottom']}
+                      <Space
+                        v={{
+                          size: 'm',
+                          properties: ['padding-bottom'],
+                        }}
+                        h={{ size: 'm', properties: ['padding-right'] }}
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
                           'opacity-0': !isActive,
-                          'padding-right-12': true,
                         })}
                       >
                         <Control
@@ -205,13 +220,19 @@ class ImageGallery extends Component<Props, State> {
                             this.handleCloseClicked();
                           }}
                         />
-                      </VerticalSpace>
-                    </VerticalSpace>
+                      </Space>
+                    </Space>
                   )}
                   {this.itemsToShow().map((captionedImage, i) => (
-                    <VerticalSpace
-                      size="xl"
-                      properties={[isActive ? 'margin-bottom' : undefined]}
+                    <Space
+                      v={
+                        isActive
+                          ? {
+                              size: 'xl',
+                              properties: ['margin-bottom'],
+                            }
+                          : undefined
+                      }
                       onClick={() => {
                         if (!isActive) {
                           this.handleOpenClicked();
@@ -232,19 +253,22 @@ class ImageGallery extends Component<Props, State> {
                         `}
                         preCaptionNode={
                           items.length > 1 ? (
-                            <VerticalSpace
-                              size="m"
+                            <Space
+                              v={{
+                                size: 'm',
+                                properties: ['margin-bottom'],
+                              }}
                               className={classNames({
                                 [font('hnm', 5)]: true,
                               })}
                             >
                               <span className="visually-hidden">slide </span>
                               {i + 1} of {items.length}
-                            </VerticalSpace>
+                            </Space>
                           ) : null
                         }
                       />
-                    </VerticalSpace>
+                    </Space>
                   ))}
 
                   {titleStyle && (
@@ -264,7 +288,7 @@ class ImageGallery extends Component<Props, State> {
                       text={`${items.length} images`}
                     />
                   )}
-                </VerticalSpace>
+                </Space>
               </Layout12>
             </div>
           </Fragment>

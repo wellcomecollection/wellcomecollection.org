@@ -1,6 +1,7 @@
 // @flow
 
 import { font, classNames } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   title: string,
@@ -11,9 +12,9 @@ type Props = {|
 
 function Contact({ title, subtitle, phone, email }: Props) {
   return (
-    <div
+    <Space
+      h={{ size: 'm', properties: ['padding-left'] }}
       className={classNames({
-        'padding-left-12': true,
         'border-color-turquoise border-left-width-5 body-text': true,
       })}
     >
@@ -30,14 +31,15 @@ function Contact({ title, subtitle, phone, email }: Props) {
           {title}
         </span>
         {subtitle && (
-          <span
+          <Space
+            as="span"
+            h={{ size: 's', properties: ['margin-left'] }}
             className={classNames({
               [font('hnl', 4)]: true,
-              'margin-left-6': true,
             })}
           >
             {subtitle}
-          </span>
+          </Space>
         )}
       </span>
       {phone && (
@@ -62,7 +64,7 @@ function Contact({ title, subtitle, phone, email }: Props) {
           </a>
         </div>
       )}
-    </div>
+    </Space>
   );
 }
 

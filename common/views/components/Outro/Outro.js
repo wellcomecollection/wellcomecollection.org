@@ -5,7 +5,7 @@ import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import CompactCard from '../../components/CompactCard/CompactCard';
 import Divider from '../../components/Divider/Divider';
-import VerticalSpace from '../styled/VerticalSpace';
+import Space from '../styled/Space';
 
 type Props = {|
   researchLinkText: ?string,
@@ -65,16 +65,18 @@ const Outro = ({
   return (
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
-      <VerticalSpace
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-top'],
+        }}
         as="h2"
-        size="m"
-        properties={['margin-top']}
         className={classNames({
           h1: true,
         })}
       >
         Try these next
-      </VerticalSpace>
+      </Space>
 
       <ul
         className={classNames({
