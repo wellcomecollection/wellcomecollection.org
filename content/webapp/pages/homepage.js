@@ -111,7 +111,7 @@ export class HomePage extends Component<Props> {
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="This week at Wellcome Collection" />
+            <SectionHeader title="This week" />
           </SpacingComponent>
           <SpacingComponent>
             <ExhibitionsAndEvents
@@ -126,7 +126,7 @@ export class HomePage extends Component<Props> {
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Latest articles, comics and more" />
+            <SectionHeader title="Latest stories" />
           </SpacingComponent>
           <SpacingComponent>
             <CardGrid
