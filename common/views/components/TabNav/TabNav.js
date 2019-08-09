@@ -101,7 +101,10 @@ const NavItem = ({
         {({ showDatesAggregatePrototype }) => (
           <>
             {showDatesAggregatePrototype &&
-            (text !== 'All' && text !== 'Pictures' && text !== 'Books') ? (
+            (text !== 'All' &&
+              text !== 'Pictures' &&
+              text !== 'Books' &&
+              text !== 'Audio/Video') ? (
               <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
             ) : (
               <NavItemInner
