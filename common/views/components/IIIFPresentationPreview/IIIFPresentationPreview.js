@@ -20,6 +20,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '../styled/Space';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
+import useInterval from '@weco/common/hooks/useInterval';
 
 const MultiVolumeContainer = styled.div`
   box-shadow: ${props =>
@@ -230,9 +231,29 @@ const IIIFPresentationDisplay = ({
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
+  const [engagedDuration, setEngagedDuration] = useState(null);
+  const [secondsPlayed, setSecondsPlayed] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isEngaged, setIsEngaged] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
+
+  useInterval(
+    () => {
+      setSecondsPlayed(secondsPlayed + 1);
+
+      if (engagedDuration && secondsPlayed >= engagedDuration) {
+        trackEvent({
+          category: video ? 'Video' : 'Audio',
+          action: 'engaged',
+          label: video ? video['@id'] : audio ? audio['@id'] : '',
+        });
+        setIsEngaged(true);
+      }
+    },
+    isPlaying && !isEngaged ? 1000 : null
+  );
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -354,12 +375,20 @@ const IIIFPresentationDisplay = ({
       <WobblyRow>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <video
+            onLoadedMetadata={({ currentTarget }) => {
+              setEngagedDuration(currentTarget.duration / 4);
+            }}
             onPlay={() => {
+              setIsPlaying(true);
+
               trackEvent({
                 category: 'Video',
                 action: 'play video',
                 label: video['@id'],
               });
+            }}
+            onPause={() => {
+              setIsPlaying(false);
             }}
             controls
             style={{
