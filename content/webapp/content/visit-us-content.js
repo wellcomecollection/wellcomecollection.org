@@ -914,26 +914,5 @@ export const lastPara = {
       text: 'If you have any questions about your visit, contact us:',
       spans: [],
     },
-    {
-      type: 'paragraph',
-      text:
-        'Telephone: +44 (0)20 7611 2222\nEmail: info@wellcomecollection.org',
-      spans: [
-        {
-          start: 38,
-          end: 65,
-          type: 'hyperlink',
-          data: {
-            link_type: 'Web',
-            url: 'mailto:info@wellcomecollection.org',
-          },
-        },
-      ],
-    },
-    {
-      type: 'paragraph',
-      text: '',
-      spans: [],
-    },
   ],
 };
