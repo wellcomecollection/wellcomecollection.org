@@ -33,6 +33,7 @@ import {
   lastPara,
 } from '@weco/content/content/visit-us-content';
 import Space from '@weco/common/views/components/styled/Space';
+import Contact from '@weco/common/views/components/Contact/Contact';
 
 type ContainerProps = {|
   children: any,
@@ -210,6 +211,12 @@ const BespokeBody = (
       <PrismicHtmlBlock
         html={lastPara.value}
         htmlSerialiser={defaultSerializer}
+      />
+      <Contact
+        subtitle={null}
+        title={'Wellcome Collection enquiries'}
+        phone={'+44 (0)20 7611 2222'}
+        email={'info@wellcomecollection.org'}
       />
     </Container>
   </>
