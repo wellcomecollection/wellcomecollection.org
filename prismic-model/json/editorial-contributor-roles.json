@@ -10,8 +10,7 @@
     "describedBy": {
       "type": "Text",
       "config": {
-        "label": "Byline word for role",
-        "placeholder": "e.g. words"
+        "label": "Word to describe the role"
       }
     }
   }
