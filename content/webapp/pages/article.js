@@ -7,7 +7,7 @@ import type { PrismicApiError } from '@weco/common/services/prismic/types';
 import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
-import capitalise from '@weco/common/utils/capitalise';
+import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -148,7 +148,7 @@ export class ArticlePage extends Component<Props, State> {
                   {role && role.describedBy && (
                     <span>
                       {i === 0
-                        ? capitalise(role.describedBy)
+                        ? capitalize(role.describedBy)
                         : role.describedBy}{' '}
                       by{' '}
                     </span>
