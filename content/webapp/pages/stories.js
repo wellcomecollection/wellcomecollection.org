@@ -19,6 +19,8 @@ import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
+import { staticBooks } from '../content/static-books';
+
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
@@ -210,6 +212,30 @@ export class StoriesPage extends Component<Props> {
 
         <SpacingSection>
           <SerialisedSeries series={series} />
+        </SpacingSection>
+
+        {/* TODO: work out logic for making these dynamic */}
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Long reads" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <Layout12>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Corporis inventore placeat impedit facere alias maxime neque
+                rerum esse voluptates recusandae in magni quod officia
+                reprehenderit, fugit, incidunt provident accusantium? Mollitia.
+              </p>
+            </Layout12>
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={staticBooks}
+              itemsPerRow={3}
+              links={[{ text: 'More books', url: '/books' }]}
+            />
+          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>
