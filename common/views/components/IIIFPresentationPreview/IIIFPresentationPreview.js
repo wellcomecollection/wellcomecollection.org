@@ -8,6 +8,7 @@ import {
   getVideo,
 } from '@weco/common/utils/works';
 import NextLink from 'next/link';
+import Router from 'next/router';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { grid } from '@weco/common/utils/classnames';
@@ -231,28 +232,49 @@ const IIIFPresentationDisplay = ({
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
-  const [engagedDuration, setEngagedDuration] = useState(null);
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isEngaged, setIsEngaged] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
 
+  function trackViewingTime() {
+    trackEvent({
+      category: 'Engagement',
+      action: `Amount of media played`,
+      value: secondsPlayed,
+      nonInteraction: true,
+      transport: 'beacon',
+      label: video ? 'Video' : 'Audio',
+    });
+  }
+
+  useEffect(() => {
+    Router.events.on('routeChangeStart', trackViewingTime);
+
+    try {
+      window.addEventListener('beforeunload', trackViewingTime);
+    } catch (error) {
+      trackEvent({
+        category: 'Engagement',
+        action: 'unable to track media playing time',
+        nonInteraction: true,
+      });
+    }
+
+    return () => {
+      try {
+        window.removeEventListener('beforeunload', trackViewingTime);
+        Router.events.off('routeChangeStart', trackViewingTime);
+      } catch (error) {}
+    };
+  }, []);
+
   useInterval(
     () => {
       setSecondsPlayed(secondsPlayed + 1);
-
-      if (engagedDuration && secondsPlayed >= engagedDuration) {
-        trackEvent({
-          category: video ? 'Video' : 'Audio',
-          action: 'engaged',
-          label: video ? video['@id'] : audio ? audio['@id'] : '',
-        });
-        setIsEngaged(true);
-      }
     },
-    isPlaying && !isEngaged ? 1000 : null
+    isPlaying ? 1000 : null
   );
 
   useEffect(() => {
@@ -375,9 +397,6 @@ const IIIFPresentationDisplay = ({
       <WobblyRow>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <video
-            onLoadedMetadata={({ currentTarget }) => {
-              setEngagedDuration(currentTarget.duration / 4);
-            }}
             onPlay={() => {
               setIsPlaying(true);
 
@@ -412,11 +431,16 @@ const IIIFPresentationDisplay = ({
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <audio
             onPlay={() => {
+              setIsPlaying(true);
+
               trackEvent({
                 category: 'Audio',
                 action: 'play audio',
                 label: audio['@id'],
               });
+            }}
+            onPause={() => {
+              setIsPlaying(false);
             }}
             controls
             style={{
