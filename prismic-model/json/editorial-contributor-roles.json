@@ -10,7 +10,7 @@
     "describedBy": {
       "type": "Text",
       "config": {
-        "label": "Word to describe the role"
+        "label": "Word to describe output of the role"
       }
     }
   }

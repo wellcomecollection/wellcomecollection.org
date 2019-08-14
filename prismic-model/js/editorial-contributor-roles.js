@@ -4,7 +4,7 @@ import text from './parts/text';
 const ContributorRoles = {
   Contributor: {
     title: structuredText('Title', 'single', ['heading1']),
-    describedBy: text('Word to describe the role'),
+    describedBy: text('Word to describe output of the role'),
   },
 };
 
