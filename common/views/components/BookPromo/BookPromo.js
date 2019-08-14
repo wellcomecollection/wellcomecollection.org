@@ -40,7 +40,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
     <Space
       v={{
         size: 'xl',
-        properties: ['margin-bottom', 'padding-top'],
+        properties: ['padding-top'],
       }}
       h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       as={url ? 'a' : 'span'}
@@ -56,65 +56,69 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
         });
       }}
     >
-      <BookPromoImageContainer>
-        {image && image.contentUrl && (
-          <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-            <UiImage
-              contentUrl={image.contentUrl}
-              width={image.width || 0}
-              height={image.height || 0}
-              alt={image.alt || ''}
-              sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
-              tasl={null}
-            />
-          </BookPromoImage>
-        )}
-      </BookPromoImageContainer>
-      <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
-        <Space
-          v={{ size: 's', properties: ['margin-bottom'] }}
-          className={'relative'}
-        >
-          <Space v={{ size: 'm', negative: true, properties: ['margin-top'] }}>
-            <Label label={{ text: 'Book', url: null }} />
-          </Space>
-        </Space>
-        {title && (
-          <h3
-            className={classNames({
-              'no-margin promo-link__title': true,
-              [font('wb', 4)]: true,
-            })}
-          >
-            {title}
-          </h3>
-        )}
-
-        {subtitle && (
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <BookPromoImageContainer>
+          {image && image.contentUrl && (
+            <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
+              <UiImage
+                contentUrl={image.contentUrl}
+                width={image.width || 0}
+                height={image.height || 0}
+                alt={image.alt || ''}
+                sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
+                tasl={null}
+              />
+            </BookPromoImage>
+          )}
+        </BookPromoImageContainer>
+        <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
           <Space
-            as="h4"
-            v={{ size: 's', properties: ['margin-top'] }}
-            className={classNames({
-              'no-margin': true,
-              [font('hnm', 5)]: true,
-            })}
+            v={{ size: 's', properties: ['margin-bottom'] }}
+            className={'relative'}
           >
-            {subtitle}
+            <Space
+              v={{ size: 'm', negative: true, properties: ['margin-top'] }}
+            >
+              <Label label={{ text: 'Book', url: null }} />
+            </Space>
           </Space>
-        )}
-
-        {description && (
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
-            <p
+          {title && (
+            <h3
               className={classNames({
-                [font('hnl', 5)]: true,
-                'no-margin': true,
+                'no-margin promo-link__title': true,
+                [font('wb', 4)]: true,
               })}
             >
-              {description}
-            </p>
-          </Space>
-        )}
+              {title}
+            </h3>
+          )}
+
+          {subtitle && (
+            <Space
+              as="h4"
+              v={{ size: 's', properties: ['margin-top'] }}
+              className={classNames({
+                'no-margin': true,
+                [font('hnm', 5)]: true,
+              })}
+            >
+              {subtitle}
+            </Space>
+          )}
+
+          {description && (
+            <Space v={{ size: 's', properties: ['margin-top'] }}>
+              <p
+                className={classNames({
+                  [font('hnl', 5)]: true,
+                  'no-margin': true,
+                })}
+              >
+                {description}
+              </p>
+            </Space>
+          )}
+        </Space>
       </Space>
     </Space>
   );
