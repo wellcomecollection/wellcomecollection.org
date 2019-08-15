@@ -10,7 +10,7 @@ import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
+import NewsletterPromo from '../NewsletterPromo/NewsletterPromo2';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
