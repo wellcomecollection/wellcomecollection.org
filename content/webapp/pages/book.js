@@ -175,6 +175,7 @@ export class ArticleSeriesPage extends Component<Props> {
       role: {
         id: 'WcUWeCgAAFws-nGh',
         title: 'Author',
+        describedBy: 'words',
       },
     };
     const contributors =
