@@ -476,6 +476,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsmBoost,
     showDatesPrototype,
     showDatesSliderPrototype,
+    unfilteredSearchResults,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -486,14 +487,18 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     : null;
   const workTypeQuery = ctx.query.workType;
   const _queryType = ctx.query._queryType || toggledQueryType;
-  const defaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
+  const defaultWorkType = unfilteredSearchResults
+    ? []
+    : ['a', 'k', 'q', 'v', 'f', 's'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
     : defaultWorkType;
 
   const filters = {
     workType: workTypeFilter,
-    'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
+    'items.locations.locationType': unfilteredSearchResults
+      ? []
+      : ['iiif-image', 'iiif-presentation'],
     _queryType,
     ...(_dateFrom ? { _dateFrom } : {}),
     ...(_dateTo ? { _dateTo } : {}),
