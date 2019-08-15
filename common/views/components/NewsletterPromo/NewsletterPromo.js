@@ -19,7 +19,7 @@ const NewsletterPromo = () => (
         >
           <Space
             as="p"
-            v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+            v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
             className={classNames({
               [font('hnl', 4)]: true,
               'font-white': true,
