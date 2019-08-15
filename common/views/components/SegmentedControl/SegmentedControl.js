@@ -1,8 +1,9 @@
 // @flow
 import { Component, Fragment } from 'react';
-import { classNames, spacing, font } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -60,13 +61,17 @@ class SegmentedControl extends Component<Props, State> {
               .filter(item => item.id === activeId)
               .map(item => (
                 <Fragment key={item.id}>
-                  <span
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['padding-top', 'padding-bottom'],
+                    }}
+                    h={{
+                      size: 'm',
+                      properties: ['padding-left', 'padding-right'],
+                    }}
                     className={classNames({
-                      [font({ s: 'WB6' })]: true,
-                      [spacing(
-                        { s: 2 },
-                        { padding: ['top', 'right', 'bottom', 'left'] }
-                      )]: true,
+                      [font('wb', 4)]: true,
                       'segmented-control__button-text': true,
                       flex: true,
                       'bg-black': true,
@@ -78,7 +83,7 @@ class SegmentedControl extends Component<Props, State> {
                   >
                     <span>{item.text}</span>
                     <Icon name="chevron" extraClasses="icon--white" />
-                  </span>
+                  </Space>
                   <span
                     className="segmented-control__close"
                     onClick={() => this.setState({ isActive: false })}
@@ -88,31 +93,38 @@ class SegmentedControl extends Component<Props, State> {
                 </Fragment>
               ))}
           </button>
-          <div
+          <Space
+            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             id={id}
             className={classNames({
-              [spacing({ s: 3 }, { padding: ['left', 'right'] })]: true,
               'segmented-control__body': true,
               'bg-white': true,
             })}
           >
-            <span
+            <Space
+              v={{
+                size: 'm',
+                properties: ['margin-bottom'],
+              }}
               className={classNames({
-                [spacing({ s: 3 }, { margin: ['bottom'] })]: true,
                 'segmented-control__label': true,
                 block: true,
               })}
             >
               See:
-            </span>
+            </Space>
 
             <ul className="segmented-control__drawer-list no-margin no-padding plain-list">
               {items.map((item, i) => (
-                <li
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['padding-top', 'padding-bottom'],
+                  }}
+                  as="li"
                   key={item.id}
                   className={classNames({
-                    [font({ s: 'WB6' })]: true,
-                    [spacing({ s: 3 }, { padding: ['top', 'bottom'] })]: true,
+                    [font('wb', 4)]: true,
                     'border-top-width-1': i === 0,
                     'segmented-control__drawer-item': true,
                     'border-bottom-width-1': true,
@@ -150,11 +162,11 @@ class SegmentedControl extends Component<Props, State> {
                   >
                     {item.text}
                   </a>
-                </li>
+                </Space>
               ))}
             </ul>
             <span className="visually-hidden">reset focus</span>
-          </div>
+          </Space>
         </div>
         <ul
           className={classNames({
@@ -172,7 +184,7 @@ class SegmentedControl extends Component<Props, State> {
             <li
               key={item.id}
               className={classNames({
-                [font({ s: 'WB7' })]: true,
+                [font('wb', 6)]: true,
                 'border-right-width-1 border-right-color-black':
                   i !== items.length - 1,
                 'segmented-control__item': true,
@@ -180,7 +192,13 @@ class SegmentedControl extends Component<Props, State> {
                 flex: true,
               })}
             >
-              <a
+              <Space
+                v={{
+                  size: 'm',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                as="a"
                 onClick={e => {
                   const url = e.target.getAttribute('href');
                   const isHash = url.startsWith('#');
@@ -201,10 +219,6 @@ class SegmentedControl extends Component<Props, State> {
                 }}
                 href={item.url}
                 className={classNames({
-                  [spacing(
-                    { s: 2 },
-                    { padding: ['top', 'right', 'bottom', 'left'] }
-                  )]: true,
                   'is-active bg-black font-white bg-hover-pewter':
                     item.id === activeId,
                   'bg-white font-black bg-hover-pumice': item.id !== activeId,
@@ -216,7 +230,7 @@ class SegmentedControl extends Component<Props, State> {
                 })}
               >
                 {item.text}
-              </a>
+              </Space>
             </li>
           ))}
         </ul>

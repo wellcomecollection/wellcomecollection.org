@@ -1,10 +1,11 @@
 // @flow
 import type { MultiContent } from '../../../model/multi-content';
 
-import { classNames, spacing } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import CompactCard from '../../components/CompactCard/CompactCard';
 import Divider from '../../components/Divider/Divider';
+import Space from '../styled/Space';
 
 type Props = {|
   researchLinkText: ?string,
@@ -64,14 +65,18 @@ const Outro = ({
   return (
     <div>
       <Divider extraClasses={`divider--stub divider--black`} />
-      <h2
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-top'],
+        }}
+        as="h2"
         className={classNames({
           h1: true,
-          [spacing({ s: 2 }, { margin: ['top'] })]: true,
         })}
       >
         Try these next
-      </h2>
+      </Space>
 
       <ul
         className={classNames({
@@ -80,39 +85,42 @@ const Outro = ({
           'plain-list': true,
         })}
       >
-        {[researchItem, readItem, visitItem].filter(Boolean).map(item => {
-          const { type, title, description } = getItemInfo(item);
+        {[researchItem, readItem, visitItem]
+          .filter(Boolean)
+          .map((item, index, arr) => {
+            const { type, title, description } = getItemInfo(item);
 
-          return (
-            <li
-              key={item.id}
-              onClick={() => {
-                trackEvent({
-                  category: 'Outro',
-                  action: `follow ${type} link`,
-                  label: item.id,
-                });
-              }}
-            >
-              <CompactCard
-                partNumber={null}
-                Image={null}
-                urlOverride={null}
-                color={null}
-                StatusIndicator={null}
-                DateInfo={null}
-                title={title}
-                labels={{ labels: item.labels || [] }}
-                url={
-                  item.type === 'weblinks'
-                    ? item.url
-                    : `/${item.type}/${item.id}`
-                }
-                description={description}
-              />
-            </li>
-          );
-        })}
+            return (
+              <li
+                key={item.id}
+                onClick={() => {
+                  trackEvent({
+                    category: 'Outro',
+                    action: `follow ${type} link`,
+                    label: item.id,
+                  });
+                }}
+              >
+                <CompactCard
+                  partNumber={null}
+                  Image={null}
+                  urlOverride={null}
+                  color={null}
+                  StatusIndicator={null}
+                  DateInfo={null}
+                  title={title}
+                  labels={{ labels: item.labels || [] }}
+                  url={
+                    item.type === 'weblinks'
+                      ? item.url
+                      : `/${item.type}/${item.id}`
+                  }
+                  description={description}
+                  xOfY={{ x: index + 1, y: arr.length }}
+                />
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

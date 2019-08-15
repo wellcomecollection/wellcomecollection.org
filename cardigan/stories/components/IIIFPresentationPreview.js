@@ -1,6 +1,4 @@
 import { storiesOf } from '@storybook/react';
-import { ThemeProvider } from 'styled-components';
-import theme from '../../../common/views/themes/default';
 import IIIFPresentationPreview from '../../../common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import Readme from '../../../common/views/components/IIIFPresentationPreview/README.md';
 
@@ -32,16 +30,14 @@ const itemUrl = {
 
 const IIIFPresentationPreviewExample = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <IIIFPresentationPreview
-        iiifPresentationLocation={iiifPresentationLocation}
-        itemUrl={itemUrl}
-      />
-    </ThemeProvider>
+    <IIIFPresentationPreview
+      iiifPresentationLocation={iiifPresentationLocation}
+      itemUrl={itemUrl}
+    />
   );
 };
 
 const stories = storiesOf('Components', module);
 stories.add('IIIFPresentationPreview', IIIFPresentationPreviewExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
 });

@@ -1,7 +1,6 @@
 // @flow
 import { Fragment, Component, createRef } from 'react';
 import debounce from 'lodash.debounce';
-import styled from 'styled-components';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
@@ -10,57 +9,7 @@ import type { Node as ReactNode } from 'react';
 import type { ImageType } from '../../../model/image';
 import type { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
-
-const LL = styled.div`
-  position: absolute;
-  opacity: 0.2;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  display: none;
-  width: 50px;
-  height: 80px;
-  animation: animate-ll;
-
-  .enhanced & {
-    display: block;
-  }
-
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    background: black;
-  }
-
-  &:before {
-    left: 0;
-    animation: animate-ll 1s infinite;
-  }
-
-  &:after {
-    right: 0;
-    animation: animate-ll 1s 0.5s infinite;
-  }
-}
-
-@keyframes animate-ll {
-  0% {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}`;
-
+import LL from '../styled/LL';
 export type UiImageProps = {|
   ...ImageType,
   sizesQueries: string,
@@ -146,7 +95,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             __html: `
           <img width='${width}'
             height='${height || ''}'
-            class='image image--noscript'
+            class='image image--noscript bg-charcoal font-white'
             src=${convertImageUri(contentUrl, 640, false)}
             alt='${alt || ''}' />`,
           }}
@@ -161,7 +110,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             width: isWidthAuto ? 'auto' : undefined,
           }}
           className={classNames({
-            'lazy-image': true,
+            'lazy-image bg-charcoal font-white': true,
             lazyload: true,
             image: true,
             [extraClasses || '']: true,
@@ -174,9 +123,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           alt={alt || ''}
         />
 
-        {showTasl && this.state.isLazyLoaded && (
-          <Tasl {...tasl} isFull={isFull} />
-        )}
+        {showTasl && <Tasl {...tasl} isFull={isFull} />}
       </Fragment>
     );
   }

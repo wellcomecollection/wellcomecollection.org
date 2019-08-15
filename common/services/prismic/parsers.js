@@ -24,6 +24,8 @@ import type { HtmlSerializer } from './html-serialisers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
+import { parseExhibitionDoc } from './exhibitions';
+import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import linkResolver from './link-resolver';
@@ -318,6 +320,19 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
+function parseTeamToContact(team: PrismicFragment) {
+  const {
+    data: { title, subtitle, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    subtitle: asText(subtitle),
+    email,
+    phone,
+  };
+}
+
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 type CropType = null | '16:9' | '32:15' | 'square';
@@ -539,6 +554,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parsePage(item.content);
                     case 'event-series':
                       return parseEventSeries(item.content);
+                    case 'exhibitions':
+                      return parseExhibitionDoc(item.content);
                   }
                 })
                 .filter(Boolean),
@@ -548,7 +565,17 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
         case 'collectionVenue':
           return {
             type: 'collectionVenue',
-            value: slice.primary.content,
+            weight: getWeight(slice.slice_label),
+            value: {
+              content: parseCollectionVenue(slice.primary.content),
+              showClosingTimes: slice.primary.showClosingTimes,
+            },
+          };
+
+        case 'inPageAnchor':
+          return {
+            type: 'inPageAnchor',
+            value: slice.primary.id,
           };
 
         case 'searchResults':
@@ -597,6 +624,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             },
           };
 
+        case 'contact':
+          return {
+            type: 'contact',
+            value: parseTeamToContact(slice.primary.content),
+          };
+
         case 'embed':
           const embed = slice.primary.embed;
 
@@ -618,18 +651,20 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             const apiUrl = embed.html.match(/url=([^&]*)&/);
             const secretToken = embed.html.match(/secret_token=([^"]*)"/);
 
-            return {
-              type: 'soundcloudEmbed',
-              weight: getWeight(slice.slice_label),
-              value: {
-                embedUrl: `https://w.soundcloud.com/player/?url=${
-                  apiUrl[1]
-                }%3Fsecret_token%3D${
-                  secretToken[1]
-                }&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
-                caption: slice.primary.caption,
-              },
-            };
+            return (
+              secretToken && {
+                type: 'soundcloudEmbed',
+                weight: getWeight(slice.slice_label),
+                value: {
+                  embedUrl: `https://w.soundcloud.com/player/?url=${
+                    apiUrl[1]
+                  }%3Fsecret_token%3D${
+                    secretToken[1]
+                  }&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                  caption: slice.primary.caption,
+                },
+              }
+            );
           }
 
           if (embed.provider_name === 'YouTube') {

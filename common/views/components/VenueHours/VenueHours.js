@@ -1,40 +1,59 @@
-import { useContext } from 'react';
-import { classNames, font, grid, spacing } from '@weco/common/utils/classnames';
+// @flow
+
+import { type Weight } from '@weco/common/services/prismic/parsers';
+import { useContext, type ComponentType } from 'react';
+import { classNames, font } from '@weco/common/utils/classnames';
+import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
-import MoreLink from '@weco/common/views/components/Links/MoreLink/MoreLink';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
   backfillExceptionalVenueDays,
-  getUpcomingExceptionalPeriod,
+  getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
+  convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
-const VenueHoursImage = styled.div.attrs(props => ({
-  className: classNames({
-    [grid({ s: 12, m: 6, l: 3, xl: 3, shiftL: 1, shiftXl: 2 })]: true,
-    [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-  }),
-}))`
-  @media (min-width: ${props =>
-      props.theme.sizes.medium}px) and (max-width: ${props =>
-      props.theme.sizes.large}px) {
-    margin-right: 50%;
-  }
+const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
+  ${props => props.theme.media.medium`
+    width: 50%;
+  `}
+  ${props => props.theme.media.large`
+    float: left;
+    width: 33%;
+    padding-right: ${props => 5 * props.theme.spacingUnit}px;
+  `}
 `;
 
-const JauntyBox = styled.div.attrs(props => ({
-  className: classNames({
-    'bg-yellow inline-block': true,
-    [spacing({ s: 4 }, { padding: ['top', 'bottom'] })]: true,
-    [spacing({ s: 5 }, { padding: ['left'] })]: true,
-    [spacing({ s: 7 }, { padding: ['right'] })]: true,
-    [spacing({ s: -2, m: -4 }, { margin: ['left', 'right'] })]: true,
-  }),
-}))`
+const VenueHoursTimes: ComponentType<SpaceComponentProps> = styled(Space)`
+  ${props => props.theme.media.medium`
+    float: left;
+    width:33%;
+    min-width: 240px;
+    padding-right: ${props => 5 * props.theme.spacingUnit}px;
+  `}
+`;
+
+const JauntyBox: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'bg-yellow inline-block': true,
+    }),
+  })
+)`
+  padding-left: 30px;
+  padding-right: 42px;
+  margin-left: -12px;
+  margin-right: -12px;
+
+  ${props => props.theme.media.medium`
+    margin-left: -24px;
+    margin-right: -24px;
+  `}
   clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
     `polygon(
       ${topLeft} ${topLeft},
@@ -48,15 +67,19 @@ const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
 type Props = {|
   venue: any, // FIXME: Flow
-  isInList: boolean,
+  weight: Weight,
 |};
 
-const VenueHours = ({ venue, isInList }: Props) => {
+const VenueHours = ({ venue, weight }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-  const upcomingExceptionalPeriod = getUpcomingExceptionalPeriod(
-    backfillExceptionalVenueDays(venue, exceptionalPeriods)
+  const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
+    convertJsonDateStringsToMoment(venue),
+    exceptionalPeriods
   );
+  const upcomingExceptionalPeriods =
+    backfilledExceptionalPeriods &&
+    getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
 
   const venueAdditionalInfo = {
     galleries: {
@@ -97,153 +120,142 @@ const VenueHours = ({ venue, isInList }: Props) => {
   };
 
   return (
-    <div className="row">
-      <div className="container">
-        <div className="grid">
-          {isInList && (
-            <>
-              <div
+    <>
+      {weight === 'featured' && (
+        <>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Divider
+              extraClasses={classNames({
+                'divider--keyline': true,
+                'divider--pumice': true,
+                'is-hidden-s': true,
+              })}
+            />
+          </Space>
+          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
+            <UiImage
+              contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
+              width={1600}
+              height={900}
+              crops={{}}
+              alt=""
+              tasl={{
+                title: null,
+                author: null,
+                sourceName: null,
+                sourceLink: null,
+                license: null,
+                copyrightHolder: null,
+                copyrightLink: null,
+              }}
+              sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
+              extraClasses=""
+              showTasl={false}
+            />
+          </VenueHoursImage>
+        </>
+      )}
+      <VenueHoursTimes v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space
+          as="h2"
+          h={{ size: 'm', properties: ['padding-right'] }}
+          className={classNames({
+            h2: true,
+          })}
+        >
+          {weight === 'featured'
+            ? `${venueAdditionalInfo[venue.name.toLowerCase()].displayTitle}`
+            : 'Opening hours'}
+        </Space>
+        <ul
+          className={classNames({
+            'plain-list no-padding no-margin': true,
+            [font('hnl', 5)]: true,
+          })}
+        >
+          {venue.openingHours.regular.map(({ dayOfWeek, opens, closes }) => (
+            <li key={dayOfWeek}>
+              {dayOfWeek} {opens ? `${opens}—${closes}` : 'Closed'}
+            </li>
+          ))}
+        </ul>
+      </VenueHoursTimes>
+      {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
+        const firstOverride = upcomingExceptionalPeriod.find(
+          date => date.overrideType
+        );
+        const overrideType =
+          firstOverride && firstOverride.overrideType === 'other'
+            ? 'Unusual'
+            : firstOverride && firstOverride.overrideType;
+        return (
+          <>
+            <JauntyBox
+              v={{
+                size: 'l',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              key={i}
+              topLeft={randomPx()}
+              topRight={randomPx()}
+              bottomRight={randomPx()}
+              bottomLeft={randomPx()}
+            >
+              <h3
                 className={classNames({
-                  [spacing({ s: 4 }, { padding: ['bottom'] })]: true,
-                  [grid({
-                    s: 12,
-                    m: 12,
-                    l: 11,
-                    xl: 10,
-                    shiftL: 1,
-                    shiftXl: 2,
-                  })]: true,
-                  'is-hidden-s': true,
+                  [font('hnm', 5)]: true,
                 })}
               >
-                <Divider extraClasses="divider--keyline divider--pumice" />
-              </div>
-              <VenueHoursImage>
-                <UiImage
-                  contentUrl={
-                    venueAdditionalInfo[venue.name.toLowerCase()].image
-                  }
-                  width={1600}
-                  height={900}
-                  alt=""
-                  tasl={null}
-                  sizesQueries={null}
-                  extraClasses=""
-                  showTasl={false}
-                />
-              </VenueHoursImage>
-            </>
-          )}
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 5, l: 3, xl: 3 })]: true,
-              [grid({ shiftM: 1, shiftL: 2, shiftXl: 2 })]: !isInList,
-              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-            })}
-          >
-            <h2
-              className={classNames({
-                h2: true,
-                [spacing({ s: 2 }, { padding: ['right'] })]: true,
-              })}
-            >
-              {isInList
-                ? `${
-                    venueAdditionalInfo[venue.name.toLowerCase()].displayTitle
-                  }`
-                : 'Opening hours'}
-            </h2>
-            <ul
-              className={classNames({
-                'plain-list no-padding no-margin': true,
-                [font({ s: 'HNL4' })]: true,
-              })}
-            >
-              {venue.openingHours.regular.map(
-                ({ dayOfWeek, opens, closes }) => (
-                  <li key={dayOfWeek}>
-                    {dayOfWeek} {opens ? `${opens}—${closes}` : 'Closed'}
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 6, l: 5, xl: 4 })]: true,
-              [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-            })}
-          >
-            {upcomingExceptionalPeriod && upcomingExceptionalPeriod.length > 0 && (
-              <JauntyBox
-                topLeft={randomPx()}
-                topRight={randomPx()}
-                bottomRight={randomPx()}
-                bottomLeft={randomPx()}
-              >
-                <h3
+                <div
                   className={classNames({
-                    [font({ s: 'HNM4' })]: true,
+                    'flex flex--v-center': true,
                   })}
                 >
-                  <div
-                    className={classNames({
-                      'flex flex--v-center': true,
-                    })}
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
                   >
-                    <Icon
-                      name="clock"
-                      extraClasses={classNames({
-                        [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                      })}
-                    />
-                    <span>
-                      {upcomingExceptionalPeriod[0][0].overrideType} hours
-                    </span>
-                  </div>
-                </h3>
-                <ul
-                  className={classNames({
-                    'plain-list no-padding no-margin': true,
-                    [font({ s: 'HNL4' })]: true,
-                  })}
-                >
-                  {upcomingExceptionalPeriod[0].map((p, i) => (
-                    <li key={i}>
-                      {formatDay(p.overrideDate)}{' '}
-                      {formatDayMonth(p.overrideDate)}{' '}
-                      {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
-                    </li>
-                  ))}
-                </ul>
-              </JauntyBox>
-            )}
-          </div>
-          <div
-            className={classNames({
-              [grid({
-                s: 12,
-                m: isInList ? 12 : 10,
-                l: 11,
-                xl: 10,
-                shiftM: isInList ? 0 : 1,
-                shiftL: isInList ? 1 : 2,
-                shiftXl: 2,
-              })]: true,
-            })}
-          >
-            {isInList ? (
-              <MoreLink
-                url={venueAdditionalInfo[venue.name.toLowerCase()].url}
-                name={venueAdditionalInfo[venue.name.toLowerCase()].linkText}
-              />
-            ) : (
-              <MoreLink url={'/opening-times'} name="See all opening times" />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+                    <Icon name="clock" />
+                  </Space>
+                  <span>{overrideType} hours</span>
+                </div>
+              </h3>
+              <ul
+                className={classNames({
+                  'plain-list no-padding no-margin': true,
+                  [font('hnl', 5)]: true,
+                })}
+              >
+                {upcomingExceptionalPeriod.map(p => (
+                  <li key={p.overrideDate.toString()}>
+                    {formatDay(p.overrideDate.toDate())}{' '}
+                    {formatDayMonth(p.overrideDate.toDate())}{' '}
+                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
+                  </li>
+                ))}
+              </ul>
+            </JauntyBox>
+            <br />
+          </>
+        );
+      })}
+      <Space
+        v={{
+          size: 's',
+          properties: ['margin-top'],
+        }}
+        style={{ clear: 'both' }}
+      >
+        {weight === 'featured' ? (
+          <MoreLink
+            url={venueAdditionalInfo[venue.name.toLowerCase()].url}
+            name={venueAdditionalInfo[venue.name.toLowerCase()].linkText}
+          />
+        ) : (
+          <MoreLink url={'/opening-times'} name="See all opening times" />
+        )}
+      </Space>
+    </>
   );
 };
 

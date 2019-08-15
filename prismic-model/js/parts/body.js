@@ -8,6 +8,7 @@ import title from './title';
 import link from './link';
 import text from './text';
 import embed from './embed';
+import boolean from '../parts/boolean';
 
 // I've left slice here as we shouldn't really use it.
 type SliceProps = {|
@@ -34,6 +35,7 @@ export default {
   type: 'Slices',
   config: {
     labels: {
+      collectionVenue: [featuredLabel],
       text: [featuredLabel],
       editorialImage: [
         {
@@ -102,6 +104,23 @@ export default {
       collectionVenue: slice('Collection venue', {
         nonRepeat: {
           content: link('Content item', 'document', ['collection-venue']),
+          showClosingTimes: boolean('Show closing times'),
+        },
+      }),
+      contact: slice('Contact', {
+        nonRepeat: {
+          content: link('Content item', 'document', ['teams']),
+        },
+      }),
+      inPageAnchor: slice('In page anchor', {
+        nonRepeat: {
+          id: {
+            type: 'Text',
+            config: {
+              label: 'id',
+              placeholder: 'unique identifier without spaces',
+            },
+          },
         },
       }),
       contentList: slice('(β) Content list', {
@@ -115,6 +134,7 @@ export default {
             'books',
             'events',
             'articles',
+            'exhibitions',
           ]),
         },
       }),

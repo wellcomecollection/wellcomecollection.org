@@ -3,7 +3,6 @@ import { type Element, type ElementProps, type Node } from 'react';
 import {
   grid,
   font,
-  spacing,
   conditionalClassNames,
   classNames,
 } from '../../../utils/classnames';
@@ -14,8 +13,9 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '../LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import { default as ImageType } from '../Image/Image';
+import ImageType from '../Image/Image';
 import { type ColorSelection } from '../../../model/color-selections';
+import Space from '../styled/Space';
 
 type Props = {|
   url: ?string,
@@ -30,6 +30,7 @@ type Props = {|
   DateInfo: ?(Element<typeof DateRange> | Element<typeof EventDateRange>),
   StatusIndicator: ?Element<typeof StatusIndicator>,
   ExtraInfo?: ?Node,
+  xOfY: {| x: number, y: number |},
 |};
 
 const CompactCard = ({
@@ -45,19 +46,27 @@ const CompactCard = ({
   DateInfo,
   StatusIndicator,
   ExtraInfo,
+  xOfY,
 }: Props) => {
+  const { x, y } = xOfY;
   const textGridSizes = Image
-    ? { s: 7, m: 7, l: 8, xl: 8 }
+    ? { s: 9, m: 9, l: 9, xl: 9 }
     : { s: 12, m: 12, l: 12, xl: 12 };
 
-  const Tag = url ? 'a' : 'div';
   return (
-    <Tag
+    <Space
+      v={{
+        size: 'l',
+        properties: [
+          'padding-top',
+          x === y ? undefined : 'padding-bottom',
+        ].filter(Boolean),
+      }}
+      as={url ? 'a' : 'div'}
       href={urlOverride || url}
       className={conditionalClassNames({
         grid: true,
         'card-link': Boolean(url),
-        [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
         [extraClasses || '']: Boolean(extraClasses),
       })}
       onClick={() => {
@@ -68,28 +77,25 @@ const CompactCard = ({
         });
       }}
     >
-      {labels.labels.length > 0 && (
-        <div
-          className={conditionalClassNames({
-            [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-            [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
-          })}
-        >
-          <LabelsList {...labels} />
-        </div>
-      )}
       {Image && (
-        <div className={grid({ s: 5, m: 5, l: 4, xl: 4 })}>{Image}</div>
+        <div className={grid({ s: 3, m: 3, l: 3, xl: 3 })}>{Image}</div>
       )}
       <div className={grid(textGridSizes)}>
+        {labels.labels.length > 0 && (
+          <Space
+            v={{ size: 's', properties: ['margin-bottom'] }}
+            className="flex"
+          >
+            <LabelsList {...labels} />
+          </Space>
+        )}
         {partNumber && (
           <PartNumberIndicator number={partNumber} color={color} />
         )}
         <div
           className={classNames({
             'card-link__title': true,
-            [font({ s: 'WB5' })]: true,
-            [spacing({ s: 0 }, { margin: ['top'] })]: true,
+            [font('wb', 3)]: true,
           })}
         >
           {title}
@@ -99,11 +105,11 @@ const CompactCard = ({
         {ExtraInfo}
         {description && (
           <div className="spaced-text">
-            <p className={font({ s: 'HNL4' })}>{description}</p>
+            <p className={font('hnl', 5)}>{description}</p>
           </div>
         )}
       </div>
-    </Tag>
+    </Space>
   );
 };
 

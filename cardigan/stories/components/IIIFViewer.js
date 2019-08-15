@@ -2,8 +2,6 @@ import { storiesOf } from '@storybook/react';
 import IIIFViewer from '../../../common/views/components/IIIFViewer/IIIFViewer';
 import Readme from '../../../common/views/components/IIIFViewer/README.md';
 import { itemUrl } from '../../../common/services/catalogue/urls';
-import { ThemeProvider } from 'styled-components';
-import theme from '../../../common/views/themes/default';
 import manifest from '../../../common/__mocks__/iiif-manifest';
 import Router from 'next/router';
 
@@ -62,30 +60,28 @@ const IIIFViewerExample = () => {
     .filter(Boolean);
 
   return (
-    <ThemeProvider theme={theme}>
-      <IIIFViewer
-        mainPaginatorProps={mainPaginatorProps}
-        thumbsPaginatorProps={thumbsPaginatorProps}
-        currentCanvas={currentCanvas}
-        lang={langCode}
-        canvasOcr={null}
-        navigationCanvases={navigationCanvases}
-        workId={workId}
-        query={null}
-        workType={null}
-        itemsLocationsLocationType={null}
-        pageIndex={pageIndex}
-        sierraId={sierraId}
-        pageSize={pageSize}
-        canvasIndex={canvasIndex}
-      />
-    </ThemeProvider>
+    <IIIFViewer
+      mainPaginatorProps={mainPaginatorProps}
+      thumbsPaginatorProps={thumbsPaginatorProps}
+      currentCanvas={currentCanvas}
+      lang={langCode}
+      canvasOcr={null}
+      navigationCanvases={navigationCanvases}
+      workId={workId}
+      query={null}
+      workType={null}
+      itemsLocationsLocationType={null}
+      pageIndex={pageIndex}
+      sierraId={sierraId}
+      pageSize={pageSize}
+      canvasIndex={canvasIndex}
+    />
   );
 };
 
-const stories = storiesOf('Components (WIP)', module);
+const stories = storiesOf('Components/WIP', module);
 
 stories.add('IIIFViewer', IIIFViewerExample, {
-  info: Readme,
+  readme: { sidebar: Readme },
   isFullScreen: true,
 });

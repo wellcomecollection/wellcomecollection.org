@@ -1,12 +1,15 @@
 // @flow
 import React from 'react';
+import type { HTMLString } from '../../../../common/services/prismic/types';
 import cookie from 'cookie-cutter';
-import { spacing, grid, font } from '../../../utils/classnames';
+import { grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '../styled/Space';
 
 type Props = {|
   cookieName?: string,
-  text: string,
+  text: HTMLString,
 |};
 
 type State = {|
@@ -50,35 +53,33 @@ class InfoBanner extends React.Component<Props, State> {
   render() {
     if (this.state.showInfoBanner) {
       return (
-        <div
-          className={`row bg-yellow ${spacing(
-            { s: 3 },
-            { padding: ['top', 'bottom'] }
-          )}`}
+        <Space
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          className={`row bg-yellow`}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <div
-                  className={`flex flex--v-center flex--h-space-between ${font({
-                    s: 'HNL5',
-                    m: 'HNL4',
-                  })}`}
+                  className={`flex flex--v-center flex--h-space-between ${font(
+                    'hnl',
+                    5
+                  )}`}
                 >
                   <div>
                     <span className="flex flex--v-center">
-                      <div
-                        className={`flex flex--v-center ${spacing(
-                          { s: 2 },
-                          { margin: ['right'] }
-                        )}`}
+                      <Space
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                        className={`flex flex--v-center`}
                       >
                         <Icon name="information" />
+                      </Space>
+                      <div className="first-para-no-margin">
+                        <PrismicHtmlBlock html={this.props.text} />
                       </div>
-                      <div
-                        className="first-para-no-margin"
-                        dangerouslySetInnerHTML={{ __html: this.props.text }}
-                      />
                     </span>
                   </div>
                   <div>
@@ -96,7 +97,7 @@ class InfoBanner extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-        </div>
+        </Space>
       );
     } else {
       return null;

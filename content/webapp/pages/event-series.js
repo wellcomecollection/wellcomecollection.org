@@ -1,5 +1,7 @@
 // @flow
 import type { Context } from 'next';
+import type { EventSeries } from '@weco/common/model/event-series';
+import type { UiEvent } from '@weco/common/model/events';
 import { Component } from 'react';
 import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -11,11 +13,9 @@ import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { spacing } from '@weco/common/utils/classnames';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { convertJsonToDates } from './event';
-import type { EventSeries } from '@weco/common/model/event-series';
-import type { UiEvent } from '@weco/common/model/events';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   series: EventSeries,
@@ -135,12 +135,12 @@ export class EventSeriesPage extends Component<Props> {
           )}
 
           {pastEvents.length > 0 && (
-            <div className={spacing({ s: 8 }, { margin: ['top'] })}>
+            <Space v={{ size: 'xl', properties: ['margin-top'] }}>
               <SearchResults
                 items={pastEvents}
                 title={`What we've done before`}
               />
-            </div>
+            </Space>
           )}
         </ContentPage>
       </PageLayout>

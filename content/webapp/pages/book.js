@@ -1,5 +1,6 @@
 // @flow
 import type { Context } from 'next';
+import type { Book } from '@weco/common/model/books';
 import { Fragment, Component } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -11,8 +12,8 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
-import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
-import type { Book } from '@weco/common/model/books';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   book: Book,
@@ -20,7 +21,14 @@ type Props = {|
 
 // FIXME: This is nonsense
 const BookMetadata = ({ book }: Props) => (
-  <dl className="grid">
+  <Space
+    v={{
+      size: 'm',
+      properties: ['margin-top', 'margin-bottom'],
+    }}
+    as="dl"
+    className="grid"
+  >
     {book.datePublished && (
       <Fragment>
         <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>
@@ -47,7 +55,7 @@ const BookMetadata = ({ book }: Props) => (
     <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
       {book.isbn}
     </dd>
-  </dl>
+  </Space>
 );
 
 export class ArticleSeriesPage extends Component<Props> {
@@ -118,7 +126,7 @@ export class ArticleSeriesPage extends Component<Props> {
               <p
                 className={classNames({
                   'no-margin': true,
-                  [font({ s: 'HNM4', m: 'HNM3' })]: true,
+                  [font('hnm', 3)]: true,
                 })}
               >
                 {book.subtitle}
@@ -194,12 +202,7 @@ export class ArticleSeriesPage extends Component<Props> {
           contributorProps={{ contributors }}
         >
           <Fragment>
-            <div
-              className={`${spacing({ s: 2 }, { padding: ['top'] })} ${spacing(
-                { s: 2 },
-                { margin: ['top'] }
-              )} border-top-width-1 border-color-smoke`}
-            >
+            <div className={`border-top-width-1 border-color-smoke`}>
               <BookMetadata book={book} />
             </div>
             {book.orderLink && (

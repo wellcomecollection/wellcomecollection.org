@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.9"
+  required_version = ">= 0.11"
 
   backend "s3" {
     key            = "build-state/router.tfstate"
@@ -20,12 +20,12 @@ data "terraform_remote_state" "wellcomecollection" {
 }
 
 provider "aws" {
-  version = "~> 1.29.0"
+  version = "~> 2.6.0"
   region  = "eu-west-1"
 }
 
 provider "aws" {
-  version = "~> 1.29.0"
+  version = "~> 2.6.0"
   region  = "us-east-1"
   alias   = "us-east-1"
 }

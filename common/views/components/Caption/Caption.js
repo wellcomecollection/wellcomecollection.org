@@ -1,8 +1,9 @@
 // @flow
-import { font, spacing, classNames } from '../../../utils/classnames';
+import type { HTMLString } from '../../../services/prismic/types';
+import { font, classNames } from '../../../utils/classnames';
 import type { Node } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import type { HTMLString } from '../../../services/prismic/types';
+import Space from '../styled/Space';
 
 type Props = {|
   caption: HTMLString,
@@ -12,34 +13,36 @@ type Props = {|
 
 const Caption = ({ caption, preCaptionNode, width }: Props) => {
   return (
-    <figcaption
+    <Space
+      v={{
+        size: 'm',
+        properties: ['margin-top'],
+      }}
+      as="figcaption"
       style={width ? { width: `${width}px` } : undefined}
-      className={`caption h-center ${font({ s: 'LR3', m: 'LR2' })} ${spacing(
-        { s: 3 },
-        { padding: ['top'] }
-      )}`}
+      className={classNames({
+        [font('lr', 6)]: true,
+        'caption h-center': true,
+      })}
     >
       <div
         className={classNames({
           'overflow-hidden': true,
-          [spacing({ s: 3, m: 4, l: 5 }, { padding: ['right'] })]: true,
         })}
         style={{ maxWidth: '55em' }}
         tabIndex="0"
       >
         {preCaptionNode}
-        <div
-          className={`border-left-width-1 ${spacing(
-            { s: 2 },
-            { padding: ['left'] }
-          )}`}
+        <Space
+          h={{ size: 'm', properties: ['padding-left'] }}
+          className={`border-left-width-1`}
           style={{ borderColor: 'currentColor' }}
         >
           <PrismicHtmlBlock html={caption} />
-        </div>
+        </Space>
         <style>{'.caption p { display: inline; }'}</style>
       </div>
-    </figcaption>
+    </Space>
   );
 };
 

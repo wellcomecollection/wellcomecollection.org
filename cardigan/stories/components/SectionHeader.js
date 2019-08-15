@@ -10,6 +10,6 @@ const SectionHeaderExample = () => {
   return <SectionHeader title={title} />;
 };
 
-stories.add('Section header', SectionHeaderExample, {
-  info: Readme,
+stories.add('SectionHeader', SectionHeaderExample, {
+  readme: { sidebar: Readme },
 });

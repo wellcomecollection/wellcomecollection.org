@@ -1,6 +1,7 @@
 // @flow
 
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   inputRef?: ?Function,
@@ -9,7 +10,6 @@ type Props = {|
   value?: string,
   defaultValue?: string,
   label: string,
-  fontStyles?: {},
   name?: string,
   placeholder?: string,
   disabled?: boolean,
@@ -37,7 +37,6 @@ const HTMLInput = ({
   autofocus,
   label,
   isLabelHidden,
-  fontStyles = { s: 'HNL3', m: 'HNL2' },
   onChange,
 }: Props) => (
   <label
@@ -49,7 +48,7 @@ const HTMLInput = ({
       required={required}
       ref={inputRef}
       id={id}
-      className={`input input--${type} ${font(fontStyles)} js-input`}
+      className={`input input--${type} ${font('hnl', 4)} js-input`}
       type={type}
       name={name}
       value={value}
@@ -66,11 +65,12 @@ const HTMLInput = ({
       />
     )}
 
-    <span
-      className={`input__label-wrap line-height-1 ${spacing(
-        { s: 2 },
-        { margin: ['left'] }
-      )} ${isLabelHidden ? 'input__label-wrap--hidden' : ''}`}
+    <Space
+      as="span"
+      h={{ size: 'm', properties: ['margin-left'] }}
+      className={`input__label-wrap line-height-1 ${
+        isLabelHidden ? 'input__label-wrap--hidden' : ''
+      }`}
       dangerouslySetInnerHTML={{ __html: label }}
     />
   </label>

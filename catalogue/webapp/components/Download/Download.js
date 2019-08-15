@@ -1,22 +1,24 @@
 // @flow
 import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { font, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import License from '@weco/common/views/components/License/License';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 const DownloadButton = styled.button`
   text-align: center;
-  border: 0;
-  background: ${props => props.theme.colors.green};
-  color: ${props => props.theme.colors.white};
+  border: ${props => `1px solid ${props.theme.colors.green}`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+  background: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.green};
   padding: ${props =>
-    `${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit * 2}px ${props
-      .theme.spacingUnit * 2}px ${props.theme.spacingUnit * 3}px`};
+    `${props.theme.spacingUnit}px ${props.theme.spacingUnit}px ${
+      props.theme.spacingUnit
+    }px ${props.theme.spacingUnit * 2}px`};
   display: inline-block;
   margin: ${props =>
     `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};
@@ -74,6 +76,10 @@ function getFormatString(format) {
       return 'PLAIN';
     case 'image/jpeg':
       return 'JPG';
+    case 'video/mp4':
+      return 'MP4';
+    case 'audio/mp3':
+      return 'MP3';
   }
 }
 
@@ -81,17 +87,17 @@ type Work = Object;
 type Props = {|
   work: Work,
   licenseInfo: ?LicenseData,
-  iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
+  credit: ?string,
   downloadOptions: IIIFRendering[],
+  licenseInfoLink: boolean,
 |};
 
 const Download = ({
   work,
   licenseInfo,
-  iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
+  credit,
   downloadOptions,
+  licenseInfoLink,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
@@ -103,14 +109,14 @@ const Download = ({
     <div>
       <div
         className={classNames({
-          [font({ s: 'HNL5', m: 'HNL4' })]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         {useJavascriptControl ? (
           <h2 className="inline">
             <DownloadButton
               className={classNames({
-                [font({ s: 'HNM4' })]: true,
+                [font('hnm', 5)]: true,
                 'flex-inline': true,
                 'flex--v-center': true,
               })}
@@ -122,13 +128,12 @@ const Download = ({
               }}
             >
               <span className="flex-inline flex--v-center">
-                <span
-                  className={classNames({
-                    [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                  })}
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
                 >
                   Download
-                </span>
+                </Space>
                 <Icon name="chevron" />
               </span>
             </DownloadButton>
@@ -136,7 +141,7 @@ const Download = ({
         ) : (
           <h2
             className={classNames({
-              [font({ s: 'WB6', m: 'WB5' })]: true,
+              [font('wb', 3)]: true,
               'work-details-heading': true,
             })}
           >
@@ -146,7 +151,7 @@ const Download = ({
         <DownloadOptions
           id="downloadOptions"
           className={classNames({
-            [font({ s: 'HNM5', m: 'HNM4' })]: true,
+            [font('hnm', 5)]: true,
             'enhanced-styles': useJavascriptControl,
             show: showDownloads,
           })}
@@ -185,15 +190,16 @@ const Download = ({
                           {option.label}
                         </span>
                         {format && (
-                          <span
+                          <Space
+                            as="span"
+                            h={{ size: 'm', properties: ['margin-left'] }}
                             className={classNames({
+                              [font('hnm', 5)]: true,
                               'font-pewter': true,
-                              [font({ s: 'HNM5' })]: true,
-                              [spacing({ s: 2 }, { margin: ['left'] })]: true,
                             })}
                           >
                             {format}
-                          </span>
+                          </Space>
                         )}
                       </span>
                     </a>
@@ -204,30 +210,36 @@ const Download = ({
         </DownloadOptions>
 
         <div className="flex-inline flex--v-center">
-          {iiifImageLocationLicenseId && (
-            <span
-              className={classNames({
-                'inline-block': true,
-                [spacing({ s: 2 }, { margin: ['right'] })]: true,
-              })}
-            >
-              <License subject={''} licenseType={iiifImageLocationLicenseId} />
-            </span>
-          )}
-          {iiifImageLocationCredit && (
-            <span
-              className={classNames({
-                'inline-block': true,
-                [spacing({ s: 2 }, { margin: ['right'] })]: true,
-              })}
-            >
-              Credit: {iiifImageLocationCredit}{' '}
-            </span>
-          )}
           {licenseInfo && (
+            <Space
+              as="span"
+              h={{ size: 'm', properties: ['margin-right'] }}
+              className={classNames({
+                'inline-block': true,
+              })}
+            >
+              {licenseInfo && (
+                <License subject={''} licenseInfo={licenseInfo} />
+              )}
+            </Space>
+          )}
+          {credit && (
+            <Space
+              as="span"
+              h={{ size: 'm', properties: ['margin-right'] }}
+              className={classNames({
+                'inline-block': true,
+              })}
+            >
+              Credit: {credit}{' '}
+            </Space>
+          )}
+          {licenseInfo && licenseInfoLink && (
             <a
               href="#licenseInformation"
-              className={font({ s: 'HNM5', m: 'HNM4' })}
+              className={classNames({
+                [font('hnm', 5)]: true,
+              })}
             >
               <span className="flex-inline flex--v-center nowrap">
                 <Icon name="arrowSmall" extraClasses="icon--90" />

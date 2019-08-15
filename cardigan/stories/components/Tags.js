@@ -35,4 +35,6 @@ const tags = [
 ];
 
 const stories = storiesOf('Components', module);
-stories.add('Tags', () => <Tags tags={tags} />, { info: Readme });
+stories.add('Tags', () => <Tags tags={tags} />, {
+  readme: { sidebar: Readme },
+});

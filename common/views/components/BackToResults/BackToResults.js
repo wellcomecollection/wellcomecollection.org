@@ -7,7 +7,7 @@ import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
 
 const BackToResults = () => {
-  const { query, workType, page, _queryType } = useContext(
+  const { query, workType, page, _queryType, _dateFrom, _dateTo } = useContext(
     CatalogueSearchContext
   );
   const link = worksUrl({
@@ -15,6 +15,8 @@ const BackToResults = () => {
     page,
     workType,
     _queryType,
+    _dateFrom,
+    _dateTo,
   });
   return (
     <NextLink {...link}>
@@ -28,7 +30,7 @@ const BackToResults = () => {
           });
         }}
         className={classNames({
-          [font({ s: 'HNM5', m: 'HNM4' })]: true,
+          [font('hnm', 5)]: true,
         })}
       >
         <span>{`Search${query ? ' results' : ''}`}</span>

@@ -40,5 +40,9 @@
     "sass-loader": "^7.0.1",
     "supertest": "^4.0.2",
     "webpack": "^4.25.1"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "iOS 8"
+  ]
 }

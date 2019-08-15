@@ -7,9 +7,6 @@ import Body from '@weco/common/views/components/Body/Body';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import { LibraryClosed } from './opening-times';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -52,8 +49,8 @@ export class Page extends Component<Props> {
     const FeaturedMedia = hasFeaturedMedia ? (
       page.body[0].type === 'picture' ? (
         <UiImage
-          {...page.body[0].value.image.crops['16:9'] ||
-            page.body[0].value.image}
+          {...(page.body[0].value.image.crops['16:9'] ||
+            page.body[0].value.image)}
         />
       ) : page.body[0].type === 'videoEmbed' ? (
         <VideoEmbed {...page.body[0].value} />
@@ -108,15 +105,6 @@ export class Page extends Component<Props> {
           Header={Header}
           Body={<Body body={body} pageId={page.id} />}
         />
-
-        {/* Display closures on the library page */}
-        {page.id === 'Wuw19yIAAK1Z3Smm' && (
-          <SpacingSection>
-            <Layout8>
-              <LibraryClosed page={page} />
-            </Layout8>
-          </SpacingSection>
-        )}
       </PageLayout>
     );
   }

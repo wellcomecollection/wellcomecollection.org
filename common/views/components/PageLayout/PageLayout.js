@@ -14,10 +14,11 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
-type Props = {|
+export type Props = {|
   title: string,
   description: string,
   url: Url,
@@ -30,6 +31,8 @@ type Props = {|
   rssUrl?: string,
   children: Node,
   hideNewsletterPromo?: boolean,
+  hideFooter?: boolean,
+  fixHeader?: boolean,
 |};
 
 const PageLayout = ({
@@ -45,6 +48,8 @@ const PageLayout = ({
   rssUrl,
   children,
   hideNewsletterPromo = false,
+  hideFooter = false,
+  fixHeader = false,
 }: Props) => {
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -102,7 +107,7 @@ const PageLayout = ({
         <a className="skip-link" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} />
+        <Header siteSection={siteSection} isFixed={fixHeader} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
             globalAlert.isShown === 'show' && (
@@ -113,10 +118,15 @@ const PageLayout = ({
         <div id="main" className="main" role="main">
           {children}
         </div>
-        {!hideNewsletterPromo && <NewsletterPromo />}
+        {!hideNewsletterPromo && (
+          <SpacingSection>
+            <NewsletterPromo />
+          </SpacingSection>
+        )}
         <OpeningTimesContext.Consumer>
           {openingTimes => (
             <Footer
+              hide={hideFooter}
               openingTimes={openingTimes}
               upcomingExceptionalOpeningPeriods={
                 openingTimes.upcomingExceptionalOpeningPeriods

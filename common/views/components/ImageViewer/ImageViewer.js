@@ -1,191 +1,315 @@
 // @flow
-import { Fragment, useState, useEffect } from 'react';
-import { Transition } from 'react-transition-group';
-import Image from '../Image/Image';
-import Control from '../Buttons/Control/Control';
-import { spacing } from '../../../utils/classnames';
+import { useState, useEffect } from 'react';
+import Router from 'next/router';
+import styled from 'styled-components';
+import fetch from 'isomorphic-unfetch';
+import Raven from 'raven-js';
 import { trackEvent } from '../../../utils/ga';
-import dynamic from 'next/dynamic';
+import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
+import Control from '../Buttons/Control/Control';
+import LL from '../styled/LL';
+import Space from '../styled/Space';
 
-const ImageViewerImage = dynamic(import('./ImageViewerImage'), { ssr: false });
+const ImageViewerControls = styled.div`
+  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
+    for a less heavy handed solution to Openseadragon breaking on touch events */
+  &,
+  button,
+  a {
+    touch-action: none;
+  }
 
-type LaunchViewerButtonProps = {|
-  classes: string,
-  clickHandler: () => void,
-  didMountHandler: () => void,
+  button {
+    display: block;
+  }
+
+  .icon {
+    margin: 0;
+  }
+
+  .btn__text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+
+  position: absolute;
+  top: 100px;
+  left: 12px;
+  z-index: 1;
+}`;
+
+const ImageWrapper = styled.div`
+  cursor: zoom-in;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  transition: opacity 1000ms ease;
+  opacity: ${props => (props.imageLoading ? 0 : 1)};
+
+  & img {
+      margin: 0 auto;
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: scroll;
+    }
+  }
+`;
+
+function getTileSources(data) {
+  return [
+    {
+      '@context': 'http://iiif.io/api/image/2/context.json',
+      '@id': data['@id'],
+      height: data.height,
+      width: data.width,
+      profile: ['http://iiif.io/api/image/2/level2.json'],
+      protocol: 'http://iiif.io/api/image',
+      tiles: [
+        {
+          scaleFactors: [1, 2, 4, 8, 16, 32],
+          width: 400,
+        },
+      ],
+    },
+  ];
+}
+type ImageViewerProps = {|
+  id: string,
+  src: string,
+  srcSet: string,
+  width: number,
+  height?: number,
+  infoUrl: string,
+  lang: ?string,
+  tabbableControls: boolean,
 |};
 
-const LaunchViewerButton = ({
-  classes,
-  clickHandler,
-  didMountHandler,
-}: LaunchViewerButtonProps) => {
+const ImageViewer = ({
+  id,
+  width,
+  height,
+  lang,
+  infoUrl,
+  src,
+  srcSet,
+  tabbableControls,
+}: ImageViewerProps) => {
+  const [imageLoading, setImageLoading] = useState(false);
+  const [isLoadingViewer, setIsLoadingViewer] = useState(false);
+  const [viewer, setViewer] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const zoomStep = 0.5;
+
+  function routeChangeStart(url: string) {
+    if (window.history.state.as !== url) {
+      setImageLoading(true);
+    }
+  }
   useEffect(() => {
-    didMountHandler();
+    Router.events.on('routeChangeStart', routeChangeStart);
+
+    return () => {
+      Router.events.off('routeChangeStart', routeChangeStart);
+    };
   }, []);
 
-  return (
-    <Control
-      type="dark"
-      text="View larger image"
-      icon="zoomIn"
-      extraClasses={`image-viewer__launch-button ${classes}`}
-      clickHandler={clickHandler}
-    />
-  );
-};
-
-type ViewerContentProps = {|
-  id: string,
-  classes: string,
-  viewerVisible: boolean,
-  handleViewerDisplay: Function,
-  infoUrl: string,
-|};
-
-const ViewerContent = ({
-  id,
-  classes,
-  viewerVisible,
-  handleViewerDisplay,
-  infoUrl,
-}: ViewerContentProps) => {
-  const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
-    if (keyCode === 27 && viewerVisible) {
-      handleViewerDisplay('Keyboard');
+  useEffect(() => {
+    if (viewer) {
+      fetch(infoUrl)
+        .then(response => response.json())
+        .then(data => {
+          viewer.open(getTileSources(data));
+        });
+      viewer.open(setImageLoading(false));
     }
-  };
+  }, [infoUrl]);
 
-  const handleZoomIn = event => {
+  async function setupViewer(imageInfoSrc, viewerId) {
+    setIsLoadingViewer(true);
+
+    if (viewer) {
+      setIsLoadingViewer(false);
+
+      return viewer;
+    }
+
+    const { default: OpenSeadragon } = await import('openseadragon');
+
+    return fetch(imageInfoSrc)
+      .then(response => response.json())
+      .then(data => {
+        const osdViewer = OpenSeadragon({
+          id: `image-viewer-${viewerId}`,
+          showNavigationControl: false,
+          visibilityRatio: 1,
+          gestureSettingsMouse: {
+            scrollToZoom: false,
+          },
+          tileSources: getTileSources(data),
+        });
+        setIsError(false);
+        setViewer(osdViewer);
+        setIsLoadingViewer(false);
+
+        return osdViewer;
+      })
+      .catch(error => {
+        Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
+          tags: {
+            service: 'dlcs',
+          },
+        });
+        setIsError(true);
+      });
+  }
+
+  async function handleRotate() {
+    if (isLoadingViewer) return;
+
+    const v = await setupViewer(infoUrl, id);
+
+    v.viewport.setRotation(v.viewport.getRotation() + 90);
+
+    trackEvent({
+      category: 'Control',
+      action: 'rotate ImageViewer',
+      label: id,
+    });
+  }
+
+  function doZoomIn(viewer) {
+    const max = viewer.viewport.getMaxZoom();
+    const nextMax = viewer.viewport.getZoom() + zoomStep;
+    const newMax = nextMax <= max ? nextMax : max;
+
+    viewer.viewport.zoomTo(newMax);
+  }
+
+  function doZoomOut(viewer) {
+    const min = viewer.viewport.getMinZoom();
+    const nextMin = viewer.viewport.getZoom() - zoomStep;
+    const newMin = nextMin >= min ? nextMin : min;
+
+    viewer.viewport.zoomTo(newMin);
+  }
+
+  async function handleZoomIn() {
+    if (isLoadingViewer) return;
+
+    const v = await setupViewer(infoUrl, id);
+
+    if (v.isOpen()) {
+      doZoomIn(v);
+    } else {
+      v.addOnceHandler('tile-loaded', _ => {
+        doZoomIn(v);
+      });
+    }
+
     trackEvent({
       category: 'Control',
       action: 'zoom in ImageViewer',
       label: id,
     });
-  };
+  }
 
-  const handleZoomOut = event => {
+  async function handleZoomOut() {
+    if (isLoadingViewer) return;
+
+    const v = await setupViewer(infoUrl, id);
+
+    if (v.isOpen()) {
+      doZoomOut(v);
+    } else {
+      v.addOnceHandler('tile-loaded', _ => {
+        doZoomOut(v);
+      });
+    }
+
     trackEvent({
       category: 'Control',
       action: 'zoom out ImageViewer',
       label: id,
     });
-  };
-
-  useEffect(() => {
-    document.addEventListener('keydown', escapeCloseViewer);
-    return function cleanup() {
-      document.removeEventListener('keydown', escapeCloseViewer);
-    };
-  }, []);
+  }
 
   return (
-    <div className={`${classes} image-viewer__content image-viewer__content2`}>
-      <div className="image-viewer__controls flex flex-end flex--v-center">
+    <>
+      <ImageViewerControls>
         <Control
-          type="light"
+          tabIndex={tabbableControls ? '0' : '-1'}
+          type="on-black"
           text="Zoom in"
-          id={`zoom-in-${id}`}
           icon="zoomIn"
-          extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
           clickHandler={handleZoomIn}
         />
-
         <Control
-          type="light"
+          tabIndex={tabbableControls ? '0' : '-1'}
+          type="on-black"
           text="Zoom out"
-          id={`zoom-out-${id}`}
           icon="zoomOut"
-          extraClasses={`${spacing({ s: 8 }, { margin: ['right'] })}`}
           clickHandler={handleZoomOut}
         />
-
         <Control
-          type="light"
-          text="Close image viewer"
-          icon="cross"
-          extraClasses={`${spacing({ s: 2 }, { margin: ['right'] })}`}
-          clickHandler={() => {
-            handleViewerDisplay('Control');
-          }}
+          tabIndex={tabbableControls ? '0' : '-1'}
+          type="on-black"
+          text="Rotate"
+          icon="rotatePageRight"
+          clickHandler={handleRotate}
         />
-      </div>
+      </ImageViewerControls>
 
-      {viewerVisible && <ImageViewerImage id={id} infoUrl={infoUrl} />}
-    </div>
-  );
-};
-
-type ImageViewerProps = {|
-  id: string,
-  contentUrl: string,
-  infoUrl: string,
-  width: number,
-|};
-
-const ImageViewer = ({ id, contentUrl, infoUrl, width }: ImageViewerProps) => {
-  const [showViewer, setShowViewer] = useState(false);
-  const [mountViewButton, setMountViewButton] = useState(false);
-  const [viewButtonMounted, setViewButtonMounted] = useState(false);
-
-  const handleViewerDisplay = (initiator: 'Control' | 'Image' | 'Keyboard') => {
-    trackEvent({
-      category: initiator,
-      action: `${showViewer ? 'closed' : 'opened'} ImageViewer`,
-      label: id,
-    });
-    setShowViewer(!showViewer);
-  };
-
-  const viewButtonMountedHandler = () => {
-    setViewButtonMounted(!viewButtonMounted);
-  };
-
-  useEffect(() => {
-    setMountViewButton(!viewButtonMounted);
-  }, []);
-
-  return (
-    <Fragment>
-      <Image
-        width={width}
-        contentUrl={contentUrl}
-        lazyload={false}
-        sizesQueries="(min-width: 860px) 800px, calc(92.59vw + 22px)"
-        alt=""
-        clickHandler={() => {
-          handleViewerDisplay('Image');
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
         }}
-        zoomable={viewButtonMounted}
-        defaultSize={800}
-        extraClasses="margin-h-auto width-auto full-height full-max-width block"
-      />
-      <Transition in={mountViewButton} timeout={700}>
-        {status => {
-          if (status === 'exited') {
-            return null;
-          }
-          return (
-            <LaunchViewerButton
-              classes={`slideup-viewer-btn slideup-viewer-btn-${status}`}
-              didMountHandler={viewButtonMountedHandler}
-              clickHandler={() => {
-                handleViewerDisplay('Control');
-              }}
+      >
+        {imageLoading && <LL />}
+        <ImageWrapper
+          imageLoading={imageLoading}
+          id={`image-viewer-${id}`}
+          aria-hidden="true"
+        >
+          {isError && (
+            <Space
+              as="p"
+              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            >
+              The image viewer is not working
+            </Space>
+          )}
+          {!viewer && (
+            // TODO: maybe add role="presentation" to img?
+            <IIIFResponsiveImage
+              width={width}
+              height={height}
+              src={src}
+              srcSet={srcSet}
+              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              lang={lang}
+              clickHandler={handleZoomIn}
+              loadHandler={() => setImageLoading(false)}
+              alt=""
+              isLazy={false}
             />
-          );
-        }}
-      </Transition>
-      {showViewer && (
-        <ViewerContent
-          classes=""
-          viewerVisible={showViewer}
-          id={id}
-          handleViewerDisplay={handleViewerDisplay}
-          infoUrl={infoUrl}
-        />
-      )}
-    </Fragment>
+          )}
+        </ImageWrapper>
+      </div>
+    </>
   );
 };
 

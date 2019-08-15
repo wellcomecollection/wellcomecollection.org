@@ -15,7 +15,7 @@ export type IIIFThumbnailService = {|
 
 export type IIIFThumbnail = {|
   '@id': string,
-  service: IIIFImageService,
+  service: IIIFThumbnailService,
 |};
 
 export type IIIFResource = {|
@@ -48,6 +48,7 @@ type IIIFMediaSequence = {|
   '@id': string,
   '@type': string,
   elements: {
+    '@type': string,
     '@id': string,
     format: string,
   }[],
@@ -75,8 +76,11 @@ export type IIIFMetadata = {|
 export type IIIFManifest = {|
   '@id': string,
   label: string,
+  manifests: any, // TODO
   metadata: IIIFMetadata[],
   mediaSequences?: IIIFMediaSequence[],
   sequences?: IIIFSequence[],
   structures?: IIIFStructure[],
+  license: string,
+  within?: string,
 |};

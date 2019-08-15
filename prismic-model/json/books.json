@@ -20,6 +20,12 @@
       "type": "Slices",
       "config": {
         "labels": {
+          "collectionVenue": [
+            {
+              "name": "featured",
+              "display": "Featured"
+            }
+          ],
           "text": [
             {
               "name": "featured",
@@ -293,6 +299,44 @@
                     "collection-venue"
                   ]
                 }
+              },
+              "showClosingTimes": {
+                "type": "Select",
+                "config": {
+                  "label": "Show closing times",
+                  "options": [
+                    "yes"
+                  ]
+                }
+              }
+            }
+          },
+          "contact": {
+            "type": "Slice",
+            "fieldset": "Contact",
+            "non-repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "teams"
+                  ]
+                }
+              }
+            }
+          },
+          "inPageAnchor": {
+            "type": "Slice",
+            "fieldset": "In page anchor",
+            "non-repeat": {
+              "id": {
+                "type": "Text",
+                "config": {
+                  "label": "id",
+                  "placeholder": "unique identifier without spaces"
+                }
               }
             }
           },
@@ -320,7 +364,8 @@
                     "event-series",
                     "books",
                     "events",
-                    "articles"
+                    "articles",
+                    "exhibitions"
                   ]
                 }
               }

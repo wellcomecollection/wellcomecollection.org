@@ -1,12 +1,13 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { formatDate } from '../../../utils/format-date';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
 import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import Space from '../styled/Space';
 
 type Props = {|
   ...ExhibitionPromoProps,
@@ -18,6 +19,7 @@ const ExhibitionPromo = ({
   id,
   url,
   title,
+  shortTitle,
   image,
   start,
   end,
@@ -30,7 +32,7 @@ const ExhibitionPromo = ({
       data-component-state={JSON.stringify({ position: position })}
       id={id}
       href={url}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column"
+      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex--column flex-ie-block"
       onClick={() => {
         trackEvent({
           category: 'ExhibitionPromo',
@@ -72,28 +74,32 @@ const ExhibitionPromo = ({
         </div>
       </div>
 
-      <div
+      <Space
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={`
           flex flex--column flex-1 flex--h-space-between
-          ${spacing({ s: 2 }, { padding: ['top'] })}
-          ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-          ${spacing({ s: 4 }, { padding: ['bottom'] })}
         `}
       >
         <div>
-          <h2
-            className={`
-            promo-link__title
-            ${font({ s: 'WB5' })}
-            ${spacing({ s: 0 }, { margin: ['top'] })}
-            ${spacing({ s: 1 }, { margin: ['bottom'] })}
-          `}
+          <Space
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
+            className={classNames({
+              'promo-link__title': true,
+              [font('wb', 3)]: true,
+            })}
           >
             {title}
-          </h2>
+          </Space>
 
           {!statusOverride && start && end && (
-            <p className={`${font({ s: 'HNL4' })} no-margin no-padding`}>
+            <p className={`${font('hnl', 5)} no-margin no-padding`}>
               <Fragment>
                 <time dateTime={start}>{formatDate(start)}</time>—
                 <time dateTime={end}>{formatDate(end)}</time>
@@ -106,16 +112,8 @@ const ExhibitionPromo = ({
             end={end || new Date()}
             statusOverride={statusOverride}
           />
-
-          <p
-            className={classNames({
-              'no-padding': true,
-              [font({ s: 'HNL4' })]: true,
-              [spacing({ s: 2 }, { margin: ['bottom', 'top'] })]: true,
-            })}
-          />
         </div>
-      </div>
+      </Space>
     </a>
   );
 };

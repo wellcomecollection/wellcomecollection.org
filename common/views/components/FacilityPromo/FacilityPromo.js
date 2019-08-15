@@ -1,9 +1,10 @@
 // @flow
-import { spacing, font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import { UiImage } from '../Images/Images';
 import type { ImageType } from '../../../model/image';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -50,27 +51,37 @@ const FacilityPromo = ({
           <UiImage {...uiImageProps} />
         </div>
 
-        <h2
-          className={`"promo-link__title ${font({ s: 'WB6' })} ${spacing(
-            { s: 2 },
-            { margin: ['top'] }
-          )}`}
+        <Space
+          v={{
+            size: 's',
+            properties: ['margin-top'],
+          }}
+          as="h2"
+          className={classNames({
+            'promo-link__title': true,
+            [font('wb', 4)]: true,
+          })}
         >
           {title}
-        </h2>
-        <p className={`${font({ s: 'HNL5' })} no-margin no-padding`}>
+        </Space>
+        <p className={`${font('hnl', 5)} no-margin no-padding`}>
           {description}
         </p>
 
         {metaText && (
-          <div className={`${spacing({ s: 3 }, { padding: ['top'] })}`}>
-            <div className={`${font({ s: 'HNM5' })} flex flex--v-center`}>
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+            <div className={`${font('hnm', 6)} flex flex--v-center`}>
               {metaIcon && (
-                <Icon name={metaIcon} extraClasses="margin-right-s1" />
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <Icon name={metaIcon} />
+                </Space>
               )}
               <span>{metaText}</span>
             </div>
-          </div>
+          </Space>
         )}
       </div>
     </a>

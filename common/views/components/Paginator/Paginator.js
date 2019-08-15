@@ -1,7 +1,8 @@
 // @flow
 import { Fragment } from 'react';
-import { classNames, font, spacing } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
+import Space from '../styled/Space';
 
 type Link = {|
   +pathname: string,
@@ -74,12 +75,7 @@ const Paginator = ({
 
   return (
     <Fragment>
-      <div
-        className={`flex flex--v-center font-pewter ${font({
-          s: 'LR3',
-          m: 'LR2',
-        })}`}
-      >
+      <div className={`flex flex--v-center font-pewter ${font('lr', 6)}`}>
         {totalResults} result{totalResults !== 1 ? 's' : ''}
       </div>
       <div
@@ -89,24 +85,25 @@ const Paginator = ({
           'flex-inline': true,
           'flex--v-center': true,
           'font-pewter': true,
-          [font({ s: 'LR3', m: 'LR2' })]: true,
+          [font('lr', 6)]: true,
         })}
       >
         {prevLink && prev && (
-          <Control
-            prefetch={true}
-            link={prevLink}
-            clickHandler={event => {
-              onPageChange(event, prev);
-            }}
-            type="light"
-            extraClasses={classNames({
-              [spacing({ s: 2 }, { margin: ['right'] })]: true,
-              'icon--180': true,
-            })}
-            icon="arrow"
-            text={`Previous (page ${prev})`}
-          />
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <Control
+              prefetch={true}
+              link={prevLink}
+              clickHandler={event => {
+                onPageChange(event, prev);
+              }}
+              type="light"
+              extraClasses={classNames({
+                'icon--180': true,
+              })}
+              icon="arrow"
+              text={`Previous (page ${prev})`}
+            />
+          </Space>
         )}
 
         <span>
@@ -114,19 +111,18 @@ const Paginator = ({
         </span>
 
         {nextLink && next && (
-          <Control
-            link={nextLink}
-            prefetch={true}
-            clickHandler={event => {
-              onPageChange(event, next);
-            }}
-            type="light"
-            extraClasses={classNames({
-              [spacing({ s: 2 }, { margin: ['left'] })]: true,
-            })}
-            icon="arrow"
-            text={`Next (page ${next})`}
-          />
+          <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
+            <Control
+              link={nextLink}
+              prefetch={true}
+              clickHandler={event => {
+                onPageChange(event, next);
+              }}
+              type="light"
+              icon="arrow"
+              text={`Next (page ${next})`}
+            />
+          </Space>
         )}
       </div>
     </Fragment>

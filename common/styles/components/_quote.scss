@@ -2,6 +2,7 @@
 
 .quote {
   border-left: 12px solid color('pumice');
+  padding-left: 0.9em;
 
   p {
     &:first-child {
@@ -19,21 +20,17 @@
   position: relative;
 
   &:before {
-    font-family: $wellcome-bold;
+    @extend %font-wb;
     position: absolute;
     content: '\201c';
     color: color('teal');
-    left: -12px;
-    top: 0;
+    left: -14px;
+    top: 0.12em;
     // stylelint-disable sh-waqar/declaration-use-variable
     // Decorative quotes – not defined as part of the typography styles
-    font-size: 2.3em;
+    font-size: 2em;
     // stylelint-enable sh-waqar/declaration-use-variable
     line-height: 1;
-
-    @include respond-to('medium') {
-      left: -24px;
-    }
   }
 }
 

@@ -144,6 +144,7 @@ module.exports = {
   '/the-hub': '/pages/Wuw2MSIAACtd3SsU',
   '/rawminds': '/pages/Wuw2MSIAACtd3Sts',
   '/medieval-bodies': '/books/Ww0QpiUAAFQXohEZ',
+  '/touring': '/pages/Wuw2MSIAACtd3Sty',
   '/installations/W7T-FxAAADRy0mu0': '/exhibitions/XFximBAAAPkAioWx',
   '/installations/WryoVx8AAAjk9Xmg': '/exhibitions/XFximBAAAPkAioW9',
   '/installations/WthzICAAAOObLY5K': '/exhibitions/XFximBAAAPkAioWt',

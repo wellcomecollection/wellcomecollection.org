@@ -1,8 +1,9 @@
 // @flow
+import type { ComponentType } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { type Work } from '@weco/common/model/work';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -14,6 +15,12 @@ import {
 } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import { workUrl } from '@weco/common/services/catalogue/urls';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { imageSizes } from '@weco/common/utils/image-sizes';
+import Space, {
+  type SpaceComponentProps,
+} from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work,
@@ -29,15 +36,27 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview = styled.div`
+const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
+  className: classNames({
+    'text-align-center': true,
+  }),
+}))`
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 178px;
+  height: 178px;
   margin-top: ${props => props.theme.spacingUnit * 2}px;
+
   ${props => props.theme.media.medium`
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: '178px';
-    height: '178px';
     margin-top: 0;
   `}
+
+  img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
 `;
 
 const WorkCard = ({ work }: Props) => {
@@ -56,12 +75,17 @@ const WorkCard = ({ work }: Props) => {
         {...workUrl({
           id: work.id,
         })}
+        passHref
       >
-        <a
+        <Space
+          as="a"
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={classNames({
             'plain-link': true,
             block: true,
-            [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
             'card-link': true,
           })}
           onClick={() => {
@@ -74,27 +98,30 @@ const WorkCard = ({ work }: Props) => {
         >
           <Container>
             <Details>
-              <div
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-bottom'],
+                }}
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
-                  [font({ s: 'HNL4' })]: true,
-                  [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
+                  [font('hnl', 5)]: true,
                 })}
               >
                 {workTypeIcon && (
-                  <Icon
-                    name={workTypeIcon}
-                    extraClasses={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name={workTypeIcon} />
+                  </Space>
                 )}
                 {work.workType.label}
-              </div>
+              </Space>
               <h2
                 className={classNames({
-                  [font({ s: 'HNM3' })]: true,
+                  [font('hnm', 4)]: true,
                   'card-link__title': true,
                 })}
               >
@@ -106,70 +133,61 @@ const WorkCard = ({ work }: Props) => {
                 })}
               >
                 {work.contributors.length > 0 && (
-                  <div
-                    className={classNames({
-                      [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                    })}
-                  >
+                  <Space h={{ size: 'm', properties: ['margin-right'] }}>
                     <LinkLabels
-                      items={work.contributors.map(({ agent }) => ({
-                        text: agent.label,
-                        url: null,
-                      }))}
+                      items={[
+                        {
+                          text: work.contributors[0].agent.label,
+                          url: null,
+                        },
+                      ]}
                     />
-                  </div>
+                  </Space>
                 )}
                 {productionDates.length > 0 && (
                   <LinkLabels
                     heading={'Date'}
-                    items={productionDates.map(date => ({
-                      text: date,
-                      url: null,
-                    }))}
+                    items={[
+                      {
+                        text: productionDates[0],
+                        url: null,
+                      },
+                    ]}
                   />
                 )}
               </div>
             </Details>
 
-            <Preview
-              className={classNames({
-                [spacing({ s: 2 }, { margin: ['left'] })]: true,
-                'text-align-center': true,
-              })}
-              style={{
-                flexGrow: 0,
-                flexShrink: 0,
-                flexBasis: '178px',
-                height: '178px',
-              }}
-            >
-              {work.thumbnail && (
-                <img
-                  src={work.thumbnail.url}
-                  className={classNames({
+            {work.thumbnail && (
+              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+                <IIIFResponsiveImage
+                  width={178}
+                  src={convertImageUri(work.thumbnail.url, 178)}
+                  srcSet={imageSizes(2048)
+                    .map(width => {
+                      return `${convertImageUri(
+                        work.thumbnail.url,
+                        width
+                      )} ${width}w`;
+                    })
+                    .join(',')}
+                  sizes={`178px`}
+                  alt={''}
+                  lang={null}
+                  extraClasses={classNames({
                     'h-center': true,
                   })}
-                  style={{
-                    width: 'auto',
-                    height: 'auto',
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                  }}
-                  alt=""
+                  isLazy={true}
                 />
-              )}
-            </Preview>
+              </Preview>
+            )}
           </Container>
 
           <TogglesContext.Consumer>
             {({ showWorkLocations }) =>
               showWorkLocations &&
               (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <div
-                  className={classNames({
-                    [spacing({ s: 2 }, { margin: ['top'] })]: true,
-                  })}
-                >
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
                   <LinkLabels
                     heading={'See it'}
                     icon={'eye'}
@@ -188,11 +206,11 @@ const WorkCard = ({ work }: Props) => {
                         : null,
                     ].filter(Boolean)}
                   />
-                </div>
+                </Space>
               )
             }
           </TogglesContext.Consumer>
-        </a>
+        </Space>
       </NextLink>
     </div>
   );

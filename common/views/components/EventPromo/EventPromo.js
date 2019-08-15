@@ -1,5 +1,5 @@
 // @flow
-import { spacing, font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
@@ -7,6 +7,7 @@ import Icon from '../Icon/Icon';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
+import Space from '../styled/Space';
 
 type Props = {|
   event: UiEvent,
@@ -30,7 +31,7 @@ const EventPromo = ({
       data-component="EventPromo"
       data-component-state={JSON.stringify({ position: position })}
       href={(event.promo && event.promo.link) || `/events/${event.id}`}
-      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex flex--column"
+      className="plain-link promo-link bg-cream rounded-corners overflow-hidden flex-ie-block flex--column"
       onClick={() => {
         trackEvent({
           category: 'EventPromo',
@@ -57,28 +58,33 @@ const EventPromo = ({
         )}
       </div>
 
-      <div
-        className={`
-          flex flex--column flex-1 flex--h-space-between
-          ${spacing({ s: 2 }, { padding: ['top'] })}
-          ${spacing({ s: 2 }, { padding: ['left', 'right'] })}
-          ${spacing({ s: 4 }, { padding: ['bottom'] })}
-        `}
+      <Space
+        v={{
+          size: 'm',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={classNames({
+          'flex flex--column flex-1 flex--h-space-between': true,
+        })}
       >
         <div>
-          <h2
-            className={`
-            promo-link__title
-            ${font({ s: 'WB5' })}
-            ${spacing({ s: 0 }, { margin: ['top'] })}
-            ${spacing({ s: 1 }, { margin: ['bottom'] })}
-          `}
+          <Space
+            v={{
+              size: 's',
+              properties: ['margin-bottom'],
+            }}
+            as="h2"
+            className={classNames({
+              'promo-link__title': true,
+              [font('wb', 3)]: true,
+            })}
           >
             {event.title}
-          </h2>
+          </Space>
 
           {!isPast && (
-            <p className={`${font({ s: 'HNL4' })} no-padding no-margin`}>
+            <p className={`${font('hnl', 5)} no-padding no-margin`}>
               <EventDateRange
                 event={event}
                 splitTime={true}
@@ -88,35 +94,34 @@ const EventPromo = ({
           )}
 
           {!isPast && dateString && (
-            <p className={`${font({ s: 'HNL4' })} no-padding no-margin`}>
+            <p className={`${font('hnl', 5)} no-padding no-margin`}>
               {dateString}
             </p>
           )}
 
           {!isPast && timeString && (
-            <p className={`${font({ s: 'HNL4' })} no-padding no-margin`}>
+            <p className={`${font('hnl', 5)} no-padding no-margin`}>
               {timeString}
             </p>
           )}
 
           {!isPast && fullyBooked && (
-            <div className={`${font({ s: 'HNL5' })} flex flex--v-center`}>
-              <span
-                className={`${spacing(
-                  { s: 1 },
-                  { margin: ['right'] }
-                )} flex flex--v-center`}
+            <div className={`${font('hnl', 5)} flex flex--v-center`}>
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`flex flex--v-center`}
               >
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--red icon--match-text'}
                 />
-              </span>
+              </Space>
               Fully booked
             </div>
           )}
           {!isPast && event.scheduleLength > 0 && (
-            <p className={`${font({ s: 'HNM5' })} no-padding no-margin`}>
+            <p className={`${font('hnm', 5)} no-padding no-margin`}>
               {`${event.scheduleLength} ${
                 event.scheduleLength > 1 ? 'events' : 'event'
               }`}
@@ -124,41 +129,36 @@ const EventPromo = ({
           )}
 
           {!isPast && event.times.length > 1 && (
-            <p className={`${font({ s: 'HNM5' })}`}>See all dates/times</p>
+            <p className={`${font('hnm', 6)}`}>See all dates/times</p>
           )}
 
           {isPast && (
-            <div className={`${font({ s: 'HNL5' })} flex flex--v-center`}>
-              <span
-                className={`${spacing(
-                  { s: 1 },
-                  { margin: ['right'] }
-                )} flex flex--v-center`}
+            <div className={`${font('hnl', 5)} flex flex--v-center`}>
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`flex flex--v-center`}
               >
                 <Icon
                   name="statusIndicator"
                   extraClasses={'icon--marble icon--match-text'}
                 />
-              </span>
+              </Space>
               Past
             </div>
           )}
         </div>
 
         {event.series.length > 0 && (
-          <div className={spacing({ s: 4 }, { margin: ['top'] })}>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {event.series.map(series => (
-              <p
-                key={series.title}
-                className={`${font({ s: 'HNM5' })} no-margin`}
-              >
-                <span className={font({ s: 'HNL5' })}>Part of</span>{' '}
-                {series.title}
+              <p key={series.title} className={`${font('hnm', 6)} no-margin`}>
+                <span className={font('hnl', 6)}>Part of</span> {series.title}
               </p>
             ))}
-          </div>
+          </Space>
         )}
-      </div>
+      </Space>
     </a>
   );
 };

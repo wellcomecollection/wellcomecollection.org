@@ -115,7 +115,7 @@ const InfoBoxExample = () => {
       ]}
     >
       {hasMoreInfoLink && (
-        <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+        <p className={`no-margin ${font('hnl', 5)}`}>
           <a href="/access">More information link</a>
         </p>
       )}
@@ -124,4 +124,4 @@ const InfoBoxExample = () => {
 };
 
 const stories = storiesOf('Components', module);
-stories.add('Info box', InfoBoxExample, { info: Readme });
+stories.add('InfoBox', InfoBoxExample, { readme: { sidebar: Readme } });

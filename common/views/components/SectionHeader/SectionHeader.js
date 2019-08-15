@@ -1,33 +1,42 @@
 // @flow
-import { spacing, grid, font } from '../../../utils/classnames';
-import Divider from '../Divider/Divider';
+import { grid, font } from '../../../utils/classnames';
+import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const YellowBox = styled.div`
+  display: inline-block;
+  width: 60px;
+  height: 18px;
+  background: ${props => props.theme.colors.yellow};
+
+  ${props => props.theme.media.medium`
+    width: 58px;
+  `}
+
+  ${props => props.theme.media.large`
+    width: 64px;
+    height: 19px;
+  `}
+`;
 
 type Props = {|
   title: string,
 |};
 
-// TODO: Allow the component to take a MoreLink as a prop
-// (not possible while we're using it in Nunjucks land).
-
 const SectionHeader = ({ title }: Props) => {
   return (
-    <div className={`row`}>
+    <div className={`row ${font('wb', 3)}`}>
       <div className="container">
         <div className="grid">
-          <div
-            className={`${grid({ s: 12, m: 12, l: 12, xl: 12 })} ${spacing(
-              { s: 1 },
-              { margin: ['bottom'] }
-            )}`}
-          >
-            <Divider extraClasses="divider--dashed" />
-          </div>
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div>
-              <h2 className={`no-margin ${font({ s: 'WB5', m: 'WB4' })}`}>
-                {title}
-              </h2>
-            </div>
+            <YellowBox />
+            <Space
+              as="h2"
+              h={{ size: 's', properties: ['margin-left'] }}
+              className={`inline no-margin`}
+            >
+              {title}
+            </Space>
           </div>
         </div>
       </div>

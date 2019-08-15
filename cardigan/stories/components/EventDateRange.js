@@ -12,7 +12,7 @@ function dateKnob(name, defaultValue) {
 
 const stories = storiesOf('Components', module);
 stories.addDecorator(withKnobs).add(
-  'Event date range',
+  'EventDateRange',
   () => {
     const firstDate = moment()
       .subtract(2, 'day')
@@ -56,5 +56,5 @@ stories.addDecorator(withKnobs).add(
       </Fragment>
     );
   },
-  { info: Readme }
+  { readme: { sidebar: Readme } }
 );

@@ -106,7 +106,7 @@ const Installation = ({ installation }: Props) => {
       >
         {installation.end && !isPast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>
-            <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+            <p className={`no-margin ${font('hnl', 5)}`}>
               <a href="/access">All our accessibility services</a>
             </p>
           </InfoBox>

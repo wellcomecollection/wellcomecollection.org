@@ -1,9 +1,9 @@
 // @flow
 import { Fragment } from 'react';
+import type { EventSchedule as EventScheduleType } from '../../../model/events';
 import EventScheduleItem from '../EventScheduleItem/EventScheduleItem';
 import { groupEventsBy } from '../../../services/prismic/events';
-import { classNames, spacing } from '../../../utils/classnames';
-import type { EventSchedule as EventScheduleType } from '../../../model/events';
+import Space from '../styled/Space';
 
 type Props = {|
   schedule: EventScheduleType,
@@ -25,14 +25,13 @@ const EventSchedule = ({ schedule }: Props) => {
           eventsGroup.events.length > 0 && (
             <Fragment key={eventsGroup.label}>
               {groupedEvents.length > 1 && (
-                <h3
-                  className={classNames({
-                    h3: true,
-                    [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-                  })}
+                <Space
+                  v={{ size: 'm', properties: ['margin-bottom'] }}
+                  as="h3"
+                  className="h3"
                 >
                   {eventsGroup.label}
-                </h3>
+                </Space>
               )}
               {eventsGroup.events.map(event => (
                 <EventScheduleItem

@@ -7,11 +7,10 @@ import {
   type CatalogueApiError,
   type CatalogueResultsList,
 } from '@weco/common/model/catalogue';
-import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -20,10 +19,18 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import {
+  trackSearch,
+  SearchEventNames,
+} from '@weco/common/views/components/Tracker/Tracker';
+import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
+import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import Space from '@weco/common/views/components/styled/Space';
+import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
   query: ?string,
@@ -38,9 +45,29 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, setWorkType, workType } = useContext(
+  const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
     CatalogueSearchContext
   );
+  const trackEvent = () => {
+    if (query && query !== '') {
+      const event = {
+        event: SearchEventNames.Search,
+        data: {
+          query,
+          page,
+          workType,
+          _queryType,
+        },
+      };
+      trackSearch(event);
+    }
+  };
+
+  // We have to have this for the initial page load, and have it on the router
+  // change as the page doesnt actually re-render when the URL parameters change.
+  useEffect(() => {
+    trackEvent();
+  }, []);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -48,6 +75,7 @@ const Works = ({ works }: Props) => {
     }
     function routeChangeComplete(url: string) {
       setLoading(false);
+      trackEvent();
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -89,7 +117,8 @@ const Works = ({ works }: Props) => {
           />
         )}
       </Head>
-      <PageLayout
+
+      <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
         url={worksUrl({ query, page }).as}
@@ -100,203 +129,156 @@ const Works = ({ works }: Props) => {
         imageAltText={null}
       >
         <InfoBanner
-          text={`Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`}
+          text={[
+            {
+              type: 'paragraph',
+              text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
+              spans: [],
+            },
+          ]}
           cookieName="WC_wellcomeImagesRedirect"
         />
 
-        <TogglesContext.Consumer>
-          {({ booksRelease }) =>
-            booksRelease && (
-              <Layout12>
-                <BetaBar />
-              </Layout12>
-            )
-          }
-        </TogglesContext.Consumer>
+        <Layout12>
+          <TogglesContext.Consumer>
+            {({ useStageApi }) =>
+              useStageApi && (
+                <MessageBar tagText="Dev alert">
+                  You are using the stage catalogue API - data mileage may vary!
+                </MessageBar>
+              )
+            }
+          </TogglesContext.Consumer>
+          <BetaBar />
+        </Layout12>
 
-        <div
-          className={classNames([
-            'row bg-cream',
-            spacing({ s: 3, m: 5 }, { padding: ['top'] }),
-            spacing({ s: 3, m: 4, l: 6 }, { padding: ['bottom'] }),
-          ])}
+        <Space
+          v={{
+            size: 'l',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
+          className={classNames(['row bg-cream'])}
         >
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <div
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-bottom'],
+                  }}
                   className={classNames([
                     'flex flex--h-space-between flex--v-center flex--wrap',
-                    spacing({ s: 2 }, { margin: ['bottom'] }),
                   ])}
                 >
-                  <TogglesContext.Consumer>
-                    {({ booksRelease }) => (
-                      <>
-                        {booksRelease && !works && (
-                          <h1
-                            className={classNames([
-                              font({ s: 'WB6', m: 'WB4' }),
-                              spacing({ s: 2 }, { margin: ['bottom'] }),
-                              spacing({ s: 4 }, { margin: ['right'] }),
-                              spacing({ s: 0 }, { margin: ['top'] }),
-                            ])}
-                          >
-                            Explore our collections
-                          </h1>
-                        )}
-                        {!booksRelease && (
-                          <h1
-                            className={classNames([
-                              font({ s: 'WB6', m: 'WB4' }),
-                              spacing({ s: 2 }, { margin: ['bottom'] }),
-                              spacing({ s: 4 }, { margin: ['right'] }),
-                              spacing({ s: 0 }, { margin: ['top'] }),
-                            ])}
-                          >
-                            Search our images
-                          </h1>
-                        )}
-                      </>
+                  <>
+                    {!works && (
+                      <Space
+                        as="h1"
+                        v={{ size: 'm', properties: ['margin-bottom'] }}
+                        className="h1"
+                      >
+                        Explore our collections
+                      </Space>
                     )}
-                  </TogglesContext.Consumer>
-
-                  <TogglesContext.Consumer>
-                    {({ booksRelease }) =>
-                      !booksRelease && (
-                        <div className="flex flex--v-center">
-                          <Icon
-                            name="underConstruction"
-                            extraClasses={classNames({
-                              [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                            })}
-                          />
-                          <p className="no-margin">
-                            We’re improving how search works.{' '}
-                            <a href="/works/progress">Find out more</a>.
-                          </p>
-                        </div>
-                      )
-                    }
-                  </TogglesContext.Consumer>
-                </div>
+                  </>
+                </Space>
               </div>
             </div>
 
             <div className="grid">
               <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-                <TogglesContext.Consumer>
-                  {({ booksRelease }) =>
-                    booksRelease && (
-                      <p
-                        className={classNames({
-                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                          'visually-hidden': Boolean(works),
-                        })}
-                        id="search-form-description"
-                      >
-                        Find thousands of freely licensed digital books,
-                        artworks, photos and images of historical library
-                        materials and museum objects.
-                      </p>
-                    )
-                  }
-                </TogglesContext.Consumer>
+                <p
+                  className={classNames({
+                    [font('hnl', 4)]: true,
+                    'visually-hidden': Boolean(works),
+                  })}
+                  id="search-form-description"
+                >
+                  Find thousands of freely licensed digital books, artworks,
+                  photos and images of historical library materials and museum
+                  objects.
+                </p>
 
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   compact={false}
                 />
-
-                <TogglesContext.Consumer>
-                  {({ booksRelease }) =>
-                    !booksRelease && (
-                      <p
-                        className={classNames({
-                          [spacing({ s: 4 }, { margin: ['top'] })]: true,
-                          [font({ s: 'HNL4', m: 'HNL3' })]: true,
-                          'visually-hidden': Boolean(works),
-                        })}
-                        id="search-form-description"
-                      >
-                        Find thousands of Creative Commons licensed images from
-                        historical library materials and museum objects to
-                        contemporary digital photographs.
-                      </p>
-                    )
-                  }
-                </TogglesContext.Consumer>
               </div>
             </div>
           </div>
-        </div>
+        </Space>
 
         {!works && <StaticWorksContent />}
 
-        <TogglesContext.Consumer>
-          {({ booksRelease }) =>
-            booksRelease &&
-            works && (
-              <Layout12>
-                <TabNav
-                  large={true}
-                  items={[
-                    {
-                      text: 'All',
-                      link: worksUrl({
-                        query,
-                        workType: undefined,
-                        page: 1,
-                      }),
-                      selected: !workType,
-                      onClick: event => {
-                        setWorkType(undefined);
-                      },
-                    },
-                    {
-                      text: 'Books',
-                      link: worksUrl({
-                        query,
-                        workType: ['a', 'v'],
-                        page: 1,
-                      }),
-                      selected: !!(
-                        workType &&
-                        (workType.indexOf('a') !== -1 &&
-                          workType.indexOf('v') !== -1)
-                      ),
-                      onClick: event => {
-                        setWorkType(['a', 'v']);
-                      },
-                    },
-                    {
-                      text: 'Pictures',
-                      link: worksUrl({
-                        query,
-                        workType: ['k', 'q'],
-                        page: 1,
-                      }),
-                      selected: !!(
-                        workType &&
-                        (workType.indexOf('k') !== -1 &&
-                          workType.indexOf('q') !== -1)
-                      ),
-                      onClick: event => {
-                        setWorkType(['k', 'q']);
-                      },
-                    },
-                  ]}
-                />
-              </Layout12>
-            )
-          }
-        </TogglesContext.Consumer>
+        {works && (
+          <Layout12>
+            <TabNav
+              items={[
+                {
+                  text: 'All',
+                  link: worksUrl({
+                    query,
+                    workType: undefined,
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !workType,
+                },
+                {
+                  text: 'Books',
+                  link: worksUrl({
+                    query,
+                    workType: ['a', 'v'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('a') !== -1 &&
+                      workType.indexOf('v') !== -1)
+                  ),
+                },
+                {
+                  text: 'Pictures',
+                  link: worksUrl({
+                    query,
+                    workType: ['k', 'q'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('k') !== -1 &&
+                      workType.indexOf('q') !== -1)
+                  ),
+                },
+                {
+                  text: 'Audio/Video',
+                  link: worksUrl({
+                    query,
+                    workType: ['f', 's'],
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !!(
+                    workType &&
+                    (workType.indexOf('f') !== -1 &&
+                      workType.indexOf('s') !== -1)
+                  ),
+                },
+              ]}
+            />
+          </Layout12>
+        )}
 
         {works && works.results.length > 0 && (
           <Fragment>
-            <div
-              className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}
-            >
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
                   <div
@@ -314,6 +296,8 @@ const Works = ({ works }: Props) => {
                             query,
                             workType,
                             page,
+                            _dateFrom,
+                            _dateTo,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
@@ -321,6 +305,8 @@ const Works = ({ works }: Props) => {
                               query,
                               workType,
                               page: newPage,
+                              _dateFrom,
+                              _dateTo,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -332,32 +318,66 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Space>
 
-            <div
-              className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top'],
+              }}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
                 <div className="grid">
-                  {works.results.map(result => (
+                  {works.results.map((result, i) => (
                     <div
+                      key={result.id}
                       className={classNames({
                         [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
                       })}
-                      key={result.id}
                     >
-                      <WorkCard work={result} />
+                      <div
+                        onClick={() => {
+                          const event = {
+                            event: SearchEventNames.SearchResultSelected,
+                            data: {
+                              id: result.id,
+                              position: i,
+                              query,
+                              page,
+                              workType,
+                              _queryType,
+                            },
+                          };
+                          trackSearch(event);
+                        }}
+                      >
+                        <WorkCard work={result} />
+                      </div>
+                      <TogglesContext.Consumer>
+                        {({ relevanceRating }) =>
+                          relevanceRating && (
+                            <RelevanceRater
+                              id={result.id}
+                              position={i}
+                              query={query}
+                              page={page}
+                              workType={workType}
+                              _queryType={_queryType}
+                            />
+                          )
+                        }
+                      </TogglesContext.Consumer>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div
-                className={`row ${spacing(
-                  { s: 10 },
-                  { padding: ['top', 'bottom'] }
-                )}`}
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
               >
                 <div className="container">
                   <div className="grid">
@@ -394,45 +414,79 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Space>
+            </Space>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <div className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}>
+          <Space
+            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-                  <p className="h1">
+                  <p className={font('hnl', 2)}>
                     We couldn{`'`}t find anything that matched{' '}
                     <span
                       className={classNames({
-                        [font({ s: 'HNL1' })]: true,
+                        [font('hnm', 2)]: true,
                       })}
                       style={{ fontWeight: '400' }}
                     >
                       {query}
                     </span>
-                    .
+                    {workType && (
+                      <>
+                        {' '}
+                        in{' '}
+                        <span className={font('hnm', 2)}>
+                          {(workType.includes('k') && 'pictures') ||
+                            (workType.includes('f') && 'audio/video') ||
+                            (workType.includes('a') && 'books')}
+                        </span>
+                      </>
+                    )}
+                    {(_dateFrom || _dateTo) && (
+                      <> within the date range provided</>
+                    )}
+                    . Please try again.
                   </p>
                 </div>
               </div>
             </div>
-          </div>
+          </Space>
         )}
-      </PageLayout>
+      </CataloguePageLayout>
     </Fragment>
   );
 };
 
 WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
+  const _dateFrom = formatDateForApi(ctx.query._dateFrom);
+  const _dateTo = formatDateForApi(ctx.query._dateTo);
+
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
+  const {
+    useStageApi,
+    searchCandidateQueryMsm,
+    searchCandidateQueryBoost,
+    searchCandidateQueryMsmBoost,
+    showDatesPrototype,
+    showDatesSliderPrototype,
+  } = ctx.query.toggles;
+  const toggledQueryType = searchCandidateQueryMsm
+    ? 'msm'
+    : searchCandidateQueryBoost
+    ? 'boost'
+    : searchCandidateQueryMsmBoost
+    ? 'msmboost'
+    : null;
   const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType;
-  const defaultWorkType = ['a', 'k', 'q', 'v'];
+  const _queryType = ctx.query._queryType || toggledQueryType;
+  const defaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
     : defaultWorkType;
@@ -441,10 +495,23 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     workType: workTypeFilter,
     'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
     _queryType,
+    ...(_dateFrom ? { _dateFrom } : {}),
+    ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const worksOrError =
-    query && query !== '' ? await getWorks({ query, page, filters }) : null;
+  const isDatesPrototype = showDatesPrototype || showDatesSliderPrototype;
+  const shouldGetWorks = isDatesPrototype
+    ? filters._dateTo || filters._dateFrom || (query && query !== '')
+    : query && query !== '';
+
+  const worksOrError = shouldGetWorks
+    ? await getWorks({
+        query,
+        page,
+        filters,
+        env: useStageApi ? 'stage' : 'prod',
+      })
+    : null;
 
   return {
     works: worksOrError,

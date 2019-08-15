@@ -9,6 +9,10 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import Space from '@weco/common/views/components/styled/Space';
+import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -39,15 +43,115 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+// For search term "Darwin"
+const twentyYearRange = [
+  {
+    from: '1780',
+    to: '1800',
+    results: 22,
+  },
+  {
+    from: '1800',
+    to: '1820',
+    results: 14,
+  },
+  {
+    from: '1820',
+    to: '1840',
+    results: 6,
+  },
+  {
+    from: '1840',
+    to: '1860',
+    results: 7,
+  },
+  {
+    from: '1860',
+    to: '1880',
+    results: 61,
+  },
+  {
+    from: '1880',
+    to: '1900',
+    results: 66,
+  },
+  {
+    from: '1900',
+    to: '1920',
+    results: 33,
+  },
+  {
+    from: '1920',
+    to: '1940',
+    results: 11,
+  },
+  {
+    from: '1940',
+    to: '1960',
+    results: 6,
+  },
+  {
+    from: '1960',
+    to: '1980',
+    results: 8,
+  },
+  {
+    from: '1980',
+    to: '2000',
+    results: 6,
+  },
+  {
+    from: '2000',
+    to: '2020',
+    results: 3,
+  },
+];
+
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const { query, workType, _queryType, setQueryType } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    workType,
+    _queryType,
+    setQueryType,
+    _dateFrom,
+    _dateTo,
+  } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const searchInput = useRef(null);
+  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  const [showSlider, setShowSlider] = useState(true);
+
+  const dateRangeItems = twentyYearRange.map(range => {
+    return {
+      text: `${range.from}-${range.to} (${range.results})`,
+      link: worksUrl({
+        query,
+        workType,
+        page: 1,
+        _dateFrom: `${range.from}-01-01`,
+        _dateTo: `${range.to}-01-01`,
+      }),
+      selected: !!(
+        _dateFrom &&
+        _dateFrom === range.from &&
+        _dateTo &&
+        _dateTo === range.to
+      ),
+    };
+  });
+  dateRangeItems.push({
+    text: `unknown (299)`,
+    link: worksUrl({
+      query,
+      workType,
+      page: 1,
+    }),
+    selected: false,
+  });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -57,7 +161,34 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     if (query !== inputQuery) {
       setInputQuery(query);
     }
-  }, [query]);
+
+    if (_dateFrom !== inputDateFrom) {
+      setInputDateFrom(_dateFrom);
+    }
+
+    if (_dateTo !== inputDateTo) {
+      setInputDateTo(_dateTo);
+    }
+  }, [query, _dateFrom, _dateTo]);
+
+  useEffect(() => {
+    if (inputDateFrom !== _dateFrom || inputDateTo !== _dateTo) {
+      updateUrl();
+    }
+  }, [inputDateFrom, inputDateTo]);
+
+  function updateUrl() {
+    const link = worksUrl({
+      query: inputQuery,
+      workType,
+      page: 1,
+      _queryType,
+      _dateFrom: inputDateFrom,
+      _dateTo: inputDateTo,
+    });
+
+    typeof window !== 'undefined' && Router.push(link.href, link.as);
+  }
 
   return (
     <>
@@ -73,41 +204,25 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             label: query,
           });
 
-          const link = worksUrl({
-            query: inputQuery,
-            workType,
-            page: 1,
-            _queryType,
-          });
-
-          Router.push(link.href, link.as);
+          updateUrl();
 
           return false;
         }}
       >
         <div className="relative">
           <SearchInputWrapper className="relative">
-            <TogglesContext.Consumer>
-              {({ booksRelease }) => (
-                <TextInput
-                  label={'Search the catalogue'}
-                  placeholder={`Search for ${
-                    booksRelease
-                      ? 'books and pictures'
-                      : 'artworks, photos and more'
-                  }`}
-                  name="query"
-                  value={inputQuery}
-                  autoFocus={inputQuery === ''}
-                  onChange={event => setInputQuery(event.currentTarget.value)}
-                  ref={searchInput}
-                  className={font({
-                    s: compact ? 'HNL4' : 'HNL3',
-                    m: compact ? 'HNL3' : 'HNL2',
-                  })}
-                />
-              )}
-            </TogglesContext.Consumer>
+            <TextInput
+              label={'Search the catalogue'}
+              placeholder={'Search for books and pictures'}
+              name="query"
+              value={inputQuery}
+              autoFocus={inputQuery === ''}
+              onChange={event => setInputQuery(event.currentTarget.value)}
+              ref={searchInput}
+              className={classNames({
+                [font('hnl', compact ? 4 : 3)]: true,
+              })}
+            />
 
             {query && (
               <ClearSearch
@@ -137,7 +252,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                 'full-height': true,
                 'line-height-1': true,
                 'plain-button no-padding': true,
-                [font({ s: 'HNL3', m: 'HNL2' })]: true,
+                [font('hnl', 3)]: true,
               })}
             >
               <span className="visually-hidden">Search</span>
@@ -154,7 +269,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
         <TogglesContext.Consumer>
           {({ selectableQueries }) =>
-            query &&
             selectableQueries && (
               <label>
                 Query type:{' '}
@@ -163,14 +277,100 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                   onChange={event => setQueryType(event.currentTarget.value)}
                 >
                   <option value="">None</option>
-                  <option value="justboost">justboost</option>
-                  <option value="broaderboost">broaderboost</option>
-                  <option value="slop">slop</option>
-                  <option value="minimummatch">minimummatch</option>
+                  <option value="boost">boost</option>
+                  <option value="msm">msm</option>
+                  <option value="msmboost">msmboost</option>
                 </select>
               </label>
             )
           }
+        </TogglesContext.Consumer>
+
+        <TogglesContext.Consumer>
+          {({
+            showDatesPrototype,
+            showDatesSliderPrototype,
+            showDatesAggregatePrototype,
+          }) => (
+            <>
+              {(showDatesPrototype || showDatesSliderPrototype) &&
+                !showDatesAggregatePrototype && (
+                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                    <div
+                      style={{
+                        display: showDatesSliderPrototype ? 'none' : 'block',
+                      }}
+                    >
+                      <Space v={{ size: 's', properties: ['margin-top'] }}>
+                        <label>
+                          from:{' '}
+                          <input
+                            value={inputDateFrom || ''}
+                            onChange={event => {
+                              setInputDateFrom(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>{' '}
+                        <label>
+                          to:{' '}
+                          <input
+                            value={inputDateTo || ''}
+                            onChange={event => {
+                              setInputDateTo(`${event.currentTarget.value}`);
+                            }}
+                            style={{ width: '8em', padding: '0.5em' }}
+                          />
+                        </label>
+                      </Space>
+                      <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                        <Button
+                          type="primary"
+                          text="Clear dates"
+                          clickHandler={() => {
+                            setInputDateFrom('');
+                            setInputDateTo('');
+                          }}
+                        />
+                      </Space>
+                    </div>
+                    {showDatesSliderPrototype && !showDatesAggregatePrototype && (
+                      <>
+                        {showSlider && (
+                          <DateSlider
+                            startValues={{
+                              to: inputDateTo,
+                              from: inputDateFrom,
+                            }}
+                            updateFrom={setInputDateFrom}
+                            updateTo={setInputDateTo}
+                          />
+                        )}
+                        <button
+                          type="button"
+                          className="plain-button underline-on-hover no-visible-focus"
+                          onClick={() => {
+                            setShowSlider(!showSlider);
+                            if (showSlider) {
+                              setInputDateFrom('');
+                              setInputDateTo('');
+                            }
+                          }}
+                        >
+                          {showSlider ? 'Clear dates' : 'Show date filter'}
+                        </button>
+                      </>
+                    )}
+                  </Space>
+                )}
+              {showDatesAggregatePrototype &&
+                (query &&
+                  inputQuery &&
+                  inputQuery.toLowerCase() === 'darwin') && (
+                  <TabNav items={dateRangeItems} />
+                )}
+            </>
+          )}
         </TogglesContext.Consumer>
       </form>
     </>

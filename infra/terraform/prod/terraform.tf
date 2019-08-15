@@ -4,14 +4,18 @@ terraform {
   backend "s3" {
     key            = "terraform.tfstate"
     dynamodb_table = "terraform-locktable"
-    region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
+
+    profile        = "experience-dev"
+    region         = "eu-west-1"
   }
 }
 
 provider "aws" {
-  region  = "eu-west-1"
   version = "~> 1.0"
+
+  profile = "experience-dev"
+  region  = "eu-west-1"
 }
 
 # This bucket holds all of our terraform build-state

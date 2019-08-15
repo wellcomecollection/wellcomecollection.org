@@ -1,19 +1,16 @@
 // @flow
-import { conditionalClassNames } from '../../../utils/classnames';
+import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import { Fragment } from 'react';
-
-type ImageCrops = {|
-  '16:9': { contentUrl: string },
-  '32:15': { contentUrl: string },
-  square: { contentUrl: string },
-|};
+import type { Tasl } from '../../../model/tasl';
+import type { ImageType } from '../../../model/image';
 
 export type Props = {|
   contentUrl: string,
   width: number,
   alt: string,
+  tasl: ?Tasl,
   height?: number,
   clipPathClass?: ?string,
   caption?: string,
@@ -24,33 +21,39 @@ export type Props = {|
   clickHandler?: () => void,
   zoomable?: boolean,
   extraClasses?: string,
-  crops?: ImageCrops,
+  crops?: {| [string]: ImageType |},
   style?: { [string]: any }, // TODO: find flowtype for this
 |};
 
-const Image = (props: Props) => (
-  <Fragment>
-    <noscript
-      dangerouslySetInnerHTML={{
-        __html: `
+const Image = (props: Props) => {
+  const classes = classNames({
+    'image image--noscript bg-charcoal font-white': true,
+    [`${props.extraClasses || ''}`]: Boolean(props.extraClasses),
+  });
+  return (
+    <Fragment>
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `
       <img width='${props.width}'
         height='${props.height || ''}'
-        class='image image--noscript'
+        class='${classes}'
         src='${convertImageUri(props.contentUrl, 640, false)}'
         alt='${props.alt || ''}' />`,
-      }}
-    />
+        }}
+      />
 
-    {props.clipPathClass ? (
-      <Fragment>
-        <Img {...props} clipPathClass={null} />
+      {props.clipPathClass ? (
+        <Fragment>
+          <Img {...props} clipPathClass={null} />
+          <Img {...props} />
+        </Fragment>
+      ) : (
         <Img {...props} />
-      </Fragment>
-    ) : (
-      <Img {...props} />
-    )}
-  </Fragment>
-);
+      )}
+    </Fragment>
+  );
+};
 
 const Img = ({
   width,
@@ -73,8 +76,9 @@ const Img = ({
     <img
       width={width}
       height={height}
-      className={conditionalClassNames({
+      className={classNames({
         image: true,
+        'bg-charcoal font-white': true,
         'lazy-image lazyload': lazyload,
         'cursor-zoom-in': Boolean(zoomable),
         [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,

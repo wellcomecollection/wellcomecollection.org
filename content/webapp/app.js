@@ -28,8 +28,8 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-function pageVanityUrl(router, app, url, pageId) {
-  route(url, '/page', router, app, { id: pageId });
+function pageVanityUrl(router, app, url, pageId, template = '/page') {
+  route(url, template, router, app, { id: pageId });
 }
 
 module.exports = app
@@ -61,21 +61,19 @@ module.exports = app
     route('/books', '/books', router, app);
     route('/books/:id', '/book', router, app);
 
-    route('/opening-times', '/opening-times', router, app);
-    route('/pages/WwQHTSAAANBfDYXU', '/opening-times', router, app);
-
     route('/places/:id', '/place', router, app);
     route('/pages/:id', '/page', router, app);
 
     route('/newsletter', '/newsletter', router, app);
 
-    pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC');
+    pageVanityUrl(router, app, '/opening-times', 'WwQHTSAAANBfDYXU');
     pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
     pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
     pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
     pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
+    pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC', '/visit-us');
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.

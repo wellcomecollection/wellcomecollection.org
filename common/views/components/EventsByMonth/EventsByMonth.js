@@ -4,12 +4,13 @@ import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
-import { classNames, cssGrid, spacing } from '../../../utils/classnames';
+import { classNames, cssGrid } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
 import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';
+import Space from '../styled/Space';
 
 type Props = {|
   events: UiEvent[],
@@ -38,7 +39,6 @@ class EventsByMonth extends Component<Props, State> {
   render() {
     const { events, links } = this.props;
     const { activeId } = this.state;
-
     const monthsIndex = {
       January: 0,
       February: 1,
@@ -71,15 +71,24 @@ class EventsByMonth extends Component<Props, State> {
           // Only add if it has a time in the month that is the same or after today
           const hasDateInMonthRemaining = event.times.find(time => {
             const end = london(time.range.endDateTime);
+            const start = london(time.range.startDateTime);
             const monthAndYear = london(month);
             return (
-              end.isSame(
+              (end.isSame(
                 london({
                   M: monthAndYear.month(),
                   Y: monthAndYear.year(),
                 }),
                 'month'
-              ) && end.isSameOrAfter(london(), 'day')
+              ) ||
+                start.isSame(
+                  london({
+                    M: monthAndYear.month(),
+                    Y: monthAndYear.year(),
+                  }),
+                  'month'
+                )) &&
+              end.isSameOrAfter(london(), 'day')
             );
           });
           if (hasDateInMonthRemaining) {
@@ -132,11 +141,7 @@ class EventsByMonth extends Component<Props, State> {
 
     return (
       <div>
-        <div
-          className={classNames({
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          })}
-        >
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <div className="css-grid__container">
             <div className="css-grid">
               <div
@@ -156,7 +161,7 @@ class EventsByMonth extends Component<Props, State> {
               </div>
             </div>
           </div>
-        </div>
+        </Space>
 
         {months.map(month => (
           <div

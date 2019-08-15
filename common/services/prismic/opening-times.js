@@ -74,7 +74,8 @@ export function exceptionalOpeningPeriods(
       acc[groupedIndex].dates.push(date);
     } else if (
       previousDate &&
-      date.overrideDate.isBefore(previousDate.clone().add(6, 'days'))
+      date.overrideDate.isBefore(previousDate.clone().add(6, 'days')) &&
+      date.overrideType === acc[groupedIndex].type
     ) {
       acc[groupedIndex].dates.push(date);
     } else {
@@ -191,14 +192,15 @@ export function backfillExceptionalVenueDays(
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
+  // if it's type is other then we don't backfill
   return allVenueExceptionalPeriods
-    ? allVenueExceptionalPeriods
-        .map(period => {
-          const sortedDates = period.dates.sort((a, b) => {
-            return a.diff(b, 'days');
-          });
-          const type = period.type || 'other';
-          const days = sortedDates.map(date => {
+    ? allVenueExceptionalPeriods.map(period => {
+        const sortedDates = period.dates.sort((a, b) => {
+          return a.diff(b, 'days');
+        });
+        const type = period.type || 'other';
+        const days = sortedDates
+          .map(date => {
             const matchingVenueGroup = groupedExceptionalDays.find(group => {
               return group.find(day => day.overrideDate.isSame(date, 'day'));
             });
@@ -208,11 +210,15 @@ export function backfillExceptionalVenueDays(
                 day.overrideDate.isSame(date, 'day')
               );
             const backfillDay = exceptionalFromRegular(venue, date, type);
-            return matchingDay || backfillDay;
-          });
-          return days;
-        })
-        .filter(Boolean)
+            if (type === 'other') {
+              return matchingDay;
+            } else {
+              return matchingDay || backfillDay;
+            }
+          })
+          .filter(Boolean);
+        return days;
+      })
     : [];
 }
 
@@ -244,21 +250,19 @@ export function groupConsecutiveDays(
     );
 }
 
-export function getUpcomingExceptionalPeriod(
+export function getUpcomingExceptionalPeriods(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
-) {
-  const nextUpcomingPeriod = exceptionalPeriods
-    .filter(period => {
-      const upcomingPeriod = period.find(d => {
-        return (
-          d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
-          d.overrideDate.isSameOrAfter(london(), 'day')
-        );
-      });
-      return upcomingPeriod || false;
-    })
-    .filter(Boolean);
-  return nextUpcomingPeriod;
+): ExceptionalOpeningHoursDay[][] {
+  const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
+    const upcomingPeriod = period.find(d => {
+      return (
+        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrAfter(london(), 'day')
+      );
+    });
+    return upcomingPeriod || false;
+  });
+  return nextUpcomingPeriods;
 }
 
 export function getExceptionalClosedDays(
@@ -270,9 +274,10 @@ export function getExceptionalClosedDays(
 }
 
 function createRegularDay(day: Day, venue: PrismicFragment) {
+  const data = venue.data;
   const lowercaseDay = day.toLowerCase();
-  const start = venue.data[lowercaseDay][0].startDateTime;
-  const end = venue.data[lowercaseDay][0].endDateTime;
+  const start = data && data[lowercaseDay][0].startDateTime;
+  const end = data && data[lowercaseDay][0].endDateTime;
   if (start && end) {
     return {
       dayOfWeek: day,
@@ -288,11 +293,27 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-// TODO rename - Takes the slice JSON and converts it to the Venue shape: rename Venue type?
-export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
+export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
+  const exceptionalMoment =
+    jsonVenue.openingHours.exceptional &&
+    jsonVenue.openingHours.exceptional.map(e => ({
+      ...e,
+      overrideDate: london(e.overrideDate),
+    }));
+  return {
+    ...jsonVenue,
+    openingHours: {
+      regular: jsonVenue.openingHours.regular,
+      exceptional: exceptionalMoment,
+    },
+  };
+}
+
+export function parseCollectionVenue(venue: PrismicFragment): Venue {
   const data = venue.data;
-  const exceptionalOpeningHours = venue.data.modifiedDayOpeningTimes.map(
-    modified => {
+  const exceptionalOpeningHours =
+    data &&
+    data.modifiedDayOpeningTimes.map(modified => {
       const start =
         modified.startDateTime &&
         london(modified.startDateTime).format('HH:mm');
@@ -307,13 +328,12 @@ export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
         opens: start,
         closes: end,
       };
-    }
-  );
+    });
 
   return {
     id: venue.id,
-    order: data.order,
-    name: data.title,
+    order: data && data.order,
+    name: data && data.title,
     openingHours: {
       regular: [
         createRegularDay('Monday', venue),
@@ -329,9 +349,9 @@ export function parseVenueTimesToOpeningHours(venue: PrismicFragment): Venue {
   };
 }
 
-export function parseVenuesToOpeningHours(doc: PrismicFragment) {
+export function parseCollectionVenues(doc: PrismicFragment) {
   const placesOpeningHours = doc.results.map(venue => {
-    return parseVenueTimesToOpeningHours(venue);
+    return parseCollectionVenue(venue);
   });
 
   return {

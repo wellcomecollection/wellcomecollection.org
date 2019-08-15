@@ -18,9 +18,10 @@ import SearchResults from '@weco/common/views/components/SearchResults/SearchRes
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
-import { font, spacing, grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
+import Space from '@weco/common/views/components/styled/Space';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -205,6 +206,7 @@ const Exhibition = ({ exhibition }: Props) => {
   ) : (
     <HTMLDate date={new Date(exhibition.start)} />
   );
+
   // This is for content that we don't have the crops for in Prismic
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture
@@ -219,10 +221,15 @@ const Exhibition = ({ exhibition }: Props) => {
       Background={null}
       ContentTypeInfo={
         <Fragment>
-          {!exhibition.isPermanent && DateInfo}
+          {!exhibition.isPermanent && (
+            <Space v={{ size: 'xs', properties: ['margin-bottom'] }}>
+              {DateInfo}
+            </Space>
+          )}
           <StatusIndicator
             start={exhibition.start}
             end={exhibition.end || new Date()}
+            statusOverride={exhibition.statusOverride}
           />
         </Fragment>
       }
@@ -261,7 +268,7 @@ const Exhibition = ({ exhibition }: Props) => {
         )}
         {exhibition.end && !isPast(exhibition.end) && (
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={`no-margin ${font({ s: 'HNL4' })}`}>
+            <p className={`no-margin ${font('hnl', 5)}`}>
               <a href="/access">All our accessibility services</a>
             </p>
           </InfoBox>
@@ -277,10 +284,12 @@ const Exhibition = ({ exhibition }: Props) => {
         {exhibition.relatedBooks && exhibition.relatedBooks.length > 0 && (
           <Fragment>
             <h2 className="h2">From the bookshop</h2>
-            <div
-              className={`
-                ${spacing({ s: 4 }, { margin: ['top'] })} grid
-              `}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
+              className={`grid`}
             >
               {exhibition.relatedBooks.map(item => (
                 <div
@@ -296,7 +305,7 @@ const Exhibition = ({ exhibition }: Props) => {
                   />
                 </div>
               ))}
-            </div>
+            </Space>
           </Fragment>
         )}
       </ContentPage>

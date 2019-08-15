@@ -41,6 +41,7 @@ export type ExhibitionPromo = {|
   format: ?ExhibitionFormat,
   url: string,
   title: string,
+  shortTitle: ?string,
   image: ImageType,
   squareImage: ?Picture,
   start: Date,

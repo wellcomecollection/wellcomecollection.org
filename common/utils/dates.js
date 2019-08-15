@@ -11,8 +11,8 @@ export function getEarliestFutureDateRange(
     .sort((a, b) => a.start - b.start)
     .find(
       range =>
-        london(range.start).isSameOrAfter(fromDate, 'day') &&
-        london(range.start).isSameOrAfter(london(), 'day')
+        london(range.end).isSameOrAfter(fromDate, 'day') &&
+        london(range.end).isSameOrAfter(london(), 'day')
     );
 }
 
@@ -36,4 +36,10 @@ export function getNextWeekendDateRange(date: Date): DateRange {
     start: start.startOf('day').toDate(),
     end: end.endOf('day').toDate(),
   };
+}
+
+export function formatDateForApi(dateString: string): ?string {
+  const date = dateString && london(dateString);
+
+  return date && date.isValid() ? date.format('YYYY-MM-DD') : undefined;
 }

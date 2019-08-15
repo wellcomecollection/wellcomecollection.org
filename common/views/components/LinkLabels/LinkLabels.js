@@ -1,11 +1,7 @@
 // @flow
-import {
-  font,
-  spacing,
-  conditionalClassNames,
-  classNames,
-} from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
+import Space from '../styled/Space';
 
 type ItemProps = {|
   url: ?string,
@@ -18,41 +14,30 @@ type Props = {|
   icon?: string,
 |};
 
-function getClassName(i) {
-  return conditionalClassNames({
-    [`${font({ s: 'HNM4' })}`]: true,
-    'border-left-width-1 border-color-marble': i !== 0,
-    [spacing({ s: 1 }, { padding: ['left'] })]: i !== 0,
-    [spacing({ s: 1 }, { margin: ['right'] })]: true,
-  });
-}
 const LinkLabels = ({ items, heading, icon }: Props) => (
   <dl
     className={classNames({
       flex: true,
       'flex--wrap': true,
       'no-margin': true,
-      [font({ s: 'HNL4' })]: true,
+      [font('hnl', 5)]: true,
     })}
   >
     {heading && (
-      <dt
+      <Space
+        as="dt"
+        h={{ size: 's', properties: ['margin-right'] }}
         className={classNames({
           flex: true,
-          [spacing({ s: 1 }, { margin: ['right'] })]: true,
-          [spacing({ s: 0 }, { margin: ['left', 'top', 'bottom'] })]: true,
         })}
       >
         {icon && (
-          <Icon
-            name={icon}
-            extraClasses={classNames({
-              [spacing({ s: 1 }, { margin: ['right'] })]: true,
-            })}
-          />
+          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon name={icon} />
+          </Space>
         )}
         {heading}
-      </dt>
+      </Space>
     )}
     {items.map(({ url, text }, i) => (
       <dd
@@ -62,11 +47,40 @@ const LinkLabels = ({ items, heading, icon }: Props) => (
         })}
       >
         {url ? (
-          <a className={getClassName(i)} href={url}>
+          <Space
+            h={{
+              size: 's',
+              properties: [
+                'margin-right',
+                i !== 0 ? 'padding-left' : undefined,
+              ].filter(Boolean),
+            }}
+            as="a"
+            className={classNames({
+              [`${font('hnm', 5)}`]: true,
+              'border-left-width-1 border-color-marble': i !== 0,
+            })}
+            href={url}
+          >
             {text}
-          </a>
+          </Space>
         ) : (
-          <span className={getClassName(i)}>{text}</span>
+          <Space
+            as="span"
+            h={{
+              size: 's',
+              properties: [
+                'margin-right',
+                i !== 0 ? 'padding-left' : undefined,
+              ].filter(Boolean),
+            }}
+            className={classNames({
+              [`${font('hnm', 5)}`]: true,
+              'border-left-width-1 border-color-marble': i !== 0,
+            })}
+          >
+            {text}
+          </Space>
         )}
       </dd>
     ))}

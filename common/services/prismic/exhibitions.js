@@ -205,6 +205,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       format,
       url,
       title,
+      shortTitle: data.shortTitle && asText(data.shortTitle),
       image: promoImage && promoImage.image,
       squareImage: promoSquare && promoSquare.image,
       start,
@@ -357,7 +358,8 @@ export async function getExhibition(
       organisationsFields,
       contributorsFields,
       placesFields,
-      exhibitionResourcesFields
+      exhibitionResourcesFields,
+      eventSeriesFields
     ),
   });
 
@@ -383,7 +385,6 @@ export async function getExhibitionRelatedContent(
     placesFields,
     interpretationTypesFields,
     audiencesFields,
-    eventSeriesFields,
     organisationsFields,
     peopleFields,
     contributorsFields,

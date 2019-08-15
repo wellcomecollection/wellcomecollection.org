@@ -1,17 +1,18 @@
 // @flow
-import { classNames, cssGrid, spacing } from '../../../utils/classnames';
+import { classNames, cssGrid } from '../../../utils/classnames';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '../Layout12/Layout12';
 import StoryPromo from '../StoryPromo/StoryPromo';
-import MoreLink from '../Links/MoreLink/MoreLink';
+import MoreLink from '../MoreLink/MoreLink';
 import { type Link } from '../../../model/link';
 import { type UiExhibition } from '../../../model/exhibitions';
 import { type UiEvent } from '../../../model/events';
 import { type Book } from '../../../model/books';
 import { type Article } from '../../../model/articles';
+import Space from '../styled/Space';
 
 // TODO: This should be MultiContent
 type ContentTypes = UiEvent | UiExhibition | Book | Article;
@@ -58,6 +59,7 @@ const CardGrid = ({
                   id={item.id}
                   url={`/exhibitions/${item.id}`}
                   title={item.title}
+                  shortTitle={item.shortTitle}
                   format={item.format}
                   // TODO: (remove Picture type)
                   // $FlowFixMe
@@ -94,18 +96,13 @@ const CardGrid = ({
       </div>
       {links && links.length > 0 && (
         <Layout12>
-          <div
-            className={classNames({
-              // TODO: update with inter-component spacing when it's formalised
-              [spacing({ s: 3 }, { margin: ['top'] })]: true,
-            })}
-          >
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {links.map(link => (
               <div key={link.url}>
                 <MoreLink url={link.url} name={link.text} />
               </div>
             ))}
-          </div>
+          </Space>
         </Layout12>
       )}
     </div>

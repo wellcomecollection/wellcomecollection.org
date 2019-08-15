@@ -1,10 +1,11 @@
 // @flow
 import { Fragment } from 'react';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import type { Element } from 'react';
 import type { LabelField } from '../../../model/label-field';
+import Space from '../styled/Space';
 
 type Props = {|
   title: string,
@@ -19,55 +20,49 @@ const InfoBox = ({ title, items, children }: Props) => {
   return (
     <Fragment>
       <h2 className="h2">{title}</h2>
-      <div
+      <Space
+        v={{
+          size: 'l',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
         className={classNames({
           'bg-yellow': true,
-          [spacing(
-            { s: 4 },
-            { padding: ['top', 'right', 'bottom', 'left'] }
-          )]: true,
         })}
       >
         {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
-            <div className={font({ s: 'HNM4' })}>
+            <div className={font('hnm', 4)}>
               {icon && (title || description) && (
-                <span
-                  className={`float-l ${spacing(
-                    { s: 1 },
-                    { margin: ['right'] }
-                  )}`}
+                <Space
+                  h={{ size: 's', properties: ['margin-right'] }}
+                  className={`float-l`}
                 >
                   <Icon name={icon} />
-                </span>
+                </Space>
               )}
               {title && (
-                <h3
-                  className={classNames([
-                    font({ s: 'HNM4' }),
-                    spacing({ s: 0 }, { margin: ['top'] }),
-                  ])}
-                >
-                  {title}
-                </h3>
+                <h3 className={classNames([font('hnm', 5)])}>{title}</h3>
               )}
               {description && (
-                <div
-                  className={classNames([
-                    font({ s: 'HNL4' }),
-                    spacing({ s: 4 }, { margin: ['bottom'] }),
-                  ])}
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-bottom'],
+                  }}
+                  className={classNames({
+                    [font('hnl', 5)]: true,
+                    'first-para-no-margin': true,
+                  })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </div>
+                </Space>
               )}
             </div>
           </Fragment>
         ))}
-        <div className={spacing({ s: 4 }, { margin: ['bottom'] })}>
-          {children}
-        </div>
-      </div>
+        {children}
+      </Space>
     </Fragment>
   );
 };
