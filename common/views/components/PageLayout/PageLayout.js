@@ -10,11 +10,13 @@ import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import NewsletterPromo from '../NewsletterPromo/NewsletterPromo2';
+import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
+import NewsletterPromo2 from '../NewsletterPromo/NewsletterPromo2';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
@@ -119,9 +121,17 @@ const PageLayout = ({
           {children}
         </div>
         {!hideNewsletterPromo && (
-          <SpacingSection>
-            <NewsletterPromo />
-          </SpacingSection>
+          <TogglesContext.Consumer>
+            {({ newsletterPromoUpdate }) =>
+              newsletterPromoUpdate ? (
+                <SpacingSection>
+                  <NewsletterPromo2 />
+                </SpacingSection>
+              ) : (
+                <NewsletterPromo />
+              )
+            }
+          </TogglesContext.Consumer>
         )}
         <OpeningTimesContext.Consumer>
           {openingTimes => (
