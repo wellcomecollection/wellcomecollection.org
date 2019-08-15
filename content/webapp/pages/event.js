@@ -18,7 +18,7 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import type { UiEvent } from '@weco/common/model/events';
 import { font, classNames } from '@weco/common/utils/classnames';
-import camelize from '@weco/common/utils/camelize';
+import { camelize } from '@weco/common/utils/grammar';
 import {
   formatDayDate,
   isTimePast,

@@ -29,8 +29,3 @@
 .divider--thin {
   height: 2px;
 }
-
-.divider--dashed {
-  height: 12px;
-  background-image: repeating-linear-gradient(to right, color('charcoal'), color('charcoal') 3px, transparent 3px, transparent 6px);
-}
