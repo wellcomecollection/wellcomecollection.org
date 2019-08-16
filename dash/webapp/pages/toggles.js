@@ -35,29 +35,7 @@ function setCookie(name, value) {
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [
-  {
-    id: 'searchCandidateQueryMsm',
-    title: 'Search candidate query: Minimum should match',
-    defaultValue: false,
-    description: '',
-    range: [0, 10],
-  },
-  {
-    id: 'searchCandidateQueryBoost',
-    title: 'Search candidate query: Boost',
-    defaultValue: false,
-    description: '',
-    range: [10, 20],
-  },
-  {
-    id: 'searchCandidateQueryMsmBoost',
-    title: 'Search candidate query: Minimum should match with boost',
-    defaultValue: false,
-    description: '',
-    range: [20, 30],
-  },
-];
+const abTests = [];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
   const [toggles, setToggles] = useState([]);
