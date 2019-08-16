@@ -1,6 +1,6 @@
 locals {
-  edge_lambda_request_version  = 22
-  edge_lambda_response_version = 23
+  edge_lambda_request_version  = 23
+  edge_lambda_response_version = 24
 }
 
 # Setup terraform for this service
@@ -12,7 +12,7 @@ terraform {
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
-    role_arn       = "arn:aws:iam::130871440101:role/developer"
+    role_arn       = "arn:aws:iam::130871440101:role/experience-developer"
   }
 }
 
@@ -22,7 +22,7 @@ provider "aws" {
   region  = "us-east-1"
 
   assume_role {
-    role_arn = "arn:aws:iam::130871440101:role/developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
 }
 
@@ -35,7 +35,7 @@ data "terraform_remote_state" "router" {
     bucket = "wellcomecollection-infra"
     key    = "build-state/router.tfstate"
     region = "eu-west-1"
-    role_arn = "arn:aws:iam::130871440101:role/developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
 }
 
