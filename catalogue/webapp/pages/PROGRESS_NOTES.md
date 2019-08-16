@@ -7,32 +7,39 @@ For a more comprehensive search of all of our collections, [wellcomelibrary.org]
 
 We will keep this page up to date with the latest information as we make more progress.
 
-## What’s new? (updated June 2019)
+## What’s new? (updated 16 August 2019)
 
-We made it easier to get an overview of a book's content and review individual pages in detail. We are currently working to improve the relevance of your search results which will be released shortly.
+### More of the collection available to search
+We've made more of our digital collections available. You can now find: 
+- 4337 multi-volume works
+- 900 digitised videos and 3 audio files [(including an 1890 recording of Florence Nightingale)](https://wellcomecollection.org/works/tp9njewm) under an Audio/Video filter.
 
-You can now:
-* Browse all pages at a glance to get a sense of the book
-* Get to the individual pages quickly
-* Download an image or PDF while viewing the item
-* Get the same viewing experience for books and images
-* Easily navigate an item with keyboard controls
-* Use screen reader software to listen to the text contained in images
-* View items more easily on mobile devices
+### Improvements to search relevance
+- The way we score a work's relevance to your search query has changed. We now weigh certain fields more heavily like `title`, `subjects`, `genres`, `description`, and `contributors`. If you are searching for a specific title, this should bring that to the top of the results, but also help for generic searches.
+
+Another way we are trying to bring more relevant results to the top of your search is using a strategy called minimum-should-match. This is where we expect a minimum percentage of your terms to be matched in the result.
+  
+[You can see the current setup in the code here](https://github.com/wellcometrust/catalogue/blob/d1b4229f6e85c09dd7e5b0c94cffc898d11e23b9/api/api/src/main/scala/uk/ac/wellcome/platform/api/models/WorkQuery.scala#L15-L28), but this will be evolving over time with your feedback. 
+  
+### Experimental search features
+- We've added some experimental parameters to the API, namely `_dateFrom` and `_dateTo`. [An example](https://api-stage.wellcomecollection.org/catalogue/v2/works?_dateFrom=1900-01-01&_dateTo=2000-01-01&query=consumption). We'll be adding some interface elements to this at some stage, and sharing them with you all to get your feedback. So far we have production dates for 64% of our catalogue, and will be adding more soon.
 
 ### What are the limits?
-*	You may get too many results that are irrelevant to your initial search
+* We currently only expose digitised materials, so if you're looking for a physical item from our collections, you can still use the library catalogue on [wellcomelibrary.org](https://wellcomelibrary.org).
 *	Some library catalogue data is not available yet, so there may be very little information associated with some images or not be enough information to identify the item you’re looking at.
 *	Some images lack references to the item from which they were taken.
-*	Our archives, manuscripts, audio, video, journals and multi-volume books are not available yet.
+*	Our digitised archives and journals are not available yet.
 *	No date filtering available yet.
 
-If you think something might be missing, or want a more comprehensive search, please try searching the catalogue on [wellcomelibrary.org](https://wellcomelibrary.org) in the meantime.
+If you want a more comprehensive search, please try searching the catalogue on [wellcomelibrary.org](https://wellcomelibrary.org) in the meantime.
 
 For now, if you need any additional help in identifying items from library collections, please email collections@wellcome.ac.uk.
 
-## What’s next:
-Next we’ll be working to improve the relevance of your search results. We’re also working on improving the descriptive data, physical details and location information, and the data that allows you to filter your search by year. We will be making more items available including audio, video and multi-volume books.
+## What's next:
+- We’ll continue to monitor and improve the relevance of your search results. 
+- To help you narrow your search results, date filtering will be coming soon. 
+- We’re also adding more descriptive data, including physical details, improved date ranges, notes and location information. 
+
 
 # Get involved
 We want to share our work in progress with you, and to get your feedback throughout the development.
