@@ -10,10 +10,9 @@ We will keep this page up to date with the latest information as we make more pr
 ## What’s new? (updated 16 August 2019)
 
 ### More of the collection available to search
-We've made more of our digital collections available under an Audio/Video filter. You can now find: 
+We've made more of our digital collections available. You can now find: 
 - 4337 multi-volume works
-- 900 digitised videos and 
-- 3 audio files [(including an 1890 recording of Florence Nightingale)](https://wellcomecollection.org/works/tp9njewm)
+- 900 digitised videos and 3 audio files [(including an 1890 recording of Florence Nightingale)](https://wellcomecollection.org/works/tp9njewm) under an Audio/Video filter.
 
 ### Improvements to search relevance
 - The way we score a work's relevance to your search query has changed. We now weigh certain fields more heavily like `title`, `subjects`, `genres`, `description`, and `contributors`. If you are searching for a specific title, this should bring that to the top of the results, but also help for generic searches.
