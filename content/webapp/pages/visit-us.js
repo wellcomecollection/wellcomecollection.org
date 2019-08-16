@@ -75,62 +75,67 @@ const BespokeBody = (
                 [font('hnl', 4)]: true,
               })}
             >
-              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-                <Icon name="clock" extraClasses={`float-l`} />
-              </Space>
-              <div
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                  'float-l': true,
-                })}
-              >
-                <h2
-                  className={classNames({
-                    [font('hnm', 5)]: true,
-                    'no-margin': true,
-                  })}
-                >{`Today's opening times`}</h2>
-                <ul className="plain-list no-padding no-margin">
-                  {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-                    venue => {
-                      const todaysHours = getTodaysVenueHours(venue);
-                      return (
-                        todaysHours && (
-                          <Space
-                            v={{
-                              size: 's',
-                              properties: ['margin-top'],
-                            }}
-                            as="li"
-                            key={venue.name}
-                          >
-                            {venue.name.toLowerCase() === 'restaurant'
-                              ? 'Kitchen '
-                              : `${venue.name} `}
-                            {todaysHours.opens ? (
-                              <>
-                                <time>{todaysHours.opens}</time>
-                                {'—'}
-                                <time>{todaysHours.closes}</time>
-                              </>
-                            ) : (
-                              'closed'
-                            )}
-                          </Space>
-                        )
-                      );
-                    }
-                  )}
-                </ul>
+              <div className="flex">
                 <Space
-                  v={{
-                    size: 's',
-                    properties: ['margin-top'],
-                  }}
-                  className={`no-margin`}
+                  as="span"
+                  h={{ size: 'm', properties: ['margin-right'] }}
                 >
-                  <a href="/opening-times">Opening times</a>
+                  <Icon name="clock" extraClasses={`float-l`} />
                 </Space>
+                <div
+                  className={classNames({
+                    [font('hnl', 5)]: true,
+                    'float-l': true,
+                  })}
+                >
+                  <h2
+                    className={classNames({
+                      [font('hnm', 5)]: true,
+                      'no-margin': true,
+                    })}
+                  >{`Today's opening times`}</h2>
+                  <ul className="plain-list no-padding no-margin">
+                    {openingTimes.collectionOpeningTimes.placesOpeningHours.map(
+                      venue => {
+                        const todaysHours = getTodaysVenueHours(venue);
+                        return (
+                          todaysHours && (
+                            <Space
+                              v={{
+                                size: 's',
+                                properties: ['margin-top'],
+                              }}
+                              as="li"
+                              key={venue.name}
+                            >
+                              {venue.name.toLowerCase() === 'restaurant'
+                                ? 'Kitchen '
+                                : `${venue.name} `}
+                              {todaysHours.opens ? (
+                                <>
+                                  <time>{todaysHours.opens}</time>
+                                  {'—'}
+                                  <time>{todaysHours.closes}</time>
+                                </>
+                              ) : (
+                                'closed'
+                              )}
+                            </Space>
+                          )
+                        );
+                      }
+                    )}
+                  </ul>
+                  <Space
+                    v={{
+                      size: 's',
+                      properties: ['margin-top'],
+                    }}
+                    className={`no-margin`}
+                  >
+                    <a href="/opening-times">Opening times</a>
+                  </Space>
+                </div>
               </div>
             </div>
           </div>
@@ -311,8 +316,3 @@ export class Page extends Component<Props> {
 }
 
 export default Page;
-// TODO
-// Main image
-// What's On image
-// Copy
-// accessibility - why are card headings not marked up as headings?

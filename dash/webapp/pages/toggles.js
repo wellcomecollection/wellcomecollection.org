@@ -37,27 +37,6 @@ function setCookie(name, value) {
 
 const abTests = [
   {
-    id: 'searchCandidateQueryMsm',
-    title: 'Search candidate query: Minimum should match',
-    defaultValue: false,
-    description: '',
-    range: [0, 10],
-  },
-  {
-    id: 'searchCandidateQueryBoost',
-    title: 'Search candidate query: Boost',
-    defaultValue: false,
-    description: '',
-    range: [10, 20],
-  },
-  {
-    id: 'searchCandidateQueryMsmBoost',
-    title: 'Search candidate query: Minimum should match with boost',
-    defaultValue: false,
-    description: '',
-    range: [20, 30],
-  },
-  {
     id: 'newsletterPromoUpdate',
     title: 'New design for NewsletterPromo component',
     defaultValue: false,

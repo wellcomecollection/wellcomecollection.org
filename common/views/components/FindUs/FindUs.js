@@ -14,12 +14,6 @@ const StyledFindUs = styled.div.attrs(props => ({
     [font('hnl', 5)]: true,
   }),
 }))`
-  border-bottom: 1px solid ${props => props.theme.colors.charcoal};
-
-  ${props => props.theme.media.medium`
-    border-bottom: 0;
-  `}
-
   &:hover,
   &:focus {
     .icon {

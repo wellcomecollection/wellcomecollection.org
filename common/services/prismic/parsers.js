@@ -250,6 +250,7 @@ export function parseContributors(
           ? {
               id: contributor.role.id,
               title: asText(contributor.role.data.title) || '',
+              describedBy: contributor.role.data.describedBy,
             }
           : null;
 

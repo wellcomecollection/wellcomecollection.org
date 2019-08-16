@@ -16,6 +16,7 @@ export type Organisation = {|
 type ContributorRole = {|
   id: string,
   title: string,
+  describedBy: ?string,
 |};
 
 export type PersonContributor = {|

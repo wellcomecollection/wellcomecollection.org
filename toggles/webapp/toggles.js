@@ -52,5 +52,12 @@ module.exports = {
       description:
         'Shows additional UI to allow a user to narrow search results by using date ranges',
     },
+    {
+      id: 'unfilteredSearchResults',
+      title:
+        'Return all posible results from the catalogue API, without filtering by type or location',
+      defaultValue: false,
+      description: 'Shows all possible search results from the catalogue API',
+    },
   ],
 };
