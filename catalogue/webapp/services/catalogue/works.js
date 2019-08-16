@@ -49,7 +49,7 @@ export async function getWorks({
   });
   const url =
     `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
-    `&pageSize=100` +
+    `&pageSize=20` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '') +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '');
