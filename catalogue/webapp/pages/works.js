@@ -475,7 +475,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
     showDatesPrototype,
-    showDatesSliderPrototype,
     unfilteredSearchResults,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
@@ -504,7 +503,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const isDatesPrototype = showDatesPrototype || showDatesSliderPrototype;
+  const isDatesPrototype = showDatesPrototype;
   const shouldGetWorks = isDatesPrototype
     ? filters._dateTo || filters._dateFrom || (query && query !== '')
     : query && query !== '';

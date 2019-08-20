@@ -10,7 +10,6 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import Space from '@weco/common/views/components/styled/Space';
-import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
@@ -123,7 +122,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
-  const [showSlider, setShowSlider] = useState(true);
 
   const dateRangeItems = twentyYearRange.map(range => {
     return {
@@ -287,82 +285,50 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         </TogglesContext.Consumer>
 
         <TogglesContext.Consumer>
-          {({
-            showDatesPrototype,
-            showDatesSliderPrototype,
-            showDatesAggregatePrototype,
-          }) => (
+          {({ showDatesPrototype, showDatesAggregatePrototype }) => (
             <>
-              {(showDatesPrototype || showDatesSliderPrototype) &&
-                !showDatesAggregatePrototype && (
-                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                    <div
-                      style={{
-                        display: showDatesSliderPrototype ? 'none' : 'block',
-                      }}
-                    >
-                      <Space v={{ size: 's', properties: ['margin-top'] }}>
-                        <label>
-                          from:{' '}
-                          <input
-                            value={inputDateFrom || ''}
-                            onChange={event => {
-                              setInputDateFrom(`${event.currentTarget.value}`);
-                            }}
-                            style={{ width: '8em', padding: '0.5em' }}
-                          />
-                        </label>{' '}
-                        <label>
-                          to:{' '}
-                          <input
-                            value={inputDateTo || ''}
-                            onChange={event => {
-                              setInputDateTo(`${event.currentTarget.value}`);
-                            }}
-                            style={{ width: '8em', padding: '0.5em' }}
-                          />
-                        </label>
-                      </Space>
-                      <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                        <Button
-                          type="primary"
-                          text="Clear dates"
-                          clickHandler={() => {
-                            setInputDateFrom('');
-                            setInputDateTo('');
+              {showDatesPrototype && !showDatesAggregatePrototype && (
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                  <div
+                    style={{
+                      display: 'block',
+                    }}
+                  >
+                    <Space v={{ size: 's', properties: ['margin-top'] }}>
+                      <label>
+                        from:{' '}
+                        <input
+                          value={inputDateFrom || ''}
+                          onChange={event => {
+                            setInputDateFrom(`${event.currentTarget.value}`);
                           }}
+                          style={{ width: '8em', padding: '0.5em' }}
                         />
-                      </Space>
-                    </div>
-                    {showDatesSliderPrototype && !showDatesAggregatePrototype && (
-                      <>
-                        {showSlider && (
-                          <DateSlider
-                            startValues={{
-                              to: inputDateTo,
-                              from: inputDateFrom,
-                            }}
-                            updateFrom={setInputDateFrom}
-                            updateTo={setInputDateTo}
-                          />
-                        )}
-                        <button
-                          type="button"
-                          className="plain-button underline-on-hover no-visible-focus"
-                          onClick={() => {
-                            setShowSlider(!showSlider);
-                            if (showSlider) {
-                              setInputDateFrom('');
-                              setInputDateTo('');
-                            }
+                      </label>{' '}
+                      <label>
+                        to:{' '}
+                        <input
+                          value={inputDateTo || ''}
+                          onChange={event => {
+                            setInputDateTo(`${event.currentTarget.value}`);
                           }}
-                        >
-                          {showSlider ? 'Clear dates' : 'Show date filter'}
-                        </button>
-                      </>
-                    )}
-                  </Space>
-                )}
+                          style={{ width: '8em', padding: '0.5em' }}
+                        />
+                      </label>
+                    </Space>
+                    <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                      <Button
+                        type="primary"
+                        text="Clear dates"
+                        clickHandler={() => {
+                          setInputDateFrom('');
+                          setInputDateTo('');
+                        }}
+                      />
+                    </Space>
+                  </div>
+                </Space>
+              )}
               {showDatesAggregatePrototype &&
                 (query &&
                   inputQuery &&
