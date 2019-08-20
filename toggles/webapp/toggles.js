@@ -37,14 +37,6 @@ module.exports = {
         'Shows additional UI to allow a user to narrow search results by a date range.',
     },
     {
-      id: 'showDatesAggregatePrototype',
-      title:
-        'Display list of date ranges to allow a user to refine results by a date range',
-      defaultValue: false,
-      description:
-        'Shows additional UI to allow a user to narrow search results by using date ranges',
-    },
-    {
       id: 'unfilteredSearchResults',
       title:
         'Return all posible results from the catalogue API, without filtering by type or location',
