@@ -29,6 +29,7 @@ import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import linkResolver from './link-resolver';
+import { parseArticle } from './articles';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -557,6 +558,8 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parseEventSeries(item.content);
                     case 'exhibitions':
                       return parseExhibitionDoc(item.content);
+                    case 'articles':
+                      return parseArticle(item.content);
                   }
                 })
                 .filter(Boolean),

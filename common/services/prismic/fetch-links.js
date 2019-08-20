@@ -82,3 +82,4 @@ export const articleFormatsFields = [
   'article-formats.title',
   'article-formats.description',
 ];
+export const articlesFields = ['articles.title'];
