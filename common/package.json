@@ -39,7 +39,6 @@
     "raven-js": "^3.26.3",
     "raw-loader": "^2.0.0",
     "react": "^16.8.2",
-    "react-compound-slider": "^2.2.0",
     "react-dom": "^16.8.2",
     "react-ga": "^2.5.6",
     "react-transition-group": "^2.5.0",
