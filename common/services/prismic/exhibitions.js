@@ -18,6 +18,7 @@ import {
   eventPoliciesFields,
   articleSeriesFields,
   articleFormatsFields,
+  articlesFields,
 } from './fetch-links';
 import { breakpoints } from '../../utils/breakpoints';
 import {
@@ -359,7 +360,8 @@ export async function getExhibition(
       contributorsFields,
       placesFields,
       exhibitionResourcesFields,
-      eventSeriesFields
+      eventSeriesFields,
+      articlesFields
     ),
   });
 
@@ -393,7 +395,8 @@ export async function getExhibitionRelatedContent(
     contributorsFields,
     articleSeriesFields,
     articleFormatsFields,
-    exhibitionFields
+    exhibitionFields,
+    articlesFields
   );
   const types = ['exhibitions', 'events', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
