@@ -99,6 +99,15 @@ const Works = ({ works }: Props) => {
     );
   }
 
+  const textsTypes = ['a', 'v', 'b', 'x', 'd', 'j', 'w', 'c'];
+  const visualsTypes = ['k', 'q', 'e', 'l'];
+  const mediaTypes = ['f', 's', 'g', 'i', 'n'];
+  const objectsTypes = ['r', 'p', 'm'];
+
+  function doArraysOverlap(arr1, arr2) {
+    return arr1.some(t => arr2.includes(t));
+  }
+
   return (
     <Fragment>
       <Head>
@@ -204,77 +213,78 @@ const Works = ({ works }: Props) => {
                   ariaDescribedBy="search-form-description"
                   compact={false}
                 />
+
+                {works && (
+                  <TabNav
+                    items={[
+                      {
+                        text: 'All',
+                        link: worksUrl({
+                          query,
+                          workType: undefined,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected: !workType,
+                      },
+                      {
+                        text: 'Texts',
+                        link: worksUrl({
+                          query,
+                          workType: textsTypes,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected:
+                          !!workType && doArraysOverlap(textsTypes, workType),
+                      },
+                      {
+                        text: 'Visuals',
+                        link: worksUrl({
+                          query,
+                          workType: visualsTypes,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected:
+                          !!workType && doArraysOverlap(visualsTypes, workType),
+                      },
+                      {
+                        text: 'Media',
+                        link: worksUrl({
+                          query,
+                          workType: mediaTypes,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected:
+                          !!workType && doArraysOverlap(mediaTypes, workType),
+                      },
+                      {
+                        text: 'Objects',
+                        link: worksUrl({
+                          query,
+                          workType: objectsTypes,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected:
+                          !!workType && doArraysOverlap(objectsTypes, workType),
+                      },
+                    ]}
+                  />
+                )}
               </div>
             </div>
           </div>
         </Space>
 
         {!works && <StaticWorksContent />}
-
-        {works && (
-          <Layout12>
-            <TabNav
-              items={[
-                {
-                  text: 'All',
-                  link: worksUrl({
-                    query,
-                    workType: undefined,
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !workType,
-                },
-                {
-                  text: 'Books',
-                  link: worksUrl({
-                    query,
-                    workType: ['a', 'v'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('a') !== -1 &&
-                      workType.indexOf('v') !== -1)
-                  ),
-                },
-                {
-                  text: 'Pictures',
-                  link: worksUrl({
-                    query,
-                    workType: ['k', 'q'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('k') !== -1 &&
-                      workType.indexOf('q') !== -1)
-                  ),
-                },
-                {
-                  text: 'Audio/Video',
-                  link: worksUrl({
-                    query,
-                    workType: ['f', 's'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('f') !== -1 &&
-                      workType.indexOf('s') !== -1)
-                  ),
-                },
-              ]}
-            />
-          </Layout12>
-        )}
 
         {works && works.results.length > 0 && (
           <Fragment>

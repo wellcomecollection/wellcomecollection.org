@@ -59,23 +59,6 @@ const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   }
 `;
 
-const NavItemInnerTemp = styled.span.attrs(props => ({
-  className: classNames({
-    selected: props.selected,
-    block: true,
-    relative: true,
-    'font-size-5 font-hnl': true,
-  }),
-}))`
-  z-index: 1;
-  padding: 0 0.3em;
-  white-space: nowrap;
-
-  &.selected {
-    text-decoration: underline;
-  }
-`;
-
 const NavItem = ({
   link,
   text,
@@ -99,23 +82,13 @@ const NavItem = ({
     >
       <TogglesContext.Consumer>
         {({ showDatesAggregatePrototype }) => (
-          <>
-            {showDatesAggregatePrototype &&
-            (text !== 'All' &&
-              text !== 'Pictures' &&
-              text !== 'Books' &&
-              text !== 'Audio/Video') ? (
-              <NavItemInnerTemp selected={selected}>{text}</NavItemInnerTemp>
-            ) : (
-              <NavItemInner
-                as="span"
-                h={{ size: 'm', properties: ['margin-right'] }}
-                selected={selected}
-              >
-                {text}
-              </NavItemInner>
-            )}
-          </>
+          <NavItemInner
+            as="span"
+            h={{ size: 'm', properties: ['margin-right'] }}
+            selected={selected}
+          >
+            {text}
+          </NavItemInner>
         )}
       </TogglesContext.Consumer>
     </Space>
