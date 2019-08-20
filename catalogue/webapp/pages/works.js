@@ -451,9 +451,14 @@ const Works = ({ works }: Props) => {
                         {' '}
                         in{' '}
                         <span className={font('hnm', 2)}>
-                          {(workType.includes('k') && 'pictures') ||
-                            (workType.includes('f') && 'audio/video') ||
-                            (workType.includes('a') && 'books')}
+                          {(doArraysOverlap(workType, visualsTypes) &&
+                            'visuals') ||
+                            (doArraysOverlap(workType, mediaTypes) &&
+                              'media') ||
+                            (doArraysOverlap(workType, textsTypes) &&
+                              'texts') ||
+                            (doArraysOverlap(workType, objectsTypes) &&
+                              'objects')}
                         </span>
                       </>
                     )}
