@@ -31,6 +31,7 @@ import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
+import { capitalize } from '@weco/common/utils/grammar';
 
 type Props = {|
   query: ?string,
@@ -99,13 +100,61 @@ const Works = ({ works }: Props) => {
     );
   }
 
-  const textsTypes = ['a', 'v', 'b', 'x', 'd', 'j', 'w', 'c'];
-  const visualsTypes = ['k', 'q', 'e', 'l'];
-  const mediaTypes = ['f', 's', 'g', 'i', 'n'];
-  const objectsTypes = ['r', 'p', 'm'];
+  const workTypes = [
+    {
+      title: 'texts',
+      materialTypes: [
+        { title: 'books', letter: 'a' },
+        { title: 'e-books', letter: 'v' },
+        { title: 'manuscripts, asian', letter: 'b' },
+        { title: 'e-manuscripts, asian', letter: 'x' },
+        { title: 'journals', letter: 'd' },
+        { title: 'e-journals', letter: 'j' },
+        { title: 'student dissertations', letter: 'w' },
+        { title: 'music', letter: 'c' },
+      ],
+    },
+    {
+      title: 'visuals',
+      materialTypes: [
+        { title: 'pictures', letter: 'k' },
+        { title: 'digital images', letter: 'q' },
+        { title: 'maps', letter: 'e' },
+        { title: 'ephemera', letter: 'l' },
+      ],
+    },
+    {
+      title: 'media',
+      materialTypes: [
+        { title: 'e-videos', letter: 'f' },
+        { title: 'e-sound', letter: 's' },
+        { title: 'videorecording', letter: 'g' },
+        { title: 'sound', letter: 'i' },
+        { title: 'cinefilm', letter: 'n' },
+      ],
+    },
+    {
+      title: 'objects',
+      materialTypes: [
+        { title: '3D objects', letter: 'r' },
+        { title: 'mixed materials', letter: 'p' },
+        { title: 'CD-ROMs', letter: 'm' },
+      ],
+    },
+  ];
 
   function doArraysOverlap(arr1, arr2) {
     return arr1.some(t => arr2.includes(t));
+  }
+
+  function titleForWorkTypes(workTypesArray) {
+    const category = workTypes.find(wt => {
+      const wtLetters = wt.materialTypes.map(a => a.letter);
+
+      return doArraysOverlap(wtLetters, workTypesArray);
+    });
+
+    return category && category.title;
   }
 
   return (
@@ -216,67 +265,24 @@ const Works = ({ works }: Props) => {
 
                 {works && (
                   <TabNav
-                    items={[
-                      {
-                        text: 'All',
+                    items={workTypes.map(t => {
+                      return {
+                        text: capitalize(t.title),
                         link: worksUrl({
                           query,
-                          workType: undefined,
-                          page: 1,
-                          _dateFrom,
-                          _dateTo,
-                        }),
-                        selected: !workType,
-                      },
-                      {
-                        text: 'Texts',
-                        link: worksUrl({
-                          query,
-                          workType: textsTypes,
+                          workType: t.materialTypes.map(m => m.letter),
                           page: 1,
                           _dateFrom,
                           _dateTo,
                         }),
                         selected:
-                          !!workType && doArraysOverlap(textsTypes, workType),
-                      },
-                      {
-                        text: 'Visuals',
-                        link: worksUrl({
-                          query,
-                          workType: visualsTypes,
-                          page: 1,
-                          _dateFrom,
-                          _dateTo,
-                        }),
-                        selected:
-                          !!workType && doArraysOverlap(visualsTypes, workType),
-                      },
-                      {
-                        text: 'Media',
-                        link: worksUrl({
-                          query,
-                          workType: mediaTypes,
-                          page: 1,
-                          _dateFrom,
-                          _dateTo,
-                        }),
-                        selected:
-                          !!workType && doArraysOverlap(mediaTypes, workType),
-                      },
-                      {
-                        text: 'Objects',
-                        link: worksUrl({
-                          query,
-                          workType: objectsTypes,
-                          page: 1,
-                          _dateFrom,
-                          _dateTo,
-                        }),
-                        selected:
-                          !!workType && doArraysOverlap(objectsTypes, workType),
-                      },
-                    ]}
+                          !!workType &&
+                          doArraysOverlap(
+                            t.materialTypes.map(m => m.letter),
+                            workType
+                          ),
+                      };
+                    })}
                   />
                 )}
               </div>
@@ -451,14 +457,7 @@ const Works = ({ works }: Props) => {
                         {' '}
                         in{' '}
                         <span className={font('hnm', 2)}>
-                          {(doArraysOverlap(workType, visualsTypes) &&
-                            'visuals') ||
-                            (doArraysOverlap(workType, mediaTypes) &&
-                              'media') ||
-                            (doArraysOverlap(workType, textsTypes) &&
-                              'texts') ||
-                            (doArraysOverlap(workType, objectsTypes) &&
-                              'objects')}
+                          {titleForWorkTypes(workType)}
                         </span>
                       </>
                     )}
