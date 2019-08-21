@@ -3,6 +3,7 @@ import { type Context } from 'next';
 import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
@@ -263,27 +264,56 @@ const Works = ({ works }: Props) => {
                   compact={false}
                 />
 
-                {works && (
-                  <TabNav
-                    items={workTypes.map(t => {
-                      return {
-                        text: capitalize(t.title),
-                        link: worksUrl({
-                          query,
-                          workType: t.materialTypes.map(m => m.letter),
-                          page: 1,
-                          _dateFrom,
-                          _dateTo,
-                        }),
-                        selected:
-                          !!workType &&
-                          doArraysOverlap(
-                            t.materialTypes.map(m => m.letter),
-                            workType
-                          ),
-                      };
+                {workType && (
+                  <NextLink
+                    {...worksUrl({
+                      query,
+                      workType: null,
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
                     })}
-                  />
+                  >
+                    <a>
+                      <div
+                        style={{
+                          fontSize: '0.5em',
+                          display: 'inline-block',
+                          padding: '1em',
+                          background: '#333',
+                          color: '#ddd',
+                          borderRadius: '3px',
+                        }}
+                      >
+                        category: {titleForWorkTypes(workType)} &times;
+                      </div>
+                    </a>
+                  </NextLink>
+                )}
+
+                {works && (
+                  <>
+                    <TabNav
+                      items={workTypes.map(t => {
+                        return {
+                          text: capitalize(t.title),
+                          link: worksUrl({
+                            query,
+                            workType: t.materialTypes.map(m => m.letter),
+                            page: 1,
+                            _dateFrom,
+                            _dateTo,
+                          }),
+                          selected:
+                            !!workType &&
+                            doArraysOverlap(
+                              t.materialTypes.map(m => m.letter),
+                              workType
+                            ),
+                        };
+                      })}
+                    />
+                  </>
                 )}
               </div>
             </div>
