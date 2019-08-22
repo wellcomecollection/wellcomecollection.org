@@ -222,6 +222,11 @@ const Works = ({ works }: Props) => {
     return workType.length === 1 && workType.includes(subcategory.letter);
   }
 
+  function commaOr(index, arrayLength) {
+    if (index === arrayLength - 2) return ' or ';
+    if (index !== arrayLength - 1) return ', ';
+  }
+
   return (
     <Fragment>
       <Head>
@@ -633,7 +638,20 @@ const Works = ({ works }: Props) => {
                         {' '}
                         in{' '}
                         <span className={font('hnm', 2)}>
-                          {titleForWorkTypes(workType)}
+                          {isFilteringBySubcategory
+                            ? subcategoriesForWorkType(
+                                titleForWorkTypes(workType)
+                              )
+                                .filter(subcategory =>
+                                  workType.includes(subcategory.letter)
+                                )
+                                .map((s, index, arr) => (
+                                  <span key={s.letter}>
+                                    {s.title}
+                                    {commaOr(index, arr.length)}
+                                  </span>
+                                ))
+                            : titleForWorkTypes(workType)}
                         </span>
                       </>
                     )}
