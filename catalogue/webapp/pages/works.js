@@ -36,8 +36,6 @@ type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
 |};
 
-const WorksSearchProvider = ({ works }: Props) => <Works works={works} />;
-
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
@@ -457,7 +455,7 @@ const Works = ({ works }: Props) => {
   );
 };
 
-WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
+Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const _dateFrom = formatDateForApi(ctx.query._dateFrom);
   const _dateTo = formatDateForApi(ctx.query._dateTo);
@@ -517,4 +515,4 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   };
 };
 
-export default WorksSearchProvider;
+export default Works;
