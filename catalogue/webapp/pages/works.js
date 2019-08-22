@@ -33,6 +33,25 @@ import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 import { capitalize } from '@weco/common/utils/grammar';
+import styled from 'styled-components';
+
+const ProtoTag = styled.div`
+  font-size: 0.5em;
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: 1px solid #333;
+  background: ${props => (props.isActive ? '#333' : '#fff')};
+  color: ${props => (props.isActive ? '#fff' : '#333')};
+  border-radius: 3px;
+  transition: all 200ms ease;
+  margin-right: 4px;
+  margin-top: 4px;
+
+  &:hover {
+    background: #333;
+    color: #fff;
+  }
+`;
 
 type Props = {|
   query: ?string,
@@ -143,6 +162,12 @@ const Works = ({ works }: Props) => {
       ],
     },
   ];
+
+  function subcategoriesForWorkType(title) {
+    const category = workTypes.find(wt => wt.title === title);
+
+    return category && category.materialTypes;
+  }
 
   function doArraysOverlap(arr1, arr2) {
     return arr1.some(t => arr2.includes(t));
@@ -275,18 +300,9 @@ const Works = ({ works }: Props) => {
                     })}
                   >
                     <a>
-                      <div
-                        style={{
-                          fontSize: '0.5em',
-                          display: 'inline-block',
-                          padding: '1em',
-                          background: '#333',
-                          color: '#ddd',
-                          borderRadius: '3px',
-                        }}
-                      >
+                      <ProtoTag isActive>
                         category: {titleForWorkTypes(workType)} &times;
-                      </div>
+                      </ProtoTag>
                     </a>
                   </NextLink>
                 )}
@@ -294,25 +310,67 @@ const Works = ({ works }: Props) => {
                 {works && (
                   <>
                     <TabNav
-                      items={workTypes.map(t => {
-                        return {
-                          text: capitalize(t.title),
+                      items={[
+                        {
+                          text: 'Everything',
                           link: worksUrl({
                             query,
-                            workType: t.materialTypes.map(m => m.letter),
+                            workType: null,
                             page: 1,
                             _dateFrom,
                             _dateTo,
                           }),
-                          selected:
-                            !!workType &&
-                            doArraysOverlap(
-                              t.materialTypes.map(m => m.letter),
-                              workType
-                            ),
-                        };
-                      })}
+                          selected: !workType,
+                        },
+                      ].concat(
+                        workTypes.map(t => {
+                          return {
+                            text: capitalize(t.title),
+                            link: worksUrl({
+                              query,
+                              workType: t.materialTypes.map(m => m.letter),
+                              page: 1,
+                              _dateFrom,
+                              _dateTo,
+                            }),
+                            selected:
+                              !!workType &&
+                              doArraysOverlap(
+                                t.materialTypes.map(m => m.letter),
+                                workType
+                              ),
+                          };
+                        })
+                      )}
                     />
+                    {workType && (
+                      <>
+                        {subcategoriesForWorkType(
+                          titleForWorkTypes(workType)
+                        ).map(subcategory => (
+                          <NextLink
+                            key={subcategory.title}
+                            {...worksUrl({
+                              query,
+                              workType: workType.includes(subcategory.letter)
+                                ? workType.filter(t => t !== subcategory.letter)
+                                : workType.concat(subcategory.letter),
+                              page: 1,
+                              _dateFrom,
+                              _dateTo,
+                            })}
+                          >
+                            <a>
+                              <ProtoTag
+                                isActive={workType.includes(subcategory.letter)}
+                              >
+                                {subcategory.title}
+                              </ProtoTag>
+                            </a>
+                          </NextLink>
+                        ))}
+                      </>
+                    )}
                   </>
                 )}
               </div>
