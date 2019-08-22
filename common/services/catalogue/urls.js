@@ -16,6 +16,7 @@ type WorksUrlProps = {|
   _queryType?: ?QueryType,
   _dateFrom?: ?string,
   _dateTo?: ?string,
+  _isFilteringBySubcategory?: ?string,
 |};
 
 type WorkUrlProps = {|
@@ -67,6 +68,7 @@ export function worksUrl({
   _queryType,
   _dateFrom,
   _dateTo,
+  _isFilteringBySubcategory,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -78,6 +80,7 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom,
         _dateTo: _dateTo,
+        _isFilteringBySubcategory: _isFilteringBySubcategory,
       }),
     },
     as: {
@@ -89,6 +92,7 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom,
         _dateTo: _dateTo,
+        _isFilteringBySubcategory: _isFilteringBySubcategory,
       }),
     },
   };

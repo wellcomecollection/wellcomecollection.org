@@ -58,6 +58,7 @@ type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   page: ?number,
   workType: ?(string[]),
+  _isFilteringBySubcategory?: ?string,
 |};
 
 const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
@@ -65,6 +66,9 @@ const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
 );
 
 const Works = ({ works }: Props) => {
+  const [isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
+    false
+  );
   const [loading, setLoading] = useState(false);
   const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
     CatalogueSearchContext
@@ -84,6 +88,11 @@ const Works = ({ works }: Props) => {
     }
   };
 
+  useEffect(() => {
+    setIsFilteringBySubcategory(
+      Boolean(Router.query._isFilteringBySubcategory)
+    );
+  }, []);
   // We have to have this for the initial page load, and have it on the router
   // change as the page doesnt actually re-render when the URL parameters change.
   useEffect(() => {
@@ -181,6 +190,30 @@ const Works = ({ works }: Props) => {
     });
 
     return category && category.title;
+  }
+
+  function updateWorkTypes(workType, subcategory, isFiltering) {
+    const activeWorkType = workTypes.find(
+      t => t.title === titleForWorkTypes(workType)
+    );
+
+    if (isFiltering) {
+      // If you're filtering and about to remove the last filter,
+      // we give you all the results for the category
+      if (workType.length === 1 && workType.includes(subcategory.letter)) {
+        console.log(2, subcategory.title);
+        return activeWorkType.materialTypes.map(t => t.letter);
+      }
+      // Otherwise add/remove items to the array
+      console.log(3);
+      return workType.includes(subcategory.letter)
+        ? workType.filter(t => t !== subcategory.letter)
+        : workType.concat(subcategory.letter);
+    }
+
+    console.log(4);
+    // Not yet filtering, just add the single subcategory
+    return [subcategory.letter];
   }
 
   return (
@@ -352,17 +385,23 @@ const Works = ({ works }: Props) => {
                             key={subcategory.title}
                             {...worksUrl({
                               query,
-                              workType: workType.includes(subcategory.letter)
-                                ? workType.filter(t => t !== subcategory.letter)
-                                : workType.concat(subcategory.letter),
+                              workType: updateWorkTypes(
+                                workType,
+                                subcategory,
+                                isFilteringBySubcategory
+                              ),
                               page: 1,
                               _dateFrom,
                               _dateTo,
+                              _isFilteringBySubcategory: 'yo',
                             })}
                           >
                             <a>
                               <ProtoTag
-                                isActive={workType.includes(subcategory.letter)}
+                                isActive={
+                                  !isFilteringBySubcategory &&
+                                  workType.includes(subcategory.letter)
+                                }
                               >
                                 {subcategory.title}
                               </ProtoTag>
@@ -568,7 +607,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const _dateFrom = formatDateForApi(ctx.query._dateFrom);
   const _dateTo = formatDateForApi(ctx.query._dateTo);
-
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const {
