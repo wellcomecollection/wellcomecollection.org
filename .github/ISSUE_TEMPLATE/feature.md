@@ -21,3 +21,9 @@ _(what? to do this thing)_
 - [ ] The interface should do this thing
 - [ ] and this thing
 - [ ] and this thing.
+
+## Prompts
+<!-- delete unneeded -->
+- Do we need to set up any event tracking?
+- Has this been documented in Cardigan?
+- How are we measuring success?
