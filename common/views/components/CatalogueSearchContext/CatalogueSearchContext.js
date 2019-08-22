@@ -177,11 +177,11 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
     const link = worksUrl({
       query,
       page,
-      workType: workType,
-      itemsLocationsLocationType: itemsLocationsLocationType,
-      _queryType: _queryType,
-      _dateFrom: _dateFrom,
-      _dateTo: _dateTo,
+      workType,
+      itemsLocationsLocationType,
+      _queryType,
+      _dateFrom,
+      _dateTo,
     });
     Router.push(
       { ...link.href, pathname: '/works-context' },
