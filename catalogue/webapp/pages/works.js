@@ -33,15 +33,10 @@ import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
-  query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
-  page: ?number,
-  workType: ?(string[]),
 |};
 
-const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
-  <Works works={works} query={query} page={page} workType={workType} />
-);
+const WorksSearchProvider = ({ works }: Props) => <Works works={works} />;
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -519,9 +514,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   return {
     works: worksOrError,
-    query,
-    page,
-    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
   };
 };
 
