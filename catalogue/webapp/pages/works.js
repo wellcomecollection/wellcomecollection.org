@@ -35,20 +35,23 @@ import { formatDateForApi } from '@weco/common/utils/dates';
 import { capitalize } from '@weco/common/utils/grammar';
 import styled from 'styled-components';
 
-const ProtoTag = styled.div`
-  font-size: 0.5em;
+const ProtoTag = styled.div.attrs(props => ({
+  className: classNames({
+    [font('hnm', 5)]: true,
+  }),
+}))`
   display: inline-block;
-  padding: 0.5em 1em;
-  border: 1px solid #333;
-  background: ${props => (props.isActive ? '#333' : '#fff')};
-  color: ${props => (props.isActive ? '#fff' : '#333')};
+  padding: 4px 10px;
+  border: 1px solid ${props => props.theme.colors.green};
+  background: ${props => (props.isActive ? props.theme.colors.green : '#fff')};
+  color: ${props => (props.isActive ? '#fff' : '')};
   border-radius: 3px;
   transition: all 200ms ease;
-  margin-right: 4px;
-  margin-top: 4px;
+  margin-right: 6px;
+  margin-top: 6px;
 
   &:hover {
-    background: #333;
+    background: ${props => props.theme.colors.green};
     color: #fff;
   }
 `;
@@ -89,10 +92,12 @@ const Works = ({ works }: Props) => {
   };
 
   useEffect(() => {
+    // FIXME: not this
     setIsFilteringBySubcategory(
       Boolean(Router.query._isFilteringBySubcategory)
     );
-  }, []);
+  });
+
   // We have to have this for the initial page load, and have it on the router
   // change as the page doesnt actually re-render when the URL parameters change.
   useEffect(() => {
@@ -200,20 +205,21 @@ const Works = ({ works }: Props) => {
     if (isFiltering) {
       // If you're filtering and about to remove the last filter,
       // we give you all the results for the category
-      if (workType.length === 1 && workType.includes(subcategory.letter)) {
-        console.log(2, subcategory.title);
+      if (isLastFilterItem(workType, subcategory)) {
         return activeWorkType.materialTypes.map(t => t.letter);
       }
       // Otherwise add/remove items to the array
-      console.log(3);
       return workType.includes(subcategory.letter)
         ? workType.filter(t => t !== subcategory.letter)
         : workType.concat(subcategory.letter);
     }
 
-    console.log(4);
     // Not yet filtering, just add the single subcategory
     return [subcategory.letter];
+  }
+
+  function isLastFilterItem(workType, subcategory) {
+    return workType.length === 1 && workType.includes(subcategory.letter);
   }
 
   return (
@@ -322,23 +328,60 @@ const Works = ({ works }: Props) => {
                   compact={false}
                 />
 
-                {workType && (
-                  <NextLink
-                    {...worksUrl({
-                      query,
-                      workType: null,
-                      page: 1,
-                      _dateFrom,
-                      _dateTo,
-                    })}
-                  >
-                    <a>
-                      <ProtoTag isActive>
-                        category: {titleForWorkTypes(workType)} &times;
-                      </ProtoTag>
-                    </a>
-                  </NextLink>
-                )}
+                {/* Tokens */}
+                {/* {workType && (
+                  <>
+                    <NextLink
+                      {...worksUrl({
+                        query,
+                        workType: null,
+                        page: 1,
+                        _dateFrom,
+                        _dateTo,
+                      })}
+                    >
+                      <a>
+                        <ProtoTag isActive>
+                          category: {titleForWorkTypes(workType)} &times;
+                        </ProtoTag>
+                      </a>
+                    </NextLink>
+                    {isFilteringBySubcategory &&
+                      subcategoriesForWorkType(titleForWorkTypes(workType)).map(
+                        subcategory => {
+                          return (
+                            workType.includes(subcategory.letter) && (
+                              <NextLink
+                                {...worksUrl({
+                                  query,
+                                  workType: updateWorkTypes(
+                                    workType,
+                                    subcategory,
+                                    isFilteringBySubcategory
+                                  ),
+                                  page: 1,
+                                  _dateFrom,
+                                  _dateTo,
+                                  _isFilteringBySubcategory: isLastFilterItem(
+                                    workType,
+                                    subcategory
+                                  )
+                                    ? null
+                                    : true,
+                                })}
+                              >
+                                <a>
+                                  <ProtoTag isActive>
+                                    type: {subcategory.title} &times;
+                                  </ProtoTag>
+                                </a>
+                              </NextLink>
+                            )
+                          );
+                        }
+                      )}
+                  </>
+                )} */}
 
                 {works && (
                   <>
@@ -378,6 +421,7 @@ const Works = ({ works }: Props) => {
                     />
                     {workType && (
                       <>
+                        <span className={font('hnm', 5)}>Format: </span>
                         {subcategoriesForWorkType(
                           titleForWorkTypes(workType)
                         ).map(subcategory => (
@@ -393,13 +437,18 @@ const Works = ({ works }: Props) => {
                               page: 1,
                               _dateFrom,
                               _dateTo,
-                              _isFilteringBySubcategory: 'yo',
+                              _isFilteringBySubcategory: isLastFilterItem(
+                                workType,
+                                subcategory
+                              )
+                                ? null
+                                : true,
                             })}
                           >
                             <a>
                               <ProtoTag
                                 isActive={
-                                  !isFilteringBySubcategory &&
+                                  isFilteringBySubcategory &&
                                   workType.includes(subcategory.letter)
                                 }
                               >
