@@ -47,6 +47,14 @@ function getWorkType(workType: ?(string[])) {
   };
 }
 
+function getLocationType(locationType: ?(string[])) {
+  return {
+    'items.locations.locationType': locationType
+      ? locationType.join(',')
+      : undefined,
+  };
+}
+
 export function workUrl({ id }: WorkUrlProps): NextLinkType {
   return {
     href: {
@@ -65,6 +73,7 @@ export function worksUrl({
   query,
   page,
   workType,
+  itemsLocationsLocationType,
   _queryType,
   _dateFrom,
   _dateTo,
@@ -77,6 +86,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
+        ...getLocationType(itemsLocationsLocationType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
@@ -92,6 +102,7 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
+        ...getLocationType(itemsLocationsLocationType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
