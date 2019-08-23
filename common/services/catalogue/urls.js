@@ -76,8 +76,8 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        _dateFrom: _dateFrom,
-        _dateTo: _dateTo,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
       }),
     },
     as: {
@@ -87,8 +87,8 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        _dateFrom: _dateFrom,
-        _dateTo: _dateTo,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
       }),
     },
   };
