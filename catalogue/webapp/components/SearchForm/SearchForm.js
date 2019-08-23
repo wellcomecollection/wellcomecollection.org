@@ -174,6 +174,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
+  const [shouldShowFilters, setShouldShowFilters] = useState(false);
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
@@ -182,10 +183,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   );
 
   useEffect(() => {
-    // FIXME: not this
-    setIsFilteringBySubcategory(
-      Boolean(Router.query._isFilteringBySubcategory)
-    );
+    // FIXME: not any of this
+    setIsFilteringBySubcategory(Router.query._isFilteringBySubcategory);
+    setShouldShowFilters(Boolean(Router.pathname === '/works' && query));
   });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
@@ -317,7 +317,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           }
         </TogglesContext.Consumer>
 
-        {query && (
+        {shouldShowFilters && (
           <>
             <TabNav
               items={[
@@ -375,8 +375,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                         workType,
                         subcategory
                       )
-                        ? null
-                        : true,
+                        ? ''
+                        : 'true',
                     })}
                   >
                     <a>
@@ -412,7 +412,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         <TogglesContext.Consumer>
           {({ showDatesPrototype }) => (
             <>
-              {showDatesPrototype && (
+              {showDatesPrototype && shouldShowFilters && (
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>
                   <div
                     style={{

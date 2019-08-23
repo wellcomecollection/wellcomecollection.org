@@ -64,9 +64,7 @@ const Works = ({ works }: Props) => {
 
   useEffect(() => {
     // FIXME: not this
-    setIsFilteringBySubcategory(
-      Boolean(Router.query._isFilteringBySubcategory)
-    );
+    setIsFilteringBySubcategory(Router.query._isFilteringBySubcategory);
   });
 
   // We have to have this for the initial page load, and have it on the router

@@ -16,7 +16,7 @@ type WorksUrlProps = {|
   _queryType?: ?QueryType,
   _dateFrom?: ?string,
   _dateTo?: ?string,
-  _isFilteringBySubcategory?: ?boolean,
+  _isFilteringBySubcategory?: ?string,
 |};
 
 type WorkUrlProps = {|
@@ -80,7 +80,10 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
-        _isFilteringBySubcategory,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
       }),
     },
     as: {
@@ -92,7 +95,10 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
-        _isFilteringBySubcategory,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
       }),
     },
   };
