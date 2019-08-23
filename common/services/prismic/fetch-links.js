@@ -83,3 +83,11 @@ export const articleFormatsFields = [
   'article-formats.description',
 ];
 export const articlesFields = ['articles.title'];
+export const eventsFields = [
+  'events.title',
+  'events.schedule',
+  'events.interpretations',
+  'events.audiences',
+  'events.series',
+  'events.times',
+];

@@ -19,6 +19,7 @@ import {
   articleSeriesFields,
   articleFormatsFields,
   articlesFields,
+  eventsFields,
 } from './fetch-links';
 import { breakpoints } from '../../utils/breakpoints';
 import {
@@ -361,7 +362,8 @@ export async function getExhibition(
       placesFields,
       exhibitionResourcesFields,
       eventSeriesFields,
-      articlesFields
+      articlesFields,
+      eventsFields
     ),
   });
 
