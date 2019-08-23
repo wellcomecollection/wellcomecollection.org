@@ -80,10 +80,7 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
-        _isFilteringBySubcategory:
-          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
-            ? _isFilteringBySubcategory
-            : undefined,
+        _isFilteringBySubcategory,
       }),
     },
     as: {
@@ -95,10 +92,7 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
-        _isFilteringBySubcategory:
-          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
-            ? _isFilteringBySubcategory
-            : undefined,
+        _isFilteringBySubcategory,
       }),
     },
   };

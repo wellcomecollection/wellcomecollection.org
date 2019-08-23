@@ -2,7 +2,6 @@
 import { useRef, useContext, useState, useEffect } from 'react';
 import Router from 'next/router';
 import NextLink from 'next/link';
-
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -58,7 +57,7 @@ const workTypes = [
   },
 ];
 
-export function subcategoriesForWorkType(title) {
+export function subcategoriesForWorkType(title: string) {
   const category = workTypes.find(wt => wt.title === title);
 
   return (category && category.materialTypes) || [];
@@ -68,10 +67,10 @@ function doArraysOverlap(arr1, arr2) {
   return arr1.some(t => arr2.includes(t));
 }
 
-export function categoryTitleForWorkTypes(workTypesArray) {
+export function categoryTitleForWorkTypes(workTypesArray: any[]) {
   const category = categoryForWorkTypes(workTypesArray);
 
-  return category && category.title;
+  return category ? category.title : '';
 }
 
 function categoryForWorkTypes(workTypesArray) {
@@ -105,6 +104,12 @@ function updateWorkTypes(workType, subcategory, isFiltering) {
 
 function isLastFilterItem(workType, subcategory) {
   return workType.length === 1 && workType.includes(subcategory.letter);
+}
+
+function lettersForParentCategory(workType) {
+  const category = categoryForWorkTypes(workType);
+
+  return category ? category.materialTypes.map(m => m.letter) : [];
 }
 
 const ProtoTag = styled.div.attrs(props => ({
@@ -390,11 +395,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                   <NextLink
                     {...worksUrl({
                       query,
-                      workType: workTypes
-                        .find(
-                          t => t.title === categoryTitleForWorkTypes(workType)
-                        )
-                        .materialTypes.map(m => m.letter),
+                      workType: lettersForParentCategory(workType),
                       page: 1,
                       _dateFrom,
                       _dateTo,
