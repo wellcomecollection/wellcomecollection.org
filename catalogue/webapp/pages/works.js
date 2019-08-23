@@ -187,19 +187,21 @@ const Works = ({ works }: Props) => {
     return arr1.some(t => arr2.includes(t));
   }
 
-  function titleForWorkTypes(workTypesArray) {
-    const category = workTypes.find(wt => {
+  function categoryTitleForWorkTypes(workTypesArray) {
+    return categoryForWorkTypes(workTypesArray).title;
+  }
+
+  function categoryForWorkTypes(workTypesArray) {
+    return workTypes.find(wt => {
       const wtLetters = wt.materialTypes.map(a => a.letter);
 
       return doArraysOverlap(wtLetters, workTypesArray);
     });
-
-    return category && category.title;
   }
 
   function updateWorkTypes(workType, subcategory, isFiltering) {
     const activeWorkType = workTypes.find(
-      t => t.title === titleForWorkTypes(workType)
+      t => t.title === categoryTitleForWorkTypes(workType)
     );
 
     if (isFiltering) {
@@ -347,12 +349,12 @@ const Works = ({ works }: Props) => {
                     >
                       <a>
                         <ProtoTag isActive>
-                          category: {titleForWorkTypes(workType)} &times;
+                          category: {categoryTitleForWorkTypes(workType)} &times;
                         </ProtoTag>
                       </a>
                     </NextLink>
                     {isFilteringBySubcategory &&
-                      subcategoriesForWorkType(titleForWorkTypes(workType)).map(
+                      subcategoriesForWorkType(categoryTitleForWorkTypes(workType)).map(
                         subcategory => {
                           return (
                             workType.includes(subcategory.letter) && (
@@ -428,7 +430,7 @@ const Works = ({ works }: Props) => {
                       <>
                         <span className={font('hnm', 5)}>Format: </span>
                         {subcategoriesForWorkType(
-                          titleForWorkTypes(workType)
+                          categoryTitleForWorkTypes(workType)
                         ).map(subcategory => (
                           <NextLink
                             key={subcategory.title}
@@ -468,7 +470,9 @@ const Works = ({ works }: Props) => {
                               query,
                               workType: workTypes
                                 .find(
-                                  t => t.title === titleForWorkTypes(workType)
+                                  t =>
+                                    t.title ===
+                                    categoryTitleForWorkTypes(workType)
                                 )
                                 .materialTypes.map(m => m.letter),
                               page: 1,
@@ -659,7 +663,7 @@ const Works = ({ works }: Props) => {
                         <span className={font('hnm', 2)}>
                           {isFilteringBySubcategory
                             ? subcategoriesForWorkType(
-                                titleForWorkTypes(workType)
+                                categoryTitleForWorkTypes(workType)
                               )
                                 .filter(subcategory =>
                                   workType.includes(subcategory.letter)
@@ -670,7 +674,7 @@ const Works = ({ works }: Props) => {
                                     {commaOr(index, arr.length)}
                                   </span>
                                 ))
-                            : titleForWorkTypes(workType)}
+                            : categoryTitleForWorkTypes(workType)}
                         </span>
                       </>
                     )}
