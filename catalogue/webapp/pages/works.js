@@ -349,44 +349,45 @@ const Works = ({ works }: Props) => {
                     >
                       <a>
                         <ProtoTag isActive>
-                          category: {categoryTitleForWorkTypes(workType)} &times;
+                          category: {categoryTitleForWorkTypes(workType)}{' '}
+                          &times;
                         </ProtoTag>
                       </a>
                     </NextLink>
                     {isFilteringBySubcategory &&
-                      subcategoriesForWorkType(categoryTitleForWorkTypes(workType)).map(
-                        subcategory => {
-                          return (
-                            workType.includes(subcategory.letter) && (
-                              <NextLink
-                                {...worksUrl({
-                                  query,
-                                  workType: updateWorkTypes(
-                                    workType,
-                                    subcategory,
-                                    isFilteringBySubcategory
-                                  ),
-                                  page: 1,
-                                  _dateFrom,
-                                  _dateTo,
-                                  _isFilteringBySubcategory: isLastFilterItem(
-                                    workType,
-                                    subcategory
-                                  )
-                                    ? null
-                                    : true,
-                                })}
-                              >
-                                <a>
-                                  <ProtoTag isActive>
-                                    type: {subcategory.title} &times;
-                                  </ProtoTag>
-                                </a>
-                              </NextLink>
-                            )
-                          );
-                        }
-                      )}
+                      subcategoriesForWorkType(
+                        categoryTitleForWorkTypes(workType)
+                      ).map(subcategory => {
+                        return (
+                          workType.includes(subcategory.letter) && (
+                            <NextLink
+                              {...worksUrl({
+                                query,
+                                workType: updateWorkTypes(
+                                  workType,
+                                  subcategory,
+                                  isFilteringBySubcategory
+                                ),
+                                page: 1,
+                                _dateFrom,
+                                _dateTo,
+                                _isFilteringBySubcategory: isLastFilterItem(
+                                  workType,
+                                  subcategory
+                                )
+                                  ? null
+                                  : true,
+                              })}
+                            >
+                              <a>
+                                <ProtoTag isActive>
+                                  type: {subcategory.title} &times;
+                                </ProtoTag>
+                              </a>
+                            </NextLink>
+                          )
+                        );
+                      })}
                   </>
                 )} */}
 
