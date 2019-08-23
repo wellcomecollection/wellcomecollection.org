@@ -185,6 +185,8 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       _queryType,
       _dateFrom: inputDateFrom,
       _dateTo: inputDateTo,
+      _isFilteringBySubcategory:
+        typeof window !== 'undefined' && Router.query._isFilteringBySubcategory,
     });
 
     typeof window !== 'undefined' && Router.push(link.href, link.as);

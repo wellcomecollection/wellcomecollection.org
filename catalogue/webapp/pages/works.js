@@ -462,6 +462,25 @@ const Works = ({ works }: Props) => {
                             </a>
                           </NextLink>
                         ))}
+                        {isFilteringBySubcategory && (
+                          <NextLink
+                            {...worksUrl({
+                              query,
+                              workType: workTypes
+                                .find(
+                                  t => t.title === titleForWorkTypes(workType)
+                                )
+                                .materialTypes.map(m => m.letter),
+                              page: 1,
+                              _dateFrom,
+                              _dateTo,
+                            })}
+                          >
+                            <a className={font('hnm', 6)}>
+                              clear format filters
+                            </a>
+                          </NextLink>
+                        )}
                       </>
                     )}
                   </>
