@@ -1,6 +1,8 @@
 // @flow
 import { useRef, useContext, useState, useEffect } from 'react';
 import Router from 'next/router';
+import NextLink from 'next/link';
+
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -10,10 +12,121 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import Space from '@weco/common/views/components/styled/Space';
-import DateSlider from '@weco/catalogue/components/DateSlider/DateSlider';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import { capitalize } from '@weco/common/utils/grammar';
 
+const workTypes = [
+  {
+    title: 'texts',
+    materialTypes: [
+      { title: 'books', letter: 'a' },
+      { title: 'e-books', letter: 'v' },
+      { title: 'manuscripts, asian', letter: 'b' },
+      { title: 'e-manuscripts, asian', letter: 'x' },
+      { title: 'journals', letter: 'd' },
+      { title: 'e-journals', letter: 'j' },
+      { title: 'student dissertations', letter: 'w' },
+      { title: 'music', letter: 'c' },
+    ],
+  },
+  {
+    title: 'visuals',
+    materialTypes: [
+      { title: 'pictures', letter: 'k' },
+      { title: 'digital images', letter: 'q' },
+      { title: 'maps', letter: 'e' },
+      { title: 'ephemera', letter: 'l' },
+    ],
+  },
+  {
+    title: 'media',
+    materialTypes: [
+      { title: 'e-videos', letter: 'f' },
+      { title: 'e-sound', letter: 's' },
+      { title: 'videorecording', letter: 'g' },
+      { title: 'sound', letter: 'i' },
+      { title: 'cinefilm', letter: 'n' },
+    ],
+  },
+  {
+    title: 'objects',
+    materialTypes: [
+      { title: '3D objects', letter: 'r' },
+      { title: 'mixed materials', letter: 'p' },
+      { title: 'CD-ROMs', letter: 'm' },
+    ],
+  },
+];
+
+export function subcategoriesForWorkType(title) {
+  const category = workTypes.find(wt => wt.title === title);
+
+  return (category && category.materialTypes) || [];
+}
+
+function doArraysOverlap(arr1, arr2) {
+  return arr1.some(t => arr2.includes(t));
+}
+
+export function categoryTitleForWorkTypes(workTypesArray) {
+  const category = categoryForWorkTypes(workTypesArray);
+
+  return category && category.title;
+}
+
+function categoryForWorkTypes(workTypesArray) {
+  return workTypes.find(wt => {
+    const wtLetters = wt.materialTypes.map(a => a.letter);
+
+    return doArraysOverlap(wtLetters, workTypesArray);
+  });
+}
+
+function updateWorkTypes(workType, subcategory, isFiltering) {
+  const activeWorkType = workTypes.find(
+    t => t.title === categoryTitleForWorkTypes(workType)
+  );
+
+  if (isFiltering) {
+    // If you're filtering and about to remove the last filter,
+    // we give you all the results for the category
+    if (isLastFilterItem(workType, subcategory)) {
+      return activeWorkType && activeWorkType.materialTypes.map(t => t.letter);
+    }
+    // Otherwise add/remove items to the array
+    return workType.includes(subcategory.letter)
+      ? workType.filter(t => t !== subcategory.letter)
+      : workType.concat(subcategory.letter);
+  }
+
+  // Not yet filtering, just add the single subcategory
+  return [subcategory.letter];
+}
+
+function isLastFilterItem(workType, subcategory) {
+  return workType.length === 1 && workType.includes(subcategory.letter);
+}
+
+const ProtoTag = styled.div.attrs(props => ({
+  className: classNames({
+    [font('hnm', 5)]: true,
+  }),
+}))`
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid ${props => props.theme.colors.green};
+  background: ${props => (props.isActive ? props.theme.colors.green : '#fff')};
+  color: ${props => (props.isActive ? '#fff' : '')};
+  border-radius: 3px;
+  transition: all 200ms ease;
+  margin-right: 6px;
+  margin-top: 6px;
+
+  &:hover {
+    background: ${props => props.theme.colors.green};
+    color: #fff;
+  }
+`;
 type Props = {|
   ariaDescribedBy: string,
   compact: boolean,
@@ -43,70 +156,6 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
-// For search term "Darwin"
-const twentyYearRange = [
-  {
-    from: '1780',
-    to: '1800',
-    results: 22,
-  },
-  {
-    from: '1800',
-    to: '1820',
-    results: 14,
-  },
-  {
-    from: '1820',
-    to: '1840',
-    results: 6,
-  },
-  {
-    from: '1840',
-    to: '1860',
-    results: 7,
-  },
-  {
-    from: '1860',
-    to: '1880',
-    results: 61,
-  },
-  {
-    from: '1880',
-    to: '1900',
-    results: 66,
-  },
-  {
-    from: '1900',
-    to: '1920',
-    results: 33,
-  },
-  {
-    from: '1920',
-    to: '1940',
-    results: 11,
-  },
-  {
-    from: '1940',
-    to: '1960',
-    results: 6,
-  },
-  {
-    from: '1960',
-    to: '1980',
-    results: 8,
-  },
-  {
-    from: '1980',
-    to: '2000',
-    results: 6,
-  },
-  {
-    from: '2000',
-    to: '2020',
-    results: 3,
-  },
-];
-
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const {
     query,
@@ -123,34 +172,15 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
-  const [showSlider, setShowSlider] = useState(true);
+  const [isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
+    false
+  );
 
-  const dateRangeItems = twentyYearRange.map(range => {
-    return {
-      text: `${range.from}-${range.to} (${range.results})`,
-      link: worksUrl({
-        query,
-        workType,
-        page: 1,
-        _dateFrom: `${range.from}-01-01`,
-        _dateTo: `${range.to}-01-01`,
-      }),
-      selected: !!(
-        _dateFrom &&
-        _dateFrom === range.from &&
-        _dateTo &&
-        _dateTo === range.to
-      ),
-    };
-  });
-  dateRangeItems.push({
-    text: `unknown (299)`,
-    link: worksUrl({
-      query,
-      workType,
-      page: 1,
-    }),
-    selected: false,
+  useEffect(() => {
+    // FIXME: not this
+    setIsFilteringBySubcategory(
+      Boolean(Router.query._isFilteringBySubcategory)
+    );
   });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
@@ -170,12 +200,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       setInputDateTo(_dateTo);
     }
   }, [query, _dateFrom, _dateTo]);
-
-  useEffect(() => {
-    if (inputDateFrom !== _dateFrom || inputDateTo !== _dateTo) {
-      updateUrl();
-    }
-  }, [inputDateFrom, inputDateTo]);
 
   function updateUrl() {
     const link = worksUrl({
@@ -288,89 +312,182 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           }
         </TogglesContext.Consumer>
 
+        {query && (
+          <>
+            <TabNav
+              items={[
+                {
+                  text: 'Everything',
+                  link: worksUrl({
+                    query,
+                    workType: null,
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                  }),
+                  selected: !workType,
+                },
+              ].concat(
+                workTypes.map(t => {
+                  return {
+                    text: capitalize(t.title),
+                    link: worksUrl({
+                      query,
+                      workType: t.materialTypes.map(m => m.letter),
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                    }),
+                    selected:
+                      !!workType &&
+                      doArraysOverlap(
+                        t.materialTypes.map(m => m.letter),
+                        workType
+                      ),
+                  };
+                })
+              )}
+            />
+            {workType && (
+              <>
+                <span className={font('hnm', 5)}>Format </span>
+                {subcategoriesForWorkType(
+                  categoryTitleForWorkTypes(workType)
+                ).map(subcategory => (
+                  <NextLink
+                    key={subcategory.title}
+                    {...worksUrl({
+                      query,
+                      workType: updateWorkTypes(
+                        workType,
+                        subcategory,
+                        isFilteringBySubcategory
+                      ),
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                      _isFilteringBySubcategory: isLastFilterItem(
+                        workType,
+                        subcategory
+                      )
+                        ? null
+                        : true,
+                    })}
+                  >
+                    <a>
+                      <ProtoTag
+                        isActive={
+                          isFilteringBySubcategory &&
+                          workType.includes(subcategory.letter)
+                        }
+                      >
+                        {subcategory.title}
+                      </ProtoTag>
+                    </a>
+                  </NextLink>
+                ))}
+                {isFilteringBySubcategory && (
+                  <NextLink
+                    {...worksUrl({
+                      query,
+                      workType: workTypes
+                        .find(
+                          t => t.title === categoryTitleForWorkTypes(workType)
+                        )
+                        .materialTypes.map(m => m.letter),
+                      page: 1,
+                      _dateFrom,
+                      _dateTo,
+                    })}
+                  >
+                    <a className={font('hnm', 6)}>clear format filters</a>
+                  </NextLink>
+                )}
+              </>
+            )}
+          </>
+        )}
+
         <TogglesContext.Consumer>
-          {({
-            showDatesPrototype,
-            showDatesSliderPrototype,
-            showDatesAggregatePrototype,
-          }) => (
+          {({ showDatesPrototype }) => (
             <>
-              {(showDatesPrototype || showDatesSliderPrototype) &&
-                !showDatesAggregatePrototype && (
-                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                    <div
-                      style={{
-                        display: showDatesSliderPrototype ? 'none' : 'block',
-                      }}
-                    >
-                      <Space v={{ size: 's', properties: ['margin-top'] }}>
-                        <label>
-                          from:{' '}
-                          <input
-                            value={inputDateFrom || ''}
-                            onChange={event => {
-                              setInputDateFrom(`${event.currentTarget.value}`);
-                            }}
-                            style={{ width: '8em', padding: '0.5em' }}
-                          />
-                        </label>{' '}
-                        <label>
-                          to:{' '}
-                          <input
-                            value={inputDateTo || ''}
-                            onChange={event => {
-                              setInputDateTo(`${event.currentTarget.value}`);
-                            }}
-                            style={{ width: '8em', padding: '0.5em' }}
-                          />
-                        </label>
-                      </Space>
-                      <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                        <Button
-                          type="primary"
-                          text="Clear dates"
-                          clickHandler={() => {
-                            setInputDateFrom('');
-                            setInputDateTo('');
+              {showDatesPrototype && (
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                  <div
+                    style={{
+                      display: 'block',
+                    }}
+                  >
+                    <Space v={{ size: 's', properties: ['margin-top'] }}>
+                      <span className={font('hnm', 5)}>Between </span>
+                      <label>
+                        <span className="visually-hidden">from: </span>
+                        <input
+                          placeholder={'YYYY'}
+                          value={inputDateFrom || ''}
+                          onChange={event => {
+                            setInputDateFrom(`${event.currentTarget.value}`);
+                          }}
+                          style={{
+                            width: '3.5em',
+                            padding: '0.3em',
+                            border: '0',
+                            borderBottom: '2px solid #333',
+                            background: 'transparent',
                           }}
                         />
-                      </Space>
-                    </div>
-                    {showDatesSliderPrototype && !showDatesAggregatePrototype && (
-                      <>
-                        {showSlider && (
-                          <DateSlider
-                            startValues={{
-                              to: inputDateTo,
-                              from: inputDateFrom,
-                            }}
-                            updateFrom={setInputDateFrom}
-                            updateTo={setInputDateTo}
-                          />
-                        )}
-                        <button
-                          type="button"
-                          className="plain-button underline-on-hover no-visible-focus"
-                          onClick={() => {
-                            setShowSlider(!showSlider);
-                            if (showSlider) {
-                              setInputDateFrom('');
-                              setInputDateTo('');
-                            }
+                      </label>{' '}
+                      <span className={font('hnm', 5)}>and </span>
+                      <label>
+                        <span className={'visually-hidden'}>to: </span>
+                        <input
+                          placeholder={'YYYY'}
+                          value={inputDateTo || ''}
+                          onChange={event => {
+                            setInputDateTo(`${event.currentTarget.value}`);
                           }}
+                          style={{
+                            width: '3.5em',
+                            padding: '0.3em',
+                            border: '0',
+                            borderBottom: '2px solid #333',
+                            background: 'transparent',
+                          }}
+                        />
+                      </label>
+                      <Space
+                        as="span"
+                        h={{ size: 'm', properties: ['margin-left'] }}
+                      >
+                        <button
+                          className={'btn btn--tertiary font-hnm font-size-5'}
                         >
-                          {showSlider ? 'Clear dates' : 'Show date filter'}
+                          set dates
                         </button>
-                      </>
-                    )}
-                  </Space>
-                )}
-              {showDatesAggregatePrototype &&
-                (query &&
-                  inputQuery &&
-                  inputQuery.toLowerCase() === 'darwin') && (
-                  <TabNav items={dateRangeItems} />
-                )}
+                      </Space>
+                      {(_dateFrom || _dateTo) && (
+                        <NextLink
+                          {...worksUrl({
+                            query,
+                            workType,
+                            page: 1,
+                            _dateFrom: null,
+                            _dateTo: null,
+                            _isFilteringBySubcategory: isFilteringBySubcategory,
+                          })}
+                        >
+                          <a
+                            className={font('hnm', 6)}
+                            style={{ marginLeft: '6px' }}
+                          >
+                            clear date filters
+                          </a>
+                        </NextLink>
+                      )}
+                    </Space>
+                  </div>
+                </Space>
+              )}
             </>
           )}
         </TogglesContext.Consumer>

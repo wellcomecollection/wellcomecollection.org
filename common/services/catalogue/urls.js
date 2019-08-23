@@ -16,7 +16,7 @@ type WorksUrlProps = {|
   _queryType?: ?QueryType,
   _dateFrom?: ?string,
   _dateTo?: ?string,
-  _isFilteringBySubcategory?: ?string,
+  _isFilteringBySubcategory?: ?boolean,
 |};
 
 type WorkUrlProps = {|
@@ -78,9 +78,12 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        _dateFrom: _dateFrom,
-        _dateTo: _dateTo,
-        _isFilteringBySubcategory: _isFilteringBySubcategory,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
       }),
     },
     as: {
@@ -90,9 +93,12 @@ export function worksUrl({
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        _dateFrom: _dateFrom,
-        _dateTo: _dateTo,
-        _isFilteringBySubcategory: _isFilteringBySubcategory,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
       }),
     },
   };

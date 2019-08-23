@@ -6,7 +6,6 @@ import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
 import Space, { type SpaceComponentProps } from '../styled/Space';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type SelectableTextLink = {|
   ...TextLink,
@@ -80,17 +79,13 @@ const NavItem = ({
       })}
       onClick={onClick}
     >
-      <TogglesContext.Consumer>
-        {({ showDatesAggregatePrototype }) => (
-          <NavItemInner
-            as="span"
-            h={{ size: 'm', properties: ['margin-right'] }}
-            selected={selected}
-          >
-            {text}
-          </NavItemInner>
-        )}
-      </TogglesContext.Consumer>
+      <NavItemInner
+        as="span"
+        h={{ size: 'm', properties: ['margin-right'] }}
+        selected={selected}
+      >
+        {text}
+      </NavItemInner>
     </Space>
   </NextLink>
 );

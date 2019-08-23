@@ -3,7 +3,6 @@ import { type Context } from 'next';
 import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
@@ -18,7 +17,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
   trackSearch,
@@ -27,46 +25,19 @@ import {
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
-import SearchForm from '../components/SearchForm/SearchForm';
+import SearchForm, {
+  subcategoriesForWorkType,
+  categoryTitleForWorkTypes,
+} from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
-import { capitalize } from '@weco/common/utils/grammar';
-import styled from 'styled-components';
-
-const ProtoTag = styled.div.attrs(props => ({
-  className: classNames({
-    [font('hnm', 5)]: true,
-  }),
-}))`
-  display: inline-block;
-  padding: 4px 10px;
-  border: 1px solid ${props => props.theme.colors.green};
-  background: ${props => (props.isActive ? props.theme.colors.green : '#fff')};
-  color: ${props => (props.isActive ? '#fff' : '')};
-  border-radius: 3px;
-  transition: all 200ms ease;
-  margin-right: 6px;
-  margin-top: 6px;
-
-  &:hover {
-    background: ${props => props.theme.colors.green};
-    color: #fff;
-  }
-`;
 
 type Props = {|
-  query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
-  page: ?number,
-  workType: ?(string[]),
   _isFilteringBySubcategory?: ?string,
 |};
-
-const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
-  <Works works={works} query={query} page={page} workType={workType} />
-);
 
 const Works = ({ works }: Props) => {
   const [isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
@@ -132,96 +103,6 @@ const Works = ({ works }: Props) => {
         statusCode={works.httpStatus}
       />
     );
-  }
-
-  const workTypes = [
-    {
-      title: 'texts',
-      materialTypes: [
-        { title: 'books', letter: 'a' },
-        { title: 'e-books', letter: 'v' },
-        { title: 'manuscripts, asian', letter: 'b' },
-        { title: 'e-manuscripts, asian', letter: 'x' },
-        { title: 'journals', letter: 'd' },
-        { title: 'e-journals', letter: 'j' },
-        { title: 'student dissertations', letter: 'w' },
-        { title: 'music', letter: 'c' },
-      ],
-    },
-    {
-      title: 'visuals',
-      materialTypes: [
-        { title: 'pictures', letter: 'k' },
-        { title: 'digital images', letter: 'q' },
-        { title: 'maps', letter: 'e' },
-        { title: 'ephemera', letter: 'l' },
-      ],
-    },
-    {
-      title: 'media',
-      materialTypes: [
-        { title: 'e-videos', letter: 'f' },
-        { title: 'e-sound', letter: 's' },
-        { title: 'videorecording', letter: 'g' },
-        { title: 'sound', letter: 'i' },
-        { title: 'cinefilm', letter: 'n' },
-      ],
-    },
-    {
-      title: 'objects',
-      materialTypes: [
-        { title: '3D objects', letter: 'r' },
-        { title: 'mixed materials', letter: 'p' },
-        { title: 'CD-ROMs', letter: 'm' },
-      ],
-    },
-  ];
-
-  function subcategoriesForWorkType(title) {
-    const category = workTypes.find(wt => wt.title === title);
-
-    return category && category.materialTypes;
-  }
-
-  function doArraysOverlap(arr1, arr2) {
-    return arr1.some(t => arr2.includes(t));
-  }
-
-  function categoryTitleForWorkTypes(workTypesArray) {
-    return categoryForWorkTypes(workTypesArray).title;
-  }
-
-  function categoryForWorkTypes(workTypesArray) {
-    return workTypes.find(wt => {
-      const wtLetters = wt.materialTypes.map(a => a.letter);
-
-      return doArraysOverlap(wtLetters, workTypesArray);
-    });
-  }
-
-  function updateWorkTypes(workType, subcategory, isFiltering) {
-    const activeWorkType = workTypes.find(
-      t => t.title === categoryTitleForWorkTypes(workType)
-    );
-
-    if (isFiltering) {
-      // If you're filtering and about to remove the last filter,
-      // we give you all the results for the category
-      if (isLastFilterItem(workType, subcategory)) {
-        return activeWorkType.materialTypes.map(t => t.letter);
-      }
-      // Otherwise add/remove items to the array
-      return workType.includes(subcategory.letter)
-        ? workType.filter(t => t !== subcategory.letter)
-        : workType.concat(subcategory.letter);
-    }
-
-    // Not yet filtering, just add the single subcategory
-    return [subcategory.letter];
-  }
-
-  function isLastFilterItem(workType, subcategory) {
-    return workType.length === 1 && workType.includes(subcategory.letter);
   }
 
   function commaOr(index, arrayLength) {
@@ -334,162 +215,6 @@ const Works = ({ works }: Props) => {
                   ariaDescribedBy="search-form-description"
                   compact={false}
                 />
-
-                {/* Tokens */}
-                {/* {workType && (
-                  <>
-                    <NextLink
-                      {...worksUrl({
-                        query,
-                        workType: null,
-                        page: 1,
-                        _dateFrom,
-                        _dateTo,
-                      })}
-                    >
-                      <a>
-                        <ProtoTag isActive>
-                          category: {categoryTitleForWorkTypes(workType)}{' '}
-                          &times;
-                        </ProtoTag>
-                      </a>
-                    </NextLink>
-                    {isFilteringBySubcategory &&
-                      subcategoriesForWorkType(
-                        categoryTitleForWorkTypes(workType)
-                      ).map(subcategory => {
-                        return (
-                          workType.includes(subcategory.letter) && (
-                            <NextLink
-                              {...worksUrl({
-                                query,
-                                workType: updateWorkTypes(
-                                  workType,
-                                  subcategory,
-                                  isFilteringBySubcategory
-                                ),
-                                page: 1,
-                                _dateFrom,
-                                _dateTo,
-                                _isFilteringBySubcategory: isLastFilterItem(
-                                  workType,
-                                  subcategory
-                                )
-                                  ? null
-                                  : true,
-                              })}
-                            >
-                              <a>
-                                <ProtoTag isActive>
-                                  type: {subcategory.title} &times;
-                                </ProtoTag>
-                              </a>
-                            </NextLink>
-                          )
-                        );
-                      })}
-                  </>
-                )} */}
-
-                {works && (
-                  <>
-                    <TabNav
-                      items={[
-                        {
-                          text: 'Everything',
-                          link: worksUrl({
-                            query,
-                            workType: null,
-                            page: 1,
-                            _dateFrom,
-                            _dateTo,
-                          }),
-                          selected: !workType,
-                        },
-                      ].concat(
-                        workTypes.map(t => {
-                          return {
-                            text: capitalize(t.title),
-                            link: worksUrl({
-                              query,
-                              workType: t.materialTypes.map(m => m.letter),
-                              page: 1,
-                              _dateFrom,
-                              _dateTo,
-                            }),
-                            selected:
-                              !!workType &&
-                              doArraysOverlap(
-                                t.materialTypes.map(m => m.letter),
-                                workType
-                              ),
-                          };
-                        })
-                      )}
-                    />
-                    {workType && (
-                      <>
-                        <span className={font('hnm', 5)}>Format: </span>
-                        {subcategoriesForWorkType(
-                          categoryTitleForWorkTypes(workType)
-                        ).map(subcategory => (
-                          <NextLink
-                            key={subcategory.title}
-                            {...worksUrl({
-                              query,
-                              workType: updateWorkTypes(
-                                workType,
-                                subcategory,
-                                isFilteringBySubcategory
-                              ),
-                              page: 1,
-                              _dateFrom,
-                              _dateTo,
-                              _isFilteringBySubcategory: isLastFilterItem(
-                                workType,
-                                subcategory
-                              )
-                                ? null
-                                : true,
-                            })}
-                          >
-                            <a>
-                              <ProtoTag
-                                isActive={
-                                  isFilteringBySubcategory &&
-                                  workType.includes(subcategory.letter)
-                                }
-                              >
-                                {subcategory.title}
-                              </ProtoTag>
-                            </a>
-                          </NextLink>
-                        ))}
-                        {isFilteringBySubcategory && (
-                          <NextLink
-                            {...worksUrl({
-                              query,
-                              workType: workTypes
-                                .find(
-                                  t =>
-                                    t.title ===
-                                    categoryTitleForWorkTypes(workType)
-                                )
-                                .materialTypes.map(m => m.letter),
-                              page: 1,
-                              _dateFrom,
-                              _dateTo,
-                            })}
-                          >
-                            <a className={font('hnm', 6)}>
-                              clear format filters
-                            </a>
-                          </NextLink>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
               </div>
             </div>
           </div>
@@ -694,7 +419,7 @@ const Works = ({ works }: Props) => {
   );
 };
 
-WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
+Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const _dateFrom = formatDateForApi(ctx.query._dateFrom);
   const _dateTo = formatDateForApi(ctx.query._dateTo);
@@ -706,7 +431,6 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
     showDatesPrototype,
-    showDatesSliderPrototype,
     unfilteredSearchResults,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
@@ -735,7 +459,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const isDatesPrototype = showDatesPrototype || showDatesSliderPrototype;
+  const isDatesPrototype = showDatesPrototype;
   const shouldGetWorks = isDatesPrototype
     ? filters._dateTo || filters._dateFrom || (query && query !== '')
     : query && query !== '';
@@ -751,10 +475,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   return {
     works: worksOrError,
-    query,
-    page,
-    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
   };
 };
 
-export default WorksSearchProvider;
+export default Works;
