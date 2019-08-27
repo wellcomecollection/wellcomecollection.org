@@ -169,6 +169,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     setQueryType,
     _dateFrom,
     _dateTo,
+    _isFilteringBySubcategory,
   } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
@@ -178,13 +179,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
-  const [isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
-    false
-  );
 
   useEffect(() => {
     // FIXME: not any of this
-    setIsFilteringBySubcategory(Router.query._isFilteringBySubcategory);
     setShouldShowFilters(Boolean(Router.pathname === '/works' && query));
   });
 
@@ -214,8 +211,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       _queryType,
       _dateFrom: inputDateFrom,
       _dateTo: inputDateTo,
-      _isFilteringBySubcategory:
-        typeof window !== 'undefined' && Router.query._isFilteringBySubcategory,
+      _isFilteringBySubcategory,
     });
 
     typeof window !== 'undefined' && Router.push(link.href, link.as);
@@ -366,7 +362,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                       workType: updateWorkTypes(
                         workType,
                         subcategory,
-                        isFilteringBySubcategory
+                        _isFilteringBySubcategory
                       ),
                       page: 1,
                       _dateFrom,
@@ -382,7 +378,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     <a>
                       <ProtoTag
                         isActive={
-                          isFilteringBySubcategory &&
+                          _isFilteringBySubcategory &&
                           workType.includes(subcategory.letter)
                         }
                       >
@@ -391,7 +387,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                     </a>
                   </NextLink>
                 ))}
-                {isFilteringBySubcategory && (
+                {_isFilteringBySubcategory && (
                   <NextLink
                     {...worksUrl({
                       query,
@@ -474,7 +470,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                             page: 1,
                             _dateFrom: null,
                             _dateTo: null,
-                            _isFilteringBySubcategory: isFilteringBySubcategory,
+                            _isFilteringBySubcategory,
                           })}
                         >
                           <a

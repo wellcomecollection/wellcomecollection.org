@@ -36,17 +36,19 @@ import { formatDateForApi } from '@weco/common/utils/dates';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
-  _isFilteringBySubcategory?: ?string,
 |};
 
 const Works = ({ works }: Props) => {
-  const [isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
-    false
-  );
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    page,
+    workType,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
     if (query && query !== '') {
       const event = {
@@ -61,11 +63,6 @@ const Works = ({ works }: Props) => {
       trackSearch(event);
     }
   };
-
-  useEffect(() => {
-    // FIXME: not this
-    setIsFilteringBySubcategory(Router.query._isFilteringBySubcategory);
-  });
 
   // We have to have this for the initial page load, and have it on the router
   // change as the page doesnt actually re-render when the URL parameters change.
@@ -385,7 +382,7 @@ const Works = ({ works }: Props) => {
                         {' '}
                         in{' '}
                         <span className={font('hnm', 2)}>
-                          {isFilteringBySubcategory
+                          {_isFilteringBySubcategory
                             ? subcategoriesForWorkType(
                                 categoryTitleForWorkTypes(workType)
                               )

@@ -1,22 +1,22 @@
 // @flow
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import NextLink from 'next/link';
-import Router from 'next/router';
 import CatalogueSearchContext from '../../components/CatalogueSearchContext/CatalogueSearchContext';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
 
 const BackToResults = () => {
-  const { query, workType, page, _queryType, _dateFrom, _dateTo } = useContext(
-    CatalogueSearchContext
-  );
-  const [isFilteringBySubcategory, setIsFilteringBySubcategory] = useState('');
+  const {
+    query,
+    workType,
+    page,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
 
-  useEffect(() => {
-    // FIXME: no!
-    setIsFilteringBySubcategory(Router.query._isFilteringBySubcategory);
-  }, []);
   const link = worksUrl({
     query,
     page,
@@ -24,7 +24,7 @@ const BackToResults = () => {
     _queryType,
     _dateFrom,
     _dateTo,
-    _isFilteringBySubcategory: isFilteringBySubcategory,
+    _isFilteringBySubcategory,
   });
   return (
     <NextLink {...link}>
