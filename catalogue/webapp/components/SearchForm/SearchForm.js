@@ -179,6 +179,10 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const searchInput = useRef(null);
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
+  const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
+    false
+  );
 
   useEffect(() => {
     // FIXME: not any of this
@@ -426,7 +430,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                             setInputDateFrom(`${event.currentTarget.value}`);
                           }}
                           style={{
-                            width: '3.5em',
+                            width: '3.3em',
                             padding: '0.3em',
                             border: '0',
                             borderBottom: '2px solid #333',
@@ -444,7 +448,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
                             setInputDateTo(`${event.currentTarget.value}`);
                           }}
                           style={{
-                            width: '3.5em',
+                            width: '3.3em',
                             padding: '0.3em',
                             border: '0',
                             borderBottom: '2px solid #333',
@@ -488,6 +492,41 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
             </>
           )}
         </TogglesContext.Consumer>
+        {shouldShowFilters && (
+          <div>
+            <span className={font('hnm', 5)}>Availability: </span>
+            <ProtoTag
+              onClick={() => {
+                setFakeIsAvailableOnline(!fakeIsAvailableOnline);
+              }}
+              isActive={fakeIsAvailableOnline}
+              style={{ cursor: 'pointer' }}
+            >
+              Online
+            </ProtoTag>
+            <ProtoTag
+              onClick={() => {
+                setFakeIsAvailableInLibrary(!fakeIsAvailableInLibrary);
+              }}
+              isActive={fakeIsAvailableInLibrary}
+              style={{ cursor: 'pointer' }}
+            >
+              In library
+            </ProtoTag>
+            {(fakeIsAvailableInLibrary || fakeIsAvailableOnline) && (
+              <a
+                onClick={() => {
+                  setFakeIsAvailableOnline(false);
+                  setFakeIsAvailableInLibrary(false);
+                }}
+                className={font('hnm', 6)}
+                style={{ marginLeft: '6px', cursor: 'pointer' }}
+              >
+                clear availablity filters
+              </a>
+            )}
+          </div>
+        )}
       </form>
     </>
   );
