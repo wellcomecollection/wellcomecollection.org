@@ -25,10 +25,7 @@ import {
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
-import SearchForm, {
-  subcategoriesForWorkType,
-  categoryTitleForWorkTypes,
-} from '../components/SearchForm/SearchForm';
+import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
@@ -98,11 +95,6 @@ const Works = ({ works }: Props) => {
         statusCode={works.httpStatus}
       />
     );
-  }
-
-  function commaOr(index, arrayLength) {
-    if (index === arrayLength - 2) return ' or ';
-    if (index !== arrayLength - 1) return ', ';
   }
 
   return (
@@ -377,30 +369,11 @@ const Works = ({ works }: Props) => {
                     >
                       {query}
                     </span>
-                    {workType && (
+                    {_isFilteringBySubcategory && (
                       <>
                         {' '}
-                        in{' '}
-                        <span className={font('hnm', 2)}>
-                          {_isFilteringBySubcategory
-                            ? subcategoriesForWorkType(
-                                categoryTitleForWorkTypes(workType)
-                              )
-                                .filter(subcategory =>
-                                  workType.includes(subcategory.letter)
-                                )
-                                .map((s, index, arr) => (
-                                  <span key={s.letter}>
-                                    {s.title}
-                                    {commaOr(index, arr.length)}
-                                  </span>
-                                ))
-                            : categoryTitleForWorkTypes(workType)}
-                        </span>
+                        <span>with the filters you have selected</span>
                       </>
-                    )}
-                    {(_dateFrom || _dateTo) && (
-                      <> within the date range provided</>
                     )}
                     . Please try again.
                   </p>
