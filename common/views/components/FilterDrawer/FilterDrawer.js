@@ -50,11 +50,9 @@ const workTypes = [
   },
 ];
 
-const allWorkTypes = () => {
-  return workTypes
-    .map(t => t.materialTypes)
-    .reduce((acc, curr) => acc.concat(curr), []);
-};
+const allWorkTypes = workTypes
+  .map(t => t.materialTypes)
+  .reduce((acc, curr) => acc.concat(curr), []);
 
 function updateWorkTypes(workType, subcategory, isFiltering) {
   if (isFiltering) {
@@ -104,7 +102,7 @@ function FilterDrawer() {
 
   return (
     <div>
-      <ul className="no-margin no-padding">
+      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <ProtoTag
           as="button"
           type="button"
@@ -140,7 +138,7 @@ function FilterDrawer() {
           <Icon name="chevron" />
           Availability
         </ProtoTag>
-      </ul>
+      </Space>
       <div className={`${activeDrawer !== 'date' && 'is-hidden'}`}>
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <div
@@ -222,14 +220,14 @@ function FilterDrawer() {
       </div>
       <div className={`${activeDrawer !== 'format' && 'is-hidden'}`}>
         <>
-          {allWorkTypes().map(subcategory => (
+          {allWorkTypes.map(subcategory => (
             <NextLink
               key={subcategory.title}
               passHref
               {...worksUrl({
                 query,
                 workType: updateWorkTypes(
-                  workType || allWorkTypes(),
+                  workType || allWorkTypes,
                   subcategory,
                   _isFilteringBySubcategory
                 ),
@@ -237,7 +235,7 @@ function FilterDrawer() {
                 _dateFrom,
                 _dateTo,
                 _isFilteringBySubcategory: isLastFilterItem(
-                  workType || allWorkTypes(),
+                  workType || allWorkTypes,
                   subcategory
                 )
                   ? ''

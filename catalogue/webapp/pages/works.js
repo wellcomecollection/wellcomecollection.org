@@ -369,7 +369,7 @@ const Works = ({ works }: Props) => {
                     >
                       {query}
                     </span>
-                    {_isFilteringBySubcategory && (
+                    {(_isFilteringBySubcategory || _dateFrom || _dateTo) && (
                       <>
                         {' '}
                         <span>with the filters you have selected</span>
