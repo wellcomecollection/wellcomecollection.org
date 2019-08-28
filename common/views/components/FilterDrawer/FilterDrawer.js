@@ -102,7 +102,43 @@ function FilterDrawer() {
 
   return (
     <div>
-      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+      <div className="tokens" style={{ minHeight: '50px' }}>
+        {allWorkTypes.map(subcategory => (
+          <>
+            {_isFilteringBySubcategory &&
+              workType &&
+              workType.includes(subcategory.letter) && (
+                <NextLink
+                  key={subcategory.title}
+                  passHref
+                  {...worksUrl({
+                    query,
+                    workType: updateWorkTypes(
+                      workType || allWorkTypes,
+                      subcategory,
+                      _isFilteringBySubcategory
+                    ),
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                    _isFilteringBySubcategory: isLastFilterItem(
+                      workType || allWorkTypes,
+                      subcategory
+                    )
+                      ? ''
+                      : 'true',
+                  })}
+                >
+                  <ProtoTag as="a" isActive small>
+                    {subcategory.title} &times;
+                  </ProtoTag>
+                </NextLink>
+              )}
+          </>
+        ))}
+      </div>
+
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
         <ProtoTag
           as="button"
           type="button"

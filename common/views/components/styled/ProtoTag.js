@@ -3,12 +3,12 @@ import { font, classNames } from '../../../utils/classnames';
 
 const ProtoTag = styled.div.attrs(props => ({
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnm', props.small ? 6 : 5)]: true,
   }),
 }))`
   cursor: pointer;
   display: inline-flex;
-  padding: 4px 10px;
+  padding: ${props => (props.small ? '2px 7px' : '4px 10px')};
   border: 1px solid ${props => props.theme.colors.green};
   background: ${props => (props.isActive ? props.theme.colors.green : '#fff')};
   color: ${props => (props.isActive ? '#fff' : '')};
