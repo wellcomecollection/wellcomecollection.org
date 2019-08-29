@@ -102,43 +102,12 @@ function FilterDrawer() {
 
   return (
     <div>
-      <div className="tokens" style={{ minHeight: '50px' }}>
-        {allWorkTypes.map(subcategory => (
-          <>
-            {_isFilteringBySubcategory &&
-              workType &&
-              workType.includes(subcategory.letter) && (
-                <NextLink
-                  key={subcategory.title}
-                  passHref
-                  {...worksUrl({
-                    query,
-                    workType: updateWorkTypes(
-                      workType || allWorkTypes,
-                      subcategory,
-                      _isFilteringBySubcategory
-                    ),
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                    _isFilteringBySubcategory: isLastFilterItem(
-                      workType || allWorkTypes,
-                      subcategory
-                    )
-                      ? ''
-                      : 'true',
-                  })}
-                >
-                  <ProtoTag as="a" isActive small>
-                    {subcategory.title} &times;
-                  </ProtoTag>
-                </NextLink>
-              )}
-          </>
-        ))}
-      </div>
-
-      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-top', 'margin-bottom'],
+        }}
+      >
         <ProtoTag
           as="button"
           type="button"
@@ -148,7 +117,7 @@ function FilterDrawer() {
           }}
         >
           <Icon name="chevron" />
-          Date
+          Dates
         </ProtoTag>
         <ProtoTag
           as="button"
@@ -159,7 +128,7 @@ function FilterDrawer() {
           }}
         >
           <Icon name="chevron" />
-          Format
+          Formats
         </ProtoTag>
         <ProtoTag
           as="button"
@@ -246,7 +215,7 @@ function FilterDrawer() {
                   })}
                 >
                   <a className={font('hnm', 6)} style={{ marginLeft: '6px' }}>
-                    clear date filters
+                    clear dates
                   </a>
                 </NextLink>
               )}
@@ -290,7 +259,7 @@ function FilterDrawer() {
               </ProtoTag>
             </NextLink>
           ))}
-          {_isFilteringBySubcategory && (
+          {/* {_isFilteringBySubcategory && (
             <NextLink
               {...worksUrl({
                 query,
@@ -300,9 +269,9 @@ function FilterDrawer() {
                 _dateTo,
               })}
             >
-              <a className={font('hnm', 6)}>clear format filters</a>
+              <a className={font('hnm', 6)}>clear format filter</a>
             </NextLink>
-          )}
+          )} */}
         </>
       </div>
       <div className={`${activeDrawer !== 'availability' && 'is-hidden'}`}>
@@ -329,7 +298,7 @@ function FilterDrawer() {
           >
             In library
           </ProtoTag>
-          {(fakeIsAvailableInLibrary || fakeIsAvailableOnline) && (
+          {/* {(fakeIsAvailableInLibrary || fakeIsAvailableOnline) && (
             <a
               href="#"
               onClick={() => {
@@ -339,11 +308,97 @@ function FilterDrawer() {
               className={font('hnm', 6)}
               style={{ marginLeft: '6px', cursor: 'pointer' }}
             >
-              clear availablity filters
+              clear availablity filter
             </a>
-          )}
+          )} */}
         </div>
       </div>
+
+      <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
+        {allWorkTypes.map(subcategory => (
+          <>
+            {_isFilteringBySubcategory &&
+              workType &&
+              workType.includes(subcategory.letter) && (
+                <NextLink
+                  key={subcategory.title}
+                  passHref
+                  {...worksUrl({
+                    query,
+                    workType: updateWorkTypes(
+                      workType,
+                      subcategory,
+                      _isFilteringBySubcategory
+                    ),
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                    _isFilteringBySubcategory: isLastFilterItem(
+                      workType,
+                      subcategory
+                    )
+                      ? ''
+                      : 'true',
+                  })}
+                >
+                  <ProtoTag as="a" isActive small>
+                    &times; {subcategory.title}
+                  </ProtoTag>
+                </NextLink>
+              )}
+          </>
+        ))}
+        {_dateFrom && (
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType: workType || allWorkTypes,
+              page: 1,
+              _dateFrom: null,
+              _dateTo,
+              _isFilteringBySubcategory,
+            })}
+          >
+            <ProtoTag as="a" isActive small>
+              &times; from: {_dateFrom}
+            </ProtoTag>
+          </NextLink>
+        )}
+        {_dateTo && (
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType: workType || allWorkTypes,
+              page: 1,
+              _dateFrom,
+              _dateTo: null,
+              _isFilteringBySubcategory,
+            })}
+          >
+            <ProtoTag as="a" isActive small>
+              &times; to: {_dateTo}
+            </ProtoTag>
+          </NextLink>
+        )}
+
+        {(_isFilteringBySubcategory || _dateFrom || _dateTo) && (
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType: null,
+              page: 1,
+              _dateFrom: null,
+              _dateTo: null,
+              _isFilteringBySubcategory: false,
+            })}
+          >
+            <a className={font('hnm', 6)}>clear all filters</a>
+          </NextLink>
+        )}
+      </Space>
     </div>
   );
 }
