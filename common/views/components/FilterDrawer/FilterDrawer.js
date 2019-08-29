@@ -259,19 +259,6 @@ function FilterDrawer() {
               </ProtoTag>
             </NextLink>
           ))}
-          {/* {_isFilteringBySubcategory && (
-            <NextLink
-              {...worksUrl({
-                query,
-                workType,
-                page: 1,
-                _dateFrom,
-                _dateTo,
-              })}
-            >
-              <a className={font('hnm', 6)}>clear format filter</a>
-            </NextLink>
-          )} */}
         </>
       </div>
       <div className={`${activeDrawer !== 'availability' && 'is-hidden'}`}>
@@ -298,19 +285,6 @@ function FilterDrawer() {
           >
             In library
           </ProtoTag>
-          {/* {(fakeIsAvailableInLibrary || fakeIsAvailableOnline) && (
-            <a
-              href="#"
-              onClick={() => {
-                setFakeIsAvailableOnline(false);
-                setFakeIsAvailableInLibrary(false);
-              }}
-              className={font('hnm', 6)}
-              style={{ marginLeft: '6px', cursor: 'pointer' }}
-            >
-              clear availablity filter
-            </a>
-          )} */}
         </div>
       </div>
 
