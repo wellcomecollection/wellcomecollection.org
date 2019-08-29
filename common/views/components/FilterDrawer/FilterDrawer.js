@@ -383,7 +383,31 @@ function FilterDrawer() {
           </NextLink>
         )}
 
-        {(_isFilteringBySubcategory || _dateFrom || _dateTo) && (
+        {fakeIsAvailableOnline && (
+          <ProtoTag
+            isActive
+            small
+            onClick={() => setFakeIsAvailableOnline(false)}
+          >
+            &times; online
+          </ProtoTag>
+        )}
+
+        {fakeIsAvailableInLibrary && (
+          <ProtoTag
+            isActive
+            small
+            onClick={() => setFakeIsAvailableInLibrary(false)}
+          >
+            &times; in library
+          </ProtoTag>
+        )}
+
+        {(_isFilteringBySubcategory ||
+          _dateFrom ||
+          _dateTo ||
+          fakeIsAvailableInLibrary ||
+          fakeIsAvailableOnline) && (
           <NextLink
             passHref
             {...worksUrl({
@@ -395,7 +419,16 @@ function FilterDrawer() {
               _isFilteringBySubcategory: false,
             })}
           >
-            <a className={font('hnm', 6)}>clear all filters</a>
+            <a
+              className={font('hnm', 6)}
+              onClick={() => {
+                setFakeIsAvailableOnline(false);
+                setFakeIsAvailableInLibrary(false);
+                setActiveDrawer(null);
+              }}
+            >
+              clear all filters
+            </a>
           </NextLink>
         )}
       </Space>
