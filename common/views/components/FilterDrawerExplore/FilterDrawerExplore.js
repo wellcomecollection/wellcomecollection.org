@@ -183,6 +183,74 @@ function FilterDrawerExplore() {
           )}
         </>
       )}
+
+      <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <div
+          style={{
+            display: 'block',
+          }}
+        >
+          <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <span className={font('hnm', 5)}>Between </span>
+            <label>
+              <span className="visually-hidden">from: </span>
+              <input
+                placeholder={'YYYY'}
+                value={inputDateFrom || ''}
+                onChange={event => {
+                  setInputDateFrom(`${event.currentTarget.value}`);
+                }}
+                style={{
+                  width: '3.3em',
+                  padding: '0.3em',
+                  border: '0',
+                  borderBottom: '2px solid #333',
+                  background: 'transparent',
+                }}
+              />
+            </label>{' '}
+            <span className={font('hnm', 5)}>and </span>
+            <label>
+              <span className={'visually-hidden'}>to: </span>
+              <input
+                placeholder={'YYYY'}
+                value={inputDateTo || ''}
+                onChange={event => {
+                  setInputDateTo(`${event.currentTarget.value}`);
+                }}
+                style={{
+                  width: '3.3em',
+                  padding: '0.3em',
+                  border: '0',
+                  borderBottom: '2px solid #333',
+                  background: 'transparent',
+                }}
+              />
+            </label>
+            <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
+              <button className={'btn btn--tertiary font-hnm font-size-5'}>
+                set dates
+              </button>
+            </Space>
+            {(_dateFrom || _dateTo) && (
+              <NextLink
+                {...worksUrl({
+                  query,
+                  workType,
+                  page: 1,
+                  _dateFrom: null,
+                  _dateTo: null,
+                  _isFilteringBySubcategory,
+                })}
+              >
+                <a className={font('hnm', 6)} style={{ marginLeft: '6px' }}>
+                  clear date filters
+                </a>
+              </NextLink>
+            )}
+          </Space>
+        </div>
+      </Space>
     </>
   );
 }
