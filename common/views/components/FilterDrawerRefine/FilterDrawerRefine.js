@@ -74,7 +74,7 @@ function isLastFilterItem(workType, subcategory) {
   return workType.length === 1 && workType.includes(subcategory.letter);
 }
 
-function FilterDrawer() {
+function FilterDrawerRefine() {
   const {
     query,
     workType,
@@ -111,6 +111,7 @@ function FilterDrawer() {
         <ProtoTag
           as="button"
           type="button"
+          isPrimary
           isActive={activeDrawer === 'date'}
           onClick={() => {
             setActiveDrawer(activeDrawer === 'date' ? null : 'date');
@@ -122,6 +123,7 @@ function FilterDrawer() {
         <ProtoTag
           as="button"
           type="button"
+          isPrimary
           isActive={activeDrawer === 'format'}
           onClick={() => {
             setActiveDrawer(activeDrawer === 'format' ? null : 'format');
@@ -133,6 +135,7 @@ function FilterDrawer() {
         <ProtoTag
           as="button"
           type="button"
+          isPrimary
           isActive={activeDrawer === 'availability'}
           onClick={() => {
             setActiveDrawer(
@@ -410,4 +413,4 @@ function FilterDrawer() {
   );
 }
 
-export default FilterDrawer;
+export default FilterDrawerRefine;

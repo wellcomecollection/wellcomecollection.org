@@ -9,7 +9,8 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import FilterDrawer from '@weco/common/views/components/FilterDrawer/FilterDrawer';
+import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
+import FilterDrawerExplore from '@weco/common/views/components/FilterDrawerExplore/FilterDrawerExplore';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -120,7 +121,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               })}
             />
 
-            {query && (
+            {inputQuery && (
               <ClearSearch
                 className="absolute line-height-1 plain-button v-center no-padding"
                 onClick={() => {
@@ -182,7 +183,18 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           }
         </TogglesContext.Consumer>
 
-        {shouldShowFilters && <FilterDrawer />}
+        <TogglesContext.Consumer>
+          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+            <>
+              {shouldShowFilters && (
+                <>
+                  {refineFiltersPrototype && <FilterDrawerRefine />}
+                  {exploreFiltersPrototype && <FilterDrawerExplore />}
+                </>
+              )}
+            </>
+          )}
+        </TogglesContext.Consumer>
       </form>
     </>
   );

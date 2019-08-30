@@ -185,7 +185,7 @@ const Works = ({ works }: Props) => {
             </div>
 
             <div className="grid">
-              <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <p
                   className={classNames({
                     [font('hnl', 4)]: true,
@@ -216,7 +216,7 @@ const Works = ({ works }: Props) => {
                 <div className="grid">
                   <div
                     className={classNames({
-                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                     })}
                   >
                     <div className="flex flex--h-space-between flex--v-center">
@@ -266,7 +266,7 @@ const Works = ({ works }: Props) => {
                     <div
                       key={result.id}
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div
@@ -316,7 +316,7 @@ const Works = ({ works }: Props) => {
                   <div className="grid">
                     <div
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div className="flex flex--h-space-between flex--v-center">
