@@ -316,6 +316,35 @@ function FilterDrawerExplore() {
           </ProtoTag>
         </Space>
       </Space>
+      {(_isFilteringBySubcategory ||
+        _dateFrom ||
+        _dateTo ||
+        fakeIsAvailableInLibrary ||
+        fakeIsAvailableOnline) && (
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType: null,
+              page: 1,
+              _dateFrom: null,
+              _dateTo: null,
+              _isFilteringBySubcategory: false,
+            })}
+          >
+            <a
+              className={font('hnm', 6)}
+              onClick={() => {
+                setFakeIsAvailableOnline(false);
+                setFakeIsAvailableInLibrary(false);
+              }}
+            >
+              clear all filters
+            </a>
+          </NextLink>
+        </Space>
+      )}
     </Space>
   );
 }
