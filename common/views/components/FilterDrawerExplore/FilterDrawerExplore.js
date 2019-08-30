@@ -97,7 +97,94 @@ function lettersForParentCategory(workType) {
 }
 
 function FilterDrawerExplore() {
-  return <div>yoyo</div>;
+  return (
+    <>
+      <TabNav
+        items={[
+          {
+            text: 'Everything',
+            link: worksUrl({
+              query,
+              workType: null,
+              page: 1,
+              _dateFrom,
+              _dateTo,
+            }),
+            selected: !workType,
+          },
+        ].concat(
+          workTypes.map(t => {
+            return {
+              text: capitalize(t.title),
+              link: worksUrl({
+                query,
+                workType: t.materialTypes.map(m => m.letter),
+                page: 1,
+                _dateFrom,
+                _dateTo,
+              }),
+              selected:
+                !!workType &&
+                doArraysOverlap(t.materialTypes.map(m => m.letter), workType),
+            };
+          })
+        )}
+      />
+      {workType && (
+        <>
+          <span className={font('hnm', 5)}>Format </span>
+          {subcategoriesForWorkType(categoryTitleForWorkTypes(workType)).map(
+            subcategory => (
+              <NextLink
+                key={subcategory.title}
+                {...worksUrl({
+                  query,
+                  workType: updateWorkTypes(
+                    workType,
+                    subcategory,
+                    _isFilteringBySubcategory
+                  ),
+                  page: 1,
+                  _dateFrom,
+                  _dateTo,
+                  _isFilteringBySubcategory: isLastFilterItem(
+                    workType,
+                    subcategory
+                  )
+                    ? ''
+                    : 'true',
+                })}
+              >
+                <a>
+                  <ProtoTag
+                    isActive={
+                      _isFilteringBySubcategory &&
+                      workType.includes(subcategory.letter)
+                    }
+                  >
+                    {subcategory.title}
+                  </ProtoTag>
+                </a>
+              </NextLink>
+            )
+          )}
+          {_isFilteringBySubcategory && (
+            <NextLink
+              {...worksUrl({
+                query,
+                workType: lettersForParentCategory(workType),
+                page: 1,
+                _dateFrom,
+                _dateTo,
+              })}
+            >
+              <a className={font('hnm', 6)}>clear format filters</a>
+            </NextLink>
+          )}
+        </>
+      )}
+    </>
+  );
 }
 
 export default FilterDrawerExplore;
