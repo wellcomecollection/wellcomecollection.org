@@ -1,3 +1,13 @@
+import { useContext, useEffect, useState } from 'react';
+import NextLink from 'next/link';
+import TabNav from '../TabNav/TabNav';
+import { worksUrl } from '../../../services/catalogue/urls';
+import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
+import { capitalize } from '../../../utils/grammar';
+import { font } from '../../../utils/classnames';
+import ProtoTag from '../styled/ProtoTag';
+import Space from '../styled/Space';
+
 const workTypes = [
   {
     title: 'texts',
@@ -41,7 +51,7 @@ const workTypes = [
   },
 ];
 
-export function subcategoriesForWorkType(title: string) {
+function subcategoriesForWorkType(title: string) {
   const category = workTypes.find(wt => wt.title === title);
 
   return (category && category.materialTypes) || [];
@@ -51,7 +61,7 @@ function doArraysOverlap(arr1, arr2) {
   return arr1.some(t => arr2.includes(t));
 }
 
-export function categoryTitleForWorkTypes(workTypesArray: any[]) {
+function categoryTitleForWorkTypes(workTypesArray: any[]) {
   const category = categoryForWorkTypes(workTypesArray);
 
   return category ? category.title : '';
@@ -90,15 +100,32 @@ function isLastFilterItem(workType, subcategory) {
   return workType.length === 1 && workType.includes(subcategory.letter);
 }
 
-function lettersForParentCategory(workType) {
-  const category = categoryForWorkTypes(workType);
-
-  return category ? category.materialTypes.map(m => m.letter) : [];
-}
-
 function FilterDrawerExplore() {
+  const {
+    query,
+    workType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
+  const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
+  const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
+    false
+  );
+  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
+  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+
+  useEffect(() => {
+    if (_dateFrom !== inputDateFrom) {
+      setInputDateFrom(_dateFrom);
+    }
+
+    if (_dateTo !== inputDateTo) {
+      setInputDateTo(_dateTo);
+    }
+  }, [_dateFrom, _dateTo]);
   return (
-    <>
+    <Space v={{ size: 'm', properties: ['margin-top'] }}>
       <TabNav
         items={[
           {
@@ -131,32 +158,41 @@ function FilterDrawerExplore() {
         )}
       />
       {workType && (
-        <>
-          <span className={font('hnm', 5)}>Format </span>
-          {subcategoriesForWorkType(categoryTitleForWorkTypes(workType)).map(
-            subcategory => (
-              <NextLink
-                key={subcategory.title}
-                {...worksUrl({
-                  query,
-                  workType: updateWorkTypes(
-                    workType,
-                    subcategory,
-                    _isFilteringBySubcategory
-                  ),
-                  page: 1,
-                  _dateFrom,
-                  _dateTo,
-                  _isFilteringBySubcategory: isLastFilterItem(
-                    workType,
-                    subcategory
-                  )
-                    ? ''
-                    : 'true',
-                })}
-              >
-                <a>
+        <Space
+          v={{ size: 'm', properties: ['margin-top'] }}
+          className="flex flex--v-center"
+        >
+          <span
+            className={font('hnm', 5)}
+            style={{ minWidth: '100px', display: 'inline-block' }}
+          >
+            Format{' '}
+          </span>
+          <div>
+            {subcategoriesForWorkType(categoryTitleForWorkTypes(workType)).map(
+              subcategory => (
+                <NextLink
+                  key={subcategory.title}
+                  {...worksUrl({
+                    query,
+                    workType: updateWorkTypes(
+                      workType,
+                      subcategory,
+                      _isFilteringBySubcategory
+                    ),
+                    page: 1,
+                    _dateFrom,
+                    _dateTo,
+                    _isFilteringBySubcategory: isLastFilterItem(
+                      workType,
+                      subcategory
+                    )
+                      ? ''
+                      : 'true',
+                  })}
+                >
                   <ProtoTag
+                    as="a"
                     isActive={
                       _isFilteringBySubcategory &&
                       workType.includes(subcategory.letter)
@@ -164,24 +200,11 @@ function FilterDrawerExplore() {
                   >
                     {subcategory.title}
                   </ProtoTag>
-                </a>
-              </NextLink>
-            )
-          )}
-          {_isFilteringBySubcategory && (
-            <NextLink
-              {...worksUrl({
-                query,
-                workType: lettersForParentCategory(workType),
-                page: 1,
-                _dateFrom,
-                _dateTo,
-              })}
-            >
-              <a className={font('hnm', 6)}>clear format filters</a>
-            </NextLink>
-          )}
-        </>
+                </NextLink>
+              )
+            )}
+          </div>
+        </Space>
       )}
 
       <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -191,7 +214,12 @@ function FilterDrawerExplore() {
           }}
         >
           <Space v={{ size: 's', properties: ['margin-top'] }}>
-            <span className={font('hnm', 5)}>Between </span>
+            <span
+              className={font('hnm', 5)}
+              style={{ minWidth: '100px', display: 'inline-block' }}
+            >
+              Between{' '}
+            </span>
             <label>
               <span className="visually-hidden">from: </span>
               <input
@@ -228,9 +256,19 @@ function FilterDrawerExplore() {
               />
             </label>
             <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
-              <button className={'btn btn--tertiary font-hnm font-size-5'}>
-                set dates
-              </button>
+              <NextLink
+                passHref
+                {...worksUrl({
+                  query,
+                  workType,
+                  page: 1,
+                  _dateFrom: inputDateFrom,
+                  _dateTo: inputDateTo,
+                  _isFilteringBySubcategory,
+                })}
+              >
+                <ProtoTag as="a">set dates</ProtoTag>
+              </NextLink>
             </Space>
             {(_dateFrom || _dateTo) && (
               <NextLink
@@ -250,8 +288,35 @@ function FilterDrawerExplore() {
             )}
           </Space>
         </div>
+
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <span
+            className={font('hnm', 5)}
+            style={{ minWidth: '100px', display: 'inline-block' }}
+          >
+            Availability{' '}
+          </span>
+          <ProtoTag
+            onClick={() => {
+              setFakeIsAvailableOnline(!fakeIsAvailableOnline);
+            }}
+            isActive={fakeIsAvailableOnline}
+            style={{ cursor: 'pointer' }}
+          >
+            Online
+          </ProtoTag>
+          <ProtoTag
+            onClick={() => {
+              setFakeIsAvailableInLibrary(!fakeIsAvailableInLibrary);
+            }}
+            isActive={fakeIsAvailableInLibrary}
+            style={{ cursor: 'pointer' }}
+          >
+            In library
+          </ProtoTag>
+        </Space>
       </Space>
-    </>
+    </Space>
   );
 }
 
