@@ -7,9 +7,16 @@ import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
 
 const BackToResults = () => {
-  const { query, workType, page, _queryType, _dateFrom, _dateTo } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    workType,
+    page,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
+
   const link = worksUrl({
     query,
     page,
@@ -17,6 +24,7 @@ const BackToResults = () => {
     _queryType,
     _dateFrom,
     _dateTo,
+    _isFilteringBySubcategory,
   });
   return (
     <NextLink {...link}>

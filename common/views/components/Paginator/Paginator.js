@@ -75,7 +75,7 @@ const Paginator = ({
 
   return (
     <Fragment>
-      <div className={`flex flex--v-center font-pewter ${font('lr', 6)}`}>
+      <div className={`flex flex--v-center ${font('hnm', 3)}`}>
         {totalResults} result{totalResults !== 1 ? 's' : ''}
       </div>
       <div
@@ -85,7 +85,7 @@ const Paginator = ({
           'flex-inline': true,
           'flex--v-center': true,
           'font-pewter': true,
-          [font('lr', 6)]: true,
+          [font('hnl', 5)]: true,
         })}
       >
         {prevLink && prev && (
