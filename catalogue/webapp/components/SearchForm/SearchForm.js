@@ -9,8 +9,8 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
-import Space from '@weco/common/views/components/styled/Space';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
+import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
+import FilterDrawerExplore from '@weco/common/views/components/FilterDrawerExplore/FilterDrawerExplore';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -47,16 +47,21 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     workType,
     _queryType,
     setQueryType,
-    _dateFrom,
+    _isFilteringBySubcategory,
     _dateTo,
+    _dateFrom,
   } = useContext(CatalogueSearchContext);
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
+  const [shouldShowFilters, setShouldShowFilters] = useState(false);
   const searchInput = useRef(null);
-  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
-  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+
+  useEffect(() => {
+    // FIXME: not this
+    setShouldShowFilters(Boolean(Router.pathname === '/works' && query));
+  });
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -66,21 +71,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     if (query !== inputQuery) {
       setInputQuery(query);
     }
-
-    if (_dateFrom !== inputDateFrom) {
-      setInputDateFrom(_dateFrom);
-    }
-
-    if (_dateTo !== inputDateTo) {
-      setInputDateTo(_dateTo);
-    }
-  }, [query, _dateFrom, _dateTo]);
-
-  useEffect(() => {
-    if (inputDateFrom !== _dateFrom || inputDateTo !== _dateTo) {
-      updateUrl();
-    }
-  }, [inputDateFrom, inputDateTo]);
+  }, [query]);
 
   function updateUrl() {
     const link = worksUrl({
@@ -88,8 +79,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       workType,
       page: 1,
       _queryType,
-      _dateFrom: inputDateFrom,
-      _dateTo: inputDateTo,
+      _dateFrom,
+      _dateTo,
+      _isFilteringBySubcategory,
     });
 
     typeof window !== 'undefined' && Router.push(link.href, link.as);
@@ -129,7 +121,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               })}
             />
 
-            {query && (
+            {inputQuery && (
               <ClearSearch
                 className="absolute line-height-1 plain-button v-center no-padding"
                 onClick={() => {
@@ -192,49 +184,13 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
         </TogglesContext.Consumer>
 
         <TogglesContext.Consumer>
-          {({ showDatesPrototype }) => (
+          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
             <>
-              {showDatesPrototype && (
-                <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                  <div
-                    style={{
-                      display: 'block',
-                    }}
-                  >
-                    <Space v={{ size: 's', properties: ['margin-top'] }}>
-                      <label>
-                        from:{' '}
-                        <input
-                          value={inputDateFrom || ''}
-                          onChange={event => {
-                            setInputDateFrom(`${event.currentTarget.value}`);
-                          }}
-                          style={{ width: '8em', padding: '0.5em' }}
-                        />
-                      </label>{' '}
-                      <label>
-                        to:{' '}
-                        <input
-                          value={inputDateTo || ''}
-                          onChange={event => {
-                            setInputDateTo(`${event.currentTarget.value}`);
-                          }}
-                          style={{ width: '8em', padding: '0.5em' }}
-                        />
-                      </label>
-                    </Space>
-                    <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                      <Button
-                        type="primary"
-                        text="Clear dates"
-                        clickHandler={() => {
-                          setInputDateFrom('');
-                          setInputDateTo('');
-                        }}
-                      />
-                    </Space>
-                  </div>
-                </Space>
+              {shouldShowFilters && (
+                <>
+                  {refineFiltersPrototype && <FilterDrawerRefine />}
+                  {exploreFiltersPrototype && <FilterDrawerExplore />}
+                </>
               )}
             </>
           )}

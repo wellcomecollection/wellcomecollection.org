@@ -17,6 +17,7 @@ export type CatalogueQuery = {|
   _queryType: ?string,
   _dateFrom: ?string,
   _dateTo: ?string,
+  _isFilteringBySubcategory: ?string,
 |};
 
 type ContextProps = {|
@@ -28,6 +29,7 @@ type ContextProps = {|
   setQueryType: (value: ?string) => void,
   setDateFrom: (value: ?string) => void,
   setDateTo: (value: ?string) => void,
+  setIsFilteringBySubcategory: (value: ?string) => void,
 |};
 
 const defaultState: CatalogueQuery = {
@@ -38,6 +40,7 @@ const defaultState: CatalogueQuery = {
   _queryType: null,
   _dateFrom: null,
   _dateTo: null,
+  _isFilteringBySubcategory: null,
 };
 
 const CatalogueSearchContext = createContext<ContextProps>({
@@ -49,6 +52,7 @@ const CatalogueSearchContext = createContext<ContextProps>({
   setQueryType: () => {},
   setDateFrom: () => {},
   setDateTo: () => {},
+  setIsFilteringBySubcategory: () => {},
 });
 
 type CatalogueSearchProviderProps = {
@@ -71,6 +75,9 @@ const CatalogueSearchProvider = ({
       : null,
     _dateFrom: router.query._dateFrom ? router.query._dateFrom : null,
     _dateTo: router.query._dateTo ? router.query._dateTo : null,
+    _isFilteringBySubcategory: router.query._isFilteringBySubcategory
+      ? router.query._isFilteringBySubcategory
+      : null,
   };
   const state = {
     ...defaultState,
@@ -82,6 +89,9 @@ const CatalogueSearchProvider = ({
   const [workType, setWorkType] = useState(state.workType);
   const [_dateFrom, setDateFrom] = useState(state._dateFrom);
   const [_dateTo, setDateTo] = useState(state._dateTo);
+  const [_isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
+    state._isFilteringBySubcategory
+  );
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
     state.itemsLocationsLocationType
   );
@@ -94,6 +104,7 @@ const CatalogueSearchProvider = ({
     _queryType,
     _dateFrom,
     _dateTo,
+    _isFilteringBySubcategory,
     setQuery,
     setPage,
     setWorkType,
@@ -101,6 +112,7 @@ const CatalogueSearchProvider = ({
     setQueryType,
     setDateFrom,
     setDateTo,
+    setIsFilteringBySubcategory,
   };
 
   useEffect(() => {
@@ -134,6 +146,7 @@ const CatalogueSearchProvider = ({
           _queryType: params._queryType || defaultState._queryType,
           _dateFrom: params._dateFrom || null,
           _dateTo: params._dateTo || null,
+          _isFilteringBySubcategory: params._isFilteringBySubcategory || null,
         };
 
         setQuery(state.query);
@@ -143,6 +156,7 @@ const CatalogueSearchProvider = ({
         setQueryType(state._queryType);
         setDateFrom(state._dateFrom);
         setDateTo(state._dateTo);
+        setIsFilteringBySubcategory(state._isFilteringBySubcategory);
       }
     }
 
@@ -172,6 +186,7 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
     _queryType,
     _dateFrom,
     _dateTo,
+    _isFilteringBySubcategory,
   } = useContext(CatalogueSearchContext);
   const push = () => {
     const link = worksUrl({
@@ -182,6 +197,7 @@ const SearchRouter = ({ children }: SearchRouterProps) => {
       _queryType,
       _dateFrom,
       _dateTo,
+      _isFilteringBySubcategory,
     });
     Router.push(
       { ...link.href, pathname: '/works-context' },

@@ -17,7 +17,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
   trackSearch,
@@ -38,9 +37,15 @@ type Props = {|
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    page,
+    workType,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
   const trackEvent = () => {
     if (query && query !== '') {
       const event = {
@@ -180,7 +185,7 @@ const Works = ({ works }: Props) => {
             </div>
 
             <div className="grid">
-              <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <p
                   className={classNames({
                     [font('hnl', 4)]: true,
@@ -204,71 +209,6 @@ const Works = ({ works }: Props) => {
 
         {!works && <StaticWorksContent />}
 
-        {works && (
-          <Layout12>
-            <TabNav
-              items={[
-                {
-                  text: 'All',
-                  link: worksUrl({
-                    query,
-                    workType: undefined,
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !workType,
-                },
-                {
-                  text: 'Books',
-                  link: worksUrl({
-                    query,
-                    workType: ['a', 'v'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('a') !== -1 &&
-                      workType.indexOf('v') !== -1)
-                  ),
-                },
-                {
-                  text: 'Pictures',
-                  link: worksUrl({
-                    query,
-                    workType: ['k', 'q'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('k') !== -1 &&
-                      workType.indexOf('q') !== -1)
-                  ),
-                },
-                {
-                  text: 'Audio/Video',
-                  link: worksUrl({
-                    query,
-                    workType: ['f', 's'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('f') !== -1 &&
-                      workType.indexOf('s') !== -1)
-                  ),
-                },
-              ]}
-            />
-          </Layout12>
-        )}
-
         {works && works.results.length > 0 && (
           <Fragment>
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
@@ -276,7 +216,7 @@ const Works = ({ works }: Props) => {
                 <div className="grid">
                   <div
                     className={classNames({
-                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                     })}
                   >
                     <div className="flex flex--h-space-between flex--v-center">
@@ -326,7 +266,7 @@ const Works = ({ works }: Props) => {
                     <div
                       key={result.id}
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div
@@ -376,7 +316,7 @@ const Works = ({ works }: Props) => {
                   <div className="grid">
                     <div
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div className="flex flex--h-space-between flex--v-center">
@@ -429,19 +369,11 @@ const Works = ({ works }: Props) => {
                     >
                       {query}
                     </span>
-                    {workType && (
+                    {(_isFilteringBySubcategory || _dateFrom || _dateTo) && (
                       <>
                         {' '}
-                        in{' '}
-                        <span className={font('hnm', 2)}>
-                          {(workType.includes('k') && 'pictures') ||
-                            (workType.includes('f') && 'audio/video') ||
-                            (workType.includes('a') && 'books')}
-                        </span>
+                        <span>with the filters you have selected</span>
                       </>
-                    )}
-                    {(_dateFrom || _dateTo) && (
-                      <> within the date range provided</>
                     )}
                     . Please try again.
                   </p>
@@ -459,7 +391,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const _dateFrom = formatDateForApi(ctx.query._dateFrom);
   const _dateTo = formatDateForApi(ctx.query._dateTo);
-
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const {
