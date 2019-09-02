@@ -57,5 +57,12 @@ module.exports = {
       description:
         'Shows filters on the works search pages. Geared towards exploration.',
     },
+    {
+      id: 'helveticaRegular',
+      title: 'Helvetica regular',
+      defaultValue: false,
+      description:
+        'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
+    },
   ],
 };
