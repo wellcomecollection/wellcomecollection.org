@@ -408,7 +408,7 @@ export default class WecoApp extends App {
                                 __html: `
                                 @font-face {
                                   font-family: 'Helvetica Neue Light Web';
-                                  src: local('Helvetica Neue Light'),
+                                  src: local('Helvetica Neue Regular'),
                                     local('HelveticaNeue-Regular'),
                                     url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
                                     url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
