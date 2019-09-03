@@ -236,42 +236,50 @@ const Works = ({ works }: Props) => {
           </div>
         </Space>
 
-        <Layout12>
-          <TabNav
-            items={[
-              {
-                text: 'All',
-                link: worksUrl({
-                  query,
-                  workType: null,
-                  page: 1,
-                  _dateFrom,
-                  _dateTo,
-                }),
-                selected: !workType,
-              },
-            ].concat(
-              workTypes.map(t => {
-                return {
-                  text: t.title,
-                  link: worksUrl({
-                    query,
-                    workType: t.materialTypes.map(m => m.letter),
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected:
-                    !!workType &&
-                    doArraysOverlap(
-                      t.materialTypes.map(m => m.letter),
-                      workType
-                    ),
-                };
-              })
-            )}
-          />
-        </Layout12>
+        <TogglesContext.Consumer>
+          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+            <>
+              {!refineFiltersPrototype && !exploreFiltersPrototype && (
+                <Layout12>
+                  <TabNav
+                    items={[
+                      {
+                        text: 'All',
+                        link: worksUrl({
+                          query,
+                          workType: null,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected: !workType,
+                      },
+                    ].concat(
+                      workTypes.map(t => {
+                        return {
+                          text: t.title,
+                          link: worksUrl({
+                            query,
+                            workType: t.materialTypes.map(m => m.letter),
+                            page: 1,
+                            _dateFrom,
+                            _dateTo,
+                          }),
+                          selected:
+                            !!workType &&
+                            doArraysOverlap(
+                              t.materialTypes.map(m => m.letter),
+                              workType
+                            ),
+                        };
+                      })
+                    )}
+                  />
+                </Layout12>
+              )}
+            </>
+          )}
+        </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
 
