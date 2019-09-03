@@ -95,6 +95,8 @@ body {
   @extend %font-hnl;
   @extend %font-size-4;
 
+  color: color('black');
+
   font-variant-ligatures: no-common-ligatures;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
