@@ -239,7 +239,7 @@ const Works = ({ works }: Props) => {
         <TogglesContext.Consumer>
           {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
             <>
-              {!refineFiltersPrototype && !exploreFiltersPrototype && (
+              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
                 <Layout12>
                   <TabNav
                     items={[
