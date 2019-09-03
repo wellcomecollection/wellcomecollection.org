@@ -415,6 +415,11 @@ export default class WecoApp extends App {
                                   font-weight: normal;
                                   font-style: normal;
                                 }
+
+                                body,
+                                .font-hnl {
+                                  letter-spacing: normal;
+                                }
                               `,
                               }}
                             />
