@@ -30,6 +30,7 @@ import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -95,6 +96,34 @@ const Works = ({ works }: Props) => {
         statusCode={works.httpStatus}
       />
     );
+  }
+
+  const workTypes = [
+    {
+      title: 'Books',
+      materialTypes: [
+        { title: 'books', letter: 'a' },
+        { title: 'e-books', letter: 'v' },
+      ],
+    },
+    {
+      title: 'Pictures',
+      materialTypes: [
+        { title: 'pictures', letter: 'k' },
+        { title: 'digital images', letter: 'q' },
+      ],
+    },
+    {
+      title: 'Audio/Visual',
+      materialTypes: [
+        { title: 'e-videos', letter: 'f' },
+        { title: 'e-sound', letter: 's' },
+      ],
+    },
+  ];
+
+  function doArraysOverlap(arr1, arr2) {
+    return arr1.some(t => arr2.includes(t));
   }
 
   return (
@@ -206,6 +235,51 @@ const Works = ({ works }: Props) => {
             </div>
           </div>
         </Space>
+
+        <TogglesContext.Consumer>
+          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+            <>
+              {!refineFiltersPrototype && !exploreFiltersPrototype && (
+                <Layout12>
+                  <TabNav
+                    items={[
+                      {
+                        text: 'All',
+                        link: worksUrl({
+                          query,
+                          workType: null,
+                          page: 1,
+                          _dateFrom,
+                          _dateTo,
+                        }),
+                        selected: !workType,
+                      },
+                    ].concat(
+                      workTypes.map(t => {
+                        return {
+                          text: t.title,
+                          link: worksUrl({
+                            query,
+                            workType: t.materialTypes.map(m => m.letter),
+                            page: 1,
+                            _dateFrom,
+                            _dateTo,
+                          }),
+                          selected:
+                            !!workType &&
+                            doArraysOverlap(
+                              t.materialTypes.map(m => m.letter),
+                              workType
+                            ),
+                        };
+                      })
+                    )}
+                  />
+                </Layout12>
+              )}
+            </>
+          )}
+        </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
 
