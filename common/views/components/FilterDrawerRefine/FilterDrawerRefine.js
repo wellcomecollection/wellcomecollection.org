@@ -6,6 +6,10 @@ import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
 import Icon from '../Icon/Icon';
+import {
+  onlineLocations,
+  inLibraryLocations,
+} from '@weco/common/views/components/AccessFilter/AccessFilter';
 
 const workTypes = [
   {
@@ -78,6 +82,7 @@ function FilterDrawerRefine() {
   const {
     query,
     workType,
+    itemsLocationsLocationType,
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
@@ -197,6 +202,7 @@ function FilterDrawerRefine() {
                   {...worksUrl({
                     query,
                     workType,
+                    itemsLocationsLocationType,
                     page: 1,
                     _dateFrom: inputDateFrom,
                     _dateTo: inputDateTo,
@@ -266,28 +272,54 @@ function FilterDrawerRefine() {
       </div>
       <div className={`${activeDrawer !== 'availability' && 'is-hidden'}`}>
         <div>
-          <ProtoTag
-            as="button"
-            type="button"
-            onClick={() => {
-              setFakeIsAvailableOnline(!fakeIsAvailableOnline);
-            }}
-            isActive={fakeIsAvailableOnline}
-            style={{ cursor: 'pointer' }}
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType: ['k'],
+              page: 1,
+              _dateFrom,
+              _dateTo,
+              itemsLocationsLocationType: onlineLocations,
+              _isFilteringBySubcategory: '', // TODO put back
+            })}
           >
-            Online
-          </ProtoTag>
-          <ProtoTag
-            as="button"
-            type="button"
-            onClick={() => {
-              setFakeIsAvailableInLibrary(!fakeIsAvailableInLibrary);
-            }}
-            isActive={fakeIsAvailableInLibrary}
-            style={{ cursor: 'pointer' }}
+            <ProtoTag // TODO subcategory
+              as="button"
+              type="button"
+              onClick={() => {
+                setFakeIsAvailableOnline(!fakeIsAvailableOnline);
+              }}
+              isActive={fakeIsAvailableOnline}
+              style={{ cursor: 'pointer' }}
+            >
+              Online
+            </ProtoTag>
+          </NextLink>
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType: ['k'],
+              page: 1,
+              _dateFrom,
+              _dateTo,
+              itemsLocationsLocationType: inLibraryLocations,
+              _isFilteringBySubcategory: '', // TODO put back
+            })}
           >
-            In library
-          </ProtoTag>
+            <ProtoTag
+              as="button"
+              type="button"
+              onClick={() => {
+                setFakeIsAvailableInLibrary(!fakeIsAvailableInLibrary);
+              }}
+              isActive={fakeIsAvailableInLibrary}
+              style={{ cursor: 'pointer' }}
+            >
+              In library
+            </ProtoTag>
+          </NextLink>
         </div>
       </div>
 
