@@ -31,6 +31,7 @@ import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import { onlineLocations } from '@weco/common/views/components/AccessFilter/AccessFilter';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -42,6 +43,7 @@ const Works = ({ works }: Props) => {
     query,
     page,
     workType,
+    itemsLocationsLocationType,
     _queryType,
     _dateFrom,
     _dateTo,
@@ -302,6 +304,7 @@ const Works = ({ works }: Props) => {
                           link={worksUrl({
                             query,
                             workType,
+                            itemsLocationsLocationType,
                             page,
                             _dateFrom,
                             _dateTo,
@@ -311,6 +314,7 @@ const Works = ({ works }: Props) => {
                             const link = worksUrl({
                               query,
                               workType,
+                              itemsLocationsLocationType,
                               page: newPage,
                               _dateFrom,
                               _dateTo,
@@ -402,6 +406,7 @@ const Works = ({ works }: Props) => {
                             link={worksUrl({
                               query,
                               workType,
+                              itemsLocationsLocationType,
                               page,
                             })}
                             onPageChange={async (event, newPage) => {
@@ -409,6 +414,7 @@ const Works = ({ works }: Props) => {
                               const link = worksUrl({
                                 query,
                                 workType,
+                                itemsLocationsLocationType,
                                 page: newPage,
                               });
                               Router.push(link.href, link.as).then(() =>
@@ -490,12 +496,16 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
     : defaultWorkType;
+  const locationTypeQuery = ctx.query['items.locations.locationType'];
+  const locationTypeFilter = locationTypeQuery
+    ? locationTypeQuery.split(',').filter(Boolean)
+    : [];
 
   const filters = {
     workType: workTypeFilter,
     'items.locations.locationType': unfilteredSearchResults
-      ? []
-      : ['iiif-image', 'iiif-presentation'],
+      ? locationTypeFilter
+      : onlineLocations,
     _queryType,
     ...(_dateFrom ? { _dateFrom } : {}),
     ...(_dateTo ? { _dateTo } : {}),
