@@ -31,7 +31,10 @@ import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import { onlineLocations } from '@weco/common/views/components/AccessFilter/AccessFilter';
+import {
+  onlineLocations,
+  inLibraryLocations,
+} from '@weco/common/views/components/AccessFilter/AccessFilter';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -499,7 +502,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const locationTypeQuery = ctx.query['items.locations.locationType'];
   const locationTypeFilter = locationTypeQuery
     ? locationTypeQuery.split(',').filter(Boolean)
-    : [];
+    : [...onlineLocations, ...inLibraryLocations];
 
   const filters = {
     workType: workTypeFilter,
