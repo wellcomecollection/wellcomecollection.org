@@ -89,6 +89,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
   return (
     <>
+      {JSON.stringify(workType)}
       <form
         action="/works"
         aria-describedby={ariaDescribedBy}
