@@ -4,7 +4,7 @@ import {
   createContext,
   useState,
   useContext,
-  useEffect,
+  // useEffect,
 } from 'react';
 import Router, { withRouter } from 'next/router';
 import { worksUrl } from '../../../services/catalogue/urls';
@@ -32,7 +32,7 @@ type ContextProps = {|
   setIsFilteringBySubcategory: (value: ?string) => void,
 |};
 
-const defaultState: CatalogueQuery = {
+const defaultState: ContextProps = {
   query: '',
   page: 1,
   workType: null,
@@ -41,10 +41,6 @@ const defaultState: CatalogueQuery = {
   _dateFrom: null,
   _dateTo: null,
   _isFilteringBySubcategory: null,
-};
-
-const CatalogueSearchContext = createContext<ContextProps>({
-  ...defaultState,
   setQuery: () => {},
   setPage: () => {},
   setWorkType: () => {},
@@ -53,6 +49,10 @@ const CatalogueSearchContext = createContext<ContextProps>({
   setDateFrom: () => {},
   setDateTo: () => {},
   setIsFilteringBySubcategory: () => {},
+};
+
+const CatalogueSearchContext = createContext<ContextProps>({
+  ...defaultState,
 });
 
 type CatalogueSearchProviderProps = {
@@ -67,17 +67,23 @@ const CatalogueSearchProvider = ({
   router: any,
 }) => {
   const initialState = {
-    query: router.query.query ? router.query.query : '',
-    page: router.query.page ? parseInt(router.query.page, 10) : 1,
-    workType: router.query.workType ? router.query.workType.split(',') : null,
+    query: router.query.query ? router.query.query : defaultState.query,
+    page: router.query.page
+      ? parseInt(router.query.page, 10)
+      : defaultState.page,
+    workType: router.query.workType
+      ? router.query.workType.split(',')
+      : defaultState.workType,
     itemsLocationsLocationType: router.query['items.locations.locationType']
       ? router.query['items.locations.locationType'].split(',')
-      : null,
-    _dateFrom: router.query._dateFrom ? router.query._dateFrom : null,
-    _dateTo: router.query._dateTo ? router.query._dateTo : null,
+      : defaultState.itemsLocationsLocationType,
+    _dateFrom: router.query._dateFrom
+      ? router.query._dateFrom
+      : defaultState._dateFrom,
+    _dateTo: router.query._dateTo ? router.query._dateTo : defaultState._dateTo,
     _isFilteringBySubcategory: router.query._isFilteringBySubcategory
       ? router.query._isFilteringBySubcategory
-      : null,
+      : defaultState._isFilteringBySubcategory,
   };
   const state = {
     ...defaultState,
@@ -95,6 +101,7 @@ const CatalogueSearchProvider = ({
   const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
     state.itemsLocationsLocationType
   );
+
   const [_queryType, setQueryType] = useState(state._queryType);
   const value = {
     query,
@@ -115,56 +122,56 @@ const CatalogueSearchProvider = ({
     setIsFilteringBySubcategory,
   };
 
-  useEffect(() => {
-    function routeChangeComplete(url: string) {
-      const [path, query = ''] = url.split('?');
+  // useEffect(() => {
+  //   function routeChangeComplete(url: string) {
+  //     const [path, query = ''] = url.split('?');
 
-      // TODO: There must be a more non-stringy way to do this
-      // This avoids other URL updates changing the search context
-      if (path === '/works') {
-        const params = query.split('&').reduce((acc, keyAndVal) => {
-          const [key, value] = keyAndVal.split('=');
-          const decodedValue = decodeURIComponent(value);
+  //     // TODO: There must be a more non-stringy way to do this
+  //     // This avoids other URL updates changing the search context
+  //     if (path === '/works') {
+  //       const params = query.split('&').reduce((acc, keyAndVal) => {
+  //         const [key, value] = keyAndVal.split('=');
+  //         const decodedValue = decodeURIComponent(value);
 
-          return {
-            ...acc,
-            [key]: decodedValue,
-          };
-        }, {});
+  //         return {
+  //           ...acc,
+  //           [key]: decodedValue,
+  //         };
+  //       }, {});
 
-        const state = {
-          ...defaultState,
-          query: params.query || defaultState.query,
-          page: params.page || defaultState.page,
-          workType: params.workType
-            ? params.workType.split(',')
-            : defaultState.workType,
-          // $FlowFixMe
-          itemsLocationsLocationType: params['items.locations.location.type']
-            ? params['items.locations.location.type'].split(',')
-            : defaultState.itemsLocationsLocationType,
-          _queryType: params._queryType || defaultState._queryType,
-          _dateFrom: params._dateFrom || null,
-          _dateTo: params._dateTo || null,
-          _isFilteringBySubcategory: params._isFilteringBySubcategory || null,
-        };
+  //       const state = {
+  //         ...defaultState,
+  //         query: params.query || defaultState.query,
+  //         page: params.page || defaultState.page,
+  //         workType: params.workType
+  //           ? params.workType.split(',')
+  //           : defaultState.workType,
+  //         // $FlowFixMe
+  //         itemsLocationsLocationType: params['items.locations.location.type']
+  //           ? params['items.locations.location.type'].split(',')
+  //           : defaultState.itemsLocationsLocationType,
+  //         _queryType: params._queryType || defaultState._queryType,
+  //         _dateFrom: params._dateFrom || null,
+  //         _dateTo: params._dateTo || null,
+  //         _isFilteringBySubcategory: params._isFilteringBySubcategory || null,
+  //       };
 
-        setQuery(state.query);
-        setPage(parseInt(state.page, 10));
-        setWorkType(state.workType);
-        setItemsLocationsLocationType(state.itemsLocationsLocationType);
-        setQueryType(state._queryType);
-        setDateFrom(state._dateFrom);
-        setDateTo(state._dateTo);
-        setIsFilteringBySubcategory(state._isFilteringBySubcategory);
-      }
-    }
+  //       setQuery(state.query);
+  //       setPage(parseInt(state.page, 10));
+  //       setWorkType(state.workType);
+  //       setItemsLocationsLocationType(state.itemsLocationsLocationType);
+  //       setQueryType(state._queryType);
+  //       setDateFrom(state._dateFrom);
+  //       setDateTo(state._dateTo);
+  //       setIsFilteringBySubcategory(state._isFilteringBySubcategory);
+  //     }
+  //   }
 
-    Router.events.on('routeChangeComplete', routeChangeComplete);
-    return () => {
-      Router.events.off('routeChangeComplete', routeChangeComplete);
-    };
-  }, []);
+  //   Router.events.on('routeChangeComplete', routeChangeComplete);
+  //   return () => {
+  //     Router.events.off('routeChangeComplete', routeChangeComplete);
+  //   };
+  // }, []);
 
   return (
     <CatalogueSearchContext.Provider value={value}>
