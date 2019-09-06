@@ -507,7 +507,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const filters = {
     workType: workTypeFilter,
     'items.locations.locationType': unfilteredSearchResults
-      ? locationTypeFilter
+      ? locationTypeFilter.map(code => encodeURIComponent(code))
       : onlineLocations,
     _queryType,
     ...(_dateFrom ? { _dateFrom } : {}),
