@@ -50,9 +50,7 @@ export async function getWorks({
   const url =
     `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
     `&pageSize=25` +
-    (filterQueryString.length > 0
-      ? `&${encodeURIComponent(filterQueryString.join('&'))}`
-      : '') +
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '') +
     (query ? `&query=${encodeURIComponent(query)}` : '') +
     (page ? `&page=${page}` : '');
 
