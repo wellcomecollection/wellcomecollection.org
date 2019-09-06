@@ -15,9 +15,10 @@ const Label = ({ label }: Props) => {
         properties: ['padding-top', 'padding-bottom'],
       }}
       h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-      as={label.url ? 'a' : 'span'}
+      as={label.url ? 'a' : 'div'}
       href={label.url}
       className={`
+      nowrap
       line-height-1
       ${
         label.url
@@ -26,7 +27,6 @@ const Label = ({ label }: Props) => {
       }
       ${font('hnm', 6)}
     `}
-      style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
     >
       {label.text}
     </Space>
