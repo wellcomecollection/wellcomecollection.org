@@ -1,4 +1,4 @@
-export const onlineLocations = ['iiif-image,iiif-presentation'];
+export const onlineLocations = ['iiif-image', 'iiif-presentation'];
 export const inLibraryLocations = [
   'arch',
   'bwith',
