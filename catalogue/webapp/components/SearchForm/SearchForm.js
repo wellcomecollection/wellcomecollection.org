@@ -46,7 +46,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     query,
     workType,
     _queryType,
-    setQueryType,
     _isFilteringBySubcategory,
     _dateTo,
     _dateFrom,
@@ -165,7 +164,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
           <input type="hidden" name="workType" value={workType.join(',')} />
         )}
 
-        <TogglesContext.Consumer>
+        {/* TODO put back somehow ? <TogglesContext.Consumer>
           {({ selectableQueries }) =>
             selectableQueries && (
               <label>
@@ -182,7 +181,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
               </label>
             )
           }
-        </TogglesContext.Consumer>
+        </TogglesContext.Consumer> */}
 
         <TogglesContext.Consumer>
           {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
