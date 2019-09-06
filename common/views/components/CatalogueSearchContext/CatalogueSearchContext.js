@@ -2,7 +2,7 @@
 import {
   type Node,
   createContext,
-  useState,
+  // useState,
   useContext,
   // useEffect,
 } from 'react';
@@ -20,19 +20,19 @@ export type CatalogueQuery = {|
   _isFilteringBySubcategory: ?string,
 |};
 
-type ContextProps = {|
-  ...CatalogueQuery,
-  setQuery: (value: string) => void,
-  setPage: (value: number) => void,
-  setWorkType: (value: ?(string[])) => void,
-  setItemsLocationsLocationType: (value: ?(string[])) => void,
-  setQueryType: (value: ?string) => void,
-  setDateFrom: (value: ?string) => void,
-  setDateTo: (value: ?string) => void,
-  setIsFilteringBySubcategory: (value: ?string) => void,
-|};
+// type ContextProps = {|
+//   ...CatalogueQuery,
+//   // setQuery: (value: string) => void,
+//   // setPage: (value: number) => void,
+//   // setWorkType: (value: ?(string[])) => void,
+//   // setItemsLocationsLocationType: (value: ?(string[])) => void,
+//   // setQueryType: (value: ?string) => void,
+//   // setDateFrom: (value: ?string) => void,
+//   // setDateTo: (value: ?string) => void,
+//   // setIsFilteringBySubcategory: (value: ?string) => void,
+// |};
 
-const defaultState: ContextProps = {
+const defaultState: CatalogueQuery = {
   query: '',
   page: 1,
   workType: null,
@@ -41,17 +41,17 @@ const defaultState: ContextProps = {
   _dateFrom: null,
   _dateTo: null,
   _isFilteringBySubcategory: null,
-  setQuery: () => {},
-  setPage: () => {},
-  setWorkType: () => {},
-  setItemsLocationsLocationType: () => {},
-  setQueryType: () => {},
-  setDateFrom: () => {},
-  setDateTo: () => {},
-  setIsFilteringBySubcategory: () => {},
+  // setQuery: () => {},
+  // setPage: () => {},
+  // setWorkType: () => {},
+  // setItemsLocationsLocationType: () => {},
+  // setQueryType: () => {},
+  // setDateFrom: () => {},
+  // setDateTo: () => {},
+  // setIsFilteringBySubcategory: () => {},
 };
 
-const CatalogueSearchContext = createContext<ContextProps>({
+const CatalogueSearchContext = createContext<CatalogueQuery>({
   ...defaultState,
 });
 
@@ -90,37 +90,39 @@ const CatalogueSearchProvider = ({
     ...initialState,
   };
 
-  const [query, setQuery] = useState(state.query);
-  const [page, setPage] = useState(state.page);
-  const [workType, setWorkType] = useState(state.workType);
-  const [_dateFrom, setDateFrom] = useState(state._dateFrom);
-  const [_dateTo, setDateTo] = useState(state._dateTo);
-  const [_isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
-    state._isFilteringBySubcategory
-  );
-  const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
-    state.itemsLocationsLocationType
-  );
+  console.log('state', state);
+  // const [query, setQuery] = useState(state.query);
+  // const [page, setPage] = useState(state.page);
+  // const [workType, setWorkType] = useState(state.workType);
+  // const [_dateFrom, setDateFrom] = useState(state._dateFrom);
+  // const [_dateTo, setDateTo] = useState(state._dateTo);
+  // const [_isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
+  //   state._isFilteringBySubcategory
+  // );
+  // const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
+  //   state.itemsLocationsLocationType
+  // );
 
-  const [_queryType, setQueryType] = useState(state._queryType);
-  const value = {
-    query,
-    page,
-    workType,
-    itemsLocationsLocationType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
-    setQuery,
-    setPage,
-    setWorkType,
-    setItemsLocationsLocationType,
-    setQueryType,
-    setDateFrom,
-    setDateTo,
-    setIsFilteringBySubcategory,
-  };
+  // const [_queryType, setQueryType] = useState(state._queryType);
+  // const value = {
+  //   query,
+  //   page,
+  //   workType,
+  //   itemsLocationsLocationType,
+  //   _queryType,
+  //   _dateFrom,
+  //   _dateTo,
+  //   _isFilteringBySubcategory,
+  //   setQuery,
+  //   setPage,
+  //   setWorkType,
+  //   setItemsLocationsLocationType,
+  //   setQueryType,
+  //   setDateFrom,
+  //   setDateTo,
+  //   setIsFilteringBySubcategory,
+  // };
+  // console.log('state', value);
 
   // useEffect(() => {
   //   function routeChangeComplete(url: string) {
@@ -174,7 +176,7 @@ const CatalogueSearchProvider = ({
   // }, []);
 
   return (
-    <CatalogueSearchContext.Provider value={value}>
+    <CatalogueSearchContext.Provider value={state}>
       {children}
     </CatalogueSearchContext.Provider>
   );
