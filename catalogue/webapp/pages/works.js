@@ -359,7 +359,16 @@ const Works = ({ works }: Props) => {
                           trackSearch(event);
                         }}
                       >
-                        <WorkCard work={result} />
+                        <WorkCard
+                          workAndParams={{
+                            work: result,
+                            query,
+                            workType,
+                            page,
+                            _dateFrom,
+                            _dateTo,
+                          }}
+                        />
                       </div>
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
