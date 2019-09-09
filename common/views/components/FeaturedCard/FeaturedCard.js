@@ -1,5 +1,6 @@
 // @flow
 
+import NextLink from 'next/link';
 import { grid, classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -64,66 +65,69 @@ const FeaturedCardCopy = styled(Space).attrs({
 const FeaturedCard = ({ item }: Props) => {
   return (
     <FeaturedCardWrap>
-      <a
-        onClick={() => {
-          trackEvent({
-            category: 'FeaturedCard',
-            action: 'follow link',
-            label: `${item.id}`,
-          });
-        }}
+      <NextLink
         href={(item.promo && item.promo.link) || `/articles/${item.id}`}
-        className="grid flex-end promo-link plain-link"
       >
-        <FeaturedCardLeft>
-          <UiImage {...item.promoImage} showTasl={false} />
-        </FeaturedCardLeft>
-        <div
-          className={classNames({
-            flex: true,
-            [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-          })}
+        <a
+          onClick={() => {
+            trackEvent({
+              category: 'FeaturedCard',
+              action: 'follow link',
+              label: `${item.id}`,
+            });
+          }}
+          className="grid flex-end promo-link plain-link"
         >
-          <FeaturedCardRight>
-            {item.labels.length > 0 && <LabelsList labels={item.labels} />}
-            <FeaturedCardCopy>
-              <Space
-                v={{
-                  size: 's',
-                  properties: ['margin-bottom'],
-                }}
-                as="h2"
-                className={`
-                promo-link__title
-                ${font('wb', 2)}
-              `}
-              >
-                {item.title}
-              </Space>
-              <p
-                className={classNames({
-                  'inline-block no-margin': true,
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                {item.promoText}
-              </p>
-            </FeaturedCardCopy>
-          </FeaturedCardRight>
-        </div>
-        <div
-          className={classNames({
-            [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
-          })}
-        ></div>
-        <div
-          style={{ height: '20px' }}
-          className={classNames({
-            'bg-charcoal is-hidden-s is-hidden-m': true,
-            [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-          })}
-        ></div>
-      </a>
+          <FeaturedCardLeft>
+            <UiImage {...item.promoImage} showTasl={false} />
+          </FeaturedCardLeft>
+          <div
+            className={classNames({
+              flex: true,
+              [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
+            })}
+          >
+            <FeaturedCardRight>
+              {item.labels.length > 0 && <LabelsList labels={item.labels} />}
+              <FeaturedCardCopy>
+                <Space
+                  v={{
+                    size: 's',
+                    properties: ['margin-bottom'],
+                  }}
+                  as="h2"
+                  className={`
+                  promo-link__title
+                  ${font('wb', 2)}
+                `}
+                >
+                  {item.title}
+                </Space>
+                <p
+                  className={classNames({
+                    'inline-block no-margin': true,
+                    [font('hnl', 5)]: true,
+                  })}
+                >
+                  {item.promoText}
+                </p>
+              </FeaturedCardCopy>
+            </FeaturedCardRight>
+          </div>
+          <div
+            className={classNames({
+              [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
+            })}
+          ></div>
+          <div
+            style={{ height: '20px' }}
+            className={classNames({
+              'bg-charcoal is-hidden-s is-hidden-m': true,
+              [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
+            })}
+          ></div>
+        </a>
+      </NextLink>
     </FeaturedCardWrap>
   );
 };
