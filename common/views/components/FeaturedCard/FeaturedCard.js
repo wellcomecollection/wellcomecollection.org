@@ -1,16 +1,25 @@
 // @flow
 
+import { type UiImageProps } from '../../components/images/Images';
+import { type Label } from '../../../../common/model/labels';
+import { type Link } from '../../../../common/model/link';
 import NextLink from 'next/link';
 import { grid, classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
-import type { Article } from '../../../model/articles';
 import { trackEvent } from '../../../utils/ga';
 
 type Props = {|
-  item: Article,
+  id: string,
+  image: ?UiImageProps,
+  labels: ?(Label[]),
+  title: string,
+  text: ?string,
+  link: Link,
+  background: string,
+  color: string,
 |};
 
 const FeaturedCardWrap = styled.div`
@@ -50,85 +59,101 @@ const FeaturedCardRight = styled.div.attrs({
   `}
 `;
 
-const FeaturedCardCopy = styled(Space).attrs({
+const FeaturedCardCopy = styled(Space).attrs(props => ({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'bg-charcoal font-white flex-1': true,
+    'flex-1': true,
   }),
-})`
+}))`
   ${props => props.theme.media.large`
     margin-right: -${props => props.theme.gutter.large}px;
   `}
 `;
 
-const FeaturedCard = ({ item }: Props) => {
+const FeaturedCard = ({
+  id,
+  image,
+  labels,
+  title,
+  text,
+  link,
+  color,
+  background,
+}: Props) => {
   return (
-    <FeaturedCardWrap>
-      <NextLink
-        href={(item.promo && item.promo.link) || `/articles/${item.id}`}
-      >
-        <a
-          onClick={() => {
-            trackEvent({
-              category: 'FeaturedCard',
-              action: 'follow link',
-              label: `${item.id}`,
-            });
-          }}
-          className="grid flex-end promo-link plain-link"
-        >
-          <FeaturedCardLeft>
-            <UiImage {...item.promoImage} showTasl={false} />
-          </FeaturedCardLeft>
-          <div
-            className={classNames({
-              flex: true,
-              [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-            })}
+    <div className="container">
+      <FeaturedCardWrap>
+        <NextLink href={link.url}>
+          <a
+            onClick={() => {
+              trackEvent({
+                category: 'FeaturedCard',
+                action: 'follow link',
+                label: `${id}`,
+              });
+            }}
+            className="grid flex-end promo-link plain-link"
           >
-            <FeaturedCardRight>
-              {item.labels.length > 0 && <LabelsList labels={item.labels} />}
-              <FeaturedCardCopy>
-                <Space
-                  v={{
-                    size: 's',
-                    properties: ['margin-bottom'],
-                  }}
-                  as="h2"
-                  className={`
-                  promo-link__title
-                  ${font('wb', 2)}
-                `}
-                >
-                  {item.title}
-                </Space>
-                <p
+            <FeaturedCardLeft>
+              {image && <UiImage {...image} />}
+            </FeaturedCardLeft>
+            <div
+              className={classNames({
+                flex: true,
+                [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
+              })}
+            >
+              <FeaturedCardRight>
+                {labels && labels.length > 0 && <LabelsList labels={labels} />}
+                <FeaturedCardCopy
                   className={classNames({
-                    'inline-block no-margin': true,
-                    [font('hnl', 5)]: true,
+                    [`bg-${background} font-${color}`]: true,
                   })}
                 >
-                  {item.promoText}
-                </p>
-              </FeaturedCardCopy>
-            </FeaturedCardRight>
-          </div>
-          <div
-            className={classNames({
-              [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
-            })}
-          ></div>
-          <div
-            style={{ height: '20px' }}
-            className={classNames({
-              'bg-charcoal is-hidden-s is-hidden-m': true,
-              [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-            })}
-          ></div>
-        </a>
-      </NextLink>
-    </FeaturedCardWrap>
+                  <Space
+                    v={{
+                      size: 's',
+                      properties: ['margin-bottom'],
+                    }}
+                    as="h2"
+                    className={classNames({
+                      'promo-link__title': true,
+                      [font('wb', 2)]: true,
+                    })}
+                  >
+                    {title}
+                  </Space>
+                  {text && (
+                    <p
+                      className={classNames({
+                        'inline-block no-margin': true,
+                        [font('hnl', 5)]: true,
+                      })}
+                    >
+                      {text}
+                    </p>
+                  )}
+                </FeaturedCardCopy>
+              </FeaturedCardRight>
+            </div>
+            <div
+              className={classNames({
+                [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
+              })}
+            ></div>
+            <div
+              style={{ height: '20px' }}
+              className={classNames({
+                [`bg-${background}`]: true,
+                'is-hidden-s is-hidden-m': true,
+                [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
+              })}
+            ></div>
+          </a>
+        </NextLink>
+      </FeaturedCardWrap>
+    </div>
   );
 };
 

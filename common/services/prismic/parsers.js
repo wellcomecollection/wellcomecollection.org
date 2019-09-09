@@ -11,6 +11,7 @@ import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
+import type { Article } from '../../model/articles';
 import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
@@ -757,5 +758,24 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
     // we pass an empty array here to be overriden by each content type
     // TODO: find a way to enforce this.
     labels: [],
+  };
+}
+
+export function parseArticleToFeaturedCardContent(article: Article) {
+  return {
+    id: article.id,
+    image: article.promoImage && {
+      alt: article.promoImage.alt,
+      contentUrl: article.promoImage.contentUrl,
+      width: article.promoImage.width,
+      height: article.promoImage.height || 9,
+      sizesQueries:
+        '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
+      tasl: article.promoImage.tasl,
+    },
+    labels: article.labels,
+    title: article.title,
+    text: article.promoText,
+    link: { url: `/articles/${article.id}`, text: article.title },
   };
 }
