@@ -772,6 +772,7 @@ export function parseArticleToFeaturedCardContent(article: Article) {
       sizesQueries:
         '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
       tasl: article.promoImage.tasl,
+      showTasl: false,
     },
     labels: article.labels,
     title: article.title,
