@@ -31,6 +31,7 @@ type ItemUrlProps = {|
   canvas: number,
   page: ?number,
   isOverview?: boolean,
+  ...WorksUrlProps,
 |};
 
 type downloadUrlProps = {|
@@ -131,6 +132,13 @@ export function itemUrl({
   langCode,
   canvas,
   isOverview,
+  query,
+  // page,
+  workType,
+  _queryType,
+  _dateFrom,
+  _dateTo,
+  _isFilteringBySubcategory,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -143,6 +151,16 @@ export function itemUrl({
           sierraId: sierraId,
           langCode: langCode,
           isOverview: isOverview,
+          query: query || undefined,
+          // page: page && page > 1 ? page : undefined,
+          ...getWorkType(workType),
+          _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+          _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+          _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+          _isFilteringBySubcategory:
+            _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+              ? _isFilteringBySubcategory
+              : undefined,
         }),
       },
     },

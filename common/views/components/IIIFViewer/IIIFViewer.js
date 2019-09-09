@@ -1,6 +1,7 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
 import fetch from 'isomorphic-unfetch';
+import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
 import {
   type Work,
   type CatalogueApiError,
@@ -10,7 +11,13 @@ import {
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import styled from 'styled-components';
-import { useState, useEffect, useRef, type ComponentType } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  type ComponentType,
+} from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -473,9 +480,6 @@ type IIIFViewerProps = {|
   canvasOcr: ?string,
   canvases: ?[],
   workId: string,
-  query: ?string,
-  workType: ?(string[]),
-  itemsLocationsLocationType: ?(string[]),
   pageIndex: number,
   sierraId: string,
   pageSize: number,
@@ -495,9 +499,6 @@ const IIIFViewerComponent = ({
   canvasOcr,
   canvases,
   workId,
-  query,
-  workType,
-  itemsLocationsLocationType,
   pageIndex,
   sierraId,
   pageSize,
@@ -567,6 +568,15 @@ const IIIFViewerComponent = ({
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   const parentManifestUrl = manifest && manifest.within;
+  const {
+    query,
+    workType,
+    page,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
@@ -607,6 +617,13 @@ const IIIFViewerComponent = ({
           <NextLink
             {...workUrl({
               id: workId,
+              query,
+              page,
+              workType,
+              _queryType,
+              _dateFrom,
+              _dateTo,
+              _isFilteringBySubcategory,
             })}
           >
             <a
@@ -681,6 +698,13 @@ const IIIFViewerComponent = ({
                           ) || [])[1],
                           langCode: lang,
                           canvas: 0,
+                          query,
+                          // page,
+                          workType,
+                          _queryType,
+                          _dateFrom,
+                          _dateTo,
+                          _isFilteringBySubcategory,
                         })}
                       >
                         <a>{manifest.label}</a>
@@ -760,6 +784,13 @@ const IIIFViewerComponent = ({
                               sierraId,
                               langCode: lang,
                               canvas: pageSize * pageIndex + (i + 1),
+                              query,
+                              // page,
+                              workType,
+                              _queryType,
+                              _dateFrom,
+                              _dateTo,
+                              _isFilteringBySubcategory,
                             })}
                             scroll={false}
                             replace
@@ -854,6 +885,13 @@ const IIIFViewerComponent = ({
                             sierraId,
                             langCode: lang,
                             canvas: i + 1,
+                            query,
+                            // page,
+                            workType,
+                            _queryType,
+                            _dateFrom,
+                            _dateTo,
+                            _isFilteringBySubcategory,
                           })}
                           scroll={false}
                           replace
