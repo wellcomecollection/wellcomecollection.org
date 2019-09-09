@@ -1,6 +1,6 @@
 // @flow
 
-import { type UiImageProps } from '../../components/images/Images';
+import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
 import NextLink from 'next/link';
@@ -8,7 +8,7 @@ import { grid, classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import LabelsList from '../LabelsList/LabelsList';
-import { UiImage } from '../Images/Images';
+
 import { trackEvent } from '../../../utils/ga';
 
 type Props = {|
