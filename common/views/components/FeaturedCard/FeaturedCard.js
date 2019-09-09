@@ -13,8 +13,8 @@ type Props = {|
 |};
 
 const FeaturedCardWrap = styled.div`
-  margin-left: -18px;
-  margin-right: -18px;
+  margin-left: -${props => props.theme.gutter.small}px;
+  margin-right: -${props => props.theme.gutter.small}px;
 
   ${props => props.theme.media.medium`
     margin-left: 0;
@@ -33,7 +33,7 @@ const FeaturedCardRight = styled.div.attrs({
     'flex flex--column': true,
   }),
 })`
-  padding-left: 18px;
+  padding-left: ${props => props.theme.gutter.small}px;
   margin-top: -60px;
   width: 100%;
   height: 100%;
@@ -44,7 +44,7 @@ const FeaturedCardRight = styled.div.attrs({
   `}
 
   ${props => props.theme.media.large`
-    margin-left: -30px;
+    margin-left: -${props => props.theme.gutter.large}px;
     margin-top: 0;
   `}
 `;
@@ -57,7 +57,7 @@ const FeaturedCardCopy = styled(Space).attrs({
   }),
 })`
   ${props => props.theme.media.large`
-    margin-right: -30px;
+    margin-right: -${props => props.theme.gutter.large}px;
   `}
 `;
 
