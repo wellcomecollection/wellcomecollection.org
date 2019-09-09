@@ -1,11 +1,5 @@
 // @flow
-import {
-  type Node,
-  createContext,
-  // useState,
-  useContext,
-  // useEffect,
-} from 'react';
+import { type Node, createContext, useContext } from 'react';
 import Router, { withRouter } from 'next/router';
 import { worksUrl } from '../../../services/catalogue/urls';
 
@@ -20,18 +14,6 @@ export type CatalogueQuery = {|
   _isFilteringBySubcategory: ?string,
 |};
 
-// type ContextProps = {|
-//   ...CatalogueQuery,
-//   // setQuery: (value: string) => void,
-//   // setPage: (value: number) => void,
-//   // setWorkType: (value: ?(string[])) => void,
-//   // setItemsLocationsLocationType: (value: ?(string[])) => void,
-//   // setQueryType: (value: ?string) => void,
-//   // setDateFrom: (value: ?string) => void,
-//   // setDateTo: (value: ?string) => void,
-//   // setIsFilteringBySubcategory: (value: ?string) => void,
-// |};
-
 const defaultState: CatalogueQuery = {
   query: '',
   page: 1,
@@ -41,14 +23,6 @@ const defaultState: CatalogueQuery = {
   _dateFrom: null,
   _dateTo: null,
   _isFilteringBySubcategory: null,
-  // setQuery: () => {},
-  // setPage: () => {},
-  // setWorkType: () => {},
-  // setItemsLocationsLocationType: () => {},
-  // setQueryType: () => {},
-  // setDateFrom: () => {},
-  // setDateTo: () => {},
-  // setIsFilteringBySubcategory: () => {},
 };
 
 const CatalogueSearchContext = createContext<CatalogueQuery>({
@@ -85,95 +59,11 @@ const CatalogueSearchProvider = ({
       ? router.query._isFilteringBySubcategory
       : defaultState._isFilteringBySubcategory,
   };
+
   const state = {
     ...defaultState,
     ...initialState,
   };
-
-  console.log('state', state);
-  // const [query, setQuery] = useState(state.query);
-  // const [page, setPage] = useState(state.page);
-  // const [workType, setWorkType] = useState(state.workType);
-  // const [_dateFrom, setDateFrom] = useState(state._dateFrom);
-  // const [_dateTo, setDateTo] = useState(state._dateTo);
-  // const [_isFilteringBySubcategory, setIsFilteringBySubcategory] = useState(
-  //   state._isFilteringBySubcategory
-  // );
-  // const [itemsLocationsLocationType, setItemsLocationsLocationType] = useState(
-  //   state.itemsLocationsLocationType
-  // );
-
-  // const [_queryType, setQueryType] = useState(state._queryType);
-  // const value = {
-  //   query,
-  //   page,
-  //   workType,
-  //   itemsLocationsLocationType,
-  //   _queryType,
-  //   _dateFrom,
-  //   _dateTo,
-  //   _isFilteringBySubcategory,
-  //   setQuery,
-  //   setPage,
-  //   setWorkType,
-  //   setItemsLocationsLocationType,
-  //   setQueryType,
-  //   setDateFrom,
-  //   setDateTo,
-  //   setIsFilteringBySubcategory,
-  // };
-  // console.log('state', value);
-
-  // useEffect(() => {
-  //   function routeChangeComplete(url: string) {
-  //     const [path, query = ''] = url.split('?');
-
-  //     // TODO: There must be a more non-stringy way to do this
-  //     // This avoids other URL updates changing the search context
-  //     if (path === '/works') {
-  //       const params = query.split('&').reduce((acc, keyAndVal) => {
-  //         const [key, value] = keyAndVal.split('=');
-  //         const decodedValue = decodeURIComponent(value);
-
-  //         return {
-  //           ...acc,
-  //           [key]: decodedValue,
-  //         };
-  //       }, {});
-
-  //       const state = {
-  //         ...defaultState,
-  //         query: params.query || defaultState.query,
-  //         page: params.page || defaultState.page,
-  //         workType: params.workType
-  //           ? params.workType.split(',')
-  //           : defaultState.workType,
-  //         // $FlowFixMe
-  //         itemsLocationsLocationType: params['items.locations.location.type']
-  //           ? params['items.locations.location.type'].split(',')
-  //           : defaultState.itemsLocationsLocationType,
-  //         _queryType: params._queryType || defaultState._queryType,
-  //         _dateFrom: params._dateFrom || null,
-  //         _dateTo: params._dateTo || null,
-  //         _isFilteringBySubcategory: params._isFilteringBySubcategory || null,
-  //       };
-
-  //       setQuery(state.query);
-  //       setPage(parseInt(state.page, 10));
-  //       setWorkType(state.workType);
-  //       setItemsLocationsLocationType(state.itemsLocationsLocationType);
-  //       setQueryType(state._queryType);
-  //       setDateFrom(state._dateFrom);
-  //       setDateTo(state._dateTo);
-  //       setIsFilteringBySubcategory(state._isFilteringBySubcategory);
-  //     }
-  //   }
-
-  //   Router.events.on('routeChangeComplete', routeChangeComplete);
-  //   return () => {
-  //     Router.events.off('routeChangeComplete', routeChangeComplete);
-  //   };
-  // }, []);
 
   return (
     <CatalogueSearchContext.Provider value={state}>
