@@ -195,6 +195,19 @@ export class StoriesPage extends Component<Props> {
                 >
                   {firstArticle.promoText}
                 </p>
+                {firstArticle.series.length > 0 && (
+                  <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                    {firstArticle.series.map(series => (
+                      <p
+                        key={series.title}
+                        className={`${font('hnm', 6)} no-margin`}
+                      >
+                        <span className={font('hnl', 6)}>Part of</span>{' '}
+                        {series.title}
+                      </p>
+                    ))}
+                  </Space>
+                )}
               </FeaturedCard>
             </Space>
             <div className="row__wobbly-background" />

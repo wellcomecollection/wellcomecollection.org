@@ -766,18 +766,6 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
 export function parseItemToFeaturedCard(
   item: Article | UiEvent | UiExhibition
 ) {
-  const urlPath = () => {
-    switch (item.type) {
-      case 'articles':
-        return 'stories';
-      case 'events':
-        return 'event';
-      case 'exhibitions':
-        return 'exhibition';
-      default:
-        return '';
-    }
-  };
   return {
     id: item.id,
     image: item.promoImage && {
@@ -792,6 +780,6 @@ export function parseItemToFeaturedCard(
     },
     labels: item.labels,
     title: item.title,
-    link: { url: `${urlPath()}/${item.id}`, text: item.title },
+    link: { url: `${item.type}/${item.id}`, text: item.title },
   };
 }
