@@ -792,6 +792,6 @@ export function parseItemToFeaturedCard(
     },
     labels: item.labels,
     title: item.title,
-    link: { url: `${urlPath()}/${item.id}` },
+    link: { url: `${urlPath()}/${item.id}`, text: item.title },
   };
 }
