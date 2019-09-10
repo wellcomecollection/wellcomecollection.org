@@ -19,12 +19,17 @@ const FeaturedCardExample = () => {
     <FeaturedCard
       image={imageWithoutTasl}
       labels={[{ url: null, text: 'Essay' }]}
-      text={`'Medical practice might have moved on from when patients posted flasks of their urine for doctors to taste, but telehealth today keeps up the tradition of remote diagnosis – to our possible detriment.'`}
       title={`Remote diagnosis from wee to web`}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
       background={background}
       color={color}
-    />
+    >
+      <p className="font-hnl font-size-5">
+        Medical practice might have moved on from when patients posted flasks of
+        their urine for doctors to taste, but telehealth today keeps up the
+        tradition of remote diagnosis – to our possible detriment.
+      </p>
+    </FeaturedCard>
   );
 };
 

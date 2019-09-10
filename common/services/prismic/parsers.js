@@ -12,6 +12,8 @@ import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Place } from '../../model/places';
 import type { Article } from '../../model/articles';
+import type { UiEvent } from '../../model/events';
+import type { UiExhibition } from '../../model/exhibitions';
 import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
@@ -761,22 +763,35 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   };
 }
 
-export function parseArticleToFeaturedCardContent(article: Article) {
+export function parseItemToFeaturedCard(
+  item: Article | UiEvent | UiExhibition
+) {
+  const urlPath = () => {
+    switch (item.type) {
+      case 'articles':
+        return 'stories';
+      case 'events':
+        return 'event';
+      case 'exhibitions':
+        return 'exhibition';
+      default:
+        return '';
+    }
+  };
   return {
-    id: article.id,
-    image: article.promoImage && {
-      alt: article.promoImage.alt,
-      contentUrl: article.promoImage.contentUrl,
-      width: article.promoImage.width,
-      height: article.promoImage.height || 9,
+    id: item.id,
+    image: item.promoImage && {
+      alt: item.promoImage.alt,
+      contentUrl: item.promoImage.contentUrl,
+      width: item.promoImage.width,
+      height: item.promoImage.height || 9,
       sizesQueries:
         '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-      tasl: article.promoImage.tasl,
+      tasl: item.promoImage.tasl,
       showTasl: false,
     },
-    labels: article.labels,
-    title: article.title,
-    text: article.promoText,
-    link: { url: `/articles/${article.id}`, text: article.title },
+    labels: item.labels,
+    title: item.title,
+    link: { url: `${urlPath()}/${item.id}` },
   };
 }

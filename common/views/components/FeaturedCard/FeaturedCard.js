@@ -1,5 +1,5 @@
 // @flow
-
+import { type Node } from 'react';
 import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
@@ -16,7 +16,7 @@ type Props = {|
   image: ?UiImageProps,
   labels: ?(Label[]),
   title: string,
-  text: ?string,
+  children: Node,
   link: Link,
   background: string,
   color: string,
@@ -76,7 +76,7 @@ const FeaturedCard = ({
   image,
   labels,
   title,
-  text,
+  children,
   link,
   color,
   background,
@@ -124,16 +124,7 @@ const FeaturedCard = ({
                   >
                     {title}
                   </Space>
-                  {text && (
-                    <p
-                      className={classNames({
-                        'inline-block no-margin': true,
-                        [font('hnl', 5)]: true,
-                      })}
-                    >
-                      {text}
-                    </p>
-                  )}
+                  {children}
                 </FeaturedCardCopy>
               </FeaturedCardRight>
             </div>

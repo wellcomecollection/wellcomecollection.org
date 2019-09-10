@@ -39,6 +39,9 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
+import { parseItemToFeaturedCard } from '@weco/common/services/prismic/parsers';
+import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -354,6 +357,7 @@ export class WhatsOnPage extends Component<Props> {
       };
     });
     const firstExhibition = exhibitions[0];
+    const featuredCardContent = parseItemToFeaturedCard(firstExhibition);
 
     return (
       <PageLayout
@@ -397,9 +401,44 @@ export class WhatsOnPage extends Component<Props> {
                             </span>
                           </div>
                         </Layout12>
-
+                        <Space
+                          v={{ size: 'xl', properties: ['margin-bottom'] }}
+                        >
+                          <FeaturedCard
+                            {...featuredCardContent}
+                            background={'charcoal'}
+                            color={'white'}
+                          >
+                            {!firstExhibition.statusOverride &&
+                              firstExhibition.start &&
+                              firstExhibition.end && (
+                                <p
+                                  className={`${font(
+                                    'hnl',
+                                    5
+                                  )} no-margin no-padding`}
+                                >
+                                  <Fragment>
+                                    <time dateTime={firstExhibition.start}>
+                                      {formatDate(firstExhibition.start)}
+                                    </time>
+                                    —
+                                    <time dateTime={firstExhibition.end}>
+                                      {/* $FlowFixMe */}
+                                      {formatDate(firstExhibition.end)}
+                                    </time>
+                                  </Fragment>
+                                </p>
+                              )}
+                            <StatusIndicator
+                              start={firstExhibition.start}
+                              end={firstExhibition.end || new Date()}
+                              statusOverride={firstExhibition.statusOverride}
+                            />
+                          </FeaturedCard>
+                        </Space>
                         <CardGrid
-                          items={exhibitions}
+                          items={exhibitions.slice(1)}
                           itemsPerRow={3}
                           links={[
                             {

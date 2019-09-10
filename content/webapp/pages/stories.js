@@ -19,7 +19,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
-import { parseArticleToFeaturedCardContent } from '@weco/common/services/prismic/parsers';
+import { parseItemToFeaturedCard } from '@weco/common/services/prismic/parsers';
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -91,7 +91,7 @@ export class StoriesPage extends Component<Props> {
     const series = this.props.series;
     const articles = this.props.articles.results;
     const firstArticle = articles[0];
-    const featuredCardContent = parseArticleToFeaturedCardContent(firstArticle);
+    const featuredCardContent = parseItemToFeaturedCard(firstArticle);
 
     return (
       <PageLayout
@@ -187,7 +187,15 @@ export class StoriesPage extends Component<Props> {
                 {...featuredCardContent}
                 background={'charcoal'}
                 color={'white'}
-              />
+              >
+                <p
+                  className={classNames({
+                    [font('hnl', 5)]: true,
+                  })}
+                >
+                  {firstArticle.promoText}
+                </p>
+              </FeaturedCard>
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">
