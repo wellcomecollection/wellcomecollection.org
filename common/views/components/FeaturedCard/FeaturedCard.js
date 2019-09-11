@@ -23,7 +23,7 @@ import { trackEvent } from '../../../utils/ga';
 type Props = {|
   id: string,
   image: ?UiImageProps,
-  labels: ?(Label[]),
+  labels: Label[],
   children: Node,
   link: Link,
   background: string,
