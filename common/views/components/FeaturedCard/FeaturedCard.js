@@ -44,6 +44,7 @@ function convertItemToFeaturedCardProps(
         '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
       tasl: item.promoImage.tasl,
       showTasl: false,
+      crops: {},
     },
     labels: item.labels,
     link: { url: `${item.type}/${item.id}`, text: item.title },
