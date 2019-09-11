@@ -40,8 +40,9 @@ import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import { parseItemToFeaturedCard } from '@weco/common/services/prismic/parsers';
-import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import FeaturedCard, {
+  FeaturedCardExhibitionBody,
+} from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -409,31 +410,8 @@ export class WhatsOnPage extends Component<Props> {
                             background={'charcoal'}
                             color={'white'}
                           >
-                            {!firstExhibition.statusOverride &&
-                              firstExhibition.start &&
-                              firstExhibition.end && (
-                                <p
-                                  className={`${font(
-                                    'hnl',
-                                    5
-                                  )} no-margin no-padding`}
-                                >
-                                  <Fragment>
-                                    <time dateTime={firstExhibition.start}>
-                                      {formatDate(firstExhibition.start)}
-                                    </time>
-                                    —
-                                    <time dateTime={firstExhibition.end}>
-                                      {/* $FlowFixMe */}
-                                      {formatDate(firstExhibition.end)}
-                                    </time>
-                                  </Fragment>
-                                </p>
-                              )}
-                            <StatusIndicator
-                              start={firstExhibition.start}
-                              end={firstExhibition.end || new Date()}
-                              statusOverride={firstExhibition.statusOverride}
+                            <FeaturedCardExhibitionBody
+                              exhibition={firstExhibition}
                             />
                           </FeaturedCard>
                         </Space>

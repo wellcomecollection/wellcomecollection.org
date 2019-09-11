@@ -18,7 +18,9 @@ import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import FeaturedCard, {
+  FeaturedCardStoryBody,
+} from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { parseItemToFeaturedCard } from '@weco/common/services/prismic/parsers';
 
 type Props = {|
@@ -188,26 +190,7 @@ export class StoriesPage extends Component<Props> {
                 background={'charcoal'}
                 color={'white'}
               >
-                <p
-                  className={classNames({
-                    [font('hnl', 5)]: true,
-                  })}
-                >
-                  {firstArticle.promoText}
-                </p>
-                {firstArticle.series.length > 0 && (
-                  <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                    {firstArticle.series.map(series => (
-                      <p
-                        key={series.title}
-                        className={`${font('hnm', 6)} no-margin`}
-                      >
-                        <span className={font('hnl', 6)}>Part of</span>{' '}
-                        {series.title}
-                      </p>
-                    ))}
-                  </Space>
-                )}
+                <FeaturedCardStoryBody article={firstArticle} />
               </FeaturedCard>
             </Space>
             <div className="row__wobbly-background" />

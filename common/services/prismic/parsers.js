@@ -779,7 +779,6 @@ export function parseItemToFeaturedCard(
       showTasl: false,
     },
     labels: item.labels,
-    title: item.title,
     link: { url: `${item.type}/${item.id}`, text: item.title },
   };
 }
