@@ -3,6 +3,7 @@ import { type Node } from 'react';
 import NextLink from 'next/link';
 import { type UiImageProps, UiImage } from '../../components/Images/Images';
 import type { UiExhibition } from '../../../../common/model/exhibitions';
+import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';
@@ -29,13 +30,52 @@ type Props = {|
   color: string,
 |};
 
-type FeaturedCardStoryBodyProps = {|
+function convertItemToFeaturedCardProps(
+  item: Article | UiEvent | UiExhibition
+) {
+  return {
+    id: item.id,
+    image: item.promoImage && {
+      alt: item.promoImage.alt,
+      contentUrl: item.promoImage.contentUrl,
+      width: item.promoImage.width,
+      height: item.promoImage.height || 9,
+      sizesQueries:
+        '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
+      tasl: item.promoImage.tasl,
+      showTasl: false,
+    },
+    labels: item.labels,
+    link: { url: `${item.type}/${item.id}`, text: item.title },
+  };
+}
+
+type FeaturedCardArticleProps = {|
+  article: Article,
+  background: string,
+  color: string,
+|};
+
+type FeaturedCardArticleBodyProps = {|
   article: Article,
 |};
 
-export const FeaturedCardStoryBody = ({
+export const FeaturedCardArticle = ({
   article,
-}: FeaturedCardStoryBodyProps) => {
+  background,
+  color,
+}: FeaturedCardArticleProps) => {
+  const props = convertItemToFeaturedCardProps(article);
+
+  return (
+    <FeaturedCard {...props} background={background} color={color}>
+      <FeaturedCardArticleBody article={article} />
+    </FeaturedCard>
+  );
+};
+
+// TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
+const FeaturedCardArticleBody = ({ article }: FeaturedCardArticleBodyProps) => {
   const positionInSeries = getPositionInSeries(article);
   const seriesColor = getArticleColor(article);
   return (
@@ -72,11 +112,30 @@ export const FeaturedCardStoryBody = ({
   );
 };
 
+type FeaturedCardExhibitionProps = {|
+  exhibition: UiExhibition,
+  background: string,
+  color: string,
+|};
+
+export const FeaturedCardExhibition = ({
+  exhibition,
+  background,
+  color,
+}: FeaturedCardExhibitionProps) => {
+  const props = convertItemToFeaturedCardProps(exhibition);
+
+  return (
+    <FeaturedCard {...props} background={background} color={color}>
+      <FeaturedCardExhibitionBody exhibition={exhibition} />
+    </FeaturedCard>
+  );
+};
 type FeaturedCardExhibitionBodyProps = {|
   exhibition: UiExhibition,
 |};
 
-export const FeaturedCardExhibitionBody = ({
+const FeaturedCardExhibitionBody = ({
   exhibition,
 }: FeaturedCardExhibitionBodyProps) => {
   return (

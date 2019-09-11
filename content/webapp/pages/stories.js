@@ -18,10 +18,7 @@ import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import FeaturedCard, {
-  FeaturedCardStoryBody,
-} from '@weco/common/views/components/FeaturedCard/FeaturedCard';
-import { parseItemToFeaturedCard } from '@weco/common/services/prismic/parsers';
+import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -93,7 +90,6 @@ export class StoriesPage extends Component<Props> {
     const series = this.props.series;
     const articles = this.props.articles.results;
     const firstArticle = articles[0];
-    const featuredCardContent = parseItemToFeaturedCard(firstArticle);
 
     return (
       <PageLayout
@@ -185,13 +181,11 @@ export class StoriesPage extends Component<Props> {
             })}
           >
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              <FeaturedCard
-                {...featuredCardContent}
+              <FeaturedCardArticle
+                article={firstArticle}
                 background={'charcoal'}
                 color={'white'}
-              >
-                <FeaturedCardStoryBody article={firstArticle} />
-              </FeaturedCard>
+              />
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">

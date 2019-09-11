@@ -39,10 +39,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
-import { parseItemToFeaturedCard } from '@weco/common/services/prismic/parsers';
-import FeaturedCard, {
-  FeaturedCardExhibitionBody,
-} from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -358,7 +355,6 @@ export class WhatsOnPage extends Component<Props> {
       };
     });
     const firstExhibition = exhibitions[0];
-    const featuredCardContent = parseItemToFeaturedCard(firstExhibition);
 
     return (
       <PageLayout
@@ -405,15 +401,11 @@ export class WhatsOnPage extends Component<Props> {
                         <Space
                           v={{ size: 'xl', properties: ['margin-bottom'] }}
                         >
-                          <FeaturedCard
-                            {...featuredCardContent}
+                          <FeaturedCardExhibition
+                            exhibition={firstExhibition}
                             background={'charcoal'}
                             color={'white'}
-                          >
-                            <FeaturedCardExhibitionBody
-                              exhibition={firstExhibition}
-                            />
-                          </FeaturedCard>
+                          />
                         </Space>
                         <CardGrid
                           items={exhibitions.slice(1)}
