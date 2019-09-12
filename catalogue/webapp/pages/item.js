@@ -138,7 +138,6 @@ const ItemPage = ({
   const {
     query,
     workType,
-    // page,
     _queryType,
     _dateFrom,
     _dateTo,
@@ -154,7 +153,6 @@ const ItemPage = ({
       langCode,
       sierraId,
       query,
-      // page,
       workType,
       _queryType,
       _dateFrom,
