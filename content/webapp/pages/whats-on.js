@@ -403,8 +403,8 @@ export class WhatsOnPage extends Component<Props> {
                         >
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
-                            background={'charcoal'}
-                            color={'white'}
+                            background={'cream'}
+                            color={'black'}
                           />
                         </Space>
                         <CardGrid
