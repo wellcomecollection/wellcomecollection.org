@@ -507,44 +507,6 @@
   top: 0.05em;
 }
 
-// TODO: this better
-.story-promo-featured {
-  // Because this item's flex-direction is row rather than column,
-  // it doesn't have the same issues as the others, so we can use
-  // flexbox and avoid a poor layout in IE.
-  .flex-ie-block {
-    display: flex;
-  }
-
-  @include respond-to('medium') {
-    .story-promo {
-      min-height: 0;
-      flex-direction: row;
-      align-items: flex-start;
-      border-bottom-right-radius: 0;
-    }
-
-    .story-promo__text {
-      width: percentage(1 / 3);
-      padding-right: 2 * $spacing-unit;
-      padding-top: 0;
-      order: 1;
-    }
-
-    .story-promo__image {
-      border-top-left-radius: $border-radius-unit;
-      overflow: hidden;
-      width: percentage(2 / 3);
-      order: 2;
-    }
-  }
-
-  .promo-link__title {
-    @extend %font-wb;
-    @extend %font-size-2;
-  }
-}
-
 // TODO: use this for e.g. Promo hover behaviour too
 .card-link {
   text-decoration: none;
