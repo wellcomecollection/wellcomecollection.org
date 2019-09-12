@@ -65,6 +65,8 @@ const CatalogueSearchProvider = ({
     ...initialState,
   };
 
+  console.log(state);
+
   return (
     <CatalogueSearchContext.Provider value={state}>
       {children}
