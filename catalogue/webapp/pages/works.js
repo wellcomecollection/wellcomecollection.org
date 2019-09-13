@@ -492,6 +492,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsmBoost,
     showDatesPrototype,
     unfilteredSearchResults,
+    refineFiltersPrototype,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -515,9 +516,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const filters = {
     workType: workTypeFilter,
-    'items.locations.locationType': unfilteredSearchResults
-      ? locationTypeFilter.map(code => encodeURIComponent(code))
-      : onlineLocations,
+    'items.locations.locationType':
+      unfilteredSearchResults || refineFiltersPrototype
+        ? locationTypeFilter.map(code => encodeURIComponent(code))
+        : onlineLocations,
     _queryType,
     ...(_dateFrom ? { _dateFrom } : {}),
     ...(_dateTo ? { _dateTo } : {}),
