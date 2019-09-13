@@ -9,7 +9,7 @@ import Icon from '../Icon/Icon';
 import {
   onlineLocations,
   inLibraryLocations,
-} from '@weco/common/views/components/AccessFilter/AccessFilter';
+} from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
 
 const workTypes = [
   {

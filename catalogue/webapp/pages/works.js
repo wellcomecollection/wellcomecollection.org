@@ -34,7 +34,7 @@ import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import {
   onlineLocations,
   inLibraryLocations,
-} from '@weco/common/views/components/AccessFilter/AccessFilter';
+} from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
