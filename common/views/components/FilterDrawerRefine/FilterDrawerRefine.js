@@ -306,7 +306,7 @@ function FilterDrawerRefine() {
             passHref
             {...worksUrl({
               query,
-              workType: ['k'],
+              workType,
               page: 1,
               _dateFrom,
               _dateTo,
@@ -335,7 +335,7 @@ function FilterDrawerRefine() {
             passHref
             {...worksUrl({
               query,
-              workType: ['k'],
+              workType,
               page: 1,
               _dateFrom,
               _dateTo,
@@ -443,7 +443,7 @@ function FilterDrawerRefine() {
               passHref
               {...worksUrl({
                 query,
-                workType: ['k'],
+                workType,
                 page: 1,
                 _dateFrom,
                 _dateTo,
@@ -468,7 +468,7 @@ function FilterDrawerRefine() {
               passHref
               {...worksUrl({
                 query,
-                workType: ['k'],
+                workType,
                 page: 1,
                 _dateFrom,
                 _dateTo,
