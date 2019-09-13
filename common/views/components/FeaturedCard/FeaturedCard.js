@@ -190,7 +190,7 @@ const FeaturedCardRight = styled.div.attrs({
   }),
 })`
   padding-left: ${props => props.theme.gutter.small}px;
-  margin-top: -60px;
+  transform: translateY(-60px);
   width: 100%;
   height: 100%;
   min-height: 200px;
@@ -201,7 +201,7 @@ const FeaturedCardRight = styled.div.attrs({
 
   ${props => props.theme.media.large`
     margin-left: -${props => props.theme.gutter.large}px;
-    margin-top: 0;
+    transform: translateY(0);
   `}
 `;
 
