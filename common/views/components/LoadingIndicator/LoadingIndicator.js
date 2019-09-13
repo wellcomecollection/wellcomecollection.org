@@ -3,7 +3,35 @@
 import { useEffect } from 'react';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import theme from '../../themes/default';
+import styled from 'styled-components';
+
+const LoadingIndicatorWrapper = styled.div.attrs({
+  className: 'loading-indicator-wrapper',
+})`
+  #nprogress {
+    pointer-events: none;
+  }
+  #nprogress .bar {
+    background: ${props => props.theme.colors.yellow};
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+  }
+  #nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px ${props => props.theme.colors.yellow},
+      0 0 5px ${props => props.theme.colors.yellow};
+    opacity: 1;
+    transform: rotate(3deg) translate(0px, -4px);
+  }
+`;
 
 const LoadingIndicator = () => {
   function handleRouteChangeStart() {
@@ -22,39 +50,13 @@ const LoadingIndicator = () => {
       Router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
   }, []);
-  const color = theme.colors.yellow;
-  const height = 2;
 
-  NProgress.configure({ showSpinner: false });
+  NProgress.configure({
+    showSpinner: false,
+    parent: '.loading-indicator-wrapper',
+  });
 
-  return (
-    <style jsx global>{`
-      #nprogress {
-        pointer-events: none;
-      }
-      #nprogress .bar {
-        background: ${color};
-        position: fixed;
-        z-index: 1031;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: ${height}px;
-      }
-      #nprogress .peg {
-        display: block;
-        position: absolute;
-        right: 0px;
-        width: 100px;
-        height: 100%;
-        box-shadow: 0 0 10px ${color}, 0 0 5px ${color};
-        opacity: 1;
-        -webkit-transform: rotate(3deg) translate(0px, -4px);
-        -ms-transform: rotate(3deg) translate(0px, -4px);
-        transform: rotate(3deg) translate(0px, -4px);
-      }
-    `}</style>
-  );
+  return <LoadingIndicatorWrapper />;
 };
 
 export default LoadingIndicator;
