@@ -5,7 +5,8 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
@@ -69,6 +70,15 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
+  const {
+    query,
+    workType,
+    page,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = useContext(CatalogueSearchContext);
 
   useEffect(() => {
     window.dataLayer &&
@@ -222,9 +232,15 @@ export const WorkPage = ({ work }: Props) => {
                     /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
                   )[1] || sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
-                page: 1,
                 canvas: 1,
                 isOverview: true,
+                query,
+                page,
+                workType,
+                _queryType,
+                _dateFrom,
+                _dateTo,
+                _isFilteringBySubcategory,
               })}
             />
           </SpacingComponent>
@@ -241,9 +257,15 @@ export const WorkPage = ({ work }: Props) => {
                 workId: work.id,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
-                page: 1,
                 canvas: 1,
                 isOverview: true,
+                query,
+                page,
+                workType,
+                _queryType,
+                _dateFrom,
+                _dateTo,
+                _isFilteringBySubcategory,
               })}
             />
           )}
@@ -258,8 +280,15 @@ export const WorkPage = ({ work }: Props) => {
               workId: work.id,
               sierraId: null,
               langCode: work.language && work.language.id,
-              page: 1,
               canvas: 1,
+              isOverview: true,
+              query,
+              page,
+              workType,
+              _queryType,
+              _dateFrom,
+              _dateTo,
+              _isFilteringBySubcategory,
             })}
             title={work.title}
           />

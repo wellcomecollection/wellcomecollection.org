@@ -8,7 +8,7 @@ const QueryTypes = {
 };
 type QueryType = $Values<typeof QueryTypes>;
 
-type WorksUrlProps = {|
+export type WorksUrlProps = {|
   query: ?string,
   page: ?number,
   workType?: ?(string[]),
@@ -21,6 +21,7 @@ type WorksUrlProps = {|
 
 type WorkUrlProps = {|
   id: string,
+  ...WorksUrlProps,
 |};
 
 type ItemUrlProps = {|
@@ -30,6 +31,7 @@ type ItemUrlProps = {|
   canvas: number,
   page: ?number,
   isOverview?: boolean,
+  ...WorksUrlProps,
 |};
 
 type downloadUrlProps = {|
@@ -55,13 +57,32 @@ function getLocationType(locationType: ?(string[])) {
   };
 }
 
-export function workUrl({ id }: WorkUrlProps): NextLinkType {
+export function workUrl({
+  id,
+  query,
+  page,
+  workType,
+  _queryType,
+  _dateFrom,
+  _dateTo,
+  _isFilteringBySubcategory,
+}: WorkUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/work`,
-      query: {
+      query: removeEmpty({
         id,
-      },
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined,
+        ...getWorkType(workType),
+        _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
+      }),
     },
     as: {
       pathname: `/works/${id}`,
@@ -122,6 +143,12 @@ export function itemUrl({
   langCode,
   canvas,
   isOverview,
+  query,
+  workType,
+  _queryType,
+  _dateFrom,
+  _dateTo,
+  _isFilteringBySubcategory,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -134,6 +161,15 @@ export function itemUrl({
           sierraId: sierraId,
           langCode: langCode,
           isOverview: isOverview,
+          query: query || undefined,
+          ...getWorkType(workType),
+          _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+          _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+          _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+          _isFilteringBySubcategory:
+            _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+              ? _isFilteringBySubcategory
+              : undefined,
         }),
       },
     },

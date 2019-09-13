@@ -244,7 +244,7 @@ const Works = ({ works }: Props) => {
         <TogglesContext.Consumer>
           {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
             <>
-              {!refineFiltersPrototype && !exploreFiltersPrototype && (
+              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
                 <Layout12>
                   <TabNav
                     items={[
@@ -366,7 +366,16 @@ const Works = ({ works }: Props) => {
                           trackSearch(event);
                         }}
                       >
-                        <WorkCard work={result} />
+                        <WorkCard
+                          workAndParams={{
+                            work: result,
+                            query,
+                            workType,
+                            page,
+                            _dateFrom,
+                            _dateTo,
+                          }}
+                        />
                       </div>
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>

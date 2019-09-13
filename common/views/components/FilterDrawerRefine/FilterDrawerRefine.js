@@ -364,40 +364,40 @@ function FilterDrawerRefine() {
       </div>
 
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {allWorkTypes.map(subcategory => (
-          <>
-            {_isFilteringBySubcategory &&
-              workType &&
-              workType.includes(subcategory.letter) && (
-                <NextLink
-                  key={subcategory.title}
-                  passHref
-                  {...worksUrl({
-                    query,
-                    workType: updateWorkTypes(
-                      workType,
-                      subcategory,
-                      _isFilteringBySubcategory
-                    ),
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                    itemsLocationsLocationType,
-                    _isFilteringBySubcategory: isLastFilterItem(
-                      workType,
-                      subcategory
-                    )
-                      ? ''
-                      : 'true',
-                  })}
-                >
-                  <ProtoTag as="a" isActive small>
-                    &times; {subcategory.title}
-                  </ProtoTag>
-                </NextLink>
-              )}
-          </>
-        ))}
+        {allWorkTypes.map(subcategory => {
+          return (
+            _isFilteringBySubcategory &&
+            workType &&
+            workType.includes(subcategory.letter) && (
+              <NextLink
+                key={subcategory.title}
+                passHref
+                {...worksUrl({
+                  query,
+                  workType: updateWorkTypes(
+                    workType,
+                    subcategory,
+                    _isFilteringBySubcategory
+                  ),
+                  page: 1,
+                  _dateFrom,
+                  _dateTo,
+                  itemsLocationsLocationType,
+                  _isFilteringBySubcategory: isLastFilterItem(
+                    workType,
+                    subcategory
+                  )
+                    ? ''
+                    : 'true',
+                })}
+              >
+                <ProtoTag as="a" isActive small>
+                  &times; {subcategory.title}
+                </ProtoTag>
+              </NextLink>
+            )
+          );
+        })}
         {_dateFrom && (
           <NextLink
             passHref
