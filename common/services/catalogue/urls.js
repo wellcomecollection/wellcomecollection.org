@@ -221,7 +221,7 @@ const defaultState: CatalogueQuery = {
 };
 
 export function searchQueryParams() {
-  if (Router.query) {
+  if (typeof window !== 'undefined') {
     return {
       query: Router.query.query ? Router.query.query : defaultState.query,
       page: Router.query.page
