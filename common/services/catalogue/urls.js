@@ -221,9 +221,7 @@ const defaultState: CatalogueQuery = {
 };
 
 export function searchQueryParams() {
-  if (Router.router) {
-    // TODO fix this
-    console.log(Router.query);
+  if (Router.query) {
     return {
       query: Router.query.query ? Router.query.query : defaultState.query,
       page: Router.query.page
