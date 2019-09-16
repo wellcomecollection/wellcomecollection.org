@@ -106,7 +106,7 @@ const EventPromo = ({
           )}
 
           {!isPast && fullyBooked && (
-            <div className={`${font('hnl', 5)} flex flex--v-center`}>
+            <div className={`${font('hnl', 6)} flex flex--v-center`}>
               <Space
                 as="span"
                 h={{ size: 's', properties: ['margin-right'] }}
