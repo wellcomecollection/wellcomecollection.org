@@ -4,3 +4,5 @@ export const repeatingLs =
   'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F805ad61b-fba6-4dc1-b2d3-55dbcda0c9f1_ls_svg.svg';
 export const repeatingLsBlack =
   'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fe483a8f3-f7bb-4c3f-8081-8f5d8875230e_ls_svg_black.svg';
+export const leaningLMask =
+  'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F881cff32-96a4-4495-8a5a-4f35908ab5f3_leaning-l-mask.svg';
