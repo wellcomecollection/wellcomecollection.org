@@ -16,6 +16,7 @@ import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
+import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
@@ -426,6 +427,7 @@ export default class WecoApp extends App {
                           )
                         }
                       </TogglesContext.Consumer>
+                      <LoadingIndicator />
                       {!pageProps.statusCode && <Component {...pageProps} />}
                       {pageProps.statusCode && pageProps.statusCode !== 200 && (
                         <ErrorPage statusCode={pageProps.statusCode} />
