@@ -5,8 +5,7 @@ import {
   type CatalogueApiError,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { useEffect, useState, useContext } from 'react';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
@@ -14,6 +13,10 @@ import {
   getEncoreLink,
   getLocationType,
 } from '@weco/common/utils/works';
+import {
+  searchQueryParams,
+  itemUrl,
+} from '@weco/common/services/catalogue/urls';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -23,7 +26,7 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
@@ -70,6 +73,7 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
+
   const {
     query,
     workType,
@@ -78,7 +82,7 @@ export const WorkPage = ({ work }: Props) => {
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
 
   useEffect(() => {
     window.dataLayer &&

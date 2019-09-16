@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -14,10 +14,12 @@ import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import {
+  worksUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
   trackSearch,
   SearchEventNames,
@@ -40,13 +42,14 @@ const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
   const {
     query,
-    page,
     workType,
+    page,
     _queryType,
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
+
   const trackEvent = () => {
     if (query && query !== '') {
       const event = {

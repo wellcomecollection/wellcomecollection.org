@@ -1,5 +1,5 @@
 // @flow
-import { useRef, useContext, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -7,8 +7,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import {
+  worksUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import FilterDrawerExplore from '@weco/common/views/components/FilterDrawerExplore/FilterDrawerExplore';
 
@@ -49,7 +51,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     _isFilteringBySubcategory,
     _dateTo,
     _dateFrom,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -161,25 +163,6 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       {workType && (
         <input type="hidden" name="workType" value={workType.join(',')} />
       )}
-
-      {/* TODO put back somehow ? <TogglesContext.Consumer>
-          {({ selectableQueries }) =>
-            selectableQueries && (
-              <label>
-                Query type:{' '}
-                <select
-                  value={_queryType}
-                  onChange={event => setQueryType(event.currentTarget.value)}
-                >
-                  <option value="">None</option>
-                  <option value="boost">boost</option>
-                  <option value="msm">msm</option>
-                  <option value="msmboost">msmboost</option>
-                </select>
-              </label>
-            )
-          }
-        </TogglesContext.Consumer> */}
 
       <TogglesContext.Consumer>
         {({ refineFiltersPrototype, exploreFiltersPrototype }) => (

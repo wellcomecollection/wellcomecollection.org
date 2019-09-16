@@ -1,7 +1,6 @@
 // @flow
-import { type ComponentType, useContext } from 'react';
+import { type ComponentType } from 'react';
 import { type Context } from 'next';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
   type Work,
   type CatalogueApiError,
@@ -9,7 +8,10 @@ import {
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import {
+  itemUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -142,7 +144,7 @@ const ItemPage = ({
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
