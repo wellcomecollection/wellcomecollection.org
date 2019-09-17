@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
-import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
+import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
 import { capitalize } from '../../../utils/grammar';
 import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
@@ -128,7 +127,7 @@ function FilterDrawerExplore() {
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
   const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
   const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
     false

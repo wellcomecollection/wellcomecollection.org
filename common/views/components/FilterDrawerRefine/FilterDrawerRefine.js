@@ -1,10 +1,9 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
 import { font } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
-import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
 import Icon from '../Icon/Icon';
 
 const workTypes = [
@@ -81,7 +80,7 @@ function FilterDrawerRefine() {
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
   const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
   const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
     false
@@ -292,39 +291,39 @@ function FilterDrawerRefine() {
       </div>
 
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {allWorkTypes.map(subcategory => (
-          <>
-            {_isFilteringBySubcategory &&
-              workType &&
-              workType.includes(subcategory.letter) && (
-                <NextLink
-                  key={subcategory.title}
-                  passHref
-                  {...worksUrl({
-                    query,
-                    workType: updateWorkTypes(
-                      workType,
-                      subcategory,
-                      _isFilteringBySubcategory
-                    ),
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                    _isFilteringBySubcategory: isLastFilterItem(
-                      workType,
-                      subcategory
-                    )
-                      ? ''
-                      : 'true',
-                  })}
-                >
-                  <ProtoTag as="a" isActive small>
-                    &times; {subcategory.title}
-                  </ProtoTag>
-                </NextLink>
-              )}
-          </>
-        ))}
+        {allWorkTypes.map(subcategory => {
+          return (
+            _isFilteringBySubcategory &&
+            workType &&
+            workType.includes(subcategory.letter) && (
+              <NextLink
+                key={subcategory.title}
+                passHref
+                {...worksUrl({
+                  query,
+                  workType: updateWorkTypes(
+                    workType,
+                    subcategory,
+                    _isFilteringBySubcategory
+                  ),
+                  page: 1,
+                  _dateFrom,
+                  _dateTo,
+                  _isFilteringBySubcategory: isLastFilterItem(
+                    workType,
+                    subcategory
+                  )
+                    ? ''
+                    : 'true',
+                })}
+              >
+                <ProtoTag as="a" isActive small>
+                  &times; {subcategory.title}
+                </ProtoTag>
+              </NextLink>
+            )
+          );
+        })}
         {_dateFrom && (
           <NextLink
             passHref

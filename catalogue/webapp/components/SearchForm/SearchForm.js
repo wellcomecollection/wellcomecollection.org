@@ -1,5 +1,5 @@
 // @flow
-import { useRef, useContext, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
@@ -7,8 +7,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
+import {
+  worksUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import FilterDrawerExplore from '@weco/common/views/components/FilterDrawerExplore/FilterDrawerExplore';
 
@@ -46,11 +48,10 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
     query,
     workType,
     _queryType,
-    setQueryType,
     _isFilteringBySubcategory,
     _dateTo,
     _dateFrom,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -88,115 +89,94 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   }
 
   return (
-    <>
-      <form
-        action="/works"
-        aria-describedby={ariaDescribedBy}
-        onSubmit={event => {
-          event.preventDefault();
+    <form
+      action="/works"
+      aria-describedby={ariaDescribedBy}
+      onSubmit={event => {
+        event.preventDefault();
 
-          trackEvent({
-            category: 'SearchForm',
-            action: 'submit search',
-            label: query,
-          });
+        trackEvent({
+          category: 'SearchForm',
+          action: 'submit search',
+          label: query,
+        });
 
-          updateUrl();
+        updateUrl();
 
-          return false;
-        }}
-      >
-        <div className="relative">
-          <SearchInputWrapper className="relative">
-            <TextInput
-              label={'Search the catalogue'}
-              placeholder={'Search for books and pictures'}
-              name="query"
-              value={inputQuery}
-              autoFocus={inputQuery === ''}
-              onChange={event => setInputQuery(event.currentTarget.value)}
-              ref={searchInput}
-              className={classNames({
-                [font('hnl', compact ? 4 : 3)]: true,
-              })}
-            />
+        return false;
+      }}
+    >
+      <div className="relative">
+        <SearchInputWrapper className="relative">
+          <TextInput
+            label={'Search the catalogue'}
+            placeholder={'Search for books and pictures'}
+            name="query"
+            value={inputQuery}
+            autoFocus={inputQuery === ''}
+            onChange={event => setInputQuery(event.currentTarget.value)}
+            ref={searchInput}
+            className={classNames({
+              [font('hnl', compact ? 4 : 3)]: true,
+            })}
+          />
 
-            {inputQuery && (
-              <ClearSearch
-                className="absolute line-height-1 plain-button v-center no-padding"
-                onClick={() => {
-                  trackEvent({
-                    category: 'SearchForm',
-                    action: 'clear search',
-                    label: 'works-search',
-                  });
+          {inputQuery && (
+            <ClearSearch
+              className="absolute line-height-1 plain-button v-center no-padding"
+              onClick={() => {
+                trackEvent({
+                  category: 'SearchForm',
+                  action: 'clear search',
+                  label: 'works-search',
+                });
 
-                  setInputQuery('');
+                setInputQuery('');
 
-                  searchInput.current && searchInput.current.focus();
-                }}
-                type="button"
-              >
-                <Icon name="clear" title="Clear" />
-              </ClearSearch>
-            )}
-          </SearchInputWrapper>
-
-          <SearchButtonWrapper className="absolute bg-green">
-            <button
-              className={classNames({
-                'full-width': true,
-                'full-height': true,
-                'line-height-1': true,
-                'plain-button no-padding': true,
-                [font('hnl', 3)]: true,
-              })}
+                searchInput.current && searchInput.current.focus();
+              }}
+              type="button"
             >
-              <span className="visually-hidden">Search</span>
-              <span className="flex flex--v-center flex--h-center">
-                <Icon name="search" title="Search" extraClasses="icon--white" />
-              </span>
-            </button>
-          </SearchButtonWrapper>
-        </div>
-
-        {workType && (
-          <input type="hidden" name="workType" value={workType.join(',')} />
-        )}
-
-        <TogglesContext.Consumer>
-          {({ selectableQueries }) =>
-            selectableQueries && (
-              <label>
-                Query type:{' '}
-                <select
-                  value={_queryType}
-                  onChange={event => setQueryType(event.currentTarget.value)}
-                >
-                  <option value="">None</option>
-                  <option value="boost">boost</option>
-                  <option value="msm">msm</option>
-                  <option value="msmboost">msmboost</option>
-                </select>
-              </label>
-            )
-          }
-        </TogglesContext.Consumer>
-
-        <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
-            <>
-              {shouldShowFilters && (
-                <>
-                  {refineFiltersPrototype && <FilterDrawerRefine />}
-                  {exploreFiltersPrototype && <FilterDrawerExplore />}
-                </>
-              )}
-            </>
+              <Icon name="clear" title="Clear" />
+            </ClearSearch>
           )}
-        </TogglesContext.Consumer>
-      </form>
-    </>
+        </SearchInputWrapper>
+
+        <SearchButtonWrapper className="absolute bg-green">
+          <button
+            className={classNames({
+              'full-width': true,
+              'full-height': true,
+              'line-height-1': true,
+              'plain-button no-padding': true,
+              [font('hnl', 3)]: true,
+            })}
+          >
+            <span className="visually-hidden">Search</span>
+            <span className="flex flex--v-center flex--h-center">
+              <Icon name="search" title="Search" extraClasses="icon--white" />
+            </span>
+          </button>
+        </SearchButtonWrapper>
+      </div>
+
+      {workType && (
+        <input type="hidden" name="workType" value={workType.join(',')} />
+      )}
+
+      <TogglesContext.Consumer>
+        {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+          <>
+            {shouldShowFilters && (
+              <>
+                {refineFiltersPrototype && <FilterDrawerRefine />}
+                {exploreFiltersPrototype && <FilterDrawerExplore />}
+              </>
+            )}
+          </>
+        )}
+      </TogglesContext.Consumer>
+    </form>
   );
 };
 export default SearchForm;

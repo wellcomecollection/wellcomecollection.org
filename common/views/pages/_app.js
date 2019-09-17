@@ -18,7 +18,6 @@ import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/Outb
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
-import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { trackEvent } from '../../utils/ga';
 
@@ -397,16 +396,15 @@ export default class WecoApp extends App {
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert}>
               <ThemeProvider theme={theme}>
-                <CatalogueSearchProvider>
-                  <OutboundLinkTracker>
-                    <Fragment>
-                      <TogglesContext.Consumer>
-                        {({ helveticaRegular }) =>
-                          helveticaRegular && (
-                            <style
-                              type="text/css"
-                              dangerouslySetInnerHTML={{
-                                __html: `
+                <OutboundLinkTracker>
+                  <Fragment>
+                    <TogglesContext.Consumer>
+                      {({ helveticaRegular }) =>
+                        helveticaRegular && (
+                          <style
+                            type="text/css"
+                            dangerouslySetInnerHTML={{
+                              __html: `
                                 @font-face {
                                   font-family: 'Helvetica Neue Light Web';
                                   src: local('Helvetica Neue Regular'),
@@ -422,19 +420,18 @@ export default class WecoApp extends App {
                                   letter-spacing: normal;
                                 }
                               `,
-                              }}
-                            />
-                          )
-                        }
-                      </TogglesContext.Consumer>
-                      <LoadingIndicator />
-                      {!pageProps.statusCode && <Component {...pageProps} />}
-                      {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                        <ErrorPage statusCode={pageProps.statusCode} />
-                      )}
-                    </Fragment>
-                  </OutboundLinkTracker>
-                </CatalogueSearchProvider>
+                            }}
+                          />
+                        )
+                      }
+                    </TogglesContext.Consumer>
+                    <LoadingIndicator />
+                    {!pageProps.statusCode && <Component {...pageProps} />}
+                    {pageProps.statusCode && pageProps.statusCode !== 200 && (
+                      <ErrorPage statusCode={pageProps.statusCode} />
+                    )}
+                  </Fragment>
+                </OutboundLinkTracker>
               </ThemeProvider>
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
