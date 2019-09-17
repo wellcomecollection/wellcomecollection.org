@@ -29,11 +29,11 @@ module.exports = {
       description: 'Shows all possible search results from the catalogue API',
     },
     {
-      id: 'exploreFiltersPrototype',
-      title: 'Display the Explore filters prototype',
+      id: 'refineFiltersPrototype',
+      title: 'Display the Refine filters prototype',
       defaultValue: false,
       description:
-        'Shows filters on the works search pages. Geared towards exploration.',
+        'Shows filters on the works search pages. Geared towards refinement.',
     },
     {
       id: 'helveticaRegular',
