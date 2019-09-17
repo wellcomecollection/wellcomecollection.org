@@ -117,10 +117,6 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
-        _isFilteringBySubcategory:
-          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
-            ? _isFilteringBySubcategory
-            : undefined,
       }),
     },
   };
@@ -222,6 +218,7 @@ const defaultState: CatalogueQuery = {
 
 export function searchQueryParams() {
   if (typeof window !== 'undefined') {
+    console.log(Router.query);
     return {
       query: Router.query.query ? Router.query.query : defaultState.query,
       page: Router.query.page
