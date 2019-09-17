@@ -3,7 +3,7 @@ import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
 import LabelsList from '../LabelsList/LabelsList';
-import Icon from '../Icon/Icon';
+import Dot from '../Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
 import Moment from 'moment';
@@ -106,19 +106,19 @@ const EventPromo = ({
           )}
 
           {!isPast && fullyBooked && (
-            <div className={`${font('hnl', 5)} flex flex--v-center`}>
+            <Space
+              v={{ size: 'm', properties: ['margin-top'] }}
+              className={`${font('hnl', 5)} flex flex--v-center`}
+            >
               <Space
                 as="span"
-                h={{ size: 's', properties: ['margin-right'] }}
+                h={{ size: 'xs', properties: ['margin-right'] }}
                 className={`flex flex--v-center`}
               >
-                <Icon
-                  name="statusIndicator"
-                  extraClasses={'icon--red icon--match-text'}
-                />
+                <Dot color={'red'} />
               </Space>
               Fully booked
-            </div>
+            </Space>
           )}
           {!isPast && event.scheduleLength > 0 && (
             <p className={`${font('hnm', 5)} no-padding no-margin`}>
@@ -136,13 +136,10 @@ const EventPromo = ({
             <div className={`${font('hnl', 5)} flex flex--v-center`}>
               <Space
                 as="span"
-                h={{ size: 's', properties: ['margin-right'] }}
+                h={{ size: 'xs', properties: ['margin-right'] }}
                 className={`flex flex--v-center`}
               >
-                <Icon
-                  name="statusIndicator"
-                  extraClasses={'icon--marble icon--match-text'}
-                />
+                <Dot color={'marble'} />
               </Space>
               Past
             </div>

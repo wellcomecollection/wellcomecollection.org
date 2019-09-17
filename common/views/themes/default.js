@@ -11,6 +11,12 @@ const theme = {
     large: 960,
     xlarge: 1338,
   },
+  gutter: {
+    small: 18,
+    medium: 24,
+    large: 30,
+    xlarge: 30,
+  },
   colors: {
     white: '#ffffff',
     black: '#010101',
