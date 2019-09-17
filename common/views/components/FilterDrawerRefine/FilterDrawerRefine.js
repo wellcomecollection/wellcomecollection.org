@@ -5,6 +5,10 @@ import { font } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+import {
+  onlineLocations,
+  inLibraryLocations,
+} from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
 
 const workTypes = [
   {
@@ -49,6 +53,38 @@ const workTypes = [
   },
 ];
 
+function updateLocations(selectedLocations, location) {
+  if (!selectedLocations) {
+    return location === 'library'
+      ? inLibraryLocations
+      : location === 'online'
+      ? onlineLocations
+      : null;
+  }
+
+  if (
+    location === 'library' &&
+    inLibraryLocations.every(t => selectedLocations.includes(t))
+  ) {
+    const locationsWithoutInLibrary = selectedLocations.filter(value => {
+      return !inLibraryLocations.includes(value);
+    });
+    return locationsWithoutInLibrary.length > 0
+      ? locationsWithoutInLibrary
+      : null;
+  } else if (
+    location === 'online' &&
+    onlineLocations.every(t => selectedLocations.includes(t))
+  ) {
+    const locationsWithoutOnline = selectedLocations.filter(value => {
+      return !onlineLocations.includes(value);
+    });
+    return locationsWithoutOnline.length > 0 ? locationsWithoutOnline : null;
+  } else {
+    return [...onlineLocations, ...inLibraryLocations];
+  }
+}
+
 const allWorkTypes = workTypes
   .map(t => t.materialTypes)
   .reduce((acc, curr) => acc.concat(curr), []);
@@ -77,14 +113,11 @@ function FilterDrawerRefine() {
   const {
     query,
     workType,
+    itemsLocationsLocationType,
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
   } = searchQueryParams();
-  const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
-  const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
-    false
-  );
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
@@ -196,6 +229,7 @@ function FilterDrawerRefine() {
                   {...worksUrl({
                     query,
                     workType,
+                    itemsLocationsLocationType,
                     page: 1,
                     _dateFrom: inputDateFrom,
                     _dateTo: inputDateTo,
@@ -213,6 +247,7 @@ function FilterDrawerRefine() {
                     page: 1,
                     _dateFrom: null,
                     _dateTo: null,
+                    itemsLocationsLocationType,
                     _isFilteringBySubcategory,
                   })}
                 >
@@ -241,6 +276,7 @@ function FilterDrawerRefine() {
                 page: 1,
                 _dateFrom,
                 _dateTo,
+                itemsLocationsLocationType,
                 _isFilteringBySubcategory: isLastFilterItem(
                   workType || allWorkTypes,
                   subcategory
@@ -265,28 +301,64 @@ function FilterDrawerRefine() {
       </div>
       <div className={`${activeDrawer !== 'availability' && 'is-hidden'}`}>
         <div>
-          <ProtoTag
-            as="button"
-            type="button"
-            onClick={() => {
-              setFakeIsAvailableOnline(!fakeIsAvailableOnline);
-            }}
-            isActive={fakeIsAvailableOnline}
-            style={{ cursor: 'pointer' }}
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType,
+              page: 1,
+              _dateFrom,
+              _dateTo,
+              itemsLocationsLocationType: updateLocations(
+                itemsLocationsLocationType,
+                'online'
+              ),
+              _isFilteringBySubcategory,
+            })}
           >
-            Online
-          </ProtoTag>
-          <ProtoTag
-            as="button"
-            type="button"
-            onClick={() => {
-              setFakeIsAvailableInLibrary(!fakeIsAvailableInLibrary);
-            }}
-            isActive={fakeIsAvailableInLibrary}
-            style={{ cursor: 'pointer' }}
+            <ProtoTag
+              as="button"
+              type="button"
+              isActive={
+                itemsLocationsLocationType &&
+                onlineLocations.every(t =>
+                  itemsLocationsLocationType.includes(t)
+                )
+              }
+              style={{ cursor: 'pointer' }}
+            >
+              online
+            </ProtoTag>
+          </NextLink>
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType,
+              page: 1,
+              _dateFrom,
+              _dateTo,
+              itemsLocationsLocationType: updateLocations(
+                itemsLocationsLocationType,
+                'library'
+              ),
+              _isFilteringBySubcategory,
+            })}
           >
-            In library
-          </ProtoTag>
+            <ProtoTag
+              as="button"
+              type="button"
+              isActive={
+                itemsLocationsLocationType &&
+                inLibraryLocations.every(t =>
+                  itemsLocationsLocationType.includes(t)
+                )
+              }
+              style={{ cursor: 'pointer' }}
+            >
+              in library
+            </ProtoTag>
+          </NextLink>
         </div>
       </div>
 
@@ -309,6 +381,7 @@ function FilterDrawerRefine() {
                   page: 1,
                   _dateFrom,
                   _dateTo,
+                  itemsLocationsLocationType,
                   _isFilteringBySubcategory: isLastFilterItem(
                     workType,
                     subcategory
@@ -333,6 +406,7 @@ function FilterDrawerRefine() {
               page: 1,
               _dateFrom: null,
               _dateTo,
+              itemsLocationsLocationType,
               _isFilteringBySubcategory,
             })}
           >
@@ -350,6 +424,7 @@ function FilterDrawerRefine() {
               page: 1,
               _dateFrom,
               _dateTo: null,
+              itemsLocationsLocationType,
               _isFilteringBySubcategory,
             })}
           >
@@ -359,31 +434,60 @@ function FilterDrawerRefine() {
           </NextLink>
         )}
 
-        {fakeIsAvailableOnline && (
-          <ProtoTag
-            isActive
-            small
-            onClick={() => setFakeIsAvailableOnline(false)}
-          >
-            &times; online
-          </ProtoTag>
-        )}
+        {itemsLocationsLocationType &&
+          onlineLocations.every(t =>
+            itemsLocationsLocationType.includes(t)
+          ) && (
+            <NextLink
+              passHref
+              {...worksUrl({
+                query,
+                workType,
+                page: 1,
+                _dateFrom,
+                _dateTo,
+                itemsLocationsLocationType: updateLocations(
+                  itemsLocationsLocationType,
+                  'online'
+                ),
+                _isFilteringBySubcategory,
+              })}
+            >
+              <ProtoTag as="button" type="button" isActive small>
+                &times; online
+              </ProtoTag>
+            </NextLink>
+          )}
 
-        {fakeIsAvailableInLibrary && (
-          <ProtoTag
-            isActive
-            small
-            onClick={() => setFakeIsAvailableInLibrary(false)}
-          >
-            &times; in library
-          </ProtoTag>
-        )}
+        {itemsLocationsLocationType &&
+          inLibraryLocations.every(t =>
+            itemsLocationsLocationType.includes(t)
+          ) && (
+            <NextLink
+              passHref
+              {...worksUrl({
+                query,
+                workType,
+                page: 1,
+                _dateFrom,
+                _dateTo,
+                itemsLocationsLocationType: updateLocations(
+                  itemsLocationsLocationType,
+                  'library'
+                ),
+                _isFilteringBySubcategory,
+              })}
+            >
+              <ProtoTag as="button" type="button" isActive small>
+                &times; in library
+              </ProtoTag>
+            </NextLink>
+          )}
 
         {(_isFilteringBySubcategory ||
           _dateFrom ||
           _dateTo ||
-          fakeIsAvailableInLibrary ||
-          fakeIsAvailableOnline) && (
+          itemsLocationsLocationType) && (
           <NextLink
             passHref
             {...worksUrl({
@@ -392,14 +496,14 @@ function FilterDrawerRefine() {
               page: 1,
               _dateFrom: null,
               _dateTo: null,
+              _location: null,
+              itemsLocationsLocationType: null,
               _isFilteringBySubcategory: false,
             })}
           >
             <a
               className={font('hnm', 6)}
               onClick={() => {
-                setFakeIsAvailableOnline(false);
-                setFakeIsAvailableInLibrary(false);
                 setActiveDrawer(null);
               }}
             >
