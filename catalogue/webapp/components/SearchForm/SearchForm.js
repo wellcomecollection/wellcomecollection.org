@@ -47,6 +47,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
   const {
     query,
     workType,
+    itemsLocationsLocationType,
     _queryType,
     _isFilteringBySubcategory,
     _dateTo,
@@ -79,6 +80,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       query: inputQuery,
       workType,
       page: 1,
+      itemsLocationsLocationType,
       _queryType,
       _dateFrom,
       _dateTo,
