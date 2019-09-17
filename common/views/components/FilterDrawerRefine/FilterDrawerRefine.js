@@ -1,10 +1,9 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
 import { font } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
-import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
 import Icon from '../Icon/Icon';
 import {
   onlineLocations,
@@ -118,7 +117,7 @@ function FilterDrawerRefine() {
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
   const [activeDrawer, setActiveDrawer] = useState(null);

@@ -1,10 +1,8 @@
 // @flow
-import { useContext } from 'react';
 import NextLink from 'next/link';
-import CatalogueSearchContext from '../../components/CatalogueSearchContext/CatalogueSearchContext';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
 
 const BackToResults = () => {
   const {
@@ -15,7 +13,7 @@ const BackToResults = () => {
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
 
   const link = worksUrl({
     query,

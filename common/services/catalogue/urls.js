@@ -1,5 +1,6 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import Router from 'next/router';
 
 const QueryTypes = {
   Justboost: 'boost',
@@ -206,4 +207,55 @@ export function downloadUrl({
       }),
     },
   };
+}
+
+export type CatalogueQuery = {|
+  query: string,
+  page: number,
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
+  _queryType: ?string,
+  _dateFrom: ?string,
+  _dateTo: ?string,
+  _isFilteringBySubcategory: ?string,
+|};
+
+const defaultState: CatalogueQuery = {
+  query: '',
+  page: 1,
+  workType: null,
+  itemsLocationsLocationType: null,
+  _queryType: null,
+  _dateFrom: null,
+  _dateTo: null,
+  _isFilteringBySubcategory: null,
+};
+
+export function searchQueryParams() {
+  if (typeof window !== 'undefined') {
+    return {
+      query: Router.query.query ? Router.query.query : defaultState.query,
+      page: Router.query.page
+        ? parseInt(Router.query.page, 10)
+        : defaultState.page,
+      workType: Router.query.workType
+        ? Router.query.workType.split(',')
+        : defaultState.workType,
+      itemsLocationsLocationType: Router.query['items.locations.locationType']
+        ? Router.query['items.locations.locationType'].split(',')
+        : defaultState.itemsLocationsLocationType,
+      _dateFrom: Router.query._dateFrom
+        ? Router.query._dateFrom
+        : defaultState._dateFrom,
+      _dateTo: Router.query._dateTo
+        ? Router.query._dateTo
+        : defaultState._dateTo,
+      _isFilteringBySubcategory: Router.query._isFilteringBySubcategory
+        ? Router.query._isFilteringBySubcategory
+        : defaultState._isFilteringBySubcategory,
+      _queryType: Router.query._queryType || defaultState._queryType,
+    };
+  } else {
+    return defaultState;
+  }
 }

@@ -1,7 +1,6 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
 import fetch from 'isomorphic-unfetch';
-import CatalogueSearchContext from '../CatalogueSearchContext/CatalogueSearchContext';
 import {
   type Work,
   type CatalogueApiError,
@@ -11,15 +10,13 @@ import {
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import styled from 'styled-components';
-import {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  type ComponentType,
-} from 'react';
+import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import {
+  itemUrl,
+  workUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import {
@@ -576,7 +573,7 @@ const IIIFViewerComponent = ({
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = useContext(CatalogueSearchContext);
+  } = searchQueryParams();
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
