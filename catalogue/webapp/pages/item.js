@@ -8,7 +8,10 @@ import {
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import {
+  itemUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -82,9 +85,6 @@ type Props = {|
   canvasOcr: ?string,
   canvases: ?[],
   currentCanvas: ?any,
-  itemsLocationsLocationType: ?(string[]),
-  workType: ?(string[]),
-  query: ?string,
   video: ?{
     '@id': string,
     format: string,
@@ -106,9 +106,6 @@ const ItemPage = ({
   canvasOcr,
   canvases,
   currentCanvas,
-  itemsLocationsLocationType,
-  workType,
-  query,
   video,
   audio,
 }: Props) => {
@@ -140,6 +137,15 @@ const ItemPage = ({
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
+  const {
+    query,
+    workType,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = searchQueryParams();
+
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
@@ -148,6 +154,12 @@ const ItemPage = ({
       canvas: canvasIndex + 1,
       langCode,
       sierraId,
+      query,
+      workType,
+      _queryType,
+      _dateFrom,
+      _dateTo,
+      _isFilteringBySubcategory,
     }),
   };
 
@@ -251,9 +263,6 @@ const ItemPage = ({
           canvasOcr={canvasOcr}
           canvases={canvases}
           workId={workId}
-          query={query}
-          workType={workType}
-          itemsLocationsLocationType={itemsLocationsLocationType}
           pageIndex={pageIndex}
           sierraId={sierraId}
           pageSize={pageSize}
@@ -273,7 +282,6 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     workId,
     sierraId,
     langCode,
-    query,
     page = 1,
     pageSize = 4,
     canvas = 1,
@@ -294,7 +302,6 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     manifest && manifest.sequences && manifest.sequences[0].canvases;
   const currentCanvas = canvases && canvases[canvasIndex];
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
-
   return {
     workId,
     sierraId,
@@ -307,10 +314,6 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     work,
     canvases,
     currentCanvas,
-    // TODO: add these back in, it's just makes it easier to check the URLs
-    itemsLocationsLocationType: null,
-    workType: null,
-    query,
     video,
     audio,
   };

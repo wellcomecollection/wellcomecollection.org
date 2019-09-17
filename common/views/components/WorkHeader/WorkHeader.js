@@ -130,7 +130,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
                 'no-margin': true,
               })}
             >
-              <Number color="yellow" number={childManifestsCount} /> Volumes
+              <Number color="yellow" number={childManifestsCount} /> volumes
               online
             </p>
           </Space>

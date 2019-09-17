@@ -1,6 +1,6 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
@@ -14,11 +14,12 @@ import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import {
+  worksUrl,
+  searchQueryParams,
+} from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
   trackSearch,
   SearchEventNames,
@@ -31,23 +32,29 @@ import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
 import { formatDateForApi } from '@weco/common/utils/dates';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import {
+  onlineLocations,
+  inLibraryLocations,
+} from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
 
 type Props = {|
-  query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
-  page: ?number,
-  workType: ?(string[]),
 |};
-
-const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
-  <Works works={works} query={query} page={page} workType={workType} />
-);
 
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType, _dateFrom, _dateTo } = useContext(
-    CatalogueSearchContext
-  );
+  const {
+    query,
+    workType,
+    page,
+    itemsLocationsLocationType,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = searchQueryParams();
+
   const trackEvent = () => {
     if (query && query !== '') {
       const event = {
@@ -97,6 +104,34 @@ const Works = ({ works }: Props) => {
         statusCode={works.httpStatus}
       />
     );
+  }
+
+  const workTypes = [
+    {
+      title: 'Books',
+      materialTypes: [
+        { title: 'books', letter: 'a' },
+        { title: 'e-books', letter: 'v' },
+      ],
+    },
+    {
+      title: 'Pictures',
+      materialTypes: [
+        { title: 'pictures', letter: 'k' },
+        { title: 'digital images', letter: 'q' },
+      ],
+    },
+    {
+      title: 'Audio/Visual',
+      materialTypes: [
+        { title: 'e-videos', letter: 'f' },
+        { title: 'e-sound', letter: 's' },
+      ],
+    },
+  ];
+
+  function doArraysOverlap(arr1, arr2) {
+    return arr1.some(t => arr2.includes(t));
   }
 
   return (
@@ -187,7 +222,7 @@ const Works = ({ works }: Props) => {
             </div>
 
             <div className="grid">
-              <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <p
                   className={classNames({
                     [font('hnl', 4)]: true,
@@ -209,72 +244,56 @@ const Works = ({ works }: Props) => {
           </div>
         </Space>
 
-        {!works && <StaticWorksContent />}
+        <TogglesContext.Consumer>
+          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+            <>
+              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
+                <Layout12>
+                  <TabNav
+                    items={[
+                      {
+                        text: 'All',
+                        link: worksUrl({
+                          query,
+                          workType: null,
+                          page: 1,
+                          _queryType,
+                          _dateFrom,
+                          _dateTo,
+                          _isFilteringBySubcategory,
+                        }),
+                        selected: !workType,
+                      },
+                    ].concat(
+                      workTypes.map(t => {
+                        return {
+                          text: t.title,
+                          link: worksUrl({
+                            query,
+                            workType: t.materialTypes.map(m => m.letter),
+                            page: 1,
+                            _queryType,
+                            _dateFrom,
+                            _dateTo,
+                            _isFilteringBySubcategory,
+                          }),
+                          selected:
+                            !!workType &&
+                            doArraysOverlap(
+                              t.materialTypes.map(m => m.letter),
+                              workType
+                            ),
+                        };
+                      })
+                    )}
+                  />
+                </Layout12>
+              )}
+            </>
+          )}
+        </TogglesContext.Consumer>
 
-        {works && (
-          <Layout12>
-            <TabNav
-              items={[
-                {
-                  text: 'All',
-                  link: worksUrl({
-                    query,
-                    workType: undefined,
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !workType,
-                },
-                {
-                  text: 'Books',
-                  link: worksUrl({
-                    query,
-                    workType: ['a', 'v'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('a') !== -1 &&
-                      workType.indexOf('v') !== -1)
-                  ),
-                },
-                {
-                  text: 'Pictures',
-                  link: worksUrl({
-                    query,
-                    workType: ['k', 'q'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('k') !== -1 &&
-                      workType.indexOf('q') !== -1)
-                  ),
-                },
-                {
-                  text: 'Audio/Video',
-                  link: worksUrl({
-                    query,
-                    workType: ['f', 's'],
-                    page: 1,
-                    _dateFrom,
-                    _dateTo,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('f') !== -1 &&
-                      workType.indexOf('s') !== -1)
-                  ),
-                },
-              ]}
-            />
-          </Layout12>
-        )}
+        {!works && <StaticWorksContent />}
 
         {works && works.results.length > 0 && (
           <Fragment>
@@ -283,7 +302,7 @@ const Works = ({ works }: Props) => {
                 <div className="grid">
                   <div
                     className={classNames({
-                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                     })}
                   >
                     <div className="flex flex--h-space-between flex--v-center">
@@ -295,18 +314,24 @@ const Works = ({ works }: Props) => {
                           link={worksUrl({
                             query,
                             workType,
+                            itemsLocationsLocationType,
                             page,
+                            _queryType,
                             _dateFrom,
                             _dateTo,
+                            _isFilteringBySubcategory,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const link = worksUrl({
                               query,
                               workType,
+                              itemsLocationsLocationType,
                               page: newPage,
+                              _queryType,
                               _dateFrom,
                               _dateTo,
+                              _isFilteringBySubcategory,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -333,7 +358,7 @@ const Works = ({ works }: Props) => {
                     <div
                       key={result.id}
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div
@@ -352,7 +377,18 @@ const Works = ({ works }: Props) => {
                           trackSearch(event);
                         }}
                       >
-                        <WorkCard work={result} />
+                        <WorkCard
+                          work={result}
+                          params={{
+                            query,
+                            workType,
+                            page,
+                            _queryType,
+                            _dateFrom,
+                            _dateTo,
+                            _isFilteringBySubcategory,
+                          }}
+                        />
                       </div>
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
@@ -383,7 +419,7 @@ const Works = ({ works }: Props) => {
                   <div className="grid">
                     <div
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div className="flex flex--h-space-between flex--v-center">
@@ -395,6 +431,7 @@ const Works = ({ works }: Props) => {
                             link={worksUrl({
                               query,
                               workType,
+                              itemsLocationsLocationType,
                               page,
                             })}
                             onPageChange={async (event, newPage) => {
@@ -402,6 +439,7 @@ const Works = ({ works }: Props) => {
                               const link = worksUrl({
                                 query,
                                 workType,
+                                itemsLocationsLocationType,
                                 page: newPage,
                               });
                               Router.push(link.href, link.as).then(() =>
@@ -436,19 +474,11 @@ const Works = ({ works }: Props) => {
                     >
                       {query}
                     </span>
-                    {workType && (
+                    {(_isFilteringBySubcategory || _dateFrom || _dateTo) && (
                       <>
                         {' '}
-                        in{' '}
-                        <span className={font('hnm', 2)}>
-                          {(workType.includes('k') && 'pictures') ||
-                            (workType.includes('f') && 'audio/video') ||
-                            (workType.includes('a') && 'books')}
-                        </span>
+                        <span>with the filters you have selected</span>
                       </>
-                    )}
-                    {(_dateFrom || _dateTo) && (
-                      <> within the date range provided</>
                     )}
                     . Please try again.
                   </p>
@@ -462,11 +492,10 @@ const Works = ({ works }: Props) => {
   );
 };
 
-WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
+Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
   const _dateFrom = formatDateForApi(ctx.query._dateFrom);
   const _dateTo = formatDateForApi(ctx.query._dateTo);
-
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const {
@@ -475,7 +504,8 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
     showDatesPrototype,
-    showDatesSliderPrototype,
+    unfilteredSearchResults,
+    refineFiltersPrototype,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -486,20 +516,29 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
     : null;
   const workTypeQuery = ctx.query.workType;
   const _queryType = ctx.query._queryType || toggledQueryType;
-  const defaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
+  const defaultWorkType = unfilteredSearchResults
+    ? []
+    : ['a', 'k', 'q', 'v', 'f', 's'];
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
     : defaultWorkType;
+  const locationTypeQuery = ctx.query['items.locations.locationType'];
+  const locationTypeFilter = locationTypeQuery
+    ? locationTypeQuery.split(',').filter(Boolean)
+    : [...onlineLocations, ...inLibraryLocations];
 
   const filters = {
     workType: workTypeFilter,
-    'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
+    'items.locations.locationType':
+      unfilteredSearchResults || refineFiltersPrototype
+        ? locationTypeFilter.map(code => encodeURIComponent(code))
+        : onlineLocations,
     _queryType,
     ...(_dateFrom ? { _dateFrom } : {}),
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const isDatesPrototype = showDatesPrototype || showDatesSliderPrototype;
+  const isDatesPrototype = showDatesPrototype;
   const shouldGetWorks = isDatesPrototype
     ? filters._dateTo || filters._dateFrom || (query && query !== '')
     : query && query !== '';
@@ -515,10 +554,7 @@ WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   return {
     works: worksOrError,
-    query,
-    page,
-    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
   };
 };
 
-export default WorksSearchProvider;
+export default Works;

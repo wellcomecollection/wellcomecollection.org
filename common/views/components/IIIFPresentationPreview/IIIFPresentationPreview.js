@@ -8,6 +8,7 @@ import {
   getVideo,
 } from '@weco/common/utils/works';
 import NextLink from 'next/link';
+import Router from 'next/router';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { grid } from '@weco/common/utils/classnames';
@@ -20,6 +21,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '../styled/Space';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
+import useInterval from '@weco/common/hooks/useInterval';
 
 const MultiVolumeContainer = styled.div`
   box-shadow: ${props =>
@@ -230,9 +232,50 @@ const IIIFPresentationDisplay = ({
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [imageTotal, setImageTotal] = useState(0);
+  const [secondsPlayed, setSecondsPlayed] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
+
+  function trackViewingTime() {
+    trackEvent({
+      category: 'Engagement',
+      action: `Amount of media played`,
+      value: secondsPlayed,
+      nonInteraction: true,
+      transport: 'beacon',
+      label: video ? 'Video' : 'Audio',
+    });
+  }
+
+  useEffect(() => {
+    Router.events.on('routeChangeStart', trackViewingTime);
+
+    try {
+      window.addEventListener('beforeunload', trackViewingTime);
+    } catch (error) {
+      trackEvent({
+        category: 'Engagement',
+        action: 'unable to track media playing time',
+        nonInteraction: true,
+      });
+    }
+
+    return () => {
+      try {
+        window.removeEventListener('beforeunload', trackViewingTime);
+        Router.events.off('routeChangeStart', trackViewingTime);
+      } catch (error) {}
+    };
+  }, []);
+
+  useInterval(
+    () => {
+      setSecondsPlayed(secondsPlayed + 1);
+    },
+    isPlaying ? 1000 : null
+  );
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -337,7 +380,7 @@ const IIIFPresentationDisplay = ({
                 icon={childManifestsCount > 0 ? 'zoomIn' : 'gallery'}
                 text={
                   childManifestsCount > 0
-                    ? `${childManifestsCount} volumes online`
+                    ? `${childManifestsCount} volumes`
                     : `${imageTotal} images`
                 }
                 extraClasses={`btn--primary`}
@@ -354,6 +397,18 @@ const IIIFPresentationDisplay = ({
       <WobblyRow>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <video
+            onPlay={() => {
+              setIsPlaying(true);
+
+              trackEvent({
+                category: 'Video',
+                action: 'play video',
+                label: video['@id'],
+              });
+            }}
+            onPause={() => {
+              setIsPlaying(false);
+            }}
             controls
             style={{
               maxWidth: '100%',
@@ -375,6 +430,18 @@ const IIIFPresentationDisplay = ({
       <WobblyRow>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <audio
+            onPlay={() => {
+              setIsPlaying(true);
+
+              trackEvent({
+                category: 'Audio',
+                action: 'play audio',
+                label: audio['@id'],
+              });
+            }}
+            onPause={() => {
+              setIsPlaying(false);
+            }}
             controls
             style={{
               maxWidth: '100%',

@@ -7,6 +7,7 @@ import type { PrismicApiError } from '@weco/common/services/prismic/types';
 import { getArticle } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
+import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -142,10 +143,16 @@ export class ArticlePage extends Component<Props, State> {
                 [font('hnl', 6)]: true,
               })}
             >
-              {article.contributors.length > 0 && <span>By </span>}
-
-              {article.contributors.map(({ contributor }, i, arr) => (
+              {article.contributors.map(({ contributor, role }, i, arr) => (
                 <Fragment key={contributor.id}>
+                  {role && role.describedBy && (
+                    <span>
+                      {i === 0
+                        ? capitalize(role.describedBy)
+                        : role.describedBy}{' '}
+                      by{' '}
+                    </span>
+                  )}
                   <span
                     className={classNames({
                       [font('hnm', 6)]: true,

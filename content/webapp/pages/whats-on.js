@@ -39,6 +39,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
+import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
@@ -397,9 +398,17 @@ export class WhatsOnPage extends Component<Props> {
                             </span>
                           </div>
                         </Layout12>
-
+                        <Space
+                          v={{ size: 'xl', properties: ['margin-bottom'] }}
+                        >
+                          <FeaturedCardExhibition
+                            exhibition={firstExhibition}
+                            background={'cream'}
+                            color={'black'}
+                          />
+                        </Space>
                         <CardGrid
-                          items={exhibitions}
+                          items={exhibitions.slice(1)}
                           itemsPerRow={3}
                           links={[
                             {

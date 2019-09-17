@@ -5,7 +5,7 @@ import UiImage from '../Image/Image';
 import type { ImageType } from '../../../model/image';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import Label from '../Label/Label';
+import LabelsList from '../LabelsList/LabelsList';
 
 const BookPromoImageContainer = styled.div.attrs({
   className: classNames({
@@ -79,7 +79,7 @@ const BookPromo = ({ url, image, title, subtitle, description }: Props) => {
             <Space
               v={{ size: 'm', negative: true, properties: ['margin-top'] }}
             >
-              <Label label={{ text: 'Book', url: null }} />
+              <LabelsList labels={[{ text: 'Book', url: null }]} />
             </Space>
           </Space>
           {title && (

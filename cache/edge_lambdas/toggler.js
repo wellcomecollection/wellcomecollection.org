@@ -37,6 +37,14 @@ let tests = [
       return request.uri.match(/^\/works\/*/);
     },
   },
+  {
+    id: 'newsletterPromoUpdate',
+    title: 'New design for NewsletterPromo component',
+    range: [0, 50],
+    shouldRun(request) {
+      return !request.uri.match(/^\/works\/.*/);
+    },
+  },
 ];
 exports.tests = tests;
 exports.setTests = function(newTests) {

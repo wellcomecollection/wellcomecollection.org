@@ -99,12 +99,16 @@ const ExhibitionPromo = ({
           </Space>
 
           {!statusOverride && start && end && (
-            <p className={`${font('hnl', 5)} no-margin no-padding`}>
+            <Space
+              as="p"
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+              className={`${font('hnl', 5)} no-padding`}
+            >
               <Fragment>
                 <time dateTime={start}>{formatDate(start)}</time>—
                 <time dateTime={end}>{formatDate(end)}</time>
               </Fragment>
-            </p>
+            </Space>
           )}
 
           <StatusIndicator

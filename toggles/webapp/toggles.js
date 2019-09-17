@@ -37,20 +37,32 @@ module.exports = {
         'Shows additional UI to allow a user to narrow search results by a date range.',
     },
     {
-      id: 'showDatesSliderPrototype',
+      id: 'unfilteredSearchResults',
       title:
-        'Display a slider to allow a user to refine results by a date range',
+        'Return all posible results from the catalogue API, without filtering by type or location',
       defaultValue: false,
-      description:
-        'Shows additional UI to allow a user to narrow search results by using a date range slider.',
+      description: 'Shows all possible search results from the catalogue API',
     },
     {
-      id: 'showDatesAggregatePrototype',
-      title:
-        'Display list of date ranges to allow a user to refine results by a date range',
+      id: 'refineFiltersPrototype',
+      title: 'Display the Refine filters prototype',
       defaultValue: false,
       description:
-        'Shows additional UI to allow a user to narrow search results by using date ranges',
+        'Shows filters on the works search pages. Geared towards refinement.',
+    },
+    {
+      id: 'exploreFiltersPrototype',
+      title: 'Display the Explore filters prototype',
+      defaultValue: false,
+      description:
+        'Shows filters on the works search pages. Geared towards exploration.',
+    },
+    {
+      id: 'helveticaRegular',
+      title: 'Helvetica regular',
+      defaultValue: false,
+      description:
+        'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
   ],
 };

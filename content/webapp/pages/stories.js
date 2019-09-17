@@ -7,7 +7,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -20,6 +19,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
+import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -70,7 +70,7 @@ export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1 } = ctx.query;
     const articlesPromise = getArticles(ctx.req, { page });
-    const seriesPromise = getArticleSeries(ctx.req, { id: 'XPaM0BAAAOYjkTLj' });
+    const seriesPromise = getArticleSeries(ctx.req, { id: 'XTg5pRAAACUAP5U5' });
     const [articles, seriesAndArticles] = await Promise.all([
       articlesPromise,
       seriesPromise,
@@ -181,15 +181,12 @@ export class StoriesPage extends Component<Props> {
               'row bg-cream row--has-wobbly-background': true,
             })}
           >
-            <Space
-              v={{ size: 'l', properties: ['margin-bottom'] }}
-              className="container"
-            >
-              <div className="grid">
-                <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                  <StoryPromoFeatured item={articles[0]} />
-                </div>
-              </div>
+            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <FeaturedCardArticle
+                article={firstArticle}
+                background={'charcoal'}
+                color={'white'}
+              />
             </Space>
             <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">

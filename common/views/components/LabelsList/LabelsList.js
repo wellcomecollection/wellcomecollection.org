@@ -1,6 +1,5 @@
 // @flow
 import type { Label as LabelType } from '../../../model/labels';
-import { sized } from '../../../utils/style';
 import Label from '../../components/Label/Label';
 import Space from '../styled/Space';
 
@@ -17,8 +16,8 @@ const LabelsList = ({ labels }: Props) => (
     }}
     h={{ size: 'm', properties: ['padding-right'] }}
     as="ul"
-    className={`flex-inline plain-list no-margin no-padding`}
-    style={{ flexWrap: 'wrap' }}
+    className={`flex plain-list no-padding flex--wrap`}
+    style={{ marginLeft: 0, marginTop: 0 }}
   >
     {labels.filter(Boolean).map((label, i) => (
       <Space
@@ -26,12 +25,9 @@ const LabelsList = ({ labels }: Props) => (
           size: 'xs',
           properties: ['margin-bottom'],
         }}
+        h={{ size: 'xs', properties: ['margin-right'] }}
         as="li"
         key={`${label.text}-${i}`}
-        style={{
-          float: 'left',
-          marginRight: sized(0.5),
-        }}
       >
         <Label label={label} />
       </Space>

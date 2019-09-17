@@ -1,5 +1,6 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import Router from 'next/router';
 
 const QueryTypes = {
   Justboost: 'boost',
@@ -8,7 +9,7 @@ const QueryTypes = {
 };
 type QueryType = $Values<typeof QueryTypes>;
 
-type WorksUrlProps = {|
+export type WorksUrlProps = {|
   query: ?string,
   page: ?number,
   workType?: ?(string[]),
@@ -16,10 +17,12 @@ type WorksUrlProps = {|
   _queryType?: ?QueryType,
   _dateFrom?: ?string,
   _dateTo?: ?string,
+  _isFilteringBySubcategory?: ?string,
 |};
 
 type WorkUrlProps = {|
   id: string,
+  ...WorksUrlProps,
 |};
 
 type ItemUrlProps = {|
@@ -29,6 +32,7 @@ type ItemUrlProps = {|
   canvas: number,
   page: ?number,
   isOverview?: boolean,
+  ...WorksUrlProps,
 |};
 
 type downloadUrlProps = {|
@@ -46,13 +50,40 @@ function getWorkType(workType: ?(string[])) {
   };
 }
 
-export function workUrl({ id }: WorkUrlProps): NextLinkType {
+function getLocationType(locationType: ?(string[])) {
+  return {
+    'items.locations.locationType': locationType
+      ? locationType.join(',')
+      : undefined,
+  };
+}
+
+export function workUrl({
+  id,
+  query,
+  page,
+  workType,
+  _queryType,
+  _dateFrom,
+  _dateTo,
+  _isFilteringBySubcategory,
+}: WorkUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/work`,
-      query: {
+      query: removeEmpty({
         id,
-      },
+        query: query || undefined,
+        page: page && page > 1 ? page : undefined,
+        ...getWorkType(workType),
+        _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
+      }),
     },
     as: {
       pathname: `/works/${id}`,
@@ -64,9 +95,11 @@ export function worksUrl({
   query,
   page,
   workType,
+  itemsLocationsLocationType,
   _queryType,
   _dateFrom,
   _dateTo,
+  _isFilteringBySubcategory,
 }: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -75,9 +108,14 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
+        ...getLocationType(itemsLocationsLocationType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        _dateFrom: _dateFrom,
-        _dateTo: _dateTo,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+        _isFilteringBySubcategory:
+          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+            ? _isFilteringBySubcategory
+            : undefined,
       }),
     },
     as: {
@@ -86,9 +124,10 @@ export function worksUrl({
         query: query || undefined,
         page: page && page > 1 ? page : undefined,
         ...getWorkType(workType),
+        ...getLocationType(itemsLocationsLocationType),
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-        _dateFrom: _dateFrom,
-        _dateTo: _dateTo,
+        _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+        _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
       }),
     },
   };
@@ -101,6 +140,12 @@ export function itemUrl({
   langCode,
   canvas,
   isOverview,
+  query,
+  workType,
+  _queryType,
+  _dateFrom,
+  _dateTo,
+  _isFilteringBySubcategory,
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
@@ -113,6 +158,15 @@ export function itemUrl({
           sierraId: sierraId,
           langCode: langCode,
           isOverview: isOverview,
+          query: query || undefined,
+          ...getWorkType(workType),
+          _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+          _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
+          _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
+          _isFilteringBySubcategory:
+            _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
+              ? _isFilteringBySubcategory
+              : undefined,
         }),
       },
     },
@@ -149,4 +203,56 @@ export function downloadUrl({
       }),
     },
   };
+}
+
+export type CatalogueQuery = {|
+  query: string,
+  page: number,
+  workType: ?(string[]),
+  itemsLocationsLocationType: ?(string[]),
+  _queryType: ?string,
+  _dateFrom: ?string,
+  _dateTo: ?string,
+  _isFilteringBySubcategory: ?string,
+|};
+
+const defaultState: CatalogueQuery = {
+  query: '',
+  page: 1,
+  workType: null,
+  itemsLocationsLocationType: null,
+  _queryType: null,
+  _dateFrom: null,
+  _dateTo: null,
+  _isFilteringBySubcategory: null,
+};
+
+// we can pass all params Nextlink href, but only expose certain ones to the user via as, see workUrl, worksUrl and ItemUrl
+export function searchQueryParams() {
+  if (typeof window !== 'undefined') {
+    return {
+      query: Router.query.query ? Router.query.query : defaultState.query,
+      page: Router.query.page
+        ? parseInt(Router.query.page, 10)
+        : defaultState.page,
+      workType: Router.query.workType
+        ? Router.query.workType.split(',')
+        : defaultState.workType,
+      itemsLocationsLocationType: Router.query['items.locations.locationType']
+        ? Router.query['items.locations.locationType'].split(',')
+        : defaultState.itemsLocationsLocationType,
+      _dateFrom: Router.query._dateFrom
+        ? Router.query._dateFrom
+        : defaultState._dateFrom,
+      _dateTo: Router.query._dateTo
+        ? Router.query._dateTo
+        : defaultState._dateTo,
+      _isFilteringBySubcategory: Router.query._isFilteringBySubcategory
+        ? Router.query._isFilteringBySubcategory
+        : defaultState._isFilteringBySubcategory,
+      _queryType: Router.query._queryType || defaultState._queryType,
+    };
+  } else {
+    return defaultState;
+  }
 }

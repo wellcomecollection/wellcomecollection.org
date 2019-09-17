@@ -26,6 +26,7 @@ export class NewsletterPage extends Component<Props> {
         description={
           'Sign up for news and information from Wellcome Collection'
         }
+        hideNewsletterPromo={true}
         url={{ pathname: `/newsletter` }}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'website'}

@@ -14,7 +14,10 @@ import {
   getWorkTypeIcon,
 } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import { workUrl } from '@weco/common/services/catalogue/urls';
+import {
+  workUrl,
+  type WorksUrlProps,
+} from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -24,6 +27,7 @@ import Space, {
 
 type Props = {|
   work: Work,
+  params: WorksUrlProps,
 |};
 
 const Container = styled.div`
@@ -59,7 +63,16 @@ const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
   }
 `;
 
-const WorkCard = ({ work }: Props) => {
+const WorkCard = ({ work, params }: Props) => {
+  const {
+    query,
+    page,
+    workType,
+    _queryType,
+    _dateFrom,
+    _dateTo,
+    _isFilteringBySubcategory,
+  } = params;
   const digitalLocations = getDigitalLocations(work);
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
@@ -74,6 +87,13 @@ const WorkCard = ({ work }: Props) => {
       <NextLink
         {...workUrl({
           id: work.id,
+          query,
+          page,
+          workType,
+          _queryType,
+          _dateFrom,
+          _dateTo,
+          _isFilteringBySubcategory,
         })}
         passHref
       >
