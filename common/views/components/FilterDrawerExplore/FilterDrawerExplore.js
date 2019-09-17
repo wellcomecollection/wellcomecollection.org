@@ -6,6 +6,10 @@ import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import {
+  onlineLocations,
+  inLibraryLocations,
+} from '@weco/common/views/components/FilterDrawerExplore/accessLocations';
 
 const ProtoTab = styled.a.attrs({
   className: classNames({
@@ -71,6 +75,38 @@ const workTypes = [
   },
 ];
 
+function updateLocations(selectedLocations, location) {
+  if (!selectedLocations) {
+    return location === 'library'
+      ? inLibraryLocations
+      : location === 'online'
+      ? onlineLocations
+      : null;
+  }
+
+  if (
+    location === 'library' &&
+    inLibraryLocations.every(t => selectedLocations.includes(t))
+  ) {
+    const locationsWithoutInLibrary = selectedLocations.filter(value => {
+      return !inLibraryLocations.includes(value);
+    });
+    return locationsWithoutInLibrary.length > 0
+      ? locationsWithoutInLibrary
+      : null;
+  } else if (
+    location === 'online' &&
+    onlineLocations.every(t => selectedLocations.includes(t))
+  ) {
+    const locationsWithoutOnline = selectedLocations.filter(value => {
+      return !onlineLocations.includes(value);
+    });
+    return locationsWithoutOnline.length > 0 ? locationsWithoutOnline : null;
+  } else {
+    return [...onlineLocations, ...inLibraryLocations];
+  }
+}
+
 function subcategoriesForWorkType(title: string) {
   const category = workTypes.find(wt => wt.title === title);
 
@@ -124,14 +160,11 @@ function FilterDrawerExplore() {
   const {
     query,
     workType,
+    itemsLocationsLocationType,
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
   } = searchQueryParams();
-  const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
-  const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
-    false
-  );
   const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
   const [inputDateTo, setInputDateTo] = useState(_dateTo);
 
@@ -330,31 +363,70 @@ function FilterDrawerExplore() {
           >
             Availability{' '}
           </span>
-          <ProtoTag
-            onClick={() => {
-              setFakeIsAvailableOnline(!fakeIsAvailableOnline);
-            }}
-            isActive={fakeIsAvailableOnline}
-            style={{ cursor: 'pointer' }}
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType,
+              page: 1,
+              _dateFrom,
+              _dateTo,
+              itemsLocationsLocationType: updateLocations(
+                itemsLocationsLocationType,
+                'online'
+              ),
+              _isFilteringBySubcategory,
+            })}
           >
-            Online
-          </ProtoTag>
-          <ProtoTag
-            onClick={() => {
-              setFakeIsAvailableInLibrary(!fakeIsAvailableInLibrary);
-            }}
-            isActive={fakeIsAvailableInLibrary}
-            style={{ cursor: 'pointer' }}
+            <ProtoTag
+              as="button"
+              type="button"
+              isActive={
+                itemsLocationsLocationType &&
+                onlineLocations.every(t =>
+                  itemsLocationsLocationType.includes(t)
+                )
+              }
+              style={{ cursor: 'pointer' }}
+            >
+              online
+            </ProtoTag>
+          </NextLink>
+          <NextLink
+            passHref
+            {...worksUrl({
+              query,
+              workType,
+              page: 1,
+              _dateFrom,
+              _dateTo,
+              itemsLocationsLocationType: updateLocations(
+                itemsLocationsLocationType,
+                'library'
+              ),
+              _isFilteringBySubcategory,
+            })}
           >
-            In library
-          </ProtoTag>
+            <ProtoTag
+              as="button"
+              type="button"
+              isActive={
+                itemsLocationsLocationType &&
+                inLibraryLocations.every(t =>
+                  itemsLocationsLocationType.includes(t)
+                )
+              }
+              style={{ cursor: 'pointer' }}
+            >
+              in library
+            </ProtoTag>
+          </NextLink>
         </Space>
       </Space>
       {(_isFilteringBySubcategory ||
         _dateFrom ||
         _dateTo ||
-        fakeIsAvailableInLibrary ||
-        fakeIsAvailableOnline) && (
+        itemsLocationsLocationType) && (
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <NextLink
             passHref
@@ -367,15 +439,7 @@ function FilterDrawerExplore() {
               _isFilteringBySubcategory: false,
             })}
           >
-            <a
-              className={font('hnm', 6)}
-              onClick={() => {
-                setFakeIsAvailableOnline(false);
-                setFakeIsAvailableInLibrary(false);
-              }}
-            >
-              clear all filters
-            </a>
+            <a className={font('hnm', 6)}>clear all filters</a>
           </NextLink>
         </Space>
       )}
