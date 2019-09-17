@@ -1,11 +1,32 @@
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import TabNav from '../TabNav/TabNav';
 import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
 import { capitalize } from '../../../utils/grammar';
-import { font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
+import styled from 'styled-components';
+
+const ProtoTab = styled.a.attrs({
+  className: classNames({
+    'plain-link': true,
+    [font('hnm', 5)]: true,
+  }),
+})`
+  padding: 5px 0;
+  width: 115px;
+  text-align: center;
+  display: inline-block;
+  background: ${props =>
+    props.isActive ? 'white' : props.theme.colors.pumice};
+  margin: 2px 2px 0 0;
+  transition: background 200ms ease;
+
+  &:hover,
+  &:focus {
+    background: white;
+  }
+`;
 
 const workTypes = [
   {
@@ -123,39 +144,53 @@ function FilterDrawerExplore() {
       setInputDateTo(_dateTo);
     }
   }, [_dateFrom, _dateTo]);
+
   return (
     <Space v={{ size: 'm', properties: ['margin-top'] }}>
-      <TabNav
-        items={[
-          {
-            text: 'Everything',
-            link: worksUrl({
-              query,
-              workType: null,
-              page: 1,
-              _dateFrom,
-              _dateTo,
-            }),
-            selected: !workType,
-          },
-        ].concat(
-          workTypes.map(t => {
-            return {
-              text: capitalize(t.title),
-              link: worksUrl({
+      <Space
+        v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+        className={classNames({
+          'border-bottom-width-1 border-color-pumice': true,
+        })}
+      >
+        <NextLink
+          passHref
+          {...worksUrl({
+            query,
+            workType: null,
+            page: 1,
+            _dateFrom,
+            _dateTo,
+          })}
+        >
+          <ProtoTab isActive={!workType}>Everything</ProtoTab>
+        </NextLink>
+        {workTypes.map(t => {
+          return (
+            <NextLink
+              passHref
+              key={t.title}
+              {...worksUrl({
                 query,
                 workType: t.materialTypes.map(m => m.letter),
                 page: 1,
                 _dateFrom,
                 _dateTo,
-              }),
-              selected:
-                !!workType &&
-                doArraysOverlap(t.materialTypes.map(m => m.letter), workType),
-            };
-          })
-        )}
-      />
+              })}
+            >
+              <ProtoTab
+                isActive={
+                  !!workType &&
+                  doArraysOverlap(t.materialTypes.map(m => m.letter), workType)
+                }
+              >
+                {capitalize(t.title)}
+              </ProtoTab>
+            </NextLink>
+          );
+        })}
+      </Space>
+
       {workType && (
         <Space
           v={{ size: 'm', properties: ['margin-top'] }}

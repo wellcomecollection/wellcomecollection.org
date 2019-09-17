@@ -257,8 +257,10 @@ const Works = ({ works }: Props) => {
                           query,
                           workType: null,
                           page: 1,
+                          _queryType,
                           _dateFrom,
                           _dateTo,
+                          _isFilteringBySubcategory,
                         }),
                         selected: !workType,
                       },
@@ -270,8 +272,10 @@ const Works = ({ works }: Props) => {
                             query,
                             workType: t.materialTypes.map(m => m.letter),
                             page: 1,
+                            _queryType,
                             _dateFrom,
                             _dateTo,
+                            _isFilteringBySubcategory,
                           }),
                           selected:
                             !!workType &&
@@ -312,8 +316,10 @@ const Works = ({ works }: Props) => {
                             workType,
                             itemsLocationsLocationType,
                             page,
+                            _queryType,
                             _dateFrom,
                             _dateTo,
+                            _isFilteringBySubcategory,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
@@ -322,8 +328,10 @@ const Works = ({ works }: Props) => {
                               workType,
                               itemsLocationsLocationType,
                               page: newPage,
+                              _queryType,
                               _dateFrom,
                               _dateTo,
+                              _isFilteringBySubcategory,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -370,13 +378,15 @@ const Works = ({ works }: Props) => {
                         }}
                       >
                         <WorkCard
-                          workAndParams={{
-                            work: result,
+                          work={result}
+                          params={{
                             query,
                             workType,
                             page,
+                            _queryType,
                             _dateFrom,
                             _dateTo,
+                            _isFilteringBySubcategory,
                           }}
                         />
                       </div>

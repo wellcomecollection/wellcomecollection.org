@@ -380,7 +380,7 @@ const IIIFPresentationDisplay = ({
                 icon={childManifestsCount > 0 ? 'zoomIn' : 'gallery'}
                 text={
                   childManifestsCount > 0
-                    ? `${childManifestsCount} volumes online`
+                    ? `${childManifestsCount} volumes`
                     : `${imageTotal} images`
                 }
                 extraClasses={`btn--primary`}

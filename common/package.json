@@ -33,6 +33,7 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "next": "^8.0.1",
+    "nprogress": "^0.2.0",
     "openseadragon": "^2.4.0",
     "prismic-dom": "^2.1.0",
     "prismic-javascript": "2.0.2",

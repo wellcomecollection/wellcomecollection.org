@@ -128,10 +128,6 @@ export function worksUrl({
         _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
         _dateFrom: _dateFrom && _dateFrom !== '' ? _dateFrom : undefined,
         _dateTo: _dateTo && _dateTo !== '' ? _dateTo : undefined,
-        _isFilteringBySubcategory:
-          _isFilteringBySubcategory && _isFilteringBySubcategory !== ''
-            ? _isFilteringBySubcategory
-            : undefined,
       }),
     },
   };
@@ -231,6 +227,7 @@ const defaultState: CatalogueQuery = {
   _isFilteringBySubcategory: null,
 };
 
+// we can pass all params Nextlink href, but only expose certain ones to the user via as, see workUrl, worksUrl and ItemUrl
 export function searchQueryParams() {
   if (typeof window !== 'undefined') {
     return {
