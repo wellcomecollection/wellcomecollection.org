@@ -539,12 +539,16 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const worksOrError = await getWorks({
-    query,
-    page,
-    filters,
-    env: useStageApi ? 'stage' : 'prod',
-  });
+  const shouldGetWorks = query && query !== '';
+
+  const worksOrError = shouldGetWorks
+    ? await getWorks({
+        query,
+        page,
+        filters,
+        env: useStageApi ? 'stage' : 'prod',
+      })
+    : null;
 
   return {
     works: worksOrError,
