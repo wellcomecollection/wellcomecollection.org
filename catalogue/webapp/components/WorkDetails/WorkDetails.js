@@ -25,6 +25,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import Space from '@weco/common/views/components/styled/Space';
+import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -86,6 +87,7 @@ const WorkDetails = ({
   encoreLink,
   childManifestsCount,
 }: Props) => {
+  const params = searchQueryParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
@@ -215,6 +217,7 @@ const WorkDetails = ({
             tags={work.contributors.map(contributor => ({
               textParts: [contributor.agent.label],
               linkAttributes: worksUrl({
+                ...params,
                 query: `"${contributor.agent.label}"`,
                 page: 1,
               }),
@@ -258,6 +261,7 @@ const WorkDetails = ({
               return {
                 textParts: g.concepts.map(c => c.label),
                 linkAttributes: worksUrl({
+                  ...params,
                   query: `"${g.label}"`,
                   page: 1,
                 }),
@@ -284,6 +288,7 @@ const WorkDetails = ({
             return {
               textParts: s.concepts.map(c => c.label),
               linkAttributes: worksUrl({
+                ...params,
                 query: `"${s.label}"`,
                 page: 1,
               }),

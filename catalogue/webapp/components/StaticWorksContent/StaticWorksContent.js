@@ -1,4 +1,3 @@
-// @flow
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';

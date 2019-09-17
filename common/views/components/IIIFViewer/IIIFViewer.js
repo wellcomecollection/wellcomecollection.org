@@ -12,11 +12,8 @@ import {
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import {
-  itemUrl,
-  workUrl,
-  searchQueryParams,
-} from '@weco/common/services/catalogue/urls';
+import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import {
@@ -565,15 +562,8 @@ const IIIFViewerComponent = ({
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   const parentManifestUrl = manifest && manifest.within;
-  const {
-    query,
-    workType,
-    page,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
-  } = searchQueryParams();
+  const params = searchQueryParams();
+
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
     setEnhanced(true);
@@ -611,18 +601,7 @@ const IIIFViewerComponent = ({
       <TitleContainer>
         <div className="title">
           <span className="part">{currentManifestLabel}</span>
-          <NextLink
-            {...workUrl({
-              id: workId,
-              query,
-              page,
-              workType,
-              _queryType,
-              _dateFrom,
-              _dateTo,
-              _isFilteringBySubcategory,
-            })}
-          >
+          <NextLink {...workUrl({ ...params, id: workId })}>
             <a
               className={classNames({
                 [font('hnm', 5)]: true,
@@ -688,6 +667,7 @@ const IIIFViewerComponent = ({
                     >
                       <NextLink
                         {...itemUrl({
+                          ...params,
                           workId,
                           page: 1,
                           sierraId: (manifest['@id'].match(
@@ -695,12 +675,6 @@ const IIIFViewerComponent = ({
                           ) || [])[1],
                           langCode: lang,
                           canvas: 0,
-                          query,
-                          workType,
-                          _queryType,
-                          _dateFrom,
-                          _dateTo,
-                          _isFilteringBySubcategory,
                         })}
                       >
                         <a>{manifest.label}</a>
@@ -775,17 +749,12 @@ const IIIFViewerComponent = ({
                         render={({ rangeStart }) => (
                           <NextLink
                             {...itemUrl({
+                              ...params,
                               workId,
                               page: pageIndex + 1,
                               sierraId,
                               langCode: lang,
                               canvas: pageSize * pageIndex + (i + 1),
-                              query,
-                              workType,
-                              _queryType,
-                              _dateFrom,
-                              _dateTo,
-                              _isFilteringBySubcategory,
                             })}
                             scroll={false}
                             replace
@@ -875,17 +844,12 @@ const IIIFViewerComponent = ({
                       <IIIFViewerThumb key={canvas['@id']}>
                         <NextLink
                           {...itemUrl({
+                            ...params,
                             workId,
                             page: pageIndex + 1,
                             sierraId,
                             langCode: lang,
                             canvas: i + 1,
-                            query,
-                            workType,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
                           })}
                           scroll={false}
                           replace

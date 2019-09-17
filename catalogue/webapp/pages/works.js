@@ -14,10 +14,8 @@ import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import {
-  worksUrl,
-  searchQueryParams,
-} from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import {
@@ -42,18 +40,20 @@ type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
 |};
 
+const globalDefaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
+
 const Works = ({ works }: Props) => {
   const [loading, setLoading] = useState(false);
+  const params = searchQueryParams();
   const {
     query,
     workType,
     page,
-    itemsLocationsLocationType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
+    productionDatesFrom,
+    productionDatesTo,
     _isFilteringBySubcategory,
-  } = searchQueryParams();
+    _queryType,
+  } = params;
 
   const trackEvent = () => {
     if (query && query !== '') {
@@ -130,8 +130,8 @@ const Works = ({ works }: Props) => {
     },
   ];
 
-  function doArraysOverlap(arr1, arr2) {
-    return arr1.some(t => arr2.includes(t));
+  function arraysEqual(arr1, arr2) {
+    return arr1.length === arr2.length && arr1.every(t => arr2.includes(t));
   }
 
   return (
@@ -141,14 +141,16 @@ const Works = ({ works }: Props) => {
           <link
             rel="prev"
             href={convertUrlToString(
-              worksUrl({ query, page: (page || 1) - 1 }).as
+              worksUrl({ ...params, query, page: (page || 1) - 1 }).as
             )}
           />
         )}
         {works && works.nextPage && (
           <link
             rel="next"
-            href={convertUrlToString(worksUrl({ query, page: page + 1 }).as)}
+            href={convertUrlToString(
+              worksUrl({ ...params, query, page: page + 1 }).as
+            )}
           />
         )}
       </Head>
@@ -156,7 +158,7 @@ const Works = ({ works }: Props) => {
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
-        url={worksUrl({ query, page }).as}
+        url={worksUrl({ ...params, query, page }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -254,32 +256,26 @@ const Works = ({ works }: Props) => {
                       {
                         text: 'All',
                         link: worksUrl({
-                          query,
-                          workType: null,
+                          ...params,
                           page: 1,
-                          _queryType,
-                          _dateFrom,
-                          _dateTo,
-                          _isFilteringBySubcategory,
+                          workType: globalDefaultWorkType,
                         }),
-                        selected: !workType,
+                        selected:
+                          !!workType &&
+                          arraysEqual(globalDefaultWorkType, workType),
                       },
                     ].concat(
                       workTypes.map(t => {
                         return {
                           text: t.title,
                           link: worksUrl({
-                            query,
+                            ...params,
                             workType: t.materialTypes.map(m => m.letter),
                             page: 1,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
                           }),
                           selected:
                             !!workType &&
-                            doArraysOverlap(
+                            arraysEqual(
                               t.materialTypes.map(m => m.letter),
                               workType
                             ),
@@ -312,26 +308,13 @@ const Works = ({ works }: Props) => {
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
                           link={worksUrl({
-                            query,
-                            workType,
-                            itemsLocationsLocationType,
-                            page,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
+                            ...params,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const link = worksUrl({
-                              query,
-                              workType,
-                              itemsLocationsLocationType,
+                              ...params,
                               page: newPage,
-                              _queryType,
-                              _dateFrom,
-                              _dateTo,
-                              _isFilteringBySubcategory,
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -380,13 +363,7 @@ const Works = ({ works }: Props) => {
                         <WorkCard
                           work={result}
                           params={{
-                            query,
-                            workType,
-                            page,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
+                            ...params,
                           }}
                         />
                       </div>
@@ -429,18 +406,13 @@ const Works = ({ works }: Props) => {
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
                             link={worksUrl({
-                              query,
-                              workType,
-                              itemsLocationsLocationType,
-                              page,
+                              ...params,
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const link = worksUrl({
-                                query,
-                                workType,
-                                itemsLocationsLocationType,
                                 page: newPage,
+                                ...params,
                               });
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -474,7 +446,9 @@ const Works = ({ works }: Props) => {
                     >
                       {query}
                     </span>
-                    {(_isFilteringBySubcategory || _dateFrom || _dateTo) && (
+                    {(_isFilteringBySubcategory ||
+                      productionDatesFrom ||
+                      productionDatesTo) && (
                       <>
                         {' '}
                         <span>with the filters you have selected</span>
@@ -494,31 +468,19 @@ const Works = ({ works }: Props) => {
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
-  const _dateFrom = formatDateForApi(ctx.query._dateFrom);
-  const _dateTo = formatDateForApi(ctx.query._dateTo);
+  const productionDatesFrom = formatDateForApi(ctx.query.productionDatesFrom);
+  const productionDatesTo = formatDateForApi(ctx.query.productionDatesTo);
   const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
 
   const {
     useStageApi,
-    searchCandidateQueryMsm,
-    searchCandidateQueryBoost,
-    searchCandidateQueryMsmBoost,
     showDatesPrototype,
     unfilteredSearchResults,
     refineFiltersPrototype,
   } = ctx.query.toggles;
-  const toggledQueryType = searchCandidateQueryMsm
-    ? 'msm'
-    : searchCandidateQueryBoost
-    ? 'boost'
-    : searchCandidateQueryMsmBoost
-    ? 'msmboost'
-    : null;
   const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType || toggledQueryType;
-  const defaultWorkType = unfilteredSearchResults
-    ? []
-    : ['a', 'k', 'q', 'v', 'f', 's'];
+  const _queryType = ctx.query._queryType;
+  const defaultWorkType = unfilteredSearchResults ? [] : globalDefaultWorkType;
   const workTypeFilter = workTypeQuery
     ? workTypeQuery.split(',').filter(Boolean)
     : defaultWorkType;
@@ -534,13 +496,15 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         ? locationTypeFilter.map(code => encodeURIComponent(code))
         : onlineLocations,
     _queryType,
-    ...(_dateFrom ? { _dateFrom } : {}),
-    ...(_dateTo ? { _dateTo } : {}),
+    ...(productionDatesFrom ? { productionDatesFrom } : {}),
+    ...(productionDatesTo ? { productionDatesTo } : {}),
   };
 
   const isDatesPrototype = showDatesPrototype;
   const shouldGetWorks = isDatesPrototype
-    ? filters._dateTo || filters._dateFrom || (query && query !== '')
+    ? filters.productionDatesTo ||
+      filters.productionDatesFrom ||
+      (query && query !== '')
     : query && query !== '';
 
   const worksOrError = shouldGetWorks

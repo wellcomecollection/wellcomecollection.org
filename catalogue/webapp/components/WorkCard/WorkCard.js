@@ -64,15 +64,6 @@ const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
 `;
 
 const WorkCard = ({ work, params }: Props) => {
-  const {
-    query,
-    page,
-    workType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
-  } = params;
   const digitalLocations = getDigitalLocations(work);
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
@@ -84,19 +75,7 @@ const WorkCard = ({ work, params }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <NextLink
-        {...workUrl({
-          id: work.id,
-          query,
-          page,
-          workType,
-          _queryType,
-          _dateFrom,
-          _dateTo,
-          _isFilteringBySubcategory,
-        })}
-        passHref
-      >
+      <NextLink {...workUrl({ ...params, id: work.id })} passHref>
         <Space
           as="a"
           v={{

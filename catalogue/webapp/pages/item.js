@@ -8,10 +8,9 @@ import {
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import {
-  itemUrl,
-  searchQueryParams,
-} from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -137,29 +136,17 @@ const ItemPage = ({
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
-  const {
-    query,
-    workType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
-  } = searchQueryParams();
+  const params = searchQueryParams();
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
+      ...params,
       workId,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
       langCode,
       sierraId,
-      query,
-      workType,
-      _queryType,
-      _dateFrom,
-      _dateTo,
-      _isFilteringBySubcategory,
     }),
   };
 

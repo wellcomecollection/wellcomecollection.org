@@ -1,6 +1,8 @@
+// @flow
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
+import { worksUrl } from '../../../services/catalogue/urls';
+import { searchQueryParams } from '../../../services/catalogue/search-params';
 import { capitalize } from '../../../utils/grammar';
 import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
@@ -121,29 +123,29 @@ function isLastFilterItem(workType, subcategory) {
 }
 
 function FilterDrawerExplore() {
+  const params = searchQueryParams();
   const {
-    query,
     workType,
-    _dateFrom,
-    _dateTo,
+    productionDatesFrom,
+    productionDatesTo,
     _isFilteringBySubcategory,
-  } = searchQueryParams();
+  } = params;
   const [fakeIsAvailableOnline, setFakeIsAvailableOnline] = useState(false);
   const [fakeIsAvailableInLibrary, setFakeIsAvailableInLibrary] = useState(
     false
   );
-  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
-  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
+  const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
 
   useEffect(() => {
-    if (_dateFrom !== inputDateFrom) {
-      setInputDateFrom(_dateFrom);
+    if (productionDatesFrom !== inputDateFrom) {
+      setInputDateFrom(productionDatesFrom);
     }
 
-    if (_dateTo !== inputDateTo) {
-      setInputDateTo(_dateTo);
+    if (productionDatesTo !== inputDateTo) {
+      setInputDateTo(productionDatesTo);
     }
-  }, [_dateFrom, _dateTo]);
+  }, [productionDatesFrom, productionDatesTo]);
 
   return (
     <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -156,11 +158,9 @@ function FilterDrawerExplore() {
         <NextLink
           passHref
           {...worksUrl({
-            query,
+            ...params,
             workType: null,
             page: 1,
-            _dateFrom,
-            _dateTo,
           })}
         >
           <ProtoTab isActive={!workType}>Everything</ProtoTab>
@@ -171,11 +171,9 @@ function FilterDrawerExplore() {
               passHref
               key={t.title}
               {...worksUrl({
-                query,
+                ...params,
                 workType: t.materialTypes.map(m => m.letter),
                 page: 1,
-                _dateFrom,
-                _dateTo,
               })}
             >
               <ProtoTab
@@ -208,21 +206,17 @@ function FilterDrawerExplore() {
                 <NextLink
                   key={subcategory.title}
                   {...worksUrl({
-                    query,
+                    ...params,
                     workType: updateWorkTypes(
                       workType,
                       subcategory,
                       _isFilteringBySubcategory
                     ),
                     page: 1,
-                    _dateFrom,
-                    _dateTo,
-                    _isFilteringBySubcategory: isLastFilterItem(
+                    _isFilteringBySubcategory: !isLastFilterItem(
                       workType,
                       subcategory
-                    )
-                      ? ''
-                      : 'true',
+                    ),
                   })}
                 >
                   <ProtoTag
@@ -293,26 +287,22 @@ function FilterDrawerExplore() {
               <NextLink
                 passHref
                 {...worksUrl({
-                  query,
-                  workType,
+                  ...params,
                   page: 1,
-                  _dateFrom: inputDateFrom,
-                  _dateTo: inputDateTo,
-                  _isFilteringBySubcategory,
+                  productionDatesFrom: inputDateFrom,
+                  productionDatesTo: inputDateTo,
                 })}
               >
                 <ProtoTag as="a">set dates</ProtoTag>
               </NextLink>
             </Space>
-            {(_dateFrom || _dateTo) && (
+            {(productionDatesFrom || productionDatesTo) && (
               <NextLink
                 {...worksUrl({
-                  query,
-                  workType,
+                  ...params,
                   page: 1,
-                  _dateFrom: null,
-                  _dateTo: null,
-                  _isFilteringBySubcategory,
+                  productionDatesFrom: null,
+                  productionDatesTo: null,
                 })}
               >
                 <a className={font('hnm', 6)} style={{ marginLeft: '6px' }}>
@@ -351,19 +341,19 @@ function FilterDrawerExplore() {
         </Space>
       </Space>
       {(_isFilteringBySubcategory ||
-        _dateFrom ||
-        _dateTo ||
+        productionDatesFrom ||
+        productionDatesTo ||
         fakeIsAvailableInLibrary ||
         fakeIsAvailableOnline) && (
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <NextLink
             passHref
             {...worksUrl({
-              query,
+              ...params,
               workType: null,
               page: 1,
-              _dateFrom: null,
-              _dateTo: null,
+              productionDatesFrom: null,
+              productionDatesTo: null,
               _isFilteringBySubcategory: false,
             })}
           >

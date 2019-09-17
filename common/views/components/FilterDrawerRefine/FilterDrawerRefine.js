@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
-import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
+import { worksUrl } from '../../../services/catalogue/urls';
+import { searchQueryParams } from '../../../services/catalogue/search-params';
 import { font } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
@@ -110,27 +111,27 @@ function isLastFilterItem(workType, subcategory) {
 }
 
 function FilterDrawerRefine() {
+  const params = searchQueryParams();
   const {
-    query,
     workType,
     itemsLocationsLocationType,
-    _dateFrom,
-    _dateTo,
+    productionDatesFrom,
+    productionDatesTo,
     _isFilteringBySubcategory,
-  } = searchQueryParams();
-  const [inputDateFrom, setInputDateFrom] = useState(_dateFrom);
-  const [inputDateTo, setInputDateTo] = useState(_dateTo);
+  } = params;
+  const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
+  const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
 
   useEffect(() => {
-    if (_dateFrom !== inputDateFrom) {
-      setInputDateFrom(_dateFrom);
+    if (productionDatesFrom !== inputDateFrom) {
+      setInputDateFrom(productionDatesFrom);
     }
 
-    if (_dateTo !== inputDateTo) {
-      setInputDateTo(_dateTo);
+    if (productionDatesTo !== inputDateTo) {
+      setInputDateTo(productionDatesTo);
     }
-  }, [_dateFrom, _dateTo]);
+  }, [productionDatesFrom, productionDatesTo]);
 
   return (
     <div>
@@ -179,7 +180,7 @@ function FilterDrawerRefine() {
           Availability
         </ProtoTag>
       </Space>
-      <div className={`${activeDrawer !== 'date' && 'is-hidden'}`}>
+      <div className={`${activeDrawer !== 'date' ? 'is-hidden' : ''}`}>
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <div
             style={{
@@ -227,28 +228,22 @@ function FilterDrawerRefine() {
                 <NextLink
                   passHref
                   {...worksUrl({
-                    query,
-                    workType,
-                    itemsLocationsLocationType,
+                    ...params,
                     page: 1,
-                    _dateFrom: inputDateFrom,
-                    _dateTo: inputDateTo,
-                    _isFilteringBySubcategory,
+                    productionDatesFrom: inputDateFrom,
+                    productionDatesTo: inputDateTo,
                   })}
                 >
                   <ProtoTag as="a">set dates</ProtoTag>
                 </NextLink>
               </Space>
-              {(_dateFrom || _dateTo) && (
+              {(productionDatesFrom || productionDatesTo) && (
                 <NextLink
                   {...worksUrl({
-                    query,
-                    workType,
+                    ...params,
                     page: 1,
-                    _dateFrom: null,
-                    _dateTo: null,
-                    itemsLocationsLocationType,
-                    _isFilteringBySubcategory,
+                    productionDatesFrom: null,
+                    productionDatesTo: null,
                   })}
                 >
                   <a className={font('hnm', 6)} style={{ marginLeft: '6px' }}>
@@ -260,29 +255,24 @@ function FilterDrawerRefine() {
           </div>
         </Space>
       </div>
-      <div className={`${activeDrawer !== 'format' && 'is-hidden'}`}>
+      <div className={`${activeDrawer !== 'format' ? 'is-hidden' : ''}`}>
         <>
           {allWorkTypes.map(subcategory => (
             <NextLink
               key={subcategory.title}
               passHref
               {...worksUrl({
-                query,
+                ...params,
                 workType: updateWorkTypes(
                   workType || allWorkTypes,
                   subcategory,
                   _isFilteringBySubcategory
                 ),
                 page: 1,
-                _dateFrom,
-                _dateTo,
-                itemsLocationsLocationType,
-                _isFilteringBySubcategory: isLastFilterItem(
+                _isFilteringBySubcategory: !isLastFilterItem(
                   workType || allWorkTypes,
                   subcategory
-                )
-                  ? ''
-                  : 'true',
+                ),
               })}
             >
               <ProtoTag
@@ -299,21 +289,17 @@ function FilterDrawerRefine() {
           ))}
         </>
       </div>
-      <div className={`${activeDrawer !== 'availability' && 'is-hidden'}`}>
+      <div className={`${activeDrawer !== 'availability' ? 'is-hidden' : ''}`}>
         <div>
           <NextLink
             passHref
             {...worksUrl({
-              query,
-              workType,
+              ...params,
               page: 1,
-              _dateFrom,
-              _dateTo,
               itemsLocationsLocationType: updateLocations(
                 itemsLocationsLocationType,
                 'online'
               ),
-              _isFilteringBySubcategory,
             })}
           >
             <ProtoTag
@@ -333,16 +319,12 @@ function FilterDrawerRefine() {
           <NextLink
             passHref
             {...worksUrl({
-              query,
-              workType,
+              ...params,
               page: 1,
-              _dateFrom,
-              _dateTo,
               itemsLocationsLocationType: updateLocations(
                 itemsLocationsLocationType,
                 'library'
               ),
-              _isFilteringBySubcategory,
             })}
           >
             <ProtoTag
@@ -372,16 +354,13 @@ function FilterDrawerRefine() {
                 key={subcategory.title}
                 passHref
                 {...worksUrl({
-                  query,
+                  ...params,
                   workType: updateWorkTypes(
                     workType,
                     subcategory,
                     _isFilteringBySubcategory
                   ),
                   page: 1,
-                  _dateFrom,
-                  _dateTo,
-                  itemsLocationsLocationType,
                   _isFilteringBySubcategory: isLastFilterItem(
                     workType,
                     subcategory
@@ -397,39 +376,33 @@ function FilterDrawerRefine() {
             )
           );
         })}
-        {_dateFrom && (
+        {productionDatesFrom && (
           <NextLink
             passHref
             {...worksUrl({
-              query,
+              ...params,
               workType: workType || allWorkTypes,
               page: 1,
-              _dateFrom: null,
-              _dateTo,
-              itemsLocationsLocationType,
-              _isFilteringBySubcategory,
+              productionDatesFrom: null,
             })}
           >
             <ProtoTag as="a" isActive small>
-              &times; from: {_dateFrom}
+              &times; from: {productionDatesFrom}
             </ProtoTag>
           </NextLink>
         )}
-        {_dateTo && (
+        {productionDatesTo && (
           <NextLink
             passHref
             {...worksUrl({
-              query,
+              ...params,
               workType: workType || allWorkTypes,
               page: 1,
-              _dateFrom,
-              _dateTo: null,
-              itemsLocationsLocationType,
-              _isFilteringBySubcategory,
+              productionDatesTo: null,
             })}
           >
             <ProtoTag as="a" isActive small>
-              &times; to: {_dateTo}
+              &times; to: {productionDatesTo}
             </ProtoTag>
           </NextLink>
         )}
@@ -441,16 +414,12 @@ function FilterDrawerRefine() {
             <NextLink
               passHref
               {...worksUrl({
-                query,
-                workType,
+                ...params,
                 page: 1,
-                _dateFrom,
-                _dateTo,
                 itemsLocationsLocationType: updateLocations(
                   itemsLocationsLocationType,
                   'online'
                 ),
-                _isFilteringBySubcategory,
               })}
             >
               <ProtoTag as="button" type="button" isActive small>
@@ -466,16 +435,12 @@ function FilterDrawerRefine() {
             <NextLink
               passHref
               {...worksUrl({
-                query,
-                workType,
+                ...params,
                 page: 1,
-                _dateFrom,
-                _dateTo,
                 itemsLocationsLocationType: updateLocations(
                   itemsLocationsLocationType,
                   'library'
                 ),
-                _isFilteringBySubcategory,
               })}
             >
               <ProtoTag as="button" type="button" isActive small>
@@ -485,17 +450,17 @@ function FilterDrawerRefine() {
           )}
 
         {(_isFilteringBySubcategory ||
-          _dateFrom ||
-          _dateTo ||
+          productionDatesFrom ||
+          productionDatesTo ||
           itemsLocationsLocationType) && (
           <NextLink
             passHref
             {...worksUrl({
-              query,
+              ...params,
               workType: null,
               page: 1,
-              _dateFrom: null,
-              _dateTo: null,
+              productionDatesFrom: null,
+              productionDatesTo: null,
               _location: null,
               itemsLocationsLocationType: null,
               _isFilteringBySubcategory: false,
