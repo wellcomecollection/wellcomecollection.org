@@ -7,8 +7,15 @@ import Layout from '../Layout/Layout';
 import styled from 'styled-components';
 
 const NewsletterButtonContainer = styled(Space)`
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  align-items: center;
+
   ${props => props.theme.media.medium`
+    min-height: none;
     justify-content: center;
+    align-items: flex-end;
   `}
 `;
 
@@ -56,12 +63,11 @@ const NewsletterPromo = () => (
           <NewsletterButtonContainer
             v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
             h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            style={{ width: '100%', height: '100%' }}
             className={classNames({
-              'flex relative flex--v-end': true,
+              'flex relative': true,
             })}
           >
-            <RepeatingLs background={'teal'} foreground={'purple'} size={56} />
+            <RepeatingLs background={'teal'} foreground={'purple'} size={48} />
 
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <Button
