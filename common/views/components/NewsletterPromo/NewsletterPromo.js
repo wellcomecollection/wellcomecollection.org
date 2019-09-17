@@ -74,7 +74,7 @@ const NewsletterPromo = () => (
                 type="secondary"
                 extraClasses="btn--primary relative"
                 url="/newsletter"
-                text="Sign up here"
+                text="Sign up"
               />
             </Space>
           </NewsletterButtonContainer>
