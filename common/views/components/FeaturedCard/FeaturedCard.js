@@ -149,7 +149,11 @@ const FeaturedCardExhibitionBody = ({
         {exhibition.title}
       </h2>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
-        <p className={`${font('hnl', 5)} no-margin no-padding`}>
+        <Space
+          as="p"
+          v={{ size: 'm', properties: ['margin-bottom'] }}
+          className={`${font('hnl', 4)} no-margin no-padding`}
+        >
           <>
             <time dateTime={exhibition.start}>
               {formatDate(exhibition.start)}
@@ -157,7 +161,7 @@ const FeaturedCardExhibitionBody = ({
             —{/* $FlowFixMe */}
             <time dateTime={exhibition.end}>{formatDate(exhibition.end)}</time>
           </>
-        </p>
+        </Space>
       )}
       <StatusIndicator
         start={exhibition.start}
