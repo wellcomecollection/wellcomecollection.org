@@ -245,17 +245,33 @@ const Works = ({ works }: Props) => {
         </Space>
 
         <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
-            <>
-              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
-                <Layout12>
-                  <TabNav
-                    items={[
-                      {
-                        text: 'All',
+          {({ refineFiltersPrototype }) =>
+            !refineFiltersPrototype &&
+            works && (
+              <Layout12>
+                <TabNav
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: null,
+                        page: 1,
+                        itemsLocationsLocationType,
+                        _queryType,
+                        _dateFrom,
+                        _dateTo,
+                        _isFilteringBySubcategory,
+                      }),
+                      selected: !workType,
+                    },
+                  ].concat(
+                    workTypes.map(t => {
+                      return {
+                        text: t.title,
                         link: worksUrl({
                           query,
-                          workType: null,
+                          workType: t.materialTypes.map(m => m.letter),
                           page: 1,
                           itemsLocationsLocationType,
                           _queryType,
@@ -263,36 +279,19 @@ const Works = ({ works }: Props) => {
                           _dateTo,
                           _isFilteringBySubcategory,
                         }),
-                        selected: !workType,
-                      },
-                    ].concat(
-                      workTypes.map(t => {
-                        return {
-                          text: t.title,
-                          link: worksUrl({
-                            query,
-                            workType: t.materialTypes.map(m => m.letter),
-                            page: 1,
-                            itemsLocationsLocationType,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
-                          }),
-                          selected:
-                            !!workType &&
-                            doArraysOverlap(
-                              t.materialTypes.map(m => m.letter),
-                              workType
-                            ),
-                        };
-                      })
-                    )}
-                  />
-                </Layout12>
-              )}
-            </>
-          )}
+                        selected:
+                          !!workType &&
+                          doArraysOverlap(
+                            t.materialTypes.map(m => m.letter),
+                            workType
+                          ),
+                      };
+                    })
+                  )}
+                />
+              </Layout12>
+            )
+          }
         </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
