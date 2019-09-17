@@ -8,7 +8,7 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Dot from '@weco/common/views/components/Dot/Dot';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';
@@ -47,16 +47,13 @@ type State = {|
 function EventStatus(text, color) {
   return (
     <div className="flex">
-      <div className={`${font('hnm', 6)} flex flex--v-center`}>
+      <div className={`${font('hnm', 5)} flex flex--v-center`}>
         <Space
           as="span"
-          h={{ size: 's', properties: ['margin-right'] }}
+          h={{ size: 'xs', properties: ['margin-right'] }}
           className={`flex flex--v-center`}
         >
-          <Icon
-            name="statusIndicator"
-            extraClasses={`icon--match-text icon--${color}`}
-          />
+          <Dot color={color} />
         </Space>
         {text}
       </div>
