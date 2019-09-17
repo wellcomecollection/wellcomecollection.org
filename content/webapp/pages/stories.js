@@ -217,15 +217,13 @@ export class StoriesPage extends Component<Props> {
         {/* TODO: work out logic for making these dynamic */}
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Long reads" />
+            <SectionHeader title="Books" />
           </SpacingComponent>
           <SpacingComponent>
             <Layout12>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Corporis inventore placeat impedit facere alias maxime neque
-                rerum esse voluptates recusandae in magni quod officia
-                reprehenderit, fugit, incidunt provident accusantium? Mollitia.
+                Get stuck into a book published by Wellcome Collection and
+                explore the complexities of the human condition.
               </p>
             </Layout12>
           </SpacingComponent>
