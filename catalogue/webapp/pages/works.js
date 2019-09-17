@@ -36,7 +36,7 @@ import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import {
   onlineLocations,
   inLibraryLocations,
-} from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
+} from '@weco/common/views/components/FilterDrawerExplore/accessLocations';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -245,17 +245,33 @@ const Works = ({ works }: Props) => {
         </Space>
 
         <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
-            <>
-              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
-                <Layout12>
-                  <TabNav
-                    items={[
-                      {
-                        text: 'All',
+          {({ exploreFiltersPrototype }) =>
+            !exploreFiltersPrototype &&
+            works && (
+              <Layout12>
+                <TabNav
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: null,
+                        page: 1,
+                        itemsLocationsLocationType,
+                        _queryType,
+                        _dateFrom,
+                        _dateTo,
+                        _isFilteringBySubcategory,
+                      }),
+                      selected: !workType,
+                    },
+                  ].concat(
+                    workTypes.map(t => {
+                      return {
+                        text: t.title,
                         link: worksUrl({
                           query,
-                          workType: null,
+                          workType: t.materialTypes.map(m => m.letter),
                           page: 1,
                           itemsLocationsLocationType,
                           _queryType,
@@ -263,36 +279,19 @@ const Works = ({ works }: Props) => {
                           _dateTo,
                           _isFilteringBySubcategory,
                         }),
-                        selected: !workType,
-                      },
-                    ].concat(
-                      workTypes.map(t => {
-                        return {
-                          text: t.title,
-                          link: worksUrl({
-                            query,
-                            workType: t.materialTypes.map(m => m.letter),
-                            page: 1,
-                            itemsLocationsLocationType,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
-                          }),
-                          selected:
-                            !!workType &&
-                            doArraysOverlap(
-                              t.materialTypes.map(m => m.letter),
-                              workType
-                            ),
-                        };
-                      })
-                    )}
-                  />
-                </Layout12>
-              )}
-            </>
-          )}
+                        selected:
+                          !!workType &&
+                          doArraysOverlap(
+                            t.materialTypes.map(m => m.letter),
+                            workType
+                          ),
+                      };
+                    })
+                  )}
+                />
+              </Layout12>
+            )
+          }
         </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
@@ -506,9 +505,8 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsm,
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
-    showDatesPrototype,
     unfilteredSearchResults,
-    refineFiltersPrototype,
+    exploreFiltersPrototype,
   } = ctx.query.toggles;
   const toggledQueryType = searchCandidateQueryMsm
     ? 'msm'
@@ -533,7 +531,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const filters = {
     workType: workTypeFilter,
     'items.locations.locationType':
-      unfilteredSearchResults || refineFiltersPrototype
+      unfilteredSearchResults || exploreFiltersPrototype
         ? locationTypeFilter.map(code => encodeURIComponent(code))
         : onlineLocations,
     _queryType,
@@ -541,19 +539,12 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const isDatesPrototype = showDatesPrototype;
-  const shouldGetWorks = isDatesPrototype
-    ? filters._dateTo || filters._dateFrom || (query && query !== '')
-    : query && query !== '';
-
-  const worksOrError = shouldGetWorks
-    ? await getWorks({
-        query,
-        page,
-        filters,
-        env: useStageApi ? 'stage' : 'prod',
-      })
-    : null;
+  const worksOrError = await getWorks({
+    query,
+    page,
+    filters,
+    env: useStageApi ? 'stage' : 'prod',
+  });
 
   return {
     works: worksOrError,
