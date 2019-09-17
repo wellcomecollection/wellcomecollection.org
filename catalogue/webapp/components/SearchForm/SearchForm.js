@@ -11,6 +11,7 @@ import {
   worksUrl,
   searchQueryParams,
 } from '@weco/common/services/catalogue/urls';
+import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import FilterDrawerExplore from '@weco/common/views/components/FilterDrawerExplore/FilterDrawerExplore';
 
 type Props = {|
@@ -166,9 +167,16 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
       )}
 
       <TogglesContext.Consumer>
-        {({ exploreFiltersPrototype }) =>
-          shouldShowFilters && <FilterDrawerExplore />
-        }
+        {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+          <>
+            {shouldShowFilters && (
+              <>
+                {refineFiltersPrototype && <FilterDrawerRefine />}
+                {exploreFiltersPrototype && <FilterDrawerExplore />}
+              </>
+            )}
+          </>
+        )}
       </TogglesContext.Consumer>
     </form>
   );
