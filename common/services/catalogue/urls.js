@@ -216,6 +216,7 @@ const defaultState: CatalogueQuery = {
   _isFilteringBySubcategory: null,
 };
 
+// we can pass all params Nextlink href, but only expose certain ones to the user via as, see workUrl, worksUrl and ItemUrl
 export function searchQueryParams() {
   if (typeof window !== 'undefined') {
     return {
