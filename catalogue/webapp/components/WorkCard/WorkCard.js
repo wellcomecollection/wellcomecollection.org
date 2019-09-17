@@ -26,10 +26,8 @@ import Space, {
 } from '@weco/common/views/components/styled/Space';
 
 type Props = {|
-  workAndParams: {
-    work: Work,
-    ...WorksUrlProps,
-  },
+  work: Work,
+  params: WorksUrlProps,
 |};
 
 const Container = styled.div`
@@ -65,9 +63,8 @@ const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
   }
 `;
 
-const WorkCard = ({ workAndParams }: Props) => {
+const WorkCard = ({ work, params }: Props) => {
   const {
-    work,
     query,
     page,
     workType,
@@ -75,7 +72,7 @@ const WorkCard = ({ workAndParams }: Props) => {
     _dateFrom,
     _dateTo,
     _isFilteringBySubcategory,
-  } = workAndParams;
+  } = params;
   const digitalLocations = getDigitalLocations(work);
   const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);

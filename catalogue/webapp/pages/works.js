@@ -371,8 +371,8 @@ const Works = ({ works }: Props) => {
                         }}
                       >
                         <WorkCard
-                          workAndParams={{
-                            work: result,
+                          work={result}
+                          params={{
                             query,
                             workType,
                             page,
