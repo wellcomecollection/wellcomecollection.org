@@ -245,52 +245,53 @@ const Works = ({ works }: Props) => {
         </Space>
 
         <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
-            <>
-              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
-                <Layout12>
-                  <TabNav
-                    items={[
-                      {
-                        text: 'All',
+          {({ refineFiltersPrototype }) =>
+            !refineFiltersPrototype &&
+            works && (
+              <Layout12>
+                <TabNav
+                  items={[
+                    {
+                      text: 'All',
+                      link: worksUrl({
+                        query,
+                        workType: null,
+                        page: 1,
+                        itemsLocationsLocationType,
+                        _queryType,
+                        _dateFrom,
+                        _dateTo,
+                        _isFilteringBySubcategory,
+                      }),
+                      selected: !workType,
+                    },
+                  ].concat(
+                    workTypes.map(t => {
+                      return {
+                        text: t.title,
                         link: worksUrl({
                           query,
-                          workType: null,
+                          workType: t.materialTypes.map(m => m.letter),
                           page: 1,
+                          itemsLocationsLocationType,
                           _queryType,
                           _dateFrom,
                           _dateTo,
                           _isFilteringBySubcategory,
                         }),
-                        selected: !workType,
-                      },
-                    ].concat(
-                      workTypes.map(t => {
-                        return {
-                          text: t.title,
-                          link: worksUrl({
-                            query,
-                            workType: t.materialTypes.map(m => m.letter),
-                            page: 1,
-                            _queryType,
-                            _dateFrom,
-                            _dateTo,
-                            _isFilteringBySubcategory,
-                          }),
-                          selected:
-                            !!workType &&
-                            doArraysOverlap(
-                              t.materialTypes.map(m => m.letter),
-                              workType
-                            ),
-                        };
-                      })
-                    )}
-                  />
-                </Layout12>
-              )}
-            </>
-          )}
+                        selected:
+                          !!workType &&
+                          doArraysOverlap(
+                            t.materialTypes.map(m => m.letter),
+                            workType
+                          ),
+                      };
+                    })
+                  )}
+                />
+              </Layout12>
+            )
+          }
         </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
@@ -383,6 +384,7 @@ const Works = ({ works }: Props) => {
                             query,
                             workType,
                             page,
+                            itemsLocationsLocationType,
                             _queryType,
                             _dateFrom,
                             _dateTo,
@@ -503,7 +505,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchCandidateQueryMsm,
     searchCandidateQueryBoost,
     searchCandidateQueryMsmBoost,
-    showDatesPrototype,
     unfilteredSearchResults,
     refineFiltersPrototype,
   } = ctx.query.toggles;
@@ -538,10 +539,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(_dateTo ? { _dateTo } : {}),
   };
 
-  const isDatesPrototype = showDatesPrototype;
-  const shouldGetWorks = isDatesPrototype
-    ? filters._dateTo || filters._dateFrom || (query && query !== '')
-    : query && query !== '';
+  const shouldGetWorks = query && query !== '';
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
