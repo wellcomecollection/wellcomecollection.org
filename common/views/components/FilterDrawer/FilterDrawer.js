@@ -1,5 +1,6 @@
 // @flow
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -48,7 +49,7 @@ const FilterBarAnchor = styled(Space).attrs({
   }),
 })`
   text-decoration: none;
-  transition: background 250ms ease;
+  transition: background 300ms ease;
 
   &:hover,
   &:focus {
@@ -67,7 +68,7 @@ const FiltersContainer = styled.div.attrs({
     relative: true,
   }),
 })`
-  transition: height 250ms ease;
+  transition: height 300ms ease;
   overflow: hidden;
   height: ${props => props.height}px;
 `;
@@ -76,11 +77,10 @@ const FilterSection = styled.div.attrs(props => ({
   className: classNames({
     absolute: true,
   }),
-  // hidden: !props.isActive,
 }))`
   top: 0;
   left: 0;
-  transition: opacity 250ms ease;
+  transition: opacity 300ms ease;
   opacity: ${props => (props.isActive ? 1 : 0)};
 `;
 
@@ -89,10 +89,29 @@ function FilterDrawer() {
   const [activeFilterSection, setActiveFilterSection] = useState(null);
   const [filtersContainerHeight, setFiltersContainerHeight] = useState(0);
 
-  function updateFiltersContainerHeight(sectionIndex) {
+  function handleResize() {
+    setFiltersContainerHeight(getSectionHeight(activeFilterSection));
+  }
+
+  const debounceHandleResize = debounce(handleResize, 500);
+
+  useEffect(() => {
+    window.addEventListener('resize', debounceHandleResize);
+
+    return () => {
+      window.removeEventListener('resize', debounceHandleResize);
+    };
+  }, [activeFilterSection]);
+
+  function getSectionHeight(sectionIndex) {
     const el = filtersContainerRef && filtersContainerRef.current;
     const newSection = el && el.children[sectionIndex];
-    const height = newSection && newSection.getBoundingClientRect().height;
+
+    return (newSection && newSection.getBoundingClientRect().height) || 0;
+  }
+
+  function updateFiltersContainerHeight(sectionIndex) {
+    const height = getSectionHeight(sectionIndex);
 
     setFiltersContainerHeight(
       activeFilterSection === sectionIndex ? 0 : height
@@ -147,7 +166,20 @@ function FilterDrawer() {
         height={filtersContainerHeight}
       >
         <FilterSection isActive={activeFilterSection === 0}>one</FilterSection>
-        <FilterSection isActive={activeFilterSection === 1}>two</FilterSection>
+        <FilterSection isActive={activeFilterSection === 1}>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
+            dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
+            quis dolorem ad obcaecati ea excepturi earum et est at. Tempora,
+            esse.
+          </p>
+          <p>
+            Unde illum soluta expedita laboriosam facilis incidunt sapiente
+            molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
+            dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
+            provident dicta voluptates pariatur cumque.
+          </p>
+        </FilterSection>
         <FilterSection isActive={activeFilterSection === 2}>
           three
         </FilterSection>
