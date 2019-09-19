@@ -79,7 +79,7 @@ const FilterSection = styled.div`
   .enhanced & {
     top: 0;
     left: 0;
-    transition: opacity 300ms ease;
+    transition: opacity 500ms 300ms ease;
     opacity: ${props => (props.isActive ? 1 : 0)};
     position: absolute;
   }
