@@ -1,7 +1,14 @@
 // @flow
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+
+const FilterDrawerEl = styled.div.attrs({
+  className: classNames({
+    FilterDrawerEl: true,
+  }),
+})``;
 
 const FilterBarUl = styled.ul.attrs({
   className: classNames({
@@ -41,6 +48,7 @@ const FilterBarAnchor = styled(Space).attrs({
   }),
 })`
   text-decoration: none;
+  transition: background 250ms ease;
 
   &:hover,
   &:focus {
@@ -54,21 +62,97 @@ const FilterBarAnchor = styled(Space).attrs({
   }
 `;
 
+const FiltersContainer = styled.div.attrs({
+  className: classNames({
+    relative: true,
+  }),
+})`
+  transition: height 250ms ease;
+  overflow: hidden;
+  height: ${props => props.height}px;
+`;
+
+const FilterSection = styled.div.attrs(props => ({
+  className: classNames({
+    absolute: true,
+  }),
+  // hidden: !props.isActive,
+}))`
+  top: 0;
+  left: 0;
+  transition: opacity 250ms ease;
+  opacity: ${props => (props.isActive ? 1 : 0)};
+`;
+
 function FilterDrawer() {
+  const filtersContainerRef = useRef(null);
+  const [activeFilterSection, setActiveFilterSection] = useState(null);
+  const [filtersContainerHeight, setFiltersContainerHeight] = useState(0);
+
+  function updateFiltersContainerHeight(sectionIndex) {
+    const el = filtersContainerRef && filtersContainerRef.current;
+    const newSection = el && el.children[sectionIndex];
+    const height = newSection && newSection.getBoundingClientRect().height;
+
+    setFiltersContainerHeight(
+      activeFilterSection === sectionIndex ? 0 : height
+    );
+  }
+
+  function updateActiveFilterSection(sectionIndex) {
+    updateFiltersContainerHeight(sectionIndex);
+
+    setActiveFilterSection(
+      activeFilterSection === sectionIndex ? null : sectionIndex
+    );
+  }
+
   return (
-    <>
+    <FilterDrawerEl
+      className={classNames({
+        'is-open': activeFilterSection !== null,
+      })}
+    >
       <FilterBarUl>
-        <FilterBarLi className="is-active">
-          <FilterBarAnchor href="#">one</FilterBarAnchor>
+        <FilterBarLi
+          className={classNames({
+            'is-active': activeFilterSection === 0,
+          })}
+        >
+          <FilterBarAnchor onClick={() => updateActiveFilterSection(0)}>
+            one
+          </FilterBarAnchor>
         </FilterBarLi>
-        <FilterBarLi>
-          <FilterBarAnchor href="#">two</FilterBarAnchor>
+        <FilterBarLi
+          className={classNames({
+            'is-active': activeFilterSection === 1,
+          })}
+        >
+          <FilterBarAnchor onClick={() => updateActiveFilterSection(1)}>
+            two
+          </FilterBarAnchor>
         </FilterBarLi>
-        <FilterBarLi>
-          <FilterBarAnchor href="#">three</FilterBarAnchor>
+        <FilterBarLi
+          className={classNames({
+            'is-active': activeFilterSection === 2,
+          })}
+        >
+          <FilterBarAnchor onClick={() => updateActiveFilterSection(2)}>
+            three
+          </FilterBarAnchor>
         </FilterBarLi>
       </FilterBarUl>
-    </>
+      <FiltersContainer
+        ref={filtersContainerRef}
+        height={filtersContainerHeight}
+      >
+        <FilterSection isActive={activeFilterSection === 0}>one</FilterSection>
+        <FilterSection isActive={activeFilterSection === 1}>two</FilterSection>
+        <FilterSection isActive={activeFilterSection === 2}>
+          three
+        </FilterSection>
+      </FiltersContainer>
+    </FilterDrawerEl>
   );
 }
 
