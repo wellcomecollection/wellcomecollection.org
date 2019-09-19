@@ -68,20 +68,21 @@ const FiltersContainer = styled.div.attrs({
     relative: true,
   }),
 })`
-  transition: height 300ms ease;
-  overflow: hidden;
-  height: ${props => props.height}px;
+  .enhanced & {
+    transition: height 300ms ease;
+    overflow: hidden;
+    height: ${props => props.height}px;
+  }
 `;
 
-const FilterSection = styled.div.attrs(props => ({
-  className: classNames({
-    absolute: true,
-  }),
-}))`
-  top: 0;
-  left: 0;
-  transition: opacity 300ms ease;
-  opacity: ${props => (props.isActive ? 1 : 0)};
+const FilterSection = styled.div`
+  .enhanced & {
+    top: 0;
+    left: 0;
+    transition: opacity 300ms ease;
+    opacity: ${props => (props.isActive ? 1 : 0)};
+    position: absolute;
+  }
 `;
 
 function FilterDrawer() {
@@ -138,7 +139,13 @@ function FilterDrawer() {
             'is-active': activeFilterSection === 0,
           })}
         >
-          <FilterBarAnchor onClick={() => updateActiveFilterSection(0)}>
+          <FilterBarAnchor
+            href="#filter-section-0"
+            onClick={event => {
+              event.preventDefault();
+              updateActiveFilterSection(0);
+            }}
+          >
             one
           </FilterBarAnchor>
         </FilterBarLi>
@@ -147,7 +154,13 @@ function FilterDrawer() {
             'is-active': activeFilterSection === 1,
           })}
         >
-          <FilterBarAnchor onClick={() => updateActiveFilterSection(1)}>
+          <FilterBarAnchor
+            href="#filter-section-1"
+            onClick={event => {
+              event.preventDefault();
+              updateActiveFilterSection(1);
+            }}
+          >
             two
           </FilterBarAnchor>
         </FilterBarLi>
@@ -156,7 +169,13 @@ function FilterDrawer() {
             'is-active': activeFilterSection === 2,
           })}
         >
-          <FilterBarAnchor onClick={() => updateActiveFilterSection(2)}>
+          <FilterBarAnchor
+            href="#filter-section-2"
+            onClick={event => {
+              event.preventDefault();
+              updateActiveFilterSection(2);
+            }}
+          >
             three
           </FilterBarAnchor>
         </FilterBarLi>
@@ -165,8 +184,40 @@ function FilterDrawer() {
         ref={filtersContainerRef}
         height={filtersContainerHeight}
       >
-        <FilterSection isActive={activeFilterSection === 0}>one</FilterSection>
-        <FilterSection isActive={activeFilterSection === 1}>
+        <FilterSection
+          id="filter-section-0"
+          isActive={activeFilterSection === 0}
+        >
+          one
+        </FilterSection>
+        <FilterSection
+          id="filter-section-1"
+          isActive={activeFilterSection === 1}
+        >
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
+            dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
+            quis dolorem ad obcaecati ea excepturi earum et est at. Tempora,
+            esse.
+          </p>
+          <p>
+            Unde illum soluta expedita laboriosam facilis incidunt sapiente
+            molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
+            dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
+            provident dicta voluptates pariatur cumque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
+            dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
+            quis dolorem ad obcaecati ea excepturi earum et est at. Tempora,
+            esse.
+          </p>
+          <p>
+            Unde illum soluta expedita laboriosam facilis incidunt sapiente
+            molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
+            dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
+            provident dicta voluptates pariatur cumque.
+          </p>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
             dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
@@ -180,7 +231,10 @@ function FilterDrawer() {
             provident dicta voluptates pariatur cumque.
           </p>
         </FilterSection>
-        <FilterSection isActive={activeFilterSection === 2}>
+        <FilterSection
+          id="filter-section-2"
+          isActive={activeFilterSection === 2}
+        >
           three
         </FilterSection>
       </FiltersContainer>
