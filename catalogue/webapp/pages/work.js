@@ -13,10 +13,9 @@ import {
   getEncoreLink,
   getLocationType,
 } from '@weco/common/utils/works';
-import {
-  searchQueryParams,
-  itemUrl,
-} from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
@@ -74,16 +73,7 @@ export const WorkPage = ({ work }: Props) => {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
 
-  const {
-    query,
-    workType,
-    page,
-    itemsLocationsLocationType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
-  } = searchQueryParams();
+  const params = searchQueryParams();
 
   useEffect(() => {
     window.dataLayer &&
@@ -231,6 +221,7 @@ export const WorkPage = ({ work }: Props) => {
               iiifPresentationLocation={iiifPresentationLocation}
               childManifestsCount={childManifestsCount}
               itemUrl={itemUrl({
+                ...params,
                 workId: work.id,
                 sierraId:
                   firstChildManifest['@id'].match(
@@ -239,14 +230,7 @@ export const WorkPage = ({ work }: Props) => {
                 langCode: work.language && work.language.id,
                 canvas: 1,
                 isOverview: true,
-                query,
-                page,
-                workType,
-                itemsLocationsLocationType,
-                _queryType,
-                _dateFrom,
-                _dateTo,
-                _isFilteringBySubcategory,
+                page: 1,
               })}
             />
           </SpacingComponent>
@@ -260,19 +244,13 @@ export const WorkPage = ({ work }: Props) => {
             <IIIFPresentationPreview
               iiifPresentationLocation={iiifPresentationLocation}
               itemUrl={itemUrl({
+                ...params,
                 workId: work.id,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
                 canvas: 1,
                 isOverview: true,
-                query,
-                page,
-                workType,
-                itemsLocationsLocationType,
-                _queryType,
-                _dateFrom,
-                _dateTo,
-                _isFilteringBySubcategory,
+                page: 1,
               })}
             />
           )}
@@ -284,19 +262,13 @@ export const WorkPage = ({ work }: Props) => {
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
             itemUrl={itemUrl({
+              ...params,
               workId: work.id,
               sierraId: null,
               langCode: work.language && work.language.id,
               canvas: 1,
               isOverview: true,
-              query,
-              page,
-              itemsLocationsLocationType,
-              workType,
-              _queryType,
-              _dateFrom,
-              _dateTo,
-              _isFilteringBySubcategory,
+              page: 1,
             })}
             title={work.title}
           />

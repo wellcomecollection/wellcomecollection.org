@@ -7,10 +7,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import {
-  worksUrl,
-  searchQueryParams,
-} from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 
 type Props = {|
@@ -43,15 +41,8 @@ const ClearSearch = styled.button`
 `;
 
 const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
-  const {
-    query,
-    workType,
-    itemsLocationsLocationType,
-    _queryType,
-    _isFilteringBySubcategory,
-    _dateTo,
-    _dateFrom,
-  } = searchQueryParams();
+  const params = searchQueryParams();
+  const { query, workType } = params;
 
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -76,14 +67,9 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
   function updateUrl() {
     const link = worksUrl({
+      ...params,
       query: inputQuery,
-      workType,
       page: 1,
-      itemsLocationsLocationType,
-      _queryType,
-      _dateFrom,
-      _dateTo,
-      _isFilteringBySubcategory,
     });
 
     typeof window !== 'undefined' && Router.push(link.href, link.as);
@@ -134,6 +120,7 @@ const SearchForm = ({ ariaDescribedBy, compact }: Props) => {
 
                 setInputQuery('');
 
+                // $FlowFixMe
                 searchInput.current && searchInput.current.focus();
               }}
               type="button"

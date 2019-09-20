@@ -9,9 +9,6 @@
     "deployCatalogue": "pushd deploy && ./deploy_service.js -s catalogue",
     "deployContent": "pushd deploy && ./deploy_service.js -s content"
   },
-  "engines": {
-    "node": "10.15.1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
@@ -45,7 +42,7 @@
     "prettier": "^1.16.4"
   },
   "dependencies": {
-    "flow-bin": "^0.95.1"
+    "flow-bin": "^0.108.0"
   },
   "private": true,
   "workspaces": [

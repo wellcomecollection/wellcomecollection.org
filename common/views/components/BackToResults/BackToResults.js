@@ -2,29 +2,15 @@
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { worksUrl, searchQueryParams } from '../../../services/catalogue/urls';
+import { worksUrl } from '../../../services/catalogue/urls';
+import { searchQueryParams } from '../../../services/catalogue/search-params';
 
 const BackToResults = () => {
-  const {
-    query,
-    workType,
-    page,
-    itemsLocationsLocationType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
-  } = searchQueryParams();
+  const params = searchQueryParams();
+  const { query } = params;
 
   const link = worksUrl({
-    query,
-    page,
-    workType,
-    itemsLocationsLocationType,
-    _queryType,
-    _dateFrom,
-    _dateTo,
-    _isFilteringBySubcategory,
+    ...params,
   });
   return (
     <NextLink {...link}>
