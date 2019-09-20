@@ -9,7 +9,7 @@ import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 
 import {
   getDownloadOptionsFromManifest,
@@ -136,12 +136,12 @@ const ItemPage = ({
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
-  const params = searchQueryParams();
+  const searchParams = clientSideSearchParams();
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
-      ...params,
+      ...searchParams,
       workId,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,

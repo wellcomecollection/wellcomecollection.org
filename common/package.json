@@ -22,7 +22,7 @@
     "google-maps": "^3.3.0",
     "immutable": "^4.0.0-rc.12",
     "isomorphic-unfetch": "^3.0.0",
-    "jest": "^24.5.0",
+    "jest": "^24.9.0",
     "koa-compose": "^4.1.0",
     "lazysizes": "^4.0.1",
     "lodash.debounce": "^4.0.8",

@@ -17,18 +17,20 @@ export type QueryStringParameterMapping = { [string]: string };
 const stringDeserialiser: Deserialiser<string> = input => input || '';
 const numberDeserialiser: Deserialiser<number> = input =>
   input ? parseInt(input) : 1;
-const csvDeserialiser: Deserialiser<?(string[])> = input =>
-  input ? input.split(',') : [];
+const csvDeserialiser: Deserialiser<?(string[])> = input => {
+  return input ? input.split(',') : [];
+};
 const nullableStringDeserialiser: Deserialiser<?string> = input => input;
 const booleanDeserialiser: Deserialiser<boolean> = input => input === 'true';
 const csvWithDefaultDeserialiser: DeserialiserWithDefaults<
   string[]
-> = defaults => input => (input ? input.split(',') : defaults);
+> = defaults => input =>
+  input === '' ? [] : input ? input.split(',', -1) : defaults;
 
 const stringSerialiser: Serialiser<string> = input =>
   input === '' ? null : input;
 const numberSerialiser: Serialiser<number> = input =>
-  input === 1 ? null : input.toString();
+  input === 1 || !input ? null : input.toString();
 const csvSerialiser: Serialiser<?(string[])> = input =>
   input && input.length > 0 ? input.join(',') : null;
 const nullableStringSerialiser: Serialiser<?string> = input => input;
@@ -51,11 +53,11 @@ function buildDeserialiser<T>(deserialisers: Deserialisers<T>) {
   return (obj: Object): T => {
     const keys = Object.keys(deserialisers);
     const searchParams = keys.reduce((acc, key) => {
-      const input = obj[key] ? obj[key] : null;
+      const input = key in obj ? obj[key] : null;
 
       return {
         ...acc,
-        [key]: deserialisers[key](input),
+        [key]: deserialisers[key](input, key),
       };
     }, {});
 

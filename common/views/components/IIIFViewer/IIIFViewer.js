@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
-import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import {
@@ -562,7 +562,7 @@ const IIIFViewerComponent = ({
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   const parentManifestUrl = manifest && manifest.within;
-  const params = searchQueryParams();
+  const params = clientSideSearchParams();
 
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
