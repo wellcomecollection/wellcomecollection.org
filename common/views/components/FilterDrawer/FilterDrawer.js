@@ -190,54 +190,61 @@ function FilterDrawer() {
           id="filter-section-0"
           isActive={activeFilterSection === 0}
         >
-          one
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <h2 className="h2">One</h2>
+            <p>
+              Unde illum soluta expedita laboriosam facilis incidunt sapiente
+              molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
+              dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
+              provident dicta voluptates pariatur cumque.
+            </p>
+          </Space>
         </FilterSection>
         <FilterSection
           id="filter-section-1"
           isActive={activeFilterSection === 1}
         >
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
-            dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
-            quis dolorem ad obcaecati ea excepturi earum et est at. Tempora,
-            esse.
-          </p>
-          <p>
-            Unde illum soluta expedita laboriosam facilis incidunt sapiente
-            molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
-            dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
-            provident dicta voluptates pariatur cumque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
-            dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
-            quis dolorem ad obcaecati ea excepturi earum et est at. Tempora,
-            esse.
-          </p>
-          <p>
-            Unde illum soluta expedita laboriosam facilis incidunt sapiente
-            molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
-            dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
-            provident dicta voluptates pariatur cumque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
-            dignissimos optio architecto aut nihil eos nulla, dolores aspernatur
-            quis dolorem ad obcaecati ea excepturi earum et est at. Tempora,
-            esse.
-          </p>
-          <p>
-            Unde illum soluta expedita laboriosam facilis incidunt sapiente
-            molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
-            dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
-            provident dicta voluptates pariatur cumque.
-          </p>
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <h2 className="h2">Two</h2>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
+              dignissimos optio architecto aut nihil eos nulla, dolores
+              aspernatur quis dolorem ad obcaecati ea excepturi earum et est at.
+              Tempora, esse.
+            </p>
+            <p>
+              Unde illum soluta expedita laboriosam facilis incidunt sapiente
+              molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
+              dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
+              provident dicta voluptates pariatur cumque.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
+              dignissimos optio architecto aut nihil eos nulla, dolores
+              aspernatur quis dolorem ad obcaecati ea excepturi earum et est at.
+              Tempora, esse.
+            </p>
+          </Space>
         </FilterSection>
         <FilterSection
           id="filter-section-2"
           isActive={activeFilterSection === 2}
         >
-          three
+          <Space v={{ size: 'l', properties: ['padding-top'] }}>
+            <h2 className="h2">Three</h2>
+            <p>
+              Unde illum soluta expedita laboriosam facilis incidunt sapiente
+              molestiae, totam perspiciatis odit, nobis a? Aliquam, illum quae
+              dolor tempore mollitia in voluptatibus consequuntur ut dignissimos
+              provident dicta voluptates pariatur cumque.
+            </p>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
+              dignissimos optio architecto aut nihil eos nulla, dolores
+              aspernatur quis dolorem ad obcaecati ea excepturi earum et est at.
+              Tempora, esse.
+            </p>
+          </Space>
         </FilterSection>
       </FiltersContainer>
     </FilterDrawerEl>

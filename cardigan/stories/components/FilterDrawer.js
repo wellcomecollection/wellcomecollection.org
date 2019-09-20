@@ -9,7 +9,9 @@ stories.add(
   () => (
     <div>
       <FilterDrawer />
-      below
+      <p style={{ marginTop: '20px' }}>
+        Dummy content to demo drawer height animation change
+      </p>
     </div>
   ),
   {
