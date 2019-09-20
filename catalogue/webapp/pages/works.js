@@ -247,9 +247,9 @@ const Works = ({ works }: Props) => {
         </Space>
 
         <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, exploreFiltersPrototype }) => (
+          {({ refineFiltersPrototype }) => (
             <>
-              {!refineFiltersPrototype && !exploreFiltersPrototype && works && (
+              {!refineFiltersPrototype && works && (
                 <Layout12>
                   <TabNav
                     items={[
@@ -474,7 +474,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const {
     useStageApi,
-    showDatesPrototype,
     unfilteredSearchResults,
     refineFiltersPrototype,
   } = ctx.query.toggles;
@@ -500,12 +499,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ...(productionDatesTo ? { productionDatesTo } : {}),
   };
 
-  const isDatesPrototype = showDatesPrototype;
-  const shouldGetWorks = isDatesPrototype
-    ? filters.productionDatesTo ||
-      filters.productionDatesFrom ||
-      (query && query !== '')
-    : query && query !== '';
+  const shouldGetWorks = query && query !== '';
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
