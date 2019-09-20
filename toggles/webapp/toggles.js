@@ -1,13 +1,6 @@
 module.exports = {
   toggles: [
     {
-      id: 'selectableQueries',
-      title: `Selectable queries`,
-      defaultValue: false,
-      description:
-        'Allow people to use different query types while searching the catalogue.',
-    },
-    {
       id: 'relevanceRating',
       title: `Search relevance rating`,
       defaultValue: false,
@@ -29,14 +22,6 @@ module.exports = {
         'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
     },
     {
-      id: 'showDatesPrototype',
-      title:
-        'Display input boxes to allow a user to refine results by a date range',
-      defaultValue: false,
-      description:
-        'Shows additional UI to allow a user to narrow search results by a date range.',
-    },
-    {
       id: 'unfilteredSearchResults',
       title:
         'Return all posible results from the catalogue API, without filtering by type or location',
@@ -49,13 +34,6 @@ module.exports = {
       defaultValue: false,
       description:
         'Shows filters on the works search pages. Geared towards refinement.',
-    },
-    {
-      id: 'exploreFiltersPrototype',
-      title: 'Display the Explore filters prototype',
-      defaultValue: false,
-      description:
-        'Shows filters on the works search pages. Geared towards exploration.',
     },
     {
       id: 'helveticaRegular',
