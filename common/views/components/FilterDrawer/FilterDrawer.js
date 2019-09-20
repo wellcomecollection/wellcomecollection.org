@@ -75,7 +75,9 @@ const FiltersContainer = styled.div.attrs({
   }
 `;
 
-const FilterSection = styled.div`
+const FilterSection = styled.div.attrs(props => ({
+  'aria-hidden': !props.isActive,
+}))`
   .enhanced & {
     top: 0;
     left: 0;
