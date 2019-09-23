@@ -3,10 +3,10 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
-import { searchQueryParams } from '../../../services/catalogue/search-params';
+import { clientSideSearchParams } from '../../../services/catalogue/search-params';
 
 const BackToResults = () => {
-  const params = searchQueryParams();
+  const params = clientSideSearchParams();
   const { query } = params;
 
   const link = worksUrl({

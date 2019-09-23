@@ -6,6 +6,7 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { removeEmptyProps } from '@weco/common/utils/json';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -43,7 +44,7 @@ export async function getWorks({
   filters,
   env = 'prod',
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const filterQueryString = Object.keys(filters).map(key => {
+  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
     const val = filters[key];
     return `${key}=${val}`;
   });

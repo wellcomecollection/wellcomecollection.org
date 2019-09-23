@@ -14,7 +14,7 @@ import {
   getLocationType,
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -73,7 +73,7 @@ export const WorkPage = ({ work }: Props) => {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
 
-  const params = searchQueryParams();
+  const searchParams = clientSideSearchParams();
 
   useEffect(() => {
     window.dataLayer &&
@@ -178,6 +178,8 @@ export const WorkPage = ({ work }: Props) => {
               <SearchForm
                 ariaDescribedBy="search-form-description"
                 compact={true}
+                shouldShowFilters={false}
+                searchParams={searchParams}
               />
             </div>
           </div>
@@ -221,7 +223,7 @@ export const WorkPage = ({ work }: Props) => {
               iiifPresentationLocation={iiifPresentationLocation}
               childManifestsCount={childManifestsCount}
               itemUrl={itemUrl({
-                ...params,
+                ...searchParams,
                 workId: work.id,
                 sierraId:
                   firstChildManifest['@id'].match(
@@ -244,7 +246,7 @@ export const WorkPage = ({ work }: Props) => {
             <IIIFPresentationPreview
               iiifPresentationLocation={iiifPresentationLocation}
               itemUrl={itemUrl({
-                ...params,
+                ...searchParams,
                 workId: work.id,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
@@ -262,7 +264,7 @@ export const WorkPage = ({ work }: Props) => {
             id={work.id}
             iiifUrl={iiifImageLocationUrl}
             itemUrl={itemUrl({
-              ...params,
+              ...searchParams,
               workId: work.id,
               sierraId: null,
               langCode: work.language && work.language.id,

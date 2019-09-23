@@ -25,7 +25,7 @@ import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Download from '../Download/Download';
 import Space from '@weco/common/views/components/styled/Space';
-import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -87,7 +87,7 @@ const WorkDetails = ({
   encoreLink,
   childManifestsCount,
 }: Props) => {
-  const params = searchQueryParams();
+  const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
