@@ -1,15 +1,23 @@
 // @flow
+import styled from 'styled-components';
+
+const DotEl = styled.span.attrs({
+  'aria-hidden': true,
+})`
+  display: inline-block;
+  font-size: 0.7em;
+
+  &:before {
+    content: '⬤';
+  }
+`;
 
 type Props = {|
   color: string,
 |};
 
 function Dot({ color }: Props) {
-  return (
-    <span className={`font-${color}`} style={{ fontSize: '0.7em' }}>
-      &#11044;
-    </span>
-  );
+  return <DotEl className={`font-${color}`} />;
 }
 
 export default Dot;
