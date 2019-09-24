@@ -78,7 +78,9 @@ const Img = ({
       height={height}
       className={classNames({
         image: true,
-        'bg-charcoal font-white': true,
+        'bg-charcoal font-white': Boolean(
+          extraClasses && !extraClasses.match(/bg-/)
+        ),
         'lazy-image lazyload': lazyload,
         'cursor-zoom-in': Boolean(zoomable),
         [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
