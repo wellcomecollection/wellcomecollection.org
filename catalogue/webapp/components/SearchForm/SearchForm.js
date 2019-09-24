@@ -170,7 +170,9 @@ const SearchForm = ({
             <input type="hidden" name="workType" value={workType.join(',')} />
           )}
 
-          {shouldShowFilters && true && <FilterDrawerRefine />}
+          {shouldShowFilters && refineFiltersPrototype && (
+            <FilterDrawerRefine />
+          )}
         </form>
       )}
     </TogglesContext.Consumer>
