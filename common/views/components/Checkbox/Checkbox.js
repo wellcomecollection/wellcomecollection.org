@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
+const CheckboxLabel = styled.label.attrs({
+  className: classNames({
+    'flex flex--v-center': true,
+  }),
+})``;
+
 const CheckboxBox = styled.span.attrs({
   className: classNames({
     CheckboxBox: true,
@@ -28,12 +34,6 @@ const CheckboxBox = styled.span.attrs({
   }
 `;
 
-const CheckboxEl = styled.label.attrs({
-  className: classNames({
-    'flex flex--v-center': true,
-  }),
-})``;
-
 const CheckboxInput = styled.input.attrs({
   type: 'checkbox',
 })`
@@ -53,18 +53,34 @@ const CheckboxInput = styled.input.attrs({
   }
 `;
 
-type Props = {|
+type CheckboxProps = {|
+  id: string,
+|};
+type CheckboxWithLabelProps = {|
+  ...CheckboxProps,
   text: string,
 |};
 
-function Checkbox({ text, ...inputProps }: Props) {
+export function Checkbox({ id, ...inputProps }: CheckboxProps) {
   return (
-    <CheckboxEl>
-      <CheckboxInput {...inputProps} />
+    <>
+      <CheckboxInput id={id} {...inputProps} />
       <CheckboxBox />
-      <Space h={{ size: 'xs', properties: ['margin-left'] }}>{text}</Space>
-    </CheckboxEl>
+    </>
   );
 }
 
-export default Checkbox;
+function CheckboxWithLabel({
+  id,
+  text,
+  ...inputProps
+}: CheckboxWithLabelProps) {
+  return (
+    <CheckboxLabel htmlFor={id}>
+      <Checkbox id={id} {...inputProps} />
+      <Space h={{ size: 'xs', properties: ['margin-left'] }}>{text}</Space>
+    </CheckboxLabel>
+  );
+}
+
+export default CheckboxWithLabel;
