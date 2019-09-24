@@ -15,36 +15,32 @@ import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+import {
+  apiSearchParamsSerialiser,
+  searchParamsDeserialiser,
+  defaultWorkTypes,
+  type SearchParams,
+} from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
 import {
   trackSearch,
   SearchEventNames,
 } from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
-import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import Space from '@weco/common/views/components/styled/Space';
-import { formatDateForApi } from '@weco/common/utils/dates';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import {
-  onlineLocations,
-  inLibraryLocations,
-} from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
+  searchParams: SearchParams,
 |};
 
-const globalDefaultWorkType = ['a', 'k', 'q', 'v', 'f', 's'];
-
-const Works = ({ works }: Props) => {
+const Works = ({ works, searchParams }: Props) => {
   const [loading, setLoading] = useState(false);
-  const params = searchQueryParams();
   const {
     query,
     workType,
@@ -53,7 +49,7 @@ const Works = ({ works }: Props) => {
     productionDatesTo,
     _isFilteringBySubcategory,
     _queryType,
-  } = params;
+  } = searchParams;
 
   const trackEvent = () => {
     if (query && query !== '') {
@@ -141,7 +137,7 @@ const Works = ({ works }: Props) => {
           <link
             rel="prev"
             href={convertUrlToString(
-              worksUrl({ ...params, query, page: (page || 1) - 1 }).as
+              worksUrl({ ...searchParams, query, page: (page || 1) - 1 }).as
             )}
           />
         )}
@@ -149,7 +145,7 @@ const Works = ({ works }: Props) => {
           <link
             rel="next"
             href={convertUrlToString(
-              worksUrl({ ...params, query, page: page + 1 }).as
+              worksUrl({ ...searchParams, query, page: page + 1 }).as
             )}
           />
         )}
@@ -158,7 +154,7 @@ const Works = ({ works }: Props) => {
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
-        url={worksUrl({ ...params, query, page }).as}
+        url={worksUrl({ ...searchParams, query, page }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -175,19 +171,6 @@ const Works = ({ works }: Props) => {
           ]}
           cookieName="WC_wellcomeImagesRedirect"
         />
-
-        <Layout12>
-          <TogglesContext.Consumer>
-            {({ useStageApi }) =>
-              useStageApi && (
-                <MessageBar tagText="Dev alert">
-                  You are using the stage catalogue API - data mileage may vary!
-                </MessageBar>
-              )
-            }
-          </TogglesContext.Consumer>
-          <BetaBar />
-        </Layout12>
 
         <Space
           v={{
@@ -240,6 +223,8 @@ const Works = ({ works }: Props) => {
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   compact={false}
+                  shouldShowFilters={query !== ''}
+                  searchParams={searchParams}
                 />
               </div>
             </div>
@@ -247,7 +232,7 @@ const Works = ({ works }: Props) => {
         </Space>
 
         <TogglesContext.Consumer>
-          {({ refineFiltersPrototype }) => (
+          {({ refineFiltersPrototype, unfilteredSearchResults }) => (
             <>
               {!refineFiltersPrototype && works && (
                 <Layout12>
@@ -256,20 +241,25 @@ const Works = ({ works }: Props) => {
                       {
                         text: 'All',
                         link: worksUrl({
-                          ...params,
+                          ...searchParams,
                           page: 1,
-                          workType: globalDefaultWorkType,
+                          workType: unfilteredSearchResults
+                            ? []
+                            : defaultWorkTypes,
                         }),
                         selected:
                           !!workType &&
-                          arraysEqual(globalDefaultWorkType, workType),
+                          arraysEqual(
+                            unfilteredSearchResults ? [] : defaultWorkTypes,
+                            workType
+                          ),
                       },
                     ].concat(
                       workTypes.map(t => {
                         return {
                           text: t.title,
                           link: worksUrl({
-                            ...params,
+                            ...searchParams,
                             workType: t.materialTypes.map(m => m.letter),
                             page: 1,
                           }),
@@ -308,12 +298,12 @@ const Works = ({ works }: Props) => {
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
                           link={worksUrl({
-                            ...params,
+                            ...searchParams,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const link = worksUrl({
-                              ...params,
+                              ...searchParams,
                               page: newPage,
                             });
                             Router.push(link.href, link.as).then(() =>
@@ -363,7 +353,7 @@ const Works = ({ works }: Props) => {
                         <WorkCard
                           work={result}
                           params={{
-                            ...params,
+                            ...searchParams,
                           }}
                         />
                       </div>
@@ -406,13 +396,13 @@ const Works = ({ works }: Props) => {
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
                             link={worksUrl({
-                              ...params,
+                              ...searchParams,
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const link = worksUrl({
-                                ...params,
                                 page: newPage,
+                                ...searchParams,
                               });
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -468,50 +458,21 @@ const Works = ({ works }: Props) => {
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const query = ctx.query.query;
-  const productionDatesFrom = formatDateForApi(ctx.query.productionDatesFrom);
-  const productionDatesTo = formatDateForApi(ctx.query.productionDatesTo);
-  const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-
-  const {
-    useStageApi,
-    unfilteredSearchResults,
-    refineFiltersPrototype,
-  } = ctx.query.toggles;
-  const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType;
-  const defaultWorkType = unfilteredSearchResults ? [] : globalDefaultWorkType;
-  const workTypeFilter = workTypeQuery
-    ? workTypeQuery.split(',').filter(Boolean)
-    : defaultWorkType;
-  const locationTypeQuery = ctx.query['items.locations.locationType'];
-  const locationTypeFilter = locationTypeQuery
-    ? locationTypeQuery.split(',').filter(Boolean)
-    : [...onlineLocations, ...inLibraryLocations];
-
-  const filters = {
-    workType: workTypeFilter,
-    'items.locations.locationType':
-      unfilteredSearchResults || refineFiltersPrototype
-        ? locationTypeFilter.map(code => encodeURIComponent(code))
-        : onlineLocations,
-    _queryType,
-    ...(productionDatesFrom ? { productionDatesFrom } : {}),
-    ...(productionDatesTo ? { productionDatesTo } : {}),
-  };
-
+  const params = searchParamsDeserialiser(ctx.query);
+  const filters = apiSearchParamsSerialiser(params);
   const shouldGetWorks = query && query !== '';
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
         query,
-        page,
+        page: filters.page,
         filters,
-        env: useStageApi ? 'stage' : 'prod',
       })
     : null;
 
   return {
     works: worksOrError,
+    searchParams: params,
   };
 };
 

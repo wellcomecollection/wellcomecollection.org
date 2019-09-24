@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import { worksUrl } from '../../../services/catalogue/urls';
-import { searchQueryParams } from '../../../services/catalogue/search-params';
+import { clientSideSearchParams } from '../../../services/catalogue/search-params';
 import { font } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
@@ -111,7 +111,7 @@ function isLastFilterItem(workType, subcategory) {
 }
 
 function FilterDrawerRefine() {
-  const params = searchQueryParams();
+  const params = clientSideSearchParams();
   const {
     workType,
     itemsLocationsLocationType,

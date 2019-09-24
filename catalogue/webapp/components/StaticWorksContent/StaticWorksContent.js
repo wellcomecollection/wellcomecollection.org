@@ -2,14 +2,14 @@
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
-import { searchQueryParams } from '@weco/common/services/catalogue/search-params';
+import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import Space from '@weco/common/views/components/styled/Space';
 
 const StaticWorksContent = () => {
-  const params = searchQueryParams();
+  const params = clientSideSearchParams();
   return (
     <Fragment>
       <Space v={{ size: 'l', properties: ['padding-top'] }} className={`row`}>

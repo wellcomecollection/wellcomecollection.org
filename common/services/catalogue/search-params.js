@@ -37,8 +37,12 @@ export type SearchParams = {|
 type SearchParamsSerialisers = Serialisers<SearchParams>;
 type SearchParamsDeserialisers = Deserialisers<SearchParams>;
 
-const defaultWorkTypes = ['a', 'k', 'q', 'v', 'f', 's'];
-const defaultItemsLocationsLocationType = ['iiif-image', 'iiif-presentation'];
+export const defaultWorkTypes = ['a', 'k', 'q', 'v', 'f', 's'];
+export const defaultItemsLocationsLocationType = [
+  'iiif-image',
+  'iiif-presentation',
+];
+
 const queryStringParameterMapping: QueryStringParameterMapping = {
   itemsLocationsLocationType: 'items.locations.locationType',
   productionDatesFrom: 'production.dates.from',
@@ -61,19 +65,27 @@ const deserialisers: SearchParamsDeserialisers = {
   _isFilteringBySubcategory: booleanDeserialiser,
 };
 
-const serialisers: SearchParamsSerialisers = {
+const apiSerialisers: SearchParamsSerialisers = {
   query: stringSerialiser,
   page: numberSerialiser,
-  workType: csvWithDefaultSerialiser(defaultWorkTypes),
-  itemsLocationsLocationType: csvWithDefaultSerialiser(
-    defaultItemsLocationsLocationType
-  ),
+  workType: csvWithDefaultSerialiser([]),
+  itemsLocationsLocationType: csvWithDefaultSerialiser([]),
   sort: nullableStringSerialiser,
   sortOrder: nullableStringSerialiser,
   aggregations: csvSerialiser,
   productionDatesFrom: nullableStringSerialiser,
   productionDatesTo: nullableStringSerialiser,
   _queryType: nullableStringSerialiser,
+};
+
+// We do a few things differently this side, including havein UI params
+// And also not showing certain filters when they are actually applied e.g. workType
+const serialisers: SearchParamsSerialisers = {
+  ...apiSerialisers,
+  workType: csvWithDefaultSerialiser(defaultWorkTypes),
+  itemsLocationsLocationType: csvWithDefaultSerialiser(
+    defaultItemsLocationsLocationType
+  ),
   _isFilteringBySubcategory: booleanSerialiser,
 };
 
@@ -83,7 +95,12 @@ export const searchParamsSerialiser = buildSerialiser(
   queryStringParameterMapping
 );
 
-export function searchQueryParams(): SearchParams {
+export const apiSearchParamsSerialiser = buildSerialiser(
+  apiSerialisers,
+  queryStringParameterMapping
+);
+
+export function clientSideSearchParams(): SearchParams {
   const obj = typeof window !== 'undefined' ? Router.query : {};
   return searchParamsDeserialiser(obj);
 }
