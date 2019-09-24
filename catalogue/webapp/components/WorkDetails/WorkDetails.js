@@ -194,8 +194,6 @@ const WorkDetails = ({
     work.description ||
     work.production.length > 0 ||
     work.physicalDescription ||
-    work.extent ||
-    work.dimensions ||
     work.lettering ||
     work.genres.length > 0 ||
     work.language
@@ -233,15 +231,11 @@ const WorkDetails = ({
           />
         )}
 
-        {(work.physicalDescription || work.extent || work.dimensions) && (
+        {work.physicalDescription && (
           <MetaUnit
             headingLevel={3}
             headingText="Physical description"
-            text={[
-              [work.extent, work.physicalDescription, work.dimensions]
-                .filter(Boolean)
-                .join(' '),
-            ]}
+            text={[work.physicalDescription]}
           />
         )}
 
