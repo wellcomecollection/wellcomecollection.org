@@ -5,18 +5,18 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@babel/core": "^7.4.3",
+    "@babel/core": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-a11y": "^5.0.10",
-    "@storybook/addon-knobs": "^5.0.10",
-    "@storybook/addon-options": "^5.0.10",
-    "@storybook/react": "^5.0.10",
+    "@storybook/addon-a11y": "^5.2.1",
+    "@storybook/addon-knobs": "^5.2.1",
+    "@storybook/addon-options": "^5.2.1",
+    "@storybook/react": "^5.2.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-react-require": "^3.1.1",
-    "css-loader": "^2.1.1",
+    "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
     "faker": "^4.1.0",
     "moment": "^2.24.0",
@@ -25,9 +25,9 @@
     "postcss-loader": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^8.0.0",
     "storybook-readme": "^5.0.2",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.30.0"
+    "style-loader": "^1.0.0",
+    "webpack": "^4.40.2"
   }
 }
