@@ -401,8 +401,8 @@ const Works = ({ works, searchParams }: Props) => {
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const link = worksUrl({
-                                page: newPage,
                                 ...searchParams,
+                                page: newPage,
                               });
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
