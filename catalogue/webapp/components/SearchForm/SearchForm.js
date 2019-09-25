@@ -52,7 +52,7 @@ const SearchForm = ({
   searchParams,
 }: Props) => {
   const { query, workType } = searchParams;
-
+  const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
@@ -68,7 +68,8 @@ const SearchForm = ({
     }
   }, [query]);
 
-  function updateUrl(unfilteredSearchResults) {
+  function updateUrl(unfilteredSearchResults, form) {
+    console.log(unfilteredSearchResults);
     const workType = searchParams.workType || [];
     const link = unfilteredSearchResults
       ? worksUrl({
@@ -77,11 +78,19 @@ const SearchForm = ({
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: inputQuery,
           page: 1,
+          // $FlowFixMe
+          productionDatesFrom: form.current.productionDatesFrom.value,
+          // $FlowFixMe
+          productionDatesTo: form.current.productionDatesTo.value,
         })
       : worksUrl({
           ...searchParams,
           query: inputQuery,
           page: 1,
+          // $FlowFixMe
+          productionDatesFrom: form.current.productionDatesFrom.value,
+          // $FlowFixMe
+          productionDatesTo: form.current.productionDatesTo.value,
         });
 
     Router.push(link.href, link.as);
@@ -91,6 +100,7 @@ const SearchForm = ({
     <TogglesContext.Consumer>
       {({ unfilteredSearchResults }) => (
         <form
+          ref={searchForm}
           action="/works"
           aria-describedby={ariaDescribedBy}
           onSubmit={event => {
@@ -102,7 +112,7 @@ const SearchForm = ({
               label: query,
             });
 
-            updateUrl(unfilteredSearchResults);
+            updateUrl(unfilteredSearchResults, searchForm);
 
             return false;
           }}

@@ -188,6 +188,7 @@ function FilterDrawerRefine() {
                     <input
                       type="number"
                       placeholder={'year'}
+                      name="productionDatesFrom"
                       value={inputDateFrom || ''}
                       onChange={event => {
                         setInputDateFrom(`${event.currentTarget.value}`);
@@ -207,6 +208,7 @@ function FilterDrawerRefine() {
                     <input
                       type="number"
                       placeholder={'year'}
+                      name="productionDatesTo"
                       value={inputDateTo || ''}
                       onChange={event => {
                         setInputDateTo(`${event.currentTarget.value}`);
