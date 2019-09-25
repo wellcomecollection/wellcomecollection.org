@@ -86,18 +86,26 @@ const SearchForm = ({
           query: inputQuery,
           page: 1,
           // $FlowFixMe
-          productionDatesFrom: form.current.productionDatesFrom.value,
+          productionDatesFrom: form.current.productionDatesFrom
+            ? form.current.productionDatesFrom.value
+            : searchParams.productionDatesFrom,
           // $FlowFixMe
-          productionDatesTo: form.current.productionDatesTo.value,
+          productionDatesTo: form.current.productionDatesTo
+            ? form.current.productionDatesTo.value
+            : searchParams.productionDatesTo,
         })
       : worksUrl({
           ...searchParams,
           query: inputQuery,
           page: 1,
           // $FlowFixMe
-          productionDatesFrom: form.current.productionDatesFrom.value,
+          productionDatesFrom: form.current.productionDatesFrom
+            ? form.current.productionDatesFrom.value
+            : searchParams.productionDatesFrom,
           // $FlowFixMe
-          productionDatesTo: form.current.productionDatesTo.value,
+          productionDatesTo: form.current.productionDatesTo
+            ? form.current.productionDatesTo.value
+            : searchParams.productionDatesTo,
         });
 
     Router.push(link.href, link.as);
