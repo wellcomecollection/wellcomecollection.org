@@ -127,6 +127,7 @@ const SearchForm = ({
                 autoFocus={inputQuery === ''}
                 onChange={event => setInputQuery(event.currentTarget.value)}
                 ref={searchInput}
+                required
                 className={classNames({
                   [font('hnl', compact ? 4 : 3)]: true,
                 })}

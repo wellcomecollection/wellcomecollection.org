@@ -187,6 +187,8 @@ function FilterDrawerRefine() {
                     <span className="visually-hidden">from: </span>
                     <input
                       type="number"
+                      min="0"
+                      max="9999"
                       placeholder={'year'}
                       name="productionDatesFrom"
                       value={inputDateFrom || ''}
@@ -207,6 +209,8 @@ function FilterDrawerRefine() {
                     <span className={'visually-hidden'}>to: </span>
                     <input
                       type="number"
+                      min="0"
+                      max="9999"
                       placeholder={'year'}
                       name="productionDatesTo"
                       value={inputDateTo || ''}
