@@ -284,39 +284,6 @@ function FilterDrawerRefine({
                       }}
                     />
                   </label>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-left'] }}
-                  >
-                    <NextLink
-                      passHref
-                      {...worksUrl({
-                        ...params,
-                        page: 1,
-                        productionDatesFrom: inputDateFrom,
-                        productionDatesTo: inputDateTo,
-                      })}
-                    >
-                      <ProtoTag as="a">set dates</ProtoTag>
-                    </NextLink>
-                  </Space>
-                  {(productionDatesFrom || productionDatesTo) && (
-                    <NextLink
-                      {...worksUrl({
-                        ...params,
-                        page: 1,
-                        productionDatesFrom: null,
-                        productionDatesTo: null,
-                      })}
-                    >
-                      <a
-                        className={font('hnm', 6)}
-                        style={{ marginLeft: '6px' }}
-                      >
-                        clear dates
-                      </a>
-                    </NextLink>
-                  )}
                 </Space>
               </div>
             </Space>
