@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
 import { clientSideSearchParams } from '../../../services/catalogue/search-params';
 import { font } from '../../../utils/classnames';
@@ -119,325 +120,357 @@ function FilterDrawerRefine() {
   }, [productionDatesFrom, productionDatesTo]);
 
   return (
-    <div>
-      <Space
-        v={{
-          size: 'm',
-          properties: ['margin-top', 'margin-bottom'],
-        }}
-      >
-        <ProtoTag
-          as="button"
-          type="button"
-          isPrimary
-          isActive={activeDrawer === 'date'}
-          onClick={() => {
-            setActiveDrawer(activeDrawer === 'date' ? null : 'date');
-          }}
-        >
-          <Icon name="chevron" />
-          Dates
-        </ProtoTag>
-        <ProtoTag
-          as="button"
-          type="button"
-          isPrimary
-          isActive={activeDrawer === 'format'}
-          onClick={() => {
-            setActiveDrawer(activeDrawer === 'format' ? null : 'format');
-          }}
-        >
-          <Icon name="chevron" />
-          Formats
-        </ProtoTag>
-        <ProtoTag
-          as="button"
-          type="button"
-          isPrimary
-          isActive={activeDrawer === 'availability'}
-          onClick={() => {
-            setActiveDrawer(
-              activeDrawer === 'availability' ? null : 'availability'
-            );
-          }}
-        >
-          <Icon name="chevron" />
-          Availability
-        </ProtoTag>
-      </Space>
-      <div className={`${activeDrawer !== 'date' ? 'is-hidden' : ''}`}>
-        <Space v={{ size: 'm', properties: ['margin-top'] }}>
-          <div
-            style={{
-              display: 'block',
+    <TogglesContext.Consumer>
+      {({ refineFiltersPrototype }) => (
+        <div>
+          <Space
+            v={{
+              size: 'm',
+              properties: ['margin-top', 'margin-bottom'],
             }}
           >
-            <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <span className={font('hnm', 5)}>Between </span>
-              <label>
-                <span className="visually-hidden">from: </span>
-                <input
-                  placeholder={'YYYY'}
-                  value={inputDateFrom || ''}
-                  onChange={event => {
-                    setInputDateFrom(`${event.currentTarget.value}`);
+            <ProtoTag
+              as="button"
+              type="button"
+              isPrimary
+              isActive={activeDrawer === 'date'}
+              onClick={() => {
+                setActiveDrawer(activeDrawer === 'date' ? null : 'date');
+              }}
+            >
+              <Icon name="chevron" />
+              Dates
+            </ProtoTag>
+            {refineFiltersPrototype && (
+              <>
+                <ProtoTag
+                  as="button"
+                  type="button"
+                  isPrimary
+                  isActive={activeDrawer === 'format'}
+                  onClick={() => {
+                    setActiveDrawer(
+                      activeDrawer === 'format' ? null : 'format'
+                    );
                   }}
-                  style={{
-                    width: '3.3em',
-                    padding: '0.3em',
-                    border: '0',
-                    borderBottom: '2px solid #333',
-                    background: 'transparent',
+                >
+                  <Icon name="chevron" />
+                  Formats
+                </ProtoTag>
+                <ProtoTag
+                  as="button"
+                  type="button"
+                  isPrimary
+                  isActive={activeDrawer === 'availability'}
+                  onClick={() => {
+                    setActiveDrawer(
+                      activeDrawer === 'availability' ? null : 'availability'
+                    );
                   }}
-                />
-              </label>{' '}
-              <span className={font('hnm', 5)}>and </span>
-              <label>
-                <span className={'visually-hidden'}>to: </span>
-                <input
-                  placeholder={'YYYY'}
-                  value={inputDateTo || ''}
-                  onChange={event => {
-                    setInputDateTo(`${event.currentTarget.value}`);
-                  }}
-                  style={{
-                    width: '3.3em',
-                    padding: '0.3em',
-                    border: '0',
-                    borderBottom: '2px solid #333',
-                    background: 'transparent',
-                  }}
-                />
-              </label>
-              <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
+                >
+                  <Icon name="chevron" />
+                  Availability
+                </ProtoTag>
+              </>
+            )}
+          </Space>
+          <div className={`${activeDrawer !== 'date' ? 'is-hidden' : ''}`}>
+            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <div
+                style={{
+                  display: 'block',
+                }}
+              >
+                <Space v={{ size: 's', properties: ['margin-top'] }}>
+                  <span className={font('hnm', 5)}>Between </span>
+                  <label>
+                    <span className="visually-hidden">from: </span>
+                    <input
+                      placeholder={'YYYY'}
+                      value={inputDateFrom || ''}
+                      onChange={event => {
+                        setInputDateFrom(`${event.currentTarget.value}`);
+                      }}
+                      style={{
+                        width: '3.3em',
+                        padding: '0.3em',
+                        border: '0',
+                        borderBottom: '2px solid #333',
+                        background: 'transparent',
+                      }}
+                    />
+                  </label>{' '}
+                  <span className={font('hnm', 5)}>and </span>
+                  <label>
+                    <span className={'visually-hidden'}>to: </span>
+                    <input
+                      placeholder={'YYYY'}
+                      value={inputDateTo || ''}
+                      onChange={event => {
+                        setInputDateTo(`${event.currentTarget.value}`);
+                      }}
+                      style={{
+                        width: '3.3em',
+                        padding: '0.3em',
+                        border: '0',
+                        borderBottom: '2px solid #333',
+                        background: 'transparent',
+                      }}
+                    />
+                  </label>
+                  <Space
+                    as="span"
+                    h={{ size: 'm', properties: ['margin-left'] }}
+                  >
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        page: 1,
+                        productionDatesFrom: inputDateFrom,
+                        productionDatesTo: inputDateTo,
+                      })}
+                    >
+                      <ProtoTag as="a">set dates</ProtoTag>
+                    </NextLink>
+                  </Space>
+                  {(productionDatesFrom || productionDatesTo) && (
+                    <NextLink
+                      {...worksUrl({
+                        ...params,
+                        page: 1,
+                        productionDatesFrom: null,
+                        productionDatesTo: null,
+                      })}
+                    >
+                      <a
+                        className={font('hnm', 6)}
+                        style={{ marginLeft: '6px' }}
+                      >
+                        clear dates
+                      </a>
+                    </NextLink>
+                  )}
+                </Space>
+              </div>
+            </Space>
+          </div>
+          {refineFiltersPrototype && (
+            <>
+              <div
+                className={`${activeDrawer !== 'format' ? 'is-hidden' : ''}`}
+              >
+                <>
+                  {allWorkTypes.map(subcategory => (
+                    <NextLink
+                      key={subcategory.title}
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        workType: updateWorkTypes(workType, subcategory),
+                        page: 1,
+                      })}
+                    >
+                      <ProtoTag
+                        as="a"
+                        isActive={
+                          workType && workType.includes(subcategory.letter)
+                        }
+                      >
+                        {subcategory.title}
+                      </ProtoTag>
+                    </NextLink>
+                  ))}
+                </>
+              </div>
+              <div
+                className={`${
+                  activeDrawer !== 'availability' ? 'is-hidden' : ''
+                }`}
+              >
+                <div>
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...params,
+                      page: 1,
+                      itemsLocationsLocationType: updateLocations(
+                        itemsLocationsLocationType,
+                        'online'
+                      ),
+                    })}
+                  >
+                    <ProtoTag
+                      as="button"
+                      type="button"
+                      isActive={
+                        itemsLocationsLocationType &&
+                        onlineLocations.every(t =>
+                          itemsLocationsLocationType.includes(t)
+                        )
+                      }
+                      style={{ cursor: 'pointer' }}
+                    >
+                      online
+                    </ProtoTag>
+                  </NextLink>
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...params,
+                      page: 1,
+                      itemsLocationsLocationType: updateLocations(
+                        itemsLocationsLocationType,
+                        'library'
+                      ),
+                    })}
+                  >
+                    <ProtoTag
+                      as="button"
+                      type="button"
+                      isActive={
+                        itemsLocationsLocationType &&
+                        inLibraryLocations.every(t =>
+                          itemsLocationsLocationType.includes(t)
+                        )
+                      }
+                      style={{ cursor: 'pointer' }}
+                    >
+                      in library
+                    </ProtoTag>
+                  </NextLink>
+                </div>
+              </div>
+            </>
+          )}
+          <Space
+            v={{ size: 'l', properties: ['margin-top'] }}
+            className="tokens"
+          >
+            {refineFiltersPrototype &&
+              allWorkTypes.map(subcategory => {
+                return (
+                  workType &&
+                  workType.includes(subcategory.letter) && (
+                    <NextLink
+                      key={subcategory.title}
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        workType: updateWorkTypes(workType, subcategory),
+                        page: 1,
+                      })}
+                    >
+                      <ProtoTag as="a" isActive small>
+                        &times; {subcategory.title}
+                      </ProtoTag>
+                    </NextLink>
+                  )
+                );
+              })}
+
+            {productionDatesFrom && (
+              <NextLink
+                passHref
+                {...worksUrl({
+                  ...params,
+                  workType: workType,
+                  page: 1,
+                  productionDatesFrom: null,
+                })}
+              >
+                <ProtoTag as="a" isActive small>
+                  &times; from: {productionDatesFrom}
+                </ProtoTag>
+              </NextLink>
+            )}
+            {productionDatesTo && (
+              <NextLink
+                passHref
+                {...worksUrl({
+                  ...params,
+                  workType: workType,
+                  page: 1,
+                  productionDatesTo: null,
+                })}
+              >
+                <ProtoTag as="a" isActive small>
+                  &times; to: {productionDatesTo}
+                </ProtoTag>
+              </NextLink>
+            )}
+
+            {refineFiltersPrototype &&
+              itemsLocationsLocationType &&
+              onlineLocations.every(t =>
+                itemsLocationsLocationType.includes(t)
+              ) && (
                 <NextLink
                   passHref
                   {...worksUrl({
                     ...params,
                     page: 1,
-                    productionDatesFrom: inputDateFrom,
-                    productionDatesTo: inputDateTo,
+                    itemsLocationsLocationType: updateLocations(
+                      itemsLocationsLocationType,
+                      'online'
+                    ),
                   })}
                 >
-                  <ProtoTag as="a">set dates</ProtoTag>
+                  <ProtoTag as="button" type="button" isActive small>
+                    &times; online
+                  </ProtoTag>
                 </NextLink>
-              </Space>
-              {(productionDatesFrom || productionDatesTo) && (
+              )}
+
+            {refineFiltersPrototype &&
+              itemsLocationsLocationType &&
+              inLibraryLocations.every(t =>
+                itemsLocationsLocationType.includes(t)
+              ) && (
                 <NextLink
+                  passHref
                   {...worksUrl({
                     ...params,
                     page: 1,
-                    productionDatesFrom: null,
-                    productionDatesTo: null,
+                    itemsLocationsLocationType: updateLocations(
+                      itemsLocationsLocationType,
+                      'library'
+                    ),
                   })}
                 >
-                  <a className={font('hnm', 6)} style={{ marginLeft: '6px' }}>
-                    clear dates
-                  </a>
+                  <ProtoTag as="button" type="button" isActive small>
+                    &times; in library
+                  </ProtoTag>
                 </NextLink>
               )}
-            </Space>
-          </div>
-        </Space>
-      </div>
-      <div className={`${activeDrawer !== 'format' ? 'is-hidden' : ''}`}>
-        <>
-          {allWorkTypes.map(subcategory => (
-            <NextLink
-              key={subcategory.title}
-              passHref
-              {...worksUrl({
-                ...params,
-                workType: updateWorkTypes(workType, subcategory),
-                page: 1,
-              })}
-            >
-              <ProtoTag
-                as="a"
-                isActive={workType && workType.includes(subcategory.letter)}
-              >
-                {subcategory.title}
-              </ProtoTag>
-            </NextLink>
-          ))}
-        </>
-      </div>
-      <div className={`${activeDrawer !== 'availability' ? 'is-hidden' : ''}`}>
-        <div>
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              page: 1,
-              itemsLocationsLocationType: updateLocations(
-                itemsLocationsLocationType,
-                'online'
-              ),
-            })}
-          >
-            <ProtoTag
-              as="button"
-              type="button"
-              isActive={
-                itemsLocationsLocationType &&
-                onlineLocations.every(t =>
-                  itemsLocationsLocationType.includes(t)
-                )
-              }
-              style={{ cursor: 'pointer' }}
-            >
-              online
-            </ProtoTag>
-          </NextLink>
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              page: 1,
-              itemsLocationsLocationType: updateLocations(
-                itemsLocationsLocationType,
-                'library'
-              ),
-            })}
-          >
-            <ProtoTag
-              as="button"
-              type="button"
-              isActive={
-                itemsLocationsLocationType &&
-                inLibraryLocations.every(t =>
-                  itemsLocationsLocationType.includes(t)
-                )
-              }
-              style={{ cursor: 'pointer' }}
-            >
-              in library
-            </ProtoTag>
-          </NextLink>
-        </div>
-      </div>
 
-      <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {allWorkTypes.map(subcategory => {
-          return (
-            workType &&
-            workType.includes(subcategory.letter) && (
+            {(productionDatesFrom || productionDatesTo) && (
               <NextLink
-                key={subcategory.title}
                 passHref
                 {...worksUrl({
                   ...params,
-                  workType: updateWorkTypes(workType, subcategory),
+                  workType: null,
                   page: 1,
+                  productionDatesFrom: null,
+                  productionDatesTo: null,
+                  _location: null,
+                  itemsLocationsLocationType: null,
                 })}
               >
-                <ProtoTag as="a" isActive small>
-                  &times; {subcategory.title}
-                </ProtoTag>
+                <a
+                  className={font('hnm', 6)}
+                  onClick={() => {
+                    setActiveDrawer(null);
+                  }}
+                >
+                  clear all filters
+                </a>
               </NextLink>
-            )
-          );
-        })}
-        {productionDatesFrom && (
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              workType: workType,
-              page: 1,
-              productionDatesFrom: null,
-            })}
-          >
-            <ProtoTag as="a" isActive small>
-              &times; from: {productionDatesFrom}
-            </ProtoTag>
-          </NextLink>
-        )}
-        {productionDatesTo && (
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              workType: workType,
-              page: 1,
-              productionDatesTo: null,
-            })}
-          >
-            <ProtoTag as="a" isActive small>
-              &times; to: {productionDatesTo}
-            </ProtoTag>
-          </NextLink>
-        )}
-
-        {itemsLocationsLocationType &&
-          onlineLocations.every(t =>
-            itemsLocationsLocationType.includes(t)
-          ) && (
-            <NextLink
-              passHref
-              {...worksUrl({
-                ...params,
-                page: 1,
-                itemsLocationsLocationType: updateLocations(
-                  itemsLocationsLocationType,
-                  'online'
-                ),
-              })}
-            >
-              <ProtoTag as="button" type="button" isActive small>
-                &times; online
-              </ProtoTag>
-            </NextLink>
-          )}
-
-        {itemsLocationsLocationType &&
-          inLibraryLocations.every(t =>
-            itemsLocationsLocationType.includes(t)
-          ) && (
-            <NextLink
-              passHref
-              {...worksUrl({
-                ...params,
-                page: 1,
-                itemsLocationsLocationType: updateLocations(
-                  itemsLocationsLocationType,
-                  'library'
-                ),
-              })}
-            >
-              <ProtoTag as="button" type="button" isActive small>
-                &times; in library
-              </ProtoTag>
-            </NextLink>
-          )}
-
-        {(productionDatesFrom ||
-          productionDatesTo ||
-          itemsLocationsLocationType) && (
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              workType: null,
-              page: 1,
-              productionDatesFrom: null,
-              productionDatesTo: null,
-              _location: null,
-              itemsLocationsLocationType: null,
-            })}
-          >
-            <a
-              className={font('hnm', 6)}
-              onClick={() => {
-                setActiveDrawer(null);
-              }}
-            >
-              clear all filters
-            </a>
-          </NextLink>
-        )}
-      </Space>
-    </div>
+            )}
+          </Space>
+        </div>
+      )}
+    </TogglesContext.Consumer>
   );
 }
 
