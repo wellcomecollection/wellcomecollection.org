@@ -119,7 +119,7 @@ function FilterDrawerRefine({
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
-  const unfilteredSearchResults = useContext(TogglesContext);
+  const { unfilteredSearchResults } = useContext(TogglesContext);
   const searchForm = getForm();
 
   function updateUrl(unfilteredSearchResults, form) {
