@@ -9,9 +9,6 @@ describe('deserialises', () => {
   it('should deserialise with defaults for missing keys', () => {
     const params = searchParamsDeserialiser({});
 
-    // boolean
-    expect(params._isFilteringBySubcategory).toBe(false);
-
     // string
     expect(params.query).toBe('');
 
@@ -27,16 +24,12 @@ describe('deserialises', () => {
 
   it('should serialise removing default values', () => {
     const params = searchParamsSerialiser({
-      _isFilteringBySubcategory: false,
       query: '',
       workType: null,
       page: 1,
       itemsLocationsLocationType: ['iiif-image', 'iiif-presentation'],
       aggregations: [],
     });
-
-    // boolean exclusion
-    expect(params._isFilteringBySubcategory).toBeNull();
 
     // nullable string exclusion
     expect(params.query).toBeNull();

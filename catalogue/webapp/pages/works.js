@@ -47,7 +47,6 @@ const Works = ({ works, searchParams }: Props) => {
     page,
     productionDatesFrom,
     productionDatesTo,
-    _isFilteringBySubcategory,
     _queryType,
   } = searchParams;
 
@@ -436,9 +435,7 @@ const Works = ({ works, searchParams }: Props) => {
                     >
                       {query}
                     </span>
-                    {(_isFilteringBySubcategory ||
-                      productionDatesFrom ||
-                      productionDatesTo) && (
+                    {(productionDatesFrom || productionDatesTo) && (
                       <>
                         {' '}
                         <span>with the filters you have selected</span>

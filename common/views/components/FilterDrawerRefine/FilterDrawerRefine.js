@@ -90,24 +90,10 @@ const allWorkTypes = workTypes
   .map(t => t.materialTypes)
   .reduce((acc, curr) => acc.concat(curr), []);
 
-function updateWorkTypes(workType, subcategory, isFiltering) {
-  if (isFiltering) {
-    // If you're filtering and about to remove the last filter,
-    // we give you all the results for the category
-    if (isLastFilterItem(workType, subcategory)) return null;
-
-    // Otherwise add/remove items to the array
-    return workType.includes(subcategory.letter)
-      ? workType.filter(t => t !== subcategory.letter)
-      : workType.concat(subcategory.letter);
-  }
-
-  // Not yet filtering, just add the single subcategory
-  return [subcategory.letter];
-}
-
-function isLastFilterItem(workType, subcategory) {
-  return workType.length === 1 && workType.includes(subcategory.letter);
+function updateWorkTypes(workType, subcategory) {
+  return workType.includes(subcategory.letter)
+    ? workType.filter(t => t !== subcategory.letter)
+    : workType.concat(subcategory.letter);
 }
 
 function FilterDrawerRefine() {
@@ -117,7 +103,6 @@ function FilterDrawerRefine() {
     itemsLocationsLocationType,
     productionDatesFrom,
     productionDatesTo,
-    _isFilteringBySubcategory,
   } = params;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
@@ -263,25 +248,13 @@ function FilterDrawerRefine() {
               passHref
               {...worksUrl({
                 ...params,
-                workType: updateWorkTypes(
-                  workType || allWorkTypes,
-                  subcategory,
-                  _isFilteringBySubcategory
-                ),
+                workType: updateWorkTypes(workType, subcategory),
                 page: 1,
-                _isFilteringBySubcategory: !isLastFilterItem(
-                  workType || allWorkTypes,
-                  subcategory
-                ),
               })}
             >
               <ProtoTag
                 as="a"
-                isActive={
-                  _isFilteringBySubcategory &&
-                  workType &&
-                  workType.includes(subcategory.letter)
-                }
+                isActive={workType && workType.includes(subcategory.letter)}
               >
                 {subcategory.title}
               </ProtoTag>
@@ -347,7 +320,6 @@ function FilterDrawerRefine() {
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {allWorkTypes.map(subcategory => {
           return (
-            _isFilteringBySubcategory &&
             workType &&
             workType.includes(subcategory.letter) && (
               <NextLink
@@ -355,18 +327,8 @@ function FilterDrawerRefine() {
                 passHref
                 {...worksUrl({
                   ...params,
-                  workType: updateWorkTypes(
-                    workType,
-                    subcategory,
-                    _isFilteringBySubcategory
-                  ),
+                  workType: updateWorkTypes(workType, subcategory),
                   page: 1,
-                  _isFilteringBySubcategory: isLastFilterItem(
-                    workType,
-                    subcategory
-                  )
-                    ? ''
-                    : 'true',
                 })}
               >
                 <ProtoTag as="a" isActive small>
@@ -381,7 +343,7 @@ function FilterDrawerRefine() {
             passHref
             {...worksUrl({
               ...params,
-              workType: workType || allWorkTypes,
+              workType: workType,
               page: 1,
               productionDatesFrom: null,
             })}
@@ -396,7 +358,7 @@ function FilterDrawerRefine() {
             passHref
             {...worksUrl({
               ...params,
-              workType: workType || allWorkTypes,
+              workType: workType,
               page: 1,
               productionDatesTo: null,
             })}
@@ -449,8 +411,7 @@ function FilterDrawerRefine() {
             </NextLink>
           )}
 
-        {(_isFilteringBySubcategory ||
-          productionDatesFrom ||
+        {(productionDatesFrom ||
           productionDatesTo ||
           itemsLocationsLocationType) && (
           <NextLink
@@ -463,7 +424,6 @@ function FilterDrawerRefine() {
               productionDatesTo: null,
               _location: null,
               itemsLocationsLocationType: null,
-              _isFilteringBySubcategory: false,
             })}
           >
             <a

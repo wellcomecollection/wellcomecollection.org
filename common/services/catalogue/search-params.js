@@ -8,13 +8,11 @@ import {
   numberDeserialiser,
   csvDeserialiser,
   nullableStringDeserialiser,
-  booleanDeserialiser,
   csvWithDefaultDeserialiser,
   stringSerialiser,
   numberSerialiser,
   csvSerialiser,
   nullableStringSerialiser,
-  booleanSerialiser,
   csvWithDefaultSerialiser,
   buildDeserialiser,
   buildSerialiser,
@@ -31,7 +29,6 @@ export type SearchParams = {|
   productionDatesTo: ?string,
   aggregations: ?(string[]),
   _queryType: ?string,
-  _isFilteringBySubcategory: ?boolean,
 |};
 
 type SearchParamsSerialisers = Serialisers<SearchParams>;
@@ -62,7 +59,6 @@ const deserialisers: SearchParamsDeserialisers = {
   productionDatesFrom: nullableStringDeserialiser,
   productionDatesTo: nullableStringDeserialiser,
   _queryType: nullableStringDeserialiser,
-  _isFilteringBySubcategory: booleanDeserialiser,
 };
 
 const apiSerialisers: SearchParamsSerialisers = {
@@ -86,7 +82,6 @@ const serialisers: SearchParamsSerialisers = {
   itemsLocationsLocationType: csvWithDefaultSerialiser(
     defaultItemsLocationsLocationType
   ),
-  _isFilteringBySubcategory: booleanSerialiser,
 };
 
 export const searchParamsDeserialiser = buildDeserialiser(deserialisers);
