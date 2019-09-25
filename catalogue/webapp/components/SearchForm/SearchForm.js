@@ -134,7 +134,6 @@ const SearchForm = ({
 
                     setInputQuery('');
 
-                    // $FlowFixMe
                     searchInput.current && searchInput.current.focus();
                   }}
                   type="button"
