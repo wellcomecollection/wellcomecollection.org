@@ -8,3 +8,11 @@ fieldset {
   margin: 0;
   padding: 0;
 }
+
+// removes up and down arrows webkit adds to number inputs on desktop
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
