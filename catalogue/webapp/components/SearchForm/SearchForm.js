@@ -53,6 +53,7 @@ const SearchForm = ({
 }: Props) => {
   const { query, workType } = searchParams;
   const searchForm = useRef();
+  const getForm = () => searchForm;
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
@@ -69,12 +70,14 @@ const SearchForm = ({
   }, [query]);
 
   function updateUrl(unfilteredSearchResults, form) {
-    console.log(unfilteredSearchResults);
     const workType = searchParams.workType || [];
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
           // Override the defaultWorkType with [] if we're toggled to do so
+          // null => default filters
+          // [] => no filter
+          // [anything] => filter
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: inputQuery,
           page: 1,
@@ -181,7 +184,9 @@ const SearchForm = ({
             <input type="hidden" name="workType" value={workType.join(',')} />
           )}
 
-          {shouldShowFilters && <FilterDrawerRefine />}
+          {shouldShowFilters && (
+            <FilterDrawerRefine getForm={getForm} searchParams={searchParams} />
+          )}
         </form>
       )}
     </TogglesContext.Consumer>
