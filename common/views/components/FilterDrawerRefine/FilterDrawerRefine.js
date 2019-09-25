@@ -161,13 +161,21 @@ function FilterDrawerRefine({
 
   useEffect(() => {
     if (
-      ((!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/))) &&
-        !inputDateTo) ||
-      (inputDateTo && inputDateTo.match(/^\d{4}$/))
+      productionDatesFrom !== inputDateFrom &&
+      (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
     ) {
       updateUrl(unfilteredSearchResults, searchForm);
     }
-  }, [inputDateFrom, inputDateTo]);
+  }, [inputDateFrom]);
+
+  useEffect(() => {
+    if (
+      productionDatesTo !== inputDateTo &&
+      (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
+    ) {
+      updateUrl(unfilteredSearchResults, searchForm);
+    }
+  }, [inputDateTo]);
 
   return (
     <TogglesContext.Consumer>
