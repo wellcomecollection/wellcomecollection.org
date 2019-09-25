@@ -89,7 +89,7 @@ const SearchForm = ({
 
   return (
     <TogglesContext.Consumer>
-      {({ refineFiltersPrototype, unfilteredSearchResults }) => (
+      {({ unfilteredSearchResults }) => (
         <form
           action="/works"
           aria-describedby={ariaDescribedBy}
@@ -170,9 +170,7 @@ const SearchForm = ({
             <input type="hidden" name="workType" value={workType.join(',')} />
           )}
 
-          {shouldShowFilters && refineFiltersPrototype && (
-            <FilterDrawerRefine />
-          )}
+          {shouldShowFilters && <FilterDrawerRefine />}
         </form>
       )}
     </TogglesContext.Consumer>
