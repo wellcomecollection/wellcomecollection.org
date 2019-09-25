@@ -186,7 +186,8 @@ function FilterDrawerRefine() {
                   <label>
                     <span className="visually-hidden">from: </span>
                     <input
-                      placeholder={'YYYY'}
+                      type="number"
+                      placeholder={'year'}
                       value={inputDateFrom || ''}
                       onChange={event => {
                         setInputDateFrom(`${event.currentTarget.value}`);
@@ -204,7 +205,8 @@ function FilterDrawerRefine() {
                   <label>
                     <span className={'visually-hidden'}>to: </span>
                     <input
-                      placeholder={'YYYY'}
+                      type="number"
+                      placeholder={'year'}
                       value={inputDateTo || ''}
                       onChange={event => {
                         setInputDateTo(`${event.currentTarget.value}`);
