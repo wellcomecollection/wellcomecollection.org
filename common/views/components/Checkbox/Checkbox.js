@@ -13,7 +13,6 @@ const CheckboxLabel = styled.label.attrs({
 
 const CheckboxBox = styled.span.attrs({
   className: classNames({
-    CheckboxBox: true,
     'flex-inline flex--v-center flex--h-center relative': true,
   }),
 })`
@@ -43,7 +42,7 @@ const CheckboxInput = styled.input.attrs({
   width: 1em;
   height: 1em;
 
-  &:checked ~ .CheckboxBox {
+  &:checked ~ ${CheckboxBox} {
     background: ${props => props.theme.colors.green};
     border-color: ${props => props.theme.colors.green};
 
@@ -53,15 +52,18 @@ const CheckboxInput = styled.input.attrs({
   }
 `;
 
-type CheckboxProps = {|
+type CheckboxWithoutLabelProps = {|
   id: string,
 |};
-type CheckboxWithLabelProps = {|
-  ...CheckboxProps,
+type CheckboxProps = {|
+  ...CheckboxWithoutLabelProps,
   text: string,
 |};
 
-export function Checkbox({ id, ...inputProps }: CheckboxProps) {
+function CheckboxWithoutLabel({
+  id,
+  ...inputProps
+}: CheckboxWithoutLabelProps) {
   return (
     <>
       <CheckboxInput id={id} {...inputProps} />
@@ -70,17 +72,13 @@ export function Checkbox({ id, ...inputProps }: CheckboxProps) {
   );
 }
 
-function CheckboxWithLabel({
-  id,
-  text,
-  ...inputProps
-}: CheckboxWithLabelProps) {
+function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
   return (
     <CheckboxLabel htmlFor={id}>
-      <Checkbox id={id} {...inputProps} />
+      <CheckboxWithoutLabel id={id} {...inputProps} />
       <Space h={{ size: 'xs', properties: ['margin-left'] }}>{text}</Space>
     </CheckboxLabel>
   );
 }
 
-export default CheckboxWithLabel;
+export default Checkbox;
