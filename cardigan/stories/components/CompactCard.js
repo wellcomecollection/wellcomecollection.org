@@ -16,6 +16,7 @@ const CompactCardExample = () => (
     DateInfo={null}
     Tags={null}
     labels={labelList}
+    xOfY={[1, 1]}
   />
 );
 
