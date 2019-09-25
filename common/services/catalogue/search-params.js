@@ -95,6 +95,12 @@ export const searchParamsSerialiser = buildSerialiser(
   queryStringParameterMapping
 );
 
+export const searchParamsSerialiserForUrl = buildSerialiser(
+  serialisers,
+  queryStringParameterMapping,
+  true
+);
+
 export const apiSearchParamsSerialiser = buildSerialiser(
   apiSerialisers,
   queryStringParameterMapping

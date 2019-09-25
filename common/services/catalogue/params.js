@@ -70,7 +70,8 @@ function buildDeserialiser<T>(deserialisers: Deserialisers<T>) {
 type SerialisedParams = { [key: string]: ?string };
 function buildSerialiser<T>(
   serialisers: Serialisers<T>,
-  queryStringParameterMapping: QueryStringParameterMapping
+  queryStringParameterMapping: QueryStringParameterMapping,
+  isForUrl?: boolean
 ) {
   return (searchParams: T): SerialisedParams => {
     const keys = Object.keys(serialisers);
@@ -78,9 +79,10 @@ function buildSerialiser<T>(
     // $FlowFixMe
     const urlParams = keys.reduce((acc, key) => {
       const input = searchParams[key] ? searchParams[key] : null;
-      const urlParam = queryStringParameterMapping[key]
-        ? queryStringParameterMapping[key]
-        : key;
+      const urlParam =
+        queryStringParameterMapping[key] && !isForUrl
+          ? queryStringParameterMapping[key]
+          : key;
 
       return {
         ...acc,
