@@ -103,10 +103,10 @@ function updateWorkTypes(workType, subcategory) {
 }
 
 function FilterDrawerRefine({
-  getForm,
+  searchForm,
   searchParams,
 }: {
-  getForm: () => void,
+  searchForm: ?HTMLFormElement,
   searchParams: SearchParams,
 }) {
   const params = clientSideSearchParams();
@@ -120,7 +120,6 @@ function FilterDrawerRefine({
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
   const { unfilteredSearchResults } = useContext(TogglesContext);
-  const searchForm = getForm();
 
   function updateUrl(unfilteredSearchResults, form) {
     const workType = searchParams.workType || [];

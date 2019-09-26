@@ -57,7 +57,6 @@ const SearchForm = ({
 }: Props) => {
   const { query, workType } = searchParams;
   const searchForm = useRef();
-  const getForm = () => searchForm;
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
@@ -175,7 +174,10 @@ const SearchForm = ({
           )}
 
           {shouldShowFilters && (
-            <FilterDrawerRefine getForm={getForm} searchParams={searchParams} />
+            <FilterDrawerRefine
+              searchForm={searchForm}
+              searchParams={searchParams}
+            />
           )}
           <SearchButtonWrapper className="absolute bg-green">
             <button
