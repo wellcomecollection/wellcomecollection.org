@@ -241,18 +241,6 @@ function FilterDrawerRefine({
                 },
               ]}
             />
-            <ProtoTag
-              as="button"
-              type="button"
-              isPrimary
-              isActive={activeDrawer === 'date'}
-              onClick={() => {
-                setActiveDrawer(activeDrawer === 'date' ? null : 'date');
-              }}
-            >
-              <Icon name="chevron" />
-              Dates
-            </ProtoTag>
             {refineFiltersPrototype && (
               <>
                 <ProtoTag
@@ -286,62 +274,6 @@ function FilterDrawerRefine({
               </>
             )}
           </Space>
-          <div className={`${activeDrawer !== 'date' ? 'is-hidden' : ''}`}>
-            <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <div
-                style={{
-                  display: 'block',
-                }}
-              >
-                <Space v={{ size: 's', properties: ['margin-top'] }}>
-                  <span className={font('hnm', 5)}>Between </span>
-                  <label>
-                    <span className="visually-hidden">from: </span>
-                    <input
-                      type="number"
-                      min="0"
-                      max="9999"
-                      placeholder={'year'}
-                      name="productionDatesFrom"
-                      value={inputDateFrom || ''}
-                      onChange={event => {
-                        setInputDateFrom(`${event.currentTarget.value}`);
-                      }}
-                      style={{
-                        width: '3.3em',
-                        padding: '0.3em',
-                        border: '0',
-                        borderBottom: '2px solid #333',
-                        background: 'transparent',
-                      }}
-                    />
-                  </label>{' '}
-                  <span className={font('hnm', 5)}>and </span>
-                  <label>
-                    <span className={'visually-hidden'}>to: </span>
-                    <input
-                      type="number"
-                      min="0"
-                      max="9999"
-                      placeholder={'year'}
-                      name="productionDatesTo"
-                      value={inputDateTo || ''}
-                      onChange={event => {
-                        setInputDateTo(`${event.currentTarget.value}`);
-                      }}
-                      style={{
-                        width: '3.3em',
-                        padding: '0.3em',
-                        border: '0',
-                        borderBottom: '2px solid #333',
-                        background: 'transparent',
-                      }}
-                    />
-                  </label>
-                </Space>
-              </div>
-            </Space>
-          </div>
           {refineFiltersPrototype && (
             <>
               <div
