@@ -74,6 +74,26 @@ const SearchForm = ({
 
   function updateUrl(unfilteredSearchResults, form) {
     const workType = searchParams.workType || [];
+    const productionDatesFromInput =
+      form.current && form.current['productionDatesFrom'];
+    /*::
+    if (!(productionDatesFromInput instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
+    const productionDatesFromValue = productionDatesFromInput
+      ? productionDatesFromInput.value
+      : searchParams.productionDatesFrom;
+    const productionDatesToInput =
+      form.current && form.current['productionDatesTo'];
+    /*::
+    if (!(productionDatesToInput instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
+    const productionDatesToValue = productionDatesToInput
+      ? productionDatesToInput.value
+      : searchParams.productionDatesTo;
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
@@ -84,27 +104,15 @@ const SearchForm = ({
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: inputQuery,
           page: 1,
-          // $FlowFixMe
-          productionDatesFrom: form.current.productionDatesFrom
-            ? form.current.productionDatesFrom.value
-            : searchParams.productionDatesFrom,
-          // $FlowFixMe
-          productionDatesTo: form.current.productionDatesTo
-            ? form.current.productionDatesTo.value
-            : searchParams.productionDatesTo,
+          productionDatesFrom: productionDatesFromValue,
+          productionDatesTo: productionDatesToValue,
         })
       : worksUrl({
           ...searchParams,
           query: inputQuery,
           page: 1,
-          // $FlowFixMe
-          productionDatesFrom: form.current.productionDatesFrom
-            ? form.current.productionDatesFrom.value
-            : searchParams.productionDatesFrom,
-          // $FlowFixMe
-          productionDatesTo: form.current.productionDatesTo
-            ? form.current.productionDatesTo.value
-            : searchParams.productionDatesTo,
+          productionDatesFrom: productionDatesFromValue,
+          productionDatesTo: productionDatesToValue,
         });
 
     Router.push(link.href, link.as);

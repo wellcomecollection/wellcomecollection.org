@@ -130,18 +130,14 @@ function FilterDrawerRefine({
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: form.current.query.value,
           page: 1,
-          // $FlowFixMe
           productionDatesFrom: form.current.productionDatesFrom.value,
-          // $FlowFixMe
           productionDatesTo: form.current.productionDatesTo.value,
         })
       : worksUrl({
           ...searchParams,
           query: form.current.query.value,
           page: 1,
-          // $FlowFixMe
           productionDatesFrom: form.current.productionDatesFrom.value,
-          // $FlowFixMe
           productionDatesTo: form.current.productionDatesTo.value,
         });
 
