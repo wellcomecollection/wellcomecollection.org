@@ -29,7 +29,7 @@ const SearchInputWrapper = styled.div`
     margin-right: ${props => 10 * props.theme.spacingUnit}px;
   `}
 
-  input[type="text"] {
+  .search-query {
     height: ${props => 10 * props.theme.spacingUnit}px;
   }
 `;
@@ -152,6 +152,7 @@ const SearchForm = ({
               required
               className={classNames({
                 [font('hnl', compact ? 4 : 3)]: true,
+                'search-query': true,
               })}
             />
 
