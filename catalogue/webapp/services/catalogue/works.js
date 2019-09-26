@@ -6,7 +6,6 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { formatDateForApi } from '@weco/common/utils/dates';
 import { removeEmptyProps } from '@weco/common/utils/json';
 
 const rootUris = {
@@ -45,18 +44,10 @@ export async function getWorks({
   filters,
   env = 'prod',
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const formattedFilters = {
-    ...filters,
-    'production.dates.from': formatDateForApi(filters['production.dates.from']),
-    'production.dates.to': formatDateForApi(filters['production.dates.to']),
-  };
-
-  const filterQueryString = Object.keys(removeEmptyProps(formattedFilters)).map(
-    key => {
-      const val = formattedFilters[key];
-      return `${key}=${val}`;
-    }
-  );
+  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
+    const val = filters[key];
+    return `${key}=${val}`;
+  });
   const url =
     `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
     `&pageSize=25` +

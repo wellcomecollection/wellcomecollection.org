@@ -1,7 +1,7 @@
 // @Flow
-
+import { formatDateForApi } from '@weco/common/utils/dates';
 // Defaults are used when null is supplied
-// This is used because we want null to be displayed on in the URL for things we are actually
+// This is used because we want null to be displayed in the URL for things we are actually
 // filtering on the API such as `workType`
 type Deserialiser<T> = (input: ?string) => T;
 type Serialiser<T> = (input: T) => ?string;
@@ -48,6 +48,8 @@ const csvWithDefaultSerialiser: SerializerWithDefaults<?(string[])> = defaults =
 
   return areEqual ? null : input.join(',');
 };
+const nullableDateStringSerialiser: Serialiser<?string> = input =>
+  formatDateForApi(input);
 
 function buildDeserialiser<T>(deserialisers: Deserialisers<T>) {
   return (obj: Object): T => {
@@ -106,6 +108,7 @@ export {
   nullableStringSerialiser,
   booleanSerialiser,
   csvWithDefaultSerialiser,
+  nullableDateStringSerialiser,
   buildDeserialiser,
   buildSerialiser,
 };

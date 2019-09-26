@@ -14,6 +14,7 @@ import {
   csvSerialiser,
   nullableStringSerialiser,
   csvWithDefaultSerialiser,
+  nullableDateStringSerialiser,
   buildDeserialiser,
   buildSerialiser,
 } from './params';
@@ -69,8 +70,8 @@ const apiSerialisers: SearchParamsSerialisers = {
   sort: nullableStringSerialiser,
   sortOrder: nullableStringSerialiser,
   aggregations: csvSerialiser,
-  productionDatesFrom: nullableStringSerialiser,
-  productionDatesTo: nullableStringSerialiser,
+  productionDatesFrom: nullableDateStringSerialiser,
+  productionDatesTo: nullableDateStringSerialiser,
   _queryType: nullableStringSerialiser,
 };
 
@@ -82,6 +83,8 @@ const serialisers: SearchParamsSerialisers = {
   itemsLocationsLocationType: csvWithDefaultSerialiser(
     defaultItemsLocationsLocationType
   ),
+  productionDatesFrom: nullableStringSerialiser,
+  productionDatesTo: nullableStringSerialiser,
 };
 
 export const searchParamsDeserialiser = buildDeserialiser(deserialisers);
