@@ -158,47 +158,36 @@ export const WorkPage = ({ work }: Props) => {
         </TogglesContext.Consumer>
         <BetaBar />
       </Layout12>
-
-      <Space
-        v={{
-          size: 'l',
-          properties: ['padding-top'],
-        }}
-        className={classNames({
-          'bg-cream': true,
-        })}
-      >
-        <div className="container">
-          <div className="grid">
-            <div
-              className={classNames({
-                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-              })}
-            >
-              <SearchForm
-                ariaDescribedBy="search-form-description"
-                compact={true}
-                shouldShowFilters={false}
-                searchParams={searchParams}
-              />
-            </div>
-          </div>
-
-          <div className="grid">
-            <Space
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-              className={classNames({
-                [grid({ s: 12 })]: true,
-              })}
-            >
-              <BackToResults />
-            </Space>
+      <div className="container">
+        <div className="grid">
+          <div
+            className={classNames({
+              [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+            })}
+          >
+            <SearchForm
+              ariaDescribedBy="search-form-description"
+              compact={true}
+              shouldShowFilters={false}
+              searchParams={searchParams}
+            />
           </div>
         </div>
-      </Space>
+
+        <div className="grid">
+          <Space
+            v={{
+              size: 's',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+            className={classNames({
+              [grid({ s: 12 })]: true,
+            })}
+          >
+            <BackToResults />
+          </Space>
+        </div>
+      </div>
 
       <Space
         v={{
