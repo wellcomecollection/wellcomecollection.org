@@ -2,7 +2,7 @@
 import { type NextLinkType } from '@weco/common/model/next-link-type';
 import {
   type SearchParams,
-  searchParamsSerialiserForUrl,
+  searchParamsSerialiserForClient,
 } from './search-params';
 import { removeEmptyProps } from '../../utils/json';
 
@@ -30,7 +30,7 @@ export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
       pathname: `/work`,
       query: removeEmptyProps({
         id,
-        ...searchParamsSerialiserForUrl(searchParams),
+        ...searchParamsSerialiserForClient(searchParams),
       }),
     },
     as: {
@@ -44,13 +44,13 @@ export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
     href: {
       pathname: `/works`,
       query: removeEmptyProps({
-        ...searchParamsSerialiserForUrl(searchParams, true),
+        ...searchParamsSerialiserForClient(searchParams, true),
       }),
     },
     as: {
       pathname: `/works`,
       query: removeEmptyProps({
-        ...searchParamsSerialiserForUrl(searchParams, true),
+        ...searchParamsSerialiserForClient(searchParams, true),
       }),
     },
   };
@@ -76,7 +76,7 @@ export function itemUrl({
           sierraId: sierraId,
           langCode: langCode,
           isOverview: isOverview,
-          ...searchParamsSerialiserForUrl({ ...searchParams, page: 1 }),
+          ...searchParamsSerialiserForClient({ ...searchParams, page: 1 }),
         }),
       },
     },

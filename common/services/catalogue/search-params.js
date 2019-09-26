@@ -17,6 +17,7 @@ import {
   nullableDateStringSerialiser,
   buildDeserialiser,
   buildSerialiser,
+  buildClientSideSerialiser,
 } from './params';
 
 export type SearchParams = {|
@@ -93,10 +94,8 @@ export const searchParamsSerialiser = buildSerialiser(
   queryStringParameterMapping
 );
 
-export const searchParamsSerialiserForUrl = buildSerialiser(
-  serialisers,
-  queryStringParameterMapping,
-  true
+export const searchParamsSerialiserForClient = buildClientSideSerialiser(
+  serialisers
 );
 
 export const apiSearchParamsSerialiser = buildSerialiser(
