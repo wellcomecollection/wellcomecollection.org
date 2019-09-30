@@ -74,26 +74,15 @@ const SearchForm = ({
 
   function updateUrl(unfilteredSearchResults, form) {
     const workType = searchParams.workType || [];
-    const productionDatesFromInput =
-      form.current && form.current['productionDatesFrom'];
-    /*::
-    if (!(productionDatesFromInput instanceof HTMLInputElement)) {
-      throw new Error('element is not of type HTMLInputElement');
-    }
-    */
+    const productionDatesFromInput = form['productionDatesFrom'];
     const productionDatesFromValue = productionDatesFromInput
       ? productionDatesFromInput.value
       : searchParams.productionDatesFrom;
-    const productionDatesToInput =
-      form.current && form.current['productionDatesTo'];
-    /*::
-    if (!(productionDatesToInput instanceof HTMLInputElement)) {
-      throw new Error('element is not of type HTMLInputElement');
-    }
-    */
+    const productionDatesToInput = form['productionDatesTo'];
     const productionDatesToValue = productionDatesToInput
       ? productionDatesToInput.value
       : searchParams.productionDatesTo;
+
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
@@ -135,7 +124,7 @@ const SearchForm = ({
               label: query,
             });
 
-            updateUrl(unfilteredSearchResults, searchForm);
+            updateUrl(unfilteredSearchResults, event.currentTarget);
 
             return false;
           }}
