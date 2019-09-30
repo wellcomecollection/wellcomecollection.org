@@ -222,7 +222,7 @@ const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
   );
 };
 
-const IIIFPresentationDisplay = ({
+const IIIFPresentationPreview = ({
   itemUrl,
   childManifestsCount = 0,
 }: Props) => {
@@ -470,4 +470,4 @@ const IIIFPresentationDisplay = ({
   }
 };
 
-export default IIIFPresentationDisplay;
+export default IIIFPresentationPreview;
