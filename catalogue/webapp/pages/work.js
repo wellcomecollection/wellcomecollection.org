@@ -220,7 +220,6 @@ export const WorkPage = ({ work }: Props) => {
         <ManifestContext.Provider value={firstChildManifest}>
           <SpacingComponent>
             <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
               childManifestsCount={childManifestsCount}
               itemUrl={itemUrl({
                 ...searchParams,
@@ -244,7 +243,6 @@ export const WorkPage = ({ work }: Props) => {
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
               itemUrl={itemUrl({
                 ...searchParams,
                 workId: work.id,
