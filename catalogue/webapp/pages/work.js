@@ -29,6 +29,7 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
@@ -158,7 +159,6 @@ export const WorkPage = ({ work }: Props) => {
           </Space>
         </div>
       </div>
-
       <Space
         v={{
           size: 'xl',
@@ -174,7 +174,6 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-
       {firstChildManifest && (
         <ManifestContext.Provider value={firstChildManifest}>
           <SpacingComponent>
@@ -197,7 +196,6 @@ export const WorkPage = ({ work }: Props) => {
           </SpacingComponent>
         </ManifestContext.Provider>
       )}
-
       <ManifestContext.Provider value={iiifPresentationManifest}>
         {!firstChildManifest &&
           sierraIdFromPresentationManifestUrl &&
@@ -216,7 +214,6 @@ export const WorkPage = ({ work }: Props) => {
             />
           )}
       </ManifestContext.Provider>
-
       {iiifImageLocationUrl && (
         <WobblyRow>
           <IIIFImagePreview
@@ -235,14 +232,18 @@ export const WorkPage = ({ work }: Props) => {
           />
         </WobblyRow>
       )}
-
-      <WorkDetails
-        work={work}
-        sierraId={sierraIdFromPresentationManifestUrl}
-        iiifPresentationManifest={iiifPresentationManifest}
-        encoreLink={encoreLink}
-        childManifestsCount={childManifestsCount}
-      />
+      <TogglesContext.Consumer>
+        {({ showImagesWithSimilarPalette }) => (
+          <WorkDetails
+            showImagesWithSimilarPalette={showImagesWithSimilarPalette}
+            work={work}
+            sierraId={sierraIdFromPresentationManifestUrl}
+            iiifPresentationManifest={iiifPresentationManifest}
+            encoreLink={encoreLink}
+            childManifestsCount={childManifestsCount}
+          />
+        )}
+      </TogglesContext.Consumer>
     </CataloguePageLayout>
   );
 };
