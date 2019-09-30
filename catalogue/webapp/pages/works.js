@@ -176,7 +176,7 @@ const Works = ({ works, searchParams }: Props) => {
             size: 'l',
             properties: ['padding-top', 'padding-bottom'],
           }}
-          className={classNames(['row bg-cream'])}
+          className={classNames(['row'])}
         >
           <div className="container">
             <div className="grid">
