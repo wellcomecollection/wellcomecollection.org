@@ -122,24 +122,24 @@ function FilterDrawerRefine({
   const [activeDrawer, setActiveDrawer] = useState(null);
   const { unfilteredSearchResults } = useContext(TogglesContext);
 
-  function updateUrl(unfilteredSearchResults, form) {
+  function updateUrl(unfilteredSearchResults: boolean, form: ?HTMLFormElement) {
     const workType = searchParams.workType || [];
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
           // Override the defaultWorkType with [] if we're toggled to do so
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
-          query: form.current.query.value,
+          query: form.query.value,
           page: 1,
-          productionDatesFrom: form.current.productionDatesFrom.value,
-          productionDatesTo: form.current.productionDatesTo.value,
+          productionDatesFrom: form.productionDatesFrom.value,
+          productionDatesTo: form.productionDatesTo.value,
         })
       : worksUrl({
           ...searchParams,
-          query: form.current.query.value,
+          query: form.query.value,
           page: 1,
-          productionDatesFrom: form.current.productionDatesFrom.value,
-          productionDatesTo: form.current.productionDatesTo.value,
+          productionDatesFrom: form.productionDatesFrom.value,
+          productionDatesTo: form.productionDatesTo.value,
         });
 
     Router.push(link.href, link.as);
@@ -160,7 +160,7 @@ function FilterDrawerRefine({
       productionDatesFrom !== inputDateFrom &&
       (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
     ) {
-      updateUrl(unfilteredSearchResults, searchForm);
+      updateUrl(unfilteredSearchResults, searchForm.current);
     }
   }, [inputDateFrom]);
 
@@ -169,7 +169,7 @@ function FilterDrawerRefine({
       productionDatesTo !== inputDateTo &&
       (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
     ) {
-      updateUrl(unfilteredSearchResults, searchForm);
+      updateUrl(unfilteredSearchResults, searchForm.current);
     }
   }, [inputDateTo]);
 
