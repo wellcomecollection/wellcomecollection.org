@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import {select } from '@storybook/addon-knobs/react';
+import { select } from '@storybook/addon-knobs/react';
 import ManifestContext from '../../../common/views/components/ManifestContext/ManifestContext';
 import IIIFPresentationPreview from '../../../common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import Readme from '../../../common/views/components/IIIFPresentationPreview/README.md';
@@ -8,36 +8,23 @@ import bookManifest from '../data/iiifManifest-book';
 import pdfManifest from '../data/iiifManifest-pdf';
 import videoManifest from '../data/iiifManifest-video';
 import audioManifest from '../data/iiifManifest-audio';
-import { getManifestViewType } from '@weco/common/utils/works';
 
-function getManifest(type){
+function getManifest(type) {
   switch (type) {
     case 'multi':
-        return multiManifest
+      return multiManifest;
     case 'book':
-      return bookManifest
+      return bookManifest;
     case 'pdf':
-      return pdfManifest
+      return pdfManifest;
     case 'video':
-      return videoManifest
+      return videoManifest;
     case 'audio':
-      return audioManifest
+      return audioManifest;
     case 'none':
-      return {}
-    case 'unknown':
-      return {}
-    }
+      return {};
+  }
 }
-
-const iiifPresentationLocation = {
-  locationType: {
-    id: 'iiif-presentation',
-    label: 'IIIF Presentation API',
-    type: 'LocationType',
-  },
-  url: 'https://wellcomelibrary.org/iiif/b21038107/manifest',
-  type: 'DigitalLocation',
-};
 
 const itemUrl = {
   href: {
@@ -56,24 +43,27 @@ const itemUrl = {
 };
 
 const IIIFPresentationPreviewExample = () => {
-  const type = select('Type of thing to preview',
-{
-  'Multi volume': 'multi',
-  Book: 'book',
-  PDF: 'pdf',
-  Video: 'video',
-  Audio: 'audio',
-  None: 'none',
-  Unknown: 'unknown'
-},
-'book');
-  return (<>
-    <ManifestContext.Provider value={getManifest(type)}>
-      <IIIFPresentationPreview
-        iiifPresentationLocation={iiifPresentationLocation}
-        itemUrl={itemUrl}
-      />
-    </ManifestContext.Provider></>
+  const type = select(
+    'Type of thing to preview',
+    {
+      Book: 'book',
+      'Multi volume': 'multi',
+      Video: 'video',
+      Audio: 'audio',
+      PDF: 'pdf',
+      None: 'none',
+    },
+    'book'
+  );
+  return (
+    <>
+      <ManifestContext.Provider value={getManifest(type)}>
+        <IIIFPresentationPreview
+          itemUrl={itemUrl}
+          childManifestsCount={type === 'multi' ? 3 : 0}
+        />
+      </ManifestContext.Provider>
+    </>
   );
 };
 
