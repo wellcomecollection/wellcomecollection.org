@@ -20,7 +20,7 @@ const CataloguePageLayout = (props: Props) => {
     <>
       <TrackerScript />
       <PageLayout {...extraProps}>
-        {hideInfoBar === false && (
+        {hideInfoBar !== true && (
           <>
             <InfoBanner
               text={[
