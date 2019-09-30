@@ -72,13 +72,23 @@ const SearchForm = ({
     }
   }, [query]);
 
-  function updateUrl(unfilteredSearchResults, form) {
+  function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
     const workType = searchParams.workType || [];
     const productionDatesFromInput = form['productionDatesFrom'];
+    /*::
+    if (!(productionDatesFromInput instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
     const productionDatesFromValue = productionDatesFromInput
       ? productionDatesFromInput.value
       : searchParams.productionDatesFrom;
     const productionDatesToInput = form['productionDatesTo'];
+    /*::
+    if (!(productionDatesToInput instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
     const productionDatesToValue = productionDatesToInput
       ? productionDatesToInput.value
       : searchParams.productionDatesTo;
