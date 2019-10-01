@@ -189,49 +189,55 @@ function FilterDrawerRefine({
                   title: 'Dates',
                   component: (
                     <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                      <span className={font('hnm', 5)}>Between </span>
                       <label>
-                        <span className="visually-hidden">from: </span>
-                        <input
-                          type="number"
-                          min="0"
-                          max="9999"
-                          placeholder={'year'}
-                          name="productionDatesFrom"
-                          value={inputDateFrom || ''}
-                          onChange={event => {
-                            setInputDateFrom(`${event.currentTarget.value}`);
-                          }}
-                          style={{
-                            width: '3.3em',
-                            padding: '0.3em',
-                            border: '0',
-                            borderBottom: '2px solid #333',
-                            background: 'transparent',
-                          }}
-                        />
-                      </label>{' '}
-                      <span className={font('hnm', 5)}>and </span>
+                        <Space
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
+                        >
+                          From
+                        </Space>
+                        <Space
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
+                        >
+                          <input
+                            type="number"
+                            min="0"
+                            max="9999"
+                            placeholder={'Year'}
+                            name="productionDatesFrom"
+                            value={inputDateFrom || ''}
+                            onChange={event => {
+                              setInputDateFrom(`${event.currentTarget.value}`);
+                            }}
+                            style={{}}
+                          />
+                        </Space>
+                      </label>
                       <label>
-                        <span className={'visually-hidden'}>to: </span>
-                        <input
-                          type="number"
-                          min="0"
-                          max="9999"
-                          placeholder={'year'}
-                          name="productionDatesTo"
-                          value={inputDateTo || ''}
-                          onChange={event => {
-                            setInputDateTo(`${event.currentTarget.value}`);
-                          }}
-                          style={{
-                            width: '3.3em',
-                            padding: '0.3em',
-                            border: '0',
-                            borderBottom: '2px solid #333',
-                            background: 'transparent',
-                          }}
-                        />
+                        <Space
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
+                        >
+                          to
+                        </Space>
+                        <Space
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
+                        >
+                          <input
+                            type="number"
+                            min="0"
+                            max="9999"
+                            placeholder={'Year'}
+                            name="productionDatesTo"
+                            value={inputDateTo || ''}
+                            onChange={event => {
+                              setInputDateTo(`${event.currentTarget.value}`);
+                            }}
+                            style={{}}
+                          />
+                        </Space>
                       </label>
                     </Space>
                   ),

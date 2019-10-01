@@ -2,12 +2,13 @@
 import { useState, useRef, useEffect, type Node } from 'react';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
 const FilterDrawerEl = styled.div.attrs({
   className: classNames({
     FilterDrawerEl: true,
+    [font('hnl', 5)]: true,
   }),
 })``;
 
@@ -139,6 +140,9 @@ function FilterDrawer({ items }: Props) {
         'is-open': activeFilterSection !== null,
       })}
     >
+      <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+        Filter by
+      </Space>
       <FilterBarUl>
         {items.map((item, index) => (
           <FilterBarLi
