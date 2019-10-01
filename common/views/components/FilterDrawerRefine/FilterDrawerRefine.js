@@ -4,12 +4,13 @@ import Router from 'next/router';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
 import { clientSideSearchParams } from '../../../services/catalogue/search-params';
-import { font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   onlineLocations,
   inLibraryLocations,
@@ -368,38 +369,135 @@ function FilterDrawerRefine({
                   )
                 );
               })}
-
-            {productionDatesFrom && (
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: workType,
-                  page: 1,
-                  productionDatesFrom: null,
-                })}
-              >
-                <ProtoTag as="a" isActive small>
-                  &times; from: {productionDatesFrom}
-                </ProtoTag>
-              </NextLink>
+            {(productionDatesFrom || productionDatesTo) && (
+              <div className={classNames({ [font('hnl', 5)]: true })}>
+                <Divider extraClasses={'divider--thin divider--pumice'} />
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <h2 className="inline">
+                    <Space
+                      as="span"
+                      h={{
+                        size: 'm',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      Active filters:
+                    </Space>
+                  </h2>
+                  {productionDatesFrom && (
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        workType: workType,
+                        page: 1,
+                        productionDatesFrom: null,
+                      })}
+                    >
+                      {/* // TODO MAKE OWN STYLED COMPONENT ; FIX Dup export error? */}
+                      <a classNames="">
+                        <Space
+                          as="span"
+                          h={{
+                            size: 'l',
+                            properties: ['margin-right'],
+                          }}
+                        >
+                          <Space
+                            as="span"
+                            h={{
+                              size: 's',
+                              properties: ['margin-right'],
+                            }}
+                          >
+                            <Icon
+                              name="cross"
+                              extraClasses="icon--match-text icon--silver v-align-middle"
+                            />
+                          </Space>
+                          <span className="visually-hidden">remove </span>
+                          From {productionDatesFrom}
+                        </Space>
+                      </a>
+                    </NextLink>
+                  )}
+                  {productionDatesTo && (
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        workType: workType,
+                        page: 1,
+                        productionDatesTo: null,
+                      })}
+                    >
+                      <a>
+                        <Space
+                          as="span"
+                          h={{
+                            size: 'l',
+                            properties: ['margin-right'],
+                          }}
+                        >
+                          <Space
+                            as="span"
+                            h={{
+                              size: 's',
+                              properties: ['margin-right'],
+                            }}
+                          >
+                            <Icon
+                              name="cross"
+                              extraClasses="icon--match-text icon--silver v-align-middle"
+                            />
+                          </Space>
+                          <span className="visually-hidden">remove </span>To{' '}
+                          {productionDatesTo}
+                        </Space>
+                      </a>
+                    </NextLink>
+                  )}
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...params,
+                      workType: null,
+                      page: 1,
+                      productionDatesFrom: null,
+                      productionDatesTo: null,
+                      _location: null,
+                      itemsLocationsLocationType: null,
+                    })}
+                  >
+                    <a
+                      onClick={() => {
+                        setActiveDrawer(null);
+                      }}
+                    >
+                      <Space
+                        as="span"
+                        h={{
+                          size: 's',
+                          properties: ['margin-right'],
+                        }}
+                      >
+                        <Icon
+                          name="cross"
+                          extraClasses="icon--match-text icon--silver v-align-middle"
+                        />
+                      </Space>
+                      <span className="visually-hidden">remove </span>
+                      Clear all
+                    </a>
+                  </NextLink>
+                </Space>
+              </div>
             )}
-            {productionDatesTo && (
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: workType,
-                  page: 1,
-                  productionDatesTo: null,
-                })}
-              >
-                <ProtoTag as="a" isActive small>
-                  &times; to: {productionDatesTo}
-                </ProtoTag>
-              </NextLink>
-            )}
-
             {refineFiltersPrototype &&
               itemsLocationsLocationType &&
               onlineLocations.every(t =>
@@ -443,30 +541,6 @@ function FilterDrawerRefine({
                   </ProtoTag>
                 </NextLink>
               )}
-
-            {(productionDatesFrom || productionDatesTo) && (
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: null,
-                  page: 1,
-                  productionDatesFrom: null,
-                  productionDatesTo: null,
-                  _location: null,
-                  itemsLocationsLocationType: null,
-                })}
-              >
-                <a
-                  className={font('hnm', 6)}
-                  onClick={() => {
-                    setActiveDrawer(null);
-                  }}
-                >
-                  clear all filters
-                </a>
-              </NextLink>
-            )}
           </Space>
         </div>
       )}

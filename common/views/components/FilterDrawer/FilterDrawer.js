@@ -44,7 +44,7 @@ const FilterBarLi = styled.li.attrs({
 const FilterBarAnchor = styled(Space).attrs({
   as: 'a',
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'inline-block font-pewter border-bottom-width-3 border-color-transparent': true,
   }),
@@ -141,7 +141,7 @@ function FilterDrawer({ items }: Props) {
       })}
     >
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-        Filter by
+        <h2 className="inline">Filter by</h2>
       </Space>
       <FilterBarUl>
         {items.map((item, index) => (
