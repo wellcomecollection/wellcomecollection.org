@@ -9,6 +9,7 @@ import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import {
   onlineLocations,
   inLibraryLocations,
@@ -189,56 +190,33 @@ function FilterDrawerRefine({
                   title: 'Dates',
                   component: (
                     <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                      <label>
-                        <Space
-                          as="span"
-                          h={{ size: 'm', properties: ['margin-right'] }}
-                        >
-                          From
-                        </Space>
-                        <Space
-                          as="span"
-                          h={{ size: 'm', properties: ['margin-right'] }}
-                        >
-                          <input
-                            type="number"
-                            min="0"
-                            max="9999"
-                            placeholder={'Year'}
-                            name="productionDatesFrom"
-                            value={inputDateFrom || ''}
-                            onChange={event => {
-                              setInputDateFrom(`${event.currentTarget.value}`);
-                            }}
-                            style={{}}
-                          />
-                        </Space>
-                      </label>
-                      <label>
-                        <Space
-                          as="span"
-                          h={{ size: 'm', properties: ['margin-right'] }}
-                        >
-                          to
-                        </Space>
-                        <Space
-                          as="span"
-                          h={{ size: 'm', properties: ['margin-right'] }}
-                        >
-                          <input
-                            type="number"
-                            min="0"
-                            max="9999"
-                            placeholder={'Year'}
-                            name="productionDatesTo"
-                            value={inputDateTo || ''}
-                            onChange={event => {
-                              setInputDateTo(`${event.currentTarget.value}`);
-                            }}
-                            style={{}}
-                          />
-                        </Space>
-                      </label>
+                      <Space
+                        as="span"
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                      >
+                        <NumberInput
+                          label="From"
+                          min="0"
+                          max="9999"
+                          placeholder={'Year'}
+                          name="productionDatesFrom"
+                          value={inputDateFrom || ''}
+                          onChange={event => {
+                            setInputDateFrom(`${event.currentTarget.value}`);
+                          }}
+                        />
+                      </Space>
+                      <NumberInput
+                        label="to"
+                        min="0"
+                        max="9999"
+                        placeholder={'Year'}
+                        name="productionDatesTo"
+                        value={inputDateTo || ''}
+                        onChange={event => {
+                          setInputDateTo(`${event.currentTarget.value}`);
+                        }}
+                      />
                     </Space>
                   ),
                 },
