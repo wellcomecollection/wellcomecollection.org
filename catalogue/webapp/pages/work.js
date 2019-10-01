@@ -15,25 +15,18 @@ import {
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
-
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { workLd } from '@weco/common/utils/json-ld';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
-import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
@@ -135,29 +128,6 @@ export const WorkPage = ({ work }: Props) => {
       imageAltText={work.title}
       hideNewsletterPromo={true}
     >
-      <InfoBanner
-        text={[
-          {
-            type: 'paragraph',
-            text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
-            spans: [],
-          },
-        ]}
-        cookieName="WC_wellcomeImagesRedirect"
-      />
-
-      <Layout12>
-        <TogglesContext.Consumer>
-          {({ useStageApi }) =>
-            useStageApi && (
-              <MessageBar tagText="Dev alert">
-                You are using the stage catalogue API - data mileage may vary!
-              </MessageBar>
-            )
-          }
-        </TogglesContext.Consumer>
-        <BetaBar />
-      </Layout12>
       <div className="container">
         <div className="grid">
           <div
@@ -209,7 +179,6 @@ export const WorkPage = ({ work }: Props) => {
         <ManifestContext.Provider value={firstChildManifest}>
           <SpacingComponent>
             <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
               childManifestsCount={childManifestsCount}
               itemUrl={itemUrl({
                 ...searchParams,
@@ -233,7 +202,6 @@ export const WorkPage = ({ work }: Props) => {
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
-              iiifPresentationLocation={iiifPresentationLocation}
               itemUrl={itemUrl({
                 ...searchParams,
                 workId: work.id,
