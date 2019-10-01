@@ -11,6 +11,13 @@ const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
   border: 1px solid ${props => props.theme.colors.pumice};
   padding: 12px;
 
+  /* removes up and down arrows webkit adds to number inputs on desktop */
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   &:focus {
     border: 2px solid ${props => props.theme.colors.yellow};
     padding: 11px;
