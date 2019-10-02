@@ -23,9 +23,11 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import Download from '../Download/Download';
 import Space from '@weco/common/views/components/styled/Space';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+
+import Download from '../Download/Download';
+import PaletteSimilarityBox from '../PaletteSimilarityBox/PaletteSimilarityBox';
 
 type WorkDetailsSectionProps = {|
   headingText?: string,
@@ -78,6 +80,7 @@ type Props = {|
   iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
   childManifestsCount?: number,
+  showImagesWithSimilarPalette?: boolean,
 |};
 
 const WorkDetails = ({
@@ -86,6 +89,7 @@ const WorkDetails = ({
   iiifPresentationManifest,
   encoreLink,
   childManifestsCount,
+  showImagesWithSimilarPalette,
 }: Props) => {
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
@@ -359,6 +363,15 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
+
+  if (showImagesWithSimilarPalette) {
+    WorkDetailsSections.push(
+      <WorkDetailsSection headingText="Images with a similar palette">
+        <PaletteSimilarityBox work={work} />
+      </WorkDetailsSection>
+    );
+  }
+
   WorkDetailsSections.push(
     <WorkDetailsSection>
       <div className="flex flex--v-center">

@@ -42,5 +42,12 @@ module.exports = {
       description:
         'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
+    {
+      id: 'showImagesWithSimilarPalette',
+      title: 'Show images with similar palette in the work details section',
+      defaultValue: false,
+      description:
+        'If the work has a Miro image, we can show images with similar a palette.',
+    },
   ],
 };

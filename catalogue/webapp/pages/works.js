@@ -330,6 +330,15 @@ const Works = ({ works, searchParams }: Props) => {
                               page,
                               workType,
                               _queryType,
+                              resultWorkType: result.workType.label,
+                              resultLanguage:
+                                result.language && result.language.label,
+                              resultIdentifiers: result.identifiers.map(
+                                identifier => identifier.value
+                              ),
+                              resultSubjects: result.subjects.map(
+                                subject => subject.label
+                              ),
                             },
                           };
                           trackSearch(event);
