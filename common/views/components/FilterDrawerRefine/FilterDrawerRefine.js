@@ -9,7 +9,7 @@ import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import InputTypeNumber from '@weco/common/views/components/InputTypeNumber/InputTypeNumber';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   onlineLocations,
@@ -105,6 +105,33 @@ function updateWorkTypes(workType, subcategory) {
     : workType.concat(subcategory.letter);
 }
 
+function CancelFilter({ text }: { text: string }) {
+  return (
+    <Space
+      as="span"
+      h={{
+        size: 'm',
+        properties: ['margin-right'],
+      }}
+    >
+      <Space
+        as="span"
+        h={{
+          size: 'xs',
+          properties: ['margin-right'],
+        }}
+      >
+        <Icon
+          name="cross"
+          extraClasses="icon--match-text icon--silver v-align-middle"
+        />
+      </Space>
+      <span className="visually-hidden">remove </span>
+      {text}
+    </Space>
+  );
+}
+
 function FilterDrawerRefine({
   searchForm,
   searchParams,
@@ -195,7 +222,7 @@ function FilterDrawerRefine({
                         as="span"
                         h={{ size: 'm', properties: ['margin-right'] }}
                       >
-                        <NumberInput
+                        <InputTypeNumber
                           label="From"
                           min="0"
                           max="9999"
@@ -207,7 +234,7 @@ function FilterDrawerRefine({
                           }}
                         />
                       </Space>
-                      <NumberInput
+                      <InputTypeNumber
                         label="to"
                         min="0"
                         max="9999"
@@ -399,30 +426,8 @@ function FilterDrawerRefine({
                         productionDatesFrom: null,
                       })}
                     >
-                      {/* // TODO MAKE OWN STYLED COMPONENT ; FIX Dup export error? */}
-                      <a classNames="">
-                        <Space
-                          as="span"
-                          h={{
-                            size: 'l',
-                            properties: ['margin-right'],
-                          }}
-                        >
-                          <Space
-                            as="span"
-                            h={{
-                              size: 's',
-                              properties: ['margin-right'],
-                            }}
-                          >
-                            <Icon
-                              name="cross"
-                              extraClasses="icon--match-text icon--silver v-align-middle"
-                            />
-                          </Space>
-                          <span className="visually-hidden">remove </span>
-                          From {productionDatesFrom}
-                        </Space>
+                      <a>
+                        <CancelFilter text={`From ${productionDatesFrom}`} />
                       </a>
                     </NextLink>
                   )}
@@ -437,28 +442,7 @@ function FilterDrawerRefine({
                       })}
                     >
                       <a>
-                        <Space
-                          as="span"
-                          h={{
-                            size: 'l',
-                            properties: ['margin-right'],
-                          }}
-                        >
-                          <Space
-                            as="span"
-                            h={{
-                              size: 's',
-                              properties: ['margin-right'],
-                            }}
-                          >
-                            <Icon
-                              name="cross"
-                              extraClasses="icon--match-text icon--silver v-align-middle"
-                            />
-                          </Space>
-                          <span className="visually-hidden">remove </span>To{' '}
-                          {productionDatesTo}
-                        </Space>
+                        <CancelFilter text={`To ${productionDatesTo}`} />
                       </a>
                     </NextLink>
                   )}
@@ -479,20 +463,7 @@ function FilterDrawerRefine({
                         setActiveDrawer(null);
                       }}
                     >
-                      <Space
-                        as="span"
-                        h={{
-                          size: 's',
-                          properties: ['margin-right'],
-                        }}
-                      >
-                        <Icon
-                          name="cross"
-                          extraClasses="icon--match-text icon--silver v-align-middle"
-                        />
-                      </Space>
-                      <span className="visually-hidden">remove </span>
-                      Clear all
+                      <CancelFilter text={'Clear all'} />
                     </a>
                   </NextLink>
                 </Space>

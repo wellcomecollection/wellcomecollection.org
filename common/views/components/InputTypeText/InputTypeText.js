@@ -40,7 +40,7 @@ type Props = {
 };
 
 // $FlowFixMe (forwardRef)
-const TextInput = forwardRef((
+const InputTypeText = forwardRef((
   { label, ...inputProps }: Props,
   ref // eslint-disable-line
 ) => (
@@ -62,6 +62,6 @@ const TextInput = forwardRef((
   </label>
 ));
 
-TextInput.displayName = 'TextInput';
+InputTypeText.displayName = 'InputTypeText';
 
-export default TextInput;
+export default InputTypeText;

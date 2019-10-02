@@ -41,5 +41,4 @@ const NumberInput = forwardRef((
     <StyledInput as="input" ref={ref} type="number" {...inputProps} />
   </label>
 ));
-
 export default NumberInput;
