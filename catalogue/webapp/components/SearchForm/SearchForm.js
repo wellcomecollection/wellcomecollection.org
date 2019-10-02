@@ -13,6 +13,7 @@ import {
   defaultWorkTypes,
 } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
+import InputTypeSelect from '@weco/common/views/components/InputTypeSelect/InputTypeSelect';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -94,6 +95,13 @@ const SearchForm = ({
       ? productionDatesToInput.value
       : searchParams.productionDatesTo;
 
+    /*::
+    if (!(form['sort'] instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
+    const sort = form['sort'] ? form['sort'].value : searchParams.sort;
+
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
@@ -106,6 +114,7 @@ const SearchForm = ({
           page: 1,
           productionDatesFrom: productionDatesFromValue,
           productionDatesTo: productionDatesToValue,
+          sort,
         })
       : worksUrl({
           ...searchParams,
@@ -113,6 +122,7 @@ const SearchForm = ({
           page: 1,
           productionDatesFrom: productionDatesFromValue,
           productionDatesTo: productionDatesToValue,
+          sort,
         });
 
     Router.push(link.href, link.as);
@@ -188,6 +198,8 @@ const SearchForm = ({
               searchParams={searchParams}
             />
           )}
+
+          <InputTypeSelect label="Sort by" />
           <SearchButtonWrapper className="absolute bg-green rounded-corners">
             <button
               className={classNames({
