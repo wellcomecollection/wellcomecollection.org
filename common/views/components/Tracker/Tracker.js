@@ -24,6 +24,10 @@ type SearchResultEventData = {|
   page: number,
   workType: ?(string[]),
   _queryType: ?string,
+  resultWorkType: string,
+  resultLanguage: ?string,
+  resultIdentifiers: string[],
+  resultSubjects: string[],
 |};
 
 type SearchData = SearchEventData | SearchResultEventData;

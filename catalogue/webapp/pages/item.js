@@ -177,6 +177,7 @@ const ItemPage = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       fixHeader={true}
+      hideInfoBar={true}
     >
       {audio && (
         <Layout12>

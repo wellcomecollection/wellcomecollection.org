@@ -10,7 +10,6 @@ import {
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -27,12 +26,12 @@ import {
   SearchEventNames,
 } from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
+import Space from '@weco/common/views/components/styled/Space';
+import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
-import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -160,17 +159,6 @@ const Works = ({ works, searchParams }: Props) => {
         imageUrl={null}
         imageAltText={null}
       >
-        <InfoBanner
-          text={[
-            {
-              type: 'paragraph',
-              text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
-              spans: [],
-            },
-          ]}
-          cookieName="WC_wellcomeImagesRedirect"
-        />
-
         <Space
           v={{
             size: 'l',
@@ -344,6 +332,15 @@ const Works = ({ works, searchParams }: Props) => {
                               page,
                               workType,
                               _queryType,
+                              resultWorkType: result.workType.label,
+                              resultLanguage:
+                                result.language && result.language.label,
+                              resultIdentifiers: result.identifiers.map(
+                                identifier => identifier.value
+                              ),
+                              resultSubjects: result.subjects.map(
+                                subject => subject.label
+                              ),
                             },
                           };
                           trackSearch(event);

@@ -1,7 +1,6 @@
 // @flow
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import {
-  type IIIFPresentationLocation,
   getCanvases,
   getManifestViewType,
   getAudio,
@@ -192,7 +191,6 @@ function previewThumbnails(
 }
 
 type Props = {|
-  iiifPresentationLocation: IIIFPresentationLocation,
   itemUrl: any,
   childManifestsCount?: number,
 |};
@@ -224,8 +222,7 @@ const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
   );
 };
 
-const IIIFPresentationDisplay = ({
-  iiifPresentationLocation,
+const IIIFPresentationPreview = ({
   itemUrl,
   childManifestsCount = 0,
 }: Props) => {
@@ -456,14 +453,13 @@ const IIIFPresentationDisplay = ({
       </WobblyRow>
     );
   }
-
   if (viewType === 'none') {
     return (
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <BetaMessage message="We are working to make this item available online in July 2019." />
+              <BetaMessage message="We are working to make this item available online." />
             </Space>
           </div>
         </div>
@@ -474,4 +470,4 @@ const IIIFPresentationDisplay = ({
   }
 };
 
-export default IIIFPresentationDisplay;
+export default IIIFPresentationPreview;
