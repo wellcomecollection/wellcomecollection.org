@@ -3,7 +3,9 @@ import { forwardRef, type ComponentType } from 'react';
 import styled from 'styled-components';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
-const StyledInput: ComponentType<SpaceComponentProps> = styled(Space)`
+const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
+  type: 'number',
+})`
   outline: none;
   border: 1px solid ${props => props.theme.colors.pumice};
   padding: 12px;
@@ -35,7 +37,7 @@ const NumberInput = forwardRef((
     <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
       {label}
     </Space>
-    <StyledInput as="input" ref={ref} type="number" {...inputProps} />
+    <StyledInput as="input" ref={ref} {...inputProps} />
   </label>
 ));
 export default NumberInput;
