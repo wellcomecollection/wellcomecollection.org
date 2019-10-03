@@ -2,11 +2,8 @@
 import { forwardRef, type ComponentType } from 'react';
 import styled from 'styled-components';
 import Space, { type SpaceComponentProps } from '../styled/Space';
-import { classNames } from '../../../utils/classnames';
 
-const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
-  className: classNames({}),
-})`
+const StyledInput: ComponentType<SpaceComponentProps> = styled(Space)`
   outline: none;
   border: 1px solid ${props => props.theme.colors.pumice};
   padding: 12px;

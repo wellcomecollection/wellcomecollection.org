@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import InputTypeText from '@weco/common/views/components/InputTypeText/InputTypeText';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -141,7 +141,7 @@ const SearchForm = ({
           }}
         >
           <SearchInputWrapper className="relative">
-            <InputTypeText
+            <TextInput
               label={'Search the catalogue'}
               placeholder={'Search for books and pictures'}
               name="query"

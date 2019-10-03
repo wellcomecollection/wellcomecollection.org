@@ -9,7 +9,7 @@ import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
-import InputTypeNumber from '@weco/common/views/components/InputTypeNumber/InputTypeNumber';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   onlineLocations,
@@ -222,7 +222,7 @@ function FilterDrawerRefine({
                         as="span"
                         h={{ size: 'm', properties: ['margin-right'] }}
                       >
-                        <InputTypeNumber
+                        <NumberInput
                           label="From"
                           min="0"
                           max="9999"
@@ -234,7 +234,7 @@ function FilterDrawerRefine({
                           }}
                         />
                       </Space>
-                      <InputTypeNumber
+                      <NumberInput
                         label="to"
                         min="0"
                         max="9999"
