@@ -421,7 +421,6 @@ function FilterDrawerRefine({
                       passHref
                       {...worksUrl({
                         ...params,
-                        workType: workType,
                         page: 1,
                         productionDatesFrom: null,
                       })}
@@ -436,7 +435,6 @@ function FilterDrawerRefine({
                       passHref
                       {...worksUrl({
                         ...params,
-                        workType: workType,
                         page: 1,
                         productionDatesTo: null,
                       })}
