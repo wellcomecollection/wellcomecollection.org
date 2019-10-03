@@ -452,7 +452,6 @@ function FilterDrawerRefine({
                       page: 1,
                       productionDatesFrom: null,
                       productionDatesTo: null,
-                      _location: null,
                       itemsLocationsLocationType: null,
                     })}
                   >
