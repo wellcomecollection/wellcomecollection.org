@@ -207,24 +207,24 @@ const SearchForm = ({
 
           <SelectInput
             label="Sort by"
+            defaultValue={searchParams.sortOrder || ''}
             options={[
               {
-                selected: Boolean(searchParams.sortOrder === null),
                 value: '',
                 text: 'Relevance',
               },
               {
-                selected: Boolean(searchParams.sortOrder === 'asc'),
                 value: 'asc',
                 text: 'Date ascending',
               },
               {
-                selected: Boolean(searchParams.sortOrder === 'desc'),
                 value: 'desc',
                 text: 'Date descending',
               },
             ]}
-            changeHandler={updateUrl}
+            onChange={event => {
+              updateUrl(unfilteredSearchResults, event.target.form);
+            }}
           />
 
           <SearchButtonWrapper className="absolute bg-green rounded-corners">

@@ -15,29 +15,26 @@ const StyledSelect = styled.div.attrs(props => ({
 
 type Props = {
   label: string,
+  defaultValue: ?string,
   options: {
-    selected: boolean,
     value: ?string,
     text: string,
   }[],
+  onChange: any, // TODO
   // We can also pass inputProps here
 };
 
-const SelectInput = ({ label, options }: Props) => {
+const SelectInput = ({ label, options, defaultValue, onChange }: Props) => {
   return (
     <StyledSelect>
       <label>
         <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
           {label}
         </Space>
-        <select name="sortOrder">
+        <select name="sortOrder" onChange={onChange} value={defaultValue}>
           {options.map(option => {
             return (
-              <option
-                key={option.text}
-                value={option.value}
-                selected={option.selected}
-              >
+              <option key={option.text} value={option.value}>
                 {option.text}
               </option>
             );
