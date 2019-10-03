@@ -13,7 +13,7 @@ import {
   defaultWorkTypes,
 } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
-import InputTypeSelect from '@weco/common/views/components/InputTypeSelect/InputTypeSelect';
+import SelectInput from '@weco/common/views/components/SelectInput/SelectInput';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -96,11 +96,15 @@ const SearchForm = ({
       : searchParams.productionDatesTo;
 
     /*::
-    if (!(form['sort'] instanceof HTMLInputElement)) {
+    if (!(form['sortOrder'] instanceof HTMLInputElement)) {
       throw new Error('element is not of type HTMLInputElement');
     }
     */
-    const sort = form['sort'] ? form['sort'].value : searchParams.sort;
+    const sortOrder = form['sortOrder']
+      ? form['sortOrder'].value
+      : searchParams.sortOrder;
+    const sort =
+      sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
 
     const link = unfilteredSearchResults
       ? worksUrl({
@@ -114,6 +118,7 @@ const SearchForm = ({
           page: 1,
           productionDatesFrom: productionDatesFromValue,
           productionDatesTo: productionDatesToValue,
+          sortOrder,
           sort,
         })
       : worksUrl({
@@ -122,6 +127,7 @@ const SearchForm = ({
           page: 1,
           productionDatesFrom: productionDatesFromValue,
           productionDatesTo: productionDatesToValue,
+          sortOrder,
           sort,
         });
 
@@ -199,7 +205,28 @@ const SearchForm = ({
             />
           )}
 
-          <InputTypeSelect label="Sort by" />
+          <SelectInput
+            label="Sort by"
+            options={[
+              {
+                selected: Boolean(searchParams.sortOrder === null),
+                value: '',
+                text: 'Relevance',
+              },
+              {
+                selected: Boolean(searchParams.sortOrder === 'asc'),
+                value: 'asc',
+                text: 'Date ascending',
+              },
+              {
+                selected: Boolean(searchParams.sortOrder === 'desc'),
+                value: 'desc',
+                text: 'Date descending',
+              },
+            ]}
+            changeHandler={updateUrl}
+          />
+
           <SearchButtonWrapper className="absolute bg-green rounded-corners">
             <button
               className={classNames({
@@ -222,3 +249,7 @@ const SearchForm = ({
   );
 };
 export default SearchForm;
+
+// TODOs
+// don't show sort by on work or works when it doesn't have a query
+// submit form on select change
