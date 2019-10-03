@@ -199,34 +199,35 @@ const SearchForm = ({
           )}
 
           {shouldShowFilters && (
-            <FilterDrawerRefine
-              searchForm={searchForm}
-              searchParams={searchParams}
-            />
+            <>
+              <FilterDrawerRefine
+                searchForm={searchForm}
+                searchParams={searchParams}
+              />
+
+              <SelectInput
+                label="Sort by"
+                defaultValue={searchParams.sortOrder || ''}
+                options={[
+                  {
+                    value: '',
+                    text: 'Relevance',
+                  },
+                  {
+                    value: 'asc',
+                    text: 'Date ascending',
+                  },
+                  {
+                    value: 'desc',
+                    text: 'Date descending',
+                  },
+                ]}
+                onChange={event => {
+                  updateUrl(unfilteredSearchResults, event.target.form);
+                }}
+              />
+            </>
           )}
-
-          <SelectInput
-            label="Sort by"
-            defaultValue={searchParams.sortOrder || ''}
-            options={[
-              {
-                value: '',
-                text: 'Relevance',
-              },
-              {
-                value: 'asc',
-                text: 'Date ascending',
-              },
-              {
-                value: 'desc',
-                text: 'Date descending',
-              },
-            ]}
-            onChange={event => {
-              updateUrl(unfilteredSearchResults, event.target.form);
-            }}
-          />
-
           <SearchButtonWrapper className="absolute bg-green rounded-corners">
             <button
               className={classNames({
@@ -249,7 +250,3 @@ const SearchForm = ({
   );
 };
 export default SearchForm;
-
-// TODOs
-// don't show sort by on work or works when it doesn't have a query
-// submit form on select change
