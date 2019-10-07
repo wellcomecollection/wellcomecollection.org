@@ -23,21 +23,26 @@ type Props = {|
 
 const SearchInputWrapper = styled.div`
   background: ${props => props.theme.colors.white};
-  margin-right: ${props => 8 * props.theme.spacingUnit}px;
+  margin-right: ${props => 12 * props.theme.spacingUnit}px;
 
   ${props => props.theme.media.medium`
-    margin-right: ${props => 10 * props.theme.spacingUnit}px;
+    margin-right: ${props => 16 * props.theme.spacingUnit}px;
   `}
+
+  .search-query {
+    height: ${props => 10 * props.theme.spacingUnit}px;
+  }
 `;
 
 const SearchButtonWrapper = styled.div`
-  height: 100%;
+  height: ${props => 10 * props.theme.spacingUnit}px;
   top: 0;
   right: 0;
-  width: ${props => 8 * props.theme.spacingUnit}px;
+  width: ${props => 10 * props.theme.spacingUnit}px;
+  border: ${props => props.theme.borderRadiusUnit}px;
 
   ${props => props.theme.media.medium`
-    width: ${props => 10 * props.theme.spacingUnit}px;
+    width: ${props => 14 * props.theme.spacingUnit}px;
   `}
 `;
 
@@ -52,7 +57,7 @@ const SearchForm = ({
   searchParams,
 }: Props) => {
   const { query, workType } = searchParams;
-
+  const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
@@ -68,20 +73,46 @@ const SearchForm = ({
     }
   }, [query]);
 
-  function updateUrl(unfilteredSearchResults) {
+  function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
     const workType = searchParams.workType || [];
+    const productionDatesFromInput = form['productionDatesFrom'];
+    /*::
+    if (!(productionDatesFromInput instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
+    const productionDatesFromValue = productionDatesFromInput
+      ? productionDatesFromInput.value
+      : searchParams.productionDatesFrom;
+    const productionDatesToInput = form['productionDatesTo'];
+    /*::
+    if (!(productionDatesToInput instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
+    const productionDatesToValue = productionDatesToInput
+      ? productionDatesToInput.value
+      : searchParams.productionDatesTo;
+
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
           // Override the defaultWorkType with [] if we're toggled to do so
+          // null => default filters
+          // [] => no filter
+          // [anything] => filter
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: inputQuery,
           page: 1,
+          productionDatesFrom: productionDatesFromValue,
+          productionDatesTo: productionDatesToValue,
         })
       : worksUrl({
           ...searchParams,
           query: inputQuery,
           page: 1,
+          productionDatesFrom: productionDatesFromValue,
+          productionDatesTo: productionDatesToValue,
         });
 
     Router.push(link.href, link.as);
@@ -89,8 +120,10 @@ const SearchForm = ({
 
   return (
     <TogglesContext.Consumer>
-      {({ refineFiltersPrototype, unfilteredSearchResults }) => (
+      {({ unfilteredSearchResults }) => (
         <form
+          ref={searchForm}
+          className="relative"
           action="/works"
           aria-describedby={ariaDescribedBy}
           onSubmit={event => {
@@ -102,77 +135,75 @@ const SearchForm = ({
               label: query,
             });
 
-            updateUrl(unfilteredSearchResults);
+            updateUrl(unfilteredSearchResults, event.currentTarget);
 
             return false;
           }}
         >
-          <div className="relative">
-            <SearchInputWrapper className="relative">
-              <TextInput
-                label={'Search the catalogue'}
-                placeholder={'Search for books and pictures'}
-                name="query"
-                value={inputQuery}
-                autoFocus={inputQuery === ''}
-                onChange={event => setInputQuery(event.currentTarget.value)}
-                ref={searchInput}
-                className={classNames({
-                  [font('hnl', compact ? 4 : 3)]: true,
-                })}
-              />
+          <SearchInputWrapper className="relative">
+            <TextInput
+              label={'Search the catalogue'}
+              placeholder={'Search for books and pictures'}
+              name="query"
+              value={inputQuery}
+              autoFocus={inputQuery === ''}
+              onChange={event => setInputQuery(event.currentTarget.value)}
+              ref={searchInput}
+              required
+              className={classNames({
+                [font('hnm', compact ? 4 : 3)]: true,
+                'search-query': true,
+              })}
+            />
 
-              {inputQuery && (
-                <ClearSearch
-                  className="absolute line-height-1 plain-button v-center no-padding"
-                  onClick={() => {
-                    trackEvent({
-                      category: 'SearchForm',
-                      action: 'clear search',
-                      label: 'works-search',
-                    });
+            {inputQuery && (
+              <ClearSearch
+                className="absolute line-height-1 plain-button v-center no-padding"
+                onClick={() => {
+                  trackEvent({
+                    category: 'SearchForm',
+                    action: 'clear search',
+                    label: 'works-search',
+                  });
 
-                    setInputQuery('');
+                  setInputQuery('');
 
-                    // $FlowFixMe
-                    searchInput.current && searchInput.current.focus();
-                  }}
-                  type="button"
-                >
-                  <Icon name="clear" title="Clear" />
-                </ClearSearch>
-              )}
-            </SearchInputWrapper>
-
-            <SearchButtonWrapper className="absolute bg-green">
-              <button
-                className={classNames({
-                  'full-width': true,
-                  'full-height': true,
-                  'line-height-1': true,
-                  'plain-button no-padding': true,
-                  [font('hnl', 3)]: true,
-                })}
+                  // $FlowFixMe
+                  searchInput.current && searchInput.current.focus();
+                }}
+                type="button"
               >
-                <span className="visually-hidden">Search</span>
-                <span className="flex flex--v-center flex--h-center">
-                  <Icon
-                    name="search"
-                    title="Search"
-                    extraClasses="icon--white"
-                  />
-                </span>
-              </button>
-            </SearchButtonWrapper>
-          </div>
+                <Icon name="clear" title="Clear" />
+              </ClearSearch>
+            )}
+          </SearchInputWrapper>
 
           {workType && (
             <input type="hidden" name="workType" value={workType.join(',')} />
           )}
 
-          {shouldShowFilters && refineFiltersPrototype && (
-            <FilterDrawerRefine />
+          {shouldShowFilters && (
+            <FilterDrawerRefine
+              searchForm={searchForm}
+              searchParams={searchParams}
+            />
           )}
+          <SearchButtonWrapper className="absolute bg-green rounded-corners">
+            <button
+              className={classNames({
+                'full-width': true,
+                'full-height': true,
+                'line-height-1': true,
+                'plain-button no-padding': true,
+                [font('hnl', 3)]: true,
+              })}
+            >
+              <span className="visually-hidden">Search</span>
+              <span className="flex flex--v-center flex--h-center">
+                <Icon name="search" title="Search" extraClasses="icon--white" />
+              </span>
+            </button>
+          </SearchButtonWrapper>
         </form>
       )}
     </TogglesContext.Consumer>

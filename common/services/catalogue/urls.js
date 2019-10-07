@@ -41,13 +41,13 @@ export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
     href: {
       pathname: `/works`,
       query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
+        ...searchParamsSerialiser(searchParams, true),
       }),
     },
     as: {
       pathname: `/works`,
       query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
+        ...searchParamsSerialiser(searchParams, true),
       }),
     },
   };

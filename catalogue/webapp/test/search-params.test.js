@@ -7,16 +7,24 @@ import {
 
 describe('deserialises', () => {
   it('should deserialise with defaults for missing keys', () => {
-    const params = searchParamsDeserialiser({});
-
-    // boolean
-    expect(params._isFilteringBySubcategory).toBe(false);
+    const params = searchParamsDeserialiser(
+      {
+        'production.dates.from': '1900',
+      },
+      {
+        'production.dates.from': 'productionDatesFrom',
+        'production.dates.to': 'productionDatesTo',
+      }
+    );
 
     // string
     expect(params.query).toBe('');
 
+    // different key
+    expect(params.productionDatesFrom).toBe('1900');
+
     // nullable string
-    expect(params.productionDatesFrom).toBe(null);
+    expect(params.productionDatesTo).toBe(null);
 
     // array with defaults
     expect(params.workType).toStrictEqual(['a', 'k', 'q', 'v', 'f', 's']);
@@ -27,16 +35,12 @@ describe('deserialises', () => {
 
   it('should serialise removing default values', () => {
     const params = searchParamsSerialiser({
-      _isFilteringBySubcategory: false,
       query: '',
       workType: null,
       page: 1,
       itemsLocationsLocationType: ['iiif-image', 'iiif-presentation'],
       aggregations: [],
     });
-
-    // boolean exclusion
-    expect(params._isFilteringBySubcategory).toBeNull();
 
     // nullable string exclusion
     expect(params.query).toBeNull();

@@ -39,7 +39,7 @@ export function getNextWeekendDateRange(date: Date): DateRange {
 }
 
 export function formatDateForApi(dateString: string): ?string {
-  const date = dateString && london(dateString);
+  const date = dateString && london({ year: dateString });
 
   return date && date.isValid() ? date.format('YYYY-MM-DD') : undefined;
 }

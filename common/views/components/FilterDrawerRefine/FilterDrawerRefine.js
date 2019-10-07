@@ -1,15 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import NextLink from 'next/link';
+import Router from 'next/router';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
-import { clientSideSearchParams } from '../../../services/catalogue/search-params';
-import { font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+import FilterDrawer from '../FilterDrawer/FilterDrawer';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   onlineLocations,
   inLibraryLocations,
 } from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
+import {
+  type SearchParams,
+  defaultWorkTypes,
+} from '@weco/common/services/catalogue/search-params';
 
 const workTypes = [
   {
@@ -90,38 +98,80 @@ const allWorkTypes = workTypes
   .map(t => t.materialTypes)
   .reduce((acc, curr) => acc.concat(curr), []);
 
-function updateWorkTypes(workType, subcategory, isFiltering) {
-  if (isFiltering) {
-    // If you're filtering and about to remove the last filter,
-    // we give you all the results for the category
-    if (isLastFilterItem(workType, subcategory)) return null;
-
-    // Otherwise add/remove items to the array
-    return workType.includes(subcategory.letter)
-      ? workType.filter(t => t !== subcategory.letter)
-      : workType.concat(subcategory.letter);
-  }
-
-  // Not yet filtering, just add the single subcategory
-  return [subcategory.letter];
+function updateWorkTypes(workType, subcategory) {
+  return workType.includes(subcategory.letter)
+    ? workType.filter(t => t !== subcategory.letter)
+    : workType.concat(subcategory.letter);
 }
 
-function isLastFilterItem(workType, subcategory) {
-  return workType.length === 1 && workType.includes(subcategory.letter);
+function CancelFilter({ text }: { text: string }) {
+  return (
+    <Space
+      as="span"
+      h={{
+        size: 'm',
+        properties: ['margin-right'],
+      }}
+    >
+      <Space
+        as="span"
+        h={{
+          size: 'xs',
+          properties: ['margin-right'],
+        }}
+      >
+        <Icon
+          name="cross"
+          extraClasses="icon--match-text icon--silver v-align-middle"
+        />
+      </Space>
+      <span className="visually-hidden">remove </span>
+      {text}
+    </Space>
+  );
 }
 
-function FilterDrawerRefine() {
-  const params = clientSideSearchParams();
+function FilterDrawerRefine({
+  searchForm,
+  searchParams,
+}: {
+  searchForm: ?HTMLFormElement,
+  searchParams: SearchParams,
+}) {
   const {
-    workType,
-    itemsLocationsLocationType,
     productionDatesFrom,
     productionDatesTo,
-    _isFilteringBySubcategory,
-  } = params;
+    workType,
+    itemsLocationsLocationType,
+  } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
+  const { unfilteredSearchResults } = useContext(TogglesContext);
+
+  function updateUrl(unfilteredSearchResults: boolean, form: ?HTMLFormElement) {
+    const workType = searchParams.workType || [];
+    const link = unfilteredSearchResults
+      ? worksUrl({
+          ...searchParams,
+          // Override the defaultWorkType with [] if we're toggled to do so
+          workType: workType.length === defaultWorkTypes.length ? [] : workType,
+          query: form.query.value,
+          page: 1,
+          productionDatesFrom: form['production.dates.from'].value,
+          productionDatesTo:
+            form['production.dates.to'].productionDatesTo.value,
+        })
+      : worksUrl({
+          ...searchParams,
+          query: form.query.value,
+          page: 1,
+          productionDatesFrom: form['production.dates.from'].value,
+          productionDatesTo: form['production.dates.to'].value,
+        });
+
+    Router.push(link.href, link.as);
+  }
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -133,351 +183,335 @@ function FilterDrawerRefine() {
     }
   }, [productionDatesFrom, productionDatesTo]);
 
+  useEffect(() => {
+    if (
+      productionDatesFrom !== inputDateFrom &&
+      (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
+    ) {
+      updateUrl(unfilteredSearchResults, searchForm.current);
+    }
+  }, [inputDateFrom]);
+
+  useEffect(() => {
+    if (
+      productionDatesTo !== inputDateTo &&
+      (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
+    ) {
+      updateUrl(unfilteredSearchResults, searchForm.current);
+    }
+  }, [inputDateTo]);
+
   return (
-    <div>
-      <Space
-        v={{
-          size: 'm',
-          properties: ['margin-top', 'margin-bottom'],
-        }}
-      >
-        <ProtoTag
-          as="button"
-          type="button"
-          isPrimary
-          isActive={activeDrawer === 'date'}
-          onClick={() => {
-            setActiveDrawer(activeDrawer === 'date' ? null : 'date');
-          }}
-        >
-          <Icon name="chevron" />
-          Dates
-        </ProtoTag>
-        <ProtoTag
-          as="button"
-          type="button"
-          isPrimary
-          isActive={activeDrawer === 'format'}
-          onClick={() => {
-            setActiveDrawer(activeDrawer === 'format' ? null : 'format');
-          }}
-        >
-          <Icon name="chevron" />
-          Formats
-        </ProtoTag>
-        <ProtoTag
-          as="button"
-          type="button"
-          isPrimary
-          isActive={activeDrawer === 'availability'}
-          onClick={() => {
-            setActiveDrawer(
-              activeDrawer === 'availability' ? null : 'availability'
-            );
-          }}
-        >
-          <Icon name="chevron" />
-          Availability
-        </ProtoTag>
-      </Space>
-      <div className={`${activeDrawer !== 'date' ? 'is-hidden' : ''}`}>
-        <Space v={{ size: 'm', properties: ['margin-top'] }}>
-          <div
-            style={{
-              display: 'block',
+    <TogglesContext.Consumer>
+      {({ refineFiltersPrototype }) => (
+        <div>
+          <Space
+            v={{
+              size: 'l',
+              properties: ['margin-top', 'margin-bottom'],
             }}
           >
-            <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <span className={font('hnm', 5)}>Between </span>
-              <label>
-                <span className="visually-hidden">from: </span>
-                <input
-                  placeholder={'YYYY'}
-                  value={inputDateFrom || ''}
-                  onChange={event => {
-                    setInputDateFrom(`${event.currentTarget.value}`);
+            <FilterDrawer
+              items={[
+                {
+                  title: 'Dates',
+                  component: (
+                    <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                      <Space
+                        as="span"
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                      >
+                        <NumberInput
+                          label="From"
+                          min="0"
+                          max="9999"
+                          placeholder={'Year'}
+                          name="production.dates.from"
+                          value={inputDateFrom || ''}
+                          onChange={event => {
+                            setInputDateFrom(`${event.currentTarget.value}`);
+                          }}
+                        />
+                      </Space>
+                      <NumberInput
+                        label="to"
+                        min="0"
+                        max="9999"
+                        placeholder={'Year'}
+                        name="production.dates.to"
+                        value={inputDateTo || ''}
+                        onChange={event => {
+                          setInputDateTo(`${event.currentTarget.value}`);
+                        }}
+                      />
+                    </Space>
+                  ),
+                },
+              ]}
+            />
+            {refineFiltersPrototype && (
+              <>
+                <ProtoTag
+                  as="button"
+                  type="button"
+                  isPrimary
+                  isActive={activeDrawer === 'format'}
+                  onClick={() => {
+                    setActiveDrawer(
+                      activeDrawer === 'format' ? null : 'format'
+                    );
                   }}
-                  style={{
-                    width: '3.3em',
-                    padding: '0.3em',
-                    border: '0',
-                    borderBottom: '2px solid #333',
-                    background: 'transparent',
+                >
+                  <Icon name="chevron" />
+                  Formats
+                </ProtoTag>
+                <ProtoTag
+                  as="button"
+                  type="button"
+                  isPrimary
+                  isActive={activeDrawer === 'availability'}
+                  onClick={() => {
+                    setActiveDrawer(
+                      activeDrawer === 'availability' ? null : 'availability'
+                    );
                   }}
-                />
-              </label>{' '}
-              <span className={font('hnm', 5)}>and </span>
-              <label>
-                <span className={'visually-hidden'}>to: </span>
-                <input
-                  placeholder={'YYYY'}
-                  value={inputDateTo || ''}
-                  onChange={event => {
-                    setInputDateTo(`${event.currentTarget.value}`);
+                >
+                  <Icon name="chevron" />
+                  Availability
+                </ProtoTag>
+              </>
+            )}
+          </Space>
+          {refineFiltersPrototype && (
+            <>
+              <div
+                className={`${activeDrawer !== 'format' ? 'is-hidden' : ''}`}
+              >
+                <>
+                  {allWorkTypes.map(subcategory => (
+                    <NextLink
+                      key={subcategory.title}
+                      passHref
+                      {...worksUrl({
+                        ...searchParams,
+                        workType: updateWorkTypes(workType, subcategory),
+                        page: 1,
+                      })}
+                    >
+                      <ProtoTag
+                        as="a"
+                        isActive={
+                          workType && workType.includes(subcategory.letter)
+                        }
+                      >
+                        {subcategory.title}
+                      </ProtoTag>
+                    </NextLink>
+                  ))}
+                </>
+              </div>
+              <div
+                className={`${
+                  activeDrawer !== 'availability' ? 'is-hidden' : ''
+                }`}
+              >
+                <div>
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...searchParams,
+                      page: 1,
+                      itemsLocationsLocationType: updateLocations(
+                        itemsLocationsLocationType,
+                        'online'
+                      ),
+                    })}
+                  >
+                    <ProtoTag
+                      as="button"
+                      type="button"
+                      isActive={
+                        itemsLocationsLocationType &&
+                        onlineLocations.every(t =>
+                          itemsLocationsLocationType.includes(t)
+                        )
+                      }
+                      style={{ cursor: 'pointer' }}
+                    >
+                      online
+                    </ProtoTag>
+                  </NextLink>
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...searchParams,
+                      page: 1,
+                      itemsLocationsLocationType: updateLocations(
+                        itemsLocationsLocationType,
+                        'library'
+                      ),
+                    })}
+                  >
+                    <ProtoTag
+                      as="button"
+                      type="button"
+                      isActive={
+                        itemsLocationsLocationType &&
+                        inLibraryLocations.every(t =>
+                          itemsLocationsLocationType.includes(t)
+                        )
+                      }
+                      style={{ cursor: 'pointer' }}
+                    >
+                      in library
+                    </ProtoTag>
+                  </NextLink>
+                </div>
+              </div>
+            </>
+          )}
+          <Space
+            v={{ size: 'l', properties: ['margin-top'] }}
+            className="tokens"
+          >
+            {refineFiltersPrototype &&
+              allWorkTypes.map(subcategory => {
+                return (
+                  workType &&
+                  workType.includes(subcategory.letter) && (
+                    <NextLink
+                      key={subcategory.title}
+                      passHref
+                      {...worksUrl({
+                        ...searchParams,
+                        workType: updateWorkTypes(workType, subcategory),
+                        page: 1,
+                      })}
+                    >
+                      <ProtoTag as="a" isActive small>
+                        &times; {subcategory.title}
+                      </ProtoTag>
+                    </NextLink>
+                  )
+                );
+              })}
+            {(productionDatesFrom || productionDatesTo) && (
+              <div className={classNames({ [font('hnl', 5)]: true })}>
+                <Divider extraClasses={'divider--thin divider--pumice'} />
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top', 'margin-bottom'],
                   }}
-                  style={{
-                    width: '3.3em',
-                    padding: '0.3em',
-                    border: '0',
-                    borderBottom: '2px solid #333',
-                    background: 'transparent',
-                  }}
-                />
-              </label>
-              <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
+                >
+                  <h2 className="inline">
+                    <Space
+                      as="span"
+                      h={{
+                        size: 'm',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      Active filters:
+                    </Space>
+                  </h2>
+                  {productionDatesFrom && (
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...searchParams,
+                        page: 1,
+                        productionDatesFrom: null,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={`From ${productionDatesFrom}`} />
+                      </a>
+                    </NextLink>
+                  )}
+                  {productionDatesTo && (
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...searchParams,
+                        page: 1,
+                        productionDatesTo: null,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={`To ${productionDatesTo}`} />
+                      </a>
+                    </NextLink>
+                  )}
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...searchParams,
+                      workType: null,
+                      page: 1,
+                      productionDatesFrom: null,
+                      productionDatesTo: null,
+                      itemsLocationsLocationType: null,
+                    })}
+                  >
+                    <a
+                      onClick={() => {
+                        setActiveDrawer(null);
+                      }}
+                    >
+                      <CancelFilter text={'Clear all'} />
+                    </a>
+                  </NextLink>
+                </Space>
+              </div>
+            )}
+            {refineFiltersPrototype &&
+              itemsLocationsLocationType &&
+              onlineLocations.every(t =>
+                itemsLocationsLocationType.includes(t)
+              ) && (
                 <NextLink
                   passHref
                   {...worksUrl({
-                    ...params,
+                    ...searchParams,
                     page: 1,
-                    productionDatesFrom: inputDateFrom,
-                    productionDatesTo: inputDateTo,
+                    itemsLocationsLocationType: updateLocations(
+                      itemsLocationsLocationType,
+                      'online'
+                    ),
                   })}
                 >
-                  <ProtoTag as="a">set dates</ProtoTag>
-                </NextLink>
-              </Space>
-              {(productionDatesFrom || productionDatesTo) && (
-                <NextLink
-                  {...worksUrl({
-                    ...params,
-                    page: 1,
-                    productionDatesFrom: null,
-                    productionDatesTo: null,
-                  })}
-                >
-                  <a className={font('hnm', 6)} style={{ marginLeft: '6px' }}>
-                    clear dates
-                  </a>
+                  <ProtoTag as="button" type="button" isActive small>
+                    &times; online
+                  </ProtoTag>
                 </NextLink>
               )}
-            </Space>
-          </div>
-        </Space>
-      </div>
-      <div className={`${activeDrawer !== 'format' ? 'is-hidden' : ''}`}>
-        <>
-          {allWorkTypes.map(subcategory => (
-            <NextLink
-              key={subcategory.title}
-              passHref
-              {...worksUrl({
-                ...params,
-                workType: updateWorkTypes(
-                  workType || allWorkTypes,
-                  subcategory,
-                  _isFilteringBySubcategory
-                ),
-                page: 1,
-                _isFilteringBySubcategory: !isLastFilterItem(
-                  workType || allWorkTypes,
-                  subcategory
-                ),
-              })}
-            >
-              <ProtoTag
-                as="a"
-                isActive={
-                  _isFilteringBySubcategory &&
-                  workType &&
-                  workType.includes(subcategory.letter)
-                }
-              >
-                {subcategory.title}
-              </ProtoTag>
-            </NextLink>
-          ))}
-        </>
-      </div>
-      <div className={`${activeDrawer !== 'availability' ? 'is-hidden' : ''}`}>
-        <div>
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              page: 1,
-              itemsLocationsLocationType: updateLocations(
-                itemsLocationsLocationType,
-                'online'
-              ),
-            })}
-          >
-            <ProtoTag
-              as="button"
-              type="button"
-              isActive={
-                itemsLocationsLocationType &&
-                onlineLocations.every(t =>
-                  itemsLocationsLocationType.includes(t)
-                )
-              }
-              style={{ cursor: 'pointer' }}
-            >
-              online
-            </ProtoTag>
-          </NextLink>
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              page: 1,
-              itemsLocationsLocationType: updateLocations(
-                itemsLocationsLocationType,
-                'library'
-              ),
-            })}
-          >
-            <ProtoTag
-              as="button"
-              type="button"
-              isActive={
-                itemsLocationsLocationType &&
-                inLibraryLocations.every(t =>
-                  itemsLocationsLocationType.includes(t)
-                )
-              }
-              style={{ cursor: 'pointer' }}
-            >
-              in library
-            </ProtoTag>
-          </NextLink>
+
+            {refineFiltersPrototype &&
+              itemsLocationsLocationType &&
+              inLibraryLocations.every(t =>
+                itemsLocationsLocationType.includes(t)
+              ) && (
+                <NextLink
+                  passHref
+                  {...worksUrl({
+                    ...searchParams,
+                    page: 1,
+                    itemsLocationsLocationType: updateLocations(
+                      itemsLocationsLocationType,
+                      'library'
+                    ),
+                  })}
+                >
+                  <ProtoTag as="button" type="button" isActive small>
+                    &times; in library
+                  </ProtoTag>
+                </NextLink>
+              )}
+          </Space>
         </div>
-      </div>
-
-      <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {allWorkTypes.map(subcategory => {
-          return (
-            _isFilteringBySubcategory &&
-            workType &&
-            workType.includes(subcategory.letter) && (
-              <NextLink
-                key={subcategory.title}
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: updateWorkTypes(
-                    workType,
-                    subcategory,
-                    _isFilteringBySubcategory
-                  ),
-                  page: 1,
-                  _isFilteringBySubcategory: isLastFilterItem(
-                    workType,
-                    subcategory
-                  )
-                    ? ''
-                    : 'true',
-                })}
-              >
-                <ProtoTag as="a" isActive small>
-                  &times; {subcategory.title}
-                </ProtoTag>
-              </NextLink>
-            )
-          );
-        })}
-        {productionDatesFrom && (
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              workType: workType || allWorkTypes,
-              page: 1,
-              productionDatesFrom: null,
-            })}
-          >
-            <ProtoTag as="a" isActive small>
-              &times; from: {productionDatesFrom}
-            </ProtoTag>
-          </NextLink>
-        )}
-        {productionDatesTo && (
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              workType: workType || allWorkTypes,
-              page: 1,
-              productionDatesTo: null,
-            })}
-          >
-            <ProtoTag as="a" isActive small>
-              &times; to: {productionDatesTo}
-            </ProtoTag>
-          </NextLink>
-        )}
-
-        {itemsLocationsLocationType &&
-          onlineLocations.every(t =>
-            itemsLocationsLocationType.includes(t)
-          ) && (
-            <NextLink
-              passHref
-              {...worksUrl({
-                ...params,
-                page: 1,
-                itemsLocationsLocationType: updateLocations(
-                  itemsLocationsLocationType,
-                  'online'
-                ),
-              })}
-            >
-              <ProtoTag as="button" type="button" isActive small>
-                &times; online
-              </ProtoTag>
-            </NextLink>
-          )}
-
-        {itemsLocationsLocationType &&
-          inLibraryLocations.every(t =>
-            itemsLocationsLocationType.includes(t)
-          ) && (
-            <NextLink
-              passHref
-              {...worksUrl({
-                ...params,
-                page: 1,
-                itemsLocationsLocationType: updateLocations(
-                  itemsLocationsLocationType,
-                  'library'
-                ),
-              })}
-            >
-              <ProtoTag as="button" type="button" isActive small>
-                &times; in library
-              </ProtoTag>
-            </NextLink>
-          )}
-
-        {(_isFilteringBySubcategory ||
-          productionDatesFrom ||
-          productionDatesTo ||
-          itemsLocationsLocationType) && (
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...params,
-              workType: null,
-              page: 1,
-              productionDatesFrom: null,
-              productionDatesTo: null,
-              _location: null,
-              itemsLocationsLocationType: null,
-              _isFilteringBySubcategory: false,
-            })}
-          >
-            <a
-              className={font('hnm', 6)}
-              onClick={() => {
-                setActiveDrawer(null);
-              }}
-            >
-              clear all filters
-            </a>
-          </NextLink>
-        )}
-      </Space>
-    </div>
+      )}
+    </TogglesContext.Consumer>
   );
 }
 
