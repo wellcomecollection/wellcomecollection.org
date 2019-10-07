@@ -19,13 +19,14 @@ const VisuallyHidden = styled.div`
 const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
   className: classNames({}),
 })`
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   width: 100%;
   padding-right: 40px;
-  border: 1px solid ${props => props.theme.colors.pumice};
+  border: 2px solid ${props => props.theme.colors.pumice};
 
   &:focus {
     outline: 0;
-    border: 1px solid ${props => props.theme.colors.turquoise};
+    border: 2px solid ${props => props.theme.colors.yellow};
   }
 
   &::-ms-clear {
