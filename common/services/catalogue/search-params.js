@@ -17,7 +17,6 @@ import {
   nullableDateStringSerialiser,
   buildDeserialiser,
   buildSerialiser,
-  buildClientSideSerialiser,
 } from './params';
 
 export type SearchParams = {|
@@ -42,24 +41,29 @@ export const defaultItemsLocationsLocationType = [
   'iiif-presentation',
 ];
 
-const queryStringParameterMapping: QueryStringParameterMapping = {
+const propToQueryStringMapping: QueryStringParameterMapping = {
   itemsLocationsLocationType: 'items.locations.locationType',
   productionDatesFrom: 'production.dates.from',
   productionDatesTo: 'production.dates.to',
 };
 
+const queryStringToPropMapping: QueryStringParameterMapping = Object.entries(
+  propToQueryStringMapping
+  // $FlowFixMe
+).reduce((obj, [key, value]) => ({ ...obj, [value]: key }), {});
+
 const deserialisers: SearchParamsDeserialisers = {
   query: stringDeserialiser,
   page: numberDeserialiser,
   workType: csvWithDefaultDeserialiser(defaultWorkTypes),
-  itemsLocationsLocationType: csvWithDefaultDeserialiser(
+  [`items.locations.locationType`]: csvWithDefaultDeserialiser(
     defaultItemsLocationsLocationType
   ),
   sort: nullableStringDeserialiser,
   sortOrder: nullableStringDeserialiser,
   aggregations: csvDeserialiser,
-  productionDatesFrom: nullableStringDeserialiser,
-  productionDatesTo: nullableStringDeserialiser,
+  [`production.dates.from`]: nullableStringDeserialiser,
+  [`production.dates.to`]: nullableStringDeserialiser,
   _queryType: nullableStringDeserialiser,
 };
 
@@ -88,19 +92,18 @@ const serialisers: SearchParamsSerialisers = {
   productionDatesTo: nullableStringSerialiser,
 };
 
-export const searchParamsDeserialiser = buildDeserialiser(deserialisers);
+export const searchParamsDeserialiser = buildDeserialiser(
+  deserialisers,
+  queryStringToPropMapping
+);
 export const searchParamsSerialiser = buildSerialiser(
   serialisers,
-  queryStringParameterMapping
-);
-
-export const searchParamsSerialiserForClient = buildClientSideSerialiser(
-  serialisers
+  propToQueryStringMapping
 );
 
 export const apiSearchParamsSerialiser = buildSerialiser(
   apiSerialisers,
-  queryStringParameterMapping
+  propToQueryStringMapping
 );
 
 export function clientSideSearchParams(): SearchParams {

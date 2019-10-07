@@ -51,15 +51,21 @@ const csvWithDefaultSerialiser: SerializerWithDefaults<?(string[])> = defaults =
 const nullableDateStringSerialiser: Serialiser<?string> = input =>
   formatDateForApi(input);
 
-function buildDeserialiser<T>(deserialisers: Deserialisers<T>) {
+function buildDeserialiser<T>(
+  deserialisers: Deserialisers<T>,
+  queryStringParameterMapping: QueryStringParameterMapping
+) {
   return (obj: Object): T => {
     const keys = Object.keys(deserialisers);
     const searchParams = keys.reduce((acc, key) => {
       const input = key in obj ? obj[key] : null;
+      const urlParam = queryStringParameterMapping[key]
+        ? queryStringParameterMapping[key]
+        : key;
 
       return {
         ...acc,
-        [key]: deserialisers[key](input, key),
+        [urlParam]: deserialisers[key](input, key),
       };
     }, {});
 
@@ -93,22 +99,6 @@ function buildSerialiser<T>(
   };
 }
 
-function buildClientSideSerialiser<T>(serialisers: Serialisers<T>) {
-  return (searchParams: T): SerialisedParams => {
-    const keys = Object.keys(serialisers);
-
-    // $FlowFixMe
-    const urlParams = keys.reduce((acc, key) => {
-      const input = searchParams[key] ? searchParams[key] : null;
-      return {
-        ...acc,
-        [key]: serialisers[key](input),
-      };
-    }, {});
-    return urlParams;
-  };
-}
-
 export {
   stringDeserialiser,
   numberDeserialiser,
@@ -125,5 +115,4 @@ export {
   nullableDateStringSerialiser,
   buildDeserialiser,
   buildSerialiser,
-  buildClientSideSerialiser,
 };
