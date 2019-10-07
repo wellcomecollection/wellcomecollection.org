@@ -23,10 +23,10 @@ type Props = {|
 
 const SearchInputWrapper = styled.div`
   background: ${props => props.theme.colors.white};
-  margin-right: ${props => 8 * props.theme.spacingUnit}px;
+  margin-right: ${props => 12 * props.theme.spacingUnit}px;
 
   ${props => props.theme.media.medium`
-    margin-right: ${props => 10 * props.theme.spacingUnit}px;
+    margin-right: ${props => 16 * props.theme.spacingUnit}px;
   `}
 
   .search-query {
@@ -38,10 +38,11 @@ const SearchButtonWrapper = styled.div`
   height: ${props => 10 * props.theme.spacingUnit}px;
   top: 0;
   right: 0;
-  width: ${props => 8 * props.theme.spacingUnit}px;
+  width: ${props => 10 * props.theme.spacingUnit}px;
+  border: ${props => props.theme.borderRadiusUnit}px;
 
   ${props => props.theme.media.medium`
-    width: ${props => 10 * props.theme.spacingUnit}px;
+    width: ${props => 14 * props.theme.spacingUnit}px;
   `}
 `;
 
@@ -150,7 +151,7 @@ const SearchForm = ({
               ref={searchInput}
               required
               className={classNames({
-                [font('hnl', compact ? 4 : 3)]: true,
+                [font('hnm', compact ? 4 : 3)]: true,
                 'search-query': true,
               })}
             />
@@ -187,7 +188,7 @@ const SearchForm = ({
               searchParams={searchParams}
             />
           )}
-          <SearchButtonWrapper className="absolute bg-green">
+          <SearchButtonWrapper className="absolute bg-green rounded-corners">
             <button
               className={classNames({
                 'full-width': true,

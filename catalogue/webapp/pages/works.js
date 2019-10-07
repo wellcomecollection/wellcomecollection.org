@@ -162,36 +162,34 @@ const Works = ({ works, searchParams }: Props) => {
         <Space
           v={{
             size: 'l',
-            properties: ['padding-top', 'padding-bottom'],
+            properties: ['padding-bottom'],
           }}
           className={classNames(['row'])}
         >
           <div className="container">
-            <div className="grid">
-              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['margin-bottom'],
-                  }}
-                  className={classNames([
-                    'flex flex--h-space-between flex--v-center flex--wrap',
-                  ])}
-                >
-                  <>
-                    {!works && (
-                      <Space
-                        as="h1"
-                        v={{ size: 'm', properties: ['margin-bottom'] }}
-                        className="h1"
-                      >
-                        Explore our collections
-                      </Space>
-                    )}
-                  </>
-                </Space>
+            {!works && (
+              <div className="grid">
+                <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['margin-bottom'],
+                    }}
+                    className={classNames([
+                      'flex flex--h-space-between flex--v-center flex--wrap',
+                    ])}
+                  >
+                    <Space
+                      as="h1"
+                      v={{ size: 'm', properties: ['margin-bottom'] }}
+                      className="h1"
+                    >
+                      Explore our collections
+                    </Space>
+                  </Space>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>

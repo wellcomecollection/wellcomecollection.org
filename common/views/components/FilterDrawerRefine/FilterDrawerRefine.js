@@ -4,11 +4,13 @@ import Router from 'next/router';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
 import { clientSideSearchParams } from '../../../services/catalogue/search-params';
-import { font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
+import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   onlineLocations,
   inLibraryLocations,
@@ -103,6 +105,33 @@ function updateWorkTypes(workType, subcategory) {
     : workType.concat(subcategory.letter);
 }
 
+function CancelFilter({ text }: { text: string }) {
+  return (
+    <Space
+      as="span"
+      h={{
+        size: 'm',
+        properties: ['margin-right'],
+      }}
+    >
+      <Space
+        as="span"
+        h={{
+          size: 'xs',
+          properties: ['margin-right'],
+        }}
+      >
+        <Icon
+          name="cross"
+          extraClasses="icon--match-text icon--silver v-align-middle"
+        />
+      </Space>
+      <span className="visually-hidden">remove </span>
+      {text}
+    </Space>
+  );
+}
+
 function FilterDrawerRefine({
   searchForm,
   searchParams,
@@ -179,64 +208,44 @@ function FilterDrawerRefine({
         <div>
           <Space
             v={{
-              size: 'm',
+              size: 'l',
               properties: ['margin-top', 'margin-bottom'],
             }}
           >
             <FilterDrawer
               items={[
                 {
-                  title: 'dates',
+                  title: 'Dates',
                   component: (
-                    <>
-                      {' '}
-                      <Space v={{ size: 's', properties: ['margin-top'] }}>
-                        <span className={font('hnm', 5)}>Between </span>
-                        <label>
-                          <span className="visually-hidden">from: </span>
-                          <input
-                            type="number"
-                            min="0"
-                            max="9999"
-                            placeholder={'year'}
-                            name="productionDatesFrom"
-                            value={inputDateFrom || ''}
-                            onChange={event => {
-                              setInputDateFrom(`${event.currentTarget.value}`);
-                            }}
-                            style={{
-                              width: '3.3em',
-                              padding: '0.3em',
-                              border: '0',
-                              borderBottom: '2px solid #333',
-                              background: 'transparent',
-                            }}
-                          />
-                        </label>{' '}
-                        <span className={font('hnm', 5)}>and </span>
-                        <label>
-                          <span className={'visually-hidden'}>to: </span>
-                          <input
-                            type="number"
-                            min="0"
-                            max="9999"
-                            placeholder={'year'}
-                            name="productionDatesTo"
-                            value={inputDateTo || ''}
-                            onChange={event => {
-                              setInputDateTo(`${event.currentTarget.value}`);
-                            }}
-                            style={{
-                              width: '3.3em',
-                              padding: '0.3em',
-                              border: '0',
-                              borderBottom: '2px solid #333',
-                              background: 'transparent',
-                            }}
-                          />
-                        </label>
+                    <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                      <Space
+                        as="span"
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                      >
+                        <NumberInput
+                          label="From"
+                          min="0"
+                          max="9999"
+                          placeholder={'Year'}
+                          name="productionDatesFrom"
+                          value={inputDateFrom || ''}
+                          onChange={event => {
+                            setInputDateFrom(`${event.currentTarget.value}`);
+                          }}
+                        />
                       </Space>
-                    </>
+                      <NumberInput
+                        label="to"
+                        min="0"
+                        max="9999"
+                        placeholder={'Year'}
+                        name="productionDatesTo"
+                        value={inputDateTo || ''}
+                        onChange={event => {
+                          setInputDateTo(`${event.currentTarget.value}`);
+                        }}
+                      />
+                    </Space>
                   ),
                 },
               ]}
@@ -387,38 +396,76 @@ function FilterDrawerRefine({
                   )
                 );
               })}
-
-            {productionDatesFrom && (
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: workType,
-                  page: 1,
-                  productionDatesFrom: null,
-                })}
-              >
-                <ProtoTag as="a" isActive small>
-                  &times; from: {productionDatesFrom}
-                </ProtoTag>
-              </NextLink>
+            {(productionDatesFrom || productionDatesTo) && (
+              <div className={classNames({ [font('hnl', 5)]: true })}>
+                <Divider extraClasses={'divider--thin divider--pumice'} />
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <h2 className="inline">
+                    <Space
+                      as="span"
+                      h={{
+                        size: 'm',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      Active filters:
+                    </Space>
+                  </h2>
+                  {productionDatesFrom && (
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        page: 1,
+                        productionDatesFrom: null,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={`From ${productionDatesFrom}`} />
+                      </a>
+                    </NextLink>
+                  )}
+                  {productionDatesTo && (
+                    <NextLink
+                      passHref
+                      {...worksUrl({
+                        ...params,
+                        page: 1,
+                        productionDatesTo: null,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={`To ${productionDatesTo}`} />
+                      </a>
+                    </NextLink>
+                  )}
+                  <NextLink
+                    passHref
+                    {...worksUrl({
+                      ...params,
+                      workType: null,
+                      page: 1,
+                      productionDatesFrom: null,
+                      productionDatesTo: null,
+                      itemsLocationsLocationType: null,
+                    })}
+                  >
+                    <a
+                      onClick={() => {
+                        setActiveDrawer(null);
+                      }}
+                    >
+                      <CancelFilter text={'Clear all'} />
+                    </a>
+                  </NextLink>
+                </Space>
+              </div>
             )}
-            {productionDatesTo && (
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: workType,
-                  page: 1,
-                  productionDatesTo: null,
-                })}
-              >
-                <ProtoTag as="a" isActive small>
-                  &times; to: {productionDatesTo}
-                </ProtoTag>
-              </NextLink>
-            )}
-
             {refineFiltersPrototype &&
               itemsLocationsLocationType &&
               onlineLocations.every(t =>
@@ -462,30 +509,6 @@ function FilterDrawerRefine({
                   </ProtoTag>
                 </NextLink>
               )}
-
-            {(productionDatesFrom || productionDatesTo) && (
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...params,
-                  workType: null,
-                  page: 1,
-                  productionDatesFrom: null,
-                  productionDatesTo: null,
-                  _location: null,
-                  itemsLocationsLocationType: null,
-                })}
-              >
-                <a
-                  className={font('hnm', 6)}
-                  onClick={() => {
-                    setActiveDrawer(null);
-                  }}
-                >
-                  clear all filters
-                </a>
-              </NextLink>
-            )}
           </Space>
         </div>
       )}
