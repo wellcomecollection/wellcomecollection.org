@@ -54,7 +54,7 @@ type Props = {
   onChange: any, // TODO
 };
 
-const SelectInput = ({ label, options, defaultValue, onChange }: Props) => {
+const Select = ({ label, options, defaultValue, onChange }: Props) => {
   return (
     <StyledSelect>
       <label>
@@ -75,7 +75,7 @@ const SelectInput = ({ label, options, defaultValue, onChange }: Props) => {
   );
 };
 
-export default SelectInput;
+export default Select;
 
 // TODOs
 // correct position in the DOM

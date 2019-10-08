@@ -13,7 +13,7 @@ import {
   defaultWorkTypes,
 } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
-import SelectInput from '@weco/common/views/components/SelectInput/SelectInput';
+import Select from '@weco/common/views/components/Select/Select';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -205,7 +205,7 @@ const SearchForm = ({
                 searchParams={searchParams}
               />
 
-              <SelectInput
+              <Select
                 label="Sort by"
                 defaultValue={searchParams.sortOrder || ''}
                 options={[
