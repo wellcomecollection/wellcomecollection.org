@@ -224,7 +224,11 @@ const SearchForm = ({
                   },
                 ]}
                 onChange={event => {
-                  updateUrl(unfilteredSearchResults, event.target.form);
+                  event.currentTarget.form &&
+                    updateUrl(
+                      unfilteredSearchResults,
+                      event.currentTarget.form
+                    );
                 }}
               />
             </>

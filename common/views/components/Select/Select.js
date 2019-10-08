@@ -9,6 +9,7 @@ const StyledSelect = styled.div.attrs(props => ({
   }),
 }))`
   position: relative;
+
   &:after {
     position: absolute;
     margin-left: -22px;
@@ -19,6 +20,7 @@ const StyledSelect = styled.div.attrs(props => ({
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 5px solid ${props => props.theme.colors.silver};
+    pointer-events: none;
   }
   select {
     -moz-appearance: none;
@@ -27,7 +29,7 @@ const StyledSelect = styled.div.attrs(props => ({
     padding: 10px 26px 10px 12px;
     border: 1px solid ${props => props.theme.colors.pumice};
     border-radius: ${props => props.borderRadiusUnit}px;
-    background-color: #fff;
+    background-color: ${props => props.theme.colors.white};
 
     &::-ms-expand {
       display: none;
@@ -45,23 +47,24 @@ const StyledSelect = styled.div.attrs(props => ({
 `;
 
 type Props = {
+  name: string,
   label: string,
   defaultValue: ?string,
   options: {
     value: ?string,
     text: string,
   }[],
-  onChange: any, // TODO
+  onChange: (event: SyntheticEvent<HTMLInputElement>) => void,
 };
 
-const Select = ({ label, options, defaultValue, onChange }: Props) => {
+const Select = ({ name, label, options, defaultValue, onChange }: Props) => {
   return (
     <StyledSelect>
       <label>
         <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
           {label}
         </Space>
-        <select name="sortOrder" onChange={onChange} value={defaultValue}>
+        <select name={name} onChange={onChange} value={defaultValue}>
           {options.map(option => {
             return (
               <option key={option.text} value={option.value}>
@@ -76,7 +79,3 @@ const Select = ({ label, options, defaultValue, onChange }: Props) => {
 };
 
 export default Select;
-
-// TODOs
-// correct position in the DOM
-// styling
