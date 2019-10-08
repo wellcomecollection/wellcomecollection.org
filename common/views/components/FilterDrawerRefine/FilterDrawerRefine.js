@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import Router from 'next/router';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
-import { clientSideSearchParams } from '../../../services/catalogue/search-params';
 import { font, classNames } from '../../../utils/classnames';
 import ProtoTag from '../styled/ProtoTag';
 import Space from '../styled/Space';
@@ -139,13 +138,12 @@ function FilterDrawerRefine({
   searchForm: ?HTMLFormElement,
   searchParams: SearchParams,
 }) {
-  const params = clientSideSearchParams();
   const {
-    workType,
-    itemsLocationsLocationType,
     productionDatesFrom,
     productionDatesTo,
-  } = params;
+    workType,
+    itemsLocationsLocationType,
+  } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
@@ -160,15 +158,16 @@ function FilterDrawerRefine({
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: form.query.value,
           page: 1,
-          productionDatesFrom: form.productionDatesFrom.value,
-          productionDatesTo: form.productionDatesTo.value,
+          productionDatesFrom: form['production.dates.from'].value,
+          productionDatesTo:
+            form['production.dates.to'].productionDatesTo.value,
         })
       : worksUrl({
           ...searchParams,
           query: form.query.value,
           page: 1,
-          productionDatesFrom: form.productionDatesFrom.value,
-          productionDatesTo: form.productionDatesTo.value,
+          productionDatesFrom: form['production.dates.from'].value,
+          productionDatesTo: form['production.dates.to'].value,
         });
 
     Router.push(link.href, link.as);
@@ -227,7 +226,7 @@ function FilterDrawerRefine({
                           min="0"
                           max="9999"
                           placeholder={'Year'}
-                          name="productionDatesFrom"
+                          name="production.dates.from"
                           value={inputDateFrom || ''}
                           onChange={event => {
                             setInputDateFrom(`${event.currentTarget.value}`);
@@ -239,7 +238,7 @@ function FilterDrawerRefine({
                         min="0"
                         max="9999"
                         placeholder={'Year'}
-                        name="productionDatesTo"
+                        name="production.dates.to"
                         value={inputDateTo || ''}
                         onChange={event => {
                           setInputDateTo(`${event.currentTarget.value}`);
@@ -294,7 +293,7 @@ function FilterDrawerRefine({
                       key={subcategory.title}
                       passHref
                       {...worksUrl({
-                        ...params,
+                        ...searchParams,
                         workType: updateWorkTypes(workType, subcategory),
                         page: 1,
                       })}
@@ -320,7 +319,7 @@ function FilterDrawerRefine({
                   <NextLink
                     passHref
                     {...worksUrl({
-                      ...params,
+                      ...searchParams,
                       page: 1,
                       itemsLocationsLocationType: updateLocations(
                         itemsLocationsLocationType,
@@ -345,7 +344,7 @@ function FilterDrawerRefine({
                   <NextLink
                     passHref
                     {...worksUrl({
-                      ...params,
+                      ...searchParams,
                       page: 1,
                       itemsLocationsLocationType: updateLocations(
                         itemsLocationsLocationType,
@@ -384,7 +383,7 @@ function FilterDrawerRefine({
                       key={subcategory.title}
                       passHref
                       {...worksUrl({
-                        ...params,
+                        ...searchParams,
                         workType: updateWorkTypes(workType, subcategory),
                         page: 1,
                       })}
@@ -420,7 +419,7 @@ function FilterDrawerRefine({
                     <NextLink
                       passHref
                       {...worksUrl({
-                        ...params,
+                        ...searchParams,
                         page: 1,
                         productionDatesFrom: null,
                       })}
@@ -434,7 +433,7 @@ function FilterDrawerRefine({
                     <NextLink
                       passHref
                       {...worksUrl({
-                        ...params,
+                        ...searchParams,
                         page: 1,
                         productionDatesTo: null,
                       })}
@@ -447,7 +446,7 @@ function FilterDrawerRefine({
                   <NextLink
                     passHref
                     {...worksUrl({
-                      ...params,
+                      ...searchParams,
                       workType: null,
                       page: 1,
                       productionDatesFrom: null,
@@ -474,7 +473,7 @@ function FilterDrawerRefine({
                 <NextLink
                   passHref
                   {...worksUrl({
-                    ...params,
+                    ...searchParams,
                     page: 1,
                     itemsLocationsLocationType: updateLocations(
                       itemsLocationsLocationType,
@@ -496,7 +495,7 @@ function FilterDrawerRefine({
                 <NextLink
                   passHref
                   {...worksUrl({
-                    ...params,
+                    ...searchParams,
                     page: 1,
                     itemsLocationsLocationType: updateLocations(
                       itemsLocationsLocationType,

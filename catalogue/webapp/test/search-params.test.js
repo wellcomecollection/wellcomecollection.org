@@ -7,13 +7,24 @@ import {
 
 describe('deserialises', () => {
   it('should deserialise with defaults for missing keys', () => {
-    const params = searchParamsDeserialiser({});
+    const params = searchParamsDeserialiser(
+      {
+        'production.dates.from': '1900',
+      },
+      {
+        'production.dates.from': 'productionDatesFrom',
+        'production.dates.to': 'productionDatesTo',
+      }
+    );
 
     // string
     expect(params.query).toBe('');
 
+    // different key
+    expect(params.productionDatesFrom).toBe('1900');
+
     // nullable string
-    expect(params.productionDatesFrom).toBe(null);
+    expect(params.productionDatesTo).toBe(null);
 
     // array with defaults
     expect(params.workType).toStrictEqual(['a', 'k', 'q', 'v', 'f', 's']);

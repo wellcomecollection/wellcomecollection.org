@@ -322,6 +322,8 @@ export default class WecoApp extends App {
       'default',
       'Array.prototype.find',
       'Array.prototype.includes',
+      'Array.prototype.includes',
+      'Object.entries',
       'WeakMap',
       'URL',
     ];
