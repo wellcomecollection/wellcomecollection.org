@@ -57,6 +57,8 @@ const Works = ({ works, searchParams }: Props) => {
           query,
           page,
           workType,
+          [`production.dates.from`]: productionDatesFrom,
+          [`production.dates.to`]: productionDatesTo,
           _queryType,
         },
       };
@@ -330,6 +332,8 @@ const Works = ({ works, searchParams }: Props) => {
                               page,
                               workType,
                               _queryType,
+                              [`production.dates.from`]: productionDatesFrom,
+                              [`production.dates.to`]: productionDatesTo,
                               resultWorkType: result.workType.label,
                               resultLanguage:
                                 result.language && result.language.label,
