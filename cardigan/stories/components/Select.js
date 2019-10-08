@@ -5,6 +5,7 @@ import Readme from '../../../common/views/components/Select/README.md';
 const SelectExample = () => {
   return (
     <Select
+      name="sortBy"
       label={`Sort by`}
       options={[
         { text: 'Relevance' },

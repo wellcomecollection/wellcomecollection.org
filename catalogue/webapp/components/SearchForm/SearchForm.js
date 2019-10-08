@@ -206,6 +206,7 @@ const SearchForm = ({
               />
 
               <Select
+                name="sortOrder"
                 label="Sort by"
                 defaultValue={searchParams.sortOrder || ''}
                 options={[
