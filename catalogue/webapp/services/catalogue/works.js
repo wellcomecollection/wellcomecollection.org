@@ -18,8 +18,6 @@ type Enviable = {|
 |};
 
 type GetWorksProps = {|
-  query: string,
-  page: number,
   filters: Object,
   ...Enviable,
 |};
@@ -39,8 +37,6 @@ const includes = [
 ];
 
 export async function getWorks({
-  query,
-  page,
   filters,
   env = 'prod',
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
@@ -51,10 +47,7 @@ export async function getWorks({
   const url =
     `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
     `&pageSize=25` +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '') +
-    (query ? `&query=${encodeURIComponent(query)}` : '') +
-    (page ? `&page=${page}` : '');
-
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
   try {
     const res = await fetch(url);
     const json = await res.json();
