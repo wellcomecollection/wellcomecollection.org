@@ -54,7 +54,7 @@ type Props = {
     value: ?string,
     text: string,
   }[],
-  onChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+  onChange: ?(event: SyntheticEvent<HTMLInputElement>) => void,
 };
 
 const Select = ({ name, label, options, defaultValue, onChange }: Props) => {
