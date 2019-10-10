@@ -97,10 +97,6 @@ const WorkDetails = ({
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
-  const singularWorkTypeLabel = work.workType.label
-    ? work.workType.label.replace(/s$/g, '').toLowerCase()
-    : 'item';
-
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
@@ -203,7 +199,7 @@ const WorkDetails = ({
     work.language
   ) {
     WorkDetailsSections.push(
-      <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
+      <WorkDetailsSection headingText="About this work">
         {work.description && (
           <MetaUnit
             headingLevel={3}
