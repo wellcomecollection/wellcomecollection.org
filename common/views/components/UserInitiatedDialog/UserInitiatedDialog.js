@@ -122,11 +122,11 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
     isActiveRef.current = isActive;
 
     window.document.addEventListener('click', handleBodyClick);
-    window.document.addEventListener('keydown', handleEscapeKey);
+    window.document.addEventListener('keydown', handleEscapeKeyDown);
 
     return () => {
       window.document.removeEventListener('click', handleBodyClick);
-      window.document.removeEventListener('keydown', handleEscapeKey);
+      window.document.removeEventListener('keydown', handleEscapeKeyDown);
     };
   }, [isActive]);
 
@@ -139,7 +139,7 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
     }
   }
 
-  function handleEscapeKey(event) {
+  function handleEscapeKeyDown(event) {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
