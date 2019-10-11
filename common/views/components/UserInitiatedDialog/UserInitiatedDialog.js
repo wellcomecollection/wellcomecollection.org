@@ -1,6 +1,7 @@
 // @flow
 import { useState, useRef, useEffect, type Node } from 'react';
 import styled from 'styled-components';
+import { type Link } from '../../../model/link';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
@@ -75,12 +76,33 @@ const UserInitiatedDialogClose = styled.button.attrs({
   right: 10px;
 `;
 
+const UserInitiatedDialogCTA = styled(Space).attrs({
+  as: 'a',
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: classNames({
+    [font('hnm', 5)]: true,
+    'bg-purple font-white font-hover-purple bg-hover-white rounded-corners': true,
+  }),
+})`
+  transition: all 500ms ease;
+  border: 2px solid transparent;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    outline: 0;
+    border-color: ${props => props.theme.colors.purple};
+  }
+`;
+
 type Props = {|
   openButtonText: string,
   children: Node,
+  cta: Link,
 |};
 
-const UserInitiatedDialog = ({ children, openButtonText }: Props) => {
+const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
   const openDialogRef = useRef(null);
@@ -141,6 +163,9 @@ const UserInitiatedDialog = ({ children, openButtonText }: Props) => {
           <Icon name="clear" title="Close dialog" extraClasses="icon--purple" />
         </UserInitiatedDialogClose>
         {children}
+        <UserInitiatedDialogCTA href={cta.url}>
+          {cta.text}
+        </UserInitiatedDialogCTA>
       </UserInitiatedDialogWindow>
     </>
   );
