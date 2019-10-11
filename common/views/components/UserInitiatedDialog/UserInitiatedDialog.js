@@ -8,13 +8,14 @@ import { classNames, font } from '../../../utils/classnames';
 
 const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
+  'aria-controls': 'user-initiated-dialog-window',
   tabIndex: props.isActive ? '-1' : '0',
   as: 'button',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     [font('hnm', 5)]: true,
-    'plain-button line-height-1 flex-inline flex--v-center bg-white font-purple': true,
+    'plain-button line-height-1 flex-inline flex--v-center bg-white bg-hover-purple font-purple font-hover-white': true,
   }),
 }))`
   position: fixed;
@@ -33,8 +34,6 @@ const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.colors.purple};
-    color: ${props => props.theme.colors.white};
     outline: 0;
     border: 0;
 
@@ -45,6 +44,8 @@ const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
 `;
 
 const UserInitiatedDialogWindow = styled(Space).attrs(props => ({
+  'aria-modal': true,
+  id: 'user-initiated-dialog-window',
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
@@ -104,9 +105,11 @@ type Props = {|
 
 const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   const [isActive, setIsActive] = useState(false);
+  const isActiveRef = useRef(isActive);
   const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
   const openDialogRef = useRef(null);
   const closeDialogRef = useRef(null);
+  const ctaRef = useRef(null);
   const dialogWindowRef = useRef(null);
 
   useEffect(() => {
@@ -114,6 +117,50 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
       setShouldStartAnimation(true);
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    isActiveRef.current = isActive;
+
+    window.document.addEventListener('click', handleBodyClick);
+    window.document.addEventListener('keydown', handleEscapeKey);
+
+    return () => {
+      window.document.removeEventListener('click', handleBodyClick);
+      window.document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isActive]);
+
+  function handleBodyClick(event) {
+    const dialog = dialogWindowRef && dialogWindowRef.current;
+
+    if (dialog && isActiveRef.current && !dialog.contains(event.target)) {
+      setIsActive(false);
+      openDialogRef && openDialogRef.current && openDialogRef.current.focus();
+    }
+  }
+
+  function handleEscapeKey(event) {
+    if (event.keyCode === 27 && isActiveRef.current) {
+      setIsActive(false);
+      openDialogRef && openDialogRef.current && openDialogRef.current.focus();
+    }
+  }
+
+  function handleTrapStartKeyDown(event) {
+    if (event.shiftKey && event.keyCode === 9) {
+      event.preventDefault();
+      ctaRef && ctaRef.current && ctaRef.current.focus();
+    }
+  }
+
+  function handleTrapEndKeyDown(event) {
+    if (!event.shiftKey && event.keyCode === 9) {
+      event.preventDefault();
+      closeDialogRef &&
+        closeDialogRef.current &&
+        closeDialogRef.current.focus();
+    }
+  }
 
   function setTabbable(value) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
@@ -152,6 +199,7 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
         <UserInitiatedDialogClose
           title="close dialog"
           ref={closeDialogRef}
+          onKeyDown={handleTrapStartKeyDown}
           onClick={() => {
             setIsActive(false);
             setTabbable(false);
@@ -163,7 +211,11 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
           <Icon name="clear" title="Close dialog" extraClasses="icon--purple" />
         </UserInitiatedDialogClose>
         {children}
-        <UserInitiatedDialogCTA href={cta.url}>
+        <UserInitiatedDialogCTA
+          href={cta.url}
+          ref={ctaRef}
+          onKeyDown={handleTrapEndKeyDown}
+        >
           {cta.text}
         </UserInitiatedDialogCTA>
       </UserInitiatedDialogWindow>
