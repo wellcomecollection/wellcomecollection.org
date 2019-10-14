@@ -30,7 +30,7 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
                 srcSet={sizes.map(size => {
                   return (
                     image.contentUrl &&
-                    `${convertImageUri(image.contentUrl, size, false)} ${size}w`
+                    `${convertImageUri(image.contentUrl, size)} ${size}w`
                   );
                 })}
               />
@@ -41,7 +41,7 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
         {lastImage && lastImage.contentUrl && lastImage.width && (
           <img
             className="image block"
-            src={convertImageUri(lastImage.contentUrl, lastImage.width, false)}
+            src={convertImageUri(lastImage.contentUrl, lastImage.width)}
             alt={lastImage.alt || ''}
           />
         )}
@@ -82,7 +82,7 @@ export const PictureFromImages = ({
                 data-srcset={sizes.map(size => {
                   return (
                     image.contentUrl &&
-                    `${convertImageUri(image.contentUrl, size, false)} ${size}w`
+                    `${convertImageUri(image.contentUrl, size)} ${size}w`
                   );
                 })}
               />
@@ -95,11 +95,7 @@ export const PictureFromImages = ({
             height={lastImage.height}
             width={lastImage.width}
             className="image lazy-image lazyload"
-            data-src={convertImageUri(
-              lastImage.contentUrl,
-              lastImage.width,
-              false
-            )}
+            data-src={convertImageUri(lastImage.contentUrl, lastImage.width)}
             alt={lastImage.alt || ''}
           />
         )}

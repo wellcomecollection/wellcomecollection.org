@@ -5,25 +5,20 @@ const imageMap = {
   wordpress: {
     root: 'https://wellcomecollection.files.wordpress.com/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/wordpress:',
-    iiifOriginRoot:
-      'https://iiif-origin.wellcomecollection.org/image/wordpress:',
   },
   prismic: {
     cdnRoot: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
     root: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
-    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/prismic:',
   },
   miro: {
     root: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/',
   },
   iiif: {
     // sometimes we already have the iiif url, but we may want to convert it to use the origin
     root: 'https://iiif.wellcomecollection.org/image/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/',
   },
 };
 
@@ -81,8 +76,7 @@ export function convertIiifUriToInfoUri(originalUriPath: string) {
 
 export function convertImageUri(
   originalUri: string,
-  requiredSize: number | 'full',
-  useIiifOrigin: boolean = false
+  requiredSize: number | 'full'
 ): string {
   const imageSrc = determineSrc(originalUri);
   const isGif = determineIfGif(originalUri);
@@ -100,9 +94,7 @@ export function convertImageUri(
           ? originalUri.split(imageMap[imageSrc].root)[1]
           : // $FlowFixMe
             originalUri.split(imageMap[imageSrc].cdnRoot)[1];
-      const iiifRoot = useIiifOrigin
-        ? imageMap[imageSrc].iiifOriginRoot
-        : imageMap[imageSrc].iiifRoot;
+      const iiifRoot = imageMap[imageSrc].iiifRoot;
 
       return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
     } else {

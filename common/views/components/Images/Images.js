@@ -96,7 +96,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           <img width='${width}'
             height='${height || ''}'
             class='image image--noscript bg-charcoal font-white'
-            src=${convertImageUri(contentUrl, 640, false)}
+            src=${convertImageUri(contentUrl, 640)}
             alt='${alt || ''}' />`,
           }}
         />
@@ -115,9 +115,9 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
             image: true,
             [extraClasses || '']: true,
           })}
-          src={convertImageUri(contentUrl, 30, false)}
+          src={convertImageUri(contentUrl, 30)}
           data-srcset={imageSizes(width).map(size => {
-            return `${convertImageUri(contentUrl, size, false)} ${size}w`;
+            return `${convertImageUri(contentUrl, size)} ${size}w`;
           })}
           sizes={sizesQueries}
           alt={alt || ''}
