@@ -33,6 +33,8 @@ function determineSrc(url: string): string {
     url.startsWith(imageMap.prismic.cdnRoot)
   ) {
     return 'prismic';
+  } else if (url.startsWith(imageMap.prismicImgix.root)) {
+    return 'prismicImgix';
   } else if (url.startsWith(imageMap.miro.root)) {
     return 'miro';
   } else if (url.startsWith(imageMap.iiif.root)) {
@@ -54,6 +56,19 @@ function determineFinalFormat(originalUriPath) {
   }
 }
 
+type prismicUriOpts = {|
+  width?: number | 'full',
+|};
+
+function prismicImageTemplate(baseUrl: string) {
+  const templateString = baseUrl.includes('?')
+    ? `${baseUrl}&w={width}`
+    : `${baseUrl}?w={width}`;
+
+  const template = urlTemplate.parse(templateString);
+  return (opts: prismicUriOpts) => template.expand(opts);
+}
+
 function convertPathToWordpressUri(originalUriPath, size) {
   return originalUriPath + `?w=${size}`;
 }
@@ -72,9 +87,10 @@ export function convertImageUri(
 ): string {
   const imageSrc = determineSrc(originalUri);
   const isGif = determineIfGif(originalUri);
-
   if (imageSrc === 'unknown') {
     return originalUri;
+  } else if (imageSrc === 'prismicImgix') {
+    return prismicImageTemplate(originalUri)({ width: requiredSize });
   } else {
     if (!isGif) {
       const imagePath =
