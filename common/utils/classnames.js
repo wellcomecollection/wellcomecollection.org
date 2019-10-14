@@ -38,17 +38,16 @@ export function font(family: FontFamily, size: FontSize) {
   return `font-${family} font-size-${size}`;
 }
 
-type FontOverrides = {|
-  small: FontSize,
-  medium: FontSize,
-  large: FontSize,
+type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type FontSizeOverrides = {|
+  small: FontSizeAll,
+  medium: FontSizeAll,
+  large: FontSizeAll,
 |};
-export function fontOverride(family: FontFamily, overrides: FontOverrides) {
-  const overrideClasses = Object.keys(overrides).reduce((acc, curr) => {
-    return `${acc} font-override-${curr}-${overrides[curr]}`;
+export function fontSizeOverrides(overrides: FontSizeOverrides) {
+  return Object.keys(overrides).reduce((acc, key) => {
+    return acc.concat(` font-size-override-${key}-${overrides[key]}`);
   }, '');
-
-  return `font-${family} ${overrideClasses}`;
 }
 
 type ClassNames = string[] | { [string]: boolean };
