@@ -10,8 +10,7 @@ const imageMap = {
     root: 'https://images.prismic.io/wellcomecollection/',
   },
   prismic: {
-    cdnRoot: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
-    root: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/',
+    root: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
   },
   miro: {
@@ -28,10 +27,7 @@ const imageMap = {
 function determineSrc(url: string): string {
   if (url.startsWith(imageMap.wordpress.root)) {
     return 'wordpress';
-  } else if (
-    url.startsWith(imageMap.prismic.root) ||
-    url.startsWith(imageMap.prismic.cdnRoot)
-  ) {
+  } else if (url.startsWith(imageMap.prismic.root)) {
     return 'prismic';
   } else if (url.startsWith(imageMap.prismicImgix.root)) {
     return 'prismicImgix';
