@@ -60,22 +60,11 @@ type CheckboxProps = {|
   text: string,
 |};
 
-const CheckboxWithoutLabel = ({
-  id,
-  ...inputProps
-}: CheckboxWithoutLabelProps) => {
-  return (
-    <>
-      <CheckboxInput id={id} {...inputProps} />
-      <CheckboxBox />
-    </>
-  );
-};
-
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
   return (
     <CheckboxLabel htmlFor={id}>
-      <CheckboxWithoutLabel id={id} {...inputProps} />
+      <CheckboxInput id={id} {...inputProps} />
+      <CheckboxBox />
       <Space h={{ size: 'xs', properties: ['margin-left'] }}>{text}</Space>
     </CheckboxLabel>
   );
