@@ -453,15 +453,12 @@ const Works = ({ works, searchParams }: Props) => {
 };
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const query = ctx.query.query;
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
-  const shouldGetWorks = query && query !== '';
+  const shouldGetWorks = filters.query && filters.query !== '';
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
-        query,
-        page: filters.page,
         filters,
       })
     : null;
