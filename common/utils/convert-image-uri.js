@@ -43,11 +43,11 @@ function determineSrc(url: string): string {
 }
 
 function determineIfGif(originalUriPath) {
-  return originalUriPath.slice(-4) === '.gif';
+  return originalUriPath.includes('.gif');
 }
 
 function determineFinalFormat(originalUriPath) {
-  if (originalUriPath.slice(-4) === '.png') {
+  if (originalUriPath.includes('.png')) {
     return 'png';
   } else {
     return 'jpg';
