@@ -60,17 +60,17 @@ type CheckboxProps = {|
   text: string,
 |};
 
-function CheckboxWithoutLabel({
+const CheckboxWithoutLabel = ({
   id,
   ...inputProps
-}: CheckboxWithoutLabelProps) {
+}: CheckboxWithoutLabelProps) => {
   return (
     <>
       <CheckboxInput id={id} {...inputProps} />
       <CheckboxBox />
     </>
   );
-}
+};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
   return (
