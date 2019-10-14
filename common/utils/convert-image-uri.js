@@ -66,17 +66,6 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
   }/0/default.${format}`;
 }
 
-export function convertIiifUriToInfoUri(originalUriPath: string) {
-  const match = originalUriPath.match(
-    /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
-  );
-  if (match && match[0]) {
-    return `${match[0]}/info.json`;
-  } else {
-    return `${originalUriPath}/info.json`;
-  }
-}
-
 export function convertImageUri(
   originalUri: string,
   requiredSize: number | 'full'
@@ -117,6 +106,7 @@ type IiifUriOpts = {
   quality?: string,
   format?: string,
 };
+
 export function iiifImageTemplate(infoJsonLocation: string) {
   const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
@@ -130,4 +120,15 @@ export function iiifImageTemplate(infoJsonLocation: string) {
   const template = urlTemplate.parse(templateString);
   return (opts: IiifUriOpts) =>
     template.expand(Object.assign({}, defaultOpts, opts));
+}
+
+export function convertIiifUriToInfoUri(originalUriPath: string) {
+  const match = originalUriPath.match(
+    /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
+  );
+  if (match && match[0]) {
+    return `${match[0]}/info.json`;
+  } else {
+    return `${originalUriPath}/info.json`;
+  }
 }
