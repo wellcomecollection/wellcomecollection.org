@@ -1,6 +1,7 @@
 // @flow
 import { useState, useRef, useEffect, type Node } from 'react';
 import styled from 'styled-components';
+import cookie from 'cookie-cutter';
 import { type Link } from '../../../model/link';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -15,7 +16,7 @@ const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     [font('hnm', 5)]: true,
-    'plain-button line-height-1 flex-inline flex--v-center bg-white bg-hover-purple font-purple font-hover-white': true,
+    'plain-button line-height-1 flex-inline flex--v-center bg-hover-purple font-purple font-hover-white': true,
   }),
 }))`
   position: fixed;
@@ -26,9 +27,10 @@ const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
   bottom: 20px;
   left: 20px;
   z-index: 1;
+  background: ${props => props.theme.colors.white};
   opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
   transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease;
-  transition-delay: ${props => (props.isActive ? '0ms' : '500ms')}
+  transition-delay: ${props => (props.isActive ? '0ms' : '500ms')};
   border-radius: 9999px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 
@@ -58,14 +60,14 @@ const UserInitiatedDialogWindow = styled(Space).attrs(props => ({
   pointer-events: ${props => (props.isActive ? 'all' : 'none')};
   transform: ${props =>
     props.isActive ? 'translateY(0px)' : 'translateY(10px)'};
-  transition: all 500ms ease;
-  transition-delay: ${props => (props.isActive ? '500ms' : '0ms')}
+  transition: opacity 500ms ease, transform 500ms ease;
+  transition-delay: ${props => (props.isActive ? '500ms' : '0ms')};
   position: fixed;
   bottom: 20px;
   left: 20px;
   right: 20px;
   max-width: 500px;
-  z-index: ${props => (props.isActive ? 1 : 0)};
+  z-index: 1;
 `;
 
 const UserInitiatedDialogClose = styled.button.attrs({
@@ -104,6 +106,7 @@ type Props = {|
 |};
 
 const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
+  const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
   const [shouldStartAnimation, setShouldStartAnimation] = useState(false);
@@ -112,7 +115,18 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   const ctaRef = useRef(null);
   const dialogWindowRef = useRef(null);
 
+  function hideUserInitiatedDialog() {
+    cookie.set('WC_userInitiatedDialog', 'true', {
+      path: '/',
+      expires: null,
+    });
+
+    setShouldRender(false);
+  }
+
   useEffect(() => {
+    setShouldRender(!cookie.get('WC_userInitiatedDialog'));
+
     setTimeout(() => {
       setShouldStartAnimation(true);
     }, 2000);
@@ -176,50 +190,57 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   }
 
   return (
-    <>
-      <UserInitiatedDialogOpen
-        title="open dialog"
-        ref={openDialogRef}
-        isActive={isActive}
-        shouldStartAnimation={shouldStartAnimation}
-        onClick={() => {
-          setIsActive(true);
-          setTabbable(true);
-          closeDialogRef &&
-            closeDialogRef.current &&
-            closeDialogRef.current.focus();
-        }}
-      >
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
-          <Icon name="chat" extraClasses="icon--purple" />
-        </Space>
-        {openButtonText}
-      </UserInitiatedDialogOpen>
-      <UserInitiatedDialogWindow ref={dialogWindowRef} isActive={isActive}>
-        <UserInitiatedDialogClose
-          title="close dialog"
-          ref={closeDialogRef}
-          onKeyDown={handleTrapStartKeyDown}
+    shouldRender && (
+      <>
+        <UserInitiatedDialogOpen
+          title="open dialog"
+          ref={openDialogRef}
+          isActive={isActive}
+          shouldStartAnimation={shouldStartAnimation}
           onClick={() => {
-            setIsActive(false);
-            setTabbable(false);
-            openDialogRef &&
-              openDialogRef.current &&
-              openDialogRef.current.focus();
+            setIsActive(true);
+            setTabbable(true);
+            closeDialogRef &&
+              closeDialogRef.current &&
+              closeDialogRef.current.focus();
           }}
         >
-          <Icon name="clear" title="Close dialog" extraClasses="icon--purple" />
-        </UserInitiatedDialogClose>
-        {children}
-        <UserInitiatedDialogCTA
-          href={cta.url}
-          ref={ctaRef}
-          onKeyDown={handleTrapEndKeyDown}
-        >
-          {cta.text}
-        </UserInitiatedDialogCTA>
-      </UserInitiatedDialogWindow>
-    </>
+          <Space h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon name="chat" extraClasses="icon--purple" />
+          </Space>
+          {openButtonText}
+        </UserInitiatedDialogOpen>
+        <UserInitiatedDialogWindow ref={dialogWindowRef} isActive={isActive}>
+          <UserInitiatedDialogClose
+            title="close dialog"
+            ref={closeDialogRef}
+            onKeyDown={handleTrapStartKeyDown}
+            onClick={() => {
+              setIsActive(false);
+              setTabbable(false);
+              openDialogRef &&
+                openDialogRef.current &&
+                openDialogRef.current.focus();
+            }}
+          >
+            <Icon
+              name="clear"
+              title="Close dialog"
+              extraClasses="icon--purple"
+            />
+          </UserInitiatedDialogClose>
+          {children}
+          <UserInitiatedDialogCTA
+            href={cta.url}
+            ref={ctaRef}
+            onKeyDown={handleTrapEndKeyDown}
+            onClick={hideUserInitiatedDialog}
+          >
+            {cta.text}
+          </UserInitiatedDialogCTA>
+        </UserInitiatedDialogWindow>
+      </>
+    )
   );
 };
 
