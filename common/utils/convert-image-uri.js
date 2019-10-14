@@ -6,6 +6,9 @@ const imageMap = {
     root: 'https://wellcomecollection.files.wordpress.com/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/wordpress:',
   },
+  prismicImgix: {
+    root: 'https://images.prismic.io/wellcomecollection/',
+  },
   prismic: {
     cdnRoot: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
     root: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/',
