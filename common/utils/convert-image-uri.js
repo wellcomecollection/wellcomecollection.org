@@ -52,17 +52,19 @@ function determineFinalFormat(originalUriPath) {
   }
 }
 
-type prismicUriOpts = {|
-  width?: number | 'full',
-|};
+type prismicUriOpts = {
+  auto?: string,
+  rect?: string,
+  w?: number | 'full',
+  h?: number,
+};
 
 function prismicImageTemplate(baseUrl: string) {
-  const templateString = baseUrl.includes('?')
-    ? `${baseUrl}&w={width}`
-    : `${baseUrl}?w={width}`;
-
+  const templateString = `${baseUrl}?auto={auto}&rect={rect}&w={w}&h={h}`;
   const template = urlTemplate.parse(templateString);
-  return (opts: prismicUriOpts) => template.expand(opts);
+  return (opts: prismicUriOpts) => {
+    return template.expand(opts);
+  };
 }
 
 function convertPathToWordpressUri(originalUriPath, size) {
@@ -77,6 +79,40 @@ function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
   }/0/default.${format}`;
 }
 
+function paramsToObject(entries) {
+  return Array.from(entries).reduce((acc, curr) => {
+    const [key, value] = curr;
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+function prismicTemplateParts(
+  originalUri: string,
+  requiredSize: number | 'full'
+) {
+  const uriParts = originalUri.split('?');
+  const base = uriParts[0];
+  const queryString = uriParts[1];
+  const urlParams = queryString && new URLSearchParams(`?${queryString}`);
+  const width = urlParams && urlParams.get('w');
+  const height = urlParams && urlParams.get('h');
+  const params =
+    urlParams && typeof requiredSize === 'number' && width && height
+      ? {
+          ...paramsToObject(urlParams.entries()),
+          w: requiredSize,
+          h: Math.round((requiredSize / Number(width)) * Number(height)),
+        }
+      : {
+          w: requiredSize,
+        };
+  return {
+    base,
+    params,
+  };
+}
+
 export function convertImageUri(
   originalUri: string,
   requiredSize: number | 'full'
@@ -86,7 +122,10 @@ export function convertImageUri(
   if (imageSrc === 'unknown') {
     return originalUri;
   } else if (imageSrc === 'prismicImgix') {
-    return prismicImageTemplate(originalUri)({ width: requiredSize });
+    const parts = prismicTemplateParts(originalUri, requiredSize);
+    return prismicImageTemplate(parts.base)({
+      ...parts.params,
+    });
   } else {
     if (!isGif) {
       const imagePath =
