@@ -81,12 +81,21 @@ function wordPressImageTemplate(baseUrl: string) {
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
-function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
-  const isFullSize = size === 'full';
-  const format = determineFinalFormat(originalUriPath);
-  return `${iiifRoot}${originalUriPath}/full/${size}${
-    isFullSize ? '' : ','
-  }/0/default.${format}`;
+type iiifTemplateOpts = {|
+  imagePath: string,
+  size?: string,
+  format?: 'jpg' | 'png',
+|};
+
+function iiifTemplate(baseUrl: string) {
+  const templateString = `${baseUrl}{imagePath}/full/{size}/0/default.{format}`;
+  const defaultOpts = {
+    size: 'full',
+    format: 'jpg',
+  };
+  const template = urlTemplate.parse(templateString);
+  return (opts: iiifTemplateOpts) =>
+    template.expand(Object.assign({}, defaultOpts, opts));
 }
 
 function paramsToObject(entries) {
@@ -143,13 +152,15 @@ export function convertImageUri(
           ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1]
           : imageSrc === 'iiif'
           ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0]
-          : originalUri.split(imageMap[imageSrc].root)[1]
-          ? originalUri.split(imageMap[imageSrc].root)[1]
-          : // $FlowFixMe
-            originalUri.split(imageMap[imageSrc].cdnRoot)[1];
+          : originalUri.split(imageMap[imageSrc].root)[1];
       const iiifRoot = imageMap[imageSrc].iiifRoot;
 
-      return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
+      const params = {
+        imagePath,
+        size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
+        format: determineFinalFormat(originalUri),
+      };
+      return iiifTemplate(iiifRoot)(params);
     } else {
       if (imageSrc === 'wordpress') {
         return wordPressImageTemplate(originalUri)({ width: requiredSize });
