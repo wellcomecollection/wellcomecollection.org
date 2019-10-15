@@ -67,8 +67,18 @@ function prismicImageTemplate(baseUrl: string) {
   };
 }
 
-function convertPathToWordpressUri(originalUriPath, size) {
-  return originalUriPath + `?w=${size}`;
+type wordpressUriOpts = {|
+  width?: number | 'full',
+|};
+
+function wordPressImageTemplate(baseUrl: string) {
+  const templateString = `${baseUrl}?w={width}`;
+  const defaultOpts = {
+    width: 'full',
+  };
+  const template = urlTemplate.parse(templateString);
+  return (opts: wordpressUriOpts) =>
+    template.expand(Object.assign({}, defaultOpts, opts));
 }
 
 function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
@@ -142,7 +152,7 @@ export function convertImageUri(
       return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
     } else {
       if (imageSrc === 'wordpress') {
-        return convertPathToWordpressUri(originalUri, requiredSize);
+        return wordPressImageTemplate(originalUri)({ width: requiredSize });
       } else {
         return originalUri;
       }
