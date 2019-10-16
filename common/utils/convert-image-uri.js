@@ -81,20 +81,26 @@ function wordPressImageTemplate(baseUrl: string) {
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
-type iiifTemplateOpts = {|
-  imagePath: string,
+type IiifUriOpts = {
+  region?: string,
   size?: string,
-  format?: 'jpg' | 'png',
-|};
+  rotation?: number,
+  quality?: string,
+  format?: string,
+};
 
-function iiifTemplate(baseUrl: string) {
-  const templateString = `${baseUrl}{imagePath}/full/{size}/0/default.{format}`;
+export function iiifImageTemplate(infoJsonLocation: string) {
+  const baseUrl = infoJsonLocation.replace('/info.json', '');
+  const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
   const defaultOpts = {
+    region: 'full',
     size: 'full',
+    rotation: 0,
+    quality: 'default',
     format: 'jpg',
   };
   const template = urlTemplate.parse(templateString);
-  return (opts: iiifTemplateOpts) =>
+  return (opts: IiifUriOpts) =>
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
@@ -156,11 +162,10 @@ export function convertImageUri(
       const iiifRoot = imageMap[imageSrc].iiifRoot;
 
       const params = {
-        imagePath,
         size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
         format: determineFinalFormat(originalUri),
       };
-      return iiifTemplate(iiifRoot)(params);
+      return iiifImageTemplate(`${iiifRoot}${imagePath}`)(params);
     } else {
       if (imageSrc === 'wordpress') {
         return wordPressImageTemplate(originalUri)({ width: requiredSize });
@@ -169,29 +174,6 @@ export function convertImageUri(
       }
     }
   }
-}
-
-type IiifUriOpts = {
-  region?: string,
-  size?: string,
-  rotation?: number,
-  quality?: string,
-  format?: string,
-};
-
-export function iiifImageTemplate(infoJsonLocation: string) {
-  const baseUrl = infoJsonLocation.replace('/info.json', '');
-  const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
-  const defaultOpts = {
-    region: 'full',
-    size: 'full',
-    rotation: 0,
-    quality: 'default',
-    format: 'jpg',
-  };
-  const template = urlTemplate.parse(templateString);
-  return (opts: IiifUriOpts) =>
-    template.expand(Object.assign({}, defaultOpts, opts));
 }
 
 export function convertIiifUriToInfoUri(originalUriPath: string) {
