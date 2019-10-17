@@ -219,8 +219,8 @@ export class StoriesPage extends Component<Props> {
           <SpacingComponent>
             <Layout12>
               <p>
-                Get stuck into a book published by Wellcome Collection and
-                explore the complexities of the human condition.
+                Get stuck into one of our books, and explore the complexities of
+                the human condition.
               </p>
             </Layout12>
           </SpacingComponent>

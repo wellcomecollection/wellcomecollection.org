@@ -14,7 +14,7 @@ type Props = {|
 |};
 
 const pageDescription =
-  'Wellcome Collection publishes adventurous and unusual books that explore health, medicine and the complexities of the human condition.';
+  'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.';
 export class BooksPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1 } = ctx.query;
