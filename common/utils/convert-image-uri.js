@@ -116,10 +116,9 @@ function prismicTemplateParts(
   originalUri: string,
   requiredSize: number | 'full'
 ) {
-  const uriParts = originalUri.split('?');
-  const base = uriParts[0];
-  const queryString = uriParts[1];
-  const urlParams = queryString && new URLSearchParams(`?${queryString}`);
+  const url = new URL(originalUri);
+  const base = `${url.origin}${url.pathname}`;
+  const urlParams = url.searchParams;
   const width = urlParams && urlParams.get('w');
   const height = urlParams && urlParams.get('h');
   const params =
