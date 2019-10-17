@@ -4,8 +4,8 @@
 // {
 //   id: 'outro',
 //   title: 'Outro',
-//   range: [0, 50] // 50% chance, this is [inclusive, exclusive)
-//   range: [50, 100] // 50% chance, this is [inclusive, exclusive)
+//   range: [0, 50], // 50% chance, this is [inclusive, exclusive)
+//   range: [50, 100], // 50% chance, this is [inclusive, exclusive)
 //   shouldRun: (request, range) => {
 //     return request.uri.match(/^\/articles\/*/);
 //   }
@@ -14,26 +14,10 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchCandidateQueryMsm',
-    title: 'Search candidate query: Minimum should match',
-    range: [0, 25],
-    shouldRun: request => {
-      return request.uri.match(/^\/works\/*/);
-    },
-  },
-  {
-    id: 'searchCandidateQueryBoost',
-    title: 'Search candidate query: Boost',
-    range: [25, 50],
-    shouldRun: request => {
-      return request.uri.match(/^\/works\/*/);
-    },
-  },
-  {
-    id: 'searchCandidateQueryMsmBoost',
-    title: 'Search candidate query: Minimum should match with boost',
-    range: [50, 75],
-    shouldRun: request => {
+    id: 'searchWithNotes',
+    title: 'Search note fields in the catalogue',
+    range: [50, 100],
+    shouldRun: (request, range) => {
       return request.uri.match(/^\/works\/*/);
     },
   },
