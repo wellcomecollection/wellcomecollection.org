@@ -2,30 +2,42 @@ $helvetica-neue-medium-base: 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'A
 $helvetica-neue-light-base: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $wellcome-bold-base: 'Arial Black', sans-serif;
 $lettera-base: 'Courier New', Courier, Monospace;
+$font-sizes-all: (
+  1: 14px,
+  2: 15px,
+  3: 16px,
+  4: 18px,
+  5: 20px,
+  6: 22px,
+  7: 24px,
+  8: 28px,
+  9: 32px,
+  10: 40px,
+);
 $font-sizes-at-breakpoints: (
   'small': (
-    1: 28px,
-    2: 24px,
-    3: 22px,
-    4: 16px,
-    5: 15px,
-    6: 14px
+    1: map-get($font-sizes-all, 8),
+    2: map-get($font-sizes-all, 7),
+    3: map-get($font-sizes-all, 6),
+    4: map-get($font-sizes-all, 3),
+    5: map-get($font-sizes-all, 2),
+    6: map-get($font-sizes-all, 1),
   ),
   'medium': (
-    1: 32px,
-    2: 28px,
-    3: 22px,
-    4: 18px,
-    5: 15px,
-    6: 14px
+    1: map-get($font-sizes-all, 9),
+    2: map-get($font-sizes-all, 8),
+    3: map-get($font-sizes-all, 6),
+    4: map-get($font-sizes-all, 4),
+    5: map-get($font-sizes-all, 2),
+    6: map-get($font-sizes-all, 1),
   ),
   'large': (
-    1: 40px,
-    2: 32px,
-    3: 24px,
-    4: 20px,
-    5: 16px,
-    6: 14px
+    1: map-get($font-sizes-all, 10),
+    2: map-get($font-sizes-all, 9),
+    3: map-get($font-sizes-all, 7),
+    4: map-get($font-sizes-all, 5),
+    5: map-get($font-sizes-all, 3),
+    6: map-get($font-sizes-all, 1),
   )
 );
 
@@ -80,6 +92,16 @@ $font-sizes-at-breakpoints: (
       .font-size-#{$font-size-key} {
         font-size: $font-size-value;
         line-height: 1.5;
+      }
+    }
+  }
+}
+
+@each $font-breakpoint-key, $font-breakpoint-value in $font-sizes-at-breakpoints {
+  @include respond-to($font-breakpoint-key) {
+    @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
+      .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
+        font-size: $font-sizes-all-value;
       }
     }
   }

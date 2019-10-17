@@ -38,6 +38,18 @@ export function font(family: FontFamily, size: FontSize) {
   return `font-${family} font-size-${size}`;
 }
 
+type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type FontSizeOverrides = {|
+  small: FontSizeAll,
+  medium: FontSizeAll,
+  large: FontSizeAll,
+|};
+export function fontSizeOverrides(overrides: FontSizeOverrides) {
+  return Object.keys(overrides).reduce((acc, key) => {
+    return acc.concat(` font-size-override-${key}-${overrides[key]}`);
+  }, '');
+}
+
 type ClassNames = string[] | { [string]: boolean };
 export function classNames(classNames: ClassNames): string {
   if (Array.isArray(classNames)) {
