@@ -1,6 +1,19 @@
 // @flow
 import { css, keyframes } from 'styled-components';
+import { type SpaceOverrides } from '../components/styled/Space';
 
+const spacingUnits = {
+  '1': 4,
+  '2': 6,
+  '3': 8,
+  '4': 12,
+  '5': 16,
+  '6': 24,
+  '7': 30,
+  '8': 32,
+  '9': 46,
+  '10': 64,
+};
 // When units are `number`s, we assume pixels
 const theme = {
   spacingUnit: 6,
@@ -62,27 +75,28 @@ const theme = {
       }
       `,
   },
+  spacingUnits,
   spaceAtBreakpoints: {
     small: {
-      xs: 4,
-      s: 6,
-      m: 8,
-      l: 16,
-      xl: 30,
+      xs: spacingUnits['1'],
+      s: spacingUnits['2'],
+      m: spacingUnits['3'],
+      l: spacingUnits['5'],
+      xl: spacingUnits['7'],
     },
     medium: {
-      xs: 4,
-      s: 6,
-      m: 12,
-      l: 24,
-      xl: 46,
+      xs: spacingUnits['1'],
+      s: spacingUnits['2'],
+      m: spacingUnits['4'],
+      l: spacingUnits['6'],
+      xl: spacingUnits['9'],
     },
     large: {
-      xs: 4,
-      s: 8,
-      m: 16,
-      l: 32,
-      xl: 64,
+      xs: spacingUnits['1'],
+      s: spacingUnits['3'],
+      m: spacingUnits['5'],
+      l: spacingUnits['8'],
+      xl: spacingUnits['10'],
     },
   },
 };
@@ -105,7 +119,8 @@ type SpaceProperty =
 function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
-  negative: ?boolean
+  negative: ?boolean,
+  overrides?: SpaceOverrides
 ): string {
   return ['small', 'medium', 'large']
     .map(bp => {
@@ -114,7 +129,9 @@ function makeSpacePropertyValues(
         .map(
           p =>
             `${p}: ${negative ? '-' : ''}${
-              theme.spaceAtBreakpoints[bp][size]
+              overrides && overrides[bp]
+                ? spacingUnits[overrides[bp]]
+                : theme.spaceAtBreakpoints[bp][size]
             }px;`
         )
         .join('')}
