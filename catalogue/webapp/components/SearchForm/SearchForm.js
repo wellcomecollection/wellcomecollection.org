@@ -13,6 +13,8 @@ import {
   defaultWorkTypes,
 } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
+import Select from '@weco/common/views/components/Select/Select';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   ariaDescribedBy: string,
@@ -61,6 +63,7 @@ const SearchForm = ({
   // This is the query used by the input, that is then eventually passed to the
   // Router
   const [inputQuery, setInputQuery] = useState(query);
+  const [enhanced, setEnhanced] = useState(false);
   const searchInput = useRef(null);
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
@@ -72,6 +75,10 @@ const SearchForm = ({
       setInputQuery(query);
     }
   }, [query]);
+
+  useEffect(() => {
+    setEnhanced(true);
+  }, []);
 
   function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
     const workType = searchParams.workType || [];
@@ -94,6 +101,17 @@ const SearchForm = ({
       ? productionDatesToInput.value
       : searchParams.productionDatesTo;
 
+    /*::
+    if (!(form['sortOrder'] instanceof HTMLInputElement)) {
+      throw new Error('element is not of type HTMLInputElement');
+    }
+    */
+    const sortOrder = form['sortOrder']
+      ? form['sortOrder'].value
+      : searchParams.sortOrder;
+    const sort =
+      sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
+
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
@@ -106,6 +124,8 @@ const SearchForm = ({
           page: 1,
           productionDatesFrom: productionDatesFromValue,
           productionDatesTo: productionDatesToValue,
+          sortOrder,
+          sort,
         })
       : worksUrl({
           ...searchParams,
@@ -113,6 +133,8 @@ const SearchForm = ({
           page: 1,
           productionDatesFrom: productionDatesFromValue,
           productionDatesTo: productionDatesToValue,
+          sortOrder,
+          sort,
         });
 
     Router.push(link.href, link.as);
@@ -183,10 +205,78 @@ const SearchForm = ({
           )}
 
           {shouldShowFilters && (
-            <FilterDrawerRefine
-              searchForm={searchForm}
-              searchParams={searchParams}
-            />
+            <>
+              <FilterDrawerRefine
+                searchForm={searchForm}
+                searchParams={searchParams}
+              />
+
+              {enhanced && (
+                <Select
+                  name="sortOrder"
+                  label="Sort by"
+                  defaultValue={searchParams.sortOrder || ''}
+                  options={[
+                    {
+                      value: '',
+                      text: 'Relevance',
+                    },
+                    {
+                      value: 'asc',
+                      text: 'Date ascending',
+                    },
+                    {
+                      value: 'desc',
+                      text: 'Date descending',
+                    },
+                  ]}
+                  onChange={event => {
+                    event.currentTarget.form &&
+                      updateUrl(
+                        unfilteredSearchResults,
+                        event.currentTarget.form
+                      );
+                  }}
+                />
+              )}
+
+              <noscript>
+                <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+                  <Select
+                    name="sort"
+                    label="Sort by"
+                    defaultValue={searchParams.sort || ''}
+                    options={[
+                      {
+                        value: '',
+                        text: 'Relevance',
+                      },
+                      {
+                        value: 'production.dates',
+                        text: 'Production dates',
+                      },
+                    ]}
+                    onChange={null}
+                  />
+                </Space>
+                <Select
+                  name="sortOrder"
+                  label="Sort order"
+                  defaultValue={searchParams.sortOrder || ''}
+                  options={[
+                    {
+                      value: 'asc',
+                      text: 'Ascending',
+                    },
+                    {
+                      value: 'desc',
+                      text: 'Descending',
+                    },
+                  ]}
+                  onChange={null}
+                />
+              </noscript>
+            </>
           )}
           <SearchButtonWrapper className="absolute bg-green rounded-corners">
             <button

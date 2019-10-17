@@ -1,5 +1,4 @@
 // @flow
-
 import { useEffect } from 'react';
 
 // Search
@@ -14,6 +13,8 @@ type SearchEventData = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  'production.dates.from': ?string,
+  'production.dates.to': ?string,
   _queryType: ?string,
 |};
 
@@ -23,6 +24,8 @@ type SearchResultEventData = {|
   query: string,
   page: number,
   workType: ?(string[]),
+  'production.dates.from': ?string,
+  'production.dates.to': ?string,
   _queryType: ?string,
   resultWorkType: string,
   resultLanguage: ?string,

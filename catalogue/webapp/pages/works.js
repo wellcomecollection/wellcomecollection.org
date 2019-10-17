@@ -57,6 +57,8 @@ const Works = ({ works, searchParams }: Props) => {
           query,
           page,
           workType,
+          'production.dates.from': productionDatesFrom,
+          'production.dates.to': productionDatesTo,
           _queryType,
         },
       };
@@ -330,6 +332,8 @@ const Works = ({ works, searchParams }: Props) => {
                               page,
                               workType,
                               _queryType,
+                              'production.dates.from': productionDatesFrom,
+                              'production.dates.to': productionDatesTo,
                               resultWorkType: result.workType.label,
                               resultLanguage:
                                 result.language && result.language.label,
@@ -449,10 +453,9 @@ const Works = ({ works, searchParams }: Props) => {
 };
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const query = ctx.query.query;
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
-  const shouldGetWorks = query && query !== '';
+  const shouldGetWorks = filters.query && filters.query !== '';
   const { searchWithNotes } = ctx.query.toggles;
 
   const toggledFilters = {
@@ -462,8 +465,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const worksOrError = shouldGetWorks
     ? await getWorks({
-        query,
-        page: filters.page,
         filters: toggledFilters,
       })
     : null;
