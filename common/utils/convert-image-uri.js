@@ -67,7 +67,7 @@ function prismicImageTemplate(baseUrl: string) {
   };
 }
 
-type wordpressUriOpts = {|
+type WordpressUriOpts = {|
   width?: number | 'full',
 |};
 
@@ -77,17 +77,17 @@ function wordPressImageTemplate(baseUrl: string) {
     width: 'full',
   };
   const template = urlTemplate.parse(templateString);
-  return (opts: wordpressUriOpts) =>
+  return (opts: WordpressUriOpts) =>
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
-type IiifUriOpts = {
+type IiifUriOpts = {|
   region?: string,
   size?: string,
   rotation?: number,
   quality?: string,
   format?: string,
-};
+|};
 
 export function iiifImageTemplate(infoJsonLocation: string) {
   const baseUrl = infoJsonLocation.replace('/info.json', '');
