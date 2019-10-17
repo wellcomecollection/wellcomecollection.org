@@ -52,17 +52,17 @@ function determineFinalFormat(originalUriPath) {
   }
 }
 
-type prismicUriOpts = {
+type PrismicUriOpts = {|
   auto?: string,
   rect?: string,
   w?: number | 'full',
   h?: number,
-};
+|};
 
 function prismicImageTemplate(baseUrl: string) {
   const templateString = `${baseUrl}?auto={auto}&rect={rect}&w={w}&h={h}`;
   const template = urlTemplate.parse(templateString);
-  return (opts: prismicUriOpts) => {
+  return (opts: PrismicUriOpts) => {
     return template.expand(opts);
   };
 }
