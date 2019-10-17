@@ -7,7 +7,7 @@ import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 
-const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
+const PopupDialogOpen = styled(Space).attrs(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
   'aria-controls': 'user-initiated-dialog-window',
   tabIndex: props.isActive ? '-1' : '0',
@@ -45,7 +45,7 @@ const UserInitiatedDialogOpen = styled(Space).attrs(props => ({
   }
 `;
 
-const UserInitiatedDialogWindow = styled(Space).attrs(props => ({
+const PopupDialogWindow = styled(Space).attrs(props => ({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -70,7 +70,7 @@ const UserInitiatedDialogWindow = styled(Space).attrs(props => ({
   z-index: 1;
 `;
 
-const UserInitiatedDialogClose = styled.button.attrs({
+const PopupDialogClose = styled.button.attrs({
   className: classNames({
     'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center': true,
   }),
@@ -79,7 +79,7 @@ const UserInitiatedDialogClose = styled.button.attrs({
   right: 10px;
 `;
 
-const UserInitiatedDialogCTA = styled(Space).attrs({
+const PopupDialogCTA = styled(Space).attrs({
   as: 'a',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -105,7 +105,7 @@ type Props = {|
   cta: Link,
 |};
 
-const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
+const PopupDialog = ({ children, openButtonText, cta }: Props) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
@@ -115,8 +115,8 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   const ctaRef = useRef(null);
   const dialogWindowRef = useRef(null);
 
-  function hideUserInitiatedDialog() {
-    cookie.set('WC_userInitiatedDialog', 'true', {
+  function hidePopupDialog() {
+    cookie.set('WC_PopupDialog', 'true', {
       path: '/',
       expires: null,
     });
@@ -125,7 +125,7 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   }
 
   useEffect(() => {
-    setShouldRender(!cookie.get('WC_userInitiatedDialog'));
+    setShouldRender(!cookie.get('WC_PopupDialog'));
 
     setTimeout(() => {
       setShouldStartAnimation(true);
@@ -192,7 +192,7 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
   return (
     shouldRender && (
       <>
-        <UserInitiatedDialogOpen
+        <PopupDialogOpen
           title="open dialog"
           ref={openDialogRef}
           isActive={isActive}
@@ -209,9 +209,9 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
             <Icon name="chat" extraClasses="icon--purple" />
           </Space>
           {openButtonText}
-        </UserInitiatedDialogOpen>
-        <UserInitiatedDialogWindow ref={dialogWindowRef} isActive={isActive}>
-          <UserInitiatedDialogClose
+        </PopupDialogOpen>
+        <PopupDialogWindow ref={dialogWindowRef} isActive={isActive}>
+          <PopupDialogClose
             title="close dialog"
             ref={closeDialogRef}
             onKeyDown={handleTrapStartKeyDown}
@@ -228,20 +228,20 @@ const UserInitiatedDialog = ({ children, openButtonText, cta }: Props) => {
               title="Close dialog"
               extraClasses="icon--purple"
             />
-          </UserInitiatedDialogClose>
+          </PopupDialogClose>
           {children}
-          <UserInitiatedDialogCTA
+          <PopupDialogCTA
             href={cta.url}
             ref={ctaRef}
             onKeyDown={handleTrapEndKeyDown}
-            onClick={hideUserInitiatedDialog}
+            onClick={hidePopupDialog}
           >
             {cta.text}
-          </UserInitiatedDialogCTA>
-        </UserInitiatedDialogWindow>
+          </PopupDialogCTA>
+        </PopupDialogWindow>
       </>
     )
   );
 };
 
-export default UserInitiatedDialog;
+export default PopupDialog;

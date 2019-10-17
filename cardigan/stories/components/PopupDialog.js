@@ -1,12 +1,12 @@
 import { storiesOf } from '@storybook/react';
-import UserInitiatedDialog from '../../../common/views/components/UserInitiatedDialog/UserInitiatedDialog';
-import Readme from '../../../common/views/components/UserInitiatedDialog/README.md';
+import PopupDialog from '../../../common/views/components/PopupDialog/PopupDialog';
+import Readme from '../../../common/views/components/PopupDialog/README.md';
 
 const stories = storiesOf('Components', module);
 
-const UserInitiatedDialogExample = () => {
+const PopupDialogExample = () => {
   return (
-    <UserInitiatedDialog
+    <PopupDialog
       openButtonText="Got 5 minutes?"
       cta={{ url: '#', text: 'Take the survey' }}
     >
@@ -15,10 +15,10 @@ const UserInitiatedDialogExample = () => {
         We&apos;d like to know more about how you use Wellcome Collection&apos;s
         website.
       </p>
-    </UserInitiatedDialog>
+    </PopupDialog>
   );
 };
 
-stories.add('UserInitiatedDialog', UserInitiatedDialogExample, {
+stories.add('PopupDialog', PopupDialogExample, {
   readme: { sidebar: Readme },
 });
