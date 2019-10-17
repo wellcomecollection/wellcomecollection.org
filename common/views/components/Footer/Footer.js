@@ -114,7 +114,10 @@ const Footer = ({
               {`Opening times:`}
             </Space>
             <TopBorderBox>
-              <Space v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space
+                className={'flex'}
+                v={{ size: 'l', properties: ['padding-top'] }}
+              >
                 <Space
                   as="span"
                   h={{ size: 'm', properties: ['margin-right'] }}
