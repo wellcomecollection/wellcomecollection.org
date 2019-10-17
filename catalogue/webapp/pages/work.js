@@ -276,6 +276,3 @@ WorkPage.getInitialProps = async (
 };
 
 export default WorkPage;
-
-// TODO remove download options
-// TODO non js version - need link to list of parts - manifests /parts /volumes /???

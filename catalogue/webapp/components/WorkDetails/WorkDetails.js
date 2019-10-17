@@ -196,7 +196,19 @@ const WorkDetails = ({
     work.physicalDescription ||
     work.lettering ||
     work.genres.length > 0 ||
-    work.language
+    work.language ||
+    // question - already have a physicalDescription ??
+    // additional to put behind toggle
+    /* toggle is set */ (true &&
+      (work.alternativeTitle ||
+        work.contributors ||
+        work.dissertation ||
+        work.edition ||
+        // work.physicalDescription || (Binding details) - already have a physicalDescription?
+        work.duration ||
+        work.notes ||
+        work.contents ||
+        work.credits))
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="About this work">
