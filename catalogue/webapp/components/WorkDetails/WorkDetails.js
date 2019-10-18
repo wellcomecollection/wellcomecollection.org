@@ -305,11 +305,6 @@ const WorkDetails = ({
           />
         )}
 
-        <MetaUnit
-          headingLevel={3}
-          headingText="Test duration"
-          text={[JSON.stringify(duration)]}
-        />
         {showAdditionalCatalogueData && duration && (
           <MetaUnit
             headingLevel={3}
