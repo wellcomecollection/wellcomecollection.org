@@ -1,13 +1,13 @@
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import type { HtmlSerialiser } from '../../../services/prismic/html-serialisers';
-
 // @flow
+
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import { type HTMLString } from '../../../services/prismic/types';
+import { type HtmlSerializer } from '../../../services/prismic/html-serialisers';
 import { font, classNames } from '../../../utils/classnames';
-import type { HTMLString } from '../../../services/prismic/types';
 
 type Props = {|
   html: HTMLString,
-  htmlSerialiser?: HtmlSerialiser,
+  htmlSerialiser?: HtmlSerializer,
 |};
 
 const FeaturedText = ({ html, htmlSerialiser }: Props) => (
