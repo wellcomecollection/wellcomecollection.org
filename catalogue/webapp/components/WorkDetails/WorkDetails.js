@@ -223,7 +223,7 @@ const WorkDetails = ({
     work.genres.length > 0 ||
     work.language ||
     (showAdditionalCatalogueData &&
-      (work.alternativeTitle ||
+      (work.alternativeTitles ||
         work.contributors ||
         work.dissertation ||
         work.edition ||
@@ -234,11 +234,11 @@ const WorkDetails = ({
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="About this work">
-        {showAdditionalCatalogueData && work.description && (
+        {showAdditionalCatalogueData && work.alternativeTitles && (
           <MetaUnit
             headingLevel={3}
             headingText="Also known as"
-            text={[work.alternativeTitle]}
+            text={work.alternativeTitles}
           />
         )}
 
