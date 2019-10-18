@@ -29,6 +29,27 @@ import { clientSideSearchParams } from '@weco/common/services/catalogue/search-p
 import Download from '../Download/Download';
 import PaletteSimilarityBox from '../PaletteSimilarityBox/PaletteSimilarityBox';
 
+type TimeProps = {|
+  hours: string,
+  minutes: string,
+  seconds: string,
+|};
+
+function doubleDigits(n) {
+  return n > 9 ? `${n}` : `0${n}`;
+}
+
+function convertMS(milliseconds: number): TimeProps {
+  const seconds = milliseconds / 1000;
+  const closestSeconds = Math.round(seconds);
+  const minutes = Math.floor(closestSeconds / 60);
+  const hours = Math.floor(minutes / 60);
+  return {
+    hours: doubleDigits(hours),
+    minutes: doubleDigits(minutes % 60),
+    seconds: doubleDigits(closestSeconds % 60),
+  };
+}
 type WorkDetailsSectionProps = {|
   headingText?: string,
   children: Node,
@@ -81,6 +102,7 @@ type Props = {|
   encoreLink: ?string,
   childManifestsCount?: number,
   showImagesWithSimilarPalette?: boolean,
+  showAdditionalCatalogueData?: boolean,
 |};
 
 const WorkDetails = ({
@@ -90,6 +112,7 @@ const WorkDetails = ({
   encoreLink,
   childManifestsCount,
   showImagesWithSimilarPalette,
+  showAdditionalCatalogueData,
 }: Props) => {
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
@@ -129,6 +152,8 @@ const WorkDetails = ({
 
   const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
+
+  const duration = work.duration && convertMS(work.duration);
 
   const iiifPresentationRepository =
     iiifPresentationManifest &&
@@ -197,14 +222,11 @@ const WorkDetails = ({
     work.lettering ||
     work.genres.length > 0 ||
     work.language ||
-    // question - already have a physicalDescription ??
-    // additional to put behind toggle
-    /* toggle is set */ (true &&
+    (showAdditionalCatalogueData &&
       (work.alternativeTitle ||
         work.contributors ||
         work.dissertation ||
         work.edition ||
-        // work.physicalDescription || (Binding details) - already have a physicalDescription?
         work.duration ||
         work.notes ||
         work.contents ||
@@ -212,6 +234,14 @@ const WorkDetails = ({
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="About this work">
+        {showAdditionalCatalogueData && work.description && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Also known as"
+            text={[work.alternativeTitle]}
+          />
+        )}
+
         {work.description && (
           <MetaUnit
             headingLevel={3}
@@ -235,11 +265,35 @@ const WorkDetails = ({
           />
         )}
 
+        {work.lettering && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Lettering"
+            text={[work.lettering]}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.dissertation && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Thesis information"
+            text={[work.dissertation]}
+          />
+        )}
+
         {work.production.length > 0 && (
           <MetaUnit
             headingLevel={3}
             headingText="Publication/Creation"
             text={work.production.map(productionEvent => productionEvent.label)}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.edition && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Edition"
+            text={[work.edition]}
           />
         )}
 
@@ -251,11 +305,36 @@ const WorkDetails = ({
           />
         )}
 
-        {work.lettering && (
+        <MetaUnit
+          headingLevel={3}
+          headingText="Test duration"
+          text={[JSON.stringify(duration)]}
+        />
+        {showAdditionalCatalogueData && duration && (
           <MetaUnit
             headingLevel={3}
-            headingText="Lettering"
-            text={[work.lettering]}
+            headingText="Duration"
+            text={[`${duration.hours}:${duration.minutes}:${duration.seconds}`]}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.notes && (
+          <MetaUnit headingLevel={3} headingText="Notes" text={[work.notes]} />
+        )}
+
+        {showAdditionalCatalogueData && work.contents && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Contents"
+            text={[work.contents]}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.credits && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Credits"
+            text={[work.credits]}
           />
         )}
 
@@ -304,13 +383,14 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (encoreLink || iiifPresentationRepository) {
+  if (encoreLink || iiifPresentationRepository || work.locationOfOriginal) {
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
-      iiifPresentationRepository &&
-        iiifPresentationRepository.value
-          .replace(/<img[^>]*>/g, '')
-          .replace(/<br\s*\/?>/g, ''),
+      (showAdditionalCatalogueData && work.locationOfOriginal) ||
+        (iiifPresentationRepository &&
+          iiifPresentationRepository.value
+            .replace(/<img[^>]*>/g, '')
+            .replace(/<br\s*\/?>/g, '')),
     ].filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
@@ -332,6 +412,13 @@ const WorkDetails = ({
           url={`https://wellcomecollection.org/works/${work.id}`}
         />
       </MetaUnit>
+      {showAdditionalCatalogueData && work.citeAs && (
+        <MetaUnit
+          headingLevel={3}
+          headingText="Reference number"
+          text={[work.citeAs]}
+        />
+      )}
     </WorkDetailsSection>
   );
 
