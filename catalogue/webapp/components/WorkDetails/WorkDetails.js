@@ -217,6 +217,7 @@ const WorkDetails = ({
   }
   if (
     work.description ||
+    work.contributors ||
     work.production.length > 0 ||
     work.physicalDescription ||
     work.lettering ||
@@ -224,7 +225,6 @@ const WorkDetails = ({
     work.language ||
     (showAdditionalCatalogueData &&
       (work.alternativeTitles ||
-        work.contributors ||
         work.dissertation ||
         work.edition ||
         work.duration ||
