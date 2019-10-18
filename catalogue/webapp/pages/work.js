@@ -231,9 +231,10 @@ export const WorkPage = ({ work }: Props) => {
         </WobblyRow>
       )}
       <TogglesContext.Consumer>
-        {({ showImagesWithSimilarPalette }) => (
+        {({ showImagesWithSimilarPalette, showAdditionalCatalogueData }) => (
           <WorkDetails
             showImagesWithSimilarPalette={showImagesWithSimilarPalette}
+            showAdditionalCatalogueData={showAdditionalCatalogueData}
             work={work}
             sierraId={sierraIdFromPresentationManifestUrl}
             iiifPresentationManifest={iiifPresentationManifest}
