@@ -34,20 +34,26 @@ export function cssGrid(sizes: SizeMap): string {
 
 type FontFamily = 'hnl' | 'hnm' | 'wb' | 'lr';
 type FontSize = 1 | 2 | 3 | 4 | 5 | 6;
-export function font(family: FontFamily, size: FontSize) {
-  return `font-${family} font-size-${size}`;
-}
-
 type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 type FontSizeOverrides = {|
-  small: FontSizeAll,
-  medium: FontSizeAll,
-  large: FontSizeAll,
+  small?: FontSizeAll,
+  medium?: FontSizeAll,
+  large?: FontSizeAll,
 |};
-export function fontSizeOverrides(overrides: FontSizeOverrides) {
-  return Object.keys(overrides).reduce((acc, key) => {
-    return acc.concat(` font-size-override-${key}-${overrides[key]}`);
-  }, '');
+
+export function font(
+  family: FontFamily,
+  size: FontSize,
+  overrides?: FontSizeOverrides
+) {
+  const overrideClasses =
+    overrides &&
+    Object.keys(overrides).reduce((acc, key) => {
+      return overrides[key]
+        ? acc.concat(` font-size-override-${key}-${overrides[key]}`)
+        : '';
+    }, '');
+  return `font-${family} font-size-${size} ${overrideClasses || ''}`;
 }
 
 type ClassNames = string[] | { [string]: boolean };

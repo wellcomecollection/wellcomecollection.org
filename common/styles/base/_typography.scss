@@ -91,14 +91,23 @@ $font-sizes-at-breakpoints: (
       %font-size-#{$font-size-key},
       .font-size-#{$font-size-key} {
         font-size: $font-size-value;
-        line-height: 1.5;
       }
     }
   }
 }
 
 @each $font-breakpoint-key, $font-breakpoint-value in $font-sizes-at-breakpoints {
-  @include respond-to($font-breakpoint-key) {
+  $breakpoint-upper: null;
+
+  @if $font-breakpoint-key == 'small' {
+    $breakpoint-upper: 'medium';
+  } @else if $font-breakpoint-key == 'medium' {
+    $breakpoint-upper: 'large';
+  } @else {
+    $breakpoint-upper: 'xlarge';
+  }
+
+  @include respond-between($font-breakpoint-key, $breakpoint-upper) {
     @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
       .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
         font-size: $font-sizes-all-value;
@@ -117,6 +126,7 @@ body {
   @extend %font-hnl;
   @extend %font-size-4;
 
+  line-height: 1.5;
   color: color('black');
 
   font-variant-ligatures: no-common-ligatures;
