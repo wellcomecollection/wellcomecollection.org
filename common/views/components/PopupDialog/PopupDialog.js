@@ -151,6 +151,10 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     if (dialog && isActiveRef.current && !dialog.contains(event.target)) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
+      trackEvent({
+        category: 'PopupDialog',
+        action: 'close dialog',
+      });
     }
   }
 
@@ -158,6 +162,10 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
+      trackEvent({
+        category: 'PopupDialog',
+        action: 'close dialog',
+      });
     }
   }
 
