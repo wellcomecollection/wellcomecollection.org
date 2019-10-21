@@ -13,8 +13,16 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
   'aria-controls': 'user-initiated-dialog-window',
   tabIndex: props.isActive ? '-1' : '0',
   as: 'button',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+    overrides: { small: 4, medium: 4, large: 4 },
+  },
+  h: {
+    size: 'm',
+    properties: ['padding-left', 'padding-right'],
+    overrides: { small: 5, medium: 5, large: 5 },
+  },
   className: classNames({
     [font('hnm', 5)]: true,
     'plain-button line-height-1 flex-inline flex--v-center bg-hover-purple font-purple font-hover-white': true,
@@ -49,8 +57,16 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
 const PopupDialogWindow = styled(Space).attrs(props => ({
   'aria-modal': true,
   id: 'user-initiated-dialog-window',
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: {
+    size: 'l',
+    properties: ['padding-top', 'padding-bottom'],
+    overrides: { small: 6, medium: 6, large: 6 },
+  },
+  h: {
+    size: 'l',
+    properties: ['padding-left', 'padding-right'],
+    overrides: { small: 6, medium: 6, large: 6 },
+  },
   className: classNames({
     'bg-white font-purple': true,
   }),
@@ -67,7 +83,7 @@ const PopupDialogWindow = styled(Space).attrs(props => ({
   bottom: 20px;
   left: 20px;
   right: 20px;
-  max-width: 500px;
+  max-width: 370px;
   z-index: 1;
 `;
 
@@ -82,11 +98,19 @@ const PopupDialogClose = styled.button.attrs({
 
 const PopupDialogCTA = styled(Space).attrs({
   as: 'a',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom'],
+    overrides: { small: 3, medium: 3, large: 3 },
+  },
+  h: {
+    size: 'm',
+    properties: ['padding-left', 'padding-right'],
+    overrides: { small: 5, medium: 5, large: 5 },
+  },
   className: classNames({
     [font('hnm', 5)]: true,
-    'bg-purple font-white font-hover-purple bg-hover-white rounded-corners': true,
+    'bg-purple font-white font-hover-purple bg-hover-white rounded-corners inline-block': true,
   }),
 })`
   transition: all 500ms ease;
@@ -219,7 +243,13 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
             });
           }}
         >
-          <Space h={{ size: 's', properties: ['margin-right'] }}>
+          <Space
+            h={{
+              size: 's',
+              properties: ['margin-right'],
+              overrides: { medium: 2, large: 2 },
+            }}
+          >
             <Icon name="chat" extraClasses="icon--purple" />
           </Space>
           {openButtonText}
