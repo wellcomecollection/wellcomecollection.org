@@ -109,7 +109,7 @@ function randomImages(
   for (var i = 1; i <= numberOfImages; i++) {
     const randomNumber = Math.floor(Math.random() * canvases.length);
     const randomCanvas = canvases.splice(randomNumber, 1)[0];
-    if (randomCanvas.thumbnail.service) {
+    if (randomCanvas.thumbnail && randomCanvas.thumbnail.service) {
       images.push({
         id: appropriateServiceId(randomCanvas),
         canvasId: randomCanvas['@id'],
