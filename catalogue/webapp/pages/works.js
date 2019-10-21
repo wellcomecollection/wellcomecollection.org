@@ -105,10 +105,7 @@ const Works = ({ works, searchParams }: Props) => {
   const workTypes = [
     {
       title: 'Books',
-      materialTypes: [
-        { title: 'books', letter: 'a' },
-        { title: 'e-books', letter: 'v' },
-      ],
+      materialTypes: [{ title: 'books', letter: 'a' }],
     },
     {
       title: 'Pictures',
@@ -120,8 +117,8 @@ const Works = ({ works, searchParams }: Props) => {
     {
       title: 'Audio/Visual',
       materialTypes: [
-        { title: 'e-videos', letter: 'f' },
-        { title: 'e-sound', letter: 's' },
+        { title: 'video recordings', letter: 'g' },
+        { title: 'sound', letter: 'i' },
       ],
     },
   ];
