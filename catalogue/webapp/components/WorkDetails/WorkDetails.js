@@ -1,5 +1,6 @@
 // @flow
 import { type Node, Fragment } from 'react';
+import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
@@ -81,6 +82,7 @@ type Props = {|
   encoreLink: ?string,
   childManifestsCount?: number,
   showImagesWithSimilarPalette?: boolean,
+  showAdditionalCatalogueData?: boolean,
 |};
 
 const WorkDetails = ({
@@ -90,6 +92,7 @@ const WorkDetails = ({
   encoreLink,
   childManifestsCount,
   showImagesWithSimilarPalette,
+  showAdditionalCatalogueData,
 }: Props) => {
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
@@ -129,6 +132,9 @@ const WorkDetails = ({
 
   const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
+
+  const duration =
+    work.duration && moment.utc(work.duration).format('HH:mm:ss');
 
   const iiifPresentationRepository =
     iiifPresentationManifest &&
@@ -192,14 +198,31 @@ const WorkDetails = ({
   }
   if (
     work.description ||
+    work.contributors ||
     work.production.length > 0 ||
     work.physicalDescription ||
     work.lettering ||
     work.genres.length > 0 ||
-    work.language
+    work.language ||
+    (showAdditionalCatalogueData &&
+      (work.alternativeTitles ||
+        work.dissertation ||
+        work.edition ||
+        work.duration ||
+        work.notes ||
+        work.contents ||
+        work.credits))
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="About this work">
+        {showAdditionalCatalogueData && work.alternativeTitles && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Also known as"
+            text={work.alternativeTitles}
+          />
+        )}
+
         {work.description && (
           <MetaUnit
             headingLevel={3}
@@ -223,11 +246,35 @@ const WorkDetails = ({
           />
         )}
 
+        {work.lettering && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Lettering"
+            text={[work.lettering]}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.dissertation && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Thesis information"
+            text={[work.dissertation]}
+          />
+        )}
+
         {work.production.length > 0 && (
           <MetaUnit
             headingLevel={3}
             headingText="Publication/Creation"
             text={work.production.map(productionEvent => productionEvent.label)}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.edition && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Edition"
+            text={[work.edition]}
           />
         )}
 
@@ -239,11 +286,27 @@ const WorkDetails = ({
           />
         )}
 
-        {work.lettering && (
+        {showAdditionalCatalogueData && duration && (
+          <MetaUnit headingLevel={3} headingText="Duration" text={[duration]} />
+        )}
+
+        {showAdditionalCatalogueData && work.notes && (
+          <MetaUnit headingLevel={3} headingText="Notes" text={[work.notes]} />
+        )}
+
+        {showAdditionalCatalogueData && work.contents && (
           <MetaUnit
             headingLevel={3}
-            headingText="Lettering"
-            text={[work.lettering]}
+            headingText="Contents"
+            text={[work.contents]}
+          />
+        )}
+
+        {showAdditionalCatalogueData && work.credits && (
+          <MetaUnit
+            headingLevel={3}
+            headingText="Credits"
+            text={[work.credits]}
           />
         )}
 
@@ -292,13 +355,14 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (encoreLink || iiifPresentationRepository) {
+  if (encoreLink || iiifPresentationRepository || work.locationOfOriginal) {
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
-      iiifPresentationRepository &&
-        iiifPresentationRepository.value
-          .replace(/<img[^>]*>/g, '')
-          .replace(/<br\s*\/?>/g, ''),
+      (showAdditionalCatalogueData && work.locationOfOriginal) ||
+        (iiifPresentationRepository &&
+          iiifPresentationRepository.value
+            .replace(/<img[^>]*>/g, '')
+            .replace(/<br\s*\/?>/g, '')),
     ].filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
@@ -320,6 +384,13 @@ const WorkDetails = ({
           url={`https://wellcomecollection.org/works/${work.id}`}
         />
       </MetaUnit>
+      {showAdditionalCatalogueData && work.citeAs && (
+        <MetaUnit
+          headingLevel={3}
+          headingText="Reference number"
+          text={[work.citeAs]}
+        />
+      )}
     </WorkDetailsSection>
   );
 

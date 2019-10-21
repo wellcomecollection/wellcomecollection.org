@@ -49,5 +49,12 @@ module.exports = {
       description:
         'If the work has a Miro image, we can show images with similar a palette.',
     },
+    {
+      id: 'showAdditionalCatalogueData',
+      title: 'Show the latest Sierra data additions to the API',
+      defaultValue: false,
+      description:
+        'Displays the latest data additions, that have been added to the API, on the work page.',
+    },
   ],
 };

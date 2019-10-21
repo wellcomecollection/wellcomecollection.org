@@ -231,9 +231,10 @@ export const WorkPage = ({ work }: Props) => {
         </WobblyRow>
       )}
       <TogglesContext.Consumer>
-        {({ showImagesWithSimilarPalette }) => (
+        {({ showImagesWithSimilarPalette, showAdditionalCatalogueData }) => (
           <WorkDetails
             showImagesWithSimilarPalette={showImagesWithSimilarPalette}
+            showAdditionalCatalogueData={showAdditionalCatalogueData}
             work={work}
             sierraId={sierraIdFromPresentationManifestUrl}
             iiifPresentationManifest={iiifPresentationManifest}
@@ -276,6 +277,3 @@ WorkPage.getInitialProps = async (
 };
 
 export default WorkPage;
-
-// TODO remove download options
-// TODO non js version - need link to list of parts - manifests /parts /volumes /???
