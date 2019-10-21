@@ -103,14 +103,22 @@ $font-sizes-at-breakpoints: (
     $breakpoint-upper: 'medium';
   } @else if $font-breakpoint-key == 'medium' {
     $breakpoint-upper: 'large';
-  } @else {
-    $breakpoint-upper: 'xlarge';
   }
 
-  @include respond-between($font-breakpoint-key, $breakpoint-upper) {
-    @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
-      .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
-        font-size: $font-sizes-all-value;
+  @if $font-breakpoint-key == 'small' or $font-breakpoint-key == 'medium' {
+    @include respond-between($font-breakpoint-key, $breakpoint-upper) {
+      @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
+        .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
+          font-size: $font-sizes-all-value;
+        }
+      }
+    }
+  } @else if $font-breakpoint-key == 'large' {
+    @include respond-to($font-breakpoint-key) {
+      @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
+        .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
+          font-size: $font-sizes-all-value;
+        }
       }
     }
   }
