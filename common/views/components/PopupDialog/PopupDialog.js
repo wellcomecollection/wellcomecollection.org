@@ -109,7 +109,7 @@ const PopupDialogCTA = styled(Space).attrs({
     overrides: { small: 5, medium: 5, large: 5 },
   },
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnm', 5, { small: 3, medium: 3 })]: true,
     'bg-purple font-white font-hover-purple bg-hover-white rounded-corners inline-block': true,
   }),
 })`
