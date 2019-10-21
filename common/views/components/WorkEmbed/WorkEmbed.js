@@ -21,7 +21,7 @@ const WorkEmbed = ({ work }: Props) => {
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
   const imageUrl = iiifImage({ size: '800,' });
   const imageInfoUrl = convertIiifUriToInfoUri(
-    convertImageUri(imageUrl, 'full', false)
+    convertImageUri(imageUrl, 'full')
   );
 
   return (

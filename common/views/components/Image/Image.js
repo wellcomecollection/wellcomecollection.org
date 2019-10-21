@@ -38,7 +38,7 @@ const Image = (props: Props) => {
       <img width='${props.width}'
         height='${props.height || ''}'
         class='${classes}'
-        src='${convertImageUri(props.contentUrl, 640, false)}'
+        src='${convertImageUri(props.contentUrl, 640)}'
         alt='${props.alt || ''}' />`,
         }}
       />
@@ -84,9 +84,9 @@ const Img = ({
         [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
         [`${extraClasses || ''}`]: Boolean(extraClasses),
       })}
-      src={convertImageUri(contentUrl, defaultSize, false)}
+      src={convertImageUri(contentUrl, defaultSize)}
       data-srcset={sizes.map(size => {
-        return `${convertImageUri(contentUrl, size, false)} ${size}w`;
+        return `${convertImageUri(contentUrl, size)} ${size}w`;
       })}
       sizes={sizesQueries}
       data-copyright={copyright}
