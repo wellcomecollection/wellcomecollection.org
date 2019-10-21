@@ -6,6 +6,7 @@ import { type Link } from '../../../model/link';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
+import { trackEvent } from '../../../utils/ga';
 
 const PopupDialogOpen = styled(Space).attrs(props => ({
   'aria-hidden': props.isActive ? 'true' : 'false',
@@ -150,6 +151,10 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     if (dialog && isActiveRef.current && !dialog.contains(event.target)) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
+      trackEvent({
+        category: 'PopupDialog',
+        action: 'close dialog',
+      });
     }
   }
 
@@ -157,6 +162,10 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     if (event.keyCode === 27 && isActiveRef.current) {
       setIsActive(false);
       openDialogRef && openDialogRef.current && openDialogRef.current.focus();
+      trackEvent({
+        category: 'PopupDialog',
+        action: 'close dialog',
+      });
     }
   }
 
@@ -203,6 +212,11 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
             closeDialogRef &&
               closeDialogRef.current &&
               closeDialogRef.current.focus();
+
+            trackEvent({
+              category: 'PopupDialog',
+              action: 'open dialog',
+            });
           }}
         >
           <Space h={{ size: 's', properties: ['margin-right'] }}>
@@ -221,6 +235,11 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
               openDialogRef &&
                 openDialogRef.current &&
                 openDialogRef.current.focus();
+
+              trackEvent({
+                category: 'PopupDialog',
+                action: 'close dialog',
+              });
             }}
           >
             <Icon
