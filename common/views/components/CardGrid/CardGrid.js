@@ -13,6 +13,7 @@ import { type UiEvent } from '../../../model/events';
 import { type Book } from '../../../model/books';
 import { type Article } from '../../../model/articles';
 import Space from '../styled/Space';
+import type Moment from 'moment';
 
 // TODO: This should be MultiContent
 type ContentTypes = UiEvent | UiExhibition | Book | Article;
@@ -23,6 +24,7 @@ type Props = {|
   itemsPerRow: number,
   itemsHaveTransparentBackground?: boolean,
   links?: Link[],
+  fromDate?: Moment,
 |};
 
 const CardGrid = ({
@@ -31,6 +33,7 @@ const CardGrid = ({
   itemsPerRow,
   itemsHaveTransparentBackground = false,
   links,
+  fromDate,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
 
@@ -71,7 +74,7 @@ const CardGrid = ({
                 />
               )}
               {item.id !== 'tours' && item.type === 'events' && (
-                <EventPromo event={item} position={i} />
+                <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
                 <StoryPromo

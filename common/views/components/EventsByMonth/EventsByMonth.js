@@ -194,6 +194,7 @@ class EventsByMonth extends Component<Props, State> {
               items={eventsInMonths[month.id].concat(dailyTourPromo)}
               itemsPerRow={3}
               links={links}
+              fromDate={london(month.id)}
             />
           </div>
         ))}
