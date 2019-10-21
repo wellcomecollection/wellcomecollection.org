@@ -30,16 +30,25 @@ type HorizontalSpaceProperty =
   | 'left'
   | 'right';
 
+type SpacingUnitsIndex = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export type SpaceOverrides = {
+  small?: SpacingUnitsIndex,
+  medium?: SpacingUnitsIndex,
+  large?: SpacingUnitsIndex,
+};
+
 type VerticalSpaceProps = {|
   size: SpaceSize,
   properties: VerticalSpaceProperty[],
   negative?: boolean,
+  overrides?: SpaceOverrides,
 |};
 
 type HorizontalSpaceProps = {|
   size: SpaceSize,
   properties: HorizontalSpaceProperty[],
   negative?: boolean,
+  overrides?: SpaceOverrides,
 |};
 
 export type SpaceComponentProps = {
@@ -53,14 +62,16 @@ const Space: ComponentType<SpaceComponentProps> = styled.div`
     props.theme.makeSpacePropertyValues(
       props.v.size,
       props.v.properties,
-      props.v.negative
+      props.v.negative,
+      props.v.overrides
     )}
   ${props =>
     props.h &&
     props.theme.makeSpacePropertyValues(
       props.h.size,
       props.h.properties,
-      props.h.negative
+      props.h.negative,
+      props.h.overrides
     )}
 `;
 
