@@ -1,5 +1,6 @@
 // @flow
 import { type Node, Fragment } from 'react';
+import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
@@ -29,27 +30,6 @@ import { clientSideSearchParams } from '@weco/common/services/catalogue/search-p
 import Download from '../Download/Download';
 import PaletteSimilarityBox from '../PaletteSimilarityBox/PaletteSimilarityBox';
 
-type TimeProps = {|
-  hours: string,
-  minutes: string,
-  seconds: string,
-|};
-
-function doubleDigits(n) {
-  return n > 9 ? `${n}` : `0${n}`;
-}
-
-function convertMS(milliseconds: number): TimeProps {
-  const seconds = milliseconds / 1000;
-  const closestSeconds = Math.round(seconds);
-  const minutes = Math.floor(closestSeconds / 60);
-  const hours = Math.floor(minutes / 60);
-  return {
-    hours: doubleDigits(hours),
-    minutes: doubleDigits(minutes % 60),
-    seconds: doubleDigits(closestSeconds % 60),
-  };
-}
 type WorkDetailsSectionProps = {|
   headingText?: string,
   children: Node,
@@ -153,7 +133,8 @@ const WorkDetails = ({
   const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
-  const duration = work.duration && convertMS(work.duration);
+  const duration =
+    work.duration && moment.utc(work.duration).format('HH:mm:ss');
 
   const iiifPresentationRepository =
     iiifPresentationManifest &&
@@ -306,11 +287,7 @@ const WorkDetails = ({
         )}
 
         {showAdditionalCatalogueData && duration && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Duration"
-            text={[`${duration.hours}:${duration.minutes}:${duration.seconds}`]}
-          />
+          <MetaUnit headingLevel={3} headingText="Duration" text={[duration]} />
         )}
 
         {showAdditionalCatalogueData && work.notes && (
