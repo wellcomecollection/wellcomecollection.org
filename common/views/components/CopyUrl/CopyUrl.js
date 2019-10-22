@@ -3,7 +3,6 @@ import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment, Component } from 'react';
 import Icon from '../Icon/Icon';
-import HTMLInput from '../HTMLInput/HTMLInput';
 import Space from '../styled/Space';
 
 type Props = {|
@@ -34,8 +33,8 @@ function getButtonMarkup(isTextCopied, isClicked) {
 }
 
 class CopyUrl extends Component<Props, State> {
-  textInput: ?HTMLInputElement;
-  setTextInputRef: Function;
+  textInput: ?HTMLElement;
+  setTextRef: Function;
   focusTextInput: Function;
 
   constructor(props: Props) {
@@ -44,7 +43,7 @@ class CopyUrl extends Component<Props, State> {
 
     // Using refs to get access to elements for e.g. focusing
     // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
-    this.setTextInputRef = el => {
+    this.setTextRef = el => {
       this.textInput = el;
     };
 
@@ -103,14 +102,7 @@ class CopyUrl extends Component<Props, State> {
 
     return (
       <div>
-        <HTMLInput
-          inputRef={this.setTextInputRef}
-          id="share"
-          type="text"
-          label="share url"
-          defaultValue={url}
-          isLabelHidden={true}
-        />
+        <p inputRef={this.setTextRef}>{url}</p>
 
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
         once we're fully reactified */}
