@@ -228,12 +228,23 @@ const IIIFPresentationPreview = ({
 }: Props) => {
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
+  const [hasThumbnails, setHasThumbnails] = useState(false);
   const [imageTotal, setImageTotal] = useState(0);
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
+
+  useEffect(() => {
+    const allImages = [].concat.apply(
+      [],
+      imageThumbnails.map(thumbs => {
+        return thumbs.images;
+      })
+    );
+    setHasThumbnails(allImages.length > 0);
+  }, [imageThumbnails]);
 
   function trackViewingTime() {
     trackEvent({
@@ -317,7 +328,7 @@ const IIIFPresentationPreview = ({
     );
   }
 
-  if (viewType === 'iiif') {
+  if (viewType === 'iiif' && hasThumbnails) {
     return (
       <WobblyRow>
         <PresentationPreview>
