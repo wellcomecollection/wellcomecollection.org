@@ -278,7 +278,15 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
               extraClasses="icon--purple"
             />
           </PopupDialogClose>
-          {children}
+          <Space
+            h={{
+              size: 'm',
+              properties: ['padding-right'],
+              overrides: { small: 4, medium: 4, large: 4 },
+            }}
+          >
+            {children}
+          </Space>
           <PopupDialogCTA
             href={cta.url}
             ref={ctaRef}
