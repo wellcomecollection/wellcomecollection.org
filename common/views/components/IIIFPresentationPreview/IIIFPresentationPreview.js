@@ -237,11 +237,9 @@ const IIIFPresentationPreview = ({
   const audio = getAudio(iiifPresentationManifest);
 
   useEffect(() => {
-    const allImages = [].concat.apply(
-      [],
-      imageThumbnails.map(thumbs => {
-        return thumbs.images;
-      })
+    const allImages = imageThumbnails.reduce(
+      (acc, thumb) => [...acc, ...thumb.images],
+      []
     );
     setHasThumbnails(allImages.length > 0);
   }, [imageThumbnails]);
