@@ -4,7 +4,15 @@ import { type SearchParams, searchParamsSerialiser } from './search-params';
 import { removeEmptyProps } from '../../utils/json';
 
 export type WorksUrlProps = SearchParams;
-export type WorkUrlProps = {| id: string, ...SearchParams |};
+export type WorkUrlProps = {|
+  ...SearchParams,
+  id: string,
+  position: number,
+  resultWorkType: string,
+  resultLanguage: ?string,
+  resultIdentifiers: ?string,
+  resultSubjects: ?string,
+|};
 
 export type ItemUrlProps = {|
   workId: string,

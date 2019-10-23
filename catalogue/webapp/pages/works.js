@@ -21,10 +21,6 @@ import {
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import {
-  trackSearch,
-  SearchEventNames,
-} from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
@@ -49,36 +45,12 @@ const Works = ({ works, searchParams }: Props) => {
     _queryType,
   } = searchParams;
 
-  const trackEvent = () => {
-    if (query && query !== '') {
-      const event = {
-        event: SearchEventNames.Search,
-        data: {
-          query,
-          page,
-          workType,
-          'production.dates.from': productionDatesFrom,
-          'production.dates.to': productionDatesTo,
-          _queryType,
-        },
-      };
-      trackSearch(event);
-    }
-  };
-
-  // We have to have this for the initial page load, and have it on the router
-  // change as the page doesnt actually re-render when the URL parameters change.
-  useEffect(() => {
-    trackEvent();
-  }, []);
-
   useEffect(() => {
     function routeChangeStart(url: string) {
       setLoading(true);
     }
     function routeChangeComplete(url: string) {
       setLoading(false);
-      trackEvent();
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -318,37 +290,22 @@ const Works = ({ works, searchParams }: Props) => {
                         [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
-                      <div
-                        onClick={() => {
-                          const event = {
-                            event: SearchEventNames.SearchResultSelected,
-                            data: {
-                              id: result.id,
-                              position: i,
-                              query,
-                              page,
-                              workType,
-                              _queryType,
-                              'production.dates.from': productionDatesFrom,
-                              'production.dates.to': productionDatesTo,
-                              resultWorkType: result.workType.label,
-                              resultLanguage:
-                                result.language && result.language.label,
-                              resultIdentifiers: result.identifiers.map(
-                                identifier => identifier.value
-                              ),
-                              resultSubjects: result.subjects.map(
-                                subject => subject.label
-                              ),
-                            },
-                          };
-                          trackSearch(event);
-                        }}
-                      >
+                      <div>
                         <WorkCard
                           work={result}
                           params={{
                             ...searchParams,
+                            id: result.id,
+                            position: i,
+                            resultWorkType: result.workType.label,
+                            resultLanguage:
+                              result.language && result.language.label,
+                            resultIdentifiers: result.identifiers.map(
+                              identifier => identifier.value
+                            ),
+                            resultSubjects: result.subjects.map(
+                              subject => subject.label
+                            ),
                           }}
                         />
                       </div>

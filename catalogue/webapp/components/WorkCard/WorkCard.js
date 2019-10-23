@@ -16,7 +16,7 @@ import {
 import { trackEvent } from '@weco/common/utils/ga';
 import {
   workUrl,
-  type WorksUrlProps,
+  type WorkUrlProps,
 } from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -27,7 +27,7 @@ import Space, {
 
 type Props = {|
   work: Work,
-  params: WorksUrlProps,
+  params: WorkUrlProps,
 |};
 
 const Container = styled.div`
