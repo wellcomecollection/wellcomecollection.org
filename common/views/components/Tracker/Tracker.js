@@ -5,7 +5,7 @@ import Router from 'next/router';
 // Search
 const pathToEventName = {
   '/works': 'Search',
-  '/work': 'Search result viewed',
+  '/work': 'Search result selected',
   '/item': 'Item viewed',
 };
 
@@ -35,12 +35,17 @@ const track = (eventName: ?string, data: ?TrackingEventData) => {
   delete query.openingTimes;
 
   // returns `["withNotes:true", "testb:false"]`
+  let debug = false;
   const toggles = document.cookie
     .split(';')
     .map(cookie => {
       const parts = cookie.split('=');
       const key = parts[0] && parts[0].trim();
       const value = parts[1] && parts[1].trim();
+
+      if (key === 'analytics_debug' && value === 'true') {
+        debug = true;
+      }
 
       if (key && key.match('toggle_')) {
         return `${key.replace('toggle_', '')}:${value}`;
@@ -58,7 +63,10 @@ const track = (eventName: ?string, data: ?TrackingEventData) => {
       toggles,
       data,
     };
-    console.info(event);
+
+    if (debug) {
+      console.info('Tracking event', event);
+    }
     window.analytics && window.analytics.track(name, event);
   }
 };
