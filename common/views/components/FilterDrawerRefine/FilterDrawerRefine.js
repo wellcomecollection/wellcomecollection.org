@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import NextLink from 'next/link';
-import Router from 'next/router';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
 import { font, classNames } from '../../../utils/classnames';
@@ -14,10 +13,7 @@ import {
   onlineLocations,
   inLibraryLocations,
 } from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
-import {
-  type SearchParams,
-  defaultWorkTypes,
-} from '@weco/common/services/catalogue/search-params';
+import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 
 const workTypes = [
   {
@@ -131,13 +127,12 @@ function CancelFilter({ text }: { text: string }) {
   );
 }
 
-function FilterDrawerRefine({
-  searchForm,
-  searchParams,
-}: {
-  searchForm: ?HTMLFormElement,
+type Props = {|
+  searchForm: React.Ref<typeof HTMLFormElement>,
   searchParams: SearchParams,
-}) {
+|};
+
+const FilterDrawerRefine = ({ searchForm, searchParams }: Props) => {
   const {
     productionDatesFrom,
     productionDatesTo,
@@ -149,28 +144,12 @@ function FilterDrawerRefine({
   const [activeDrawer, setActiveDrawer] = useState(null);
   const { unfilteredSearchResults } = useContext(TogglesContext);
 
-  function updateUrl(unfilteredSearchResults: boolean, form: ?HTMLFormElement) {
-    const workType = searchParams.workType || [];
-    const link = unfilteredSearchResults
-      ? worksUrl({
-          ...searchParams,
-          // Override the defaultWorkType with [] if we're toggled to do so
-          workType: workType.length === defaultWorkTypes.length ? [] : workType,
-          query: form.query.value,
-          page: 1,
-          productionDatesFrom: form['production.dates.from'].value,
-          productionDatesTo:
-            form['production.dates.to'].productionDatesTo.value,
-        })
-      : worksUrl({
-          ...searchParams,
-          query: form.query.value,
-          page: 1,
-          productionDatesFrom: form['production.dates.from'].value,
-          productionDatesTo: form['production.dates.to'].value,
-        });
-
-    Router.push(link.href, link.as);
+  function submit() {
+    if (searchForm.current) {
+      searchForm.current.dispatchEvent(
+        new window.Event('submit', { cancelable: true })
+      );
+    }
   }
 
   useEffect(() => {
@@ -188,7 +167,7 @@ function FilterDrawerRefine({
       productionDatesFrom !== inputDateFrom &&
       (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
     ) {
-      updateUrl(unfilteredSearchResults, searchForm.current);
+      submit(unfilteredSearchResults, searchForm.current);
     }
   }, [inputDateFrom]);
 
@@ -197,7 +176,7 @@ function FilterDrawerRefine({
       productionDatesTo !== inputDateTo &&
       (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
     ) {
-      updateUrl(unfilteredSearchResults, searchForm.current);
+      submit(unfilteredSearchResults, searchForm.current);
     }
   }, [inputDateTo]);
 
@@ -513,6 +492,6 @@ function FilterDrawerRefine({
       )}
     </TogglesContext.Consumer>
   );
-}
+};
 
 export default FilterDrawerRefine;

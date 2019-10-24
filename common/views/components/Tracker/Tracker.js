@@ -2,13 +2,6 @@
 import { useEffect } from 'react';
 import Router from 'next/router';
 
-// Search
-const pathToEventName = {
-  '/works': 'Search',
-  '/work': 'Search result selected',
-  '/item': 'Item viewed',
-};
-
 type RelevanceRatingData = {|
   position: number,
   id: string,
@@ -19,13 +12,38 @@ type RelevanceRatingData = {|
   _queryType: ?string,
 |};
 
-type TrackingEventData = RelevanceRatingData;
+type ServiceName = 'search_relevance_implicit' | 'search_relevance_explicit';
 
 const trackRelevanceRating = (data: RelevanceRatingData) => {
-  track('Relevance rating', data);
+  track('Relevance rating', 'search_relevance_explicit', data);
 };
 
-const track = (eventName: ?string, data: ?TrackingEventData) => {
+type SearchResultSelectedData = {|
+  id: string,
+  position: number,
+  resultWorkType: string,
+  resultLanguage: ?string,
+  resultIdentifiers: ?string,
+  resultSubjects: ?string,
+|};
+const trackSearchResultSelected = (data: SearchResultSelectedData) => {
+  track('Search result selected', 'search_relevance_implicit', data);
+};
+
+const trackSearch = () => {
+  track('Search', 'search_relevance_implicit');
+};
+
+const trackSearchLanding = () => {
+  track('Search landing', 'search_relevance_implicit');
+};
+
+type TrackingEventData = SearchResultSelectedData | RelevanceRatingData;
+const track = (
+  eventName: string,
+  serviceName: ServiceName,
+  data: ?TrackingEventData
+) => {
   const query = {
     ...Router.query,
   };
@@ -53,22 +71,20 @@ const track = (eventName: ?string, data: ?TrackingEventData) => {
     })
     .filter(Boolean);
 
-  const name = eventName || pathToEventName[Router.pathname];
+  const event = {
+    service: serviceName,
+    path: Router.pathname,
+    eventName,
+    query,
+    toggles,
+    data,
+  };
 
-  if (name) {
-    const event = {
-      path: Router.pathname,
-      eventName: name,
-      query,
-      toggles,
-      data,
-    };
-
-    if (debug) {
-      console.info('Tracking event', event);
-    }
-    window.analytics && window.analytics.track(name, event);
+  if (debug) {
+    console.info(event);
   }
+
+  window.analytics && window.analytics.track(eventName, event);
 };
 
 const TrackerScript = () => {
@@ -126,20 +142,15 @@ const TrackerScript = () => {
         analytics.SNIPPET_VERSION = '4.1.0';
         analytics.load('78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI');
       }
-
-    function init() {
-      track();
-    }
-    Router.events.on('routeChangeComplete', init);
-    track();
-
-    return () => {
-      Router.events.off('routeChangeComplete', init);
-    };
   }, []);
 
   return null;
 };
 
-export { trackRelevanceRating };
-export { TrackerScript };
+export {
+  trackRelevanceRating,
+  trackSearch,
+  trackSearchResultSelected,
+  trackSearchLanding,
+  TrackerScript,
+};

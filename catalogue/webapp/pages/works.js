@@ -28,6 +28,11 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import {
+  trackSearchResultSelected,
+  trackSearch,
+  trackSearchLanding,
+} from '@weco/common/views/components/Tracker/Tracker';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -44,6 +49,24 @@ const Works = ({ works, searchParams }: Props) => {
     productionDatesTo,
     _queryType,
   } = searchParams;
+
+  function trackSearchWithQuery() {
+    if (query && query !== '') {
+      trackSearch();
+    }
+  }
+
+  useEffect(() => {
+    if (query && query !== '') {
+      trackSearch();
+    } else {
+      trackSearchLanding();
+    }
+    Router.events.on('routeChangeComplete', trackSearchWithQuery);
+    return () => {
+      Router.events.off('routeChangeComplete', trackSearchWithQuery);
+    };
+  }, []);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -290,11 +313,9 @@ const Works = ({ works, searchParams }: Props) => {
                         [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
-                      <div>
-                        <WorkCard
-                          work={result}
-                          params={{
-                            ...searchParams,
+                      <div
+                        onClick={() => {
+                          trackSearchResultSelected({
                             id: result.id,
                             position: i,
                             resultWorkType: result.workType.label,
@@ -306,6 +327,14 @@ const Works = ({ works, searchParams }: Props) => {
                             resultSubjects: result.subjects.map(
                               subject => subject.label
                             ),
+                          });
+                        }}
+                      >
+                        <WorkCard
+                          work={result}
+                          params={{
+                            ...searchParams,
+                            id: result.id,
                           }}
                         />
                       </div>
