@@ -23,7 +23,10 @@ periodicallyUpdatePrismic();
 
 export function isPreview(req: ?Request): boolean {
   const cookies = req && new Cookies(req);
-  return cookies ? Boolean(cookies.get('isPreview')) : false;
+  return cookies
+    ? Boolean(cookies.get('isPreview')) ||
+        Boolean(cookies.get(Prismic.previewCookie))
+    : false;
 }
 
 export async function getPrismicApi(req: ?Request) {
