@@ -158,10 +158,6 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
   }, []);
 
   useEffect(() => {
-    setTabbable(false);
-  }, [dialogWindowRef.current]);
-
-  useEffect(() => {
     isActiveRef.current = isActive;
 
     window.document.addEventListener('click', handleBodyClick);
@@ -262,6 +258,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
           <PopupDialogClose
             title="close dialog"
             ref={closeDialogRef}
+            tabIndex={isActive ? '0' : '-1'}
             onKeyDown={handleTrapStartKeyDown}
             onClick={() => {
               setIsActive(false);
@@ -294,6 +291,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
           <PopupDialogCTA
             href={cta.url}
             ref={ctaRef}
+            tabIndex={isActive ? '0' : '-1'}
             onKeyDown={handleTrapEndKeyDown}
             onClick={hidePopupDialog}
           >
