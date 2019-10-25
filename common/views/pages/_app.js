@@ -108,6 +108,31 @@ function openingHoursToOpeningHoursSpecification(openingHours: OpeningHours) {
   };
 }
 
+function makeSurePageIsTallEnough() {
+  const pageHeightCache = [];
+  const html = document.querySelector('html');
+
+  Router.events.on('routeChangeStart', () => {
+    document &&
+      document.documentElement &&
+      pageHeightCache.push(document.documentElement.offsetHeight);
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    if (html) {
+      html.style.height = 'initial';
+    }
+  });
+
+  Router.beforePopState(() => {
+    if (html) {
+      html.style.height = `${pageHeightCache.pop()}px`;
+    }
+
+    return true;
+  });
+}
+
 export default class WecoApp extends App {
   static async getInitialProps({ Component, router, ctx }: AppInitialProps) {
     // Caching things from the server request to be available to the client
@@ -170,6 +195,8 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
+    makeSurePageIsTallEnough();
+
     if (document.documentElement) {
       document.documentElement.classList.add('enhanced');
     }
