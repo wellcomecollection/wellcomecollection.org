@@ -158,6 +158,10 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
   }, []);
 
   useEffect(() => {
+    setTabbable(false);
+  }, [dialogWindowRef.current]);
+
+  useEffect(() => {
     isActiveRef.current = isActive;
 
     window.document.addEventListener('click', handleBodyClick);
