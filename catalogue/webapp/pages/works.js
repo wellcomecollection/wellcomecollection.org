@@ -18,6 +18,7 @@ import {
   apiSearchParamsSerialiser,
   searchParamsDeserialiser,
   defaultWorkTypes,
+  defaultItemsLocationsLocationType,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -230,6 +231,9 @@ const Works = ({ works, searchParams }: Props) => {
                           workType: unfilteredSearchResults
                             ? []
                             : defaultWorkTypes,
+                          itemsLocationsLocationType: unfilteredSearchResults
+                            ? []
+                            : defaultItemsLocationsLocationType,
                         }),
                         selected:
                           !!workType &&
@@ -245,6 +249,9 @@ const Works = ({ works, searchParams }: Props) => {
                           link: worksUrl({
                             ...searchParams,
                             workType: t.materialTypes.map(m => m.letter),
+                            itemsLocationsLocationType: unfilteredSearchResults
+                              ? []
+                              : defaultItemsLocationsLocationType,
                             page: 1,
                           }),
                           selected:

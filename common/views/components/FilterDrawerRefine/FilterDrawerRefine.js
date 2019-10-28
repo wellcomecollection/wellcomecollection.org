@@ -143,6 +143,7 @@ function FilterDrawerRefine({
     productionDatesTo,
     workType,
     itemsLocationsLocationType,
+    defaultItemsLocationsLocationType,
   } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
@@ -156,6 +157,10 @@ function FilterDrawerRefine({
           ...searchParams,
           // Override the defaultWorkType with [] if we're toggled to do so
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
+          // Override the defaultItemsLocationsLocationType if we're toggled to do so
+          itemsLocationsLocationType: unfilteredSearchResults
+            ? []
+            : defaultItemsLocationsLocationType,
           query: form.query.value,
           page: 1,
           productionDatesFrom: form['production.dates.from'].value,

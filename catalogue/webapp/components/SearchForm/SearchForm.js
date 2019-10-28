@@ -120,6 +120,8 @@ const SearchForm = ({
           // [] => no filter
           // [anything] => filter
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
+          // Override the default locations if we're toggled to do so
+          itemsLocationsLocationType: [],
           query: inputQuery,
           page: 1,
           productionDatesFrom: productionDatesFromValue,
