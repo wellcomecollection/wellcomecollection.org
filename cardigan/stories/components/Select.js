@@ -9,8 +9,8 @@ const SelectExample = () => {
       label={`Sort by`}
       options={[
         { text: 'Relevance' },
-        { text: 'Date ascending' },
-        { text: 'Date descending' },
+        { text: 'Oldest to newest' },
+        { text: 'Newest to oldest' },
       ]}
     />
   );
