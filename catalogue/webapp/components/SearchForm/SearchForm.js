@@ -223,11 +223,11 @@ const SearchForm = ({
                     },
                     {
                       value: 'asc',
-                      text: 'Date ascending',
+                      text: 'Oldest to newest',
                     },
                     {
                       value: 'desc',
-                      text: 'Date descending',
+                      text: 'Newest to oldest',
                     },
                   ]}
                   onChange={event => {
