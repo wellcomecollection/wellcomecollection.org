@@ -10,10 +10,12 @@ We will keep this page up to date with the latest information as we make more pr
 
 ## What’s new? (updated 25 October 2019)
 
-### Filtering by date
+### Improvements to search relevance
+
+#### Filtering by date
 We've added the ability to filter search results by their production date and now have production dates for over 90% the catalogue (up from 64% since the middle of August).
 
-### Order results
+#### Order results
 We've added the ability to order search results by relevance (the default), date ascending and date descending.
 
 ### What are the limits?
@@ -26,7 +28,7 @@ If you want a more comprehensive search, please try searching the catalogue on [
 
 For now, if you need any additional help in identifying items from library collections, please email collections@wellcome.ac.uk.
 
-## What's next:
+## What's next?
 
 - We’ll continue to monitor and improve the relevance of your search results.
 - We’re also adding more descriptive data, including physical details, improved date ranges, notes and location information.
