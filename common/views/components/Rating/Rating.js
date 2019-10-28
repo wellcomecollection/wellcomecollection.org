@@ -21,6 +21,7 @@ const RatingButton = styled.button.attrs(props => ({
   white-space: nowrap;
   cursor: ${props => (props.disabled ? 'default' : 'pointer')}
   &::before {
+    transition: color 400ms;
     color: ${props =>
       props.active ? props.theme.colors.yellow : props.theme.colors.pumice};
     content: '★';
