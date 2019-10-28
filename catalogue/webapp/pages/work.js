@@ -31,6 +31,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
+import RequestItem from '../components/RequestItem/RequestItem';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -171,6 +172,7 @@ export const WorkPage = ({ work }: Props) => {
         <div className="container">
           <div className="grid">
             <WorkHeader work={work} childManifestsCount={childManifestsCount} />
+            <RequestItem work={work} />
           </div>
         </div>
       </Space>
