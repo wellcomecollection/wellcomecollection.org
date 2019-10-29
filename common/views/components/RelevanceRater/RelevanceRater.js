@@ -1,35 +1,10 @@
 // @flow
-import { type ComponentType } from 'react';
-import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
+import { useState, useEffect } from 'react';
 import {
   trackRelevanceRating,
   RelevanceRatingEventNames,
 } from '../Tracker/Tracker';
-import Space, { type SpaceComponentProps } from '../styled/Space';
-
-const RelevanceRaterStyle = styled.div.attrs(props => ({
-  className: classNames({
-    flex: true,
-    [font('hnl', 4)]: true,
-  }),
-}))`
-  height: 100%;
-`;
-
-const RelevanceRating: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
-    className: classNames({
-      'plain-button': true,
-    }),
-  })
-)`
-  width: 25%;
-  cursor: pointer;
-  border: 1px solid ${props => props.theme.colors.smoke};
-  border-left-width: ${props => (props.index === 0 ? 1 : 0)};
-  border-bottom-width: 0;
-`;
+import Rating from '../Rating/Rating';
 
 type Props = {|
   position: number,
@@ -39,6 +14,13 @@ type Props = {|
   workType: ?(string[]),
   _queryType: ?string,
 |};
+
+const ratings = [
+  { value: 1, text: 'Not relevant' },
+  { value: 2, text: 'Somewhat relevant' },
+  { value: 3, text: 'Relevant' },
+  { value: 4, text: 'Very relevant' },
+];
 
 function createEvent(rating) {
   return {
@@ -55,107 +37,29 @@ const RelevanceRater = ({
   workType,
   _queryType,
 }: Props) => {
+  const [addRatings, setAddRatings] = useState(false);
+  useEffect(() => {
+    setAddRatings(true);
+  }, []);
   return (
-    <div>
-      <RelevanceRaterStyle>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={0}
-          onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 1,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
-          }
-        >
-          No apparent relationship to search term
-        </RelevanceRating>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={1}
-          onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 2,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
-          }
-        >
-          Reasonable to be retrieved but should not be this highly ranked
-        </RelevanceRating>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={2}
-          onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 3,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
-          }
-        >
-          Not perfect but reasonable to be highly ranked
-        </RelevanceRating>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={3}
-          onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 4,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
-          }
-        >
-          Completely relevant to be at this rank
-        </RelevanceRating>
-      </RelevanceRaterStyle>
-    </div>
+    addRatings && (
+      <Rating
+        ratings={ratings}
+        clickHandler={value => {
+          trackRelevanceRating(
+            createEvent({
+              id,
+              position,
+              rating: value,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
+          );
+        }}
+      />
+    )
   );
 };
 
