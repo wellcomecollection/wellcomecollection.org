@@ -12,12 +12,10 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   searchParamsDeserialiser,
-  defaultWorkTypes,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -27,18 +25,18 @@ import {
 } from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
-import { getWorks } from '../services/catalogue/works';
+import { getWorks, getWorkTypeAggregations } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
+  workTypeAggregations: any,
   searchParams: SearchParams,
 |};
 
-const Works = ({ works, searchParams }: Props) => {
+const Works = ({ works, workTypeAggregations, searchParams }: Props) => {
   const [loading, setLoading] = useState(false);
   const {
     query,
@@ -100,31 +98,6 @@ const Works = ({ works, searchParams }: Props) => {
         statusCode={works.httpStatus}
       />
     );
-  }
-
-  const workTypes = [
-    {
-      title: 'Books',
-      materialTypes: [{ title: 'books', letter: 'a' }],
-    },
-    {
-      title: 'Pictures',
-      materialTypes: [
-        { title: 'pictures', letter: 'k' },
-        { title: 'digital images', letter: 'q' },
-      ],
-    },
-    {
-      title: 'Audio/Visual',
-      materialTypes: [
-        { title: 'video recordings', letter: 'g' },
-        { title: 'sound', letter: 'i' },
-      ],
-    },
-  ];
-
-  function arraysEqual(arr1, arr2) {
-    return arr1.length === arr2.length && arr1.every(t => arr2.includes(t));
   }
 
   return (
@@ -209,59 +182,12 @@ const Works = ({ works, searchParams }: Props) => {
                   compact={false}
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
+                  workTypeAggregations={workTypeAggregations}
                 />
               </div>
             </div>
           </div>
         </Space>
-
-        <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, unfilteredSearchResults }) => (
-            <>
-              {!refineFiltersPrototype && works && (
-                <Layout12>
-                  <TabNav
-                    items={[
-                      {
-                        text: 'All',
-                        link: worksUrl({
-                          ...searchParams,
-                          page: 1,
-                          workType: unfilteredSearchResults
-                            ? []
-                            : defaultWorkTypes,
-                        }),
-                        selected:
-                          !!workType &&
-                          arraysEqual(
-                            unfilteredSearchResults ? [] : defaultWorkTypes,
-                            workType
-                          ),
-                      },
-                    ].concat(
-                      workTypes.map(t => {
-                        return {
-                          text: t.title,
-                          link: worksUrl({
-                            ...searchParams,
-                            workType: t.materialTypes.map(m => m.letter),
-                            page: 1,
-                          }),
-                          selected:
-                            !!workType &&
-                            arraysEqual(
-                              t.materialTypes.map(m => m.letter),
-                              workType
-                            ),
-                        };
-                      })
-                    )}
-                  />
-                </Layout12>
-              )}
-            </>
-          )}
-        </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
 
@@ -453,7 +379,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
   const shouldGetWorks = filters.query && filters.query !== '';
-  const { searchWithNotes } = ctx.query.toggles;
+  const { searchWithNotes, unfilteredSearchResults } = ctx.query.toggles;
 
   const toggledFilters = {
     ...filters,
@@ -466,8 +392,16 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
       })
     : null;
 
+  const workTypeAggregations = shouldGetWorks
+    ? await getWorkTypeAggregations({
+        unfilteredSearchResults,
+        filters: toggledFilters,
+      }).then(d => d.aggregations.workType.buckets)
+    : null;
+
   return {
     works: worksOrError,
+    workTypeAggregations,
     searchParams: params,
   };
 };
