@@ -136,6 +136,10 @@ const WorkDetails = ({
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
 
+  const notes =
+    work.notes &&
+    work.notes.map(note => note.contents.map(entry => `${entry}`));
+
   const iiifPresentationRepository =
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
@@ -291,7 +295,7 @@ const WorkDetails = ({
         )}
 
         {showAdditionalCatalogueData && work.notes && (
-          <MetaUnit headingLevel={3} headingText="Notes" text={[work.notes]} />
+          <MetaUnit headingLevel={3} headingText="Notes" text={notes} />
         )}
 
         {showAdditionalCatalogueData && work.contents && (
