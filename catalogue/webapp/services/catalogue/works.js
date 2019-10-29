@@ -7,6 +7,7 @@ import {
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { removeEmptyProps } from '@weco/common/utils/json';
+import { defaultWorkTypes } from '@weco/common/services/catalogue/search-params';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -62,6 +63,28 @@ export async function getWorks({
       type: 'Error',
     };
   }
+}
+
+export async function getWorkTypeAggregations({
+  filters,
+  unfilteredSearchResults,
+  env = 'prod',
+}: any): Promise<CatalogueResultsList | CatalogueApiError> {
+  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
+    const val = filters[key];
+    return key !== 'workType' && `${key}=${val}`;
+  });
+  const url =
+    `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
+    `&aggregations=workType&workType=${
+      unfilteredSearchResults ? '' : defaultWorkTypes.join(',')
+    }` +
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+
+  const res = await fetch(url);
+  const json = await res.json();
+
+  return (json: CatalogueResultsList | CatalogueApiError);
 }
 
 export async function getWork({

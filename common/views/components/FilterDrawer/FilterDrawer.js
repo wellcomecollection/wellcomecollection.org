@@ -76,7 +76,8 @@ const FiltersContainer = styled.div.attrs({
   }
 `;
 
-const FilterSection = styled.div.attrs(props => ({
+const FilterSection = styled.fieldset.attrs(props => ({
+  disabled: !props.isActive,
   'aria-hidden': !props.isActive,
 }))`
   .enhanced & {
@@ -85,6 +86,7 @@ const FilterSection = styled.div.attrs(props => ({
     transition: opacity 500ms 300ms ease;
     opacity: ${props => (props.isActive ? 1 : 0)};
     position: absolute;
+    pointer-events: ${props => (props.isActive ? 'all' : 'none')};
   }
 `;
 

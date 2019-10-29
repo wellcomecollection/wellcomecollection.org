@@ -9,6 +9,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
+import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   onlineLocations,
@@ -134,9 +135,11 @@ function CancelFilter({ text }: { text: string }) {
 function FilterDrawerRefine({
   searchForm,
   searchParams,
+  workTypeAggregations,
 }: {
   searchForm: ?HTMLFormElement,
   searchParams: SearchParams,
+  workTypeAggregations: any,
 }) {
   const {
     productionDatesFrom,
@@ -150,7 +153,11 @@ function FilterDrawerRefine({
   const { unfilteredSearchResults } = useContext(TogglesContext);
 
   function updateUrl(unfilteredSearchResults: boolean, form: ?HTMLFormElement) {
-    const workType = searchParams.workType || [];
+    const workType = [...form['formats']]
+      .filter(f => f.checked)
+      .map(f => f.value);
+    // const workType = searchParams.workType || [];
+
     const link = unfilteredSearchResults
       ? worksUrl({
           ...searchParams,
@@ -164,6 +171,7 @@ function FilterDrawerRefine({
         })
       : worksUrl({
           ...searchParams,
+          workType,
           query: form.query.value,
           page: 1,
           productionDatesFrom: form['production.dates.from'].value,
@@ -247,24 +255,37 @@ function FilterDrawerRefine({
                     </Space>
                   ),
                 },
+                {
+                  title: 'Formats',
+                  component: (
+                    <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                      {workTypeAggregations.map(type => (
+                        <Space
+                          key={type.data.id}
+                          as="span"
+                          h={{ size: 'm', properties: ['margin-right'] }}
+                        >
+                          <Checkbox
+                            id={type.data.id}
+                            text={`${type.data.label} (${type.count})`}
+                            value={type.data.id}
+                            name={`formats`}
+                            onChange={() => {
+                              updateUrl(
+                                unfilteredSearchResults,
+                                searchForm.current
+                              );
+                            }}
+                          />
+                        </Space>
+                      ))}
+                    </Space>
+                  ),
+                },
               ]}
             />
             {refineFiltersPrototype && (
               <>
-                <ProtoTag
-                  as="button"
-                  type="button"
-                  isPrimary
-                  isActive={activeDrawer === 'format'}
-                  onClick={() => {
-                    setActiveDrawer(
-                      activeDrawer === 'format' ? null : 'format'
-                    );
-                  }}
-                >
-                  <Icon name="chevron" />
-                  Formats
-                </ProtoTag>
                 <ProtoTag
                   as="button"
                   type="button"
@@ -286,30 +307,7 @@ function FilterDrawerRefine({
             <>
               <div
                 className={`${activeDrawer !== 'format' ? 'is-hidden' : ''}`}
-              >
-                <>
-                  {allWorkTypes.map(subcategory => (
-                    <NextLink
-                      key={subcategory.title}
-                      passHref
-                      {...worksUrl({
-                        ...searchParams,
-                        workType: updateWorkTypes(workType, subcategory),
-                        page: 1,
-                      })}
-                    >
-                      <ProtoTag
-                        as="a"
-                        isActive={
-                          workType && workType.includes(subcategory.letter)
-                        }
-                      >
-                        {subcategory.title}
-                      </ProtoTag>
-                    </NextLink>
-                  ))}
-                </>
-              </div>
+              ></div>
               <div
                 className={`${
                   activeDrawer !== 'availability' ? 'is-hidden' : ''

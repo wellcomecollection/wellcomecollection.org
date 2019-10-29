@@ -21,6 +21,7 @@ type Props = {|
   compact: boolean,
   shouldShowFilters: boolean,
   searchParams: SearchParams,
+  workTypeAggregations: any,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -57,6 +58,7 @@ const SearchForm = ({
   compact,
   shouldShowFilters,
   searchParams,
+  workTypeAggregations,
 }: Props) => {
   const { query, workType } = searchParams;
   const searchForm = useRef();
@@ -209,6 +211,7 @@ const SearchForm = ({
               <FilterDrawerRefine
                 searchForm={searchForm}
                 searchParams={searchParams}
+                workTypeAggregations={workTypeAggregations}
               />
 
               {enhanced && (
