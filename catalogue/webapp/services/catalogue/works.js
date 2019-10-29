@@ -35,8 +35,6 @@ const includes = [
   'contributors',
   'production',
   'notes',
-  'dissertation',
-  'alternativeTitles',
 ];
 
 export async function getWorks({

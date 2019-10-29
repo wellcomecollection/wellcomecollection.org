@@ -31,11 +31,12 @@ const trackSearchResultSelected = (data: SearchResultSelectedData) => {
 };
 
 const trackSearch = () => {
-  track('Search', 'search_relevance_implicit');
-};
-
-const trackSearchLanding = () => {
-  track('Search landing', 'search_relevance_implicit');
+  const query = Router.query.query;
+  if (query && query !== '') {
+    track('Search', 'search_relevance_implicit');
+  } else {
+    track('Search landing', 'search_relevance_implicit');
+  }
 };
 
 type TrackingEventData = SearchResultSelectedData | RelevanceRatingData;
@@ -151,6 +152,5 @@ export {
   trackRelevanceRating,
   trackSearch,
   trackSearchResultSelected,
-  trackSearchLanding,
   TrackerScript,
 };

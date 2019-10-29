@@ -109,7 +109,7 @@ const PopupDialogCTA = styled(Space).attrs({
     overrides: { small: 5, medium: 5, large: 5 },
   },
   className: classNames({
-    [font('hnm', 5)]: true,
+    [font('hnm', 5, { small: 3, medium: 3 })]: true,
     'bg-purple font-white font-hover-purple bg-hover-white rounded-corners inline-block': true,
   }),
 })`
@@ -258,6 +258,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
           <PopupDialogClose
             title="close dialog"
             ref={closeDialogRef}
+            tabIndex={isActive ? '0' : '-1'}
             onKeyDown={handleTrapStartKeyDown}
             onClick={() => {
               setIsActive(false);
@@ -278,10 +279,19 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
               extraClasses="icon--purple"
             />
           </PopupDialogClose>
-          {children}
+          <Space
+            h={{
+              size: 'm',
+              properties: ['padding-right'],
+              overrides: { small: 4, medium: 4, large: 4 },
+            }}
+          >
+            {children}
+          </Space>
           <PopupDialogCTA
             href={cta.url}
             ref={ctaRef}
+            tabIndex={isActive ? '0' : '-1'}
             onKeyDown={handleTrapEndKeyDown}
             onClick={hidePopupDialog}
           >

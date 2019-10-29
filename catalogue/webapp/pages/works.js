@@ -18,6 +18,7 @@ import {
   apiSearchParamsSerialiser,
   searchParamsDeserialiser,
   defaultWorkTypes,
+  defaultItemsLocationsLocationType,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -31,7 +32,6 @@ import WorkCard from '../components/WorkCard/WorkCard';
 import {
   trackSearchResultSelected,
   trackSearch,
-  trackSearchLanding,
 } from '@weco/common/views/components/Tracker/Tracker';
 
 type Props = {|
@@ -50,21 +50,15 @@ const Works = ({ works, searchParams }: Props) => {
     _queryType,
   } = searchParams;
 
-  function trackSearchWithQuery() {
-    if (query && query !== '') {
-      trackSearch();
-    }
+  function trackOnRouteChange() {
+    trackSearch();
   }
 
   useEffect(() => {
-    if (query && query !== '') {
-      trackSearch();
-    } else {
-      trackSearchLanding();
-    }
-    Router.events.on('routeChangeComplete', trackSearchWithQuery);
+    trackSearch();
+    Router.events.on('routeChangeComplete', trackOnRouteChange);
     return () => {
-      Router.events.off('routeChangeComplete', trackSearchWithQuery);
+      Router.events.off('routeChangeComplete', trackOnRouteChange);
     };
   }, []);
 
@@ -225,6 +219,9 @@ const Works = ({ works, searchParams }: Props) => {
                           workType: unfilteredSearchResults
                             ? []
                             : defaultWorkTypes,
+                          itemsLocationsLocationType: unfilteredSearchResults
+                            ? []
+                            : defaultItemsLocationsLocationType,
                         }),
                         selected:
                           !!workType &&
@@ -240,6 +237,9 @@ const Works = ({ works, searchParams }: Props) => {
                           link: worksUrl({
                             ...searchParams,
                             workType: t.materialTypes.map(m => m.letter),
+                            itemsLocationsLocationType: unfilteredSearchResults
+                              ? []
+                              : defaultItemsLocationsLocationType,
                             page: 1,
                           }),
                           selected:

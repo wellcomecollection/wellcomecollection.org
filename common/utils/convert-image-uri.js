@@ -129,6 +129,7 @@ function prismicTemplateParts(
           h: Math.round((requiredSize / Number(width)) * Number(height)),
         }
       : {
+          ...paramsToObject(urlParams.entries()),
           w: requiredSize,
         };
   return {

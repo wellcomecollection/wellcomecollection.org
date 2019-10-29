@@ -109,7 +109,7 @@ function randomImages(
   for (var i = 1; i <= numberOfImages; i++) {
     const randomNumber = Math.floor(Math.random() * canvases.length);
     const randomCanvas = canvases.splice(randomNumber, 1)[0];
-    if (randomCanvas.thumbnail.service) {
+    if (randomCanvas.thumbnail && randomCanvas.thumbnail.service) {
       images.push({
         id: appropriateServiceId(randomCanvas),
         canvasId: randomCanvas['@id'],
@@ -228,12 +228,21 @@ const IIIFPresentationPreview = ({
 }: Props) => {
   const [viewType, setViewType] = useState<ViewType>('unknown');
   const [imageThumbnails, setImageThumbnails] = useState([]);
+  const [hasThumbnails, setHasThumbnails] = useState(false);
   const [imageTotal, setImageTotal] = useState(0);
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
   const video = getVideo(iiifPresentationManifest);
   const audio = getAudio(iiifPresentationManifest);
+
+  useEffect(() => {
+    const allImages = imageThumbnails.reduce(
+      (acc, thumb) => [...acc, ...thumb.images],
+      []
+    );
+    setHasThumbnails(allImages.length > 0);
+  }, [imageThumbnails]);
 
   function trackViewingTime() {
     trackEvent({
@@ -317,7 +326,7 @@ const IIIFPresentationPreview = ({
     );
   }
 
-  if (viewType === 'iiif') {
+  if (viewType === 'iiif' && hasThumbnails) {
     return (
       <WobblyRow>
         <PresentationPreview>
