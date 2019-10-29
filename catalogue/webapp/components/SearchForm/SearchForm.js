@@ -120,6 +120,8 @@ const SearchForm = ({
           // [] => no filter
           // [anything] => filter
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
+          // Override the default locations if we're toggled to do so
+          itemsLocationsLocationType: [],
           query: inputQuery,
           page: 1,
           productionDatesFrom: productionDatesFromValue,
@@ -223,11 +225,11 @@ const SearchForm = ({
                     },
                     {
                       value: 'asc',
-                      text: 'Date ascending',
+                      text: 'Oldest to newest',
                     },
                     {
                       value: 'desc',
-                      text: 'Date descending',
+                      text: 'Newest to oldest',
                     },
                   ]}
                   onChange={event => {
