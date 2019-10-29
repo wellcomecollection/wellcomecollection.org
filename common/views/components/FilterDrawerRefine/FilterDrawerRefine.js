@@ -156,7 +156,6 @@ function FilterDrawerRefine({
     const workType = [...form['formats']]
       .filter(f => f.checked)
       .map(f => f.value);
-    // const workType = searchParams.workType || [];
 
     const link = unfilteredSearchResults
       ? worksUrl({
@@ -270,6 +269,9 @@ function FilterDrawerRefine({
                             text={`${type.data.label} (${type.count})`}
                             value={type.data.id}
                             name={`formats`}
+                            checked={searchParams.workType.includes(
+                              type.data.id
+                            )}
                             onChange={() => {
                               updateUrl(
                                 unfilteredSearchResults,
