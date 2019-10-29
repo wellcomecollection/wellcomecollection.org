@@ -170,7 +170,7 @@ function FilterDrawerRefine({
         })
       : worksUrl({
           ...searchParams,
-          workType,
+          workType: workType.length === defaultWorkTypes.length ? [] : workType,
           query: form.query.value,
           page: 1,
           productionDatesFrom: form['production.dates.from'].value,
