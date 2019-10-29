@@ -7,7 +7,6 @@ import MessageBar from '../MessageBar/MessageBar';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';
-import { TrackerScript } from '../Tracker/Tracker';
 
 type Props = {|
   ...PageLayoutProps,
@@ -18,7 +17,6 @@ const CataloguePageLayout = (props: Props) => {
   const { children, hideInfoBar, ...extraProps } = props;
   return (
     <>
-      <TrackerScript />
       <PageLayout {...extraProps}>
         {hideInfoBar !== true && (
           <>
