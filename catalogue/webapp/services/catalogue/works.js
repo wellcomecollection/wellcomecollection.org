@@ -34,6 +34,7 @@ const includes = [
   'subjects',
   'genres',
   'production',
+  'notes',
 ];
 
 export async function getWorks({
