@@ -111,7 +111,7 @@ const Rating = ({ ratings, clickHandler }: Props) => {
       {!showRating && (
         <RateThisButton onClick={() => setShowRating(!showRating)}>
           <Star aria-hidden="true" color="purple" />
-          <span className="rate-this-text">Rate this</span>
+          <span className="rate-this-text">Relevant?</span>
         </RateThisButton>
       )}
       <RatingButtons show={showRating}>
