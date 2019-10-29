@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import {
   type CatalogueResultsList,
   type CatalogueApiError,
+  type CatalogueAggregationBucket,
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
@@ -69,7 +70,7 @@ export async function getWorkTypeAggregations({
   filters,
   unfilteredSearchResults,
   env = 'prod',
-}: any): Promise<CatalogueResultsList | CatalogueApiError> {
+}: any): Promise<CatalogueAggregationBucket[]> {
   const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
     const val = filters[key];
     return key !== 'workType' && `${key}=${val}`;
@@ -84,7 +85,7 @@ export async function getWorkTypeAggregations({
   const res = await fetch(url);
   const json = await res.json();
 
-  return (json: CatalogueResultsList | CatalogueApiError);
+  return json.aggregations.workType.buckets;
 }
 
 export async function getWork({

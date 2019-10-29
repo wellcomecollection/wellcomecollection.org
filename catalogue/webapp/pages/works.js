@@ -396,7 +396,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? await getWorkTypeAggregations({
         unfilteredSearchResults,
         filters: toggledFilters,
-      }).then(d => d.aggregations.workType.buckets)
+      })
     : null;
 
   return {
