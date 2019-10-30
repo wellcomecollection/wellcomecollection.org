@@ -33,6 +33,7 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -318,6 +319,16 @@ const Works = ({ works, searchParams }: Props) => {
             >
               <div className="container">
                 <div className="grid">
+                  <OptIn
+                    text={{
+                      defaultMessage:
+                        'Help us improve your search results Rate your search results by how relevant they are to you',
+                      optedInMessage: 'opted in message',
+                      optInCTA: 'opt in',
+                      optOutCTA: 'opt out',
+                    }}
+                    cookieName={'toggle_relevanceRating'}
+                  />
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
