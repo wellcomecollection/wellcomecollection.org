@@ -16,6 +16,16 @@ import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 
+function inputValue(input: ?HTMLElement): ?string {
+  if (
+    input &&
+    (input instanceof window.HTMLInputElement ||
+      input instanceof window.HTMLSelectElement)
+  ) {
+    return input.value;
+  }
+}
+
 type Props = {|
   ariaDescribedBy: string,
   compact: boolean,
@@ -66,7 +76,13 @@ const SearchForm = ({
   // Router
   const [inputQuery, setInputQuery] = useState(query);
   const [enhanced, setEnhanced] = useState(false);
-  const searchInput = useRef(null);
+  const searchInput = useRef();
+  const submit = () => {
+    searchForm.current &&
+      searchForm.current.dispatchEvent(
+        new window.Event('submit', { cancelable: true })
+      );
+  };
 
   // We need to make sure that the changes to `query` affect `inputQuery` as
   // when we navigate between pages which all contain `SearchForm`, each
@@ -84,33 +100,8 @@ const SearchForm = ({
 
   function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
     const workType = searchParams.workType || [];
-    const productionDatesFromInput = form['productionDatesFrom'];
-    /*::
-    if (!(productionDatesFromInput instanceof HTMLInputElement)) {
-      throw new Error('element is not of type HTMLInputElement');
-    }
-    */
-    const productionDatesFromValue = productionDatesFromInput
-      ? productionDatesFromInput.value
-      : searchParams.productionDatesFrom;
-    const productionDatesToInput = form['productionDatesTo'];
-    /*::
-    if (!(productionDatesToInput instanceof HTMLInputElement)) {
-      throw new Error('element is not of type HTMLInputElement');
-    }
-    */
-    const productionDatesToValue = productionDatesToInput
-      ? productionDatesToInput.value
-      : searchParams.productionDatesTo;
 
-    /*::
-    if (!(form['sortOrder'] instanceof HTMLInputElement)) {
-      throw new Error('element is not of type HTMLInputElement');
-    }
-    */
-    const sortOrder = form['sortOrder']
-      ? form['sortOrder'].value
-      : searchParams.sortOrder;
+    const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
 
@@ -122,10 +113,12 @@ const SearchForm = ({
           // [] => no filter
           // [anything] => filter
           workType: workType.length === defaultWorkTypes.length ? [] : workType,
+          // Override the default locations if we're toggled to do so
+          itemsLocationsLocationType: [],
           query: inputQuery,
           page: 1,
-          productionDatesFrom: productionDatesFromValue,
-          productionDatesTo: productionDatesToValue,
+          productionDatesFrom: inputValue(form['production.dates.from']),
+          productionDatesTo: inputValue(form['production.dates.to']),
           sortOrder,
           sort,
         })
@@ -133,13 +126,13 @@ const SearchForm = ({
           ...searchParams,
           query: inputQuery,
           page: 1,
-          productionDatesFrom: productionDatesFromValue,
-          productionDatesTo: productionDatesToValue,
+          productionDatesFrom: inputValue(form['production.dates.from']),
+          productionDatesTo: inputValue(form['production.dates.to']),
           sortOrder,
           sort,
         });
 
-    Router.push(link.href, link.as);
+    return Router.push(link.href, link.as);
   }
 
   return (
@@ -160,7 +153,6 @@ const SearchForm = ({
             });
 
             updateUrl(unfilteredSearchResults, event.currentTarget);
-
             return false;
           }}
         >
@@ -226,19 +218,15 @@ const SearchForm = ({
                     },
                     {
                       value: 'asc',
-                      text: 'Date ascending',
+                      text: 'Oldest to newest',
                     },
                     {
                       value: 'desc',
-                      text: 'Date descending',
+                      text: 'Newest to oldest',
                     },
                   ]}
                   onChange={event => {
-                    event.currentTarget.form &&
-                      updateUrl(
-                        unfilteredSearchResults,
-                        event.currentTarget.form
-                      );
+                    submit();
                   }}
                 />
               )}

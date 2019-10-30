@@ -2,10 +2,7 @@
 import { type ComponentType } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-import {
-  trackRelevanceRating,
-  RelevanceRatingEventNames,
-} from '../Tracker/Tracker';
+import { trackRelevanceRating } from '../Tracker/Tracker';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const RelevanceRaterStyle = styled.div.attrs(props => ({
@@ -40,13 +37,6 @@ type Props = {|
   _queryType: ?string,
 |};
 
-function createEvent(rating) {
-  return {
-    event: RelevanceRatingEventNames.RateResultRelevance,
-    data: rating,
-  };
-}
-
 const RelevanceRater = ({
   id,
   position,
@@ -67,17 +57,15 @@ const RelevanceRater = ({
           as="button"
           index={0}
           onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 1,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
+            trackRelevanceRating({
+              id,
+              position,
+              rating: 1,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           }
         >
           No apparent relationship to search term
@@ -91,17 +79,15 @@ const RelevanceRater = ({
           as="button"
           index={1}
           onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 2,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
+            trackRelevanceRating({
+              id,
+              position,
+              rating: 2,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           }
         >
           Reasonable to be retrieved but should not be this highly ranked
@@ -115,17 +101,15 @@ const RelevanceRater = ({
           as="button"
           index={2}
           onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 3,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
+            trackRelevanceRating({
+              id,
+              position,
+              rating: 3,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           }
         >
           Not perfect but reasonable to be highly ranked
@@ -139,17 +123,15 @@ const RelevanceRater = ({
           as="button"
           index={3}
           onClick={() =>
-            trackRelevanceRating(
-              createEvent({
-                id,
-                position,
-                rating: 4,
-                query,
-                page,
-                workType,
-                _queryType,
-              })
-            )
+            trackRelevanceRating({
+              id,
+              position,
+              rating: 4,
+              query,
+              page,
+              workType,
+              _queryType,
+            })
           }
         >
           Completely relevant to be at this rank

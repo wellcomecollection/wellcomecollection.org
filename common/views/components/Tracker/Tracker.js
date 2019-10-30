@@ -1,53 +1,8 @@
 // @flow
 import { useEffect } from 'react';
+import Router from 'next/router';
 
-// Search
-export const SearchEventNames = {
-  SearchResultSelected: 'Search Result Selected',
-  Search: 'Search',
-};
-
-type SearchEventName = $Values<typeof SearchEventNames>;
-
-type SearchEventData = {|
-  query: string,
-  page: number,
-  workType: ?(string[]),
-  'production.dates.from': ?string,
-  'production.dates.to': ?string,
-  _queryType: ?string,
-|};
-
-type SearchResultEventData = {|
-  id: string,
-  position: number,
-  query: string,
-  page: number,
-  workType: ?(string[]),
-  'production.dates.from': ?string,
-  'production.dates.to': ?string,
-  _queryType: ?string,
-  resultWorkType: string,
-  resultLanguage: ?string,
-  resultIdentifiers: string[],
-  resultSubjects: string[],
-|};
-
-type SearchData = SearchEventData | SearchResultEventData;
-
-type SearchEvent = {|
-  event: SearchEventName,
-  data: SearchData,
-|};
-
-// Relevance Rating
-export const RelevanceRatingEventNames = {
-  RateResultRelevance: 'Rate Result Relevance',
-};
-
-type RelevanceRatingEventName = $Values<typeof RelevanceRatingEventNames>;
-
-type RelevanceRatingResource = {|
+type RelevanceRatingData = {|
   position: number,
   id: string,
   rating: number,
@@ -57,50 +12,80 @@ type RelevanceRatingResource = {|
   _queryType: ?string,
 |};
 
-type RelevanceRatingEvent = {|
-  event: RelevanceRatingEventName,
-  data: RelevanceRatingResource,
+type ServiceName = 'search_relevance_implicit' | 'search_relevance_explicit';
+
+const trackRelevanceRating = (data: RelevanceRatingData) => {
+  track('Relevance rating', 'search_relevance_explicit', data);
+};
+
+type SearchResultSelectedData = {|
+  id: string,
+  position: number,
+  resultWorkType: string,
+  resultLanguage: ?string,
+  resultIdentifiers: ?string,
+  resultSubjects: ?string,
 |};
-
-type LoggerEvent =
-  | {| service: 'search', ...SearchEvent |}
-  | {| service: 'relevance_rating', ...RelevanceRatingEvent |};
-
-const trackSearch = (event: SearchEvent) => {
-  const servicedEvent = {
-    service: 'search',
-    ...event,
-  };
-  track(servicedEvent);
+const trackSearchResultSelected = (data: SearchResultSelectedData) => {
+  track('Search result selected', 'search_relevance_implicit', data);
 };
 
-const trackRelevanceRating = (event: RelevanceRatingEvent) => {
-  const servicedEvent = {
-    service: 'relevance_rating',
-    ...event,
-  };
-  track(servicedEvent);
+const trackSearch = () => {
+  const query = Router.query.query;
+  if (query && query !== '') {
+    track('Search', 'search_relevance_implicit');
+  } else {
+    track('Search landing', 'search_relevance_implicit');
+  }
 };
 
-const track = (eventProps: LoggerEvent) => {
-  const toggles = document.cookie.split(';').reduce(function(acc, cookie) {
-    const parts = cookie.split('=');
-    const key = parts[0] && parts[0].trim();
-    const value = parts[1] && parts[1].trim();
+type TrackingEventData = SearchResultSelectedData | RelevanceRatingData;
+const track = (
+  eventName: string,
+  serviceName: ServiceName,
+  data: ?TrackingEventData
+) => {
+  const query = {
+    ...Router.query,
+  };
+  // These are from the global contex, we should probably not be storing them on the query
+  delete query.toggles;
+  delete query.globalAlert;
+  delete query.openingTimes;
 
-    if (key && key.match('toggle_')) {
-      acc[key] = value;
-    }
-    return acc;
-  }, {});
+  // returns `["withNotes:true", "testb:false"]`
+  let debug = false;
+  const toggles = document.cookie
+    .split(';')
+    .map(cookie => {
+      const parts = cookie.split('=');
+      const key = parts[0] && parts[0].trim();
+      const value = parts[1] && parts[1].trim();
 
-  const { event, ...restOfEvent } = eventProps;
+      if (key === 'analytics_debug' && value === 'true') {
+        debug = true;
+      }
 
-  window.analytics &&
-    window.analytics.track(event, {
-      ...restOfEvent,
-      toggles,
-    });
+      if (key && key.match('toggle_')) {
+        return `${key.replace('toggle_', '')}:${value}`;
+      }
+    })
+    .filter(Boolean);
+
+  const event = {
+    service: serviceName,
+    path: Router.pathname,
+    eventName,
+    query,
+    toggles,
+    data,
+  };
+
+  if (debug) {
+    console.info(event);
+  }
+
+  window.analytics && window.analytics.track(eventName, event);
 };
 
 const TrackerScript = () => {
@@ -163,6 +148,9 @@ const TrackerScript = () => {
   return null;
 };
 
-export { trackSearch };
-export { trackRelevanceRating };
-export { TrackerScript };
+export {
+  trackRelevanceRating,
+  trackSearch,
+  trackSearchResultSelected,
+  TrackerScript,
+};
