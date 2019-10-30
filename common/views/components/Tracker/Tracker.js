@@ -52,6 +52,7 @@ const track = (
   delete query.toggles;
   delete query.globalAlert;
   delete query.openingTimes;
+  delete query.isPreview;
 
   // returns `["withNotes:true", "testb:false"]`
   let debug = false;
