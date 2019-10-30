@@ -3,15 +3,15 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { london } from '@weco/common/utils/format-date';
-import { classNames } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import Icon from '../Icon/Icon';
 
 const OptInContainer = styled(Space).attrs(props => ({
   as: 'div',
-  h: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  v: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  h: { size: 'l', properties: ['margin-bottom'] },
+  className: font('hnl', 5),
 }))`
-  max-width: 400px;
   background: ${props => props.theme.colors.purple};
   color: ${props => props.theme.colors.white};
   position: relative;
@@ -20,25 +20,38 @@ const OptInContainer = styled(Space).attrs(props => ({
     position: absolute;
     left: 0;
     top: 100%;
-    border-bottom: 20px solid transparent;
-    border-left: 20px solid ${props => props.theme.colors.purple};
+    border-bottom: 18px solid transparent;
+    border-left: 16px solid ${props => props.theme.colors.purple};
   }
 `;
 
 const OptInControl = styled.button.attrs({
   className: classNames({
-    'plain-button no-margin no-padding': true,
+    'plain-button no-margin no-padding flex-inline flex--v-center ': true,
   }),
 })`
+  text-decoration: underline;
   color: ${props => props.theme.colors.white};
   cursor: pointer;
+  position: ${props => (props.optOut ? 'absolute' : 'static')};
+  top: ${props => `${props.theme.spacingUnit}px`};
+  right: ${props => `${props.theme.spacingUnit}px`};
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
 `;
+
+const HiddenText = styled.span.attrs({
+  className: 'visually-hidden',
+})``;
+
 type Props = {|
   text: {|
-    defaultMessage: string,
-    optedInMessage: string,
-    optInCTA: 'opt in',
-    optOutCTA: 'opt out',
+    defaultMessage: string[],
+    optedInMessage: string[],
+    optInCTA: string,
+    optOutCTA: string,
   |},
   cookieName: string,
 |};
@@ -78,21 +91,50 @@ const OptIn = ({ text, cookieName }: Props) => {
   return (
     shouldRender && (
       <OptInContainer>
-        {cookieValue ? text.optedInMessage : text.defaultMessage}
-        <OptInControl
-          onClick={() => {
-            optIn();
-          }}
+        <Space
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
         >
-          {text.optInCTA}
-        </OptInControl>
-        <OptInControl
-          onClick={() => {
-            optOut();
-          }}
-        >
-          {text.optOutCTA}
-        </OptInControl>
+          {cookieValue
+            ? text.optedInMessage.map((line, i) => (
+                <p className="no-margin inline" key={i}>
+                  {line}&nbsp;
+                </p>
+              ))
+            : text.defaultMessage.map((line, i) => (
+                <p className="no-margin" key={i}>
+                  {line}
+                </p>
+              ))}
+          {!cookieValue ? (
+            <>
+              <OptInControl
+                onClick={() => {
+                  optIn();
+                }}
+              >
+                {text.optInCTA}
+              </OptInControl>
+              <OptInControl
+                optOut
+                onClick={() => {
+                  optOut();
+                }}
+              >
+                <Icon name="clear" extraClasses="icon--white" />
+                <HiddenText>{text.optOutCTA}</HiddenText>
+              </OptInControl>
+            </>
+          ) : (
+            <OptInControl
+              onClick={() => {
+                optOut();
+              }}
+            >
+              Opt out
+            </OptInControl>
+          )}
+        </Space>
       </OptInContainer>
     )
   );

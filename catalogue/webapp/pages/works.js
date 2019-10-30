@@ -319,16 +319,24 @@ const Works = ({ works, searchParams }: Props) => {
             >
               <div className="container">
                 <div className="grid">
-                  <OptIn
-                    text={{
-                      defaultMessage:
-                        'Help us improve your search results Rate your search results by how relevant they are to you',
-                      optedInMessage: 'opted in message',
-                      optInCTA: 'opt in',
-                      optOutCTA: 'opt out',
-                    }}
-                    cookieName={'toggle_relevanceRating'}
-                  />
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                    })}
+                  >
+                    <OptIn
+                      text={{
+                        defaultMessage: [
+                          'Help us improve your search results.',
+                          'Rate your search results by how relevant they are to you.',
+                        ],
+                        optedInMessage: ['Currently rating search results.'],
+                        optInCTA: 'Rate your results',
+                        optOutCTA: 'No thanks',
+                      }}
+                      cookieName={'toggle_relevanceRating'}
+                    />
+                  </div>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
