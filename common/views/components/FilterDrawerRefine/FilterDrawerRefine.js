@@ -246,11 +246,20 @@ const FilterDrawerRefine = ({
                             id={type.data.id}
                             text={`${type.data.label} (${type.count})`}
                             value={type.data.id}
-                            name={`formats`}
+                            name={`workType`}
                             checked={searchParams.workType.includes(
                               type.data.id
                             )}
-                            onChange={submit}
+                            onChange={event => {
+                              const value = event.currentTarget.value;
+                              const isChecked = event.currentTarget.checked;
+
+                              searchParams.workType = !isChecked
+                                ? searchParams.workType.filter(w => w !== value)
+                                : [...searchParams.workType, value];
+
+                              submit();
+                            }}
                           />
                         </Space>
                       ))}
