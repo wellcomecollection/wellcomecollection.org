@@ -377,7 +377,9 @@ const FilterDrawerRefine = ({
                   )
                 );
               })}
-            {(productionDatesFrom || productionDatesTo) && (
+            {(productionDatesFrom ||
+              productionDatesTo ||
+              workTypeAggregations) && (
               <div className={classNames({ [font('hnl', 5)]: true })}>
                 <Divider extraClasses={'divider--thin divider--pumice'} />
                 <Space
@@ -425,6 +427,26 @@ const FilterDrawerRefine = ({
                       </a>
                     </NextLink>
                   )}
+                  {workTypeAggregations.map(({ data }) => (
+                    <>
+                      {workType.includes(data.id) && (
+                        <NextLink
+                          key={data.id}
+                          {...worksUrl({
+                            ...searchParams,
+                            workType: searchParams.workType.filter(
+                              w => w !== data.id
+                            ),
+                            page: 1,
+                          })}
+                        >
+                          <a>
+                            <CancelFilter text={data.label} />
+                          </a>
+                        </NextLink>
+                      )}
+                    </>
+                  ))}
                   <NextLink
                     passHref
                     {...worksUrl({
