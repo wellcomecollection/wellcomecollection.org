@@ -71,6 +71,7 @@ const FiltersContainer = styled.div.attrs({
 })`
   .enhanced & {
     transition: height 300ms ease;
+    transition-delay: 300ms;
     overflow: hidden;
     height: ${props => props.height}px;
   }
@@ -83,7 +84,8 @@ const FilterSection = styled.fieldset.attrs(props => ({
   .enhanced & {
     top: 0;
     left: 0;
-    transition: opacity 500ms 300ms ease;
+    transition: opacity 300ms ease;
+    transition-delay: ${props => (!props.isActive ? '0ms' : '500ms')};
     opacity: ${props => (props.isActive ? 1 : 0)};
     position: absolute;
     pointer-events: ${props => (props.isActive ? 'all' : 'none')};
