@@ -58,8 +58,14 @@ type Props = {|
 |};
 
 const OptIn = ({ text, cookieName }: Props) => {
-  const [shouldRender, setShouldRender] = useState(false);
-  const [cookieValue, setCookieValue] = useState(false);
+  const [shouldRender, setShouldRender]: [
+    boolean,
+    ((boolean => boolean) | boolean) => void
+  ] = useState(false);
+  const [optedIn, setOptedIn]: [
+    boolean,
+    ((boolean => boolean) | boolean) => void
+  ] = useState(false);
   const { updateToggles } = useContext(TogglesContext);
   function optOut() {
     cookie.set(`toggle_${cookieName}`, 'false', {
@@ -83,7 +89,7 @@ const OptIn = ({ text, cookieName }: Props) => {
         .toDate(),
     });
 
-    setCookieValue(true);
+    setOptedIn(true);
     updateToggles({
       [`${cookieName}`]: true,
     });
@@ -91,7 +97,7 @@ const OptIn = ({ text, cookieName }: Props) => {
 
   useEffect(() => {
     const cookieValue = cookie.get(`toggle_${cookieName}`);
-    setCookieValue(cookieValue);
+    setOptedIn(Boolean(cookieValue));
     setShouldRender(cookieValue === undefined || cookieValue === 'true');
   }, []);
 
@@ -102,7 +108,7 @@ const OptIn = ({ text, cookieName }: Props) => {
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
         >
-          {cookieValue
+          {optedIn
             ? text.optedInMessage.map((line, i) => (
                 <p className="no-margin inline" key={i}>
                   {line}&nbsp;
@@ -113,7 +119,15 @@ const OptIn = ({ text, cookieName }: Props) => {
                   {line}
                 </p>
               ))}
-          {!cookieValue ? (
+          {optedIn ? (
+            <OptInControl
+              onClick={() => {
+                optOut();
+              }}
+            >
+              Opt out
+            </OptInControl>
+          ) : (
             <>
               <OptInControl
                 onClick={() => {
@@ -132,14 +146,6 @@ const OptIn = ({ text, cookieName }: Props) => {
                 <HiddenText>{text.optOutCTA}</HiddenText>
               </OptInControl>
             </>
-          ) : (
-            <OptInControl
-              onClick={() => {
-                optOut();
-              }}
-            >
-              Opt out
-            </OptInControl>
           )}
         </Space>
       </OptInContainer>
