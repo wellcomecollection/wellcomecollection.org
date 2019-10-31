@@ -313,7 +313,7 @@ export class WhatsOnPage extends Component<Props> {
     const period = ctx.query.period || 'current-and-coming-up';
     const exhibitionsPromise = getExhibitions(ctx.req, {
       period,
-      order: 'asc',
+      order: 'desc',
     });
     const eventsPromise = getEvents(ctx.req, {
       period: 'current-and-coming-up',
