@@ -30,9 +30,9 @@ type GetWorkProps = {|
 const includes = [
   'identifiers',
   'items',
-  'contributors',
   'subjects',
   'genres',
+  'contributors',
   'production',
   'notes',
 ];

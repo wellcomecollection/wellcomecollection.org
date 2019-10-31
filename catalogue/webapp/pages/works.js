@@ -22,10 +22,6 @@ import {
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import {
-  trackSearch,
-  SearchEventNames,
-} from '@weco/common/views/components/Tracker/Tracker';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
@@ -33,6 +29,10 @@ import StaticWorksContent from '../components/StaticWorksContent/StaticWorksCont
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import {
+  trackSearchResultSelected,
+  trackSearch,
+} from '@weco/common/views/components/Tracker/Tracker';
 import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
@@ -51,27 +51,16 @@ const Works = ({ works, searchParams }: Props) => {
     _queryType,
   } = searchParams;
 
-  const trackEvent = () => {
-    if (query && query !== '') {
-      const event = {
-        event: SearchEventNames.Search,
-        data: {
-          query,
-          page,
-          workType,
-          'production.dates.from': productionDatesFrom,
-          'production.dates.to': productionDatesTo,
-          _queryType,
-        },
-      };
-      trackSearch(event);
-    }
-  };
+  function trackOnRouteChange() {
+    trackSearch();
+  }
 
-  // We have to have this for the initial page load, and have it on the router
-  // change as the page doesnt actually re-render when the URL parameters change.
   useEffect(() => {
-    trackEvent();
+    trackSearch();
+    Router.events.on('routeChangeComplete', trackOnRouteChange);
+    return () => {
+      Router.events.off('routeChangeComplete', trackOnRouteChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -80,7 +69,6 @@ const Works = ({ works, searchParams }: Props) => {
     }
     function routeChangeComplete(url: string) {
       setLoading(false);
-      trackEvent();
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -346,35 +334,26 @@ const Works = ({ works, searchParams }: Props) => {
                     >
                       <div
                         onClick={() => {
-                          const event = {
-                            event: SearchEventNames.SearchResultSelected,
-                            data: {
-                              id: result.id,
-                              position: i,
-                              query,
-                              page,
-                              workType,
-                              _queryType,
-                              'production.dates.from': productionDatesFrom,
-                              'production.dates.to': productionDatesTo,
-                              resultWorkType: result.workType.label,
-                              resultLanguage:
-                                result.language && result.language.label,
-                              resultIdentifiers: result.identifiers.map(
-                                identifier => identifier.value
-                              ),
-                              resultSubjects: result.subjects.map(
-                                subject => subject.label
-                              ),
-                            },
-                          };
-                          trackSearch(event);
+                          trackSearchResultSelected({
+                            id: result.id,
+                            position: i,
+                            resultWorkType: result.workType.label,
+                            resultLanguage:
+                              result.language && result.language.label,
+                            resultIdentifiers: result.identifiers.map(
+                              identifier => identifier.value
+                            ),
+                            resultSubjects: result.subjects.map(
+                              subject => subject.label
+                            ),
+                          });
                         }}
                       >
                         <WorkCard
                           work={result}
                           params={{
                             ...searchParams,
+                            id: result.id,
                           }}
                         />
                       </div>

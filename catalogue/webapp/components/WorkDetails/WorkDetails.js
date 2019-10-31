@@ -94,6 +94,7 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
+  showAdditionalCatalogueData = true;
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -291,7 +292,13 @@ const WorkDetails = ({
         )}
 
         {showAdditionalCatalogueData && work.notes && (
-          <MetaUnit headingLevel={3} headingText="Notes" text={[work.notes]} />
+          <MetaUnit
+            headingLevel={3}
+            headingText="Notes"
+            text={work.notes
+              .map(note => note.contents)
+              .reduce((acc, arr) => acc.concat(arr), [])}
+          />
         )}
 
         {showAdditionalCatalogueData && work.contents && (

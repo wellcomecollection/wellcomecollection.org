@@ -1,10 +1,7 @@
 // @flow
 import { useState, useEffect } from 'react';
-import {
-  trackRelevanceRating,
-  RelevanceRatingEventNames,
-} from '../Tracker/Tracker';
-import Rating from '../Rating/Rating';
+import { trackRelevanceRating } from '../Tracker/Tracker';
+import Rating from '@weco/common/views/components/Rating/Rating';
 
 type Props = {|
   position: number,
@@ -21,14 +18,6 @@ const ratings = [
   { value: 3, text: 'Relevant' },
   { value: 4, text: 'Highly relevant' },
 ];
-
-function createEvent(rating) {
-  return {
-    event: RelevanceRatingEventNames.RateResultRelevance,
-    data: rating,
-  };
-}
-
 const RelevanceRater = ({
   id,
   position,
@@ -37,26 +26,24 @@ const RelevanceRater = ({
   workType,
   _queryType,
 }: Props) => {
-  const [addRatings, setAddRatings] = useState(false);
+  const [showRatings, setShowRatings] = useState(false);
   useEffect(() => {
-    setAddRatings(true);
+    setShowRatings(true);
   }, []);
   return (
-    addRatings && (
+    showRatings && (
       <Rating
         ratings={ratings}
         clickHandler={value => {
-          trackRelevanceRating(
-            createEvent({
-              id,
-              position,
-              rating: value,
-              query,
-              page,
-              workType,
-              _queryType,
-            })
-          );
+          trackRelevanceRating({
+            id,
+            position,
+            rating: value,
+            query,
+            page,
+            workType,
+            _queryType,
+          });
         }}
       />
     )
