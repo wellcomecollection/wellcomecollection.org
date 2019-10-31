@@ -12,12 +12,6 @@ type Props = {|
   _queryType: ?string,
 |};
 
-const ratings = [
-  { value: 1, text: 'Not relevant to my search' },
-  { value: 2, text: 'A bit relevant' },
-  { value: 3, text: 'Relevant' },
-  { value: 4, text: 'Highly relevant' },
-];
 const RelevanceRater = ({
   id,
   position,
@@ -26,14 +20,13 @@ const RelevanceRater = ({
   workType,
   _queryType,
 }: Props) => {
-  const [showRatings, setShowRatings] = useState(false);
+  const [isEnhanced, setIsEnhanced] = useState(false);
   useEffect(() => {
-    setShowRatings(true);
+    setIsEnhanced(true);
   }, []);
   return (
-    showRatings && (
+    isEnhanced && (
       <Rating
-        ratings={ratings}
         clickHandler={value => {
           trackRelevanceRating({
             id,

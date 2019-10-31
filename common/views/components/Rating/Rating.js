@@ -79,19 +79,22 @@ const RatingText = styled.span.attrs(props => ({
 `;
 
 type Props = {|
-  ratings: {
-    value: number,
-    text: string,
-  }[],
   clickHandler: number => void,
 |};
 
-const Rating = ({ ratings, clickHandler }: Props) => {
-  const [showRating, setShowRating] = useState(false);
+const Rating = ({ clickHandler }: Props) => {
+  const [open, setOpen] = useState(false);
   const [rated, setRated] = useState(false);
   const [ratingText, setRatingText] = useState();
   const [hoveredValue, setHoveredValue] = useState(0);
   const defaultText = 'Tap on a start to rate';
+
+  const ratings = [
+    { value: 1, text: 'Not relevant to my search' },
+    { value: 2, text: 'A bit relevant' },
+    { value: 3, text: 'Relevant' },
+    { value: 4, text: 'Highly relevant' },
+  ];
 
   function enter(value) {
     const rating = ratings.find(rating => rating.value === value);
@@ -108,19 +111,19 @@ const Rating = ({ ratings, clickHandler }: Props) => {
   }
   return (
     <RatingContainer>
-      {!showRating && (
-        <RateThisButton onClick={() => setShowRating(!showRating)}>
+      {!open && (
+        <RateThisButton onClick={() => setOpen(!open)}>
           <Star aria-hidden="true" color="purple" />
           <span className="rate-this-text">Relevant?</span>
         </RateThisButton>
       )}
-      <RatingButtons show={showRating}>
+      <RatingButtons show={open}>
         {ratings.map((rating, i) => (
           <RatingButton
-            show={showRating}
+            show={open}
             key={rating.value}
             index={i}
-            disabled={rated || !showRating}
+            disabled={rated || !open}
             onFocus={() => enter(rating.value)}
             onMouseEnter={() => enter(rating.value)}
             onBlur={() => leave()}
@@ -138,7 +141,7 @@ const Rating = ({ ratings, clickHandler }: Props) => {
             <span>{rating.text || 'Tap a start to rate'}</span>
           </RatingButton>
         ))}
-        <RatingText default={!ratingText} show={showRating}>
+        <RatingText default={!ratingText} show={open}>
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
             {ratingText || defaultText}
           </Space>
