@@ -70,7 +70,7 @@ export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1 } = ctx.query;
     const articlesPromise = getArticles(ctx.req, { page });
-    const seriesPromise = getArticleSeries(ctx.req, { id: 'XTg5pRAAACUAP5U5' });
+    const seriesPromise = getArticleSeries(ctx.req, { id: 'XXY7ixAAACUACJvS' });
     const [articles, seriesAndArticles] = await Promise.all([
       articlesPromise,
       seriesPromise,
