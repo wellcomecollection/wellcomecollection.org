@@ -87,7 +87,7 @@ const Rating = ({ clickHandler }: Props) => {
   const [rated, setRated] = useState(false);
   const [ratingText, setRatingText] = useState();
   const [hoveredValue, setHoveredValue] = useState(0);
-  const defaultText = 'Tap on a start to rate';
+  const initialText = 'Tap on a star to rate';
 
   const ratings = [
     { value: 1, text: 'Not relevant to my search' },
@@ -100,7 +100,7 @@ const Rating = ({ clickHandler }: Props) => {
     const rating = ratings.find(rating => rating.value === value);
     if (!rated) {
       setHoveredValue(value);
-      setRatingText(rating ? rating.text : defaultText);
+      setRatingText(rating ? rating.text : initialText);
     }
   }
   function leave() {
@@ -138,12 +138,12 @@ const Rating = ({ clickHandler }: Props) => {
               aria-hidden="true"
               color={rating.value <= hoveredValue ? 'yellow' : 'pumice'}
             />
-            <span>{rating.text || 'Tap a start to rate'}</span>
+            <span>{rating.text}</span>
           </RatingButton>
         ))}
         <RatingText default={!ratingText} show={open}>
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            {ratingText || defaultText}
+            {ratingText || initialText}
           </Space>
         </RatingText>
       </RatingButtons>
