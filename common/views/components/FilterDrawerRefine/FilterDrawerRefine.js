@@ -16,49 +16,6 @@ import {
 } from '@weco/common/views/components/FilterDrawerRefine/accessLocations';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 
-const workTypes = [
-  {
-    title: 'texts',
-    materialTypes: [
-      { title: 'books', letter: 'a' },
-      { title: 'e-books', letter: 'v' },
-      { title: 'manuscripts, asian', letter: 'b' },
-      { title: 'e-manuscripts, asian', letter: 'x' },
-      { title: 'journals', letter: 'd' },
-      { title: 'e-journals', letter: 'j' },
-      { title: 'student dissertations', letter: 'w' },
-      { title: 'music', letter: 'c' },
-    ],
-  },
-  {
-    title: 'visuals',
-    materialTypes: [
-      { title: 'pictures', letter: 'k' },
-      { title: 'digital images', letter: 'q' },
-      { title: 'maps', letter: 'e' },
-      { title: 'ephemera', letter: 'l' },
-    ],
-  },
-  {
-    title: 'media',
-    materialTypes: [
-      { title: 'e-videos', letter: 'f' },
-      { title: 'e-sound', letter: 's' },
-      { title: 'videorecording', letter: 'g' },
-      { title: 'sound', letter: 'i' },
-      { title: 'cinefilm', letter: 'n' },
-    ],
-  },
-  {
-    title: 'objects',
-    materialTypes: [
-      { title: '3D objects', letter: 'r' },
-      { title: 'mixed materials', letter: 'p' },
-      { title: 'CD-ROMs', letter: 'm' },
-    ],
-  },
-];
-
 function updateLocations(selectedLocations, location) {
   if (!selectedLocations) {
     return location === 'library'
@@ -89,16 +46,6 @@ function updateLocations(selectedLocations, location) {
   } else {
     return [...onlineLocations, ...inLibraryLocations];
   }
-}
-
-const allWorkTypes = workTypes
-  .map(t => t.materialTypes)
-  .reduce((acc, curr) => acc.concat(curr), []);
-
-function updateWorkTypes(workType, subcategory) {
-  return workType.includes(subcategory.letter)
-    ? workType.filter(t => t !== subcategory.letter)
-    : workType.concat(subcategory.letter);
 }
 
 function CancelFilter({ text }: { text: string }) {
@@ -132,13 +79,16 @@ type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
   searchParams: SearchParams,
   workTypeAggregations: any,
+  workTypeInUrl: any,
 |};
 
 const FilterDrawerRefine = ({
   searchForm,
   searchParams,
   workTypeAggregations,
+  workTypeInUrl,
 }: Props) => {
+  const workTypeInUrlArray = workTypeInUrl ? workTypeInUrl.split(',') : [];
   const {
     productionDatesFrom,
     productionDatesTo,
@@ -247,16 +197,14 @@ const FilterDrawerRefine = ({
                             text={`${type.data.label} (${type.count})`}
                             value={type.data.id}
                             name={`workType`}
-                            checked={searchParams.workType.includes(
-                              type.data.id
-                            )}
+                            checked={workTypeInUrlArray.includes(type.data.id)}
                             onChange={event => {
                               const value = event.currentTarget.value;
                               const isChecked = event.currentTarget.checked;
 
                               searchParams.workType = !isChecked
-                                ? searchParams.workType.filter(w => w !== value)
-                                : [...searchParams.workType, value];
+                                ? workTypeInUrlArray.filter(w => w !== value)
+                                : [...workTypeInUrlArray, value];
 
                               submit();
                             }}
@@ -356,27 +304,6 @@ const FilterDrawerRefine = ({
             v={{ size: 'l', properties: ['margin-top'] }}
             className="tokens"
           >
-            {refineFiltersPrototype &&
-              allWorkTypes.map(subcategory => {
-                return (
-                  workType &&
-                  workType.includes(subcategory.letter) && (
-                    <NextLink
-                      key={subcategory.title}
-                      passHref
-                      {...worksUrl({
-                        ...searchParams,
-                        workType: updateWorkTypes(workType, subcategory),
-                        page: 1,
-                      })}
-                    >
-                      <ProtoTag as="a" isActive small>
-                        &times; {subcategory.title}
-                      </ProtoTag>
-                    </NextLink>
-                  )
-                );
-              })}
             {(productionDatesFrom ||
               productionDatesTo ||
               workTypeAggregations) && (
@@ -427,26 +354,27 @@ const FilterDrawerRefine = ({
                       </a>
                     </NextLink>
                   )}
-                  {workTypeAggregations.map(({ data }) => (
-                    <>
-                      {workType.includes(data.id) && (
-                        <NextLink
-                          key={data.id}
-                          {...worksUrl({
-                            ...searchParams,
-                            workType: searchParams.workType.filter(
-                              w => w !== data.id
-                            ),
-                            page: 1,
-                          })}
-                        >
-                          <a>
-                            <CancelFilter text={data.label} />
-                          </a>
-                        </NextLink>
-                      )}
-                    </>
-                  ))}
+                  {workTypeInUrl &&
+                    workTypeAggregations.map(({ data }) => (
+                      <>
+                        {workType.includes(data.id) && (
+                          <NextLink
+                            key={data.id}
+                            {...worksUrl({
+                              ...searchParams,
+                              workType: searchParams.workType.filter(
+                                w => w !== data.id
+                              ),
+                              page: 1,
+                            })}
+                          >
+                            <a>
+                              <CancelFilter text={data.label} />
+                            </a>
+                          </NextLink>
+                        )}
+                      </>
+                    ))}
                   <NextLink
                     passHref
                     {...worksUrl({

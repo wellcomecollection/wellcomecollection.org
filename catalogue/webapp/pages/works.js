@@ -36,7 +36,12 @@ type Props = {|
   searchParams: SearchParams,
 |};
 
-const Works = ({ works, workTypeAggregations, searchParams }: Props) => {
+const Works = ({
+  works,
+  workTypeAggregations,
+  searchParams,
+  workTypeInUrl,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const {
     query,
@@ -171,6 +176,7 @@ const Works = ({ works, workTypeAggregations, searchParams }: Props) => {
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
                   workTypeAggregations={workTypeAggregations}
+                  workTypeInUrl={workTypeInUrl}
                 />
               </div>
             </div>
@@ -355,6 +361,7 @@ const Works = ({ works, workTypeAggregations, searchParams }: Props) => {
 };
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
+  const workTypeInUrl = ctx.query.workType;
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
   const shouldGetWorks = filters.query && filters.query !== '';
@@ -382,6 +389,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     workTypeAggregations,
     searchParams: params,
+    workTypeInUrl,
   };
 };
 

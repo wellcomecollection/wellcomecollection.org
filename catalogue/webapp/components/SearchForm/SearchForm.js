@@ -69,6 +69,7 @@ const SearchForm = ({
   shouldShowFilters,
   searchParams,
   workTypeAggregations,
+  workTypeInUrl,
 }: Props) => {
   const { query, workType } = searchParams;
   const searchForm = useRef();
@@ -204,6 +205,7 @@ const SearchForm = ({
                 searchForm={searchForm}
                 searchParams={searchParams}
                 workTypeAggregations={workTypeAggregations}
+                workTypeInUrl={workTypeInUrl}
               />
 
               {enhanced && (
