@@ -6,14 +6,15 @@ const stories = storiesOf('Components', module);
 
 const temp = {
   text: {
-    defaultMessage:
-      'Help us improve your search results Rate your search results by how relevant they are to you',
-    optedInMessage: 'opted in message',
-    optInCTA: 'opt in',
-    optOutCTA: 'opt out',
+    defaultMessage: [
+      'Help us improve your search results.',
+      'Rate your search results by how relevant they are to you.',
+    ],
+    optedInMessage: ['Currently rating search results.'],
+    optInCTA: 'Rate your results',
+    optOutCTA: 'No thanks',
   },
-
-  cookieName: '',
+  cookieName: 'toggle_relevanceRating',
 };
 
 const OptInExample = () => {
