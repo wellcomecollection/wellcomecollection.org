@@ -307,24 +307,32 @@ const Works = ({ works, searchParams }: Props) => {
             >
               <div className="container">
                 <div className="grid">
-                  <div
-                    className={classNames({
-                      [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
-                    })}
-                  >
-                    <OptIn
-                      text={{
-                        defaultMessage: [
-                          'Help us improve your search results.',
-                          'Rate your search results by how relevant they are to you.',
-                        ],
-                        optedInMessage: ['Currently rating search results.'],
-                        optInCTA: 'Rate your results',
-                        optOutCTA: 'No thanks',
-                      }}
-                      cookieName={'relevanceRating'}
-                    />
-                  </div>
+                  <TogglesContext.Consumer>
+                    {({ relevanceRatingOptIn }) =>
+                      relevanceRatingOptIn && (
+                        <div
+                          className={classNames({
+                            [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                          })}
+                        >
+                          <OptIn
+                            text={{
+                              defaultMessage: [
+                                'Help us improve your search results.',
+                                'Rate your search results by how relevant they are to you.',
+                              ],
+                              optedInMessage: [
+                                'Currently rating search results.',
+                              ],
+                              optInCTA: 'Rate your results',
+                              optOutCTA: 'No thanks',
+                            }}
+                            cookieName={'relevanceRating'}
+                          />
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
@@ -358,8 +366,9 @@ const Works = ({ works, searchParams }: Props) => {
                         />
                       </div>
                       <TogglesContext.Consumer>
-                        {({ relevanceRating }) =>
-                          relevanceRating && (
+                        {({ relevanceRating, relevanceRatingOptIn }) =>
+                          relevanceRating &&
+                          relevanceRatingOptIn && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
