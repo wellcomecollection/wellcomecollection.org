@@ -23,6 +23,10 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { trackEvent } from '../../utils/ga';
 
+type State = {|
+  togglesContext: {},
+|};
+
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
 
@@ -152,8 +156,17 @@ export default class WecoApp extends App {
     if (isClient && !isPreview) {
       isPreview = props.isPreview;
     }
+
     super(props);
   }
+
+  state: State = {
+    togglesContext: toggles,
+  };
+
+  updateToggles = (newToggles: Object) => {
+    this.setState({ togglesContext: { ...toggles, ...newToggles } });
+  };
 
   componentWillUnmount() {
     Router.events.off('routeChangeStart', trackRouteChangeStart);
@@ -170,6 +183,8 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
+    this.setState({ togglesContext: toggles });
+
     if (document.documentElement) {
       document.documentElement.classList.add('enhanced');
     }
@@ -319,13 +334,9 @@ export default class WecoApp extends App {
   }
 
   render() {
-    const {
-      Component,
-      pageProps,
-      toggles,
-      openingTimes,
-      globalAlert,
-    } = this.props;
+    const { togglesContext } = this.state;
+    const updateToggles = this.updateToggles;
+    const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
       'default',
       'Array.prototype.find',
@@ -402,7 +413,7 @@ export default class WecoApp extends App {
           <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
-        <TogglesContext.Provider value={toggles}>
+        <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert}>
               <ThemeProvider theme={theme}>

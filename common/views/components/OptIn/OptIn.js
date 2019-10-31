@@ -1,7 +1,8 @@
 // @flow
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { london } from '@weco/common/utils/format-date';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -59,9 +60,9 @@ type Props = {|
 const OptIn = ({ text, cookieName }: Props) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [cookieValue, setCookieValue] = useState(false);
-
+  const { updateToggles } = useContext(TogglesContext);
   function optOut() {
-    cookie.set(`${cookieName}`, 'false', {
+    cookie.set(`toggle_${cookieName}`, 'false', {
       path: '/',
       expires: london()
         .add(1, 'year')
@@ -69,10 +70,13 @@ const OptIn = ({ text, cookieName }: Props) => {
     });
 
     setShouldRender(false);
+    updateToggles({
+      [`${cookieName}`]: false,
+    });
   }
 
   function optIn() {
-    cookie.set(`${cookieName}`, 'true', {
+    cookie.set(`toggle_${cookieName}`, 'true', {
       path: '/',
       expires: london()
         .add(1, 'year')
@@ -80,10 +84,13 @@ const OptIn = ({ text, cookieName }: Props) => {
     });
 
     setCookieValue(true);
+    updateToggles({
+      [`${cookieName}`]: true,
+    });
   }
 
   useEffect(() => {
-    const cookieValue = cookie.get(`${cookieName}`);
+    const cookieValue = cookie.get(`toggle_${cookieName}`);
     setCookieValue(cookieValue);
     setShouldRender(cookieValue === undefined || cookieValue === 'true');
   }, []);

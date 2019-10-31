@@ -334,7 +334,7 @@ const Works = ({ works, searchParams }: Props) => {
                         optInCTA: 'Rate your results',
                         optOutCTA: 'No thanks',
                       }}
-                      cookieName={'toggle_relevanceRating'}
+                      cookieName={'relevanceRating'}
                     />
                   </div>
                   {works.results.map((result, i) => (
