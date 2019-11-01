@@ -101,6 +101,7 @@ const SearchForm = ({
 
   function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
     const workType = searchParams.workType || [];
+    console.log(workType);
 
     const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
     const sort =
