@@ -439,11 +439,11 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
   const shouldGetWorks = filters.query && filters.query !== '';
-  const { searchWithNotes } = ctx.query.toggles;
+  const { searchUsingAndOperator } = ctx.query.toggles;
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchWithNotes ? 'withNotes' : undefined,
+    _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
   };
 
   const worksOrError = shouldGetWorks
