@@ -207,6 +207,7 @@ const SearchForm = ({
                 searchParams={searchParams}
                 workTypeAggregations={workTypeAggregations}
                 workTypeInUrl={workTypeInUrl}
+                changeHandler={submit}
               />
 
               {enhanced && (

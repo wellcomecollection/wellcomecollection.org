@@ -42,6 +42,7 @@ type Props = {|
   searchParams: SearchParams,
   workTypeAggregations: any,
   workTypeInUrl: any,
+  changeHandler: any,
 |};
 
 const FilterDrawerRefine = ({
@@ -49,19 +50,12 @@ const FilterDrawerRefine = ({
   searchParams,
   workTypeAggregations,
   workTypeInUrl,
+  changeHandler,
 }: Props) => {
   const workTypeInUrlArray = workTypeInUrl ? workTypeInUrl.split(',') : [];
   const { productionDatesFrom, productionDatesTo, workType } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-
-  function submit() {
-    if (searchForm.current) {
-      searchForm.current.dispatchEvent(
-        new window.Event('submit', { cancelable: true })
-      );
-    }
-  }
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -78,7 +72,7 @@ const FilterDrawerRefine = ({
       productionDatesFrom !== inputDateFrom &&
       (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
     ) {
-      submit();
+      changeHandler();
     }
   }, [inputDateFrom]);
 
@@ -87,7 +81,7 @@ const FilterDrawerRefine = ({
       productionDatesTo !== inputDateTo &&
       (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
     ) {
-      submit();
+      changeHandler();
     }
   }, [inputDateTo]);
 
@@ -159,7 +153,7 @@ const FilterDrawerRefine = ({
                             ? workTypeInUrlArray.filter(w => w !== value)
                             : [...workTypeInUrlArray, value];
 
-                          submit();
+                          changeHandler();
                         }}
                       />
                     </Space>
