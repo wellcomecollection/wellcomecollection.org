@@ -50,9 +50,9 @@ const RatingButton = styled.button.attrs(props => ({
   overflow: hidden;
   white-space: nowrap;
   cursor: ${props => (props.disabled ? 'default' : 'pointer')};
-  transition: margin-left 400ms;
+  transition: margin-left 100ms;
   margin-left: ${props => (props.show ? 0 : '-1.6em')};
-  transition-delay: ${props => props.index * 100}ms;
+  transition-delay: ${props => props.index * 50}ms;
 `;
 
 const Star = styled.span.attrs(props => ({
@@ -72,7 +72,7 @@ const Star = styled.span.attrs(props => ({
 const RatingText = styled.span.attrs(props => ({
   className: font('hnl', 5),
 }))`
-  transition: opacity 400ms 400ms;
+  transition: opacity 400ms 300ms;
   opacity: ${props => (props.show ? 1 : 0)};
   color: ${props =>
     props.default ? props.theme.colors.pewter : props.theme.colors.purple};
