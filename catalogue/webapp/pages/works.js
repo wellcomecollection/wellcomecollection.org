@@ -34,6 +34,7 @@ type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   workTypeAggregations: any,
   searchParams: SearchParams,
+  workTypeInUrl: any,
 |};
 
 const Works = ({

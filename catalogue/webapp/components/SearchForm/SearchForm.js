@@ -32,6 +32,7 @@ type Props = {|
   shouldShowFilters: boolean,
   searchParams: SearchParams,
   workTypeAggregations: any,
+  workTypeInUrl: any,
 |};
 
 const SearchInputWrapper = styled.div`
