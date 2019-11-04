@@ -2,11 +2,11 @@
 
 Display a block or pull quote.
 
-## Usage
+## Editorial usage
 
 **Block quote style**
 - Used as part of a narrative flow
-- Requires a citation
+- Optional citation
 - In someone else's words, for example:
 
 ```
