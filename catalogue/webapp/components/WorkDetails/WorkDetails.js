@@ -9,6 +9,7 @@ import {
   getIIIFMetadata,
   getDownloadOptionsFromImageUrl,
   getLocationType,
+  getItemLocationsOfType,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -94,7 +95,6 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
-  showAdditionalCatalogueData = true;
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -141,6 +141,7 @@ const WorkDetails = ({
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
+  const physicalLocations = getItemLocationsOfType(work, 'PhysicalLocation');
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
       <div
@@ -362,7 +363,14 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (encoreLink || iiifPresentationRepository || work.locationOfOriginal) {
+  if (
+    encoreLink ||
+    iiifPresentationRepository ||
+    work.locationOfOriginal ||
+    physicalLocations
+  ) {
+    const locationsLabels =
+      physicalLocations && physicalLocations.map(location => location.label);
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
       (showAdditionalCatalogueData && work.locationOfOriginal) ||
@@ -370,7 +378,9 @@ const WorkDetails = ({
           iiifPresentationRepository.value
             .replace(/<img[^>]*>/g, '')
             .replace(/<br\s*\/?>/g, '')),
-    ].filter(Boolean);
+    ]
+      .concat(physicalLocations ? locationsLabels : [])
+      .filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
         <MetaUnit text={textArray} />
