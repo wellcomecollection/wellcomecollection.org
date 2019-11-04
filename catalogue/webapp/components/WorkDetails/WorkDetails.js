@@ -1,5 +1,6 @@
 // @flow
-import { type Node, Fragment } from 'react';
+// import fetch from 'isomorphic-unfetch';
+import { type Node, Fragment, useState, useEffect } from 'react';
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
@@ -95,6 +96,7 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
+  const [itemStatus, setItemStatus] = useState(null);
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -142,6 +144,79 @@ const WorkDetails = ({
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
   const physicalLocations = getItemLocationsOfType(work, 'PhysicalLocation');
+  // TODO put behind flag (use unfiltered)
+  // TODO review how, 'where to find it' currently working
+  // TODO - question - status should belong to item, not work as is currently the case - message James
+  // David's issue?
+  useEffect(() => {
+    // Need 'Access-Control-Allow-Origin'
+    const test = [
+      {
+        id: 'anckhccf',
+        identifiers: [
+          {
+            identifierType: {
+              id: 'sierra-system-number',
+              label: 'Sierra system number',
+              type: 'IdentifierType',
+            },
+            value: 'i1205298x',
+            type: 'Identifier',
+          },
+          {
+            identifierType: {
+              id: 'sierra-identifier',
+              label: 'Sierra identifier',
+              type: 'IdentifierType',
+            },
+            value: '1205298',
+            type: 'Identifier',
+          },
+        ],
+        locations: [
+          {
+            locationType: {
+              id: 'sicon',
+              label: 'Closed stores Iconographic',
+              type: 'LocationType',
+            },
+            label: 'Closed stores Iconographic',
+            type: 'PhysicalLocation',
+          },
+          {
+            locationType: {
+              id: 'iiif-image',
+              label: 'IIIF Image API',
+              type: 'LocationType',
+            },
+            url:
+              'https://iiif.wellcomecollection.org/image/V0007505.jpg/info.json',
+            credit: 'Wellcome Collection',
+            license: {
+              id: 'cc-by',
+              label: 'Attribution 4.0 International (CC BY 4.0)',
+              url: 'http://creativecommons.org/licenses/by/4.0/',
+              type: 'License',
+            },
+            type: 'DigitalLocation',
+          },
+        ],
+        type: 'Item',
+        status: {
+          label: 'Available',
+          id: 'available',
+        },
+      },
+    ];
+    // fetch(`https://items-status.weco1.now.sh/api/works/${work.id}`)
+    //   .then(resp => resp.json())
+    //   .then(json => {
+    //     setItemStatus(json.status.label);
+    //   });
+    const testStatus = test.find(item => item.status);
+    setItemStatus(testStatus && testStatus.status.label);
+  }, []);
+
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
       <div
@@ -380,6 +455,7 @@ const WorkDetails = ({
             .replace(/<br\s*\/?>/g, '')),
     ]
       .concat(physicalLocations ? locationsLabels : [])
+      .concat(itemStatus)
       .filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
