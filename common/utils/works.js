@@ -214,11 +214,25 @@ export function getWorkTypeIcon(work: Work): ?string {
 }
 
 export function getLocationType(work: Work, locationType: string) {
+  // TODO rename?
   const [item] = work.items
     .map(item =>
-      item.locations.find(location => location.locationType.id === 'iiif-image')
+      item.locations.find(location => location.locationType.id === locationType)
     )
     .filter(Boolean);
 
   return item;
+}
+
+type LocationType = 'PhysicalLocation' | 'DigitalLocation';
+
+export function getItemLocationsOfType(work: Work, locationType: LocationType) {
+  const locations =
+    work.items &&
+    work.items
+      .map(item => {
+        return item.locations.find(location => location.type === locationType);
+      })
+      .filter(Boolean);
+  return locations && locations.length > 0 ? locations : null;
 }
