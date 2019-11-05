@@ -27,7 +27,9 @@ type GetWorkProps = {|
   ...Enviable,
 |};
 
-const includes = [
+const worksIncludes = ['identifiers', 'production', 'contributors'];
+
+const workIncludes = [
   'identifiers',
   'items',
   'subjects',
@@ -46,7 +48,7 @@ export async function getWorks({
     return `${key}=${val}`;
   });
   const url =
-    `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
+    `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
     `&pageSize=25` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
   try {
@@ -69,7 +71,9 @@ export async function getWork({
   id,
   env = 'prod',
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
-  const url = `${rootUris[env]}/v2/works/${id}?include=${includes.join(',')}`;
+  const url = `${rootUris[env]}/v2/works/${id}?include=${workIncludes.join(
+    ','
+  )}`;
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the

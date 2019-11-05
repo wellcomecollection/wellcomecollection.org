@@ -1,16 +1,10 @@
 // @flow
 import { type Work } from '../../../model/work';
 import { font, classNames, grid } from '../../../utils/classnames';
-import {
-  getDigitalLocations,
-  getPhysicalLocations,
-  getProductionDates,
-  getWorkTypeIcon,
-} from '../../../utils/works';
+import { getProductionDates, getWorkTypeIcon } from '../../../utils/works';
 import Icon from '../Icon/Icon';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 
@@ -20,8 +14,6 @@ type Props = {|
 |};
 
 const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
-  const digitalLocations = getDigitalLocations(work);
-  const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -95,33 +87,7 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
             )}
           </Space>
         )}
-        <TogglesContext.Consumer>
-          {toggles =>
-            toggles.showWorkLocations &&
-            (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-              <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                <LinkLabels
-                  heading={'See it'}
-                  icon={'eye'}
-                  items={[
-                    digitalLocations.length > 0
-                      ? {
-                          text: 'Online',
-                          url: null,
-                        }
-                      : null,
-                    physicalLocations.length > 0
-                      ? {
-                          text: 'Wellcome library',
-                          url: null,
-                        }
-                      : null,
-                  ].filter(Boolean)}
-                />
-              </Space>
-            )
-          }
-        </TogglesContext.Consumer>
+
         {childManifestsCount > 0 && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
