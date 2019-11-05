@@ -14,8 +14,8 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchWithNotes',
-    title: 'Search note fields in the catalogue',
+    id: 'searchUsingAndOperator',
+    title: 'Search using AND as the default operator',
     range: [50, 100],
     shouldRun: (request, range) => {
       return request.uri.match(/^\/works\/*/);
