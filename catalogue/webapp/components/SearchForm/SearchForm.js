@@ -107,17 +107,15 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
-    let userSelectedWorks = false;
-    const checkBoxes = nodeListValue(form['workType']);
-    checkBoxes &&
-      checkBoxes.forEach(input => {
-        if (input.checked) {
-          userSelectedWorks = true;
-        }
-      });
-    const workType = searchParams.workType || []; // something here
-    console.log(workType);
+    const selectedWorkTypes = nodeListValue(form['workType']) || [];
+    const selectedWorkTypesArray = [...selectedWorkTypes].filter(
+      selectedWorkType => selectedWorkType.checked
+    );
 
+    const workType =
+      selectedWorkTypesArray.length > 0
+        ? selectedWorkTypesArray.map(workType => workType.value)
+        : [];
     const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
@@ -141,11 +139,15 @@ const SearchForm = ({
             sortOrder,
             sort,
           },
-          userSelectedWorks
+          Boolean(selectedWorkTypesArray.length > 0)
         )
       : worksUrl(
           {
             ...searchParams,
+            workType:
+              workType.length !== defaultWorkTypes.length && workType.length > 0
+                ? workType
+                : defaultWorkTypes,
             query: inputQuery,
             page: 1,
             productionDatesFrom: inputValue(form['production.dates.from']),
@@ -153,7 +155,7 @@ const SearchForm = ({
             sortOrder,
             sort,
           },
-          userSelectedWorks
+          Boolean(selectedWorkTypesArray.length > 0)
         );
 
     return Router.push(link.href, link.as);
@@ -217,9 +219,9 @@ const SearchForm = ({
             )}
           </SearchInputWrapper>
 
-          {workType && (
+          {/* {workType && (
             <input type="hidden" name="workType" value={workType.join(',')} />
-          )}
+          )} */}
 
           {shouldShowFilters && (
             <>

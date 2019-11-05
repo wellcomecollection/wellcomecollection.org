@@ -140,31 +140,25 @@ const FilterDrawerRefine = ({
               title: 'Formats',
               component: (
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                  {workTypeAggregations.map(type => (
-                    <Space
-                      key={type.data.id}
-                      as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
-                    >
-                      <Checkbox
-                        id={type.data.id}
-                        text={`${type.data.label} (${type.count})`}
-                        value={type.data.id}
-                        name={`workType`}
-                        checked={workTypeInUrlArray.includes(type.data.id)}
-                        onChange={event => {
-                          const value = event.currentTarget.value;
-                          const isChecked = event.currentTarget.checked;
-
-                          searchParams.workType = !isChecked
-                            ? workTypeInUrlArray.filter(w => w !== value)
-                            : [...workTypeInUrlArray, value];
-
-                          changeHandler();
-                        }}
-                      />
-                    </Space>
-                  ))}
+                  {workTypeAggregations &&
+                    workTypeAggregations.map(type => (
+                      <Space
+                        key={type.data.id}
+                        as="span"
+                        h={{ size: 'm', properties: ['margin-right'] }}
+                      >
+                        <Checkbox
+                          id={type.data.id}
+                          text={`${type.data.label} (${type.count})`}
+                          value={type.data.id}
+                          name={`workType`}
+                          checked={workTypeInUrlArray.includes(type.data.id)}
+                          onChange={event => {
+                            changeHandler();
+                          }}
+                        />
+                      </Space>
+                    ))}
                 </Space>
               ),
             },
