@@ -1,5 +1,5 @@
 // @flow
-// import fetch from 'isomorphic-unfetch';
+import fetch from 'isomorphic-unfetch';
 import { type Node, Fragment, useState, useEffect, useContext } from 'react';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import moment from 'moment';
@@ -147,75 +147,13 @@ const WorkDetails = ({
 
   const physicalLocations = getItemLocationsOfType(work, 'PhysicalLocation');
   // TODO review how, 'where to find it' currently working
-  // TODO - question - status should belong to item, not work as is currently the case - message James
-  // David's issue?
   useEffect(() => {
-    // Need 'Access-Control-Allow-Origin'
-    const test = [
-      {
-        id: 'anckhccf',
-        identifiers: [
-          {
-            identifierType: {
-              id: 'sierra-system-number',
-              label: 'Sierra system number',
-              type: 'IdentifierType',
-            },
-            value: 'i1205298x',
-            type: 'Identifier',
-          },
-          {
-            identifierType: {
-              id: 'sierra-identifier',
-              label: 'Sierra identifier',
-              type: 'IdentifierType',
-            },
-            value: '1205298',
-            type: 'Identifier',
-          },
-        ],
-        locations: [
-          {
-            locationType: {
-              id: 'sicon',
-              label: 'Closed stores Iconographic',
-              type: 'LocationType',
-            },
-            label: 'Closed stores Iconographic',
-            type: 'PhysicalLocation',
-          },
-          {
-            locationType: {
-              id: 'iiif-image',
-              label: 'IIIF Image API',
-              type: 'LocationType',
-            },
-            url:
-              'https://iiif.wellcomecollection.org/image/V0007505.jpg/info.json',
-            credit: 'Wellcome Collection',
-            license: {
-              id: 'cc-by',
-              label: 'Attribution 4.0 International (CC BY 4.0)',
-              url: 'http://creativecommons.org/licenses/by/4.0/',
-              type: 'License',
-            },
-            type: 'DigitalLocation',
-          },
-        ],
-        type: 'Item',
-        status: {
-          label: 'Available',
-          id: 'available',
-        },
-      },
-    ];
-    // fetch(`https://items-status.weco1.now.sh/api/works/${work.id}`)
-    //   .then(resp => resp.json())
-    //   .then(json => {
-    //     setItemStatus(json.status.label);
-    //   });
-    const testStatus = test.find(item => item.status);
-    setItemStatus(testStatus && testStatus.status.label);
+    fetch(`https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`)
+      .then(resp => resp.json())
+      .then(json => {
+        setItemStatus(json.status.label);
+      })
+      .catch(console.log);
   }, []);
 
   if (allDownloadOptions.length > 0) {
