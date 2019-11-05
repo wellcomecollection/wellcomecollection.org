@@ -101,6 +101,11 @@ export const searchParamsSerialiser = buildSerialiser(
   propToQueryStringMapping
 );
 
+export const searchParamsSerialiserWithoutWorktypeDefaults = buildSerialiser(
+  { ...serialisers, workType: csvSerialiser },
+  propToQueryStringMapping
+);
+
 export const apiSearchParamsSerialiser = buildSerialiser(
   apiSerialisers,
   propToQueryStringMapping
