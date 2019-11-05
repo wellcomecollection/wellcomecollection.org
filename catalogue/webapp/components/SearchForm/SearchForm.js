@@ -26,6 +26,12 @@ function inputValue(input: ?HTMLElement): ?string {
   }
 }
 
+function nodeListValue(input: ?HTMLElement): ?NodeList<HTMLInputElement> {
+  if (input && input instanceof window.NodeList) {
+    return input;
+  }
+}
+
 type Props = {|
   ariaDescribedBy: string,
   compact: boolean,
@@ -101,7 +107,15 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
-    const workType = searchParams.workType || [];
+    let userSelectedWorks = false;
+    const checkBoxes = nodeListValue(form['workType']);
+    checkBoxes &&
+      checkBoxes.forEach(input => {
+        if (input.checked) {
+          userSelectedWorks = true;
+        }
+      });
+    const workType = searchParams.workType || []; // something here
     console.log(workType);
 
     const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
@@ -109,31 +123,38 @@ const SearchForm = ({
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
 
     const link = unfilteredSearchResults
-      ? worksUrl({
-          ...searchParams,
-          // Override the defaultWorkType with [] if we're toggled to do so
-          // null => default filters
-          // [] => no filter
-          // [anything] => filter
-          workType: workType.length === defaultWorkTypes.length ? [] : workType,
-          // Override the default locations if we're toggled to do so
-          itemsLocationsLocationType: [],
-          query: inputQuery,
-          page: 1,
-          productionDatesFrom: inputValue(form['production.dates.from']),
-          productionDatesTo: inputValue(form['production.dates.to']),
-          sortOrder,
-          sort,
-        })
-      : worksUrl({
-          ...searchParams,
-          query: inputQuery,
-          page: 1,
-          productionDatesFrom: inputValue(form['production.dates.from']),
-          productionDatesTo: inputValue(form['production.dates.to']),
-          sortOrder,
-          sort,
-        });
+      ? worksUrl(
+          {
+            ...searchParams,
+            // Override the defaultWorkType with [] if we're toggled to do so
+            // null => default filters
+            // [] => no filter
+            // [anything] => filter
+            workType:
+              workType.length === defaultWorkTypes.length ? [] : workType,
+            // Override the default locations if we're toggled to do so
+            itemsLocationsLocationType: [],
+            query: inputQuery,
+            page: 1,
+            productionDatesFrom: inputValue(form['production.dates.from']),
+            productionDatesTo: inputValue(form['production.dates.to']),
+            sortOrder,
+            sort,
+          },
+          userSelectedWorks
+        )
+      : worksUrl(
+          {
+            ...searchParams,
+            query: inputQuery,
+            page: 1,
+            productionDatesFrom: inputValue(form['production.dates.from']),
+            productionDatesTo: inputValue(form['production.dates.to']),
+            sortOrder,
+            sort,
+          },
+          userSelectedWorks
+        );
 
     return Router.push(link.href, link.as);
   }
@@ -187,7 +208,6 @@ const SearchForm = ({
 
                   setInputQuery('');
 
-                  // $FlowFixMe
                   searchInput.current && searchInput.current.focus();
                 }}
                 type="button"
