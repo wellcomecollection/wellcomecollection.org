@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import NextLink from 'next/link';
 import { worksUrl } from '../../../services/catalogue/urls';
 import { font, classNames } from '../../../utils/classnames';
@@ -40,9 +40,16 @@ function CancelFilter({ text }: { text: string }) {
 type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
   searchParams: SearchParams,
-  workTypeAggregations: any,
-  workTypeInUrl: any,
-  changeHandler: any,
+  workTypeAggregations: {|
+    count: number,
+    data: {|
+      id: string,
+      label: string,
+      type: string,
+    |},
+  |},
+  workTypeInUrl: string,
+  changeHandler: () => void,
 |};
 
 const FilterDrawerRefine = ({
@@ -215,7 +222,7 @@ const FilterDrawerRefine = ({
               )}
               {workTypeInUrl &&
                 workTypeAggregations.map(({ data }) => (
-                  <>
+                  <Fragment key={data.id}>
                     {workType.includes(data.id) && (
                       <NextLink
                         key={data.id}
@@ -232,7 +239,7 @@ const FilterDrawerRefine = ({
                         </a>
                       </NextLink>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               <NextLink
                 passHref
