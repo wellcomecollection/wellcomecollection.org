@@ -1,6 +1,7 @@
 // @flow
 // import fetch from 'isomorphic-unfetch';
-import { type Node, Fragment, useState, useEffect } from 'react';
+import { type Node, Fragment, useState, useEffect, useContext } from 'react';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
@@ -102,6 +103,7 @@ const WorkDetails = ({
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
+  const { unfilteredSearchResults } = useContext(TogglesContext);
 
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
@@ -144,7 +146,6 @@ const WorkDetails = ({
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
   const physicalLocations = getItemLocationsOfType(work, 'PhysicalLocation');
-  // TODO put behind flag (use unfiltered)
   // TODO review how, 'where to find it' currently working
   // TODO - question - status should belong to item, not work as is currently the case - message James
   // David's issue?
@@ -445,7 +446,9 @@ const WorkDetails = ({
     physicalLocations
   ) {
     const locationsLabels =
-      physicalLocations && physicalLocations.map(location => location.label);
+      unfilteredSearchResults && physicalLocations
+        ? physicalLocations.map(location => location.label)
+        : [];
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
       (showAdditionalCatalogueData && work.locationOfOriginal) ||
@@ -454,7 +457,7 @@ const WorkDetails = ({
             .replace(/<img[^>]*>/g, '')
             .replace(/<br\s*\/?>/g, '')),
     ]
-      .concat(physicalLocations ? locationsLabels : [])
+      .concat(locationsLabels)
       .concat(itemStatus)
       .filter(Boolean);
     WorkDetailsSections.push(
