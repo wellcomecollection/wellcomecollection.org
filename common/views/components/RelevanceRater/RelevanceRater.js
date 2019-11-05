@@ -1,32 +1,7 @@
 // @flow
-import { type ComponentType } from 'react';
-import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
+import { useState, useEffect } from 'react';
 import { trackRelevanceRating } from '../Tracker/Tracker';
-import Space, { type SpaceComponentProps } from '../styled/Space';
-
-const RelevanceRaterStyle = styled.div.attrs(props => ({
-  className: classNames({
-    flex: true,
-    [font('hnl', 4)]: true,
-  }),
-}))`
-  height: 100%;
-`;
-
-const RelevanceRating: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
-    className: classNames({
-      'plain-button': true,
-    }),
-  })
-)`
-  width: 25%;
-  cursor: pointer;
-  border: 1px solid ${props => props.theme.colors.smoke};
-  border-left-width: ${props => (props.index === 0 ? 1 : 0)};
-  border-bottom-width: 0;
-`;
+import Rating from '@weco/common/views/components/Rating/Rating';
 
 type Props = {|
   position: number,
@@ -45,99 +20,26 @@ const RelevanceRater = ({
   workType,
   _queryType,
 }: Props) => {
+  const [isEnhanced, setIsEnhanced] = useState(false);
+  useEffect(() => {
+    setIsEnhanced(true);
+  }, []);
   return (
-    <div>
-      <RelevanceRaterStyle>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={0}
-          onClick={() =>
-            trackRelevanceRating({
-              id,
-              position,
-              rating: 1,
-              query,
-              page,
-              workType,
-              _queryType,
-            })
-          }
-        >
-          No apparent relationship to search term
-        </RelevanceRating>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={1}
-          onClick={() =>
-            trackRelevanceRating({
-              id,
-              position,
-              rating: 2,
-              query,
-              page,
-              workType,
-              _queryType,
-            })
-          }
-        >
-          Reasonable to be retrieved but should not be this highly ranked
-        </RelevanceRating>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={2}
-          onClick={() =>
-            trackRelevanceRating({
-              id,
-              position,
-              rating: 3,
-              query,
-              page,
-              workType,
-              _queryType,
-            })
-          }
-        >
-          Not perfect but reasonable to be highly ranked
-        </RelevanceRating>
-        <RelevanceRating
-          v={{
-            size: 's',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          as="button"
-          index={3}
-          onClick={() =>
-            trackRelevanceRating({
-              id,
-              position,
-              rating: 4,
-              query,
-              page,
-              workType,
-              _queryType,
-            })
-          }
-        >
-          Completely relevant to be at this rank
-        </RelevanceRating>
-      </RelevanceRaterStyle>
-    </div>
+    isEnhanced && (
+      <Rating
+        clickHandler={value => {
+          trackRelevanceRating({
+            id,
+            position,
+            rating: value,
+            query,
+            page,
+            workType,
+            _queryType,
+          });
+        }}
+      />
+    )
   );
 };
 
