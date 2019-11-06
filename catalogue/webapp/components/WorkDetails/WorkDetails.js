@@ -97,7 +97,7 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
-  const [itemStatuses, setItemStatuses] = useState(null);
+  const [itemStatuses, setItemStatuses] = useState([]);
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -398,7 +398,7 @@ const WorkDetails = ({
             .replace(/<br\s*\/?>/g, '')),
     ]
       .concat(locationsLabels)
-      .concat(itemStatuses || [])
+      .concat(itemStatuses)
       .filter(Boolean);
     textArray.length > 0 &&
       WorkDetailsSections.push(
