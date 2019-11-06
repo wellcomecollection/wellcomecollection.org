@@ -394,13 +394,14 @@ const WorkDetails = ({
             .replace(/<br\s*\/?>/g, '')),
     ]
       .concat(locationsLabels)
-      .concat(itemStatuses)
+      .concat(unfilteredSearchResults ? itemStatuses : [])
       .filter(Boolean);
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Where to find it">
-        <MetaUnit text={textArray} />
-      </WorkDetailsSection>
-    );
+    textArray.length > 0 &&
+      WorkDetailsSections.push(
+        <WorkDetailsSection headingText="Where to find it">
+          <MetaUnit text={textArray} />
+        </WorkDetailsSection>
+      );
   }
   WorkDetailsSections.push(
     <WorkDetailsSection headingText="Identifiers">
