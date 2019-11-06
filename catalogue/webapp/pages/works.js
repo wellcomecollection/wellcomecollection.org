@@ -50,11 +50,15 @@ const Works = ({ works, searchParams }: Props) => {
   } = searchParams;
 
   function trackOnRouteChange() {
-    trackSearch();
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
   }
 
   useEffect(() => {
-    trackSearch();
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
     Router.events.on('routeChangeComplete', trackOnRouteChange);
     return () => {
       Router.events.off('routeChangeComplete', trackOnRouteChange);
