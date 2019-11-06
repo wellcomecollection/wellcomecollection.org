@@ -97,7 +97,7 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
-  const [itemStatus, setItemStatus] = useState(null);
+  const [itemStatuses, setItemStatuses] = useState(null);
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -150,10 +150,8 @@ const WorkDetails = ({
   useEffect(() => {
     fetch(`https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`)
       .then(resp => resp.json())
-      .then(json => {
-        setItemStatus(json.status.label);
-      })
-      .catch(console.log);
+      .then(({ items }) => setItemStatuses(items.map(i => i.status.label)))
+      .catch(console.error);
   }, []);
 
   if (allDownloadOptions.length > 0) {
@@ -396,7 +394,7 @@ const WorkDetails = ({
             .replace(/<br\s*\/?>/g, '')),
     ]
       .concat(locationsLabels)
-      .concat(itemStatus)
+      .concat(itemStatuses)
       .filter(Boolean);
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="Where to find it">
