@@ -47,17 +47,9 @@ const HiddenText = styled.span.attrs({
   className: 'visually-hidden',
 })``;
 
-type Props = {|
-  text: {|
-    defaultMessage: string[],
-    optedInMessage: string[],
-    optInCTA: string,
-    optOutCTA: string,
-  |},
-  cookieName: string,
-|};
+const cookieName = 'relevanceRating';
 
-const OptIn = ({ text, cookieName }: Props) => {
+const OptIn = () => {
   const [shouldRender, setShouldRender]: [
     boolean,
     ((boolean => boolean) | boolean) => void
@@ -108,17 +100,16 @@ const OptIn = ({ text, cookieName }: Props) => {
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
         >
-          {optedIn
-            ? text.optedInMessage.map((line, i) => (
-                <p className="no-margin inline" key={i}>
-                  {line}&nbsp;
-                </p>
-              ))
-            : text.defaultMessage.map((line, i) => (
-                <p className="no-margin" key={i}>
-                  {line}
-                </p>
-              ))}
+          {optedIn ? (
+            <p className="no-margin inline">Currently rating search results.</p>
+          ) : (
+            <>
+              <p className="no-margin">Help us improve your search results.</p>
+              <p className="no-margin">
+                Rate your search results by how relevant they are to you.
+              </p>
+            </>
+          )}{' '}
           {optedIn ? (
             <OptInControl
               onClick={() => {
@@ -134,7 +125,7 @@ const OptIn = ({ text, cookieName }: Props) => {
                   optIn();
                 }}
               >
-                {text.optInCTA}
+                Rate your results
               </OptInControl>
               <OptInControl
                 optOut
@@ -143,7 +134,7 @@ const OptIn = ({ text, cookieName }: Props) => {
                 }}
               >
                 <Icon name="clear" extraClasses="icon--white" />
-                <HiddenText>{text.optOutCTA}</HiddenText>
+                <HiddenText>No thanks</HiddenText>
               </OptInControl>
             </>
           )}

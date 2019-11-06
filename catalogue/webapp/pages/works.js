@@ -315,20 +315,7 @@ const Works = ({ works, searchParams }: Props) => {
                             [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
                           })}
                         >
-                          <OptIn
-                            text={{
-                              defaultMessage: [
-                                'Help us improve your search results.',
-                                'Rate your search results by how relevant they are to you.',
-                              ],
-                              optedInMessage: [
-                                'Currently rating search results.',
-                              ],
-                              optInCTA: 'Rate your results',
-                              optOutCTA: 'No thanks',
-                            }}
-                            cookieName={'relevanceRating'}
-                          />
+                          <OptIn />
                         </div>
                       )
                     }
