@@ -384,6 +384,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const workTypeInUrl = ctx.query.workType;
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
+
   const shouldGetWorks = filters.query && filters.query !== '';
   const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
 
