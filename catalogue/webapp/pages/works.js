@@ -17,7 +17,6 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   searchParamsDeserialiser,
-  defaultWorkTypes,
   defaultItemsLocationsLocationType,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
@@ -51,11 +50,15 @@ const Works = ({ works, searchParams }: Props) => {
   } = searchParams;
 
   function trackOnRouteChange() {
-    trackSearch();
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
   }
 
   useEffect(() => {
-    trackSearch();
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
     Router.events.on('routeChangeComplete', trackOnRouteChange);
     return () => {
       Router.events.off('routeChangeComplete', trackOnRouteChange);
@@ -216,19 +219,12 @@ const Works = ({ works, searchParams }: Props) => {
                         link: worksUrl({
                           ...searchParams,
                           page: 1,
-                          workType: unfilteredSearchResults
-                            ? []
-                            : defaultWorkTypes,
+                          workType: unfilteredSearchResults ? [] : null,
                           itemsLocationsLocationType: unfilteredSearchResults
                             ? []
-                            : defaultItemsLocationsLocationType,
+                            : null,
                         }),
-                        selected:
-                          !!workType &&
-                          arraysEqual(
-                            unfilteredSearchResults ? [] : defaultWorkTypes,
-                            workType
-                          ),
+                        selected: workType === null,
                       },
                     ].concat(
                       workTypes.map(t => {
