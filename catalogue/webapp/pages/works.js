@@ -32,6 +32,7 @@ import {
   trackSearchResultSelected,
   trackSearch,
 } from '@weco/common/views/components/Tracker/Tracker';
+import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -302,6 +303,19 @@ const Works = ({ works, searchParams }: Props) => {
             >
               <div className="container">
                 <div className="grid">
+                  <TogglesContext.Consumer>
+                    {({ relevanceRatingOptIn }) =>
+                      relevanceRatingOptIn && (
+                        <div
+                          className={classNames({
+                            [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                          })}
+                        >
+                          <OptIn />
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
@@ -335,8 +349,9 @@ const Works = ({ works, searchParams }: Props) => {
                         />
                       </div>
                       <TogglesContext.Consumer>
-                        {({ relevanceRating }) =>
-                          relevanceRating && (
+                        {({ relevanceRating, relevanceRatingOptIn }) =>
+                          relevanceRating &&
+                          relevanceRatingOptIn && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
