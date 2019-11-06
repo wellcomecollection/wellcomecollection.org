@@ -148,10 +148,14 @@ const WorkDetails = ({
   const physicalLocations = getItemLocationsOfType(work, 'PhysicalLocation');
   // TODO review how, 'where to find it' currently working
   useEffect(() => {
-    fetch(`https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`)
-      .then(resp => resp.json())
-      .then(({ items }) => setItemStatuses(items.map(i => i.status.label)))
-      .catch(console.error);
+    if (unfilteredSearchResults) {
+      fetch(
+        `https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`
+      )
+        .then(resp => resp.json())
+        .then(({ items }) => setItemStatuses(items.map(i => i.status.label)))
+        .catch(console.error);
+    }
   }, []);
 
   if (allDownloadOptions.length > 0) {
@@ -394,7 +398,7 @@ const WorkDetails = ({
             .replace(/<br\s*\/?>/g, '')),
     ]
       .concat(locationsLabels)
-      .concat(unfilteredSearchResults ? itemStatuses : [])
+      .concat(itemStatuses || [])
       .filter(Boolean);
     textArray.length > 0 &&
       WorkDetailsSections.push(
