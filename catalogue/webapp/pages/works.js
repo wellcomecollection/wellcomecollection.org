@@ -53,7 +53,7 @@ const Works = ({ works, searchParams }: Props) => {
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -452,13 +452,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         filters: toggledFilters,
       })
     : null;
-
-  // We do this here as the onRouteChagneComplete event doesn't hook reliably or consistently
-  if (!ctx.req && (worksOrError && worksOrError.type === 'ResultList')) {
-    trackSearch({
-      totalResults: worksOrError.totalResults && worksOrError.totalResults,
-    });
-  }
 
   return {
     works: worksOrError,
