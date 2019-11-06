@@ -78,7 +78,7 @@ const SearchForm = ({
   workTypeAggregations,
   workTypeInUrl,
 }: Props) => {
-  const { query, workType } = searchParams;
+  const { query } = searchParams;
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -107,8 +107,8 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
-    const selectedWorkTypes = nodeListValue(form['workType']) || [];
-    const selectedWorkTypesArray = [...selectedWorkTypes].filter(
+    const workTypeCheckboxes = nodeListValue(form['workType']) || [];
+    const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
       selectedWorkType => selectedWorkType.checked
     );
 
@@ -116,48 +116,39 @@ const SearchForm = ({
       selectedWorkTypesArray.length > 0
         ? selectedWorkTypesArray.map(workType => workType.value)
         : [];
+
     const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
 
     const link = unfilteredSearchResults
-      ? worksUrl(
-          {
-            ...searchParams,
-            // Override the defaultWorkType with [] if we're toggled to do so
-            // null => default filters
-            // [] => no filter
-            // [anything] => filter
-            workType:
-              workType.length === defaultWorkTypes.length ? [] : workType,
-            // Override the default locations if we're toggled to do so
-            itemsLocationsLocationType: [],
-            query: inputQuery,
-            page: 1,
-            productionDatesFrom: inputValue(form['production.dates.from']),
-            productionDatesTo: inputValue(form['production.dates.to']),
-            sortOrder,
-            sort,
-          },
-          Boolean(selectedWorkTypesArray.length > 0)
-        )
-      : worksUrl(
-          {
-            ...searchParams,
-            workType:
-              workType.length !== defaultWorkTypes.length && workType.length > 0
-                ? workType
-                : defaultWorkTypes,
-            query: inputQuery,
-            page: 1,
-            productionDatesFrom: inputValue(form['production.dates.from']),
-            productionDatesTo: inputValue(form['production.dates.to']),
-            sortOrder,
-            sort,
-          },
-          Boolean(selectedWorkTypesArray.length > 0)
-        );
-
+      ? worksUrl({
+          ...searchParams,
+          // Override the defaultWorkType with [] if we're toggled to do so
+          // null => default filters
+          // [] => no filter
+          // [anything] => filter
+          workType: workType.length === defaultWorkTypes.length ? [] : workType,
+          // Override the default locations if we're toggled to do so
+          itemsLocationsLocationType: [],
+          query: inputQuery,
+          page: 1,
+          productionDatesFrom: inputValue(form['production.dates.from']),
+          productionDatesTo: inputValue(form['production.dates.to']),
+          sortOrder,
+          sort,
+        })
+      : worksUrl({
+          ...searchParams,
+          workType: workType.length > 0 ? workType : [],
+          query: inputQuery,
+          page: 1,
+          productionDatesFrom: inputValue(form['production.dates.from']),
+          productionDatesTo: inputValue(form['production.dates.to']),
+          sortOrder,
+          sort,
+        });
+    console.log(link);
     return Router.push(link.href, link.as);
   }
 

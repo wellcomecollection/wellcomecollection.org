@@ -39,10 +39,7 @@ export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
   };
 }
 
-export function worksUrl(
-  searchParams: WorksUrlProps,
-  userSelectedTypes?: boolean
-): NextLinkType {
+export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/works`,
