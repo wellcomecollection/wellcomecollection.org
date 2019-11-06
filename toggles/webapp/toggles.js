@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'relevanceRatingOptIn',
+      title: `Opt in to dearch relevance rating`,
+      defaultValue: false,
+      description:
+        'Shows the opt in, which will allow people to rate the relevance of results on the search results page.',
+    },
+    {
       id: 'relevanceRating',
       title: `Search relevance rating`,
       defaultValue: false,
@@ -13,13 +20,6 @@ module.exports = {
       defaultValue: false,
       description:
         'Uses api.stage for requests to the API to view data that we are testing.',
-    },
-    {
-      id: 'showWorkLocations',
-      title: 'Show the locations of a work in the header',
-      defaultValue: false,
-      description:
-        'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
     },
     {
       id: 'unfilteredSearchResults',

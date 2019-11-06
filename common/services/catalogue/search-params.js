@@ -5,13 +5,12 @@ import {
   type Deserialisers,
   type QueryStringParameterMapping,
   stringDeserialiser,
-  numberDeserialiser,
-  csvDeserialiser,
+  nullableNumberDeserialiser,
   nullableStringDeserialiser,
-  csvWithDefaultDeserialiser,
+  nullableCsvDeserialiser,
   stringSerialiser,
-  numberSerialiser,
-  csvSerialiser,
+  numberWithDefaultSerialiser,
+  nullableCsvSerialiser,
   nullableStringSerialiser,
   csvWithDefaultSerialiser,
   nullableDateStringSerialiser,
@@ -32,7 +31,7 @@ export type SearchParams = {|
   _queryType: ?string,
 |};
 
-type SearchParamsSerialisers = Serialisers<SearchParams>;
+type ApiSearchParamsSerialisers = Serialisers<SearchParams>;
 type SearchParamsDeserialisers = Deserialisers<SearchParams>;
 
 export const defaultWorkTypes = ['a', 'k', 'q'];
@@ -47,62 +46,36 @@ const propToQueryStringMapping: QueryStringParameterMapping = {
   productionDatesTo: 'production.dates.to',
 };
 
-const queryStringToPropMapping: QueryStringParameterMapping = Object.entries(
-  propToQueryStringMapping
-  // $FlowFixMe
-).reduce((obj, [key, value]) => ({ ...obj, [value]: key }), {});
-
 const deserialisers: SearchParamsDeserialisers = {
   query: stringDeserialiser,
-  page: numberDeserialiser,
-  workType: csvWithDefaultDeserialiser(defaultWorkTypes),
-  [`items.locations.locationType`]: csvWithDefaultDeserialiser(
-    defaultItemsLocationsLocationType
-  ),
+  page: nullableNumberDeserialiser,
+  workType: nullableCsvDeserialiser,
+  itemsLocationsLocationType: nullableCsvDeserialiser,
   sort: nullableStringDeserialiser,
   sortOrder: nullableStringDeserialiser,
-  aggregations: csvDeserialiser,
-  [`production.dates.from`]: nullableStringDeserialiser,
-  [`production.dates.to`]: nullableStringDeserialiser,
+  aggregations: nullableCsvDeserialiser,
+  productionDatesFrom: nullableStringDeserialiser,
+  productionDatesTo: nullableStringDeserialiser,
   _queryType: nullableStringDeserialiser,
 };
 
-const apiSerialisers: SearchParamsSerialisers = {
+const apiSerialisers: ApiSearchParamsSerialisers = {
   query: stringSerialiser,
-  page: numberSerialiser,
-  workType: csvWithDefaultSerialiser([]),
-  itemsLocationsLocationType: csvWithDefaultSerialiser([]),
+  page: numberWithDefaultSerialiser(1),
+  workType: csvWithDefaultSerialiser(defaultWorkTypes),
+  itemsLocationsLocationType: csvWithDefaultSerialiser(
+    defaultItemsLocationsLocationType
+  ),
   sort: nullableStringSerialiser,
   sortOrder: nullableStringSerialiser,
-  aggregations: csvSerialiser,
+  aggregations: nullableCsvSerialiser,
   productionDatesFrom: nullableDateStringSerialiser,
   productionDatesTo: nullableDateStringSerialiser,
   _queryType: nullableStringSerialiser,
 };
 
-// We do a few things differently this side, including havein UI params
-// And also not showing certain filters when they are actually applied e.g. workType
-const serialisers: SearchParamsSerialisers = {
-  ...apiSerialisers,
-  workType: csvWithDefaultSerialiser(defaultWorkTypes),
-  itemsLocationsLocationType: csvWithDefaultSerialiser(
-    defaultItemsLocationsLocationType
-  ),
-  productionDatesFrom: nullableStringSerialiser,
-  productionDatesTo: nullableStringSerialiser,
-};
-
 export const searchParamsDeserialiser = buildDeserialiser(
   deserialisers,
-  queryStringToPropMapping
-);
-export const searchParamsSerialiser = buildSerialiser(
-  serialisers,
-  propToQueryStringMapping
-);
-
-export const searchParamsSerialiserWithoutWorktypeDefaults = buildSerialiser(
-  { ...serialisers, workType: csvSerialiser },
   propToQueryStringMapping
 );
 

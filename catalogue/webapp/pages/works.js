@@ -29,6 +29,7 @@ import {
   trackSearchResultSelected,
   trackSearch,
 } from '@weco/common/views/components/Tracker/Tracker';
+import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -54,11 +55,15 @@ const Works = ({
   } = searchParams;
 
   function trackOnRouteChange() {
-    trackSearch();
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
   }
 
   useEffect(() => {
-    trackSearch();
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
     Router.events.on('routeChangeComplete', trackOnRouteChange);
     return () => {
       Router.events.off('routeChangeComplete', trackOnRouteChange);
@@ -232,6 +237,19 @@ const Works = ({
             >
               <div className="container">
                 <div className="grid">
+                  <TogglesContext.Consumer>
+                    {({ relevanceRatingOptIn }) =>
+                      relevanceRatingOptIn && (
+                        <div
+                          className={classNames({
+                            [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                          })}
+                        >
+                          <OptIn />
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
@@ -265,8 +283,9 @@ const Works = ({
                         />
                       </div>
                       <TogglesContext.Consumer>
-                        {({ relevanceRating }) =>
-                          relevanceRating && (
+                        {({ relevanceRating, relevanceRatingOptIn }) =>
+                          relevanceRating &&
+                          relevanceRatingOptIn && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
@@ -366,11 +385,11 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
   const shouldGetWorks = filters.query && filters.query !== '';
-  const { searchWithNotes, unfilteredSearchResults } = ctx.query.toggles;
+  const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchWithNotes ? 'withNotes' : undefined,
+    _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
   };
 
   const worksOrError = shouldGetWorks
