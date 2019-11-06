@@ -38,13 +38,16 @@ type SearchData = {| totalResults: ?number |};
 const trackSearch = (data: SearchData) => {
   const query = Router.query.query;
   if (query && query !== '') {
-    track('Search', 'search_relevance_implicit');
+    track('Search', 'search_relevance_implicit', data);
   } else {
-    track('Search landing', 'search_relevance_implicit');
+    track('Search landing', 'search_relevance_implicit', data);
   }
 };
 
-type TrackingEventData = SearchResultSelectedData | RelevanceRatingData;
+type TrackingEventData =
+  | SearchResultSelectedData
+  | RelevanceRatingData
+  | SearchData;
 const track = (
   eventName: string,
   serviceName: ServiceName,
