@@ -97,7 +97,11 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
-  const [itemStatuses, setItemStatuses] = useState([]);
+  const [physicalLocations, setPhysicalLocations] = useState(
+    (getItemLocationsOfType(work, 'PhysicalLocation') || []).map(
+      location => location.label
+    )
+  );
   const params = clientSideSearchParams();
   const iiifImageLocation = getLocationType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -145,7 +149,6 @@ const WorkDetails = ({
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
-  const physicalLocations = getItemLocationsOfType(work, 'PhysicalLocation');
   // TODO review how, 'where to find it' currently working
   useEffect(() => {
     if (unfilteredSearchResults) {
@@ -153,7 +156,20 @@ const WorkDetails = ({
         `https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`
       )
         .then(resp => resp.json())
-        .then(({ items }) => setItemStatuses(items.map(i => i.status.label)))
+        .then(({ items }) => {
+          const locationsAndStatuses = items.map(i => {
+            const location = i.locations.find(
+              location => location.type === 'PhysicalLocation'
+            );
+
+            const locationLabel = location && location.label;
+            const statusLabel = i.status.label;
+
+            return locationLabel && `${locationLabel}: ${statusLabel}`;
+          });
+
+          setPhysicalLocations(locationsAndStatuses);
+        })
         .catch(console.error);
     }
   }, []);
@@ -385,10 +401,6 @@ const WorkDetails = ({
     work.locationOfOriginal ||
     physicalLocations
   ) {
-    const locationsLabels =
-      unfilteredSearchResults && physicalLocations
-        ? physicalLocations.map(location => location.label)
-        : [];
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
       (showAdditionalCatalogueData && work.locationOfOriginal) ||
@@ -397,8 +409,7 @@ const WorkDetails = ({
             .replace(/<img[^>]*>/g, '')
             .replace(/<br\s*\/?>/g, '')),
     ]
-      .concat(locationsLabels)
-      .concat(itemStatuses)
+      .concat(unfilteredSearchResults ? physicalLocations : [])
       .filter(Boolean);
     textArray.length > 0 &&
       WorkDetailsSections.push(
