@@ -1,10 +1,18 @@
-## The problem: We think that...
+---
+name: Research
+about: To do some research
+title: ''
+labels: ''
+assignees: ''
 
+---
 
-## Therefore we hypothesize that...
+**We think that**
+<!-- the hypothesis -->
 
+**Therefore we hypothesise that**
 
-## As measured by...
+**As measured by**
 
-
-## Acceptance criteria: we are right if...
+**We are right if**
+<!-- acceptance criteria -->

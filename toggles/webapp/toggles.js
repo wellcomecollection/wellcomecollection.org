@@ -22,13 +22,6 @@ module.exports = {
         'Uses api.stage for requests to the API to view data that we are testing.',
     },
     {
-      id: 'showWorkLocations',
-      title: 'Show the locations of a work in the header',
-      defaultValue: false,
-      description:
-        'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
-    },
-    {
       id: 'unfilteredSearchResults',
       title:
         'Return all posible results from the catalogue API, without filtering by type or location',

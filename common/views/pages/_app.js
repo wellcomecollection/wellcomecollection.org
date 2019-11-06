@@ -16,8 +16,6 @@ import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
-import PopupDialog from '../../views/components/PopupDialog/PopupDialog';
-import { classNames, font } from '../../utils/classnames';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
@@ -113,6 +111,31 @@ function openingHoursToOpeningHoursSpecification(openingHours: OpeningHours) {
   };
 }
 
+function makeSurePageIsTallEnough() {
+  const pageHeightCache = [];
+  const html = document.querySelector('html');
+
+  Router.events.on('routeChangeStart', () => {
+    document &&
+      document.documentElement &&
+      pageHeightCache.push(document.documentElement.offsetHeight);
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    if (html) {
+      html.style.height = 'initial';
+    }
+  });
+
+  Router.beforePopState(() => {
+    if (html) {
+      html.style.height = `${pageHeightCache.pop()}px`;
+    }
+
+    return true;
+  });
+}
+
 export default class WecoApp extends App {
   static async getInitialProps({ Component, router, ctx }: AppInitialProps) {
     // Caching things from the server request to be available to the client
@@ -185,6 +208,7 @@ export default class WecoApp extends App {
 
   componentDidMount() {
     this.setState({ togglesContext: toggles });
+    makeSurePageIsTallEnough();
 
     if (document.documentElement) {
       document.documentElement.classList.add('enhanced');
@@ -461,34 +485,6 @@ export default class WecoApp extends App {
                     </TogglesContext.Consumer>
                     <LoadingIndicator />
                     <TrackerScript />
-                    <PopupDialog
-                      openButtonText={`Got 10 minutes?`}
-                      cta={{
-                        text: 'Click here to start',
-                        url:
-                          'https://t511eh14.optimalworkshop.com/treejack/1yrqoxjo',
-                      }}
-                    >
-                      <h2
-                        className={classNames({
-                          [font('wb', 6, {
-                            small: 5,
-                            medium: 5,
-                            large: 5,
-                          })]: true,
-                        })}
-                      >
-                        Help us improve our website
-                      </h2>
-                      <p
-                        className={classNames({
-                          [font('hnl', 5, { medium: 2, large: 2 })]: true,
-                        })}
-                      >
-                        We want to understand how users move through our website
-                        and find specific content.
-                      </p>
-                    </PopupDialog>
                     {!pageProps.statusCode && <Component {...pageProps} />}
                     {pageProps.statusCode && pageProps.statusCode !== 200 && (
                       <ErrorPage statusCode={pageProps.statusCode} />

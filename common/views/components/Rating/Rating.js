@@ -50,9 +50,9 @@ const RatingButton = styled.button.attrs(props => ({
   overflow: hidden;
   white-space: nowrap;
   cursor: ${props => (props.disabled ? 'default' : 'pointer')};
-  transition: margin-left 400ms;
+  transition: margin-left 100ms;
   margin-left: ${props => (props.show ? 0 : '-1.6em')};
-  transition-delay: ${props => props.index * 100}ms;
+  transition-delay: ${props => props.index * 50}ms;
 `;
 
 const Star = styled.span.attrs(props => ({
@@ -72,32 +72,35 @@ const Star = styled.span.attrs(props => ({
 const RatingText = styled.span.attrs(props => ({
   className: font('hnl', 5),
 }))`
-  transition: opacity 400ms 400ms;
+  transition: opacity 400ms 300ms;
   opacity: ${props => (props.show ? 1 : 0)};
   color: ${props =>
     props.default ? props.theme.colors.pewter : props.theme.colors.purple};
 `;
 
 type Props = {|
-  ratings: {
-    value: number,
-    text: string,
-  }[],
   clickHandler: number => void,
 |};
 
-const Rating = ({ ratings, clickHandler }: Props) => {
-  const [showRating, setShowRating] = useState(false);
+const Rating = ({ clickHandler }: Props) => {
+  const [open, setOpen] = useState(false);
   const [rated, setRated] = useState(false);
   const [ratingText, setRatingText] = useState();
   const [hoveredValue, setHoveredValue] = useState(0);
-  const defaultText = 'Tap on a start to rate';
+  const initialText = 'Tap on a star to rate';
+
+  const ratings = [
+    { value: 1, text: 'Not relevant to my search' },
+    { value: 2, text: 'A bit relevant' },
+    { value: 3, text: 'Relevant' },
+    { value: 4, text: 'Highly relevant' },
+  ];
 
   function enter(value) {
     const rating = ratings.find(rating => rating.value === value);
     if (!rated) {
       setHoveredValue(value);
-      setRatingText(rating ? rating.text : defaultText);
+      setRatingText(rating ? rating.text : initialText);
     }
   }
   function leave() {
@@ -108,19 +111,19 @@ const Rating = ({ ratings, clickHandler }: Props) => {
   }
   return (
     <RatingContainer>
-      {!showRating && (
-        <RateThisButton onClick={() => setShowRating(!showRating)}>
+      {!open && (
+        <RateThisButton onClick={() => setOpen(!open)}>
           <Star aria-hidden="true" color="purple" />
           <span className="rate-this-text">Relevant?</span>
         </RateThisButton>
       )}
-      <RatingButtons show={showRating}>
+      <RatingButtons show={open}>
         {ratings.map((rating, i) => (
           <RatingButton
-            show={showRating}
+            show={open}
             key={rating.value}
             index={i}
-            disabled={rated || !showRating}
+            disabled={rated || !open}
             onFocus={() => enter(rating.value)}
             onMouseEnter={() => enter(rating.value)}
             onBlur={() => leave()}
@@ -135,12 +138,12 @@ const Rating = ({ ratings, clickHandler }: Props) => {
               aria-hidden="true"
               color={rating.value <= hoveredValue ? 'yellow' : 'pumice'}
             />
-            <span>{rating.text || 'Tap a start to rate'}</span>
+            <span>{rating.text}</span>
           </RatingButton>
         ))}
-        <RatingText default={!ratingText} show={showRating}>
+        <RatingText default={!ratingText} show={open}>
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            {ratingText || defaultText}
+            {ratingText || initialText}
           </Space>
         </RatingText>
       </RatingButtons>
