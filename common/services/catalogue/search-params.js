@@ -10,6 +10,7 @@ import {
   nullableCsvDeserialiser,
   stringSerialiser,
   numberWithDefaultSerialiser,
+  numberSerialiser,
   nullableCsvSerialiser,
   nullableStringSerialiser,
   csvWithDefaultSerialiser,
@@ -20,7 +21,7 @@ import {
 
 export type SearchParams = {|
   query: string,
-  page: number,
+  page: ?number,
   workType: ?(string[]),
   itemsLocationsLocationType: ?(string[]),
   sort: ?string,
@@ -59,6 +60,19 @@ const deserialisers: SearchParamsDeserialisers = {
   _queryType: nullableStringDeserialiser,
 };
 
+const serialisers: SearchParamsDeserialisers = {
+  query: stringSerialiser,
+  page: numberSerialiser,
+  workType: nullableCsvSerialiser,
+  itemsLocationsLocationType: nullableCsvSerialiser,
+  sort: nullableStringSerialiser,
+  sortOrder: nullableStringSerialiser,
+  aggregations: nullableCsvSerialiser,
+  productionDatesFrom: nullableStringSerialiser,
+  productionDatesTo: nullableStringSerialiser,
+  _queryType: nullableStringSerialiser,
+};
+
 const apiSerialisers: ApiSearchParamsSerialisers = {
   query: stringSerialiser,
   page: numberWithDefaultSerialiser(1),
@@ -73,6 +87,11 @@ const apiSerialisers: ApiSearchParamsSerialisers = {
   productionDatesTo: nullableDateStringSerialiser,
   _queryType: nullableStringSerialiser,
 };
+
+export const searchParamsSerialiser = buildSerialiser(
+  serialisers,
+  propToQueryStringMapping
+);
 
 export const searchParamsDeserialiser = buildDeserialiser(
   deserialisers,

@@ -17,7 +17,6 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   searchParamsDeserialiser,
-  defaultItemsLocationsLocationType,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -219,7 +218,7 @@ const Works = ({ works, searchParams }: Props) => {
                         text: 'All',
                         link: worksUrl({
                           ...searchParams,
-                          page: 1,
+                          page: null,
                           workType: unfilteredSearchResults ? [] : null,
                           itemsLocationsLocationType: unfilteredSearchResults
                             ? []
@@ -236,8 +235,8 @@ const Works = ({ works, searchParams }: Props) => {
                             workType: t.materialTypes.map(m => m.letter),
                             itemsLocationsLocationType: unfilteredSearchResults
                               ? []
-                              : defaultItemsLocationsLocationType,
-                            page: 1,
+                              : null,
+                            page: null,
                           }),
                           selected:
                             !!workType &&
@@ -449,6 +448,7 @@ const Works = ({ works, searchParams }: Props) => {
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
+
   const shouldGetWorks = filters.query && filters.query !== '';
   const { searchUsingAndOperator } = ctx.query.toggles;
 

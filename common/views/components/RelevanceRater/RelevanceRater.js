@@ -7,7 +7,7 @@ type Props = {|
   position: number,
   id: string,
   query: string,
-  page: number,
+  page: ?number,
   workType: ?(string[]),
   _queryType: ?string,
 |};
@@ -33,7 +33,7 @@ const RelevanceRater = ({
             position,
             rating: value,
             query,
-            page,
+            page: page || 1,
             workType,
             _queryType,
           });
