@@ -27,7 +27,7 @@ type GetWorkProps = {|
   ...Enviable,
 |};
 
-const worksIncludes = ['identifiers', 'production', 'contributors'];
+const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
 
 const workIncludes = [
   'identifiers',
