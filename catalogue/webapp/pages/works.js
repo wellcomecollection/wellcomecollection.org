@@ -16,6 +16,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
+  unfilteredApiSearchParamsSerialiser,
   searchParamsDeserialiser,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
@@ -198,7 +199,7 @@ const Works = ({ works, searchParams }: Props) => {
         </Space>
 
         <TogglesContext.Consumer>
-          {({ refineFiltersPrototype, unfilteredSearchResults }) => (
+          {({ refineFiltersPrototype }) => (
             <>
               {!refineFiltersPrototype && works && (
                 <Layout12>
@@ -209,10 +210,8 @@ const Works = ({ works, searchParams }: Props) => {
                         link: worksUrl({
                           ...searchParams,
                           page: null,
-                          workType: unfilteredSearchResults ? [] : null,
-                          itemsLocationsLocationType: unfilteredSearchResults
-                            ? []
-                            : null,
+                          workType: null,
+                          itemsLocationsLocationType: null,
                         }),
                         selected: workType === null,
                       },
@@ -223,9 +222,7 @@ const Works = ({ works, searchParams }: Props) => {
                           link: worksUrl({
                             ...searchParams,
                             workType: t.materialTypes.map(m => m.letter),
-                            itemsLocationsLocationType: unfilteredSearchResults
-                              ? []
-                              : null,
+                            itemsLocationsLocationType: null,
                             page: null,
                           }),
                           selected:
@@ -437,16 +434,18 @@ const Works = ({ works, searchParams }: Props) => {
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
-  const filters = apiSearchParamsSerialiser(params);
 
-  const shouldGetWorks = filters.query && filters.query !== '';
-  const { searchUsingAndOperator } = ctx.query.toggles;
+  const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
+  const filters = unfilteredSearchResults
+    ? unfilteredApiSearchParamsSerialiser(params)
+    : apiSearchParamsSerialiser(params);
 
   const toggledFilters = {
     ...filters,
     _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
   };
 
+  const shouldGetWorks = filters.query && filters.query !== '';
   const worksOrError = shouldGetWorks
     ? await getWorks({
         filters: toggledFilters,
