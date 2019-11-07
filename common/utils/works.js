@@ -213,7 +213,7 @@ export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-export function getLocationType(work: Work, locationType: string) {
+export function getItemAtLocation(work: Work, locationType: string) {
   // TODO rename?
   const [item] = work.items
     .map(item =>

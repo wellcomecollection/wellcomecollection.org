@@ -10,7 +10,7 @@ import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
   getDownloadOptionsFromImageUrl,
-  getLocationType,
+  getItemAtLocation,
   getItemLocationsOfType,
 } from '@weco/common/utils/works';
 import {
@@ -103,7 +103,7 @@ const WorkDetails = ({
     )
   );
   const params = clientSideSearchParams();
-  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
