@@ -37,6 +37,13 @@ function setCookie(name, value) {
 
 const abTests = [
   {
+    id: 'searchUsingAndOperator',
+    title: 'Search using AND as the default operator',
+    defaultValue: false,
+    range: [50, 100],
+    description: '',
+  },
+  {
     id: 'newsletterPromoUpdate',
     title: 'New design for NewsletterPromo component',
     defaultValue: false,
