@@ -54,21 +54,11 @@ const Works = ({
     _queryType,
   } = searchParams;
 
-  function trackOnRouteChange() {
-    trackSearch({
-      totalResults: works && works.totalResults ? works.totalResults : null,
-    });
-  }
-
   useEffect(() => {
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
-    Router.events.on('routeChangeComplete', trackOnRouteChange);
-    return () => {
-      Router.events.off('routeChangeComplete', trackOnRouteChange);
-    };
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
