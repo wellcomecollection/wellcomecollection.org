@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { worksUrl } from '../../../services/catalogue/urls';
@@ -142,7 +142,6 @@ const FilterDrawerRefine = ({ searchForm, searchParams }: Props) => {
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const [activeDrawer, setActiveDrawer] = useState(null);
-  const { unfilteredSearchResults } = useContext(TogglesContext);
 
   function submit() {
     if (searchForm.current) {
@@ -167,7 +166,7 @@ const FilterDrawerRefine = ({ searchForm, searchParams }: Props) => {
       productionDatesFrom !== inputDateFrom &&
       (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
     ) {
-      submit(unfilteredSearchResults, searchForm.current);
+      submit();
     }
   }, [inputDateFrom]);
 
@@ -176,7 +175,7 @@ const FilterDrawerRefine = ({ searchForm, searchParams }: Props) => {
       productionDatesTo !== inputDateTo &&
       (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
     ) {
-      submit(unfilteredSearchResults, searchForm.current);
+      submit();
     }
   }, [inputDateTo]);
 

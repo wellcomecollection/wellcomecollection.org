@@ -88,6 +88,12 @@ const apiSerialisers: ApiSearchParamsSerialisers = {
   _queryType: nullableStringSerialiser,
 };
 
+const unFilteredApiSerialisers: ApiSearchParamsSerialisers = {
+  ...apiSerialisers,
+  workType: nullableCsvSerialiser,
+  itemsLocationsLocationType: nullableCsvSerialiser,
+};
+
 export const searchParamsSerialiser = buildSerialiser(
   serialisers,
   propToQueryStringMapping
@@ -100,6 +106,11 @@ export const searchParamsDeserialiser = buildDeserialiser(
 
 export const apiSearchParamsSerialiser = buildSerialiser(
   apiSerialisers,
+  propToQueryStringMapping
+);
+
+export const unfilteredApiSearchParamsSerialiser = buildSerialiser(
+  unFilteredApiSerialisers,
   propToQueryStringMapping
 );
 
