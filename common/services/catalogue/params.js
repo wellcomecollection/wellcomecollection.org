@@ -17,8 +17,13 @@ export type QueryStringParameterMapping = { [string]: string };
 const stringDeserialiser: Deserialiser<string> = input => input || '';
 const numberDeserialiser: Deserialiser<number> = input =>
   input ? parseInt(input) : 1;
+const nullableNumberDeserialiser: Deserialiser<number> = input =>
+  input ? parseInt(input) : null;
 const csvDeserialiser: Deserialiser<?(string[])> = input => {
   return input ? input.split(',') : [];
+};
+const nullableCsvDeserialiser: Deserialiser<?(string[])> = input => {
+  return input ? input.split(',') : null;
 };
 const nullableStringDeserialiser: Deserialiser<?string> = input => input;
 const booleanDeserialiser: Deserialiser<boolean> = input => input === 'true';
@@ -31,7 +36,12 @@ const stringSerialiser: Serialiser<string> = input =>
   input === '' ? null : input;
 const numberSerialiser: Serialiser<number> = input =>
   input === 1 || !input ? null : input.toString();
+const numberWithDefaultSerialiser: SerializerWithDefaults<number> = (
+  defaults: number
+) => input => (input === 1 || !input ? defaults.toString() : input.toString());
 const csvSerialiser: Serialiser<?(string[])> = input =>
+  input && input.length > 0 ? input.join(',') : '';
+const nullableCsvSerialiser: Serialiser<?(string[])> = input =>
   input && input.length > 0 ? input.join(',') : null;
 const nullableStringSerialiser: Serialiser<?string> = input => input;
 const booleanSerialiser: Serialiser<boolean> = input =>
@@ -58,14 +68,15 @@ function buildDeserialiser<T>(
   return (obj: Object): T => {
     const keys = Object.keys(deserialisers);
     const searchParams = keys.reduce((acc, key) => {
-      const input = key in obj ? obj[key] : null;
       const urlParam = queryStringParameterMapping[key]
         ? queryStringParameterMapping[key]
         : key;
 
+      const input = urlParam in obj ? obj[urlParam] : null;
+
       return {
         ...acc,
-        [urlParam]: deserialisers[key](input, key),
+        [key]: deserialisers[key](input, key),
       };
     }, {});
 
@@ -108,10 +119,14 @@ export {
   csvWithDefaultDeserialiser,
   stringSerialiser,
   numberSerialiser,
+  nullableNumberDeserialiser,
+  numberWithDefaultSerialiser,
   csvSerialiser,
+  nullableCsvSerialiser,
   nullableStringSerialiser,
   booleanSerialiser,
   csvWithDefaultSerialiser,
+  nullableCsvDeserialiser,
   nullableDateStringSerialiser,
   buildDeserialiser,
   buildSerialiser,

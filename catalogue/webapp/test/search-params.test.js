@@ -1,12 +1,12 @@
 import {
   searchParamsDeserialiser,
-  searchParamsSerialiser,
+  apiSearchParamsSerialiser,
 } from '@weco/common/services/catalogue/search-params';
 
 // @flow
 
 describe('deserialises', () => {
-  it('should deserialise with defaults for missing keys', () => {
+  it('should deserialise URLs', () => {
     const params = searchParamsDeserialiser(
       {
         'production.dates.from': '1900',
@@ -24,21 +24,21 @@ describe('deserialises', () => {
     expect(params.productionDatesFrom).toBe('1900');
 
     // nullable string
-    expect(params.productionDatesTo).toBe(null);
+    expect(params.productionDatesTo).toStrictEqual(null);
 
-    // array with defaults
-    expect(params.workType).toStrictEqual(['a', 'k', 'q', 'v', 'f', 's']);
+    // nullable CSV
+    expect(params.workType).toStrictEqual(null);
 
     // not in keys => undefined
     expect(params.shakeTheRoom).toBe(undefined);
   });
 
-  it('should serialise removing default values', () => {
-    const params = searchParamsSerialiser({
+  it('should serialise with default values', () => {
+    const params = apiSearchParamsSerialiser({
       query: '',
       workType: null,
-      page: 1,
-      itemsLocationsLocationType: ['iiif-image', 'iiif-presentation'],
+      page: null,
+      itemsLocationsLocationType: null,
       aggregations: [],
     });
 
@@ -46,13 +46,15 @@ describe('deserialises', () => {
     expect(params.query).toBeNull();
 
     // number exclusion
-    expect(params.page).toBeNull();
+    expect(params.page).toBe('1');
 
     // array that's empty
     expect(params.aggregations).toBeNull();
 
-    // array serialisation with alternative param name and defaults
-    expect(params['items.locations.locationType']).toBe(null);
+    // array with defaults
+    expect(params['items.locations.locationType']).toBe(
+      'iiif-image,iiif-presentation'
+    );
 
     // array with defaults
     expect(params.workType).toBe('a,k,q,v,f,s');

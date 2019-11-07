@@ -76,7 +76,7 @@ export function itemUrl({
           sierraId: sierraId,
           langCode: langCode,
           isOverview: isOverview,
-          ...searchParamsSerialiser({ ...searchParams, page: 1 }),
+          ...{ ...searchParamsSerialiser(searchParams), page: 1 },
         }),
       },
     },

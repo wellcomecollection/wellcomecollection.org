@@ -17,8 +17,6 @@ import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   searchParamsDeserialiser,
-  defaultWorkTypes,
-  defaultItemsLocationsLocationType,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
@@ -33,6 +31,7 @@ import {
   trackSearchResultSelected,
   trackSearch,
 } from '@weco/common/views/components/Tracker/Tracker';
+import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -50,17 +49,11 @@ const Works = ({ works, searchParams }: Props) => {
     _queryType,
   } = searchParams;
 
-  function trackOnRouteChange() {
-    trackSearch();
-  }
-
   useEffect(() => {
-    trackSearch();
-    Router.events.on('routeChangeComplete', trackOnRouteChange);
-    return () => {
-      Router.events.off('routeChangeComplete', trackOnRouteChange);
-    };
-  }, []);
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
+  }, [searchParams]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -215,20 +208,13 @@ const Works = ({ works, searchParams }: Props) => {
                         text: 'All',
                         link: worksUrl({
                           ...searchParams,
-                          page: 1,
-                          workType: unfilteredSearchResults
-                            ? []
-                            : defaultWorkTypes,
+                          page: null,
+                          workType: unfilteredSearchResults ? [] : null,
                           itemsLocationsLocationType: unfilteredSearchResults
                             ? []
-                            : defaultItemsLocationsLocationType,
+                            : null,
                         }),
-                        selected:
-                          !!workType &&
-                          arraysEqual(
-                            unfilteredSearchResults ? [] : defaultWorkTypes,
-                            workType
-                          ),
+                        selected: workType === null,
                       },
                     ].concat(
                       workTypes.map(t => {
@@ -239,8 +225,8 @@ const Works = ({ works, searchParams }: Props) => {
                             workType: t.materialTypes.map(m => m.letter),
                             itemsLocationsLocationType: unfilteredSearchResults
                               ? []
-                              : defaultItemsLocationsLocationType,
-                            page: 1,
+                              : null,
+                            page: null,
                           }),
                           selected:
                             !!workType &&
@@ -306,6 +292,19 @@ const Works = ({ works, searchParams }: Props) => {
             >
               <div className="container">
                 <div className="grid">
+                  <TogglesContext.Consumer>
+                    {({ relevanceRatingOptIn }) =>
+                      relevanceRatingOptIn && (
+                        <div
+                          className={classNames({
+                            [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                          })}
+                        >
+                          <OptIn />
+                        </div>
+                      )
+                    }
+                  </TogglesContext.Consumer>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
@@ -339,8 +338,9 @@ const Works = ({ works, searchParams }: Props) => {
                         />
                       </div>
                       <TogglesContext.Consumer>
-                        {({ relevanceRating }) =>
-                          relevanceRating && (
+                        {({ relevanceRating, relevanceRatingOptIn }) =>
+                          relevanceRating &&
+                          relevanceRatingOptIn && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
@@ -438,12 +438,13 @@ const Works = ({ works, searchParams }: Props) => {
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const filters = apiSearchParamsSerialiser(params);
+
   const shouldGetWorks = filters.query && filters.query !== '';
-  const { searchWithNotes } = ctx.query.toggles;
+  const { searchUsingAndOperator } = ctx.query.toggles;
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchWithNotes ? 'withNotes' : undefined,
+    _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
   };
 
   const worksOrError = shouldGetWorks

@@ -6,13 +6,7 @@ import { type Work } from '@weco/common/model/work';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import {
-  getPhysicalLocations,
-  getDigitalLocations,
-  getProductionDates,
-  getWorkTypeIcon,
-} from '@weco/common/utils/works';
+import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import {
   workUrl,
@@ -64,8 +58,6 @@ const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
 `;
 
 const WorkCard = ({ work, params }: Props) => {
-  const digitalLocations = getDigitalLocations(work);
-  const physicalLocations = getPhysicalLocations(work);
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -181,34 +173,6 @@ const WorkCard = ({ work, params }: Props) => {
               </Preview>
             )}
           </Container>
-
-          <TogglesContext.Consumer>
-            {({ showWorkLocations }) =>
-              showWorkLocations &&
-              (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                  <LinkLabels
-                    heading={'See it'}
-                    icon={'eye'}
-                    items={[
-                      digitalLocations.length > 0
-                        ? {
-                            text: 'Online',
-                            url: null,
-                          }
-                        : null,
-                      physicalLocations.length > 0
-                        ? {
-                            text: 'Wellcome library',
-                            url: null,
-                          }
-                        : null,
-                    ].filter(Boolean)}
-                  />
-                </Space>
-              )
-            }
-          </TogglesContext.Consumer>
         </Space>
       </NextLink>
     </div>

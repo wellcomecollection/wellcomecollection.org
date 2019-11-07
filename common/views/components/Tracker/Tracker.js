@@ -1,6 +1,10 @@
 // @flow
 import { useEffect } from 'react';
 import Router from 'next/router';
+import {
+  searchParamsDeserialiser,
+  apiSearchParamsSerialiser,
+} from '../../../services/catalogue/search-params';
 
 type RelevanceRatingData = {|
   position: number,
@@ -30,24 +34,28 @@ const trackSearchResultSelected = (data: SearchResultSelectedData) => {
   track('Search result selected', 'search_relevance_implicit', data);
 };
 
-const trackSearch = () => {
+type SearchData = {| totalResults: ?number |};
+const trackSearch = (data: SearchData) => {
   const query = Router.query.query;
   if (query && query !== '') {
-    track('Search', 'search_relevance_implicit');
+    track('Search', 'search_relevance_implicit', data);
   } else {
-    track('Search landing', 'search_relevance_implicit');
+    track('Search landing', 'search_relevance_implicit', data);
   }
 };
 
-type TrackingEventData = SearchResultSelectedData | RelevanceRatingData;
+type TrackingEventData =
+  | SearchResultSelectedData
+  | RelevanceRatingData
+  | SearchData;
 const track = (
   eventName: string,
   serviceName: ServiceName,
   data: ?TrackingEventData
 ) => {
-  const query = {
-    ...Router.query,
-  };
+  const query = apiSearchParamsSerialiser(
+    searchParamsDeserialiser(Router.query)
+  );
   // These are from the global contex, we should probably not be storing them on the query
   delete query.toggles;
   delete query.globalAlert;
