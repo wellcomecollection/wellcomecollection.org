@@ -56,10 +56,11 @@ const RatingText = styled.span.attrs(props => ({
 
 type Props = {|
   clickHandler: number => void,
+  currentlyRatedValue: ?number,
 |};
 
-const Rating = ({ clickHandler }: Props) => {
-  const [rated, setRated] = useState(false);
+const Rating = ({ clickHandler, currentlyRatedValue }: Props) => {
+  const [rated, setRated] = useState(Boolean(currentlyRatedValue));
   const [ratingText, setRatingText] = useState();
   const [hoveredValue, setHoveredValue] = useState(0);
   const initialText = 'Tap on a star to rate';
@@ -70,6 +71,10 @@ const Rating = ({ clickHandler }: Props) => {
     { value: 3, text: 'Relevant' },
     { value: 4, text: 'Highly relevant' },
   ];
+
+  const currentlyRatedRating = ratings.find(
+    rating => rating.value === currentlyRatedValue
+  );
 
   function enter(value) {
     const rating = ratings.find(rating => rating.value === value);
@@ -104,14 +109,21 @@ const Rating = ({ clickHandler }: Props) => {
           >
             <Star
               aria-hidden="true"
-              color={rating.value <= hoveredValue ? 'yellow' : 'pumice'}
+              color={
+                rating.value <= hoveredValue ||
+                rating.value <= currentlyRatedValue
+                  ? 'yellow'
+                  : 'pumice'
+              }
             />
             <span>{rating.text}</span>
           </RatingButton>
         ))}
         <RatingText default={!ratingText}>
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-            {ratingText || initialText}
+            {(currentlyRatedRating && currentlyRatedRating.text) ||
+              ratingText ||
+              initialText}
           </Space>
         </RatingText>
       </RatingButtons>
