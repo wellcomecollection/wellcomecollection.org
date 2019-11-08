@@ -31,7 +31,7 @@ const RelevanceRater = ({
   _queryType,
 }: Props) => {
   const [isEnhanced, setIsEnhanced] = useState(false);
-  const [currentlyRatedValue, setCurrentlyRatedValue] = useState(null);
+  const [currentlyRatedValue, setCurrentlyRatedValue] = useState(0);
   const trackingObject = {
     id,
     position,

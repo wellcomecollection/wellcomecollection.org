@@ -56,7 +56,7 @@ const RatingText = styled.span.attrs(props => ({
 
 type Props = {|
   clickHandler: number => void,
-  currentlyRatedValue: ?number,
+  currentlyRatedValue: number,
 |};
 
 const Rating = ({ clickHandler, currentlyRatedValue }: Props) => {
