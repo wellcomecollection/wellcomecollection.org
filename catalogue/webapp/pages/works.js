@@ -15,6 +15,7 @@ import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
+  unfilteredApiSearchParamsSerialiser,
   searchParamsDeserialiser,
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
@@ -373,16 +374,17 @@ const Works = ({
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const workTypeInUrl = ctx.query.workType;
   const params = searchParamsDeserialiser(ctx.query);
-  const filters = apiSearchParamsSerialiser(params);
-
-  const shouldGetWorks = filters.query && filters.query !== '';
   const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
+  const filters = unfilteredSearchResults
+    ? unfilteredApiSearchParamsSerialiser(params) // TODO here *********
+    : apiSearchParamsSerialiser(params);
 
   const toggledFilters = {
     ...filters,
     _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
   };
 
+  const shouldGetWorks = filters.query && filters.query !== '';
   const worksOrError = shouldGetWorks
     ? await getWorks({
         filters: toggledFilters,

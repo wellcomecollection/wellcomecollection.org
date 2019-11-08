@@ -4,14 +4,10 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import {
-  type SearchParams,
-  defaultWorkTypes,
-} from '@weco/common/services/catalogue/search-params';
+import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
@@ -106,7 +102,7 @@ const SearchForm = ({
     setEnhanced(true);
   }, []);
 
-  function updateUrl(unfilteredSearchResults: boolean, form: HTMLFormElement) {
+  function updateUrl(form: HTMLFormElement) {
     const workTypeCheckboxes = nodeListValue(form['workType']) || [];
     const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
       selectedWorkType => selectedWorkType.checked
@@ -121,191 +117,169 @@ const SearchForm = ({
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
 
-    const link = unfilteredSearchResults
-      ? worksUrl({
-          ...searchParams,
-          // Override the defaultWorkType with [] if we're toggled to do so
-          // null => default filters
-          // [] => no filter
-          // [anything] => filter
-          workType: workType.length === defaultWorkTypes.length ? [] : workType,
-          // Override the default locations if we're toggled to do so
-          itemsLocationsLocationType: [],
-          query: inputQuery,
-          page: 1,
-          productionDatesFrom: inputValue(form['production.dates.from']),
-          productionDatesTo: inputValue(form['production.dates.to']),
-          sortOrder,
-          sort,
-        })
-      : worksUrl({
-          ...searchParams,
-          workType: workType.length > 0 ? workType : [],
-          query: inputQuery,
-          page: 1,
-          productionDatesFrom: inputValue(form['production.dates.from']),
-          productionDatesTo: inputValue(form['production.dates.to']),
-          sortOrder,
-          sort,
-        });
-    console.log(link);
+    const link = worksUrl({
+      ...searchParams,
+      query: inputQuery,
+      workType,
+      page: 1,
+      productionDatesFrom: inputValue(form['production.dates.from']),
+      productionDatesTo: inputValue(form['production.dates.to']),
+      sortOrder,
+      sort,
+    });
+
     return Router.push(link.href, link.as);
   }
 
   return (
-    <TogglesContext.Consumer>
-      {({ unfilteredSearchResults }) => (
-        <form
-          ref={searchForm}
-          className="relative"
-          action="/works"
-          aria-describedby={ariaDescribedBy}
-          onSubmit={event => {
-            event.preventDefault();
+    <form
+      ref={searchForm}
+      className="relative"
+      action="/works"
+      aria-describedby={ariaDescribedBy}
+      onSubmit={event => {
+        event.preventDefault();
 
-            trackEvent({
-              category: 'SearchForm',
-              action: 'submit search',
-              label: query,
-            });
+        trackEvent({
+          category: 'SearchForm',
+          action: 'submit search',
+          label: query,
+        });
 
-            updateUrl(unfilteredSearchResults, event.currentTarget);
-            return false;
-          }}
-        >
-          <SearchInputWrapper className="relative">
-            <TextInput
-              label={'Search the catalogue'}
-              placeholder={'Search for books and pictures'}
-              name="query"
-              value={inputQuery}
-              autoFocus={inputQuery === ''}
-              onChange={event => setInputQuery(event.currentTarget.value)}
-              ref={searchInput}
-              required
-              className={classNames({
-                [font('hnm', compact ? 4 : 3)]: true,
-                'search-query': true,
-              })}
-            />
+        updateUrl(event.currentTarget);
+        return false;
+      }}
+    >
+      <SearchInputWrapper className="relative">
+        <TextInput
+          label={'Search the catalogue'}
+          placeholder={'Search for books and pictures'}
+          name="query"
+          value={inputQuery}
+          autoFocus={inputQuery === ''}
+          onChange={event => setInputQuery(event.currentTarget.value)}
+          ref={searchInput}
+          required
+          className={classNames({
+            [font('hnm', compact ? 4 : 3)]: true,
+            'search-query': true,
+          })}
+        />
 
-            {inputQuery && (
-              <ClearSearch
-                className="absolute line-height-1 plain-button v-center no-padding"
-                onClick={() => {
-                  trackEvent({
-                    category: 'SearchForm',
-                    action: 'clear search',
-                    label: 'works-search',
-                  });
+        {inputQuery && (
+          <ClearSearch
+            className="absolute line-height-1 plain-button v-center no-padding"
+            onClick={() => {
+              trackEvent({
+                category: 'SearchForm',
+                action: 'clear search',
+                label: 'works-search',
+              });
 
-                  setInputQuery('');
+              // setInputQuery('');
+              searchInput.current && searchInput.current.focus();
+            }}
+            type="button"
+          >
+            <Icon name="clear" title="Clear" />
+          </ClearSearch>
+        )}
+      </SearchInputWrapper>
 
-                  searchInput.current && searchInput.current.focus();
-                }}
-                type="button"
-              >
-                <Icon name="clear" title="Clear" />
-              </ClearSearch>
-            )}
-          </SearchInputWrapper>
-
-          {/* {workType && (
+      {/* {workType && (
             <input type="hidden" name="workType" value={workType.join(',')} />
           )} */}
 
-          {shouldShowFilters && (
-            <>
-              <FilterDrawerRefine
-                searchForm={searchForm}
-                searchParams={searchParams}
-                workTypeAggregations={workTypeAggregations}
-                workTypeInUrl={workTypeInUrl}
-                changeHandler={submit}
-              />
+      {shouldShowFilters && (
+        <>
+          <FilterDrawerRefine
+            searchForm={searchForm}
+            searchParams={searchParams}
+            workTypeAggregations={workTypeAggregations}
+            workTypeInUrl={workTypeInUrl}
+            changeHandler={submit}
+          />
 
-              {enhanced && (
-                <Select
-                  name="sortOrder"
-                  label="Sort by"
-                  defaultValue={searchParams.sortOrder || ''}
-                  options={[
-                    {
-                      value: '',
-                      text: 'Relevance',
-                    },
-                    {
-                      value: 'asc',
-                      text: 'Oldest to newest',
-                    },
-                    {
-                      value: 'desc',
-                      text: 'Newest to oldest',
-                    },
-                  ]}
-                  onChange={event => {
-                    submit();
-                  }}
-                />
-              )}
-
-              <noscript>
-                <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                  <Select
-                    name="sort"
-                    label="Sort by"
-                    defaultValue={searchParams.sort || ''}
-                    options={[
-                      {
-                        value: '',
-                        text: 'Relevance',
-                      },
-                      {
-                        value: 'production.dates',
-                        text: 'Production dates',
-                      },
-                    ]}
-                    onChange={null}
-                  />
-                </Space>
-                <Select
-                  name="sortOrder"
-                  label="Sort order"
-                  defaultValue={searchParams.sortOrder || ''}
-                  options={[
-                    {
-                      value: 'asc',
-                      text: 'Ascending',
-                    },
-                    {
-                      value: 'desc',
-                      text: 'Descending',
-                    },
-                  ]}
-                  onChange={null}
-                />
-              </noscript>
-            </>
+          {enhanced && (
+            <Select
+              name="sortOrder"
+              label="Sort by"
+              defaultValue={searchParams.sortOrder || ''}
+              options={[
+                {
+                  value: '',
+                  text: 'Relevance',
+                },
+                {
+                  value: 'asc',
+                  text: 'Oldest to newest',
+                },
+                {
+                  value: 'desc',
+                  text: 'Newest to oldest',
+                },
+              ]}
+              onChange={event => {
+                submit();
+              }}
+            />
           )}
-          <SearchButtonWrapper className="absolute bg-green rounded-corners">
-            <button
-              className={classNames({
-                'full-width': true,
-                'full-height': true,
-                'line-height-1': true,
-                'plain-button no-padding': true,
-                [font('hnl', 3)]: true,
-              })}
-            >
-              <span className="visually-hidden">Search</span>
-              <span className="flex flex--v-center flex--h-center">
-                <Icon name="search" title="Search" extraClasses="icon--white" />
-              </span>
-            </button>
-          </SearchButtonWrapper>
-        </form>
+
+          <noscript>
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Select
+                name="sort"
+                label="Sort by"
+                defaultValue={searchParams.sort || ''}
+                options={[
+                  {
+                    value: '',
+                    text: 'Relevance',
+                  },
+                  {
+                    value: 'production.dates',
+                    text: 'Production dates',
+                  },
+                ]}
+                onChange={null}
+              />
+            </Space>
+            <Select
+              name="sortOrder"
+              label="Sort order"
+              defaultValue={searchParams.sortOrder || ''}
+              options={[
+                {
+                  value: 'asc',
+                  text: 'Ascending',
+                },
+                {
+                  value: 'desc',
+                  text: 'Descending',
+                },
+              ]}
+              onChange={null}
+            />
+          </noscript>
+        </>
       )}
-    </TogglesContext.Consumer>
+      <SearchButtonWrapper className="absolute bg-green rounded-corners">
+        <button
+          className={classNames({
+            'full-width': true,
+            'full-height': true,
+            'line-height-1': true,
+            'plain-button no-padding': true,
+            [font('hnl', 3)]: true,
+          })}
+        >
+          <span className="visually-hidden">Search</span>
+          <span className="flex flex--v-center flex--h-center">
+            <Icon name="search" title="Search" extraClasses="icon--white" />
+          </span>
+        </button>
+      </SearchButtonWrapper>
+    </form>
   );
 };
 export default SearchForm;

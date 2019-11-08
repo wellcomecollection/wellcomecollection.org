@@ -49,6 +49,7 @@ const booleanSerialiser: Serialiser<boolean> = input =>
 const csvWithDefaultSerialiser: SerializerWithDefaults<?(string[])> = defaults => (
   input = defaults
 ) => {
+  console.log('csvWithDefaultSerialiser');
   if (!input) {
     return defaults.join(',');
   }
@@ -56,7 +57,7 @@ const csvWithDefaultSerialiser: SerializerWithDefaults<?(string[])> = defaults =
   const areEqual =
     input.length === defaults.length && input.every(i => defaults.includes(i));
 
-  return areEqual ? null : input.join(',');
+  return areEqual ? null : input.join(','); // TODO This is the bit
 };
 const nullableDateStringSerialiser: Serialiser<?string> = input =>
   formatDateForApi(input);

@@ -40,6 +40,7 @@ export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
 }
 
 export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
+  console.log('worksUrl');
   return {
     href: {
       pathname: `/works`,
