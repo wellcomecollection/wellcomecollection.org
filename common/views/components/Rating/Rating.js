@@ -26,7 +26,7 @@ const RatingButton = styled.button.attrs(props => ({
   }),
 }))`
   outline: none;
-  width: 1.6em;
+  width: 1.4em;
   padding: 0;
   overflow: hidden;
   white-space: nowrap;
