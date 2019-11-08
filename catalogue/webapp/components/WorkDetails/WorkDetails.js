@@ -1,5 +1,7 @@
 // @flow
-import { type Node, Fragment } from 'react';
+import fetch from 'isomorphic-unfetch';
+import { type Node, Fragment, useState, useEffect, useContext } from 'react';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
@@ -8,7 +10,8 @@ import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
   getDownloadOptionsFromImageUrl,
-  getLocationType,
+  getItemAtLocation,
+  getItemLocationsOfType,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -94,9 +97,16 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
-  showAdditionalCatalogueData = true;
+  const { showLocationsAndStatuses } = useContext(TogglesContext);
+  const [physicalLocations, setPhysicalLocations] = useState(
+    (
+      (showLocationsAndStatuses &&
+        getItemLocationsOfType(work, 'PhysicalLocation')) ||
+      []
+    ).map(location => location.label)
+  );
   const params = clientSideSearchParams();
-  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
@@ -140,6 +150,31 @@ const WorkDetails = ({
   const iiifPresentationRepository =
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
+
+  // TODO review how, 'where to find it' currently working
+  useEffect(() => {
+    if (showLocationsAndStatuses) {
+      fetch(
+        `https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`
+      )
+        .then(resp => resp.json())
+        .then(({ items }) => {
+          const locationsAndStatuses = items.map(i => {
+            const location = i.locations.find(
+              location => location.type === 'PhysicalLocation'
+            );
+
+            const locationLabel = location && location.label;
+            const statusLabel = i.status.label;
+
+            return locationLabel && `${locationLabel}: ${statusLabel}`;
+          });
+
+          setPhysicalLocations(locationsAndStatuses);
+        })
+        .catch(console.error);
+    }
+  }, []);
 
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
@@ -362,7 +397,12 @@ const WorkDetails = ({
       </WorkDetailsSection>
     );
   }
-  if (encoreLink || iiifPresentationRepository || work.locationOfOriginal) {
+  if (
+    encoreLink ||
+    iiifPresentationRepository ||
+    work.locationOfOriginal ||
+    physicalLocations
+  ) {
     const textArray = [
       encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
       (showAdditionalCatalogueData && work.locationOfOriginal) ||
@@ -370,12 +410,15 @@ const WorkDetails = ({
           iiifPresentationRepository.value
             .replace(/<img[^>]*>/g, '')
             .replace(/<br\s*\/?>/g, '')),
-    ].filter(Boolean);
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Where to find it">
-        <MetaUnit text={textArray} />
-      </WorkDetailsSection>
-    );
+    ]
+      .concat(physicalLocations)
+      .filter(Boolean);
+    textArray.length > 0 &&
+      WorkDetailsSections.push(
+        <WorkDetailsSection headingText="Where to find it">
+          <MetaUnit text={textArray} />
+        </WorkDetailsSection>
+      );
   }
   WorkDetailsSections.push(
     <WorkDetailsSection headingText="Identifiers">
