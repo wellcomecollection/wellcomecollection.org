@@ -12,25 +12,6 @@ const RatingContainer = styled(Space).attrs(props => ({
   margin-left: -0.3em;
 `;
 
-const RateThisButton = styled.button.attrs(props => ({
-  className: classNames({
-    'plain-button': true,
-    'flex-inline flex--v-center': true,
-    [font('hnl', 5)]: true,
-  }),
-}))`
-  padding: 0;
-  outline: none;
-  cursor: pointer;
-  .rate-this-text {
-    text-decoration: underline;
-  }
-  :focus .rate-this-text,
-  :hover .rate-this-text {
-    text-decoration: none;
-  }
-`;
-
 const RatingButtons = styled.span.attrs(props => ({
   className: 'flex-inline flex--v-center',
 }))`
@@ -50,9 +31,7 @@ const RatingButton = styled.button.attrs(props => ({
   overflow: hidden;
   white-space: nowrap;
   cursor: ${props => (props.disabled ? 'default' : 'pointer')};
-  transition: margin-left 100ms;
-  margin-left: ${props => (props.show ? 0 : '-1.6em')};
-  transition-delay: ${props => props.index * 50}ms;
+  margin-left: 0;
 `;
 
 const Star = styled.span.attrs(props => ({
@@ -72,10 +51,7 @@ const Star = styled.span.attrs(props => ({
 const RatingText = styled.span.attrs(props => ({
   className: font('hnl', 5),
 }))`
-  transition: opacity 400ms 300ms;
-  opacity: ${props => (props.show ? 1 : 0)};
-  color: ${props =>
-    props.default ? props.theme.colors.pewter : props.theme.colors.purple};
+  color: ${props => props.theme.colors.purple};
 `;
 
 type Props = {|
@@ -83,7 +59,6 @@ type Props = {|
 |};
 
 const Rating = ({ clickHandler }: Props) => {
-  const [open, setOpen] = useState(false);
   const [rated, setRated] = useState(false);
   const [ratingText, setRatingText] = useState();
   const [hoveredValue, setHoveredValue] = useState(0);
@@ -111,19 +86,12 @@ const Rating = ({ clickHandler }: Props) => {
   }
   return (
     <RatingContainer>
-      {!open && (
-        <RateThisButton onClick={() => setOpen(!open)}>
-          <Star aria-hidden="true" color="purple" />
-          <span className="rate-this-text">Relevant?</span>
-        </RateThisButton>
-      )}
-      <RatingButtons show={open}>
+      <RatingButtons>
         {ratings.map((rating, i) => (
           <RatingButton
-            show={open}
             key={rating.value}
             index={i}
-            disabled={rated || !open}
+            disabled={rated}
             onFocus={() => enter(rating.value)}
             onMouseEnter={() => enter(rating.value)}
             onBlur={() => leave()}
@@ -141,7 +109,7 @@ const Rating = ({ clickHandler }: Props) => {
             <span>{rating.text}</span>
           </RatingButton>
         ))}
-        <RatingText default={!ratingText} show={open}>
+        <RatingText default={!ratingText}>
           <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
             {ratingText || initialText}
           </Space>
