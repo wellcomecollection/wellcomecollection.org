@@ -13,13 +13,13 @@ type Props = {|
 |};
 
 function storeRating(key, value) {
-  window.sessionStorage.setItem(key, value.toString());
+  window.localStorage.setItem(key, value.toString());
 }
 
 function getRating(key) {
-  return window.sessionStorage.getItem(key)
-    ? parseInt(window.sessionStorage.getItem(key))
-    : null;
+  return window.localStorage.getItem(key)
+    ? parseInt(window.localStorage.getItem(key))
+    : 0;
 }
 
 const RelevanceRater = ({
