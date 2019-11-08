@@ -14,7 +14,8 @@ As a _(who? user/persona)_
 I need/want/expect _(what? to do this thing)_
 
 
-**Acceptance Criteria**
-- [ ] Any event tracking?
-- [ ] Cardigan documentation
-- [ ] Success measures?
+**Considerations**
+- Success measures
+- URL design
+- Event tracking
+- Cardigan documentation
