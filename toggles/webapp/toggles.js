@@ -56,5 +56,12 @@ module.exports = {
       description:
         'Displays the latest data additions, that have been added to the API, on the work page.',
     },
+    {
+      id: 'showLocationsAndStatuses',
+      title: 'Show physical locations and statuses of work items',
+      defaultValue: false,
+      description:
+        "Shows the physical locations and statuses of a work's items where available",
+    },
   ],
 };

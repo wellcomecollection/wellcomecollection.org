@@ -97,17 +97,19 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
+  const { showLocationsAndStatuses } = useContext(TogglesContext);
   const [physicalLocations, setPhysicalLocations] = useState(
-    (getItemLocationsOfType(work, 'PhysicalLocation') || []).map(
-      location => location.label
-    )
+    (
+      (showLocationsAndStatuses &&
+        getItemLocationsOfType(work, 'PhysicalLocation')) ||
+      []
+    ).map(location => location.label)
   );
   const params = clientSideSearchParams();
   const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
-  const { unfilteredSearchResults } = useContext(TogglesContext);
 
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
@@ -151,7 +153,7 @@ const WorkDetails = ({
 
   // TODO review how, 'where to find it' currently working
   useEffect(() => {
-    if (unfilteredSearchResults) {
+    if (showLocationsAndStatuses) {
       fetch(
         `https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`
       )
@@ -409,7 +411,7 @@ const WorkDetails = ({
             .replace(/<img[^>]*>/g, '')
             .replace(/<br\s*\/?>/g, '')),
     ]
-      .concat(unfilteredSearchResults ? physicalLocations : [])
+      .concat(physicalLocations)
       .filter(Boolean);
     textArray.length > 0 &&
       WorkDetailsSections.push(
