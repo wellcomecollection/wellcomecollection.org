@@ -225,8 +225,20 @@ export function getItemAtLocation(work: Work, locationType: string) {
 }
 
 type LocationType = 'PhysicalLocation' | 'DigitalLocation';
+type Location = {|
+  locationType: {
+    id: string,
+    label: string,
+    type: 'LocationType',
+  },
+  label: string,
+  type: LocationType,
+|};
 
-export function getItemLocationsOfType(work: Work, locationType: LocationType) {
+export function getItemLocationsOfType(
+  work: Work,
+  locationType: LocationType
+): Location[] {
   const locations =
     work.items &&
     work.items
@@ -234,5 +246,5 @@ export function getItemLocationsOfType(work: Work, locationType: LocationType) {
         return item.locations.find(location => location.type === locationType);
       })
       .filter(Boolean);
-  return locations && locations.length > 0 ? locations : null;
+  return locations || [];
 }
