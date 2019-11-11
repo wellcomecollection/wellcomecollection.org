@@ -184,10 +184,6 @@ const SearchForm = ({
         )}
       </SearchInputWrapper>
 
-      {/* {workType && (
-            <input type="hidden" name="workType" value={workType.join(',')} />
-          )} */}
-
       {shouldShowFilters && (
         <>
           <FilterDrawerRefine
@@ -197,7 +193,6 @@ const SearchForm = ({
             workTypeInUrl={workTypeInUrl}
             changeHandler={submit}
           />
-
           {enhanced && (
             <Select
               name="sortOrder"
@@ -222,7 +217,6 @@ const SearchForm = ({
               }}
             />
           )}
-
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <Select

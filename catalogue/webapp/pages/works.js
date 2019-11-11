@@ -376,7 +376,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
   const filters = unfilteredSearchResults
-    ? unfilteredApiSearchParamsSerialiser(params) // TODO here *********
+    ? unfilteredApiSearchParamsSerialiser(params)
     : apiSearchParamsSerialiser(params);
 
   const toggledFilters = {
