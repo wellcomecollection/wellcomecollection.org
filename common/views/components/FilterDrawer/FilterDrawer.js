@@ -98,6 +98,7 @@ type Props = {|
 
 function FilterDrawer({ items }: Props) {
   const filtersContainerRef = useRef(null);
+  const [isEnhanced, setIsEnhanced] = useState(false);
   const [activeFilterSection, setActiveFilterSection] = useState(null);
   const [filtersContainerHeight, setFiltersContainerHeight] = useState(0);
 
@@ -107,6 +108,9 @@ function FilterDrawer({ items }: Props) {
 
   const debounceHandleResize = debounce(handleResize, 500);
 
+  useEffect(() => {
+    setIsEnhanced(true);
+  }, []);
   useEffect(() => {
     window.addEventListener('resize', debounceHandleResize);
 
@@ -175,7 +179,7 @@ function FilterDrawer({ items }: Props) {
           <FilterSection
             key={item.title}
             id={`filter-section-${index}`}
-            isActive={activeFilterSection === index}
+            isActive={isEnhanced ? activeFilterSection === index : true}
           >
             {item.component}
           </FilterSection>
