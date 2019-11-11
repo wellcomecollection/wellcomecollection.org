@@ -111,12 +111,11 @@ const SearchForm = ({
     const workType =
       selectedWorkTypesArray.length > 0
         ? selectedWorkTypesArray.map(workType => workType.value)
-        : [];
+        : null;
 
     const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
-
     const link = worksUrl({
       ...searchParams,
       query: inputQuery,
@@ -127,7 +126,6 @@ const SearchForm = ({
       sortOrder,
       sort,
     });
-
     return Router.push(link.href, link.as);
   }
 
@@ -176,7 +174,7 @@ const SearchForm = ({
                 label: 'works-search',
               });
 
-              // setInputQuery('');
+              setInputQuery('');
               searchInput.current && searchInput.current.focus();
             }}
             type="button"

@@ -40,19 +40,14 @@ export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
 }
 
 export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
-  console.log('worksUrl');
   return {
     href: {
       pathname: `/works`,
-      query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
-      }),
+      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
     },
     as: {
       pathname: `/works`,
-      query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
-      }),
+      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
     },
   };
 }
