@@ -166,7 +166,7 @@ const FilterDrawerRefine = ({
         />
       </Space>
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {(productionDatesFrom || productionDatesTo || workTypeAggregations) && (
+        {(productionDatesFrom || productionDatesTo || workTypeInUrl) && (
           <div className={classNames({ [font('hnl', 5)]: true })}>
             <Divider extraClasses={'divider--thin divider--pumice'} />
             <Space
