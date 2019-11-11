@@ -79,10 +79,10 @@ export async function getWorkTypeAggregations({
     return key !== 'workType' && `${key}=${val}`;
   });
   const url =
-    `${rootUris[env]}/v2/works?include=${workIncludes.join(',')}` +
-    `&aggregations=workType&workType=${
-      unfilteredSearchResults ? '' : defaultWorkTypes.join(',')
-    }` +
+    `${rootUris[env]}/v2/works?include=${workIncludes.join(
+      ','
+    )}&aggregations=workType` +
+    (unfilteredSearchResults ? '' : `&workType=${defaultWorkTypes.join(',')}`) +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
 
   const res = await fetch(url);

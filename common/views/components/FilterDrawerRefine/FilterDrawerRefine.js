@@ -47,7 +47,7 @@ type Props = {|
       label: string,
       type: string,
     |},
-  |},
+  |}[],
   workTypeInUrl: string,
   changeHandler: () => void,
 |};
