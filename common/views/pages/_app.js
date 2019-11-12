@@ -492,7 +492,7 @@ export default class WecoApp extends App {
                       cta={{
                         text: 'Click here to start',
                         url:
-                          'https://t511eh14.optimalworkshop.com/treejack/1yrqoxjo',
+                          'https://t511eh14.optimalworkshop.com/treejack/1yrqoxjo-0',
                       }}
                     >
                       <h2
