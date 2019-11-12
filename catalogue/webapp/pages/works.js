@@ -60,16 +60,17 @@ const Works = ({
     _queryType,
   } = searchParams;
 
+  const fetchAggregations = async () => {
+    const workTypeAggregations = shouldGetWorks
+      ? await getWorkTypeAggregations({
+          unfilteredSearchResults,
+          filters: toggledFilters,
+        })
+      : [];
+    setWorkTypeAggregations(workTypeAggregations);
+  };
+
   useEffect(() => {
-    const fetchAggregations = async () => {
-      const workTypeAggregations = shouldGetWorks
-        ? await getWorkTypeAggregations({
-            unfilteredSearchResults,
-            filters: toggledFilters,
-          })
-        : [];
-      setWorkTypeAggregations(workTypeAggregations);
-    };
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
