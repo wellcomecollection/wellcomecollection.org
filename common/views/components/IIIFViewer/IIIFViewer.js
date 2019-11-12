@@ -800,24 +800,21 @@ const IIIFViewerComponent = ({
               <IIIFViewerImageWrapper aria-hidden={showThumbs}>
                 {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
                 {iiifImageLocationUrl &&
-                imageUrl && ( // For something with a IIIF image location
+                imageUrl && ( // TODO For something with a IIIF image location
                     <ImageViewer
                       infoUrl={iiifImageLocationUrl}
-                      src={imageUrl}
                       id={imageUrl}
                       width={800}
-                      srcSet={''}
                       lang={null}
                       tabbableControls={!showThumbs || !thumbnailsRequired}
+                      urlTemplate={urlTemplate}
                     />
                   )}
                 {mainImageService['@id'] &&
-                currentCanvas && ( // for something with a IIIF manifest
+                currentCanvas && ( // TODO for something with a IIIF manifest
                     <ImageViewer
                       id="item-page"
                       infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-                      src={urlTemplate && urlTemplate({ size: '640,' })}
-                      srcSet={srcSet}
                       width={currentCanvas.width}
                       height={currentCanvas.height}
                       lang={lang}

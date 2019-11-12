@@ -56,12 +56,11 @@ const WorkEmbed = ({ work }: Props) => {
             <Fragment>
               <ImageViewer
                 infoUrl={imageInfoUrl}
-                src={imageUrl}
-                srcSet={''}
                 id={work.id}
                 lang={null}
                 width={800}
                 tabbableControls={true}
+                urlTemplate={iiifImage}
               />
             </Fragment>
           </div>

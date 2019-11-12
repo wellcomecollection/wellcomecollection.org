@@ -66,14 +66,12 @@ const ImageWrapper = styled.div`
 
 type ImageViewerProps = {|
   id: string,
-  src: string,
-  srcSet: string,
   width: number,
   height?: number,
   infoUrl: string,
   lang: ?string,
   tabbableControls: boolean,
-  urlTemplate?: any, // TODO shouldn't be optional
+  urlTemplate: any, // TODO
 |};
 
 const ImageViewer = ({
@@ -82,30 +80,34 @@ const ImageViewer = ({
   height,
   lang,
   infoUrl,
-  src,
-  srcSet,
   tabbableControls,
   urlTemplate,
 }: ImageViewerProps) => {
-  const [imageLoading, setImageLoading] = useState(false); // Used to display loading pattern between page loads
-  const [imageSrc, setImageSrc] = useState(src); // TODO use urlTemplate
-  const [imageSrcSet, setImageSrcSet] = useState(srcSet); // TODO use urlTemplate
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
+  const [imageSrcSet, setImageSrcSet] = useState(
+    imageSizes(2048)
+      .map(width => {
+        return `${urlTemplate({
+          size: `${width},`,
+        })} ${width}w`;
+      })
+      .join(',')
+  );
   const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
-    urlTemplate &&
-      setImageSrc(urlTemplate({ size: '640,', rotation: rotation })); // TODO remove conditional once not optional
-    urlTemplate && // TODO remove conditional once not optional
-      setImageSrcSet(
-        imageSizes(2048)
-          .map(width => {
-            return `${urlTemplate({
-              size: `${width},`,
-              rotation: rotation,
-            })} ${width}w`;
-          })
-          .join(',')
-      );
+    setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
+    setImageSrcSet(
+      imageSizes(2048)
+        .map(width => {
+          return `${urlTemplate({
+            size: `${width},`,
+            rotation: rotation,
+          })} ${width}w`;
+        })
+        .join(',')
+    );
   }, [rotation]);
 
   function routeChangeStart(url: string) {
@@ -166,7 +168,6 @@ const ImageViewer = ({
             srcSet={imageSrcSet}
             sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
             lang={lang}
-            // clickHandler={handleZoomIn}
             loadHandler={() => setImageLoading(false)}
             alt=""
             isLazy={false}
