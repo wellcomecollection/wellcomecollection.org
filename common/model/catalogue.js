@@ -21,7 +21,7 @@ export type CatalogueResultsList = {
   nextPage: ?string,
 };
 
-export type CatalogueAggregationBucket = {
+export type CatalogueAggregationBucket = {|
   count: number,
   data: {
     id: string,
@@ -29,7 +29,7 @@ export type CatalogueAggregationBucket = {
     type: string,
   },
   type: 'AggregationBucket',
-};
+|};
 
 export type CatalogueApiRedirect = {
   type: 'Redirect',
