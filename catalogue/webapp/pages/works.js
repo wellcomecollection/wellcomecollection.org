@@ -34,18 +34,23 @@ import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
-  workTypeAggregations: any,
   searchParams: SearchParams,
-  workTypeInUrl: any,
+  workTypeInUrl: boolean,
+  toggledFilters: SearchParams,
+  unfilteredSearchResults: boolean,
+  shouldGetWorks: boolean,
 |};
 
 const Works = ({
   works,
-  workTypeAggregations,
   searchParams,
   workTypeInUrl,
+  toggledFilters,
+  unfilteredSearchResults,
+  shouldGetWorks,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+  const [workTypeAggregations, setWorkTypeAggregations] = useState([]);
   const {
     query,
     workType,
@@ -56,9 +61,19 @@ const Works = ({
   } = searchParams;
 
   useEffect(() => {
+    const fetchAggregations = async () => {
+      const workTypeAggregations = shouldGetWorks
+        ? await getWorkTypeAggregations({
+            unfilteredSearchResults,
+            filters: toggledFilters,
+          })
+        : [];
+      setWorkTypeAggregations(workTypeAggregations);
+    };
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
+    fetchAggregations();
   }, [searchParams]);
 
   useEffect(() => {
@@ -390,19 +405,13 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         filters: toggledFilters,
       })
     : null;
-
-  const workTypeAggregations = shouldGetWorks
-    ? await getWorkTypeAggregations({
-        unfilteredSearchResults,
-        filters: toggledFilters,
-      })
-    : null;
-
   return {
     works: worksOrError,
-    workTypeAggregations,
     searchParams: params,
     workTypeInUrl,
+    unfilteredSearchResults,
+    toggledFilters,
+    shouldGetWorks,
   };
 };
 

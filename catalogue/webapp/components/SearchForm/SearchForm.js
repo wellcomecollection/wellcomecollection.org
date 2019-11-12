@@ -11,6 +11,7 @@ import { type SearchParams } from '@weco/common/services/catalogue/search-params
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
+import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 
 function inputValue(input: ?HTMLElement): ?string {
   if (
@@ -33,8 +34,8 @@ type Props = {|
   compact: boolean,
   shouldShowFilters: boolean,
   searchParams: SearchParams,
-  workTypeAggregations: any,
-  workTypeInUrl: any,
+  workTypeAggregations: ?(CatalogueAggregationBucket[]),
+  workTypeInUrl: ?boolean,
 |};
 
 const SearchInputWrapper = styled.div`

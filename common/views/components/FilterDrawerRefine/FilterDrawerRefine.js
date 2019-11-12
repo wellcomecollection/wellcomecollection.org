@@ -9,6 +9,7 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 
 function CancelFilter({ text }: { text: string }) {
   return (
@@ -40,14 +41,7 @@ function CancelFilter({ text }: { text: string }) {
 type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
   searchParams: SearchParams,
-  workTypeAggregations: {|
-    count: number,
-    data: {|
-      id: string,
-      label: string,
-      type: string,
-    |},
-  |}[],
+  workTypeAggregations: CatalogueAggregationBucket[],
   workTypeInUrl: string,
   changeHandler: () => void,
 |};
@@ -92,6 +86,69 @@ const FilterDrawerRefine = ({
     }
   }, [inputDateTo]);
 
+  const filterDrawerItems = [
+    {
+      title: 'Dates',
+      component: (
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <NumberInput
+              label="From"
+              min="0"
+              max="9999"
+              placeholder={'Year'}
+              name="production.dates.from"
+              value={inputDateFrom || ''}
+              onChange={event => {
+                setInputDateFrom(`${event.currentTarget.value}`);
+              }}
+            />
+          </Space>
+          <NumberInput
+            label="to"
+            min="0"
+            max="9999"
+            placeholder={'Year'}
+            name="production.dates.to"
+            value={inputDateTo || ''}
+            onChange={event => {
+              setInputDateTo(`${event.currentTarget.value}`);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+
+  if (workTypeAggregations.length > 0) {
+    filterDrawerItems.push({
+      title: 'Formats',
+      component: (
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          {workTypeAggregations &&
+            workTypeAggregations.map(type => (
+              <Space
+                key={type.data.id}
+                as="span"
+                h={{ size: 'm', properties: ['margin-right'] }}
+              >
+                <Checkbox
+                  id={type.data.id}
+                  text={`${type.data.label} (${type.count})`}
+                  value={type.data.id}
+                  name={`workType`}
+                  checked={workTypeInUrlArray.includes(type.data.id)}
+                  onChange={event => {
+                    changeHandler();
+                  }}
+                />
+              </Space>
+            ))}
+        </Space>
+      ),
+    });
+  }
+
   return (
     <div>
       <Space
@@ -100,70 +157,7 @@ const FilterDrawerRefine = ({
           properties: ['margin-top', 'margin-bottom'],
         }}
       >
-        <FilterDrawer
-          items={[
-            {
-              title: 'Dates',
-              component: (
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                  <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-right'] }}
-                  >
-                    <NumberInput
-                      label="From"
-                      min="0"
-                      max="9999"
-                      placeholder={'Year'}
-                      name="production.dates.from"
-                      value={inputDateFrom || ''}
-                      onChange={event => {
-                        setInputDateFrom(`${event.currentTarget.value}`);
-                      }}
-                    />
-                  </Space>
-                  <NumberInput
-                    label="to"
-                    min="0"
-                    max="9999"
-                    placeholder={'Year'}
-                    name="production.dates.to"
-                    value={inputDateTo || ''}
-                    onChange={event => {
-                      setInputDateTo(`${event.currentTarget.value}`);
-                    }}
-                  />
-                </Space>
-              ),
-            },
-            {
-              title: 'Formats',
-              component: (
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                  {workTypeAggregations &&
-                    workTypeAggregations.map(type => (
-                      <Space
-                        key={type.data.id}
-                        as="span"
-                        h={{ size: 'm', properties: ['margin-right'] }}
-                      >
-                        <Checkbox
-                          id={type.data.id}
-                          text={`${type.data.label} (${type.count})`}
-                          value={type.data.id}
-                          name={`workType`}
-                          checked={workTypeInUrlArray.includes(type.data.id)}
-                          onChange={event => {
-                            changeHandler();
-                          }}
-                        />
-                      </Space>
-                    ))}
-                </Space>
-              ),
-            },
-          ]}
-        />
+        <FilterDrawer items={filterDrawerItems} />
       </Space>
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom || productionDatesTo || workTypeInUrl) && (
