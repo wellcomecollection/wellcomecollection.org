@@ -35,7 +35,6 @@ import OptIn from '@weco/common/views/components/OptIn/OptIn';
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   searchParams: SearchParams,
-  workTypeInUrl: boolean,
   toggledFilters: SearchParams,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
@@ -44,7 +43,6 @@ type Props = {|
 const Works = ({
   works,
   searchParams,
-  workTypeInUrl,
   toggledFilters,
   unfilteredSearchResults,
   shouldGetWorks,
@@ -189,7 +187,6 @@ const Works = ({
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
                   workTypeAggregations={workTypeAggregations}
-                  workTypeInUrl={workTypeInUrl}
                 />
               </div>
             </div>
@@ -388,7 +385,6 @@ const Works = ({
 };
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const workTypeInUrl = ctx.query.workType;
   const params = searchParamsDeserialiser(ctx.query);
   const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
   const filters = unfilteredSearchResults
@@ -409,7 +405,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   return {
     works: worksOrError,
     searchParams: params,
-    workTypeInUrl,
     unfilteredSearchResults,
     toggledFilters,
     shouldGetWorks,

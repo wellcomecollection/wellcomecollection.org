@@ -35,7 +35,6 @@ type Props = {|
   shouldShowFilters: boolean,
   searchParams: SearchParams,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
-  workTypeInUrl: ?boolean,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -73,7 +72,6 @@ const SearchForm = ({
   shouldShowFilters,
   searchParams,
   workTypeAggregations,
-  workTypeInUrl,
 }: Props) => {
   const { query } = searchParams;
   const searchForm = useRef();
@@ -192,7 +190,6 @@ const SearchForm = ({
             searchForm={searchForm}
             searchParams={searchParams}
             workTypeAggregations={workTypeAggregations}
-            workTypeInUrl={workTypeInUrl}
             changeHandler={submit}
           />
           {enhanced && (

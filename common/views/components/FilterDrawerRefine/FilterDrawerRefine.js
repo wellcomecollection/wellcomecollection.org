@@ -42,7 +42,6 @@ type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
   searchParams: SearchParams,
   workTypeAggregations: CatalogueAggregationBucket[],
-  workTypeInUrl: string,
   changeHandler: () => void,
 |};
 
@@ -50,10 +49,9 @@ const FilterDrawerRefine = ({
   searchForm,
   searchParams,
   workTypeAggregations,
-  workTypeInUrl,
   changeHandler,
 }: Props) => {
-  const workTypeInUrlArray = workTypeInUrl ? workTypeInUrl.split(',') : [];
+  const workTypeInUrlArray = searchParams.workType || [];
   const { productionDatesFrom, productionDatesTo, workType } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
@@ -160,7 +158,9 @@ const FilterDrawerRefine = ({
         <FilterDrawer items={filterDrawerItems} />
       </Space>
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {(productionDatesFrom || productionDatesTo || workTypeInUrl) && (
+        {(productionDatesFrom ||
+          productionDatesTo ||
+          workTypeInUrlArray.length > 0) && (
           <div className={classNames({ [font('hnl', 5)]: true })}>
             <Divider extraClasses={'divider--thin divider--pumice'} />
             <Space
@@ -208,27 +208,26 @@ const FilterDrawerRefine = ({
                   </a>
                 </NextLink>
               )}
-              {workTypeInUrl &&
-                workTypeAggregations.map(({ data }) => (
-                  <Fragment key={data.id}>
-                    {workType.includes(data.id) && (
-                      <NextLink
-                        key={data.id}
-                        {...worksUrl({
-                          ...searchParams,
-                          workType: searchParams.workType.filter(
-                            w => w !== data.id
-                          ),
-                          page: 1,
-                        })}
-                      >
-                        <a>
-                          <CancelFilter text={data.label} />
-                        </a>
-                      </NextLink>
-                    )}
-                  </Fragment>
-                ))}
+              {workTypeAggregations.map(({ data }) => (
+                <Fragment key={data.id}>
+                  {workType.includes(data.id) && (
+                    <NextLink
+                      key={data.id}
+                      {...worksUrl({
+                        ...searchParams,
+                        workType: searchParams.workType.filter(
+                          w => w !== data.id
+                        ),
+                        page: 1,
+                      })}
+                    >
+                      <a>
+                        <CancelFilter text={data.label} />
+                      </a>
+                    </NextLink>
+                  )}
+                </Fragment>
+              ))}
               <NextLink
                 passHref
                 {...worksUrl({

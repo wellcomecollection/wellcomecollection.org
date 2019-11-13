@@ -142,7 +142,6 @@ export const WorkPage = ({ work }: Props) => {
               shouldShowFilters={false}
               searchParams={searchParams}
               workTypeAggregations={null}
-              workTypeInUrl={null}
             />
           </div>
         </div>
