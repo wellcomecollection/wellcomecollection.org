@@ -1,11 +1,16 @@
 // @flow
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
 import Control from '../Buttons/Control/Control';
+
+const ZoomedImage = dynamic(import('../ZoomedImage/ZoomedImage'), {
+  ssr: false,
+});
 
 const ImageViewerControls = styled.div`
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -83,6 +88,7 @@ const ImageViewer = ({
   tabbableControls,
   urlTemplate,
 }: ImageViewerProps) => {
+  const [showViewer, setShowViewer] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
@@ -116,16 +122,24 @@ const ImageViewer = ({
     }
   }
 
+  const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
+    if (keyCode === 27) {
+      setShowViewer(false);
+    }
+  };
+
   useEffect(() => {
     Router.events.on('routeChangeStart', routeChangeStart);
-
+    document.addEventListener('keydown', escapeCloseViewer);
     return () => {
       Router.events.off('routeChangeStart', routeChangeStart);
+      document.removeEventListener('keydown', escapeCloseViewer);
     };
   }, []);
 
   return (
     <>
+      {showViewer && <ZoomedImage id={id} infoUrl={infoUrl} />}
       <ImageViewerControls>
         <Control
           tabIndex={tabbableControls ? '0' : '-1'}
@@ -133,7 +147,7 @@ const ImageViewer = ({
           text="Zoom in"
           icon="zoomIn"
           clickHandler={() => {
-            window.alert('zoom the image please');
+            setShowViewer(true);
           }}
         />
 
