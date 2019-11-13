@@ -31,7 +31,7 @@ const StaticWorksContent = () => {
                       textParts: ['Quacks'],
                       linkAttributes: worksUrl({
                         ...params,
-                        query: 'quack+OR+quacks',
+                        query: 'quacks',
                         page: 1,
                       }),
                     },
