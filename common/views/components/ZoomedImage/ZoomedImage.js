@@ -8,11 +8,17 @@ const ZoomedImageContainer = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
+  padding: 48px 0 6px;
   top: 0;
   left: 0;
-  z-index: 10000;
+  z-index: 2;
   background: ${props => props.theme.colors.yellow};
 `;
+
+const Image = styled.div`
+  height: 100%;
+`;
+
 function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
   fetch(imageInfoSrc)
     .then(response => response.json())
@@ -58,13 +64,11 @@ const ErrorMessage = () => (
 
 type Props = {|
   id: string,
+  infoUrl: string,
 |};
 
-const ZoomedImage = ({ id }: Props) => {
+const ZoomedImage = ({ id, infoUrl }: Props) => {
   const [scriptError, setScriptError] = useState(false);
-  const infoUrl =
-    'https://dlcs.io/iiif-img/wellcome/5/b28109934_0010.jp2/info.json'; // TODO get this properly
-
   const handleScriptError = () => {
     setScriptError(true);
   };
@@ -74,12 +78,10 @@ const ZoomedImage = ({ id }: Props) => {
   }, []);
 
   return (
-    <ZoomedImageContainer id={`image-viewer-${id}`}>
-      {scriptError && <ErrorMessage />}
+    <ZoomedImageContainer>
+      <Image id={`image-viewer-${id}`}>{scriptError && <ErrorMessage />}</Image>
     </ZoomedImageContainer>
   );
 };
 
 export default ZoomedImage;
-
-// TODO do the position fixed thing first
