@@ -245,7 +245,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 `;
 
 const ScrollingThumbnailContainer = styled.div`
-  height: 100%;
+  height: calc(100% - ${headerHeight}px);
   overflow: scroll;
   background: ${props => props.theme.colors.charcoal};
   padding: ${props => props.theme.spacingUnit}px;
