@@ -114,7 +114,7 @@ const ImageViewer = ({
         })
         .join(',')
     );
-  }, [rotation]);
+  }, [infoUrl, rotation]);
 
   function routeChangeStart(url: string) {
     if (window.history.state.as !== url) {
