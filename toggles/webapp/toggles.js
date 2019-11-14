@@ -63,5 +63,12 @@ module.exports = {
       description:
         "Shows the physical locations and statuses of a work's items where available",
     },
+    {
+      id: 'authPrototype',
+      title: 'Show UI for Stacks requesting prototype',
+      defaultValue: false,
+      description:
+        'Adds the concept of logged in users and allows a user to sign up/log in via an AWS Cognito user pool',
+    },
   ],
 };
