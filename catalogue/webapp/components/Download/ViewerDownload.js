@@ -26,6 +26,7 @@ const DownloadOptions = styled.div.attrs(props => ({
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
   position: absolute;
+  z-index: 1;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
   display: ${props => (props.hidden ? 'none' : 'show')};

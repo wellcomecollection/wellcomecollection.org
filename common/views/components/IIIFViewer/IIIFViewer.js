@@ -47,11 +47,6 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  position: fixed;
-  z-index: 1;
-  top: 85px;
-  left: 0;
-  right: 0;
   background: ${props => props.theme.colors.coal};
   color: ${props => props.theme.colors.smoke};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
@@ -99,7 +94,6 @@ const TitleContainer = styled.div.attrs(props => ({
 const IIIFViewerBackground = styled.div`
   background: ${props => props.theme.colors.charcoal};
   height: calc(100vh - ${`${headerHeight}px`});
-  margin-top: ${`${headerHeight}px`};
   noscript {
     color: ${props => props.theme.colors.white};
   }
@@ -127,17 +121,9 @@ const IIIFViewer = styled.div.attrs(props => ({
     'flex flex--wrap': true,
   }),
 }))`
-  position: ${props => props.isFixed && 'fixed'};
-  top: ${props => props.isFixed && `${headerHeight}px`};
-  height: calc(
-    100% - ${`${headerHeight}px`}
-  ); /* using 100vh causes problems with browser chrome on mobile */
+  height: 100%;
   width: 100%;
   flex-direction: row-reverse;
-
-  noscript & {
-    height: calc(100vh - ${`${headerHeight}px`});
-  }
 
   noscript & img {
     width: auto;
@@ -260,14 +246,12 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 
 const ScrollingThumbnailContainer = styled.div`
   height: 100%;
-  width: 100%;
   overflow: scroll;
-  position: absolute;
   background: ${props => props.theme.colors.charcoal};
   padding: ${props => props.theme.spacingUnit}px;
-  transform: ${props =>
-    props.showThumbs ? 'translateY(0%)' : 'translateY(100%)'};
-  transition: transform 800ms ease;
+  position: fixed;
+  top: ${props => (props.showThumbs ? `${headerHeight}px` : '100vh')};
+  transition: top 800ms ease;
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
@@ -795,7 +779,7 @@ const IIIFViewerComponent = ({
 
         {/* enhanced javascript viewer */}
         {enhanced && (
-          <IIIFViewer isFixed={true}>
+          <IIIFViewer>
             <IIIFViewerMain fullWidth={true} aria-live="polite">
               <IIIFViewerImageWrapper aria-hidden={showThumbs}>
                 {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
