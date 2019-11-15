@@ -135,7 +135,10 @@ const FilterDrawerRefine = ({
                   text={`${type.data.label} (${type.count})`}
                   value={type.data.id}
                   name={`workType`}
-                  checked={workTypeInUrlArray.includes(type.data.id)}
+                  checked={
+                    workTypeInUrlArray &&
+                    workTypeInUrlArray.includes(type.data.id)
+                  }
                   onChange={event => {
                     changeHandler();
                   }}
@@ -210,7 +213,7 @@ const FilterDrawerRefine = ({
               )}
               {workTypeAggregations.map(({ data }) => (
                 <Fragment key={data.id}>
-                  {workType.includes(data.id) && (
+                  {workType && workType.includes(data.id) && (
                     <NextLink
                       key={data.id}
                       {...worksUrl({

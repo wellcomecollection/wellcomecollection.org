@@ -112,7 +112,7 @@ const SearchForm = ({
         ? selectedWorkTypesArray.map(workType => workType.value)
         : null;
 
-    const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
+    const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const link = worksUrl({
