@@ -47,15 +47,13 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
       .then(response => {
         const osdViewer = openseadragon({
           id: `image-viewer-${viewerId}`,
+          showNavigationControl: false,
           visibilityRatio: 1,
-          showFullPageControl: false,
-          showHomeControl: false,
-          zoomInButton: `zoom-in-${viewerId}`,
-          zoomOutButton: `zoom-out-${viewerId}`,
-          showNavigator: true,
-          controlsFadeDelay: 0,
-          animationTime: 0.5,
+          // gestureSettingsMouse: {
+          //   scrollToZoom: false,
+          // },
           tileSources: [
+            // TODO replace with getTileSources(data),
             {
               '@context': 'http://iiif.io/api/image/2/context.json',
               '@id': response['@id'],
@@ -75,7 +73,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
         setViewer(osdViewer);
       })
       .catch(_ => {
-        handleScriptError();
+        handleScriptError(); // TODO add sentry stuff
       });
   }
 
