@@ -504,18 +504,6 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
-  const urlTemplate =
-    mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']);
-  const srcSet =
-    urlTemplate &&
-    imageSizes(2048)
-      .map(width => {
-        return `${urlTemplate({ size: `${width},` })} ${width}w`;
-      })
-      .join(',');
-  const thumbnailsRequired =
-    navigationCanvases && navigationCanvases.length > 1;
-
   // Download info from work
   const [iiifImageLocation] =
     work && work.type !== 'Error'
@@ -527,6 +515,18 @@ const IIIFViewerComponent = ({
           )
           .filter(Boolean)
       : [];
+  const urlTemplate =
+    (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+  const srcSet =
+    urlTemplate &&
+    imageSizes(2048)
+      .map(width => {
+        return `${urlTemplate({ size: `${width},` })} ${width}w`;
+      })
+      .join(',');
+  const thumbnailsRequired =
+    navigationCanvases && navigationCanvases.length > 1;
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId =
