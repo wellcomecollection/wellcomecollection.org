@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { trackEvent } from '@weco/common/utils/ga';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 
 const ZoomedImageContainer = styled.div`
@@ -36,6 +37,10 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
+  const handleScriptError = () => {
+    setScriptError(true);
+  };
+
   function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
     fetch(imageInfoSrc)
       .then(response => response.json())
@@ -70,19 +75,18 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
         setViewer(osdViewer);
       })
       .catch(_ => {
-        // handleScriptError(); // TODO
+        handleScriptError();
       });
   }
-
-  const handleScriptError = () => {
-    setScriptError(true);
-  };
 
   useEffect(() => {
     setViewer(setupViewer(infoUrl, id, handleScriptError));
   }, []);
 
   function doZoomIn(viewer) {
+    if (!viewer) {
+      return;
+    }
     const max = viewer.viewport.getMaxZoom();
     const nextMax = viewer.viewport.getZoom() + zoomStep;
     const newMax = nextMax <= max ? nextMax : max;
@@ -91,6 +95,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   }
 
   function doZoomOut(viewer) {
+    if (!viewer) return;
     const min = viewer.viewport.getMinZoom();
     const nextMin = viewer.viewport.getZoom() - zoomStep;
     const newMin = nextMin >= min ? nextMin : min;
@@ -98,72 +103,76 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
     viewer.viewport.zoomTo(newMin);
   }
 
-  function handleZoomIn(v) {
-    if (v.isOpen()) {
-      doZoomIn(v);
-    } else {
-      v.addOnceHandler('tile-loaded', _ => {
-        doZoomIn(v);
-      });
-    }
+  function handleZoomIn(viewer) {
+    if (!viewer) return;
 
-    // trackEvent({
-    //   category: 'Control',
-    //   action: 'zoom in ImageViewer',
-    //   label: id,
-    // });
+    if (viewer.isOpen()) {
+      doZoomIn(viewer);
+    }
+    trackEvent({
+      category: 'Control',
+      action: 'zoom in ImageViewer',
+      label: id,
+    });
   }
 
-  function handleZoomOut(v) {
-    if (v.isOpen()) {
-      doZoomOut(v);
-    } else {
-      v.addOnceHandler('tile-loaded', _ => {
-        doZoomOut(v);
-      });
+  function handleZoomOut(viewer) {
+    if (!viewer) return;
+    if (viewer.isOpen()) {
+      doZoomOut(viewer);
     }
+    trackEvent({
+      category: 'Control',
+      action: 'zoom out ImageViewer',
+      label: id,
+    });
+  }
 
-    //   trackEvent({
-    //     category: 'Control',
-    //     action: 'zoom out ImageViewer',
-    //     label: id,
-    //   });
+  async function handleRotate(viewer) {
+    if (!viewer) return;
+    viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
+    trackEvent({
+      category: 'Control',
+      action: 'rotate ImageViewer',
+      label: id,
+    });
   }
 
   return (
     <ZoomedImageContainer>
-      <>
-        <Control
-          // tabIndex={tabbableControls ? '0' : '-1'} // TODO check if needed
-          type="on-black"
-          text="Close"
-          icon="cross"
-          clickHandler={() => {
-            setShowViewer(false);
-          }}
-        />
-        <Control
-          // tabIndex={tabbableControls ? '0' : '-1'} // TODO check if needed
-          type="on-black"
-          text="Zoom in"
-          icon="zoomIn"
-          clickHandler={() => {
-            handleZoomIn(viewer);
-          }}
-        />
-        <Control
-          // tabIndex={tabbableControls ? '0' : '-1'} // TODO check if needed
-          type="on-black"
-          text="Zoom out"
-          icon="zoomOut"
-          clickHandler={() => {
-            handleZoomOut(viewer);
-          }}
-        />
-        <Image id={`image-viewer-${id}`}>
-          {scriptError && <ErrorMessage />}
-        </Image>
-      </>
+      <Control
+        type="on-black"
+        text="Close"
+        icon="cross"
+        clickHandler={() => {
+          setShowViewer(false);
+        }}
+      />
+      <Control
+        type="on-black"
+        text="Zoom in"
+        icon="zoomIn"
+        clickHandler={() => {
+          handleZoomIn(viewer);
+        }}
+      />
+      <Control
+        type="on-black"
+        text="Zoom out"
+        icon="zoomOut"
+        clickHandler={() => {
+          handleZoomOut(viewer);
+        }}
+      />
+      <Control
+        type="on-black"
+        text="Rotate"
+        icon="rotatePageRight"
+        clickHandler={() => {
+          handleRotate(viewer);
+        }}
+      />
+      <Image id={`image-viewer-${id}`}>{scriptError && <ErrorMessage />}</Image>
     </ZoomedImageContainer>
   );
 };
