@@ -42,8 +42,10 @@ const RelevanceRater = ({
   };
   useEffect(() => {
     setIsEnhanced(true);
+  }, [trackingObject]);
+  useEffect(() => {
     setCurrentlyRatedValue(getRating(JSON.stringify(trackingObject)));
-  }, []);
+  }, [trackingObject]);
   return (
     isEnhanced && (
       <Rating
