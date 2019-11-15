@@ -139,7 +139,9 @@ const ImageViewer = ({
 
   return (
     <>
-      {showViewer && <ZoomedImage id={id} infoUrl={infoUrl} />}
+      {showViewer && (
+        <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
+      )}
       <ImageViewerControls>
         <Control
           tabIndex={tabbableControls ? '0' : '-1'}
