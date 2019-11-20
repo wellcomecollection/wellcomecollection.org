@@ -31,8 +31,6 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
-import Auth from '@weco/common/views/components/Auth/Auth';
-import cookie from 'cookie-cutter';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -232,42 +230,6 @@ export const WorkPage = ({ work }: Props) => {
           />
         </WobblyRow>
       )}
-      <TogglesContext.Consumer>
-        {({ authPrototype }) =>
-          authPrototype && (
-            <Auth
-              render={({ user, authState, loginUrl }) => {
-                return (
-                  <>
-                    {authState === 'authorising' && <p>Authorising…</p>}
-                    {authState === 'loggedOut' && (
-                      <a
-                        onClick={() => {
-                          const url = `${window.location.pathname}${window.location.search}`;
-
-                          cookie.set('WC_auth_redirect', url, {
-                            path: '/',
-                            expires: null,
-                          });
-                        }}
-                        href={loginUrl}
-                      >
-                        log in (and set redirect cookie)
-                      </a>
-                    )}
-                    {authState === 'loggedIn' && (
-                      <>
-                        <span>logged in as {user.email}.</span>
-                        <button>place hold</button>
-                      </>
-                    )}
-                  </>
-                );
-              }}
-            />
-          )
-        }
-      </TogglesContext.Consumer>
       <TogglesContext.Consumer>
         {({ showImagesWithSimilarPalette, showAdditionalCatalogueData }) => (
           <WorkDetails

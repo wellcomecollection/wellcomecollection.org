@@ -16,6 +16,7 @@ function withAuthRedirect(ctx, next) {
 
     // 1. Remove redirect cookie (set without value)
     ctx.cookies.set('WC_auth_redirect');
+
     // 2. Do redirect
     ctx.status = 303;
     ctx.redirect(`${originalPathname}?${originalSearchParams.toString()}`);

@@ -11,7 +11,6 @@ import {
   getIIIFMetadata,
   getDownloadOptionsFromImageUrl,
   getItemAtLocation,
-  getItemLocationsOfType,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -27,6 +26,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Auth from '@weco/common/views/components/Auth/Auth';
 import Space from '@weco/common/views/components/styled/Space';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 
@@ -97,14 +97,8 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
-  const { showLocationsAndStatuses } = useContext(TogglesContext);
-  const [physicalLocations, setPhysicalLocations] = useState(
-    (
-      (showLocationsAndStatuses &&
-        getItemLocationsOfType(work, 'PhysicalLocation')) ||
-      []
-    ).map(location => location.label)
-  );
+  const { authPrototype } = useContext(TogglesContext);
+  const [physicalLocations, setPhysicalLocations] = useState([]);
   const params = clientSideSearchParams();
   const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
@@ -151,27 +145,16 @@ const WorkDetails = ({
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
-  // TODO review how, 'where to find it' currently working
+  // TODO: review how, 'where to find it' currently working
   useEffect(() => {
-    if (showLocationsAndStatuses) {
-      fetch(
-        `https://stacks-service-prototype.weco1.now.sh/api/works/${work.id}`
-      )
+    if (authPrototype) {
+      fetch(`https://api.wellcomecollection.org/stacks/items/works/xgfrfhga`, {
+        headers: {
+          'x-api-key': '0yYzrX1sqNoHCO2mzvND4b3BYTg8elYxFyMYw7c0',
+        },
+      })
         .then(resp => resp.json())
-        .then(({ items }) => {
-          const locationsAndStatuses = items.map(i => {
-            const location = i.locations.find(
-              location => location.type === 'PhysicalLocation'
-            );
-
-            const locationLabel = location && location.label;
-            const statusLabel = i.status.label;
-
-            return locationLabel && `${locationLabel}: ${statusLabel}`;
-          });
-
-          setPhysicalLocations(locationsAndStatuses);
-        })
+        .then(({ items }) => setPhysicalLocations(items))
         .catch(console.error);
     }
   }, []);
@@ -410,13 +393,40 @@ const WorkDetails = ({
           iiifPresentationRepository.value
             .replace(/<img[^>]*>/g, '')
             .replace(/<br\s*\/?>/g, '')),
-    ]
-      .concat(physicalLocations)
-      .filter(Boolean);
-    textArray.length > 0 &&
+    ].filter(Boolean);
+    (textArray.length > 0 || physicalLocations.length > 0) &&
       WorkDetailsSections.push(
         <WorkDetailsSection headingText="Where to find it">
-          <MetaUnit text={textArray} />
+          {textArray && <MetaUnit text={textArray} />}
+          {physicalLocations.map(item => (
+            <Auth
+              key={item.id}
+              render={({ user, authState, loginUrl }) => {
+                return (
+                  <>
+                    {authState === 'authorising' && <p>Authorising…</p>}
+                    {authState === 'loggedOut' && (
+                      <a
+                        className="btn btn--tertiary"
+                        onClick={event => {
+                          const url = `${window.location.pathname}${window.location.search}`;
+                          document.cookie = `WC_auth_redirect=${url}; path=/`;
+                        }}
+                        href={loginUrl}
+                      >
+                        {item.location.label}: {item.status.label}
+                      </a>
+                    )}
+                    {authState === 'loggedIn' && (
+                      <button className="btn btn--tertiary">
+                        {item.location.label}: {item.status.label}
+                      </button>
+                    )}
+                  </>
+                );
+              }}
+            />
+          ))}
         </WorkDetailsSection>
       );
   }
