@@ -118,7 +118,7 @@ const SearchForm = ({
       aria-describedby={ariaDescribedBy}
       onSubmit={event => {
         event.preventDefault();
-
+        console.dir(event.currentTarget);
         trackEvent({
           category: 'SearchForm',
           action: 'submit search',

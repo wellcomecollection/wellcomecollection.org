@@ -14,9 +14,14 @@ const withCachedValues = compose([
 
 async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
-    const { toggles, globalAlert, openingTimes, isPreview } = ctx;
-    const params = ctx.params;
-    const query = ctx.query;
+    const {
+      params,
+      query,
+      toggles,
+      globalAlert,
+      openingTimes,
+      isPreview,
+    } = ctx;
 
     await app.render(ctx.req, ctx.res, page, {
       toggles,

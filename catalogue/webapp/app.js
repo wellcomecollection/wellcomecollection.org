@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
+const withAuthRedirect = require('@weco/common/koa-middleware/withAuthRedirect');
 const {
   middleware,
   route,
@@ -18,6 +19,7 @@ module.exports = app
     const router = new Router();
 
     // server cached values
+    server.use(withAuthRedirect);
     server.use(middleware);
 
     // Next routing

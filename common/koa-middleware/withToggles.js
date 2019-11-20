@@ -1,4 +1,5 @@
 const fetch = require('isomorphic-unfetch');
+const parseCookies = require('../utils/parse-cookies');
 
 let defaultToggleValues = {};
 async function getDefaultToggleValues() {
@@ -15,20 +16,6 @@ async function getDefaultToggleValues() {
 }
 getDefaultToggleValues();
 setInterval(getDefaultToggleValues, 2 * 60 * 1000); // 2 minutes
-
-const parseCookies = function(req) {
-  if (!req.headers.cookie) {
-    return [];
-  }
-
-  return req.headers.cookie.split(';').map(cookieString => {
-    const keyVal = cookieString.split('=');
-    const key = keyVal[0] && keyVal[0].trim();
-    const value = keyVal[1] && keyVal[1].trim();
-
-    return { key, value };
-  });
-};
 
 function withToggles(ctx, next) {
   const cookies = parseCookies(ctx.req);

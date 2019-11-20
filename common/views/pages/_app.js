@@ -21,7 +21,6 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
-import Auth from '@weco/common/views/components/Auth/Auth';
 
 type State = {|
   togglesContext: {},
@@ -486,29 +485,6 @@ export default class WecoApp extends App {
                     </TogglesContext.Consumer>
                     <LoadingIndicator />
                     <TrackerScript />
-                    <TogglesContext.Consumer>
-                      {({ authPrototype }) =>
-                        authPrototype && (
-                          <Auth
-                            render={({ user, authState, loginUrl }) => {
-                              return (
-                                <>
-                                  {authState === 'authorising' && (
-                                    <p>Authorising…</p>
-                                  )}
-                                  {authState === 'loggedOut' && (
-                                    <a href={loginUrl}>log in</a>
-                                  )}
-                                  {authState === 'loggedIn' && (
-                                    <p>logged in as {user.email}</p>
-                                  )}
-                                </>
-                              );
-                            }}
-                          />
-                        )
-                      }
-                    </TogglesContext.Consumer>
                     {!pageProps.statusCode && <Component {...pageProps} />}
                     {pageProps.statusCode && pageProps.statusCode !== 200 && (
                       <ErrorPage statusCode={pageProps.statusCode} />

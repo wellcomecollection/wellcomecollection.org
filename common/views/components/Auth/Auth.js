@@ -90,9 +90,6 @@ const Auth = ({ render }: Props) => {
       .catch(error => {
         console.log(error); // TODO: Sentry
         setAuthState(authStates.loggedOut);
-      })
-      .finally(() => {
-        Router.replace(getFromLocalStorage('routerPath') || '/');
       });
   }
 
@@ -148,7 +145,7 @@ const Auth = ({ render }: Props) => {
           .update(verifier)
           .digest()
       );
-      window.localStorage.setItem('routerPath', Router.asPath);
+
       setLoginUrl(
         `${authDomain}/oauth2/authorize?${new URLSearchParams({
           ...authParams,
