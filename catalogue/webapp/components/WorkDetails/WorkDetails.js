@@ -97,6 +97,7 @@ const WorkDetails = ({
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
 }: Props) => {
+  const [holds, setHolds] = useState([]);
   const { authPrototype } = useContext(TogglesContext);
   const [physicalLocations, setPhysicalLocations] = useState([]);
   const params = clientSideSearchParams();
@@ -104,6 +105,11 @@ const WorkDetails = ({
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
+
+  useEffect(() => {
+    // TODO: get this from API
+    setHolds(['mzg8e6te']);
+  }, []);
 
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
@@ -145,7 +151,6 @@ const WorkDetails = ({
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
-  // TODO: review how, 'where to find it' currently working
   useEffect(() => {
     if (authPrototype) {
       fetch(`https://api.wellcomecollection.org/stacks/items/works/xgfrfhga`, {
@@ -398,35 +403,63 @@ const WorkDetails = ({
       WorkDetailsSections.push(
         <WorkDetailsSection headingText="Where to find it">
           {textArray && <MetaUnit text={textArray} />}
-          {physicalLocations.map(item => (
+          {physicalLocations.length > 0 && (
             <Auth
-              key={item.id}
               render={({ user, authState, loginUrl }) => {
                 return (
                   <>
-                    {authState === 'authorising' && <p>Authorising…</p>}
-                    {authState === 'loggedOut' && (
-                      <a
-                        className="btn btn--tertiary"
-                        onClick={event => {
-                          const url = `${window.location.pathname}${window.location.search}`;
-                          document.cookie = `WC_auth_redirect=${url}; path=/`;
-                        }}
-                        href={loginUrl}
-                      >
-                        {item.location.label}: {item.status.label}
-                      </a>
-                    )}
-                    {authState === 'loggedIn' && (
-                      <button className="btn btn--tertiary">
-                        {item.location.label}: {item.status.label}
-                      </button>
-                    )}
+                    {physicalLocations.map(item => (
+                      <>
+                        {holds.includes(item.id) ? (
+                          <span>
+                            {item.location.label}: You have placed a hold on
+                            this item
+                          </span>
+                        ) : (
+                          <>
+                            {authState === 'authorising' && <p>Authorising…</p>}
+                            {authState === 'loggedOut' && (
+                              <>
+                                {item.status.label === 'Available' ? (
+                                  <a
+                                    className="btn btn--tertiary"
+                                    onClick={event => {
+                                      const url = `${window.location.pathname}${window.location.search}`;
+                                      document.cookie = `WC_auth_redirect=${url}; path=/`;
+                                    }}
+                                    href={loginUrl}
+                                  >
+                                    {item.location.label}: {item.status.label}
+                                  </a>
+                                ) : (
+                                  <span>
+                                    {item.location.label}: {item.status.label}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                            {authState === 'loggedIn' && (
+                              <>
+                                {item.status.label === 'Available' ? (
+                                  <button className="btn btn--tertiary">
+                                    {item.location.label}: {item.status.label}
+                                  </button>
+                                ) : (
+                                  <span>
+                                    {item.location.label}: {item.status.label}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </>
+                        )}
+                      </>
+                    ))}
                   </>
                 );
               }}
             />
-          ))}
+          )}
         </WorkDetailsSection>
       );
   }
