@@ -107,8 +107,19 @@ const WorkDetails = ({
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
   useEffect(() => {
-    // TODO: get this from API
-    setHolds(['mzg8e6te']);
+    setHolds([]);
+    // const user = window.localStorage.getItem('user');
+    // if (user) {
+    //   fetch(`https://USER_HOLDS_ENDPOINT`, {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: user,
+    //     },
+    //   })
+    //     .then(resp => resp.json())
+    //     .then(({ holds }) => setHolds(holds.map(h => h.itemId)))
+    //     .catch(console.error);
+    // }
   }, []);
 
   const isbnIdentifiers = work.identifiers.filter(id => {

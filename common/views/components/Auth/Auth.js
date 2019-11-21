@@ -47,7 +47,7 @@ const authStates = {
 
 function getLocalStorageJson(key: string) {
   try {
-    return JSON.parse(getFromLocalStorage('user'));
+    return JSON.parse(getFromLocalStorage(key));
   } catch (e) {
     return null;
   }
