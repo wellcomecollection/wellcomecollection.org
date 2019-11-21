@@ -251,13 +251,15 @@ const WorkDetails = ({
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="About this work">
-        {showAdditionalCatalogueData && work.alternativeTitles && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Also known as"
-            text={work.alternativeTitles}
-          />
-        )}
+        {showAdditionalCatalogueData &&
+          work.alternativeTitles &&
+          work.alternativeTitles.length > 0 && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Also known as"
+              text={work.alternativeTitles}
+            />
+          )}
 
         {work.description && (
           <MetaUnit
