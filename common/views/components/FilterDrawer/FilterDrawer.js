@@ -71,20 +71,24 @@ const FiltersContainer = styled.div.attrs({
 })`
   .enhanced & {
     transition: height 300ms ease;
+    transition-delay: 300ms;
     overflow: hidden;
     height: ${props => props.height}px;
   }
 `;
 
-const FilterSection = styled.div.attrs(props => ({
+const FilterSection = styled.fieldset.attrs(props => ({
+  disabled: !props.isActive,
   'aria-hidden': !props.isActive,
 }))`
   .enhanced & {
     top: 0;
     left: 0;
-    transition: opacity 500ms 300ms ease;
+    transition: opacity 300ms ease;
+    transition-delay: ${props => (!props.isActive ? '0ms' : '500ms')};
     opacity: ${props => (props.isActive ? 1 : 0)};
     position: absolute;
+    pointer-events: ${props => (props.isActive ? 'all' : 'none')};
   }
 `;
 
@@ -94,6 +98,7 @@ type Props = {|
 
 function FilterDrawer({ items }: Props) {
   const filtersContainerRef = useRef(null);
+  const [isEnhanced, setIsEnhanced] = useState(false);
   const [activeFilterSection, setActiveFilterSection] = useState(null);
   const [filtersContainerHeight, setFiltersContainerHeight] = useState(0);
 
@@ -103,6 +108,9 @@ function FilterDrawer({ items }: Props) {
 
   const debounceHandleResize = debounce(handleResize, 500);
 
+  useEffect(() => {
+    setIsEnhanced(true);
+  }, []);
   useEffect(() => {
     window.addEventListener('resize', debounceHandleResize);
 
@@ -171,7 +179,7 @@ function FilterDrawer({ items }: Props) {
           <FilterSection
             key={item.title}
             id={`filter-section-${index}`}
-            isActive={activeFilterSection === index}
+            isActive={isEnhanced ? activeFilterSection === index : true}
           >
             {item.component}
           </FilterSection>

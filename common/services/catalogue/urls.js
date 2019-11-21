@@ -43,15 +43,11 @@ export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/works`,
-      query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
-      }),
+      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
     },
     as: {
       pathname: `/works`,
-      query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
-      }),
+      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
     },
   };
 }
