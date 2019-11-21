@@ -13,6 +13,7 @@ const OptInContainer = styled(Space).attrs(props => ({
   h: { size: 'l', properties: ['margin-bottom'] },
   className: font('hnl', 5),
 }))`
+  display: inline-block;
   background: ${props => props.theme.colors.purple};
   color: ${props => props.theme.colors.white};
   position: relative;
