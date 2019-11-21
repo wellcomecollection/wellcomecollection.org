@@ -327,16 +327,15 @@ const WorkDetails = ({
         {showAdditionalCatalogueData && duration && (
           <MetaUnit headingLevel={3} headingText="Duration" text={[duration]} />
         )}
-
-        {showAdditionalCatalogueData && work.notes && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Notes"
-            text={work.notes
-              .map(note => note.contents)
-              .reduce((acc, arr) => acc.concat(arr), [])}
-          />
-        )}
+        {showAdditionalCatalogueData &&
+          work.notes.map(note => (
+            <MetaUnit
+              key={note.noteType.label}
+              headingLevel={3}
+              headingText={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
 
         {showAdditionalCatalogueData && work.contents && (
           <MetaUnit
