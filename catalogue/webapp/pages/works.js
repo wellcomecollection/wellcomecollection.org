@@ -289,19 +289,13 @@ const Works = ({ works, searchParams }: Props) => {
             >
               <div className="container">
                 <div className="grid">
-                  <TogglesContext.Consumer>
-                    {({ relevanceRatingOptIn }) =>
-                      relevanceRatingOptIn && (
-                        <div
-                          className={classNames({
-                            [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
-                          })}
-                        >
-                          <OptIn />
-                        </div>
-                      )
-                    }
-                  </TogglesContext.Consumer>
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                    })}
+                  >
+                    <OptIn />
+                  </div>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
@@ -335,9 +329,8 @@ const Works = ({ works, searchParams }: Props) => {
                         />
                       </div>
                       <TogglesContext.Consumer>
-                        {({ relevanceRating, relevanceRatingOptIn }) =>
-                          relevanceRating &&
-                          relevanceRatingOptIn && (
+                        {({ relevanceRating }) =>
+                          relevanceRating && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
