@@ -8,8 +8,22 @@ import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
 import Control from '../Buttons/Control/Control';
 
-const ZoomedImage = dynamic(import('../ZoomedImage/ZoomedImage'), {
+const LoadingComponent = () => (
+  <div
+    style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: '1000',
+    }}
+  >
+    <LL />
+  </div>
+);
+
+const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
   ssr: false,
+  loading: LoadingComponent,
 });
 
 const ImageViewerControls = styled.div`
@@ -93,7 +107,7 @@ const ImageViewer = ({
   const [imageSrc, setImageSrc] = useState(
     urlTemplate && urlTemplate({ size: '640,' })
   );
-  console.log('urlTemplate: ', urlTemplate);
+
   const [imageSrcSet, setImageSrcSet] = useState(
     urlTemplate &&
       imageSizes(2048)
