@@ -3,6 +3,7 @@ import { type Context } from 'next';
 import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
@@ -110,6 +111,11 @@ const Works = ({ works, searchParams }: Props) => {
     return arr1.length === arr2.length && arr1.every(t => arr2.includes(t));
   }
 
+  const isImageSearch =
+    searchParams.itemsLocationsLocationType &&
+    searchParams.itemsLocationsLocationType.length === 1 &&
+    searchParams.itemsLocationsLocationType[0] === 'iiif-image';
+
   return (
     <Fragment>
       <Head>
@@ -187,10 +193,20 @@ const Works = ({ works, searchParams }: Props) => {
                   objects.
                 </p>
 
+                <p>
+                  <NextLink
+                    {...worksUrl({
+                      ...searchParams,
+                      itemsLocationsLocationType: ['iiif-image'],
+                    })}
+                  >
+                    <a>Images</a>
+                  </NextLink>
+                </p>
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   compact={false}
-                  shouldShowFilters={query !== ''}
+                  shouldShowFilters={query !== '' && !isImageSearch}
                   searchParams={searchParams}
                 />
               </div>
@@ -201,7 +217,7 @@ const Works = ({ works, searchParams }: Props) => {
         <TogglesContext.Consumer>
           {({ refineFiltersPrototype }) => (
             <>
-              {!refineFiltersPrototype && works && (
+              {!refineFiltersPrototype && works && !isImageSearch && (
                 <Layout12>
                   <TabNav
                     items={[
@@ -287,72 +303,90 @@ const Works = ({ works, searchParams }: Props) => {
               }}
               style={{ opacity: loading ? 0 : 1 }}
             >
-              <div className="container">
-                <div className="grid">
-                  <TogglesContext.Consumer>
-                    {({ relevanceRatingOptIn }) =>
-                      relevanceRatingOptIn && (
+              {!isImageSearch && (
+                <div className="container">
+                  <div className="grid">
+                    <TogglesContext.Consumer>
+                      {({ relevanceRatingOptIn }) =>
+                        relevanceRatingOptIn && (
+                          <div
+                            className={classNames({
+                              [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                            })}
+                          >
+                            <OptIn />
+                          </div>
+                        )
+                      }
+                    </TogglesContext.Consumer>
+                    {works.results.map((result, i) => (
+                      <div
+                        key={result.id}
+                        className={classNames({
+                          [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                        })}
+                      >
                         <div
-                          className={classNames({
-                            [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
-                          })}
+                          onClick={() => {
+                            trackSearchResultSelected({
+                              id: result.id,
+                              position: i,
+                              resultWorkType: result.workType.label,
+                              resultLanguage:
+                                result.language && result.language.label,
+                              resultIdentifiers: result.identifiers.map(
+                                identifier => identifier.value
+                              ),
+                              resultSubjects: result.subjects.map(
+                                subject => subject.label
+                              ),
+                            });
+                          }}
                         >
-                          <OptIn />
+                          <WorkCard
+                            work={result}
+                            params={{
+                              ...searchParams,
+                              id: result.id,
+                            }}
+                          />
                         </div>
-                      )
-                    }
-                  </TogglesContext.Consumer>
+                        <TogglesContext.Consumer>
+                          {({ relevanceRating, relevanceRatingOptIn }) =>
+                            relevanceRating &&
+                            relevanceRatingOptIn && (
+                              <RelevanceRater
+                                id={result.id}
+                                position={i}
+                                query={query}
+                                page={page}
+                                workType={workType}
+                                _queryType={_queryType}
+                              />
+                            )
+                          }
+                        </TogglesContext.Consumer>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {isImageSearch && (
+                <div className="container flex flex--wrap">
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
-                      className={classNames({
-                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                      })}
+                      style={{
+                        width: '23%',
+                        margin: '1%',
+                      }}
                     >
-                      <div
-                        onClick={() => {
-                          trackSearchResultSelected({
-                            id: result.id,
-                            position: i,
-                            resultWorkType: result.workType.label,
-                            resultLanguage:
-                              result.language && result.language.label,
-                            resultIdentifiers: result.identifiers.map(
-                              identifier => identifier.value
-                            ),
-                            resultSubjects: result.subjects.map(
-                              subject => subject.label
-                            ),
-                          });
-                        }}
-                      >
-                        <WorkCard
-                          work={result}
-                          params={{
-                            ...searchParams,
-                            id: result.id,
-                          }}
-                        />
-                      </div>
-                      <TogglesContext.Consumer>
-                        {({ relevanceRating, relevanceRatingOptIn }) =>
-                          relevanceRating &&
-                          relevanceRatingOptIn && (
-                            <RelevanceRater
-                              id={result.id}
-                              position={i}
-                              query={query}
-                              page={page}
-                              workType={workType}
-                              _queryType={_queryType}
-                            />
-                          )
-                        }
-                      </TogglesContext.Consumer>
+                      <img src={result.thumbnail.url} />
                     </div>
                   ))}
                 </div>
-              </div>
+              )}
 
               <Space
                 v={{
