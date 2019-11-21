@@ -12,7 +12,6 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
@@ -23,10 +22,9 @@ import {
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
-import { getWorks } from '../services/catalogue/works';
+import { getWorks, getWorkTypeAggregations } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import {
   trackSearchResultSelected,
@@ -37,10 +35,20 @@ import OptIn from '@weco/common/views/components/OptIn/OptIn';
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   searchParams: SearchParams,
+  toggledFilters: SearchParams,
+  unfilteredSearchResults: boolean,
+  shouldGetWorks: boolean,
 |};
 
-const Works = ({ works, searchParams }: Props) => {
+const Works = ({
+  works,
+  searchParams,
+  toggledFilters,
+  unfilteredSearchResults,
+  shouldGetWorks,
+}: Props) => {
   const [loading, setLoading] = useState(false);
+  const [workTypeAggregations, setWorkTypeAggregations] = useState([]);
   const {
     query,
     workType,
@@ -50,10 +58,21 @@ const Works = ({ works, searchParams }: Props) => {
     _queryType,
   } = searchParams;
 
+  const fetchAggregations = async () => {
+    const workTypeAggregations = shouldGetWorks
+      ? await getWorkTypeAggregations({
+          unfilteredSearchResults,
+          filters: toggledFilters,
+        })
+      : [];
+    setWorkTypeAggregations(workTypeAggregations);
+  };
+
   useEffect(() => {
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
+    fetchAggregations();
   }, [searchParams]);
 
   useEffect(() => {
@@ -83,31 +102,6 @@ const Works = ({ works, searchParams }: Props) => {
         statusCode={works.httpStatus}
       />
     );
-  }
-
-  const workTypes = [
-    {
-      title: 'Books',
-      materialTypes: [{ title: 'books', letter: 'a' }],
-    },
-    {
-      title: 'Pictures',
-      materialTypes: [
-        { title: 'pictures', letter: 'k' },
-        { title: 'digital images', letter: 'q' },
-      ],
-    },
-    {
-      title: 'Audio/Visual',
-      materialTypes: [
-        { title: 'video recordings', letter: 'g' },
-        { title: 'sound', letter: 'i' },
-      ],
-    },
-  ];
-
-  function arraysEqual(arr1, arr2) {
-    return arr1.length === arr2.length && arr1.every(t => arr2.includes(t));
   }
 
   return (
@@ -192,54 +186,12 @@ const Works = ({ works, searchParams }: Props) => {
                   compact={false}
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
+                  workTypeAggregations={workTypeAggregations}
                 />
               </div>
             </div>
           </div>
         </Space>
-
-        <TogglesContext.Consumer>
-          {({ refineFiltersPrototype }) => (
-            <>
-              {!refineFiltersPrototype && works && (
-                <Layout12>
-                  <TabNav
-                    items={[
-                      {
-                        text: 'All',
-                        link: worksUrl({
-                          ...searchParams,
-                          page: null,
-                          workType: null,
-                          itemsLocationsLocationType: null,
-                        }),
-                        selected: workType === null,
-                      },
-                    ].concat(
-                      workTypes.map(t => {
-                        return {
-                          text: t.title,
-                          link: worksUrl({
-                            ...searchParams,
-                            workType: t.materialTypes.map(m => m.letter),
-                            itemsLocationsLocationType: null,
-                            page: null,
-                          }),
-                          selected:
-                            !!workType &&
-                            arraysEqual(
-                              t.materialTypes.map(m => m.letter),
-                              workType
-                            ),
-                        };
-                      })
-                    )}
-                  />
-                </Layout12>
-              )}
-            </>
-          )}
-        </TogglesContext.Consumer>
 
         {!works && <StaticWorksContent />}
 
@@ -434,7 +386,6 @@ const Works = ({ works, searchParams }: Props) => {
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
-
   const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
   const filters = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser(params)
@@ -451,10 +402,12 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
         filters: toggledFilters,
       })
     : null;
-
   return {
     works: worksOrError,
     searchParams: params,
+    unfilteredSearchResults,
+    toggledFilters,
+    shouldGetWorks,
   };
 };
 

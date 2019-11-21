@@ -46,17 +46,8 @@ const nullableCsvSerialiser: Serialiser<?(string[])> = input =>
 const nullableStringSerialiser: Serialiser<?string> = input => input;
 const booleanSerialiser: Serialiser<boolean> = input =>
   input === true ? 'true' : null;
-const csvWithDefaultSerialiser: SerializerWithDefaults<?(string[])> = defaults => (
-  input = defaults
-) => {
-  if (!input) {
-    return defaults.join(',');
-  }
-  // This only works with single dimension values, which is fine for here
-  const areEqual =
-    input.length === defaults.length && input.every(i => defaults.includes(i));
-
-  return areEqual ? null : input.join(',');
+const csvWithDefaultSerialiser: SerializerWithDefaults<?(string[])> = defaults => input => {
+  return input ? input.join(',') : defaults.join(',');
 };
 const nullableDateStringSerialiser: Serialiser<?string> = input =>
   formatDateForApi(input);

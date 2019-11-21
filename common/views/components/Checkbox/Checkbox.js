@@ -7,7 +7,7 @@ import Space from '../styled/Space';
 
 const CheckboxLabel = styled.label.attrs({
   className: classNames({
-    'flex flex--v-center': true,
+    'flex-inline flex--v-center': true,
   }),
 })``;
 
