@@ -107,19 +107,38 @@ const WorkDetails = ({
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
   useEffect(() => {
-    setHolds([]);
-    // const user = window.localStorage.getItem('user');
-    // if (user) {
-    //   fetch(`https://USER_HOLDS_ENDPOINT`, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: user,
-    //     },
-    //   })
-    //     .then(resp => resp.json())
-    //     .then(({ holds }) => setHolds(holds.map(h => h.itemId)))
-    //     .catch(console.error);
-    // }
+    if (authPrototype) {
+      const idToken = window.localStorage.getItem('idToken');
+
+      if (idToken) {
+        fetch(`https://USER_HOLDS_ENDPOINT`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: idToken,
+          },
+        })
+          .then(resp => resp.json())
+          .then(({ holds }) => setHolds(holds.map(h => h.itemId)))
+          .catch(console.error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authPrototype) {
+      fetch(
+        `https://api.wellcomecollection.org/stacks/items/works/${work.id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': '0yYzrX1sqNoHCO2mzvND4b3BYTg8elYxFyMYw7c0',
+          },
+        }
+      )
+        .then(resp => resp.json())
+        .then(({ items }) => setPhysicalLocations(items))
+        .catch(console.error);
+    }
   }, []);
 
   const isbnIdentifiers = work.identifiers.filter(id => {
@@ -161,19 +180,6 @@ const WorkDetails = ({
   const iiifPresentationRepository =
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
-
-  useEffect(() => {
-    if (authPrototype) {
-      fetch(`https://api.wellcomecollection.org/stacks/items/works/xgfrfhga`, {
-        headers: {
-          'x-api-key': '0yYzrX1sqNoHCO2mzvND4b3BYTg8elYxFyMYw7c0',
-        },
-      })
-        .then(resp => resp.json())
-        .then(({ items }) => setPhysicalLocations(items))
-        .catch(console.error);
-    }
-  }, []);
 
   if (allDownloadOptions.length > 0) {
     WorkDetailsSections.push(
@@ -416,9 +422,9 @@ const WorkDetails = ({
           {textArray && <MetaUnit text={textArray} />}
           {physicalLocations.length > 0 && (
             <Auth
-              render={({ user, authState, loginUrl }) => {
+              render={({ user, authState, loginUrl, authToken }) => {
                 return (
-                  <>
+                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     {physicalLocations.map(item => (
                       <Fragment key={item.id}>
                         {holds.includes(item.id) ? (
@@ -452,7 +458,28 @@ const WorkDetails = ({
                             {authState === 'loggedIn' && (
                               <>
                                 {item.status.label === 'Available' ? (
-                                  <button className="btn btn--tertiary">
+                                  <button
+                                    className="btn btn--tertiary"
+                                    onClick={() => {
+                                      fetch(
+                                        'https://api.wellcomecollection.org/stacks/requests',
+                                        {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json',
+                                            Authorization: `${authToken.id_token}`,
+                                          },
+                                          body: JSON.stringify({
+                                            itemId: `${work.id}`,
+                                          }),
+                                        }
+                                      ).then(resp =>
+                                        console.info(
+                                          `${resp.status} from /requests`
+                                        )
+                                      );
+                                    }}
+                                  >
                                     {item.location.label}: {item.status.label}
                                   </button>
                                 ) : (
@@ -466,7 +493,7 @@ const WorkDetails = ({
                         )}
                       </Fragment>
                     ))}
-                  </>
+                  </Space>
                 );
               }}
             />

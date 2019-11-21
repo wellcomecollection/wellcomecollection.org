@@ -1,7 +1,7 @@
 // @flow
 import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
 import React, { type Node, useEffect, useState } from 'react';
+import fetch from 'isomorphic-unfetch';
 import jwt from 'jsonwebtoken';
 import uuidv4 from 'uuid/v4';
 import crypto from 'crypto-browserify';
@@ -21,18 +21,18 @@ type Props = {|
     user: any, // TODO: better Flow
     loginUrl: ?string,
     authState: ?AuthState,
+    authToken: any,
   |}) => Node,
 |};
 
-const authDomain = 'https://muckingabout.auth.eu-west-1.amazoncognito.com';
-const tokenUrl = `${authDomain}/oauth2/token`;
-
+const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
-  client_id: '3293ce9fep2cj86ejir7r9k4ic',
-  redirect_uri: 'http://localhost:3000',
-  scope: ['email', 'openid'].join(' '),
+  client_id: 'gjoft366robk4it44ug62ldmj',
+  scope: ['openid'].join(' '),
 };
+
+const tokenUrl = `${authDomain}/oauth2/token`;
 
 function getFromLocalStorage(key: string) {
   return window.localStorage.getItem(key);
@@ -58,6 +58,7 @@ const Auth = ({ render }: Props) => {
   const [authState, setAuthState] = useState(null);
   const [user, setUser] = useState(null);
   const [loginUrl, setLoginUrl] = useState(null);
+  const [authToken, setAuthToken] = useState(null);
 
   function logIn(url: string, tokenParams: TokenParams) {
     fetch(url, {
@@ -72,36 +73,44 @@ const Auth = ({ render }: Props) => {
 
         throw Error('Invalid code');
       })
-      .then(tokenJson => {
-        const refreshToken = tokenJson.refresh_token;
-        const idToken = tokenJson.id_token;
-
+      .then(authToken => {
+        const { id_token: idToken } = authToken;
         setUser(jwt.decode(idToken));
+        setAuthToken(authToken);
 
         window.localStorage.setItem(
-          'user',
+          'idToken',
           JSON.stringify(jwt.decode(idToken))
         );
-        refreshToken &&
-          window.localStorage.setItem('refreshToken', refreshToken);
+        window.localStorage.setItem('authToken', JSON.stringify(authToken));
 
         setAuthState(authStates.loggedIn);
       })
       .catch(error => {
         console.log(error); // TODO: Sentry
         setAuthState(authStates.loggedOut);
+      })
+      .finally(() => {
+        // ????
+        // const { code, ...params } = Router.query;
+        // Router.replace({
+        //   pathname: Router.pathname,
+        //   query: params,
+        // });
       });
   }
 
   useEffect(() => {
     const newCode = Router.query.code;
-    const newUser = getLocalStorageJson('user');
+    const newUser = getLocalStorageJson('idToken');
+    const newAuthToken = getLocalStorageJson('authToken');
 
     setUser(newUser);
     setCode(newCode);
+    setAuthToken(newAuthToken);
 
     if (newUser) {
-      const expires = newUser.exp * 1000; // TODO: this should be based on the access_token, not the id_token
+      const expires = newUser.exp * 1000;
 
       if (expires <= Date.now()) {
         setAuthState(authStates.expired);
@@ -117,24 +126,29 @@ const Auth = ({ render }: Props) => {
 
   useEffect(() => {
     if (authState === authStates.expired) {
-      const refreshToken = getFromLocalStorage('refreshToken');
+      const authToken = getLocalStorageJson('authToken');
+      const refreshToken = authToken.refresh_token;
       const tokenParams = {
         grant_type: 'refresh_token',
         client_id: authParams.client_id,
         refresh_token: refreshToken,
       };
+
       logIn(tokenUrl, tokenParams);
     } else if (authState === authStates.loggedIn) {
-      console.info(user);
+      // console.info(user);
     } else if (authState === authStates.authorising) {
       const codeVerifier = getFromLocalStorage('codeVerifier');
       const tokenParams = {
         grant_type: 'authorization_code',
         client_id: authParams.client_id,
-        redirect_uri: authParams.redirect_uri,
+        redirect_uri: `${window.location.href.split('/')[0]}//${
+          window.location.href.split('/')[2]
+        }`,
         code_verifier: codeVerifier,
         code: code || '',
       };
+
       logIn(tokenUrl, tokenParams);
     } else if (authState === authStates.loggedOut) {
       const verifier = base64url(uuidv4());
@@ -149,6 +163,9 @@ const Auth = ({ render }: Props) => {
       setLoginUrl(
         `${authDomain}/oauth2/authorize?${new URLSearchParams({
           ...authParams,
+          redirect_uri: `${window.location.href.split('/')[0]}//${
+            window.location.href.split('/')[2]
+          }`,
           code_challenge: challenge,
           code_challenge_method: 'S256',
         }).toString()}`
@@ -157,7 +174,7 @@ const Auth = ({ render }: Props) => {
   }, [authState]);
 
   if (render) {
-    return <>{render({ user, loginUrl, authState })}</>;
+    return <>{render({ user, loginUrl, authState, authToken })}</>;
   }
 };
 
