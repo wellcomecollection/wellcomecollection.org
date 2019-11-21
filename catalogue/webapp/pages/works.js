@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { type Work } from '@weco/common/model/work';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
@@ -25,6 +26,7 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import PaletteSimilarityBox from '../components/PaletteSimilarityBox/PaletteSimilarityBox';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -39,6 +41,20 @@ type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   searchParams: SearchParams,
 |};
+
+type ImageCardProps = { work: Work };
+const ImageCard = ({ work }: ImageCardProps) => {
+  const [showRelated, setShowRelated] = useState(false);
+  return (
+    <>
+      <img
+        src={work.thumbnail.url}
+        onClick={() => setShowRelated(!showRelated)}
+      />
+      {showRelated && <PaletteSimilarityBox work={work} />}
+    </>
+  );
+};
 
 const Works = ({ works, searchParams }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -382,7 +398,7 @@ const Works = ({ works, searchParams }: Props) => {
                         margin: '1%',
                       }}
                     >
-                      <img src={result.thumbnail.url} />
+                      <ImageCard work={result} />
                     </div>
                   ))}
                 </div>
