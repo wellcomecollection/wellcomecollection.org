@@ -11,7 +11,7 @@ import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getEncoreLink,
-  getLocationType,
+  getItemAtLocation,
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
@@ -110,7 +110,7 @@ export const WorkPage = ({ work }: Props) => {
   // We strip the last character as that's what Wellcome library expect
   const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
-  const iiifImageLocation = getLocationType(work, 'iiif-image');
+  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const imageContentUrl =
     iiifImageLocationUrl &&

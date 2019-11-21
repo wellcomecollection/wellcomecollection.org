@@ -213,12 +213,49 @@ export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-export function getLocationType(work: Work, locationType: string) {
+type LocationLocationType = {|
+  id: string,
+  label: string,
+  type: 'LocationType',
+|};
+type LocationType = 'PhysicalLocation' | 'DigitalLocation';
+type Item = {|
+  credit: string,
+  license: {|
+    id: string,
+    label: string,
+    url: string,
+    type: 'License',
+  |},
+  locationType: LocationLocationType,
+  type: LocationType,
+  url: string,
+|};
+type Location = {|
+  locationType: LocationLocationType,
+  label: string,
+  type: LocationType,
+|};
+
+export function getItemAtLocation(work: Work, locationType: string): Item {
   const [item] = work.items
     .map(item =>
-      item.locations.find(location => location.locationType.id === 'iiif-image')
+      item.locations.find(location => location.locationType.id === locationType)
     )
     .filter(Boolean);
-
   return item;
+}
+
+export function getItemLocationsOfType(
+  work: Work,
+  locationType: LocationType
+): Location[] {
+  const locations =
+    work.items &&
+    work.items
+      .map(item => {
+        return item.locations.find(location => location.type === locationType);
+      })
+      .filter(Boolean);
+  return locations || [];
 }
