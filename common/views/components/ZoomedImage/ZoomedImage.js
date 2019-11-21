@@ -10,7 +10,6 @@ const ZoomedImageContainer = styled.div`
   width: 100vw;
   height: 100vh;
   position: fixed;
-  padding: 48px 0 6px;
   top: 0;
   left: 0;
   z-index: 2;
@@ -140,14 +139,6 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
     <ZoomedImageContainer>
       <Control
         type="on-black"
-        text="Close"
-        icon="cross"
-        clickHandler={() => {
-          setShowViewer(false);
-        }}
-      />
-      <Control
-        type="on-black"
         text="Zoom in"
         icon="zoomIn"
         clickHandler={() => {
@@ -170,6 +161,16 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           handleRotate(viewer);
         }}
       />
+      <span style={{ float: 'right' }}>
+        <Control
+          type="on-black"
+          text="Close"
+          icon="cross"
+          clickHandler={() => {
+            setShowViewer(false);
+          }}
+        />
+      </span>
       <Image id={`image-viewer-${id}`}>{scriptError && <ErrorMessage />}</Image>
     </ZoomedImageContainer>
   );
