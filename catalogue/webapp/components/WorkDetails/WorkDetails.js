@@ -420,7 +420,7 @@ const WorkDetails = ({
                 return (
                   <>
                     {physicalLocations.map(item => (
-                      <>
+                      <Fragment key={item.id}>
                         {holds.includes(item.id) ? (
                           <span>
                             {item.location.label}: You have placed a hold on
@@ -464,7 +464,7 @@ const WorkDetails = ({
                             )}
                           </>
                         )}
-                      </>
+                      </Fragment>
                     ))}
                   </>
                 );
