@@ -23,9 +23,12 @@ function inputValue(input: ?HTMLElement): ?string {
   }
 }
 
-function nodeListValue(input: ?HTMLElement): ?NodeList<HTMLInputElement> {
+function nodeListValueToArray(input: ?HTMLElement): ?(HTMLInputElement[]) {
+  if (input && input instanceof window.HTMLInputElement) {
+    return [input];
+  }
   if (input && input instanceof window.NodeList) {
-    return input;
+    return Array.from(input);
   }
 }
 
@@ -102,11 +105,10 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(form: HTMLFormElement) {
-    const workTypeCheckboxes = nodeListValue(form['workType']) || [];
+    const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
     const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
       selectedWorkType => selectedWorkType.checked
     );
-
     const workType =
       selectedWorkTypesArray.length > 0
         ? selectedWorkTypesArray.map(workType => workType.value)
