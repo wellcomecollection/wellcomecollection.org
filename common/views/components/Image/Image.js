@@ -3,14 +3,12 @@ import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import { Fragment } from 'react';
-import type { Tasl } from '../../../model/tasl';
 import type { ImageType } from '../../../model/image';
 
 export type Props = {|
   contentUrl: string,
   width: number,
   alt: string,
-  tasl: ?Tasl,
   height?: number,
   clipPathClass?: ?string,
   caption?: string,

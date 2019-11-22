@@ -12,7 +12,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { imagesUrl } from '@weco/common/services/catalogue/urls';
+import { imagesUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   unfilteredApiSearchParamsSerialiser,
@@ -23,7 +23,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import WorkCard from '../components/WorkCard/WorkCard';
+import ImageCard from '../components/ImageCard/ImageCard';
 import {
   trackSearchResultSelected,
   trackSearch,
@@ -217,7 +217,7 @@ const Images = ({ works, searchParams }: Props) => {
                     <div
                       key={result.id}
                       className={classNames({
-                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                        [grid({ s: 6, m: 4, l: 3, xl: 2 })]: true,
                       })}
                     >
                       <div
@@ -237,12 +237,21 @@ const Images = ({ works, searchParams }: Props) => {
                           });
                         }}
                       >
-                        <WorkCard
-                          work={result}
-                          params={{
-                            ...searchParams,
-                            id: result.id,
+                        <ImageCard
+                          id={result.id}
+                          image={{
+                            contentUrl: result.thumbnail
+                              ? result.thumbnail.url
+                              : 'https://via.placeholder.com/1600x900?text=%20',
+                            width: 300,
+                            height: 300,
+                            alt: result.title,
                           }}
+                          datePublished={
+                            result.createdDate && result.createdDate.label
+                          }
+                          title={result.title}
+                          link={workUrl({ id: result.id, ...searchParams })}
                         />
                       </div>
                     </div>
@@ -351,6 +360,7 @@ Images.getInitialProps = async (ctx: Context): Promise<Props> => {
   const worksOrError = shouldGetWorks
     ? await getWorks({
         filters: toggledFilters,
+        pageSize: 24,
       })
     : null;
 
