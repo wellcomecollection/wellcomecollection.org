@@ -1,14 +1,23 @@
 // @flow
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import {
+  worksUrl,
+  type WorksUrlProps,
+} from '@weco/common/services/catalogue/urls';
 import Space from '@weco/common/views/components/styled/Space';
 
-const StaticWorksContent = () => {
+type Props = {|
+  showSuggestions?: boolean,
+  itemsUrl?: (searchParams: WorksUrlProps) => NextLinkType,
+|};
+
+const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
   const params = clientSideSearchParams();
   return (
     <Fragment>
@@ -29,7 +38,7 @@ const StaticWorksContent = () => {
                   tags={[
                     {
                       textParts: ['Quacks'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'quacks',
                         page: 1,
@@ -37,7 +46,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['James Gillray'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'james+gillray',
                         page: 1,
@@ -45,7 +54,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['Botany'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'botany',
                         page: 1,
@@ -53,7 +62,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['Optics'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'optics',
                         page: 1,
@@ -61,7 +70,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['Sun'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'sun',
                         page: 1,
@@ -69,7 +78,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['Health'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'health',
                         page: 1,
@@ -77,7 +86,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['Paintings'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'paintings',
                         page: 1,
@@ -85,7 +94,7 @@ const StaticWorksContent = () => {
                     },
                     {
                       textParts: ['Science'],
-                      linkAttributes: worksUrl({
+                      linkAttributes: itemsUrl({
                         ...params,
                         query: 'science',
                         page: 1,
