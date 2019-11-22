@@ -98,6 +98,7 @@ const WorkDetails = ({
   showAdditionalCatalogueData,
 }: Props) => {
   const [holds, setHolds] = useState([]);
+  const [isRequesting, setIsRequesting] = useState(false);
   const { authPrototype } = useContext(TogglesContext);
   const [physicalLocations, setPhysicalLocations] = useState([]);
   const params = clientSideSearchParams();
@@ -108,19 +109,7 @@ const WorkDetails = ({
 
   useEffect(() => {
     if (authPrototype) {
-      const idToken = window.localStorage.getItem('idToken');
-
-      if (idToken) {
-        fetch(`https://USER_HOLDS_ENDPOINT`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: idToken,
-          },
-        })
-          .then(resp => resp.json())
-          .then(({ holds }) => setHolds(holds.map(h => h.itemId)))
-          .catch(console.error);
-      }
+      updateHolds();
     }
   }, []);
 
@@ -140,6 +129,24 @@ const WorkDetails = ({
         .catch(console.error);
     }
   }, []);
+
+  function updateHolds() {
+    const idToken = window.localStorage.getItem('idToken');
+
+    if (idToken) {
+      console.log(idToken);
+      fetch(`https://api.wellcomecollection.org/stacks/requests`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: idToken,
+        },
+      })
+        .then(resp => resp.json())
+        .then(({ holds }) => setHolds(holds.map(h => h.itemId)))
+        .catch(console.error);
+    }
+  }
 
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
@@ -459,8 +466,11 @@ const WorkDetails = ({
                               <>
                                 {item.status.label === 'Available' ? (
                                   <button
+                                    disabled={isRequesting}
                                     className="btn btn--tertiary"
                                     onClick={() => {
+                                      setIsRequesting(true);
+
                                       fetch(
                                         'https://api.wellcomecollection.org/stacks/requests',
                                         {
@@ -473,14 +483,26 @@ const WorkDetails = ({
                                             itemId: `${work.id}`,
                                           }),
                                         }
-                                      ).then(resp =>
-                                        console.info(
-                                          `${resp.status} from /requests`
-                                        )
-                                      );
+                                      )
+                                        .then(resp => {
+                                          // TODO: expect to get user from the response and get their holds
+                                          // here, instead of doing another GET.
+                                          // setHolds(holds.map(h => h.itemId)))
+                                          updateHolds();
+                                        })
+                                        .finally(() => {
+                                          setIsRequesting(false);
+                                        });
                                     }}
                                   >
-                                    {item.location.label}: {item.status.label}
+                                    {isRequesting ? (
+                                      <span>Requesting…</span>
+                                    ) : (
+                                      <span>
+                                        {item.location.label}:{' '}
+                                        {item.status.label}
+                                      </span>
+                                    )}
                                   </button>
                                 ) : (
                                   <span>
