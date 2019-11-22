@@ -89,14 +89,6 @@ const Auth = ({ render }: Props) => {
       .catch(error => {
         console.log(error); // TODO: Sentry
         setAuthState(authStates.loggedOut);
-      })
-      .finally(() => {
-        // ????
-        // const { code, ...params } = Router.query;
-        // Router.replace({
-        //   pathname: Router.pathname,
-        //   query: params,
-        // });
       });
   }
 

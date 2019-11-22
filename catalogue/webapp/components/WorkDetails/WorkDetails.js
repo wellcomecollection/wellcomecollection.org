@@ -1,6 +1,7 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import { type Node, Fragment, useState, useEffect, useContext } from 'react';
+import Router from 'next/router';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
@@ -98,7 +99,7 @@ const WorkDetails = ({
   showAdditionalCatalogueData,
 }: Props) => {
   const [holds, setHolds] = useState([]);
-  const [isRequesting, setIsRequesting] = useState(false);
+  // TODO: update UI (per item) when doing request
   const { authPrototype } = useContext(TogglesContext);
   const [physicalLocations, setPhysicalLocations] = useState([]);
   const params = clientSideSearchParams();
@@ -109,14 +110,14 @@ const WorkDetails = ({
 
   useEffect(() => {
     if (authPrototype) {
-      updateHolds();
+      getToRequests();
     }
   }, []);
 
   useEffect(() => {
     if (authPrototype) {
       fetch(
-        `https://api.wellcomecollection.org/stacks/items/works/${work.id}`,
+        `https://api.wellcomecollection.org/stacks/v1/items/works/${work.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -130,12 +131,52 @@ const WorkDetails = ({
     }
   }, []);
 
-  function updateHolds() {
+  useEffect(() => {
+    const action = Router.query.action;
+
+    if (action) {
+      const requestItemParts = action.split('/');
+      const itemId = requestItemParts[4];
+
+      postToRequests(itemId);
+    }
+  }, []);
+
+  function postToRequests(itemId) {
+    const authToken = (() => {
+      try {
+        return JSON.parse(window.localStorage.getItem('authToken'));
+      } catch {
+        return null;
+      }
+    })();
+
+    if (authToken) {
+      fetch('https://api.wellcomecollection.org/stacks/v1/requests', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${authToken.id_token}`,
+        },
+        body: JSON.stringify({
+          itemId: `${itemId}`,
+        }),
+      })
+        .then(resp => {
+          // TODO: expect to get user from the response and get their holds
+          // here, instead of doing another GET. setHolds(...)
+        })
+        .finally(() => {
+          // TODO: wipe out 'action' and 'code' search params
+        });
+    }
+  }
+
+  function getToRequests() {
     const idToken = window.localStorage.getItem('idToken');
 
     if (idToken) {
-      console.log(idToken);
-      fetch(`https://api.wellcomecollection.org/stacks/requests`, {
+      fetch(`https://api.wellcomecollection.org/stacks/v1/requests`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -444,11 +485,20 @@ const WorkDetails = ({
                             {authState === 'authorising' && <p>Authorising…</p>}
                             {authState === 'loggedOut' && (
                               <>
-                                {item.status.label === 'Available' ? (
+                                {item.status.id === 'available' ? (
                                   <a
                                     className="btn btn--tertiary"
                                     onClick={event => {
-                                      const url = `${window.location.pathname}${window.location.search}`;
+                                      const searchParams = new URLSearchParams(
+                                        window.location.search
+                                      );
+                                      searchParams.set(
+                                        'action',
+                                        `requestItem:/works/${work.id}/items/${item.id}`
+                                      );
+                                      const url = `${
+                                        window.location.pathname
+                                      }?${searchParams.toString()}`;
                                       document.cookie = `WC_auth_redirect=${url}; path=/`;
                                     }}
                                     href={loginUrl}
@@ -466,43 +516,14 @@ const WorkDetails = ({
                               <>
                                 {item.status.label === 'Available' ? (
                                   <button
-                                    disabled={isRequesting}
                                     className="btn btn--tertiary"
                                     onClick={() => {
-                                      setIsRequesting(true);
-
-                                      fetch(
-                                        'https://api.wellcomecollection.org/stacks/requests',
-                                        {
-                                          method: 'POST',
-                                          headers: {
-                                            'Content-Type': 'application/json',
-                                            Authorization: `${authToken.id_token}`,
-                                          },
-                                          body: JSON.stringify({
-                                            itemId: `${work.id}`,
-                                          }),
-                                        }
-                                      )
-                                        .then(resp => {
-                                          // TODO: expect to get user from the response and get their holds
-                                          // here, instead of doing another GET.
-                                          // setHolds(holds.map(h => h.itemId)))
-                                          updateHolds();
-                                        })
-                                        .finally(() => {
-                                          setIsRequesting(false);
-                                        });
+                                      postToRequests(item.id);
                                     }}
                                   >
-                                    {isRequesting ? (
-                                      <span>Requesting…</span>
-                                    ) : (
-                                      <span>
-                                        {item.location.label}:{' '}
-                                        {item.status.label}
-                                      </span>
-                                    )}
+                                    <span>
+                                      {item.location.label}: {item.status.label}
+                                    </span>
                                   </button>
                                 ) : (
                                   <span>
