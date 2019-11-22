@@ -1,7 +1,7 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
@@ -36,6 +36,8 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
+  const firstControl = useRef(null);
+  const lastControl = useRef(null);
   const handleScriptError = () => {
     setScriptError(true);
   };
@@ -48,7 +50,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           id: `image-viewer-${viewerId}`,
           showNavigationControl: false,
           visibilityRatio: 1,
-          // gestureSettingsMouse: {
+          // gestureSettingsMouse: { // TODO, put back?
           //   scrollToZoom: false,
           // },
           tileSources: [
@@ -78,6 +80,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
 
   useEffect(() => {
     setViewer(setupViewer(infoUrl, id, handleScriptError));
+    lastControl && lastControl.current && lastControl.current.focus();
   }, []);
 
   function doZoomIn(viewer) {
@@ -125,7 +128,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
     });
   }
 
-  async function handleRotate(viewer) {
+  function handleRotate(viewer) {
     if (!viewer) return;
     viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
     trackEvent({
@@ -135,12 +138,28 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
     });
   }
 
+  function handleTrapStartKeyDown(event) {
+    if (event.shiftKey && event.keyCode === 9) {
+      event.preventDefault();
+      lastControl && lastControl.current && lastControl.current.focus();
+    }
+  }
+
+  function handleTrapEndKeyDown(event) {
+    if (!event.shiftKey && event.keyCode === 9) {
+      event.preventDefault();
+      firstControl && firstControl.current && firstControl.current.focus();
+    }
+  }
+
   return (
     <ZoomedImageContainer>
       <Control
+        ref={firstControl}
         type="on-black"
         text="Zoom in"
         icon="zoomIn"
+        keyDownHandler={handleTrapStartKeyDown}
         clickHandler={() => {
           handleZoomIn(viewer);
         }}
@@ -163,9 +182,11 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
       />
       <span style={{ float: 'right' }}>
         <Control
+          ref={lastControl}
           type="on-black"
           text="Close"
           icon="cross"
+          keyDownHandler={handleTrapEndKeyDown}
           clickHandler={() => {
             setShowViewer(false);
           }}

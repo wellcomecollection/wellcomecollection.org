@@ -23,6 +23,7 @@ type Props = {|
   ariaControls?: string,
   ariaExpanded?: boolean,
   clickHandler?: (event: Event) => void | Promise<void>,
+  keyDownHandler?: (event: SyntheticKeyboardEvent<HTMLButtonElement>) => void,
 |};
 
 type InnerControlProps = { text: string, icon: string };
@@ -48,6 +49,7 @@ const Control = forwardRef<Props, HTMLButtonElement | HTMLAnchorElement>(
       text,
       disabled,
       clickHandler,
+      keyDownHandler,
       trackingEvent,
       ariaControls,
       ariaExpanded,
@@ -62,6 +64,7 @@ const Control = forwardRef<Props, HTMLButtonElement | HTMLAnchorElement>(
       className: `control control--${type} ${extraClasses || ''}`,
       disabled: disabled,
       onClick: handleClick,
+      onKeyDown: keyDownHandler,
     };
 
     function handleClick(event) {
