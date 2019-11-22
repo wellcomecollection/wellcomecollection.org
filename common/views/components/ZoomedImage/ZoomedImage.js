@@ -38,6 +38,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   const zoomStep = 0.5;
   const firstControl = useRef(null);
   const lastControl = useRef(null);
+  const zoomedImage = useRef(null);
   const handleScriptError = () => {
     setScriptError(true);
   };
@@ -141,7 +142,9 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
-      lastControl && lastControl.current && lastControl.current.focus();
+      zoomedImage &&
+        zoomedImage.current &&
+        zoomedImage.current.querySelector('.openseadragon-canvas').focus();
     }
   }
 
@@ -152,14 +155,22 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
     }
   }
 
+  function handleKeyDown(event) {
+    if (event.target === firstControl.current) {
+      handleTrapStartKeyDown(event);
+    }
+    if (event.target.classList.contains('openseadragon-canvas')) {
+      handleTrapEndKeyDown(event);
+    }
+  }
+
   return (
-    <ZoomedImageContainer>
+    <ZoomedImageContainer ref={zoomedImage} onKeyDown={handleKeyDown}>
       <Control
         ref={firstControl}
         type="on-black"
         text="Zoom in"
         icon="zoomIn"
-        keyDownHandler={handleTrapStartKeyDown}
         clickHandler={() => {
           handleZoomIn(viewer);
         }}
@@ -186,7 +197,6 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           type="on-black"
           text="Close"
           icon="cross"
-          keyDownHandler={handleTrapEndKeyDown}
           clickHandler={() => {
             setShowViewer(false);
           }}
