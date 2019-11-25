@@ -6,7 +6,11 @@ import TogglesContext from '@weco/common/views/components/TogglesContext/Toggles
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
+import {
+  worksUrl,
+  workUrl,
+  downloadUrl,
+} from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
@@ -165,8 +169,9 @@ const WorkDetails = ({
         console.log(error);
       })
       .finally(() => {
-        console.log('end');
-        // TODO: wipe out 'action' and 'code' search params
+        const url = workUrl({ ...Router.query });
+
+        Router.replace(url.href, url.as);
       });
   }
 
