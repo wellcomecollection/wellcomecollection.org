@@ -16,6 +16,8 @@ import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
+import PopupDialog from '../../views/components/PopupDialog/PopupDialog';
+import { classNames, font } from '../../utils/classnames';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
@@ -186,6 +188,7 @@ export default class WecoApp extends App {
 
   state: State = {
     togglesContext: toggles,
+    pagePath: '',
   };
 
   updateToggles = (newToggles: Object) => {
@@ -207,6 +210,7 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
+    this.setState({ pagePath: window.location.pathname });
     this.setState({ togglesContext: toggles });
     makeSurePageIsTallEnough();
 
@@ -359,7 +363,7 @@ export default class WecoApp extends App {
   }
 
   render() {
-    const { togglesContext } = this.state;
+    const { togglesContext, pagePath } = this.state;
     const updateToggles = this.updateToggles;
     const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
@@ -485,6 +489,37 @@ export default class WecoApp extends App {
                     </TogglesContext.Consumer>
                     <LoadingIndicator />
                     <TrackerScript />
+
+                    {pagePath.match(/\/articles\/.+/) && (
+                      <PopupDialog
+                        openButtonText={`Got 5 minutes?`}
+                        cta={{
+                          text: 'Click here to start',
+                          url: `https://www.surveymonkey.co.uk/r/GDWR9BD?pagePath=${pagePath}`,
+                        }}
+                      >
+                        <h2
+                          className={classNames({
+                            [font('wb', 6, {
+                              small: 5,
+                              medium: 5,
+                              large: 5,
+                            })]: true,
+                          })}
+                        >
+                          Help us improve our stories
+                        </h2>
+                        <p
+                          className={classNames({
+                            [font('hnl', 5, { medium: 2, large: 2 })]: true,
+                          })}
+                        >
+                          We want to understand what you are interested in
+                          reading on our website.
+                        </p>
+                      </PopupDialog>
+                    )}
+
                     {!pageProps.statusCode && <Component {...pageProps} />}
                     {pageProps.statusCode && pageProps.statusCode !== 200 && (
                       <ErrorPage statusCode={pageProps.statusCode} />
