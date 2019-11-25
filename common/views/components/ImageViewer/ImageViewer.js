@@ -179,6 +179,7 @@ const ImageViewer = ({
           text="Rotate"
           icon="rotatePageRight"
           clickHandler={() => {
+            setImageLoading(true);
             setRotation(rotation < 270 ? rotation + 90 : 0);
           }}
         />
