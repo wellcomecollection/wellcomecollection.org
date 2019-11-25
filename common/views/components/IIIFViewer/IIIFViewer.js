@@ -886,7 +886,3 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
-
-// TODO
-// move components to own files - non js / enhanced
-// do some renaming of styled/components
