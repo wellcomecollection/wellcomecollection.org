@@ -33,18 +33,18 @@ discussions, and more.
 ### [Cardigan](https://cardigan.wellcomecollection.org)
 - Wellcome Collection's design system. [`code`](./cardigan).
 
-## Developing
+## Local development
 
-This project uses [Yarn](https://yarnpkg.com/lang/en/). You'll need to install it before proceeding.
+We use [Yarn](https://yarnpkg.com/lang/en/) to manage out external dependencies.
 
-To start a hot reload of a service run:
+We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcometrust/wellcomecollection.org/tree/master/common).
 
-```
-# Install dependencies
+To run a project, from the root directory:
+```bash
 yarn install
-
-# Start hot-reload
-yarn run
+# yarn run {appName = catalogue|content}
+# e.g.
+yarn run catalogue
 ```
 
 ## Other pieces of the Wellcome Collection puzzle
