@@ -215,7 +215,6 @@ export const WorkPage = ({ work }: Props) => {
       {iiifImageLocationUrl && (
         <WobblyRow>
           <IIIFImagePreview
-            id={work.id}
             iiifUrl={iiifImageLocationUrl}
             itemUrl={itemUrl({
               ...searchParams,
@@ -226,7 +225,6 @@ export const WorkPage = ({ work }: Props) => {
               isOverview: true,
               page: 1,
             })}
-            title={work.title}
           />
         </WobblyRow>
       )}

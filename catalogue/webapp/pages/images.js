@@ -20,6 +20,7 @@ import {
   type SearchParams,
 } from '@weco/common/services/catalogue/search-params';
 import Space from '@weco/common/views/components/styled/Space';
+import ExpandedImage from '../components/ExpandedImage/ExpandedImage';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
@@ -36,6 +37,7 @@ type Props = {|
 
 const Images = ({ works, searchParams }: Props) => {
   const [loading, setLoading] = useState(false);
+  const [expandedImageId, setExpandedImageId] = useState('');
   const { query, page, productionDatesFrom, productionDatesTo } = searchParams;
 
   useEffect(() => {
@@ -247,12 +249,20 @@ const Images = ({ works, searchParams }: Props) => {
                             height: 300,
                             alt: result.title,
                           }}
-                          datePublished={
-                            result.createdDate && result.createdDate.label
-                          }
                           title={result.title}
-                          link={workUrl({ id: result.id, ...searchParams })}
+                          onClick={() => setExpandedImageId(result.id)}
                         />
+                        {expandedImageId === result.id && (
+                          <ExpandedImage
+                            index={i}
+                            title={result.title}
+                            id={result.id}
+                            workLink={workUrl({
+                              ...searchParams,
+                              id: result.id,
+                            })}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}
