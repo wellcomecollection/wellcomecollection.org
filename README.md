@@ -42,9 +42,9 @@ We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to m
 To run a project, from the root directory:
 ```bash
 yarn install
-# yarn run {appName = catalogue|content}
+# yarn {appName = catalogue|content}
 # e.g.
-yarn run catalogue
+yarn catalogue
 ```
 
 ## Other pieces of the Wellcome Collection puzzle
