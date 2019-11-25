@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
+import { type IiifUriOpts } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
@@ -90,7 +91,7 @@ type ImageViewerProps = {|
   infoUrl: string,
   lang: ?string,
   tabbableControls: boolean,
-  urlTemplate: any, // TODO
+  urlTemplate: IiifUriOpts => string,
 |};
 
 const ImageViewer = ({
@@ -112,9 +113,11 @@ const ImageViewer = ({
     urlTemplate &&
       imageSizes(2048)
         .map(width => {
-          return `${urlTemplate({
+          const urlString = urlTemplate({
             size: `${width},`,
-          })} ${width}w`;
+          });
+
+          return urlString && `${urlString} ${width}w`;
         })
         .join(',')
   );
@@ -127,10 +130,11 @@ const ImageViewer = ({
       setImageSrcSet(
         imageSizes(2048)
           .map(width => {
-            return `${urlTemplate({
+            const urlString = urlTemplate({
               size: `${width},`,
               rotation: rotation,
-            })} ${width}w`;
+            });
+            return urlString && `${urlString} ${width}w`;
           })
           .join(',')
       );
