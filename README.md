@@ -49,6 +49,7 @@ yarn catalogue
 By default the above command will run the application at localhost:3000, you can specify a port from the application directory with the following command:
 `yarn dev -p 3001`
 This is useful if you want to run both the catalogue and content apps simultaneously.
+
 ## Other pieces of the Wellcome Collection puzzle
 
 [Wellcome Collection Digital Platform](https://github.com/wellcometrust/platform).
