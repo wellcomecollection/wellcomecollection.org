@@ -11,6 +11,101 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 
+const possibleWorktypes = [
+  {
+    id: 'a',
+    label: 'Books',
+  },
+  {
+    id: 'q',
+    label: 'Digital Images',
+  },
+  {
+    id: 'x',
+    label: 'E-manuscripts, Asian',
+  },
+  {
+    id: 'l',
+    label: 'Ephemera',
+  },
+  {
+    id: 'e',
+    label: 'Maps',
+  },
+  {
+    id: 'k',
+    label: 'Pictures',
+  },
+  {
+    id: 'w',
+    label: 'Student dissertations',
+  },
+  {
+    id: 'r',
+    label: '3-D Objects',
+  },
+  {
+    id: 'm',
+    label: 'CD-Roms',
+  },
+  {
+    id: 'v',
+    label: 'E-books',
+  },
+  {
+    id: 's',
+    label: 'E-sound',
+  },
+  {
+    id: 'd',
+    label: 'Journals',
+  },
+  {
+    id: 'p',
+    label: 'Mixed materials',
+  },
+  {
+    id: 'i',
+    label: 'Sound',
+  },
+  {
+    id: 'g',
+    label: 'Videorecordings',
+  },
+  {
+    id: 'h',
+    label: 'Archives and manuscripts',
+  },
+  {
+    id: 'n',
+    label: 'Cinefilm',
+  },
+  {
+    id: 'j',
+    label: 'E-journals',
+  },
+  {
+    id: 'f',
+    label: 'E-videos',
+  },
+  {
+    id: 'b',
+    label: 'Manuscripts, Asian',
+  },
+  {
+    id: 'c',
+    label: 'Music',
+  },
+  {
+    id: 'u',
+    label: 'Standing order',
+  },
+  {
+    id: 'z',
+    label: 'Web sites',
+  },
+];
+
 function CancelFilter({ text }: { text: string }) {
   return (
     <Space
@@ -211,21 +306,21 @@ const FilterDrawerRefine = ({
                   </a>
                 </NextLink>
               )}
-              {workTypeAggregations.map(({ data }) => (
-                <Fragment key={data.id}>
-                  {workType && workType.includes(data.id) && (
+              {possibleWorktypes.map(possibleWorkType => (
+                <Fragment key={possibleWorkType.id}>
+                  {workType && workType.includes(possibleWorkType.id) && (
                     <NextLink
-                      key={data.id}
+                      key={possibleWorkType.id}
                       {...worksUrl({
                         ...searchParams,
                         workType: searchParams.workType.filter(
-                          w => w !== data.id
+                          w => w !== possibleWorkType.id
                         ),
                         page: 1,
                       })}
                     >
                       <a>
-                        <CancelFilter text={data.label} />
+                        <CancelFilter text={possibleWorkType.label} />
                       </a>
                     </NextLink>
                   )}
