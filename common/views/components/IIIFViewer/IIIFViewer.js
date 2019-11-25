@@ -793,8 +793,12 @@ const IIIFViewerComponent = ({
                     id={imageUrl}
                     width={800}
                     lang={null}
+                    alt={
+                      (work && work.description) || (work && work.title) || ''
+                    }
                     tabbableControls={!showThumbs || !thumbnailsRequired}
                     urlTemplate={urlTemplate}
+                    presentationOnly={Boolean(canvasOcr)}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
@@ -804,8 +808,14 @@ const IIIFViewerComponent = ({
                     width={currentCanvas.width}
                     height={currentCanvas.height}
                     lang={lang}
+                    alt={
+                      canvasOcr && work && work.title
+                        ? `image from ${work && work.title}`
+                        : ''
+                    }
                     tabbableControls={!showThumbs || !thumbnailsRequired}
                     urlTemplate={urlTemplate}
+                    presentationOnly={Boolean(canvasOcr)}
                   />
                 )}
               </IIIFViewerImageWrapper>

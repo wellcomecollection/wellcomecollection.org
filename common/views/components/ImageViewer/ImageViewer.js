@@ -90,8 +90,10 @@ type ImageViewerProps = {|
   height?: number,
   infoUrl: string,
   lang: ?string,
+  alt: string,
   tabbableControls: boolean,
   urlTemplate: IiifUriOpts => string,
+  presentationOnly?: boolean,
 |};
 
 const ImageViewer = ({
@@ -99,9 +101,11 @@ const ImageViewer = ({
   width,
   height,
   lang,
+  alt,
   infoUrl,
   tabbableControls,
   urlTemplate,
+  presentationOnly,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
@@ -201,7 +205,6 @@ const ImageViewer = ({
           id={`image-viewer-${id}`}
           aria-hidden="true"
         >
-          {/* // TODO: maybe add role="presentation" to img? */}
           <IIIFResponsiveImage
             width={width}
             height={height}
@@ -210,8 +213,9 @@ const ImageViewer = ({
             sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
             lang={lang}
             loadHandler={() => setImageLoading(false)}
-            alt=""
+            alt={presentationOnly ? '' : alt}
             isLazy={false}
+            presentationOnly={presentationOnly}
           />
         </ImageWrapper>
       </div>

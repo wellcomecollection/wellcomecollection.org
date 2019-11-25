@@ -61,6 +61,7 @@ const WorkEmbed = ({ work }: Props) => {
                 width={800}
                 tabbableControls={true}
                 urlTemplate={iiifImage}
+                alt=""
               />
             </Fragment>
           </div>
