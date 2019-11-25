@@ -35,9 +35,15 @@ discussions, and more.
 
 ## Developing
 
+This project uses [Yarn](https://yarnpkg.com/lang/en/). You'll need to install it before proceeding.
+
 To start a hot reload of a service run:
 
 ```
+# Install dependencies
+yarn install
+
+# Start hot-reload
 yarn run
 ```
 
