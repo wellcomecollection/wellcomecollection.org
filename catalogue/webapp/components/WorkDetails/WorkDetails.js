@@ -99,6 +99,7 @@ const WorkDetails = ({
   showAdditionalCatalogueData,
 }: Props) => {
   const [holds, setHolds] = useState([]);
+  const [localAuthToken, setLocalAuthToken] = useState(null);
   // TODO: update UI (per item) when doing request
   const { authPrototype } = useContext(TogglesContext);
   const [physicalLocations, setPhysicalLocations] = useState([]);
@@ -143,13 +144,7 @@ const WorkDetails = ({
   }, []);
 
   function postToRequests(itemId) {
-    const authToken = (() => {
-      try {
-        return JSON.parse(window.localStorage.getItem('authToken'));
-      } catch {
-        return null;
-      }
-    })();
+    const authToken = JSON.parse(window.localStorage.getItem('authToken'));
 
     if (authToken) {
       fetch('https://api.wellcomecollection.org/stacks/v1/requests', {
@@ -163,10 +158,15 @@ const WorkDetails = ({
         }),
       })
         .then(resp => {
+          console.log(resp);
           // TODO: expect to get user from the response and get their holds
           // here, instead of doing another GET. setHolds(...)
         })
+        .catch(e => {
+          // console.log(e);
+        })
         .finally(() => {
+          console.log('end');
           // TODO: wipe out 'action' and 'code' search params
         });
     }
@@ -494,8 +494,9 @@ const WorkDetails = ({
                                       );
                                       searchParams.set(
                                         'action',
-                                        `requestItem:/works/${work.id}/items/${item.id}`
+                                        `requestItem:/works/${work.id}/items/${item.id.sierraId.value}`
                                       );
+
                                       const url = `${
                                         window.location.pathname
                                       }?${searchParams.toString()}`;
