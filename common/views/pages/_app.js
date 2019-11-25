@@ -26,6 +26,7 @@ import { trackEvent } from '../../utils/ga';
 
 type State = {|
   togglesContext: {},
+  pagePath: string,
 |};
 
 const isServer = typeof window === 'undefined';
