@@ -35,7 +35,7 @@ discussions, and more.
 
 ## Local development
 
-We use [Yarn](https://yarnpkg.com/lang/en/) to manage out external dependencies.
+We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 
 We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcometrust/wellcomecollection.org/tree/master/common).
 
