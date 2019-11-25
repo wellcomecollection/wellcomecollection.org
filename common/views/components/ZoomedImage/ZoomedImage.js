@@ -4,6 +4,7 @@ import openseadragon from 'openseadragon';
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
+import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 
 const ZoomedImageContainer = styled.div`
@@ -39,7 +40,12 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   const firstControl = useRef(null);
   const lastControl = useRef(null);
   const zoomedImage = useRef(null);
-  const handleScriptError = () => {
+  const handleScriptError = error => {
+    Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
+      tags: {
+        service: 'dlcs',
+      },
+    });
     setScriptError(true);
   };
 
@@ -70,8 +76,8 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
         });
         setViewer(osdViewer);
       })
-      .catch(_ => {
-        handleScriptError(); // TODO add sentry stuff
+      .catch(error => {
+        handleScriptError(error);
       });
   }
 
