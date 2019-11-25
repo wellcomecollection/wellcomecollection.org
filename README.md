@@ -33,6 +33,14 @@ discussions, and more.
 ### [Cardigan](https://cardigan.wellcomecollection.org)
 - Wellcome Collection's design system. [`code`](./cardigan).
 
+## Developing
+
+To start a hot reload of a service run:
+
+```
+yarn run
+```
+
 ## Other pieces of the Wellcome Collection puzzle
 
 [Wellcome Collection Digital Platform](https://github.com/wellcometrust/platform).
