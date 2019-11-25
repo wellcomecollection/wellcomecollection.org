@@ -51,11 +51,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           id: `image-viewer-${viewerId}`,
           showNavigationControl: false,
           visibilityRatio: 1,
-          // gestureSettingsMouse: { // TODO, put back?
-          //   scrollToZoom: false,
-          // },
           tileSources: [
-            // TODO replace with getTileSources(data),
             {
               '@context': 'http://iiif.io/api/image/2/context.json',
               '@id': response['@id'],

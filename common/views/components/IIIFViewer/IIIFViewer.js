@@ -787,29 +787,27 @@ const IIIFViewerComponent = ({
             <IIIFViewerMain fullWidth={true} aria-live="polite">
               <IIIFViewerImageWrapper aria-hidden={showThumbs}>
                 {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
-                {iiifImageLocationUrl &&
-                imageUrl && ( // TODO For something with a IIIF image location
-                    <ImageViewer
-                      infoUrl={iiifImageLocationUrl}
-                      id={imageUrl}
-                      width={800}
-                      lang={null}
-                      tabbableControls={!showThumbs || !thumbnailsRequired}
-                      urlTemplate={urlTemplate}
-                    />
-                  )}
-                {mainImageService['@id'] &&
-                currentCanvas && ( // TODO for something with a IIIF manifest
-                    <ImageViewer
-                      id="item-page"
-                      infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-                      width={currentCanvas.width}
-                      height={currentCanvas.height}
-                      lang={lang}
-                      tabbableControls={!showThumbs || !thumbnailsRequired}
-                      urlTemplate={urlTemplate}
-                    />
-                  )}
+                {iiifImageLocationUrl && imageUrl && (
+                  <ImageViewer
+                    infoUrl={iiifImageLocationUrl}
+                    id={imageUrl}
+                    width={800}
+                    lang={null}
+                    tabbableControls={!showThumbs || !thumbnailsRequired}
+                    urlTemplate={urlTemplate}
+                  />
+                )}
+                {mainImageService['@id'] && currentCanvas && (
+                  <ImageViewer
+                    id="item-page"
+                    infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+                    width={currentCanvas.width}
+                    height={currentCanvas.height}
+                    lang={lang}
+                    tabbableControls={!showThumbs || !thumbnailsRequired}
+                    urlTemplate={urlTemplate}
+                  />
+                )}
               </IIIFViewerImageWrapper>
               <IIIFViewerPaginatorButtons>
                 <Paginator
