@@ -17,6 +17,7 @@ type TokenParams = {|
 |};
 type AuthState = 'loggedOut' | 'authorising' | 'loggedIn' | 'expired';
 type Props = {|
+  authTokenUpdatedHandler: () => void,
   render: ?({|
     user: any, // TODO: better Flow
     loginUrl: ?string,
@@ -53,12 +54,16 @@ function getLocalStorageJson(key: string) {
   }
 }
 
-const Auth = ({ render }: Props) => {
+const Auth = ({ render, authTokenUpdatedHandler }: Props) => {
   const [code, setCode] = useState(null);
   const [authState, setAuthState] = useState(null);
   const [user, setUser] = useState(null);
   const [loginUrl, setLoginUrl] = useState(null);
   const [authToken, setAuthToken] = useState(null);
+
+  useEffect(() => {
+    authTokenUpdatedHandler(authToken);
+  }, [authToken]);
 
   function logIn(url: string, tokenParams: TokenParams) {
     fetch(url, {

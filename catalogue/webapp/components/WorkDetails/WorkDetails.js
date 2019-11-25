@@ -134,42 +134,40 @@ const WorkDetails = ({
 
   useEffect(() => {
     const action = Router.query.action;
+    const idToken = localAuthToken && localAuthToken.id_token;
 
-    if (action) {
+    if (action && idToken) {
       const requestItemParts = action.split('/');
       const itemId = requestItemParts[4];
 
-      postToRequests(itemId);
+      postToRequests(itemId, idToken);
     }
-  }, []);
+  }, [localAuthToken]);
 
-  function postToRequests(itemId) {
-    const authToken = JSON.parse(window.localStorage.getItem('authToken'));
-
-    if (authToken) {
-      fetch('https://api.wellcomecollection.org/stacks/v1/requests', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${authToken.id_token}`,
-        },
-        body: JSON.stringify({
-          itemId: `${itemId}`,
-        }),
+  function postToRequests(itemId, idToken) {
+    fetch('https://api.wellcomecollection.org/stacks/v1/requests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: idToken,
+      },
+      body: JSON.stringify({
+        itemId: `${itemId}`,
+      }),
+    })
+      .then(resp => {
+        console.log(resp);
+        // TODO: expect to get user from the response and get their holds
+        // here, instead of doing another GET. setHolds(...)
       })
-        .then(resp => {
-          console.log(resp);
-          // TODO: expect to get user from the response and get their holds
-          // here, instead of doing another GET. setHolds(...)
-        })
-        .catch(e => {
-          // console.log(e);
-        })
-        .finally(() => {
-          console.log('end');
-          // TODO: wipe out 'action' and 'code' search params
-        });
-    }
+      .catch(error => {
+        console.log('caught error');
+        console.log(error);
+      })
+      .finally(() => {
+        console.log('end');
+        // TODO: wipe out 'action' and 'code' search params
+      });
   }
 
   function getToRequests() {
@@ -470,6 +468,7 @@ const WorkDetails = ({
           {textArray && <MetaUnit text={textArray} />}
           {physicalLocations.length > 0 && (
             <Auth
+              authTokenUpdatedHandler={setLocalAuthToken}
               render={({ user, authState, loginUrl, authToken }) => {
                 return (
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
@@ -494,7 +493,7 @@ const WorkDetails = ({
                                       );
                                       searchParams.set(
                                         'action',
-                                        `requestItem:/works/${work.id}/items/${item.id.sierraId.value}`
+                                        `requestItem:/works/${work.id}/items/${item.id.catalogueId.value}`
                                       );
 
                                       const url = `${
@@ -519,7 +518,10 @@ const WorkDetails = ({
                                   <button
                                     className="btn btn--tertiary"
                                     onClick={() => {
-                                      postToRequests(item.id);
+                                      postToRequests(
+                                        item.id.catalogueId.value,
+                                        authToken.id_token
+                                      );
                                     }}
                                   >
                                     <span>
