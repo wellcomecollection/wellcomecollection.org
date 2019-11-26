@@ -35,7 +35,7 @@ const PopupDialogOpen = styled(Space).attrs(props => ({
       : 'translateY(0px)'};
   bottom: 20px;
   left: 20px;
-  z-index: 1;
+  z-index: 3;
   background: ${props => props.theme.colors.white};
   opacity: ${props => (props.isActive || !props.shouldStartAnimation ? 0 : 1)};
   transition: opacity 500ms ease, filter 500ms ease, transform 500ms ease;
@@ -84,7 +84,7 @@ const PopupDialogWindow = styled(Space).attrs(props => ({
   left: 20px;
   right: 20px;
   max-width: 370px;
-  z-index: 1;
+  z-index: 3;
 `;
 
 const PopupDialogClose = styled.button.attrs({
