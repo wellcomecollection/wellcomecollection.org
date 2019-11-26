@@ -105,6 +105,7 @@ const WorkDetails = ({
   const [holds, setHolds] = useState([]);
   const [localAuthToken, setLocalAuthToken] = useState(null);
   // TODO: update UI (per item) when doing request
+  const [updatingItems, setUpdatingItems] = useState([]);
   const { authPrototype } = useContext(TogglesContext);
   const [physicalLocations, setPhysicalLocations] = useState([]);
   const params = clientSideSearchParams();
@@ -149,6 +150,8 @@ const WorkDetails = ({
   }, [localAuthToken]);
 
   function postToRequests(itemId, idToken) {
+    setUpdatingItems([...updatingItems, itemId]);
+
     fetch('https://api.wellcomecollection.org/stacks/v1/requests', {
       method: 'POST',
       headers: {
@@ -162,13 +165,14 @@ const WorkDetails = ({
       .then(resp => {
         console.log(resp);
         // TODO: expect to get user from the response and get their holds
-        // here, instead of doing another GET. setHolds(...)
+        // here, then setHolds(...)
       })
       .catch(error => {
         console.log('caught error');
         console.log(error);
       })
       .finally(() => {
+        setUpdatingItems(updatingItems.filter(i => i !== itemId));
         const url = workUrl({ ...Router.query });
 
         Router.replace(url.href, url.as);
@@ -478,8 +482,8 @@ const WorkDetails = ({
                 return (
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     {physicalLocations.map(item => (
-                      <Fragment key={item.id}>
-                        {holds.includes(item.id) ? (
+                      <Fragment key={item.id.catalogueId.value}>
+                        {holds.includes(item.id.catalogueId.value) ? (
                           <span>
                             {item.location.label}: You have placed a hold on
                             this item
@@ -521,6 +525,9 @@ const WorkDetails = ({
                               <>
                                 {item.status.label === 'Available' ? (
                                   <button
+                                    disabled={updatingItems.includes(
+                                      item.id.catalogueId.value
+                                    )}
                                     className="btn btn--tertiary"
                                     onClick={() => {
                                       postToRequests(
@@ -530,7 +537,18 @@ const WorkDetails = ({
                                     }}
                                   >
                                     <span>
-                                      {item.location.label}: {item.status.label}
+                                      {updatingItems.includes(
+                                        item.id.catalogueId.value
+                                      ) ? (
+                                        <span className="font-white">
+                                          Requesting…
+                                        </span>
+                                      ) : (
+                                        <span>
+                                          {item.location.label}:{' '}
+                                          {item.status.label}
+                                        </span>
+                                      )}
                                     </span>
                                   </button>
                                 ) : (
