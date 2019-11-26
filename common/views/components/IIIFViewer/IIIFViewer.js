@@ -157,6 +157,7 @@ const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 `;
 
 const IIIFViewerThumb = styled.div`
+  width: 130px;
   margin-left: 12px;
   margin-right: 12px;
 
@@ -170,18 +171,6 @@ const IIIFViewerThumb = styled.div`
     margin-right: 36px;
   `}
 
-  width: 130px;
-  noscript & {
-    height: 100%;
-    width: 20%;
-
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      height: 25%;
-      width: 100%;
-      margin-right: 0;
-    }
-  }
-
   a {
     text-decoration: none;
   }
@@ -189,6 +178,17 @@ const IIIFViewerThumb = styled.div`
   img {
     display: block;
     width: 100%;
+  }
+
+  noscript & {
+    height: 100%;
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      width: auto;
+    }
+    img {
+      display: inline-block;
+      max-height: calc(100% - 2em);
+    }
   }
 `;
 
@@ -200,8 +200,8 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
   height: 100%;
   text-align: center;
   display: block;
-  margin-top: 6px;
-  margin-bottom: 36px;
+  padding-top: 6px;
+  padding-bottom: 36px;
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
@@ -226,13 +226,14 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
   width: 100%;
   height: 20%;
   border-top: 1px solid ${props => props.theme.colors.pewter};
+  padding-left: 20%;
   @media (min-width: ${props => props.theme.sizes.medium}px) {
+    padding-left: 0;
     flex-direction: column;
     height: 100%;
     width: 25%;
     border-top: none;
     border-right: 1px solid ${props => props.theme.colors.pewter};
-    padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
   }
   a {
     display: block;
@@ -251,6 +252,7 @@ const ScrollingThumbnailContainer = styled.div`
   padding: ${props => props.theme.spacingUnit}px;
   position: fixed;
   top: ${props => (props.showThumbs ? `${headerHeight}px` : '100vh')};
+  left: 0;
   transition: top 800ms ease;
   z-index: 1;
   display: flex;
