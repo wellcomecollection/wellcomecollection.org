@@ -25,7 +25,7 @@ import chevron from './components/Chevron';
 import citation from './components/Citation';
 import clear from './components/Clear';
 import clock from './components/Clock';
-import closedCaptioning from './components/ClosedCaptioning';
+import captioned from './components/Captioned';
 import code from './components/Code';
 import comments from './components/Comments';
 import cookies from './components/Cookies';
@@ -136,7 +136,7 @@ export {
   citation,
   clear,
   clock,
-  closedCaptioning,
+  captioned,
   code,
   comments,
   cookies,
