@@ -27,6 +27,7 @@
     "next": "^8.0.1",
     "node-sass": "^4.8.3",
     "nodemon": "^1.17.5",
+    "polished": "^3.4.2",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "raven-js": "^3.27.0",
