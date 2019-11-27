@@ -349,6 +349,11 @@ const Images = ({ works, searchParams }: Props) => {
 const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Images.getInitialProps = async (ctx: Context): Promise<Props> => {
+  if (!ctx.query.toggles.enableImageSearch) {
+    // $FlowFixMe
+    return { statusCode: 404 };
+  }
+
   const userParams = searchParamsDeserialiser(ctx.query);
   const params = {
     ...userParams,
