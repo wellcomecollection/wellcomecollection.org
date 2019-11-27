@@ -6,56 +6,6 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Tags, { type TagType } from '../Tags/Tags';
 import Space from '../styled/Space';
 
-type HeadingProps = {
-  headingLevel: ?number,
-  headingText: string,
-};
-const Heading = ({ headingLevel, headingText }: HeadingProps) => {
-  const classes = `${font('hnm', 5)} no-margin`;
-  const smallClasses = `${font('hnm', 5)}`;
-
-  switch (headingLevel) {
-    case 1:
-      return <h1 className={classes}>{headingText}</h1>;
-    case 2:
-      return <h2 className={classes}>{headingText}</h2>;
-    case 3:
-      return <h3 className={classes}>{headingText}</h3>;
-    case 4:
-      return (
-        <Space
-          as="h4"
-          v={{ size: 's', properties: ['margin-bottom'] }}
-          className={smallClasses}
-        >
-          {headingText}
-        </Space>
-      );
-    case 5:
-      return (
-        <Space
-          as="h5"
-          v={{ size: 's', properties: ['margin-bottom'] }}
-          className={smallClasses}
-        >
-          {headingText}
-        </Space>
-      );
-    case 6:
-      return (
-        <Space
-          as="h6"
-          v={{ size: 's', properties: ['margin-bottom'] }}
-          className={smallClasses}
-        >
-          {headingText}
-        </Space>
-      );
-    default:
-      return <h2 className={classes}>{headingText}</h2>;
-  }
-};
-
 const Paragraphs = ({ text }: { text: string[] }) => {
   return (
     <div className="spaced-text">
@@ -115,7 +65,6 @@ const List = ({ list }) => {
 };
 
 type MetaUnitProps = {|
-  headingLevel?: number,
   headingText?: string,
   links?: any[], // TODO replace with React.Element<'NextLink'>[], once moved to V2
   tags?: TagType[],
@@ -125,7 +74,6 @@ type MetaUnitProps = {|
 |};
 
 const MetaUnit = ({
-  headingLevel,
   headingText,
   text = [],
   links = [],
@@ -137,7 +85,7 @@ const MetaUnit = ({
     <SpacingComponent>
       <div className={`${font('hnl', 5)}`}>
         {headingText && (
-          <Heading headingLevel={headingLevel} headingText={headingText} />
+          <h3 className={`${font('hnm', 5)} no-margin`}>{headingText}</h3>
         )}
         {text.length > 0 && <Paragraphs text={text} />}
         <LinksList links={links} />
