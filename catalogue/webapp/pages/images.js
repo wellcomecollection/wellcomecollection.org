@@ -161,6 +161,7 @@ const Images = ({ works, searchParams }: Props) => {
                   searchParams={searchParams}
                   placeholder="Search for images"
                   itemsUrl={imagesUrl}
+                  workTypeAggregations={[]}
                 />
               </div>
             </div>
@@ -248,6 +249,7 @@ const Images = ({ works, searchParams }: Props) => {
                             width: 300,
                             height: 300,
                             alt: result.title,
+                            tasl: null,
                           }}
                           onClick={() => setExpandedImageId(result.id)}
                         />

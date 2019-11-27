@@ -117,6 +117,7 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
               defaultSize={400}
               alt={title}
               contentUrl={iiifImageLocation.url}
+              tasl={null}
             />
           )}
         </ImageWrapper>
