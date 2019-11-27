@@ -1,6 +1,7 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
 import fetch from 'isomorphic-unfetch';
+import { lighten } from 'polished';
 import {
   type Work,
   type CatalogueApiError,
@@ -47,7 +48,7 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  background: ${props => props.theme.colors.coal};
+  background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
   color: ${props => props.theme.colors.smoke};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
   @media (min-width: ${props => props.theme.sizes.large}px) {
@@ -93,7 +94,7 @@ const TitleContainer = styled.div.attrs(props => ({
 
 const IIIFViewerBackground = styled.div`
   position: relative;
-  background: ${props => props.theme.colors.charcoal};
+  background: ${props => props.theme.colors.viewerBlack};
   height: calc(100vh - ${`${headerHeight}px`});
   color: ${props => props.theme.colors.white};
   noscript {
@@ -138,7 +139,7 @@ const IIIFViewer = styled.div.attrs(props => ({
 const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   props => ({
     className: classNames({
-      'relative bg-charcoal font-white': true,
+      'relative bg-viewerBlack font-white': true,
     }),
   })
 )`
