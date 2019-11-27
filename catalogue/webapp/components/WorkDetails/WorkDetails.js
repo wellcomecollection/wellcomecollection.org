@@ -251,13 +251,15 @@ const WorkDetails = ({
   ) {
     WorkDetailsSections.push(
       <WorkDetailsSection headingText="About this work">
-        {showAdditionalCatalogueData && work.alternativeTitles && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Also known as"
-            text={work.alternativeTitles}
-          />
-        )}
+        {showAdditionalCatalogueData &&
+          work.alternativeTitles &&
+          work.alternativeTitles.length > 0 && (
+            <MetaUnit
+              headingLevel={3}
+              headingText="Also known as"
+              text={work.alternativeTitles}
+            />
+          )}
 
         {work.description && (
           <MetaUnit
@@ -325,16 +327,15 @@ const WorkDetails = ({
         {showAdditionalCatalogueData && duration && (
           <MetaUnit headingLevel={3} headingText="Duration" text={[duration]} />
         )}
-
-        {showAdditionalCatalogueData && work.notes && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Notes"
-            text={work.notes
-              .map(note => note.contents)
-              .reduce((acc, arr) => acc.concat(arr), [])}
-          />
-        )}
+        {showAdditionalCatalogueData &&
+          work.notes.map(note => (
+            <MetaUnit
+              key={note.noteType.label}
+              headingLevel={3}
+              headingText={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
 
         {showAdditionalCatalogueData && work.contents && (
           <MetaUnit

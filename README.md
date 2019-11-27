@@ -14,24 +14,49 @@ We have **inclusive processes** that create **accessible products**
 
 We build products that **deliver value**, **solve real problems**, and are a **delight to use**
 
+## Visual design
+
+Visual design for the experience is created in [Sketch](https://www.sketch.com/) and shared via [Zeplin](https://app.zeplin.io/).
+
+To get a login, ask a friendly experience team member near you.
+
 ## Core parts
 
 ### [Content](https://wellcomecollection.org/stories)
+
 - A collection of content from a wide range of authors to challenge the
-ways people think and feel about health by connecting science, medicine,
-life and art [`code`](./content).
+  ways people think and feel about health by connecting science, medicine,
+  life and art [`code`](./content).
 
 - Giving people the ability to partake in or inform themselves on
-Wellcome Collection's events, exhibitions, talks,
-discussions, and more.
-
+  Wellcome Collection's events, exhibitions, talks,
+  discussions, and more.
 
 ### [Catalogue](https://wellcomecollection.org/works)
+
 - Tools to allow people to browse and dig deeper into our catalogue.
-[`code`](./catalogue).
+  [`code`](./catalogue).
 
 ### [Cardigan](https://cardigan.wellcomecollection.org)
+
 - Wellcome Collection's design system. [`code`](./cardigan).
+
+## Local development
+
+We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
+
+We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcometrust/wellcomecollection.org/tree/master/common).
+
+To run a project, from the root directory:
+```bash
+yarn install
+# yarn {appName = catalogue|content}
+# e.g.
+yarn catalogue
+```
+By default the above command will run the application at localhost:3000, you can specify a port from the application directory with the following command:
+`yarn dev -p 3001`
+This is useful if you want to run both the catalogue and content apps simultaneously.
 
 ## Other pieces of the Wellcome Collection puzzle
 

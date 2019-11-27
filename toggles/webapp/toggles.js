@@ -1,13 +1,6 @@
 module.exports = {
   toggles: [
     {
-      id: 'relevanceRatingOptIn',
-      title: `Opt in to search relevance rating`,
-      defaultValue: false,
-      description:
-        'Shows the opt in, which will allow people to rate the relevance of results on the search results page.',
-    },
-    {
       id: 'relevanceRating',
       title: `Search relevance rating`,
       defaultValue: false,

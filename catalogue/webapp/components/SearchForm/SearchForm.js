@@ -15,6 +15,7 @@ import { type SearchParams } from '@weco/common/services/catalogue/search-params
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
+import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 
 function inputValue(input: ?HTMLElement): ?string {
   if (
@@ -26,11 +27,21 @@ function inputValue(input: ?HTMLElement): ?string {
   }
 }
 
+function nodeListValueToArray(input: ?HTMLElement): ?(HTMLInputElement[]) {
+  if (input && input instanceof window.HTMLInputElement) {
+    return [input];
+  }
+  if (input && input instanceof window.NodeList) {
+    return Array.from(input);
+  }
+}
+
 type Props = {|
   ariaDescribedBy: string,
   compact: boolean,
   shouldShowFilters: boolean,
   searchParams: SearchParams,
+  workTypeAggregations: ?(CatalogueAggregationBucket[]),
   placeholder?: string,
   itemsUrl?: (searchParams: WorksUrlProps) => NextLinkType,
 |};
@@ -69,10 +80,11 @@ const SearchForm = ({
   compact,
   shouldShowFilters,
   searchParams,
+  workTypeAggregations,
   placeholder,
   itemsUrl = worksUrl,
 }: Props) => {
-  const { query, workType } = searchParams;
+  const { query } = searchParams;
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -101,20 +113,28 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(form: HTMLFormElement) {
-    const sortOrder = inputValue(form['sortOrder']) || searchParams.sortOrder;
+    const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
+    const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
+      selectedWorkType => selectedWorkType.checked
+    );
+    const workType =
+      selectedWorkTypesArray.length > 0
+        ? selectedWorkTypesArray.map(workType => workType.value)
+        : null;
+
+    const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
-
     const link = itemsUrl({
       ...searchParams,
       query: inputQuery,
+      workType,
       page: 1,
       productionDatesFrom: inputValue(form['production.dates.from']),
       productionDatesTo: inputValue(form['production.dates.to']),
       sortOrder,
       sort,
     });
-
     return Router.push(link.href, link.as);
   }
 
@@ -164,7 +184,6 @@ const SearchForm = ({
               });
 
               setInputQuery('');
-
               // $FlowFixMe
               searchInput.current && searchInput.current.focus();
             }}
@@ -175,17 +194,14 @@ const SearchForm = ({
         )}
       </SearchInputWrapper>
 
-      {workType && (
-        <input type="hidden" name="workType" value={workType.join(',')} />
-      )}
-
       {shouldShowFilters && (
         <>
           <FilterDrawerRefine
             searchForm={searchForm}
             searchParams={searchParams}
+            workTypeAggregations={workTypeAggregations}
+            changeHandler={submit}
           />
-
           {enhanced && (
             <Select
               name="sortOrder"
@@ -210,7 +226,6 @@ const SearchForm = ({
               }}
             />
           )}
-
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <Select
