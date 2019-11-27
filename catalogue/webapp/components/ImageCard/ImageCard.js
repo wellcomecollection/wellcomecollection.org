@@ -1,16 +1,14 @@
 // @flow
 import type { Props as ImageProps } from '@weco/common/views/components/Image/Image';
-import { classNames, font } from '@weco/common/utils/classnames';
 import Image from '@weco/common/views/components/Image/Image';
 
 type Props = {|
   id: string,
   image: ImageProps,
-  title?: string,
   onClick: () => void,
 |};
 
-const ImageCard = ({ id, image, title, onClick }: Props) => {
+const ImageCard = ({ id, image, onClick }: Props) => {
   return (
     <a
       href={`#${id}`}
@@ -28,17 +26,6 @@ const ImageCard = ({ id, image, title, onClick }: Props) => {
           sizesQueries={`(min-width: 1340px) 178px, (min-width: 960px) calc(25vw - 52px), (min-width: 600px) calc(33.24vw - 43px), calc(50vw - 27px)`}
           defaultSize={180}
         />
-      </div>
-      <div className={classNames(['promo__description', font('hnl', 5)])}>
-        <div
-          className={classNames([
-            'promo__title',
-            'text--truncate',
-            font('hnl', 5),
-          ])}
-        >
-          {title || `Not found`}
-        </div>
       </div>
     </a>
   );

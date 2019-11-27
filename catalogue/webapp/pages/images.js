@@ -249,7 +249,6 @@ const Images = ({ works, searchParams }: Props) => {
                             height: 300,
                             alt: result.title,
                           }}
-                          title={result.title}
                           onClick={() => setExpandedImageId(result.id)}
                         />
                         {expandedImageId === result.id && (

@@ -1,11 +1,13 @@
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font } from '@weco/common/utils/classnames';
+import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getItemAtLocation } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
+import License from '@weco/common/views/components/License/License';
+import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getWork } from '../../services/catalogue/works';
 
 type Props = {|
   title: string,
@@ -26,6 +28,8 @@ const Wrapper = styled.div`
 const Box = styled.div`
   background-color: ${({ theme }) => theme.colors.pumice};
   display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
   padding: 20px;
   
   ${({ index, theme }) => theme.media.small`
@@ -37,6 +41,7 @@ const Box = styled.div`
     margin-left: ${getNegativeMargin(index, 3, theme.gutter.medium)}
   `}
   ${({ index, theme }) => theme.media.large`
+    flex-direction: row;
     width: calc(400% + ${3 * theme.gutter.large}px);
     margin-left: ${getNegativeMargin(index, 4, theme.gutter.large)}
   `}
@@ -48,20 +53,27 @@ const Box = styled.div`
 
 const ImageWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.charcoal};
-  min-width: 400px;
+  max-width: 100%;
   min-height: 400px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 
-  .img {
-    width: 400px;
-  }
+  ${({ theme }) => theme.media.large`
+    min-width: 400px;
+  `}
+`;
+
+const LicenseWrapper = styled.div`
+  margin-bottom: 20px;
 `;
 
 const Content = styled.div`
-  padding-left: 30px;
+  padding: 10px 0 0 0;
+  ${({ theme }) => theme.media.large`
+    padding: 0 0 0 30px;
+  `}
 `;
 
 const Indicator = styled.div`
@@ -78,34 +90,41 @@ const Indicator = styled.div`
 `;
 
 const ExpandedImage = ({ title, index, id, workLink }: Props) => {
-  const [iiifUrl, setIiifUrl] = useState(null);
-  const [description, setDescription] = useState('');
+  const [detailedWork, setDetailedWork] = useState(null);
   useEffect(() => {
-    const fetchWorkDetails = async () => {
-      const detailedWork = await getWork({ id });
-      const iiifImageLocation = getItemAtLocation(detailedWork, 'iiif-image');
-      setIiifUrl(iiifImageLocation && iiifImageLocation.url);
-      setDescription(detailedWork.description);
+    const fetchDetailedWork = async () => {
+      setDetailedWork(await getWork({ id }));
     };
-    fetchWorkDetails();
+    fetchDetailedWork();
   }, []);
+
+  const iiifImageLocation =
+    detailedWork && getItemAtLocation(detailedWork, 'iiif-image');
+  const iiifImageLicenseInfo =
+    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+
   return (
     <Wrapper>
       <Indicator />
       <Box index={index}>
         <ImageWrapper>
-          {iiifUrl && (
+          {iiifImageLocation && (
             <Image
               defaultSize={400}
               id={id}
               title={title}
-              contentUrl={iiifUrl}
+              contentUrl={iiifImageLocation.url}
             />
           )}
         </ImageWrapper>
         <Content>
           <h2 className={font('hnm', 3)}>{title}</h2>
-          <p>{description}</p>
+          {iiifImageLicenseInfo && (
+            <LicenseWrapper>
+              <License subject="" licenseInfo={iiifImageLicenseInfo} />
+            </LicenseWrapper>
+          )}
+          <p>{detailedWork && detailedWork.description}</p>
           <Button
             type="secondary"
             text="Go to work"
