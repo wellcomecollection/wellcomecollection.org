@@ -8,15 +8,15 @@ For a more comprehensive search of all of our collections, [wellcomelibrary.org]
 
 We will keep this page up to date with the latest information as we make more progress.
 
-## What’s new? (updated 25 October 2019)
+## What’s new? (updated 20 November 2019)
 
 ### Improvements to search relevance
 
-#### Filtering by date
-We've added the ability to filter search results by their production date and now have production dates for over 90% the catalogue (up from 64% since the middle of August).
+#### Asking for feedback directly
+We’re asking for your input on the relevance of the search results we're showing you. By opting to rate the results you see when you search, you’ll be letting us know not only how relevant they are, but what a more relevant set or ordering might look like. We’ll use this feedback to continue fine-tuning the algorithms that search our collections and return results to you.
 
-#### Order results
-We've added the ability to order search results by relevance (the default), date ascending and date descending.
+#### Fine tuning relevance
+Based on the data we already have about how search is being used, we've tested a change to the way queries are split and combined. Rather than letting results with _any_ (one or more) of the terms appear in your results (using the OR operator between query tokens), we now require that _all_ of the tokens appear in any result you see (using the AND operator between query tokens). This seems to be returing more relevant results, so we've made this the default algorithm, while kicking off a new test.
 
 ### What are the limits?
 - We currently only expose digitised materials, so if you're looking for a physical item from our collections, you can still use the library catalogue on [wellcomelibrary.org](https://wellcomelibrary.org).

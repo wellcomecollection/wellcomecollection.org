@@ -1,10 +1,101 @@
+wellcomecollection.org has been made by… 
+_______________________________________________________________________________
+
+
 /* WE ARE */
+
+Digital Engagement Office:
+	Tom Scott
+	Hannah Brown
+
+Digital Production (digitisation):
+	Christy Henshaw
+	Harkiran Dhindsa
+	Branwen Lloyd-Evans
+	Holly Peel
+	Rosie Curran
+	Paul Horn
+	Cassidy Phillips
+	Emilie Bell
+	Daila Malafronte
+	Ashley Ray
+
+Digital Editorial Content:
+	Danny Birchall
+	Kirsten Riley	
+	Lalita Kaplish
+	Alice White
+	Kate Wilkinson 
+	Helen Babbs
+	Kate Quarry
+	James Machin
+	Richard Sheehan
+	Aisha Mazhar
+	Robert Bidder
+
+Photography:	
+	Richard Everett	
+	Ben Gilbert
+	Thomas S G Farnetti
+	Laurie Auchterlonie
+	Steven Pocock
+	Thomas Cox	
+	Kathleen Arundell	
+
+Digital Experience:
+	Jennifer Phillips-Bacher
+	Tacey Laurie
+	Gareth Ormerod 
+	Lyndsay Thackrah
+	Gareth Estchild
+	David McCormick
+
+Digital Preservation and Data:
+	Jonathan Tweed
+	Natalie Pollecutt
+	James Gorrie
+	Alice Fuzier-Cayla
+	Alex Chan
+	Robert Kenny
+	Harrison Pim
+	Jamie Parkinson	
+	Nick Ward
+	Helen Sherwood-Taylor
+
+Access:
+	Selene Burn & Orla O’Donnell
+
+
+/* ALUMNI - WE MISS YOU ALL ! */
+
+	Hayley Thair		
+	Heesoo Jennings
+	Jennifer Trent Staves
+	Rioghnach Ahern 
+	Deborah Leem 
+	Russell Dornan
+	Chris Hilton
+	Tomi Lahdesmaki
+	Chloe Guest
+	Dave Thompson
+
+
+/* THANKS */
+
+Rada Vlatkovic
+Tania Williams
+Tom Crane - Digirati
+Adam Christie - Digirati
+Silver Oliver - Data Language
+
+Internet Archive, Townsweb Archiving and R3store Studios and past partners and vendors. 
+
+Thanks to all the librarians, archivists and metadata specialists who have tended our collections information.
+
+And everyone else who has contributed but isn’t mentioned above. Thank you.
 
 
 /* SITES */
-
-For readers, researchers & visitors: wellcomecollection.org
-
-For makers: developers.wellcomecollection.org
-
-For our peers: stacks.wellcomecollection.org
+	For readers, researchers & visitors:	wellcomecollection.org
+	For makers:                           developers.wellcomecollection.org
+	For our peers:                        stacks.wellcomecollection.org
