@@ -13,6 +13,7 @@ type Props = {|
   type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
   icon?: string,
+  iconPosition?: 'start' | 'end',
   text: string,
   trackingEvent?: GaEvent,
   id?: string,
@@ -34,6 +35,7 @@ const Button = forwardRef(
       id,
       extraClasses,
       icon,
+      iconPosition,
       text,
       trackingEvent,
       disabled,
@@ -77,8 +79,11 @@ const Button = forwardRef(
           disabled={disabled}
         >
           <span className="flex-inline flex--v-center">
-            {icon && <Icon name={icon} />}
+            {icon && (!iconPosition || iconPosition === 'start') && (
+              <Icon name={icon} />
+            )}
             <span className="btn__text">{text}</span>
+            {icon && iconPosition === 'end' && <Icon name={icon} />}
           </span>
         </a>
       </NextLink>
@@ -101,8 +106,11 @@ const Button = forwardRef(
         type={url ? null : 'button'}
       >
         <span className="flex-inline flex--v-center">
-          {icon && <Icon name={icon} />}
+          {icon && (!iconPosition || iconPosition === 'start') && (
+            <Icon name={icon} />
+          )}
           <span className="btn__text">{text}</span>
+          {icon && iconPosition === 'end' && <Icon name={icon} />}
         </span>
       </HtmlTag>
     );

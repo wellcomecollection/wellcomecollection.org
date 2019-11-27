@@ -77,8 +77,8 @@
 }
 
 .btn--primary-black {
-  border-color: color('pewter');
-  color: color('smoke');
+  border: none;
+  color: color('white');
   background: transparent;
   outline: none;
   transition: all $transition-properties;
