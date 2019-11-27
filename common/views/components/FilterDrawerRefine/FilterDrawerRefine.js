@@ -11,98 +11,121 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 
-const possibleWorktypes = [
+const allWorkTypes = [
   {
-    id: 'a',
-    label: 'Books',
+    data: { id: 'a', label: 'Books', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'q',
-    label: 'Digital Images',
+    data: { id: 'q', label: 'Digital Images', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'x',
-    label: 'E-manuscripts, Asian',
+    data: { id: 'x', label: 'E-manuscripts, Asian', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'l',
-    label: 'Ephemera',
+    data: { id: 'l', label: 'Ephemera', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'e',
-    label: 'Maps',
+    data: { id: 'e', label: 'Maps', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'k',
-    label: 'Pictures',
+    data: { id: 'k', label: 'Pictures', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'w',
-    label: 'Student dissertations',
+    data: { id: 'w', label: 'Student dissertations', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'r',
-    label: '3-D Objects',
+    data: { id: 'r', label: '3-D Objects', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'm',
-    label: 'CD-Roms',
+    data: { id: 'm', label: 'CD-Roms', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'v',
-    label: 'E-books',
+    data: { id: 'v', label: 'E-books', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 's',
-    label: 'E-sound',
+    data: { id: 's', label: 'E-sound', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'd',
-    label: 'Journals',
+    data: { id: 'd', label: 'Journals', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'p',
-    label: 'Mixed materials',
+    data: { id: 'p', label: 'Mixed materials', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'i',
-    label: 'Sound',
+    data: { id: 'i', label: 'Sound', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'g',
-    label: 'Videorecordings',
+    data: { id: 'g', label: 'Videorecordings', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'h',
-    label: 'Archives and manuscripts',
+    data: { id: 'h', label: 'Archives and manuscripts', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'n',
-    label: 'Cinefilm',
+    data: { id: 'n', label: 'Cinefilm', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'j',
-    label: 'E-journals',
+    data: { id: 'j', label: 'E-journals', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'f',
-    label: 'E-videos',
+    data: { id: 'f', label: 'E-videos', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'b',
-    label: 'Manuscripts, Asian',
+    data: { id: 'b', label: 'Manuscripts, Asian', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'c',
-    label: 'Music',
+    data: { id: 'c', label: 'Music', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'u',
-    label: 'Standing order',
+    data: { id: 'u', label: 'Standing order', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
   {
-    id: 'z',
-    label: 'Web sites',
+    data: { id: 'z', label: 'Web sites', type: 'WorkType' },
+    count: 0,
+    type: 'AggregationBucket',
   },
 ];
 
@@ -147,9 +170,26 @@ const FilterDrawerRefine = ({
   changeHandler,
 }: Props) => {
   const workTypeInUrlArray = searchParams.workType || [];
-  const { productionDatesFrom, productionDatesTo, workType } = searchParams;
+  const { productionDatesFrom, productionDatesTo } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
+  const workTypeFilters = allWorkTypes
+    .map(workType => {
+      const matchingWorkTypeAggregation = workTypeAggregations.find(
+        ({ data }) => workType.data.id === data.id
+      );
+      const matchingAppliedWorkType = workTypeInUrlArray.find(
+        id => workType.data.id === id
+      );
+      if (matchingWorkTypeAggregation) {
+        return matchingWorkTypeAggregation;
+      } else if (matchingAppliedWorkType) {
+        return workType;
+      } else {
+        return null;
+      }
+    })
+    .filter(Boolean);
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -213,33 +253,34 @@ const FilterDrawerRefine = ({
     },
   ];
 
-  if (workTypeAggregations.length > 0) {
+  if (workTypeFilters.length > 0) {
     filterDrawerItems.push({
       title: 'Formats',
       component: (
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          {workTypeAggregations &&
-            workTypeAggregations.map(type => (
+          {workTypeFilters.map(workType => {
+            return (
               <Space
-                key={type.data.id}
+                key={workType.data.id}
                 as="span"
                 h={{ size: 'm', properties: ['margin-right'] }}
               >
                 <Checkbox
-                  id={type.data.id}
-                  text={`${type.data.label} (${type.count})`}
-                  value={type.data.id}
+                  id={workType.data.id}
+                  text={`${workType.data.label} (${workType.count})`}
+                  value={workType.data.id}
                   name={`workType`}
                   checked={
                     workTypeInUrlArray &&
-                    workTypeInUrlArray.includes(type.data.id)
+                    workTypeInUrlArray.includes(workType.data.id)
                   }
                   onChange={event => {
                     changeHandler();
                   }}
                 />
               </Space>
-            ))}
+            );
+          })}
         </Space>
       ),
     });
@@ -306,26 +347,30 @@ const FilterDrawerRefine = ({
                   </a>
                 </NextLink>
               )}
-              {possibleWorktypes.map(possibleWorkType => (
-                <Fragment key={possibleWorkType.id}>
-                  {workType && workType.includes(possibleWorkType.id) && (
+
+              {workTypeInUrlArray.map(id => {
+                const workTypeObject = workTypeFilters.find(({ data }) => {
+                  return data.id === id;
+                });
+                return (
+                  <Fragment key={id}>
                     <NextLink
-                      key={possibleWorkType.id}
+                      key={workTypeObject.data.id}
                       {...worksUrl({
                         ...searchParams,
                         workType: searchParams.workType.filter(
-                          w => w !== possibleWorkType.id
+                          w => w !== workTypeObject.data.id
                         ),
                         page: 1,
                       })}
                     >
                       <a>
-                        <CancelFilter text={possibleWorkType.label} />
+                        <CancelFilter text={workTypeObject.data.label} />
                       </a>
                     </NextLink>
-                  )}
-                </Fragment>
-              ))}
+                  </Fragment>
+                );
+              })}
               <NextLink
                 passHref
                 {...worksUrl({
