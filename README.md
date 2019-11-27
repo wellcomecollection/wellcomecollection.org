@@ -41,6 +41,23 @@ To get a login, ask a friendly experience team member near you.
 
 - Wellcome Collection's design system. [`code`](./cardigan).
 
+## Local development
+
+We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
+
+We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcometrust/wellcomecollection.org/tree/master/common).
+
+To run a project, from the root directory:
+```bash
+yarn install
+# yarn {appName = catalogue|content}
+# e.g.
+yarn catalogue
+```
+By default the above command will run the application at localhost:3000, you can specify a port from the application directory with the following command:
+`yarn dev -p 3001`
+This is useful if you want to run both the catalogue and content apps simultaneously.
+
 ## Other pieces of the Wellcome Collection puzzle
 
 [Wellcome Collection Digital Platform](https://github.com/wellcometrust/platform).
