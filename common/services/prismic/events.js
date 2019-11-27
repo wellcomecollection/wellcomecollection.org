@@ -252,7 +252,7 @@ export function parseEventDoc(
     ? [
         {
           url: null,
-          text: 'Relaxed performance',
+          text: 'Relaxed',
         },
       ]
     : [];

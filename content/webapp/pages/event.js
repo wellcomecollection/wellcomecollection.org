@@ -218,7 +218,7 @@ class EventPage extends Component<Props, State> {
       ? [
           {
             url: null,
-            text: 'Relaxed performance',
+            text: 'Relaxed',
           },
         ]
       : [];
