@@ -1,3 +1,4 @@
+// @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
@@ -93,7 +94,10 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   useEffect(() => {
     const fetchDetailedWork = async () => {
-      setDetailedWork(await getWork({ id }));
+      const res = await getWork({ id });
+      if (res.type === 'Work') {
+        setDetailedWork(res);
+      }
     };
     fetchDetailedWork();
   }, []);
@@ -111,8 +115,7 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
           {iiifImageLocation && (
             <Image
               defaultSize={400}
-              id={id}
-              title={title}
+              alt={title}
               contentUrl={iiifImageLocation.url}
             />
           )}

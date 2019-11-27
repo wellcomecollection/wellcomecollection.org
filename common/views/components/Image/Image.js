@@ -7,7 +7,7 @@ import type { ImageType } from '../../../model/image';
 
 export type Props = {|
   contentUrl: string,
-  width: number,
+  width?: number,
   alt: string,
   height?: number,
   clipPathClass?: ?string,
