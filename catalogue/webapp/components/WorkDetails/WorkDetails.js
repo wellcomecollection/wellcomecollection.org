@@ -118,7 +118,7 @@ const WorkDetails = ({
     if (authPrototype) {
       getToRequests();
     }
-  }, []);
+  }, [localAuthToken]);
 
   useEffect(() => {
     if (authPrototype) {
@@ -180,7 +180,9 @@ const WorkDetails = ({
   }
 
   function getToRequests() {
-    const idToken = window.localStorage.getItem('idToken');
+    // const idToken = window.localStorage.getItem('idToken');
+
+    const idToken = localAuthToken && localAuthToken.id_token;
 
     if (idToken) {
       fetch(`https://api.wellcomecollection.org/stacks/v1/requests`, {
