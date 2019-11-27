@@ -106,12 +106,10 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
             <SpacingComponent>
               <div id="licenseInformation">
                 <MetaUnit
-                  headingLevel={3}
                   headingText="License information"
                   text={licenseInfo.humanReadableText}
                 />
                 <MetaUnit
-                  headingLevel={3}
                   headingText="Credit"
                   text={[
                     `${title.replace(/\.$/g, '')}.${' '}
