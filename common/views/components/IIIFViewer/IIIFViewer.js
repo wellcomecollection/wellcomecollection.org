@@ -586,6 +586,28 @@ const IIIFViewerComponent = ({
   return (
     <>
       <TitleContainer>
+        {canvases && canvases.length > 1 && (
+          <Button
+            type="tertiary"
+            extraClasses="btn--primary-black btn--small"
+            icon={showThumbs ? 'detailView' : 'gridView'}
+            text={showThumbs ? 'Detail view' : 'View all'}
+            clickHandler={() => {
+              activeThumbnailRef &&
+                activeThumbnailRef.current &&
+                activeThumbnailRef.current.focus();
+              setShowThumbs(!showThumbs);
+              trackEvent({
+                category: 'Control',
+                action: `clicked work viewer ${
+                  showThumbs ? '"Detail view"' : '"View all"'
+                } button`,
+                label: `${workId}`,
+              });
+            }}
+            ref={viewToggleRef}
+          />
+        )}
         <div className="title">
           <span className="part">{currentManifestLabel}</span>
           <NextLink {...workUrl({ ...params, id: workId })}>
@@ -607,29 +629,7 @@ const IIIFViewerComponent = ({
             ''}`}</>
         )}
         {enhanced && (
-          <div>
-            {canvases && canvases.length > 1 && (
-              <Button
-                type="tertiary"
-                extraClasses="btn--primary-black btn--small"
-                icon={showThumbs ? 'detailView' : 'gridView'}
-                text={showThumbs ? 'Detail view' : 'View all'}
-                clickHandler={() => {
-                  activeThumbnailRef &&
-                    activeThumbnailRef.current &&
-                    activeThumbnailRef.current.focus();
-                  setShowThumbs(!showThumbs);
-                  trackEvent({
-                    category: 'Control',
-                    action: `clicked work viewer ${
-                      showThumbs ? '"Detail view"' : '"View all"'
-                    } button`,
-                    label: `${workId}`,
-                  });
-                }}
-                ref={viewToggleRef}
-              />
-            )}
+          <>
             <Download
               title={title}
               workId={workId}
@@ -671,7 +671,7 @@ const IIIFViewerComponent = ({
                 </ul>
               </ViewerExtraContent>
             )}
-          </div>
+          </>
         )}
       </TitleContainer>
       <IIIFViewerBackground>
