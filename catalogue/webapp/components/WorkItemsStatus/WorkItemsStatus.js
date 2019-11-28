@@ -75,7 +75,6 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
           render={({ authState, loginUrl, token }) => {
             return (
               <>
-                {authState}
                 {authState === 'loggedOut' && (
                   <a
                     href={loginUrl}
