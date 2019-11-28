@@ -2,7 +2,7 @@
 
 type Props = {| title: ?string, text: string[] |};
 
-const WorkDetailsTags = ({ title, text }: Props) => {
+const WorkDetailsText = ({ title, text }: Props) => {
   return (
     <div className="spaced-text">
       {text.map((para, i) => {
@@ -12,4 +12,4 @@ const WorkDetailsTags = ({ title, text }: Props) => {
   );
 };
 
-export default WorkDetailsTags;
+export default WorkDetailsText;

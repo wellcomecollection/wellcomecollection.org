@@ -24,8 +24,8 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Space from '@weco/common/views/components/styled/Space';
+import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
 
 type Props = {|
   workId: string,
@@ -105,12 +105,12 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
           {licenseInfo && (
             <SpacingComponent>
               <div id="licenseInformation">
-                <MetaUnit
-                  headingText="License information"
+                <WorkDetailsText
+                  title="License information"
                   text={licenseInfo.humanReadableText}
                 />
-                <MetaUnit
-                  headingText="Credit"
+                <WorkDetailsText
+                  title="Credit"
                   text={[
                     `${title.replace(/\.$/g, '')}.${' '}
               ${
