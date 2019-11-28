@@ -20,6 +20,31 @@ module.exports = app
     // server cached values
     server.use(middleware);
 
+    // Used for redirecting from cognito to actual works pages
+    router.get('/works/auth-code', async (ctx, next) => {
+      const authRedirect = ctx.cookies.get('WC_auth_redirect');
+
+      if (authRedirect) {
+        const originalPathnameAndSearch = authRedirect.split('?');
+        const originalPathname = originalPathnameAndSearch[0];
+        const originalSearchParams = new URLSearchParams(
+          originalPathnameAndSearch[1]
+        );
+        const requestSearchParams = new URLSearchParams(ctx.request.search);
+        const code = requestSearchParams.get('code');
+
+        if (code) {
+          originalSearchParams.set('code', code);
+        }
+
+        ctx.status = 303;
+        ctx.redirect(`${originalPathname}?${originalSearchParams.toString()}`);
+        return;
+      }
+
+      return next();
+    });
+
     // Next routing
     route('/oembed/works/:id', '/embed', router, app);
     route('/works/progress', '/progress', router, app);
