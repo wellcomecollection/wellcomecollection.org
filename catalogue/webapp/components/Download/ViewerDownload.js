@@ -6,12 +6,12 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
+import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 
 const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
@@ -183,14 +183,12 @@ const Download = ({
         {licenseInfo && (
           <SpacingComponent>
             <div ref={downloadText}>
-              <MetaUnit
-                headingLevel={3}
-                headingText="License information"
+              <WorkDetailsText
+                title="License information"
                 text={licenseInfo.humanReadableText}
               />
-              <MetaUnit
-                headingLevel={3}
-                headingText="Credit"
+              <WorkDetailsText
+                title="Credit"
                 text={[
                   `${title}. ${
                     iiifImageLocationCredit
