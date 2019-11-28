@@ -38,6 +38,7 @@ module.exports = app
         }
 
         ctx.status = 303;
+        ctx.cookies.set('WC_auth_redirect', null);
         ctx.redirect(`${originalPathname}?${originalSearchParams.toString()}`);
         return;
       }
