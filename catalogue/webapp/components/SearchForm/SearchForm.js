@@ -43,7 +43,7 @@ type Props = {|
   searchParams: SearchParams,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
   placeholder?: string,
-  itemsUrl?: (searchParams: WorksUrlProps) => NextLinkType,
+  url?: (searchParams: WorksUrlProps) => NextLinkType,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -82,7 +82,7 @@ const SearchForm = ({
   searchParams,
   workTypeAggregations,
   placeholder,
-  itemsUrl = worksUrl,
+  url = worksUrl,
 }: Props) => {
   const { query } = searchParams;
   const searchForm = useRef();
@@ -125,7 +125,7 @@ const SearchForm = ({
     const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
-    const link = itemsUrl({
+    const link = url({
       ...searchParams,
       query: inputQuery,
       workType,

@@ -80,6 +80,7 @@ const Images = ({ works, searchParams }: Props) => {
   return (
     <Fragment>
       <Head>
+        <meta name="robots" content="noindex" />
         {works && works.prevPage && (
           <link
             rel="prev"
@@ -160,7 +161,7 @@ const Images = ({ works, searchParams }: Props) => {
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
                   placeholder="Search for images"
-                  itemsUrl={imagesUrl}
+                  url={imagesUrl}
                   workTypeAggregations={[]}
                 />
               </div>
