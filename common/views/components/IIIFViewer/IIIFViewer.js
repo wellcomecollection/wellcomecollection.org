@@ -35,14 +35,47 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import Router from 'next/router';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
 const headerHeight = 149;
+const TopBar = styled.div`
+  background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
+  color: ${props => props.theme.colors.white};
+  button {
+    overflow: hidden;
+    display: inline-block;
+    .icon {
+      margin: 0;
+      @media (min-width: ${props => props.theme.sizes.large}px) {
+        margin-right: ${props => `${props.theme.spacingUnit}px`};
+      }
+    }
+    .btn__text {
+      position: absolute;
+      right: 100%;
+      @media (min-width: ${props => props.theme.sizes.large}px) {
+        position: static;
+      }
+    }
+    @media (min-width: ${props => props.theme.sizes.large}px) {
+      width: 130px;
+    }
+  }
+`;
+const ViewAllContainer = styled.div.attrs(props => ({
+  className: classNames({
+    'flex flex--v-center flex--h-center': true,
+  }),
+}))`
+  height: 64px;
+  width: 15%;
+`;
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
-    'flex flex--v-center': true,
+    'flex flex--v-center flex--h-center': true,
     [font('hnl', 5)]: true,
   }),
 }))`
@@ -68,26 +101,6 @@ const TitleContainer = styled.div.attrs(props => ({
     }
     .plain-link {
       max-width: 100%;
-    }
-  }
-  button {
-    overflow: hidden;
-    display: inline-block;
-    .icon {
-      margin: 0;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        margin-right: ${props => `${props.theme.spacingUnit}px`};
-      }
-    }
-    .btn__text {
-      position: absolute;
-      right: 100%;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        position: static;
-      }
-    }
-    @media (min-width: ${props => props.theme.sizes.large}px) {
-      width: 130px;
     }
   }
 `;
@@ -585,95 +598,102 @@ const IIIFViewerComponent = ({
 
   return (
     <>
-      <TitleContainer>
-        {canvases && canvases.length > 1 && (
-          <Button
-            type="tertiary"
-            extraClasses="btn--primary-black btn--small"
-            icon={showThumbs ? 'detailView' : 'gridView'}
-            text={showThumbs ? 'Detail view' : 'View all'}
-            clickHandler={() => {
-              activeThumbnailRef &&
-                activeThumbnailRef.current &&
-                activeThumbnailRef.current.focus();
-              setShowThumbs(!showThumbs);
-              trackEvent({
-                category: 'Control',
-                action: `clicked work viewer ${
-                  showThumbs ? '"Detail view"' : '"View all"'
-                } button`,
-                label: `${workId}`,
-              });
-            }}
-            ref={viewToggleRef}
-          />
-        )}
-        <div className="title">
-          <span className="part">{currentManifestLabel}</span>
-          <NextLink {...workUrl({ ...params, id: workId })}>
-            <a
-              className={classNames({
-                [font('hnm', 5)]: true,
-                'flex-inline': true,
-                'flex-v-center': true,
-                'plain-link': true,
-                'font-hover-yellow': true,
-              })}
-            >
-              <TruncatedText as="h1">{title}</TruncatedText>
-            </a>
-          </NextLink>
-        </div>
-        {canvases && canvases.length > 1 && (
-          <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
-            ''}`}</>
-        )}
-        {enhanced && (
-          <>
-            <Download
-              title={title}
-              workId={workId}
-              licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
-              iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-              iiifImageLocationCredit={iiifImageLocationCredit}
-              downloadOptions={
-                downloadOptions || iiifPresentationDownloadOptions
-              }
+      <TopBar className="flex">
+        <ViewAllContainer>
+          {canvases && canvases.length > 1 && (
+            <Button
+              extraClasses="btn--primary-black"
+              icon={showThumbs ? 'detailView' : 'gridView'}
+              // iconPosition="end"
+              text={showThumbs ? 'Detail view' : 'View all'}
+              clickHandler={() => {
+                activeThumbnailRef &&
+                  activeThumbnailRef.current &&
+                  activeThumbnailRef.current.focus();
+                setShowThumbs(!showThumbs);
+                trackEvent({
+                  category: 'Control',
+                  action: `clicked work viewer ${
+                    showThumbs ? '"Detail view"' : '"View all"'
+                  } button`,
+                  label: `${workId}`,
+                });
+              }}
+              ref={viewToggleRef}
             />
-            {parentManifest && parentManifest.manifests && (
-              <ViewerExtraContent buttonText={currentManifestLabel || 'Choose'}>
-                <ul className="no-margin no-padding plain-list">
-                  {parentManifest.manifests.map((manifest, i) => (
-                    <li
-                      key={manifest['@id']}
-                      className={
-                        manifest.label === currentManifestLabel
-                          ? 'current'
-                          : null
-                      }
-                    >
-                      <NextLink
-                        {...itemUrl({
-                          ...params,
-                          workId,
-                          page: 1,
-                          sierraId: (manifest['@id'].match(
-                            /iiif\/(.*)\/manifest/
-                          ) || [])[1],
-                          langCode: lang,
-                          canvas: 0,
-                        })}
+          )}
+        </ViewAllContainer>
+        <TitleContainer>
+          <div className="title">
+            <span className="part">{currentManifestLabel}</span>
+            <NextLink {...workUrl({ ...params, id: workId })}>
+              <a
+                className={classNames({
+                  [font('hnm', 5)]: true,
+                  'flex-inline': true,
+                  'flex-v-center': true,
+                  'plain-link': true,
+                  'font-hover-yellow': true,
+                })}
+              >
+                <Icon name="chevron" extraClasses="icon--90 icon--white" />
+                <TruncatedText as="h1">{title}</TruncatedText>
+              </a>
+            </NextLink>
+          </div>
+          {canvases && canvases.length > 1 && (
+            <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
+              ''}`}</>
+          )}
+          {enhanced && (
+            <>
+              <Download
+                title={title}
+                workId={workId}
+                licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
+                iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+                iiifImageLocationCredit={iiifImageLocationCredit}
+                downloadOptions={
+                  downloadOptions || iiifPresentationDownloadOptions
+                }
+              />
+              {parentManifest && parentManifest.manifests && (
+                <ViewerExtraContent
+                  buttonText={currentManifestLabel || 'Choose'}
+                >
+                  <ul className="no-margin no-padding plain-list">
+                    {parentManifest.manifests.map((manifest, i) => (
+                      <li
+                        key={manifest['@id']}
+                        className={
+                          manifest.label === currentManifestLabel
+                            ? 'current'
+                            : null
+                        }
                       >
-                        <a>{manifest.label}</a>
-                      </NextLink>
-                    </li>
-                  ))}
-                </ul>
-              </ViewerExtraContent>
-            )}
-          </>
-        )}
-      </TitleContainer>
+                        <NextLink
+                          {...itemUrl({
+                            ...params,
+                            workId,
+                            page: 1,
+                            sierraId: (manifest['@id'].match(
+                              /iiif\/(.*)\/manifest/
+                            ) || [])[1],
+                            langCode: lang,
+                            canvas: 0,
+                          })}
+                        >
+                          <a>{manifest.label}</a>
+                        </NextLink>
+                      </li>
+                    ))}
+                  </ul>
+                </ViewerExtraContent>
+              )}
+            </>
+          )}
+        </TitleContainer>
+      </TopBar>
       <IIIFViewerBackground>
         <LL />
         {/* conditionally show this */}

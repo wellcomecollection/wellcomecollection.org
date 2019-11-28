@@ -92,7 +92,6 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
           extraClasses={classNames({
             relative: true,
             'btn--secondary-black': true,
-            'btn--small': true,
           })}
           icon="chevron"
           text={buttonText}
