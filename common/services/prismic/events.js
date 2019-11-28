@@ -300,7 +300,10 @@ export async function getEvent(
       .filter(Boolean);
     const eventScheduleDocs =
       scheduleIds.length > 0 &&
-      (await getTypeByIds(req, ['events'], scheduleIds, { fetchLinks }));
+      (await getTypeByIds(req, ['events'], scheduleIds, {
+        fetchLinks,
+        pageSize: 40,
+      }));
     const event = parseEventDoc(document, eventScheduleDocs || null);
 
     return event;
