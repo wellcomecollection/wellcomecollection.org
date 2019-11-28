@@ -54,7 +54,7 @@ const Box = styled.div`
 
 const ImageWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.charcoal};
-  max-width: 100%;
+  max-width: 50%;
   min-height: 400px;
   display: flex;
   flex-direction: row;
