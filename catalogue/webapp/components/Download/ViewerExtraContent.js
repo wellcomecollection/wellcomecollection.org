@@ -88,12 +88,13 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
     >
       <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
         <Button
-          type="tertiary"
           extraClasses={classNames({
             relative: true,
-            'btn--secondary-black': true,
+            'btn--primary-black': true,
           })}
           icon="chevron"
+          iconPosition="end"
+          fontFamily="hnl"
           text={buttonText}
           ariaConftrols="hiddenContent"
           ariaExpfanded={showHidden}

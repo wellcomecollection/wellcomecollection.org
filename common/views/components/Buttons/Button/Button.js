@@ -14,6 +14,7 @@ type Props = {|
   extraClasses?: string,
   icon?: string,
   iconPosition?: 'start' | 'end',
+  fontFamily?: 'hnl' | 'hnm',
   text: string,
   trackingEvent?: GaEvent,
   id?: string,
@@ -36,6 +37,7 @@ const Button = forwardRef(
       extraClasses,
       icon,
       iconPosition,
+      fontFamily,
       text,
       trackingEvent,
       disabled,
@@ -71,10 +73,9 @@ const Button = forwardRef(
           download={download}
           rel={rel}
           id={id}
-          className={`btn btn--${type} ${extraClasses || ''} ${font(
-            'hnm',
-            fontSize
-          )} flex-inline flex--v-center`}
+          className={`btn btn--${type} ${extraClasses || ''} ${
+            fontFamily ? font(fontFamily, fontSize) : font('hnm', fontSize)
+          } flex-inline flex--v-center`}
           onClick={handleClick}
           disabled={disabled}
         >
@@ -97,10 +98,9 @@ const Button = forwardRef(
         download={download}
         rel={rel}
         id={id}
-        className={`btn btn--${type} ${extraClasses || ''} ${font(
-          'hnm',
-          fontSize
-        )} flex-inline flex--v-center`}
+        className={`btn btn--${type} ${extraClasses || ''} ${
+          fontFamily ? font(fontFamily, fontSize) : font('hnm', fontSize)
+        } flex-inline flex--v-center`}
         onClick={handleClick}
         disabled={disabled}
         type={url ? null : 'button'}

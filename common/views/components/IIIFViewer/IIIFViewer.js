@@ -36,13 +36,35 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Router from 'next/router';
 import Space, { type SpaceComponentProps } from '../styled/Space';
+// import TopBar from '../styled/TopBar';
 
 const headerHeight = 149;
+
 const TopBar = styled.div`
+  position: relative;
+  z-index: 2;
   background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
   color: ${props => props.theme.colors.white};
+  .title {
+    max-width: 30%;
+  }
+  h1 {
+    margin: 0;
+  }
+  .part {
+    max-width: 100%;
+    display: block;
+    @media (min-width: ${props => props.theme.sizes.large}px) {
+      display: none;
+    }
+  }
+  .plain-link {
+    max-width: 100%;
+  }
+  .icon__shape {
+    fill: currentColor;
+  }
   button {
     overflow: hidden;
     display: inline-block;
@@ -64,6 +86,7 @@ const TopBar = styled.div`
     }
   }
 `;
+
 const ViewAllContainer = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--v-center flex--h-center': true,
@@ -81,27 +104,10 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
-  color: ${props => props.theme.colors.smoke};
+  width: 85%;
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
-  @media (min-width: ${props => props.theme.sizes.large}px) {
-    padding: ${props => `0 ${props.theme.spacingUnit * 4}px`};
-  }
-  h1 {
-    margin: 0;
-  }
-  .title {
-    max-width: 30%;
-    .part {
-      max-width: 100%;
-      display: block;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        display: none;
-      }
-    }
-    .plain-link {
-      max-width: 100%;
-    }
+  .icon {
+    width: 48px; /* TODO */
   }
 `;
 
@@ -172,22 +178,12 @@ const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 
 const IIIFViewerThumb = styled.div`
   width: 130px;
-  margin-left: 12px;
-  margin-right: 12px;
-
-  ${props => props.theme.media.medium`
-    margin-left: 24px;
-    margin-right: 24px;
-  `}
-
-  ${props => props.theme.media.large`
-    margin-left: 36px;
-    margin-right: 36px;
-  `}
-
-  a {
-    text-decoration: none;
-  }
+  margin: 3%;
+  border-radius: 8px;
+  background: ${props =>
+    props.isActive
+      ? lighten(0.14, props.theme.colors.viewerBlack)
+      : props.theme.colors.viewerBlack};
 
   img {
     display: block;
@@ -211,11 +207,11 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
     'block h-center': true,
   }),
 }))`
+  text-decoration: none;
   height: 100%;
   text-align: center;
   display: block;
-  padding-top: 6px;
-  padding-bottom: 36px;
+  padding: 16px 16px 3px;
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
@@ -225,16 +221,16 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
     'font-white': !props.isActive,
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
-    [font('hnl', 5)]: true,
+    [font('hnm', 6)]: true,
   }),
 }))`
-  margin-top: 12px;
-  padding: 3px 2px;
+  padding: 3px 6px;
+  border-radius: 3px;
 `;
 
 const StaticThumbnailsContainer = styled.div.attrs(props => ({
   className: classNames({
-    'bg-charcoal flex relative': true,
+    'bg-viewerBlack flex relative': true,
   }),
 }))`
   width: 100%;
@@ -262,8 +258,7 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 const ScrollingThumbnailContainer = styled.div`
   height: calc(100% - ${headerHeight}px);
   overflow: scroll;
-  background: ${props => props.theme.colors.charcoal};
-  padding: ${props => props.theme.spacingUnit}px;
+  background: ${props => props.theme.colors.viewerBlack};
   position: fixed;
   top: ${props => (props.showThumbs ? `${headerHeight}px` : '100vh')};
   left: 0;
@@ -272,8 +267,6 @@ const ScrollingThumbnailContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: flex-start;
-  align-content: flex-start;
 
   /* Makes sure trailing items in last row stay next to each other rather than being evenly spaced */
   &:after {
@@ -329,6 +322,7 @@ const IIIFCanvasThumbnail = ({
       {isEnhanced ? (
         <div
           style={{
+            // TODO make into a styled component
             position: 'relative',
             paddingTop: smallestWidthImageDimensions
               ? `${(smallestWidthImageDimensions.height /
@@ -565,7 +559,8 @@ const IIIFViewerComponent = ({
   const params = clientSideSearchParams();
 
   useEffect(() => {
-    setShowThumbs(Router.query.isOverview);
+    // setShowThumbs(Router.query.isOverview); // TODO put back
+    setShowThumbs(true);
     setEnhanced(true);
   }, []);
 
@@ -604,8 +599,8 @@ const IIIFViewerComponent = ({
             <Button
               extraClasses="btn--primary-black"
               icon={showThumbs ? 'detailView' : 'gridView'}
-              // iconPosition="end"
               text={showThumbs ? 'Detail view' : 'View all'}
+              fontFamily="hnl"
               clickHandler={() => {
                 activeThumbnailRef &&
                   activeThumbnailRef.current &&
@@ -646,7 +641,7 @@ const IIIFViewerComponent = ({
               ''}`}</>
           )}
           {enhanced && (
-            <>
+            <div>
               <Download
                 title={title}
                 workId={workId}
@@ -690,7 +685,7 @@ const IIIFViewerComponent = ({
                   </ul>
                 </ViewerExtraContent>
               )}
-            </>
+            </div>
           )}
         </TitleContainer>
       </TopBar>
@@ -753,7 +748,7 @@ const IIIFViewerComponent = ({
                   {navigationCanvases &&
                     navigationCanvases.map((canvas, i) => (
                       <IIIFViewerThumb key={canvas['@id']}>
-                        <Paginator
+                        <Paginator // TODO why is this inside IIIFViewerThumb
                           {...thumbsPaginatorProps}
                           render={({ rangeStart }) => (
                             <NextLink
@@ -769,7 +764,9 @@ const IIIFViewerComponent = ({
                               replace
                               passHref
                             >
-                              <IIIFViewerThumbLink>
+                              <IIIFViewerThumbLink
+                                isActive={canvasIndex === rangeStart + i - 1}
+                              >
                                 <IIIFCanvasThumbnail
                                   isEnhanced={false}
                                   canvas={canvas}
@@ -859,7 +856,7 @@ const IIIFViewerComponent = ({
                   canvases.map((canvas, i) => {
                     const isActive = canvasIndex === i;
                     return (
-                      <IIIFViewerThumb key={canvas['@id']}>
+                      <IIIFViewerThumb key={canvas['@id']} isActive={isActive}>
                         <NextLink
                           {...itemUrl({
                             ...params,

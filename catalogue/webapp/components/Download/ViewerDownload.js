@@ -109,14 +109,13 @@ const Download = ({
       })}
     >
       <Button
-        type="tertiary"
         extraClasses={classNames({
           relative: true,
           'btn--primary-black': true,
-          'btn--small': true,
         })}
         icon="chevron"
         iconPosition="end"
+        fontFamily="hnl"
         text="Downloads"
         ariaControls="downloadOptions"
         ariaExpanded={showDownloads}
