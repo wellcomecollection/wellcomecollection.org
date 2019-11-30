@@ -30,6 +30,7 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
 const ImageViewerControls = styled.div`
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
     for a less heavy handed solution to Openseadragon breaking on touch events */
+  display: flex;
   &,
   button,
   a {
@@ -57,8 +58,9 @@ const ImageViewerControls = styled.div`
   }
 
   position: absolute;
-  top: 100px;
-  left: 12px;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(150%);
   z-index: 1;
 }`;
 

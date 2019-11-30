@@ -17,6 +17,7 @@ import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
+import Router from 'next/router';
 import {
   convertIiifUriToInfoUri,
   iiifImageTemplate,
@@ -559,7 +560,7 @@ const IIIFViewerComponent = ({
   const params = clientSideSearchParams();
 
   useEffect(() => {
-    // setShowThumbs(Router.query.isOverview); // TODO put back
+    setShowThumbs(Router.query.isOverview);
     setShowThumbs(true);
     setEnhanced(true);
   }, []);
