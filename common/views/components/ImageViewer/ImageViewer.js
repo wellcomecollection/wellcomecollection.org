@@ -199,7 +199,7 @@ const ImageViewer = ({
           height: '100%',
         }}
       >
-        {imageLoading && <LL />}
+        {imageLoading && <LL lightn={true} />}
         <ImageWrapper
           imageLoading={imageLoading}
           id={`image-viewer-${id}`}

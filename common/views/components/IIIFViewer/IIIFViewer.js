@@ -331,7 +331,7 @@ const IIIFCanvasThumbnail = ({
               : 0,
           }}
         >
-          <LL small={true} />
+          <LL small={true} lighten={true} />
           <div
             style={{
               display: 'block',
@@ -690,7 +690,7 @@ const IIIFViewerComponent = ({
         </TitleContainer>
       </TopBar>
       <IIIFViewerBackground>
-        <LL />
+        <LL lighten={true} />
         {/* conditionally show this */}
         {
           <noscript>
