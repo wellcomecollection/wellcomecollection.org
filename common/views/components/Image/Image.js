@@ -1,14 +1,14 @@
 // @flow
+import type { Tasl } from '../../../model/tasl';
 import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
-import { imageSizes } from '../../../utils/image-sizes';
+import { imageSizes, supportedSizes } from '../../../utils/image-sizes';
 import { Fragment } from 'react';
-import type { Tasl } from '../../../model/tasl';
 import type { ImageType } from '../../../model/image';
 
 export type Props = {|
   contentUrl: string,
-  width: number,
+  width?: number,
   alt: string,
   tasl: ?Tasl,
   height?: number,
@@ -35,7 +35,7 @@ const Image = (props: Props) => {
       <noscript
         dangerouslySetInnerHTML={{
           __html: `
-      <img width='${props.width}'
+      <img width='${props.width || ''}'
         height='${props.height || ''}'
         class='${classes}'
         src='${convertImageUri(props.contentUrl, 640)}'
@@ -71,7 +71,7 @@ const Img = ({
   extraClasses,
   style,
 }: Props) => {
-  const sizes = imageSizes(width);
+  const sizes = width !== undefined ? imageSizes(width) : supportedSizes;
   return (
     <img
       width={width}

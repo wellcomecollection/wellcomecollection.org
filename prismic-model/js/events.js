@@ -28,7 +28,7 @@ const Events = {
     body,
   },
   Access: {
-    isRelaxedPerformance: boolean('Relaxed performance'),
+    isRelaxedPerformance: boolean('Relaxed'),
     interpretations: list('Interpretations', {
       interpretationType: link('Interpretation', 'document', [
         'interpretation-types',

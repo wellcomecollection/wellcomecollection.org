@@ -52,6 +52,23 @@ export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
   };
 }
 
+export function imagesUrl(searchParams: WorksUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/images`,
+      query: removeEmptyProps({
+        ...searchParamsSerialiser(searchParams),
+      }),
+    },
+    as: {
+      pathname: `/images`,
+      query: removeEmptyProps({
+        ...searchParamsSerialiser(searchParams),
+      }),
+    },
+  };
+}
+
 export function itemUrl({
   workId,
   page,

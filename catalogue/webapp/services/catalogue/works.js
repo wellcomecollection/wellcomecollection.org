@@ -21,6 +21,7 @@ type Enviable = {|
 
 type GetWorksProps = {|
   filters: Object,
+  pageSize?: number,
   ...Enviable,
 |};
 
@@ -44,6 +45,7 @@ const workIncludes = [
 export async function getWorks({
   filters,
   env = 'prod',
+  pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
     const val = filters[key];
@@ -51,7 +53,7 @@ export async function getWorks({
   });
   const url =
     `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
-    `&pageSize=25` +
+    `&pageSize=${pageSize}` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
   try {
     const res = await fetch(url);

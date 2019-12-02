@@ -9,8 +9,6 @@ import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 
 type Props = {|
-  id: string,
-  title: string,
   iiifUrl: string,
   width?: number,
   itemUrl: NextLinkType,
@@ -43,13 +41,7 @@ const ImagePreview = styled.div`
   }
 `;
 
-const IIIFImagePreview = ({
-  id,
-  title,
-  iiifUrl,
-  width = 1010,
-  itemUrl,
-}: Props) => {
+const IIIFImagePreview = ({ iiifUrl, width = 1010, itemUrl }: Props) => {
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
 
   return (
