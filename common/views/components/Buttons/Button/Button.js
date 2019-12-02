@@ -4,8 +4,9 @@ import NextLink from 'next/link';
 import { type NextLinkType } from '../../../../model/next-link-type';
 import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
-import { font } from '../../../../utils/classnames';
+import { font, classNames } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
+import Space from '../../styled/Space';
 
 type Props = {|
   tabIndex?: string,
@@ -16,6 +17,7 @@ type Props = {|
   iconPosition?: 'start' | 'end',
   fontFamily?: 'hnl' | 'hnm',
   text: string,
+  textHidden?: boolean,
   trackingEvent?: GaEvent,
   id?: string,
   disabled?: boolean,
@@ -39,6 +41,7 @@ const Button = forwardRef(
       iconPosition,
       fontFamily,
       text,
+      textHidden,
       trackingEvent,
       disabled,
       target,
@@ -81,10 +84,23 @@ const Button = forwardRef(
         >
           <span className="flex flex--v-center flex--h-center">
             {icon && (!iconPosition || iconPosition === 'start') && (
-              <Icon name={icon} />
+              <Space h={{ size: 's', properties: ['margin-right'] }}>
+                <Icon name={icon} />
+              </Space>
             )}
-            <span className="btn__text">{text}</span>
-            {icon && iconPosition === 'end' && <Icon name={icon} />}
+            <span
+              className={classNames({
+                'visually-hidden': textHidden,
+                btn__text: true,
+              })}
+            >
+              {text}
+            </span>
+            {icon && iconPosition === 'end' && (
+              <Space h={{ size: 's', properties: ['margin-left'] }}>
+                <Icon name={icon} />
+              </Space>
+            )}
           </span>
         </a>
       </NextLink>
@@ -107,10 +123,23 @@ const Button = forwardRef(
       >
         <span className="flex flex--v-center flex--h-center">
           {icon && (!iconPosition || iconPosition === 'start') && (
-            <Icon name={icon} />
+            <Space h={{ size: 's', properties: ['margin-right'] }}>
+              <Icon name={icon} />
+            </Space>
           )}
-          <span className="btn__text">{text}</span>
-          {icon && iconPosition === 'end' && <Icon name={icon} />}
+          <span
+            className={classNames({
+              'visually-hidden': textHidden,
+              btn__text: true,
+            })}
+          >
+            {text}
+          </span>
+          {icon && iconPosition === 'end' && (
+            <Space h={{ size: 's', properties: ['margin-left'] }}>
+              <Icon name={icon} />
+            </Space>
+          )}
         </span>
       </HtmlTag>
     );
