@@ -32,7 +32,7 @@ const Box = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
   padding: 20px;
-  
+
   ${({ index, theme }) => theme.media.small`
     width: calc(200% + ${theme.gutter.small}px);
     margin-left: ${getNegativeMargin(index, 2, theme.gutter.small)}
@@ -130,12 +130,7 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
             </LicenseWrapper>
           )}
           <p>{detailedWork && detailedWork.description}</p>
-          <Button
-            type="secondary"
-            text="Go to work"
-            link={workLink}
-            target="_blank"
-          />
+          <Button type="secondary" text="Go to work" link={workLink} />
         </Content>
       </Box>
     </Wrapper>

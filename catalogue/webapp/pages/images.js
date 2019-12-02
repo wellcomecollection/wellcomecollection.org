@@ -35,9 +35,19 @@ type Props = {|
   searchParams: SearchParams,
 |};
 
+const useFragmentInitialState = () => {
+  const [state, setState] = useState('');
+  useEffect(() => {
+    if (window.location.hash) {
+      setState(window.location.hash.slice(1));
+    }
+  }, []);
+  return [state, setState];
+};
+
 const Images = ({ works, searchParams }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [expandedImageId, setExpandedImageId] = useState('');
+  const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
   const { query, page, productionDatesFrom, productionDatesTo } = searchParams;
 
   useEffect(() => {
