@@ -95,6 +95,8 @@ const ViewAllContainer = styled.div.attrs(props => ({
 }))`
   height: 64px;
   width: 15%;
+  border-right: 1px solid
+    ${props => lighten(0.1, props.theme.colors.viewerBlack)};
 `;
 
 const TitleContainer = styled.div.attrs(props => ({
