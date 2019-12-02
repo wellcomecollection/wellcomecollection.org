@@ -1,21 +1,18 @@
 // @flow
 import { type Work } from '@weco/common/model/work';
 import { useState, useEffect } from 'react';
-import fetch from 'isomorphic-unfetch';
+import type { SimilarImage } from '../../services/labs/palette-api';
+import { getSimilarPaletteImages } from '../../services/labs/palette-api';
 
 type Props = {|
   work: Work,
 |};
 
 const PaletteSimilarityBox = ({ work }: Props) => {
-  const [similar, setSimilar] = useState();
+  const [similar, setSimilar] = useState<SimilarImage[]>([]);
 
   async function getSimilar(id) {
-    const resp = await fetch(
-      `https://labs.wellcomecollection.org/palette-api/works/${id}&n=5`
-    );
-    const similar = await resp.json();
-    setSimilar(similar);
+    setSimilar(await getSimilarPaletteImages(id));
   }
 
   useEffect(() => {
@@ -25,18 +22,18 @@ const PaletteSimilarityBox = ({ work }: Props) => {
   return similar ? (
     <div>
       <div className="flex">
-        {similar.neighbours.map(neighbour => {
+        {similar.map(image => {
           return (
             <div
               style={{
                 flex: '1 1 auto',
                 marginRight: '5px',
               }}
-              key={neighbour.uri}
+              key={image.id}
             >
-              <a href={neighbour.catalogue_uri}>
+              <a href={image.workUri}>
                 <img
-                  src={neighbour.miro_uri}
+                  src={image.miroUri}
                   alt=""
                   style={{ maxWidth: '100%', width: 'auto' }}
                 />

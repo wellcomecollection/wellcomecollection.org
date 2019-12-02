@@ -9,6 +9,7 @@ import License from '@weco/common/views/components/License/License';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import RelatedImages from '../RelatedImages/RelatedImages';
 
 type Props = {|
   title: string,
@@ -72,10 +73,20 @@ const LicenseWrapper = styled.div`
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 10px 0 0 0;
   ${({ theme }) => theme.media.large`
     padding: 0 0 0 30px;
   `}
+`;
+
+const JustifyToBottom = styled.div`
+  display: flex;
+  flex-grow: 10;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const Indicator = styled.div`
@@ -131,6 +142,9 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
           )}
           <p>{detailedWork && detailedWork.description}</p>
           <Button type="secondary" text="Go to work" link={workLink} />
+          <JustifyToBottom>
+            <RelatedImages originalId={id} />
+          </JustifyToBottom>
         </Content>
       </Box>
     </Wrapper>
