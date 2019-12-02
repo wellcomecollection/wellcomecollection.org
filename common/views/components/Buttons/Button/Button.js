@@ -84,7 +84,7 @@ const Button = forwardRef(
         >
           <span className="flex flex--v-center flex--h-center">
             {icon && (!iconPosition || iconPosition === 'start') && (
-              <Space h={{ size: 's', properties: ['margin-right'] }}>
+              <Space h={{ size: 'xs', properties: ['margin-right'] }}>
                 <Icon name={icon} />
               </Space>
             )}
@@ -97,7 +97,7 @@ const Button = forwardRef(
               {text}
             </span>
             {icon && iconPosition === 'end' && (
-              <Space h={{ size: 's', properties: ['margin-left'] }}>
+              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
                 <Icon name={icon} />
               </Space>
             )}
@@ -123,7 +123,7 @@ const Button = forwardRef(
       >
         <span className="flex flex--v-center flex--h-center">
           {icon && (!iconPosition || iconPosition === 'start') && (
-            <Space h={{ size: 's', properties: ['margin-right'] }}>
+            <Space h={{ size: 'xs', properties: ['margin-right'] }}>
               <Icon name={icon} />
             </Space>
           )}
@@ -136,7 +136,7 @@ const Button = forwardRef(
             {text}
           </span>
           {icon && iconPosition === 'end' && (
-            <Space h={{ size: 's', properties: ['margin-left'] }}>
+            <Space h={{ size: 'xs', properties: ['margin-left'] }}>
               <Icon name={icon} />
             </Space>
           )}

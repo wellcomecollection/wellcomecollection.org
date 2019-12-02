@@ -651,16 +651,20 @@ const IIIFViewerComponent = ({
                   setRotation(rotation < 270 ? rotation + 90 : 0);
                 }}
               />
-              <Download
-                title={title}
-                workId={workId}
-                licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
-                iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-                iiifImageLocationCredit={iiifImageLocationCredit}
-                downloadOptions={
-                  downloadOptions || iiifPresentationDownloadOptions
-                }
-              />
+              <Space
+                h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
+              >
+                <Download
+                  title={title}
+                  workId={workId}
+                  licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
+                  iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+                  iiifImageLocationCredit={iiifImageLocationCredit}
+                  downloadOptions={
+                    downloadOptions || iiifPresentationDownloadOptions
+                  }
+                />
+              </Space>
               {parentManifest && parentManifest.manifests && (
                 <ViewerExtraContent
                   buttonText={currentManifestLabel || 'Choose'}
