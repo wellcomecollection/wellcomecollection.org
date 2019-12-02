@@ -49,6 +49,9 @@ const TopBar = styled.div`
   color: ${props => props.theme.colors.white};
   .title {
     max-width: 30%;
+    .icon {
+      width: 48px;
+    }
   }
   h1 {
     margin: 0;
