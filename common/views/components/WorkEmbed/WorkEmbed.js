@@ -59,7 +59,6 @@ const WorkEmbed = ({ work }: Props) => {
                 id={work.id}
                 lang={null}
                 width={800}
-                tabbableControls={true}
                 urlTemplate={iiifImage}
                 alt=""
                 rotation={0}
