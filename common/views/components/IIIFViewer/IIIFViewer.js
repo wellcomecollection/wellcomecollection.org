@@ -414,47 +414,51 @@ const PaginatorButtons = (isTabbable: boolean, workId: string) => {
         })}
       >
         {prevLink && (
-          <Control
-            scroll={false}
-            replace={true}
-            link={prevLink}
-            type="on-black"
-            icon="arrow"
-            text="Previous page"
-            tabIndex={isTabbable ? '0' : '-1'}
-            extraClasses={classNames({
-              'icon--270': true,
-            })}
-            clickHandler={() => {
-              trackEvent({
-                category: 'Control',
-                action: 'clicked work viewer previous page link',
-                label: `${workId} | page: ${currentPage}`,
-              });
-            }}
-          />
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Control
+              scroll={false}
+              replace={true}
+              link={prevLink}
+              type="black-on-white"
+              icon="arrow"
+              text="Previous page"
+              tabIndex={isTabbable ? '0' : '-1'}
+              extraClasses={classNames({
+                'icon--270': true,
+              })}
+              clickHandler={() => {
+                trackEvent({
+                  category: 'Control',
+                  action: 'clicked work viewer previous page link',
+                  label: `${workId} | page: ${currentPage}`,
+                });
+              }}
+            />
+          </Space>
         )}
         {nextLink && (
-          <Control
-            scroll={false}
-            replace={true}
-            link={nextLink}
-            type="on-black"
-            icon="arrow"
-            text="Next page"
-            tabIndex={isTabbable ? '0' : '-1'}
-            extraClasses={classNames({
-              icon: true,
-              'icon--90': true,
-            })}
-            clickHandler={() => {
-              trackEvent({
-                category: 'Control',
-                action: 'clicked work viewer next page link',
-                label: `${workId} | page: ${currentPage}`,
-              });
-            }}
-          />
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Control
+              scroll={false}
+              replace={true}
+              link={nextLink}
+              type="black-on-white"
+              icon="arrow"
+              text="Next page"
+              tabIndex={isTabbable ? '0' : '-1'}
+              extraClasses={classNames({
+                icon: true,
+                'icon--90': true,
+              })}
+              clickHandler={() => {
+                trackEvent({
+                  category: 'Control',
+                  action: 'clicked work viewer next page link',
+                  label: `${workId} | page: ${currentPage}`,
+                });
+              }}
+            />
+          </Space>
         )}
       </div>
     );
@@ -563,7 +567,6 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
-    setShowThumbs(true);
     setEnhanced(true);
   }, []);
 

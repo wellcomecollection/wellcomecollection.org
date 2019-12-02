@@ -8,6 +8,7 @@ import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
 import Control from '../Buttons/Control/Control';
+import Space from '../styled/Space';
 
 const LoadingComponent = () => (
   <div
@@ -28,9 +29,12 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
 });
 
 const ImageViewerControls = styled.div`
+  position: absolute;
+  bottom: 36px;
+  left: 65vw;
+  z-index: 1;
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
     for a less heavy handed solution to Openseadragon breaking on touch events */
-  display: flex;
   &,
   button,
   a {
@@ -56,12 +60,6 @@ const ImageViewerControls = styled.div`
     width: 1px;
     white-space: nowrap;
   }
-
-  position: absolute;
-  bottom: 48px;
-  left: 50%;
-  transform: translateX(150%);
-  z-index: 1;
 }`;
 
 const ImageWrapper = styled.div`
@@ -173,26 +171,29 @@ const ImageViewer = ({
         <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
       )}
       <ImageViewerControls>
-        <Control
-          tabIndex={tabbableControls ? '0' : '-1'}
-          type="on-black"
-          text="Zoom in"
-          icon="zoomIn"
-          clickHandler={() => {
-            setShowViewer(true);
-          }}
-        />
-
-        <Control
-          tabIndex={tabbableControls ? '0' : '-1'}
-          type="on-black"
-          text="Rotate"
-          icon="rotatePageRight"
-          clickHandler={() => {
-            setImageLoading(true);
-            setRotation(rotation < 270 ? rotation + 90 : 0);
-          }}
-        />
+        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
+            type="black-on-white"
+            text="Zoom in"
+            icon="zoomIn"
+            clickHandler={() => {
+              setShowViewer(true);
+            }}
+          />
+        </Space>
+        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
+            type="black-on-white"
+            text="Rotate"
+            icon="rotatePageRight"
+            clickHandler={() => {
+              setImageLoading(true);
+              setRotation(rotation < 270 ? rotation + 90 : 0);
+            }}
+          />
+        </Space>
       </ImageViewerControls>
 
       <div
