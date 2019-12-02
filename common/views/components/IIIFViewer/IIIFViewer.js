@@ -40,7 +40,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 // import TopBar from '../styled/TopBar';
 
-const headerHeight = 149;
+export const headerHeight = 149;
 
 const TopBar = styled.div`
   position: relative;
