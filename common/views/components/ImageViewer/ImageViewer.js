@@ -30,8 +30,8 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
 
 const ImageViewerControls = styled.div`
   position: absolute;
-  bottom: 36px;
-  left: 65vw;
+  top: 100px;
+  left: 12px;
   z-index: 1;
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
     for a less heavy handed solution to Openseadragon breaking on touch events */
@@ -171,7 +171,7 @@ const ImageViewer = ({
         <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
       )}
       <ImageViewerControls>
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+        <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
           <Control
             type="black-on-white"
             text="Zoom in"
