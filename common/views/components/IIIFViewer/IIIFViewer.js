@@ -95,7 +95,7 @@ const ViewAllContainer = styled.div.attrs(props => ({
 
 const TitleContainer = styled.div.attrs(props => ({
   className: classNames({
-    'flex flex--v-center flex--h-center': true,
+    'flex flex--v-center': true,
     [font('hnl', 5)]: true,
   }),
 }))`
