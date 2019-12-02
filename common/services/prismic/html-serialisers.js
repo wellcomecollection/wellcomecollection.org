@@ -20,12 +20,15 @@ export const dropCapSerializer: HtmlSerializer = (
   i
 ) => {
   if (type === Elements.paragraph && i === 0) {
-    const firstLetter = children[0].charAt(0);
-    const restOfLetters = [...children[0].substr(1), ...children.slice(1)];
+    const characters = children[0];
+    const firstCharacter = characters.charAt(0);
+    const restOfCharacters = [...characters.substr(1), ...children.slice(1)];
 
-    return `<p><span class="drop-cap">${firstLetter}</span>${restOfLetters.join(
-      ''
-    )}</p>`;
+    return firstCharacter === '<'
+      ? `<p>${children.join('')}</p>`
+      : `<p><span class="drop-cap">${firstCharacter}</span>${restOfCharacters.join(
+          ''
+        )}</p>`;
   }
   return defaultSerializer(type, element, content, children, i);
 };
