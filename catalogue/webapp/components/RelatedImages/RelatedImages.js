@@ -1,5 +1,5 @@
 // @flow
-import { font } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import Image from '@weco/common/views/components/Image/Image';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -14,44 +14,37 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Images = styled.div`
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  max-height: 250px;
-  min-height: 100px;
-`;
-
-const ImageWrapper = styled.div`
-  padding-right: 20px;
-  &:last-of-type {
-    padding-right: 0;
-  }
+const ImageContainer = styled.div`
+  margin-top: auto;
+  padding-top: 20px;
 `;
 
 const RelatedImages = ({ originalId }: Props) => {
   const [relatedImages, setRelatedImages] = useState([]);
   useEffect(() => {
     const fetchRelatedImages = async () =>
-      setRelatedImages(await getSimilarPaletteImages(originalId));
+      setRelatedImages(await getSimilarPaletteImages(originalId, 6));
     fetchRelatedImages();
   }, []);
-  return (
+  return relatedImages.length === 0 ? null : (
     <Wrapper>
       <h3 className={font('hnm', 4)}>Related images</h3>
-      <Images>
+      <div className="grid">
         {relatedImages.map(related => (
-          <ImageWrapper key={related.id}>
+          <ImageContainer
+            className={grid({ s: 6, m: 4, l: 4, xl: 4 })}
+            key={related.id}
+          >
             <Image
               contentUrl={related.miroUri}
-              defaultSize={100}
-              width={100}
+              defaultSize={250}
+              width={250}
               alt="foo"
               tasl={null}
             />
-          </ImageWrapper>
+          </ImageContainer>
         ))}
-      </Images>
+      </div>
     </Wrapper>
   );
 };

@@ -31,24 +31,30 @@ const Box = styled.div`
   background-color: ${({ theme }) => theme.colors.pumice};
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
-  padding: 20px;
 
   ${({ index, theme }) => theme.media.small`
     width: calc(200% + ${theme.gutter.small}px);
+    padding:  ${theme.gutter.small}px;
+    margin-bottom: ${theme.gutter.small}px;
     margin-left: ${getNegativeMargin(index, 2, theme.gutter.small)}
   `}
   ${({ index, theme }) => theme.media.medium`
     width: calc(300% + ${2 * theme.gutter.medium}px);
+    padding:  ${theme.gutter.medium}px;
+    margin-bottom: ${theme.gutter.medium}px;
     margin-left: ${getNegativeMargin(index, 3, theme.gutter.medium)}
   `}
   ${({ index, theme }) => theme.media.large`
     flex-direction: row;
     width: calc(400% + ${3 * theme.gutter.large}px);
+    padding:  ${theme.gutter.large}px;
+    margin-bottom: ${theme.gutter.large}px;
     margin-left: ${getNegativeMargin(index, 4, theme.gutter.large)}
   `}
   ${({ index, theme }) => theme.media.xlarge`
     width: calc(600% + ${5 * theme.gutter.xlarge}px);
+    padding:  ${theme.gutter.xlarge}px;
+    margin-bottom: ${theme.gutter.xlarge}px;
     margin-left: ${getNegativeMargin(index, 6, theme.gutter.xlarge)}
   `}
 `;
@@ -79,10 +85,11 @@ const Content = styled.div`
   padding: 10px 0 0 0;
   ${({ theme }) => theme.media.large`
     padding: 0 0 0 30px;
+    max-width: 50%;
   `}
 `;
 
-const JustifyToBottom = styled.div`
+const RelatedImagesWrapper = styled.div`
   display: flex;
   flex-grow: 10;
   flex-direction: column;
@@ -142,9 +149,9 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
           )}
           <p>{detailedWork && detailedWork.description}</p>
           <Button type="secondary" text="Go to work" link={workLink} />
-          <JustifyToBottom>
+          <RelatedImagesWrapper>
             <RelatedImages originalId={id} />
-          </JustifyToBottom>
+          </RelatedImagesWrapper>
         </Content>
       </Box>
     </Wrapper>
