@@ -41,7 +41,7 @@ const Button = forwardRef(
       iconPosition,
       fontFamily,
       text,
-      textHidden,
+      textHidden = false,
       trackingEvent,
       disabled,
       target,
