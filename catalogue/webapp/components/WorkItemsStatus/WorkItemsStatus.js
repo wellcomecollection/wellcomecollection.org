@@ -57,6 +57,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
       const match = action.match(/requestItem:\/works\/[a-z0-9]+\/items\/(.*)/);
       if (match && match[1]) {
         // TODO: POST to request the item
+        // TODO: abstract this out as a generic pattern that can be used else where
       }
     }
   }, []);
