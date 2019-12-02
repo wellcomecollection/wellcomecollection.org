@@ -79,7 +79,7 @@ const Button = forwardRef(
           onClick={handleClick}
           disabled={disabled}
         >
-          <span className="flex-inline flex--v-center">
+          <span className="flex flex--v-center flex--h-center">
             {icon && (!iconPosition || iconPosition === 'start') && (
               <Icon name={icon} />
             )}
@@ -105,7 +105,7 @@ const Button = forwardRef(
         disabled={disabled}
         type={url ? null : 'button'}
       >
-        <span className="flex-inline flex--v-center">
+        <span className="flex flex--v-center flex--h-center">
           {icon && (!iconPosition || iconPosition === 'start') && (
             <Icon name={icon} />
           )}
