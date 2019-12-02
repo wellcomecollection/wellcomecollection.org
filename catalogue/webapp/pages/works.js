@@ -12,7 +12,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   unfilteredApiSearchParamsSerialiser,
@@ -22,6 +22,8 @@ import {
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
+import ExpandedImage from '../components/ExpandedImage/ExpandedImage';
+import ImageCard from '../components/ImageCard/ImageCard';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks, getWorkTypeAggregations } from '../services/catalogue/works';
@@ -40,6 +42,16 @@ type Props = {|
   shouldGetWorks: boolean,
 |};
 
+const useFragmentInitialState = () => {
+  const [state, setState] = useState('');
+  useEffect(() => {
+    if (window.location.hash) {
+      setState(window.location.hash.slice(1));
+    }
+  }, []);
+  return [state, setState];
+};
+
 const Works = ({
   works,
   searchParams,
@@ -57,6 +69,7 @@ const Works = ({
     productionDatesTo,
     _queryType,
   } = searchParams;
+  const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
 
   const fetchAggregations = async () => {
     const workTypeAggregations = shouldGetWorks
@@ -90,6 +103,10 @@ const Works = ({
       Router.events.off('routeChangeComplete', routeChangeComplete);
     };
   }, []);
+
+  const resultsGrid = searchParams.imageSearch
+    ? { s: 6, m: 4, l: 3, xl: 2 }
+    : { s: 12, m: 12, l: 12, xl: 12 };
 
   if (works && works.type === 'Error') {
     return (
@@ -241,18 +258,20 @@ const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  <div
-                    className={classNames({
-                      [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
-                    })}
-                  >
-                    <OptIn />
-                  </div>
+                  {searchParams.imageSearch ? null : (
+                    <div
+                      className={classNames({
+                        [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                      })}
+                    >
+                      <OptIn />
+                    </div>
+                  )}
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
                       className={classNames({
-                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                        [grid(resultsGrid)]: true,
                       })}
                     >
                       <div
@@ -272,17 +291,47 @@ const Works = ({
                           });
                         }}
                       >
-                        <WorkCard
-                          work={result}
-                          params={{
-                            ...searchParams,
-                            id: result.id,
-                          }}
-                        />
+                        {searchParams.imageSearch ? (
+                          <>
+                            <ImageCard
+                              id={result.id}
+                              image={{
+                                contentUrl: result.thumbnail
+                                  ? result.thumbnail.url
+                                  : 'https://via.placeholder.com/1600x900?text=%20',
+                                width: 300,
+                                height: 300,
+                                alt: result.title,
+                                tasl: null,
+                              }}
+                              onClick={() => setExpandedImageId(result.id)}
+                            />
+                            {expandedImageId === result.id && (
+                              <ExpandedImage
+                                index={i}
+                                title={result.title}
+                                id={result.id}
+                                workLink={workUrl({
+                                  ...searchParams,
+                                  id: result.id,
+                                })}
+                              />
+                            )}
+                          </>
+                        ) : (
+                          <WorkCard
+                            work={result}
+                            params={{
+                              ...searchParams,
+                              id: result.id,
+                            }}
+                          />
+                        )}
                       </div>
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
-                          relevanceRating && (
+                          relevanceRating &&
+                          !searchParams.imageSearch && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
@@ -377,12 +426,21 @@ const Works = ({
   );
 };
 
+const IMAGES_LOCATION_TYPE = 'iiif-image';
+
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
-  const filters = unfilteredSearchResults
-    ? unfilteredApiSearchParamsSerialiser(params)
-    : apiSearchParamsSerialiser(params);
+
+  const serializeParams = unfilteredSearchResults
+    ? unfilteredApiSearchParamsSerialiser
+    : apiSearchParamsSerialiser;
+  const filters = serializeParams({
+    ...params,
+    itemsLocationsLocationType: params.imageSearch
+      ? [IMAGES_LOCATION_TYPE]
+      : params.itemsLocationsLocationType,
+  });
 
   const toggledFilters = {
     ...filters,
@@ -393,6 +451,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const worksOrError = shouldGetWorks
     ? await getWorks({
         filters: toggledFilters,
+        pageSize: params.imageSearch ? 24 : undefined,
       })
     : null;
   return {
