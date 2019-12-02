@@ -1,4 +1,5 @@
 // @flow
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -6,7 +7,10 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import {
+  worksUrl,
+  type WorksUrlProps,
+} from '@weco/common/services/catalogue/urls';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
 import Select from '@weco/common/views/components/Select/Select';
@@ -38,6 +42,8 @@ type Props = {|
   shouldShowFilters: boolean,
   searchParams: SearchParams,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
+  placeholder?: string,
+  url?: (searchParams: WorksUrlProps) => NextLinkType,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -75,6 +81,8 @@ const SearchForm = ({
   shouldShowFilters,
   searchParams,
   workTypeAggregations,
+  placeholder,
+  url = worksUrl,
 }: Props) => {
   const { query } = searchParams;
   const searchForm = useRef();
@@ -117,7 +125,7 @@ const SearchForm = ({
     const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
-    const link = worksUrl({
+    const link = url({
       ...searchParams,
       query: inputQuery,
       workType,
@@ -152,7 +160,7 @@ const SearchForm = ({
       <SearchInputWrapper className="relative">
         <TextInput
           label={'Search the catalogue'}
-          placeholder={'Search for books and pictures'}
+          placeholder={placeholder || 'Search for books and pictures'}
           name="query"
           value={inputQuery}
           autoFocus={inputQuery === ''}

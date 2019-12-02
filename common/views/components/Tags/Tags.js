@@ -11,7 +11,7 @@ export type TagType = {|
   linkAttributes: NextLinkType,
 |};
 
-const Tag: ComponentType<SpaceComponentProps> = styled(Space)`
+export const Tag: ComponentType<SpaceComponentProps> = styled(Space)`
   border-radius: 3px;
   text-decoration: none;
   padding: 0.2em 0.5em;
