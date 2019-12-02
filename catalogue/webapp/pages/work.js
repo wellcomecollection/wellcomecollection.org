@@ -11,7 +11,8 @@ import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getEncoreLink,
-  getItemAtLocation,
+  getLocationOfType,
+  getItemIdentifiersWith,
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
@@ -31,6 +32,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
+import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -97,24 +99,35 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
-  const sierraIds = work.identifiers.filter(
-    i => i.identifierType.id === 'sierra-system-number'
+  const physicalSierraIds = getItemIdentifiersWith(
+    work,
+    {
+      identifierId: 'sierra-system-number',
+      locationType: 'PhysicalLocation',
+    },
+    'sierra-system-number'
   );
 
-  // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
-  // will be for a physical item.
-  const physicalSierraId = (
-    sierraIds.find(i => i.value !== sierraIdFromPresentationManifestUrl) || {}
-  ).value;
+  const physicalSierraId =
+    physicalSierraIds.length >= 1 ? physicalSierraIds[0] : null;
 
   // We strip the last character as that's what Wellcome library expect
+
   const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
 
-  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
+
+  const digitalLocation: ?DigitalLocation =
+    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
+      ? iiifImageLocation
+      : null;
+
+  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
+
   const imageContentUrl =
-    iiifImageLocationUrl &&
-    iiifImageTemplate(iiifImageLocation.url)({ size: `800,` });
+    digitalLocation && digitalLocation.url
+      ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
+      : null;
 
   return (
     <CataloguePageLayout

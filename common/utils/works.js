@@ -8,14 +8,6 @@ import {
 } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
-export function getPhysicalLocations(work: Work) {
-  return work.items
-    .map(item =>
-      item.locations.filter(location => location.type === 'PhysicalLocation')
-    )
-    .reduce((acc, locations) => acc.concat(locations), []);
-}
-
 export function getIIIFMetadata(
   iiifManifest: IIIFManifest,
   label: string
@@ -213,13 +205,12 @@ export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-type LocationLocationType = {|
+type LocationType = {|
   id: string,
   label: string,
   type: 'LocationType',
 |};
-type LocationType = 'PhysicalLocation' | 'DigitalLocation';
-type Item = {|
+export type DigitalLocation = {|
   credit: string,
   license: {|
     id: string,
@@ -227,17 +218,19 @@ type Item = {|
     url: string,
     type: 'License',
   |},
-  locationType: LocationLocationType,
-  type: LocationType,
+  locationType: LocationType,
+  type: 'DigitalLocation',
   url: string,
 |};
-type Location = {|
-  locationType: LocationLocationType,
+export type PhysicalLocation = {|
+  locationType: LocationType,
   label: string,
-  type: LocationType,
+  type: 'PhysicalLocation',
 |};
+type Location = PhysicalLocation | DigitalLocation;
+type Item = Object;
 
-export function getItemAtLocation(work: Work, locationType: string): Item {
+export function getLocationOfType(work: Work, locationType: string): ?Location {
   const [item] = work.items
     .map(item =>
       item.locations.find(location => location.locationType.id === locationType)
@@ -246,16 +239,54 @@ export function getItemAtLocation(work: Work, locationType: string): Item {
   return item;
 }
 
-export function getItemLocationsOfType(
+function itemIdentifierWithId(item: Item, id: string): boolean {
+  const matchedIdentifiers = item.identifiers.filter(
+    identifier => identifier.identifierType.id === id
+  );
+
+  return matchedIdentifiers.length >= 1;
+}
+
+function itemLocationWithType(item: Item, locationType: string): boolean {
+  const matchedIdentifiers = item.locations.filter(
+    location => location.type === locationType
+  );
+
+  return matchedIdentifiers.length >= 1;
+}
+
+type ItemProps = {|
+  identifierId: string,
+  locationType: string,
+|};
+
+export function getItemsWith(
   work: Work,
-  locationType: LocationType
-): Location[] {
-  const locations =
-    work.items &&
-    work.items
-      .map(item => {
-        return item.locations.find(location => location.type === locationType);
-      })
-      .filter(Boolean);
-  return locations || [];
+  { identifierId, locationType }: ItemProps
+): Item[] {
+  return work.items
+    .filter(item => itemIdentifierWithId(item, identifierId))
+    .filter(item => itemLocationWithType(item, locationType));
+}
+
+export function getItemIdentifiersWith(
+  work: Work,
+  { identifierId, locationType }: ItemProps,
+  identifierType: string
+) {
+  const items: Item[] = getItemsWith(work, { identifierId, locationType });
+
+  return items.reduce((acc: string[], item: Item) => {
+    const matching = item.identifiers.find(
+      identifier => identifier.identifierType.id === identifierType
+    );
+
+    const matchingValue = matching && matching.value;
+
+    if (matchingValue) {
+      acc.push(matchingValue);
+    }
+
+    return acc;
+  }, []);
 }

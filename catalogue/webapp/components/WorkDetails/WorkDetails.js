@@ -7,7 +7,7 @@ import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
   getDownloadOptionsFromImageUrl,
-  getItemAtLocation,
+  getLocationOfType,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -31,6 +31,7 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
+import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Work = Object;
 
@@ -56,8 +57,15 @@ const WorkDetails = ({
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
   const params = clientSideSearchParams();
-  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+
+  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
+
+  const digitalLocation: ?DigitalLocation =
+    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
+      ? iiifImageLocation
+      : null;
+
+  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
@@ -281,18 +289,20 @@ const WorkDetails = ({
         {(encoreLink || iiifPresentationRepository) && (
           <WorkDetailsSection headingText="Where to find it">
             <TogglesContext.Consumer>
-              {({ stacksRequestService }) => (
-                <>
-                  <div className={`${font('hnl', 5)}`}>
-                    <h3 className={`${font('hnm', 5)} no-margin`}>
-                      In the library
-                    </h3>
+              {({ stacksRequestService }) =>
+                stacksRequestService && (
+                  <>
                     <div className={`${font('hnl', 5)}`}>
-                      <WorkItemsStatus work={work} />
+                      <h3 className={`${font('hnm', 5)} no-margin`}>
+                        In the library
+                      </h3>
+                      <div className={`${font('hnl', 5)}`}>
+                        <WorkItemsStatus work={work} />
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )
+              }
             </TogglesContext.Consumer>
 
             <WorkDetailsText
