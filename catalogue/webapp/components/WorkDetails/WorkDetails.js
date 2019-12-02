@@ -23,12 +23,14 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
+import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 
 type Work = Object;
 
@@ -278,8 +280,23 @@ const WorkDetails = ({
         {/* TODO: Make this make more sense */}
         {(encoreLink || iiifPresentationRepository) && (
           <WorkDetailsSection headingText="Where to find it">
+            <TogglesContext.Consumer>
+              {({ stacksRequestService }) => (
+                <>
+                  <div className={`${font('hnl', 5)}`}>
+                    <h3 className={`${font('hnm', 5)} no-margin`}>
+                      In the library
+                    </h3>
+                    <div className={`${font('hnl', 5)}`}>
+                      <WorkItemsStatus work={work} />
+                    </div>
+                  </div>
+                </>
+              )}
+            </TogglesContext.Consumer>
+
             <WorkDetailsText
-              title={null}
+              title={'Online'}
               text={[
                 encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
 

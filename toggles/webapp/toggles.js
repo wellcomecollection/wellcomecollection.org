@@ -63,5 +63,11 @@ module.exports = {
       description:
         'Enables a separate page that performs image-only search with a different UI',
     },
+    {
+      id: 'stacksRequestService',
+      title: 'Items status and requesting',
+      defaultValue: false,
+      description: 'Get the status of items and request them from the stacks',
+    },
   ],
 };
