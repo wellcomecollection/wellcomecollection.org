@@ -69,21 +69,12 @@ const TopBar = styled.div`
   button {
     overflow: hidden;
     display: inline-block;
-    .icon {
-      margin: 0;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        margin-right: ${props => `${props.theme.spacingUnit}px`};
-      }
-    }
     .btn__text {
       position: absolute;
       right: 100%;
       @media (min-width: ${props => props.theme.sizes.large}px) {
         position: static;
       }
-    }
-    @media (min-width: ${props => props.theme.sizes.large}px) {
-      width: 130px;
     }
   }
 `;
@@ -109,9 +100,6 @@ const TitleContainer = styled.div.attrs(props => ({
   height: 64px;
   width: 85%;
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
-  .icon {
-    width: 48px; /* TODO */
-  }
 `;
 
 const IIIFViewerBackground = styled.div`
@@ -564,6 +552,7 @@ const IIIFViewerComponent = ({
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   const parentManifestUrl = manifest && manifest.within;
   const params = clientSideSearchParams();
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     setShowThumbs(Router.query.isOverview);
@@ -647,7 +636,21 @@ const IIIFViewerComponent = ({
               ''}`}</>
           )}
           {enhanced && (
-            <div>
+            <div className="flex flex--v-center">
+              <Button
+                extraClasses={classNames({
+                  relative: true,
+                  'btn--primary-black': true,
+                })}
+                icon="rotatePageRight"
+                iconPosition="end"
+                fontFamily="hnl"
+                text="Rotate"
+                textHidden={true}
+                clickHandler={() => {
+                  setRotation(rotation < 270 ? rotation + 90 : 0);
+                }}
+              />
               <Download
                 title={title}
                 workId={workId}
@@ -809,7 +812,7 @@ const IIIFViewerComponent = ({
         }
         {/* enhanced javascript viewer */}
         {enhanced && (
-          <IIIFViewer>
+          <IIIFViewer rotation={rotation}>
             <IIIFViewerMain fullWidth={true} aria-live="polite">
               <IIIFViewerImageWrapper aria-hidden={showThumbs}>
                 {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
@@ -822,9 +825,9 @@ const IIIFViewerComponent = ({
                     alt={
                       (work && work.description) || (work && work.title) || ''
                     }
-                    tabbableControls={!showThumbs || !thumbnailsRequired}
                     urlTemplate={urlTemplate}
                     presentationOnly={Boolean(canvasOcr)}
+                    rotation={rotation}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
@@ -839,9 +842,9 @@ const IIIFViewerComponent = ({
                         ? `image from ${work && work.title}`
                         : ''
                     }
-                    tabbableControls={!showThumbs || !thumbnailsRequired}
                     urlTemplate={urlTemplate}
                     presentationOnly={Boolean(canvasOcr)}
+                    rotation={rotation}
                   />
                 )}
               </IIIFViewerImageWrapper>
