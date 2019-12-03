@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { font } from '../../../utils/classnames';
 
-type Props<T: { toString: () => void }> = {|
+type Props<T> = {|
   name: string,
   selected: ?T,
   onChange: (value: T) => void,
@@ -13,8 +13,6 @@ type Props<T: { toString: () => void }> = {|
   |}>,
   className?: string,
 |};
-
-const Wrapper = styled.div``;
 
 const FieldWrapper = styled.span`
   display: inline-flex;
@@ -32,9 +30,10 @@ const RadioInput = styled.input.attrs({ type: 'radio' })`
   display: inline-block;
   position: relative;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   border: 2px solid ${({ theme }) => theme.colors.pumice};
+  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -49,12 +48,9 @@ const RadioInput = styled.input.attrs({ type: 'radio' })`
     height: 13px;
     top: 50%;
     left: 50%;
-    // This scale needs to be here because the width/height should be 14px
-    // However, when it's an even number, a bug in Chrome's subpixel rendering means that
-    // the element does not display as a perfect circle.
-    transform: translate(-50%, -50%) scale(1.077);
+    transform: translate(-50%, -50%);
     border-radius: 50%;
-    background-color: ${({ theme }) => theme.colors.teal};
+    background-color: ${({ theme }) => theme.colors.green};
   }
 `;
 
@@ -62,18 +58,19 @@ const Label = styled.label`
   color: ${({ theme, active }) =>
     active ? theme.colors.black : theme.colors.pewter};
   margin-left: 6px;
+  cursor: pointer;
 `;
 
-const RadioGroup = <T>({
+const RadioGroup = <+T>({
   name,
   selected,
   onChange,
   options,
   className,
 }: Props<T>) => (
-  <Wrapper className={className}>
+  <div className={className}>
     {options.map(({ value, label }) => (
-      <FieldWrapper key={value.toString()}>
+      <FieldWrapper key={String(value)}>
         <RadioInput
           id={value}
           name={name}
@@ -83,14 +80,14 @@ const RadioGroup = <T>({
         />
         <Label
           className={font('hnl', 5)}
-          for={value}
+          htmlFor={value}
           active={selected === value}
         >
           {label}
         </Label>
       </FieldWrapper>
     ))}
-  </Wrapper>
+  </div>
 );
 
 export default RadioGroup;

@@ -1,5 +1,6 @@
 // @flow
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -21,7 +22,8 @@ function inputValue(input: ?HTMLElement): ?string {
   if (
     input &&
     (input instanceof window.HTMLInputElement ||
-      input instanceof window.HTMLSelectElement)
+      input instanceof window.HTMLSelectElement ||
+      input instanceof window.RadioNodeList)
   ) {
     return input.value;
   }
@@ -75,6 +77,10 @@ const ClearSearch = styled.button`
   right: 12px;
 `;
 
+const SearchTypeRadioGroup = styled(RadioGroup)`
+  margin-top: 30px;
+`;
+
 const SearchForm = ({
   ariaDescribedBy,
   compact,
@@ -113,6 +119,7 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(form: HTMLFormElement) {
+    console.log(form);
     const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
     const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
       selectedWorkType => selectedWorkType.checked
@@ -125,6 +132,7 @@ const SearchForm = ({
     const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
+    const imageSearch = inputValue(form['searchType']) === 'imageSearch';
     const link = url({
       ...searchParams,
       query: inputQuery,
@@ -134,6 +142,7 @@ const SearchForm = ({
       productionDatesTo: inputValue(form['production.dates.to']),
       sortOrder,
       sort,
+      imageSearch,
     });
     return Router.push(link.href, link.as);
   }
@@ -196,6 +205,25 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
+          <SearchTypeRadioGroup
+            name="searchType"
+            selected={
+              searchParams.imageSearch ? 'imageSearch' : 'allCollectionSearch'
+            }
+            onChange={() => {
+              searchForm.current && updateUrl(searchForm.current);
+            }}
+            options={[
+              {
+                value: 'allCollectionSearch',
+                label: 'All collection',
+              },
+              {
+                value: 'imageSearch',
+                label: 'Images only',
+              },
+            ]}
+          />
           <FilterDrawerRefine
             searchForm={searchForm}
             searchParams={searchParams}
