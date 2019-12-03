@@ -92,6 +92,9 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
             },
           ],
         });
+        osdViewer.addOnceHandler('tile-loaded', _ => {
+          doZoomIn(osdViewer);
+        });
         setViewer(osdViewer);
       })
       .catch(error => {
