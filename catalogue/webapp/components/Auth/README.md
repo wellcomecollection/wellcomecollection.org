@@ -6,6 +6,8 @@ The `Auth` component has a piece of state called `authState` that can be set to 
 
 We run `useEffect` with `authState` as a dependency and perform different operations depending on what `authState` has been set to at that point.
 
+We use the [OAuth authorisation code grant](https://aws.amazon.com/blogs/mobile/understanding-amazon-cognito-user-pool-oauth-2-0-grants/) flow to handle authorisation and determine the value of `authState`.
+
 1. If it’s `loggedOut`, then we set:
    - A `codeVerifier` – which is a base64-encoded random string – and put this in `localStorage`.
    - A `codeChallenge`, which is hashed, base64-encoded version of the `codeVerifier`. This becomes part of the `loginUrl` we create.
