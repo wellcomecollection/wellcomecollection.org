@@ -101,7 +101,7 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  width: 85%;
+  width: ${props => (props.isEnhanced ? '85%' : '100%')};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
 `;
 
@@ -592,8 +592,8 @@ const IIIFViewerComponent = ({
   return (
     <>
       <TopBar className="flex">
-        <ViewAllContainer>
-          {canvases && canvases.length > 1 && (
+        {enhanced && canvases && canvases.length > 1 && (
+          <ViewAllContainer>
             <Button
               extraClasses="btn--primary-black"
               icon={showThumbs ? 'detailView' : 'gridView'}
@@ -614,9 +614,9 @@ const IIIFViewerComponent = ({
               }}
               ref={viewToggleRef}
             />
-          )}
-        </ViewAllContainer>
-        <TitleContainer>
+          </ViewAllContainer>
+        )}
+        <TitleContainer isEnhanced={enhanced}>
           <div className="title">
             <span className="part">{currentManifestLabel}</span>
             <NextLink {...workUrl({ ...params, id: workId })}>
