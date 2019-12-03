@@ -13,7 +13,7 @@ import {
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
@@ -25,15 +25,13 @@ import {
 import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import LL from '@weco/common/views/components/styled/LL';
 import { trackEvent } from '@weco/common/utils/ga';
-import Download from '@weco/catalogue/components/Download/ViewerDownload';
-import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import Space, { type SpaceComponentProps } from '../styled/Space';
+import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 import IIIFCanvasThumbnail from './parts/IIIFCanvasThumbnail';
 import NoScriptViewer, {
   IIIFViewerPaginatorButtons,
@@ -41,78 +39,6 @@ import NoScriptViewer, {
 } from './parts/NoScriptViewer';
 
 export const headerHeight = 149;
-
-const TopBar = styled.div`
-  position: relative;
-  z-index: 2;
-  background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
-  color: ${props => props.theme.colors.white};
-  .title {
-    max-width: 30%;
-    .icon {
-      width: 48px;
-    }
-  }
-  h1 {
-    margin: 0;
-  }
-  .part {
-    max-width: 100%;
-    display: block;
-    @media (min-width: ${props => props.theme.sizes.large}px) {
-      display: none;
-    }
-  }
-  .plain-link {
-    max-width: 100%;
-  }
-  .icon__shape {
-    fill: currentColor;
-  }
-  button {
-    overflow: hidden;
-    display: inline-block;
-    .icon {
-      margin: 0;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        margin-right: ${props => `${props.theme.spacingUnit}px`};
-      }
-    }
-    .btn__text {
-      position: absolute;
-      right: 100%;
-      @media (min-width: ${props => props.theme.sizes.large}px) {
-        position: static;
-      }
-    }
-    @media (min-width: ${props => props.theme.sizes.large}px) {
-      width: 130px;
-    }
-  }
-`;
-
-const ViewAllContainer = styled.div.attrs(props => ({
-  className: classNames({
-    'flex flex--v-center flex--h-center': true,
-  }),
-}))`
-  height: 64px;
-  width: 15%;
-  border-right: 1px solid
-    ${props => lighten(0.1, props.theme.colors.viewerBlack)};
-`;
-
-const TitleContainer = styled.div.attrs(props => ({
-  className: classNames({
-    'flex flex--v-center': true,
-    [font('hnl', 5)]: true,
-  }),
-}))`
-  justify-content: space-between;
-  height: 64px;
-  width: ${props => (props.isEnhanced ? '85%' : '100%')};
-  padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
-`;
 
 const IIIFViewerBackground = styled.div`
   position: relative;
@@ -395,106 +321,29 @@ const IIIFViewerComponent = ({
 
   return (
     <>
-      <TopBar className="flex">
-        {enhanced && canvases && canvases.length > 1 && (
-          <ViewAllContainer>
-            <Button
-              extraClasses="btn--primary-black"
-              icon={showThumbs ? 'detailView' : 'gridView'}
-              text={showThumbs ? 'Detail view' : 'View all'}
-              fontFamily="hnl"
-              clickHandler={() => {
-                activeThumbnailRef &&
-                  activeThumbnailRef.current &&
-                  activeThumbnailRef.current.focus();
-                setShowThumbs(!showThumbs);
-                trackEvent({
-                  category: 'Control',
-                  action: `clicked work viewer ${
-                    showThumbs ? '"Detail view"' : '"View all"'
-                  } button`,
-                  label: `${workId}`,
-                });
-              }}
-              ref={viewToggleRef}
-            />
-          </ViewAllContainer>
-        )}
-        <TitleContainer
-          isEnhanced={enhanced && canvases && canvases.length > 1}
-        >
-          <div className="title">
-            <span className="part">{currentManifestLabel}</span>
-            <NextLink {...workUrl({ ...params, id: workId })}>
-              <a
-                className={classNames({
-                  [font('hnm', 5)]: true,
-                  flex: true,
-                  'flex-v-center': true,
-                  'plain-link': true,
-                  'font-hover-yellow': true,
-                })}
-              >
-                <Icon name="chevron" extraClasses="icon--90 icon--white" />
-                <TruncatedText as="h1">{title}</TruncatedText>
-              </a>
-            </NextLink>
-          </div>
-          {canvases && canvases.length > 1 && (
-            <>{`${canvasIndex + 1 || ''} / ${(canvases && canvases.length) ||
-              ''}`}</>
-          )}
-          {enhanced && (
-            <div className="flex flex--v-center">
-              <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                <Download
-                  title={title}
-                  workId={workId}
-                  licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
-                  iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-                  iiifImageLocationCredit={iiifImageLocationCredit}
-                  downloadOptions={
-                    downloadOptions || iiifPresentationDownloadOptions
-                  }
-                />
-              </Space>
-              {parentManifest && parentManifest.manifests && (
-                <ViewerExtraContent
-                  buttonText={currentManifestLabel || 'Choose'}
-                >
-                  <ul className="no-margin no-padding plain-list">
-                    {parentManifest.manifests.map((manifest, i) => (
-                      <li
-                        key={manifest['@id']}
-                        className={
-                          manifest.label === currentManifestLabel
-                            ? 'current'
-                            : null
-                        }
-                      >
-                        <NextLink
-                          {...itemUrl({
-                            ...params,
-                            workId,
-                            page: 1,
-                            sierraId: (manifest['@id'].match(
-                              /iiif\/(.*)\/manifest/
-                            ) || [])[1],
-                            langCode: lang,
-                            canvas: 0,
-                          })}
-                        >
-                          <a>{manifest.label}</a>
-                        </NextLink>
-                      </li>
-                    ))}
-                  </ul>
-                </ViewerExtraContent>
-              )}
-            </div>
-          )}
-        </TitleContainer>
-      </TopBar>
+           <ViewerTopBar
+        canvases={canvases}
+        enhanced={enhanced}
+        showThumbs={showThumbs}
+        setShowThumbs={setShowThumbs}
+        activeThumbnailRef={activeThumbnailRef}
+        workId={workId}
+        viewToggleRef={viewToggleRef}
+        currentManifestLabel={currentManifestLabel}
+        params={params}
+        canvasIndex={canvasIndex}
+        rotation={rotation}
+        setRotation={setRotation}
+        title={title}
+        licenseInfo={licenseInfo}
+        iiifPresentationLicenseInfo={iiifPresentationLicenseInfo}
+        iiifImageLocationCredit={iiifImageLocationCredit}
+        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+        downloadOptions={downloadOptions}
+        iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
+        parentManifest={parentManifest}
+        lang={lang}
+      />
       <IIIFViewerBackground>
         <LL lighten={true} />
         <NoScriptViewer
