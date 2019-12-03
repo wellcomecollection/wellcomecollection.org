@@ -9,7 +9,6 @@ import {
   getEncoreLink,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
-  getItemIdentifiersWith,
   getWorkIdentifiersWith,
   getIIIFPresentationLocation,
 } from '@weco/common/utils/works';
@@ -109,18 +108,6 @@ const WorkDetails = ({
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
-
-  const physicalSierraIds = getItemIdentifiersWith(
-    work,
-    {
-      identifierId: 'sierra-system-number',
-      locationType: 'PhysicalLocation',
-    },
-    'sierra-system-number'
-  );
-
-  const physicalSierraId =
-    physicalSierraIds.length >= 1 ? physicalSierraIds[0] : null;
 
   const sierraWorkIds = getWorkIdentifiersWith(work, {
     identifierId: 'sierra-system-number',

@@ -6,8 +6,6 @@ import uuidv4 from 'uuid/v4';
 import crypto from 'crypto-browserify';
 import base64url from 'base64url';
 
-type AuthState = 'loggedOut' | 'authorising' | 'loggedIn' | 'expired';
-
 const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
@@ -18,13 +16,6 @@ const authParams = {
 function getFromLocalStorage(key: string) {
   return window.localStorage.getItem(key);
 }
-
-const authStates = {
-  loggedOut: 'loggedOut',
-  authorising: 'authorising',
-  loggedIn: 'loggedIn',
-  expired: 'expired',
-};
 
 function getLocalStorageJson(key: string) {
   try {
@@ -90,19 +81,42 @@ type Token = {
   token_type: string,
 };
 
+const authStates = {
+  unauthorized: 'unauthorized',
+  authorizing: 'authorizing',
+  authorized: 'authorized',
+  expired: 'expired',
+};
+
+type Unauthorized = {|
+  type: 'unauthorized',
+  loginUrl: string,
+|};
+
+type Authorizing = {|
+  type: 'authorizing',
+|};
+
+type Authorized = {|
+  type: 'authorized',
+  token: Token,
+|};
+
+type Expired = {|
+  type: 'expired',
+|};
+
+type State = Unauthorized | Authorizing | Authorized | Expired;
+
+type RenderProps = {|
+  state: State,
+|};
 type Props = {|
-  render: ({|
-    authState: AuthState,
-    loginUrl: string,
-    token: ?Token,
-  |}) => Node,
+  render: (props: RenderProps) => Node,
 |};
 
 const Auth = ({ render }: Props) => {
-  const [authState, setAuthState] = useState<?AuthState>(null);
-  const [token, setToken] = useState<?Token>(null);
-  const [loginUrl, setLoginUrl] = useState<?string>(null);
-  const [verifier, setVerifier] = useState<?string>(null);
+  const [state, setState] = useState<?State>(null);
 
   // Get the inital state
   useEffect(() => {
@@ -110,24 +124,22 @@ const Auth = ({ render }: Props) => {
     const code = Router.query.code;
 
     if (token) {
-      setAuthState(authStates.loggedIn);
-      const token = getLocalStorageJson('auth.token');
-      if (token) {
-        setToken(token);
-      }
+      setState(
+        ({
+          type: authStates.authorized,
+          token: token,
+        }: Authorized)
+      );
     } else if (code) {
-      setAuthState(authStates.authorising);
+      setState(({ type: authStates.authorizing }: Authorizing));
       const code = Router.query.code;
       if (code) {
         authorise(code);
       }
     } else {
-      setAuthState(authStates.loggedOut);
-
       const { verifier, loginUrl } = createLoginUrlWithVerifier();
-      setVerifier(verifier);
-      setLoginUrl(loginUrl);
       window.localStorage.setItem('auth.verifier', verifier);
+      setState(({ type: authStates.unauthorized, loginUrl }: Unauthorized));
     }
   }, []);
 
@@ -135,21 +147,20 @@ const Auth = ({ render }: Props) => {
     const verifier = window.localStorage.getItem('auth.verifier');
     const token = await getToken(code, verifier);
 
-    // Side effects
     window.localStorage.setItem('auth.token', JSON.stringify(token));
-    setAuthState(authStates.loggedIn);
-
-    Router.replace({
+    setState({ type: authStates.authorized, token });
+    const link = {
       pathname: Router.asPath.split('?')[0],
       // TODO: This is very app specific, but it's an absolute pain to try and get this to work
       // The side effect is that it removes the rest of the URL params if there are any
       query: {
         action: Router.query.action,
       },
-    });
+    };
+    Router.replace(link, link, { shallow: true });
   }
 
-  return authState ? render({ authState, loginUrl, token }) : null;
+  return state ? render({ state }) : null;
 };
 
 export default Auth;

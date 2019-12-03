@@ -1,6 +1,4 @@
 // @flow
-import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
 import { useEffect, useState, Fragment } from 'react';
 import { type Work } from '@weco/common/model/work';
 import Space from '@weco/common/views/components/styled/Space';
@@ -47,12 +45,12 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     >
       <div className={`${font('hnm', 5)}`}>
         <Auth
-          render={({ authState, loginUrl, token }) => {
+          render={({ state }) => {
             return (
               <>
-                {authState === 'loggedOut' && (
+                {state.type === 'unauthorized' && (
                   <a
-                    href={loginUrl}
+                    href={state.loginUrl}
                     onClick={event => {
                       setRedirectCookie(workId, item.id);
                     }}
@@ -60,19 +58,23 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
                     Login to request and view in the library
                   </a>
                 )}
-                {authState === 'loggedIn' && token && (
+                {state.type === 'authorized' && (
+                  // TODO: Make this a button
                   <a
-                    href={loginUrl}
+                    href={'#'}
                     onClick={event => {
                       event.preventDefault();
-                      requestItem({ itemId: item.id, token: token.id_token });
+                      requestItem({
+                        itemId: item.id,
+                        token: state.token.id_token,
+                      });
                       return false;
                     }}
                   >
                     Request to view in the library
                   </a>
                 )}
-                {authState === 'authorising' && 'Authorising…'}
+                {state.type === 'authorising' && 'Authorising…'}
               </>
             );
           }}
@@ -108,8 +110,10 @@ const WorkItemsStatus = ({ work }: Props) => {
 
   return (
     <Auth
-      render={({ authState, loginUrl, token }) => {
-        setAuthorised(authState === 'loggedIn' ? token.id_token : null);
+      render={({ state }) => {
+        setAuthorised(
+          state.type === 'authorized' ? state.token.id_token : null
+        );
 
         const itemIds =
           (userHolds &&
