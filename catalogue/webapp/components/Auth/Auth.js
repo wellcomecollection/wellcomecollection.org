@@ -35,9 +35,9 @@ function getLocalStorageJson(key: string) {
 }
 
 function getRedirectUrl() {
-  return `${window.location.href.split('/')[0]}//${
-    window.location.href.split('/')[2]
-  }/works/auth-code`;
+    return `${window.location.href.split('/')[0]}//${
+      window.location.href.split('/')[2]
+    }/works/auth-code`;
 }
 
 async function getToken(code: string, verifier: string) {

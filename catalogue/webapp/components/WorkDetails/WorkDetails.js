@@ -6,8 +6,12 @@ import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
+  getEncoreLink,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
+  getItemIdentifiersWith,
+  getWorkIdentifiersWith,
+  getIIIFPresentationLocation,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -37,19 +41,15 @@ type Work = Object;
 
 type Props = {|
   work: Work,
-  sierraId: ?string,
-  iiifPresentationManifest: ?IIIFManifest,
-  encoreLink: ?string,
-  childManifestsCount?: number,
-  showImagesWithSimilarPalette?: boolean,
-  showAdditionalCatalogueData?: boolean,
+    iiifPresentationManifest: ?IIIFManifest,
+      childManifestsCount ?: number,
+      showImagesWithSimilarPalette ?: boolean,
+      showAdditionalCatalogueData ?: boolean,
 |};
 
 const WorkDetails = ({
   work,
-  sierraId,
   iiifPresentationManifest,
-  encoreLink,
   childManifestsCount,
   showImagesWithSimilarPalette,
   showAdditionalCatalogueData,
@@ -104,6 +104,39 @@ const WorkDetails = ({
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const physicalSierraIds = getItemIdentifiersWith(
+    work,
+    {
+      identifierId: 'sierra-system-number',
+      locationType: 'PhysicalLocation',
+    },
+    'sierra-system-number'
+  );
+
+  const physicalSierraId =
+    physicalSierraIds.length >= 1 ? physicalSierraIds[0] : null;
+
+  const sierraWorkIds = getWorkIdentifiersWith(
+    work,
+    {
+      identifierId: 'sierra-system-number',
+    }
+  );
+
+  const sierraWorkId =
+    sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
+
+  // We do not wish to display a link to the old library site if the new site
+  // provides a digital representation of that work
+  const shouldDisplayEncoreLink = !(sierraIdFromPresentationManifestUrl === sierraWorkId)
+  const encoreLink = shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId)
+
   return (
     <Space
       v={{
@@ -147,7 +180,7 @@ const WorkDetails = ({
         )}
 
         {!(allDownloadOptions.length > 0) &&
-          sierraId &&
+          sierraIdFromPresentationManifestUrl &&
           childManifestsCount === 0 && (
             <>
               <SpacingSection>
@@ -169,7 +202,7 @@ const WorkDetails = ({
                     <NextLink
                       {...downloadUrl({
                         workId: work.id,
-                        sierraId: sierraId,
+                        sierraId: sierraIdFromPresentationManifestUrl,
                       })}
                     >
                       <a>Download options</a>
@@ -286,38 +319,38 @@ const WorkDetails = ({
         )}
 
         {/* TODO: Make this make more sense */}
-        {(encoreLink || iiifPresentationRepository) && (
-          <WorkDetailsSection headingText="Where to find it">
-            <TogglesContext.Consumer>
-              {({ stacksRequestService }) =>
-                stacksRequestService && (
-                  <>
+        <TogglesContext.Consumer>
+          {({ stacksRequestService }) => (stacksRequestService || encoreLink || iiifPresentationRepository) && (
+            <WorkDetailsSection headingText="Where to find it">
+
+              { stacksRequestService && (
+                  <div className={`${font('hnl', 5)}`}>
+                    <h3 className={`${font('hnm', 5)} no-margin`}>
+                      In the library
+                          </h3>
                     <div className={`${font('hnl', 5)}`}>
-                      <h3 className={`${font('hnm', 5)} no-margin`}>
-                        In the library
-                      </h3>
-                      <div className={`${font('hnl', 5)}`}>
-                        <WorkItemsStatus work={work} />
-                      </div>
+                      <WorkItemsStatus work={work} />
                     </div>
-                  </>
-                )
-              }
-            </TogglesContext.Consumer>
+                  </div>
+              )}
 
-            <WorkDetailsText
-              title={'Online'}
-              text={[
-                encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
+              { (encoreLink || iiifPresentationRepository) && (
+                <WorkDetailsText
+                  title={'Online'}
+                  text={[
+                    encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
 
-                iiifPresentationRepository &&
-                  iiifPresentationRepository.value
-                    .replace(/<img[^>]*>/g, '')
-                    .replace(/<br\s*\/?>/g, ''),
-              ].filter(Boolean)}
-            />
-          </WorkDetailsSection>
-        )}
+                    iiifPresentationRepository &&
+                    iiifPresentationRepository.value
+                      .replace(/<img[^>]*>/g, '')
+                      .replace(/<br\s*\/?>/g, ''),
+                  ].filter(Boolean)}
+                />
+              )}
+
+            </WorkDetailsSection>
+          )}
+        </TogglesContext.Consumer>
 
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
@@ -351,15 +384,15 @@ const WorkDetails = ({
                 text={[
                   `${work.title.replace(/\.$/g, '')}.${' '}
               ${
-                credit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                  : ` `
-              }
+                  credit
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                    : ` `
+                  }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
-              }`,
+                  licenseInfo.url
+                    ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                    : licenseInfo.text
+                  }`,
                 ]}
               />
             </div>

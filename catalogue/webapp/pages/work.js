@@ -99,22 +99,6 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
-  const physicalSierraIds = getItemIdentifiersWith(
-    work,
-    {
-      identifierId: 'sierra-system-number',
-      locationType: 'PhysicalLocation',
-    },
-    'sierra-system-number'
-  );
-
-  const physicalSierraId =
-    physicalSierraIds.length >= 1 ? physicalSierraIds[0] : null;
-
-  // We strip the last character as that's what Wellcome library expect
-
-  const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
-
   const iiifImageLocation = getLocationOfType(work, 'iiif-image');
 
   const digitalLocation: ?DigitalLocation =
@@ -248,9 +232,7 @@ export const WorkPage = ({ work }: Props) => {
             showImagesWithSimilarPalette={showImagesWithSimilarPalette}
             showAdditionalCatalogueData={showAdditionalCatalogueData}
             work={work}
-            sierraId={sierraIdFromPresentationManifestUrl}
             iiifPresentationManifest={iiifPresentationManifest}
-            encoreLink={encoreLink}
             childManifestsCount={childManifestsCount}
           />
         )}

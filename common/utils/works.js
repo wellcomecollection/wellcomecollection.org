@@ -269,6 +269,20 @@ export function getItemsWith(
     .filter(item => itemLocationWithType(item, locationType));
 }
 
+type WorkProps = {|
+  identifierId: string,
+|};
+
+export function getWorkIdentifiersWith(
+  work: Work,
+  { identifierId }: WorkProps
+) {
+  return work.identifiers.reduce(
+    (acc, identifier) => {
+      return identifier.identifierType.id === identifierId ? acc.concat(identifier.value) : acc
+    }, []);
+}
+
 export function getItemIdentifiersWith(
   work: Work,
   { identifierId, locationType }: ItemProps,

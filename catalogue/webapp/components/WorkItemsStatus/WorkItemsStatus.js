@@ -6,6 +6,10 @@ import { type Work } from '@weco/common/model/work';
 import Space from '@weco/common/views/components/styled/Space';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
+
+import { getStacksWork } from '../../services/stacks/items';
+import { requestItem, getUserHolds } from '../../services/stacks/requests';
+
 import Auth from '../Auth/Auth';
 
 type Props = {| work: Work |};
@@ -24,6 +28,7 @@ type PhysicalLocations = {|
 
 type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
 const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
+  
   function setRedirectCookie(workId: string, itemId: string) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('action', `requestItem:/works/${workId}/items/${item.id}`);
@@ -31,36 +36,6 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     const url = `${window.location.pathname}?${searchParams.toString()}`;
     document.cookie = `WC_auth_redirect=${url}; path=/`;
   }
-
-  async function requestItem(token: string) {
-    const request = await fetch(
-      `https://api.wellcomecollection.org/stacks/v1/requests`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({ itemId: item.id }),
-      }
-    ).then(r => {
-      if (r.status === 200) return r.json();
-      console.error('invalid /requests');
-    });
-
-    return request;
-  }
-
-  useEffect(() => {
-    const action = Router.query.action;
-    if (action.startsWith('requestItem:')) {
-      const match = action.match(/requestItem:\/works\/[a-z0-9]+\/items\/(.*)/);
-      if (match && match[1]) {
-        // TODO: POST to request the item
-        // TODO: abstract this out as a generic pattern that can be used else where
-      }
-    }
-  }, []);
 
   return (
     <Tag
@@ -74,6 +49,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
       <div className={`${font('hnm', 5)}`}>
         <Auth
           render={({ authState, loginUrl, token }) => {
+
             return (
               <>
                 {authState === 'loggedOut' && (
@@ -91,7 +67,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
                     href={loginUrl}
                     onClick={event => {
                       event.preventDefault();
-                      requestItem(token.id_token);
+                      requestItem({itemId: 'nope', token: token.id_token});
                       return false;
                     }}
                   >
@@ -108,38 +84,30 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
   );
 };
 
-const WorkItemsRequest = ({ work }: Props) => {
+const WorkItemsStatus = ({ work }: Props) => {
   const [
     physicalLocations,
     setPhysicalLocations,
   ] = useState<?PhysicalLocations>();
 
   useEffect(() => {
-    fetch(
-      `https://api.wellcomecollection.org/stacks/v1/items/works/${work.id}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': '0yYzrX1sqNoHCO2mzvND4b3BYTg8elYxFyMYw7c0',
-        },
-      }
-    )
-      .then(resp => resp.json())
+    getStacksWork({'workId': work.id})
       .then(setPhysicalLocations)
-      // TODO: Send to sentry
       .catch(console.error);
   }, []);
 
-  return physicalLocations ? (
-    <>
-      {physicalLocations.items.map(item => (
+  return (
+    <Auth
+    render={({ authState, loginUrl, token }) => {
+
+      return (<>
+        {physicalLocations.items.map(item => (
         <Fragment key={item.id}>
           <Space
             v={{
               size: 'xl',
               properties: ['margin-bottom'],
             }}
-            className="flex flex--v-center"
           >
             <p className="no-margin" style={{ marginRight: '10px' }}>
               {item.location.label}: {item.status.label}
@@ -150,8 +118,10 @@ const WorkItemsRequest = ({ work }: Props) => {
           </Space>
         </Fragment>
       ))}
-    </>
-  ) : null;
+      </>);
+    }}
+  />
+  )
 };
 
-export default WorkItemsRequest;
+export default WorkItemsStatus;

@@ -4,6 +4,7 @@ import {
   getProductionDates,
   getItemsWith,
   getItemIdentifiersWith,
+  getWorkIdentifiersWith,
 } from '../../utils/works';
 import { WorkFixture } from '../fixtures/catalogueApi/work';
 
@@ -27,9 +28,23 @@ describe('getItemsWith', () => {
   });
 });
 
+describe('getWorkIdentifiersWith', () => {
+  it('should get the work identifiers indicated by the parameters', () => {
+    const identifiers = getWorkIdentifiersWith(
+      WorkFixture,
+      {
+        identifierId: 'sierra-system-number',
+      },
+    );
+
+    expect(identifiers.length).toBe(1);
+    expect(identifiers[0]).toBe('b16656180');  
+  });
+});
+
 describe('getItemIdentifiersWith', () => {
   it('gets the item identifiers indicated by the parameters', () => {
-    const items = getItemIdentifiersWith(
+    const identifiers = getItemIdentifiersWith(
       WorkFixture,
       {
         identifierId: 'sierra-system-number',
@@ -38,7 +53,7 @@ describe('getItemIdentifiersWith', () => {
       'sierra-system-number'
     );
 
-    expect(items.length).toBe(1);
-    expect(items[0]).toBe('i16010176');
+    expect(identifiers.length).toBe(1);
+    expect(identifiers[0]).toBe('i16010176');
   });
 });
