@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.a`
   margin-top: auto;
   padding-top: 20px;
 `;
@@ -33,6 +33,7 @@ const RelatedImages = ({ originalId }: Props) => {
         {relatedImages.map(related => (
           <ImageContainer
             className={grid({ s: 6, m: 4, l: 4, xl: 4 })}
+            href={related.workUri}
             key={related.id}
           >
             <Image
