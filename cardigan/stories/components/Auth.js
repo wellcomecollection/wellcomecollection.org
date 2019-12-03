@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import Readme from '../../../common/views/components/Auth/README.md';
+import Readme from '../../../catalogue/webapp/components/Auth/README.md';
 
 const stories = storiesOf('Components', module);
 
