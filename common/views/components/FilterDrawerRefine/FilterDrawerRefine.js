@@ -10,124 +10,7 @@ import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-
-const allWorkTypes = [
-  {
-    data: { id: 'a', label: 'Books', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'q', label: 'Digital Images', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'x', label: 'E-manuscripts, Asian', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'l', label: 'Ephemera', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'e', label: 'Maps', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'k', label: 'Pictures', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'w', label: 'Student dissertations', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'r', label: '3-D Objects', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'm', label: 'CD-Roms', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'v', label: 'E-books', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 's', label: 'E-sound', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'd', label: 'Journals', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'p', label: 'Mixed materials', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'i', label: 'Sound', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'g', label: 'Videorecordings', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'h', label: 'Archives and manuscripts', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'n', label: 'Cinefilm', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'j', label: 'E-journals', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'f', label: 'E-videos', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'b', label: 'Manuscripts, Asian', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'c', label: 'Music', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'u', label: 'Standing order', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-  {
-    data: { id: 'z', label: 'Web sites', type: 'WorkType' },
-    count: 0,
-    type: 'AggregationBucket',
-  },
-];
+import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
 
 function CancelFilter({ text }: { text: string }) {
   return (
@@ -173,6 +56,11 @@ const FilterDrawerRefine = ({
   const { productionDatesFrom, productionDatesTo } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
+  // We want to display all currently applied worktypes to the user within the filter drop down
+  // This may include worktypes that have no aggregations for the given search
+  // We therefore go through all possible worktypes,
+  // if they have a matching aggregation from the API response we use that
+  // If they aren't included in the API response, but are one of the applied filters,// then we still include it with a count of 0.
   const workTypeFilters = allWorkTypes
     .map(workType => {
       const matchingWorkTypeAggregation = workTypeAggregations.find(
