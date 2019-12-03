@@ -190,17 +190,16 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
         <Space
           v={{
             size: 'l',
-            properties: [
-              'margin-top',
-              'margin-right',
-              'margin-bottom',
-              'margin-left',
-            ],
+            properties: ['margin-top', 'margin-bottom'],
+          }}
+          h={{
+            size: 'l',
+            properties: ['margin-left', 'margin-right'],
           }}
         >
           <Space
             as="span"
-            v={{
+            h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -217,7 +216,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           </Space>
           <Space
             as="span"
-            v={{
+            h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -233,7 +232,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           </Space>
           <Space
             as="span"
-            v={{
+            h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -249,7 +248,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
           </Space>
           <Space
             as="span"
-            v={{
+            h={{
               size: 'm',
               properties: ['margin-left'],
             }}
