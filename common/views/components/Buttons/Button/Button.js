@@ -12,6 +12,7 @@ type Props = {|
   url?: string,
   type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
+  className?: string,
   icon?: string,
   text: string,
   trackingEvent?: GaEvent,
@@ -33,6 +34,7 @@ const Button = forwardRef(
       type,
       id,
       extraClasses,
+      className,
       icon,
       text,
       trackingEvent,
@@ -69,10 +71,9 @@ const Button = forwardRef(
           download={download}
           rel={rel}
           id={id}
-          className={`btn btn--${type} ${extraClasses || ''} ${font(
-            'hnm',
-            fontSize
-          )} flex-inline flex--v-center`}
+          className={`btn btn--${type} ${extraClasses ||
+            className ||
+            ''} ${font('hnm', fontSize)} flex-inline flex--v-center`}
           onClick={handleClick}
           disabled={disabled}
         >
@@ -92,7 +93,7 @@ const Button = forwardRef(
         download={download}
         rel={rel}
         id={id}
-        className={`btn btn--${type} ${extraClasses || ''} ${font(
+        className={`btn btn--${type} ${extraClasses || className || ''} ${font(
           'hnm',
           fontSize
         )} flex-inline flex--v-center`}

@@ -12,7 +12,7 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { worksUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
   apiSearchParamsSerialiser,
   unfilteredApiSearchParamsSerialiser,
@@ -311,10 +311,7 @@ const Works = ({
                                 index={i}
                                 title={result.title}
                                 id={result.id}
-                                workLink={workUrl({
-                                  ...searchParams,
-                                  id: result.id,
-                                })}
+                                searchParams={searchParams}
                               />
                             )}
                           </>

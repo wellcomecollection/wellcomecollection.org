@@ -1,5 +1,6 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
+import type { SearchParams } from '@weco/common/services/catalogue/search-params';
+import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getItemAtLocation } from '@weco/common/utils/works';
@@ -14,7 +15,7 @@ import RelatedImages from '../RelatedImages/RelatedImages';
 type Props = {|
   title: string,
   id: string,
-  workLink: NextLinkType,
+  searchParams: SearchParams,
   index: number,
 |};
 
@@ -56,7 +57,7 @@ const Box = styled.div`
     padding:  ${theme.gutter.xlarge}px;
     margin-bottom: ${theme.gutter.xlarge}px;
     margin-left: ${getNegativeMargin(index, 6, theme.gutter.xlarge)}
-  `}
+  `};
 `;
 
 const ImageWrapper = styled.div`
@@ -89,6 +90,18 @@ const Content = styled.div`
   `}
 `;
 
+const SpacedButton = styled(Button)`
+  margin: 10px 10px 0 0;
+`;
+
+// The padding combined with the 2px border on a `secondary` button means
+// that it appears larger than the `primary` button despite border-box being set.
+// This styling - reducing the padding by the border width - makes the buttons the same size
+const SpacedButtonBorderBox = styled(SpacedButton)`
+  padding: ${({ theme: { spacingUnit } }) =>
+    `${spacingUnit - 2}px ${4 * spacingUnit - 2}px`};
+`;
+
 const RelatedImagesWrapper = styled.div`
   display: flex;
   flex-grow: 10;
@@ -109,7 +122,7 @@ const Indicator = styled.div`
   border-bottom: 15px solid ${({ theme }) => theme.colors.pumice};
 `;
 
-const ExpandedImage = ({ title, index, id, workLink }: Props) => {
+const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   useEffect(() => {
     const fetchDetailedWork = async () => {
@@ -125,6 +138,19 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
     detailedWork && getItemAtLocation(detailedWork, 'iiif-image');
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+
+  const workLink = workUrl({ ...searchParams, id });
+  const itemLink =
+    detailedWork &&
+    itemUrl({
+      ...searchParams,
+      workId: id,
+      canvas: 1,
+      langCode: detailedWork.language && detailedWork.language.id,
+      sierraId: null,
+      isOverview: true,
+      page: 1,
+    });
 
   return (
     <Wrapper>
@@ -148,7 +174,16 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
             </LicenseWrapper>
           )}
           <p>{detailedWork && detailedWork.description}</p>
-          <Button type="secondary" text="Go to work" link={workLink} />
+          <div>
+            <SpacedButton type="primary" text="Go to work" link={workLink} />
+            {itemLink && (
+              <SpacedButtonBorderBox
+                type="secondary"
+                text="Go to image"
+                link={itemLink}
+              />
+            )}
+          </div>
           <RelatedImagesWrapper>
             <RelatedImages originalId={id} />
           </RelatedImagesWrapper>
