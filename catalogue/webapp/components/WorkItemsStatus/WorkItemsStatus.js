@@ -28,7 +28,6 @@ type PhysicalLocations = {|
 
 type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
 const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
-  
   function setRedirectCookie(workId: string, itemId: string) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('action', `requestItem:/works/${workId}/items/${item.id}`);
@@ -49,7 +48,6 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
       <div className={`${font('hnm', 5)}`}>
         <Auth
           render={({ authState, loginUrl, token }) => {
-
             return (
               <>
                 {authState === 'loggedOut' && (
@@ -67,7 +65,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
                     href={loginUrl}
                     onClick={event => {
                       event.preventDefault();
-                      requestItem({itemId: 'nope', token: token.id_token});
+                      requestItem({ itemId: item.id, token: token.id_token });
                       return false;
                     }}
                   >
@@ -90,38 +88,61 @@ const WorkItemsStatus = ({ work }: Props) => {
     setPhysicalLocations,
   ] = useState<?PhysicalLocations>();
 
+  const [authorised, setAuthorised] = useState<?string>();
+
+  const [userHolds, setUserHolds] = useState<?Object>();
+
   useEffect(() => {
-    getStacksWork({'workId': work.id})
+    getStacksWork({ workId: work.id })
       .then(setPhysicalLocations)
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    if (authorised) {
+      getUserHolds({ token: authorised })
+        .then(setUserHolds)
+        .catch(console.error);
+    }
+  }, [authorised]);
+
   return (
     <Auth
-    render={({ authState, loginUrl, token }) => {
+      render={({ authState, loginUrl, token }) => {
+        setAuthorised(authState === 'loggedIn' ? token.id_token : null);
 
-      return (<>
-        {physicalLocations.items.map(item => (
-        <Fragment key={item.id}>
-          <Space
-            v={{
-              size: 'xl',
-              properties: ['margin-bottom'],
-            }}
-          >
-            <p className="no-margin" style={{ marginRight: '10px' }}>
-              {item.location.label}: {item.status.label}
-            </p>
-            {item.status.id === 'available' && (
-              <ItemRequestButton item={item} workId={work.id} />
-            )}
-          </Space>
-        </Fragment>
-      ))}
-      </>);
-    }}
-  />
-  )
+        const itemIds =
+          (userHolds &&
+            userHolds.holds.map(hold => hold.itemId.catalogueId.value)) ||
+          [];
+
+        return (
+          <>
+            {physicalLocations &&
+              physicalLocations.items.map(item => (
+                <Fragment key={item.id}>
+                  <Space
+                    v={{
+                      size: 'xl',
+                      properties: ['margin-bottom'],
+                    }}
+                  >
+                    <p className="no-margin" style={{ marginRight: '10px' }}>
+                      {item.id} - {item.location.label}: {item.status.label}
+                      {itemIds.includes(item.id) ? ' (Requested)' : null}
+                    </p>
+                    {item.status.id === 'available' &&
+                      !itemIds.includes(item.id) && (
+                        <ItemRequestButton item={item} workId={work.id} />
+                      )}
+                  </Space>
+                </Fragment>
+              ))}
+          </>
+        );
+      }}
+    />
+  );
 };
 
 export default WorkItemsStatus;

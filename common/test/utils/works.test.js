@@ -30,15 +30,12 @@ describe('getItemsWith', () => {
 
 describe('getWorkIdentifiersWith', () => {
   it('should get the work identifiers indicated by the parameters', () => {
-    const identifiers = getWorkIdentifiersWith(
-      WorkFixture,
-      {
-        identifierId: 'sierra-system-number',
-      },
-    );
+    const identifiers = getWorkIdentifiersWith(WorkFixture, {
+      identifierId: 'sierra-system-number',
+    });
 
     expect(identifiers.length).toBe(1);
-    expect(identifiers[0]).toBe('b16656180');  
+    expect(identifiers[0]).toBe('b16656180');
   });
 });
 

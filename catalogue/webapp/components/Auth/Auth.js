@@ -35,9 +35,9 @@ function getLocalStorageJson(key: string) {
 }
 
 function getRedirectUrl() {
-    return `${window.location.href.split('/')[0]}//${
-      window.location.href.split('/')[2]
-    }/works/auth-code`;
+  return `${window.location.href.split('/')[0]}//${
+    window.location.href.split('/')[2]
+  }/works/auth-code`;
 }
 
 async function getToken(code: string, verifier: string) {
@@ -97,10 +97,12 @@ type Props = {|
     token: ?Token,
   |}) => Node,
 |};
+
 const Auth = ({ render }: Props) => {
   const [authState, setAuthState] = useState<?AuthState>(null);
   const [token, setToken] = useState<?Token>(null);
-  const { loginUrl, verifier } = createLoginUrlWithVerifier();
+  const [loginUrl, setLoginUrl] = useState<?string>(null);
+  const [verifier, setVerifier] = useState<?string>(null);
 
   // Get the inital state
   useEffect(() => {
@@ -109,17 +111,23 @@ const Auth = ({ render }: Props) => {
 
     if (token) {
       setAuthState(authStates.loggedIn);
-      // TODO: expiry
-      // const expires = newUser.exp * 1000;
-      // if (expires <= Date.now()) {
-      //   setAuthState(authStates.expired);
-      // } else {
-      //   setAuthState(authStates.loggedIn);
-      // }
+      const token = getLocalStorageJson('auth.token');
+      if (token) {
+        setToken(token);
+      }
     } else if (code) {
       setAuthState(authStates.authorising);
+      const code = Router.query.code;
+      if (code) {
+        authorise(code);
+      }
     } else {
       setAuthState(authStates.loggedOut);
+
+      const { verifier, loginUrl } = createLoginUrlWithVerifier();
+      setVerifier(verifier);
+      setLoginUrl(loginUrl);
+      window.localStorage.setItem('auth.verifier', verifier);
     }
   }, []);
 
@@ -140,26 +148,6 @@ const Auth = ({ render }: Props) => {
       },
     });
   }
-
-  useEffect(() => {
-    if (authState === authStates.loggedIn) {
-      const token = getLocalStorageJson('auth.token');
-      if (token) {
-        setToken(token);
-      }
-    }
-
-    if (authState === authStates.authorising) {
-      const code = Router.query.code;
-      if (code) {
-        authorise(code);
-      }
-    }
-
-    if (authState === authStates.loggedOut) {
-      window.localStorage.setItem('auth.verifier', verifier);
-    }
-  }, [authState]);
 
   return authState ? render({ authState, loginUrl, token }) : null;
 };

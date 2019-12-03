@@ -277,10 +277,11 @@ export function getWorkIdentifiersWith(
   work: Work,
   { identifierId }: WorkProps
 ) {
-  return work.identifiers.reduce(
-    (acc, identifier) => {
-      return identifier.identifierType.id === identifierId ? acc.concat(identifier.value) : acc
-    }, []);
+  return work.identifiers.reduce((acc, identifier) => {
+    return identifier.identifierType.id === identifierId
+      ? acc.concat(identifier.value)
+      : acc;
+  }, []);
 }
 
 export function getItemIdentifiersWith(
