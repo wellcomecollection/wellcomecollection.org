@@ -208,7 +208,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
               ref={firstControl}
               type="black-on-white"
               text="Zoom in"
-              icon="zoomIn"
+              icon="plus"
               clickHandler={() => {
                 handleZoomIn(viewer);
               }}
@@ -224,7 +224,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
             <Control
               type="black-on-white"
               text="Zoom out"
-              icon="zoomOut"
+              icon="minus"
               clickHandler={() => {
                 handleZoomOut(viewer);
               }}
