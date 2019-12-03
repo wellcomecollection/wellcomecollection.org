@@ -623,7 +623,7 @@ const IIIFViewerComponent = ({
               <a
                 className={classNames({
                   [font('hnm', 5)]: true,
-                  'flex-inline': true,
+                  flex: true,
                   'flex-v-center': true,
                   'plain-link': true,
                   'font-hover-yellow': true,
