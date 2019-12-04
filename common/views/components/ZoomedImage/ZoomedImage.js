@@ -40,16 +40,8 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   const firstControl = useRef(null);
   const lastControl = useRef(null);
   const zoomedImage = useRef(null);
-  const handleScriptError = error => {
-    Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
-      tags: {
-        service: 'dlcs',
-      },
-    });
-    setScriptError(true);
-  };
 
-  function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
+  function setupViewer(imageInfoSrc, viewerId) {
     fetch(imageInfoSrc)
       .then(response => response.json())
       .then(response => {
@@ -77,12 +69,17 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
         setViewer(osdViewer);
       })
       .catch(error => {
-        handleScriptError(error);
+        Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
+          tags: {
+            service: 'dlcs',
+          },
+        });
+        setScriptError(true);
       });
   }
 
   useEffect(() => {
-    setupViewer(infoUrl, id, handleScriptError);
+    setupViewer(infoUrl, id);
     lastControl && lastControl.current && lastControl.current.focus();
   }, []);
 
