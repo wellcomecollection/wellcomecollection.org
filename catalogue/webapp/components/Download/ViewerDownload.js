@@ -113,7 +113,7 @@ const Download = ({
           relative: true,
           'btn--primary-black': true,
         })}
-        icon="chevron"
+        icon="download"
         iconPosition="end"
         fontFamily="hnl"
         text="Downloads"
