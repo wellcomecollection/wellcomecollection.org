@@ -100,7 +100,7 @@ export function iiifImageTemplate(infoJsonLocation: string) {
     format: 'jpg',
   };
   const template = urlTemplate.parse(templateString);
-  return (opts: IiifUriProps) =>
+  return (opts: IIIFUriProps) =>
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
