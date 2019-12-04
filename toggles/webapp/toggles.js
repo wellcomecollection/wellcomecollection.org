@@ -56,5 +56,12 @@ module.exports = {
       description:
         "Shows the physical locations and statuses of a work's items where available",
     },
+    {
+      id: 'enableImageSearch',
+      title: 'Enable the images-only search on /images',
+      defaultValue: false,
+      description:
+        'Enables a separate page that performs image-only search with a different UI',
+    },
   ],
 };
