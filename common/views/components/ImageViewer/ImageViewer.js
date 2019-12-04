@@ -109,39 +109,34 @@ const ImageViewer = ({
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
-  const [imageSrc, setImageSrc] = useState(
-    urlTemplate && urlTemplate({ size: '640,' })
-  );
+  const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
 
   const [imageSrcSet, setImageSrcSet] = useState(
-    urlTemplate &&
-      imageSizes(2048)
-        .map(width => {
-          const urlString = urlTemplate({
-            size: `${width},`,
-          });
+    imageSizes(2048)
+      .map(width => {
+        const urlString = urlTemplate({
+          size: `${width},`,
+        });
 
-          return urlString && `${urlString} ${width}w`;
-        })
-        .join(',')
+        return urlString && `${urlString} ${width}w`;
+      })
+      .join(',')
   );
   const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
-    urlTemplate &&
-      setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
-    urlTemplate &&
-      setImageSrcSet(
-        imageSizes(2048)
-          .map(width => {
-            const urlString = urlTemplate({
-              size: `${width},`,
-              rotation: rotation,
-            });
-            return urlString && `${urlString} ${width}w`;
-          })
-          .join(',')
-      );
+    setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
+    setImageSrcSet(
+      imageSizes(2048)
+        .map(width => {
+          const urlString = urlTemplate({
+            size: `${width},`,
+            rotation: rotation,
+          });
+          return urlString && `${urlString} ${width}w`;
+        })
+        .join(',')
+    );
   }, [infoUrl, rotation]);
 
   function routeChangeStart(url: string) {
