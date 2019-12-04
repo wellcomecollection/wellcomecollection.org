@@ -7,6 +7,7 @@ import { getItemAtLocation } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
+import Space from '@weco/common/views/components/styled/Space';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -28,34 +29,32 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Box = styled.div`
+const Box = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: {
+    size: 'l',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
+})`
   background-color: ${({ theme }) => theme.colors.pumice};
   display: flex;
   flex-direction: column;
 
   ${({ index, theme }) => theme.media.small`
     width: calc(200% + ${theme.gutter.small}px);
-    padding:  ${theme.gutter.small}px;
-    margin-bottom: ${theme.gutter.small}px;
     margin-left: ${getNegativeMargin(index, 2, theme.gutter.small)}
   `}
   ${({ index, theme }) => theme.media.medium`
     width: calc(300% + ${2 * theme.gutter.medium}px);
-    padding:  ${theme.gutter.medium}px;
-    margin-bottom: ${theme.gutter.medium}px;
     margin-left: ${getNegativeMargin(index, 3, theme.gutter.medium)}
   `}
   ${({ index, theme }) => theme.media.large`
     flex-direction: row;
     width: calc(400% + ${3 * theme.gutter.large}px);
-    padding:  ${theme.gutter.large}px;
-    margin-bottom: ${theme.gutter.large}px;
     margin-left: ${getNegativeMargin(index, 4, theme.gutter.large)}
   `}
   ${({ index, theme }) => theme.media.xlarge`
     width: calc(600% + ${5 * theme.gutter.xlarge}px);
-    padding:  ${theme.gutter.xlarge}px;
-    margin-bottom: ${theme.gutter.xlarge}px;
     margin-left: ${getNegativeMargin(index, 6, theme.gutter.xlarge)}
   `};
 `;

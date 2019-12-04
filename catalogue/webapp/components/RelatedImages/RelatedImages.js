@@ -1,6 +1,7 @@
 // @flow
 import { font, grid } from '@weco/common/utils/classnames';
 import Image from '@weco/common/views/components/Image/Image';
+import Space from '@weco/common/views/components/styled/Space';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getSimilarPaletteImages } from '../../services/labs/palette-api';
@@ -9,8 +10,9 @@ type Props = {|
   originalId: string,
 |};
 
-const Wrapper = styled.div`
-  padding-top: 40px;
+const Wrapper = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top'] },
+})`
   width: 100%;
 `;
 
