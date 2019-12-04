@@ -81,7 +81,7 @@ function wordPressImageTemplate(baseUrl: string) {
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
-export type IiifUriOpts = {|
+export type IiifUriProps = {|
   region?: string,
   size?: string,
   rotation?: number,
@@ -100,7 +100,7 @@ export function iiifImageTemplate(infoJsonLocation: string) {
     format: 'jpg',
   };
   const template = urlTemplate.parse(templateString);
-  return (opts: IiifUriOpts) =>
+  return (opts: IiifUriProps) =>
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 

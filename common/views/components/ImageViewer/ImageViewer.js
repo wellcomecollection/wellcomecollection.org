@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
-import { type IiifUriOpts } from '@weco/common/utils/convert-image-uri';
+import { type IiifUriProps } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
@@ -92,7 +92,7 @@ type ImageViewerProps = {|
   lang: ?string,
   alt: string,
   tabbableControls: boolean,
-  urlTemplate: IiifUriOpts => string,
+  urlTemplate: IiifUriProps => string,
   presentationOnly?: boolean,
 |};
 
