@@ -91,9 +91,9 @@ type ImageViewerProps = {|
   infoUrl: string,
   lang: ?string,
   alt: string,
+  tabbableControls: boolean,
   urlTemplate: IiifUriOpts => string,
   presentationOnly?: boolean,
-  rotation: number,
 |};
 
 const ImageViewer = ({
@@ -103,9 +103,9 @@ const ImageViewer = ({
   lang,
   alt,
   infoUrl,
+  tabbableControls,
   urlTemplate,
   presentationOnly,
-  rotation,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
@@ -125,6 +125,7 @@ const ImageViewer = ({
         })
         .join(',')
   );
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     urlTemplate &&
@@ -141,7 +142,6 @@ const ImageViewer = ({
           })
           .join(',')
       );
-    setImageLoading(true);
   }, [infoUrl, rotation]);
 
   function routeChangeStart(url: string) {
@@ -173,11 +173,24 @@ const ImageViewer = ({
       <ImageViewerControls>
         <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
           <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
             type="black-on-white"
             text="Zoom in"
             icon="zoomIn"
             clickHandler={() => {
               setShowViewer(true);
+            }}
+          />
+        </Space>
+        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Control
+            tabIndex={tabbableControls ? '0' : '-1'}
+            type="black-on-white"
+            text="Rotate"
+            icon="rotatePageRight"
+            clickHandler={() => {
+              setImageLoading(true);
+              setRotation(rotation < 270 ? rotation + 90 : 0);
             }}
           />
         </Space>
