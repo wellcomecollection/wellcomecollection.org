@@ -14,19 +14,11 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchUsingAndOperator',
-    title: 'Search using AND as the default operator',
-    range: [50, 100],
+    id: 'searchUsingScoringTiers',
+    title: 'Search the API with a scoring tiered approach',
+    range: [0, 100],
     shouldRun: (request, range) => {
       return request.uri.match(/^\/works\/*/);
-    },
-  },
-  {
-    id: 'newsletterPromoUpdate',
-    title: 'New design for NewsletterPromo component',
-    range: [0, 50],
-    shouldRun(request) {
-      return !request.uri.match(/^\/works\/.*/);
     },
   },
 ];

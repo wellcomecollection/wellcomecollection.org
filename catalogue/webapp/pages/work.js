@@ -29,7 +29,6 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
@@ -229,19 +228,14 @@ export const WorkPage = ({ work }: Props) => {
           />
         </WobblyRow>
       )}
-      <TogglesContext.Consumer>
-        {({ showImagesWithSimilarPalette, showAdditionalCatalogueData }) => (
-          <WorkDetails
-            showImagesWithSimilarPalette={showImagesWithSimilarPalette}
-            showAdditionalCatalogueData={showAdditionalCatalogueData}
-            work={work}
-            sierraId={sierraIdFromPresentationManifestUrl}
-            iiifPresentationManifest={iiifPresentationManifest}
-            encoreLink={encoreLink}
-            childManifestsCount={childManifestsCount}
-          />
-        )}
-      </TogglesContext.Consumer>
+
+      <WorkDetails
+        work={work}
+        sierraId={sierraIdFromPresentationManifestUrl}
+        iiifPresentationManifest={iiifPresentationManifest}
+        encoreLink={encoreLink}
+        childManifestsCount={childManifestsCount}
+      />
     </CataloguePageLayout>
   );
 };
@@ -250,11 +244,9 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
-  const { useStageApi } = ctx.query.toggles;
 
   const workOrError = await getWork({
     id,
-    env: useStageApi ? 'stage' : 'prod',
   });
 
   if (workOrError && workOrError.type === 'Redirect') {

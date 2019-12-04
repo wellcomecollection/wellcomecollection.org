@@ -37,18 +37,12 @@ function setCookie(name, value) {
 
 const abTests = [
   {
-    id: 'searchUsingAndOperator',
-    title: 'Search using AND as the default operator',
+    id: 'searchUsingScoringTiers',
+    title: 'Search the API with a scoring tiered approach',
+    range: [0, 100],
     defaultValue: false,
-    range: [50, 100],
-    description: '',
-  },
-  {
-    id: 'newsletterPromoUpdate',
-    title: 'New design for NewsletterPromo component',
-    defaultValue: false,
-    description: '',
-    range: [0, 50],
+    description:
+      'This enables high accuracy on things like titles, and high recal from things like descriptions.',
   },
 ];
 const IndexPage = () => {
@@ -229,7 +223,6 @@ const IndexPage = () => {
                     });
                   }}
                   style={{
-                    // $FlowFixMe
                     opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
                   }}
                 >
@@ -244,7 +237,6 @@ const IndexPage = () => {
                     });
                   }}
                   style={{
-                    // $FlowFixMe
                     opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
                   }}
                 >
