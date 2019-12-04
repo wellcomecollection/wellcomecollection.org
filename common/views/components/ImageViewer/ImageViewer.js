@@ -91,7 +91,6 @@ type ImageViewerProps = {|
   infoUrl: string,
   lang: ?string,
   alt: string,
-  tabbableControls: boolean,
   urlTemplate: IiifUriOpts => string,
   presentationOnly?: boolean,
 |};
@@ -103,7 +102,6 @@ const ImageViewer = ({
   lang,
   alt,
   infoUrl,
-  tabbableControls,
   urlTemplate,
   presentationOnly,
 }: ImageViewerProps) => {
@@ -173,7 +171,6 @@ const ImageViewer = ({
       <ImageViewerControls>
         <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
           <Control
-            tabIndex={tabbableControls ? '0' : '-1'}
             type="black-on-white"
             text="Zoom in"
             icon="zoomIn"
@@ -184,7 +181,6 @@ const ImageViewer = ({
         </Space>
         <Space v={{ size: 's', properties: ['margin-bottom'] }}>
           <Control
-            tabIndex={tabbableControls ? '0' : '-1'}
             type="black-on-white"
             text="Rotate"
             icon="rotatePageRight"
