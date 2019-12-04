@@ -26,6 +26,9 @@ type PhysicalLocations = {|
 
 type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
 const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
+  const [authorised, setAuthorised] = useState<?string>();
+  const [requestedState, setRequestedState] = useState<?string>();
+
   function setRedirectCookie(workId: string, itemId: string) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('action', `requestItem:/works/${workId}/items/${item.id}`);
@@ -33,6 +36,28 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     const url = `${window.location.pathname}?${searchParams.toString()}`;
     document.cookie = `WC_auth_redirect=${url}; path=/`;
   }
+
+  function setUserHolds(token: string) {
+    return getUserHolds({ token })
+      .then(userHolds => {
+        const itemsOnHold = userHolds.holds.map(hold => {
+          return hold.itemId.catalogueId.value;
+        });
+
+        if (itemsOnHold.includes(item.id)) {
+          setRequestedState('requested');
+        } else {
+          setRequestedState('available');
+        }
+      })
+      .catch(console.error);
+  }
+
+  useEffect(() => {
+    if (authorised) {
+      setUserHolds(authorised);
+    }
+  }, [authorised]);
 
   return (
     <Tag
@@ -46,6 +71,10 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
       <div className={`${font('hnm', 5)}`}>
         <Auth
           render={({ state }) => {
+            setAuthorised(
+              state.type === 'authorized' ? state.token.id_token : null
+            );
+
             return (
               <>
                 {state.type === 'unauthorized' && (
@@ -58,7 +87,11 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
                     Login to request and view in the library
                   </a>
                 )}
-                {state.type === 'authorized' && (
+                {state.type === 'authorized' &&
+                  requestedState === 'requested' && (
+                    <a href={'#'}>You have requested this item</a>
+                  )}
+                {state.type === 'authorized' && requestedState === 'available' && (
                   // TODO: Make this a button
                   <a
                     href={'#'}
@@ -67,14 +100,16 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
                       requestItem({
                         itemId: item.id,
                         token: state.token.id_token,
-                      });
+                      }).then(_ => authorised && setUserHolds(authorised));
                       return false;
                     }}
                   >
                     Request to view in the library
                   </a>
                 )}
-                {state.type === 'authorising' && 'Authorising…'}
+                {state.type === 'authorizing' && (
+                  <a href={'#'}>Authorizing ...</a>
+                )}
               </>
             );
           }}
@@ -90,62 +125,32 @@ const WorkItemsStatus = ({ work }: Props) => {
     setPhysicalLocations,
   ] = useState<?PhysicalLocations>();
 
-  const [authorised, setAuthorised] = useState<?string>();
-
-  const [userHolds, setUserHolds] = useState<?Object>();
-
   useEffect(() => {
     getStacksWork({ workId: work.id })
       .then(setPhysicalLocations)
       .catch(console.error);
   }, []);
 
-  useEffect(() => {
-    if (authorised) {
-      getUserHolds({ token: authorised })
-        .then(setUserHolds)
-        .catch(console.error);
-    }
-  }, [authorised]);
-
   return (
-    <Auth
-      render={({ state }) => {
-        setAuthorised(
-          state.type === 'authorized' ? state.token.id_token : null
-        );
+    <>
+      {physicalLocations &&
+        physicalLocations.items.map(item => (
+          <Fragment key={item.id}>
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-bottom'],
+              }}
+            >
+              <p>
+                {item.location.label}: {item.status.label}
+              </p>
 
-        const itemIds =
-          (userHolds &&
-            userHolds.holds.map(hold => hold.itemId.catalogueId.value)) ||
-          [];
-
-        return (
-          <>
-            {physicalLocations &&
-              physicalLocations.items.map(item => (
-                <Fragment key={item.id}>
-                  <Space
-                    v={{
-                      size: 'l',
-                      properties: ['margin-bottom'],
-                    }}
-                  >
-                    <p>
-                      {item.location.label}: {item.status.label}
-                      {itemIds.includes(item.id) ? ' (Requested)' : null}
-                    </p>
-                    {item.status.id === 'available' &&
-                      !itemIds.includes(item.id) && (
-                        <ItemRequestButton item={item} workId={work.id} />
-                      )}
-                  </Space>
-                </Fragment>
-              ))}
-          </>
-        );
-      }}
-    />
+              <ItemRequestButton item={item} workId={work.id} />
+            </Space>
+          </Fragment>
+        ))}
+    </>
   );
 };
 
