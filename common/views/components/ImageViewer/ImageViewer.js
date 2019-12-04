@@ -92,7 +92,7 @@ type ImageViewerProps = {|
   lang: ?string,
   alt: string,
   tabbableControls: boolean,
-  urlTemplate: IiifUriProps => string,
+  urlTemplate: IIIFUriProps => string,
   presentationOnly?: boolean,
 |};
 
