@@ -17,6 +17,7 @@ import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 function inputValue(input: ?HTMLElement): ?string {
   if (
@@ -119,7 +120,6 @@ const SearchForm = ({
   }, []);
 
   function updateUrl(form: HTMLFormElement) {
-    console.log(form);
     const workTypeCheckboxes = nodeListValueToArray(form['workType']) || [];
     const selectedWorkTypesArray = [...workTypeCheckboxes].filter(
       selectedWorkType => selectedWorkType.checked
@@ -205,25 +205,33 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
-          <SearchTypeRadioGroup
-            name="searchType"
-            selected={
-              searchParams.imageSearch ? 'imageSearch' : 'allCollectionSearch'
+          <TogglesContext.Consumer>
+            {({ enableImageSearch }) =>
+              enableImageSearch ? (
+                <SearchTypeRadioGroup
+                  name="searchType"
+                  selected={
+                    searchParams.imageSearch
+                      ? 'imageSearch'
+                      : 'allCollectionSearch'
+                  }
+                  onChange={() => {
+                    searchForm.current && updateUrl(searchForm.current);
+                  }}
+                  options={[
+                    {
+                      value: 'allCollectionSearch',
+                      label: 'All collection',
+                    },
+                    {
+                      value: 'imageSearch',
+                      label: 'Images only',
+                    },
+                  ]}
+                />
+              ) : null
             }
-            onChange={() => {
-              searchForm.current && updateUrl(searchForm.current);
-            }}
-            options={[
-              {
-                value: 'allCollectionSearch',
-                label: 'All collection',
-              },
-              {
-                value: 'imageSearch',
-                label: 'Images only',
-              },
-            ]}
-          />
+          </TogglesContext.Consumer>
           <FilterDrawerRefine
             searchForm={searchForm}
             searchParams={searchParams}

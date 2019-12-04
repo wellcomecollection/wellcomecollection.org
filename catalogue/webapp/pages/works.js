@@ -427,7 +427,15 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
-  const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
+  const {
+    searchUsingAndOperator,
+    unfilteredSearchResults,
+    enableImageSearch,
+  } = ctx.query.toggles;
+
+  if (!enableImageSearch) {
+    params.imageSearch = false;
+  }
 
   const serializeParams = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser
