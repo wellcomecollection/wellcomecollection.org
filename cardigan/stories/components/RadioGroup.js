@@ -1,4 +1,3 @@
-// @flow
 import { storiesOf } from '@storybook/react';
 import { useState } from 'react';
 import RadioGroup from '../../../common/views/components/RadioGroup/RadioGroup';
