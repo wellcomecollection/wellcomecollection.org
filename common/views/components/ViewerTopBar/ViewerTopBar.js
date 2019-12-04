@@ -1,15 +1,16 @@
 // @flow
-// import { type IIIFCanvas } from '@weco/common/model/iiif';
+import { type IIIFManifest } from '@weco/common/model/iiif';
 import { lighten } from 'polished';
 import styled from 'styled-components';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { workUrl } from '@weco/common/services/catalogue/urls';
+import type { LicenseData } from '@weco/common/utils/get-license-info';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
-import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
+import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -75,32 +76,30 @@ const TitleContainer = styled.div.attrs(props => ({
   width: ${props => (props.isEnhanced ? '85%' : '100%')};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
 `;
+
 type Props = {|
-  canvases: any, // TODO
+  canvases: ?[],
   enhanced: boolean,
   showThumbs: boolean,
-  setShowThumbs: any, // TODO
-  activeThumbnailRef: any, // TODO
-  workId: any, // TODO
-  viewToggleRef: any, // TODO
-  currentManifestLabel: any, // TODO
+  setShowThumbs: Function,
+  activeThumbnailRef: { current: HTMLElement | null },
+  workId: string,
+  viewToggleRef: { current: HTMLElement | null },
+  currentManifestLabel: ?string,
   params: any, // TODO
-  canvasIndex: any, // TODO
-  rotation: any, // TODO
-  setRotation: any, // TODO
-  title: any, // TODO
-  licenseInfo: any, // TODO
+  canvasIndex: number,
+  title: string,
+  licenseInfo: ?LicenseData,
   iiifPresentationLicenseInfo: any, // TODO
   iiifImageLocationCredit: any, // TODO
   iiifImageLocationLicenseId: any, // TODO
   downloadOptions: any, // TODO
   iiifPresentationDownloadOptions: any, // TODO
-  parentManifest: any, // TODO
-  lang: any, // TODO
+  parentManifest: ?IIIFManifest,
+  lang: string,
 |};
 
 const ViewerTopBar = ({
-  // use Context instead
   canvases,
   enhanced,
   showThumbs,
@@ -111,8 +110,6 @@ const ViewerTopBar = ({
   currentManifestLabel,
   params,
   canvasIndex,
-  rotation,
-  setRotation,
   title,
   licenseInfo,
   iiifPresentationLicenseInfo,
@@ -173,23 +170,7 @@ const ViewerTopBar = ({
         )}
         {enhanced && (
           <div className="flex flex--v-center">
-            <Button
-              extraClasses={classNames({
-                relative: true,
-                'btn--primary-black': true,
-              })}
-              icon="rotatePageRight"
-              iconPosition="end"
-              fontFamily="hnl"
-              text="Rotate"
-              textHidden={true}
-              clickHandler={() => {
-                setRotation(rotation < 270 ? rotation + 90 : 0);
-              }}
-            />
-            <Space
-              h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
-            >
+            <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
                 title={title}
                 workId={workId}
@@ -202,35 +183,13 @@ const ViewerTopBar = ({
               />
             </Space>
             {parentManifest && parentManifest.manifests && (
-              <ViewerExtraContent buttonText={currentManifestLabel || 'Choose'}>
-                <ul className="no-margin no-padding plain-list">
-                  {parentManifest.manifests.map((manifest, i) => (
-                    <li
-                      key={manifest['@id']}
-                      className={
-                        manifest.label === currentManifestLabel
-                          ? 'current'
-                          : null
-                      }
-                    >
-                      <NextLink
-                        {...itemUrl({
-                          ...params,
-                          workId,
-                          page: 1,
-                          sierraId: (manifest['@id'].match(
-                            /iiif\/(.*)\/manifest/
-                          ) || [])[1],
-                          langCode: lang,
-                          canvas: 0,
-                        })}
-                      >
-                        <a>{manifest.label}</a>
-                      </NextLink>
-                    </li>
-                  ))}
-                </ul>
-              </ViewerExtraContent>
+              <MultipleManifestList
+                buttonText={currentManifestLabel || 'Choose'}
+                manifests={parentManifest.manifests}
+                params={params}
+                workId={workId}
+                lang={lang}
+              />
             )}
           </div>
         )}

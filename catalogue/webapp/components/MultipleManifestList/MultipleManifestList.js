@@ -1,7 +1,9 @@
 // @flow
-// TODO this component is temporary while awaiting designs
-// TODO import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
+import NextLink from 'next/link';
+import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import { type IIIFManifest } from '@weco/common/model/iiif';
+import { itemUrl } from '@weco/common/services/catalogue/urls';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -47,10 +49,19 @@ const HiddenContent = styled.div.attrs(props => ({
 
 type Props = {|
   buttonText: string,
-  children: any,
+  manifests: IIIFManifest[],
+  params: SearchParams,
+  workId: string,
+  lang: string,
 |};
 
-const ViewerExtraContent = ({ buttonText, children }: Props) => {
+const MultipleManifestList = ({
+  buttonText,
+  manifests,
+  params,
+  workId,
+  lang,
+}: Props) => {
   const [showHidden, setShowHidden] = useState(false);
   const wrapperRef = useRef(null);
   const downloadText = useRef(null);
@@ -101,10 +112,30 @@ const ViewerExtraContent = ({ buttonText, children }: Props) => {
         }}
       />
       <HiddenContent id="hiddenContent" hidden={!showHidden}>
-        <SpacingComponent>{children}</SpacingComponent>
+        <SpacingComponent>
+          <ul className="no-margin no-padding plain-list">
+            {manifests.map((manifest, i) => (
+              <li key={manifest['@id']}>
+                <NextLink
+                  {...itemUrl({
+                    ...params,
+                    workId,
+                    page: 1,
+                    sierraId: (manifest['@id'].match(/iiif\/(.*)\/manifest/) ||
+                      [])[1],
+                    langCode: lang,
+                    canvas: 0,
+                  })}
+                >
+                  <a>{manifest.label}</a>
+                </NextLink>
+              </li>
+            ))}
+          </ul>
+        </SpacingComponent>
       </HiddenContent>
     </div>
   );
 };
 
-export default ViewerExtraContent;
+export default MultipleManifestList;
