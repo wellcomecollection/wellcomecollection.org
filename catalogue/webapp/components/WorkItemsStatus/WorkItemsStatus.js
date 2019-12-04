@@ -127,12 +127,12 @@ const WorkItemsStatus = ({ work }: Props) => {
                 <Fragment key={item.id}>
                   <Space
                     v={{
-                      size: 'xl',
+                      size: 'l',
                       properties: ['margin-bottom'],
                     }}
                   >
-                    <p className="no-margin" style={{ marginRight: '10px' }}>
-                      {item.id} - {item.location.label}: {item.status.label}
+                    <p>
+                      {item.location.label}: {item.status.label}
                       {itemIds.includes(item.id) ? ' (Requested)' : null}
                     </p>
                     {item.status.id === 'available' &&
