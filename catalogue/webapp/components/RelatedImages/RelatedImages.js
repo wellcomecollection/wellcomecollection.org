@@ -42,7 +42,7 @@ const RelatedImages = ({ originalId }: Props) => {
               contentUrl={related.miroUri}
               defaultSize={250}
               width={250}
-              alt="foo"
+              alt=""
               tasl={null}
             />
           </ImageContainer>
