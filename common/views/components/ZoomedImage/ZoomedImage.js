@@ -103,7 +103,7 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   }
 
   useEffect(() => {
-    setViewer(setupViewer(infoUrl, id, handleScriptError));
+    setupViewer(infoUrl, id, handleScriptError);
     lastControl && lastControl.current && lastControl.current.focus();
   }, []);
 
