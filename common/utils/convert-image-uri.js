@@ -81,7 +81,7 @@ function wordPressImageTemplate(baseUrl: string) {
     template.expand(Object.assign({}, defaultOpts, opts));
 }
 
-export type IiifUriProps = {|
+export type IIIFUriProps = {|
   region?: string,
   size?: string,
   rotation?: number,
