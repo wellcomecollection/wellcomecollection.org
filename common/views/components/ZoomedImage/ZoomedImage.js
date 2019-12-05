@@ -6,15 +6,30 @@ import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Space from '@weco/common/views/components/styled/Space';
+// import headerHeight from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+const headerHeight = 149;
 
 const ZoomedImageContainer = styled.div`
+  position: fixed;
   width: 100vw;
   height: 100vh;
-  position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
   z-index: 2;
   background: ${props => props.theme.colors.black};
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    height: calc(100vh - ${`${headerHeight}px`};);
+    top: ${`${headerHeight}px`};
+  }
+`;
+
+const Controls = styled.div`
+  /* TODO position controls at the bottom on small devices, having issues with iPhone so skipping for now */
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
 `;
 
 const Image = styled.div`
@@ -65,6 +80,9 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
               ],
             },
           ],
+        });
+        osdViewer.addOnceHandler('tile-loaded', _ => {
+          doZoomIn(osdViewer);
         });
         setViewer(osdViewer);
       })
@@ -165,42 +183,85 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
 
   return (
     <ZoomedImageContainer ref={zoomedImage} onKeyDown={handleKeyDown}>
-      <Control
-        ref={firstControl}
-        type="on-black"
-        text="Zoom in"
-        icon="zoomIn"
-        clickHandler={() => {
-          handleZoomIn(viewer);
-        }}
-      />
-      <Control
-        type="on-black"
-        text="Zoom out"
-        icon="zoomOut"
-        clickHandler={() => {
-          handleZoomOut(viewer);
-        }}
-      />
-      <Control
-        type="on-black"
-        text="Rotate"
-        icon="rotatePageRight"
-        clickHandler={() => {
-          handleRotate(viewer);
-        }}
-      />
-      <span style={{ float: 'right' }}>
-        <Control
-          ref={lastControl}
-          type="on-black"
-          text="Close"
-          icon="cross"
-          clickHandler={() => {
-            setShowViewer(false);
+      <Controls>
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-top', 'margin-bottom'],
           }}
-        />
-      </span>
+          h={{
+            size: 'l',
+            properties: ['margin-left', 'margin-right'],
+          }}
+        >
+          <Space
+            as="span"
+            h={{
+              size: 'm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              ref={firstControl}
+              type="black-on-white"
+              text="Zoom in"
+              icon="plus"
+              clickHandler={() => {
+                handleZoomIn(viewer);
+              }}
+            />
+          </Space>
+          <Space
+            as="span"
+            h={{
+              size: 'm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              type="black-on-white"
+              text="Zoom out"
+              icon="minus"
+              clickHandler={() => {
+                handleZoomOut(viewer);
+              }}
+            />
+          </Space>
+          <Space
+            as="span"
+            h={{
+              size: 'm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              type="black-on-white"
+              text="Rotate"
+              icon="rotatePageRight"
+              clickHandler={() => {
+                handleRotate(viewer);
+              }}
+            />
+          </Space>
+          <Space
+            as="span"
+            h={{
+              size: 'm',
+              properties: ['margin-left'],
+            }}
+          >
+            <Control
+              ref={lastControl}
+              type="black-on-white"
+              text="Close"
+              icon="cross"
+              clickHandler={() => {
+                setShowViewer(false);
+              }}
+            />
+          </Space>
+        </Space>
+      </Controls>
       <Image id={`image-viewer-${id}`}>{scriptError && <ErrorMessage />}</Image>
     </ZoomedImageContainer>
   );

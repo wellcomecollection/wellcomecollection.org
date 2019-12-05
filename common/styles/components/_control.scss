@@ -62,3 +62,21 @@
     }
   }
 }
+
+.control--black-on-white {
+  background: color('white');
+  border: none;
+
+  .icon__shape {
+    fill: color('charcoal');
+  }
+
+  &:hover,
+  &:focus {
+    background: color('yellow');
+
+    .icon__shape {
+      fill: color('charcoal');
+    }
+  }
+}

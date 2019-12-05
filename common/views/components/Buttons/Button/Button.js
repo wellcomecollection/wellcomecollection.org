@@ -4,8 +4,9 @@ import NextLink from 'next/link';
 import { type NextLinkType } from '../../../../model/next-link-type';
 import type { GaEvent } from '../../../../utils/ga';
 import { trackEvent } from '../../../../utils/ga';
-import { font } from '../../../../utils/classnames';
+import { font, classNames } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
+import Space from '../../styled/Space';
 
 type Props = {|
   tabIndex?: string,
@@ -13,7 +14,10 @@ type Props = {|
   type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
   icon?: string,
+  iconPosition?: 'start' | 'end',
+  fontFamily?: 'hnl' | 'hnm',
   text: string,
+  textHidden?: boolean,
   trackingEvent?: GaEvent,
   id?: string,
   disabled?: boolean,
@@ -34,7 +38,10 @@ const Button = forwardRef(
       id,
       extraClasses,
       icon,
+      iconPosition,
+      fontFamily,
       text,
+      textHidden = false,
       trackingEvent,
       disabled,
       target,
@@ -69,16 +76,31 @@ const Button = forwardRef(
           download={download}
           rel={rel}
           id={id}
-          className={`btn btn--${type} ${extraClasses || ''} ${font(
-            'hnm',
-            fontSize
-          )} flex-inline flex--v-center`}
+          className={`btn btn--${type} ${extraClasses || ''} ${
+            fontFamily ? font(fontFamily, fontSize) : font('hnm', fontSize)
+          } flex-inline flex--v-center`}
           onClick={handleClick}
           disabled={disabled}
         >
-          <span className="flex-inline flex--v-center">
-            {icon && <Icon name={icon} />}
-            <span className="btn__text">{text}</span>
+          <span className="flex flex--v-center flex--h-center">
+            {icon && (!iconPosition || iconPosition === 'start') && (
+              <Space h={{ size: 'xs', properties: ['margin-right'] }}>
+                <Icon name={icon} />
+              </Space>
+            )}
+            <span
+              className={classNames({
+                'visually-hidden': textHidden,
+                btn__text: true,
+              })}
+            >
+              {text}
+            </span>
+            {icon && iconPosition === 'end' && (
+              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+                <Icon name={icon} />
+              </Space>
+            )}
           </span>
         </a>
       </NextLink>
@@ -92,17 +114,32 @@ const Button = forwardRef(
         download={download}
         rel={rel}
         id={id}
-        className={`btn btn--${type} ${extraClasses || ''} ${font(
-          'hnm',
-          fontSize
-        )} flex-inline flex--v-center`}
+        className={`btn btn--${type} ${extraClasses || ''} ${
+          fontFamily ? font(fontFamily, fontSize) : font('hnm', fontSize)
+        } flex-inline flex--v-center`}
         onClick={handleClick}
         disabled={disabled}
         type={url ? null : 'button'}
       >
-        <span className="flex-inline flex--v-center">
-          {icon && <Icon name={icon} />}
-          <span className="btn__text">{text}</span>
+        <span className="flex flex--v-center flex--h-center">
+          {icon && (!iconPosition || iconPosition === 'start') && (
+            <Space h={{ size: 'xs', properties: ['margin-right'] }}>
+              <Icon name={icon} />
+            </Space>
+          )}
+          <span
+            className={classNames({
+              'visually-hidden': textHidden,
+              btn__text: true,
+            })}
+          >
+            {text}
+          </span>
+          {icon && iconPosition === 'end' && (
+            <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+              <Icon name={icon} />
+            </Space>
+          )}
         </span>
       </HtmlTag>
     );

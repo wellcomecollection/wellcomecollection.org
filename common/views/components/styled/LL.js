@@ -23,7 +23,8 @@ const LL = styled.div`
     top: 0;
     bottom: 0;
     width: 20px;
-    background: black;
+    background: ${props =>
+      props.lighten ? props.theme.colors.silver : props.theme.colors.black};
   }
 
   &:before {

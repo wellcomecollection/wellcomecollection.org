@@ -25,7 +25,6 @@
   .icon {
     display: inline-block;
     vertical-align: middle;
-    margin-right: $spacing-unit;
   }
 
   .icon__shape {
@@ -77,8 +76,9 @@
 }
 
 .btn--primary-black {
-  border-color: color('pewter');
-  color: color('smoke');
+  padding: $spacing-unit 2 * $spacing-unit;
+  border: none;
+  color: color('white');
   background: transparent;
   outline: none;
   transition: all $transition-properties;

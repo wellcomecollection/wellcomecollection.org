@@ -33,6 +33,7 @@ const theme = {
   colors: {
     white: '#ffffff',
     black: '#010101',
+    viewerBlack: '#121212',
     purple: '#944aa0',
     teal: '#006272',
     cyan: '#298187',

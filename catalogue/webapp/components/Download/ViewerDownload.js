@@ -108,23 +108,21 @@ const Download = ({
         relative: true,
       })}
     >
-      <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-        <Button
-          type="tertiary"
-          extraClasses={classNames({
-            relative: true,
-            'btn--secondary-black': true,
-            'btn--small': true,
-          })}
-          icon="download"
-          text="Download"
-          ariaControls="downloadOptions"
-          ariaExpanded={showDownloads}
-          clickHandler={() => {
-            setShowDownloads(!showDownloads);
-          }}
-        />
-      </Space>
+      <Button
+        extraClasses={classNames({
+          relative: true,
+          'btn--primary-black': true,
+        })}
+        icon="download"
+        iconPosition="end"
+        fontFamily="hnl"
+        text="Downloads"
+        ariaControls="downloadOptions"
+        ariaExpanded={showDownloads}
+        clickHandler={() => {
+          setShowDownloads(!showDownloads);
+        }}
+      />
       <DownloadOptions id="downloadOptions" hidden={!showDownloads}>
         <SpacingComponent>
           <ul className="plain-list no-margin no-padding">
