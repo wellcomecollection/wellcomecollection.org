@@ -48,7 +48,7 @@ const TopBar = styled.div`
   background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
   color: ${props => props.theme.colors.white};
   .title {
-    max-width: 30%;
+    imagemax-width: 30%;
     .icon {
       width: 48px;
     }
@@ -408,59 +408,64 @@ const PaginatorButtons = (isTabbable: boolean, workId: string) => {
     nextLink,
   }: PaginatorRenderFunctionProps) => {
     return (
-      <div
-        className={classNames({
-          'flex flex--column flex--v-center flex--h-center': true,
-        })}
+      <Space
+        h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
+        v={{ size: 'm', properties: ['margin-top'] }}
       >
-        {prevLink && (
-          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Control
-              scroll={false}
-              replace={true}
-              link={prevLink}
-              type="black-on-white"
-              icon="arrow"
-              text="Previous page"
-              tabIndex={isTabbable ? '0' : '-1'}
-              extraClasses={classNames({
-                'icon--270': true,
-              })}
-              clickHandler={() => {
-                trackEvent({
-                  category: 'Control',
-                  action: 'clicked work viewer previous page link',
-                  label: `${workId} | page: ${currentPage}`,
-                });
-              }}
-            />
-          </Space>
-        )}
-        {nextLink && (
-          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Control
-              scroll={false}
-              replace={true}
-              link={nextLink}
-              type="black-on-white"
-              icon="arrow"
-              text="Next page"
-              tabIndex={isTabbable ? '0' : '-1'}
-              extraClasses={classNames({
-                icon: true,
-                'icon--90': true,
-              })}
-              clickHandler={() => {
-                trackEvent({
-                  category: 'Control',
-                  action: 'clicked work viewer next page link',
-                  label: `${workId} | page: ${currentPage}`,
-                });
-              }}
-            />
-          </Space>
-        )}
-      </div>
+        <div
+          className={classNames({
+            'flex flex--column flex--v-center flex--h-center': true,
+          })}
+        >
+          {prevLink && (
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Control
+                scroll={false}
+                replace={true}
+                link={prevLink}
+                type="black-on-white"
+                icon="arrow"
+                text="Previous page"
+                tabIndex={isTabbable ? '0' : '-1'}
+                extraClasses={classNames({
+                  'icon--270': true,
+                })}
+                clickHandler={() => {
+                  trackEvent({
+                    category: 'Control',
+                    action: 'clicked work viewer previous page link',
+                    label: `${workId} | page: ${currentPage}`,
+                  });
+                }}
+              />
+            </Space>
+          )}
+          {nextLink && (
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Control
+                scroll={false}
+                replace={true}
+                link={nextLink}
+                type="black-on-white"
+                icon="arrow"
+                text="Next page"
+                tabIndex={isTabbable ? '0' : '-1'}
+                extraClasses={classNames({
+                  icon: true,
+                  'icon--90': true,
+                })}
+                clickHandler={() => {
+                  trackEvent({
+                    category: 'Control',
+                    action: 'clicked work viewer next page link',
+                    label: `${workId} | page: ${currentPage}`,
+                  });
+                }}
+              />
+            </Space>
+          )}
+        </div>
+      </Space>
     );
   };
 };

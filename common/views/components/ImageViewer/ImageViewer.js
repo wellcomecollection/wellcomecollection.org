@@ -30,7 +30,7 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
 
 const ImageViewerControls = styled.div`
   position: absolute;
-  top: 100px;
+  top: 110px;
   left: 12px;
   z-index: 1;
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -164,26 +164,31 @@ const ImageViewer = ({
         <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
       )}
       <ImageViewerControls>
-        <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
-          <Control
-            type="black-on-white"
-            text="Zoom in"
-            icon="zoomIn"
-            clickHandler={() => {
-              setShowViewer(true);
-            }}
-          />
-        </Space>
-        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Control
-            type="black-on-white"
-            text="Rotate"
-            icon="rotatePageRight"
-            clickHandler={() => {
-              setImageLoading(true);
-              setRotation(rotation < 270 ? rotation + 90 : 0);
-            }}
-          />
+        <Space
+          h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
+          v={{ size: 's', properties: ['margin-top'] }}
+        >
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Control
+              type="black-on-white"
+              text="Zoom in"
+              icon="zoomIn"
+              clickHandler={() => {
+                setShowViewer(true);
+              }}
+            />
+          </Space>
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Control
+              type="black-on-white"
+              text="Rotate"
+              icon="rotatePageRight"
+              clickHandler={() => {
+                setImageLoading(true);
+                setRotation(rotation < 270 ? rotation + 90 : 0);
+              }}
+            />
+          </Space>
         </Space>
       </ImageViewerControls>
 
