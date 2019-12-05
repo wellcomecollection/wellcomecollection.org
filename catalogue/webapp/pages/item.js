@@ -176,7 +176,6 @@ const ItemPage = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
-      fixHeader={true}
       hideInfoBar={true}
     >
       {audio && (

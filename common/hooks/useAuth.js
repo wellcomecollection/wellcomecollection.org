@@ -1,6 +1,6 @@
 // @flow
 import Router from 'next/router';
-import { type Node, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import uuidv4 from 'uuid/v4';
 import crypto from 'crypto-browserify';
@@ -9,7 +9,7 @@ import base64url from 'base64url';
 const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
-  client_id: '4sl9v9v3i72fs66i0kpgqent8b',
+  client_id: '5n4vt54rjsg6t691c5b5kiacdv',
   scope: ['openid'].join(' '),
 };
 
@@ -88,6 +88,10 @@ const authStates = {
   expired: 'expired',
 };
 
+type Uninitialized = {|
+  type: 'uninitialized',
+|};
+
 type Unauthorized = {|
   type: 'unauthorized',
   loginUrl: string,
@@ -106,17 +110,10 @@ type Expired = {|
   type: 'expired',
 |};
 
-type State = Unauthorized | Authorizing | Authorized | Expired;
+type State = Uninitialized | Unauthorized | Authorizing | Authorized | Expired;
 
-type RenderProps = {|
-  state: State,
-|};
-type Props = {|
-  render: (props: RenderProps) => Node,
-|};
-
-const Auth = ({ render }: Props) => {
-  const [state, setState] = useState<?State>(null);
+const useAuth = () => {
+  const [state, setState] = useState<State>({ type: 'uninitialized' });
 
   // Get the inital state
   useEffect(() => {
@@ -160,7 +157,7 @@ const Auth = ({ render }: Props) => {
     Router.replace(link, link, { shallow: true });
   }
 
-  return state ? render({ state }) : null;
+  return state;
 };
 
-export default Auth;
+export default useAuth;

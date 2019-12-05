@@ -3,7 +3,7 @@ import type { SearchParams } from '@weco/common/services/catalogue/search-params
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
-import { getItemAtLocation } from '@weco/common/utils/works';
+import { getLocationOfType } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
@@ -134,7 +134,7 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
   }, []);
 
   const iiifImageLocation =
-    detailedWork && getItemAtLocation(detailedWork, 'iiif-image');
+    detailedWork && getLocationOfType(detailedWork, 'iiif-image');
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
 
