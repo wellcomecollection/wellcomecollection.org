@@ -628,7 +628,9 @@ const IIIFViewerComponent = ({
             />
           </ViewAllContainer>
         )}
-        <TitleContainer isEnhanced={enhanced}>
+        <TitleContainer
+          isEnhanced={enhanced && canvases && canvases.length > 1}
+        >
           <div className="title">
             <span className="part">{currentManifestLabel}</span>
             <NextLink {...workUrl({ ...params, id: workId })}>
