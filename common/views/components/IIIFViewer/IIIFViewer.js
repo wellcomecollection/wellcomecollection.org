@@ -22,22 +22,23 @@ import {
   convertIiifUriToInfoUri,
   iiifImageTemplate,
 } from '@weco/common/utils/convert-image-uri';
-import { imageSizes } from '../../../utils/image-sizes';
 import Paginator, {
-  type PaginatorRenderFunctionProps,
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import LL from '@weco/common/views/components/styled/LL';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { trackEvent } from '@weco/common/utils/ga';
 import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space, { type SpaceComponentProps } from '../styled/Space';
+import IIIFCanvasThumbnail from './parts/IIIFCanvasThumbnail';
+import NoScriptViewer, {
+  IIIFViewerPaginatorButtons,
+  PaginatorButtons,
+} from './parts/NoScriptViewer';
 
 export const headerHeight = 149;
 
@@ -123,7 +124,7 @@ const IIIFViewerBackground = styled.div`
   }
 `;
 
-const IIIFViewerImageWrapper = styled.div.attrs(props => ({
+export const IIIFViewerImageWrapper = styled.div.attrs(props => ({
   className: classNames({
     absolute: true,
   }),
@@ -140,7 +141,7 @@ const IIIFViewerImageWrapper = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewer = styled.div.attrs(props => ({
+export const IIIFViewer = styled.div.attrs(props => ({
   className: classNames({
     'flex flex--wrap': true,
   }),
@@ -157,13 +158,13 @@ const IIIFViewer = styled.div.attrs(props => ({
   }
 `;
 
-const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
-    className: classNames({
-      'relative bg-viewerBlack font-white': true,
-    }),
-  })
-)`
+export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
+  Space
+).attrs(props => ({
+  className: classNames({
+    'relative bg-viewerBlack font-white': true,
+  }),
+}))`
   noscript & {
     height: 80%;
     @media (min-width: ${props => props.theme.sizes.medium}px) {
@@ -178,7 +179,7 @@ const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   }
 `;
 
-const IIIFViewerThumb = styled.div`
+export const IIIFViewerThumb = styled.div`
   width: 130px;
   margin: 3%;
   border-radius: 8px;
@@ -204,7 +205,7 @@ const IIIFViewerThumb = styled.div`
   }
 `;
 
-const IIIFViewerThumbLink = styled.a.attrs(props => ({
+export const IIIFViewerThumbLink = styled.a.attrs(props => ({
   className: classNames({
     'block h-center': true,
   }),
@@ -216,7 +217,7 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
   padding: 16px 16px 3px;
 `;
 
-const IIIFViewerThumbNumber = styled.span.attrs(props => ({
+export const IIIFViewerThumbNumber = styled.span.attrs(props => ({
   className: classNames({
     'line-height-1': true,
     'inline-block': true,
@@ -228,33 +229,6 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 }))`
   padding: 3px 6px;
   border-radius: 3px;
-`;
-
-const StaticThumbnailsContainer = styled.div.attrs(props => ({
-  className: classNames({
-    'bg-viewerBlack flex relative': true,
-  }),
-}))`
-  width: 100%;
-  height: 20%;
-  border-top: 1px solid ${props => props.theme.colors.pewter};
-  padding-left: 20%;
-  @media (min-width: ${props => props.theme.sizes.medium}px) {
-    padding-left: 0;
-    flex-direction: column;
-    height: 100%;
-    width: 25%;
-    border-top: none;
-    border-right: 1px solid ${props => props.theme.colors.pewter};
-  }
-  a {
-    display: block;
-  }
-  noscript img {
-    margin: auto;
-    width: auto;
-    max-height: calc(100% - 1.5rem);
-  }
 `;
 
 const ScrollingThumbnailContainer = styled.div`
@@ -277,15 +251,6 @@ const ScrollingThumbnailContainer = styled.div`
   }
 `;
 
-const IIIFViewerPaginatorButtons = styled.div.attrs(props => ({
-  className: classNames({
-    absolute: true,
-  }),
-}))`
-  left: 12px;
-  top: 12px;
-`;
-
 function scrollIntoViewIfOutOfView(container, index) {
   const itemToScroll = container.children.item(index);
   if (itemToScroll) {
@@ -302,173 +267,6 @@ function checkInView(container, element, includePartialView) {
 
   return elementTop >= containerTop && elementBottom <= containerBottom;
 }
-
-type IIIFCanvasThumbnailProps = {|
-  canvas: IIIFCanvas,
-  lang: string,
-  isEnhanced: boolean,
-|};
-
-const IIIFCanvasThumbnail = ({
-  canvas,
-  lang,
-  isEnhanced,
-}: IIIFCanvasThumbnailProps) => {
-  const thumbnailService = canvas.thumbnail.service;
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions = thumbnailService.sizes
-    .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width > 100);
-  return (
-    <>
-      {isEnhanced ? (
-        <div
-          style={{
-            // TODO make into a styled component
-            position: 'relative',
-            paddingTop: smallestWidthImageDimensions
-              ? `${(smallestWidthImageDimensions.height /
-                  smallestWidthImageDimensions.width) *
-                  100}%`
-              : 0,
-          }}
-        >
-          <LL small={true} lighten={true} />
-          <div
-            style={{
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            }}
-          >
-            <IIIFResponsiveImage
-              width={
-                smallestWidthImageDimensions
-                  ? smallestWidthImageDimensions.width
-                  : 30
-              }
-              src={urlTemplate({
-                size: `${
-                  smallestWidthImageDimensions
-                    ? smallestWidthImageDimensions.width
-                    : '!100'
-                },`,
-              })}
-              srcSet={''}
-              sizes={`${
-                smallestWidthImageDimensions
-                  ? smallestWidthImageDimensions.width
-                  : 30
-              }px`}
-              alt={''}
-              lang={lang}
-              isLazy={true}
-            />
-          </div>
-        </div>
-      ) : (
-        <IIIFResponsiveImage
-          width={
-            smallestWidthImageDimensions
-              ? smallestWidthImageDimensions.width
-              : 30
-          }
-          src={urlTemplate({
-            size: `${
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : '!100'
-            },`,
-          })}
-          srcSet={''}
-          sizes={`${
-            smallestWidthImageDimensions
-              ? smallestWidthImageDimensions.width
-              : 30
-          }px`}
-          alt={''}
-          lang={lang}
-          isLazy={false}
-        />
-      )}
-    </>
-  );
-};
-
-/* eslint-disable react/display-name */
-const PaginatorButtons = (isTabbable: boolean, workId: string) => {
-  return ({
-    currentPage,
-    totalPages,
-    prevLink,
-    nextLink,
-  }: PaginatorRenderFunctionProps) => {
-    return (
-      <Space
-        h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
-        v={{ size: 'm', properties: ['margin-top'] }}
-      >
-        <div
-          className={classNames({
-            'flex flex--column flex--v-center flex--h-center': true,
-          })}
-        >
-          {prevLink && (
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <Control
-                scroll={false}
-                replace={true}
-                link={prevLink}
-                type="black-on-white"
-                icon="arrow"
-                text="Previous page"
-                tabIndex={isTabbable ? '0' : '-1'}
-                extraClasses={classNames({
-                  'icon--270': true,
-                })}
-                clickHandler={() => {
-                  trackEvent({
-                    category: 'Control',
-                    action: 'clicked work viewer previous page link',
-                    label: `${workId} | page: ${currentPage}`,
-                  });
-                }}
-              />
-            </Space>
-          )}
-          {nextLink && (
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <Control
-                scroll={false}
-                replace={true}
-                link={nextLink}
-                type="black-on-white"
-                icon="arrow"
-                text="Next page"
-                tabIndex={isTabbable ? '0' : '-1'}
-                extraClasses={classNames({
-                  icon: true,
-                  'icon--90': true,
-                })}
-                clickHandler={() => {
-                  trackEvent({
-                    category: 'Control',
-                    action: 'clicked work viewer next page link',
-                    label: `${workId} | page: ${currentPage}`,
-                  });
-                }}
-              />
-            </Space>
-          )}
-        </div>
-      </Space>
-    );
-  };
-};
-/* eslint-enable react/display-name */
 
 type IIIFViewerProps = {|
   title: string,
@@ -539,13 +337,7 @@ const IIIFViewerComponent = ({
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
     (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
-  const srcSet =
-    urlTemplate &&
-    imageSizes(2048)
-      .map(width => {
-        return `${urlTemplate({ size: `${width},` })} ${width}w`;
-      })
-      .join(',');
+
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
 
@@ -705,116 +497,24 @@ const IIIFViewerComponent = ({
       </TopBar>
       <IIIFViewerBackground>
         <LL lighten={true} />
-        {/* conditionally show this */}
-        {
-          <noscript>
-            <IIIFViewer>
-              <IIIFViewerMain
-                h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-                fullWidth={!thumbnailsRequired}
-              >
-                <IIIFViewerImageWrapper>
-                  {iiifImageLocationUrl && imageUrl && (
-                    <IIIFResponsiveImage
-                      width={800}
-                      src={imageUrl}
-                      srcSet={srcSet}
-                      sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-                      extraClasses={classNames({
-                        'block h-center': true,
-                      })}
-                      lang={lang}
-                      alt={
-                        (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                        'no text alternative'
-                      }
-                      isLazy={false}
-                    />
-                  )}
-                  {mainImageService['@id'] && currentCanvas && (
-                    <IIIFResponsiveImage
-                      width={800}
-                      src={urlTemplate && urlTemplate({ size: '800,' })}
-                      srcSet={srcSet}
-                      sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-                      extraClasses={classNames({
-                        'block h-center': true,
-                      })}
-                      lang={lang}
-                      alt={
-                        (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                        'no text alternative'
-                      }
-                      isLazy={false}
-                    />
-                  )}
-                </IIIFViewerImageWrapper>
-                <IIIFViewerPaginatorButtons>
-                  <Paginator
-                    {...mainPaginatorProps}
-                    render={PaginatorButtons(true, workId)}
-                  />
-                </IIIFViewerPaginatorButtons>
-              </IIIFViewerMain>
-
-              {thumbnailsRequired && (
-                <StaticThumbnailsContainer>
-                  {navigationCanvases &&
-                    navigationCanvases.map((canvas, i) => (
-                      <IIIFViewerThumb key={canvas['@id']}>
-                        <Paginator // TODO why is this inside IIIFViewerThumb
-                          {...thumbsPaginatorProps}
-                          render={({ rangeStart }) => (
-                            <NextLink
-                              {...itemUrl({
-                                ...params,
-                                workId,
-                                page: pageIndex + 1,
-                                sierraId,
-                                langCode: lang,
-                                canvas: pageSize * pageIndex + (i + 1),
-                              })}
-                              scroll={false}
-                              replace
-                              passHref
-                            >
-                              <IIIFViewerThumbLink
-                                isActive={canvasIndex === rangeStart + i - 1}
-                              >
-                                <IIIFCanvasThumbnail
-                                  isEnhanced={false}
-                                  canvas={canvas}
-                                  lang={lang}
-                                />
-                                <div>
-                                  <IIIFViewerThumbNumber
-                                    isActive={
-                                      canvasIndex === rangeStart + i - 1
-                                    }
-                                  >
-                                    <span className="visually-hidden">
-                                      image{' '}
-                                    </span>
-                                    {rangeStart + i}
-                                  </IIIFViewerThumbNumber>
-                                </div>
-                              </IIIFViewerThumbLink>
-                            </NextLink>
-                          )}
-                        />
-                      </IIIFViewerThumb>
-                    ))}
-                  <IIIFViewerPaginatorButtons isThumbs={true}>
-                    <Paginator
-                      {...thumbsPaginatorProps}
-                      render={PaginatorButtons(true, workId)}
-                    />
-                  </IIIFViewerPaginatorButtons>
-                </StaticThumbnailsContainer>
-              )}
-            </IIIFViewer>
-          </noscript>
-        }
+        <NoScriptViewer
+          thumbnailsRequired={thumbnailsRequired || false}
+          iiifImageLocationUrl={iiifImageLocationUrl}
+          imageUrl={imageUrl}
+          iiifImageLocation={iiifImageLocation}
+          currentCanvas={currentCanvas}
+          canvasOcr={canvasOcr}
+          lang={lang}
+          mainPaginatorProps={mainPaginatorProps}
+          thumbsPaginatorProps={thumbsPaginatorProps}
+          workId={workId}
+          canvases={canvases}
+          pageIndex={pageIndex}
+          sierraId={sierraId}
+          pageSize={pageSize}
+          canvasIndex={canvasIndex}
+          params={params}
+        />
         {/* enhanced javascript viewer */}
         {enhanced && (
           <IIIFViewer>
@@ -852,10 +552,15 @@ const IIIFViewerComponent = ({
                 )}
               </IIIFViewerImageWrapper>
               <IIIFViewerPaginatorButtons>
-                <Paginator
-                  {...mainPaginatorProps}
-                  render={PaginatorButtons(!showThumbs, workId)}
-                />
+                <Space
+                  h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
+                  v={{ size: 'm', properties: ['margin-top'] }}
+                >
+                  <Paginator
+                    {...mainPaginatorProps}
+                    render={PaginatorButtons(!showThumbs, workId)}
+                  />
+                </Space>
               </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
             {thumbnailsRequired && (
