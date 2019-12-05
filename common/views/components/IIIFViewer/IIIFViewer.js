@@ -39,7 +39,6 @@ import NoScriptViewer, {
   IIIFViewerPaginatorButtons,
   PaginatorButtons,
 } from './parts/NoScriptViewer';
-// import TopBar from '../styled/TopBar';
 
 export const headerHeight = 149;
 
@@ -520,6 +519,7 @@ const IIIFViewerComponent = ({
           sierraId={sierraId}
           pageSize={pageSize}
           canvasIndex={canvasIndex}
+          params={params}
         />
         {/* enhanced javascript viewer */}
         {enhanced && (
