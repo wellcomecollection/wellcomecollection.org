@@ -379,14 +379,17 @@ const Works = ({
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
-  const { searchUsingAndOperator, unfilteredSearchResults } = ctx.query.toggles;
+  const {
+    searchUsingScoringTiers,
+    unfilteredSearchResults,
+  } = ctx.query.toggles;
   const filters = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser(params)
     : apiSearchParamsSerialiser(params);
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
+    _queryType: searchUsingScoringTiers ? 'ScoringTiers' : undefined,
   };
 
   const shouldGetWorks = filters.query && filters.query !== '';

@@ -40,8 +40,6 @@ type Props = {|
   iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
   childManifestsCount?: number,
-  showImagesWithSimilarPalette?: boolean,
-  showAdditionalCatalogueData?: boolean,
 |};
 
 const WorkDetails = ({
@@ -50,8 +48,6 @@ const WorkDetails = ({
   iiifPresentationManifest,
   encoreLink,
   childManifestsCount,
-  showImagesWithSimilarPalette,
-  showAdditionalCatalogueData,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
@@ -173,7 +169,7 @@ const WorkDetails = ({
           )}
 
         <WorkDetailsSection headingText="About this work">
-          {showAdditionalCatalogueData && work.alternativeTitles.length > 0 && (
+          {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
               title="Also known as"
               text={work.alternativeTitles}
@@ -211,7 +207,7 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && work.edition && (
+          {work.edition && (
             <WorkDetailsText title="Edition" text={[work.edition]} />
           )}
 
@@ -222,18 +218,15 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && duration && (
-            <WorkDetailsText title="Duration" text={[duration]} />
-          )}
+          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
 
-          {showAdditionalCatalogueData &&
-            work.notes.map(note => (
-              <WorkDetailsText
-                key={note.noteType.label}
-                title={note.noteType.label}
-                text={note.contents}
-              />
-            ))}
+          {work.notes.map(note => (
+            <WorkDetailsText
+              key={note.noteType.label}
+              title={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
 
           {work.genres.length > 0 && (
             <WorkDetailsTags
@@ -281,18 +274,20 @@ const WorkDetails = ({
         {(encoreLink || iiifPresentationRepository) && (
           <WorkDetailsSection headingText="Where to find it">
             <TogglesContext.Consumer>
-              {({ stacksRequestService }) => (
-                <>
-                  <div className={`${font('hnl', 5)}`}>
-                    <h3 className={`${font('hnm', 5)} no-margin`}>
-                      In the library
-                    </h3>
+              {({ stacksRequestService }) =>
+                stacksRequestService && (
+                  <>
                     <div className={`${font('hnl', 5)}`}>
-                      <WorkItemsStatus work={work} />
+                      <h3 className={`${font('hnm', 5)} no-margin`}>
+                        In the library
+                      </h3>
+                      <div className={`${font('hnl', 5)}`}>
+                        <WorkItemsStatus work={work} />
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )
+              }
             </TogglesContext.Consumer>
 
             <WorkDetailsText
@@ -324,7 +319,7 @@ const WorkDetails = ({
               />
             </div>
           </SpacingComponent>
-          {showAdditionalCatalogueData && work.citeAs && (
+          {work.citeAs && (
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>
