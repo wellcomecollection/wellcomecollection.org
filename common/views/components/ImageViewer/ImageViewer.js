@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
-import { type IiifUriOpts } from '@weco/common/utils/convert-image-uri';
+import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
 import Control from '../Buttons/Control/Control';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 
 const LoadingComponent = () => (
   <div
@@ -30,7 +30,7 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
 
 const ImageViewerControls = styled.div`
   position: absolute;
-  top: 100px;
+  top: 122px;
   left: 12px;
   z-index: 1;
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
@@ -91,9 +91,8 @@ type ImageViewerProps = {|
   infoUrl: string,
   lang: ?string,
   alt: string,
-  urlTemplate: IiifUriOpts => string,
+  urlTemplate: IIIFUriProps => string,
   presentationOnly?: boolean,
-  rotation: number,
 |};
 
 const ImageViewer = ({
@@ -105,43 +104,37 @@ const ImageViewer = ({
   infoUrl,
   urlTemplate,
   presentationOnly,
-  rotation,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
-  const [imageSrc, setImageSrc] = useState(
-    urlTemplate && urlTemplate({ size: '640,' })
-  );
+  const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
 
   const [imageSrcSet, setImageSrcSet] = useState(
-    urlTemplate &&
+    imageSizes(2048)
+      .map(width => {
+        const urlString = urlTemplate({
+          size: `${width},`,
+        });
+
+        return urlString && `${urlString} ${width}w`;
+      })
+      .join(',')
+  );
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
+    setImageSrcSet(
       imageSizes(2048)
         .map(width => {
           const urlString = urlTemplate({
             size: `${width},`,
+            rotation: rotation,
           });
-
           return urlString && `${urlString} ${width}w`;
         })
         .join(',')
-  );
-
-  useEffect(() => {
-    urlTemplate &&
-      setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
-    urlTemplate &&
-      setImageSrcSet(
-        imageSizes(2048)
-          .map(width => {
-            const urlString = urlTemplate({
-              size: `${width},`,
-              rotation: rotation,
-            });
-            return urlString && `${urlString} ${width}w`;
-          })
-          .join(',')
-      );
-    setImageLoading(true);
+    );
   }, [infoUrl, rotation]);
 
   function routeChangeStart(url: string) {
@@ -171,15 +164,31 @@ const ImageViewer = ({
         <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
       )}
       <ImageViewerControls>
-        <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
-          <Control
-            type="black-on-white"
-            text="Zoom in"
-            icon="zoomIn"
-            clickHandler={() => {
-              setShowViewer(true);
-            }}
-          />
+        <Space
+          h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
+          v={{ size: 's', properties: ['margin-top'] }}
+        >
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Control
+              type="black-on-white"
+              text="Zoom in"
+              icon="zoomIn"
+              clickHandler={() => {
+                setShowViewer(true);
+              }}
+            />
+          </Space>
+          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Control
+              type="black-on-white"
+              text="Rotate"
+              icon="rotatePageRight"
+              clickHandler={() => {
+                setImageLoading(true);
+                setRotation(rotation < 270 ? rotation + 90 : 0);
+              }}
+            />
+          </Space>
         </Space>
       </ImageViewerControls>
 
@@ -189,7 +198,7 @@ const ImageViewer = ({
           height: '100%',
         }}
       >
-        {imageLoading && <LL lightn={true} />}
+        {imageLoading && <LL lighten={true} />}
         <ImageWrapper
           imageLoading={imageLoading}
           id={`image-viewer-${id}`}

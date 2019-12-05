@@ -1,30 +1,21 @@
 // @flow
 import Router from 'next/router';
-import { type Node, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import uuidv4 from 'uuid/v4';
 import crypto from 'crypto-browserify';
 import base64url from 'base64url';
 
-type AuthState = 'loggedOut' | 'authorising' | 'loggedIn' | 'expired';
-
 const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
-  client_id: '5n4vt54rjsg6t691c5b5kiacdv',
+  client_id: '4sl9v9v3i72fs66i0kpgqent8b',
   scope: ['openid'].join(' '),
 };
 
 function getFromLocalStorage(key: string) {
   return window.localStorage.getItem(key);
 }
-
-const authStates = {
-  loggedOut: 'loggedOut',
-  authorising: 'authorising',
-  loggedIn: 'loggedIn',
-  expired: 'expired',
-};
 
 function getLocalStorageJson(key: string) {
   try {
@@ -90,17 +81,39 @@ type Token = {
   token_type: string,
 };
 
-type Props = {|
-  render: ({|
-    authState: AuthState,
-    loginUrl: string,
-    token: ?Token,
-  |}) => Node,
+const authStates = {
+  unauthorized: 'unauthorized',
+  authorizing: 'authorizing',
+  authorized: 'authorized',
+  expired: 'expired',
+};
+
+type Uninitialized = {|
+  type: 'uninitialized',
 |};
-const Auth = ({ render }: Props) => {
-  const [authState, setAuthState] = useState<?AuthState>(null);
-  const [token, setToken] = useState<?Token>(null);
-  const { loginUrl, verifier } = createLoginUrlWithVerifier();
+
+type Unauthorized = {|
+  type: 'unauthorized',
+  loginUrl: string,
+|};
+
+type Authorizing = {|
+  type: 'authorizing',
+|};
+
+type Authorized = {|
+  type: 'authorized',
+  token: Token,
+|};
+
+type Expired = {|
+  type: 'expired',
+|};
+
+type State = Uninitialized | Unauthorized | Authorizing | Authorized | Expired;
+
+const useAuth = () => {
+  const [state, setState] = useState<State>({ type: 'uninitialized' });
 
   // Get the inital state
   useEffect(() => {
@@ -108,18 +121,22 @@ const Auth = ({ render }: Props) => {
     const code = Router.query.code;
 
     if (token) {
-      setAuthState(authStates.loggedIn);
-      // TODO: expiry
-      // const expires = newUser.exp * 1000;
-      // if (expires <= Date.now()) {
-      //   setAuthState(authStates.expired);
-      // } else {
-      //   setAuthState(authStates.loggedIn);
-      // }
+      setState(
+        ({
+          type: authStates.authorized,
+          token: token,
+        }: Authorized)
+      );
     } else if (code) {
-      setAuthState(authStates.authorising);
+      setState(({ type: authStates.authorizing }: Authorizing));
+      const code = Router.query.code;
+      if (code) {
+        authorise(code);
+      }
     } else {
-      setAuthState(authStates.loggedOut);
+      const { verifier, loginUrl } = createLoginUrlWithVerifier();
+      window.localStorage.setItem('auth.verifier', verifier);
+      setState(({ type: authStates.unauthorized, loginUrl }: Unauthorized));
     }
   }, []);
 
@@ -127,41 +144,20 @@ const Auth = ({ render }: Props) => {
     const verifier = window.localStorage.getItem('auth.verifier');
     const token = await getToken(code, verifier);
 
-    // Side effects
     window.localStorage.setItem('auth.token', JSON.stringify(token));
-    setAuthState(authStates.loggedIn);
-
-    Router.replace({
+    setState({ type: authStates.authorized, token });
+    const link = {
       pathname: Router.asPath.split('?')[0],
       // TODO: This is very app specific, but it's an absolute pain to try and get this to work
       // The side effect is that it removes the rest of the URL params if there are any
       query: {
         action: Router.query.action,
       },
-    });
+    };
+    Router.replace(link, link, { shallow: true });
   }
 
-  useEffect(() => {
-    if (authState === authStates.loggedIn) {
-      const token = getLocalStorageJson('auth.token');
-      if (token) {
-        setToken(token);
-      }
-    }
-
-    if (authState === authStates.authorising) {
-      const code = Router.query.code;
-      if (code) {
-        authorise(code);
-      }
-    }
-
-    if (authState === authStates.loggedOut) {
-      window.localStorage.setItem('auth.verifier', verifier);
-    }
-  }, [authState]);
-
-  return authState ? render({ authState, loginUrl, token }) : null;
+  return state;
 };
 
-export default Auth;
+export default useAuth;

@@ -9,7 +9,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
 import Space from '../../styled/Space';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   type PaginatorRenderFunctionProps,
@@ -26,8 +26,6 @@ import {
   IIIFViewerThumbLink,
   IIIFViewerThumbNumber,
 } from '../IIIFViewer';
-
-const params = clientSideSearchParams();
 
 const StaticThumbnailsContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -148,6 +146,7 @@ type NoScriptViewerProps = {|
   thumbnailsRequired: boolean,
   iiifImageLocation: ?{ url: string },
   canvases: ?[],
+  params: SearchParams,
 |};
 
 const NoScriptViewer = ({
@@ -166,6 +165,7 @@ const NoScriptViewer = ({
   sierraId,
   pageSize,
   canvasIndex,
+  params,
 }: NoScriptViewerProps) => {
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',

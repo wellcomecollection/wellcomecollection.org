@@ -25,14 +25,11 @@ const ZoomedImageContainer = styled.div`
 `;
 
 const Controls = styled.div`
+  /* TODO position controls at the bottom on small devices, having issues with iPhone so skipping for now */
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
   z-index: 2;
-  @media (min-width: ${props => props.theme.sizes.large}px) {
-    bottom: auto;
-    top: 0;
-  }
 `;
 
 const Image = styled.div`
@@ -58,16 +55,8 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   const firstControl = useRef(null);
   const lastControl = useRef(null);
   const zoomedImage = useRef(null);
-  const handleScriptError = error => {
-    Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
-      tags: {
-        service: 'dlcs',
-      },
-    });
-    setScriptError(true);
-  };
 
-  function setupViewer(imageInfoSrc, viewerId, handleScriptError) {
+  function setupViewer(imageInfoSrc, viewerId) {
     fetch(imageInfoSrc)
       .then(response => response.json())
       .then(response => {
@@ -98,12 +87,17 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
         setViewer(osdViewer);
       })
       .catch(error => {
-        handleScriptError(error);
+        Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
+          tags: {
+            service: 'dlcs',
+          },
+        });
+        setScriptError(true);
       });
   }
 
   useEffect(() => {
-    setViewer(setupViewer(infoUrl, id, handleScriptError));
+    setupViewer(infoUrl, id);
     lastControl && lastControl.current && lastControl.current.focus();
   }, []);
 
