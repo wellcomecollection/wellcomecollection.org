@@ -1,6 +1,6 @@
 locals {
-  edge_lambda_request_version  = 25
-  edge_lambda_response_version = 26
+  edge_lambda_request_version  = 26
+  edge_lambda_response_version = 27
 }
 
 # Setup terraform for this service

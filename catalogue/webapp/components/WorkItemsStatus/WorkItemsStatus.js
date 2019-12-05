@@ -1,12 +1,13 @@
 // @flow
-import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
 import { useEffect, useState, Fragment } from 'react';
 import { type Work } from '@weco/common/model/work';
 import Space from '@weco/common/views/components/styled/Space';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
-import Auth from '../Auth/Auth';
+
+import { getStacksWork } from '../../services/stacks/items';
+import { requestItem, getUserHolds } from '../../services/stacks/requests';
+import useAuth from '@weco/common/hooks/useAuth';
 
 type Props = {| work: Work |};
 
@@ -24,6 +25,8 @@ type PhysicalLocations = {|
 
 type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
 const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
+  const [requestedState, setRequestedState] = useState<?string>();
+
   function setRedirectCookie(workId: string, itemId: string) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('action', `requestItem:/works/${workId}/items/${item.id}`);
@@ -32,35 +35,42 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     document.cookie = `WC_auth_redirect=${url}; path=/`;
   }
 
-  async function requestItem(token: string) {
-    const request = await fetch(
-      `https://api.wellcomecollection.org/stacks/v1/requests`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({ itemId: item.id }),
-      }
-    ).then(r => {
-      if (r.status === 200) return r.json();
-      console.error('invalid /requests');
-    });
+  const authState = useAuth();
 
-    return request;
+  function updateRequestedState() {
+    if (authState.type === 'authorized') {
+      getUserHolds({ token: authState.token.id_token })
+        .then(userHolds => {
+          const itemsOnHold = userHolds.holds.map(hold => {
+            return hold.itemId.catalogueId.value;
+          });
+
+          if (itemsOnHold.includes(item.id)) {
+            setRequestedState('requested');
+          } else {
+            setRequestedState('available');
+          }
+        })
+        .catch(console.error);
+    } else {
+      setRequestedState('unknown');
+    }
+  }
+
+  function makeRequest(itemId: string) {
+    if (authState.type === 'authorized') {
+      requestItem({
+        itemId: itemId,
+        token: authState.token.id_token,
+      })
+        .then(_ => setRequestedState('requested'))
+        .catch(console.error);
+    }
   }
 
   useEffect(() => {
-    const action = Router.query.action;
-    if (action.startsWith('requestItem:')) {
-      const match = action.match(/requestItem:\/works\/[a-z0-9]+\/items\/(.*)/);
-      if (match && match[1]) {
-        // TODO: POST to request the item
-        // TODO: abstract this out as a generic pattern that can be used else where
-      }
-    }
-  }, []);
+    updateRequestedState();
+  }, [authState]);
 
   return (
     <Tag
@@ -72,86 +82,77 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
       })}
     >
       <div className={`${font('hnm', 5)}`}>
-        <Auth
-          render={({ authState, loginUrl, token }) => {
-            return (
-              <>
-                {authState === 'loggedOut' && (
-                  <a
-                    href={loginUrl}
-                    onClick={event => {
-                      setRedirectCookie(workId, item.id);
-                    }}
-                  >
-                    Login to request and view in the library
-                  </a>
-                )}
-                {authState === 'loggedIn' && token && (
-                  <a
-                    href={loginUrl}
-                    onClick={event => {
-                      event.preventDefault();
-                      requestItem(token.id_token);
-                      return false;
-                    }}
-                  >
-                    Request to view in the library
-                  </a>
-                )}
-                {authState === 'authorising' && 'Authorising…'}
-              </>
-            );
-          }}
-        />
+        {(function() {
+          switch (requestedState) {
+            case 'unknown':
+              const loginUrl =
+                authState.type === 'unauthorized' ? authState.loginUrl : '#';
+
+              return (
+                <a
+                  href={loginUrl}
+                  onClick={event => {
+                    setRedirectCookie(workId, item.id);
+                  }}
+                >
+                  Login to request and view in the library
+                </a>
+              );
+
+            case 'requested':
+              return <a href={'#'}>You have requested this item</a>;
+
+            case 'available':
+              return (
+                <a
+                  href={'#'}
+                  onClick={event => {
+                    event.preventDefault();
+                    makeRequest(item.id);
+                  }}
+                >
+                  Request to view in the library
+                </a>
+              );
+          }
+        })()}
       </div>
     </Tag>
   );
 };
 
-const WorkItemsRequest = ({ work }: Props) => {
+const WorkItemsStatus = ({ work }: Props) => {
   const [
     physicalLocations,
     setPhysicalLocations,
   ] = useState<?PhysicalLocations>();
 
   useEffect(() => {
-    fetch(
-      `https://api.wellcomecollection.org/stacks/v1/items/works/${work.id}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': '0yYzrX1sqNoHCO2mzvND4b3BYTg8elYxFyMYw7c0',
-        },
-      }
-    )
-      .then(resp => resp.json())
+    getStacksWork({ workId: work.id })
       .then(setPhysicalLocations)
-      // TODO: Send to sentry
       .catch(console.error);
   }, []);
 
-  return physicalLocations ? (
+  return (
     <>
-      {physicalLocations.items.map(item => (
-        <Fragment key={item.id}>
-          <Space
-            v={{
-              size: 'xl',
-              properties: ['margin-bottom'],
-            }}
-            className="flex flex--v-center"
-          >
-            <p className="no-margin" style={{ marginRight: '10px' }}>
-              {item.location.label}: {item.status.label}
-            </p>
-            {item.status.id === 'available' && (
+      {physicalLocations &&
+        physicalLocations.items.map(item => (
+          <Fragment key={item.id}>
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-bottom'],
+              }}
+            >
+              <p>
+                {item.location.label}: {item.status.label}
+              </p>
               <ItemRequestButton item={item} workId={work.id} />
-            )}
-          </Space>
-        </Fragment>
-      ))}
+            </Space>
+          </Fragment>
+        ))}
     </>
-  ) : null;
+  );
 };
 
-export default WorkItemsRequest;
+export default WorkItemsStatus;

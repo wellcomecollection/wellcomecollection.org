@@ -8,3 +8,8 @@ fieldset {
   margin: 0;
   padding: 0;
 }
+
+.openseadragon-canvas:focus {
+  border: 2px solid color('yellow')!important;
+  border-width: 2px 2px 0;
+}

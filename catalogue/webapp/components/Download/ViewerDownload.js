@@ -26,6 +26,7 @@ const DownloadOptions = styled.div.attrs(props => ({
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
   padding: ${props => `${props.theme.spacingUnit * 3}px`};
   position: absolute;
+  z-index: 1;
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   right: 0;
   display: ${props => (props.hidden ? 'none' : 'show')};
@@ -107,23 +108,21 @@ const Download = ({
         relative: true,
       })}
     >
-      <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-        <Button
-          type="tertiary"
-          extraClasses={classNames({
-            relative: true,
-            'btn--secondary-black': true,
-            'btn--small': true,
-          })}
-          icon="download"
-          text="Download"
-          ariaControls="downloadOptions"
-          ariaExpanded={showDownloads}
-          clickHandler={() => {
-            setShowDownloads(!showDownloads);
-          }}
-        />
-      </Space>
+      <Button
+        extraClasses={classNames({
+          relative: true,
+          'btn--primary-black': true,
+        })}
+        icon="download"
+        iconPosition="end"
+        fontFamily="hnl"
+        text="Downloads"
+        ariaControls="downloadOptions"
+        ariaExpanded={showDownloads}
+        clickHandler={() => {
+          setShowDownloads(!showDownloads);
+        }}
+      />
       <DownloadOptions id="downloadOptions" hidden={!showDownloads}>
         <SpacingComponent>
           <ul className="plain-list no-margin no-padding">
