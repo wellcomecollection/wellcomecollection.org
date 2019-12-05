@@ -25,14 +25,11 @@ const ZoomedImageContainer = styled.div`
 `;
 
 const Controls = styled.div`
+  /* TODO position controls at the bottom on small devices, having issues with iPhone so skipping for now */
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
   z-index: 2;
-  @media (min-width: ${props => props.theme.sizes.large}px) {
-    bottom: auto;
-    top: 0;
-  }
 `;
 
 const Image = styled.div`
