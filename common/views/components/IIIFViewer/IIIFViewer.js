@@ -38,7 +38,6 @@ import Download from '@weco/catalogue/components/Download/ViewerDownload';
 import ViewerExtraContent from '@weco/catalogue/components/Download/ViewerExtraContent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space, { type SpaceComponentProps } from '../styled/Space';
-// import TopBar from '../styled/TopBar';
 
 export const headerHeight = 149;
 
@@ -48,7 +47,7 @@ const TopBar = styled.div`
   background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
   color: ${props => props.theme.colors.white};
   .title {
-    imagemax-width: 30%;
+    max-width: 30%;
     .icon {
       width: 48px;
     }
