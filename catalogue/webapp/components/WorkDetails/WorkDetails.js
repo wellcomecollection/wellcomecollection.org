@@ -23,12 +23,14 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
+import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 
 type Work = Object;
 
@@ -38,8 +40,6 @@ type Props = {|
   iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
   childManifestsCount?: number,
-  showImagesWithSimilarPalette?: boolean,
-  showAdditionalCatalogueData?: boolean,
 |};
 
 const WorkDetails = ({
@@ -48,8 +48,6 @@ const WorkDetails = ({
   iiifPresentationManifest,
   encoreLink,
   childManifestsCount,
-  showImagesWithSimilarPalette,
-  showAdditionalCatalogueData,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
@@ -171,7 +169,7 @@ const WorkDetails = ({
           )}
 
         <WorkDetailsSection headingText="About this work">
-          {showAdditionalCatalogueData && work.alternativeTitles.length > 0 && (
+          {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
               title="Also known as"
               text={work.alternativeTitles}
@@ -209,7 +207,7 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && work.edition && (
+          {work.edition && (
             <WorkDetailsText title="Edition" text={[work.edition]} />
           )}
 
@@ -220,18 +218,15 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && duration && (
-            <WorkDetailsText title="Duration" text={[duration]} />
-          )}
+          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
 
-          {showAdditionalCatalogueData &&
-            work.notes.map(note => (
-              <WorkDetailsText
-                key={note.noteType.label}
-                title={note.noteType.label}
-                text={note.contents}
-              />
-            ))}
+          {work.notes.map(note => (
+            <WorkDetailsText
+              key={note.noteType.label}
+              title={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
 
           {work.genres.length > 0 && (
             <WorkDetailsTags
@@ -278,8 +273,25 @@ const WorkDetails = ({
         {/* TODO: Make this make more sense */}
         {(encoreLink || iiifPresentationRepository) && (
           <WorkDetailsSection headingText="Where to find it">
+            <TogglesContext.Consumer>
+              {({ stacksRequestService }) =>
+                stacksRequestService && (
+                  <>
+                    <div className={`${font('hnl', 5)}`}>
+                      <h3 className={`${font('hnm', 5)} no-margin`}>
+                        In the library
+                      </h3>
+                      <div className={`${font('hnl', 5)}`}>
+                        <WorkItemsStatus work={work} />
+                      </div>
+                    </div>
+                  </>
+                )
+              }
+            </TogglesContext.Consumer>
+
             <WorkDetailsText
-              title={null}
+              title={'Online'}
               text={[
                 encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
 
@@ -307,7 +319,7 @@ const WorkDetails = ({
               />
             </div>
           </SpacingComponent>
-          {showAdditionalCatalogueData && work.citeAs && (
+          {work.citeAs && (
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>

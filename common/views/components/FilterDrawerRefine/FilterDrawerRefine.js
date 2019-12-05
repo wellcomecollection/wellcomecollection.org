@@ -10,6 +10,7 @@ import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
 
 function CancelFilter({ text }: { text: string }) {
   return (
@@ -52,9 +53,31 @@ const FilterDrawerRefine = ({
   changeHandler,
 }: Props) => {
   const workTypeInUrlArray = searchParams.workType || [];
-  const { productionDatesFrom, productionDatesTo, workType } = searchParams;
+  const { productionDatesFrom, productionDatesTo } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
+  // We want to display all currently applied worktypes to the user within the filter drop down
+  // This may include worktypes that have no aggregations for the given search
+  // We therefore go through all possible worktypes,
+  // if they have a matching aggregation from the API response we use that
+  // If they aren't included in the API response, but are one of the applied filters,// then we still include it with a count of 0.
+  const workTypeFilters = allWorkTypes
+    .map(workType => {
+      const matchingWorkTypeAggregation = workTypeAggregations.find(
+        ({ data }) => workType.data.id === data.id
+      );
+      const matchingAppliedWorkType = workTypeInUrlArray.find(
+        id => workType.data.id === id
+      );
+      if (matchingWorkTypeAggregation) {
+        return matchingWorkTypeAggregation;
+      } else if (matchingAppliedWorkType) {
+        return workType;
+      } else {
+        return null;
+      }
+    })
+    .filter(Boolean);
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -118,33 +141,34 @@ const FilterDrawerRefine = ({
     },
   ];
 
-  if (workTypeAggregations.length > 0) {
+  if (workTypeFilters.length > 0) {
     filterDrawerItems.push({
       title: 'Formats',
       component: (
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          {workTypeAggregations &&
-            workTypeAggregations.map(type => (
+          {workTypeFilters.map(workType => {
+            return (
               <Space
-                key={type.data.id}
+                key={workType.data.id}
                 as="span"
                 h={{ size: 'm', properties: ['margin-right'] }}
               >
                 <Checkbox
-                  id={type.data.id}
-                  text={`${type.data.label} (${type.count})`}
-                  value={type.data.id}
+                  id={workType.data.id}
+                  text={`${workType.data.label} (${workType.count})`}
+                  value={workType.data.id}
                   name={`workType`}
                   checked={
                     workTypeInUrlArray &&
-                    workTypeInUrlArray.includes(type.data.id)
+                    workTypeInUrlArray.includes(workType.data.id)
                   }
                   onChange={event => {
                     changeHandler();
                   }}
                 />
               </Space>
-            ))}
+            );
+          })}
         </Space>
       ),
     });
@@ -211,26 +235,30 @@ const FilterDrawerRefine = ({
                   </a>
                 </NextLink>
               )}
-              {workTypeAggregations.map(({ data }) => (
-                <Fragment key={data.id}>
-                  {workType && workType.includes(data.id) && (
+
+              {workTypeInUrlArray.map(id => {
+                const workTypeObject = workTypeFilters.find(({ data }) => {
+                  return data.id === id;
+                });
+                return (
+                  <Fragment key={id}>
                     <NextLink
-                      key={data.id}
+                      key={workTypeObject.data.id}
                       {...worksUrl({
                         ...searchParams,
                         workType: searchParams.workType.filter(
-                          w => w !== data.id
+                          w => w !== workTypeObject.data.id
                         ),
                         page: 1,
                       })}
                     >
                       <a>
-                        <CancelFilter text={data.label} />
+                        <CancelFilter text={workTypeObject.data.label} />
                       </a>
                     </NextLink>
-                  )}
-                </Fragment>
-              ))}
+                  </Fragment>
+                );
+              })}
               <NextLink
                 passHref
                 {...worksUrl({

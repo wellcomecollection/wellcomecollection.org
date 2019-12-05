@@ -428,7 +428,7 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const {
-    searchUsingAndOperator,
+    searchUsingScoringTiers,
     unfilteredSearchResults,
     enableImageSearch,
   } = ctx.query.toggles;
@@ -449,7 +449,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchUsingAndOperator ? 'usingAnd' : undefined,
+    _queryType: searchUsingScoringTiers ? 'ScoringTiers' : undefined,
   };
 
   const shouldGetWorks = filters.query && filters.query !== '';
