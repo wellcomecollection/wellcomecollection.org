@@ -47,11 +47,6 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  position: fixed;
-  z-index: 1;
-  top: 85px;
-  left: 0;
-  right: 0;
   background: ${props => props.theme.colors.coal};
   color: ${props => props.theme.colors.smoke};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
@@ -97,9 +92,10 @@ const TitleContainer = styled.div.attrs(props => ({
 `;
 
 const IIIFViewerBackground = styled.div`
+  position: relative;
   background: ${props => props.theme.colors.charcoal};
   height: calc(100vh - ${`${headerHeight}px`});
-  margin-top: ${`${headerHeight}px`};
+  color: ${props => props.theme.colors.white};
   noscript {
     color: ${props => props.theme.colors.white};
   }
@@ -127,17 +123,9 @@ const IIIFViewer = styled.div.attrs(props => ({
     'flex flex--wrap': true,
   }),
 }))`
-  position: ${props => props.isFixed && 'fixed'};
-  top: ${props => props.isFixed && `${headerHeight}px`};
-  height: calc(
-    100% - ${`${headerHeight}px`}
-  ); /* using 100vh causes problems with browser chrome on mobile */
+  height: 100%;
   width: 100%;
   flex-direction: row-reverse;
-
-  noscript & {
-    height: calc(100vh - ${`${headerHeight}px`});
-  }
 
   noscript & img {
     width: auto;
@@ -161,8 +149,6 @@ const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
     }
   }
   width: 100%;
-  padding-top: 24px;
-  padding-bottom: 60px;
 
   @media (min-width: ${props => props.theme.sizes.medium}px) {
     height: 100%;
@@ -171,6 +157,7 @@ const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 `;
 
 const IIIFViewerThumb = styled.div`
+  width: 130px;
   margin-left: 12px;
   margin-right: 12px;
 
@@ -184,18 +171,6 @@ const IIIFViewerThumb = styled.div`
     margin-right: 36px;
   `}
 
-  width: 130px;
-  noscript & {
-    height: 100%;
-    width: 20%;
-
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      height: 25%;
-      width: 100%;
-      margin-right: 0;
-    }
-  }
-
   a {
     text-decoration: none;
   }
@@ -203,6 +178,17 @@ const IIIFViewerThumb = styled.div`
   img {
     display: block;
     width: 100%;
+  }
+
+  noscript & {
+    height: 100%;
+    @media (min-width: ${props => props.theme.sizes.medium}px) {
+      width: auto;
+    }
+    img {
+      display: inline-block;
+      max-height: calc(100% - 2em);
+    }
   }
 `;
 
@@ -214,8 +200,8 @@ const IIIFViewerThumbLink = styled.a.attrs(props => ({
   height: 100%;
   text-align: center;
   display: block;
-  margin-top: 6px;
-  margin-bottom: 36px;
+  padding-top: 6px;
+  padding-bottom: 36px;
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
@@ -240,13 +226,14 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
   width: 100%;
   height: 20%;
   border-top: 1px solid ${props => props.theme.colors.pewter};
+  padding-left: 20%;
   @media (min-width: ${props => props.theme.sizes.medium}px) {
+    padding-left: 0;
     flex-direction: column;
     height: 100%;
     width: 25%;
     border-top: none;
     border-right: 1px solid ${props => props.theme.colors.pewter};
-    padding: 0 0 ${props => props.theme.spacingUnit * 10}px;
   }
   a {
     display: block;
@@ -259,15 +246,14 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 `;
 
 const ScrollingThumbnailContainer = styled.div`
-  height: 100%;
-  width: 100%;
+  height: calc(100% - ${headerHeight}px);
   overflow: scroll;
-  position: absolute;
   background: ${props => props.theme.colors.charcoal};
   padding: ${props => props.theme.spacingUnit}px;
-  transform: ${props =>
-    props.showThumbs ? 'translateY(0%)' : 'translateY(100%)'};
-  transition: transform 800ms ease;
+  position: fixed;
+  top: ${props => (props.showThumbs ? `${headerHeight}px` : '100vh')};
+  left: 0;
+  transition: top 800ms ease;
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
@@ -520,18 +506,6 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
-  const urlTemplate =
-    mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']);
-  const srcSet =
-    urlTemplate &&
-    imageSizes(2048)
-      .map(width => {
-        return `${urlTemplate({ size: `${width},` })} ${width}w`;
-      })
-      .join(',');
-  const thumbnailsRequired =
-    navigationCanvases && navigationCanvases.length > 1;
-
   // Download info from work
   const [iiifImageLocation] =
     work && work.type !== 'Error'
@@ -543,6 +517,18 @@ const IIIFViewerComponent = ({
           )
           .filter(Boolean)
       : [];
+  const urlTemplate =
+    (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+  const srcSet =
+    urlTemplate &&
+    imageSizes(2048)
+      .map(width => {
+        return `${urlTemplate({ size: `${width},` })} ${width}w`;
+      })
+      .join(',');
+  const thumbnailsRequired =
+    navigationCanvases && navigationCanvases.length > 1;
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const iiifImageLocationLicenseId =
@@ -689,137 +675,149 @@ const IIIFViewerComponent = ({
       </TitleContainer>
       <IIIFViewerBackground>
         <LL />
-        <noscript>
-          <IIIFViewer>
-            <IIIFViewerMain
-              h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-              fullWidth={!thumbnailsRequired}
-            >
-              <IIIFViewerImageWrapper>
-                {iiifImageLocationUrl && imageUrl && (
-                  <IIIFResponsiveImage
-                    width={800}
-                    src={imageUrl}
-                    srcSet={srcSet}
-                    sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-                    extraClasses={classNames({
-                      'block h-center': true,
-                    })}
-                    lang={lang}
-                    alt={
-                      (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                      'no text alternative'
-                    }
-                    isLazy={false}
-                  />
-                )}
-                {mainImageService['@id'] && currentCanvas && (
-                  <IIIFResponsiveImage
-                    width={800}
-                    src={urlTemplate && urlTemplate({ size: '800,' })}
-                    srcSet={srcSet}
-                    sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-                    extraClasses={classNames({
-                      'block h-center': true,
-                    })}
-                    lang={lang}
-                    alt={
-                      (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                      'no text alternative'
-                    }
-                    isLazy={false}
-                  />
-                )}
-              </IIIFViewerImageWrapper>
-              <IIIFViewerPaginatorButtons>
-                <Paginator
-                  {...mainPaginatorProps}
-                  render={PaginatorButtons(true, workId)}
-                />
-              </IIIFViewerPaginatorButtons>
-            </IIIFViewerMain>
-
-            {thumbnailsRequired && (
-              <StaticThumbnailsContainer>
-                {navigationCanvases &&
-                  navigationCanvases.map((canvas, i) => (
-                    <IIIFViewerThumb key={canvas['@id']}>
-                      <Paginator
-                        {...thumbsPaginatorProps}
-                        render={({ rangeStart }) => (
-                          <NextLink
-                            {...itemUrl({
-                              ...params,
-                              workId,
-                              page: pageIndex + 1,
-                              sierraId,
-                              langCode: lang,
-                              canvas: pageSize * pageIndex + (i + 1),
-                            })}
-                            scroll={false}
-                            replace
-                            passHref
-                          >
-                            <IIIFViewerThumbLink>
-                              <IIIFCanvasThumbnail
-                                isEnhanced={false}
-                                canvas={canvas}
-                                lang={lang}
-                              />
-                              <div>
-                                <IIIFViewerThumbNumber
-                                  isActive={canvasIndex === rangeStart + i - 1}
-                                >
-                                  <span className="visually-hidden">
-                                    image{' '}
-                                  </span>
-                                  {rangeStart + i}
-                                </IIIFViewerThumbNumber>
-                              </div>
-                            </IIIFViewerThumbLink>
-                          </NextLink>
-                        )}
-                      />
-                    </IIIFViewerThumb>
-                  ))}
-                <IIIFViewerPaginatorButtons isThumbs={true}>
+        {/* conditionally show this */}
+        {
+          <noscript>
+            <IIIFViewer>
+              <IIIFViewerMain
+                h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+                fullWidth={!thumbnailsRequired}
+              >
+                <IIIFViewerImageWrapper>
+                  {iiifImageLocationUrl && imageUrl && (
+                    <IIIFResponsiveImage
+                      width={800}
+                      src={imageUrl}
+                      srcSet={srcSet}
+                      sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+                      extraClasses={classNames({
+                        'block h-center': true,
+                      })}
+                      lang={lang}
+                      alt={
+                        (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                        'no text alternative'
+                      }
+                      isLazy={false}
+                    />
+                  )}
+                  {mainImageService['@id'] && currentCanvas && (
+                    <IIIFResponsiveImage
+                      width={800}
+                      src={urlTemplate && urlTemplate({ size: '800,' })}
+                      srcSet={srcSet}
+                      sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+                      extraClasses={classNames({
+                        'block h-center': true,
+                      })}
+                      lang={lang}
+                      alt={
+                        (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                        'no text alternative'
+                      }
+                      isLazy={false}
+                    />
+                  )}
+                </IIIFViewerImageWrapper>
+                <IIIFViewerPaginatorButtons>
                   <Paginator
-                    {...thumbsPaginatorProps}
+                    {...mainPaginatorProps}
                     render={PaginatorButtons(true, workId)}
                   />
                 </IIIFViewerPaginatorButtons>
-              </StaticThumbnailsContainer>
-            )}
-          </IIIFViewer>
-        </noscript>
+              </IIIFViewerMain>
 
+              {thumbnailsRequired && (
+                <StaticThumbnailsContainer>
+                  {navigationCanvases &&
+                    navigationCanvases.map((canvas, i) => (
+                      <IIIFViewerThumb key={canvas['@id']}>
+                        <Paginator
+                          {...thumbsPaginatorProps}
+                          render={({ rangeStart }) => (
+                            <NextLink
+                              {...itemUrl({
+                                ...params,
+                                workId,
+                                page: pageIndex + 1,
+                                sierraId,
+                                langCode: lang,
+                                canvas: pageSize * pageIndex + (i + 1),
+                              })}
+                              scroll={false}
+                              replace
+                              passHref
+                            >
+                              <IIIFViewerThumbLink>
+                                <IIIFCanvasThumbnail
+                                  isEnhanced={false}
+                                  canvas={canvas}
+                                  lang={lang}
+                                />
+                                <div>
+                                  <IIIFViewerThumbNumber
+                                    isActive={
+                                      canvasIndex === rangeStart + i - 1
+                                    }
+                                  >
+                                    <span className="visually-hidden">
+                                      image{' '}
+                                    </span>
+                                    {rangeStart + i}
+                                  </IIIFViewerThumbNumber>
+                                </div>
+                              </IIIFViewerThumbLink>
+                            </NextLink>
+                          )}
+                        />
+                      </IIIFViewerThumb>
+                    ))}
+                  <IIIFViewerPaginatorButtons isThumbs={true}>
+                    <Paginator
+                      {...thumbsPaginatorProps}
+                      render={PaginatorButtons(true, workId)}
+                    />
+                  </IIIFViewerPaginatorButtons>
+                </StaticThumbnailsContainer>
+              )}
+            </IIIFViewer>
+          </noscript>
+        }
         {/* enhanced javascript viewer */}
         {enhanced && (
-          <IIIFViewer isFixed={true}>
+          <IIIFViewer>
             <IIIFViewerMain fullWidth={true} aria-live="polite">
               <IIIFViewerImageWrapper aria-hidden={showThumbs}>
                 {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
                 {iiifImageLocationUrl && imageUrl && (
                   <ImageViewer
                     infoUrl={iiifImageLocationUrl}
-                    src={imageUrl}
                     id={imageUrl}
                     width={800}
-                    srcSet={''}
                     lang={null}
+                    alt={
+                      (work && work.description) || (work && work.title) || ''
+                    }
                     tabbableControls={!showThumbs || !thumbnailsRequired}
+                    urlTemplate={urlTemplate}
+                    presentationOnly={Boolean(canvasOcr)}
                   />
                 )}
                 {mainImageService['@id'] && currentCanvas && (
                   <ImageViewer
                     id="item-page"
                     infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-                    src={urlTemplate && urlTemplate({ size: '640,' })}
-                    srcSet={srcSet}
                     width={currentCanvas.width}
                     height={currentCanvas.height}
                     lang={lang}
+                    alt={
+                      canvasOcr && work && work.title
+                        ? `image from ${work && work.title}`
+                        : ''
+                    }
                     tabbableControls={!showThumbs || !thumbnailsRequired}
+                    urlTemplate={urlTemplate}
+                    presentationOnly={Boolean(canvasOcr)}
                   />
                 )}
               </IIIFViewerImageWrapper>
@@ -830,7 +828,6 @@ const IIIFViewerComponent = ({
                 />
               </IIIFViewerPaginatorButtons>
             </IIIFViewerMain>
-
             {thumbnailsRequired && (
               <ScrollingThumbnailContainer
                 ref={thumbnailContainer}
@@ -891,5 +888,3 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
-
-// TODO aria-controls for extra content

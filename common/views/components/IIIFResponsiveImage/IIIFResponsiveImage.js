@@ -14,6 +14,7 @@ type Props = {|
   isLazy: boolean,
   clickHandler?: () => void | Promise<void>,
   loadHandler?: () => void | Promise<void>,
+  presentationOnly?: boolean,
 |};
 
 const IIIFResponsiveImage = ({
@@ -28,6 +29,7 @@ const IIIFResponsiveImage = ({
   clickHandler,
   loadHandler,
   isLazy,
+  presentationOnly,
 }: Props) => {
   return (
     <>
@@ -55,6 +57,7 @@ const IIIFResponsiveImage = ({
         data-srcset={isLazy ? srcSet : undefined}
         sizes={sizes}
         alt={alt}
+        role={presentationOnly ? 'presentation' : null}
       />
       {isLazy && (
         <noscript>
