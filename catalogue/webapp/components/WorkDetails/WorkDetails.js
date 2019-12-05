@@ -42,16 +42,12 @@ type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
   childManifestsCount?: number,
-  showImagesWithSimilarPalette?: boolean,
-  showAdditionalCatalogueData?: boolean,
 |};
 
 const WorkDetails = ({
   work,
   iiifPresentationManifest,
   childManifestsCount,
-  showImagesWithSimilarPalette,
-  showAdditionalCatalogueData,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
@@ -200,7 +196,7 @@ const WorkDetails = ({
           )}
 
         <WorkDetailsSection headingText="About this work">
-          {showAdditionalCatalogueData && work.alternativeTitles.length > 0 && (
+          {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
               title="Also known as"
               text={work.alternativeTitles}
@@ -238,7 +234,7 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && work.edition && (
+          {work.edition && (
             <WorkDetailsText title="Edition" text={[work.edition]} />
           )}
 
@@ -249,18 +245,15 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && duration && (
-            <WorkDetailsText title="Duration" text={[duration]} />
-          )}
+          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
 
-          {showAdditionalCatalogueData &&
-            work.notes.map(note => (
-              <WorkDetailsText
-                key={note.noteType.label}
-                title={note.noteType.label}
-                text={note.contents}
-              />
-            ))}
+          {work.notes.map(note => (
+            <WorkDetailsText
+              key={note.noteType.label}
+              title={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
 
           {work.genres.length > 0 && (
             <WorkDetailsTags
@@ -356,7 +349,7 @@ const WorkDetails = ({
               />
             </div>
           </SpacingComponent>
-          {showAdditionalCatalogueData && work.citeAs && (
+          {work.citeAs && (
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>

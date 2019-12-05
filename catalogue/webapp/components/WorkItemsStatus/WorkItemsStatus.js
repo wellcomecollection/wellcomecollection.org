@@ -83,7 +83,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     >
       <div className={`${font('hnm', 5)}`}>
         {(function() {
-          switch (requestedState === 'unknown') {
+          switch (requestedState) {
             case 'unknown':
               const loginUrl =
                 authState.type === 'unauthorized' ? authState.loginUrl : '#';
@@ -98,8 +98,10 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
                   Login to request and view in the library
                 </a>
               );
+
             case 'requested':
               return <a href={'#'}>You have requested this item</a>;
+
             case 'available':
               return (
                 <a
@@ -145,7 +147,6 @@ const WorkItemsStatus = ({ work }: Props) => {
               <p>
                 {item.location.label}: {item.status.label}
               </p>
-
               <ItemRequestButton item={item} workId={work.id} />
             </Space>
           </Fragment>

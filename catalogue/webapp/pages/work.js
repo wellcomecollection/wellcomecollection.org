@@ -10,9 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
-  getEncoreLink,
   getLocationOfType,
-  getItemIdentifiersWith,
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
@@ -30,7 +28,6 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
 import type { DigitalLocation } from '@weco/common/utils/works';
 
@@ -226,17 +223,11 @@ export const WorkPage = ({ work }: Props) => {
           />
         </WobblyRow>
       )}
-      <TogglesContext.Consumer>
-        {({ showImagesWithSimilarPalette, showAdditionalCatalogueData }) => (
-          <WorkDetails
-            showImagesWithSimilarPalette={showImagesWithSimilarPalette}
-            showAdditionalCatalogueData={showAdditionalCatalogueData}
-            work={work}
-            iiifPresentationManifest={iiifPresentationManifest}
-            childManifestsCount={childManifestsCount}
-          />
-        )}
-      </TogglesContext.Consumer>
+      <WorkDetails
+        work={work}
+        iiifPresentationManifest={iiifPresentationManifest}
+        childManifestsCount={childManifestsCount}
+      />
     </CataloguePageLayout>
   );
 };
@@ -245,11 +236,9 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
-  const { useStageApi } = ctx.query.toggles;
 
   const workOrError = await getWork({
     id,
-    env: useStageApi ? 'stage' : 'prod',
   });
 
   if (workOrError && workOrError.type === 'Redirect') {
