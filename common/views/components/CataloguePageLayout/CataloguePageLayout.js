@@ -3,8 +3,6 @@ import PageLayout, {
   type Props as PageLayoutProps,
 } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
-import MessageBar from '../MessageBar/MessageBar';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import Layout12 from '../Layout12/Layout12';
 import BetaBar from '../BetaBar/BetaBar';
 
@@ -32,16 +30,6 @@ const CataloguePageLayout = (props: Props) => {
             />
 
             <Layout12>
-              <TogglesContext.Consumer>
-                {({ useStageApi }) =>
-                  useStageApi && (
-                    <MessageBar tagText="Dev alert">
-                      You are using the stage catalogue API - data mileage may
-                      vary!
-                    </MessageBar>
-                  )
-                }
-              </TogglesContext.Consumer>
               <BetaBar />
             </Layout12>
           </>

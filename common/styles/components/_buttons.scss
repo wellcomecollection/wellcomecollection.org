@@ -76,6 +76,7 @@
 }
 
 .btn--primary-black {
+  padding: $spacing-unit 2 * $spacing-unit;
   border: none;
   color: color('white');
   background: transparent;

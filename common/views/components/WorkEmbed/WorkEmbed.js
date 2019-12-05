@@ -61,7 +61,6 @@ const WorkEmbed = ({ work }: Props) => {
                 width={800}
                 urlTemplate={iiifImage}
                 alt=""
-                rotation={0}
               />
             </Fragment>
           </div>

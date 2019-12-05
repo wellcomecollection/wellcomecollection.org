@@ -6,8 +6,11 @@ import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
+  getEncoreLink,
   getDownloadOptionsFromImageUrl,
-  getItemAtLocation,
+  getLocationOfType,
+  getWorkIdentifiersWith,
+  getIIIFPresentationLocation,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -31,33 +34,33 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
+import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Work = Object;
 
 type Props = {|
   work: Work,
-  sierraId: ?string,
   iiifPresentationManifest: ?IIIFManifest,
-  encoreLink: ?string,
   childManifestsCount?: number,
-  showImagesWithSimilarPalette?: boolean,
-  showAdditionalCatalogueData?: boolean,
 |};
 
 const WorkDetails = ({
   work,
-  sierraId,
   iiifPresentationManifest,
-  encoreLink,
   childManifestsCount,
-  showImagesWithSimilarPalette,
-  showAdditionalCatalogueData,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
   const params = clientSideSearchParams();
-  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+
+  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
+
+  const digitalLocation: ?DigitalLocation =
+    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
+      ? iiifImageLocation
+      : null;
+
+  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
@@ -95,6 +98,26 @@ const WorkDetails = ({
   const iiifPresentationRepository =
     iiifPresentationManifest &&
     getIIIFMetadata(iiifPresentationManifest, 'Repository');
+
+  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const sierraWorkIds = getWorkIdentifiersWith(work, {
+    identifierId: 'sierra-system-number',
+  });
+
+  const sierraWorkId = sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
+
+  // We do not wish to display a link to the old library site if the new site
+  // provides a digital representation of that work
+  const shouldDisplayEncoreLink = !(
+    sierraIdFromPresentationManifestUrl === sierraWorkId
+  );
+  const encoreLink =
+    shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId);
 
   return (
     <Space
@@ -139,7 +162,7 @@ const WorkDetails = ({
         )}
 
         {!(allDownloadOptions.length > 0) &&
-          sierraId &&
+          sierraIdFromPresentationManifestUrl &&
           childManifestsCount === 0 && (
             <>
               <SpacingSection>
@@ -161,7 +184,7 @@ const WorkDetails = ({
                     <NextLink
                       {...downloadUrl({
                         workId: work.id,
-                        sierraId: sierraId,
+                        sierraId: sierraIdFromPresentationManifestUrl,
                       })}
                     >
                       <a>Download options</a>
@@ -173,7 +196,7 @@ const WorkDetails = ({
           )}
 
         <WorkDetailsSection headingText="About this work">
-          {showAdditionalCatalogueData && work.alternativeTitles.length > 0 && (
+          {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
               title="Also known as"
               text={work.alternativeTitles}
@@ -211,7 +234,7 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && work.edition && (
+          {work.edition && (
             <WorkDetailsText title="Edition" text={[work.edition]} />
           )}
 
@@ -222,18 +245,15 @@ const WorkDetails = ({
             />
           )}
 
-          {showAdditionalCatalogueData && duration && (
-            <WorkDetailsText title="Duration" text={[duration]} />
-          )}
+          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
 
-          {showAdditionalCatalogueData &&
-            work.notes.map(note => (
-              <WorkDetailsText
-                key={note.noteType.label}
-                title={note.noteType.label}
-                text={note.contents}
-              />
-            ))}
+          {work.notes.map(note => (
+            <WorkDetailsText
+              key={note.noteType.label}
+              title={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
 
           {work.genres.length > 0 && (
             <WorkDetailsTags
@@ -278,11 +298,13 @@ const WorkDetails = ({
         )}
 
         {/* TODO: Make this make more sense */}
-        {(encoreLink || iiifPresentationRepository) && (
-          <WorkDetailsSection headingText="Where to find it">
-            <TogglesContext.Consumer>
-              {({ stacksRequestService }) => (
-                <>
+        <TogglesContext.Consumer>
+          {({ stacksRequestService }) =>
+            (stacksRequestService ||
+              encoreLink ||
+              iiifPresentationRepository) && (
+              <WorkDetailsSection headingText="Where to find it">
+                {stacksRequestService && (
                   <div className={`${font('hnl', 5)}`}>
                     <h3 className={`${font('hnm', 5)} no-margin`}>
                       In the library
@@ -291,23 +313,26 @@ const WorkDetails = ({
                       <WorkItemsStatus work={work} />
                     </div>
                   </div>
-                </>
-              )}
-            </TogglesContext.Consumer>
+                )}
 
-            <WorkDetailsText
-              title={'Online'}
-              text={[
-                encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
+                {(encoreLink || iiifPresentationRepository) && (
+                  <WorkDetailsText
+                    title={'Online'}
+                    text={[
+                      encoreLink &&
+                        `<a href="${encoreLink}">Wellcome library</a>`,
 
-                iiifPresentationRepository &&
-                  iiifPresentationRepository.value
-                    .replace(/<img[^>]*>/g, '')
-                    .replace(/<br\s*\/?>/g, ''),
-              ].filter(Boolean)}
-            />
-          </WorkDetailsSection>
-        )}
+                      iiifPresentationRepository &&
+                        iiifPresentationRepository.value
+                          .replace(/<img[^>]*>/g, '')
+                          .replace(/<br\s*\/?>/g, ''),
+                    ].filter(Boolean)}
+                  />
+                )}
+              </WorkDetailsSection>
+            )
+          }
+        </TogglesContext.Consumer>
 
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
@@ -324,7 +349,7 @@ const WorkDetails = ({
               />
             </div>
           </SpacingComponent>
-          {showAdditionalCatalogueData && work.citeAs && (
+          {work.citeAs && (
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>

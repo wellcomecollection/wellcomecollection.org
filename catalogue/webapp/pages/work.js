@@ -10,8 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
-  getEncoreLink,
-  getItemAtLocation,
+  getLocationOfType,
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
@@ -29,8 +28,8 @@ import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentat
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Space from '@weco/common/views/components/styled/Space';
+import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -97,24 +96,19 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
-  const sierraIds = work.identifiers.filter(
-    i => i.identifierType.id === 'sierra-system-number'
-  );
+  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
 
-  // Assumption: a Sierra ID that _isn't_ the one in the IIIF manifest
-  // will be for a physical item.
-  const physicalSierraId = (
-    sierraIds.find(i => i.value !== sierraIdFromPresentationManifestUrl) || {}
-  ).value;
+  const digitalLocation: ?DigitalLocation =
+    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
+      ? iiifImageLocation
+      : null;
 
-  // We strip the last character as that's what Wellcome library expect
-  const encoreLink = physicalSierraId && getEncoreLink(physicalSierraId);
+  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
 
-  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
-  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const imageContentUrl =
-    iiifImageLocationUrl &&
-    iiifImageTemplate(iiifImageLocation.url)({ size: `800,` });
+    digitalLocation && digitalLocation.url
+      ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
+      : null;
 
   return (
     <CataloguePageLayout
@@ -229,19 +223,11 @@ export const WorkPage = ({ work }: Props) => {
           />
         </WobblyRow>
       )}
-      <TogglesContext.Consumer>
-        {({ showImagesWithSimilarPalette, showAdditionalCatalogueData }) => (
-          <WorkDetails
-            showImagesWithSimilarPalette={showImagesWithSimilarPalette}
-            showAdditionalCatalogueData={showAdditionalCatalogueData}
-            work={work}
-            sierraId={sierraIdFromPresentationManifestUrl}
-            iiifPresentationManifest={iiifPresentationManifest}
-            encoreLink={encoreLink}
-            childManifestsCount={childManifestsCount}
-          />
-        )}
-      </TogglesContext.Consumer>
+      <WorkDetails
+        work={work}
+        iiifPresentationManifest={iiifPresentationManifest}
+        childManifestsCount={childManifestsCount}
+      />
     </CataloguePageLayout>
   );
 };
@@ -250,11 +236,9 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
-  const { useStageApi } = ctx.query.toggles;
 
   const workOrError = await getWork({
     id,
-    env: useStageApi ? 'stage' : 'prod',
   });
 
   if (workOrError && workOrError.type === 'Redirect') {

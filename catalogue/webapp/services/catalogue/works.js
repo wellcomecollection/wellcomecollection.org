@@ -15,19 +15,19 @@ const rootUris = {
   stage: 'https://api-stage.wellcomecollection.org/catalogue',
 };
 
-type Enviable = {|
+type Environment = {|
   env?: $Keys<typeof rootUris>,
+|};
+
+type GetWorkProps = {|
+  id: string,
+  ...Environment,
 |};
 
 type GetWorksProps = {|
   filters: Object,
   pageSize?: number,
-  ...Enviable,
-|};
-
-type GetWorkProps = {|
-  id: string,
-  ...Enviable,
+  ...Environment,
 |};
 
 const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
