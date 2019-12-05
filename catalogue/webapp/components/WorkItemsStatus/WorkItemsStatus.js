@@ -25,7 +25,6 @@ type PhysicalLocations = {|
 
 type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
 const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
-  const [authorised, setAuthorised] = useState<?string>();
   const [requestedState, setRequestedState] = useState<?string>();
 
   function setRedirectCookie(workId: string, itemId: string) {
@@ -36,34 +35,41 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     document.cookie = `WC_auth_redirect=${url}; path=/`;
   }
 
-  function setUserHolds(token: string) {
-    return getUserHolds({ token })
-      .then(userHolds => {
-        const itemsOnHold = userHolds.holds.map(hold => {
-          return hold.itemId.catalogueId.value;
-        });
+  const authState = useAuth();
 
-        if (itemsOnHold.includes(item.id)) {
-          setRequestedState('requested');
-        } else {
-          setRequestedState('available');
-        }
+  function updateRequestedState() {
+    if (authState.type === 'authorized') {
+      getUserHolds({ token: authState.token.id_token })
+        .then(userHolds => {
+          const itemsOnHold = userHolds.holds.map(hold => {
+            return hold.itemId.catalogueId.value;
+          });
+
+          if (itemsOnHold.includes(item.id)) {
+            setRequestedState('requested');
+          } else {
+            setRequestedState('available');
+          }
+        })
+        .catch(console.error);
+    } else {
+      setRequestedState('unknown');
+    }
+  }
+
+  function makeRequest(itemId: string) {
+    if (authState.type === 'authorized') {
+      requestItem({
+        itemId: itemId,
+        token: authState.token.id_token,
       })
-      .catch(console.error);
+        .then(_ => setRequestedState('requested'))
+        .catch(console.error);
+    }
   }
 
   useEffect(() => {
-    if (authorised) {
-      setUserHolds(authorised);
-    }
-  }, [authorised]);
-
-  const authState = useAuth();
-
-  useEffect(() => {
-    setAuthorised(
-      authState.type === 'authorized' ? authState.token.id_token : null
-    );
+    updateRequestedState();
   }, [authState]);
 
   return (
@@ -76,42 +82,38 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
       })}
     >
       <div className={`${font('hnm', 5)}`}>
-        return (
-        <>
-          {authState.type === 'unauthorized' && (
-            <a
-              href={authState.loginUrl}
-              onClick={event => {
-                setRedirectCookie(workId, item.id);
-              }}
-            >
-              Login to request and view in the library
-            </a>
-          )}
-          {authState.type === 'authorized' &&
-            requestedState === 'requested' && (
-              <a href={'#'}>You have requested this item</a>
-            )}
-          {authState.type === 'authorized' && requestedState === 'available' && (
-            // TODO: Make this a button
-            <a
-              href={'#'}
-              onClick={event => {
-                event.preventDefault();
-                requestItem({
-                  itemId: item.id,
-                  token: authState.token.id_token,
-                }).then(_ => authorised && setUserHolds(authorised));
-                return false;
-              }}
-            >
-              Request to view in the library
-            </a>
-          )}
-          {authState.type === 'authorizing' && (
-            <a href={'#'}>Authorizing ...</a>
-          )}
-        </>
+        {(function() {
+          switch (requestedState === 'unknown') {
+            case 'unknown':
+              const loginUrl =
+                authState.type === 'unauthorized' ? authState.loginUrl : '#';
+
+              return (
+                <a
+                  href={loginUrl}
+                  onClick={event => {
+                    setRedirectCookie(workId, item.id);
+                  }}
+                >
+                  Login to request and view in the library
+                </a>
+              );
+            case 'requested':
+              return <a href={'#'}>You have requested this item</a>;
+            case 'available':
+              return (
+                <a
+                  href={'#'}
+                  onClick={event => {
+                    event.preventDefault();
+                    makeRequest(item.id);
+                  }}
+                >
+                  Request to view in the library
+                </a>
+              );
+          }
+        })()}
       </div>
     </Tag>
   );
