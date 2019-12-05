@@ -19,7 +19,7 @@ export const placesFields = [
   'places.capacity',
   'places.locationInformation',
 ];
-export const pagesFields = ['pages.title'];
+export const pagesFields = ['pages.title', 'pages.promo'];
 export const collectionVenuesFields = [
   'collection-venue.title',
   'collection-venue.order',
@@ -61,6 +61,7 @@ export const interpretationTypesFields = [
 ];
 export const teamsFields = [
   'teams.title',
+  'teams.subtitle',
   'teams.email',
   'teams.phone',
   'teams.url',
@@ -80,4 +81,13 @@ export const articleSeriesFields = ['series.name', 'series.description'];
 export const articleFormatsFields = [
   'article-formats.title',
   'article-formats.description',
+];
+export const articlesFields = ['articles.title'];
+export const eventsFields = [
+  'events.title',
+  'events.schedule',
+  'events.interpretations',
+  'events.audiences',
+  'events.series',
+  'events.times',
 ];

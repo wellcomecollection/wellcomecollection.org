@@ -1,5 +1,5 @@
 // @flow
-import { classNames, cssGrid, spacing } from '../../../utils/classnames';
+import { classNames, cssGrid } from '../../../utils/classnames';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '../EventPromo/EventPromo';
 import DailyTourPromo from '../DailyTourPromo/DailyTourPromo';
@@ -12,6 +12,8 @@ import { type UiExhibition } from '../../../model/exhibitions';
 import { type UiEvent } from '../../../model/events';
 import { type Book } from '../../../model/books';
 import { type Article } from '../../../model/articles';
+import Space from '../styled/Space';
+import type Moment from 'moment';
 
 // TODO: This should be MultiContent
 type ContentTypes = UiEvent | UiExhibition | Book | Article;
@@ -22,6 +24,7 @@ type Props = {|
   itemsPerRow: number,
   itemsHaveTransparentBackground?: boolean,
   links?: Link[],
+  fromDate?: Moment,
 |};
 
 const CardGrid = ({
@@ -30,6 +33,7 @@ const CardGrid = ({
   itemsPerRow,
   itemsHaveTransparentBackground = false,
   links,
+  fromDate,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
 
@@ -70,7 +74,7 @@ const CardGrid = ({
                 />
               )}
               {item.id !== 'tours' && item.type === 'events' && (
-                <EventPromo event={item} position={i} />
+                <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
                 <StoryPromo
@@ -95,18 +99,13 @@ const CardGrid = ({
       </div>
       {links && links.length > 0 && (
         <Layout12>
-          <div
-            className={classNames({
-              // TODO: update with inter-component spacing when it's formalised
-              [spacing({ s: 3 }, { margin: ['top'] })]: true,
-            })}
-          >
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             {links.map(link => (
               <div key={link.url}>
                 <MoreLink url={link.url} name={link.text} />
               </div>
             ))}
-          </div>
+          </Space>
         </Layout12>
       )}
     </div>

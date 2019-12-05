@@ -14,12 +14,14 @@
 }
 
 .styleguide__icon__id {
-  @include font('LR3');
+  @extend %font-lr;
+  @extend %font-size-6;
   hyphens: auto;
 }
 
 .styleguide__palette__heading {
-  @include font('HNM4');
+  @extend %font-hnm;
+  @extend %font-size-4;
   text-transform: uppercase;
   flex-basis: 100%;
   margin-bottom: 1em;
@@ -60,15 +62,17 @@
 }
 
 .styleguide__palette__name {
-  @include font('LR3');
+  @extend %font-lr;
+  @extend %font-size-6;
 }
 
 .styleguide__palette__hex {
-  @include font('LR3');
+  @extend %font-lr;
+  @extend %font-size-6;
 }
 
 .styleguide__palette__code {
-  font-family: $lettera-regular;
+  @extend %font-lr;
 }
 
 .styleguide__icon-wrap {
@@ -85,18 +89,9 @@
   padding: 10px 0 25px;
 }
 
-@each $font-name in map-keys($fonts) {
-  .styleguide__font__example--#{$font-name} {
-    @include font($font-name);
-  }
-}
-
-[class^=styleguide__font__example--] {
-  margin: 0;
-}
-
 .styleguide__font__name {
-  @include font('HNM5');
+  @extend %font-hnm;
+  @extend %font-size-5;
   color: color('red');
 }
 
@@ -106,24 +101,28 @@
 }
 
 .styleguide__font__property {
-  @include font('HNM6');
+  @extend %font-hnm;
+  @extend %font-size-6;
   display: inline;
   white-space: nowrap;
 }
 
 .styleguide__font__value {
-  @include font('HNL6');
+  @extend %font-hnm;
+  @extend %font-size-6;
   display: inline;
   margin: 0 20px 0 0;
 }
 
 .styleguide__font__usage-title {
-  @include font('HNM6');
+  @extend %font-hnm;
+  @extend %font-size-6;
   display: inline;
 }
 
 .styleguide__font__usage-text {
-  @include font('HNL6');
+  @extend %font-hnm;
+  @extend %font-size-6;
   color: color('silver');
   display: inline;
 }

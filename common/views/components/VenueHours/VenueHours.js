@@ -1,6 +1,8 @@
+// @flow
+
 import { type Weight } from '@weco/common/services/prismic/parsers';
-import { useContext } from 'react';
-import { classNames, font, spacing } from '@weco/common/utils/classnames';
+import { useContext, type ComponentType } from 'react';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -14,12 +16,9 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
-const VenueHoursImage = styled.div.attrs(props => ({
-  className: classNames({
-    [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-  }),
-}))`
+const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
     width: 50%;
   `}
@@ -30,11 +29,7 @@ const VenueHoursImage = styled.div.attrs(props => ({
   `}
 `;
 
-const VenueHoursTimes = styled.div.attrs(props => ({
-  className: classNames({
-    [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-  }),
-}))`
+const VenueHoursTimes: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
     float: left;
     width:33%;
@@ -43,15 +38,22 @@ const VenueHoursTimes = styled.div.attrs(props => ({
   `}
 `;
 
-const JauntyBox = styled.div.attrs(props => ({
-  className: classNames({
-    'bg-yellow inline-block': true,
-    [spacing({ s: 4 }, { padding: ['top', 'bottom'] })]: true,
-    [spacing({ s: 5 }, { padding: ['left'] })]: true,
-    [spacing({ s: 7 }, { padding: ['right'] })]: true,
-    [spacing({ s: -2, m: -4 }, { margin: ['left', 'right'] })]: true,
-  }),
-}))`
+const JauntyBox: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      'bg-yellow inline-block': true,
+    }),
+  })
+)`
+  padding-left: 30px;
+  padding-right: 42px;
+  margin-left: -12px;
+  margin-right: -12px;
+
+  ${props => props.theme.media.medium`
+    margin-left: -24px;
+    margin-right: -24px;
+  `}
   clip-path: ${({ topLeft, topRight, bottomRight, bottomLeft }) =>
     `polygon(
       ${topLeft} ${topLeft},
@@ -121,21 +123,31 @@ const VenueHours = ({ venue, weight }: Props) => {
     <>
       {weight === 'featured' && (
         <>
-          <Divider
-            extraClasses={classNames({
-              'divider--keyline': true,
-              'divider--pumice': true,
-              'is-hidden-s': true,
-              [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-            })}
-          />
-          <VenueHoursImage>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Divider
+              extraClasses={classNames({
+                'divider--keyline': true,
+                'divider--pumice': true,
+                'is-hidden-s': true,
+              })}
+            />
+          </Space>
+          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
             <UiImage
               contentUrl={venueAdditionalInfo[venue.name.toLowerCase()].image}
               width={1600}
               height={900}
+              crops={{}}
               alt=""
-              tasl={null}
+              tasl={{
+                title: null,
+                author: null,
+                sourceName: null,
+                sourceLink: null,
+                license: null,
+                copyrightHolder: null,
+                copyrightLink: null,
+              }}
               sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
               extraClasses=""
               showTasl={false}
@@ -143,21 +155,22 @@ const VenueHours = ({ venue, weight }: Props) => {
           </VenueHoursImage>
         </>
       )}
-      <VenueHoursTimes>
-        <h2
+      <VenueHoursTimes v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space
+          as="h2"
+          h={{ size: 'm', properties: ['padding-right'] }}
           className={classNames({
             h2: true,
-            [spacing({ s: 2 }, { padding: ['right'] })]: true,
           })}
         >
           {weight === 'featured'
             ? `${venueAdditionalInfo[venue.name.toLowerCase()].displayTitle}`
             : 'Opening hours'}
-        </h2>
+        </Space>
         <ul
           className={classNames({
             'plain-list no-padding no-margin': true,
-            [font({ s: 'HNL4' })]: true,
+            [font('hnl', 5)]: true,
           })}
         >
           {venue.openingHours.regular.map(({ dayOfWeek, opens, closes }) => (
@@ -167,18 +180,22 @@ const VenueHours = ({ venue, weight }: Props) => {
           ))}
         </ul>
       </VenueHoursTimes>
-      {upcomingExceptionalPeriods.map(upcomingExceptionalPeriod => {
+      {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
         const firstOverride = upcomingExceptionalPeriod.find(
           date => date.overrideType
         );
         const overrideType =
           firstOverride && firstOverride.overrideType === 'other'
             ? 'Unusual'
-            : firstOverride.overrideType;
+            : firstOverride && firstOverride.overrideType;
         return (
           <>
             <JauntyBox
-              key={upcomingExceptionalPeriod}
+              v={{
+                size: 'l',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
+              key={i}
               topLeft={randomPx()}
               topRight={randomPx()}
               bottomRight={randomPx()}
@@ -186,7 +203,7 @@ const VenueHours = ({ venue, weight }: Props) => {
             >
               <h3
                 className={classNames({
-                  [font({ s: 'HNM4' })]: true,
+                  [font('hnm', 5)]: true,
                 })}
               >
                 <div
@@ -194,25 +211,26 @@ const VenueHours = ({ venue, weight }: Props) => {
                     'flex flex--v-center': true,
                   })}
                 >
-                  <Icon
-                    name="clock"
-                    extraClasses={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name="clock" />
+                  </Space>
                   <span>{overrideType} hours</span>
                 </div>
               </h3>
               <ul
                 className={classNames({
                   'plain-list no-padding no-margin': true,
-                  [font({ s: 'HNL4' })]: true,
+                  [font('hnl', 5)]: true,
                 })}
               >
                 {upcomingExceptionalPeriod.map(p => (
-                  <li key={p.overrideDate}>
-                    {formatDay(p.overrideDate)} {formatDayMonth(p.overrideDate)}{' '}
-                    {p.opens ? `${p.opens}—${p.closes}` : 'Closed'}
+                  <li key={p.overrideDate.toString()}>
+                    {formatDay(p.overrideDate.toDate())}{' '}
+                    {formatDayMonth(p.overrideDate.toDate())}{' '}
+                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
                   </li>
                 ))}
               </ul>
@@ -221,10 +239,11 @@ const VenueHours = ({ venue, weight }: Props) => {
           </>
         );
       })}
-      <div
-        className={classNames({
-          [spacing({ s: 2 }, { margin: ['top'] })]: true,
-        })}
+      <Space
+        v={{
+          size: 's',
+          properties: ['margin-top'],
+        }}
         style={{ clear: 'both' }}
       >
         {weight === 'featured' ? (
@@ -235,7 +254,7 @@ const VenueHours = ({ venue, weight }: Props) => {
         ) : (
           <MoreLink url={'/opening-times'} name="See all opening times" />
         )}
-      </div>
+      </Space>
     </>
   );
 };

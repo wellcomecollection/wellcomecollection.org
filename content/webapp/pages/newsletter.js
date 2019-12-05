@@ -3,7 +3,8 @@ import type { Context } from 'next';
 import { Component } from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { spacing, grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   result: ?string,
@@ -25,6 +26,7 @@ export class NewsletterPage extends Component<Props> {
         description={
           'Sign up for news and information from Wellcome Collection'
         }
+        hideNewsletterPromo={true}
         url={{ pathname: `/newsletter` }}
         jsonLd={{ '@type': 'WebPage' }}
         openGraphType={'website'}
@@ -34,8 +36,14 @@ export class NewsletterPage extends Component<Props> {
         }
         imageAltText={''}
       >
-        <div className={spacing({ s: 4 }, { margin: ['top'] })}>
-          <div className={`row ${spacing({ s: 8 }, { padding: ['bottom'] })}`}>
+        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space
+            v={{
+              size: 'xl',
+              properties: ['padding-bottom'],
+            }}
+            className={`row`}
+          >
             <div className="container">
               <div className="grid">
                 <div
@@ -57,8 +65,8 @@ export class NewsletterPage extends Component<Props> {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Space>
+        </Space>
       </PageLayout>
     );
   }

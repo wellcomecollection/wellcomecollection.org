@@ -2,10 +2,11 @@
 import { Children, createElement } from 'react';
 import ReactMarkdown from 'react-markdown';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { spacing, grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 // $FlowFixMe
 import PROGRESS_NOTES from './PROGRESS_NOTES.md';
 import { webpageLd } from '@weco/common/utils/json-ld';
+import Space from '@weco/common/views/components/styled/Space';
 
 function flatten(text, child) {
   return typeof child === 'string'
@@ -37,7 +38,7 @@ const ProgressPage = () => (
     imageUrl={null}
     imageAltText={null}
   >
-    <div className={`row ${spacing({ s: 5 }, { padding: ['top'] })}`}>
+    <Space v={{ size: 'l', properties: ['padding-top'] }}>
       <div className="container">
         <div className="grid">
           <div className={`${grid({ s: 12, m: 11, l: 8, xl: 7 })}`}>
@@ -50,7 +51,7 @@ const ProgressPage = () => (
           </div>
         </div>
       </div>
-    </div>
+    </Space>
   </PageLayout>
 );
 

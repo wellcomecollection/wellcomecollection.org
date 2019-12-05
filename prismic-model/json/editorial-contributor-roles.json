@@ -1,10 +1,16 @@
 {
-  "Contributor" : {
-    "title" : {
-      "type" : "StructuredText",
-      "config" : {
-        "single" : "heading1",
-        "label" : "title"
+  "Contributor": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "paragraph,hyperlink,strong,em,heading1",
+        "label": "Title"
+      }
+    },
+    "describedBy": {
+      "type": "Text",
+      "config": {
+        "label": "Word to describe output of the role"
       }
     }
   }

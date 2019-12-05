@@ -21,7 +21,7 @@ $v-spacing-unit: 6px;
 $spacing-unit: 6px;
 $article-top-space: 2 * $vertical-space-unit;
 $border-radius-unit: 6px;
-$spacing-directions: ('top', 'right', 'bottom', 'left');
+$spacing-directions: ('top', 'bottom', 'right', 'left');
 
 $container-padding-s: map-get($container-padding, 'small');
 $container-padding-m: map-get($container-padding, 'medium');

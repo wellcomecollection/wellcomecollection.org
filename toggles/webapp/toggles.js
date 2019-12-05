@@ -1,32 +1,31 @@
 module.exports = {
   toggles: [
     {
-      id: 'selectableQueries',
-      title: `Selectable queries`,
+      id: 'enableImageSearch',
+      title: 'Enable the images-only search on /images',
       defaultValue: false,
       description:
-        'Allow people to use different query types while searching the catalogue.',
+        'Enables a separate page that performs image-only search with a different UI',
     },
     {
-      id: 'relevanceRating',
-      title: `Search relevance rating`,
+      id: 'stacksRequestService',
+      title: 'Items status and requesting',
       defaultValue: false,
-      description:
-        'Allow people rate the relevance or results on the search results page.',
+      description: 'Get the status of items and request them from the stacks',
     },
     {
-      id: 'useStageApi',
-      title: `Use the staging API`,
+      id: 'unfilteredSearchResults',
+      title:
+        'Return all posible results from the catalogue API, without filtering by type or location',
       defaultValue: false,
-      description:
-        'Uses api.stage for requests to the API to view data that we are testing.',
+      description: 'Shows all possible search results from the catalogue API',
     },
     {
-      id: 'showWorkLocations',
-      title: 'Show the locations of a work in the header',
+      id: 'helveticaRegular',
+      title: 'Helvetica regular',
       defaultValue: false,
       description:
-        'These can be either physical or digital locations. We need to do a little bt of work figuring out what all the codes mean to get the messaging right.',
+        'Displays body copy in Helvetica regular (where it is currently Helvetica light)',
     },
   ],
 };

@@ -51,7 +51,7 @@
 
   strong,
   b {
-    font-family: $helvetica-neue-medium;
+    @extend %font-hnm;
     font-weight: normal;
   }
 }

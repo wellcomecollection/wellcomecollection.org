@@ -107,6 +107,11 @@ export default {
           showClosingTimes: boolean('Show closing times'),
         },
       }),
+      contact: slice('Contact', {
+        nonRepeat: {
+          content: link('Content item', 'document', ['teams']),
+        },
+      }),
       inPageAnchor: slice('In page anchor', {
         nonRepeat: {
           id: {

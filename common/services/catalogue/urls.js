@@ -1,50 +1,37 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
+import { type NextLinkType } from '@weco/common/model/next-link-type';
+import { type SearchParams, searchParamsSerialiser } from './search-params';
+import { removeEmptyProps } from '../../utils/json';
 
-const QueryTypes = {
-  Justboost: 'boost',
-  Broaderboost: 'msm',
-  Slop: 'msmboost',
-};
-type QueryType = $Values<typeof QueryTypes>;
-
-type WorksUrlProps = {|
-  query: ?string,
-  page: ?number,
-  workType?: ?(string[]),
-  itemsLocationsLocationType?: ?(string[]),
-  _queryType?: ?QueryType,
-|};
-
-type WorkUrlProps = {|
+export type WorksUrlProps = SearchParams;
+export type WorkUrlProps = {|
+  ...SearchParams,
   id: string,
 |};
 
-type ItemUrlProps = {|
+export type ItemUrlProps = {|
   workId: string,
-  sierraId: ?string,
   langCode: string,
   canvas: number,
+  sierraId: ?string,
   page: ?number,
+  isOverview?: boolean,
+  ...SearchParams,
 |};
 
-function removeEmpty(obj: Object): Object {
-  return JSON.parse(JSON.stringify(obj));
-}
+export type DownloadUrlProps = {|
+  workId: string,
+  sierraId: ?string,
+|};
 
-function getWorkType(workType: ?(string[])) {
-  return {
-    workType: workType ? workType.join(',') : undefined,
-  };
-}
-
-export function workUrl({ id }: WorkUrlProps): NextLinkType {
+export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/work`,
-      query: {
+      query: removeEmptyProps({
         id,
-      },
+        ...searchParamsSerialiser(searchParams),
+      }),
     },
     as: {
       pathname: `/works/${id}`,
@@ -52,29 +39,31 @@ export function workUrl({ id }: WorkUrlProps): NextLinkType {
   };
 }
 
-export function worksUrl({
-  query,
-  page,
-  workType,
-  _queryType,
-}: WorksUrlProps): NextLinkType {
+export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/works`,
-      query: removeEmpty({
-        query: query || undefined,
-        page: page && page > 1 ? page : undefined,
-        ...getWorkType(workType),
-        _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
-      }),
+      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
     },
     as: {
       pathname: `/works`,
-      query: removeEmpty({
-        query: query || undefined,
-        page: page && page > 1 ? page : undefined,
-        ...getWorkType(workType),
-        _queryType: _queryType && _queryType !== '' ? _queryType : undefined,
+      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
+    },
+  };
+}
+
+export function imagesUrl(searchParams: WorksUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/images`,
+      query: removeEmptyProps({
+        ...searchParamsSerialiser(searchParams),
+      }),
+    },
+    as: {
+      pathname: `/images`,
+      query: removeEmptyProps({
+        ...searchParamsSerialiser(searchParams),
       }),
     },
   };
@@ -86,27 +75,54 @@ export function itemUrl({
   sierraId,
   langCode,
   canvas,
+  isOverview,
+  ...searchParams
 }: ItemUrlProps): NextLinkType {
   return {
     href: {
       pathname: `/item`,
       query: {
         workId,
-        ...removeEmpty({
+        ...removeEmptyProps({
           page: page && page > 1 ? page : undefined,
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
           langCode: langCode,
+          isOverview: isOverview,
+          ...{ ...searchParamsSerialiser(searchParams), page: 1 },
         }),
       },
     },
     as: {
       pathname: `/works/${workId}/items`,
-      query: removeEmpty({
+      query: removeEmptyProps({
         page: page && page > 1 ? page : undefined,
         canvas: canvas && canvas > 1 ? canvas : undefined,
         sierraId: sierraId,
         langCode: langCode,
+      }),
+    },
+  };
+}
+
+export function downloadUrl({
+  workId,
+  sierraId,
+}: DownloadUrlProps): NextLinkType {
+  return {
+    href: {
+      pathname: `/download`,
+      query: {
+        workId,
+        ...removeEmptyProps({
+          sierraId: sierraId,
+        }),
+      },
+    },
+    as: {
+      pathname: `/works/${workId}/download`,
+      query: removeEmptyProps({
+        sierraId: sierraId,
       }),
     },
   };

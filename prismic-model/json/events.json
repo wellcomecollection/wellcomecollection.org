@@ -13,9 +13,7 @@
       "config": {
         "label": "Format",
         "select": "document",
-        "customtypes": [
-          "event-formats"
-        ]
+        "customtypes": ["event-formats"]
       }
     },
     "place": {
@@ -23,9 +21,7 @@
       "fieldset": "Place",
       "config": {
         "select": "document",
-        "customtypes": [
-          "places"
-        ],
+        "customtypes": ["places"],
         "label": "Where is it?"
       }
     },
@@ -39,9 +35,7 @@
             "config": {
               "label": "Series",
               "select": "document",
-              "customtypes": [
-                "event-series"
-              ]
+              "customtypes": ["event-series"]
             }
           }
         }
@@ -68,9 +62,7 @@
             "type": "Select",
             "config": {
               "label": "Fully booked",
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           }
         }
@@ -356,18 +348,28 @@
                 "config": {
                   "label": "Content item",
                   "select": "document",
-                  "customtypes": [
-                    "collection-venue"
-                  ]
+                  "customtypes": ["collection-venue"]
                 }
               },
               "showClosingTimes": {
                 "type": "Select",
                 "config": {
                   "label": "Show closing times",
-                  "options": [
-                    "yes"
-                  ]
+                  "options": ["yes"]
+                }
+              }
+            }
+          },
+          "contact": {
+            "type": "Slice",
+            "fieldset": "Contact",
+            "non-repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": ["teams"]
                 }
               }
             }
@@ -444,10 +446,8 @@
     "isRelaxedPerformance": {
       "type": "Select",
       "config": {
-        "label": "Relaxed performance",
-        "options": [
-          "yes"
-        ]
+        "label": "Relaxed",
+        "options": ["yes"]
       }
     },
     "interpretations": {
@@ -460,18 +460,14 @@
             "config": {
               "label": "Interpretation",
               "select": "document",
-              "customtypes": [
-                "interpretation-types"
-              ]
+              "customtypes": ["interpretation-types"]
             }
           },
           "isPrimary": {
             "type": "Select",
             "config": {
               "label": "Primary interprtation",
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           }
         }
@@ -487,9 +483,7 @@
             "config": {
               "label": "Audience",
               "select": "document",
-              "customtypes": [
-                "audiences"
-              ]
+              "customtypes": ["audiences"]
             }
           }
         }
@@ -508,9 +502,7 @@
       "config": {
         "label": "Booking enquiry team",
         "select": "document",
-        "customtypes": [
-          "teams"
-        ]
+        "customtypes": ["teams"]
       }
     },
     "eventbriteEvent": {
@@ -550,9 +542,7 @@
             "config": {
               "label": "Policy",
               "select": "document",
-              "customtypes": [
-                "event-policies"
-              ]
+              "customtypes": ["event-policies"]
             }
           }
         }
@@ -562,9 +552,7 @@
       "type": "Select",
       "config": {
         "label": "Early registration",
-        "options": [
-          "yes"
-        ]
+        "options": ["yes"]
       }
     },
     "cost": {
@@ -585,18 +573,14 @@
             "config": {
               "label": "Event",
               "select": "document",
-              "customtypes": [
-                "events"
-              ]
+              "customtypes": ["events"]
             }
           },
           "isNotLinked": {
             "type": "Select",
             "config": {
               "label": "Suppress link to event",
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           }
         }
@@ -607,9 +591,7 @@
       "config": {
         "label": "Background texture",
         "select": "document",
-        "customtypes": [
-          "background-textures"
-        ]
+        "customtypes": ["background-textures"]
       }
     }
   },
@@ -624,9 +606,7 @@
             "config": {
               "label": "Role",
               "select": "document",
-              "customtypes": [
-                "editorial-contributor-roles"
-              ]
+              "customtypes": ["editorial-contributor-roles"]
             }
           },
           "contributor": {
@@ -634,10 +614,7 @@
             "config": {
               "label": "Contributor",
               "select": "document",
-              "customtypes": [
-                "people",
-                "organisations"
-              ]
+              "customtypes": ["people", "organisations"]
             }
           },
           "description": {

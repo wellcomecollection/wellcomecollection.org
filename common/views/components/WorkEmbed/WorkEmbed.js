@@ -21,7 +21,7 @@ const WorkEmbed = ({ work }: Props) => {
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
   const imageUrl = iiifImage({ size: '800,' });
   const imageInfoUrl = convertIiifUriToInfoUri(
-    convertImageUri(imageUrl, 'full', false)
+    convertImageUri(imageUrl, 'full')
   );
 
   return (
@@ -59,9 +59,9 @@ const WorkEmbed = ({ work }: Props) => {
                 src={imageUrl}
                 srcSet={''}
                 id={work.id}
-                canvasOcr={null}
                 lang={null}
                 width={800}
+                tabbableControls={true}
               />
             </Fragment>
           </div>

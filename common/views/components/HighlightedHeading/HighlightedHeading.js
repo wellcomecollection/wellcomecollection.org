@@ -1,4 +1,4 @@
-import { spacing } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   text: string,
@@ -7,14 +7,16 @@ type Props = {|
 const HighlightedHeading = ({ text }: Props) => {
   return (
     <h1 className="h1">
-      <span
-        className={`highlighted-heading bg-white ${spacing(
-          { s: 2 },
-          { padding: ['left', 'right'] }
-        )} ${spacing({ s: 1 }, { padding: ['bottom', 'top'] })}`}
+      <Space
+        v={{
+          size: 's',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+        className={`highlighted-heading bg-white`}
       >
         {text}
-      </span>
+      </Space>
     </h1>
   );
 };

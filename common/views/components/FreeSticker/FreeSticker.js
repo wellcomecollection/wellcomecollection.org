@@ -1,17 +1,23 @@
-import { spacing, font, classNames } from '../../../utils/classnames';
+// @flow
+import { font, classNames } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 const FreeSticker = () => (
-  <span
+  <Space
+    v={{
+      size: 's',
+      properties: ['padding-top', 'padding-bottom'],
+    }}
+    h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+    as="span"
     className={classNames({
       'font-white bg-black rotate-r-8 absolute': true,
-      [font({ s: 'WB7' })]: true,
-      [spacing({ s: 1 }, { padding: ['top', 'bottom'] })]: true,
-      [spacing({ s: 2 }, { padding: ['left', 'right'] })]: true,
+      [font('wb', 5)]: true,
     })}
     style={{ marginTop: '-20px', right: '0' }}
   >
     Free
-  </span>
+  </Space>
 );
 
 export default FreeSticker;

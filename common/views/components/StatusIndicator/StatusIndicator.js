@@ -1,7 +1,8 @@
 // @flow
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { formatDateRangeWithMessage } from '../../../utils/format-date';
-import Icon from '../Icon/Icon';
+import Space from '../styled/Space';
+import Dot from '../Dot/Dot';
 
 type Props = {|
   start: Date,
@@ -14,18 +15,14 @@ const StatusIndicator = ({ start, end, statusOverride }: Props) => {
     ? { color: 'marble', text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
   return (
-    <span className={`flex flex--v-center ${font({ s: 'HNL5' })}`}>
-      <span
-        className={`${spacing(
-          { s: 1 },
-          { margin: ['right'] }
-        )} flex flex--v-center`}
+    <span className={`flex flex--v-center ${font('hnl', 5)}`}>
+      <Space
+        as="span"
+        h={{ size: 'xs', properties: ['margin-right'] }}
+        className={`flex flex--v-center`}
       >
-        <Icon
-          name="statusIndicator"
-          extraClasses={`icon--match-text icon--${color}`}
-        />
-      </span>
+        <Dot color={color} />
+      </Space>
       <span>{text}</span>
     </span>
   );

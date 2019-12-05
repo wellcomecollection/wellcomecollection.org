@@ -4,13 +4,17 @@ terraform {
   backend "s3" {
     key            = "build-state/terraform-config.tfstate"
     dynamodb_table = "terraform-locktable"
-    region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
+
+    profile        = "experience-dev"
+    region         = "eu-west-1"
   }
 }
 
 provider "aws" {
   version = "~> 1.56.0"
+
+  profile = "experience-dev"
   region  = "eu-west-1"
 }
 

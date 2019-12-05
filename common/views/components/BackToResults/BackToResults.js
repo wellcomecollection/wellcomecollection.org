@@ -1,20 +1,16 @@
 // @flow
-import { useContext } from 'react';
 import NextLink from 'next/link';
-import CatalogueSearchContext from '../../components/CatalogueSearchContext/CatalogueSearchContext';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
+import { clientSideSearchParams } from '../../../services/catalogue/search-params';
 
 const BackToResults = () => {
-  const { query, workType, page, _queryType } = useContext(
-    CatalogueSearchContext
-  );
+  const params = clientSideSearchParams();
+  const { query } = params;
+
   const link = worksUrl({
-    query,
-    page,
-    workType,
-    _queryType,
+    ...params,
   });
   return (
     <NextLink {...link}>
@@ -28,7 +24,7 @@ const BackToResults = () => {
           });
         }}
         className={classNames({
-          [font({ s: 'HNM5', m: 'HNM4' })]: true,
+          [font('hnm', 5)]: true,
         })}
       >
         <span>{`Search${query ? ' results' : ''}`}</span>

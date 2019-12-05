@@ -1,7 +1,8 @@
 // @flow
-import { font, classNames, spacing } from '../../../utils/classnames';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import type { HTMLString } from '../../../services/prismic/types';
+import { font, classNames } from '../../../utils/classnames';
+import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '../styled/Space';
 
 type Props = {|
   text: HTMLString,
@@ -12,21 +13,23 @@ type Props = {|
 const Quote = ({ text, citation, isPullOrReview }: Props) => (
   <blockquote
     className={classNames({
-      quote: true,
       'quote--pull': isPullOrReview,
-      [font({ s: 'HNL3', m: 'HNL2' })]: isPullOrReview,
-      [spacing({ s: 3 }, { padding: ['left'] })]: true,
-      [spacing({ s: 0 }, { margin: ['left', 'top', 'bottom'] })]: true,
+      [font('hnl', 2)]: isPullOrReview,
+      'quote no-margin': true,
     })}
   >
-    <PrismicHtmlBlock html={text} />
+    <Space
+      v={citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined}
+    >
+      <PrismicHtmlBlock html={text} />
+    </Space>
     {citation && (
       <footer className="quote__footer flex">
         <cite
-          className={`quote__cite flex flex--v-end font-pewter ${font({
-            s: 'HNL5',
-            m: 'HNL4',
-          })}`}
+          className={`quote__cite flex flex--v-end font-pewter ${font(
+            'hnl',
+            5
+          )}`}
         >
           <PrismicHtmlBlock html={citation} />
         </cite>

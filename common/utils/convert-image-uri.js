@@ -5,36 +5,32 @@ const imageMap = {
   wordpress: {
     root: 'https://wellcomecollection.files.wordpress.com/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/wordpress:',
-    iiifOriginRoot:
-      'https://iiif-origin.wellcomecollection.org/image/wordpress:',
+  },
+  prismicImgix: {
+    root: 'https://images.prismic.io/wellcomecollection/',
   },
   prismic: {
-    cdnRoot: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
-    root: 'https://prismic-io.s3.amazonaws.com/wellcomecollection/',
+    root: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
-    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/prismic:',
   },
   miro: {
     root: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/',
   },
   iiif: {
     // sometimes we already have the iiif url, but we may want to convert it to use the origin
     root: 'https://iiif.wellcomecollection.org/image/',
     iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-    iiifOriginRoot: 'https://iiif-origin.wellcomecollection.org/image/',
   },
 };
 
 function determineSrc(url: string): string {
   if (url.startsWith(imageMap.wordpress.root)) {
     return 'wordpress';
-  } else if (
-    url.startsWith(imageMap.prismic.root) ||
-    url.startsWith(imageMap.prismic.cdnRoot)
-  ) {
+  } else if (url.startsWith(imageMap.prismic.root)) {
     return 'prismic';
+  } else if (url.startsWith(imageMap.prismicImgix.root)) {
+    return 'prismicImgix';
   } else if (url.startsWith(imageMap.miro.root)) {
     return 'miro';
   } else if (url.startsWith(imageMap.iiif.root)) {
@@ -45,83 +41,54 @@ function determineSrc(url: string): string {
 }
 
 function determineIfGif(originalUriPath) {
-  return originalUriPath.slice(-4) === '.gif';
+  return originalUriPath.includes('.gif');
 }
 
 function determineFinalFormat(originalUriPath) {
-  if (originalUriPath.slice(-4) === '.png') {
+  if (originalUriPath.includes('.png')) {
     return 'png';
   } else {
     return 'jpg';
   }
 }
 
-function convertPathToWordpressUri(originalUriPath, size) {
-  return originalUriPath + `?w=${size}`;
+type PrismicUriOpts = {|
+  auto?: string,
+  rect?: string,
+  w?: number | 'full',
+  h?: number,
+|};
+
+function prismicImageTemplate(baseUrl: string) {
+  const templateString = `${baseUrl}?auto={auto}&rect={rect}&w={w}&h={h}`;
+  const template = urlTemplate.parse(templateString);
+  return (opts: PrismicUriOpts) => {
+    return template.expand(opts);
+  };
 }
 
-function convertPathToIiifUri(originalUriPath, iiifRoot, size) {
-  const isFullSize = size === 'full';
-  const format = determineFinalFormat(originalUriPath);
-  return `${iiifRoot}${originalUriPath}/full/${size}${
-    isFullSize ? '' : ','
-  }/0/default.${format}`;
+type WordpressUriOpts = {|
+  width?: number | 'full',
+|};
+
+function wordPressImageTemplate(baseUrl: string) {
+  const templateString = `${baseUrl}?w={width}`;
+  const defaultOpts = {
+    width: 'full',
+  };
+  const template = urlTemplate.parse(templateString);
+  return (opts: WordpressUriOpts) =>
+    template.expand(Object.assign({}, defaultOpts, opts));
 }
 
-export function convertIiifUriToInfoUri(originalUriPath: string) {
-  const match = originalUriPath.match(
-    /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
-  );
-  if (match && match[0]) {
-    return `${match[0]}/info.json`;
-  } else {
-    return `${originalUriPath}/info.json`;
-  }
-}
-
-export function convertImageUri(
-  originalUri: string,
-  requiredSize: number | 'full',
-  useIiifOrigin: boolean = false
-): string {
-  const imageSrc = determineSrc(originalUri);
-  const isGif = determineIfGif(originalUri);
-
-  if (imageSrc === 'unknown') {
-    return originalUri;
-  } else {
-    if (!isGif) {
-      const imagePath =
-        imageSrc === 'miro'
-          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1]
-          : imageSrc === 'iiif'
-          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0]
-          : originalUri.split(imageMap[imageSrc].root)[1]
-          ? originalUri.split(imageMap[imageSrc].root)[1]
-          : // $FlowFixMe
-            originalUri.split(imageMap[imageSrc].cdnRoot)[1];
-      const iiifRoot = useIiifOrigin
-        ? imageMap[imageSrc].iiifOriginRoot
-        : imageMap[imageSrc].iiifRoot;
-
-      return convertPathToIiifUri(imagePath, iiifRoot, requiredSize);
-    } else {
-      if (imageSrc === 'wordpress') {
-        return convertPathToWordpressUri(originalUri, requiredSize);
-      } else {
-        return originalUri;
-      }
-    }
-  }
-}
-
-type IiifUriOpts = {
+type IiifUriOpts = {|
   region?: string,
   size?: string,
   rotation?: number,
   quality?: string,
   format?: string,
-};
+|};
+
 export function iiifImageTemplate(infoJsonLocation: string) {
   const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
@@ -135,4 +102,87 @@ export function iiifImageTemplate(infoJsonLocation: string) {
   const template = urlTemplate.parse(templateString);
   return (opts: IiifUriOpts) =>
     template.expand(Object.assign({}, defaultOpts, opts));
+}
+
+function paramsToObject(entries) {
+  return Array.from(entries).reduce((acc, curr) => {
+    const [key, value] = curr;
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+function prismicTemplateParts(
+  originalUri: string,
+  requiredSize: number | 'full'
+) {
+  const url = new URL(originalUri);
+  const base = `${url.origin}${url.pathname}`;
+  const urlParams = url.searchParams;
+  const width = urlParams && urlParams.get('w');
+  const height = urlParams && urlParams.get('h');
+  const params =
+    urlParams && typeof requiredSize === 'number' && width && height
+      ? {
+          ...paramsToObject(urlParams.entries()),
+          w: requiredSize,
+          h: Math.round((requiredSize / Number(width)) * Number(height)),
+        }
+      : {
+          ...paramsToObject(urlParams.entries()),
+          w: requiredSize,
+        };
+  return {
+    base,
+    params,
+  };
+}
+
+export function convertImageUri(
+  originalUri: string,
+  requiredSize: number | 'full'
+): string {
+  const imageSrc = determineSrc(originalUri);
+  const isGif = determineIfGif(originalUri);
+  if (imageSrc === 'unknown') {
+    return originalUri;
+  } else if (imageSrc === 'prismicImgix') {
+    const parts = prismicTemplateParts(originalUri, requiredSize);
+    return prismicImageTemplate(parts.base)({
+      ...parts.params,
+    });
+  } else {
+    if (!isGif) {
+      const imagePath =
+        imageSrc === 'miro'
+          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1]
+          : imageSrc === 'iiif'
+          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0]
+          : originalUri.split(imageMap[imageSrc].root)[1];
+      const iiifRoot = imageMap[imageSrc].iiifRoot;
+
+      const params = {
+        size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
+        format: determineFinalFormat(originalUri),
+      };
+      return iiifImageTemplate(`${iiifRoot}${imagePath}`)(params);
+    } else {
+      if (imageSrc === 'wordpress') {
+        return wordPressImageTemplate(originalUri)({ width: requiredSize });
+      } else {
+        return originalUri;
+      }
+    }
+  }
+}
+
+export function convertIiifUriToInfoUri(originalUriPath: string) {
+  const match = originalUriPath.match(
+    /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
+  );
+  if (match && match[0]) {
+    return `${match[0]}/info.json`;
+  } else {
+    return `${originalUriPath}/info.json`;
+  }
 }

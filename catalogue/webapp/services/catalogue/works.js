@@ -3,9 +3,12 @@ import fetch from 'isomorphic-unfetch';
 import {
   type CatalogueResultsList,
   type CatalogueApiError,
+  type CatalogueAggregationBucket,
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { removeEmptyProps } from '@weco/common/utils/json';
+import { defaultWorkTypes } from '@weco/common/services/catalogue/search-params';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -17,9 +20,8 @@ type Enviable = {|
 |};
 
 type GetWorksProps = {|
-  query: string,
-  page: number,
   filters: Object,
+  pageSize?: number,
   ...Enviable,
 |};
 
@@ -28,32 +30,31 @@ type GetWorkProps = {|
   ...Enviable,
 |};
 
-const includes = [
+const worksIncludes = ['identifiers', 'production', 'contributors', 'subjects'];
+
+const workIncludes = [
   'identifiers',
   'items',
-  'contributors',
   'subjects',
   'genres',
+  'contributors',
   'production',
+  'notes',
 ];
 
 export async function getWorks({
-  query,
-  page,
   filters,
   env = 'prod',
+  pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const filterQueryString = Object.keys(filters).map(key => {
+  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
     const val = filters[key];
     return `${key}=${val}`;
   });
   const url =
-    `${rootUris[env]}/v2/works?include=${includes.join(',')}` +
-    `&pageSize=100` +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '') +
-    (query ? `&query=${encodeURIComponent(query)}` : '') +
-    (page ? `&page=${page}` : '');
-
+    `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
+    `&pageSize=${pageSize}` +
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -70,11 +71,35 @@ export async function getWorks({
   }
 }
 
+export async function getWorkTypeAggregations({
+  filters,
+  unfilteredSearchResults,
+  env = 'prod',
+}: any): Promise<CatalogueAggregationBucket[]> {
+  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
+    const val = filters[key];
+    return key !== 'workType' && `${key}=${val}`;
+  });
+  const url =
+    `${rootUris[env]}/v2/works?include=${workIncludes.join(
+      ','
+    )}&aggregations=workType` +
+    (unfilteredSearchResults ? '' : `&workType=${defaultWorkTypes.join(',')}`) +
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+
+  const res = await fetch(url);
+  const json = await res.json();
+
+  return json.aggregations.workType.buckets;
+}
+
 export async function getWork({
   id,
   env = 'prod',
 }: GetWorkProps): Promise<Work | CatalogueApiError | CatalogueApiRedirect> {
-  const url = `${rootUris[env]}/v2/works/${id}?include=${includes.join(',')}`;
+  const url = `${rootUris[env]}/v2/works/${id}?include=${workIncludes.join(
+    ','
+  )}`;
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the

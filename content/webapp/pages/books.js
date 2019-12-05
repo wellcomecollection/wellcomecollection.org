@@ -7,13 +7,14 @@ import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginate
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { Book } from '@weco/common/model/books';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 type Props = {|
   books: PaginatedResults<Book>,
 |};
 
 const pageDescription =
-  'Wellcome Collection publishes books that relate to our exhibitions, collections and areas of interest.';
+  'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.';
 export class BooksPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1 } = ctx.query;
@@ -53,19 +54,21 @@ export class BooksPage extends Component<Props> {
         }
         imageAltText={firstBook && firstBook.image && firstBook.image.alt}
       >
-        <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
-          title={'Books'}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescription,
-              spans: [],
-            },
-          ]}
-          paginatedResults={books}
-          paginationRoot={'books'}
-        />
+        <SpacingSection>
+          <LayoutPaginatedResults
+            showFreeAdmissionMessage={false}
+            title={'Books'}
+            description={[
+              {
+                type: 'paragraph',
+                text: pageDescription,
+                spans: [],
+              },
+            ]}
+            paginatedResults={books}
+            paginationRoot={'books'}
+          />
+        </SpacingSection>
       </PageLayout>
     );
   }

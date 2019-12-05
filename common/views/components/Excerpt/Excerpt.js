@@ -1,7 +1,8 @@
 // @flow
 import { Fragment } from 'react';
-import { font, spacing } from '../../../utils/classnames';
 import type { Book } from '../../../model/books';
+import { font } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   title: string,
@@ -13,34 +14,28 @@ const Excerpt = ({ title, content, source, audio }: Props) => (
   <Fragment>
     <h2 className="h2">{title}</h2>
     <div className="bg-white">
-      {/*
-        TODO: This should definitely not be in here, but has to be because
-        of the way the article body is currently built
-      */}
-      <div className="body-part__extend-to-right">
-        <div
-          className={`${spacing(
-            { s: 3 },
-            { padding: ['top', 'bottom'], margin: ['bottom'] }
-          )}`}
+      <Space
+        v={{
+          size: 'm',
+          properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
+        }}
+      >
+        <Space
+          as="pre"
+          h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+          className={`${font(
+            'lr',
+            5
+          )} pre  border-color-smoke border-left-width-5`}
         >
-          <pre
-            className={`${spacing(
-              { s: 3 },
-              { padding: ['left', 'right'] }
-            )} ${font({
-              s: 'LR3',
-            })} pre  border-color-smoke border-left-width-5`}
-          >
-            {content}
-          </pre>
-        </div>
-      </div>
+          {content}
+        </Space>
+      </Space>
     </div>
     {audio && <audio controls src={audio} style={{ width: '100%' }} />}
     {source && (
       <p>
-        <a href={`/books/${source.id}`} className={`${font({ s: 'HNL5' })}`}>
+        <a href={`/books/${source.id}`} className={`${font('hnl', 4)}`}>
           {source.title}
         </a>
       </p>

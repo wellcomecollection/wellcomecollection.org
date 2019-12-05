@@ -29,6 +29,8 @@ import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import linkResolver from './link-resolver';
+import { parseArticle } from './articles';
+import { parseEventDoc } from './events';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -250,6 +252,7 @@ export function parseContributors(
           ? {
               id: contributor.role.id,
               title: asText(contributor.role.data.title) || '',
+              describedBy: contributor.role.data.describedBy,
             }
           : null;
 
@@ -318,6 +321,19 @@ export function parseTaslFromString(pipedString: string): Tasl {
       copyrightLink: null,
     };
   }
+}
+
+function parseTeamToContact(team: PrismicFragment) {
+  const {
+    data: { title, subtitle, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    subtitle: asText(subtitle),
+    email,
+    phone,
+  };
 }
 
 // null is valid to use the default image,
@@ -543,6 +559,10 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
                       return parseEventSeries(item.content);
                     case 'exhibitions':
                       return parseExhibitionDoc(item.content);
+                    case 'articles':
+                      return parseArticle(item.content);
+                    case 'events':
+                      return parseEventDoc(item.content);
                   }
                 })
                 .filter(Boolean),
@@ -611,6 +631,12 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             },
           };
 
+        case 'contact':
+          return {
+            type: 'contact',
+            value: parseTeamToContact(slice.primary.content),
+          };
+
         case 'embed':
           const embed = slice.primary.embed;
 
@@ -632,18 +658,16 @@ export function parseBody(fragment: PrismicFragment[]): any[] {
             const apiUrl = embed.html.match(/url=([^&]*)&/);
             const secretToken = embed.html.match(/secret_token=([^"]*)"/);
 
-            return {
-              type: 'soundcloudEmbed',
-              weight: getWeight(slice.slice_label),
-              value: {
-                embedUrl: `https://w.soundcloud.com/player/?url=${
-                  apiUrl[1]
-                }%3Fsecret_token%3D${
-                  secretToken[1]
-                }&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
-                caption: slice.primary.caption,
-              },
-            };
+            return (
+              secretToken && {
+                type: 'soundcloudEmbed',
+                weight: getWeight(slice.slice_label),
+                value: {
+                  embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}%3Fsecret_token%3D${secretToken[1]}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                  caption: slice.primary.caption,
+                },
+              }
+            );
           }
 
           if (embed.provider_name === 'YouTube') {

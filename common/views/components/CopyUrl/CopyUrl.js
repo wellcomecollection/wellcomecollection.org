@@ -1,9 +1,10 @@
 // @flow
-import { spacing, font } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment, Component } from 'react';
 import Icon from '../Icon/Icon';
 import HTMLInput from '../HTMLInput/HTMLInput';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -109,34 +110,36 @@ class CopyUrl extends Component<Props, State> {
           label="share url"
           defaultValue={url}
           isLabelHidden={true}
-          fontStyles={{ s: 'HNL5', m: 'HNL4' }}
         />
 
         {/* TODO: update this button to be `<Button extraClasses: 'btn--tertiary' />
         once we're fully reactified */}
 
-        <button
+        <Space
+          v={{
+            size: 'm',
+            properties: ['margin-top'],
+          }}
           aria-live="polite"
           onClick={this.handleButtonClick}
           data-copy-text={url}
-          className={`${spacing({ s: 2 }, { margin: ['top'] })} ${font({
-            s: 'HNM5',
-          })} btn btn--tertiary flex-inline flex--v-center ${
-            this.state.isEnhanced ? '' : 'is-hidden'
-          } js-copy-url pointer`}
+          className={classNames({
+            [font('hnm', 5)]: true,
+            'btn btn--tertiary flex-inline flex--v-center pointer': true,
+            'is-hidden': !this.state.isEnhanced,
+          })}
         >
           <span className="flex-inline flex--v-center">
             <Icon
               name="check"
-              extraClasses={`icon--black icon--match-text ${
-                isTextCopied ? '' : 'is-hidden'
-              }`}
+              extraClasses={classNames({
+                'icon--inherit icon--match-text': true,
+                'is-hidden': !isTextCopied,
+              })}
             />
-            <span className="js-copy-text">
-              {getButtonMarkup(isTextCopied, isClicked)}
-            </span>
+            <span>{getButtonMarkup(isTextCopied, isClicked)}</span>
           </span>
-        </button>
+        </Space>
       </div>
     );
   }

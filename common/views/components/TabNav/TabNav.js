@@ -1,9 +1,11 @@
 // @flow
 
+import { type ComponentType } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { type TextLink } from '../../../model/text-links';
-import { spacing, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
+import Space, { type SpaceComponentProps } from '../styled/Space';
 
 type SelectableTextLink = {|
   ...TextLink,
@@ -11,27 +13,26 @@ type SelectableTextLink = {|
   onClick?: (SyntheticEvent<HTMLAnchorElement>) => void,
 |};
 
-// TODO: This large property is a bit silly but okay for while we're testing
 type Props = {
   items: SelectableTextLink[],
-  large: boolean,
 };
 
-const NavItemInner = styled.span.attrs(props => ({
-  className: classNames({
-    selected: props.selected,
-    block: true,
-    relative: true,
-    [spacing({ s: 3 }, { margin: ['right'] })]: props.large,
-  }),
-}))`
-  padding: ${props => (props.large ? '1rem 0.3rem' : '0 0.3rem 1rem')};
+const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
+    className: classNames({
+      selected: props.selected,
+      block: true,
+      relative: true,
+    }),
+  })
+)`
   z-index: 1;
+  padding: 0 0.3em;
 
   &:after {
     content: '';
     position: absolute;
-    bottom: 1rem;
+    bottom: 0;
     height: 0.6rem;
     left: 0;
     width: 0;
@@ -61,41 +62,45 @@ const NavItem = ({
   link,
   text,
   selected,
-  large,
   onClick,
 }: {|
   ...SelectableTextLink,
-  large: boolean,
 |}) => (
-  <NextLink {...link}>
-    <a
+  <NextLink {...link} passHref>
+    <Space
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
+      as="a"
       className={classNames({
         'plain-link': true,
         block: true,
       })}
       onClick={onClick}
     >
-      <NavItemInner selected={selected} large={large}>
+      <NavItemInner
+        as="span"
+        h={{ size: 'm', properties: ['margin-right'] }}
+        selected={selected}
+      >
         {text}
       </NavItemInner>
-    </a>
+    </Space>
   </NextLink>
 );
 
-const TabNav = ({ items, large }: Props) => {
+const TabNav = ({ items }: Props) => {
   return (
     <div
       className={classNames({
-        // Cancel out space below individual tags
-        [font({ s: large ? 'HNM3' : 'HNM4' })]: true,
-        [spacing({ s: -2 }, { margin: ['bottom'] })]: true,
+        [font('hnm', 4)]: true,
       })}
     >
       <ul
         className={classNames({
-          'plain-list': true,
-          flex: true,
-          [spacing({ s: 0 }, { padding: ['left'], margin: ['top'] })]: true,
+          'plain-list no-margin no-padding': true,
+          'flex flex--wrap': true,
         })}
       >
         {items.map(item => (
@@ -105,7 +110,7 @@ const TabNav = ({ items, large }: Props) => {
               marginRight: '1vw',
             }}
           >
-            <NavItem {...item} large={large} />
+            <NavItem {...item} />
           </li>
         ))}
       </ul>

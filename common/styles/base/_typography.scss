@@ -1,3 +1,128 @@
+$helvetica-neue-medium-base: 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Arial Black', sans-serif;
+$helvetica-neue-light-base: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$wellcome-bold-base: 'Arial Black', sans-serif;
+$lettera-base: 'Courier New', Courier, Monospace;
+$font-sizes-all: (
+  1: 14px,
+  2: 15px,
+  3: 16px,
+  4: 18px,
+  5: 20px,
+  6: 22px,
+  7: 24px,
+  8: 28px,
+  9: 32px,
+  10: 40px,
+);
+$font-sizes-at-breakpoints: (
+  'small': (
+    1: map-get($font-sizes-all, 8),
+    2: map-get($font-sizes-all, 7),
+    3: map-get($font-sizes-all, 6),
+    4: map-get($font-sizes-all, 3),
+    5: map-get($font-sizes-all, 2),
+    6: map-get($font-sizes-all, 1),
+  ),
+  'medium': (
+    1: map-get($font-sizes-all, 9),
+    2: map-get($font-sizes-all, 8),
+    3: map-get($font-sizes-all, 6),
+    4: map-get($font-sizes-all, 4),
+    5: map-get($font-sizes-all, 2),
+    6: map-get($font-sizes-all, 1),
+  ),
+  'large': (
+    1: map-get($font-sizes-all, 10),
+    2: map-get($font-sizes-all, 9),
+    3: map-get($font-sizes-all, 7),
+    4: map-get($font-sizes-all, 5),
+    5: map-get($font-sizes-all, 3),
+    6: map-get($font-sizes-all, 1),
+  )
+);
+
+%font-hnm,
+.font-hnm,
+%font-hnl,
+.font-hnl {
+  font-weight: normal;
+}
+
+%font-hnm,
+.font-hnm {
+  font-family: $helvetica-neue-medium-base;
+
+  .fonts-loaded & {
+    font-family: 'Helvetica Neue Medium Web', $helvetica-neue-medium-base;
+  }
+}
+
+%font-hnl,
+.font-hnl {
+  font-family: $helvetica-neue-light-base;
+
+  .fonts-loaded & {
+    font-family: 'Helvetica Neue Light Web', $helvetica-neue-light-base;
+  }
+}
+
+%font-wb,
+.font-wb {
+  font-family: 'Wellcome Bold Web Subset', $wellcome-bold-base;
+
+  .fonts-loaded & {
+    font-family: 'Wellcome Bold Web', 'Wellcome Bold Web Subset', $wellcome-bold-base;
+  }
+}
+
+%font-lr,
+.font-lr {
+  font-family: $lettera-base;
+
+  .fonts-loaded & {
+    font-family: 'Lettera Regular Web', $lettera-base;
+  }
+}
+
+@each $font-breakpoint-key, $font-breakpoint-value in $font-sizes-at-breakpoints {
+  @include respond-to($font-breakpoint-key) {
+    @each $font-size-key, $font-size-value in $font-breakpoint-value {
+      %font-size-#{$font-size-key},
+      .font-size-#{$font-size-key} {
+        font-size: $font-size-value;
+      }
+    }
+  }
+}
+
+@each $font-breakpoint-key, $font-breakpoint-value in $font-sizes-at-breakpoints {
+  $breakpoint-upper: null;
+
+  @if $font-breakpoint-key == 'small' {
+    $breakpoint-upper: 'medium';
+  } @else if $font-breakpoint-key == 'medium' {
+    $breakpoint-upper: 'large';
+  }
+
+  @if $font-breakpoint-key == 'small' or $font-breakpoint-key == 'medium' {
+    @include respond-between($font-breakpoint-key, $breakpoint-upper) {
+      @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
+        .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
+          font-size: $font-sizes-all-value;
+        }
+      }
+    }
+  } @else if $font-breakpoint-key == 'large' {
+    @include respond-to($font-breakpoint-key) {
+      @each $font-sizes-all-key, $font-sizes-all-value in $font-sizes-all {
+        .font-size-override-#{$font-breakpoint-key}-#{$font-sizes-all-key} {
+          font-size: $font-sizes-all-value;
+        }
+      }
+    }
+  }
+}
+
 html {
   // stylelint-disable sh-waqar/declaration-use-variable
   font-size: 100%;
@@ -5,11 +130,11 @@ html {
 }
 
 body {
-  @include font('HNL4');
+  @extend %font-hnl;
+  @extend %font-size-4;
 
-  @include respond-to('medium') {
-    @include font('HNL3');
-  }
+  line-height: 1.5;
+  color: color('black');
 
   font-variant-ligatures: no-common-ligatures;
   -webkit-font-smoothing: antialiased;
@@ -48,13 +173,6 @@ p {
   }
 }
 
-ul,
-ol {
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
 hr {
   margin: 0;
 }
@@ -62,38 +180,26 @@ hr {
 // Standard heading sizes
 %h0,
 .h0 {
-  @include font('WB4');
-
-  @include respond-to('medium') {
-    @include font('WB3');
-  }
+  @extend %font-wb;
+  @extend %font-size-1;
 }
 
 %h1,
 .h1 {
-  @include font('WB5');
-
-  @include respond-to('medium') {
-    @include font('WB4');
-  }
+  @extend %font-wb;
+  @extend %font-size-2;
 }
 
 %h2,
 .h2 {
-  @include font('WB6');
-
-  @include respond-to('medium') {
-    @include font('WB5');
-  }
+  @extend %font-wb;
+  @extend %font-size-3;
 }
 
 %h3,
 .h3 {
-  @include font('WB7');
-
-  @include respond-to('medium') {
-    @include font('WB6');
-  }
+  @extend %font-wb;
+  @extend %font-size-4;
 }
 
 .more-link { // Applied to the MoreLink component
@@ -108,18 +214,29 @@ hr {
 
 .spaced-text {
   p,
-  ul {
+  ul,
+  h2,
+  h3 {
     margin-bottom: 0;
   }
 
   // All elements with a preceding sibling get margin-top
   // https://alistapart.com/article/axiomatic-css-and-lobotomized-owls
   * + * {
-    margin-top: 1.6em;
+    margin-top: 1.55em;
   }
 
   // …but not as much margin-top for list items
   li + li {
+    margin-top: 0.3em;
+  }
+
+  // …and paragraphs after headings have a specific margin-top too
+  h2 + p {
+    margin-top: 1.2em;
+  }
+
+  h3 + p {
     margin-top: 0.3em;
   }
 }

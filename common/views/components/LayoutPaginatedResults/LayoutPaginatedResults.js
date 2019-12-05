@@ -5,7 +5,7 @@ import Layout12 from '../Layout12/Layout12';
 import Divider from '../Divider/Divider';
 import Pagination from '../Pagination/Pagination';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { classNames, spacing, font, grid } from '../../../utils/classnames';
+import { classNames, font, grid } from '../../../utils/classnames';
 import type { Period } from '../../../model/periods';
 import type { UiExhibition } from '../../../model/exhibitions';
 import type { UiEvent } from '../../../model/events';
@@ -16,6 +16,7 @@ import type {
   HTMLString,
 } from '../../../services/prismic/types';
 import SpacingSection from '../SpacingSection/SpacingSection';
+import Space from '../styled/Space';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>
@@ -42,11 +43,14 @@ const LayoutPaginatedResults = ({
 }: Props) => (
   <Fragment>
     <SpacingSection>
-      <div
+      <Space
+        v={{
+          size: 'l',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
         className={classNames({
           row: true,
           'bg-cream': true,
-          [spacing({ s: 3, m: 5, l: 5 }, { padding: ['top', 'bottom'] })]: true,
         })}
       >
         <div className="container">
@@ -59,38 +63,44 @@ const LayoutPaginatedResults = ({
               <h1
                 className={classNames({
                   'no-margin': true,
-                  [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                  [font('wb', 2)]: true,
                 })}
               >
                 {title}
               </h1>
 
               {description && (
-                <div
+                <Space
+                  v={{
+                    size: 'm',
+                    properties: ['margin-top'],
+                  }}
                   className={classNames({
                     'first-para-no-margin body-text': true,
-                    [spacing({ s: 2 }, { margin: ['top'] })]: true,
                   })}
                 >
                   <PrismicHtmlBlock html={description} />
-                </div>
+                </Space>
               )}
             </div>
           </div>
         </div>
-      </div>
+      </Space>
     </SpacingSection>
 
-    <SpacingSection>
+    <>
       {paginatedResults.totalPages > 1 && (
         <Layout12>
-          <div
+          <Space
+            v={{
+              size: 'l',
+              properties: ['padding-bottom'],
+            }}
             className={classNames({
               flex: true,
               'flex--v-center': true,
               'font-pewter': true,
-              [spacing({ s: 5, m: 5, l: 5 }, { padding: ['bottom'] })]: true,
-              [font({ s: 'LR3', m: 'LR2' })]: true,
+              [font('lr', 6)]: true,
             })}
           >
             {paginatedResults.pageSize * paginatedResults.currentPage -
@@ -102,7 +112,7 @@ const LayoutPaginatedResults = ({
             {paginatedResults.currentPage === paginatedResults.totalPages
               ? paginatedResults.totalResults
               : null}
-          </div>
+          </Space>
           <Divider extraClasses={'divider--keyline divider--pumice'} />
         </Layout12>
       )}
@@ -111,7 +121,7 @@ const LayoutPaginatedResults = ({
           <div className="flex-inline flex--v-center">
             <span
               className={classNames({
-                [font({ s: 'HNM5', m: 'HNM4' })]: true,
+                [font('hnm', 4)]: true,
               })}
             >
               Free admission
@@ -120,17 +130,12 @@ const LayoutPaginatedResults = ({
         </Layout12>
       )}
 
-      <div className={spacing({ s: 4 }, { margin: ['top'] })}>
+      <Space v={{ size: 'l', properties: ['margin-top'] }}>
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
-      </div>
+      </Space>
 
       {paginatedResults.totalPages > 1 && (
-        <div
-          className={classNames({
-            [spacing({ s: 2, m: 2, l: 2 }, { padding: ['top'] })]: true,
-            [spacing({ s: 3, m: 3, l: 3 }, { padding: ['bottom'] })]: true,
-          })}
-        >
+        <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
           <Layout12>
             <div className="text-align-right">
               <Pagination
@@ -164,9 +169,9 @@ const LayoutPaginatedResults = ({
               />
             </div>
           </Layout12>
-        </div>
+        </Space>
       )}
-    </SpacingSection>
+    </>
   </Fragment>
 );
 

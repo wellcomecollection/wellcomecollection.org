@@ -1,368 +1,367 @@
 // @flow
-import type { Node } from 'react';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
-import { type IIIFRendering } from '@weco/common/model/iiif';
-import { font, spacing, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
+import moment from 'moment';
+import { type IIIFManifest } from '@weco/common/model/iiif';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getIIIFMetadata,
+  getDownloadOptionsFromImageUrl,
+  getItemAtLocation,
 } from '@weco/common/utils/works';
-import { Fragment, useContext, useEffect, useState } from 'react';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import {
+  getIIIFPresentationLicenceInfo,
+  getIIIFImageLicenceInfo,
+  getIIIFPresentationCredit,
+  getIIIFImageCredit,
+} from '@weco/common/utils/iiif';
+import NextLink from 'next/link';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Divider from '@weco/common/views/components/Divider/Divider';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
-import MetaUnit from '@weco/common/views/components/MetaUnit/MetaUnit';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Space from '@weco/common/views/components/styled/Space';
+import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
-import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
-
-type WorkDetailsSectionProps = {|
-  headingText?: string,
-  children: Node,
-|};
-
-const WorkDetailsSection = ({
-  headingText,
-  children,
-}: WorkDetailsSectionProps) => {
-  return (
-    <div
-      className={classNames({
-        grid: true,
-      })}
-    >
-      <div
-        className={classNames({
-          [grid({ s: 12, m: 12, l: 4, xl: 4 })]: true,
-        })}
-      >
-        {headingText && (
-          <h2
-            className={classNames({
-              [font({ s: 'WB6', m: 'WB5' })]: true,
-              'work-details-heading': true,
-            })}
-          >
-            {headingText}
-          </h2>
-        )}
-      </div>
-
-      <div
-        className={classNames({
-          [grid({ s: 12, m: 12, l: 8, xl: 7 })]: true,
-        })}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
+import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
+import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
+import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
+import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
+import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
+import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 
 type Work = Object;
 
 type Props = {|
   work: Work,
-  licenseInfo: ?LicenseData,
-  iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
-  downloadOptions: IIIFRendering[],
+  sierraId: ?string,
+  iiifPresentationManifest: ?IIIFManifest,
   encoreLink: ?string,
+  childManifestsCount?: number,
 |};
 
 const WorkDetails = ({
   work,
-  licenseInfo,
-  iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
-  downloadOptions,
+  sierraId,
+  iiifPresentationManifest,
   encoreLink,
+  childManifestsCount,
 }: Props) => {
-  const iiifPresentationManifest = useContext(ManifestContext);
-  const [
-    iiifPresentationDownloadOptions,
-    setIIIFPresentationDownloadOptions,
-  ] = useState([]);
-  const [
-    iiifPresentationLicenseInfo,
-    setIIIFPresentationLicenseInfo,
-  ] = useState(null);
-  const [iiifPresentationRepository, setIIIFPresentationRepository] = useState(
-    null
-  );
-  const singularWorkTypeLabel = work.workType.label
-    ? work.workType.label.replace(/s$/g, '').toLowerCase()
-    : 'item';
+  const duration =
+    work.duration && moment.utc(work.duration).format('HH:mm:ss');
+  const params = clientSideSearchParams();
+  const iiifImageLocation = getItemAtLocation(work, 'iiif-image');
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageLocationCredit =
+    iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
+
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
   });
 
-  const WorkDetailsSections = [];
+  const iiifPresentationDownloadOptions = iiifPresentationManifest
+    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
+  const downloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
+
   const allDownloadOptions = [
     ...downloadOptions,
     ...iiifPresentationDownloadOptions,
   ];
 
-  const definitiveLicenseInfo =
-    licenseInfo || (iiifPresentationLicenseInfo || null);
+  const iiifPresentationLicenseInfo =
+    iiifPresentationManifest &&
+    getIIIFPresentationLicenceInfo(iiifPresentationManifest);
 
-  useEffect(() => {
-    if (iiifPresentationManifest) {
-      const iiifPresentationDownloadOptions =
-        getDownloadOptionsFromManifest(iiifPresentationManifest) || [];
-      setIIIFPresentationDownloadOptions(iiifPresentationDownloadOptions);
-      const iiifPresentationLicenseInfo = iiifPresentationManifest.license
-        ? getLicenseInfo(iiifPresentationManifest.license)
-        : '';
-      setIIIFPresentationLicenseInfo(iiifPresentationLicenseInfo);
-      setIIIFPresentationRepository(
-        getIIIFMetadata(iiifPresentationManifest, 'Repository')
-      );
-    }
-  }, [iiifPresentationManifest]);
+  const iiifImageLicenseInfo =
+    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
 
-  if (allDownloadOptions.length > 0) {
-    WorkDetailsSections.push(
-      <div
-        className={classNames({
-          grid: true,
-        })}
-      >
-        <div
-          className={classNames({
-            [grid({
-              s: 12,
-              m: 12,
-              l: 10,
-              xl: 10,
-            })]: true,
-          })}
-        >
-          <Download
-            work={work}
-            licenseInfo={definitiveLicenseInfo}
-            iiifImageLocationLicenseId={iiifImageLocationLicenseId}
-            iiifImageLocationCredit={iiifImageLocationCredit}
-            downloadOptions={allDownloadOptions}
-          />
-        </div>
-      </div>
-    );
-  }
-  if (
-    work.description ||
-    work.production.length > 0 ||
-    work.physicalDescription ||
-    work.extent ||
-    work.dimensions ||
-    work.lettering ||
-    work.genres.length > 0 ||
-    work.language
-  ) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText={`About this ${singularWorkTypeLabel}`}>
-        {work.description && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Description"
-            text={[work.description]}
-          />
-        )}
+  const iiifPresentationCredit =
+    iiifPresentationManifest &&
+    getIIIFPresentationCredit(iiifPresentationManifest);
 
-        {work.contributors.length > 0 && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Contributors"
-            tags={work.contributors.map(contributor => ({
-              textParts: [contributor.agent.label],
-              linkAttributes: worksUrl({
-                query: `"${contributor.agent.label}"`,
-                page: 1,
-              }),
-            }))}
-          />
-        )}
+  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
-        {work.production.length > 0 && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Publication/Creation"
-            text={work.production.map(productionEvent => productionEvent.label)}
-          />
-        )}
-
-        {(work.physicalDescription || work.extent || work.dimensions) && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Physical description"
-            text={[
-              [work.extent, work.physicalDescription, work.dimensions]
-                .filter(Boolean)
-                .join(' '),
-            ]}
-          />
-        )}
-
-        {work.lettering && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Lettering"
-            text={[work.lettering]}
-          />
-        )}
-
-        {work.genres.length > 0 && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Type/Technique"
-            tags={work.genres.map(g => {
-              return {
-                textParts: g.concepts.map(c => c.label),
-                linkAttributes: worksUrl({
-                  query: `"${g.label}"`,
-                  page: 1,
-                }),
-              };
-            })}
-          />
-        )}
-
-        {work.language && (
-          <MetaUnit
-            headingLevel={3}
-            headingText="Language"
-            links={[work.language.label]}
-          />
-        )}
-      </WorkDetailsSection>
-    );
-  }
-  if (work.subjects.length > 0) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Subjects">
-        <MetaUnit
-          tags={work.subjects.map(s => {
-            return {
-              textParts: s.concepts.map(c => c.label),
-              linkAttributes: worksUrl({
-                query: `"${s.label}"`,
-                page: 1,
-              }),
-            };
-          })}
-        />
-      </WorkDetailsSection>
-    );
-  }
-  if (encoreLink || iiifPresentationRepository) {
-    const textArray = [
-      encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
-      iiifPresentationRepository &&
-        iiifPresentationRepository.value
-          .replace(/<img[^>]*>/g, '')
-          .replace(/<br\s*\/?>/g, ''),
-    ].filter(Boolean);
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText="Where to find it">
-        <MetaUnit text={textArray} />
-      </WorkDetailsSection>
-    );
-  }
-  WorkDetailsSections.push(
-    <WorkDetailsSection headingText="Identifiers">
-      {isbnIdentifiers.length > 0 && (
-        <MetaUnit
-          headingText="ISBN"
-          list={isbnIdentifiers.map(id => id.value)}
-        />
-      )}
-      <MetaUnit>
-        <CopyUrl
-          id={work.id}
-          url={`https://wellcomecollection.org/works/${work.id}`}
-        />
-      </MetaUnit>
-    </WorkDetailsSection>
-  );
-  if (definitiveLicenseInfo) {
-    WorkDetailsSections.push(
-      <WorkDetailsSection headingText="License information">
-        <div id="licenseInformation">
-          <MetaUnit
-            headingLevel={3}
-            headingText="License information"
-            text={definitiveLicenseInfo.humanReadableText}
-          />
-          <MetaUnit
-            headingLevel={3}
-            headingText="Credit"
-            text={[
-              `${work.title.replace(/\.$/g, '')}.${' '}
-              ${
-                iiifImageLocationCredit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${
-                      work.id
-                    }">${iiifImageLocationCredit}</a>. `
-                  : ` `
-              }
-              ${
-                definitiveLicenseInfo.url
-                  ? `<a href="${definitiveLicenseInfo.url}">${
-                      definitiveLicenseInfo.text
-                    }</a>`
-                  : definitiveLicenseInfo.text
-              }`,
-            ]}
-          />
-        </div>
-      </WorkDetailsSection>
-    );
-  }
-  WorkDetailsSections.push(
-    <WorkDetailsSection>
-      <div className="flex flex--v-center">
-        <Icon name="underConstruction" extraClasses="margin-right-s2" />
-        <p
-          className={`${font({
-            s: 'HNL5',
-            m: 'HNL4',
-          })} no-margin`}
-        >
-          We’re improving the information on this page.{' '}
-          <a href="/works/progress">Find out more</a>.
-        </p>
-      </div>
-    </WorkDetailsSection>
-  );
+  const iiifPresentationRepository =
+    iiifPresentationManifest &&
+    getIIIFMetadata(iiifPresentationManifest, 'Repository');
 
   return (
-    <div
+    <Space
+      v={{
+        size: 'xl',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
       className={classNames({
         row: true,
-        [spacing({ s: 6, m: 8 }, { padding: ['top', 'bottom'] })]: true,
       })}
     >
       <Layout12>
-        {WorkDetailsSections.map((section, i) => {
-          return (
-            <Fragment key={i}>
-              {i > 0 && (
-                <>
-                  <Divider extraClasses="divider--pumice divider--keyline" />
-                  <SpacingComponent />
-                </>
+        {allDownloadOptions.length > 0 && (
+          <>
+            <SpacingSection>
+              <div
+                className={classNames({
+                  grid: true,
+                })}
+              >
+                <div
+                  className={classNames({
+                    [grid({
+                      s: 12,
+                      m: 12,
+                      l: 10,
+                      xl: 10,
+                    })]: true,
+                  })}
+                >
+                  <Download
+                    work={work}
+                    licenseInfo={licenseInfo}
+                    credit={credit}
+                    downloadOptions={allDownloadOptions}
+                    licenseInfoLink={true}
+                  />
+                </div>
+              </div>
+            </SpacingSection>
+          </>
+        )}
+
+        {!(allDownloadOptions.length > 0) &&
+          sierraId &&
+          childManifestsCount === 0 && (
+            <>
+              <SpacingSection>
+                <div
+                  className={classNames({
+                    grid: true,
+                  })}
+                >
+                  <div
+                    className={classNames({
+                      [grid({
+                        s: 12,
+                        m: 12,
+                        l: 10,
+                        xl: 10,
+                      })]: true,
+                    })}
+                  >
+                    <NextLink
+                      {...downloadUrl({
+                        workId: work.id,
+                        sierraId: sierraId,
+                      })}
+                    >
+                      <a>Download options</a>
+                    </NextLink>
+                  </div>
+                </div>
+              </SpacingSection>
+            </>
+          )}
+
+        <WorkDetailsSection headingText="About this work">
+          {work.alternativeTitles.length > 0 && (
+            <WorkDetailsText
+              title="Also known as"
+              text={work.alternativeTitles}
+            />
+          )}
+
+          {work.description && (
+            <WorkDetailsText title="Description" text={[work.description]} />
+          )}
+
+          {work.contributors.length > 0 && (
+            <WorkDetailsTags
+              title="Contributors"
+              tags={work.contributors.map(contributor => ({
+                textParts: [contributor.agent.label],
+                linkAttributes: worksUrl({
+                  ...params,
+                  query: `"${contributor.agent.label}"`,
+                  page: 1,
+                }),
+              }))}
+            />
+          )}
+
+          {work.lettering && (
+            <WorkDetailsText title="Lettering" text={[work.lettering]} />
+          )}
+
+          {work.production.length > 0 && (
+            <WorkDetailsText
+              title="Publication/Creation"
+              text={work.production.map(
+                productionEvent => productionEvent.label
               )}
-              <SpacingSection>{section}</SpacingSection>
-            </Fragment>
-          );
-        })}
+            />
+          )}
+
+          {work.edition && (
+            <WorkDetailsText title="Edition" text={[work.edition]} />
+          )}
+
+          {work.physicalDescription && (
+            <WorkDetailsText
+              title="Physical description"
+              text={[work.physicalDescription]}
+            />
+          )}
+
+          {duration && <WorkDetailsText title="Duration" text={[duration]} />}
+
+          {work.notes.map(note => (
+            <WorkDetailsText
+              key={note.noteType.label}
+              title={note.noteType.label}
+              text={note.contents}
+            />
+          ))}
+
+          {work.genres.length > 0 && (
+            <WorkDetailsTags
+              title="Type/Technique"
+              tags={work.genres.map(g => {
+                return {
+                  textParts: g.concepts.map(c => c.label),
+                  linkAttributes: worksUrl({
+                    ...params,
+                    query: `"${g.label}"`,
+                    page: 1,
+                  }),
+                };
+              })}
+            />
+          )}
+
+          {work.language && (
+            <WorkDetailsLinks
+              title="Language"
+              links={[work.language && work.language.label]}
+            />
+          )}
+        </WorkDetailsSection>
+
+        {work.subjects.length > 0 && (
+          <WorkDetailsSection headingText="Subjects">
+            <WorkDetailsTags
+              title={null}
+              tags={work.subjects.map(s => {
+                return {
+                  textParts: s.concepts.map(c => c.label),
+                  linkAttributes: worksUrl({
+                    ...params,
+                    query: `"${s.label}"`,
+                    page: 1,
+                  }),
+                };
+              })}
+            />
+          </WorkDetailsSection>
+        )}
+
+        {/* TODO: Make this make more sense */}
+        {(encoreLink || iiifPresentationRepository) && (
+          <WorkDetailsSection headingText="Where to find it">
+            <TogglesContext.Consumer>
+              {({ stacksRequestService }) =>
+                stacksRequestService && (
+                  <>
+                    <div className={`${font('hnl', 5)}`}>
+                      <h3 className={`${font('hnm', 5)} no-margin`}>
+                        In the library
+                      </h3>
+                      <div className={`${font('hnl', 5)}`}>
+                        <WorkItemsStatus work={work} />
+                      </div>
+                    </div>
+                  </>
+                )
+              }
+            </TogglesContext.Consumer>
+
+            <WorkDetailsText
+              title={'Online'}
+              text={[
+                encoreLink && `<a href="${encoreLink}">Wellcome library</a>`,
+
+                iiifPresentationRepository &&
+                  iiifPresentationRepository.value
+                    .replace(/<img[^>]*>/g, '')
+                    .replace(/<br\s*\/?>/g, ''),
+              ].filter(Boolean)}
+            />
+          </WorkDetailsSection>
+        )}
+
+        <WorkDetailsSection headingText="Identifiers">
+          {isbnIdentifiers.length > 0 && (
+            <WorkDetailsList
+              title="ISBN"
+              list={isbnIdentifiers.map(id => id.value)}
+            />
+          )}
+          <SpacingComponent>
+            <div className={`${font('hnl', 5)}`}>
+              <CopyUrl
+                id={work.id}
+                url={`https://wellcomecollection.org/works/${work.id}`}
+              />
+            </div>
+          </SpacingComponent>
+          {work.citeAs && (
+            <WorkDetailsText title="Reference number" text={[work.citeAs]} />
+          )}
+        </WorkDetailsSection>
+
+        {licenseInfo && (
+          <WorkDetailsSection headingText="License information">
+            <div id="licenseInformation">
+              <WorkDetailsText
+                title="License information"
+                text={licenseInfo.humanReadableText}
+              />
+              <WorkDetailsText
+                title="Credit"
+                text={[
+                  `${work.title.replace(/\.$/g, '')}.${' '}
+              ${
+                credit
+                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                  : ` `
+              }
+              ${
+                licenseInfo.url
+                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
+                  : licenseInfo.text
+              }`,
+                ]}
+              />
+            </div>
+          </WorkDetailsSection>
+        )}
+
+        <WorkDetailsSection>
+          <div className="flex flex--v-center">
+            <Icon name="underConstruction" extraClasses="margin-right-s2" />
+            <p className={`${font('hnl', 5)} no-margin`}>
+              We’re improving the information on this page.{' '}
+              <a href="/works/progress">Find out more</a>.
+            </p>
+          </div>
+        </WorkDetailsSection>
       </Layout12>
-    </div>
+    </Space>
   );
 };
 

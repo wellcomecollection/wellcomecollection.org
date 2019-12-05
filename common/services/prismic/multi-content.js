@@ -20,6 +20,8 @@ import {
   peopleFields,
   organisationsFields,
   contributorsFields,
+  teamsFields,
+  articlesFields,
 } from './fetch-links';
 import { parseArticleSeries } from './article-series';
 import type { MultiContent } from '../../model/multi-content';
@@ -104,7 +106,9 @@ export async function getMultiContent(
       exhibitionFields,
       peopleFields,
       organisationsFields,
-      contributorsFields
+      contributorsFields,
+      teamsFields,
+      articlesFields
     ),
     pageSize: pageSize || 100,
     orderings: `[${(orderings || []).join(',')}]`,

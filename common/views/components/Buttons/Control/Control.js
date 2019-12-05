@@ -14,7 +14,7 @@ type Props = {|
   replace?: boolean,
   prefetch?: boolean,
   id?: string,
-  type: 'light' | 'dark',
+  type: 'light' | 'dark' | 'on-black',
   extraClasses?: string,
   icon: string,
   text: string,

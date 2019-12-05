@@ -1,7 +1,7 @@
 // @flow
 // TODO: use styled components
 import { Fragment, Component, createRef } from 'react';
-import { font, spacing, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import { CaptionedImage } from '../Images/Images';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Button from '../Buttons/Button/Button';
@@ -13,6 +13,7 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
 import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
+import Space from '../styled/Space';
 
 type Props = {|
   id: string,
@@ -112,21 +113,24 @@ class ImageGallery extends Component<Props, State> {
         {theme => (
           <Fragment>
             {!isStandalone && (
-              <span
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
+                as="span"
                 style={titleStyle}
                 className={classNames({
                   'flex flex--v-top image-gallery-v2-title': true,
-                  [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
                 })}
               >
-                <Icon
-                  name="gallery"
-                  extraClasses={`${spacing({ s: 1 }, { margin: ['right'] })}`}
-                />
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <Icon name="gallery" />
+                </Space>
                 <h2 id={`gallery-${id}`} className="h2 no-margin">
                   {title || 'In pictures'}
                 </h2>
-              </span>
+              </Space>
             )}
             <div
               id={`image-gallery-${id}`}
@@ -148,13 +152,17 @@ class ImageGallery extends Component<Props, State> {
                 }}
               />
               <Layout12>
-                <div
+                <Space
+                  v={
+                    isStandalone
+                      ? {
+                          size: 'xl',
+                          properties: ['padding-top'],
+                        }
+                      : undefined
+                  }
                   className={classNames({
                     relative: true,
-                    [spacing(
-                      { s: 5, m: 10 },
-                      { padding: ['top'] }
-                    )]: isStandalone,
                   })}
                 >
                   {isStandalone && (
@@ -174,21 +182,25 @@ class ImageGallery extends Component<Props, State> {
                   )}
 
                   {!isStandalone && (
-                    <div
+                    <Space
+                      v={{
+                        size: 'm',
+                        properties: ['padding-top'],
+                      }}
                       className={classNames({
-                        [spacing({ s: 3 }, { padding: ['top'] })]: true,
                         'image-gallery-v2__close-wrapper absolute': true,
                       })}
                     >
-                      <div
+                      <Space
+                        v={{
+                          size: 'm',
+                          properties: ['padding-bottom'],
+                        }}
+                        h={{ size: 'm', properties: ['padding-right'] }}
                         className={classNames({
                           'flex flex-end': true,
                           'image-gallery-v2__close': true,
                           'opacity-0': !isActive,
-                          [spacing(
-                            { s: 3 },
-                            { padding: ['right', 'bottom'] }
-                          )]: true,
                         })}
                       >
                         <Control
@@ -208,19 +220,24 @@ class ImageGallery extends Component<Props, State> {
                             this.handleCloseClicked();
                           }}
                         />
-                      </div>
-                    </div>
+                      </Space>
+                    </Space>
                   )}
                   {this.itemsToShow().map((captionedImage, i) => (
-                    <div
+                    <Space
+                      v={
+                        isActive
+                          ? {
+                              size: 'xl',
+                              properties: ['margin-bottom'],
+                            }
+                          : undefined
+                      }
                       onClick={() => {
                         if (!isActive) {
                           this.handleOpenClicked();
                         }
                       }}
-                      className={classNames({
-                        [spacing({ s: 10 }, { margin: ['bottom'] })]: isActive,
-                      })}
                       key={captionedImage.image.contentUrl}
                       style={{
                         cursor: !isActive ? 'pointer' : 'default',
@@ -231,29 +248,27 @@ class ImageGallery extends Component<Props, State> {
                         caption={captionedImage.caption}
                         setTitleStyle={i === 0 ? this.setTitleStyle : undefined}
                         sizesQueries={`
-                          (min-width: ${breakpoints.xlarge}) calc(${
-                          breakpoints.xlarge
-                        } - 120px),
+                          (min-width: ${breakpoints.xlarge}) calc(${breakpoints.xlarge} - 120px),
                           calc(100vw - 84px)
                         `}
                         preCaptionNode={
                           items.length > 1 ? (
-                            <div
+                            <Space
+                              v={{
+                                size: 'm',
+                                properties: ['margin-bottom'],
+                              }}
                               className={classNames({
-                                [font({ s: 'HNM5', m: 'HNM4' })]: true,
-                                [spacing(
-                                  { s: 2 },
-                                  { margin: ['bottom'] }
-                                )]: true,
+                                [font('hnm', 5)]: true,
                               })}
                             >
                               <span className="visually-hidden">slide </span>
                               {i + 1} of {items.length}
-                            </div>
+                            </Space>
                           ) : null
                         }
                       />
-                    </div>
+                    </Space>
                   ))}
 
                   {titleStyle && (
@@ -273,7 +288,7 @@ class ImageGallery extends Component<Props, State> {
                       text={`${items.length} images`}
                     />
                   )}
-                </div>
+                </Space>
               </Layout12>
             </div>
           </Fragment>

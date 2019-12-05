@@ -1,6 +1,8 @@
 // @flow
-import { forwardRef } from 'react';
+import { forwardRef, type ComponentType } from 'react';
 import styled from 'styled-components';
+import Space, { type SpaceComponentProps } from '../styled/Space';
+import { classNames } from '../../../utils/classnames';
 
 const VisuallyHidden = styled.div`
   border: 0;
@@ -14,14 +16,17 @@ const VisuallyHidden = styled.div`
   white-space: nowrap;
 `;
 
-const StyledInput = styled.input`
+const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
+  className: classNames({}),
+})`
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
   width: 100%;
-  padding: 0.4em 40px 0.4em 0.4em;
-  border: 1px solid ${props => props.theme.colors.pumice};
+  padding-right: 40px;
+  border: 2px solid ${props => props.theme.colors.pumice};
 
   &:focus {
     outline: 0;
-    border: 1px solid ${props => props.theme.colors.turquoise};
+    border: 2px solid ${props => props.theme.colors.yellow};
   }
 
   &::-ms-clear {
@@ -40,7 +45,17 @@ const TextInput = forwardRef((
   ref // eslint-disable-line
 ) => (
   <label className="flex flex--v-center">
-    <StyledInput ref={ref} type="text" {...inputProps} />
+    <StyledInput
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
+      h={{ size: 'm', properties: ['padding-left'] }}
+      as="input"
+      ref={ref}
+      type="text"
+      {...inputProps}
+    />
     <VisuallyHidden>
       <label>{label}</label>
     </VisuallyHidden>

@@ -1,7 +1,7 @@
 // @flow
 
 import type { Node } from 'react';
-import { classNames } from '../../../utils/classnames';
+import Space from '../styled/Space';
 
 type Props = {|
   children: Node,
@@ -9,13 +9,7 @@ type Props = {|
 
 const SpacingSection = ({ children }: Props) => {
   return (
-    <div
-      className={classNames({
-        'spacing-section': true,
-      })}
-    >
-      {children}
-    </div>
+    <Space v={{ size: 'xl', properties: ['padding-bottom'] }}>{children}</Space>
   );
 };
 

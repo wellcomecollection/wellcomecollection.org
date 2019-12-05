@@ -36,9 +36,7 @@ const Palette = () => {
         <div key={color.name} className="styleguide__palette__block">
           <h2 className="styleguide__palette__name">{color.name}</h2>
           <div
-            className={`styleguide__palette__color styleguide__palette__color--${
-              color.name
-            }`}
+            className={`styleguide__palette__color styleguide__palette__color--${color.name}`}
             style={{ background: color.hex }}
           />
           <div className="styleguide__palette__hex">

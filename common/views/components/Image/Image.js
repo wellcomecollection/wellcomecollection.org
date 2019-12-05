@@ -1,19 +1,16 @@
 // @flow
+import type { Tasl } from '../../../model/tasl';
 import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
-import { imageSizes } from '../../../utils/image-sizes';
+import { imageSizes, supportedSizes } from '../../../utils/image-sizes';
 import { Fragment } from 'react';
-
-type ImageCrops = {|
-  '16:9': { contentUrl: string },
-  '32:15': { contentUrl: string },
-  square: { contentUrl: string },
-|};
+import type { ImageType } from '../../../model/image';
 
 export type Props = {|
   contentUrl: string,
-  width: number,
+  width?: number,
   alt: string,
+  tasl: ?Tasl,
   height?: number,
   clipPathClass?: ?string,
   caption?: string,
@@ -24,13 +21,13 @@ export type Props = {|
   clickHandler?: () => void,
   zoomable?: boolean,
   extraClasses?: string,
-  crops?: ImageCrops,
+  crops?: {| [string]: ImageType |},
   style?: { [string]: any }, // TODO: find flowtype for this
 |};
 
 const Image = (props: Props) => {
   const classes = classNames({
-    'image image--noscript': true,
+    'image image--noscript bg-charcoal font-white': true,
     [`${props.extraClasses || ''}`]: Boolean(props.extraClasses),
   });
   return (
@@ -38,10 +35,10 @@ const Image = (props: Props) => {
       <noscript
         dangerouslySetInnerHTML={{
           __html: `
-      <img width='${props.width}'
+      <img width='${props.width || ''}'
         height='${props.height || ''}'
         class='${classes}'
-        src='${convertImageUri(props.contentUrl, 640, false)}'
+        src='${convertImageUri(props.contentUrl, 640)}'
         alt='${props.alt || ''}' />`,
         }}
       />
@@ -74,21 +71,22 @@ const Img = ({
   extraClasses,
   style,
 }: Props) => {
-  const sizes = imageSizes(width);
+  const sizes = width !== undefined ? imageSizes(width) : supportedSizes;
   return (
     <img
       width={width}
       height={height}
       className={classNames({
         image: true,
+        'bg-charcoal font-white': true,
         'lazy-image lazyload': lazyload,
         'cursor-zoom-in': Boolean(zoomable),
         [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
         [`${extraClasses || ''}`]: Boolean(extraClasses),
       })}
-      src={convertImageUri(contentUrl, defaultSize, false)}
+      src={convertImageUri(contentUrl, defaultSize)}
       data-srcset={sizes.map(size => {
-        return `${convertImageUri(contentUrl, size, false)} ${size}w`;
+        return `${convertImageUri(contentUrl, size)} ${size}w`;
       })}
       sizes={sizesQueries}
       data-copyright={copyright}

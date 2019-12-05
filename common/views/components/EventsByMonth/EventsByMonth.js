@@ -4,12 +4,13 @@ import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
-import { classNames, cssGrid, spacing } from '../../../utils/classnames';
+import { classNames, cssGrid } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
 import CardGrid from '../CardGrid/CardGrid';
 import { data as dailyTourPromo } from '../DailyTourPromo/DailyTourPromo';
 import { type UiEvent } from '../../../model/events';
 import { type Link } from '../../../model/link';
+import Space from '../styled/Space';
 
 type Props = {|
   events: UiEvent[],
@@ -140,11 +141,7 @@ class EventsByMonth extends Component<Props, State> {
 
     return (
       <div>
-        <div
-          className={classNames({
-            [spacing({ s: 2 }, { margin: ['bottom'] })]: true,
-          })}
-        >
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <div className="css-grid__container">
             <div className="css-grid">
               <div
@@ -164,7 +161,7 @@ class EventsByMonth extends Component<Props, State> {
               </div>
             </div>
           </div>
-        </div>
+        </Space>
 
         {months.map(month => (
           <div
@@ -197,6 +194,7 @@ class EventsByMonth extends Component<Props, State> {
               items={eventsInMonths[month.id].concat(dailyTourPromo)}
               itemsPerRow={3}
               links={links}
+              fromDate={london(month.id)}
             />
           </div>
         ))}

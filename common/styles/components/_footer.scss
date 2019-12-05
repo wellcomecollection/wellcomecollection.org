@@ -1,30 +1,11 @@
 $footer-strap-width: 220px;
 
 .footer {
-  padding-top: $vertical-space-unit*3;
-  padding-bottom: $vertical-space-unit;
+  padding-top: 46px;
   color: color('white');
+
   .icon__shape {
     fill: currentColor;
-  }
-}
-
-.footer__heading {
-  color: color('silver');
-  margin: 0 0 1em;
-
-  @include respond-to('large') {
-    padding-top: 39px;
-    margin-bottom: $vertical-space-unit;
-  }
-}
-
-.footer__heading--centered {
-  @include respond-to('large') {
-    text-align: center;
-    border-top: 1px solid color('charcoal');
-    margin-top: 2 * $vertical-space-unit;
-    padding-top: $vertical-space-unit;
   }
 }
 
@@ -58,6 +39,8 @@ $footer-strap-width: 220px;
     width: auto;
     border-bottom: 0;
     border-right: 1px solid color('charcoal');
+    margin-right: 24px;
+    padding-right: 24px;
   }
 
   .icon__shape {
@@ -94,7 +77,6 @@ $footer-strap-width: 220px;
   position: relative;
   flex-basis: 100%;
   margin-bottom: $vertical-space-unit;
-  padding-bottom: $vertical-space-unit;
   border-bottom: 1px solid color('charcoal');
 }
 

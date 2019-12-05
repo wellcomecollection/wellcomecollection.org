@@ -316,6 +316,22 @@
               }
             }
           },
+          "contact": {
+            "type": "Slice",
+            "fieldset": "Contact",
+            "non-repeat": {
+              "content": {
+                "type": "Link",
+                "config": {
+                  "label": "Content item",
+                  "select": "document",
+                  "customtypes": [
+                    "teams"
+                  ]
+                }
+              }
+            }
+          },
           "inPageAnchor": {
             "type": "Slice",
             "fieldset": "In page anchor",

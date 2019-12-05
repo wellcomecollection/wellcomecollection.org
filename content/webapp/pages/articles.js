@@ -11,6 +11,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 
 type Props = {|
   articles: PaginatedResults<Article>,
@@ -54,19 +55,21 @@ export class ArticlesPage extends Component<Props> {
           firstArticle && firstArticle.image && firstArticle.image.alt
         }
       >
-        <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
-          title={'Articles'}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescription,
-              spans: [],
-            },
-          ]}
-          paginatedResults={articles}
-          paginationRoot={'articles'}
-        />
+        <SpacingSection>
+          <LayoutPaginatedResults
+            showFreeAdmissionMessage={false}
+            title={'Articles'}
+            description={[
+              {
+                type: 'paragraph',
+                text: pageDescription,
+                spans: [],
+              },
+            ]}
+            paginatedResults={articles}
+            paginationRoot={'articles'}
+          />
+        </SpacingSection>
       </PageLayout>
     );
   }

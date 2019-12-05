@@ -37,25 +37,12 @@ function setCookie(name, value) {
 
 const abTests = [
   {
-    id: 'searchCandidateQueryMsm',
-    title: 'Search candidate query: Minimum should match',
+    id: 'searchUsingScoringTiers',
+    title: 'Search the API with a scoring tiered approach',
+    range: [0, 100],
     defaultValue: false,
-    description: '',
-    range: [0, 10],
-  },
-  {
-    id: 'searchCandidateQueryBoost',
-    title: 'Search candidate query: Boost',
-    defaultValue: false,
-    description: '',
-    range: [10, 20],
-  },
-  {
-    id: 'searchCandidateQueryMsmBoost',
-    title: 'Search candidate query: Minimum should match with boost',
-    defaultValue: false,
-    description: '',
-    range: [20, 30],
+    description:
+      'This enables high accuracy on things like titles, and high recal from things like descriptions.',
   },
 ];
 const IndexPage = () => {
@@ -236,7 +223,6 @@ const IndexPage = () => {
                     });
                   }}
                   style={{
-                    // $FlowFixMe
                     opacity: toggleStates[toggle.id] === true ? 1 : 0.5,
                   }}
                 >
@@ -251,7 +237,6 @@ const IndexPage = () => {
                     });
                   }}
                   style={{
-                    // $FlowFixMe
                     opacity: toggleStates[toggle.id] === false ? 1 : 0.5,
                   }}
                 >

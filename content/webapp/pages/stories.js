@@ -5,9 +5,8 @@ import { getArticles } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
-import { classNames, spacing, grid, font } from '@weco/common/utils/classnames';
+import { classNames, grid, font } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import StoryPromoFeatured from '@weco/common/views/components/StoryPromoFeatured/StoryPromoFeatured';
 import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -18,6 +17,10 @@ import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Space from '@weco/common/views/components/styled/Space';
+import { staticBooks } from '../content/static-books';
+import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+
 type Props = {|
   articles: PaginatedResults<Article>,
   series: ArticleSeries,
@@ -27,14 +30,7 @@ const SerialisedSeries = ({ series }: any) => {
   return (
     <div>
       <Layout12>
-        <div
-          className={classNames({
-            [spacing(
-              { s: 4 },
-              { margin: ['bottom'], padding: ['bottom'] }
-            )]: true,
-          })}
-        >
+        <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <h2
             className={classNames({
               h1: true,
@@ -52,11 +48,7 @@ const SerialisedSeries = ({ series }: any) => {
               {series.title}
             </a>
           </h2>
-          <div
-            className={classNames({
-              [spacing({ s: 2 }, { margin: ['top'] })]: true,
-            })}
-          >
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <p
               className={classNames({
                 'no-margin': true,
@@ -64,8 +56,8 @@ const SerialisedSeries = ({ series }: any) => {
             >
               {series.promoText}
             </p>
-          </div>
-        </div>
+          </Space>
+        </Space>
       </Layout12>
       <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
     </div>
@@ -78,7 +70,7 @@ export class StoriesPage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const { page = 1 } = ctx.query;
     const articlesPromise = getArticles(ctx.req, { page });
-    const seriesPromise = getArticleSeries(ctx.req, { id: 'XJEF-hAAAHQXJE46' });
+    const seriesPromise = getArticleSeries(ctx.req, { id: 'XXY7ixAAACUACJvS' });
     const [articles, seriesAndArticles] = await Promise.all([
       articlesPromise,
       seriesPromise,
@@ -119,14 +111,14 @@ export class StoriesPage extends Component<Props> {
         rssUrl={'https://rss.wellcomecollection.org/stories'}
       >
         <SpacingSection>
-          <div
+          <Space
+            v={{
+              size: 'l',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
             className={classNames({
               row: true,
               'bg-cream': true,
-              [spacing(
-                { s: 3, m: 5, l: 5 },
-                { padding: ['top', 'bottom'] }
-              )]: true,
             })}
           >
             <div className="container">
@@ -139,16 +131,19 @@ export class StoriesPage extends Component<Props> {
                   <h1
                     className={classNames({
                       'no-margin': true,
-                      [font({ s: 'WB6', m: 'WB5', l: 'WB4' })]: true,
+                      [font('wb', 2)]: true,
                     })}
                   >
                     Stories
                   </h1>
 
-                  <div
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['margin-top'],
+                    }}
                     className={classNames({
                       'first-para-no-margin body-text': true,
-                      [spacing({ s: 2 }, { margin: ['top'] })]: true,
                     })}
                   >
                     {/* Taken from Prismic, so I know it's right. But a bit rubbish. */}
@@ -173,11 +168,11 @@ export class StoriesPage extends Component<Props> {
                         },
                       ]}
                     />
-                  </div>
+                  </Space>
                 </div>
               </div>
             </div>
-          </div>
+          </Space>
         </SpacingSection>
 
         <SpacingSection>
@@ -186,21 +181,14 @@ export class StoriesPage extends Component<Props> {
               'row bg-cream row--has-wobbly-background': true,
             })}
           >
-            <div className="container">
-              <div className="grid">
-                <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                  <StoryPromoFeatured item={articles[0]} />
-                </div>
-              </div>
-            </div>
-            <div className="row__wobbly-background" />
-            <div className="container">
-              <div
-                className={classNames({
-                  [spacing({ s: 4 }, { margin: ['bottom'] })]: true,
-                })}
+            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <FeaturedCardArticle
+                article={firstArticle}
+                background={'charcoal'}
+                color={'white'}
               />
-            </div>
+            </Space>
+            <div className="row__wobbly-background" />
             <div className="container container--scroll container--scroll-cream touch-scroll">
               <div className="grid grid--scroll grid--theme-4">
                 {articles.slice(1, 5).map((article, i) => {
@@ -221,6 +209,28 @@ export class StoriesPage extends Component<Props> {
 
         <SpacingSection>
           <SerialisedSeries series={series} />
+        </SpacingSection>
+
+        {/* TODO: work out logic for making these dynamic */}
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Books" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <Layout12>
+              <p>
+                Get stuck into one of our books, and explore the complexities of
+                the human condition.
+              </p>
+            </Layout12>
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={staticBooks}
+              itemsPerRow={3}
+              links={[{ text: 'More books', url: '/books' }]}
+            />
+          </SpacingComponent>
         </SpacingSection>
 
         <SpacingSection>

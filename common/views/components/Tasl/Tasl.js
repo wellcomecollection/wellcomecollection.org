@@ -1,11 +1,12 @@
 // @flow
 
-import { font, spacing } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import getLicenseInfo from '../../../utils/get-license-info';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment } from 'react';
 import { withToggler } from '../../hocs/withToggler';
 import Icon from '../Icon/Icon';
+import Space from '../styled/Space';
 
 export type Props = {
   isFull: boolean,
@@ -136,7 +137,7 @@ const Tasl = withToggler(
         <div
           className={`
       ${isFull ? 'tasl--top' : 'tasl--bottom'}
-      ${font({ s: 'LR3', m: 'LR2' })}
+      ${font('lr', 6)}
       ${isActive ? 'is-active' : ''}
       tasl drawer plain-text
     `}
@@ -160,11 +161,14 @@ const Tasl = withToggler(
             </button>
           )}
 
-          <div
-            className={`
-        drawer__body bg-black font-white
-        ${spacing({ s: 1 }, { padding: ['top', 'bottom', 'left'] })}
-        ${spacing({ s: 6 }, { padding: ['right'] })}`}
+          <Space
+            v={{
+              size: 's',
+              properties: ['padding-top', 'padding-bottom'],
+            }}
+            h={{ size: 's', properties: ['padding-left'] }}
+            className={`drawer__body bg-black font-white`}
+            style={{ paddingRight: '36px' }}
           >
             {getMarkup(
               title,
@@ -175,11 +179,11 @@ const Tasl = withToggler(
               copyrightHolder,
               copyrightLink
             )}
-          </div>
+          </Space>
           {isFull && (
             <button
               onClick={toggleWithAnalytics}
-              className="tasl__button absolute plain-button "
+              className="tasl__button absolute plain-button"
             >
               <span className="tasl__icon tasl__icon--open flex--v-center flex--h-center bg-transparent-black">
                 <Icon

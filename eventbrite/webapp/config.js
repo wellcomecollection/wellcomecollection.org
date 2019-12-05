@@ -1,1 +1,0 @@
-export const eventbritePersonalOauthToken = process.env.EVENTBRITE_PERSONAL_OAUTH_TOKEN;

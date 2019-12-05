@@ -1,71 +1,79 @@
 // @flow
 import { type Context } from 'next';
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import {
   type CatalogueApiError,
   type CatalogueResultsList,
 } from '@weco/common/model/catalogue';
-import { font, grid, spacing, classNames } from '@weco/common/utils/classnames';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import BetaBar from '@weco/common/views/components/BetaBar/BetaBar';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
-import CatalogueSearchContext from '@weco/common/views/components/CatalogueSearchContext/CatalogueSearchContext';
 import {
-  trackSearch,
-  SearchEventNames,
-} from '@weco/common/views/components/Tracker/Tracker';
+  apiSearchParamsSerialiser,
+  unfilteredApiSearchParamsSerialiser,
+  searchParamsDeserialiser,
+  type SearchParams,
+} from '@weco/common/services/catalogue/search-params';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
-import MessageBar from '@weco/common/views/components/MessageBar/MessageBar';
+import Space from '@weco/common/views/components/styled/Space';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
-import { getWorks } from '../services/catalogue/works';
+import { getWorks, getWorkTypeAggregations } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
+import {
+  trackSearchResultSelected,
+  trackSearch,
+} from '@weco/common/views/components/Tracker/Tracker';
+import OptIn from '@weco/common/views/components/OptIn/OptIn';
 
 type Props = {|
-  query: ?string,
   works: ?CatalogueResultsList | CatalogueApiError,
-  page: ?number,
-  workType: ?(string[]),
+  searchParams: SearchParams,
+  toggledFilters: SearchParams,
+  unfilteredSearchResults: boolean,
+  shouldGetWorks: boolean,
 |};
 
-const WorksSearchProvider = ({ works, query, page, workType }: Props) => (
-  <Works works={works} query={query} page={page} workType={workType} />
-);
-
-const Works = ({ works }: Props) => {
+const Works = ({
+  works,
+  searchParams,
+  toggledFilters,
+  unfilteredSearchResults,
+  shouldGetWorks,
+}: Props) => {
   const [loading, setLoading] = useState(false);
-  const { query, page, workType, _queryType } = useContext(
-    CatalogueSearchContext
-  );
-  const trackEvent = () => {
-    if (query && query !== '') {
-      const event = {
-        event: SearchEventNames.Search,
-        data: {
-          query,
-          page,
-          workType,
-          _queryType,
-        },
-      };
-      trackSearch(event);
-    }
+  const [workTypeAggregations, setWorkTypeAggregations] = useState([]);
+  const {
+    query,
+    workType,
+    page,
+    productionDatesFrom,
+    productionDatesTo,
+    _queryType,
+  } = searchParams;
+
+  const fetchAggregations = async () => {
+    const workTypeAggregations = shouldGetWorks
+      ? await getWorkTypeAggregations({
+          unfilteredSearchResults,
+          filters: toggledFilters,
+        })
+      : [];
+    setWorkTypeAggregations(workTypeAggregations);
   };
 
-  // We have to have this for the initial page load, and have it on the router
-  // change as the page doesnt actually re-render when the URL parameters change.
   useEffect(() => {
-    trackEvent();
-  }, []);
+    trackSearch({
+      totalResults: works && works.totalResults ? works.totalResults : null,
+    });
+    fetchAggregations();
+  }, [searchParams]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -73,7 +81,6 @@ const Works = ({ works }: Props) => {
     }
     function routeChangeComplete(url: string) {
       setLoading(false);
-      trackEvent();
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -104,14 +111,16 @@ const Works = ({ works }: Props) => {
           <link
             rel="prev"
             href={convertUrlToString(
-              worksUrl({ query, page: (page || 1) - 1 }).as
+              worksUrl({ ...searchParams, query, page: (page || 1) - 1 }).as
             )}
           />
         )}
         {works && works.nextPage && (
           <link
             rel="next"
-            href={convertUrlToString(worksUrl({ query, page: page + 1 }).as)}
+            href={convertUrlToString(
+              worksUrl({ ...searchParams, query, page: page + 1 }).as
+            )}
           />
         )}
       </Head>
@@ -119,76 +128,50 @@ const Works = ({ works }: Props) => {
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
-        url={worksUrl({ query, page }).as}
+        url={worksUrl({ ...searchParams, query, page }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
         imageUrl={null}
         imageAltText={null}
       >
-        <InfoBanner
-          text={[
-            {
-              type: 'paragraph',
-              text: `Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we're working to improve data quality, search relevance and tools to help you use these images more easily`,
-              spans: [],
-            },
-          ]}
-          cookieName="WC_wellcomeImagesRedirect"
-        />
-
-        <Layout12>
-          <TogglesContext.Consumer>
-            {({ useStageApi }) =>
-              useStageApi && (
-                <MessageBar tagText="Dev alert">
-                  You are using the stage catalogue API - data mileage may vary!
-                </MessageBar>
-              )
-            }
-          </TogglesContext.Consumer>
-          <BetaBar />
-        </Layout12>
-
-        <div
-          className={classNames([
-            'row bg-cream',
-            spacing({ s: 3, m: 5 }, { padding: ['top'] }),
-            spacing({ s: 3, m: 4, l: 6 }, { padding: ['bottom'] }),
-          ])}
+        <Space
+          v={{
+            size: 'l',
+            properties: ['padding-bottom'],
+          }}
+          className={classNames(['row'])}
         >
           <div className="container">
-            <div className="grid">
-              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <div
-                  className={classNames([
-                    'flex flex--h-space-between flex--v-center flex--wrap',
-                    spacing({ s: 2 }, { margin: ['bottom'] }),
-                  ])}
-                >
-                  <>
-                    {!works && (
-                      <h1
-                        className={classNames([
-                          font({ s: 'WB6', m: 'WB4' }),
-                          spacing({ s: 2 }, { margin: ['bottom'] }),
-                          spacing({ s: 4 }, { margin: ['right'] }),
-                          spacing({ s: 0 }, { margin: ['top'] }),
-                        ])}
-                      >
-                        Explore our collections
-                      </h1>
-                    )}
-                  </>
+            {!works && (
+              <div className="grid">
+                <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['margin-bottom'],
+                    }}
+                    className={classNames([
+                      'flex flex--h-space-between flex--v-center flex--wrap',
+                    ])}
+                  >
+                    <Space
+                      as="h1"
+                      v={{ size: 'm', properties: ['margin-bottom'] }}
+                      className="h1"
+                    >
+                      Explore our collections
+                    </Space>
+                  </Space>
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="grid">
-              <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
+              <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <p
                   className={classNames({
-                    [font({ s: 'HNL4', m: 'HNL3' })]: true,
+                    [font('hnl', 4)]: true,
                     'visually-hidden': Boolean(works),
                   })}
                   id="search-form-description"
@@ -201,69 +184,25 @@ const Works = ({ works }: Props) => {
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   compact={false}
+                  shouldShowFilters={query !== ''}
+                  searchParams={searchParams}
+                  workTypeAggregations={workTypeAggregations}
                 />
               </div>
             </div>
           </div>
-        </div>
+        </Space>
 
         {!works && <StaticWorksContent />}
 
-        {works && (
-          <Layout12>
-            <TabNav
-              large={true}
-              items={[
-                {
-                  text: 'All',
-                  link: worksUrl({
-                    query,
-                    workType: undefined,
-                    page: 1,
-                  }),
-                  selected: !workType,
-                },
-                {
-                  text: 'Books',
-                  link: worksUrl({
-                    query,
-                    workType: ['a', 'v'],
-                    page: 1,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('a') !== -1 &&
-                      workType.indexOf('v') !== -1)
-                  ),
-                },
-                {
-                  text: 'Pictures',
-                  link: worksUrl({
-                    query,
-                    workType: ['k', 'q'],
-                    page: 1,
-                  }),
-                  selected: !!(
-                    workType &&
-                    (workType.indexOf('k') !== -1 &&
-                      workType.indexOf('q') !== -1)
-                  ),
-                },
-              ]}
-            />
-          </Layout12>
-        )}
-
         {works && works.results.length > 0 && (
           <Fragment>
-            <div
-              className={`row ${spacing({ s: 3, m: 5 }, { padding: ['top'] })}`}
-            >
+            <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
                   <div
                     className={classNames({
-                      [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                     })}
                   >
                     <div className="flex flex--h-space-between flex--v-center">
@@ -273,15 +212,12 @@ const Works = ({ works }: Props) => {
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
                           link={worksUrl({
-                            query,
-                            workType,
-                            page,
+                            ...searchParams,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const link = worksUrl({
-                              query,
-                              workType,
+                              ...searchParams,
                               page: newPage,
                             });
                             Router.push(link.href, link.as).then(() =>
@@ -294,38 +230,55 @@ const Works = ({ works }: Props) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Space>
 
-            <div
-              className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['padding-top'],
+              }}
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
                 <div className="grid">
+                  <div
+                    className={classNames({
+                      [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
+                    })}
+                  >
+                    <OptIn />
+                  </div>
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div
                         onClick={() => {
-                          const event = {
-                            event: SearchEventNames.SearchResultSelected,
-                            data: {
-                              id: result.id,
-                              position: i,
-                              query,
-                              page,
-                              workType,
-                              _queryType,
-                            },
-                          };
-                          trackSearch(event);
+                          trackSearchResultSelected({
+                            id: result.id,
+                            position: i,
+                            resultWorkType: result.workType.label,
+                            resultLanguage:
+                              result.language && result.language.label,
+                            resultIdentifiers: result.identifiers.map(
+                              identifier => identifier.value
+                            ),
+                            resultSubjects: result.subjects.map(
+                              subject => subject.label
+                            ),
+                          });
                         }}
                       >
-                        <WorkCard work={result} />
+                        <WorkCard
+                          work={result}
+                          params={{
+                            ...searchParams,
+                            id: result.id,
+                          }}
+                        />
                       </div>
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
@@ -346,17 +299,17 @@ const Works = ({ works }: Props) => {
                 </div>
               </div>
 
-              <div
-                className={`row ${spacing(
-                  { s: 10 },
-                  { padding: ['top', 'bottom'] }
-                )}`}
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
               >
                 <div className="container">
                   <div className="grid">
                     <div
                       className={classNames({
-                        [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
+                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
                       <div className="flex flex--h-space-between flex--v-center">
@@ -366,15 +319,12 @@ const Works = ({ works }: Props) => {
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
                             link={worksUrl({
-                              query,
-                              workType,
-                              page,
+                              ...searchParams,
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const link = worksUrl({
-                                query,
-                                workType,
+                                ...searchParams,
                                 page: newPage,
                               });
                               Router.push(link.href, link.as).then(() =>
@@ -387,84 +337,74 @@ const Works = ({ works }: Props) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Space>
+            </Space>
           </Fragment>
         )}
 
         {works && works.results.length === 0 && (
-          <div className={`row ${spacing({ s: 4 }, { padding: ['top'] })}`}>
+          <Space
+            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
             <div className="container">
               <div className="grid">
                 <div className={grid({ s: 12, m: 10, l: 8, xl: 8 })}>
-                  <p className="h1">
+                  <p className={font('hnl', 2)}>
                     We couldn{`'`}t find anything that matched{' '}
                     <span
                       className={classNames({
-                        [font({ s: 'HNL1' })]: true,
+                        [font('hnm', 2)]: true,
                       })}
                       style={{ fontWeight: '400' }}
                     >
                       {query}
                     </span>
-                    .
+                    {(productionDatesFrom || productionDatesTo) && (
+                      <>
+                        {' '}
+                        <span>with the filters you have selected</span>
+                      </>
+                    )}
+                    . Please try again.
                   </p>
                 </div>
               </div>
             </div>
-          </div>
+          </Space>
         )}
       </CataloguePageLayout>
     </Fragment>
   );
 };
 
-WorksSearchProvider.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const query = ctx.query.query;
-  const page = ctx.query.page ? parseInt(ctx.query.page, 10) : 1;
-
+Works.getInitialProps = async (ctx: Context): Promise<Props> => {
+  const params = searchParamsDeserialiser(ctx.query);
   const {
-    useStageApi,
-    searchCandidateQueryMsm,
-    searchCandidateQueryBoost,
-    searchCandidateQueryMsmBoost,
+    searchUsingScoringTiers,
+    unfilteredSearchResults,
   } = ctx.query.toggles;
-  const toggledQueryType = searchCandidateQueryMsm
-    ? 'msm'
-    : searchCandidateQueryBoost
-    ? 'boost'
-    : searchCandidateQueryMsmBoost
-    ? 'msmboost'
-    : null;
-  const workTypeQuery = ctx.query.workType;
-  const _queryType = ctx.query._queryType || toggledQueryType;
-  const defaultWorkType = ['a', 'k', 'q', 'v'];
-  const workTypeFilter = workTypeQuery
-    ? workTypeQuery.split(',').filter(Boolean)
-    : defaultWorkType;
+  const filters = unfilteredSearchResults
+    ? unfilteredApiSearchParamsSerialiser(params)
+    : apiSearchParamsSerialiser(params);
 
-  const filters = {
-    workType: workTypeFilter,
-    'items.locations.locationType': ['iiif-image', 'iiif-presentation'],
-    _queryType,
+  const toggledFilters = {
+    ...filters,
+    _queryType: searchUsingScoringTiers ? 'ScoringTiers' : undefined,
   };
 
-  const worksOrError =
-    query && query !== ''
-      ? await getWorks({
-          query,
-          page,
-          filters,
-          env: useStageApi ? 'stage' : 'prod',
-        })
-      : null;
-
+  const shouldGetWorks = filters.query && filters.query !== '';
+  const worksOrError = shouldGetWorks
+    ? await getWorks({
+        filters: toggledFilters,
+      })
+    : null;
   return {
     works: worksOrError,
-    query,
-    page,
-    workType: workTypeQuery && workTypeQuery.split(',').filter(Boolean),
+    searchParams: params,
+    unfilteredSearchResults,
+    toggledFilters,
+    shouldGetWorks,
   };
 };
 
-export default WorksSearchProvider;
+export default Works;

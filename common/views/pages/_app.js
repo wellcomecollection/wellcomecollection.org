@@ -16,10 +16,18 @@ import ErrorPage from '../../views/components/ErrorPage/ErrorPage';
 import TogglesContext from '../../views/components/TogglesContext/TogglesContext';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import OpeningTimesContext from '../../views/components/OpeningTimesContext/OpeningTimesContext';
+import PopupDialog from '../../views/components/PopupDialog/PopupDialog';
+import { classNames, font } from '../../utils/classnames';
+import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import GlobalAlertContext from '../../views/components/GlobalAlertContext/GlobalAlertContext';
-import { CatalogueSearchProvider } from '../../views/components/CatalogueSearchContext/CatalogueSearchContext';
 import JsonLd from '../../views/components/JsonLd/JsonLd';
+import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
+
+type State = {|
+  togglesContext: {},
+  pagePath: string,
+|};
 
 const isServer = typeof window === 'undefined';
 const isClient = !isServer;
@@ -27,6 +35,7 @@ const isClient = !isServer;
 let toggles;
 let openingTimes;
 let globalAlert;
+let isPreview;
 let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;
 let accruedHiddenTimeOnPage = 0;
@@ -105,16 +114,43 @@ function openingHoursToOpeningHoursSpecification(openingHours: OpeningHours) {
   };
 }
 
+function makeSurePageIsTallEnough() {
+  const pageHeightCache = [];
+  const html = document.querySelector('html');
+
+  Router.events.on('routeChangeStart', () => {
+    document &&
+      document.documentElement &&
+      pageHeightCache.push(document.documentElement.offsetHeight);
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    if (html) {
+      html.style.height = 'initial';
+    }
+  });
+
+  Router.beforePopState(() => {
+    if (html) {
+      html.style.height = `${pageHeightCache.pop()}px`;
+    }
+
+    return true;
+  });
+}
+
 export default class WecoApp extends App {
   static async getInitialProps({ Component, router, ctx }: AppInitialProps) {
     // Caching things from the server request to be available to the client
     toggles = isServer ? router.query.toggles : toggles;
     openingTimes = isServer ? router.query.openingTimes : openingTimes;
     globalAlert = isServer ? router.query.globalAlert : globalAlert;
+    isPreview = isServer ? router.query.isPreview : isPreview;
 
     let pageProps = {};
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
+      ctx.query.isPreview = isPreview;
       pageProps = await Component.getInitialProps(ctx);
 
       // If we override the statusCode from getInitialProps, make sure we
@@ -129,6 +165,7 @@ export default class WecoApp extends App {
       toggles,
       openingTimes,
       globalAlert,
+      isPreview,
     };
   }
 
@@ -143,8 +180,21 @@ export default class WecoApp extends App {
     if (isClient && !globalAlert) {
       globalAlert = props.globalAlert;
     }
+    if (isClient && !isPreview) {
+      isPreview = props.isPreview;
+    }
+
     super(props);
   }
+
+  state: State = {
+    togglesContext: toggles,
+    pagePath: '',
+  };
+
+  updateToggles = (newToggles: Object) => {
+    this.setState({ togglesContext: { ...toggles, ...newToggles } });
+  };
 
   componentWillUnmount() {
     Router.events.off('routeChangeStart', trackRouteChangeStart);
@@ -161,6 +211,10 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
+    this.setState({ pagePath: window.location.pathname });
+    this.setState({ togglesContext: toggles });
+    makeSurePageIsTallEnough();
+
     if (document.documentElement) {
       document.documentElement.classList.add('enhanced');
     }
@@ -233,8 +287,7 @@ export default class WecoApp extends App {
     })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
     // Prismic preview and validation warnings
-    const isPreview = document.cookie.match('isPreview=true');
-    if (isPreview) {
+    if (isPreview || document.cookie.match('isPreview=true')) {
       window.prismic = {
         endpoint: 'https://wellcomecollection.prismic.io/api/v2',
       };
@@ -311,17 +364,15 @@ export default class WecoApp extends App {
   }
 
   render() {
-    const {
-      Component,
-      pageProps,
-      toggles,
-      openingTimes,
-      globalAlert,
-    } = this.props;
+    const { togglesContext, pagePath } = this.state;
+    const updateToggles = this.updateToggles;
+    const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
       'default',
       'Array.prototype.find',
       'Array.prototype.includes',
+      'Array.prototype.includes',
+      'Object.entries',
       'WeakMap',
       'URL',
     ];
@@ -392,20 +443,83 @@ export default class WecoApp extends App {
           <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
-        <TogglesContext.Provider value={toggles}>
+        <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
           <OpeningTimesContext.Provider value={parsedOpeningTimes}>
             <GlobalAlertContext.Provider value={globalAlert}>
               <ThemeProvider theme={theme}>
-                <CatalogueSearchProvider>
-                  <OutboundLinkTracker>
-                    <Fragment>
-                      {!pageProps.statusCode && <Component {...pageProps} />}
-                      {pageProps.statusCode && pageProps.statusCode !== 200 && (
-                        <ErrorPage statusCode={pageProps.statusCode} />
-                      )}
-                    </Fragment>
-                  </OutboundLinkTracker>
-                </CatalogueSearchProvider>
+                <OutboundLinkTracker>
+                  <Fragment>
+                    <TogglesContext.Consumer>
+                      {({ helveticaRegular }) =>
+                        helveticaRegular && (
+                          <style
+                            type="text/css"
+                            dangerouslySetInnerHTML={{
+                              __html: `
+                                @font-face {
+                                  font-family: 'Helvetica Neue Light Web';
+                                  src: local('Helvetica Neue Regular'),
+                                    local('HelveticaNeue-Regular'),
+                                    url('https://i.wellcomecollection.org/assets/fonts/d460c8dd-ab48-422e-ac1c-d9b6392b605a.woff2') format('woff2'),
+                                    url('https://i.wellcomecollection.org/assets/fonts/955441c8-2039-4256-bf4a-c475c31d1c0d.woff') format('woff');
+                                  font-weight: normal;
+                                  font-style: normal;
+                                }
+
+                                @font-face {
+                                  font-family: 'Helvetica Neue Medium Web';
+                                  src: local('Helvetica Neue Bold'),
+                                    local('HelveticaNeue-Bold'),
+                                    url('https://i.wellcomecollection.org/assets/fonts/455d1f57-1462-4536-aefa-c13f0a67bbbe.woff2') format('woff2'),
+                                    url('https://i.wellcomecollection.org/assets/fonts/fd5c4818-7809-4a21-a48d-a0dc15aa47b8.woff') format('woff');
+                                  font-weight: normal;
+                                  font-style: normal;
+                                }
+                              `,
+                            }}
+                          />
+                        )
+                      }
+                    </TogglesContext.Consumer>
+                    <LoadingIndicator />
+                    <TrackerScript />
+
+                    {pagePath.match(/\/articles\/.+/) && (
+                      <PopupDialog
+                        openButtonText={`Got 5 minutes?`}
+                        cta={{
+                          text: 'Click here to start',
+                          url: `https://www.surveymonkey.co.uk/r/GDWR9BD?pagePath=${pagePath}`,
+                        }}
+                      >
+                        <h2
+                          className={classNames({
+                            [font('wb', 6, {
+                              small: 5,
+                              medium: 5,
+                              large: 5,
+                            })]: true,
+                          })}
+                        >
+                          Help us improve our stories
+                        </h2>
+                        <p
+                          className={classNames({
+                            [font('hnl', 5, { medium: 2, large: 2 })]: true,
+                          })}
+                        >
+                          We want to understand what you are interested in
+                          reading on our website.
+                        </p>
+                      </PopupDialog>
+                    )}
+
+                    {!pageProps.statusCode && <Component {...pageProps} />}
+                    {pageProps.statusCode && pageProps.statusCode !== 200 && (
+                      <ErrorPage statusCode={pageProps.statusCode} />
+                    )}
+                  </Fragment>
+                </OutboundLinkTracker>
               </ThemeProvider>
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>

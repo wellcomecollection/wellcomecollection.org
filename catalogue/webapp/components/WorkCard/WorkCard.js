@@ -1,25 +1,27 @@
 // @flow
+import type { ComponentType } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { type Work } from '@weco/common/model/work';
-import { classNames, spacing, font } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import {
-  getPhysicalLocations,
-  getDigitalLocations,
-  getProductionDates,
-  getWorkTypeIcon,
-} from '@weco/common/utils/works';
+import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import { workUrl } from '@weco/common/services/catalogue/urls';
+import {
+  workUrl,
+  type WorkUrlProps,
+} from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
+import Space, {
+  type SpaceComponentProps,
+} from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   work: Work,
+  params: WorkUrlProps,
 |};
 
 const Container = styled.div`
@@ -32,9 +34,8 @@ const Details = styled.div`
     flex-grow: 1;
   `}
 `;
-const Preview = styled.div.attrs(() => ({
+const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
   className: classNames({
-    [spacing({ s: 2 }, { margin: ['left'] })]: true,
     'text-align-center': true,
   }),
 }))`
@@ -56,9 +57,7 @@ const Preview = styled.div.attrs(() => ({
   }
 `;
 
-const WorkCard = ({ work }: Props) => {
-  const digitalLocations = getDigitalLocations(work);
-  const physicalLocations = getPhysicalLocations(work);
+const WorkCard = ({ work, params }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -68,16 +67,16 @@ const WorkCard = ({ work }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <NextLink
-        {...workUrl({
-          id: work.id,
-        })}
-      >
-        <a
+      <NextLink {...workUrl({ ...params, id: work.id })} passHref>
+        <Space
+          as="a"
+          v={{
+            size: 'm',
+            properties: ['padding-top', 'padding-bottom'],
+          }}
           className={classNames({
             'plain-link': true,
             block: true,
-            [spacing({ s: 3 }, { padding: ['bottom', 'top'] })]: true,
             'card-link': true,
           })}
           onClick={() => {
@@ -90,27 +89,30 @@ const WorkCard = ({ work }: Props) => {
         >
           <Container>
             <Details>
-              <div
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-bottom'],
+                }}
                 className={classNames({
                   flex: true,
                   'flex--v-center': true,
-                  [font({ s: 'HNL4' })]: true,
-                  [spacing({ s: 1 }, { margin: ['bottom'] })]: true,
+                  [font('hnl', 5)]: true,
                 })}
               >
                 {workTypeIcon && (
-                  <Icon
-                    name={workTypeIcon}
-                    extraClasses={classNames({
-                      [spacing({ s: 1 }, { margin: ['right'] })]: true,
-                    })}
-                  />
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    <Icon name={workTypeIcon} />
+                  </Space>
                 )}
                 {work.workType.label}
-              </div>
+              </Space>
               <h2
                 className={classNames({
-                  [font({ s: 'HNM3' })]: true,
+                  [font('hnm', 4)]: true,
                   'card-link__title': true,
                 })}
               >
@@ -122,11 +124,7 @@ const WorkCard = ({ work }: Props) => {
                 })}
               >
                 {work.contributors.length > 0 && (
-                  <div
-                    className={classNames({
-                      [spacing({ s: 2 }, { margin: ['right'] })]: true,
-                    })}
-                  >
+                  <Space h={{ size: 'm', properties: ['margin-right'] }}>
                     <LinkLabels
                       items={[
                         {
@@ -135,7 +133,7 @@ const WorkCard = ({ work }: Props) => {
                         },
                       ]}
                     />
-                  </div>
+                  </Space>
                 )}
                 {productionDates.length > 0 && (
                   <LinkLabels
@@ -152,7 +150,7 @@ const WorkCard = ({ work }: Props) => {
             </Details>
 
             {work.thumbnail && (
-              <Preview>
+              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
                 <IIIFResponsiveImage
                   width={178}
                   src={convertImageUri(work.thumbnail.url, 178)}
@@ -175,39 +173,7 @@ const WorkCard = ({ work }: Props) => {
               </Preview>
             )}
           </Container>
-
-          <TogglesContext.Consumer>
-            {({ showWorkLocations }) =>
-              showWorkLocations &&
-              (digitalLocations.length > 0 || physicalLocations.length > 0) && (
-                <div
-                  className={classNames({
-                    [spacing({ s: 2 }, { margin: ['top'] })]: true,
-                  })}
-                >
-                  <LinkLabels
-                    heading={'See it'}
-                    icon={'eye'}
-                    items={[
-                      digitalLocations.length > 0
-                        ? {
-                            text: 'Online',
-                            url: null,
-                          }
-                        : null,
-                      physicalLocations.length > 0
-                        ? {
-                            text: 'Wellcome library',
-                            url: null,
-                          }
-                        : null,
-                    ].filter(Boolean)}
-                  />
-                </div>
-              )
-            }
-          </TogglesContext.Consumer>
-        </a>
+        </Space>
       </NextLink>
     </div>
   );
