@@ -1,19 +1,22 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
+import type { SearchParams } from '@weco/common/services/catalogue/search-params';
+import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getLocationOfType } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
+import Space from '@weco/common/views/components/styled/Space';
 import { getWork } from '../../services/catalogue/works';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import RelatedImages from '../RelatedImages/RelatedImages';
 
 type Props = {|
   title: string,
   id: string,
-  workLink: NextLinkType,
+  searchParams: SearchParams,
   index: number,
 |};
 
@@ -26,13 +29,17 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Box = styled.div`
+const Box = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: {
+    size: 'l',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
+})`
   background-color: ${({ theme }) => theme.colors.pumice};
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
-  padding: 20px;
-  
+
   ${({ index, theme }) => theme.media.small`
     width: calc(200% + ${theme.gutter.small}px);
     margin-left: ${getNegativeMargin(index, 2, theme.gutter.small)}
@@ -49,7 +56,7 @@ const Box = styled.div`
   ${({ index, theme }) => theme.media.xlarge`
     width: calc(600% + ${5 * theme.gutter.xlarge}px);
     margin-left: ${getNegativeMargin(index, 6, theme.gutter.xlarge)}
-  `}
+  `};
 `;
 
 const ImageWrapper = styled.div`
@@ -72,10 +79,33 @@ const LicenseWrapper = styled.div`
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 10px 0 0 0;
   ${({ theme }) => theme.media.large`
     padding: 0 0 0 30px;
+    max-width: 50%;
   `}
+`;
+
+const SpacedButton = styled(Button)`
+  margin: 10px 10px 0 0;
+`;
+
+// The padding combined with the 2px border on a `secondary` button means
+// that it appears larger than the `primary` button despite border-box being set.
+// This styling - reducing the padding by the border width - makes the buttons the same size
+const SpacedButtonBorderBox = styled(SpacedButton)`
+  padding: ${({ theme: { spacingUnit } }) =>
+    `${spacingUnit - 2}px ${4 * spacingUnit - 2}px`};
+`;
+
+const RelatedImagesWrapper = styled.div`
+  display: flex;
+  flex-grow: 10;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const Indicator = styled.div`
@@ -91,7 +121,7 @@ const Indicator = styled.div`
   border-bottom: 15px solid ${({ theme }) => theme.colors.pumice};
 `;
 
-const ExpandedImage = ({ title, index, id, workLink }: Props) => {
+const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   useEffect(() => {
     const fetchDetailedWork = async () => {
@@ -107,6 +137,19 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
     detailedWork && getLocationOfType(detailedWork, 'iiif-image');
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+
+  const workLink = workUrl({ ...searchParams, id });
+  const itemLink =
+    detailedWork &&
+    itemUrl({
+      ...searchParams,
+      workId: id,
+      canvas: 1,
+      langCode: detailedWork.language && detailedWork.language.id,
+      sierraId: null,
+      isOverview: true,
+      page: 1,
+    });
 
   return (
     <Wrapper>
@@ -130,12 +173,19 @@ const ExpandedImage = ({ title, index, id, workLink }: Props) => {
             </LicenseWrapper>
           )}
           <p>{detailedWork && detailedWork.description}</p>
-          <Button
-            type="secondary"
-            text="Go to work"
-            link={workLink}
-            target="_blank"
-          />
+          <div>
+            <SpacedButton type="primary" text="Go to work" link={workLink} />
+            {itemLink && (
+              <SpacedButtonBorderBox
+                type="secondary"
+                text="Go to image"
+                link={itemLink}
+              />
+            )}
+          </div>
+          <RelatedImagesWrapper>
+            <RelatedImages originalId={id} />
+          </RelatedImagesWrapper>
         </Content>
       </Box>
     </Wrapper>
