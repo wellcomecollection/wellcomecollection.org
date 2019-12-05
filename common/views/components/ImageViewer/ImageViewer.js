@@ -30,7 +30,7 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
 
 const ImageViewerControls = styled.div`
   position: absolute;
-  top: 110px;
+  top: 122px;
   left: 12px;
   z-index: 1;
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
