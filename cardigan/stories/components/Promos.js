@@ -101,7 +101,7 @@ const EventPromoExample = () => {
         'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
       image: {
         contentUrl:
-          'https://wellcomecollection.cdn.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg',
+          'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
         alt:
@@ -123,7 +123,7 @@ const EventPromoExample = () => {
       'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
     promoImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg',
+        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt:
@@ -141,7 +141,7 @@ const EventPromoExample = () => {
     },
     image: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg',
+        'https://images.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg?auto=compress,format',
       width: 4000,
       height: 2250,
       alt:
@@ -158,7 +158,7 @@ const EventPromoExample = () => {
       crops: {
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg',
+            'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt:
@@ -176,7 +176,7 @@ const EventPromoExample = () => {
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg',
+            'https://images.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt:
@@ -194,7 +194,7 @@ const EventPromoExample = () => {
         },
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg',
+            'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt:
@@ -214,7 +214,7 @@ const EventPromoExample = () => {
     },
     squareImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg',
+        'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
       width: 3200,
       height: 3200,
       alt:
@@ -232,7 +232,7 @@ const EventPromoExample = () => {
     },
     widescreenImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg',
+        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt:

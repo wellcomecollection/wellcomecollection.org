@@ -91,7 +91,7 @@ export const staticBooks = [
         'Professional magician-turned-psychologist Matthew Tompkins traces the evolution of the arts of magic and illusion from the 18th century onwards.',
       image: {
         contentUrl:
-          'https://wellcomecollection.cdn.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg',
+          'https://images.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
         alt: null,
@@ -112,7 +112,7 @@ export const staticBooks = [
       'Professional magician-turned-psychologist Matthew Tompkins traces the evolution of the arts of magic and illusion from the 18th century onwards.',
     promoImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg',
+        'https://images.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt: null,
@@ -129,7 +129,7 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/76b6935d6067ab9d08ad6f7fe3ad542e2f10d1bb_spectacle-jacket-front.jpg',
+        'https://images.prismic.io/wellcomecollection/76b6935d6067ab9d08ad6f7fe3ad542e2f10d1bb_spectacle-jacket-front.jpg?auto=compress,format',
       width: 646,
       height: 899,
       alt: null,
@@ -145,7 +145,7 @@ export const staticBooks = [
       crops: {
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7c2acb9682d6ad5ac822f23376bdb03e653d5c42_spectacle-jacket-front.jpg',
+            'https://images.prismic.io/wellcomecollection/7c2acb9682d6ad5ac822f23376bdb03e653d5c42_spectacle-jacket-front.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt: null,
@@ -162,7 +162,7 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg',
+            'https://images.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt: null,
@@ -179,7 +179,7 @@ export const staticBooks = [
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/f81a6c1e2d2c0f67aac8d50d05e42ae05ee6c5de_spectacle-jacket-front.jpg',
+            'https://images.prismic.io/wellcomecollection/f81a6c1e2d2c0f67aac8d50d05e42ae05ee6c5de_spectacle-jacket-front.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt: null,
@@ -198,7 +198,7 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7c2acb9682d6ad5ac822f23376bdb03e653d5c42_spectacle-jacket-front.jpg',
+        'https://images.prismic.io/wellcomecollection/7c2acb9682d6ad5ac822f23376bdb03e653d5c42_spectacle-jacket-front.jpg?auto=compress,format',
       width: 3200,
       height: 3200,
       alt: null,
@@ -215,7 +215,7 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg',
+        'https://images.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt: null,
@@ -250,7 +250,7 @@ export const staticBooks = [
     authorDescription: [],
     cover: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/76b6935d6067ab9d08ad6f7fe3ad542e2f10d1bb_spectacle-jacket-front.jpg',
+        'https://images.prismic.io/wellcomecollection/76b6935d6067ab9d08ad6f7fe3ad542e2f10d1bb_spectacle-jacket-front.jpg?auto=compress,format',
       width: 646,
       height: 899,
       alt: null,
@@ -266,7 +266,7 @@ export const staticBooks = [
       crops: {
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7c2acb9682d6ad5ac822f23376bdb03e653d5c42_spectacle-jacket-front.jpg',
+            'https://images.prismic.io/wellcomecollection/7c2acb9682d6ad5ac822f23376bdb03e653d5c42_spectacle-jacket-front.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt: null,
@@ -283,7 +283,7 @@ export const staticBooks = [
         },
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg',
+            'https://images.prismic.io/wellcomecollection/03c51072650dc25e13a21ba4197044f0a1eebf6f_spectacle-jacket-front.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt: null,
@@ -300,7 +300,7 @@ export const staticBooks = [
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/f81a6c1e2d2c0f67aac8d50d05e42ae05ee6c5de_spectacle-jacket-front.jpg',
+            'https://images.prismic.io/wellcomecollection/f81a6c1e2d2c0f67aac8d50d05e42ae05ee6c5de_spectacle-jacket-front.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt: null,
@@ -359,7 +359,7 @@ export const staticBooks = [
       caption: 'The inside story of the making of you.',
       image: {
         contentUrl:
-          'https://wellcomecollection.cdn.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg',
+          'https://images.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
         alt: null,
@@ -379,7 +379,7 @@ export const staticBooks = [
     promoText: 'The inside story of the making of you.',
     promoImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg',
+        'https://images.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt: null,
@@ -396,7 +396,7 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/dae024690810d8364069de53a9a97f6840739f2a_the-making-of-you-cover.jpg',
+        'https://images.prismic.io/wellcomecollection/dae024690810d8364069de53a9a97f6840739f2a_the-making-of-you-cover.jpg?auto=compress,format',
       width: 1821,
       height: 2813,
       alt: null,
@@ -412,7 +412,7 @@ export const staticBooks = [
       crops: {
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg',
+            'https://images.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt: null,
@@ -429,7 +429,7 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/59a187c205903021ed9ee773dbb9a33f301448c4_the-making-of-you-cover.jpg',
+            'https://images.prismic.io/wellcomecollection/59a187c205903021ed9ee773dbb9a33f301448c4_the-making-of-you-cover.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt: null,
@@ -446,7 +446,7 @@ export const staticBooks = [
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/d577cf3aaa8857aa8021bf39f55c50c1dbe82711_the-making-of-you-cover.jpg',
+            'https://images.prismic.io/wellcomecollection/d577cf3aaa8857aa8021bf39f55c50c1dbe82711_the-making-of-you-cover.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt: null,
@@ -465,7 +465,7 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/59a187c205903021ed9ee773dbb9a33f301448c4_the-making-of-you-cover.jpg',
+        'https://images.prismic.io/wellcomecollection/59a187c205903021ed9ee773dbb9a33f301448c4_the-making-of-you-cover.jpg?auto=compress,format',
       width: 3200,
       height: 3200,
       alt: null,
@@ -482,7 +482,7 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg',
+        'https://images.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt: null,
@@ -517,7 +517,7 @@ export const staticBooks = [
     authorDescription: [],
     cover: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/dae024690810d8364069de53a9a97f6840739f2a_the-making-of-you-cover.jpg',
+        'https://images.prismic.io/wellcomecollection/dae024690810d8364069de53a9a97f6840739f2a_the-making-of-you-cover.jpg?auto=compress,format',
       width: 1821,
       height: 2813,
       alt: null,
@@ -533,7 +533,7 @@ export const staticBooks = [
       crops: {
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg',
+            'https://images.prismic.io/wellcomecollection/061c0381540a236f4b603e286f41cfc590e32acb_the-making-of-you-cover.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt: null,
@@ -550,7 +550,7 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/59a187c205903021ed9ee773dbb9a33f301448c4_the-making-of-you-cover.jpg',
+            'https://images.prismic.io/wellcomecollection/59a187c205903021ed9ee773dbb9a33f301448c4_the-making-of-you-cover.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt: null,
@@ -567,7 +567,7 @@ export const staticBooks = [
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/d577cf3aaa8857aa8021bf39f55c50c1dbe82711_the-making-of-you-cover.jpg',
+            'https://images.prismic.io/wellcomecollection/d577cf3aaa8857aa8021bf39f55c50c1dbe82711_the-making-of-you-cover.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt: null,
@@ -650,7 +650,7 @@ export const staticBooks = [
         'To be alive is to be in perpetual change. This book considers the transformations in mind and body that span the arc of human life.',
       image: {
         contentUrl:
-          'https://wellcomecollection.cdn.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg',
+          'https://images.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
         alt: null,
@@ -671,7 +671,7 @@ export const staticBooks = [
       'To be alive is to be in perpetual change. This book considers the transformations in mind and body that span the arc of human life.',
     promoImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg',
+        'https://images.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt: null,
@@ -688,7 +688,7 @@ export const staticBooks = [
     },
     image: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/c8f6f4f9325ba1a9924e88ac9bfe8bbe9a23490e_shapeshifterspb_final_copy.jpg',
+        'https://images.prismic.io/wellcomecollection/c8f6f4f9325ba1a9924e88ac9bfe8bbe9a23490e_shapeshifterspb_final_copy.jpg?auto=compress,format',
       width: 1774,
       height: 2728,
       alt: null,
@@ -704,7 +704,7 @@ export const staticBooks = [
       crops: {
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg',
+            'https://images.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt: null,
@@ -721,7 +721,7 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/b12292b7ff9c064958daf22231db5fffaba12fa3_shapeshifterspb_final_copy.jpg',
+            'https://images.prismic.io/wellcomecollection/b12292b7ff9c064958daf22231db5fffaba12fa3_shapeshifterspb_final_copy.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt: null,
@@ -738,7 +738,7 @@ export const staticBooks = [
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a8082823367c5f9b1f92923820ac621d1b7e0ec0_shapeshifterspb_final_copy.jpg',
+            'https://images.prismic.io/wellcomecollection/a8082823367c5f9b1f92923820ac621d1b7e0ec0_shapeshifterspb_final_copy.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt: null,
@@ -757,7 +757,7 @@ export const staticBooks = [
     },
     squareImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/b12292b7ff9c064958daf22231db5fffaba12fa3_shapeshifterspb_final_copy.jpg',
+        'https://images.prismic.io/wellcomecollection/b12292b7ff9c064958daf22231db5fffaba12fa3_shapeshifterspb_final_copy.jpg?auto=compress,format',
       width: 3200,
       height: 3200,
       alt: null,
@@ -774,7 +774,7 @@ export const staticBooks = [
     },
     widescreenImage: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg',
+        'https://images.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
       alt: null,
@@ -826,7 +826,7 @@ export const staticBooks = [
     ],
     cover: {
       contentUrl:
-        'https://wellcomecollection.cdn.prismic.io/wellcomecollection/c8f6f4f9325ba1a9924e88ac9bfe8bbe9a23490e_shapeshifterspb_final_copy.jpg',
+        'https://images.prismic.io/wellcomecollection/c8f6f4f9325ba1a9924e88ac9bfe8bbe9a23490e_shapeshifterspb_final_copy.jpg?auto=compress,format',
       width: 1774,
       height: 2728,
       alt: null,
@@ -842,7 +842,7 @@ export const staticBooks = [
       crops: {
         '16:9': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg',
+            'https://images.prismic.io/wellcomecollection/bcfbbd7b42c9ad26e3a86a27cb67c72f5d04b7f0_shapeshifterspb_final_copy.jpg?auto=compress,format',
           width: 3200,
           height: 1800,
           alt: null,
@@ -859,7 +859,7 @@ export const staticBooks = [
         },
         square: {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/b12292b7ff9c064958daf22231db5fffaba12fa3_shapeshifterspb_final_copy.jpg',
+            'https://images.prismic.io/wellcomecollection/b12292b7ff9c064958daf22231db5fffaba12fa3_shapeshifterspb_final_copy.jpg?auto=compress,format',
           width: 3200,
           height: 3200,
           alt: null,
@@ -876,7 +876,7 @@ export const staticBooks = [
         },
         '32:15': {
           contentUrl:
-            'https://wellcomecollection.cdn.prismic.io/wellcomecollection/a8082823367c5f9b1f92923820ac621d1b7e0ec0_shapeshifterspb_final_copy.jpg',
+            'https://images.prismic.io/wellcomecollection/a8082823367c5f9b1f92923820ac621d1b7e0ec0_shapeshifterspb_final_copy.jpg?auto=compress,format',
           width: 3200,
           height: 1500,
           alt: null,
