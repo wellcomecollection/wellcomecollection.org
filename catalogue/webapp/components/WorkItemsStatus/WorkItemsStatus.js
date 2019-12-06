@@ -144,10 +144,17 @@ const WorkItemsStatus = ({ work }: Props) => {
                 properties: ['margin-bottom'],
               }}
             >
-              <p>
+              <p className="no-margin">
                 {item.location.label}: {item.status.label}
               </p>
-              <ItemRequestButton item={item} workId={work.id} />
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-top'],
+                }}
+              >
+                <ItemRequestButton item={item} workId={work.id} />
+              </Space>
             </Space>
           </Fragment>
         ))}
