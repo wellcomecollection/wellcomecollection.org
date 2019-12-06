@@ -32,7 +32,7 @@ type Props = {|
 const pageDescription =
   'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.';
 const pageImage =
-  'https://iiif.wellcomecollection.org/image/prismic:fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg/full/800,/0/default.jpg';
+  'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 export class HomePage extends Component<Props> {
   static getInitialProps = async (ctx: Context) => {
     const exhibitionsPromise = getExhibitions(ctx.req, {
