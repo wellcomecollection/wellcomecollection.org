@@ -25,11 +25,8 @@ import {
 import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import LL from '@weco/common/views/components/styled/LL';
-import { trackEvent } from '@weco/common/utils/ga';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 import IIIFCanvasThumbnail from './parts/IIIFCanvasThumbnail';
@@ -37,6 +34,9 @@ import NoScriptViewer, {
   IIIFViewerPaginatorButtons,
   PaginatorButtons,
 } from './parts/NoScriptViewer';
+// import MainViewer from './parts/MainViewer';
+// import ThumbsViewer from './parts/ThumbsViewer';
+// import GridViewer from './parts/GridViewer';
 
 export const headerHeight = 149;
 
@@ -321,7 +321,7 @@ const IIIFViewerComponent = ({
 
   return (
     <>
-           <ViewerTopBar
+      <ViewerTopBar
         canvases={canvases}
         enhanced={enhanced}
         showThumbs={showThumbs}
@@ -470,3 +470,85 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
+
+// const ViewerLayout = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   height: 100vh;
+//   position: relative;
+
+//   @media (min-width: 600px) {
+//     grid-template-columns: 1fr 5fr;
+//   }
+// `;
+
+// const IndexPage = () => {
+//   const [activeIndex, setActiveIndex] = useState(0);
+//   const [pageHeight, setPageHeight] = useState(500);
+//   const [pageWidth, setPageWidth] = useState(1000);
+//   const [isGridVisible, setIsGridVisible] = useState(false);
+//   const mainViewerRef = useRef(null);
+//   const viewerLayoutRef = useRef(null);
+
+//   useEffect(() => {
+//     function handleResize() {
+//       setPageHeight(window.innerHeight);
+//       setPageWidth(window.innerWidth);
+//     }
+
+//     window.addEventListener("resize", handleResize);
+
+//     handleResize();
+
+//     return () => window.removeEventListener("resize", handleResize);
+//   }, []);
+
+//   return (
+//     <>
+//       <Head>
+//         <meta name="viewport" content="width=device-width, initial-scale=1" />
+//         <meta charSet="utf-8" />
+//       </Head>
+//       <style jsx global>{`
+//         body {
+//           background: #333;
+//           margin: 0;
+//           padding: 0;
+//         }
+//       `}</style>
+//       <button
+//         style={{ position: "fixed", top: "5px", right: "5px", zIndex: 3 }}
+//         onClick={() => setIsGridVisible(!isGridVisible)}
+//       >
+//         {isGridVisible ? "hide" : "show"} grid
+//       </button>
+//       <ViewerLayout ref={viewerLayoutRef}>
+//         <GridViewer
+//           gridHeight={pageHeight}
+//           gridWidth={pageWidth}
+//           isVisible={isGridVisible}
+//           mainViewerRef={mainViewerRef}
+//           setIsGridVisible={setIsGridVisible}
+//           activeIndex={activeIndex}
+//           setActiveIndex={setActiveIndex}
+//         />
+//         {pageWidth >= 600 && (
+//           <ThumbsViewer
+//             listHeight={pageHeight}
+//             mainViewerRef={mainViewerRef}
+//             activeIndex={activeIndex}
+//             setActiveIndex={setActiveIndex}
+//           />
+//         )}
+//         <MainViewer
+//           listHeight={pageHeight}
+//           mainViewerRef={mainViewerRef}
+//           setActiveIndex={setActiveIndex}
+//           pageWidth={pageWidth}
+//         />
+//       </ViewerLayout>
+//     </>
+//   );
+// };
+
+// export default IndexPage;

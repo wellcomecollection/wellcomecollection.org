@@ -1,10 +1,10 @@
 import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
-import imageData from '../data';
+import imageData from '../data/data';
 import Loader from './Loader';
 import Router from 'next/router';
-import useScrollVelocity from '../hooks/useScrollVelocity';
+import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 
 function getUrlForScrollVelocity(velocity, thumbnail, index) {
   const baseUrl = `https://dlcs.io/iiif-img/wellcome/5/b23983565_`;

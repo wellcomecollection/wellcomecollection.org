@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useState, memo } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
-import imageData from '../data';
-import useScrollVelocity from '../hooks/useScrollVelocity';
+import imageData from '../data/data';
+import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }) => {

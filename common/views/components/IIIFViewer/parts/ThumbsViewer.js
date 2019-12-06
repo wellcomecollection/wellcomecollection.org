@@ -1,7 +1,7 @@
 import { FixedSizeList, areEqual } from 'react-window';
-import imageData from '../data';
+import imageData from '../data/data';
 import { useState, memo } from 'react';
-import useScrollVelocity from '../hooks/useScrollVelocity';
+import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
 
 const ItemRenderer = memo(({ style, index, data }) => {
