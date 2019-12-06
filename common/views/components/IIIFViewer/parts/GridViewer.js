@@ -1,23 +1,31 @@
 import styled from 'styled-components';
 import { useState, memo } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
-import imageData from '../data/data';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }) => {
   const {
     columnCount,
-    imageData,
     mainViewerRef,
     setIsGridVisible,
     scrollVelocity,
     activeIndex,
     setActiveIndex,
+    canvases,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
-
-  return (
+  const thumbnailService =
+    canvases[itemIndex] && canvases[itemIndex].thumbnail.service;
+  const urlTemplate =
+    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidthImageDimensions =
+    thumbnailService &&
+    thumbnailService.sizes
+      .sort((a, b) => a.width - b.width)
+      .find(dimensions => dimensions.width > 100);
+  return urlTemplate ? ( // TODO work out why urlTemplate is null for GridViewer and not for ThumbsViewer http://localhost:3001/works/mrg68by5/items?sierraId=b3057822x&langCode=ger#0#0#0#0 - prob something to do with itemIndex that isn't in the canvases array...
     <div
       style={style}
       onClick={() => {
@@ -48,13 +56,19 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }) => {
                 activeIndex === itemIndex ? 'yellow' : 'transparent'
               }`,
             }}
-            src={imageData[itemIndex]}
+            src={urlTemplate({
+              size: `${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : '!100'
+              },`,
+            })}
             alt=""
           />
         )}
       </div>
     </div>
-  );
+  ) : null;
 }, areEqual);
 
 const GridViewerEl = styled.div`
@@ -79,6 +93,7 @@ type Props = {|
   setIsGridVisible: any,
   activeIndex: any,
   setActiveIndex: any,
+  canvases: any,
 |};
 
 const GridViewer = ({
@@ -89,6 +104,7 @@ const GridViewer = ({
   setIsGridVisible,
   activeIndex,
   setActiveIndex,
+  canvases,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -102,17 +118,17 @@ const GridViewer = ({
         columnCount={columnCount}
         columnWidth={columnWidth}
         height={gridHeight}
-        rowCount={imageData.length / columnCount + 1}
+        rowCount={canvases.length / columnCount + 1}
         rowHeight={300}
         width={gridWidth}
         itemData={{
-          imageData,
           columnCount,
           mainViewerRef,
           setIsGridVisible,
           scrollVelocity,
           activeIndex,
           setActiveIndex,
+          canvases,
         }}
         onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
       >
