@@ -12,7 +12,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     setActiveIndex,
     canvases,
   } = data;
-  const thumbnailService = canvases[index].thumbnail.service;
+  const thumbnailService = canvases[index].thumbnail.service; // TODO make this function to share across MainV, GridV and ThumbV
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
   const smallestWidthImageDimensions = thumbnailService.sizes
     .sort((a, b) => a.width - b.width)

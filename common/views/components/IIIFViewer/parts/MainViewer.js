@@ -1,31 +1,39 @@
 import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
-import imageData from '../data/data';
 import Loader from './Loader';
 import Router from 'next/router';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 function getUrlForScrollVelocity(velocity, thumbnail, index) {
-  const baseUrl = `https://dlcs.io/iiif-img/wellcome/5/b23983565_`;
+  const thumbnailService = thumbnail.thumbnail.service; // TODO DON'T USE THUMBNAIL USE PROPER CANVAS
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidthImageDimensions = thumbnailService.sizes
+    .sort((a, b) => a.width - b.width)
+    .find(dimensions => dimensions.width > 400); // TODO put back to 100
+  // TODO what to return for each case, thumbnail or full or nothing?
   switch (velocity) {
-    case 3:
-      return `${thumbnail}`;
-    case 2:
-      return `${thumbnail}`;
-    case 1:
-      return `${baseUrl}${(index + 1)
-        .toString()
-        .padStart(4, '0')}.jp2/full/500,/0/default.jpg`;
+    // case 3:
     default:
-      return `${baseUrl}${(index + 1)
-        .toString()
-        .padStart(4, '0')}.jp2/full/500,/0/default.jpg`;
+      return urlTemplate({
+        size: `${
+          smallestWidthImageDimensions
+            ? smallestWidthImageDimensions.width
+            : '!100'
+        },`,
+      });
+    // case 2:
+    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg';
+    // case 1:
+    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg';
+    // default:
+    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg';
   }
 }
 
 const ItemRenderer = memo(({ style, index, data }) => {
-  const { scrollVelocity, isProgrammaticScroll, imageData } = data;
+  const { scrollVelocity, isProgrammaticScroll, canvases } = data;
 
   return (
     <div
@@ -45,7 +53,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
             width: 'auto',
             margin: '0 auto',
           }}
-          src={getUrlForScrollVelocity(scrollVelocity, imageData[index], index)}
+          src={getUrlForScrollVelocity(scrollVelocity, canvases[index], index)}
           alt=""
         />
       )}
@@ -59,6 +67,7 @@ type Props = {|
   mainViewerRef: any,
   setActiveIndex: any,
   pageWidth: any,
+  canvases: any,
 |};
 
 const MainViewer = ({
@@ -66,6 +75,7 @@ const MainViewer = ({
   mainViewerRef,
   setActiveIndex,
   pageWidth,
+  canvases,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -90,11 +100,11 @@ const MainViewer = ({
     <FixedSizeList
       style={{ width: `${itemHeight}px`, margin: '0 auto' }}
       height={listHeight}
-      itemCount={imageData.length}
+      itemCount={canvases.length}
       itemData={{
         scrollVelocity,
         isProgrammaticScroll,
-        imageData,
+        canvases,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}
