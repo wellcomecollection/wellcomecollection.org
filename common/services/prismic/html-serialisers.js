@@ -1,16 +1,16 @@
 // @flow
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
-
+import { Fragment, type Element } from 'react';
 const { Elements } = PrismicDOM.RichText;
 
 export type HtmlSerializer = (
   type: string,
   element: Object, // There are so many types here
   content: string,
-  children: string[],
+  children: Element<any>[],
   i: number
-) => ?any;
+) => ?Element<any>;
 
 export const dropCapSerializer: HtmlSerializer = (
   type,
@@ -20,18 +20,26 @@ export const dropCapSerializer: HtmlSerializer = (
   i
 ) => {
   if (type === Elements.paragraph && i === 0) {
-    const firstCharacters = children[0];
+    const firstChild = children[0];
+    const firstCharacters =
+      firstChild.props &&
+      firstChild.props.children &&
+      firstChild.props.children[0];
 
     if (typeof firstCharacters !== 'string') {
-      return <p>{children}</p>;
+      return <p key={i}>{children}</p>;
     }
 
     const firstLetter = firstCharacters.charAt(0);
-    const cappedFirstLetter = <span className="drop-cap">{firstLetter}</span>;
+    const cappedFirstLetter = (
+      <span key={i} className="drop-cap">
+        {firstLetter}
+      </span>
+    );
     const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
     const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
 
-    return <p>{childrenWithDropCap}</p>;
+    return <p key={i}>{childrenWithDropCap}</p>;
   }
   return defaultSerializer(type, element, content, children, i);
 };
@@ -45,33 +53,33 @@ export const defaultSerializer: HtmlSerializer = (
 ) => {
   switch (type) {
     case Elements.heading1:
-      return <h1>{children}</h1>;
+      return <h1 key={i}>{children}</h1>;
     case Elements.heading2:
-      return <h2>{children}</h2>;
+      return <h2 key={i}>{children}</h2>;
     case Elements.heading3:
-      return <h3>{children}</h3>;
+      return <h3 key={i}>{children}</h3>;
     case Elements.heading4:
-      return <h4>{children}</h4>;
+      return <h4 key={i}>{children}</h4>;
     case Elements.heading5:
-      return <h5>{children}</h5>;
+      return <h5 key={i}>{children}</h5>;
     case Elements.heading6:
-      return <h6>{children}</h6>;
+      return <h6 key={i}>{children}</h6>;
     case Elements.paragraph:
-      return <p>{children}</p>;
+      return <p key={i}>{children}</p>;
     case Elements.preformatted:
-      return <pre>{children}</pre>;
+      return <pre key={i}>{children}</pre>;
     case Elements.strong:
-      return <strong>{children}</strong>;
+      return <strong key={i}>{children}</strong>;
     case Elements.em:
-      return <em>{children}</em>;
+      return <em key={i}>{children}</em>;
     case Elements.listItem:
-      return <li>{children}</li>;
+      return <li key={i}>{children}</li>;
     case Elements.oListItem:
-      return <li>{children}</li>;
+      return <li key={i}>{children}</li>;
     case Elements.list:
-      return <ul>{children}</ul>;
+      return <ul key={i}>{children}</ul>;
     case Elements.oList:
-      return <ol>{children}</ol>;
+      return <ol key={i}>{children}</ol>;
     case Elements.image:
       const url = element.linkTo
         ? PrismicDOM.Link.url(element.linkTo, linkResolver)
@@ -91,7 +99,7 @@ export const defaultSerializer: HtmlSerializer = (
       );
 
       return (
-        <p className={wrapperClassList.join(' ')}>
+        <p key={i} className={wrapperClassList.join(' ')}>
           {url ? (
             <a target={linkTarget} rel={linkRel} href={url}>
               {img}
@@ -104,6 +112,7 @@ export const defaultSerializer: HtmlSerializer = (
     case Elements.embed:
       return (
         <div
+          key={i}
           data-oembed={element.oembed.embed_url}
           data-oembed-type={element.oembed.type}
           data-oembed-provider={element.oembed.provider_name}
@@ -129,7 +138,7 @@ export const defaultSerializer: HtmlSerializer = (
 
       if (hashLink) {
         return (
-          <a target={target} rel={rel} href={hashLink}>
+          <a key={i} target={target} rel={rel} href={hashLink}>
             {children}
           </a>
         );
@@ -138,6 +147,7 @@ export const defaultSerializer: HtmlSerializer = (
       if (isDocument) {
         return (
           <a
+            key={i}
             target={target}
             className="no-margin plain-link font-green font-HNM3-s flex-inline flex--h-baseline"
             href={linkUrl}
@@ -160,11 +170,11 @@ export const defaultSerializer: HtmlSerializer = (
               </svg>
             </span>
             <span className="no-margin">
-              <span className="no-margin underline-on-hover">{children}</span>
+              <span className="no-margin underline-on-hover">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
                 <span className="no-margin font-pewter font-HNM4-s">
                   {documentType}
-                </span>
+                </span>{' '}
                 <span className="no-margin font-pewter font-HNL4-s">
                   {documentSize}kb
                 </span>
@@ -174,16 +184,34 @@ export const defaultSerializer: HtmlSerializer = (
         );
       } else {
         return (
-          <a target={target} href={linkUrl}>
+          <a key={i} target={target} href={linkUrl}>
             {children}
           </a>
         );
       }
     case Elements.label:
       const labelClass = element.data.label || undefined;
-      return <span className={labelClass}>{children}</span>;
+      return (
+        <span key={i} className={labelClass}>
+          {children}
+        </span>
+      );
     case Elements.span:
-      return content ? content.replace(/\n/g, '<br />') : '';
+      return content ? (
+        <Fragment key={i}>
+          {content
+            ? content.split('\n').reduce((acc, p) => {
+                if (acc.length === 0) {
+                  return [p];
+                } else {
+                  const brIndex = (acc.length + 1) / 2 - 1;
+                  const br = <br key={brIndex} />;
+                  return [...acc, br, p];
+                }
+              }, [])
+            : null}
+        </Fragment>
+      ) : null;
     default:
       return null;
   }
