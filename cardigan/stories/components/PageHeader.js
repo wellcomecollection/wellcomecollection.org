@@ -62,7 +62,7 @@ const ContentTypeInfo = (
 const pictureImages = [
   {
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/58311b341bbcab74990e2ad0917b51162452b58f_tf_190405_3790149.jpg',
+      'https://images.prismic.io/wellcomecollection/58311b341bbcab74990e2ad0917b51162452b58f_tf_190405_3790149.jpg?auto=compress,format',
     width: 3200,
     height: 1800,
     alt: '',
@@ -80,7 +80,7 @@ const pictureImages = [
   },
   {
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/17c12bebf53c50311e288f2fe8654d8400a0129a_tf_190405_3790149.jpg',
+      'https://images.prismic.io/wellcomecollection/17c12bebf53c50311e288f2fe8654d8400a0129a_tf_190405_3790149.jpg?auto=compress,format',
     width: 3200,
     height: 3200,
     alt: '',

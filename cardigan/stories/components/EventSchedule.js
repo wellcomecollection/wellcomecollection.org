@@ -15,7 +15,7 @@ const schedule = [
         'Drop in to experience a newly commissioned work by artists Basel Zaraa and Tania El Khoury about the health experiences of refugees. This  performance will use painting, touch and sound to connect you with the emotional and mental health hardships faced by people in detention centres and will evolve over the weekend.',
       promoImage: {
         contentUrl:
-          'https://wellcomecollection.cdn.prismic.io/wellcomecollection/f36afe6d86bb41f157d41e603187e1f53eb93d8d_tania-and-basel.jpg',
+          'https://images.prismic.io/wellcomecollection/f36afe6d86bb41f157d41e603187e1f53eb93d8d_tania-and-basel.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
         alt:

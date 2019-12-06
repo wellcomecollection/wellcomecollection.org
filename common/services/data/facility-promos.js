@@ -31,7 +31,7 @@ export const cafePromo: Promo = {
   image: {
     type: 'picture',
     contentUrl:
-      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2F767a5fc5-7095-4772-a22b-275b38e4bd4d_cafe.png',
+      'https://images.prismic.io/wellcomecollection%2F767a5fc5-7095-4772-a22b-275b38e4bd4d_cafe.png?auto=compress,format',
     width: 408,
     height: 229,
     alt: '',
@@ -68,7 +68,7 @@ export const restaurantPromo: Promo = {
   image: {
     type: 'picture',
     contentUrl:
-      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png',
+      'https://images.prismic.io/wellcomecollection%2Fc2475694-73e3-4309-ba6d-100a25fe6864_restaurant.png?auto=compress,format',
     width: 408,
     height: 229,
     alt: '',
@@ -85,7 +85,7 @@ export const shopPromo: Promo = {
   image: {
     type: 'picture',
     contentUrl:
-      'https://prismic-io.s3.amazonaws.com/wellcomecollection%2Fb9feb700-cb89-47cc-be19-75b37adc2061_shop.png',
+      'https://images.prismic.io/wellcomecollection%2Fb9feb700-cb89-47cc-be19-75b37adc2061_shop.png',
     width: 408,
     height: 229,
     alt: '',
@@ -117,7 +117,7 @@ export const dailyTourPromo: EventPromo = {
   image: {
     type: 'picture',
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg',
+      'https://images.prismic.io/wellcomecollection/7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg?auto=compress,format',
     width: 2996,
     height: 2000,
     alt: '',

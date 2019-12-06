@@ -84,35 +84,35 @@ const VenueHours = ({ venue, weight }: Props) => {
   const venueAdditionalInfo = {
     galleries: {
       image:
-        'https://iiif.wellcomecollection.org/image/prismic:05eae23ee0eada0bf4d025d999dfd100c05feeb1_c0108491.jpg',
+        'https://images.prismic.io/wellcomecollection/05eae23ee0eada0bf4d025d999dfd100c05feeb1_c0108491.jpg?auto=compress,format',
       displayTitle: 'Galleries and Reading Room',
       linkText: `See what's on`,
       url: '/whats-on',
     },
     library: {
       image:
-        'https://iiif.wellcomecollection.org/image/prismic:36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg',
+        'https://images.prismic.io/wellcomecollection/36a2f85c1f1b6fb180c87ea8fadc67035bcc7eeb_c0112117.jpg?auto=compress,format',
       displayTitle: 'Library',
       linkText: 'Read about the library',
       url: '/pages/Wuw19yIAAK1Z3Smm',
     },
     shop: {
       image:
-        'https://iiif.wellcomecollection.org/image/prismic:bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg',
+        'https://images.prismic.io/wellcomecollection/bcdceabe08cf8b0a3a9facdfc5964d3cf968e38c_c0144444.jpg?auto=compress,format',
       displayTitle: 'Wellcome Shop',
       linkText: 'Books and gifts',
       url: '/pages/WwgaIh8AAB8AGhC_',
     },
     café: {
       image:
-        'https://iiif.wellcomecollection.org/image/prismic:59cf3a27d3e6e0dc210b68d0d29c03cc34b9ee8d_c0144277.jpg',
+        'https://images.prismic.io/wellcomecollection/59cf3a27d3e6e0dc210b68d0d29c03cc34b9ee8d_c0144277.jpg?auto=compress,format',
       displayTitle: 'Wellcome Café',
       linkText: 'Take a break in our café',
       url: '/pages/Wvl1wiAAADMJ3zNe',
     },
     restaurant: {
       image:
-        'https://iiif.wellcomecollection.org/image/prismic:97017f7ca01717f1ca469a08b510f9a5af6a1d43_c0146591_large.jpg',
+        'https://images.prismic.io/wellcomecollection/97017f7ca01717f1ca469a08b510f9a5af6a1d43_c0146591_large.jpg?auto=compress,format',
       displayTitle: 'Wellcome Kitchen',
       linkText: 'Explore the menus',
       url: '/pages/Wuw19yIAAK1Z3Snk',

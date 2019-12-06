@@ -9,7 +9,7 @@ export const id = randomNumber(1000, 2000);
 export const url = faker.internet.url();
 
 export const image = (
-  contentUrl = 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg',
+  contentUrl = 'https://images.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg?auto=compress,format',
   width = 640,
   height = 480
 ) => {
@@ -30,7 +30,7 @@ export const image = (
 };
 
 export const squareImage = (
-  contentUrl = 'https://iiif.wellcomecollection.org/image/prismic:e0d9c99ab840cbb76e1981ed453c57f4b5d02a65_reading-room-clock.jpg/full/300,/0/default.jpg',
+  contentUrl = 'https://images.prismic.io/wellcomecollection/e0d9c99ab840cbb76e1981ed453c57f4b5d02a65_reading-room-clock.jpg?auto=compress,format',
   width = 300,
   height = 300
 ) => {
@@ -53,7 +53,7 @@ export const squareImage = (
 export const pictureImages = [
   {
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/fb5b20a53897d484fde6afc612fb9563e987fd5f_tf_180516_2060224.jpg',
+      'https://images.prismic.io/wellcomecollection/fb5b20a53897d484fde6afc612fb9563e987fd5f_tf_180516_2060224.jpg?auto=compress,format',
     width: 3200,
     height: 1500,
     alt:
@@ -71,7 +71,7 @@ export const pictureImages = [
   },
   {
     contentUrl:
-      'https://wellcomecollection.cdn.prismic.io/wellcomecollection/3ab79986b581a18eabd68602d0f27e989535e0dc_tf_180516_2060224.jpg',
+      'https://images.prismic.io/wellcomecollection/3ab79986b581a18eabd68602d0f27e989535e0dc_tf_180516_2060224.jpg?auto=compress,format',
     width: 3200,
     height: 3200,
     alt:
