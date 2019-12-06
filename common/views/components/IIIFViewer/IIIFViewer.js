@@ -513,6 +513,7 @@ const IIIFViewerComponent = ({
               />
               {pageWidth >= 600 && (
                 <ThumbsViewer
+                  canvases={canvases}
                   listHeight={pageHeight}
                   mainViewerRef={mainViewerRef}
                   activeIndex={activeIndex}

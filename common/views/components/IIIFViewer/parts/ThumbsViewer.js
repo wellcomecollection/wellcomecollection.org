@@ -1,12 +1,22 @@
 import { FixedSizeList, areEqual } from 'react-window';
-import imageData from '../data/data';
 import { useState, memo } from 'react';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 
 const ItemRenderer = memo(({ style, index, data }) => {
-  const { mainViewerRef, scrollVelocity, activeIndex, setActiveIndex } = data;
-
+  const {
+    mainViewerRef,
+    scrollVelocity,
+    activeIndex,
+    setActiveIndex,
+    canvases,
+  } = data;
+  const thumbnailService = canvases[index].thumbnail.service;
+  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidthImageDimensions = thumbnailService.sizes
+    .sort((a, b) => a.width - b.width)
+    .find(dimensions => dimensions.width > 100);
   return (
     <div
       style={style}
@@ -33,7 +43,13 @@ const ItemRenderer = memo(({ style, index, data }) => {
               activeIndex === index ? 'yellow' : 'transparent'
             }`,
           }}
-          src={imageData[index]}
+          src={urlTemplate({
+            size: `${
+              smallestWidthImageDimensions
+                ? smallestWidthImageDimensions.width
+                : '!100'
+            },`,
+          })}
           alt=""
         />
       )}
@@ -47,6 +63,7 @@ type Props = {|
   mainViewerRef: any,
   activeIndex: any,
   setActiveIndex: any,
+  canvases: any,
 |};
 
 const ThumbsViewer = ({
@@ -54,6 +71,7 @@ const ThumbsViewer = ({
   mainViewerRef,
   activeIndex,
   setActiveIndex,
+  canvases,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -65,7 +83,7 @@ const ThumbsViewer = ({
   return (
     <FixedSizeList
       height={listHeight}
-      itemCount={imageData.length}
+      itemCount={canvases.length}
       itemSize={0.2 * listHeight}
       style={{ background: '#555' }}
       onScroll={handleOnScroll}
@@ -74,6 +92,7 @@ const ThumbsViewer = ({
         scrollVelocity,
         activeIndex,
         setActiveIndex,
+        canvases,
       }}
     >
       {ItemRenderer}
