@@ -306,18 +306,12 @@ const WorkDetails = ({
               <WorkDetailsSection headingText="Where to find it">
                 {stacksRequestService && (
                   <div className={`${font('hnl', 5)}`}>
-                    <h3 className={`${font('hnm', 5)} no-margin`}>
-                      In the library
-                    </h3>
-                    <div className={`${font('hnl', 5)}`}>
-                      <WorkItemsStatus work={work} />
-                    </div>
+                    <WorkItemsStatus work={work} />
                   </div>
                 )}
 
                 {(encoreLink || iiifPresentationRepository) && (
                   <WorkDetailsText
-                    title={'Online'}
                     text={[
                       encoreLink &&
                         `<a href="${encoreLink}">Wellcome library</a>`,
