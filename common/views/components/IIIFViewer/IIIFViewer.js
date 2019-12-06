@@ -332,7 +332,6 @@ const IIIFViewerComponent = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [pageHeight, setPageHeight] = useState(500);
   const [pageWidth, setPageWidth] = useState(1000);
-  const [isGridVisible, setIsGridVisible] = useState(false);
   const mainViewerRef = useRef(null);
   const viewerLayoutRef = useRef(null);
 
@@ -495,21 +494,16 @@ const IIIFViewerComponent = ({
           //   )}
           // </IIIFViewer>
           <>
-            <button
-              style={{ position: 'fixed', top: '5px', right: '5px', zIndex: 3 }}
-              onClick={() => setIsGridVisible(!isGridVisible)}
-            >
-              {isGridVisible ? 'hide' : 'show'} grid
-            </button>
             <ViewerLayout ref={viewerLayoutRef}>
               <GridViewer
                 gridHeight={pageHeight}
                 gridWidth={pageWidth}
-                isVisible={isGridVisible}
+                isVisible={showThumbs} // TODO rename for consitency
                 mainViewerRef={mainViewerRef}
-                setIsGridVisible={setIsGridVisible}
+                setIsGridVisible={setShowThumbs} // TODO rename for consitency
                 activeIndex={activeIndex}
                 setActiveIndex={setActiveIndex}
+                canvases={canvases}
               />
               {pageWidth >= 600 && (
                 <ThumbsViewer
@@ -525,6 +519,7 @@ const IIIFViewerComponent = ({
                 mainViewerRef={mainViewerRef}
                 setActiveIndex={setActiveIndex}
                 pageWidth={pageWidth}
+                canvases={canvases}
               />
             </ViewerLayout>
           </>
