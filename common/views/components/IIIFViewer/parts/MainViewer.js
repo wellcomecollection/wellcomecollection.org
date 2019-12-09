@@ -68,6 +68,7 @@ type Props = {|
   setActiveIndex: any,
   pageWidth: any,
   canvases: any,
+  link: any,
 |};
 
 const MainViewer = ({
@@ -76,6 +77,7 @@ const MainViewer = ({
   setActiveIndex,
   pageWidth,
   canvases,
+  link,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -92,8 +94,22 @@ const MainViewer = ({
 
   function handleOnItemsRendered({ visibleStartIndex }) {
     setIsProgrammaticScroll(false);
-
-    Router.replace(`${Router.asPath}#${visibleStartIndex}`);
+    Router.replace(
+      {
+        ...link.href,
+        query: {
+          ...link.href.query,
+          canvas: `${visibleStartIndex + 1}`,
+        },
+      },
+      {
+        ...link.as,
+        query: {
+          ...link.as.query,
+          canvas: `${visibleStartIndex + 1}`,
+        },
+      }
+    );
   }
 
   return (

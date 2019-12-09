@@ -520,6 +520,7 @@ const IIIFViewerComponent = ({
                 setActiveIndex={setActiveIndex}
                 pageWidth={pageWidth}
                 canvases={canvases}
+                link={mainPaginatorProps.link}
               />
             </ViewerLayout>
           </>
