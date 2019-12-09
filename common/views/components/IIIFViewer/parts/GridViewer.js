@@ -70,18 +70,17 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }) => {
     </div>
   ) : null;
 }, areEqual);
+const headerHeight = 149;
 
 const GridViewerEl = styled.div`
   position: fixed;
-  top: 0;
+  top: ${props => (props.isVisible ? `${headerHeight}px` : '100vh')};
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 1;
   background: #555;
-  transform: ${props =>
-    props.isVisible ? 'translateY(0%)' : 'translateY(100%)'};
-  transition: transform 500ms ease;
+  transition: top 500ms ease;
 `;
 
 type Props = {|
