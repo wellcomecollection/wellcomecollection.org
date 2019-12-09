@@ -25,7 +25,7 @@ import Router from 'next/router';
 // import Paginator,
 import { type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 // import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-import LL from '@weco/common/views/components/styled/LL';
+// import LL from '@weco/common/views/components/styled/LL';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 // import IIIFCanvasThumbnail from './parts/IIIFCanvasThumbnail';
@@ -337,7 +337,7 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     function handleResize() {
-      setPageHeight(window.innerHeight);
+      setPageHeight(window.innerHeight - 149); // TODO this function account for header properly - page height too big can scroll of the end
       setPageWidth(window.innerWidth);
     }
 
@@ -373,7 +373,6 @@ const IIIFViewerComponent = ({
         lang={lang}
       />
       <IIIFViewerBackground>
-        <LL lighten={true} />
         <NoScriptViewer
           thumbnailsRequired={thumbnailsRequired || false}
           iiifImageLocationUrl={iiifImageLocationUrl}
@@ -531,74 +530,3 @@ const IIIFViewerComponent = ({
 };
 
 export default IIIFViewerComponent;
-
-// const IndexPage = () => {
-//   const [activeIndex, setActiveIndex] = useState(0);
-//   const [pageHeight, setPageHeight] = useState(500);
-//   const [pageWidth, setPageWidth] = useState(1000);
-//   const [isGridVisible, setIsGridVisible] = useState(false);
-//   const mainViewerRef = useRef(null);
-//   const viewerLayoutRef = useRef(null);
-
-//   useEffect(() => {
-//     function handleResize() {
-//       setPageHeight(window.innerHeight);
-//       setPageWidth(window.innerWidth);
-//     }
-
-//     window.addEventListener("resize", handleResize);
-
-//     handleResize();
-
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
-
-//   return (
-//     <>
-//       <Head>
-//         <meta name="viewport" content="width=device-width, initial-scale=1" />
-//         <meta charSet="utf-8" />
-//       </Head>
-//       <style jsx global>{`
-//         body {
-//           background: #333;
-//           margin: 0;
-//           padding: 0;
-//         }
-//       `}</style>
-//       <button
-//         style={{ position: "fixed", top: "5px", right: "5px", zIndex: 3 }}
-//         onClick={() => setIsGridVisible(!isGridVisible)}
-//       >
-//         {isGridVisible ? "hide" : "show"} grid
-//       </button>
-//       <ViewerLayout ref={viewerLayoutRef}>
-//         <GridViewer
-//           gridHeight={pageHeight}
-//           gridWidth={pageWidth}
-//           isVisible={isGridVisible}
-//           mainViewerRef={mainViewerRef}
-//           setIsGridVisible={setIsGridVisible}
-//           activeIndex={activeIndex}
-//           setActiveIndex={setActiveIndex}
-//         />
-//         {pageWidth >= 600 && (
-//           <ThumbsViewer
-//             listHeight={pageHeight}
-//             mainViewerRef={mainViewerRef}
-//             activeIndex={activeIndex}
-//             setActiveIndex={setActiveIndex}
-//           />
-//         )}
-//         <MainViewer
-//           listHeight={pageHeight}
-//           mainViewerRef={mainViewerRef}
-//           setActiveIndex={setActiveIndex}
-//           pageWidth={pageWidth}
-//         />
-//       </ViewerLayout>
-//     </>
-//   );
-// };
-
-// export default IndexPage;
