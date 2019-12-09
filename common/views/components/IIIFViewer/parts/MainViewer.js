@@ -3,8 +3,31 @@ import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import Loader from './Loader';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import {
+  iiifImageTemplate,
+  convertIiifUriToInfoUri,
+} from '@weco/common/utils/convert-image-uri';
+import LL from '../../styled/LL'; // TODO replace?
+
+const LoadingComponent = () => (
+  <div
+    style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: '1000',
+    }}
+  >
+    <LL />
+  </div>
+);
+
+const ZoomedImage = dynamic(() => import('../../ZoomedImage/ZoomedImage'), {
+  ssr: false,
+  loading: LoadingComponent,
+});
 
 function getUrlForScrollVelocity(velocity, thumbnail, index) {
   const thumbnailService = thumbnail.thumbnail.service; // TODO DON'T USE THUMBNAIL USE PROPER CANVAS
@@ -17,6 +40,7 @@ function getUrlForScrollVelocity(velocity, thumbnail, index) {
     // case 3:
     default:
       return urlTemplate({
+        // thumbnail
         size: `${
           smallestWidthImageDimensions
             ? smallestWidthImageDimensions.width
@@ -24,40 +48,59 @@ function getUrlForScrollVelocity(velocity, thumbnail, index) {
         },`,
       });
     // case 2:
-    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg';
+    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // thumbnail
     // case 1:
-    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg';
+    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
     // default:
-    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg';
+    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
   }
 }
 
 const ItemRenderer = memo(({ style, index, data }) => {
   const { scrollVelocity, isProgrammaticScroll, canvases } = data;
-
+  const [showViewer, setShowViewer] = useState(false);
+  const currentCanvas = canvases[index];
+  const mainImageService = {
+    '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
+  };
   return (
-    <div
-      style={style}
-      onClick={() => window.alert(`launch viewer for page ${index + 1}, yeah?`)}
-    >
-      {scrollVelocity === 3 || isProgrammaticScroll ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Loader />
-        </div>
-      ) : (
-        <img
-          style={{
-            paddingTop: '10px',
-            display: 'block',
-            height: '90%',
-            width: 'auto',
-            margin: '0 auto',
-          }}
-          src={getUrlForScrollVelocity(scrollVelocity, canvases[index], index)}
-          alt=""
+    <>
+      {showViewer && (
+        <ZoomedImage
+          id={index}
+          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+          setShowViewer={setShowViewer}
         />
       )}
-    </div>
+      <div
+        style={style}
+        onClick={() => {
+          setShowViewer(true);
+        }}
+      >
+        {scrollVelocity === 3 || isProgrammaticScroll ? (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Loader />
+          </div>
+        ) : (
+          <img
+            style={{
+              paddingTop: '10px',
+              display: 'block',
+              height: '90%',
+              width: 'auto',
+              margin: '0 auto',
+            }}
+            src={getUrlForScrollVelocity(
+              scrollVelocity,
+              canvases[index],
+              index
+            )}
+            alt=""
+          />
+        )}
+      </div>
+    </>
   );
 }, areEqual);
 

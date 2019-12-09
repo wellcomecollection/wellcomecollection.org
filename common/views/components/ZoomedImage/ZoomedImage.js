@@ -11,6 +11,7 @@ import Space from '@weco/common/views/components/styled/Space';
 const headerHeight = 149;
 
 const ZoomedImageContainer = styled.div`
+  /* TODO size and position */
   position: fixed;
   width: 100vw;
   height: 100vh;
