@@ -33,44 +33,8 @@ import NoScriptViewer from './parts/NoScriptViewer'; // PaginatorButtons, // III
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
-import Control from '../Buttons/Control/Control';
-// import Space from '@weco/common/views/components/styled/Space';
 
 export const headerHeight = 149;
-
-const ImageViewerControls = styled.div` /* TODO make own component */
-  position: absolute;
-  top: 122px;
-  left: 12px;
-  z-index: 1;
-  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
-    for a less heavy handed solution to Openseadragon breaking on touch events */
-  &,
-  button,
-  a {
-    touch-action: none;
-  }
-
-  button {
-    display: block;
-  }
-
-  .icon {
-    margin: 0;
-  }
-
-  .btn__text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-}`;
 
 const IIIFViewerBackground = styled.div`
   position: relative;
@@ -368,7 +332,6 @@ const IIIFViewerComponent = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [pageHeight, setPageHeight] = useState(500);
   const [pageWidth, setPageWidth] = useState(1000);
-  const [rotation, setRotation] = useState(0);
   const mainViewerRef = useRef(null);
 
   useEffect(() => {
@@ -532,39 +495,6 @@ const IIIFViewerComponent = ({
             {iiifImageLocationUrl &&
             imageUrl && ( // TODO better way of deciding this
                 <IIIFViewerImageWrapper>
-                  <ImageViewerControls>
-                    <Space
-                      h={{
-                        size: 'm',
-                        properties: ['margin-left', 'margin-right'],
-                      }}
-                      v={{ size: 's', properties: ['margin-top'] }}
-                    >
-                      {/* <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                  <Control
-                    type="black-on-white"
-                    text="Zoom in"
-                    icon="zoomIn"
-                    clickHandler={() => {
-                      setShowViewer(true);
-                    }}
-                  />
-                </Space> */}
-                      {/* TODO use ImageViewer in main then don't need this? */}
-                      <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                        <Control
-                          type="black-on-white"
-                          text="Rotate"
-                          icon="rotatePageRight"
-                          clickHandler={() => {
-                            // setImageLoading(true); // TODO
-                            setRotation(rotation < 270 ? rotation + 90 : 0);
-                          }}
-                        />
-                      </Space>
-                    </Space>
-                  </ImageViewerControls>
-                  {/* // TODO rebuild, componentise the rotation control etc. for use with mainViewer */}
                   {/* {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>} TODO this goes in mainViewer */}
                   <ImageViewer
                     infoUrl={iiifImageLocationUrl}
@@ -576,7 +506,6 @@ const IIIFViewerComponent = ({
                     }
                     urlTemplate={urlTemplate}
                     presentationOnly={Boolean(canvasOcr)}
-                    rotation={rotation}
                   />
                 </IIIFViewerImageWrapper>
               )}
@@ -603,37 +532,6 @@ const IIIFViewerComponent = ({
                     />
                   )}
                   <div style={{ position: 'relative' }}>
-                    <ImageViewerControls>
-                      <Space
-                        h={{
-                          size: 'm',
-                          properties: ['margin-left', 'margin-right'],
-                        }}
-                        v={{ size: 's', properties: ['margin-top'] }}
-                      >
-                        {/* <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                  <Control
-                    type="black-on-white"
-                    text="Zoom in"
-                    icon="zoomIn"
-                    clickHandler={() => {
-                      setShowViewer(true);
-                    }}
-                  />
-                </Space> */}
-                        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                          <Control
-                            type="black-on-white"
-                            text="Rotate"
-                            icon="rotatePageRight"
-                            clickHandler={() => {
-                              // setImageLoading(true); // TODO
-                              setRotation(rotation < 270 ? rotation + 90 : 0);
-                            }}
-                          />
-                        </Space>
-                      </Space>
-                    </ImageViewerControls>
                     <MainViewer
                       listHeight={pageHeight}
                       mainViewerRef={mainViewerRef}
@@ -641,7 +539,6 @@ const IIIFViewerComponent = ({
                       pageWidth={pageWidth}
                       canvases={canvases}
                       link={mainPaginatorProps.link}
-                      rotation={rotation}
                       lang={lang}
                     />
                   </div>
