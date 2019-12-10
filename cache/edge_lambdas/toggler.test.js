@@ -11,7 +11,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
       id: 'outro',
       title: 'Outro',
       range: [0, 100],
-      shouldRun: request => {
+      when: request => {
         return request.uri.match(/^\/articles\/*/);
       },
     },
@@ -19,7 +19,7 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
       id: 'wontrun',
       title: `Won't run`,
       range: [0, 100],
-      shouldRun(request) {
+      when(request) {
         return false;
       },
     },
@@ -85,7 +85,7 @@ test('It runs all the current a/b tests without fail', () => {
   const event = copy(testEventRequest);
   const request = event.Records[0].cf.request;
   abTesting.tests.forEach(test => {
-    test.shouldRun(request);
+    test.when(request);
     expect(test.range.length).toBe(2);
     expect(typeof test.id).toBe('string');
   });
