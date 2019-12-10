@@ -145,7 +145,7 @@ const ImageViewer = ({
                 type="black-on-white"
                 text="Zoom in"
                 icon="zoomIn"
-                clickHandler={event => {
+                clickHandler={() => {
                   setShowZoomed(true);
                   setZoomInfoUrl(infoUrl);
                 }}
@@ -174,6 +174,10 @@ const ImageViewer = ({
           alt={presentationOnly ? '' : alt}
           isLazy={false}
           presentationOnly={presentationOnly}
+          clickHandler={() => {
+            setShowZoomed(true);
+            setZoomInfoUrl(infoUrl);
+          }}
         />
       </ImageWrapper>
     </>
