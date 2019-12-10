@@ -1,8 +1,8 @@
 // @flow
 import { type Work } from '@weco/common/model/work';
 import { useState, useEffect } from 'react';
-import type { SimilarImage } from '../../services/labs/image-similarity';
-import { getSimilarImages } from '../../services/labs/image-similarity';
+import type { SimilarImage } from '../../services/image-similarity';
+import { getSimilarImages } from '../../services/image-similarity';
 
 type Props = {|
   work: Work,
@@ -12,7 +12,7 @@ const PaletteSimilarityBox = ({ work }: Props) => {
   const [similar, setSimilar] = useState<SimilarImage[]>([]);
 
   async function getSimilar(id) {
-    setSimilar(await getSimilarImages({ id, metric: 'palette' }));
+    setSimilar(await getSimilarImages({ id, measure: 'palette' }));
   }
 
   useEffect(() => {

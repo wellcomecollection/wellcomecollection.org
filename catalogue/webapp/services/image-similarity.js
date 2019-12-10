@@ -1,10 +1,10 @@
 // @flow
 import fetch from 'isomorphic-unfetch';
 
-type SimilarityMetric = 'palette' | 'feature';
+type SimilarityMeasure = 'palette' | 'feature';
 
 const ROOT_URL = 'https://labs.wellcomecollection.org';
-const SIMILARITY_METRIC: { [key: SimilarityMetric]: string } = {
+const SIMILARITY_MEASURE: { [key: SimilarityMeasure]: string } = {
   palette: 'palette-api',
   feature: 'feature-similarity',
 };
@@ -19,14 +19,14 @@ export type SimilarImage = {|
 export const getSimilarImages = async ({
   id,
   n = 5,
-  metric = 'feature',
+  measure = 'feature',
 }: {|
   id: string,
   n?: number,
-  metric?: SimilarityMetric,
+  measure?: SimilarityMeasure,
 |}): Promise<SimilarImage[]> => {
   const res = await fetch(
-    `${ROOT_URL}/${SIMILARITY_METRIC[metric]}/works/${id}?n=${n}`
+    `${ROOT_URL}/${SIMILARITY_MEASURE[measure]}/works/${id}?n=${n}`
   );
   if (!res.ok) {
     return [];

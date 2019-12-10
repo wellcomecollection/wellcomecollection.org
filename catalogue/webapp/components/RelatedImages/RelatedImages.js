@@ -4,7 +4,7 @@ import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getSimilarImages } from '../../services/labs/image-similarity';
+import { getSimilarImages } from '../../services/image-similarity';
 
 type Props = {|
   originalId: string,
