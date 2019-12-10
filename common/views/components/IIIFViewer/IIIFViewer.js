@@ -176,7 +176,7 @@ export const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 const ViewerLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  height: 100vh;
+  height: calc(100vh - ${`${headerHeight}px`});
   position: relative;
 
   @media (min-width: 600px) {
