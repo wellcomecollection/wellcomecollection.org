@@ -7,8 +7,6 @@ import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '../styled/LL';
 import { imageSizes } from '../../../utils/image-sizes';
-import Control from '../Buttons/Control/Control';
-import Space from '@weco/common/views/components/styled/Space';
 
 const LoadingComponent = () => (
   <div
@@ -27,40 +25,6 @@ const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
   ssr: false,
   loading: LoadingComponent,
 });
-
-const ImageViewerControls = styled.div`
-  position: absolute;
-  top: 122px;
-  left: 12px;
-  z-index: 1;
-  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
-    for a less heavy handed solution to Openseadragon breaking on touch events */
-  &,
-  button,
-  a {
-    touch-action: none;
-  }
-
-  button {
-    display: block;
-  }
-
-  .icon {
-    margin: 0;
-  }
-
-  .btn__text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-}`;
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -93,6 +57,7 @@ type ImageViewerProps = {|
   alt: string,
   urlTemplate: IIIFUriProps => string,
   presentationOnly?: boolean,
+  rotation: number,
 |};
 
 const ImageViewer = ({
@@ -104,6 +69,7 @@ const ImageViewer = ({
   infoUrl,
   urlTemplate,
   presentationOnly,
+  rotation,
 }: ImageViewerProps) => {
   const [showViewer, setShowViewer] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
@@ -120,7 +86,6 @@ const ImageViewer = ({
       })
       .join(',')
   );
-  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
@@ -163,35 +128,6 @@ const ImageViewer = ({
       {showViewer && (
         <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
       )}
-      <ImageViewerControls>
-        <Space
-          h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
-          v={{ size: 's', properties: ['margin-top'] }}
-        >
-          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Control
-              type="black-on-white"
-              text="Zoom in"
-              icon="zoomIn"
-              clickHandler={() => {
-                setShowViewer(true);
-              }}
-            />
-          </Space>
-          <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-            <Control
-              type="black-on-white"
-              text="Rotate"
-              icon="rotatePageRight"
-              clickHandler={() => {
-                setImageLoading(true);
-                setRotation(rotation < 270 ? rotation + 90 : 0);
-              }}
-            />
-          </Space>
-        </Space>
-      </ImageViewerControls>
-
       <div
         style={{
           width: '100%',

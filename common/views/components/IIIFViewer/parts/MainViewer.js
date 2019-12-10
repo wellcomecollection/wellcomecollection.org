@@ -57,12 +57,13 @@ function getUrlForScrollVelocity(velocity, thumbnail, index) {
 }
 
 const ItemRenderer = memo(({ style, index, data }) => {
-  const { scrollVelocity, isProgrammaticScroll, canvases } = data;
+  const { scrollVelocity, isProgrammaticScroll, canvases, rotation } = data;
   const [showViewer, setShowViewer] = useState(false);
   const currentCanvas = canvases[index];
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
+  console.log(rotation);
   return (
     <>
       {showViewer && (
@@ -112,6 +113,7 @@ type Props = {|
   pageWidth: any,
   canvases: any,
   link: any,
+  rotation: number,
 |};
 
 const MainViewer = ({
@@ -121,6 +123,7 @@ const MainViewer = ({
   pageWidth,
   canvases,
   link,
+  rotation,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -164,6 +167,7 @@ const MainViewer = ({
         scrollVelocity,
         isProgrammaticScroll,
         canvases,
+        rotation,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}
