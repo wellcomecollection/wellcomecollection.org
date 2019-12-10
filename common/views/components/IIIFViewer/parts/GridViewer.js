@@ -74,13 +74,13 @@ const headerHeight = 149;
 
 const GridViewerEl = styled.div`
   position: fixed;
-  top: ${headerHeight}px;
+  top: ${props => (props.isVisible ? `${headerHeight}px` : '100vh')};
+  left: 0;
   bottom: 0;
   width: 100vw;
-  margin-left: ${props => (props.isVisible ? 0 : '-100vw')};
-  z-index: 2;
-  background: #555;
-  transition: margin-left 500ms ease;
+  z-index: 1;
+  background: #555; /* TODO proper colours */
+  transition: top 500ms ease;
 `;
 
 type Props = {|
