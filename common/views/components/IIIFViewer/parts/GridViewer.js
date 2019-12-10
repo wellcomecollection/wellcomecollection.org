@@ -78,7 +78,7 @@ const GridViewerEl = styled.div`
   bottom: 0;
   width: 100vw;
   margin-left: ${props => (props.isVisible ? 0 : '-100vw')};
-  z-index: 1;
+  z-index: 2;
   background: #555;
   transition: margin-left 500ms ease;
 `;
