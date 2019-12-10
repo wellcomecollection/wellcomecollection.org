@@ -18,13 +18,13 @@ import { clientSideSearchParams } from '@weco/common/services/catalogue/search-p
 import { classNames, font } from '@weco/common/utils/classnames';
 // import NextLink from 'next/link';
 import Router from 'next/router';
-// import {
-//   // convertIiifUriToInfoUri,
-//   iiifImageTemplate,
-// } from '@weco/common/utils/convert-image-uri';
+import {
+  // convertIiifUriToInfoUri,
+  iiifImageTemplate,
+} from '@weco/common/utils/convert-image-uri';
 // import Paginator,
 import { type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
-// import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
+import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 // import LL from '@weco/common/views/components/styled/LL';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
@@ -254,9 +254,9 @@ const IIIFViewerComponent = ({
       .map(i => canvases[i])
       .filter(Boolean);
 
-  // const mainImageService = {
-  //   '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
-  // };
+  const mainImageService = {
+    '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
+  };
 
   // Download info from work
   const [iiifImageLocation] =
@@ -269,9 +269,9 @@ const IIIFViewerComponent = ({
           )
           .filter(Boolean)
       : [];
-  // const urlTemplate =
-  //   (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
-  //   (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+  const urlTemplate =
+    (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
 
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
@@ -347,7 +347,6 @@ const IIIFViewerComponent = ({
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  /// ////////////////
 
   return (
     <>
@@ -492,37 +491,57 @@ const IIIFViewerComponent = ({
           //     </ScrollingThumbnailContainer>
           //   )}
           // </IIIFViewer>
-          <>
-            <ViewerLayout ref={viewerLayoutRef}>
-              <GridViewer
-                gridHeight={pageHeight}
-                gridWidth={pageWidth}
-                isVisible={showThumbs} // TODO rename for consitency
-                mainViewerRef={mainViewerRef}
-                setIsGridVisible={setShowThumbs} // TODO rename for consitency
-                activeIndex={activeIndex}
-                setActiveIndex={setActiveIndex}
-                canvases={canvases}
-              />
-              {pageWidth >= 600 && (
-                <ThumbsViewer
-                  canvases={canvases}
-                  listHeight={pageHeight}
+
+          <ViewerLayout ref={viewerLayoutRef}>
+            {iiifImageLocationUrl &&
+            imageUrl && ( // TODO better way of deciding this
+                <IIIFViewerImageWrapper>
+                  {/* {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>} TODO this goes in mainViewer */}
+                  <ImageViewer // TODO rebuild, componentise the rotation control etc. for use with mainViewer
+                    infoUrl={iiifImageLocationUrl}
+                    id={imageUrl}
+                    width={800}
+                    lang={null}
+                    alt={
+                      (work && work.description) || (work && work.title) || ''
+                    }
+                    urlTemplate={urlTemplate}
+                    presentationOnly={Boolean(canvasOcr)}
+                  />
+                </IIIFViewerImageWrapper>
+              )}
+            {mainImageService['@id'] && currentCanvas && (
+              <>
+                <GridViewer
+                  gridHeight={pageHeight}
+                  gridWidth={pageWidth}
+                  isVisible={showThumbs} // TODO rename for consitency
                   mainViewerRef={mainViewerRef}
+                  setIsGridVisible={setShowThumbs} // TODO rename for consitency
                   activeIndex={activeIndex}
                   setActiveIndex={setActiveIndex}
+                  canvases={canvases}
                 />
-              )}
-              <MainViewer
-                listHeight={pageHeight}
-                mainViewerRef={mainViewerRef}
-                setActiveIndex={setActiveIndex}
-                pageWidth={pageWidth}
-                canvases={canvases}
-                link={mainPaginatorProps.link}
-              />
-            </ViewerLayout>
-          </>
+                {pageWidth >= 600 && (
+                  <ThumbsViewer
+                    canvases={canvases}
+                    listHeight={pageHeight}
+                    mainViewerRef={mainViewerRef}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                  />
+                )}
+                <MainViewer
+                  listHeight={pageHeight}
+                  mainViewerRef={mainViewerRef}
+                  setActiveIndex={setActiveIndex}
+                  pageWidth={pageWidth}
+                  canvases={canvases}
+                  link={mainPaginatorProps.link}
+                />
+              </>
+            )}
+          </ViewerLayout>
         )}
       </IIIFViewerBackground>
     </>
