@@ -1,6 +1,6 @@
 // @flow
 import { useState, useEffect } from 'react';
-import Router from 'next/router';
+// import Router from 'next/router';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
@@ -35,16 +35,14 @@ const ImageWrapper = styled.div`
   padding: 0;
   transition: opacity 1000ms ease;
   opacity: ${props => (props.imageLoading ? 0 : 1)};
-
   & img {
-      margin: 0 auto;
-      display: block;
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      max-height: 100%;
-      overflow: scroll;
-    }
+    margin: 0 auto;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%; /* TODO only for single image */
+    overflow: scroll;
   }
 `;
 
@@ -71,8 +69,8 @@ const ImageViewer = ({
   presentationOnly,
   rotation,
 }: ImageViewerProps) => {
-  const [showViewer, setShowViewer] = useState(false);
-  const [imageLoading, setImageLoading] = useState(false);
+  const [showZoomed, setShowZoomed] = useState(false);
+  // const [imageLoading, setImageLoading] = useState(false);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
 
   const [imageSrcSet, setImageSrcSet] = useState(
@@ -102,58 +100,47 @@ const ImageViewer = ({
     );
   }, [infoUrl, rotation]);
 
-  function routeChangeStart(url: string) {
-    if (window.history.state.as !== url) {
-      setImageLoading(true);
-    }
-  }
+  // function routeChangeStart(url: string) {
+  //   if (window.history.state.as !== url) {
+  //     setImageLoading(true);
+  //   }
+  // }
 
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27) {
-      setShowViewer(false);
+      setShowZoomed(false);
     }
   };
 
   useEffect(() => {
-    Router.events.on('routeChangeStart', routeChangeStart);
+    // Router.events.on('routeChangeStart', routeChangeStart);
     document.addEventListener('keydown', escapeCloseViewer);
     return () => {
-      Router.events.off('routeChangeStart', routeChangeStart);
+      // Router.events.off('routeChangeStart', routeChangeStart);
       document.removeEventListener('keydown', escapeCloseViewer);
     };
   }, []);
 
   return (
     <>
-      {showViewer && (
-        <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowViewer} />
+      {showZoomed && (
+        <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowZoomed} />
       )}
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        {imageLoading && <LL lighten={true} />}
-        <ImageWrapper
-          imageLoading={imageLoading}
-          id={`image-viewer-${id}`}
-          aria-hidden="true"
-        >
-          <IIIFResponsiveImage
-            width={width}
-            height={height}
-            src={imageSrc}
-            srcSet={imageSrcSet}
-            sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-            lang={lang}
-            loadHandler={() => setImageLoading(false)}
-            alt={presentationOnly ? '' : alt}
-            isLazy={false}
-            presentationOnly={presentationOnly}
-          />
-        </ImageWrapper>
-      </div>
+      {/* {imageLoading && <LL lighten={true} />} */}
+      <ImageWrapper>
+        <IIIFResponsiveImage
+          width={width}
+          height={height}
+          src={imageSrc}
+          srcSet={imageSrcSet}
+          sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // TODO specific to MainViewer or single image
+          lang={lang}
+          // loadHandler={() => setImageLoading(false)}
+          alt={presentationOnly ? '' : alt}
+          isLazy={false}
+          presentationOnly={presentationOnly}
+        />
+      </ImageWrapper>
     </>
   );
 };

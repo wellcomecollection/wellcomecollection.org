@@ -3,102 +3,94 @@ import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import Loader from './Loader';
 import Router from 'next/router';
-import dynamic from 'next/dynamic';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import {
   iiifImageTemplate,
   convertIiifUriToInfoUri,
 } from '@weco/common/utils/convert-image-uri';
-import LL from '../../styled/LL'; // TODO replace?
+import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 
-const LoadingComponent = () => (
-  <div
-    style={{
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      zIndex: '1000',
-    }}
-  >
-    <LL />
-  </div>
-);
-
-const ZoomedImage = dynamic(() => import('../../ZoomedImage/ZoomedImage'), {
-  ssr: false,
-  loading: LoadingComponent,
-});
-
-function getUrlForScrollVelocity(velocity, thumbnail, index) {
-  const thumbnailService = thumbnail.thumbnail.service; // TODO DON'T USE THUMBNAIL USE PROPER CANVAS
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions = thumbnailService.sizes
-    .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width > 400); // TODO put back to 100
-  // TODO what to return for each case, thumbnail or full or nothing?
-  switch (velocity) {
-    // case 3:
-    default:
-      return urlTemplate({
-        // thumbnail
-        size: `${
-          smallestWidthImageDimensions
-            ? smallestWidthImageDimensions.width
-            : '!100'
-        },`,
-      });
-    // case 2:
-    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // thumbnail
-    // case 1:
-    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
-    // default:
-    //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
-  }
-}
+// function getUrlForScrollVelocity(velocity, thumbnail, index) {
+//   const thumbnailService = thumbnail.thumbnail.service; // TODO DON'T USE THUMBNAIL USE PROPER CANVAS
+//   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+//   const smallestWidthImageDimensions = thumbnailService.sizes
+//     .sort((a, b) => a.width - b.width)
+//     .find(dimensions => dimensions.width > 400); // TODO put back to 100
+//   // TODO what to return for each case, thumbnail or full or nothing?
+//   switch (velocity) {
+//     // case 3:
+//     default:
+//       return urlTemplate({
+//         // thumbnail
+//         size: `${
+//           smallestWidthImageDimensions
+//             ? smallestWidthImageDimensions.width
+//             : '!100'
+//         },`,
+//       });
+//     // case 2:
+//     //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // thumbnail
+//     // case 1:
+//     //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
+//     // default:
+//     //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
+//   }
+// }
 
 const ItemRenderer = memo(({ style, index, data }) => {
-  const { scrollVelocity, isProgrammaticScroll, canvases, rotation } = data;
-  const [showViewer, setShowViewer] = useState(false);
+  const {
+    scrollVelocity,
+    isProgrammaticScroll,
+    canvases,
+    rotation,
+    lang,
+  } = data;
   const currentCanvas = canvases[index];
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
-  console.log(rotation);
+  const urlTemplate =
+    mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']);
   return (
     <>
-      {showViewer && (
-        <ZoomedImage
-          id={index}
-          infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-          setShowViewer={setShowViewer}
-        />
-      )}
-      <div
-        style={style}
-        onClick={() => {
-          setShowViewer(true);
-        }}
-      >
+      <div style={style}>
         {scrollVelocity === 3 || isProgrammaticScroll ? (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Loader />
           </div>
         ) : (
-          <img
-            style={{
-              paddingTop: '10px',
-              display: 'block',
-              height: '90%',
-              width: 'auto',
-              margin: '0 auto',
-            }}
-            src={getUrlForScrollVelocity(
-              scrollVelocity,
-              canvases[index],
-              index
-            )}
-            alt=""
-          />
+          <>
+            <ImageViewer
+              id="item-page"
+              infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+              width={currentCanvas.width}
+              height={currentCanvas.height}
+              lang={lang}
+              // alt={
+              //   canvasOcr && work && work.title
+              //     ? `image from ${work && work.title}`
+              //     : ''
+              // }
+              urlTemplate={urlTemplate}
+              // presentationOnly={Boolean(canvasOcr)}
+              rotation={rotation}
+            />
+            {/* <img
+              style={{
+                paddingTop: '10px',
+                display: 'block',
+                height: '90%',
+                width: 'auto',
+                margin: '0 auto',
+              }}
+              src={getUrlForScrollVelocity(
+                scrollVelocity,
+                canvases[index],
+                index
+              )}
+              alt=""
+            /> */}
+          </>
         )}
       </div>
     </>
@@ -114,6 +106,7 @@ type Props = {|
   canvases: any,
   link: any,
   rotation: number,
+  lang: string,
 |};
 
 const MainViewer = ({
@@ -124,6 +117,7 @@ const MainViewer = ({
   canvases,
   link,
   rotation,
+  lang,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -168,6 +162,7 @@ const MainViewer = ({
         isProgrammaticScroll,
         canvases,
         rotation,
+        lang,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

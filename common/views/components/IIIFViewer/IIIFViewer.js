@@ -307,7 +307,7 @@ const IIIFViewerComponent = ({
       : [];
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
-    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']));
+    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id'])); // TODO put this somewhere better, no need to do second bit if it's done inside MainViewer
 
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
@@ -550,6 +550,7 @@ const IIIFViewerComponent = ({
                     }}
                   />
                 </Space> */}
+                      {/* TODO use ImageViewer in main then don't need this? */}
                       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
                         <Control
                           type="black-on-white"
@@ -563,8 +564,9 @@ const IIIFViewerComponent = ({
                       </Space>
                     </Space>
                   </ImageViewerControls>
+                  {/* // TODO rebuild, componentise the rotation control etc. for use with mainViewer */}
                   {/* {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>} TODO this goes in mainViewer */}
-                  <ImageViewer // TODO rebuild, componentise the rotation control etc. for use with mainViewer
+                  <ImageViewer
                     infoUrl={iiifImageLocationUrl}
                     id={imageUrl}
                     width={800}
@@ -578,37 +580,38 @@ const IIIFViewerComponent = ({
                   />
                 </IIIFViewerImageWrapper>
               )}
-            {mainImageService['@id'] && currentCanvas && (
-              <ViewerLayout>
-                <GridViewer
-                  gridHeight={pageHeight}
-                  gridWidth={pageWidth}
-                  isVisible={showThumbs} // TODO rename for consitency
-                  mainViewerRef={mainViewerRef}
-                  setIsGridVisible={setShowThumbs} // TODO rename for consitency
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  canvases={canvases}
-                />
-                {pageWidth >= 600 && (
-                  <ThumbsViewer
-                    canvases={canvases}
-                    listHeight={pageHeight}
+            {mainImageService['@id'] &&
+            currentCanvas && ( // TODO better way to determine this
+                <ViewerLayout>
+                  <GridViewer
+                    gridHeight={pageHeight}
+                    gridWidth={pageWidth}
+                    isVisible={showThumbs} // TODO rename for consitency
                     mainViewerRef={mainViewerRef}
+                    setIsGridVisible={setShowThumbs} // TODO rename for consitency
                     activeIndex={activeIndex}
                     setActiveIndex={setActiveIndex}
+                    canvases={canvases}
                   />
-                )}
-                <div style={{ position: 'relative' }}>
-                  <ImageViewerControls>
-                    <Space
-                      h={{
-                        size: 'm',
-                        properties: ['margin-left', 'margin-right'],
-                      }}
-                      v={{ size: 's', properties: ['margin-top'] }}
-                    >
-                      {/* <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+                  {pageWidth >= 600 && (
+                    <ThumbsViewer
+                      canvases={canvases}
+                      listHeight={pageHeight}
+                      mainViewerRef={mainViewerRef}
+                      activeIndex={activeIndex}
+                      setActiveIndex={setActiveIndex}
+                    />
+                  )}
+                  <div style={{ position: 'relative' }}>
+                    <ImageViewerControls>
+                      <Space
+                        h={{
+                          size: 'm',
+                          properties: ['margin-left', 'margin-right'],
+                        }}
+                        v={{ size: 's', properties: ['margin-top'] }}
+                      >
+                        {/* <Space v={{ size: 's', properties: ['margin-bottom'] }}>
                   <Control
                     type="black-on-white"
                     text="Zoom in"
@@ -618,31 +621,32 @@ const IIIFViewerComponent = ({
                     }}
                   />
                 </Space> */}
-                      <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                        <Control
-                          type="black-on-white"
-                          text="Rotate"
-                          icon="rotatePageRight"
-                          clickHandler={() => {
-                            // setImageLoading(true); // TODO
-                            setRotation(rotation < 270 ? rotation + 90 : 0);
-                          }}
-                        />
+                        <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+                          <Control
+                            type="black-on-white"
+                            text="Rotate"
+                            icon="rotatePageRight"
+                            clickHandler={() => {
+                              // setImageLoading(true); // TODO
+                              setRotation(rotation < 270 ? rotation + 90 : 0);
+                            }}
+                          />
+                        </Space>
                       </Space>
-                    </Space>
-                  </ImageViewerControls>
-                  <MainViewer
-                    listHeight={pageHeight}
-                    mainViewerRef={mainViewerRef}
-                    setActiveIndex={setActiveIndex}
-                    pageWidth={pageWidth}
-                    canvases={canvases}
-                    link={mainPaginatorProps.link}
-                    rotation={rotation}
-                  />
-                </div>
-              </ViewerLayout>
-            )}
+                    </ImageViewerControls>
+                    <MainViewer
+                      listHeight={pageHeight}
+                      mainViewerRef={mainViewerRef}
+                      setActiveIndex={setActiveIndex}
+                      pageWidth={pageWidth}
+                      canvases={canvases}
+                      link={mainPaginatorProps.link}
+                      rotation={rotation}
+                      lang={lang}
+                    />
+                  </div>
+                </ViewerLayout>
+              )}
           </>
         )}
       </IIIFViewerBackground>
