@@ -44,6 +44,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
     canvases,
     rotation,
     lang,
+    setShowZoomed,
+    setZoomInfoUrl,
   } = data;
   const currentCanvas = canvases[index];
   const mainImageService = {
@@ -51,6 +53,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
   };
   const urlTemplate =
     mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']);
+  const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
   return (
     <>
       <div style={style}>
@@ -62,7 +65,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
           <>
             <ImageViewer
               id="item-page"
-              infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
+              infoUrl={infoUrl}
               width={currentCanvas.width}
               height={currentCanvas.height}
               lang={lang}
@@ -74,6 +77,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
               urlTemplate={urlTemplate}
               // presentationOnly={Boolean(canvasOcr)}
               rotation={rotation}
+              setShowZoomed={setShowZoomed}
+              setZoomInfoUrl={setZoomInfoUrl}
             />
             {/* <img
               style={{
@@ -107,6 +112,8 @@ type Props = {|
   link: any,
   rotation: number,
   lang: string,
+  setShowZoomed: () => void,
+  setZoomInfoUrl: () => void,
 |};
 
 const MainViewer = ({
@@ -118,6 +125,8 @@ const MainViewer = ({
   link,
   rotation,
   lang,
+  setShowZoomed,
+  setZoomInfoUrl,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -163,6 +172,8 @@ const MainViewer = ({
         canvases,
         rotation,
         lang,
+        setShowZoomed,
+        setZoomInfoUrl,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

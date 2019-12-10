@@ -1,13 +1,10 @@
 // @flow
 import { useState, useEffect } from 'react';
-// import Router from 'next/router';
-import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
 import Control from '../Buttons/Control/Control';
-import LL from '../styled/LL';
 import Space from '../styled/Space';
 
 const ImageViewerControls = styled.div`
@@ -44,24 +41,6 @@ const ImageViewerControls = styled.div`
   }
 }`;
 
-const LoadingComponent = () => (
-  <div
-    style={{
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      zIndex: '1000',
-    }}
-  >
-    <LL />
-  </div>
-);
-
-const ZoomedImage = dynamic(() => import('../ZoomedImage/ZoomedImage'), {
-  ssr: false,
-  loading: LoadingComponent,
-});
-
 const ImageWrapper = styled.div`
   position: absolute;
   top: 0;
@@ -91,6 +70,8 @@ type ImageViewerProps = {|
   alt: string,
   urlTemplate: IIIFUriProps => string,
   presentationOnly?: boolean,
+  setShowZoomed: boolean => void,
+  setZoomInfoUrl: string => void,
 |};
 
 const ImageViewer = ({
@@ -102,8 +83,9 @@ const ImageViewer = ({
   infoUrl,
   urlTemplate,
   presentationOnly,
+  setShowZoomed,
+  setZoomInfoUrl,
 }: ImageViewerProps) => {
-  const [showZoomed, setShowZoomed] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
 
@@ -149,9 +131,6 @@ const ImageViewer = ({
 
   return (
     <>
-      {showZoomed && (
-        <ZoomedImage id={id} infoUrl={infoUrl} setShowViewer={setShowZoomed} />
-      )}
       <ImageWrapper>
         <ImageViewerControls>
           <Space
@@ -166,8 +145,9 @@ const ImageViewer = ({
                 type="black-on-white"
                 text="Zoom in"
                 icon="zoomIn"
-                clickHandler={() => {
+                clickHandler={event => {
                   setShowZoomed(true);
+                  setZoomInfoUrl(infoUrl);
                 }}
               />
             </Space>

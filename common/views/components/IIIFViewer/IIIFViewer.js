@@ -25,7 +25,7 @@ import {
 // import Paginator,
 import { type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-// import LL from '@weco/common/views/components/styled/LL';
+import LL from '@weco/common/views/components/styled/LL';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
 // import IIIFCanvasThumbnail from './parts/IIIFCanvasThumbnail';
@@ -33,6 +33,27 @@ import NoScriptViewer from './parts/NoScriptViewer'; // PaginatorButtons, // III
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
+import dynamic from 'next/dynamic';
+const LoadingComponent = () => (
+  <div
+    style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: '1000',
+    }}
+  >
+    <LL />
+  </div>
+);
+
+const ZoomedImage = dynamic(
+  () => import('@weco/common/views/components//ZoomedImage/ZoomedImage'),
+  {
+    ssr: false,
+    loading: LoadingComponent,
+  }
+);
 
 export const headerHeight = 149;
 
@@ -332,6 +353,8 @@ const IIIFViewerComponent = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [pageHeight, setPageHeight] = useState(500);
   const [pageWidth, setPageWidth] = useState(1000);
+  const [showZoomed, setShowZoomed] = useState(false);
+  const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
   const mainViewerRef = useRef(null);
 
   useEffect(() => {
@@ -371,6 +394,13 @@ const IIIFViewerComponent = ({
         lang={lang}
       />
       <IIIFViewerBackground>
+        {showZoomed && (
+          <ZoomedImage
+            id={`zoomedImage`}
+            infoUrl={zoomInfoUrl}
+            setShowViewer={setShowZoomed}
+          />
+        )}
         <NoScriptViewer
           thumbnailsRequired={thumbnailsRequired || false}
           iiifImageLocationUrl={iiifImageLocationUrl}
@@ -506,6 +536,8 @@ const IIIFViewerComponent = ({
                     }
                     urlTemplate={urlTemplate}
                     presentationOnly={Boolean(canvasOcr)}
+                    setShowZoomed={setShowZoomed}
+                    setZoomInfoUrl={setZoomInfoUrl}
                   />
                 </IIIFViewerImageWrapper>
               )}
@@ -540,6 +572,8 @@ const IIIFViewerComponent = ({
                       canvases={canvases}
                       link={mainPaginatorProps.link}
                       lang={lang}
+                      setShowZoomed={setShowZoomed}
+                      setZoomInfoUrl={setZoomInfoUrl}
                     />
                   </div>
                 </ViewerLayout>
