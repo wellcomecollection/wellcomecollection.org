@@ -24,7 +24,7 @@ import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import {
   defaultSerializer,
   dropCapSerializer,
-} from '../../../services/prismic/html-serialisers';
+} from '../../../services/prismic/html-serializers';
 import { type Weight } from '../../../services/prismic/parsers';
 
 const Map = dynamic(import('../Map/Map'), { ssr: false });
@@ -75,19 +75,19 @@ const Body = ({ body, isDropCapped, pageId }: Props) => {
                   {slice.weight === 'featured' && (
                     <FeaturedText
                       html={slice.value}
-                      htmlSerialiser={defaultSerializer}
+                      htmlSerializer={defaultSerializer}
                     />
                   )}
                   {slice.weight !== 'featured' &&
                     (firstTextSliceIndex === i && isDropCapped ? (
                       <PrismicHtmlBlock
                         html={slice.value}
-                        htmlSerialiser={dropCapSerializer}
+                        htmlSerializer={dropCapSerializer}
                       />
                     ) : (
                       <PrismicHtmlBlock
                         html={slice.value}
-                        htmlSerialiser={defaultSerializer}
+                        htmlSerializer={defaultSerializer}
                       />
                     ))}
                 </div>

@@ -19,7 +19,7 @@ import SearchResults from '@weco/common/views/components/SearchResults/SearchRes
 import Icon from '@weco/common/views/components/Icon/Icon';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { defaultSerializer } from '@weco/common/services/prismic/html-serialisers';
+import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -58,7 +58,7 @@ const BespokeBody = (
         <Container>
           <FeaturedText
             html={firstPara.value}
-            htmlSerialiser={defaultSerializer}
+            htmlSerializer={defaultSerializer}
           />
           <div className="grid">
             <div
@@ -215,7 +215,7 @@ const BespokeBody = (
     <Container>
       <PrismicHtmlBlock
         html={lastPara.value}
-        htmlSerialiser={defaultSerializer}
+        htmlSerializer={defaultSerializer}
       />
       <Contact
         subtitle={null}

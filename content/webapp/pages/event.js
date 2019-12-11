@@ -505,7 +505,6 @@ class EventPage extends Component<Props, State> {
             </Fragment>
           )}
           {event.audiences.map(audience => {
-            //  TODO remove?
             if (audience.description) {
               return (
                 <div className={`body-text`} key={audience.title}>
