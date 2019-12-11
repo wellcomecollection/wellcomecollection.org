@@ -5,11 +5,8 @@ import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
-  getIIIFMetadata,
-  getEncoreLink,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
-  getWorkIdentifiersWith,
   getIIIFPresentationLocation,
 } from '@weco/common/utils/works';
 import {
@@ -95,29 +92,11 @@ const WorkDetails = ({
   const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
-  const iiifPresentationRepository =
-    iiifPresentationManifest &&
-    getIIIFMetadata(iiifPresentationManifest, 'Repository');
-
   const iiifPresentationLocation = getIIIFPresentationLocation(work);
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
-
-  const sierraWorkIds = getWorkIdentifiersWith(work, {
-    identifierId: 'sierra-system-number',
-  });
-
-  const sierraWorkId = sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
-
-  // We do not wish to display a link to the old library site if the new site
-  // provides a digital representation of that work
-  const shouldDisplayEncoreLink = !(
-    sierraIdFromPresentationManifestUrl === sierraWorkId
-  );
-  const encoreLink =
-    shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId);
 
   return (
     <Space
@@ -247,13 +226,15 @@ const WorkDetails = ({
 
           {duration && <WorkDetailsText title="Duration" text={[duration]} />}
 
-          {work.notes.map(note => (
-            <WorkDetailsText
-              key={note.noteType.label}
-              title={note.noteType.label}
-              text={note.contents}
-            />
-          ))}
+          {work.notes
+            .filter(note => note.noteType.id !== 'location-of-original')
+            .map(note => (
+              <WorkDetailsText
+                key={note.noteType.label}
+                title={note.noteType.label}
+                text={note.contents}
+              />
+            ))}
 
           {work.genres.length > 0 && (
             <WorkDetailsTags
@@ -297,36 +278,28 @@ const WorkDetails = ({
           </WorkDetailsSection>
         )}
 
-        {/* TODO: Make this make more sense */}
-        <TogglesContext.Consumer>
-          {({ stacksRequestService }) =>
-            (stacksRequestService ||
-              encoreLink ||
-              iiifPresentationRepository) && (
-              <WorkDetailsSection headingText="Where to find it">
-                {stacksRequestService && (
-                  <div className={`${font('hnl', 5)}`}>
-                    <WorkItemsStatus work={work} />
-                  </div>
-                )}
-
-                {(encoreLink || iiifPresentationRepository) && (
-                  <WorkDetailsText
-                    text={[
-                      encoreLink &&
-                        `<a href="${encoreLink}">Wellcome library</a>`,
-
-                      iiifPresentationRepository &&
-                        iiifPresentationRepository.value
-                          .replace(/<img[^>]*>/g, '')
-                          .replace(/<br\s*\/?>/g, ''),
-                    ].filter(Boolean)}
-                  />
-                )}
-              </WorkDetailsSection>
-            )
-          }
-        </TogglesContext.Consumer>
+        {[work.notes.find(note => note.noteType.id === 'location-of-original')]
+          .filter(Boolean)
+          .map(note => (
+            <WorkDetailsSection
+              headingText="Where to find it"
+              key={note.noteType.label}
+            >
+              <WorkDetailsText
+                title={note.noteType.label}
+                text={note.contents}
+              />
+              <TogglesContext.Consumer>
+                {({ stacksRequestService }) =>
+                  stacksRequestService && (
+                    <div className={`${font('hnl', 5)}`}>
+                      <WorkItemsStatus work={work} />
+                    </div>
+                  )
+                }
+              </TogglesContext.Consumer>
+            </WorkDetailsSection>
+          ))}
 
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
