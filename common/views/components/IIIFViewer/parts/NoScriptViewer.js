@@ -17,14 +17,10 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
-
 import {
   IIIFViewer,
   IIIFViewerMain,
   IIIFViewerImageWrapper,
-  IIIFViewerThumb,
-  IIIFViewerThumbLink,
-  IIIFViewerThumbNumber,
 } from '../IIIFViewer';
 
 const StaticThumbnailsContainer = styled.div.attrs(props => ({
@@ -140,12 +136,12 @@ type NoScriptViewerProps = {|
   pageIndex: number,
   sierraId: string,
   pageSize: number,
-  canvasIndex: number,
   iiifImageLocationUrl: ?string,
   imageUrl: ?string,
   thumbnailsRequired: boolean,
   iiifImageLocation: ?{ url: string },
   canvases: ?[],
+  canvasIndex: number,
   params: SearchParams,
 |};
 
@@ -161,10 +157,10 @@ const NoScriptViewer = ({
   thumbsPaginatorProps,
   workId,
   canvases,
+  canvasIndex,
   pageIndex,
   sierraId,
   pageSize,
-  canvasIndex,
   params,
 }: NoScriptViewerProps) => {
   const mainImageService = {
@@ -243,9 +239,11 @@ const NoScriptViewer = ({
         {thumbnailsRequired && (
           <StaticThumbnailsContainer>
             {navigationCanvases &&
-              navigationCanvases.map((canvas, i) => (
-                <IIIFViewerThumb key={canvas['@id']}>
-                  <Paginator // TODO why is this inside IIIFViewerThumb
+              navigationCanvases.map((canvas, i) => {
+                const canvasNumber = pageSize * pageIndex + (i + 1);
+                return (
+                  <Paginator
+                    key={canvas['@id']}
                     {...thumbsPaginatorProps}
                     render={({ rangeStart }) => (
                       <NextLink
@@ -255,34 +253,28 @@ const NoScriptViewer = ({
                           page: pageIndex + 1,
                           sierraId,
                           langCode: lang,
-                          canvas: pageSize * pageIndex + (i + 1),
+                          canvas: canvasNumber,
                         })}
                         scroll={false}
                         replace
                         passHref
                       >
-                        <IIIFViewerThumbLink
-                          isActive={canvasIndex === rangeStart + i - 1}
-                        >
-                          <IIIFCanvasThumbnail
-                            isEnhanced={false}
-                            canvas={canvas}
-                            lang={lang}
-                          />
-                          <div>
-                            <IIIFViewerThumbNumber
-                              isActive={canvasIndex === rangeStart + i - 1}
-                            >
-                              <span className="visually-hidden">image </span>
-                              {rangeStart + i}
-                            </IIIFViewerThumbNumber>
-                          </div>
-                        </IIIFViewerThumbLink>
+                        <a>
+                          {
+                            <IIIFCanvasThumbnail
+                              isEnhanced={false}
+                              canvas={canvas}
+                              lang={lang}
+                              isActive={canvasNumber === canvasIndex + 1}
+                              thumbNumber={canvasNumber}
+                            />
+                          }
+                        </a>
                       </NextLink>
                     )}
                   />
-                </IIIFViewerThumb>
-              ))}
+                );
+              })}
             <IIIFViewerPaginatorButtons isThumbs={true}>
               <Paginator
                 {...thumbsPaginatorProps}

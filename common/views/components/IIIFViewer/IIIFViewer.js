@@ -1,7 +1,6 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
 // import fetch from 'isomorphic-unfetch';
-import { lighten } from 'polished';
 import {
   type Work,
   type CatalogueApiError,
@@ -15,7 +14,7 @@ import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
 // import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 // import NextLink from 'next/link';
 import Router from 'next/router';
 import {
@@ -119,59 +118,6 @@ export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
     height: 100%;
     width: ${props => (props.fullWidth ? '100%' : '75%')};
   }
-`;
-
-// TODO make these part of IIIFCanvasThumbnail
-export const IIIFViewerThumb = styled.div`
-  width: 130px;
-  margin: 3%;
-  border-radius: 8px;
-  background: ${props =>
-    props.isActive
-      ? lighten(0.14, props.theme.colors.viewerBlack)
-      : props.theme.colors.viewerBlack};
-
-  img {
-    display: block;
-    width: 100%;
-  }
-
-  noscript & {
-    height: 100%;
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      width: auto;
-    }
-    img {
-      display: inline-block;
-      max-height: calc(100% - 2em);
-    }
-  }
-`;
-
-export const IIIFViewerThumbLink = styled.a.attrs(props => ({
-  className: classNames({
-    'block h-center': true,
-  }),
-}))`
-  text-decoration: none;
-  height: 100%;
-  text-align: center;
-  display: block;
-  padding: 16px 16px 3px;
-`;
-
-export const IIIFViewerThumbNumber = styled.span.attrs(props => ({
-  className: classNames({
-    'line-height-1': true,
-    'inline-block': true,
-    'font-white': !props.isActive,
-    'font-black': props.isActive,
-    'bg-yellow': props.isActive,
-    [font('hnm', 6)]: true,
-  }),
-}))`
-  padding: 3px 6px;
-  border-radius: 3px;
 `;
 
 // const ScrollingThumbnailContainer = styled.div`
@@ -413,10 +359,10 @@ const IIIFViewerComponent = ({
           thumbsPaginatorProps={thumbsPaginatorProps}
           workId={workId}
           canvases={canvases}
+          canvasIndex={canvasIndex}
           pageIndex={pageIndex}
           sierraId={sierraId}
           pageSize={pageSize}
-          canvasIndex={canvasIndex}
           params={params}
         />
         {/* enhanced javascript viewer */}

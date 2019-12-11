@@ -3,11 +3,6 @@ import { useState, memo } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
-import {
-  IIIFViewerThumb,
-  IIIFViewerThumbLink,
-  IIIFViewerThumbNumber,
-} from '../IIIFViewer';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
@@ -21,36 +16,25 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
     canvases,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
-  return (
-    <IIIFViewerThumb>
-      <IIIFViewerThumbLink
-        onClick={() => {
-          mainViewerRef &&
-            mainViewerRef.current &&
-            mainViewerRef.current.scrollToItem(itemIndex);
-          setActiveIndex(itemIndex);
-          setIsGridVisible(false);
-        }}
-      >
-        {scrollVelocity > 1 ? (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Loader />
-          </div>
-        ) : (
-          <IIIFCanvasThumbnail
-            canvas={canvases[itemIndex]}
-            lang={''} // TODO
-            isEnhanced={true} // TODO - needed?
-          />
-        )}
-        <div>
-          <IIIFViewerThumbNumber isActive={activeIndex === itemIndex}>
-            <span className="visually-hidden">image </span>
-            {itemIndex + 1}
-          </IIIFViewerThumbNumber>
-        </div>
-      </IIIFViewerThumbLink>
-    </IIIFViewerThumb>
+  return scrollVelocity > 1 ? (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Loader />
+    </div>
+  ) : (
+    <IIIFCanvasThumbnail
+      canvas={canvases[itemIndex]}
+      lang={''} // TODO
+      isEnhanced={true} // TODO - needed?
+      clickHandler={() => {
+        mainViewerRef &&
+          mainViewerRef.current &&
+          mainViewerRef.current.scrollToItem(itemIndex);
+        setActiveIndex(itemIndex);
+        setIsGridVisible(false);
+      }}
+      isActive={activeIndex === index}
+      thumbNumber={index}
+    />
   );
 }, areEqual);
 const headerHeight = 149;
