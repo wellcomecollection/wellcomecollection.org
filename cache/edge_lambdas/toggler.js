@@ -4,9 +4,9 @@
 // {
 //   id: 'outro',
 //   title: 'Outro',
-//   range: [0, 50], // 50% chance, this is [inclusive, exclusive)
-//   range: [50, 100], // 50% chance, this is [inclusive, exclusive)
-//   shouldRun: (request, range) => {
+//   range: [0, 50], // Run this test on 50% of users
+//   range: [50, 100], // Run this test on 50% of users - not overlapping with ☝️
+//   when: (request, range) => {
 //     return request.uri.match(/^\/articles\/*/);
 //   }
 // }
@@ -17,7 +17,7 @@ let tests = [
     id: 'searchUsingScoringTiers',
     title: 'Search the API with a scoring tiered approach',
     range: [0, 100],
-    shouldRun: (request, range) => {
+    when: (request, range) => {
       return request.uri.match(/^\/works\/*/);
     },
   },
@@ -52,32 +52,39 @@ function randomFromRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-exports.request = (event, context) => {
-  const request = event.Records[0].cf.request;
+// There are multiple conditions as to whether someone should be in a test
+// 1. They are not already in the test - if so, maintain their state
+// 2. Once given a random point between 0/100, we see if this falls within the specified range
+// 3. Any custom conditions are met in the test.when method
+function shouldRun(test, request) {
   const toggleCookies = parseToggleCookies(request.headers.cookie);
+  const isAlreadyInTest = Boolean(
+    toggleCookies.find(cookie => cookie.key === `toggle_${test.id}`)
+  );
 
   const point = randomFromRange(0, 99);
+  const [from, to] = test.range;
+  const inRange = point >= from && point < to;
+
+  return !isAlreadyInTest && inRange && test.when(request);
+}
+
+exports.request = (event, context) => {
+  const request = event.Records[0].cf.request;
+
   const newToggles = tests
     .map(test => {
       // Isn't already set
-      const isSet = Boolean(
-        toggleCookies.find(cookie => cookie.key === `toggle_${test.id}`)
-      );
-      try {
-        if (test.shouldRun(request) && !isSet) {
-          // Flip the dice
-          const [from, to] = test.range;
-          const inRange = point >= from && point < to;
 
-          if (inRange) {
-            return { key: `toggle_${test.id}`, value: true };
-          } else {
-            return { key: `toggle_${test.id}`, value: false };
-          }
+      try {
+        if (shouldRun(test, request)) {
+          // Roll the dice
+          const val = Math.random() >= 0.5;
+          return { key: `toggle_${test.id}`, value: val };
         }
       } catch (error) {
         console.log(
-          `Toggles request: a/b test shouldRun() broke with error:`,
+          `Toggles request: a/b test when() broke with error:`,
           error.message
         );
 
