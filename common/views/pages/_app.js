@@ -186,7 +186,6 @@ export default class WecoApp extends App {
 
   state: State = {
     togglesContext: toggles,
-    pagePath: '',
   };
 
   updateToggles = (newToggles: Object) => {
@@ -208,7 +207,6 @@ export default class WecoApp extends App {
   }
 
   componentDidMount() {
-    this.setState({ pagePath: window.location.pathname });
     this.setState({ togglesContext: toggles });
     makeSurePageIsTallEnough();
 
