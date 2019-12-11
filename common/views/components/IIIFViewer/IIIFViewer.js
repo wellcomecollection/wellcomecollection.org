@@ -28,7 +28,6 @@ import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import LL from '@weco/common/views/components/styled/LL';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
-// import IIIFCanvasThumbnail from './parts/IIIFCanvasThumbnail';
 import NoScriptViewer from './parts/NoScriptViewer'; // PaginatorButtons, // IIIFViewerPaginatorButtons,
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
@@ -122,6 +121,7 @@ export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
   }
 `;
 
+// TODO make these part of IIIFCanvasThumbnail
 export const IIIFViewerThumb = styled.div`
   width: 130px;
   margin: 3%;
@@ -359,7 +359,7 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     function handleResize() {
-      setPageHeight(window.innerHeight - 149); // TODO this function account for header properly - page height too big can scroll of the end
+      setPageHeight(window.innerHeight - headerHeight);
       setPageWidth(window.innerWidth);
     }
 

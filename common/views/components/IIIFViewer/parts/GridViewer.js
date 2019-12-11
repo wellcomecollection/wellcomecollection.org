@@ -3,9 +3,14 @@ import { useState, memo } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import {
+  IIIFViewerThumb,
+  IIIFViewerThumbLink,
+  IIIFViewerThumbNumber,
+} from '../IIIFViewer';
+import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
-const Cell = memo(({ columnIndex, rowIndex, style, data }) => {
+const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
   const {
     columnCount,
     mainViewerRef,
@@ -16,31 +21,15 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }) => {
     canvases,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
-  const thumbnailService =
-    canvases[itemIndex] && canvases[itemIndex].thumbnail.service;
-  const urlTemplate =
-    thumbnailService && iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions =
-    thumbnailService &&
-    thumbnailService.sizes
-      .sort((a, b) => a.width - b.width)
-      .find(dimensions => dimensions.width > 100);
-  return urlTemplate ? ( // TODO work out why urlTemplate is null for GridViewer and not for ThumbsViewer http://localhost:3001/works/mrg68by5/items?sierraId=b3057822x&langCode=ger#0#0#0#0 - prob something to do with itemIndex that isn't in the canvases array...
-    <div
-      style={style}
-      onClick={() => {
-        mainViewerRef &&
-          mainViewerRef.current &&
-          mainViewerRef.current.scrollToItem(itemIndex);
-        setActiveIndex(itemIndex);
-        setIsGridVisible(false);
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          paddingTop: '20px',
+  return (
+    <IIIFViewerThumb>
+      <IIIFViewerThumbLink
+        onClick={() => {
+          mainViewerRef &&
+            mainViewerRef.current &&
+            mainViewerRef.current.scrollToItem(itemIndex);
+          setActiveIndex(itemIndex);
+          setIsGridVisible(false);
         }}
       >
         {scrollVelocity > 1 ? (
@@ -48,27 +37,21 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }) => {
             <Loader />
           </div>
         ) : (
-          <img
-            style={{
-              width: '130px',
-              display: 'block',
-              border: `5px solid ${
-                activeIndex === itemIndex ? 'yellow' : 'transparent'
-              }`,
-            }}
-            src={urlTemplate({
-              size: `${
-                smallestWidthImageDimensions
-                  ? smallestWidthImageDimensions.width
-                  : '!100'
-              },`,
-            })}
-            alt=""
+          <IIIFCanvasThumbnail
+            canvas={canvases[itemIndex]}
+            lang={''} // TODO
+            isEnhanced={true} // TODO - needed?
           />
         )}
-      </div>
-    </div>
-  ) : null;
+        <div>
+          <IIIFViewerThumbNumber isActive={activeIndex === itemIndex}>
+            <span className="visually-hidden">image </span>
+            {itemIndex + 1}
+          </IIIFViewerThumbNumber>
+        </div>
+      </IIIFViewerThumbLink>
+    </IIIFViewerThumb>
+  );
 }, areEqual);
 const headerHeight = 149;
 
