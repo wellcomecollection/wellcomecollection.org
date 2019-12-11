@@ -5,7 +5,7 @@ type SimilarityMeasure = 'palette' | 'feature';
 
 const ROOT_URL = 'https://labs.wellcomecollection.org';
 const SIMILARITY_MEASURE: { [key: SimilarityMeasure]: string } = {
-  palette: 'palette-api',
+  palette: 'palette-similarity',
   feature: 'feature-similarity',
 };
 
