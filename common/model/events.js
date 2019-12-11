@@ -61,7 +61,7 @@ export type Team = {|
 export type Audience = {|
   id: string,
   title: string,
-  description: ?string,
+  description: ?PrismicHTMLString,
 |};
 
 /* eslint-disable no-use-before-define */

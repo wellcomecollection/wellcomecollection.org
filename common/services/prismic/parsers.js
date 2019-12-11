@@ -20,7 +20,7 @@ import type { ImagePromo } from '../../model/image-promo';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
 import type { SameAs } from '../../model/same-as';
-import type { HtmlSerializer } from './html-serialisers';
+import type { HtmlSerializer } from './html-serializers';
 import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';

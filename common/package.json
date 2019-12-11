@@ -37,6 +37,7 @@
     "openseadragon": "^2.4.0",
     "prismic-dom": "^2.1.0",
     "prismic-javascript": "2.0.2",
+    "prismic-reactjs": "^1.1.2",
     "raven-js": "^3.26.3",
     "raw-loader": "^2.0.0",
     "react": "^16.8.2",
