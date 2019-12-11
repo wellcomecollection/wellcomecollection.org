@@ -262,7 +262,7 @@ const NoScriptViewer = ({
                         <a>
                           {
                             <IIIFCanvasThumbnail
-                              isEnhanced={false}
+                              isLazy={false}
                               canvas={canvas}
                               lang={lang}
                               isActive={canvasNumber === canvasIndex + 1}

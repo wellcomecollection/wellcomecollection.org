@@ -63,7 +63,7 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
   lang: string,
-  isEnhanced: boolean,
+  isLazy: boolean,
   isActive: boolean,
   thumbNumber: number,
   clickHandler?: () => void,
@@ -72,7 +72,7 @@ type IIIFCanvasThumbnailProps = {|
 const IIIFCanvasThumbnail = ({
   canvas,
   lang,
-  isEnhanced,
+  isLazy,
   clickHandler,
   isActive,
   thumbNumber,
@@ -85,79 +85,53 @@ const IIIFCanvasThumbnail = ({
   return (
     <IIIFViewerThumb>
       <IIIFViewerThumbLink onClick={clickHandler}>
-        {isEnhanced ? (
+        <div
+          style={{
+            // TODO make into a styled component
+            position: 'relative',
+            paddingTop: smallestWidthImageDimensions
+              ? `${(smallestWidthImageDimensions.height /
+                  smallestWidthImageDimensions.width) *
+                  100}%`
+              : 0,
+          }}
+        >
+          <LL small={true} lighten={true} />
           <div
             style={{
-              // TODO make into a styled component
-              position: 'relative',
-              paddingTop: smallestWidthImageDimensions
-                ? `${(smallestWidthImageDimensions.height /
-                    smallestWidthImageDimensions.width) *
-                    100}%`
-                : 0,
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
             }}
           >
-            <LL small={true} lighten={true} />
-            <div
-              style={{
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              }}
-            >
-              <IIIFResponsiveImage
-                width={
-                  smallestWidthImageDimensions
-                    ? smallestWidthImageDimensions.width
-                    : 30
-                }
-                src={urlTemplate({
-                  size: `${
-                    smallestWidthImageDimensions
-                      ? smallestWidthImageDimensions.width
-                      : '!100'
-                  },`,
-                })}
-                srcSet={''}
-                sizes={`${
-                  smallestWidthImageDimensions
-                    ? smallestWidthImageDimensions.width
-                    : 30
-                }px`}
-                alt={''}
-                lang={lang}
-                isLazy={true}
-              />
-            </div>
-          </div>
-        ) : (
-          <IIIFResponsiveImage
-            width={
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }
-            src={urlTemplate({
-              size: `${
+            <IIIFResponsiveImage
+              width={
                 smallestWidthImageDimensions
                   ? smallestWidthImageDimensions.width
-                  : '!100'
-              },`,
-            })}
-            srcSet={''}
-            sizes={`${
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : 30
-            }px`}
-            alt={''}
-            lang={lang}
-            isLazy={false}
-          />
-        )}
+                  : 30
+              }
+              src={urlTemplate({
+                size: `${
+                  smallestWidthImageDimensions
+                    ? smallestWidthImageDimensions.width
+                    : '!100'
+                },`,
+              })}
+              srcSet={''}
+              sizes={`${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : 30
+              }px`}
+              alt={''}
+              lang={lang}
+              isLazy={isLazy}
+            />
+          </div>
+        </div>
         <div>
           <IIIFViewerThumbNumber isActive={isActive}>
             <span className="visually-hidden">image </span>

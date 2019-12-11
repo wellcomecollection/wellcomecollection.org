@@ -21,20 +21,22 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
       <Loader />
     </div>
   ) : (
-    <IIIFCanvasThumbnail
-      canvas={canvases[itemIndex]}
-      lang={''} // TODO
-      isEnhanced={true} // TODO - needed?
-      clickHandler={() => {
-        mainViewerRef &&
-          mainViewerRef.current &&
-          mainViewerRef.current.scrollToItem(itemIndex);
-        setActiveIndex(itemIndex);
-        setIsGridVisible(false);
-      }}
-      isActive={activeIndex === index}
-      thumbNumber={index}
-    />
+    <div style={style}>
+      <IIIFCanvasThumbnail
+        canvas={canvases[itemIndex]}
+        lang={''} // TODO
+        isLazy={true}
+        clickHandler={() => {
+          mainViewerRef &&
+            mainViewerRef.current &&
+            mainViewerRef.current.scrollToItem(itemIndex);
+          setActiveIndex(itemIndex);
+          setIsGridVisible(false);
+        }}
+        isActive={activeIndex === itemIndex}
+        thumbNumber={itemIndex + 1}
+      />
+    </div>
   );
 }, areEqual);
 const headerHeight = 149;
