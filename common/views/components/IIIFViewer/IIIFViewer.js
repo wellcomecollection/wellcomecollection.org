@@ -538,6 +538,7 @@ const IIIFViewerComponent = ({
                     presentationOnly={Boolean(canvasOcr)}
                     setShowZoomed={setShowZoomed}
                     setZoomInfoUrl={setZoomInfoUrl}
+                    showControls={true}
                   />
                 </IIIFViewerImageWrapper>
               )}

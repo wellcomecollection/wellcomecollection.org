@@ -9,9 +9,11 @@ import Space from '../styled/Space';
 
 const ImageViewerControls = styled.div`
   position: absolute;
-  top: 122px;
-  left: 12px;
+  top: 22px;
+  left: 50%;
   z-index: 1;
+  opacity: ${props => (props.showControls ? 1 : 0)};
+  transition: opacity 300ms ease;
   /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
     for a less heavy handed solution to Openseadragon breaking on touch events */
   &,
@@ -72,6 +74,7 @@ type ImageViewerProps = {|
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
   setZoomInfoUrl: string => void,
+  showControls: boolean,
 |};
 
 const ImageViewer = ({
@@ -85,6 +88,7 @@ const ImageViewer = ({
   presentationOnly,
   setShowZoomed,
   setZoomInfoUrl,
+  showControls,
 }: ImageViewerProps) => {
   const [rotation, setRotation] = useState(0);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
@@ -132,7 +136,7 @@ const ImageViewer = ({
   return (
     <>
       <ImageWrapper>
-        <ImageViewerControls>
+        <ImageViewerControls showControls={showControls}>
           <Space
             h={{
               size: 'm',

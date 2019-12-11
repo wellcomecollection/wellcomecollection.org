@@ -10,12 +10,13 @@ import {
 } from '@weco/common/utils/convert-image-uri';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 
-// function getUrlForScrollVelocity(velocity, thumbnail, index) {
-//   const thumbnailService = thumbnail.thumbnail.service; // TODO DON'T USE THUMBNAIL USE PROPER CANVAS
+// function getUrlForScrollVelocity(velocity, canvas, index) {
+//   // TODO just pass the case into the ImageViewer? and create appropriate image there?
+//   const thumbnailService = canvas.thumbnail.service;
 //   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
 //   const smallestWidthImageDimensions = thumbnailService.sizes
 //     .sort((a, b) => a.width - b.width)
-//     .find(dimensions => dimensions.width > 400); // TODO put back to 100
+//     .find(dimensions => dimensions.width > 100);
 //   // TODO what to return for each case, thumbnail or full or nothing?
 //   switch (velocity) {
 //     // case 3:
@@ -46,6 +47,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     lang,
     setShowZoomed,
     setZoomInfoUrl,
+    showControls,
   } = data;
   const currentCanvas = canvases[index];
   const mainImageService = {
@@ -79,6 +81,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
               rotation={rotation}
               setShowZoomed={setShowZoomed}
               setZoomInfoUrl={setZoomInfoUrl}
+              showControls={showControls}
             />
             {/* <img
               style={{
@@ -106,6 +109,7 @@ type Props = {|
   // TODO
   listHeight: any,
   mainViewerRef: any,
+  activeIndex: number,
   setActiveIndex: any,
   pageWidth: any,
   canvases: any,
@@ -119,6 +123,7 @@ type Props = {|
 const MainViewer = ({
   listHeight,
   mainViewerRef,
+  activeIndex,
   setActiveIndex,
   pageWidth,
   canvases,
@@ -130,15 +135,19 @@ const MainViewer = ({
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
+  const [showControls, setShowControls] = useState(false);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
   const itemHeight = pageWidth * 0.8;
-
+  let scrollEnd;
   function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
     setNewScrollOffset(scrollOffset);
     setIsProgrammaticScroll(scrollUpdateWasRequested);
+    setShowControls(false);
+    clearTimeout(scrollEnd);
+    scrollEnd = setTimeout(() => setShowControls(true), 1500);
   }
 
   function handleOnItemsRendered({ visibleStartIndex }) {
@@ -174,6 +183,8 @@ const MainViewer = ({
         lang,
         setShowZoomed,
         setZoomInfoUrl,
+        showControls,
+        activeIndex,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

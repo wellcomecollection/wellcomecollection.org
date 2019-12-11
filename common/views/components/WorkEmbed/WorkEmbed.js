@@ -63,6 +63,7 @@ const WorkEmbed = ({ work }: Props) => {
                 alt=""
                 setShowZoomed={() => {}}
                 setZoomInfoUrl={() => {}}
+                showControls={true}
               />
             </Fragment>
           </div>
