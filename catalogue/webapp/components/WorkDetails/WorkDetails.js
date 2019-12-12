@@ -114,6 +114,10 @@ const WorkDetails = ({
   const encoreLink =
     shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId);
 
+  const locationOfWork = work.notes.find(
+    note => note.noteType.id === 'location-of-original'
+  );
+
   return (
     <Space
       v={{
@@ -294,35 +298,32 @@ const WorkDetails = ({
           </WorkDetailsSection>
         )}
 
-        {[work.notes.find(note => note.noteType.id === 'location-of-original')]
-          .filter(Boolean)
-          .map(note => (
-            <WorkDetailsSection
-              headingText="Where to find it"
-              key={note.noteType.label}
-            >
+        {(locationOfWork || encoreLink) && (
+          <WorkDetailsSection headingText="Where to find it">
+            {locationOfWork && (
               <WorkDetailsText
-                title={note.noteType.label}
-                text={note.contents}
+                title={locationOfWork.noteType.label}
+                text={locationOfWork.contents}
               />
+            )}
 
-              {encoreLink && (
-                <WorkDetailsText
-                  text={[`<a href="${encoreLink}">Wellcome library</a>`]}
-                />
-              )}
+            {encoreLink && (
+              <WorkDetailsText
+                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+              />
+            )}
 
-              <TogglesContext.Consumer>
-                {({ stacksRequestService }) =>
-                  stacksRequestService && (
-                    <div className={`${font('hnl', 5)}`}>
-                      <WorkItemsStatus work={work} />
-                    </div>
-                  )
-                }
-              </TogglesContext.Consumer>
-            </WorkDetailsSection>
-          ))}
+            <TogglesContext.Consumer>
+              {({ stacksRequestService }) =>
+                stacksRequestService && (
+                  <div className={`${font('hnl', 5)}`}>
+                    <WorkItemsStatus work={work} />
+                  </div>
+                )
+              }
+            </TogglesContext.Consumer>
+          </WorkDetailsSection>
+        )}
 
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
