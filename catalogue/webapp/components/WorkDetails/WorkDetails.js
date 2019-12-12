@@ -8,6 +8,8 @@ import {
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
   getIIIFPresentationLocation,
+  getWorkIdentifiersWith,
+  getEncoreLink,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationLicenceInfo,
@@ -97,6 +99,20 @@ const WorkDetails = ({
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+
+  const sierraWorkIds = getWorkIdentifiersWith(work, {
+    identifierId: 'sierra-system-number',
+  });
+
+  const sierraWorkId = sierraWorkIds.length >= 1 ? sierraWorkIds[0] : null;
+
+  // We do not wish to display a link to the old library site if the new site
+  // provides a digital representation of that work
+  const shouldDisplayEncoreLink = !(
+    sierraIdFromPresentationManifestUrl === sierraWorkId
+  );
+  const encoreLink =
+    shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId);
 
   return (
     <Space
@@ -289,6 +305,13 @@ const WorkDetails = ({
                 title={note.noteType.label}
                 text={note.contents}
               />
+
+              {encoreLink && (
+                <WorkDetailsText
+                  text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+                />
+              )}
+
               <TogglesContext.Consumer>
                 {({ stacksRequestService }) =>
                   stacksRequestService && (
