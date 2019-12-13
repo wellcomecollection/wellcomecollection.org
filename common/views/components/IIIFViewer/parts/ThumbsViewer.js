@@ -2,7 +2,7 @@ import { FixedSizeList, areEqual } from 'react-window';
 import { useState, memo } from 'react';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import Loader from './Loader';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const ItemRenderer = memo(({ style, index, data }) => {
   const {
@@ -12,45 +12,25 @@ const ItemRenderer = memo(({ style, index, data }) => {
     setActiveIndex,
     canvases,
   } = data;
-  const thumbnailService = canvases[index].thumbnail.service; // TODO make this function to share across MainV, GridV and ThumbV
-  const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-  const smallestWidthImageDimensions = thumbnailService.sizes
-    .sort((a, b) => a.width - b.width)
-    .find(dimensions => dimensions.width > 100);
   return (
-    <div
-      style={style}
-      onClick={() => {
-        mainViewerRef &&
-          mainViewerRef.current &&
-          mainViewerRef.current.scrollToItem(index, 'start');
-
-        setActiveIndex(index);
-      }}
-    >
+    <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Loader />
         </div>
       ) : (
-        <img
-          style={{
-            display: 'block',
-            height: '95%',
-            width: 'auto',
-            margin: '5px auto 0',
-            border: `3px solid ${
-              activeIndex === index ? 'yellow' : 'transparent'
-            }`,
+        <IIIFCanvasThumbnail
+          canvas={canvases[index]}
+          lang={''} // TODO
+          isLazy={true}
+          clickHandler={() => {
+            mainViewerRef &&
+              mainViewerRef.current &&
+              mainViewerRef.current.scrollToItem(index, 'start');
+            setActiveIndex(index);
           }}
-          src={urlTemplate({
-            size: `${
-              smallestWidthImageDimensions
-                ? smallestWidthImageDimensions.width
-                : '!100'
-            },`,
-          })}
-          alt=""
+          isActive={activeIndex === index}
+          thumbNumber={index + 1}
         />
       )}
     </div>
