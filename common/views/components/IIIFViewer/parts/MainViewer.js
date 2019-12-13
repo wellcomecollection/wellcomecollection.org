@@ -62,10 +62,11 @@ const ItemRenderer = memo(({ style, index, data }) => {
       <div style={style}>
         {scrollVelocity === 3 || isProgrammaticScroll ? (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <LL />
+            <LL lighten={true} />
           </div>
         ) : (
           <>
+            <LL lighten={true} />
             <ImageViewer
               id="item-page"
               infoUrl={infoUrl}
