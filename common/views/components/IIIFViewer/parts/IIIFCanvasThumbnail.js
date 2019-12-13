@@ -10,15 +10,17 @@ import LL from '@weco/common/views/components/styled/LL';
 const IIIFViewerThumb = styled.div`
   height: 100%;
   width: 130px;
+  max-width: 100%;
   border-radius: 8px;
   background: ${props =>
     props.isActive
       ? lighten(0.14, props.theme.colors.viewerBlack)
       : props.theme.colors.viewerBlack};
   padding: 12px 16px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   text-align: center;
+  margin: auto;
 `;
 
 const ImageContainer = styled.div`
