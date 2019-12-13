@@ -150,22 +150,22 @@ const MainViewer = ({
     scrollEnd = setTimeout(() => setShowControls(true), 1500);
   }
 
-  function handleOnItemsRendered({ visibleStartIndex }) {
+  function handleOnItemsRendered({ visibleStopIndex }) {
     setIsProgrammaticScroll(false);
-    setActiveIndex(visibleStartIndex);
+    setActiveIndex(visibleStopIndex);
     Router.replace(
       {
         ...link.href,
         query: {
           ...link.href.query,
-          canvas: `${visibleStartIndex + 1}`,
+          canvas: `${visibleStopIndex + 1}`,
         },
       },
       {
         ...link.as,
         query: {
           ...link.as.query,
-          canvas: `${visibleStartIndex + 1}`,
+          canvas: `${visibleStopIndex + 1}`,
         },
       }
     );
