@@ -90,7 +90,7 @@ const GridViewer = ({
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const gridViewerRef = useRef(null);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = 300; // TODO - tweak this?
+  const itemWidth = 200; // TODO - tweak this?
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
 
@@ -108,7 +108,7 @@ const GridViewer = ({
         columnWidth={columnWidth}
         height={gridHeight}
         rowCount={canvases.length / columnCount + 1}
-        rowHeight={300}
+        rowHeight={230}
         width={gridWidth}
         itemData={{
           columnCount,

@@ -76,7 +76,7 @@ const ThumbsViewer = ({
     <FixedSizeList
       height={listHeight}
       itemCount={canvases.length}
-      itemSize={0.2 * listHeight}
+      itemSize={0.23 * listHeight}
       style={{ background: '#555' }}
       onScroll={handleOnScroll}
       itemData={{
