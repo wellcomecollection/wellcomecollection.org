@@ -16,6 +16,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
     canvases,
   } = data;
   const itemIndex = rowIndex * columnCount + columnIndex;
+  const currentCanvas = canvases[itemIndex];
   return (
     <div style={style}>
       {scrollVelocity > 1 ? (
@@ -23,19 +24,21 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
           <LL />
         </div>
       ) : (
-        <IIIFCanvasThumbnail
-          canvas={canvases[itemIndex]}
-          lang={''} // TODO
-          clickHandler={() => {
-            mainViewerRef &&
-              mainViewerRef.current &&
-              mainViewerRef.current.scrollToItem(itemIndex);
-            setActiveIndex(itemIndex);
-            setIsGridVisible(false);
-          }}
-          isActive={activeIndex === itemIndex}
-          thumbNumber={itemIndex + 1}
-        />
+        currentCanvas && (
+          <IIIFCanvasThumbnail
+            canvas={currentCanvas}
+            lang={''} // TODO
+            clickHandler={() => {
+              mainViewerRef &&
+                mainViewerRef.current &&
+                mainViewerRef.current.scrollToItem(itemIndex);
+              setActiveIndex(itemIndex);
+              setIsGridVisible(false);
+            }}
+            isActive={activeIndex === itemIndex}
+            thumbNumber={itemIndex + 1}
+          />
+        )
       )}
     </div>
   );
