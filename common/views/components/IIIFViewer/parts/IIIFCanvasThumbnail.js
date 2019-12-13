@@ -10,7 +10,7 @@ import LL from '@weco/common/views/components/styled/LL';
 // TODO tidy up styles - all styled components needed?
 const IIIFViewerThumb = styled.div`
   width: 130px;
-  margin: 3%;
+  margin: 12px auto;
   border-radius: 8px;
   background: ${props =>
     props.isActive
@@ -99,12 +99,14 @@ const IIIFCanvasThumbnail = ({
           <LL small={true} lighten={true} />
           <div
             style={{
+              // TODO make into a styled component
               display: 'block',
               position: 'absolute',
               top: 0,
               right: 0,
               bottom: 0,
               left: 0,
+              overflow: 'hidden',
             }}
           >
             <IIIFResponsiveImage
