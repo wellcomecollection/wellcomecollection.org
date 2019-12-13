@@ -152,6 +152,7 @@ const MainViewer = ({
 
   function handleOnItemsRendered({ visibleStartIndex }) {
     setIsProgrammaticScroll(false);
+    setActiveIndex(visibleStartIndex);
     Router.replace(
       {
         ...link.href,

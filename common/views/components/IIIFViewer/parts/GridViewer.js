@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, memo } from 'react';
+import { useState, memo, useEffect, useRef } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
@@ -88,10 +88,18 @@ const GridViewer = ({
   canvases,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
+  const gridViewerRef = useRef(null);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = 300;
+  const itemWidth = 300; // TODO - tweak this?
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
+
+  useEffect(() => {
+    const rowIndex = Math.floor(activeIndex / columnCount);
+    gridViewerRef &&
+      gridViewerRef.current &&
+      gridViewerRef.current.scrollToItem({ align: 'start', rowIndex });
+  }, [activeIndex]);
 
   return (
     <GridViewerEl isVisible={isVisible}>
@@ -112,6 +120,7 @@ const GridViewer = ({
           canvases,
         }}
         onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+        ref={gridViewerRef}
       >
         {Cell}
       </FixedSizeGrid>
