@@ -1,6 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+// @flow
+
+import { useState, useRef, useEffect, type Element } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
+import getFocusableElementsIn from '../../../utils/get-focusable-elements-in';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 
@@ -31,8 +34,8 @@ const ButtonEl = styled(Space).attrs({
 `;
 
 const DropdownEl = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
     'absolute rounded-corners shadow bg-white': true,
   }),
@@ -41,18 +44,22 @@ const DropdownEl = styled(Space).attrs({
   left: -2px;
   margin-top: -2px;
   z-index: 1;
-  max-width: 400px;
-  max-height: 600px;
   overflow: auto;
   display: ${props => (props.isActive ? 'block' : 'none')};
 `;
 
-const DropdownButton = () => {
+type Props = {|
+  buttonText: string,
+  children: Element<any>,
+|};
+
+const DropdownButton = ({ buttonText, children }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const dropdownWrapperRef = useRef(null);
+  const dropdownElRef = useRef(null);
 
   useEffect(() => {
-    function handleClick(event) {
+    function handleClick(event: MouseEvent) {
       if (
         dropdownWrapperRef &&
         dropdownWrapperRef.current &&
@@ -61,26 +68,33 @@ const DropdownButton = () => {
         setIsActive(false);
       }
     }
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', handleClick, false);
 
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('click', handleClick, false);
     };
   });
+
+  useEffect(() => {
+    if (isActive) {
+      const focusables =
+        dropdownElRef &&
+        dropdownElRef.current &&
+        getFocusableElementsIn(dropdownElRef.current);
+      const firstFocusable = focusables && focusables[0];
+
+      firstFocusable && firstFocusable.focus();
+    }
+  }, [isActive]);
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
       <ButtonEl isActive={isActive} onClick={() => setIsActive(!isActive)}>
-        <span className={font('hnm', 5)}>Filters</span>
+        <span className={font('hnm', 5)}>{buttonText}</span>
         <Icon name="chevron" extraClasses={`${isActive ? 'icon--180' : ''}`} />
       </ButtonEl>
-      <DropdownEl isActive={isActive}>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
-          alias iusto, doloribus velit sequi in veniam numquam, error ipsa
-          laborum id exercitationem. Quo aspernatur, ea saepe a et placeat
-          magni.
-        </p>
+      <DropdownEl ref={dropdownElRef} isActive={isActive}>
+        {children}
       </DropdownEl>
     </DropdownWrapper>
   );
