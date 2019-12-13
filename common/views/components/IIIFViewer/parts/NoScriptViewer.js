@@ -43,11 +43,13 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
 `;
 
 const ThumbnailLink = styled.a`
-  /* display: block; */
+  display: block;
   text-decoration: none;
-  height: 25%;
+  height: 100%;
+  padding: 12px;
+  width: 25%;
   @media (min-width: ${props => props.theme.sizes.medium}px) {
-    /* height: 90%; */
+    width: auto;
   }
 `;
 
