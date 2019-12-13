@@ -1,8 +1,16 @@
 import { FixedSizeList, areEqual } from 'react-window';
 import { useState, memo } from 'react';
+import styled from 'styled-components';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
+import Space from '@weco/common/views/components/styled/Space';
+
+const ThumbnailSpacer = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  height: 100%;
+`;
 
 const ItemRenderer = memo(({ style, index, data }) => {
   const {
@@ -12,6 +20,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     setActiveIndex,
     canvases,
   } = data;
+  const currentCanvas = canvases[index];
   return (
     <div style={style}>
       {scrollVelocity > 1 ? (
@@ -19,18 +28,22 @@ const ItemRenderer = memo(({ style, index, data }) => {
           <LL />
         </div>
       ) : (
-        <IIIFCanvasThumbnail
-          canvas={canvases[index]}
-          lang={''} // TODO
-          clickHandler={() => {
-            mainViewerRef &&
-              mainViewerRef.current &&
-              mainViewerRef.current.scrollToItem(index, 'start');
-            setActiveIndex(index);
-          }}
-          isActive={activeIndex === index}
-          thumbNumber={index + 1}
-        />
+        currentCanvas && (
+          <ThumbnailSpacer>
+            <IIIFCanvasThumbnail
+              canvas={currentCanvas}
+              lang={''} // TODO
+              clickHandler={() => {
+                mainViewerRef &&
+                  mainViewerRef.current &&
+                  mainViewerRef.current.scrollToItem(index, 'start');
+                setActiveIndex(index);
+              }}
+              isActive={activeIndex === index}
+              thumbNumber={index + 1}
+            />
+          </ThumbnailSpacer>
+        )
       )}
     </div>
   );

@@ -4,6 +4,13 @@ import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
+import Space from '@weco/common/views/components/styled/Space';
+
+const ThumbnailSpacer = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  height: 200px;
+`;
 
 const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
   const {
@@ -25,19 +32,21 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
         </div>
       ) : (
         currentCanvas && (
-          <IIIFCanvasThumbnail
-            canvas={currentCanvas}
-            lang={''} // TODO
-            clickHandler={() => {
-              mainViewerRef &&
-                mainViewerRef.current &&
-                mainViewerRef.current.scrollToItem(itemIndex);
-              setActiveIndex(itemIndex);
-              setIsGridVisible(false);
-            }}
-            isActive={activeIndex === itemIndex}
-            thumbNumber={itemIndex + 1}
-          />
+          <ThumbnailSpacer>
+            <IIIFCanvasThumbnail
+              canvas={currentCanvas}
+              lang={''} // TODO
+              clickHandler={() => {
+                mainViewerRef &&
+                  mainViewerRef.current &&
+                  mainViewerRef.current.scrollToItem(itemIndex);
+                setActiveIndex(itemIndex);
+                setIsGridVisible(false);
+              }}
+              isActive={activeIndex === itemIndex}
+              thumbNumber={itemIndex + 1}
+            />
+          </ThumbnailSpacer>
         )
       )}
     </div>
