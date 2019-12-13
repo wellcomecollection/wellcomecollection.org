@@ -59,17 +59,6 @@ const IIIFResponsiveImage = ({
         alt={alt}
         role={presentationOnly ? 'presentation' : null}
       />
-      {isLazy && (
-        <noscript>
-          <img
-            width={width}
-            height={height}
-            className={'image image--noscript'}
-            src={src}
-            alt={alt}
-          />
-        </noscript>
-      )}
     </>
   );
 };
