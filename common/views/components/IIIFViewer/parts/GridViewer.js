@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useState, memo } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
-import Loader from './Loader';
+import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
@@ -20,7 +20,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
     <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Loader />
+          <LL />
         </div>
       ) : (
         <IIIFCanvasThumbnail

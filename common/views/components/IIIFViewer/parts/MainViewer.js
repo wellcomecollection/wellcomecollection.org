@@ -1,7 +1,7 @@
 import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
-import Loader from './Loader';
+import LL from '@weco/common/views/components/styled/LL';
 import Router from 'next/router';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import {
@@ -61,7 +61,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
       <div style={style}>
         {scrollVelocity === 3 || isProgrammaticScroll ? (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Loader />
+            <LL />
           </div>
         ) : (
           <>

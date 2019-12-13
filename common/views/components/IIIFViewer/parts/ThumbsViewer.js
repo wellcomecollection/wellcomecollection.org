@@ -1,7 +1,7 @@
 import { FixedSizeList, areEqual } from 'react-window';
 import { useState, memo } from 'react';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
-import Loader from './Loader';
+import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const ItemRenderer = memo(({ style, index, data }) => {
@@ -16,7 +16,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Loader />
+          <LL />
         </div>
       ) : (
         <IIIFCanvasThumbnail
