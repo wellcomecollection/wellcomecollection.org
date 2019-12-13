@@ -1,6 +1,6 @@
 // @flow
 import { type IIIFCanvas, type IIIFManifest } from '@weco/common/model/iiif';
-// import fetch from 'isomorphic-unfetch';
+import fetch from 'isomorphic-unfetch';
 import {
   type Work,
   type CatalogueApiError,
@@ -207,10 +207,9 @@ const IIIFViewerComponent = ({
 }: IIIFViewerProps) => {
   const [showThumbs, setShowThumbs] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
-  // const [parentManifest, setParentManifest] = useState(null);
-  // const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
-  const parentManifest = null;
-  const currentManifestLabel = null;
+  const [parentManifest, setParentManifest] = useState(null);
+  const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
+
   // const thumbnailContainer = useRef(null);
   const activeThumbnailRef = useRef(null);
   const viewToggleRef = useRef(null);
@@ -255,12 +254,12 @@ const IIIFViewerComponent = ({
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : null;
 
-  // // Download info from manifest
+  // Download info from manifest
   const iiifPresentationDownloadOptions =
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
-  // const parentManifestUrl = manifest && manifest.within;
+  const parentManifestUrl = manifest && manifest.within;
   const params = clientSideSearchParams();
 
   useEffect(() => {
@@ -268,27 +267,28 @@ const IIIFViewerComponent = ({
     setEnhanced(true);
   }, []);
 
-  // useEffect(() => {
-  //   const fetchParentManifest = async () => {
-  //     const parentManifest =
-  //       parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
-  //     parentManifest && setParentManifest(parentManifest);
-  //   };
+  useEffect(() => {
+    const fetchParentManifest = async () => {
+      const parentManifest =
+        parentManifestUrl && (await (await fetch(parentManifestUrl)).json());
+      parentManifest && setParentManifest(parentManifest);
+    };
 
-  //   fetchParentManifest();
-  // }, []);
-  // useEffect(() => {
-  //   const matchingManifest =
-  //     parentManifest &&
-  //     parentManifest.manifests &&
-  //     parentManifest.manifests.find(manifest => {
-  //       return (
-  //         (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === sierraId
-  //       );
-  //     });
+    fetchParentManifest();
+  }, []);
 
-  //   matchingManifest && setCurrentManifestLabel(matchingManifest.label);
-  // });
+  useEffect(() => {
+    const matchingManifest =
+      parentManifest &&
+      parentManifest.manifests &&
+      parentManifest.manifests.find(manifest => {
+        return (
+          (manifest['@id'].match(/iiif\/(.*)\/manifest/) || [])[1] === sierraId
+        );
+      });
+
+    matchingManifest && setCurrentManifestLabel(matchingManifest.label);
+  });
 
   // useEffect(() => {
   //   thumbnailContainer.current &&
