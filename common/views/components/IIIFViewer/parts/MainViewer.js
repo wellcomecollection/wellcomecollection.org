@@ -9,7 +9,7 @@ import {
   convertIiifUriToInfoUri,
 } from '@weco/common/utils/convert-image-uri';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
-// import { getCanvasOcr } from '../services/catalogue/works'; // TODO
+import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 
 // function getUrlForScrollVelocity(velocity, canvas, index) {
 //   // TODO just pass the case into the ImageViewer? and create appropriate image there?
@@ -50,7 +50,12 @@ const ItemRenderer = memo(({ style, index, data }) => {
     setZoomInfoUrl,
     showControls,
   } = data;
+  const [ocrText, setOcrText] = useState(null);
   const currentCanvas = canvases[index];
+  getCanvasOcr(currentCanvas).then(text => {
+    setOcrText(text);
+  });
+
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
@@ -67,17 +72,14 @@ const ItemRenderer = memo(({ style, index, data }) => {
         ) : (
           <>
             <LL lighten={true} />
+            {/* {ocrText && <p className="visually-hidden">{ocrText}</p>} */}
             <ImageViewer
               id="item-page"
               infoUrl={infoUrl}
               width={currentCanvas.width}
               height={currentCanvas.height}
               lang={lang}
-              // alt={
-              //   canvasOcr && work && work.title
-              //     ? `image from ${work && work.title}`
-              //     : ''
-              // }
+              alt={ocrText}
               urlTemplate={urlTemplate}
               // presentationOnly={Boolean(canvasOcr)}
               rotation={rotation}
@@ -86,20 +88,20 @@ const ItemRenderer = memo(({ style, index, data }) => {
               showControls={showControls}
             />
             {/* <img
-              style={{
-                paddingTop: '10px',
-                display: 'block',
-                height: '90%',
-                width: 'auto',
-                margin: '0 auto',
-              }}
-              src={getUrlForScrollVelocity(
-                scrollVelocity,
-                canvases[index],
-                index
-              )}
-              alt=""
-            /> */}
+                style={{
+                  paddingTop: '10px',
+                  display: 'block',
+                  height: '90%',
+                  width: 'auto',
+                  margin: '0 auto',
+                }}
+                src={getUrlForScrollVelocity(
+                  scrollVelocity,
+                  canvases[index],
+                  index
+                )}
+                alt=""
+              /> */}
           </>
         )}
       </div>
