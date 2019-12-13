@@ -1,5 +1,5 @@
 // @flow
-
+import { CSSTransition } from 'react-transition-group';
 import { useState, useRef, useEffect, type Element } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
@@ -45,7 +45,22 @@ const DropdownEl = styled(Space).attrs({
   margin-top: -2px;
   z-index: 1;
   overflow: auto;
-  display: ${props => (props.isActive ? 'block' : 'none')};
+
+  &.fade-enter,
+  &.fade-exit-active {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  &.fade-enter-active,
+  &.fade-exit-active {
+    transition: all 350ms ease-in-out;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 `;
 
 type Props = {|
@@ -93,9 +108,14 @@ const DropdownButton = ({ buttonText, children }: Props) => {
         <span className={font('hnm', 5)}>{buttonText}</span>
         <Icon name="chevron" extraClasses={`${isActive ? 'icon--180' : ''}`} />
       </ButtonEl>
-      <DropdownEl ref={dropdownElRef} isActive={isActive}>
-        {children}
-      </DropdownEl>
+      <CSSTransition
+        in={isActive}
+        classNames="fade"
+        timeout={350}
+        unmountOnExit
+      >
+        <DropdownEl ref={dropdownElRef}>{children}</DropdownEl>
+      </CSSTransition>
     </DropdownWrapper>
   );
 };
