@@ -9,6 +9,7 @@ import {
   convertIiifUriToInfoUri,
 } from '@weco/common/utils/convert-image-uri';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
+// import { getCanvasOcr } from '../services/catalogue/works'; // TODO
 
 // function getUrlForScrollVelocity(velocity, canvas, index) {
 //   // TODO just pass the case into the ImageViewer? and create appropriate image there?
