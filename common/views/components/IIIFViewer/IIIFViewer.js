@@ -12,22 +12,16 @@ import {
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-// import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames } from '@weco/common/utils/classnames';
-// import NextLink from 'next/link';
 import Router from 'next/router';
-import {
-  // convertIiifUriToInfoUri,
-  iiifImageTemplate,
-} from '@weco/common/utils/convert-image-uri';
-// import Paginator,
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
 import LL from '@weco/common/views/components/styled/LL';
 import Space, { type SpaceComponentProps } from '../styled/Space';
 import ViewerTopBar from '@weco/common/views/components/ViewerTopBar/ViewerTopBar';
-import NoScriptViewer from './parts/NoScriptViewer'; // PaginatorButtons, // IIIFViewerPaginatorButtons,
+import NoScriptViewer from './parts/NoScriptViewer';
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
@@ -120,26 +114,6 @@ export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
   }
 `;
 
-// const ScrollingThumbnailContainer = styled.div`
-//   height: calc(100% - ${headerHeight}px);
-//   overflow: scroll;
-//   background: ${props => props.theme.colors.viewerBlack};
-//   position: fixed;
-//   top: ${props => (props.showThumbs ? `${headerHeight}px` : '100vh')};
-//   left: 0;
-//   transition: top 800ms ease;
-//   z-index: 1;
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: space-around;
-
-//   /* Makes sure trailing items in last row stay next to each other rather than being evenly spaced */
-//   &:after {
-//     content: '';
-//     flex: auto;
-//   }
-// `;
-
 const ViewerLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr;
@@ -150,23 +124,6 @@ const ViewerLayout = styled.div`
     grid-template-columns: 1fr 5fr;
   }
 `;
-
-// function scrollIntoViewIfOutOfView(container, index) {
-//   const itemToScroll = container.children.item(index);
-//   if (itemToScroll) {
-//     const inView = checkInView(container, itemToScroll);
-//     !inView && itemToScroll.scrollIntoView();
-//   }
-// }
-
-// function checkInView(container, element, includePartialView) {
-//   const containerTop = container.scrollTop;
-//   const containerBottom = containerTop + container.clientHeight;
-//   const elementTop = element.offsetTop;
-//   const elementBottom = elementTop + element.clientHeight;
-
-//   return elementTop >= containerTop && elementBottom <= containerBottom;
-// }
 
 type IIIFViewerProps = {|
   title: string,
@@ -209,8 +166,6 @@ const IIIFViewerComponent = ({
   const [enhanced, setEnhanced] = useState(false);
   const [parentManifest, setParentManifest] = useState(null);
   const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
-
-  // const thumbnailContainer = useRef(null);
   const activeThumbnailRef = useRef(null);
   const viewToggleRef = useRef(null);
   const navigationCanvases =
@@ -224,7 +179,7 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
-  // Download info from work
+  // Download info from work // TODO move this?
   const [iiifImageLocation] =
     work && work.type !== 'Error'
       ? work.items
@@ -290,12 +245,6 @@ const IIIFViewerComponent = ({
     matchingManifest && setCurrentManifestLabel(matchingManifest.label);
   });
 
-  // useEffect(() => {
-  //   thumbnailContainer.current &&
-  //     scrollIntoViewIfOutOfView(thumbnailContainer.current, canvasIndex);
-  // }, [canvasIndex]);
-
-  /// ////////////
   const [activeIndex, setActiveIndex] = useState(0);
   const [pageHeight, setPageHeight] = useState(500);
   const [pageWidth, setPageWidth] = useState(1000);
@@ -365,111 +314,10 @@ const IIIFViewerComponent = ({
           pageSize={pageSize}
           params={params}
         />
-        {/* enhanced javascript viewer */}
         {enhanced && (
-          // <IIIFViewer>
-          //   <IIIFViewerMain fullWidth={true} aria-live="polite">
-          //     <IIIFViewerImageWrapper aria-hidden={showThumbs}>
-          //       {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>}
-          //       {iiifImageLocationUrl && imageUrl && (
-          //         <ImageViewer
-          //           infoUrl={iiifImageLocationUrl}
-          //           id={imageUrl}
-          //           width={800}
-          //           lang={null}
-          //           alt={
-          //             (work && work.description) || (work && work.title) || ''
-          //           }
-          //           urlTemplate={urlTemplate}
-          //           presentationOnly={Boolean(canvasOcr)}
-          //         />
-          //       )}
-          //       {mainImageService['@id'] && currentCanvas && (
-          //         <ImageViewer
-          //           id="item-page"
-          //           infoUrl={convertIiifUriToInfoUri(mainImageService['@id'])}
-          //           width={currentCanvas.width}
-          //           height={currentCanvas.height}
-          //           lang={lang}
-          //           alt={
-          //             canvasOcr && work && work.title
-          //               ? `image from ${work && work.title}`
-          //               : ''
-          //           }
-          //           urlTemplate={urlTemplate}
-          //           presentationOnly={Boolean(canvasOcr)}
-          //         />
-          //       )}
-          //     </IIIFViewerImageWrapper>
-          //     <IIIFViewerPaginatorButtons>
-          //       <Space
-          //         h={{ size: 'm', properties: ['margin-left', 'margin-right'] }}
-          //         v={{ size: 'm', properties: ['margin-top'] }}
-          //       >
-          //         <Paginator
-          //           {...mainPaginatorProps}
-          //           render={PaginatorButtons(!showThumbs, workId)}
-          //         />
-          //       </Space>
-          //     </IIIFViewerPaginatorButtons>
-          //   </IIIFViewerMain>
-          //   {thumbnailsRequired && (
-          //     <ScrollingThumbnailContainer
-          //       ref={thumbnailContainer}
-          //       showThumbs={showThumbs}
-          //       aria-hidden={!showThumbs}
-          //     >
-          //       {canvases &&
-          //         canvases.map((canvas, i) => {
-          //           const isActive = canvasIndex === i;
-          //           return (
-          //             <IIIFViewerThumb key={canvas['@id']} isActive={isActive}>
-          //               <NextLink
-          //                 {...itemUrl({
-          //                   ...params,
-          //                   workId,
-          //                   page: pageIndex + 1,
-          //                   sierraId,
-          //                   langCode: lang,
-          //                   canvas: i + 1,
-          //                 })}
-          //                 scroll={false}
-          //                 replace
-          //                 passHref
-          //               >
-          //                 <IIIFViewerThumbLink
-          //                   tabIndex={showThumbs ? 0 : -1}
-          //                   onClick={() => {
-          //                     viewToggleRef &&
-          //                       viewToggleRef.current &&
-          //                       viewToggleRef.current.focus();
-          //                     setShowThumbs(!showThumbs);
-          //                   }}
-          //                   ref={isActive ? activeThumbnailRef : undefined}
-          //                 >
-          //                   <IIIFCanvasThumbnail
-          //                     canvas={canvas}
-          //                     lang={lang}
-          //                     isEnhanced={true}
-          //                   />
-          //                   <div>
-          //                     <IIIFViewerThumbNumber isActive={isActive}>
-          //                       <span className="visually-hidden">image </span>
-          //                       {i + 1}
-          //                     </IIIFViewerThumbNumber>
-          //                   </div>
-          //                 </IIIFViewerThumbLink>
-          //               </NextLink>
-          //             </IIIFViewerThumb>
-          //           );
-          //         })}
-          //     </ScrollingThumbnailContainer>
-          //   )}
-          // </IIIFViewer>
-
           <>
             {iiifImageLocationUrl &&
-            imageUrl && ( // TODO better way of deciding this
+            imageUrl && ( // TODO better way of deciding this?
                 <IIIFViewerImageWrapper>
                   {/* {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>} TODO this goes in mainViewer */}
                   <ImageViewer
