@@ -40,13 +40,14 @@ const StaticThumbnailsContainer = styled.div.attrs(props => ({
     border-top: none;
     border-right: 1px solid ${props => props.theme.colors.pewter};
   }
-  a {
-    display: block;
-  }
-  noscript img {
-    margin: auto;
-    width: auto;
-    max-height: calc(100% - 1.5rem);
+`;
+
+const ThumbnailLink = styled.a`
+  /* display: block; */
+  text-decoration: none;
+  height: 25%;
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    /* height: 90%; */
   }
 `;
 
@@ -259,17 +260,14 @@ const NoScriptViewer = ({
                         replace
                         passHref
                       >
-                        <a>
-                          {
-                            <IIIFCanvasThumbnail
-                              isLazy={false}
-                              canvas={canvas}
-                              lang={lang}
-                              isActive={canvasNumber === canvasIndex + 1}
-                              thumbNumber={canvasNumber}
-                            />
-                          }
-                        </a>
+                        <ThumbnailLink>
+                          <IIIFCanvasThumbnail
+                            canvas={canvas}
+                            lang={lang}
+                            isActive={canvasNumber === canvasIndex + 1}
+                            thumbNumber={canvasNumber}
+                          />
+                        </ThumbnailLink>
                       </NextLink>
                     )}
                   />

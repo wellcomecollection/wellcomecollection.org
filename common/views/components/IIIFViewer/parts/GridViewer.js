@@ -26,7 +26,6 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
         <IIIFCanvasThumbnail
           canvas={canvases[itemIndex]}
           lang={''} // TODO
-          isLazy={true}
           clickHandler={() => {
             mainViewerRef &&
               mainViewerRef.current &&

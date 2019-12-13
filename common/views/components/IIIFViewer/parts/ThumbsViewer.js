@@ -22,7 +22,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
         <IIIFCanvasThumbnail
           canvas={canvases[index]}
           lang={''} // TODO
-          isLazy={true}
           clickHandler={() => {
             mainViewerRef &&
               mainViewerRef.current &&

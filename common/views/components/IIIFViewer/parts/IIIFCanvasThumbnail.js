@@ -8,48 +8,39 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import LL from '@weco/common/views/components/styled/LL';
 
 const IIIFViewerThumb = styled.div`
-  max-height: 200px;
-  max-width: 130px;
-  height: calc(100%);
-  margin: 0 auto;
+  height: 100%;
+  width: 130px;
   border-radius: 8px;
   background: ${props =>
     props.isActive
       ? lighten(0.14, props.theme.colors.viewerBlack)
       : props.theme.colors.viewerBlack};
-  padding: 0 16px 0px;
-
+  padding: 12px 16px;
+  display: inline-flex;
+  flex-direction: column;
   text-align: center;
-  img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    transform: ;
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-  }
-`;
-
-const LLContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
 `;
 
 const ImageContainer = styled.div`
   flex-grow: 1;
   position: relative;
-  min-height: 100px;
-  overflow: hidden;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const IIIFViewerThumbNumber = styled.span.attrs(props => ({
   className: classNames({
     'line-height-1': true,
-    'inline-block': true,
     'font-white': !props.isActive,
     'font-black': props.isActive,
     'bg-yellow': props.isActive,
@@ -63,7 +54,6 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
   lang: string,
-  isLazy: boolean,
   isActive: boolean,
   thumbNumber: number,
   clickHandler?: () => void,
@@ -72,7 +62,6 @@ type IIIFCanvasThumbnailProps = {|
 const IIIFCanvasThumbnail = ({
   canvas,
   lang,
-  isLazy,
   clickHandler,
   isActive,
   thumbNumber,
@@ -84,10 +73,8 @@ const IIIFCanvasThumbnail = ({
     .find(dimensions => dimensions.width > 100);
   return (
     <IIIFViewerThumb onClick={clickHandler} isActive={isActive}>
-      <LLContainer>
-        <LL small={true} lighten={true} />
-      </LLContainer>
       <ImageContainer>
+        <LL small={true} lighten={true} />
         <IIIFResponsiveImage
           width={
             smallestWidthImageDimensions
@@ -109,13 +96,15 @@ const IIIFCanvasThumbnail = ({
           }px`}
           alt={''}
           lang={lang}
-          isLazy={isLazy}
+          isLazy={false}
         />
       </ImageContainer>
-      <IIIFViewerThumbNumber isActive={isActive}>
-        <span className="visually-hidden">image </span>
-        {thumbNumber}
-      </IIIFViewerThumbNumber>
+      <div>
+        <IIIFViewerThumbNumber isActive={isActive}>
+          <span className="visually-hidden">image </span>
+          {thumbNumber}
+        </IIIFViewerThumbNumber>
+      </div>
     </IIIFViewerThumb>
   );
 };
