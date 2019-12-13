@@ -114,6 +114,7 @@ type Props = {|
   setActiveIndex: any,
   pageWidth: any,
   canvases: any,
+  canvasIndex: any,
   link: any,
   rotation: number,
   lang: string,
@@ -128,6 +129,7 @@ const MainViewer = ({
   setActiveIndex,
   pageWidth,
   canvases,
+  canvasIndex,
   link,
   rotation,
   lang,
@@ -137,6 +139,9 @@ const MainViewer = ({
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [showControls, setShowControls] = useState(false);
+  const [firstRender, setFirstRender] = useState(true);
+  const firstRenderRef = useRef(firstRender);
+  firstRenderRef.current = firstRender;
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
@@ -153,23 +158,31 @@ const MainViewer = ({
 
   function handleOnItemsRendered({ visibleStopIndex }) {
     setIsProgrammaticScroll(false);
-    setActiveIndex(visibleStopIndex);
-    Router.replace(
-      {
-        ...link.href,
-        query: {
-          ...link.href.query,
-          canvas: `${visibleStopIndex + 1}`,
+    if (firstRenderRef.current) {
+      setActiveIndex(canvasIndex);
+      mainViewerRef &&
+        mainViewerRef.current &&
+        mainViewerRef.current.scrollToItem(canvasIndex, 'start');
+      setFirstRender(false);
+    } else {
+      setActiveIndex(visibleStopIndex);
+      Router.replace(
+        {
+          ...link.href,
+          query: {
+            ...link.href.query,
+            canvas: `${visibleStopIndex + 1}`,
+          },
         },
-      },
-      {
-        ...link.as,
-        query: {
-          ...link.as.query,
-          canvas: `${visibleStopIndex + 1}`,
-        },
-      }
-    );
+        {
+          ...link.as,
+          query: {
+            ...link.as.query,
+            canvas: `${visibleStopIndex + 1}`,
+          },
+        }
+      );
+    }
   }
 
   return (

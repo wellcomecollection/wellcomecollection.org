@@ -365,6 +365,7 @@ const IIIFViewerComponent = ({
                       setActiveIndex={setActiveIndex}
                       pageWidth={pageWidth}
                       canvases={canvases}
+                      canvasIndex={canvasIndex}
                       link={mainPaginatorProps.link}
                       lang={lang}
                       setShowZoomed={setShowZoomed}
