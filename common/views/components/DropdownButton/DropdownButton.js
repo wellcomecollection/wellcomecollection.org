@@ -45,6 +45,7 @@ const DropdownEl = styled(Space).attrs({
   margin-top: -2px;
   z-index: 1;
   overflow: auto;
+  white-space: nowrap;
 
   &.fade-enter,
   &.fade-exit-active {
