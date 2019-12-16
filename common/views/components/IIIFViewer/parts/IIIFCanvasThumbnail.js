@@ -7,7 +7,15 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
 
-const IIIFViewerThumb = styled.div`
+const IIIFViewerThumb = styled.button.attrs(props => ({
+  tabIndex: 0,
+}))`
+  appearance: none;
+  font-family: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  border: 0;
+  display: block;
   height: 100%;
   width: 130px;
   max-width: 100%;
@@ -17,10 +25,14 @@ const IIIFViewerThumb = styled.div`
       ? lighten(0.14, props.theme.colors.viewerBlack)
       : props.theme.colors.viewerBlack};
   padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
   text-align: center;
   margin: auto;
+`;
+
+const IIIFViewerThumbInner = styled.span`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 const ImageContainer = styled.div`
@@ -75,38 +87,40 @@ const IIIFCanvasThumbnail = ({
     .find(dimensions => dimensions.width > 100);
   return (
     <IIIFViewerThumb onClick={clickHandler} isActive={isActive}>
-      <ImageContainer>
-        <LL small={true} lighten={true} />
-        <IIIFResponsiveImage
-          width={
-            smallestWidthImageDimensions
-              ? smallestWidthImageDimensions.width
-              : 30
-          }
-          src={urlTemplate({
-            size: `${
+      <IIIFViewerThumbInner>
+        <ImageContainer>
+          <LL small={true} lighten={true} />
+          <IIIFResponsiveImage
+            width={
               smallestWidthImageDimensions
                 ? smallestWidthImageDimensions.width
-                : '!100'
-            },`,
-          })}
-          srcSet={''}
-          sizes={`${
-            smallestWidthImageDimensions
-              ? smallestWidthImageDimensions.width
-              : 30
-          }px`}
-          alt={''}
-          lang={lang}
-          isLazy={false}
-        />
-      </ImageContainer>
-      <div>
-        <IIIFViewerThumbNumber isActive={isActive}>
-          <span className="visually-hidden">image </span>
-          {thumbNumber}
-        </IIIFViewerThumbNumber>
-      </div>
+                : 30
+            }
+            src={urlTemplate({
+              size: `${
+                smallestWidthImageDimensions
+                  ? smallestWidthImageDimensions.width
+                  : '!100'
+              },`,
+            })}
+            srcSet={''}
+            sizes={`${
+              smallestWidthImageDimensions
+                ? smallestWidthImageDimensions.width
+                : 30
+            }px`}
+            alt={''}
+            lang={lang}
+            isLazy={false}
+          />
+        </ImageContainer>
+        <div>
+          <IIIFViewerThumbNumber isActive={isActive}>
+            <span className="visually-hidden">image </span>
+            {thumbNumber}
+          </IIIFViewerThumbNumber>
+        </div>
+      </IIIFViewerThumbInner>
     </IIIFViewerThumb>
   );
 };

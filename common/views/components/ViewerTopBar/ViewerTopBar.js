@@ -130,6 +130,7 @@ const ViewerTopBar = ({
             text={showThumbs ? 'Detail view' : 'View all'}
             fontFamily="hnl"
             clickHandler={() => {
+              // TODO get this working
               activeThumbnailRef &&
                 activeThumbnailRef.current &&
                 activeThumbnailRef.current.focus();
