@@ -16,6 +16,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
   const {
     columnCount,
     mainViewerRef,
+    isVisible,
     setIsGridVisible,
     scrollVelocity,
     activeIndex,
@@ -45,6 +46,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
               }}
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
+              isFocusable={isVisible}
             />
           </ThumbnailSpacer>
         )
@@ -113,6 +115,7 @@ const GridViewer = ({
         itemData={{
           columnCount,
           mainViewerRef,
+          isVisible,
           setIsGridVisible,
           scrollVelocity,
           activeIndex,
