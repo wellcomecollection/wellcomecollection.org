@@ -203,7 +203,7 @@ const IIIFViewerComponent = ({
   const licenseInfo =
     iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
 
-  const downloadOptions = iiifImageLocationUrl // TODO move to ViewerTopBar?
+  const downloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : null;
 
@@ -320,7 +320,6 @@ const IIIFViewerComponent = ({
                   infoUrl={iiifImageLocationUrl}
                   id={imageUrl}
                   width={800}
-                  lang={null}
                   alt={(work && work.description) || (work && work.title) || ''}
                   urlTemplate={urlTemplate}
                   presentationOnly={Boolean(canvasOcr)}
@@ -351,7 +350,7 @@ const IIIFViewerComponent = ({
                     setActiveIndex={setActiveIndex}
                   />
                 )}
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: 'relative' }} lang={lang}>
                   {/* aria-live="polite" TODO need to test this with people using screen readers */}
                   <MainViewer
                     listHeight={pageHeight}
@@ -361,7 +360,6 @@ const IIIFViewerComponent = ({
                     canvases={canvases}
                     canvasIndex={canvasIndex}
                     link={mainPaginatorProps.link}
-                    lang={lang}
                     setShowZoomed={setShowZoomed}
                     setZoomInfoUrl={setZoomInfoUrl}
                   />

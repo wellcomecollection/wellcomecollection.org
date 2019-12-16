@@ -45,7 +45,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
     isProgrammaticScroll,
     canvases,
     rotation,
-    lang,
     setShowZoomed,
     setZoomInfoUrl,
     showControls,
@@ -72,13 +71,11 @@ const ItemRenderer = memo(({ style, index, data }) => {
         ) : (
           <>
             <LL lighten={true} />
-            {/* {ocrText && <p className="visually-hidden">{ocrText}</p>} */}
             <ImageViewer
               id="item-page"
               infoUrl={infoUrl}
               width={currentCanvas.width}
               height={currentCanvas.height}
-              lang={lang}
               alt={ocrText}
               urlTemplate={urlTemplate}
               // presentationOnly={Boolean(canvasOcr)}
@@ -120,7 +117,6 @@ type Props = {|
   canvasIndex: any,
   link: any,
   rotation: number,
-  lang: string,
   setShowZoomed: () => void,
   setZoomInfoUrl: () => void,
 |};
@@ -135,7 +131,6 @@ const MainViewer = ({
   canvasIndex,
   link,
   rotation,
-  lang,
   setShowZoomed,
   setZoomInfoUrl,
 }: Props) => {
@@ -198,7 +193,6 @@ const MainViewer = ({
         isProgrammaticScroll,
         canvases,
         rotation,
-        lang,
         setShowZoomed,
         setZoomInfoUrl,
         showControls,

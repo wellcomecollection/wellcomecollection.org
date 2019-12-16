@@ -68,7 +68,7 @@ type ImageViewerProps = {|
   width: number,
   height?: number,
   infoUrl: string,
-  lang: ?string,
+  lang?: ?string,
   alt: string,
   urlTemplate: IIIFUriProps => string,
   presentationOnly?: boolean,
@@ -173,7 +173,7 @@ const ImageViewer = ({
           height={height}
           src={imageSrc}
           srcSet={imageSrcSet}
-          sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`} // TODO specific to MainViewer or single image
+          sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
           lang={lang}
           alt={presentationOnly ? '' : alt}
           isLazy={false}

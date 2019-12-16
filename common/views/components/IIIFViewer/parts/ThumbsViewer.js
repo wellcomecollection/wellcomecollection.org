@@ -39,7 +39,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
           <ThumbnailSpacer>
             <IIIFCanvasThumbnail
               canvas={currentCanvas}
-              lang={''} // TODO
               clickHandler={() => {
                 mainViewerRef &&
                   mainViewerRef.current &&

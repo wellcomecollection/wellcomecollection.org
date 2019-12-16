@@ -36,7 +36,6 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
           <ThumbnailSpacer>
             <IIIFCanvasThumbnail
               canvas={currentCanvas}
-              lang={''} // TODO
               clickHandler={() => {
                 mainViewerRef &&
                   mainViewerRef.current &&
@@ -92,7 +91,7 @@ const GridViewer = ({
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const gridViewerRef = useRef(null);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = 200; // TODO - tweak this?
+  const itemWidth = 250;
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
 
