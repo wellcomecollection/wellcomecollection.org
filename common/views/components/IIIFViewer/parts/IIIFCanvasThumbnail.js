@@ -67,7 +67,7 @@ const IIIFViewerThumbNumber = styled.span.attrs(props => ({
 
 type IIIFCanvasThumbnailProps = {|
   canvas: IIIFCanvas,
-  lang: string,
+  lang?: string,
   isActive: boolean,
   thumbNumber: number,
   clickHandler?: () => void,

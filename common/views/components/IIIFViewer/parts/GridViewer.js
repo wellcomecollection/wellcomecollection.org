@@ -1,3 +1,4 @@
+// @flow
 import styled from 'styled-components';
 import { useState, memo, useEffect, useRef } from 'react';
 import { FixedSizeGrid, areEqual } from 'react-window';

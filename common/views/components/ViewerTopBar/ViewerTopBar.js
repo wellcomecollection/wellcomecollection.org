@@ -1,9 +1,10 @@
 // @flow
 import { type IIIFManifest } from '@weco/common/model/iiif';
+import type { SearchParams } from '@weco/common/services/catalogue/search-params';
+import type { LicenseData } from '@weco/common/utils/get-license-info';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workUrl } from '@weco/common/services/catalogue/urls';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -86,11 +87,11 @@ type Props = {|
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
   currentManifestLabel: ?string,
-  params: any, // TODO
+  params: SearchParams,
   canvasIndex: number,
   title: string,
   licenseInfo: ?LicenseData,
-  iiifPresentationLicenseInfo: any, // TODO
+  iiifPresentationLicenseInfo: ?LicenseData,
   iiifImageLocationCredit: any, // TODO
   iiifImageLocationLicenseId: any, // TODO
   downloadOptions: any, // TODO

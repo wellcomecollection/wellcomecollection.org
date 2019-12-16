@@ -1,3 +1,4 @@
+// @flow
 import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
@@ -44,22 +45,22 @@ const ItemRenderer = memo(({ style, index, data }) => {
     scrollVelocity,
     isProgrammaticScroll,
     canvases,
-    rotation,
     setShowZoomed,
     setZoomInfoUrl,
     showControls,
   } = data;
-  const [ocrText, setOcrText] = useState(null);
+  const [ocrText, setOcrText] = useState('');
   const currentCanvas = canvases[index];
   getCanvasOcr(currentCanvas).then(text => {
-    setOcrText(text);
+    text && setOcrText(text);
   });
 
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
-  const urlTemplate =
-    mainImageService['@id'] && iiifImageTemplate(mainImageService['@id']);
+  const urlTemplate = mainImageService['@id']
+    ? iiifImageTemplate(mainImageService['@id'])
+    : null;
   const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
   return (
     <>
@@ -71,33 +72,26 @@ const ItemRenderer = memo(({ style, index, data }) => {
         ) : (
           <>
             <LL lighten={true} />
-            <ImageViewer
-              id="item-page"
-              infoUrl={infoUrl}
-              width={currentCanvas.width}
-              height={currentCanvas.height}
-              alt={ocrText}
-              urlTemplate={urlTemplate}
-              // presentationOnly={Boolean(canvasOcr)}
-              rotation={rotation}
-              setShowZoomed={setShowZoomed}
-              setZoomInfoUrl={setZoomInfoUrl}
-              showControls={showControls}
-            />
-            {/* <img
-                style={{
-                  paddingTop: '10px',
-                  display: 'block',
-                  height: '90%',
-                  width: 'auto',
-                  margin: '0 auto',
-                }}
+            {urlTemplate && (
+              <ImageViewer
+                id="item-page"
+                infoUrl={infoUrl}
+                width={currentCanvas.width}
+                height={currentCanvas.height}
+                alt={ocrText}
+                urlTemplate={urlTemplate}
+                // presentationOnly={Boolean(canvasOcr)} // TODO
+                setShowZoomed={setShowZoomed}
+                setZoomInfoUrl={setZoomInfoUrl}
+                showControls={showControls}
+              />
+            )}
+            {/*
                 src={getUrlForScrollVelocity(
                   scrollVelocity,
                   canvases[index],
                   index
                 )}
-                alt=""
               /> */}
           </>
         )}
@@ -110,13 +104,11 @@ type Props = {|
   // TODO
   listHeight: any,
   mainViewerRef: any,
-  activeIndex: number,
   setActiveIndex: any,
   pageWidth: any,
   canvases: any,
   canvasIndex: any,
   link: any,
-  rotation: number,
   setShowZoomed: () => void,
   setZoomInfoUrl: () => void,
 |};
@@ -124,13 +116,11 @@ type Props = {|
 const MainViewer = ({
   listHeight,
   mainViewerRef,
-  activeIndex,
   setActiveIndex,
   pageWidth,
   canvases,
   canvasIndex,
   link,
-  rotation,
   setShowZoomed,
   setZoomInfoUrl,
 }: Props) => {
@@ -192,11 +182,9 @@ const MainViewer = ({
         scrollVelocity,
         isProgrammaticScroll,
         canvases,
-        rotation,
         setShowZoomed,
         setZoomInfoUrl,
         showControls,
-        activeIndex,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

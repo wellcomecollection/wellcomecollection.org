@@ -1,3 +1,4 @@
+// @flow
 import { FixedSizeList, areEqual } from 'react-window';
 import { useState, memo } from 'react';
 import styled from 'styled-components';
@@ -57,11 +58,10 @@ const ItemRenderer = memo(({ style, index, data }) => {
 }, areEqual);
 
 type Props = {|
-  // TODO
-  listHeight: any,
-  mainViewerRef: any,
-  activeIndex: any,
-  setActiveIndex: any,
+  listHeight: number,
+  mainViewerRef: { current: HTMLElement | null },
+  activeIndex: number,
+  setActiveIndex: number => void,
   canvases: any,
 |};
 

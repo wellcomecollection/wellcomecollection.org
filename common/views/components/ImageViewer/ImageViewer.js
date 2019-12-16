@@ -70,7 +70,7 @@ type ImageViewerProps = {|
   infoUrl: string,
   lang?: ?string,
   alt: string,
-  urlTemplate: IIIFUriProps => string,
+  urlTemplate: IIIFUriProps => Function,
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
   setZoomInfoUrl: string => void,

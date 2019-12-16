@@ -7,6 +7,7 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
 import { removeEmptyProps } from '@weco/common/utils/json';
 import { defaultWorkTypes } from '@weco/common/services/catalogue/search-params';
@@ -121,8 +122,7 @@ export async function getWork({
   return json;
 }
 
-export async function getCanvasOcr(canvas: any) {
-  // TODO flow
+export async function getCanvasOcr(canvas: IIIFCanvas) {
   const textContent =
     canvas.otherContent &&
     canvas.otherContent.find(
