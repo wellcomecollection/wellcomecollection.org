@@ -8,7 +8,7 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import LL from '@weco/common/views/components/styled/LL';
 
 const IIIFViewerThumb = styled.button.attrs(props => ({
-  tabIndex: 0,
+  tabIndex: props.isFocusable ? 0 : -1,
 }))`
   appearance: none;
   font-family: inherit;
@@ -71,6 +71,7 @@ type IIIFCanvasThumbnailProps = {|
   isActive: boolean,
   thumbNumber: number,
   clickHandler?: () => void,
+  isFocusable?: boolean,
 |};
 
 const IIIFCanvasThumbnail = ({
@@ -79,6 +80,7 @@ const IIIFCanvasThumbnail = ({
   clickHandler,
   isActive,
   thumbNumber,
+  isFocusable,
 }: IIIFCanvasThumbnailProps) => {
   const thumbnailService = canvas.thumbnail.service;
   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
@@ -86,7 +88,11 @@ const IIIFCanvasThumbnail = ({
     .sort((a, b) => a.width - b.width)
     .find(dimensions => dimensions.width > 100);
   return (
-    <IIIFViewerThumb onClick={clickHandler} isActive={isActive}>
+    <IIIFViewerThumb
+      onClick={clickHandler}
+      isActive={isActive}
+      isFocusable={isFocusable}
+    >
       <IIIFViewerThumbInner>
         <ImageContainer>
           <LL small={true} lighten={true} />
