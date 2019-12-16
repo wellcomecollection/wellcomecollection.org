@@ -143,7 +143,7 @@ type NoScriptViewerProps = {|
   imageUrl: ?string,
   thumbnailsRequired: boolean,
   iiifImageLocation: ?{ url: string },
-  canvases: ?[],
+  canvases: [],
   canvasIndex: number,
   params: SearchParams,
 |};
@@ -170,12 +170,10 @@ const NoScriptViewer = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
-  const navigationCanvases =
-    canvases &&
-    [...Array(pageSize)]
-      .map((_, i) => pageSize * pageIndex + i)
-      .map(i => canvases[i])
-      .filter(Boolean);
+  const navigationCanvases = [...Array(pageSize)]
+    .map((_, i) => pageSize * pageIndex + i)
+    .map(i => canvases[i])
+    .filter(Boolean);
 
   const urlTemplate =
     (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||

@@ -68,15 +68,14 @@ const GridViewerEl = styled.div`
 `;
 
 type Props = {|
-  // TODO
-  gridHeight: any,
-  gridWidth: any,
-  gridVisible: any,
-  mainViewerRef: any,
-  setGridVisible: any,
-  activeIndex: any,
-  setActiveIndex: any,
-  canvases: any,
+  gridHeight: number,
+  gridWidth: number,
+  gridVisible: boolean,
+  mainViewerRef: { current: HTMLElement | null },
+  setGridVisible: boolean => void,
+  activeIndex: number,
+  setActiveIndex: number => void,
+  canvases: [],
 |};
 
 const GridViewer = ({

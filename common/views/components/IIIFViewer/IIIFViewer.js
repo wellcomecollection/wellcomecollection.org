@@ -132,7 +132,7 @@ type IIIFViewerProps = {|
   currentCanvas: ?IIIFCanvas,
   lang: string,
   canvasOcr: ?string,
-  canvases: ?[],
+  canvases: [],
   workId: string,
   pageIndex: number,
   sierraId: string,

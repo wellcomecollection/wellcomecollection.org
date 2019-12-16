@@ -1,6 +1,7 @@
 // @flow
 import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import debounce from 'lodash.debounce';
 import LL from '@weco/common/views/components/styled/LL';
 import Router from 'next/router';
@@ -101,14 +102,13 @@ const ItemRenderer = memo(({ style, index, data }) => {
 }, areEqual);
 
 type Props = {|
-  // TODO
-  listHeight: any,
+  listHeight: number,
   mainViewerRef: any,
-  setActiveIndex: any,
-  pageWidth: any,
-  canvases: any,
-  canvasIndex: any,
-  link: any,
+  setActiveIndex: number => void,
+  pageWidth: number,
+  canvases: [],
+  canvasIndex: number,
+  link: NextLinkType,
   setShowZoomed: () => void,
   setZoomInfoUrl: () => void,
 |};

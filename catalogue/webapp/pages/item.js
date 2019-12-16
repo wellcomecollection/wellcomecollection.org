@@ -48,7 +48,7 @@ type Props = {|
   pageIndex: number,
   canvasIndex: number,
   canvasOcr: ?string,
-  canvases: ?[],
+  canvases: [],
   currentCanvas: ?any,
   video: ?{
     '@id': string,
@@ -252,8 +252,10 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   // so we need to get the work object to get the necessary data to display
   const work = !sierraId ? await getWork({ id: workId }) : null;
   const canvases =
-    manifest && manifest.sequences && manifest.sequences[0].canvases;
-  const currentCanvas = canvases && canvases[canvasIndex];
+    manifest && manifest.sequences && manifest.sequences[0].canvases
+      ? manifest.sequences[0].canvases
+      : [];
+  const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
   return {
     workId,

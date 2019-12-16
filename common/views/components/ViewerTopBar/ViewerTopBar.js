@@ -79,7 +79,7 @@ const TitleContainer = styled.div.attrs(props => ({
 `;
 
 type Props = {|
-  canvases: ?[],
+  canvases: [],
   enhanced: boolean,
   gridVisible: boolean,
   setGridVisible: Function,
