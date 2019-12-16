@@ -60,7 +60,7 @@ const ViewAllContainer = styled.div.attrs(props => ({
   }),
 }))`
   height: 64px;
-  width: 15%;
+  width: 20%;
   border-right: 1px solid
     ${props => lighten(0.1, props.theme.colors.viewerBlack)};
 `;
@@ -73,15 +73,15 @@ const TitleContainer = styled.div.attrs(props => ({
 }))`
   justify-content: space-between;
   height: 64px;
-  width: ${props => (props.isEnhanced ? '85%' : '100%')};
+  width: ${props => (props.isEnhanced ? '80%' : '100%')};
   padding: ${props => `0 ${props.theme.spacingUnit * 2}px`};
 `;
 
 type Props = {|
   canvases: ?[],
   enhanced: boolean,
-  showThumbs: boolean,
-  setShowThumbs: Function,
+  gridVisible: boolean,
+  setGridVisible: Function,
   activeThumbnailRef: { current: HTMLElement | null },
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
@@ -102,8 +102,8 @@ type Props = {|
 const ViewerTopBar = ({
   canvases,
   enhanced,
-  showThumbs,
-  setShowThumbs,
+  gridVisible,
+  setGridVisible,
   activeThumbnailRef,
   workId,
   viewToggleRef,
@@ -126,19 +126,19 @@ const ViewerTopBar = ({
         <ViewAllContainer>
           <Button
             extraClasses="btn--primary-black"
-            icon={showThumbs ? 'detailView' : 'gridView'}
-            text={showThumbs ? 'Detail view' : 'View all'}
+            icon={gridVisible ? 'detailView' : 'gridView'}
+            text={gridVisible ? 'Detail view' : 'View all'}
             fontFamily="hnl"
             clickHandler={() => {
               // TODO get this working
-              activeThumbnailRef &&
-                activeThumbnailRef.current &&
-                activeThumbnailRef.current.focus();
-              setShowThumbs(!showThumbs);
+              // activeThumbnailRef &&
+              //   activeThumbnailRef.current &&
+              //   activeThumbnailRef.current.focus();
+              setGridVisible(!gridVisible);
               trackEvent({
                 category: 'Control',
                 action: `clicked work viewer ${
-                  showThumbs ? '"Detail view"' : '"View all"'
+                  gridVisible ? '"Detail view"' : '"View all"'
                 } button`,
                 label: `${workId}`,
               });

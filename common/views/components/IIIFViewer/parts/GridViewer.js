@@ -16,8 +16,8 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
   const {
     columnCount,
     mainViewerRef,
-    isVisible,
-    setIsGridVisible,
+    gridVisible,
+    setGridVisible,
     scrollVelocity,
     activeIndex,
     setActiveIndex,
@@ -42,11 +42,11 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
                   mainViewerRef.current &&
                   mainViewerRef.current.scrollToItem(itemIndex);
                 setActiveIndex(itemIndex);
-                setIsGridVisible(false);
+                setGridVisible(false);
               }}
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
-              isFocusable={isVisible}
+              isFocusable={gridVisible}
             />
           </ThumbnailSpacer>
         )
@@ -63,7 +63,7 @@ const GridViewerEl = styled.div`
   bottom: 0;
   width: 100vw;
   z-index: 1;
-  background: #555; /* TODO proper colours */
+  background: ${props => props.theme.colors.viewerBlack};
   transition: top 500ms ease;
 `;
 
@@ -71,9 +71,9 @@ type Props = {|
   // TODO
   gridHeight: any,
   gridWidth: any,
-  isVisible: any,
+  gridVisible: any,
   mainViewerRef: any,
-  setIsGridVisible: any,
+  setGridVisible: any,
   activeIndex: any,
   setActiveIndex: any,
   canvases: any,
@@ -82,9 +82,9 @@ type Props = {|
 const GridViewer = ({
   gridHeight,
   gridWidth,
-  isVisible,
+  gridVisible,
   mainViewerRef,
-  setIsGridVisible,
+  setGridVisible,
   activeIndex,
   setActiveIndex,
   canvases,
@@ -104,7 +104,7 @@ const GridViewer = ({
   }, [activeIndex]);
 
   return (
-    <GridViewerEl isVisible={isVisible}>
+    <GridViewerEl isVisible={gridVisible}>
       <FixedSizeGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
@@ -115,8 +115,8 @@ const GridViewer = ({
         itemData={{
           columnCount,
           mainViewerRef,
-          isVisible,
-          setIsGridVisible,
+          gridVisible,
+          setGridVisible,
           scrollVelocity,
           activeIndex,
           setActiveIndex,

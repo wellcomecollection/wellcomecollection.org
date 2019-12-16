@@ -121,7 +121,7 @@ const ViewerLayout = styled.div`
   position: relative;
 
   @media (min-width: 600px) {
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 4fr;
   }
 `;
 
@@ -162,7 +162,7 @@ const IIIFViewerComponent = ({
   work,
   manifest,
 }: IIIFViewerProps) => {
-  const [showThumbs, setShowThumbs] = useState(false);
+  const [gridVisible, setGridVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
   const [parentManifest, setParentManifest] = useState(null);
   const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
@@ -179,7 +179,6 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
-  // Download info from work // TODO move this?
   const [iiifImageLocation] =
     work && work.type !== 'Error'
       ? work.items
@@ -191,8 +190,7 @@ const IIIFViewerComponent = ({
           .filter(Boolean)
       : [];
   const urlTemplate =
-    (iiifImageLocation && iiifImageTemplate(iiifImageLocation.url)) ||
-    (mainImageService['@id'] && iiifImageTemplate(mainImageService['@id'])); // TODO put this somewhere better, no need to do second bit if it's done inside MainViewer
+    iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
 
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
@@ -218,7 +216,7 @@ const IIIFViewerComponent = ({
   const params = clientSideSearchParams();
 
   useEffect(() => {
-    setShowThumbs(Router.query.isOverview);
+    setGridVisible(Router.query.isOverview);
     setEnhanced(true);
   }, []);
 
@@ -270,8 +268,8 @@ const IIIFViewerComponent = ({
       <ViewerTopBar
         canvases={canvases}
         enhanced={enhanced}
-        showThumbs={showThumbs}
-        setShowThumbs={setShowThumbs}
+        gridVisible={gridVisible}
+        setGridVisible={setGridVisible}
         activeThumbnailRef={activeThumbnailRef}
         workId={workId}
         viewToggleRef={viewToggleRef}
@@ -316,64 +314,60 @@ const IIIFViewerComponent = ({
         />
         {enhanced && (
           <>
-            {iiifImageLocationUrl &&
-            imageUrl && ( // TODO better way of deciding this?
-                <IIIFViewerImageWrapper>
-                  {/* {canvasOcr && <p className="visually-hidden">{canvasOcr}</p>} TODO this goes in mainViewer */}
-                  <ImageViewer
-                    infoUrl={iiifImageLocationUrl}
-                    id={imageUrl}
-                    width={800}
-                    lang={null}
-                    alt={
-                      (work && work.description) || (work && work.title) || ''
-                    }
-                    urlTemplate={urlTemplate}
-                    presentationOnly={Boolean(canvasOcr)}
-                    setShowZoomed={setShowZoomed}
-                    setZoomInfoUrl={setZoomInfoUrl}
-                    showControls={true}
-                  />
-                </IIIFViewerImageWrapper>
-              )}
-            {mainImageService['@id'] &&
-            currentCanvas && ( // TODO better way to determine this
-                <ViewerLayout>
-                  <GridViewer
-                    gridHeight={pageHeight}
-                    gridWidth={pageWidth}
-                    isVisible={showThumbs} // TODO rename for consitency
+            {urlTemplate && iiifImageLocationUrl && imageUrl && (
+              <IIIFViewerImageWrapper>
+                <ImageViewer
+                  infoUrl={iiifImageLocationUrl}
+                  id={imageUrl}
+                  width={800}
+                  lang={null}
+                  alt={(work && work.description) || (work && work.title) || ''}
+                  urlTemplate={urlTemplate}
+                  presentationOnly={Boolean(canvasOcr)}
+                  setShowZoomed={setShowZoomed}
+                  setZoomInfoUrl={setZoomInfoUrl}
+                  showControls={true}
+                />
+              </IIIFViewerImageWrapper>
+            )}
+            {mainImageService['@id'] && currentCanvas && (
+              <ViewerLayout>
+                <GridViewer
+                  gridHeight={pageHeight}
+                  gridWidth={pageWidth}
+                  mainViewerRef={mainViewerRef}
+                  gridVisible={gridVisible}
+                  setGridVisible={setGridVisible}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  canvases={canvases}
+                />
+                {pageWidth >= 600 && (
+                  <ThumbsViewer
+                    canvases={canvases}
+                    listHeight={pageHeight}
                     mainViewerRef={mainViewerRef}
-                    setIsGridVisible={setShowThumbs} // TODO rename for consitency
                     activeIndex={activeIndex}
                     setActiveIndex={setActiveIndex}
-                    canvases={canvases}
                   />
-                  {pageWidth >= 600 && (
-                    <ThumbsViewer
-                      canvases={canvases}
-                      listHeight={pageHeight}
-                      mainViewerRef={mainViewerRef}
-                      activeIndex={activeIndex}
-                      setActiveIndex={setActiveIndex}
-                    />
-                  )}
-                  <div style={{ position: 'relative' }}>
-                    <MainViewer
-                      listHeight={pageHeight}
-                      mainViewerRef={mainViewerRef}
-                      setActiveIndex={setActiveIndex}
-                      pageWidth={pageWidth}
-                      canvases={canvases}
-                      canvasIndex={canvasIndex}
-                      link={mainPaginatorProps.link}
-                      lang={lang}
-                      setShowZoomed={setShowZoomed}
-                      setZoomInfoUrl={setZoomInfoUrl}
-                    />
-                  </div>
-                </ViewerLayout>
-              )}
+                )}
+                <div style={{ position: 'relative' }}>
+                  {/* aria-live="polite" TODO need to test this with people using screen readers */}
+                  <MainViewer
+                    listHeight={pageHeight}
+                    mainViewerRef={mainViewerRef}
+                    setActiveIndex={setActiveIndex}
+                    pageWidth={pageWidth}
+                    canvases={canvases}
+                    canvasIndex={canvasIndex}
+                    link={mainPaginatorProps.link}
+                    lang={lang}
+                    setShowZoomed={setShowZoomed}
+                    setZoomInfoUrl={setZoomInfoUrl}
+                  />
+                </div>
+              </ViewerLayout>
+            )}
           </>
         )}
       </IIIFViewerBackground>

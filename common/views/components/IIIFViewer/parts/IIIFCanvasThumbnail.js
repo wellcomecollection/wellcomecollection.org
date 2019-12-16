@@ -18,7 +18,7 @@ const IIIFViewerThumb = styled.button.attrs(props => ({
   display: block;
   height: 100%;
   width: 130px;
-  max-width: 100%;
+  max-width: 90%;
   border-radius: 8px;
   background: ${props =>
     props.isActive

@@ -1,10 +1,17 @@
 import { FixedSizeList, areEqual } from 'react-window';
 import { useState, memo } from 'react';
 import styled from 'styled-components';
+import { lighten } from 'polished';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
+
+const ThumbnailsWrapper = styled.div`
+  background: ${props => props.theme.colors.viewerBlack};
+  border-right: 1px solid
+    ${props => lighten(0.1, props.theme.colors.viewerBlack)};
+`;
 
 const ThumbnailSpacer = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
@@ -74,22 +81,23 @@ const ThumbsViewer = ({
   }
 
   return (
-    <FixedSizeList
-      height={listHeight}
-      itemCount={canvases.length}
-      itemSize={0.23 * listHeight}
-      style={{ background: '#555' }}
-      onScroll={handleOnScroll}
-      itemData={{
-        mainViewerRef,
-        scrollVelocity,
-        activeIndex,
-        setActiveIndex,
-        canvases,
-      }}
-    >
-      {ItemRenderer}
-    </FixedSizeList>
+    <ThumbnailsWrapper>
+      <FixedSizeList
+        height={listHeight}
+        itemCount={canvases.length}
+        itemSize={0.3 * listHeight}
+        onScroll={handleOnScroll}
+        itemData={{
+          mainViewerRef,
+          scrollVelocity,
+          activeIndex,
+          setActiveIndex,
+          canvases,
+        }}
+      >
+        {ItemRenderer}
+      </FixedSizeList>
+    </ThumbnailsWrapper>
   );
 };
 
