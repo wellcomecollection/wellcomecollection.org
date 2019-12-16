@@ -10,7 +10,7 @@ import Space from '../styled/Space';
 const ImageViewerControls = styled.div`
   position: absolute;
   top: 22px;
-  left: 50%;
+  left: 73%;
   z-index: 1;
   opacity: ${props => (props.showControls ? 1 : 0)};
   transition: opacity 300ms ease;
