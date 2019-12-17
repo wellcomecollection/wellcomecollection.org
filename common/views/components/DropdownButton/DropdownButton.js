@@ -13,38 +13,46 @@ const DropdownWrapper = styled.div.attrs({
   }),
 })``;
 
-const ButtonEl = styled(Space).attrs({
+const ButtonEl = styled(Space).attrs(props => ({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
-  as: 'button',
-  type: 'button',
+  as: props.isEnhanced ? 'button' : 'span',
+  type: props.isEnhanced ? 'button' : undefined,
   className: classNames({
-    'btn line-height-1': true,
+    'line-height-1': true,
+    btn: props.isEnhanced,
   }),
-})`
-  background: ${props =>
-    props.isActive ? props.theme.colors.black : props.theme.colors.cream};
-  color: ${props =>
-    props.isActive ? props.theme.colors.white : props.theme.colors.black};
+}))`
+  ${props =>
+    props.isEnhanced &&
+    `
+  background: ${
+    props.isActive ? props.theme.colors.black : props.theme.colors.cream
+  };
+  color: ${
+    props.isActive ? props.theme.colors.white : props.theme.colors.black
+  };
 
-  &:hover,
-  &:focus {
-    background: ${props => props.theme.colors.black};
-    color: ${props => props.theme.colors.white};
-  }
+    &:hover,
+    &:focus {
+      background: ${props.theme.colors.black};
+      color: ${props.theme.colors.white};
+    }
+  `}
 
   .icon {
     transition: transform 350ms ease;
   }
 `;
 
-const DropdownEl = styled(Space).attrs({
+const DropdownEl = styled(Space).attrs(props => ({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
-    'absolute rounded-corners shadow bg-white': true,
+    'rounded-corners shadow bg-white': true,
+    absolute: props.isEnhanced,
   }),
-})`
+}))`
   top: 100%;
   left: -2px;
   margin-top: -2px;
@@ -57,7 +65,7 @@ const DropdownEl = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit-active,
   &.fade-exit-done {
-    opacity: 0;
+    opacity: ${props => (props.isEnhanced ? 0 : 1)};
     transform: translateY(5px);
   }
 
@@ -75,8 +83,13 @@ type Props = {|
 
 const DropdownButton = ({ buttonText, children }: Props) => {
   const [isActive, setIsActive] = useState(false);
+  const [isEnhanced, setIsEnhanced] = useState(false);
   const dropdownWrapperRef = useRef(null);
   const dropdownElRef = useRef(null);
+
+  useEffect(() => {
+    setIsEnhanced(true);
+  }, []);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -117,17 +130,26 @@ const DropdownButton = ({ buttonText, children }: Props) => {
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
-      <ButtonEl isActive={isActive} onClick={() => setIsActive(!isActive)}>
+      <ButtonEl
+        isActive={isActive}
+        isEnhanced={isEnhanced}
+        onClick={() => setIsActive(!isActive)}
+      >
         <span className={font('hnm', 5)}>{buttonText}</span>
         <Icon
           name="chevron"
           extraClasses={classNames({
             'icon--180': isActive,
+            'is-hidden': !isEnhanced,
           })}
         />
       </ButtonEl>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <DropdownEl isActive={isActive} ref={dropdownElRef}>
+        <DropdownEl
+          isActive={isActive}
+          isEnhanced={isEnhanced}
+          ref={dropdownElRef}
+        >
           {children}
         </DropdownEl>
       </CSSTransition>
