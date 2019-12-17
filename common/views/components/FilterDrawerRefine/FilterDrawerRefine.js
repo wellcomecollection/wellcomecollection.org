@@ -107,73 +107,6 @@ const FilterDrawerRefine = ({
     }
   }, [inputDateTo]);
 
-  const filterDrawerItems = [
-    {
-      title: 'Dates',
-      component: (
-        <>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <NumberInput
-              label="From"
-              min="0"
-              max="9999"
-              placeholder={'Year'}
-              name="production.dates.from"
-              value={inputDateFrom || ''}
-              onChange={event => {
-                setInputDateFrom(`${event.currentTarget.value}`);
-              }}
-            />
-          </Space>
-          <NumberInput
-            label="to"
-            min="0"
-            max="9999"
-            placeholder={'Year'}
-            name="production.dates.to"
-            value={inputDateTo || ''}
-            onChange={event => {
-              setInputDateTo(`${event.currentTarget.value}`);
-            }}
-          />
-        </>
-      ),
-    },
-  ];
-
-  if (workTypeFilters.length > 0) {
-    filterDrawerItems.push({
-      title: 'Formats',
-      component: (
-        <ul
-          className={classNames({
-            'no-margin no-padding plain-list': true,
-          })}
-        >
-          {workTypeFilters.map(workType => {
-            return (
-              <li key={workType.data.id}>
-                <Checkbox
-                  id={workType.data.id}
-                  text={`${workType.data.label} (${workType.count})`}
-                  value={workType.data.id}
-                  name={`workType`}
-                  checked={
-                    workTypeInUrlArray &&
-                    workTypeInUrlArray.includes(workType.data.id)
-                  }
-                  onChange={event => {
-                    changeHandler();
-                  }}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      ),
-    });
-  }
-
   return (
     <div>
       <Space
@@ -185,16 +118,82 @@ const FilterDrawerRefine = ({
           flex: true,
         })}
       >
-        {filterDrawerItems.map(item => (
+        <Space
+          as="span"
+          h={{ size: 'm', properties: ['margin-right'] }}
+          className={classNames({
+            'flex flex--v-center': true,
+          })}
+        >
+          <Icon name="filter" />
           <Space
-            h={{ size: 's', properties: ['margin-right'] }}
-            key={item.title}
+            h={{ size: 's', properties: ['margin-left'] }}
+            className={classNames({
+              [font('hnm', 5)]: true,
+            })}
           >
-            <DropdownButton buttonText={item.title}>
-              {item.component}
-            </DropdownButton>
+            Filter by:
           </Space>
-        ))}
+        </Space>
+        <Space h={{ size: 's', properties: ['margin-right'] }}>
+          <DropdownButton buttonText={'Dates'}>
+            <>
+              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+                <NumberInput
+                  label="From"
+                  min="0"
+                  max="9999"
+                  placeholder={'Year'}
+                  name="production.dates.from"
+                  value={inputDateFrom || ''}
+                  onChange={event => {
+                    setInputDateFrom(`${event.currentTarget.value}`);
+                  }}
+                />
+              </Space>
+              <NumberInput
+                label="to"
+                min="0"
+                max="9999"
+                placeholder={'Year'}
+                name="production.dates.to"
+                value={inputDateTo || ''}
+                onChange={event => {
+                  setInputDateTo(`${event.currentTarget.value}`);
+                }}
+              />
+            </>
+          </DropdownButton>
+        </Space>
+        {workTypeFilters.length > 0 && (
+          <DropdownButton buttonText={'Formats'}>
+            <ul
+              className={classNames({
+                'no-margin no-padding plain-list': true,
+              })}
+            >
+              {workTypeFilters.map(workType => {
+                return (
+                  <li key={workType.data.id}>
+                    <Checkbox
+                      id={workType.data.id}
+                      text={`${workType.data.label} (${workType.count})`}
+                      value={workType.data.id}
+                      name={`workType`}
+                      checked={
+                        workTypeInUrlArray &&
+                        workTypeInUrlArray.includes(workType.data.id)
+                      }
+                      onChange={event => {
+                        changeHandler();
+                      }}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </DropdownButton>
+        )}
       </Space>
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||
