@@ -62,8 +62,8 @@ const WorkEmbed = ({ work }: Props) => {
                 urlTemplate={iiifImage}
                 alt=""
                 setShowZoomed={() => {}}
-                setZoomInfoUrl={() => {}}
                 showControls={true}
+                rotation={0}
               />
             </Fragment>
           </div>

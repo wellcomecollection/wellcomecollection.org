@@ -47,15 +47,14 @@ const ItemRenderer = memo(({ style, index, data }) => {
     isProgrammaticScroll,
     canvases,
     setShowZoomed,
-    setZoomInfoUrl,
     showControls,
+    rotatedImages,
   } = data;
   const [ocrText, setOcrText] = useState('');
   const currentCanvas = canvases[index];
   getCanvasOcr(currentCanvas).then(text => {
     text && setOcrText(text);
   });
-
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
@@ -63,6 +62,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
     ? iiifImageTemplate(mainImageService['@id'])
     : null;
   const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
+  const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
+  const rotation = matching ? matching.rotation : 0;
   return (
     <div style={style} tabIndex={0}>
       {scrollVelocity === 3 || isProgrammaticScroll ? (
@@ -82,8 +83,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
               urlTemplate={urlTemplate}
               // presentationOnly={Boolean(canvasOcr)} // TODO
               setShowZoomed={setShowZoomed}
-              setZoomInfoUrl={setZoomInfoUrl}
               showControls={showControls}
+              rotation={rotation}
             />
           )}
           {/*
@@ -108,7 +109,8 @@ type Props = {|
   canvasIndex: number,
   link: NextLinkType,
   setShowZoomed: () => void,
-  setZoomInfoUrl: () => void,
+  setZoomInfoUrl: string => void,
+  rotatedImages: [],
 |};
 
 const MainViewer = ({
@@ -121,6 +123,7 @@ const MainViewer = ({
   link,
   setShowZoomed,
   setZoomInfoUrl,
+  rotatedImages,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -144,14 +147,17 @@ const MainViewer = ({
 
   function handleOnItemsRendered({ visibleStopIndex }) {
     setIsProgrammaticScroll(false);
+    let currentCanvas;
     if (firstRenderRef.current) {
       setActiveIndex(canvasIndex);
       mainViewerRef &&
         mainViewerRef.current &&
         mainViewerRef.current.scrollToItem(canvasIndex, 'start');
       setFirstRender(false);
+      currentCanvas = canvases && canvases[canvasIndex];
     } else {
       setActiveIndex(visibleStopIndex);
+      currentCanvas = canvases && canvases[visibleStopIndex];
       Router.replace(
         {
           ...link.href,
@@ -169,6 +175,15 @@ const MainViewer = ({
         }
       );
     }
+    const mainImageService = {
+      '@id': currentCanvas
+        ? currentCanvas.images[0].resource.service['@id']
+        : '',
+    };
+    const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
+    if (infoUrl) {
+      setZoomInfoUrl(infoUrl);
+    }
   }
 
   return (
@@ -183,6 +198,7 @@ const MainViewer = ({
         setShowZoomed,
         setZoomInfoUrl,
         showControls,
+        rotatedImages,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}

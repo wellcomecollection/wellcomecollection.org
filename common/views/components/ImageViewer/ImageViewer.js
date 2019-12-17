@@ -4,44 +4,6 @@ import styled from 'styled-components';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
-import Control from '../Buttons/Control/Control';
-import Space from '../styled/Space';
-
-const ImageViewerControls = styled.div`
-  position: absolute;
-  top: 22px;
-  left: 73%;
-  z-index: 1;
-  opacity: ${props => (props.showControls ? 1 : 0)};
-  transition: opacity 300ms ease;
-  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
-    for a less heavy handed solution to Openseadragon breaking on touch events */
-  &,
-  button,
-  a {
-    touch-action: none;
-  }
-
-  button {
-    display: block;
-  }
-
-  .icon {
-    margin: 0;
-  }
-
-  .btn__text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-  }
-}`;
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -73,8 +35,8 @@ type ImageViewerProps = {|
   urlTemplate: IIIFUriProps => Function,
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
-  setZoomInfoUrl: string => void,
   showControls: boolean,
+  rotation: number,
 |};
 
 const ImageViewer = ({
@@ -87,12 +49,10 @@ const ImageViewer = ({
   urlTemplate,
   presentationOnly,
   setShowZoomed,
-  setZoomInfoUrl,
   showControls,
+  rotation,
 }: ImageViewerProps) => {
-  const [rotation, setRotation] = useState(0);
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
-
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
       .map(width => {
@@ -136,38 +96,6 @@ const ImageViewer = ({
   return (
     <>
       <ImageWrapper>
-        <ImageViewerControls showControls={showControls}>
-          <Space
-            h={{
-              size: 'm',
-              properties: ['margin-left', 'margin-right'],
-            }}
-            v={{ size: 's', properties: ['margin-top'] }}
-          >
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <Control
-                type="black-on-white"
-                text="Zoom in"
-                icon="zoomIn"
-                clickHandler={() => {
-                  setShowZoomed(true);
-                  setZoomInfoUrl(infoUrl);
-                }}
-              />
-            </Space>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <Control
-                type="black-on-white"
-                text="Rotate"
-                icon="rotatePageRight"
-                clickHandler={() => {
-                  // setImageLoading(true); TODO
-                  setRotation(rotation < 270 ? rotation + 90 : 0);
-                }}
-              />
-            </Space>
-          </Space>
-        </ImageViewerControls>
         <IIIFResponsiveImage
           width={width}
           height={height}
@@ -180,7 +108,6 @@ const ImageViewer = ({
           presentationOnly={presentationOnly}
           clickHandler={() => {
             setShowZoomed(true);
-            setZoomInfoUrl(infoUrl);
           }}
         />
       </ImageWrapper>

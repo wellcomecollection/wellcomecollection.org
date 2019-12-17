@@ -25,6 +25,7 @@ import NoScriptViewer from './parts/NoScriptViewer';
 import MainViewer from './parts/MainViewer';
 import ThumbsViewer from './parts/ThumbsViewer';
 import GridViewer from './parts/GridViewer';
+import Control from '../Buttons/Control/Control';
 import dynamic from 'next/dynamic';
 const LoadingComponent = () => (
   <div
@@ -125,6 +126,43 @@ const ViewerLayout = styled.div`
   }
 `;
 
+const ImageViewerControls = styled.div`
+  position: absolute;
+  top: 0;
+  left: 73%;
+  z-index: 1;
+  opacity: ${props => (props.showControls ? 1 : 0)};
+  transition: opacity 300ms ease;
+  display: flex;
+  /* TODO: keep an eye on https://github.com/openseadragon/openseadragon/issues/1586
+    for a less heavy handed solution to Openseadragon breaking on touch events */
+  &,
+  button,
+  a {
+    touch-action: none;
+  }
+
+  button {
+    display: block;
+  }
+
+  .icon {
+    margin: 0;
+  }
+
+  .btn__text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  }
+}`;
+
 type IIIFViewerProps = {|
   title: string,
   mainPaginatorProps: PaginatorPropsWithoutRenderFunction,
@@ -171,6 +209,8 @@ const IIIFViewerComponent = ({
   const [pageWidth, setPageWidth] = useState(1000);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
+  // const [rotatedImages, setRotatedImages] = useState([]);
+  const rotatedImages = [];
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -335,8 +375,8 @@ const IIIFViewerComponent = ({
                   urlTemplate={urlTemplate}
                   presentationOnly={Boolean(canvasOcr)}
                   setShowZoomed={setShowZoomed}
-                  setZoomInfoUrl={setZoomInfoUrl}
                   showControls={true}
+                  rotation={0} // TODO make work for single image
                 />
               </IIIFViewerImageWrapper>
             )}
@@ -363,6 +403,28 @@ const IIIFViewerComponent = ({
                   />
                 )}
                 <div style={{ position: 'relative' }} lang={lang}>
+                  <ImageViewerControls showControls={true}>
+                    <Space h={{ size: 's', properties: ['margin-left'] }}>
+                      <Control
+                        type="black-on-white"
+                        text="Zoom in"
+                        icon="zoomIn"
+                        clickHandler={() => {
+                          setShowZoomed(true);
+                        }}
+                      />
+                    </Space>
+                    <Space h={{ size: 's', properties: ['margin-left'] }}>
+                      <Control
+                        type="black-on-white"
+                        text="Rotate"
+                        icon="rotatePageRight"
+                        clickHandler={() => {
+                          //
+                        }}
+                      />
+                    </Space>
+                  </ImageViewerControls>
                   {/* aria-live="polite" TODO need to test this with people using screen readers */}
                   <MainViewer
                     listHeight={pageHeight}
@@ -374,6 +436,7 @@ const IIIFViewerComponent = ({
                     link={mainPaginatorProps.link}
                     setShowZoomed={setShowZoomed}
                     setZoomInfoUrl={setZoomInfoUrl}
+                    rotatedImages={rotatedImages}
                   />
                 </div>
               </ViewerLayout>
