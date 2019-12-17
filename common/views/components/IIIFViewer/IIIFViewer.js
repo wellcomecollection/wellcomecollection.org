@@ -209,8 +209,7 @@ const IIIFViewerComponent = ({
   const [pageWidth, setPageWidth] = useState(1000);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
-  // const [rotatedImages, setRotatedImages] = useState([]);
-  const rotatedImages = [];
+  const [rotatedImages, setRotatedImages] = useState([]);
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -420,7 +419,26 @@ const IIIFViewerComponent = ({
                         text="Rotate"
                         icon="rotatePageRight"
                         clickHandler={() => {
-                          //
+                          // TODO better way to do this
+                          const matchingIndex = rotatedImages.findIndex(
+                            image => image.canvasIndex === activeIndex
+                          );
+                          if (matchingIndex >= 0) {
+                            rotatedImages[matchingIndex] = {
+                              canvasIndex:
+                                rotatedImages[matchingIndex].canvasIndex,
+                              rotation:
+                                rotatedImages[matchingIndex].rotation < 270
+                                  ? rotatedImages[matchingIndex].rotation + 90
+                                  : 0,
+                            };
+                          } else {
+                            rotatedImages.push({
+                              canvasIndex: activeIndex,
+                              rotation: 90,
+                            });
+                          }
+                          setRotatedImages([...rotatedImages]);
                         }}
                       />
                     </Space>
