@@ -56,7 +56,7 @@ const DropdownEl = styled(Space).attrs(props => ({
   top: 100%;
   left: -2px;
   margin-top: -2px;
-  z-index: ${props => (props.isActive ? 1 : 0)};
+  z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;
   white-space: nowrap;
   transition: opacity 350ms ease, transform 350ms ease;
