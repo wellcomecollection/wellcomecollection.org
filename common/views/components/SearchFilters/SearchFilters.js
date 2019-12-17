@@ -46,7 +46,7 @@ type Props = {|
   changeHandler: () => void,
 |};
 
-const FilterDrawerRefine = ({
+const SearchFilters = ({
   searchForm,
   searchParams,
   workTypeAggregations,
@@ -293,4 +293,4 @@ const FilterDrawerRefine = ({
   );
 };
 
-export default FilterDrawerRefine;
+export default SearchFilters;
