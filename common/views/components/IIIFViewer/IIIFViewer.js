@@ -205,7 +205,7 @@ const IIIFViewerComponent = ({
 
   const downloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : null;
+    : [];
 
   // Download info from manifest
   const iiifPresentationDownloadOptions =

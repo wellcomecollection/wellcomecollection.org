@@ -1,7 +1,8 @@
 // @flow
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
 import type { SearchParams } from '@weco/common/services/catalogue/search-params';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
+import type { LicenseType } from '@weco/common/model/license';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workUrl } from '@weco/common/services/catalogue/urls';
@@ -92,10 +93,10 @@ type Props = {|
   title: string,
   licenseInfo: ?LicenseData,
   iiifPresentationLicenseInfo: ?LicenseData,
-  iiifImageLocationCredit: any, // TODO
-  iiifImageLocationLicenseId: any, // TODO
-  downloadOptions: any, // TODO
-  iiifPresentationDownloadOptions: any, // TODO
+  iiifImageLocationCredit: ?string,
+  iiifImageLocationLicenseId: ?LicenseType,
+  downloadOptions: IIIFRendering[],
+  iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
   lang: string,
 |};
