@@ -4,13 +4,13 @@ import { worksUrl } from '../../../services/catalogue/urls';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
-import FilterDrawer from '../FilterDrawer/FilterDrawer';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
+import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 
 function CancelFilter({ text }: { text: string }) {
   return (
@@ -111,7 +111,7 @@ const FilterDrawerRefine = ({
     {
       title: 'Dates',
       component: (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
               label="From"
@@ -136,7 +136,7 @@ const FilterDrawerRefine = ({
               setInputDateTo(`${event.currentTarget.value}`);
             }}
           />
-        </Space>
+        </>
       ),
     },
   ];
@@ -145,14 +145,14 @@ const FilterDrawerRefine = ({
     filterDrawerItems.push({
       title: 'Formats',
       component: (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <ul
+          className={classNames({
+            'no-margin no-padding plain-list': true,
+          })}
+        >
           {workTypeFilters.map(workType => {
             return (
-              <Space
-                key={workType.data.id}
-                as="span"
-                h={{ size: 'm', properties: ['margin-right'] }}
-              >
+              <li key={workType.data.id}>
                 <Checkbox
                   id={workType.data.id}
                   text={`${workType.data.label} (${workType.count})`}
@@ -166,10 +166,10 @@ const FilterDrawerRefine = ({
                     changeHandler();
                   }}
                 />
-              </Space>
+              </li>
             );
           })}
-        </Space>
+        </ul>
       ),
     });
   }
@@ -181,8 +181,20 @@ const FilterDrawerRefine = ({
           size: 'l',
           properties: ['margin-top', 'margin-bottom'],
         }}
+        className={classNames({
+          flex: true,
+        })}
       >
-        <FilterDrawer items={filterDrawerItems} />
+        {filterDrawerItems.map(item => (
+          <Space
+            h={{ size: 's', properties: ['margin-right'] }}
+            key={item.title}
+          >
+            <DropdownButton buttonText={item.title}>
+              {item.component}
+            </DropdownButton>
+          </Space>
+        ))}
       </Space>
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||

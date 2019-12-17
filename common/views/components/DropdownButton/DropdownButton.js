@@ -17,6 +17,7 @@ const ButtonEl = styled(Space).attrs({
   v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
   as: 'button',
+  type: 'button',
   className: classNames({
     'btn line-height-1': true,
   }),
@@ -26,10 +27,24 @@ const ButtonEl = styled(Space).attrs({
   color: ${props =>
     props.isActive ? props.theme.colors.white : props.theme.colors.black};
 
+  border: ${props =>
+    `2px solid ${
+      props.isActive ? props.theme.colors.black : props.theme.colors.cream
+    }`};
+
   &:hover,
   &:focus {
     background: ${props => props.theme.colors.black};
     color: ${props => props.theme.colors.white};
+  }
+
+  &:focus {
+    outline: 0;
+    border-color: ${props => props.theme.colors.yellow};
+  }
+
+  .icon {
+    transition: transform 350ms ease;
   }
 `;
 
@@ -43,22 +58,21 @@ const DropdownEl = styled(Space).attrs({
   top: 100%;
   left: -2px;
   margin-top: -2px;
-  z-index: 1;
+  z-index: ${props => (props.isActive ? 1 : 0)};
   overflow: auto;
   white-space: nowrap;
+  transition: all 350ms ease;
 
+  &,
   &.fade-enter,
-  &.fade-exit-active {
+  &.fade-exit-active,
+  &.fade-exit-done {
     opacity: 0;
     transform: translateY(5px);
   }
 
   &.fade-enter-active,
-  &.fade-exit-active {
-    transition: all 350ms ease-in-out;
-  }
-
-  &.fade-enter-active {
+  &.fade-enter-done {
     opacity: 1;
     transform: translateY(0px);
   }
@@ -92,14 +106,22 @@ const DropdownButton = ({ buttonText, children }: Props) => {
   });
 
   useEffect(() => {
+    const focusables =
+      dropdownElRef &&
+      dropdownElRef.current &&
+      getFocusableElementsIn(dropdownElRef.current);
+
     if (isActive) {
-      const focusables =
-        dropdownElRef &&
-        dropdownElRef.current &&
-        getFocusableElementsIn(dropdownElRef.current);
+      focusables &&
+        focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
       const firstFocusable = focusables && focusables[0];
 
       firstFocusable && firstFocusable.focus();
+    } else {
+      focusables &&
+        focusables.forEach(focusable =>
+          focusable.setAttribute('tabIndex', '-1')
+        );
     }
   }, [isActive]);
 
@@ -107,15 +129,17 @@ const DropdownButton = ({ buttonText, children }: Props) => {
     <DropdownWrapper ref={dropdownWrapperRef}>
       <ButtonEl isActive={isActive} onClick={() => setIsActive(!isActive)}>
         <span className={font('hnm', 5)}>{buttonText}</span>
-        <Icon name="chevron" extraClasses={`${isActive ? 'icon--180' : ''}`} />
+        <Icon
+          name="chevron"
+          extraClasses={classNames({
+            'icon--180': isActive,
+          })}
+        />
       </ButtonEl>
-      <CSSTransition
-        in={isActive}
-        classNames="fade"
-        timeout={350}
-        unmountOnExit
-      >
-        <DropdownEl ref={dropdownElRef}>{children}</DropdownEl>
+      <CSSTransition in={isActive} classNames="fade" timeout={350}>
+        <DropdownEl isActive={isActive} ref={dropdownElRef}>
+          {children}
+        </DropdownEl>
       </CSSTransition>
     </DropdownWrapper>
   );
