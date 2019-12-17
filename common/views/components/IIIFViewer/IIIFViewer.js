@@ -261,6 +261,10 @@ const IIIFViewerComponent = ({
   const parentManifestUrl = manifest && manifest.within;
   const params = clientSideSearchParams();
 
+  const firstRotatedImage = rotatedImages.find(
+    image => image.canvasIndex === 0
+  );
+  const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   useEffect(() => {
     setGridVisible(Router.query.isOverview);
     setEnhanced(true);
@@ -365,6 +369,58 @@ const IIIFViewerComponent = ({
         />
         {enhanced && (
           <>
+            {/* // TODO true for single image until sort out mouseover */}
+            <ImageViewerControls
+              showControls={
+                showControls ||
+                (urlTemplate && iiifImageLocationUrl && imageUrl)
+              }
+            >
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <Control
+                  type="black-on-white"
+                  text="Zoom in"
+                  icon="zoomIn"
+                  clickHandler={() => {
+                    setShowZoomed(true);
+                  }}
+                />
+              </Space>
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <Control
+                  type="black-on-white"
+                  text="Rotate"
+                  icon="rotatePageRight"
+                  clickHandler={() => {
+                    // TODO better way to do this
+                    const matchingIndex = rotatedImages.findIndex(
+                      image => image.canvasIndex === activeIndex
+                    );
+                    if (matchingIndex >= 0) {
+                      rotatedImages[matchingIndex] = {
+                        canvasIndex: rotatedImages[matchingIndex].canvasIndex,
+                        rotation:
+                          rotatedImages[matchingIndex].rotation < 270
+                            ? rotatedImages[matchingIndex].rotation + 90
+                            : 0,
+                      };
+                    } else {
+                      rotatedImages.push({
+                        canvasIndex: activeIndex,
+                        rotation: 90,
+                      });
+                    }
+                    setRotatedImages([...rotatedImages]);
+                  }}
+                />
+              </Space>
+            </ImageViewerControls>
             {urlTemplate && iiifImageLocationUrl && imageUrl && (
               <IIIFViewerImageWrapper>
                 <ImageViewer
@@ -375,7 +431,10 @@ const IIIFViewerComponent = ({
                   urlTemplate={urlTemplate}
                   presentationOnly={Boolean(canvasOcr)}
                   setShowZoomed={setShowZoomed}
-                  rotation={0} // TODO make work for single image
+                  rotation={firstRotation}
+                  onLoadHandler={() => {
+                    setZoomInfoUrl(iiifImageLocationUrl);
+                  }}
                 />
               </IIIFViewerImageWrapper>
             )}
@@ -402,53 +461,6 @@ const IIIFViewerComponent = ({
                   />
                 )}
                 <div style={{ position: 'relative' }} lang={lang}>
-                  <ImageViewerControls showControls={showControls}>
-                    <Space
-                      h={{ size: 's', properties: ['margin-left'] }}
-                      v={{ size: 'l', properties: ['margin-bottom'] }}
-                    >
-                      <Control
-                        type="black-on-white"
-                        text="Zoom in"
-                        icon="zoomIn"
-                        clickHandler={() => {
-                          setShowZoomed(true);
-                        }}
-                      />
-                    </Space>
-                    <Space
-                      h={{ size: 's', properties: ['margin-left'] }}
-                      v={{ size: 'l', properties: ['margin-bottom'] }}
-                    >
-                      <Control
-                        type="black-on-white"
-                        text="Rotate"
-                        icon="rotatePageRight"
-                        clickHandler={() => {
-                          // TODO better way to do this
-                          const matchingIndex = rotatedImages.findIndex(
-                            image => image.canvasIndex === activeIndex
-                          );
-                          if (matchingIndex >= 0) {
-                            rotatedImages[matchingIndex] = {
-                              canvasIndex:
-                                rotatedImages[matchingIndex].canvasIndex,
-                              rotation:
-                                rotatedImages[matchingIndex].rotation < 270
-                                  ? rotatedImages[matchingIndex].rotation + 90
-                                  : 0,
-                            };
-                          } else {
-                            rotatedImages.push({
-                              canvasIndex: activeIndex,
-                              rotation: 90,
-                            });
-                          }
-                          setRotatedImages([...rotatedImages]);
-                        }}
-                      />
-                    </Space>
-                  </ImageViewerControls>
                   {/* aria-live="polite" TODO need to test this with people using screen readers */}
                   <MainViewer
                     listHeight={pageHeight}

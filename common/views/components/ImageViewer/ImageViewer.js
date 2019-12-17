@@ -36,6 +36,7 @@ type ImageViewerProps = {|
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
   rotation: number,
+  onLoadHandler?: Function,
 |};
 
 const ImageViewer = ({
@@ -49,6 +50,7 @@ const ImageViewer = ({
   presentationOnly,
   setShowZoomed,
   rotation,
+  onLoadHandler,
 }: ImageViewerProps) => {
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
@@ -93,7 +95,7 @@ const ImageViewer = ({
 
   return (
     <>
-      <ImageWrapper>
+      <ImageWrapper onLoad={onLoadHandler}>
         <IIIFResponsiveImage
           width={width}
           height={height}
