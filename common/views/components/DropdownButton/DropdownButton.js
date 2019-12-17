@@ -14,7 +14,7 @@ const DropdownWrapper = styled.div.attrs({
 })``;
 
 const ButtonEl = styled(Space).attrs({
-  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
   as: 'button',
   type: 'button',
@@ -27,20 +27,10 @@ const ButtonEl = styled(Space).attrs({
   color: ${props =>
     props.isActive ? props.theme.colors.white : props.theme.colors.black};
 
-  border: ${props =>
-    `2px solid ${
-      props.isActive ? props.theme.colors.black : props.theme.colors.cream
-    }`};
-
   &:hover,
   &:focus {
     background: ${props => props.theme.colors.black};
     color: ${props => props.theme.colors.white};
-  }
-
-  &:focus {
-    outline: 0;
-    border-color: ${props => props.theme.colors.yellow};
   }
 
   .icon {
@@ -61,7 +51,7 @@ const DropdownEl = styled(Space).attrs({
   z-index: ${props => (props.isActive ? 1 : 0)};
   overflow: auto;
   white-space: nowrap;
-  transition: all 350ms ease;
+  transition: opacity 350ms ease, transform 350ms ease;
 
   &,
   &.fade-enter,
