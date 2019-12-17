@@ -26,7 +26,7 @@ const StyledInput: ComponentType<SpaceComponentProps> = styled(Space).attrs({
 
   &:focus {
     outline: 0;
-    border: 2px solid ${props => props.theme.colors.yellow};
+    border: 2px solid ${props => props.theme.colors.black};
   }
 
   &::-ms-clear {
