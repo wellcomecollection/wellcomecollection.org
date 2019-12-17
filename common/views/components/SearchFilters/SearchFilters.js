@@ -132,7 +132,7 @@ const SearchFilters = ({
               [font('hnm', 5)]: true,
             })}
           >
-            Filter by:
+            Filter by
           </Space>
         </Space>
         <Space h={{ size: 's', properties: ['margin-right'] }}>
