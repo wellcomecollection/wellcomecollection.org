@@ -238,8 +238,12 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     if (gridVisible) {
-      gridViewerRef && gridViewerRef.current && gridViewerRef.current.focus();
-      // TODO focus  active thumb not just container?
+      gridViewerRef &&
+        gridViewerRef.current &&
+        gridViewerRef.current.getElementsByClassName('activeThumbnail')[0] &&
+        gridViewerRef.current
+          .getElementsByClassName('activeThumbnail')[0]
+          .focus();
     } else {
       viewToggleRef && viewToggleRef.current && viewToggleRef.current.focus();
     }

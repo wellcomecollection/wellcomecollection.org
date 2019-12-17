@@ -92,6 +92,7 @@ const IIIFCanvasThumbnail = ({
       onClick={clickHandler}
       isActive={isActive}
       isFocusable={isFocusable}
+      className={isActive ? 'activeThumbnail' : null}
     >
       <IIIFViewerThumbInner>
         <ImageContainer>
