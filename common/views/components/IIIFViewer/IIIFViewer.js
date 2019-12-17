@@ -166,8 +166,14 @@ const IIIFViewerComponent = ({
   const [enhanced, setEnhanced] = useState(false);
   const [parentManifest, setParentManifest] = useState(null);
   const [currentManifestLabel, setCurrentManifestLabel] = useState(null);
-  const activeThumbnailRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [pageHeight, setPageHeight] = useState(500);
+  const [pageWidth, setPageWidth] = useState(1000);
+  const [showZoomed, setShowZoomed] = useState(false);
+  const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
   const viewToggleRef = useRef(null);
+  const gridViewerRef = useRef(null);
+  const mainViewerRef = useRef(null);
   const navigationCanvases =
     canvases &&
     [...Array(pageSize)]
@@ -231,6 +237,15 @@ const IIIFViewerComponent = ({
   }, []);
 
   useEffect(() => {
+    if (gridVisible) {
+      gridViewerRef && gridViewerRef.current && gridViewerRef.current.focus();
+      // TODO focus  active thumb not just container?
+    } else {
+      viewToggleRef && viewToggleRef.current && viewToggleRef.current.focus();
+    }
+  }, [gridVisible]);
+
+  useEffect(() => {
     const matchingManifest =
       parentManifest &&
       parentManifest.manifests &&
@@ -242,13 +257,6 @@ const IIIFViewerComponent = ({
 
     matchingManifest && setCurrentManifestLabel(matchingManifest.label);
   });
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [pageHeight, setPageHeight] = useState(500);
-  const [pageWidth, setPageWidth] = useState(1000);
-  const [showZoomed, setShowZoomed] = useState(false);
-  const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
-  const mainViewerRef = useRef(null);
 
   useEffect(() => {
     function handleResize() {
@@ -270,7 +278,6 @@ const IIIFViewerComponent = ({
         enhanced={enhanced}
         gridVisible={gridVisible}
         setGridVisible={setGridVisible}
-        activeThumbnailRef={activeThumbnailRef}
         workId={workId}
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
@@ -340,6 +347,7 @@ const IIIFViewerComponent = ({
                   activeIndex={activeIndex}
                   setActiveIndex={setActiveIndex}
                   canvases={canvases}
+                  gridViewerRef={gridViewerRef}
                 />
                 {pageWidth >= 600 && (
                   <ThumbsViewer

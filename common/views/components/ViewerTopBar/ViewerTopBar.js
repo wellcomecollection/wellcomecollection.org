@@ -84,7 +84,6 @@ type Props = {|
   enhanced: boolean,
   gridVisible: boolean,
   setGridVisible: Function,
-  activeThumbnailRef: { current: HTMLElement | null },
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
   currentManifestLabel: ?string,
@@ -106,7 +105,6 @@ const ViewerTopBar = ({
   enhanced,
   gridVisible,
   setGridVisible,
-  activeThumbnailRef,
   workId,
   viewToggleRef,
   currentManifestLabel,
@@ -132,10 +130,6 @@ const ViewerTopBar = ({
             text={gridVisible ? 'Detail view' : 'View all'}
             fontFamily="hnl"
             clickHandler={() => {
-              // TODO get this working
-              // activeThumbnailRef &&
-              //   activeThumbnailRef.current &&
-              //   activeThumbnailRef.current.focus();
               setGridVisible(!gridVisible);
               trackEvent({
                 category: 'Control',

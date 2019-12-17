@@ -57,6 +57,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
 const headerHeight = 149;
 
 const GridViewerEl = styled.div`
+  outline: none;
   position: fixed;
   top: ${props => (props.isVisible ? `${headerHeight}px` : '100vh')};
   left: 0;
@@ -71,6 +72,7 @@ type Props = {|
   gridHeight: number,
   gridWidth: number,
   gridVisible: boolean,
+  gridViewerRef: { current: HTMLElement | null },
   mainViewerRef: { current: HTMLElement | null },
   setGridVisible: boolean => void,
   activeIndex: number,
@@ -82,6 +84,7 @@ const GridViewer = ({
   gridHeight,
   gridWidth,
   gridVisible,
+  gridViewerRef,
   mainViewerRef,
   setGridVisible,
   activeIndex,
@@ -89,21 +92,21 @@ const GridViewer = ({
   canvases,
 }: Props) => {
   const [newScrollOffset, setNewScrollOffset] = useState(0);
-  const gridViewerRef = useRef(null);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = 250;
   const columnCount = Math.round(gridWidth / itemWidth);
   const columnWidth = gridWidth / columnCount;
+  const grid = useRef();
 
   useEffect(() => {
     const rowIndex = Math.floor(activeIndex / columnCount);
-    gridViewerRef &&
-      gridViewerRef.current &&
-      gridViewerRef.current.scrollToItem({ align: 'start', rowIndex });
+    grid &&
+      grid.current &&
+      grid.current.scrollToItem({ align: 'start', rowIndex });
   }, [activeIndex]);
 
   return (
-    <GridViewerEl isVisible={gridVisible}>
+    <GridViewerEl isVisible={gridVisible} ref={gridViewerRef} tabIndex={0}>
       <FixedSizeGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
@@ -122,7 +125,7 @@ const GridViewer = ({
           canvases,
         }}
         onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
-        ref={gridViewerRef}
+        ref={grid}
       >
         {Cell}
       </FixedSizeGrid>
