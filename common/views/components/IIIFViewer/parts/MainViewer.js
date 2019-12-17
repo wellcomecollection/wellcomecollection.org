@@ -64,40 +64,38 @@ const ItemRenderer = memo(({ style, index, data }) => {
     : null;
   const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
   return (
-    <>
-      <div style={style}>
-        {scrollVelocity === 3 || isProgrammaticScroll ? (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <LL lighten={true} />
-          </div>
-        ) : (
-          <>
-            <LL lighten={true} />
-            {urlTemplate && (
-              <ImageViewer
-                id="item-page"
-                infoUrl={infoUrl}
-                width={currentCanvas.width}
-                height={currentCanvas.height}
-                alt={ocrText}
-                urlTemplate={urlTemplate}
-                // presentationOnly={Boolean(canvasOcr)} // TODO
-                setShowZoomed={setShowZoomed}
-                setZoomInfoUrl={setZoomInfoUrl}
-                showControls={showControls}
-              />
-            )}
-            {/*
+    <div style={style} tabIndex={0}>
+      {scrollVelocity === 3 || isProgrammaticScroll ? (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <LL lighten={true} />
+        </div>
+      ) : (
+        <>
+          <LL lighten={true} />
+          {urlTemplate && (
+            <ImageViewer
+              id="item-page"
+              infoUrl={infoUrl}
+              width={currentCanvas.width}
+              height={currentCanvas.height}
+              alt={ocrText}
+              urlTemplate={urlTemplate}
+              // presentationOnly={Boolean(canvasOcr)} // TODO
+              setShowZoomed={setShowZoomed}
+              setZoomInfoUrl={setZoomInfoUrl}
+              showControls={showControls}
+            />
+          )}
+          {/*
                 src={getUrlForScrollVelocity(
                   scrollVelocity,
                   canvases[index],
                   index
                 )}
               /> */}
-          </>
-        )}
-      </div>
-    </>
+        </>
+      )}
+    </div>
   );
 }, areEqual);
 
