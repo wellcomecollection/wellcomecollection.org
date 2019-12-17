@@ -47,7 +47,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
     isProgrammaticScroll,
     canvases,
     setShowZoomed,
-    showControls,
     rotatedImages,
   } = data;
   const [ocrText, setOcrText] = useState('');
@@ -83,7 +82,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
               urlTemplate={urlTemplate}
               // presentationOnly={Boolean(canvasOcr)} // TODO
               setShowZoomed={setShowZoomed}
-              showControls={showControls}
               rotation={rotation}
             />
           )}
@@ -108,9 +106,10 @@ type Props = {|
   canvases: [],
   canvasIndex: number,
   link: NextLinkType,
-  setShowZoomed: () => void,
+  setShowZoomed: boolean => void,
   setZoomInfoUrl: string => void,
   rotatedImages: [],
+  setShowControls: boolean => void,
 |};
 
 const MainViewer = ({
@@ -124,10 +123,10 @@ const MainViewer = ({
   setShowZoomed,
   setZoomInfoUrl,
   rotatedImages,
+  setShowControls,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
-  const [showControls, setShowControls] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
@@ -197,7 +196,6 @@ const MainViewer = ({
         canvases,
         setShowZoomed,
         setZoomInfoUrl,
-        showControls,
         rotatedImages,
       }}
       itemSize={itemHeight}

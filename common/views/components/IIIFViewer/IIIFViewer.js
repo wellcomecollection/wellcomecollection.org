@@ -127,8 +127,8 @@ const ViewerLayout = styled.div`
 `;
 
 const ImageViewerControls = styled.div`
-  position: absolute;
-  top: 0;
+  position: fixed;
+  bottom: 0;
   left: 73%;
   z-index: 1;
   opacity: ${props => (props.showControls ? 1 : 0)};
@@ -210,6 +210,7 @@ const IIIFViewerComponent = ({
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
   const [rotatedImages, setRotatedImages] = useState([]);
+  const [showControls, setShowControls] = useState(false);
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -374,7 +375,6 @@ const IIIFViewerComponent = ({
                   urlTemplate={urlTemplate}
                   presentationOnly={Boolean(canvasOcr)}
                   setShowZoomed={setShowZoomed}
-                  showControls={true}
                   rotation={0} // TODO make work for single image
                 />
               </IIIFViewerImageWrapper>
@@ -402,8 +402,11 @@ const IIIFViewerComponent = ({
                   />
                 )}
                 <div style={{ position: 'relative' }} lang={lang}>
-                  <ImageViewerControls showControls={true}>
-                    <Space h={{ size: 's', properties: ['margin-left'] }}>
+                  <ImageViewerControls showControls={showControls}>
+                    <Space
+                      h={{ size: 's', properties: ['margin-left'] }}
+                      v={{ size: 'l', properties: ['margin-bottom'] }}
+                    >
                       <Control
                         type="black-on-white"
                         text="Zoom in"
@@ -413,7 +416,10 @@ const IIIFViewerComponent = ({
                         }}
                       />
                     </Space>
-                    <Space h={{ size: 's', properties: ['margin-left'] }}>
+                    <Space
+                      h={{ size: 's', properties: ['margin-left'] }}
+                      v={{ size: 'l', properties: ['margin-bottom'] }}
+                    >
                       <Control
                         type="black-on-white"
                         text="Rotate"
@@ -455,6 +461,7 @@ const IIIFViewerComponent = ({
                     setShowZoomed={setShowZoomed}
                     setZoomInfoUrl={setZoomInfoUrl}
                     rotatedImages={rotatedImages}
+                    setShowControls={setShowControls}
                   />
                 </div>
               </ViewerLayout>

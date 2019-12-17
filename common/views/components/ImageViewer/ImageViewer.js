@@ -35,7 +35,6 @@ type ImageViewerProps = {|
   urlTemplate: IIIFUriProps => Function,
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
-  showControls: boolean,
   rotation: number,
 |};
 
@@ -49,7 +48,6 @@ const ImageViewer = ({
   urlTemplate,
   presentationOnly,
   setShowZoomed,
-  showControls,
   rotation,
 }: ImageViewerProps) => {
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
