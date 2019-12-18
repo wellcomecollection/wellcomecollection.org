@@ -387,7 +387,6 @@ const IIIFViewerComponent = ({
         />
         {enhanced && (
           <>
-            {/* // TODO true for single image until sort out mouseover */}
             <ImageViewerControls
               showControls={
                 showControls ||
@@ -416,7 +415,6 @@ const IIIFViewerComponent = ({
                   text="Rotate"
                   icon="rotatePageRight"
                   clickHandler={() => {
-                    // TODO better way to do this
                     const matchingIndex = rotatedImages.findIndex(
                       image => image.canvasIndex === activeIndex
                     );
