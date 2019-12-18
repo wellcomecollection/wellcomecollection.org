@@ -41,6 +41,10 @@ class ImageGallery extends Component<Props, State> {
     current: HTMLAnchorElement | HTMLButtonElement | null,
   } = createRef();
 
+  headingRef: {
+    current: HTMLHeadingElement | null,
+  } = createRef();
+
   handleOpenClicked() {
     if (this.closeButtonRef.current) {
       this.closeButtonRef.current.tabIndex = 0;
@@ -57,6 +61,10 @@ class ImageGallery extends Component<Props, State> {
     if (this.openButtonRef.current) {
       this.openButtonRef.current.tabIndex = 0;
       this.setState({ isActive: false });
+
+      if (this.headingRef.current) {
+        this.headingRef.current.scrollIntoView();
+      }
 
       trackEvent({
         category: `Control`,
@@ -127,7 +135,11 @@ class ImageGallery extends Component<Props, State> {
                 >
                   <Icon name="gallery" />
                 </Space>
-                <h2 id={`gallery-${id}`} className="h2 no-margin">
+                <h2
+                  id={`gallery-${id}`}
+                  className="h2 no-margin"
+                  ref={this.headingRef}
+                >
                   {title || 'In pictures'}
                 </h2>
               </Space>
@@ -209,10 +221,6 @@ class ImageGallery extends Component<Props, State> {
                           ariaExpanded={isActive}
                           ref={this.closeButtonRef}
                           replace={true}
-                          link={{
-                            href: `#gallery-${id}`,
-                            as: `#gallery-${id}`,
-                          }}
                           type={`light`}
                           text={`close`}
                           icon={`cross`}
