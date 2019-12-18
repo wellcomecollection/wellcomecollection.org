@@ -17,7 +17,9 @@ const ImageWrapper = styled.div`
   opacity: ${props => (props.imageLoading ? 0 : 1)};
   img {
     cursor: pointer;
-    margin: 50% auto 0;
+    margin: auto;
+    position: relative;
+    top: 50%;
     transform: translateY(-50%);
     display: block;
     width: auto;
