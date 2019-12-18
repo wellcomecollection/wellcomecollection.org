@@ -1,7 +1,14 @@
 resource "aws_cloudfront_distribution" "https_s3_website" {
   origin {
-    domain_name = "${var.website_uri}.s3.amazonaws.com"
+    domain_name = "${aws_s3_bucket.website_bucket.website_endpoint}"
     origin_id   = "S3-${var.website_uri}"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
   }
 
   enabled             = true

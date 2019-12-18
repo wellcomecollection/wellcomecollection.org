@@ -16,9 +16,9 @@ const CheckboxBox = styled.span.attrs({
     'flex-inline flex--v-center flex--h-center relative': true,
   }),
 })`
-  width: 1em;
-  height: 1em;
-  border: 1px solid ${props => props.theme.colors.silver};
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid ${props => props.theme.colors.silver};
   border-radius: 3px;
   transition: all 400ms ease;
 
@@ -50,6 +50,19 @@ const CheckboxInput = styled.input.attrs({
       opacity: 1;
     }
   }
+
+  &:focus ~ ${CheckboxBox} {
+    border-color: ${props => props.theme.colors.black};
+  }
+
+  ~ span {
+    color: ${props => props.theme.colors.silver};
+  }
+
+  &:focus ~ span,
+  &:checked ~ span {
+    color: ${props => props.theme.colors.black};
+  }
 `;
 
 type CheckboxWithoutLabelProps = {|
@@ -65,7 +78,9 @@ function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
     <CheckboxLabel htmlFor={id}>
       <CheckboxInput id={id} {...inputProps} />
       <CheckboxBox />
-      <Space h={{ size: 'xs', properties: ['margin-left'] }}>{text}</Space>
+      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+        {text}
+      </Space>
     </CheckboxLabel>
   );
 }
