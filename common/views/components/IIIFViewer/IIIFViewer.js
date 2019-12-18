@@ -41,7 +41,7 @@ const LoadingComponent = () => (
 );
 
 const ZoomedImage = dynamic(
-  () => import('@weco/common/views/components//ZoomedImage/ZoomedImage'),
+  () => import('@weco/common/views/components/ZoomedImage/ZoomedImage'),
   {
     ssr: false,
     loading: LoadingComponent,
@@ -211,6 +211,7 @@ const IIIFViewerComponent = ({
   const [zoomInfoUrl, setZoomInfoUrl] = useState(null);
   const [rotatedImages, setRotatedImages] = useState([]);
   const [showControls, setShowControls] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -360,6 +361,7 @@ const IIIFViewerComponent = ({
         lang={lang}
       />
       <IIIFViewerBackground>
+        {isLoading && <LoadingComponent />}
         {showZoomed && (
           <ZoomedImage
             id={`zoomedImage`}
@@ -433,6 +435,7 @@ const IIIFViewerComponent = ({
                       });
                     }
                     setRotatedImages([...rotatedImages]);
+                    setIsLoading(true);
                   }}
                 />
               </Space>
@@ -450,6 +453,7 @@ const IIIFViewerComponent = ({
                   rotation={firstRotation}
                   onLoadHandler={() => {
                     setZoomInfoUrl(iiifImageLocationUrl);
+                    setIsLoading(false);
                   }}
                 />
               </IIIFViewerImageWrapper>
@@ -487,6 +491,7 @@ const IIIFViewerComponent = ({
                     canvasIndex={canvasIndex}
                     setShowZoomed={setShowZoomed}
                     setZoomInfoUrl={setZoomInfoUrl}
+                    setIsLoading={setIsLoading}
                     rotatedImages={rotatedImages}
                     setShowControls={setShowControls}
                   />

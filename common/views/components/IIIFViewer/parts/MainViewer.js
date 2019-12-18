@@ -49,6 +49,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     rotatedImages,
     mainViewerRef,
     setActiveIndex,
+    setIsLoading,
   } = data;
   const [ocrText, setOcrText] = useState('');
   const currentCanvas = canvases[index];
@@ -92,6 +93,9 @@ const ItemRenderer = memo(({ style, index, data }) => {
               }
               setActiveIndex={setActiveIndex}
               index={index}
+              onLoadHandler={() => {
+                setIsLoading(false);
+              }}
             />
           )}
           {/*
@@ -118,6 +122,7 @@ type Props = {|
   setZoomInfoUrl: string => void,
   rotatedImages: [],
   setShowControls: boolean => void,
+  setIsLoading: boolean => void,
 |};
 
 const MainViewer = ({
@@ -131,6 +136,7 @@ const MainViewer = ({
   setZoomInfoUrl,
   rotatedImages,
   setShowControls,
+  setIsLoading,
 }: Props) => {
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -188,6 +194,7 @@ const MainViewer = ({
         setZoomInfoUrl,
         rotatedImages,
         setActiveIndex,
+        setIsLoading,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}
