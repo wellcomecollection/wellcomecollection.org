@@ -1,9 +1,10 @@
 // @flow
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { type IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../utils/image-sizes';
 import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
+import useOnScreen from '@weco/common/hooks/useOnScreen';
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -38,8 +39,11 @@ type ImageViewerProps = {|
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
   setZoomInfoUrl?: string => void,
+  setActiveIndex?: number => void,
   rotation: number,
   onLoadHandler?: Function,
+  mainViewerRef?: ?HTMLElement,
+  index?: number,
 |};
 
 const ImageViewer = ({
@@ -53,10 +57,24 @@ const ImageViewer = ({
   presentationOnly,
   setShowZoomed,
   setZoomInfoUrl,
+  setActiveIndex,
   rotation,
   onLoadHandler,
+  mainViewerRef,
+  index,
 }: ImageViewerProps) => {
+  const imageViewer = useRef();
+  const isOnScreen = useOnScreen({
+    root: mainViewerRef,
+    ref: imageViewer,
+    threshold: 0.6,
+  });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
+  useEffect(() => {
+    if (setActiveIndex && index && isOnScreen) {
+      setActiveIndex && setActiveIndex(index);
+    }
+  }, [isOnScreen]);
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
       .map(width => {
@@ -98,25 +116,23 @@ const ImageViewer = ({
   }, []);
 
   return (
-    <>
-      <ImageWrapper onLoad={onLoadHandler}>
-        <IIIFResponsiveImage
-          width={width}
-          height={height}
-          src={imageSrc}
-          srcSet={imageSrcSet}
-          sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-          lang={lang}
-          alt={presentationOnly ? '' : alt}
-          isLazy={false}
-          presentationOnly={presentationOnly}
-          clickHandler={() => {
-            setZoomInfoUrl && setZoomInfoUrl(infoUrl);
-            setShowZoomed(true);
-          }}
-        />
-      </ImageWrapper>
-    </>
+    <ImageWrapper onLoad={onLoadHandler} ref={imageViewer}>
+      <IIIFResponsiveImage
+        width={width}
+        height={height}
+        src={imageSrc}
+        srcSet={imageSrcSet}
+        sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+        lang={lang}
+        alt={presentationOnly ? '' : alt}
+        isLazy={false}
+        presentationOnly={presentationOnly}
+        clickHandler={() => {
+          setZoomInfoUrl && setZoomInfoUrl(infoUrl);
+          setShowZoomed(true);
+        }}
+      />
+    </ImageWrapper>
   );
 };
 

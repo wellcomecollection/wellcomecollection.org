@@ -269,6 +269,24 @@ const IIIFViewerComponent = ({
     setGridVisible(Router.query.isOverview);
     setEnhanced(true);
   }, []);
+  useEffect(() => {
+    Router.replace(
+      {
+        ...mainPaginatorProps.link.href,
+        query: {
+          ...mainPaginatorProps.link.href.query,
+          canvas: `${activeIndex + 1}`,
+        },
+      },
+      {
+        ...mainPaginatorProps.link.as,
+        query: {
+          ...mainPaginatorProps.link.as.query,
+          canvas: `${activeIndex + 1}`,
+        },
+      }
+    );
+  }, [activeIndex]);
 
   useEffect(() => {
     const fetchParentManifest = async () => {
@@ -330,7 +348,7 @@ const IIIFViewerComponent = ({
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
         params={params}
-        canvasIndex={canvasIndex}
+        canvasIndex={activeIndex}
         title={title}
         licenseInfo={licenseInfo}
         iiifPresentationLicenseInfo={iiifPresentationLicenseInfo}
@@ -469,7 +487,6 @@ const IIIFViewerComponent = ({
                     pageWidth={pageWidth}
                     canvases={canvases}
                     canvasIndex={canvasIndex}
-                    link={mainPaginatorProps.link}
                     setShowZoomed={setShowZoomed}
                     setZoomInfoUrl={setZoomInfoUrl}
                     rotatedImages={rotatedImages}
