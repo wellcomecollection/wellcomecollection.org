@@ -7,11 +7,9 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
-// import headerHeight from '@weco/common/views/components/IIIFViewer/IIIFViewer';
-const headerHeight = 149;
+import { headerHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 
 const ZoomedImageContainer = styled.div`
-  /* TODO size and position */
   position: fixed;
   width: 100vw;
   height: 100vh;
