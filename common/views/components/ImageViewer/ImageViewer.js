@@ -70,11 +70,6 @@ const ImageViewer = ({
     threshold: 0.6,
   });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
-  useEffect(() => {
-    if (setActiveIndex && index && isOnScreen) {
-      setActiveIndex && setActiveIndex(index);
-    }
-  }, [isOnScreen]);
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
       .map(width => {
@@ -86,6 +81,12 @@ const ImageViewer = ({
       })
       .join(',')
   );
+  useEffect(() => {
+    if (setActiveIndex && index && isOnScreen) {
+      setActiveIndex && setActiveIndex(index);
+      setZoomInfoUrl && setZoomInfoUrl(infoUrl);
+    }
+  }, [isOnScreen]);
 
   useEffect(() => {
     setImageSrc(urlTemplate({ size: '640,', rotation: rotation }));
