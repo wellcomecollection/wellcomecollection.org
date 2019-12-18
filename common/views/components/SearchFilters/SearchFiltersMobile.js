@@ -11,6 +11,8 @@ import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 
 const OpenFiltersButton = styled(Space).attrs({
+  'aria-controls': 'mobile-filters-modal',
+  'aria-label': 'open filters',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   as: 'button',
   type: 'button',
@@ -45,6 +47,8 @@ const CloseFiltersButton = styled(Space).attrs({
 `;
 
 const FiltersModal = styled.div.attrs({
+  'aria-modal': true,
+  id: 'mobile-filters-modal',
   className: classNames({
     'bg-white': true,
   }),
@@ -162,7 +166,7 @@ const SearchFiltersMobile = ({
     }
   }, [isActive]);
 
-  function handleApplyFiltersButtonClick() {
+  function handleOkFiltersButtonClick() {
     setIsActive(false);
   }
 
@@ -284,7 +288,7 @@ const SearchFiltersMobile = ({
             <button
               type="button"
               className="btn btn--primary"
-              onClick={handleApplyFiltersButtonClick}
+              onClick={handleOkFiltersButtonClick}
             >
               OK
             </button>
