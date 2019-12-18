@@ -15,6 +15,7 @@ const ImageWrapper = styled.div`
   transition: opacity 1000ms ease;
   opacity: ${props => (props.imageLoading ? 0 : 1)};
   img {
+    cursor: pointer;
     margin: 50% auto 0;
     transform: translateY(-50%);
     display: block;
@@ -36,6 +37,7 @@ type ImageViewerProps = {|
   urlTemplate: IIIFUriProps => Function,
   presentationOnly?: boolean,
   setShowZoomed: boolean => void,
+  setZoomInfoUrl?: string => void,
   rotation: number,
   onLoadHandler?: Function,
 |};
@@ -50,6 +52,7 @@ const ImageViewer = ({
   urlTemplate,
   presentationOnly,
   setShowZoomed,
+  setZoomInfoUrl,
   rotation,
   onLoadHandler,
 }: ImageViewerProps) => {
@@ -108,6 +111,7 @@ const ImageViewer = ({
           isLazy={false}
           presentationOnly={presentationOnly}
           clickHandler={() => {
+            setZoomInfoUrl && setZoomInfoUrl(infoUrl);
             setShowZoomed(true);
           }}
         />

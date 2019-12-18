@@ -47,6 +47,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     isProgrammaticScroll,
     canvases,
     setShowZoomed,
+    setZoomInfoUrl,
     rotatedImages,
   } = data;
   const [ocrText, setOcrText] = useState('');
@@ -82,6 +83,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
               urlTemplate={urlTemplate}
               // presentationOnly={Boolean(canvasOcr)} // TODO
               setShowZoomed={setShowZoomed}
+              setZoomInfoUrl={setZoomInfoUrl}
               rotation={rotation}
             />
           )}
