@@ -1,4 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import getFocusableElementsIn from '../../../utils/get-focusable-elements-in';
 import NextLink from 'next/link';
 import { worksUrl } from '../../../services/catalogue/urls';
 import styled from 'styled-components';
@@ -47,13 +49,39 @@ const FiltersModal = styled.div.attrs({
     'bg-white': true,
   }),
 })`
-  display: ${props => (props.isActive ? 'block' : 'none')};
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 10;
+  transition: opacity 350ms ease, transform 350ms ease;
+
+  &,
+  &.fade-exit-done {
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 10;
+    pointer-events: all;
+  }
+
+  &,
+  &.fade-enter,
+  &.fade-exit-active,
+  &.fade-exit-done {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  &.fade-enter-active,
+  &.fade-enter-done {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 `;
 
 const FiltersBody = styled(Space).attrs({
@@ -105,8 +133,34 @@ const SearchFiltersMobile = ({
   productionDatesTo,
   workTypeInUrlArray,
 }) => {
+  const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
+  const filtersModalRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    const focusables =
+      filtersModalRef &&
+      filtersModalRef.current &&
+      getFocusableElementsIn(filtersModalRef.current);
+
+    if (isActive) {
+      focusables &&
+        focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
+      const firstFocusable = focusables && focusables[0];
+
+      firstFocusable && firstFocusable.focus();
+    } else {
+      focusables &&
+        focusables.forEach(focusable =>
+          focusable.setAttribute('tabIndex', '-1')
+        );
+
+      openFiltersButtonRef &&
+        openFiltersButtonRef.current &&
+        openFiltersButtonRef.current.focus();
+    }
+  }, [isActive]);
 
   function handleApplyFiltersButtonClick() {
     setIsActive(false);
@@ -122,113 +176,121 @@ const SearchFiltersMobile = ({
 
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-      <OpenFiltersButton onClick={handleOpenFiltersButtonClick}>
+      <OpenFiltersButton
+        ref={openFiltersButtonRef}
+        onClick={handleOpenFiltersButtonClick}
+      >
         <Icon name="filter" />
         <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
           Filter
         </Space>
       </OpenFiltersButton>
-      <FiltersModal isActive={isActive}>
-        <FiltersScrollable>
-          <FiltersHeader>
-            <CloseFiltersButton
-              ref={closeFiltersButtonRef}
-              onClick={() => setIsActive(false)}
-            >
-              <Icon name="cross" />
-              <span className="visually-hidden">close filters</span>
-            </CloseFiltersButton>
-            <h2 className="h3 text-align-center block">Filters</h2>
-          </FiltersHeader>
+      <CSSTransition in={isActive} classNames="fade" timeout={350}>
+        <FiltersModal ref={filtersModalRef} isActive={isActive}>
+          <FiltersScrollable>
+            <FiltersHeader>
+              <CloseFiltersButton
+                ref={closeFiltersButtonRef}
+                onClick={() => setIsActive(false)}
+              >
+                <Icon name="cross" />
+                <span className="visually-hidden">close filters</span>
+              </CloseFiltersButton>
+              <h2 className="h3 text-align-center block">Filters</h2>
+            </FiltersHeader>
 
-          <FiltersBody>
-            <FilterSection>
-              <h3 className="h3">Dates</h3>
-              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <FiltersBody>
+              <FilterSection>
+                <h3 className="h3">Dates</h3>
+                <Space
+                  as="span"
+                  h={{ size: 'm', properties: ['margin-right'] }}
+                >
+                  <NumberInput
+                    label="From"
+                    min="0"
+                    max="9999"
+                    placeholder={'Year'}
+                    name="production.dates.from"
+                    value={inputDateFrom || ''}
+                    onChange={event => {
+                      setInputDateFrom(`${event.currentTarget.value}`);
+                    }}
+                  />
+                </Space>
                 <NumberInput
-                  label="From"
+                  label="to"
                   min="0"
                   max="9999"
                   placeholder={'Year'}
-                  name="production.dates.from"
-                  value={inputDateFrom || ''}
+                  name="production.dates.to"
+                  value={inputDateTo || ''}
                   onChange={event => {
-                    setInputDateFrom(`${event.currentTarget.value}`);
+                    setInputDateTo(`${event.currentTarget.value}`);
                   }}
                 />
-              </Space>
-              <NumberInput
-                label="to"
-                min="0"
-                max="9999"
-                placeholder={'Year'}
-                name="production.dates.to"
-                value={inputDateTo || ''}
-                onChange={event => {
-                  setInputDateTo(`${event.currentTarget.value}`);
-                }}
-              />
-            </FilterSection>
-            {workTypeFilters.length > 0 && (
-              <FilterSection>
-                <h3 className="h3">Formats</h3>
-                <ul
-                  className={classNames({
-                    'no-margin no-padding plain-list': true,
-                  })}
-                >
-                  {workTypeFilters.map(workType => {
-                    return (
-                      <Space
-                        as="li"
-                        v={{ size: 'l', properties: ['margin-bottom'] }}
-                        key={`mobile-${workType.data.id}`}
-                      >
-                        <Checkbox
-                          id={`mobile-${workType.data.id}`}
-                          text={`${workType.data.label} (${workType.count})`}
-                          value={workType.data.id}
-                          name={`workType`}
-                          checked={
-                            workTypeInUrlArray &&
-                            workTypeInUrlArray.includes(workType.data.id)
-                          }
-                          onChange={event => {
-                            changeHandler();
-                          }}
-                        />
-                      </Space>
-                    );
-                  })}
-                </ul>
               </FilterSection>
-            )}
-          </FiltersBody>
-        </FiltersScrollable>
+              {workTypeFilters.length > 0 && (
+                <FilterSection>
+                  <h3 className="h3">Formats</h3>
+                  <ul
+                    className={classNames({
+                      'no-margin no-padding plain-list': true,
+                    })}
+                  >
+                    {workTypeFilters.map(workType => {
+                      return (
+                        <Space
+                          as="li"
+                          v={{ size: 'l', properties: ['margin-bottom'] }}
+                          key={`mobile-${workType.data.id}`}
+                        >
+                          <Checkbox
+                            id={`mobile-${workType.data.id}`}
+                            text={`${workType.data.label} (${workType.count})`}
+                            value={workType.data.id}
+                            name={`workType`}
+                            checked={
+                              workTypeInUrlArray &&
+                              workTypeInUrlArray.includes(workType.data.id)
+                            }
+                            onChange={event => {
+                              changeHandler();
+                            }}
+                          />
+                        </Space>
+                      );
+                    })}
+                  </ul>
+                </FilterSection>
+              )}
+            </FiltersBody>
+          </FiltersScrollable>
 
-        <FiltersFooter>
-          <NextLink
-            passHref
-            {...worksUrl({
-              ...searchParams,
-              workType: null,
-              page: 1,
-              productionDatesFrom: null,
-              productionDatesTo: null,
-              itemsLocationsLocationType: null,
-            })}
-          >
-            <a>Reset filters</a>
-          </NextLink>
-          <button
-            type="button"
-            className="btn btn--primary"
-            onClick={handleApplyFiltersButtonClick}
-          >
-            OK
-          </button>
-        </FiltersFooter>
-      </FiltersModal>
+          <FiltersFooter>
+            <NextLink
+              passHref
+              {...worksUrl({
+                ...searchParams,
+                workType: null,
+                page: 1,
+                productionDatesFrom: null,
+                productionDatesTo: null,
+                itemsLocationsLocationType: null,
+              })}
+            >
+              <a>Reset filters</a>
+            </NextLink>
+            <button
+              type="button"
+              className="btn btn--primary"
+              onClick={handleApplyFiltersButtonClick}
+            >
+              OK
+            </button>
+          </FiltersFooter>
+        </FiltersModal>
+      </CSSTransition>
     </Space>
   );
 };
