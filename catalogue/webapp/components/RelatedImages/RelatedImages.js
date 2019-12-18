@@ -4,7 +4,7 @@ import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getSimilarPaletteImages } from '../../services/labs/palette-api';
+import { getSimilarImages } from '../../services/image-similarity';
 
 type Props = {|
   originalId: string,
@@ -25,7 +25,12 @@ const RelatedImages = ({ originalId }: Props) => {
   const [relatedImages, setRelatedImages] = useState([]);
   useEffect(() => {
     const fetchRelatedImages = async () =>
-      setRelatedImages(await getSimilarPaletteImages(originalId, 6));
+      setRelatedImages(
+        await getSimilarImages({
+          id: originalId,
+          n: 6,
+        })
+      );
     fetchRelatedImages();
   }, []);
   return relatedImages.length === 0 ? null : (

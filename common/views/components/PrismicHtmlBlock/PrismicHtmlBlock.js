@@ -1,15 +1,17 @@
-import { asHtml } from '../../../services/prismic/parsers';
-import type { HtmlSerialiser } from '../../../services/prismic/html-serialisers';
+// @flow
+
+import type { HtmlSerializer } from '../../../services/prismic/html-serializers';
 import type { HTMLString } from '../../../services/prismic/types';
+import { RichText } from 'prismic-reactjs';
 
 type Props = {|
   html: HTMLString,
-  htmlSerialiser?: HtmlSerialiser,
+  htmlSerializer?: HtmlSerializer,
 |};
 
-// TODO: Find a way to not include the `<div>`
-const PrismicHtmlBlock = ({ html, htmlSerialiser }: Props) => (
-  <span dangerouslySetInnerHTML={{ __html: asHtml(html, htmlSerialiser) }} />
+// TODO: use a 'z' for our spelling of htmlSerializer, for sanity?
+const PrismicHtmlBlock = ({ html, htmlSerializer }: Props) => (
+  <RichText render={html} htmlSerializer={htmlSerializer} />
 );
 
 export default PrismicHtmlBlock;
