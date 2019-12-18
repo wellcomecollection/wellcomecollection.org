@@ -62,6 +62,17 @@ const DropdownEl = styled(Space).attrs(props => ({
   transition: opacity 350ms ease, transform 350ms ease;
 
   &,
+  &.fade-exit-done {
+    z-index: -1;
+  }
+
+  &.fade-enter,
+  &.fade-exit,
+  &.fade-enter-done {
+    z-index: 2;
+  }
+
+  &,
   &.fade-enter,
   &.fade-exit-active,
   &.fade-exit-done {
