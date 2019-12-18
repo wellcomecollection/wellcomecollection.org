@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import NextLink from 'next/link';
 import { worksUrl } from '../../../services/catalogue/urls';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 
-const FiltersButton = styled(Space).attrs({
+const OpenFiltersButton = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   as: 'button',
   type: 'button',
   className: classNames({
     'btn btn--primary': true,
+    [font('hnm', 5)]: true,
   }),
 })`
   width: 100%;
@@ -77,8 +78,8 @@ const FiltersScrollable = styled.div.attrs({
 `;
 
 const FiltersFooter = styled(Space).attrs({
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     'bg-white border-color-pumice border-top-width-1 flex flex--v-center flex--h-space-between': true,
   }),
@@ -104,24 +105,36 @@ const SearchFiltersMobile = ({
   productionDatesTo,
   workTypeInUrlArray,
 }) => {
+  const closeFiltersButtonRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
 
-  function handleApplyFilters() {
+  function handleApplyFiltersButtonClick() {
     setIsActive(false);
   }
 
+  function handleOpenFiltersButtonClick() {
+    setIsActive(true);
+
+    closeFiltersButtonRef &&
+      closeFiltersButtonRef.current &&
+      closeFiltersButtonRef.current.focus();
+  }
+
   return (
-    <div className="is-hidden-m is-hidden-l">
-      <FiltersButton onClick={() => setIsActive(!isActive)}>
+    <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+      <OpenFiltersButton onClick={handleOpenFiltersButtonClick}>
         <Icon name="filter" />
         <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
           Filter
         </Space>
-      </FiltersButton>
+      </OpenFiltersButton>
       <FiltersModal isActive={isActive}>
         <FiltersScrollable>
           <FiltersHeader>
-            <CloseFiltersButton onClick={() => setIsActive(false)}>
+            <CloseFiltersButton
+              ref={closeFiltersButtonRef}
+              onClick={() => setIsActive(false)}
+            >
               <Icon name="cross" />
               <span className="visually-hidden">close filters</span>
             </CloseFiltersButton>
@@ -166,9 +179,13 @@ const SearchFiltersMobile = ({
                 >
                   {workTypeFilters.map(workType => {
                     return (
-                      <li key={workType.data.id}>
+                      <Space
+                        as="li"
+                        v={{ size: 'l', properties: ['margin-bottom'] }}
+                        key={`mobile-${workType.data.id}`}
+                      >
                         <Checkbox
-                          id={workType.data.id}
+                          id={`mobile-${workType.data.id}`}
                           text={`${workType.data.label} (${workType.count})`}
                           value={workType.data.id}
                           name={`workType`}
@@ -180,7 +197,7 @@ const SearchFiltersMobile = ({
                             changeHandler();
                           }}
                         />
-                      </li>
+                      </Space>
                     );
                   })}
                 </ul>
@@ -201,18 +218,18 @@ const SearchFiltersMobile = ({
               itemsLocationsLocationType: null,
             })}
           >
-            <a onClick={() => setIsActive(false)}>Reset filters</a>
+            <a>Reset filters</a>
           </NextLink>
           <button
             type="button"
             className="btn btn--primary"
-            onClick={handleApplyFilters}
+            onClick={handleApplyFiltersButtonClick}
           >
-            Apply filters
+            OK
           </button>
         </FiltersFooter>
       </FiltersModal>
-    </div>
+    </Space>
   );
 };
 

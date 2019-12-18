@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { worksUrl } from '../../../services/catalogue/urls';
 import Space from '../styled/Space';
@@ -50,7 +49,7 @@ const SearchFiltersDesktop = ({
   workTypeInUrlArray,
 }) => {
   return (
-    <div className="is-hidden-s">
+    <>
       <Space
         v={{
           size: 'l',
@@ -86,7 +85,6 @@ const SearchFiltersDesktop = ({
                   min="0"
                   max="9999"
                   placeholder={'Year'}
-                  name="production.dates.from"
                   value={inputDateFrom || ''}
                   onChange={event => {
                     setInputDateFrom(`${event.currentTarget.value}`);
@@ -98,7 +96,6 @@ const SearchFiltersDesktop = ({
                 min="0"
                 max="9999"
                 placeholder={'Year'}
-                name="production.dates.to"
                 value={inputDateTo || ''}
                 onChange={event => {
                   setInputDateTo(`${event.currentTarget.value}`);
@@ -193,22 +190,20 @@ const SearchFiltersDesktop = ({
                   return data.id === id;
                 });
                 return (
-                  <Fragment key={id}>
-                    <NextLink
-                      key={workTypeObject.data.id}
-                      {...worksUrl({
-                        ...searchParams,
-                        workType: searchParams.workType.filter(
-                          w => w !== workTypeObject.data.id
-                        ),
-                        page: 1,
-                      })}
-                    >
-                      <a>
-                        <CancelFilter text={workTypeObject.data.label} />
-                      </a>
-                    </NextLink>
-                  </Fragment>
+                  <NextLink
+                    key={id}
+                    {...worksUrl({
+                      ...searchParams,
+                      workType: searchParams.workType.filter(
+                        w => w !== workTypeObject.data.id
+                      ),
+                      page: 1,
+                    })}
+                  >
+                    <a>
+                      <CancelFilter text={workTypeObject.data.label} />
+                    </a>
+                  </NextLink>
                 );
               })}
               <NextLink
@@ -230,7 +225,7 @@ const SearchFiltersDesktop = ({
           </div>
         )}
       </Space>
-    </div>
+    </>
   );
 };
 

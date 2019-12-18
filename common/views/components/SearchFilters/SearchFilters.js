@@ -4,6 +4,7 @@ import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
+import theme from '@weco/common/views/themes/default';
 
 type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
@@ -18,6 +19,7 @@ const SearchFilters = ({
   workTypeAggregations,
   changeHandler,
 }: Props) => {
+  const [isMobile, setIsMobile] = useState(false);
   const workTypeInUrlArray = searchParams.workType || [];
   const { productionDatesFrom, productionDatesTo } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -44,6 +46,18 @@ const SearchFilters = ({
       }
     })
     .filter(Boolean);
+
+  useEffect(() => {
+    function updateIsMobile() {
+      setIsMobile(window.innerWidth < theme.sizes.medium);
+    }
+
+    window.addEventListener('resize', updateIsMobile);
+
+    updateIsMobile();
+
+    return () => window.removeEventListener('resize', updateIsMobile);
+  }, []);
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -90,8 +104,11 @@ const SearchFilters = ({
 
   return (
     <>
-      <SearchFiltersDesktop {...sharedProps} />
-      <SearchFiltersMobile {...sharedProps} />
+      {isMobile ? (
+        <SearchFiltersMobile {...sharedProps} />
+      ) : (
+        <SearchFiltersDesktop {...sharedProps} />
+      )}
     </>
   );
 };
