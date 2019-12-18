@@ -14,14 +14,15 @@ const ImageWrapper = styled.div`
   padding: 0;
   transition: opacity 1000ms ease;
   opacity: ${props => (props.imageLoading ? 0 : 1)};
-  & img {
-    margin: 0 auto;
+  img {
+    margin: 50% auto 0;
+    transform: translateY(-50%);
     display: block;
     width: auto;
     height: auto;
-    max-width: 100%;
+    max-width: 95%;
     max-height: 95%;
-    overflow: scroll;
+    overflow: scroll; /* for alt text */
   }
 `;
 
