@@ -69,7 +69,7 @@ const ImageViewer = ({
   const isOnScreen = useOnScreen({
     root: mainViewerRef,
     ref: imageViewer,
-    threshold: 0.6,
+    threshold: 0.1,
   });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
