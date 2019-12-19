@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useState, useRef, useEffect, type Element } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-import getFocusableElementsIn from '../../../utils/get-focusable-elements-in';
+import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 
@@ -125,7 +125,7 @@ const DropdownButton = ({ label, children }: Props) => {
     const focusables =
       dropdownRef &&
       dropdownRef.current &&
-      getFocusableElementsIn(dropdownRef.current);
+      getFocusableElements(dropdownRef.current);
 
     if (isActive) {
       focusables &&

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import getFocusableElementsIn from '../../../utils/get-focusable-elements-in';
+import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
 import { worksUrl } from '../../../services/catalogue/urls';
 import styled from 'styled-components';
@@ -161,7 +161,7 @@ const SearchFiltersMobile = ({
     const focusables =
       filtersModalRef &&
       filtersModalRef.current &&
-      getFocusableElementsIn(filtersModalRef.current);
+      getFocusableElements(filtersModalRef.current);
 
     if (isActive) {
       setPageScrollLock(true);
