@@ -18,6 +18,7 @@ import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 
 function inputValue(input: ?HTMLElement): ?string {
   if (
@@ -242,7 +243,7 @@ const SearchForm = ({
             <Select
               name="sortOrder"
               label="Sort by"
-              defaultValue={searchParams.sortOrder || ''}
+              value={searchParams.sortOrder || ''}
               options={[
                 {
                   value: '',
@@ -264,7 +265,7 @@ const SearchForm = ({
           )}
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <Select
+              <SelectUncontrolled
                 name="sort"
                 label="Sort by"
                 defaultValue={searchParams.sort || ''}
@@ -278,10 +279,9 @@ const SearchForm = ({
                     text: 'Production dates',
                   },
                 ]}
-                onChange={null}
               />
             </Space>
-            <Select
+            <SelectUncontrolled
               name="sortOrder"
               label="Sort order"
               defaultValue={searchParams.sortOrder || ''}
@@ -295,7 +295,6 @@ const SearchForm = ({
                   text: 'Descending',
                 },
               ]}
-              onChange={null}
             />
           </noscript>
         </>
