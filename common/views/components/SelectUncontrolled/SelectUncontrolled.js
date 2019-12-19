@@ -4,18 +4,17 @@ import SelectContainer from '../SelectContainer/SelectContainer';
 type Props = {
   name: string,
   label: string,
-  value: string,
+  defaultValue: string,
   options: {
     value: ?string,
     text: string,
   }[],
-  onChange: (event: SyntheticEvent<HTMLInputElement>) => void,
 };
 
-const Select = ({ name, label, options, value, onChange }: Props) => {
+const SelectUncontrolled = ({ name, label, options, defaultValue }: Props) => {
   return (
     <SelectContainer label={label}>
-      <select name={name} onChange={onChange} value={value}>
+      <select name={name} defaultValue={defaultValue}>
         {options.map(option => {
           return (
             <option key={option.text} value={option.value}>
@@ -28,4 +27,4 @@ const Select = ({ name, label, options, value, onChange }: Props) => {
   );
 };
 
-export default Select;
+export default SelectUncontrolled;
