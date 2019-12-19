@@ -96,7 +96,7 @@ export class StoriesPage extends Component<Props> {
       <PageLayout
         title={'Stories'}
         description={pageDescription}
-        url={{ pathname: `/articles` }}
+        url={{ pathname: `/stories` }}
         jsonLd={articles.map(articleLd)}
         openGraphType={'website'}
         siteSection={'stories'}
