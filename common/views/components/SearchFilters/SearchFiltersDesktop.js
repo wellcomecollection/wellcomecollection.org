@@ -1,3 +1,5 @@
+// @flow
+
 import { font, classNames } from '../../../utils/classnames';
 import { worksUrl } from '../../../services/catalogue/urls';
 import Space from '../styled/Space';
@@ -6,6 +8,7 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import NextLink from 'next/link';
+import { type SearchFiltersSharedProps } from './SearchFilters';
 
 const CancelFilter = ({ text }: { text: string }) => {
   return (
@@ -47,7 +50,7 @@ const SearchFiltersDesktop = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
-}) => {
+}: SearchFiltersSharedProps) => {
   return (
     <>
       <Space

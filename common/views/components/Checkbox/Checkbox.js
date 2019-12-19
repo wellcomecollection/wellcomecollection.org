@@ -71,6 +71,10 @@ type CheckboxWithoutLabelProps = {|
 type CheckboxProps = {|
   ...CheckboxWithoutLabelProps,
   text: string,
+  checked: ?boolean,
+  name: ?string,
+  onChange: ?() => void,
+  value: ?string,
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {

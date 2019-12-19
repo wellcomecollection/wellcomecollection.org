@@ -13,6 +13,18 @@ type Props = {|
   changeHandler: () => void,
 |};
 
+export type SearchFiltersSharedProps = {|
+  ...Props,
+  inputDateFrom: string,
+  inputDateTo: string,
+  setInputDateFrom: () => void,
+  setInputDateTo: () => void,
+  workTypeFilters: string[],
+  productionDatesFrom: ?string,
+  productionDatesTo: ?string,
+  workTypeInUrlArray: string[],
+|};
+
 const SearchFilters = ({
   searchForm,
   searchParams,

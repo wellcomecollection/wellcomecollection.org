@@ -1,3 +1,5 @@
+// @flow
+
 import { useState, useRef, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElementsIn from '../../../utils/get-focusable-elements-in';
@@ -9,6 +11,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+import { type SearchFiltersSharedProps } from './SearchFilters';
 
 const OpenFiltersButton = styled(Space).attrs({
   'aria-controls': 'mobile-filters-modal',
@@ -78,13 +81,13 @@ const FiltersModal = styled.div.attrs({
   &.fade-exit-active,
   &.fade-exit-done {
     opacity: 0;
-    transform: translateY(20px);
+    transform: scale(0.9);
   }
 
   &.fade-enter-active,
   &.fade-enter-done {
     opacity: 1;
-    transform: translateY(0px);
+    transform: scale(1);
   }
 `;
 
@@ -136,7 +139,7 @@ const SearchFiltersMobile = ({
   productionDatesFrom,
   productionDatesTo,
   workTypeInUrlArray,
-}) => {
+}: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
   const filtersModalRef = useRef(null);
