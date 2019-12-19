@@ -1,4 +1,4 @@
-const Captioned = props => (
+const SvgClosedCaptioning = props => (
   <svg viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero">
       <path d="M20 2.18H4.1a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4H20a4 4 0 0 0 4-4v-12a4 4 0 0 0-4-4zm2 16a2 2 0 0 1-2 2H4.1a2 2 0 0 1-2-2v-12a2 2 0 0 1 2-2H20a2 2 0 0 1 2 2v12z" />
@@ -7,4 +7,4 @@ const Captioned = props => (
   </svg>
 );
 
-export default Captioned;
+export default SvgClosedCaptioning;

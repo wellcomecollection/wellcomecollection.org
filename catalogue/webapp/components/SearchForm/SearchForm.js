@@ -13,7 +13,7 @@ import {
   type WorksUrlProps,
 } from '@weco/common/services/catalogue/urls';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
-import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
+import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
@@ -233,7 +233,7 @@ const SearchForm = ({
               ) : null
             }
           </TogglesContext.Consumer>
-          <FilterDrawerRefine
+          <SearchFilters
             searchForm={searchForm}
             searchParams={searchParams}
             workTypeAggregations={workTypeAggregations}
