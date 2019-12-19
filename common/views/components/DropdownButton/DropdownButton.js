@@ -88,11 +88,11 @@ const Dropdown = styled(Space).attrs(props => ({
 `;
 
 type Props = {|
-  buttonText: string,
+  label: string,
   children: Element<any>,
 |};
 
-const DropdownButton = ({ buttonText, children }: Props) => {
+const DropdownButton = ({ label, children }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [isEnhanced, setIsEnhanced] = useState(false);
   const dropdownWrapperRef = useRef(null);
@@ -146,7 +146,7 @@ const DropdownButton = ({ buttonText, children }: Props) => {
         isEnhanced={isEnhanced}
         onClick={() => setIsActive(!isActive)}
       >
-        <span className={font('hnm', 5)}>{buttonText}</span>
+        <span className={font('hnm', 5)}>{label}</span>
         <Icon
           name="chevron"
           extraClasses={classNames({

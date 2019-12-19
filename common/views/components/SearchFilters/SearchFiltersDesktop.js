@@ -1,18 +1,16 @@
-import { useState, useEffect, Fragment } from 'react';
-import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
+// @flow
+
 import { font, classNames } from '../../../utils/classnames';
+import { worksUrl } from '../../../services/catalogue/urls';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
+import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
-import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import NextLink from 'next/link';
+import { type SearchFiltersSharedProps } from './SearchFilters';
 
-function CancelFilter({ text }: { text: string }) {
+const CancelFilter = ({ text }: { text: string }) => {
   return (
     <Space
       as="span"
@@ -37,78 +35,24 @@ function CancelFilter({ text }: { text: string }) {
       {text}
     </Space>
   );
-}
+};
 
-type Props = {|
-  searchForm: React.Ref<typeof HTMLFormElement>,
-  searchParams: SearchParams,
-  workTypeAggregations: CatalogueAggregationBucket[],
-  changeHandler: () => void,
-|};
-
-const SearchFilters = ({
+const SearchFiltersDesktop = ({
   searchForm,
   searchParams,
   workTypeAggregations,
   changeHandler,
-}: Props) => {
-  const workTypeInUrlArray = searchParams.workType || [];
-  const { productionDatesFrom, productionDatesTo } = searchParams;
-  const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
-  const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  // We want to display all currently applied worktypes to the user within the filter drop down
-  // This may include worktypes that have no aggregations for the given search
-  // We therefore go through all possible worktypes,
-  // if they have a matching aggregation from the API response we use that
-  // If they aren't included in the API response, but are one of the applied filters,// then we still include it with a count of 0.
-  const workTypeFilters = allWorkTypes
-    .map(workType => {
-      const matchingWorkTypeAggregation = workTypeAggregations.find(
-        ({ data }) => workType.data.id === data.id
-      );
-      const matchingAppliedWorkType = workTypeInUrlArray.find(
-        id => workType.data.id === id
-      );
-      if (matchingWorkTypeAggregation) {
-        return matchingWorkTypeAggregation;
-      } else if (matchingAppliedWorkType) {
-        return workType;
-      } else {
-        return null;
-      }
-    })
-    .filter(Boolean);
-
-  useEffect(() => {
-    if (productionDatesFrom !== inputDateFrom) {
-      setInputDateFrom(productionDatesFrom);
-    }
-
-    if (productionDatesTo !== inputDateTo) {
-      setInputDateTo(productionDatesTo);
-    }
-  }, [productionDatesFrom, productionDatesTo]);
-
-  useEffect(() => {
-    if (
-      productionDatesFrom !== inputDateFrom &&
-      (!inputDateFrom || (inputDateFrom && inputDateFrom.match(/^\d{4}$/)))
-    ) {
-      changeHandler();
-    }
-  }, [inputDateFrom]);
-
-  useEffect(() => {
-    if (
-      productionDatesTo !== inputDateTo &&
-      (!inputDateTo || (inputDateTo && inputDateTo.match(/^\d{4}$/)))
-    ) {
-      changeHandler();
-    }
-  }, [inputDateTo]);
-
+  inputDateFrom,
+  inputDateTo,
+  setInputDateFrom,
+  setInputDateTo,
+  workTypeFilters,
+  productionDatesFrom,
+  productionDatesTo,
+  workTypeInUrlArray,
+}: SearchFiltersSharedProps) => {
   return (
-    <div>
+    <>
       <Space
         v={{
           size: 'l',
@@ -144,7 +88,6 @@ const SearchFilters = ({
                   min="0"
                   max="9999"
                   placeholder={'Year'}
-                  name="production.dates.from"
                   value={inputDateFrom || ''}
                   onChange={event => {
                     setInputDateFrom(`${event.currentTarget.value}`);
@@ -156,7 +99,6 @@ const SearchFilters = ({
                 min="0"
                 max="9999"
                 placeholder={'Year'}
-                name="production.dates.to"
                 value={inputDateTo || ''}
                 onChange={event => {
                   setInputDateTo(`${event.currentTarget.value}`);
@@ -200,7 +142,6 @@ const SearchFilters = ({
           productionDatesTo ||
           workTypeInUrlArray.length > 0) && (
           <div className={classNames({ [font('hnl', 5)]: true })}>
-            <Divider extraClasses={'divider--thin divider--pumice'} />
             <Space
               v={{
                 size: 'l',
@@ -252,22 +193,20 @@ const SearchFilters = ({
                   return data.id === id;
                 });
                 return (
-                  <Fragment key={id}>
-                    <NextLink
-                      key={workTypeObject.data.id}
-                      {...worksUrl({
-                        ...searchParams,
-                        workType: searchParams.workType.filter(
-                          w => w !== workTypeObject.data.id
-                        ),
-                        page: 1,
-                      })}
-                    >
-                      <a>
-                        <CancelFilter text={workTypeObject.data.label} />
-                      </a>
-                    </NextLink>
-                  </Fragment>
+                  <NextLink
+                    key={id}
+                    {...worksUrl({
+                      ...searchParams,
+                      workType: searchParams.workType.filter(
+                        w => w !== workTypeObject.data.id
+                      ),
+                      page: 1,
+                    })}
+                  >
+                    <a>
+                      <CancelFilter text={workTypeObject.data.label} />
+                    </a>
+                  </NextLink>
                 );
               })}
               <NextLink
@@ -289,8 +228,8 @@ const SearchFilters = ({
           </div>
         )}
       </Space>
-    </div>
+    </>
   );
 };
 
-export default SearchFilters;
+export default SearchFiltersDesktop;
