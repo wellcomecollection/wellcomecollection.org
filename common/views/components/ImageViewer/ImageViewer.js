@@ -26,7 +26,7 @@ const ImageWrapper = styled.div`
     height: auto;
     max-width: 95%;
     max-height: 95%;
-    overflow: scroll; /* for alt text */
+    overflow: scroll; /* for alt text, which can be long */
   }
 `;
 

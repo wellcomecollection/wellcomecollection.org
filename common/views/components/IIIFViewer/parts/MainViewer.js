@@ -2,6 +2,7 @@
 import { memo, useState, useRef } from 'react';
 import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
+import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import {
@@ -9,35 +10,34 @@ import {
   convertIiifUriToInfoUri,
 } from '@weco/common/utils/convert-image-uri';
 import ImageViewer from '@weco/common/views/components/ImageViewer/ImageViewer';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 
-// function getUrlForScrollVelocity(velocity, canvas, index) {
-//   // TODO just pass the case into the ImageViewer? and create appropriate image there?
-//   const thumbnailService = canvas.thumbnail.service;
-//   const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
-//   const smallestWidthImageDimensions = thumbnailService.sizes
-//     .sort((a, b) => a.width - b.width)
-//     .find(dimensions => dimensions.width > 100);
-//   // TODO what to return for each case, thumbnail or full or nothing?
-//   switch (velocity) {
-//     // case 3:
-//     default:
-//       return urlTemplate({
-//         // thumbnail
-//         size: `${
-//           smallestWidthImageDimensions
-//             ? smallestWidthImageDimensions.width
-//             : '!100'
-//         },`,
-//       });
-//     // case 2:
-//     //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // thumbnail
-//     // case 1:
-//     //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
-//     // default:
-//     //   return 'https://dlcs.io/thumbs/wellcome/5/b18021839_0003.JP2/full/120%2C/0/default.jpg'; // Proper image
-//   }
-// }
+const ThumbnailWrapper = styled.div`
+  border: '1px solid red';
+  width: 100%;
+  height: 100%;
+  img {
+    height: 95%;
+    width: auto;
+    display: block;
+    margin: auto;
+  }
+`;
+
+function getImageTypeForScrollVelocity(velocity) {
+  // tweak how many velocities ?
+  switch (velocity) {
+    case 3:
+      return 'thumbnail';
+    case 2:
+      return 'thumbnail';
+    case 1:
+      return 'thumbnail';
+    default:
+      return 'main';
+  }
+}
 
 const ItemRenderer = memo(({ style, index, data }) => {
   const {
@@ -59,12 +59,19 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
-  const urlTemplate = mainImageService['@id']
+  const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
     : null;
+  const thumbnailService = currentCanvas.thumbnail.service;
+  const urlTemplateThumbnail = iiifImageTemplate(thumbnailService['@id']);
+  const smallestWidthImageDimensions = thumbnailService.sizes
+    .sort((a, b) => a.width - b.width)
+    .find(dimensions => dimensions.width > 100);
+
   const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
   const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
   const rotation = matching ? matching.rotation : 0;
+  const imageType = getImageTypeForScrollVelocity(scrollVelocity);
   return (
     <div style={style} tabIndex={0}>
       {scrollVelocity === 3 || isProgrammaticScroll ? (
@@ -74,14 +81,14 @@ const ItemRenderer = memo(({ style, index, data }) => {
       ) : (
         <>
           <LL lighten={true} />
-          {urlTemplate && (
+          {imageType === 'main' && urlTemplateMain && (
             <ImageViewer
               id="item-page"
               infoUrl={infoUrl}
               width={currentCanvas.width}
               height={currentCanvas.height}
               alt={ocrText}
-              urlTemplate={urlTemplate}
+              urlTemplate={urlTemplateMain}
               // presentationOnly={Boolean(canvasOcr)} // TODO
               setShowZoomed={setShowZoomed}
               setZoomInfoUrl={setZoomInfoUrl}
@@ -98,13 +105,33 @@ const ItemRenderer = memo(({ style, index, data }) => {
               }}
             />
           )}
-          {/*
-                src={getUrlForScrollVelocity(
-                  scrollVelocity,
-                  canvases[index],
-                  index
-                )}
-              /> */}
+          {imageType === 'thumbnail' && urlTemplateThumbnail && (
+            <ThumbnailWrapper>
+              <IIIFResponsiveImage
+                width={
+                  smallestWidthImageDimensions
+                    ? smallestWidthImageDimensions.width
+                    : 30
+                }
+                src={urlTemplateThumbnail({
+                  size: `${
+                    smallestWidthImageDimensions
+                      ? smallestWidthImageDimensions.width
+                      : '!100'
+                  },`,
+                })}
+                srcSet={''}
+                sizes={`${
+                  smallestWidthImageDimensions
+                    ? smallestWidthImageDimensions.width
+                    : 30
+                }px`}
+                alt={''}
+                isLazy={false}
+                lang={null}
+              />
+            </ThumbnailWrapper>
+          )}
         </>
       )}
     </div>
