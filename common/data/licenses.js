@@ -1,11 +1,5 @@
 // @flow
 export default {
-  'copyright-not-cleared': {
-    text: 'Copyright not cleared',
-    humanReadableText: [
-      'Copyright for this work has not been cleared. You are responsible for identifying the rights owner to seek permission to use this work.',
-    ],
-  },
   PDM: {
     url: 'https://creativecommons.org/publicdomain/mark/1.0/',
     text: 'Public Domain',
@@ -57,4 +51,33 @@ export default {
       'Creative Commons Attribution Non-Commercial No-Derivatives (CC BY-NC-ND 4.0) terms and conditions <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">https://creativecommons.org/licenses/by-nc-nd/4.0/</a>',
     ],
   },
+  'CC-BY-ND': {
+    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
+    text: 'CC BY-ND',
+    icons: ['cc', 'cc_by', 'cc_nd'],
+    description:
+      'Free to use with attribution. No modifications permitted.',
+  },
+  'CC-BY-SA': {
+    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    text: 'CC BY-SA',
+    icons: ['cc', 'cc_by']
+  },
+  'CC-BY-NC-SA': {
+    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+    text: 'CC BY-NC-SA',
+    icons: ['cc', 'cc_by', 'cc_nc']
+  },
+  'OGL': {
+    url: 'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
+    text: 'Open Government License'
+  },
+  'OPL': {
+    url: 'http://opencontent.org/openpub/',
+    text: 'Open Publication License'
+  },
+  'In copyright': {
+    url: 'http://rightsstatements.org/vocab/InC/1.0/',
+    text: 'In copyright'
+  }
 };
