@@ -14,14 +14,17 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 
 const ThumbnailWrapper = styled.div`
-  border: '1px solid red';
+  position: absolute;
   width: 100%;
   height: 100%;
   img {
+    position: relative;
     height: 95%;
     width: auto;
     display: block;
     margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 
@@ -52,6 +55,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     setIsLoading,
   } = data;
   const [ocrText, setOcrText] = useState('');
+  const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
   getCanvasOcr(currentCanvas).then(text => {
     text && setOcrText(text);
@@ -81,29 +85,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
       ) : (
         <>
           <LL lighten={true} />
-          {imageType === 'main' && urlTemplateMain && (
-            <ImageViewer
-              id="item-page"
-              infoUrl={infoUrl}
-              width={currentCanvas.width}
-              height={currentCanvas.height}
-              alt={ocrText}
-              urlTemplate={urlTemplateMain}
-              setShowZoomed={setShowZoomed}
-              setZoomInfoUrl={setZoomInfoUrl}
-              rotation={rotation}
-              mainViewerRef={
-                mainViewerRef && mainViewerRef.current
-                  ? mainViewerRef.current
-                  : null
-              }
-              setActiveIndex={setActiveIndex}
-              index={index}
-              onLoadHandler={() => {
-                setIsLoading(false);
-              }}
-            />
-          )}
           {imageType === 'thumbnail' && urlTemplateThumbnail && (
             <ThumbnailWrapper>
               <IIIFResponsiveImage
@@ -130,6 +111,30 @@ const ItemRenderer = memo(({ style, index, data }) => {
                 lang={null}
               />
             </ThumbnailWrapper>
+          )}
+          {(imageType === 'main' || mainLoaded) && urlTemplateMain && (
+            <ImageViewer
+              id="item-page"
+              infoUrl={infoUrl}
+              width={currentCanvas.width}
+              height={currentCanvas.height}
+              alt={ocrText}
+              urlTemplate={urlTemplateMain}
+              setShowZoomed={setShowZoomed}
+              setZoomInfoUrl={setZoomInfoUrl}
+              rotation={rotation}
+              mainViewerRef={
+                mainViewerRef && mainViewerRef.current
+                  ? mainViewerRef.current
+                  : null
+              }
+              setActiveIndex={setActiveIndex}
+              index={index}
+              onLoadHandler={() => {
+                setMainLoaded(true);
+                setIsLoading(false);
+              }}
+            />
           )}
         </>
       )}
