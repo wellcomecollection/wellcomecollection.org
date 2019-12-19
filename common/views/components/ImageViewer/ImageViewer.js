@@ -38,7 +38,6 @@ type ImageViewerProps = {|
   lang?: ?string,
   alt: string,
   urlTemplate: IIIFUriProps => Function,
-  presentationOnly?: boolean,
   setShowZoomed: boolean => void,
   setZoomInfoUrl?: string => void,
   setActiveIndex?: number => void,
@@ -56,7 +55,6 @@ const ImageViewer = ({
   alt,
   infoUrl,
   urlTemplate,
-  presentationOnly,
   setShowZoomed,
   setZoomInfoUrl,
   setActiveIndex,
@@ -127,9 +125,8 @@ const ImageViewer = ({
         srcSet={imageSrcSet}
         sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
         lang={lang}
-        alt={presentationOnly ? '' : alt}
+        alt={alt}
         isLazy={false}
-        presentationOnly={presentationOnly}
         clickHandler={() => {
           setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);

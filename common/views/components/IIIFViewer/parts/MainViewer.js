@@ -89,7 +89,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
               height={currentCanvas.height}
               alt={ocrText}
               urlTemplate={urlTemplateMain}
-              // presentationOnly={Boolean(canvasOcr)} // TODO
               setShowZoomed={setShowZoomed}
               setZoomInfoUrl={setZoomInfoUrl}
               rotation={rotation}

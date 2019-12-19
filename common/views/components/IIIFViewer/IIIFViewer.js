@@ -448,7 +448,6 @@ const IIIFViewerComponent = ({
                   width={800}
                   alt={(work && work.description) || (work && work.title) || ''}
                   urlTemplate={urlTemplate}
-                  presentationOnly={Boolean(canvasOcr)}
                   setShowZoomed={setShowZoomed}
                   rotation={firstRotation}
                   onLoadHandler={() => {
