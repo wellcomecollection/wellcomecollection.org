@@ -30,7 +30,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data, index }) => {
     <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL />
+          <LL lighten={true} />
         </div>
       ) : (
         currentCanvas && (
