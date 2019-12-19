@@ -5,7 +5,7 @@ import Readme from '../../../common/views/components/DropdownButton/README.md';
 
 const DropdownButtonExample = () => {
   return (
-    <DropdownButton buttonText={'Filters'}>
+    <DropdownButton label={'Filters'}>
       <div>
         <ul className="plain-list no-margin no-padding">
           <li>

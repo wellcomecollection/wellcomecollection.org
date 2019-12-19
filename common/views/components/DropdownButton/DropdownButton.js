@@ -13,7 +13,7 @@ const DropdownWrapper = styled.div.attrs({
   }),
 })``;
 
-const ButtonEl = styled(Space).attrs(props => ({
+const Button = styled(Space).attrs(props => ({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
   as: props.isEnhanced ? 'button' : 'span',
@@ -45,7 +45,7 @@ const ButtonEl = styled(Space).attrs(props => ({
   }
 `;
 
-const DropdownEl = styled(Space).attrs(props => ({
+const Dropdown = styled(Space).attrs(props => ({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: classNames({
@@ -90,15 +90,15 @@ const DropdownEl = styled(Space).attrs(props => ({
 `;
 
 type Props = {|
-  buttonText: string,
+  label: string,
   children: Element<any>,
 |};
 
-const DropdownButton = ({ buttonText, children }: Props) => {
+const DropdownButton = ({ label, children }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [isEnhanced, setIsEnhanced] = useState(false);
   const dropdownWrapperRef = useRef(null);
-  const dropdownElRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -123,9 +123,9 @@ const DropdownButton = ({ buttonText, children }: Props) => {
 
   useEffect(() => {
     const focusables =
-      dropdownElRef &&
-      dropdownElRef.current &&
-      getFocusableElementsIn(dropdownElRef.current);
+      dropdownRef &&
+      dropdownRef.current &&
+      getFocusableElementsIn(dropdownRef.current);
 
     if (isActive) {
       focusables &&
@@ -143,12 +143,12 @@ const DropdownButton = ({ buttonText, children }: Props) => {
 
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
-      <ButtonEl
+      <Button
         isActive={isActive}
         isEnhanced={isEnhanced}
         onClick={() => setIsActive(!isActive)}
       >
-        <span className={font('hnm', 5)}>{buttonText}</span>
+        <span className={font('hnm', 5)}>{label}</span>
         <Icon
           name="chevron"
           extraClasses={classNames({
@@ -156,15 +156,11 @@ const DropdownButton = ({ buttonText, children }: Props) => {
             'is-hidden': !isEnhanced,
           })}
         />
-      </ButtonEl>
+      </Button>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <DropdownEl
-          isActive={isActive}
-          isEnhanced={isEnhanced}
-          ref={dropdownElRef}
-        >
+        <Dropdown isActive={isActive} isEnhanced={isEnhanced} ref={dropdownRef}>
           {children}
-        </DropdownEl>
+        </Dropdown>
       </CSSTransition>
     </DropdownWrapper>
   );

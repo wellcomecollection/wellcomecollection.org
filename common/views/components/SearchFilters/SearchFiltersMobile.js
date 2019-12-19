@@ -146,18 +146,32 @@ const SearchFiltersMobile = ({
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
+    function setPageScrollLock(value) {
+      if (document.documentElement) {
+        if (value) {
+          document.documentElement.classList.add('is-scroll-locked--to-medium');
+        } else {
+          document.documentElement.classList.remove(
+            'is-scroll-locked--to-medium'
+          );
+        }
+      }
+    }
+
     const focusables =
       filtersModalRef &&
       filtersModalRef.current &&
       getFocusableElementsIn(filtersModalRef.current);
 
     if (isActive) {
+      setPageScrollLock(true);
       focusables &&
         focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
       const firstFocusable = focusables && focusables[0];
 
       firstFocusable && firstFocusable.focus();
     } else {
+      setPageScrollLock(false);
       focusables &&
         focusables.forEach(focusable =>
           focusable.setAttribute('tabIndex', '-1')

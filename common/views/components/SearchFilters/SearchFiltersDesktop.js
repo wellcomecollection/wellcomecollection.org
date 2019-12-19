@@ -80,7 +80,7 @@ const SearchFiltersDesktop = ({
           </Space>
         </Space>
         <Space h={{ size: 's', properties: ['margin-right'] }}>
-          <DropdownButton buttonText={'Dates'}>
+          <DropdownButton label={'Dates'}>
             <>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
                 <NumberInput
@@ -108,7 +108,7 @@ const SearchFiltersDesktop = ({
           </DropdownButton>
         </Space>
         {workTypeFilters.length > 0 && (
-          <DropdownButton buttonText={'Formats'}>
+          <DropdownButton label={'Formats'}>
             <ul
               className={classNames({
                 'no-margin no-padding plain-list': true,
