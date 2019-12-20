@@ -55,9 +55,6 @@ const IIIFViewerBackground = styled.div`
   background: ${props => props.theme.colors.viewerBlack};
   height: calc(100vh - ${`${headerHeight}px`});
   color: ${props => props.theme.colors.white};
-  noscript {
-    color: ${props => props.theme.colors.white};
-  }
 `;
 
 export const IIIFViewerImageWrapper = styled.div.attrs(props => ({
@@ -74,6 +71,10 @@ export const IIIFViewerImageWrapper = styled.div.attrs(props => ({
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 `;
 
@@ -85,13 +86,6 @@ export const IIIFViewer = styled.div.attrs(props => ({
   height: 100%;
   width: 100%;
   flex-direction: row-reverse;
-
-  noscript & img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-  }
 `;
 
 export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
@@ -101,12 +95,14 @@ export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
     'relative bg-viewerBlack font-white': true,
   }),
 }))`
-  noscript & {
-    height: 80%;
-    @media (min-width: ${props => props.theme.sizes.medium}px) {
-      height: 100%;
+  ${props => {
+    if (props.noScript) {
+      return `height: 80%;
+      @media (min-width: ${props.theme.sizes.medium}px) {
+        height: 100%;
+      }`;
     }
-  }
+  }}
   width: 100%;
 
   @media (min-width: ${props => props.theme.sizes.medium}px) {
@@ -267,8 +263,10 @@ const IIIFViewerComponent = ({
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   useEffect(() => {
-    setGridVisible(Router.query.isOverview);
-    setEnhanced(true);
+    if ('IntersectionObserver' in window) {
+      setGridVisible(Router.query.isOverview);
+      setEnhanced(true);
+    }
   }, []);
   useEffect(() => {
     Router.replace(
@@ -369,24 +367,26 @@ const IIIFViewerComponent = ({
             setShowViewer={setShowZoomed}
           />
         )}
-        <NoScriptViewer
-          thumbnailsRequired={thumbnailsRequired || false}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
-          iiifImageLocation={iiifImageLocation}
-          currentCanvas={currentCanvas}
-          canvasOcr={canvasOcr}
-          lang={lang}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          workId={workId}
-          canvases={canvases}
-          canvasIndex={canvasIndex}
-          pageIndex={pageIndex}
-          sierraId={sierraId}
-          pageSize={pageSize}
-          params={params}
-        />
+        {!enhanced && (
+          <NoScriptViewer
+            thumbnailsRequired={thumbnailsRequired || false}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            imageUrl={imageUrl}
+            iiifImageLocation={iiifImageLocation}
+            currentCanvas={currentCanvas}
+            canvasOcr={canvasOcr}
+            lang={lang}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            workId={workId}
+            canvases={canvases}
+            canvasIndex={canvasIndex}
+            pageIndex={pageIndex}
+            sierraId={sierraId}
+            pageSize={pageSize}
+            params={params}
+          />
+        )}
         {enhanced && (
           <>
             <ImageViewerControls

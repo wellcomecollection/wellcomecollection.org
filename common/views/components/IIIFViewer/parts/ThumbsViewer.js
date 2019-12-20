@@ -33,7 +33,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
     <div style={style}>
       {scrollVelocity > 1 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL />
+          <LL lighten={true} />
         </div>
       ) : (
         currentCanvas && (

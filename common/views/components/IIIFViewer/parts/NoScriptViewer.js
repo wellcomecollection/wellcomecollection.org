@@ -49,6 +49,7 @@ const ThumbnailLink = styled.a`
   padding: 12px;
   width: 25%;
   @media (min-width: ${props => props.theme.sizes.medium}px) {
+    height: 25%;
     width: auto;
   }
 `;
@@ -187,102 +188,101 @@ const NoScriptViewer = ({
       .join(',');
 
   return (
-    <noscript>
-      <IIIFViewer>
-        <IIIFViewerMain
-          h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
-          fullWidth={!thumbnailsRequired}
-        >
-          <IIIFViewerImageWrapper>
-            {iiifImageLocationUrl && imageUrl && (
-              <IIIFResponsiveImage
-                width={800}
-                src={imageUrl}
-                srcSet={srcSet}
-                sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-                extraClasses={classNames({
-                  'block h-center': true,
-                })}
-                lang={lang}
-                alt={
-                  (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                  'no text alternative'
-                }
-                isLazy={false}
-              />
-            )}
-            {mainImageService['@id'] && currentCanvas && (
-              <IIIFResponsiveImage
-                width={800}
-                src={urlTemplate && urlTemplate({ size: '800,' })}
-                srcSet={srcSet}
-                sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-                extraClasses={classNames({
-                  'block h-center': true,
-                })}
-                lang={lang}
-                alt={
-                  (canvasOcr && canvasOcr.replace(/"/g, '')) ||
-                  'no text alternative'
-                }
-                isLazy={false}
-              />
-            )}
-          </IIIFViewerImageWrapper>
-          <IIIFViewerPaginatorButtons>
+    <IIIFViewer>
+      <IIIFViewerMain
+        noScript={true}
+        h={{ size: 's', properties: ['padding-left', 'padding-right'] }}
+        fullWidth={!thumbnailsRequired}
+      >
+        <IIIFViewerImageWrapper>
+          {iiifImageLocationUrl && imageUrl && (
+            <IIIFResponsiveImage
+              width={800}
+              src={imageUrl}
+              srcSet={srcSet}
+              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              extraClasses={classNames({
+                'block h-center': true,
+              })}
+              lang={lang}
+              alt={
+                (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                'no text alternative'
+              }
+              isLazy={false}
+            />
+          )}
+          {mainImageService['@id'] && currentCanvas && (
+            <IIIFResponsiveImage
+              width={800}
+              src={urlTemplate && urlTemplate({ size: '800,' })}
+              srcSet={srcSet}
+              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              extraClasses={classNames({
+                'block h-center': true,
+              })}
+              lang={lang}
+              alt={
+                (canvasOcr && canvasOcr.replace(/"/g, '')) ||
+                'no text alternative'
+              }
+              isLazy={false}
+            />
+          )}
+        </IIIFViewerImageWrapper>
+        <IIIFViewerPaginatorButtons>
+          <Paginator
+            {...mainPaginatorProps}
+            render={PaginatorButtons(true, workId)}
+          />
+        </IIIFViewerPaginatorButtons>
+      </IIIFViewerMain>
+
+      {thumbnailsRequired && (
+        <StaticThumbnailsContainer>
+          {navigationCanvases &&
+            navigationCanvases.map((canvas, i) => {
+              const canvasNumber = pageSize * pageIndex + (i + 1);
+              return (
+                <Paginator
+                  key={canvas['@id']}
+                  {...thumbsPaginatorProps}
+                  render={({ rangeStart }) => (
+                    <NextLink
+                      {...itemUrl({
+                        ...params,
+                        workId,
+                        page: pageIndex + 1,
+                        sierraId,
+                        langCode: lang,
+                        canvas: canvasNumber,
+                      })}
+                      scroll={false}
+                      replace
+                      passHref
+                    >
+                      <ThumbnailLink>
+                        <IIIFCanvasThumbnail
+                          canvas={canvas}
+                          lang={lang}
+                          isActive={canvasNumber === canvasIndex + 1}
+                          thumbNumber={canvasNumber}
+                        />
+                      </ThumbnailLink>
+                    </NextLink>
+                  )}
+                />
+              );
+            })}
+          <IIIFViewerPaginatorButtons isThumbs={true}>
             <Paginator
-              {...mainPaginatorProps}
+              {...thumbsPaginatorProps}
               render={PaginatorButtons(true, workId)}
             />
           </IIIFViewerPaginatorButtons>
-        </IIIFViewerMain>
-
-        {thumbnailsRequired && (
-          <StaticThumbnailsContainer>
-            {navigationCanvases &&
-              navigationCanvases.map((canvas, i) => {
-                const canvasNumber = pageSize * pageIndex + (i + 1);
-                return (
-                  <Paginator
-                    key={canvas['@id']}
-                    {...thumbsPaginatorProps}
-                    render={({ rangeStart }) => (
-                      <NextLink
-                        {...itemUrl({
-                          ...params,
-                          workId,
-                          page: pageIndex + 1,
-                          sierraId,
-                          langCode: lang,
-                          canvas: canvasNumber,
-                        })}
-                        scroll={false}
-                        replace
-                        passHref
-                      >
-                        <ThumbnailLink>
-                          <IIIFCanvasThumbnail
-                            canvas={canvas}
-                            lang={lang}
-                            isActive={canvasNumber === canvasIndex + 1}
-                            thumbNumber={canvasNumber}
-                          />
-                        </ThumbnailLink>
-                      </NextLink>
-                    )}
-                  />
-                );
-              })}
-            <IIIFViewerPaginatorButtons isThumbs={true}>
-              <Paginator
-                {...thumbsPaginatorProps}
-                render={PaginatorButtons(true, workId)}
-              />
-            </IIIFViewerPaginatorButtons>
-          </StaticThumbnailsContainer>
-        )}
-      </IIIFViewer>
-    </noscript>
+        </StaticThumbnailsContainer>
+      )}
+    </IIIFViewer>
   );
 };
 
