@@ -15,8 +15,7 @@
 let tests = [
   {
     id: 'searchInEnglishWithContributors',
-    title:
-      'Search the API with a using English analysers and include contributors',
+    title: 'Search the API with English analysers and including contributors',
     range: [0, 100],
     when: (request, range) => {
       return request.uri.match(/^\/works\/*/);
