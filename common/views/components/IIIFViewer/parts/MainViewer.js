@@ -14,18 +14,21 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
 
 const ThumbnailWrapper = styled.div`
+  opacity: ${props => (props.imageLoaded ? 1 : 0)};
+  transition: opacity 500ms ease;
   position: absolute;
   width: 100%;
   height: 100%;
   img {
     position: relative;
-    width: auto;
     display: block;
     margin: auto;
     top: 50%;
     transform: translateY(-50%);
     max-width: 95%;
     max-height: 95%;
+    width: auto;
+    height: inherit;
   }
 `;
 
@@ -54,9 +57,11 @@ const ItemRenderer = memo(({ style, index, data }) => {
     mainViewerRef,
     setActiveIndex,
     setIsLoading,
+    setShowControls,
   } = data;
   const [ocrText, setOcrText] = useState('');
   const [mainLoaded, setMainLoaded] = useState(false);
+  const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
   getCanvasOcr(currentCanvas).then(text => {
     text && setOcrText(text);
@@ -86,8 +91,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
       ) : (
         <>
           <LL lighten={true} />
-          {imageType === 'thumbnail' && urlTemplateThumbnail && (
-            <ThumbnailWrapper>
+          {!mainLoaded && urlTemplateThumbnail && (
+            <ThumbnailWrapper imageLoaded={thumbLoaded}>
               <IIIFResponsiveImage
                 width={currentCanvas.width}
                 height={currentCanvas.height}
@@ -107,6 +112,9 @@ const ItemRenderer = memo(({ style, index, data }) => {
                 alt={''}
                 isLazy={false}
                 lang={null}
+                loadHandler={() => {
+                  setThumbLoaded(true);
+                }}
               />
             </ThumbnailWrapper>
           )}
@@ -127,6 +135,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
                   : null
               }
               setActiveIndex={setActiveIndex}
+              setShowControls={setShowControls}
               index={index}
               onLoadHandler={() => {
                 setMainLoaded(true);
@@ -177,15 +186,10 @@ const MainViewer = ({
     debounce(handleOnItemsRendered, 500)
   );
   const itemHeight = pageWidth * 0.8;
-  let scrollEnd;
   function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
     setNewScrollOffset(scrollOffset);
     setIsProgrammaticScroll(scrollUpdateWasRequested);
     setShowControls(false);
-    clearTimeout(scrollEnd);
-    scrollEnd = setTimeout(() => {
-      setShowControls(true);
-    }, 1500);
   }
 
   function handleOnItemsRendered({ visibleStopIndex }) {
@@ -223,6 +227,7 @@ const MainViewer = ({
         setZoomInfoUrl,
         rotatedImages,
         setActiveIndex,
+        setShowControls,
         setIsLoading,
       }}
       itemSize={itemHeight}
