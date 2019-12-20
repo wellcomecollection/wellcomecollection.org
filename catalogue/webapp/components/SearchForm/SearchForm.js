@@ -13,11 +13,11 @@ import {
   type WorksUrlProps,
 } from '@weco/common/services/catalogue/urls';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
-import FilterDrawerRefine from '@weco/common/views/components/FilterDrawerRefine/FilterDrawerRefine';
+import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 
 function inputValue(input: ?HTMLElement): ?string {
   if (
@@ -205,34 +205,26 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
-          <TogglesContext.Consumer>
-            {({ enableImageSearch }) =>
-              enableImageSearch ? (
-                <SearchTypeRadioGroup
-                  name="searchType"
-                  selected={
-                    searchParams.imageSearch
-                      ? 'imageSearch'
-                      : 'allCollectionSearch'
-                  }
-                  onChange={() => {
-                    searchForm.current && updateUrl(searchForm.current);
-                  }}
-                  options={[
-                    {
-                      value: 'allCollectionSearch',
-                      label: 'All collection',
-                    },
-                    {
-                      value: 'imageSearch',
-                      label: 'Images only',
-                    },
-                  ]}
-                />
-              ) : null
+          <SearchTypeRadioGroup
+            name="searchType"
+            selected={
+              searchParams.imageSearch ? 'imageSearch' : 'allCollectionSearch'
             }
-          </TogglesContext.Consumer>
-          <FilterDrawerRefine
+            onChange={() => {
+              searchForm.current && updateUrl(searchForm.current);
+            }}
+            options={[
+              {
+                value: 'allCollectionSearch',
+                label: 'All collection',
+              },
+              {
+                value: 'imageSearch',
+                label: 'Images only',
+              },
+            ]}
+          />
+          <SearchFilters
             searchForm={searchForm}
             searchParams={searchParams}
             workTypeAggregations={workTypeAggregations}
@@ -242,7 +234,7 @@ const SearchForm = ({
             <Select
               name="sortOrder"
               label="Sort by"
-              defaultValue={searchParams.sortOrder || ''}
+              value={searchParams.sortOrder || ''}
               options={[
                 {
                   value: '',
@@ -264,7 +256,7 @@ const SearchForm = ({
           )}
           <noscript>
             <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-              <Select
+              <SelectUncontrolled
                 name="sort"
                 label="Sort by"
                 defaultValue={searchParams.sort || ''}
@@ -278,10 +270,9 @@ const SearchForm = ({
                     text: 'Production dates',
                   },
                 ]}
-                onChange={null}
               />
             </Space>
-            <Select
+            <SelectUncontrolled
               name="sortOrder"
               label="Sort order"
               defaultValue={searchParams.sortOrder || ''}
@@ -295,7 +286,6 @@ const SearchForm = ({
                   text: 'Descending',
                 },
               ]}
-              onChange={null}
             />
           </noscript>
         </>
