@@ -27,6 +27,10 @@ const IIIFViewerThumb = styled.button.attrs(props => ({
   padding: 12px 16px;
   text-align: center;
   margin: auto;
+  &:focus {
+    outline: ${props =>
+      `1px solid ${lighten(0.14, props.theme.colors.yellow)}`};
+  }
 `;
 
 const IIIFViewerThumbInner = styled.span`
