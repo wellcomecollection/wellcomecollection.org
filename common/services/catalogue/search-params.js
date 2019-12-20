@@ -4,7 +4,6 @@ import {
   type Serialisers,
   type Deserialisers,
   type QueryStringParameterMapping,
-  booleanDeserialiser,
   stringDeserialiser,
   nullableNumberDeserialiser,
   nullableStringDeserialiser,
@@ -16,7 +15,6 @@ import {
   nullableStringSerialiser,
   csvWithDefaultSerialiser,
   nullableDateStringSerialiser,
-  booleanSerialiser,
   buildDeserialiser,
   buildSerialiser,
 } from './params';
@@ -32,7 +30,7 @@ export type SearchParams = {|
   productionDatesTo: ?string,
   aggregations: ?(string[]),
   _queryType: ?string,
-  imageSearch: boolean,
+  search: ?string,
 |};
 
 type ApiSearchParamsSerialisers = Serialisers<SearchParams>;
@@ -61,7 +59,7 @@ const deserialisers: SearchParamsDeserialisers = {
   productionDatesFrom: nullableStringDeserialiser,
   productionDatesTo: nullableStringDeserialiser,
   _queryType: nullableStringDeserialiser,
-  imageSearch: booleanDeserialiser,
+  search: nullableStringDeserialiser,
 };
 
 const serialisers: SearchParamsDeserialisers = {
@@ -75,7 +73,7 @@ const serialisers: SearchParamsDeserialisers = {
   productionDatesFrom: nullableStringSerialiser,
   productionDatesTo: nullableStringSerialiser,
   _queryType: nullableStringSerialiser,
-  imageSearch: booleanSerialiser,
+  search: nullableStringSerialiser,
 };
 
 const apiSerialisers: ApiSearchParamsSerialisers = {

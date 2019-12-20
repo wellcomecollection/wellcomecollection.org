@@ -9,6 +9,7 @@ type Props<T> = {|
   onChange: (value: T) => void,
   options: Array<{|
     value: T,
+    id: string,
     label: string,
   |}>,
   className?: string,
@@ -69,10 +70,10 @@ const RadioGroup = <+T>({
   className,
 }: Props<T>) => (
   <div className={className}>
-    {options.map(({ value, label }) => (
+    {options.map(({ value, label, id }) => (
       <FieldWrapper key={String(value)}>
         <RadioInput
-          id={value}
+          id={id}
           name={name}
           value={value}
           checked={selected === value}
@@ -80,7 +81,7 @@ const RadioGroup = <+T>({
         />
         <Label
           className={font('hnl', 5)}
-          htmlFor={value}
+          htmlFor={id}
           active={selected === value}
         >
           {label}
