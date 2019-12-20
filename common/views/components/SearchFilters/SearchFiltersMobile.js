@@ -1,6 +1,7 @@
 // @flow
 
 import { useState, useRef, useEffect } from 'react';
+import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
@@ -142,8 +143,11 @@ const SearchFiltersMobile = ({
 }: SearchFiltersSharedProps) => {
   const openFiltersButtonRef = useRef(null);
   const closeFiltersButtonRef = useRef(null);
+  const okFiltersButtonRef = useRef(null);
   const filtersModalRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
+
+  useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
 
   useEffect(() => {
     function setPageScrollLock(value) {
@@ -303,6 +307,7 @@ const SearchFiltersMobile = ({
               <a>Reset filters</a>
             </NextLink>
             <button
+              ref={okFiltersButtonRef}
               type="button"
               className="btn btn--primary"
               onClick={handleOkFiltersButtonClick}
