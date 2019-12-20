@@ -6,6 +6,7 @@ import { type Link } from '../../../model/link';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
+import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
 
 const PopupDialogOpen = styled(Space).attrs(props => ({
@@ -209,15 +210,12 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
     }
   }
 
-  function setTabbable(value) {
+  function setFocusable(value) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
-    const tababbles = dialog && [
-      ...dialog.querySelectorAll('a'),
-      ...dialog.querySelectorAll('button'),
-    ];
+    const focusables = dialog && getFocusableElements(dialog);
 
-    tababbles &&
-      tababbles.forEach(item =>
+    focusables &&
+      focusables.forEach(item =>
         item.setAttribute('tabindex', value ? '0' : '-1')
       );
   }
@@ -232,7 +230,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
           shouldStartAnimation={shouldStartAnimation}
           onClick={() => {
             setIsActive(true);
-            setTabbable(true);
+            setFocusable(true);
             closeDialogRef &&
               closeDialogRef.current &&
               closeDialogRef.current.focus();
@@ -262,7 +260,7 @@ const PopupDialog = ({ children, openButtonText, cta }: Props) => {
             onKeyDown={handleTrapStartKeyDown}
             onClick={() => {
               setIsActive(false);
-              setTabbable(false);
+              setFocusable(false);
               openDialogRef &&
                 openDialogRef.current &&
                 openDialogRef.current.focus();
