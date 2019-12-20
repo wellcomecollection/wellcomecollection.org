@@ -430,12 +430,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const {
     searchUsingScoringTiers,
     unfilteredSearchResults,
-    enableImageSearch,
   } = ctx.query.toggles;
-
-  if (!enableImageSearch) {
-    params.imageSearch = false;
-  }
 
   const serializeParams = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser

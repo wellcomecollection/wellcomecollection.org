@@ -17,7 +17,6 @@ import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFil
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 
 function inputValue(input: ?HTMLElement): ?string {
@@ -206,33 +205,25 @@ const SearchForm = ({
 
       {shouldShowFilters && (
         <>
-          <TogglesContext.Consumer>
-            {({ enableImageSearch }) =>
-              enableImageSearch ? (
-                <SearchTypeRadioGroup
-                  name="searchType"
-                  selected={
-                    searchParams.imageSearch
-                      ? 'imageSearch'
-                      : 'allCollectionSearch'
-                  }
-                  onChange={() => {
-                    searchForm.current && updateUrl(searchForm.current);
-                  }}
-                  options={[
-                    {
-                      value: 'allCollectionSearch',
-                      label: 'All collection',
-                    },
-                    {
-                      value: 'imageSearch',
-                      label: 'Images only',
-                    },
-                  ]}
-                />
-              ) : null
+          <SearchTypeRadioGroup
+            name="searchType"
+            selected={
+              searchParams.imageSearch ? 'imageSearch' : 'allCollectionSearch'
             }
-          </TogglesContext.Consumer>
+            onChange={() => {
+              searchForm.current && updateUrl(searchForm.current);
+            }}
+            options={[
+              {
+                value: 'allCollectionSearch',
+                label: 'All collection',
+              },
+              {
+                value: 'imageSearch',
+                label: 'Images only',
+              },
+            ]}
+          />
           <SearchFilters
             searchForm={searchForm}
             searchParams={searchParams}
