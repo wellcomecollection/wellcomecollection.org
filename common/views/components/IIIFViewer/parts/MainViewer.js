@@ -19,12 +19,13 @@ const ThumbnailWrapper = styled.div`
   height: 100%;
   img {
     position: relative;
-    height: 95%;
     width: auto;
     display: block;
     margin: auto;
     top: 50%;
     transform: translateY(-50%);
+    max-width: 95%;
+    max-height: 95%;
   }
 `;
 
@@ -88,11 +89,8 @@ const ItemRenderer = memo(({ style, index, data }) => {
           {imageType === 'thumbnail' && urlTemplateThumbnail && (
             <ThumbnailWrapper>
               <IIIFResponsiveImage
-                width={
-                  smallestWidthImageDimensions
-                    ? smallestWidthImageDimensions.width
-                    : 30
-                }
+                width={currentCanvas.width}
+                height={currentCanvas.height}
                 src={urlTemplateThumbnail({
                   size: `${
                     smallestWidthImageDimensions
