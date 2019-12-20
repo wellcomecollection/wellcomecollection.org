@@ -1,13 +1,6 @@
 module.exports = {
   toggles: [
     {
-      id: 'enableImageSearch',
-      title: 'Enable the images-only search option',
-      defaultValue: false,
-      description:
-        'Enables an image-only search option, which uses a different UI',
-    },
-    {
       id: 'stacksRequestService',
       title: 'Items status and requesting',
       defaultValue: false,
