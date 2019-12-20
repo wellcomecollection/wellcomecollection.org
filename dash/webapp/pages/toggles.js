@@ -38,12 +38,11 @@ function setCookie(name, value) {
 const abTests = [
   {
     id: 'searchInEnglishWithContributors',
-    title:
-      'Search the API with a using English analysers and include contributors',
+    title: 'Search the API with English analysers and including contributors',
     range: [0, 100],
     defaultValue: false,
     description:
-      'Using the scoring tiers approach, but using English analysers and including the contributors field',
+      'Using the scoring tiers approach, with English analysers and including the contributors field',
   },
 ];
 const IndexPage = () => {

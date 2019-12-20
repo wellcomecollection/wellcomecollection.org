@@ -1,17 +1,16 @@
 module.exports = {
   toggles: [
     {
+      id: 'unfilteredSearchResults',
+      title: 'Search the entire catalogue',
+      defaultValue: false,
+      description: 'Search the entire catalogue without any filters',
+    },
+    {
       id: 'stacksRequestService',
       title: 'Items status and requesting',
       defaultValue: false,
       description: 'Get the status of items and request them from the stacks',
-    },
-    {
-      id: 'unfilteredSearchResults',
-      title:
-        'Return all posible results from the catalogue API, without filtering by type or location',
-      defaultValue: false,
-      description: 'Shows all possible search results from the catalogue API',
     },
     {
       id: 'helveticaRegular',
