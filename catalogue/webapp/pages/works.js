@@ -428,7 +428,7 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const {
-    searchInEnglishWithContributors,
+    // searchInEnglishWithContributors,
     unfilteredSearchResults,
   } = ctx.query.toggles;
 
@@ -444,9 +444,9 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchInEnglishWithContributors
-      ? 'InEnglishWithContributors'
-      : undefined,
+    // _queryType: searchInEnglishWithContributors
+    //   ? 'InEnglishWithContributors'
+    //   : undefined,
   };
 
   const shouldGetWorks = filters.query && filters.query !== '';
