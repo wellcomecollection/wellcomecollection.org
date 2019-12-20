@@ -182,10 +182,12 @@ const Download = ({
         {licenseInfo && (
           <SpacingComponent>
             <div ref={downloadText}>
-              <WorkDetailsText
-                title="License information"
-                text={licenseInfo.humanReadableText}
-              />
+              {licenseInfo.humanReadableText.length > 0 && (
+                <WorkDetailsText
+                  title="License information"
+                  text={licenseInfo.humanReadableText}
+                />
+              )}
               <WorkDetailsText
                 title="Credit"
                 text={[

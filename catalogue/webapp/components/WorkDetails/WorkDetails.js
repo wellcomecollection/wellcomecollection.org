@@ -348,10 +348,12 @@ const WorkDetails = ({
         {licenseInfo && (
           <WorkDetailsSection headingText="License information">
             <div id="licenseInformation">
-              <WorkDetailsText
-                title="License information"
-                text={licenseInfo.humanReadableText}
-              />
+              {licenseInfo.humanReadableText.length > 0 && (
+                <WorkDetailsText
+                  title="License information"
+                  text={licenseInfo.humanReadableText}
+                />
+              )}
               <WorkDetailsText
                 title="Credit"
                 text={[
