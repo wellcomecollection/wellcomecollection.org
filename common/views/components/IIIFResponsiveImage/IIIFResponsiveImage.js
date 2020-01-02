@@ -15,6 +15,7 @@ type Props = {|
   clickHandler?: () => void | Promise<void>,
   loadHandler?: () => void | Promise<void>,
   presentationOnly?: boolean,
+  tabIndex?: number,
 |};
 
 const IIIFResponsiveImage = ({
@@ -30,10 +31,12 @@ const IIIFResponsiveImage = ({
   loadHandler,
   isLazy,
   presentationOnly,
+  tabIndex,
 }: Props) => {
   return (
     <>
       <img
+        tabIndex={tabIndex}
         lang={lang}
         width={width}
         height={height}
@@ -44,6 +47,11 @@ const IIIFResponsiveImage = ({
         })}
         onLoad={loadHandler}
         onClick={clickHandler}
+        onKeyDown={e => {
+          if (e.keyCode === 13) {
+            clickHandler();
+          }
+        }}
         onError={event =>
           Raven.captureException(new Error('IIIF image loading error'), {
             tags: {

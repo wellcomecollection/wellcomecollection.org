@@ -82,7 +82,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const rotation = matching ? matching.rotation : 0;
   const imageType = getImageTypeForScrollVelocity(scrollVelocity);
   return (
-    <div style={style} tabIndex={0}>
+    <div style={style}>
       {scrollVelocity === 3 || isProgrammaticScroll ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL lighten={true} />

@@ -119,6 +119,7 @@ const ImageViewer = ({
   return (
     <ImageWrapper onLoad={onLoadHandler} ref={imageViewer}>
       <IIIFResponsiveImage
+        tabIndex={0}
         width={width}
         height={height}
         src={imageSrc}
