@@ -57,7 +57,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
     mainViewerRef,
     setActiveIndex,
     setIsLoading,
-    setShowControls,
   } = data;
   const [ocrText, setOcrText] = useState('');
   const [mainLoaded, setMainLoaded] = useState(false);
@@ -131,7 +130,6 @@ const ItemRenderer = memo(({ style, index, data }) => {
                   : null
               }
               setActiveIndex={setActiveIndex}
-              setShowControls={setShowControls}
               index={index}
               onLoadHandler={() => {
                 setMainLoaded(true);
@@ -182,10 +180,17 @@ const MainViewer = ({
     debounce(handleOnItemsRendered, 500)
   );
   const itemHeight = pageWidth * 0.8;
+  let timer;
   function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
     setNewScrollOffset(scrollOffset);
     setIsProgrammaticScroll(scrollUpdateWasRequested);
     setShowControls(false);
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(function() {
+      setShowControls(true);
+    }, 500);
   }
 
   function handleOnItemsRendered({ visibleStopIndex }) {
@@ -207,6 +212,7 @@ const MainViewer = ({
       if (infoUrl) {
         setZoomInfoUrl(infoUrl);
       }
+      setShowControls(true);
     }
   }
 
@@ -223,7 +229,6 @@ const MainViewer = ({
         setZoomInfoUrl,
         rotatedImages,
         setActiveIndex,
-        setShowControls,
         setIsLoading,
       }}
       itemSize={itemHeight}
