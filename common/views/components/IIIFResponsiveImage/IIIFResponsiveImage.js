@@ -13,7 +13,7 @@ type Props = {|
   lang: ?string,
   isLazy: boolean,
   clickHandler?: () => void | Promise<void>,
-  loadHandler?: () => void | Promise<void>,
+  onLoadHandler?: () => void | Promise<void>,
   presentationOnly?: boolean,
   tabIndex?: number,
 |};
@@ -28,7 +28,7 @@ const IIIFResponsiveImage = ({
   extraClasses,
   lang,
   clickHandler,
-  loadHandler,
+  onLoadHandler,
   isLazy,
   presentationOnly,
   tabIndex,
@@ -45,7 +45,7 @@ const IIIFResponsiveImage = ({
           [extraClasses || '']: true,
           'lazy-image lazyload': isLazy,
         })}
-        onLoad={loadHandler}
+        onLoad={onLoadHandler}
         onClick={clickHandler}
         onKeyDown={e => {
           if (e.keyCode === 13) {

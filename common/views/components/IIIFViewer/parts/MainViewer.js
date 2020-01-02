@@ -107,7 +107,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
                 alt={''}
                 isLazy={false}
                 lang={null}
-                loadHandler={() => {
+                onLoadHandler={() => {
                   setThumbLoaded(true);
                 }}
               />
