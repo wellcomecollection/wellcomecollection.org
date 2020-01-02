@@ -104,11 +104,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
                   },`,
                 })}
                 srcSet={''}
-                sizes={`${
-                  smallestWidthImageDimensions
-                    ? smallestWidthImageDimensions.width
-                    : 30
-                }px`}
+                sizes={''}
                 alt={''}
                 isLazy={false}
                 lang={null}
