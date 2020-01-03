@@ -98,6 +98,7 @@ type Props = {|
   iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
   lang: string,
+  viewerRef: { current: HTMLElement | null },
 |};
 
 const ViewerTopBar = ({
@@ -119,6 +120,7 @@ const ViewerTopBar = ({
   iiifPresentationDownloadOptions,
   parentManifest,
   lang,
+  viewerRef,
 }: Props) => {
   return (
     <TopBar className="flex">
@@ -167,6 +169,27 @@ const ViewerTopBar = ({
         )}
         {enhanced && (
           <div className="flex flex--v-center">
+            {document && document.fullscreenEnabled && (
+              <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                <Button
+                  extraClasses="btn--primary-black"
+                  icon="expand"
+                  text="Full screen"
+                  fontFamily="hnl"
+                  clickHandler={() => {
+                    if (viewerRef && viewerRef.current) {
+                      if (!document.fullscreenElement) {
+                        viewerRef.current.requestFullscreen();
+                      } else {
+                        if (document.exitFullscreen) {
+                          document.exitFullscreen();
+                        }
+                      }
+                    }
+                  }}
+                />
+              </Space>
+            )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
                 title={title}

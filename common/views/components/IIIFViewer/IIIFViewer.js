@@ -211,6 +211,7 @@ const IIIFViewerComponent = ({
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
+  const viewerRef = useRef(null);
   const navigationCanvases =
     canvases &&
     [...Array(pageSize)]
@@ -325,7 +326,11 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     function handleResize() {
-      setPageHeight(window.innerHeight - headerHeight);
+      if (document.fullscreenElement) {
+        setPageHeight(window.innerHeight);
+      } else {
+        setPageHeight(window.innerHeight - headerHeight);
+      }
       setPageWidth(window.innerWidth);
     }
 
@@ -337,7 +342,7 @@ const IIIFViewerComponent = ({
   }, []);
 
   return (
-    <>
+    <div ref={viewerRef}>
       <ViewerTopBar
         canvases={canvases}
         enhanced={enhanced}
@@ -357,6 +362,7 @@ const IIIFViewerComponent = ({
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
         lang={lang}
+        viewerRef={viewerRef}
       />
       <IIIFViewerBackground>
         {isLoading && <LoadingComponent />}
@@ -500,7 +506,7 @@ const IIIFViewerComponent = ({
           </>
         )}
       </IIIFViewerBackground>
-    </>
+    </div>
   );
 };
 
