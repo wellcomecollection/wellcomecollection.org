@@ -14,8 +14,8 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchUsingScoringTiers',
-    title: 'Search the API with a scoring tiered approach',
+    id: 'searchInEnglishWithContributors',
+    title: 'Search the API with English analysers and including contributors',
     range: [0, 100],
     when: (request, range) => {
       return request.uri.match(/^\/works\/*/);

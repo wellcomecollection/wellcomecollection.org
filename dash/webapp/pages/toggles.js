@@ -37,12 +37,12 @@ function setCookie(name, value) {
 
 const abTests = [
   {
-    id: 'searchUsingScoringTiers',
-    title: 'Search the API with a scoring tiered approach',
+    id: 'searchInEnglishWithContributors',
+    title: 'Search the API with English analysers and including contributors',
     range: [0, 100],
     defaultValue: false,
     description:
-      'This enables high accuracy on things like titles, and high recal from things like descriptions.',
+      'Using the scoring tiers approach, with English analysers and including the contributors field',
   },
 ];
 const IndexPage = () => {

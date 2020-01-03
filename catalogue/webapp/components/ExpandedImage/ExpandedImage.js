@@ -174,12 +174,12 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
           )}
           <p>{detailedWork && detailedWork.description}</p>
           <div>
-            <SpacedButton type="primary" text="Go to work" link={workLink} />
+            <SpacedButton type="primary" text="View image" link={itemLink} />
             {itemLink && (
               <SpacedButtonBorderBox
                 type="secondary"
-                text="Go to image"
-                link={itemLink}
+                text="About this work"
+                link={workLink}
               />
             )}
           </div>

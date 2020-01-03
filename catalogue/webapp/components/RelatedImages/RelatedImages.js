@@ -35,7 +35,7 @@ const RelatedImages = ({ originalId }: Props) => {
   }, []);
   return relatedImages.length === 0 ? null : (
     <Wrapper>
-      <h3 className={font('hnm', 4)}>Related images</h3>
+      <h3 className={font('hnm', 4)}>Visually similar</h3>
       <div className="grid">
         {relatedImages.map(related => (
           <ImageContainer
