@@ -94,7 +94,7 @@ type Props = {|
   iiifPresentationLicenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   iiifImageLocationLicenseId: ?LicenseType,
-  downloadOptions: IIIFRendering[],
+  downloadOptions: ?(IIIFRendering[]),
   iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
   lang: string,
