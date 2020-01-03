@@ -49,7 +49,7 @@ const IIIFResponsiveImage = ({
         onClick={clickHandler}
         onKeyDown={e => {
           if (e.keyCode === 13) {
-            clickHandler();
+            clickHandler && clickHandler();
           }
         }}
         onError={event =>
