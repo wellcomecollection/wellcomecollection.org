@@ -132,7 +132,7 @@ const SearchForm = ({
     const sortOrder = inputValue(form['sortOrder']);
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
-    const imageSearch = inputValue(form['searchType']) === 'imageSearch';
+    const search = inputValue(form['search']);
     const link = url({
       ...searchParams,
       query: inputQuery,
@@ -142,7 +142,7 @@ const SearchForm = ({
       productionDatesTo: inputValue(form['production.dates.to']),
       sortOrder,
       sort,
-      imageSearch,
+      search,
     });
     return Router.push(link.href, link.as);
   }
@@ -206,20 +206,20 @@ const SearchForm = ({
       {shouldShowFilters && (
         <>
           <SearchTypeRadioGroup
-            name="searchType"
-            selected={
-              searchParams.imageSearch ? 'imageSearch' : 'allCollectionSearch'
-            }
+            name="search"
+            selected={searchParams.search ? 'images' : ''}
             onChange={() => {
               searchForm.current && updateUrl(searchForm.current);
             }}
             options={[
               {
-                value: 'allCollectionSearch',
+                id: 'all-collection',
+                value: '',
                 label: 'All collection',
               },
               {
-                value: 'imageSearch',
+                id: 'images',
+                value: 'images',
                 label: 'Images only',
               },
             ]}
