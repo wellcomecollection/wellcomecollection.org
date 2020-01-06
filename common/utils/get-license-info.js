@@ -62,18 +62,18 @@ export const licenseMap = {
   'cc-by-nd': {
     url: 'https://creativecommons.org/licenses/by-nd/4.0/',
     text: 'CC BY-ND',
-    icons: ['cc', 'cc_by', 'cc_nd'],
+    icons: ['cc', 'ccBy', 'ccNd'],
     description: 'Free to use with attribution. No modifications permitted.',
   },
   'cc-by-sa': {
     url: 'https://creativecommons.org/licenses/by-sa/4.0/',
     text: 'CC BY-SA',
-    icons: ['cc', 'cc_by'],
+    icons: ['cc', 'ccBy'],
   },
   'cc-by-nc-sa': {
     url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
     text: 'CC BY-NC-SA',
-    icons: ['cc', 'cc_by', 'cc_nc'],
+    icons: ['cc', 'ccBy', 'ccNc'],
   },
   ogl: {
     url:
