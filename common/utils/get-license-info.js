@@ -8,6 +8,14 @@ export type LicenseData = {|
 |};
 
 export const licenseMap = {
+  // TODO delete copyright-not-cleared when https://github.com/wellcometrust/catalogue/pull/328
+  // has been merged and API has been deployed
+  'copyright-not-cleared': {
+    text: 'Copyright not cleared',
+    humanReadableText: [
+      'Copyright for this work has not been cleared. You are responsible for identifying the rights owner to seek permission to use this work.',
+    ],
+  },
   pdm: {
     url: 'https://creativecommons.org/publicdomain/mark/1.0/',
     text: 'Public Domain',

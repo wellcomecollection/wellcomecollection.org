@@ -12,7 +12,8 @@ export const licenseTypeArray = [
   'PDM',
   'OGL',
   'OPL',
-  'In-copyright',
+  'copyright-not-cleared',
+  'in-copyright',
 ];
 export type LicenseType =
   | 'CC-0'
@@ -25,7 +26,8 @@ export type LicenseType =
   | 'PDM'
   | 'OGL'
   | 'OPL'
-  | 'In-copyright';
+  | 'copyright-not-cleared'
+  | 'in-copyright';
 export type License = {|
   subject?: string,
   licenseType: LicenseType,

@@ -18,7 +18,8 @@ const LicenseExample = () => {
       'PDM',
       'OGL',
       'OPL',
-      'In-copyright',
+      'in-copyright',
+      'copyright-not-cleared',
     ],
     'CC-0'
   );
