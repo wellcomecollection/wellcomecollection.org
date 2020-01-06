@@ -104,7 +104,8 @@ const Works = ({
     };
   }, []);
 
-  const resultsGrid = searchParams.imageSearch
+  const isImageSearch = searchParams.search === 'images';
+  const resultsGrid = isImageSearch
     ? { s: 6, m: 4, l: 3, xl: 2 }
     : { s: 12, m: 12, l: 12, xl: 12 };
 
@@ -258,7 +259,7 @@ const Works = ({
             >
               <div className="container">
                 <div className="grid">
-                  {searchParams.imageSearch ? null : (
+                  {isImageSearch ? null : (
                     <div
                       className={classNames({
                         [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
@@ -291,7 +292,7 @@ const Works = ({
                           });
                         }}
                       >
-                        {searchParams.imageSearch ? (
+                        {isImageSearch ? (
                           <>
                             <ImageCard
                               id={result.id}
@@ -328,7 +329,7 @@ const Works = ({
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
                           relevanceRating &&
-                          !searchParams.imageSearch && (
+                          !isImageSearch && (
                             <RelevanceRater
                               id={result.id}
                               position={i}
@@ -431,13 +432,14 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     searchInEnglishWithContributors,
     unfilteredSearchResults,
   } = ctx.query.toggles;
+  const isImageSearch = params.search === 'images';
 
   const serializeParams = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser
     : apiSearchParamsSerialiser;
   const filters = serializeParams({
     ...params,
-    itemsLocationsLocationType: params.imageSearch
+    itemsLocationsLocationType: isImageSearch
       ? [IMAGES_LOCATION_TYPE]
       : params.itemsLocationsLocationType,
   });
@@ -453,7 +455,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const worksOrError = shouldGetWorks
     ? await getWorks({
         filters: toggledFilters,
-        pageSize: params.imageSearch ? 24 : undefined,
+        pageSize: isImageSearch ? 24 : undefined,
       })
     : null;
   return {
