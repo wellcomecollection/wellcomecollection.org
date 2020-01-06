@@ -74,7 +74,7 @@ export const licenseMap = {
       'It is possible this Item is protected by copyright and/or related rights. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use. For other uses you need to obtain permission from the rights-holder(s).',
     ],
   },
-  OGL: {
+  ogl: {
     url:
       'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
     text: 'Open Government Licence',
@@ -85,7 +85,7 @@ export const licenseMap = {
       'Open Government Licence terms and conditions <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</a>',
     ],
   },
-  OPL: {
+  opl: {
     url:
       'https://www.parliament.uk/site-information/copyright/open-parliament-licence/',
     text: 'Open Parliament Licence',
