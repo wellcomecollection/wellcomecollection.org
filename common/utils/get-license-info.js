@@ -8,6 +8,8 @@ export type LicenseData = {|
 |};
 
 export const licenseMap = {
+  // TODO delete copyright-not-cleared when https://github.com/wellcometrust/catalogue/pull/328
+  // has been merged and API has been deployed
   'copyright-not-cleared': {
     text: 'Copyright not cleared',
     humanReadableText: [
@@ -65,36 +67,34 @@ export const licenseMap = {
       'Creative Commons Attribution Non-Commercial No-Derivatives (CC BY-NC-ND 4.0) terms and conditions <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">https://creativecommons.org/licenses/by-nc-nd/4.0/</a>',
     ],
   },
-  inc: {
-    url: 'http://rightsstatements.org/vocab/InC/1.0/',
-    text: 'In copyright',
-    description:
-      'Free to use as permitted by the copyright and rights legislation that applies to your use.',
-    humanReadableText: [
-      'It is possible this Item is protected by copyright and/or related rights. You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use. For other uses you need to obtain permission from the rights-holder(s).',
-    ],
+  'cc-by-nd': {
+    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
+    text: 'CC BY-ND',
+    icons: ['cc', 'ccBy', 'ccNd'],
+    description: 'Free to use with attribution. No modifications permitted.',
   },
-  OGL: {
+  'cc-by-sa': {
+    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    text: 'CC BY-SA',
+    icons: ['cc', 'ccBy'],
+  },
+  'cc-by-nc-sa': {
+    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+    text: 'CC BY-NC-SA',
+    icons: ['cc', 'ccBy', 'ccNc'],
+  },
+  ogl: {
     url:
       'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
-    text: 'Open Government Licence',
-    description: 'Free to use with attribution.',
-    humanReadableText: [
-      'You can use this work for any purpose, including commercial uses, without restriction under copyright law. You should also provide attribution to the original work, source and licence.',
-
-      'Open Government Licence terms and conditions <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</a>',
-    ],
+    text: 'Open Government License',
   },
-  OPL: {
-    url:
-      'https://www.parliament.uk/site-information/copyright/open-parliament-licence/',
-    text: 'Open Parliament Licence',
-    description: 'Free to use with attribution.',
-    humanReadableText: [
-      'You can use this work for any purpose, including commercial uses, without restriction under copyright law. You should also provide attribution to the original work, source and licence.',
-
-      'Open Parliament Licence terms and conditions <a href="https://www.parliament.uk/site-information/copyright/open-parliament-licence/">https://www.parliament.uk/site-information/copyright/open-parliament-licence/</a>',
-    ],
+  opl: {
+    url: 'http://opencontent.org/openpub/',
+    text: 'Open Publication License',
+  },
+  'inc': {
+    url: 'http://rightsstatements.org/vocab/InC/1.0/',
+    text: 'In copyright',
   },
 };
 
