@@ -13,7 +13,7 @@ export const licenseTypeArray = [
   'OGL',
   'OPL',
   'copyright-not-cleared',
-  'in-copyright',
+  'inc',
 ];
 export type LicenseType =
   | 'CC-0'
@@ -27,7 +27,7 @@ export type LicenseType =
   | 'OGL'
   | 'OPL'
   | 'copyright-not-cleared'
-  | 'in-copyright';
+  | 'inc';
 export type License = {|
   subject?: string,
   licenseType: LicenseType,
