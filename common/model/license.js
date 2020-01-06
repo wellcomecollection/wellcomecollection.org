@@ -6,16 +6,26 @@ export const licenseTypeArray = [
   'CC-BY',
   'CC-BY-NC',
   'CC-BY-NC-ND',
+  'CC-BY-ND',
+  'CC-BY-SA',
+  'CC-BY-NC-SA',
   'PDM',
-  'copyright-not-cleared',
+  'OGL',
+  'OPL',
+  'In-copyright',
 ];
 export type LicenseType =
   | 'CC-0'
   | 'CC-BY'
   | 'CC-BY-NC'
   | 'CC-BY-NC-ND'
+  | 'CC-BY-ND'
+  | 'CC-BY-SA'
+  | 'CC-BY-NC-SA'
   | 'PDM'
-  | 'copyright-not-cleared';
+  | 'OGL'
+  | 'OPL'
+  | 'In-copyright';
 export type License = {|
   subject?: string,
   licenseType: LicenseType,
