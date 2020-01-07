@@ -1,6 +1,6 @@
 // @flow
 import type { AppInitialProps } from 'next/app';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import Router from 'next/router';
 import Head from 'next/head';
 import ReactGA from 'react-ga';
@@ -390,7 +390,7 @@ export default class WecoApp extends App {
     };
 
     return (
-      <Container>
+      <>
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -488,7 +488,7 @@ export default class WecoApp extends App {
             </GlobalAlertContext.Provider>
           </OpeningTimesContext.Provider>
         </TogglesContext.Provider>
-      </Container>
+      </>
     );
   }
 }
