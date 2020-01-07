@@ -12,8 +12,14 @@ const LicenseExample = () => {
       'CC-BY',
       'CC-BY-NC',
       'CC-BY-NC-ND',
+      'CC-BY-ND',
+      'CC-BY-SA',
+      'CC-BY-NC-SA',
       'PDM',
-      'copyright-not-cleared',
+      'OGL',
+      'OPL',
+      'in-copyright',
+      'inc',
     ],
     'CC-0'
   );

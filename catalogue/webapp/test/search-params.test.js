@@ -57,6 +57,6 @@ describe('deserialises', () => {
     );
 
     // array with defaults
-    expect(params.workType).toBe('a,k,q');
+    expect(params.workType).toBe('a,k,q,i,g');
   });
 });
