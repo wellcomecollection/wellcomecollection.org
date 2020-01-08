@@ -77,6 +77,8 @@ class WobblyEdge extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.debounceUpdatePoints);
+
+    clearTimeout(this.timer);
   }
 
   makePolygonPoints(totalPoints: number, intensity: number): string {
