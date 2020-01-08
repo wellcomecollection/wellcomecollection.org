@@ -169,27 +169,40 @@ const ViewerTopBar = ({
         )}
         {enhanced && (
           <div className="flex flex--v-center">
-            {document && document.fullscreenEnabled && (
-              <Space h={{ size: 'm', properties: ['margin-right'] }}>
-                <Button
-                  extraClasses="btn--primary-black"
-                  icon="expand"
-                  text="Full screen"
-                  fontFamily="hnl"
-                  clickHandler={() => {
-                    if (viewerRef && viewerRef.current) {
-                      if (!document.fullscreenElement) {
-                        viewerRef.current.requestFullscreen();
-                      } else {
-                        if (document.exitFullscreen) {
-                          document.exitFullscreen();
+            {document &&
+              (document.fullscreenEnabled ||
+                document.webkitFullscreenEnabled) && (
+                <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                  <Button
+                    extraClasses="btn--primary-black"
+                    icon="expand"
+                    text="Full screen"
+                    fontFamily="hnl"
+                    clickHandler={() => {
+                      if (viewerRef && viewerRef.current) {
+                        if (
+                          !document.fullscreenElement &&
+                          !document.webkitFullscreenElement
+                        ) {
+                          if (viewerRef.current.requestFullscreen) {
+                            viewerRef.current.requestFullscreen();
+                          } else if (
+                            viewerRef.current.webkitRequestFullscreen
+                          ) {
+                            viewerRef.current.webkitRequestFullscreen();
+                          }
+                        } else {
+                          if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                          } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                          }
                         }
                       }
-                    }
-                  }}
-                />
-              </Space>
-            )}
+                    }}
+                  />
+                </Space>
+              )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
                 title={title}
