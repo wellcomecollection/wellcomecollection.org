@@ -382,7 +382,7 @@ export async function getExhibitionRelatedContent(
   req: ?Request,
   ids: string[]
 ): Promise<ExhibitionRelatedContent> {
-  const fetchLinks = [].concat(
+  const fetchLinks = [
     eventAccessOptionsFields,
     teamsFields,
     eventFormatsFields,
@@ -398,8 +398,8 @@ export async function getExhibitionRelatedContent(
     articleSeriesFields,
     articleFormatsFields,
     exhibitionFields,
-    articlesFields
-  );
+    articlesFields,
+  ];
   const types = ['exhibitions', 'events', 'articles', 'books'];
   const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
   const parsedContent = parseMultiContent(extraContent.results).filter(doc => {

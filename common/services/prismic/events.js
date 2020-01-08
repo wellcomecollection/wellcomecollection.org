@@ -267,7 +267,7 @@ export function parseEventDoc(
   return { ...event, labels };
 }
 
-const fetchLinks = [].concat(
+const fetchLinks = [
   eventAccessOptionsFields,
   teamsFields,
   eventFormatsFields,
@@ -279,8 +279,8 @@ const fetchLinks = [].concat(
   peopleFields,
   contributorsFields,
   eventSeriesFields,
-  eventPoliciesFields
-);
+  eventPoliciesFields,
+];
 
 type EventQueryProps = {|
   id: string,
