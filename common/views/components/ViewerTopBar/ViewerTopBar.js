@@ -171,6 +171,7 @@ const ViewerTopBar = ({
           <div className="flex flex--v-center">
             {document &&
               (document.fullscreenEnabled ||
+                // $FlowFixMe
                 document.webkitFullscreenEnabled) && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <Button
@@ -182,19 +183,24 @@ const ViewerTopBar = ({
                       if (viewerRef && viewerRef.current) {
                         if (
                           !document.fullscreenElement &&
+                          // $FlowFixMe
                           !document.webkitFullscreenElement
                         ) {
                           if (viewerRef.current.requestFullscreen) {
                             viewerRef.current.requestFullscreen();
                           } else if (
+                            // $FlowFixMe
                             viewerRef.current.webkitRequestFullscreen
                           ) {
+                            // $FlowFixMe
                             viewerRef.current.webkitRequestFullscreen();
                           }
                         } else {
                           if (document.exitFullscreen) {
                             document.exitFullscreen();
+                            // $FlowFixMe
                           } else if (document.webkitExitFullscreen) {
+                            // $FlowFixMe
                             document.webkitExitFullscreen();
                           }
                         }
