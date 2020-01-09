@@ -179,16 +179,15 @@ const MainViewer = ({
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
+  const timer = useRef(null);
   const itemHeight = pageWidth * 0.8;
-  let timer;
   function handleOnScroll({ scrollOffset, scrollUpdateWasRequested }) {
+    clearTimeout(timer.current);
+    setShowControls(false);
     setNewScrollOffset(scrollOffset);
     setIsProgrammaticScroll(scrollUpdateWasRequested);
-    setShowControls(false);
-    if (timer !== null) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(function() {
+
+    timer.current = setTimeout(() => {
       setShowControls(true);
     }, 500);
   }
