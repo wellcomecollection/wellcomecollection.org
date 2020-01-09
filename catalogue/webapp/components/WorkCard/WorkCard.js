@@ -57,6 +57,13 @@ const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
   }
 `;
 
+// TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
+// These will be removed from the API at some stage.
+function isPdfThumbnail(thumbnail): boolean {
+  // e.g. https://dlcs.io/iiif-img/wellcome/5/b28820769_WG_2006_PAAG-implementing-persistent-identifiers_EN.pdf/full/!200,200/0/default.jpg
+  return Boolean(thumbnail.url.match('.pdf/full'));
+}
+
 const WorkCard = ({ work, params }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
@@ -148,30 +155,31 @@ const WorkCard = ({ work, params }: Props) => {
                 )}
               </div>
             </Details>
-
-            {work.thumbnail && (
-              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
-                <IIIFResponsiveImage
-                  width={178}
-                  src={convertImageUri(work.thumbnail.url, 178)}
-                  srcSet={imageSizes(2048)
-                    .map(width => {
-                      return `${convertImageUri(
-                        work.thumbnail.url,
-                        width
-                      )} ${width}w`;
-                    })
-                    .join(',')}
-                  sizes={`178px`}
-                  alt={''}
-                  lang={null}
-                  extraClasses={classNames({
-                    'h-center': true,
-                  })}
-                  isLazy={true}
-                />
-              </Preview>
-            )}
+            {work.thumbnail &&
+            !isPdfThumbnail(work.thumbnail) &&
+            ['k', 'q'].includes(work.workType.id) && ( // Only show thumbnails for 'Pictures' and 'Digital Images' for now
+                <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+                  <IIIFResponsiveImage
+                    width={178}
+                    src={convertImageUri(work.thumbnail.url, 178)}
+                    srcSet={imageSizes(2048)
+                      .map(width => {
+                        return `${convertImageUri(
+                          work.thumbnail.url,
+                          width
+                        )} ${width}w`;
+                      })
+                      .join(',')}
+                    sizes={`178px`}
+                    alt={''}
+                    lang={null}
+                    extraClasses={classNames({
+                      'h-center': true,
+                    })}
+                    isLazy={true}
+                  />
+                </Preview>
+              )}
           </Container>
         </Space>
       </NextLink>
