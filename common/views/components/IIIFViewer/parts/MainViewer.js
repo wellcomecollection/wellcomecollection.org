@@ -93,7 +93,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
                 alt={''}
                 isLazy={false}
                 lang={null}
-                onLoadHandler={() => {
+                loadHandler={() => {
                   setThumbLoaded(true);
                 }}
               />
@@ -117,7 +117,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
               }
               setActiveIndex={setActiveIndex}
               index={index}
-              onLoadHandler={() => {
+              loadHandler={() => {
                 setMainLoaded(true);
                 setIsLoading(false);
               }}

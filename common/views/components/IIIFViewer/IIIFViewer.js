@@ -450,7 +450,7 @@ const IIIFViewerComponent = ({
                   urlTemplate={urlTemplate}
                   setShowZoomed={setShowZoomed}
                   rotation={firstRotation}
-                  onLoadHandler={() => {
+                  loadHandler={() => {
                     setZoomInfoUrl(iiifImageLocationUrl);
                     setIsLoading(false);
                   }}

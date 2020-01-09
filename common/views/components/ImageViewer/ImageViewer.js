@@ -42,7 +42,7 @@ type ImageViewerProps = {|
   setZoomInfoUrl?: string => void,
   setActiveIndex?: number => void,
   rotation: number,
-  onLoadHandler?: Function,
+  loadHandler?: Function,
   mainViewerRef?: ?HTMLElement,
   index?: number,
 |};
@@ -59,7 +59,7 @@ const ImageViewer = ({
   setZoomInfoUrl,
   setActiveIndex,
   rotation,
-  onLoadHandler,
+  loadHandler,
   mainViewerRef,
   index,
 }: ImageViewerProps) => {
@@ -117,7 +117,7 @@ const ImageViewer = ({
   }, []);
 
   return (
-    <ImageWrapper onLoad={onLoadHandler} ref={imageViewer}>
+    <ImageWrapper onLoad={loadHandler} ref={imageViewer}>
       <IIIFResponsiveImage
         tabIndex={0}
         width={width}
