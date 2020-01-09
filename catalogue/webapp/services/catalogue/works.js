@@ -90,9 +90,7 @@ export async function getWorkTypeAggregations({
   const workTypeBuckets = unfilteredSearchResults
     ? json.aggregations.workType.buckets
     : json.aggregations.workType.buckets.filter(bucket => {
-        return Boolean(
-          defaultWorkTypes.find(defaultType => bucket.data.id === defaultType)
-        );
+        return defaultWorkTypes.includes(bucket.data.id);
       });
   return workTypeBuckets;
 }
