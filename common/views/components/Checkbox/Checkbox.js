@@ -65,12 +65,13 @@ const CheckboxInput = styled.input.attrs({
   }
 `;
 
-type CheckboxWithoutLabelProps = {|
-  id: string,
-|};
 type CheckboxProps = {|
-  ...CheckboxWithoutLabelProps,
+  id: string,
   text: string,
+  checked: boolean,
+  name: string,
+  onChange: () => void,
+  value: string,
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {

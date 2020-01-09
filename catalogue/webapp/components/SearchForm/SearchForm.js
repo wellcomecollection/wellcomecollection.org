@@ -24,7 +24,8 @@ function inputValue(input: ?HTMLElement): ?string {
     input &&
     (input instanceof window.HTMLInputElement ||
       input instanceof window.HTMLSelectElement ||
-      input instanceof window.RadioNodeList)
+      (window.RadioNodeList && input instanceof window.RadioNodeList) ||
+      (!window.RadioNodeList && input instanceof window.HTMLCollection))
   ) {
     return input.value;
   }

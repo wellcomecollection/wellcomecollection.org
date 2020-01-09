@@ -1,43 +1,10 @@
-import { useState, useEffect, Fragment } from 'react';
-import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
-import { font, classNames } from '../../../utils/classnames';
-import Space from '../styled/Space';
-import Icon from '../Icon/Icon';
-import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
-import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
-import Divider from '@weco/common/views/components/Divider/Divider';
+import { useState, useEffect } from 'react';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-
-function CancelFilter({ text }: { text: string }) {
-  return (
-    <Space
-      as="span"
-      h={{
-        size: 'm',
-        properties: ['margin-right'],
-      }}
-    >
-      <Space
-        as="span"
-        h={{
-          size: 'xs',
-          properties: ['margin-right'],
-        }}
-      >
-        <Icon
-          name="cross"
-          extraClasses="icon--match-text icon--silver v-align-middle"
-        />
-      </Space>
-      <span className="visually-hidden">remove </span>
-      {text}
-    </Space>
-  );
-}
+import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
+import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
+import theme from '@weco/common/views/themes/default';
 
 type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
@@ -46,12 +13,25 @@ type Props = {|
   changeHandler: () => void,
 |};
 
+export type SearchFiltersSharedProps = {|
+  ...Props,
+  inputDateFrom: string,
+  inputDateTo: string,
+  setInputDateFrom: () => void,
+  setInputDateTo: () => void,
+  workTypeFilters: string[],
+  productionDatesFrom: ?string,
+  productionDatesTo: ?string,
+  workTypeInUrlArray: string[],
+|};
+
 const SearchFilters = ({
   searchForm,
   searchParams,
   workTypeAggregations,
   changeHandler,
 }: Props) => {
+  const [isMobile, setIsMobile] = useState(false);
   const workTypeInUrlArray = searchParams.workType || [];
   const { productionDatesFrom, productionDatesTo } = searchParams;
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -78,6 +58,18 @@ const SearchFilters = ({
       }
     })
     .filter(Boolean);
+
+  useEffect(() => {
+    function updateIsMobile() {
+      setIsMobile(window.innerWidth < theme.sizes.medium);
+    }
+
+    window.addEventListener('resize', updateIsMobile);
+
+    updateIsMobile();
+
+    return () => window.removeEventListener('resize', updateIsMobile);
+  }, []);
 
   useEffect(() => {
     if (productionDatesFrom !== inputDateFrom) {
@@ -107,189 +99,29 @@ const SearchFilters = ({
     }
   }, [inputDateTo]);
 
-  return (
-    <div>
-      <Space
-        v={{
-          size: 'l',
-          properties: ['margin-top', 'margin-bottom'],
-        }}
-        className={classNames({
-          flex: true,
-        })}
-      >
-        <Space
-          as="span"
-          h={{ size: 'm', properties: ['margin-right'] }}
-          className={classNames({
-            'flex flex--v-center': true,
-          })}
-        >
-          <Icon name="filter" />
-          <Space
-            h={{ size: 's', properties: ['margin-left'] }}
-            className={classNames({
-              [font('hnm', 5)]: true,
-            })}
-          >
-            Filter by
-          </Space>
-        </Space>
-        <Space h={{ size: 's', properties: ['margin-right'] }}>
-          <DropdownButton label={'Dates'}>
-            <>
-              <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-                <NumberInput
-                  label="From"
-                  min="0"
-                  max="9999"
-                  placeholder={'Year'}
-                  name="production.dates.from"
-                  value={inputDateFrom || ''}
-                  onChange={event => {
-                    setInputDateFrom(`${event.currentTarget.value}`);
-                  }}
-                />
-              </Space>
-              <NumberInput
-                label="to"
-                min="0"
-                max="9999"
-                placeholder={'Year'}
-                name="production.dates.to"
-                value={inputDateTo || ''}
-                onChange={event => {
-                  setInputDateTo(`${event.currentTarget.value}`);
-                }}
-              />
-            </>
-          </DropdownButton>
-        </Space>
-        {workTypeFilters.length > 0 && (
-          <DropdownButton label={'Formats'}>
-            <ul
-              className={classNames({
-                'no-margin no-padding plain-list': true,
-              })}
-            >
-              {workTypeFilters.map(workType => {
-                return (
-                  <li key={workType.data.id}>
-                    <Checkbox
-                      id={workType.data.id}
-                      text={`${workType.data.label} (${workType.count})`}
-                      value={workType.data.id}
-                      name={`workType`}
-                      checked={
-                        workTypeInUrlArray &&
-                        workTypeInUrlArray.includes(workType.data.id)
-                      }
-                      onChange={event => {
-                        changeHandler();
-                      }}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          </DropdownButton>
-        )}
-      </Space>
-      <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
-        {(productionDatesFrom ||
-          productionDatesTo ||
-          workTypeInUrlArray.length > 0) && (
-          <div className={classNames({ [font('hnl', 5)]: true })}>
-            <Divider extraClasses={'divider--thin divider--pumice'} />
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
-            >
-              <h2 className="inline">
-                <Space
-                  as="span"
-                  h={{
-                    size: 'm',
-                    properties: ['margin-right'],
-                  }}
-                >
-                  Active filters:
-                </Space>
-              </h2>
-              {productionDatesFrom && (
-                <NextLink
-                  passHref
-                  {...worksUrl({
-                    ...searchParams,
-                    page: 1,
-                    productionDatesFrom: null,
-                  })}
-                >
-                  <a>
-                    <CancelFilter text={`From ${productionDatesFrom}`} />
-                  </a>
-                </NextLink>
-              )}
-              {productionDatesTo && (
-                <NextLink
-                  passHref
-                  {...worksUrl({
-                    ...searchParams,
-                    page: 1,
-                    productionDatesTo: null,
-                  })}
-                >
-                  <a>
-                    <CancelFilter text={`To ${productionDatesTo}`} />
-                  </a>
-                </NextLink>
-              )}
+  const sharedProps = {
+    searchForm,
+    searchParams,
+    workTypeAggregations,
+    changeHandler,
+    inputDateFrom,
+    inputDateTo,
+    setInputDateFrom,
+    setInputDateTo,
+    workTypeFilters,
+    productionDatesFrom,
+    productionDatesTo,
+    workTypeInUrlArray,
+  };
 
-              {workTypeInUrlArray.map(id => {
-                const workTypeObject = workTypeFilters.find(({ data }) => {
-                  return data.id === id;
-                });
-                return (
-                  <Fragment key={id}>
-                    <NextLink
-                      key={workTypeObject.data.id}
-                      {...worksUrl({
-                        ...searchParams,
-                        workType: searchParams.workType.filter(
-                          w => w !== workTypeObject.data.id
-                        ),
-                        page: 1,
-                      })}
-                    >
-                      <a>
-                        <CancelFilter text={workTypeObject.data.label} />
-                      </a>
-                    </NextLink>
-                  </Fragment>
-                );
-              })}
-              <NextLink
-                passHref
-                {...worksUrl({
-                  ...searchParams,
-                  workType: null,
-                  page: 1,
-                  productionDatesFrom: null,
-                  productionDatesTo: null,
-                  itemsLocationsLocationType: null,
-                })}
-              >
-                <a>
-                  <CancelFilter text={'Clear all'} />
-                </a>
-              </NextLink>
-            </Space>
-          </div>
-        )}
-      </Space>
-    </div>
+  return (
+    <>
+      {isMobile ? (
+        <SearchFiltersMobile {...sharedProps} />
+      ) : (
+        <SearchFiltersDesktop {...sharedProps} />
+      )}
+    </>
   );
 };
 

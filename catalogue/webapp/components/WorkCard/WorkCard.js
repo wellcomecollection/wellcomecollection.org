@@ -57,6 +57,13 @@ const Preview: ComponentType<SpaceComponentProps> = styled(Space).attrs(() => ({
   }
 `;
 
+// TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
+// These will be removed from the API at some stage.
+function isPdfThumbnail(thumbnail): boolean {
+  // e.g. https://dlcs.io/iiif-img/wellcome/5/b28820769_WG_2006_PAAG-implementing-persistent-identifiers_EN.pdf/full/!200,200/0/default.jpg
+  return Boolean(thumbnail.url.match('.pdf/full'));
+}
+
 const WorkCard = ({ work, params }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
@@ -149,7 +156,7 @@ const WorkCard = ({ work, params }: Props) => {
               </div>
             </Details>
 
-            {work.thumbnail && (
+            {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
               <Preview h={{ size: 'm', properties: ['margin-left'] }}>
                 <IIIFResponsiveImage
                   width={178}
