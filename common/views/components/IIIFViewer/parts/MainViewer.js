@@ -32,20 +32,6 @@ const ThumbnailWrapper = styled.div`
   }
 `;
 
-function getImageTypeForScrollVelocity(velocity) {
-  // tweak how many velocities ?
-  switch (velocity) {
-    case 3:
-      return 'thumbnail';
-    case 2:
-      return 'thumbnail';
-    case 1:
-      return 'thumbnail';
-    default:
-      return 'main';
-  }
-}
-
 const ItemRenderer = memo(({ style, index, data }) => {
   const {
     scrollVelocity,
@@ -80,7 +66,7 @@ const ItemRenderer = memo(({ style, index, data }) => {
   const infoUrl = convertIiifUriToInfoUri(mainImageService['@id']);
   const matching = rotatedImages.find(canvas => canvas.canvasIndex === index);
   const rotation = matching ? matching.rotation : 0;
-  const imageType = getImageTypeForScrollVelocity(scrollVelocity);
+  const imageType = scrollVelocity >= 1 ? 'thumbnail' : 'main';
   return (
     <div style={style}>
       {scrollVelocity === 3 || isProgrammaticScroll ? (
