@@ -155,30 +155,31 @@ const WorkCard = ({ work, params }: Props) => {
                 )}
               </div>
             </Details>
-
-            {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
-              <Preview h={{ size: 'm', properties: ['margin-left'] }}>
-                <IIIFResponsiveImage
-                  width={178}
-                  src={convertImageUri(work.thumbnail.url, 178)}
-                  srcSet={imageSizes(2048)
-                    .map(width => {
-                      return `${convertImageUri(
-                        work.thumbnail.url,
-                        width
-                      )} ${width}w`;
-                    })
-                    .join(',')}
-                  sizes={`178px`}
-                  alt={''}
-                  lang={null}
-                  extraClasses={classNames({
-                    'h-center': true,
-                  })}
-                  isLazy={true}
-                />
-              </Preview>
-            )}
+            {work.thumbnail &&
+            !isPdfThumbnail(work.thumbnail) &&
+            ['k', 'q'].includes(work.workType.id) && ( // Only show thumbnails for 'Pictures' and 'Digital Images' for now
+                <Preview h={{ size: 'm', properties: ['margin-left'] }}>
+                  <IIIFResponsiveImage
+                    width={178}
+                    src={convertImageUri(work.thumbnail.url, 178)}
+                    srcSet={imageSizes(2048)
+                      .map(width => {
+                        return `${convertImageUri(
+                          work.thumbnail.url,
+                          width
+                        )} ${width}w`;
+                      })
+                      .join(',')}
+                    sizes={`178px`}
+                    alt={''}
+                    lang={null}
+                    extraClasses={classNames({
+                      'h-center': true,
+                    })}
+                    isLazy={true}
+                  />
+                </Preview>
+              )}
           </Container>
         </Space>
       </NextLink>
