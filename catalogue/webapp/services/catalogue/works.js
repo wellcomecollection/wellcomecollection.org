@@ -3,12 +3,10 @@ import fetch from 'isomorphic-unfetch';
 import {
   type CatalogueResultsList,
   type CatalogueApiError,
-  type CatalogueAggregationBucket,
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
 import { removeEmptyProps } from '@weco/common/utils/json';
-import { defaultWorkTypes } from '@weco/common/services/catalogue/search-params';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -69,28 +67,6 @@ export async function getWorks({
       type: 'Error',
     };
   }
-}
-
-export async function getWorkTypeAggregations({
-  filters,
-  unfilteredSearchResults,
-  env = 'prod',
-}: any): Promise<CatalogueAggregationBucket[]> {
-  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
-    const val = filters[key];
-    return key !== 'workType' && `${key}=${val}`;
-  });
-  const url =
-    `${rootUris[env]}/v2/works?include=${workIncludes.join(
-      ','
-    )}&aggregations=workType` +
-    (unfilteredSearchResults ? '' : `&workType=${defaultWorkTypes.join(',')}`) +
-    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
-
-  const res = await fetch(url);
-  const json = await res.json();
-
-  return json.aggregations.workType.buckets;
 }
 
 export async function getWork({

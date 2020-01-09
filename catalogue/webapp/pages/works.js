@@ -26,7 +26,7 @@ import ExpandedImage from '../components/ExpandedImage/ExpandedImage';
 import ImageCard from '../components/ImageCard/ImageCard';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
-import { getWorks, getWorkTypeAggregations } from '../services/catalogue/works';
+import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import {
   trackSearchResultSelected,
@@ -60,7 +60,6 @@ const Works = ({
   shouldGetWorks,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [workTypeAggregations, setWorkTypeAggregations] = useState([]);
   const {
     query,
     workType,
@@ -71,21 +70,10 @@ const Works = ({
   } = searchParams;
   const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
 
-  const fetchAggregations = async () => {
-    const workTypeAggregations = shouldGetWorks
-      ? await getWorkTypeAggregations({
-          unfilteredSearchResults,
-          filters: toggledFilters,
-        })
-      : [];
-    setWorkTypeAggregations(workTypeAggregations);
-  };
-
   useEffect(() => {
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
-    fetchAggregations();
   }, [searchParams]);
 
   useEffect(() => {
@@ -204,7 +192,11 @@ const Works = ({
                   compact={false}
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
-                  workTypeAggregations={workTypeAggregations}
+                  workTypeAggregations={
+                    works && works.aggregations
+                      ? works.aggregations.workType.buckets
+                      : null
+                  }
                 />
               </div>
             </div>
@@ -443,6 +435,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const toggledFilters = {
     ...filters,
+    aggregations: 'workType',
     _queryType: searchFixedFields ? 'FixedFields' : undefined,
   };
 
