@@ -25,7 +25,7 @@ function inputValue(input: ?HTMLElement): ?string {
     (input instanceof window.HTMLInputElement ||
       input instanceof window.HTMLSelectElement ||
       (window.RadioNodeList && input instanceof window.RadioNodeList) ||
-      (!window.RadioNodeList && input instanceof window.HTMLCollection))
+      (!window.RadioNodeList && input instanceof window.HTMLCollection)) // Fix for RadioNodeList being undefined in IE
   ) {
     return input.value;
   }
