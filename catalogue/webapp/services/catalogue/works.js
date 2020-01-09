@@ -84,13 +84,17 @@ export async function getWorkTypeAggregations({
     `${rootUris[env]}/v2/works?include=${workIncludes.join(
       ','
     )}&aggregations=workType` +
-    (unfilteredSearchResults ? '' : `&workType=${defaultWorkTypes.join(',')}`) +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
-
   const res = await fetch(url);
   const json = await res.json();
-
-  return json.aggregations.workType.buckets;
+  const workTypeBuckets = unfilteredSearchResults
+    ? json.aggregations.workType.buckets
+    : json.aggregations.workType.buckets.filter(bucket => {
+        return Boolean(
+          defaultWorkTypes.find(defaultType => bucket.data.id === defaultType)
+        );
+      });
+  return workTypeBuckets;
 }
 
 export async function getWork({
