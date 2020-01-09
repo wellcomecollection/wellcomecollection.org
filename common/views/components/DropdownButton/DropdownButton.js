@@ -64,12 +64,14 @@ const Dropdown = styled(Space).attrs(props => ({
   &,
   &.fade-exit-done {
     z-index: -1;
+    pointer-events: none;
   }
 
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
     z-index: 2;
+    pointer-events: all;
   }
 
   &,
