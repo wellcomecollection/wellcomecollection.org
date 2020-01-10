@@ -24,10 +24,14 @@ function inputValue(input: ?HTMLElement): ?string {
     input &&
     (input instanceof window.HTMLInputElement ||
       input instanceof window.HTMLSelectElement ||
-      (window.RadioNodeList && input instanceof window.RadioNodeList) ||
-      (!window.RadioNodeList && input instanceof window.HTMLCollection))
+      (window.RadioNodeList && input instanceof window.RadioNodeList))
   ) {
     return input.value;
+  }
+
+  if (!window.RadioNodeList && input instanceof window.HTMLCollection) {
+    // IE11 treats radios as an HTMLCollection
+    return Array.from(input).find(i => i.checked).value;
   }
 }
 
