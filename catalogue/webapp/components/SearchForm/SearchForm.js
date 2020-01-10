@@ -32,10 +32,16 @@ function inputValue(input: ?HTMLElement): ?string {
 }
 
 function nodeListValueToArray(input: ?HTMLElement): ?(HTMLInputElement[]) {
-  if (input && input instanceof window.HTMLInputElement) {
+  if (!input) return;
+
+  if (input instanceof window.HTMLInputElement) {
     return [input];
   }
-  if (input && input instanceof window.NodeList) {
+
+  if (
+    input instanceof window.NodeList ||
+    input instanceof window.HTMLCollection // IE11 reports checkboxes as HTMLCollections
+  ) {
     return Array.from(input);
   }
 }
