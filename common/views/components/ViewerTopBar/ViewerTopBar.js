@@ -99,6 +99,7 @@ type Props = {|
   parentManifest: ?IIIFManifest,
   lang: string,
   viewerRef: { current: HTMLElement | null },
+  setIsFullscreen: boolean => void,
 |};
 
 const ViewerTopBar = ({
@@ -121,6 +122,7 @@ const ViewerTopBar = ({
   parentManifest,
   lang,
   viewerRef,
+  setIsFullscreen,
 }: Props) => {
   return (
     <TopBar className="flex">
@@ -187,21 +189,31 @@ const ViewerTopBar = ({
                           !document.webkitFullscreenElement
                         ) {
                           if (viewerRef.current.requestFullscreen) {
-                            viewerRef.current.requestFullscreen();
+                            viewerRef.current.requestFullscreen().then(() => {
+                              setIsFullscreen(true);
+                            });
                           } else if (
                             // $FlowFixMe
                             viewerRef.current.webkitRequestFullscreen
                           ) {
                             // $FlowFixMe
-                            viewerRef.current.webkitRequestFullscreen();
+                            viewerRef.current
+                              .webkitRequestFullscreen()
+                              .then(() => {
+                                setIsFullscreen(true);
+                              });
                           }
                         } else {
                           if (document.exitFullscreen) {
-                            document.exitFullscreen();
+                            document.exitFullscreen().then(() => {
+                              setIsFullscreen(false);
+                            });
                             // $FlowFixMe
                           } else if (document.webkitExitFullscreen) {
                             // $FlowFixMe
-                            document.webkitExitFullscreen();
+                            document.webkitExitFullscreen().then(() => {
+                              setIsFullscreen(false);
+                            });
                           }
                         }
                       }

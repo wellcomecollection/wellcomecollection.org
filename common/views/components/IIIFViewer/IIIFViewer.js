@@ -49,6 +49,7 @@ const ZoomedImage = dynamic(
 );
 
 export const headerHeight = 149;
+export const topBarHeight = 64;
 
 const IIIFViewerBackground = styled.div`
   position: relative;
@@ -208,6 +209,7 @@ const IIIFViewerComponent = ({
   const [rotatedImages, setRotatedImages] = useState([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -326,7 +328,7 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     function handleResize() {
-      if (document.fullscreenElement) {
+      if (isFullscreen) {
         setPageHeight(window.innerHeight);
       } else {
         setPageHeight(window.innerHeight - headerHeight);
@@ -339,7 +341,7 @@ const IIIFViewerComponent = ({
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isFullscreen]);
 
   return (
     <div ref={viewerRef}>
@@ -363,6 +365,7 @@ const IIIFViewerComponent = ({
         parentManifest={parentManifest}
         lang={lang}
         viewerRef={viewerRef}
+        setIsFullscreen={setIsFullscreen}
       />
       <IIIFViewerBackground>
         {isLoading && <LoadingComponent />}
@@ -475,6 +478,7 @@ const IIIFViewerComponent = ({
                   setActiveIndex={setActiveIndex}
                   canvases={canvases}
                   gridViewerRef={gridViewerRef}
+                  isFullscreen={isFullscreen}
                 />
                 {pageWidth >= 600 && (
                   <ThumbsViewer
