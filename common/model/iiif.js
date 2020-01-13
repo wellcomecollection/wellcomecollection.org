@@ -36,6 +36,7 @@ export type IIIFCanvas = {|
   images: IIIFImage[],
   width: number,
   height: number,
+  otherContent: [],
 |};
 
 export type IIIFRendering = {|

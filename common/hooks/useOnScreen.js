@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function useOnScreen({
   ref,
+  root = null,
   rootMargin = '0px',
   threshold = 0,
 }) {
@@ -13,6 +14,7 @@ export default function useOnScreen({
         setIsIntersecting(entry.isIntersecting);
       },
       {
+        root,
         rootMargin,
         threshold,
       }

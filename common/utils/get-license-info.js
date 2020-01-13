@@ -92,7 +92,7 @@ export const licenseMap = {
     url: 'http://opencontent.org/openpub/',
     text: 'Open Publication License',
   },
-  'inc': {
+  inc: {
     url: 'http://rightsstatements.org/vocab/InC/1.0/',
     text: 'In copyright',
   },

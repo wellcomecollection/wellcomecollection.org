@@ -7,6 +7,8 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { type IIIFCanvas } from '@weco/common/model/iiif';
+import Raven from 'raven-js';
 import { removeEmptyProps } from '@weco/common/utils/json';
 import { defaultWorkTypes } from '@weco/common/services/catalogue/search-params';
 
@@ -118,4 +120,38 @@ export async function getWork({
   const json = await res.json();
 
   return json;
+}
+
+export async function getCanvasOcr(canvas: IIIFCanvas) {
+  const textContent =
+    canvas.otherContent &&
+    canvas.otherContent.find(
+      content =>
+        content['@type'] === 'sc:AnnotationList' &&
+        content.label === 'Text of this page'
+    );
+
+  const textService = textContent && textContent['@id'];
+
+  if (textService) {
+    try {
+      const textJson = await fetch(textService);
+      const text = await textJson.json();
+      const textString = text.resources
+        .filter(resource => {
+          return resource.resource['@type'] === 'cnt:ContentAsText';
+        })
+        .map(resource => resource.resource.chars)
+        .join(' ');
+      return textString.length > 0 ? textString : 'text unavailable';
+    } catch (e) {
+      Raven.captureException(new Error(`IIIF text service error: ${e}`), {
+        tags: {
+          service: 'dlcs',
+        },
+      });
+
+      return 'text unavailable';
+    }
+  }
 }
