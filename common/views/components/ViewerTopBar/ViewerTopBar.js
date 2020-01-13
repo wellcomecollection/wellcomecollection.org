@@ -98,6 +98,7 @@ type Props = {|
   iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
   lang: string,
+  viewerRef: { current: HTMLElement | null },
 |};
 
 const ViewerTopBar = ({
@@ -119,6 +120,7 @@ const ViewerTopBar = ({
   iiifPresentationDownloadOptions,
   parentManifest,
   lang,
+  viewerRef,
 }: Props) => {
   return (
     <TopBar className="flex">
@@ -167,6 +169,46 @@ const ViewerTopBar = ({
         )}
         {enhanced && (
           <div className="flex flex--v-center">
+            {document &&
+              (document.fullscreenEnabled ||
+                // $FlowFixMe
+                document.webkitFullscreenEnabled) && (
+                <Space h={{ size: 'm', properties: ['margin-right'] }}>
+                  <Button
+                    extraClasses="btn--primary-black"
+                    icon="expand"
+                    text="Full screen"
+                    fontFamily="hnl"
+                    clickHandler={() => {
+                      if (viewerRef && viewerRef.current) {
+                        if (
+                          !document.fullscreenElement &&
+                          // $FlowFixMe
+                          !document.webkitFullscreenElement
+                        ) {
+                          if (viewerRef.current.requestFullscreen) {
+                            viewerRef.current.requestFullscreen();
+                          } else if (
+                            // $FlowFixMe
+                            viewerRef.current.webkitRequestFullscreen
+                          ) {
+                            // $FlowFixMe
+                            viewerRef.current.webkitRequestFullscreen();
+                          }
+                        } else {
+                          if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                            // $FlowFixMe
+                          } else if (document.webkitExitFullscreen) {
+                            // $FlowFixMe
+                            document.webkitExitFullscreen();
+                          }
+                        }
+                      }
+                    }}
+                  />
+                </Space>
+              )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
                 title={title}
