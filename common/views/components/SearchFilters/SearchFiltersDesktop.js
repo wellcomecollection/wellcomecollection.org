@@ -84,6 +84,7 @@ const SearchFiltersDesktop = ({
             <>
               <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
                 <NumberInput
+                  name="production.dates.from"
                   label="From"
                   min="0"
                   max="9999"
@@ -95,6 +96,7 @@ const SearchFiltersDesktop = ({
                 />
               </Space>
               <NumberInput
+                name="production.dates.to"
                 label="to"
                 min="0"
                 max="9999"
