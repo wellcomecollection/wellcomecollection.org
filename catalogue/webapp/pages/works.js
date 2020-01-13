@@ -428,12 +428,14 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
-  const { searchFixedFields, unfilteredSearchResults } = ctx.query.toggles;
+  const { unfilteredSearchResults } = ctx.query.toggles;
+  const { _queryType } = ctx.query;
   const isImageSearch = params.search === 'images';
 
   const serializeParams = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser
     : apiSearchParamsSerialiser;
+
   const filters = serializeParams({
     ...params,
     itemsLocationsLocationType: isImageSearch
@@ -443,7 +445,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   const toggledFilters = {
     ...filters,
-    _queryType: searchFixedFields ? 'FixedFields' : undefined,
+    _queryType,
   };
 
   const shouldGetWorks = filters.query && filters.query !== '';

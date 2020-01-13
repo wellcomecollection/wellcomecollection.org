@@ -35,16 +35,7 @@ function setCookie(name, value) {
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [
-  {
-    id: 'searchFixedFields',
-    title: 'Search the API with fixed fields',
-    range: [0, 100],
-    defaultValue: false,
-    description:
-      'Fix a glitch in the scoring tiers, and see if it makes things better for people',
-  },
-];
+const abTests = [];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
   const [toggles, setToggles] = useState([]);
