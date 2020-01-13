@@ -1,5 +1,4 @@
 // @flow
-import { Fragment } from 'react';
 type GenericProps = {|
   type: 'website' | 'article' | 'book' | 'profile',
   title: string,
@@ -46,7 +45,7 @@ type Props = GenericProps;
 const OpenGraphMetaData = (props: Props) => {
   const { type, title, description, url, imageUrl } = props;
   return (
-    <Fragment>
+    <>
       <meta property="og:site_name" content="Wellcome Collection" />
       <meta property="og:type" content={type} />
       <meta property="og:title" content={title} />
@@ -74,7 +73,7 @@ const OpenGraphMetaData = (props: Props) => {
             content={typeProps[key]} />
         );
       }) */}
-    </Fragment>
+    </>
   );
 };
 export default OpenGraphMetaData;

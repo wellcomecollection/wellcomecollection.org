@@ -1,5 +1,4 @@
 // @flow
-import { Fragment } from 'react';
 type Props = {|
   title: string,
   description: string,
@@ -15,7 +14,7 @@ const TwitterMetadata = ({
   imageUrl,
   imageAltText,
 }: Props) => (
-  <Fragment>
+  <>
     <meta
       key="twitter:card"
       name="twitter:card"
@@ -31,6 +30,6 @@ const TwitterMetadata = ({
     />
     <meta key="twitter:image" name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={imageAltText} />
-  </Fragment>
+  </>
 );
 export default TwitterMetadata;
