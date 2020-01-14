@@ -54,7 +54,8 @@ export const topBarHeight = 64;
 const IIIFViewerBackground = styled.div`
   position: relative;
   background: ${props => props.theme.colors.viewerBlack};
-  height: calc(100vh - ${`${headerHeight}px`});
+  height: ${props =>
+    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`}
   color: ${props => props.theme.colors.white};
 `;
 
@@ -115,7 +116,8 @@ export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
 const ViewerLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  height: calc(100vh - ${`${headerHeight}px`});
+  height: ${props =>
+    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
   position: relative;
 
   @media (min-width: 600px) {
@@ -367,13 +369,14 @@ const IIIFViewerComponent = ({
         viewerRef={viewerRef}
         setIsFullscreen={setIsFullscreen}
       />
-      <IIIFViewerBackground>
+      <IIIFViewerBackground isFullscreen={isFullscreen}>
         {isLoading && <LoadingComponent />}
         {showZoomed && (
           <ZoomedImage
             id={`zoomedImage`}
             infoUrl={zoomInfoUrl}
             setShowViewer={setShowZoomed}
+            isFullscreen={isFullscreen}
           />
         )}
         {!enhanced && (
@@ -467,7 +470,7 @@ const IIIFViewerComponent = ({
               </IIIFViewerImageWrapper>
             )}
             {mainImageService['@id'] && currentCanvas && (
-              <ViewerLayout>
+              <ViewerLayout isFullscreen={isFullscreen}>
                 <GridViewer
                   gridHeight={pageHeight}
                   gridWidth={pageWidth}
