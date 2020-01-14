@@ -26,7 +26,7 @@ import ExpandedImage from '../components/ExpandedImage/ExpandedImage';
 import ImageCard from '../components/ImageCard/ImageCard';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
-import { getWorks, getWorkTypeAggregations } from '../services/catalogue/works';
+import { getWorks } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import {
   trackSearchResultSelected,
@@ -37,7 +37,6 @@ import OptIn from '@weco/common/views/components/OptIn/OptIn';
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   searchParams: SearchParams,
-  toggledFilters: SearchParams,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
 |};
@@ -55,12 +54,10 @@ const useFragmentInitialState = () => {
 const Works = ({
   works,
   searchParams,
-  toggledFilters,
   unfilteredSearchResults,
   shouldGetWorks,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [workTypeAggregations, setWorkTypeAggregations] = useState([]);
   const {
     query,
     workType,
@@ -71,21 +68,10 @@ const Works = ({
   } = searchParams;
   const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
 
-  const fetchAggregations = async () => {
-    const workTypeAggregations = shouldGetWorks
-      ? await getWorkTypeAggregations({
-          unfilteredSearchResults,
-          filters: toggledFilters,
-        })
-      : [];
-    setWorkTypeAggregations(workTypeAggregations);
-  };
-
   useEffect(() => {
     trackSearch({
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
-    fetchAggregations();
   }, [searchParams]);
 
   useEffect(() => {
@@ -204,7 +190,11 @@ const Works = ({
                   compact={false}
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
-                  workTypeAggregations={workTypeAggregations}
+                  workTypeAggregations={
+                    works && works.aggregations
+                      ? works.aggregations.workType.buckets
+                      : null
+                  }
                 />
               </div>
             </div>
@@ -429,7 +419,6 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
   const { unfilteredSearchResults } = ctx.query.toggles;
-  const { _queryType } = ctx.query;
   const isImageSearch = params.search === 'images';
 
   const serializeParams = unfilteredSearchResults
@@ -441,17 +430,13 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     itemsLocationsLocationType: isImageSearch
       ? [IMAGES_LOCATION_TYPE]
       : params.itemsLocationsLocationType,
+    aggregations: 'workType',
   });
-
-  const toggledFilters = {
-    ...filters,
-    _queryType,
-  };
 
   const shouldGetWorks = filters.query && filters.query !== '';
   const worksOrError = shouldGetWorks
     ? await getWorks({
-        filters: toggledFilters,
+        filters,
         pageSize: isImageSearch ? 24 : undefined,
       })
     : null;
@@ -459,7 +444,6 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
     works: worksOrError,
     searchParams: params,
     unfilteredSearchResults,
-    toggledFilters,
     shouldGetWorks,
   };
 };
