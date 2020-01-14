@@ -227,6 +227,26 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
+  function setFullScreen() {
+    if (
+      window.document.fullscreenElement &&
+      window.document.fullscreenElement !== null
+    ) {
+      setIsFullscreen(true);
+    } else {
+      setIsFullscreen(false);
+    }
+  }
+  useEffect(() => {
+    window.document.addEventListener('fullscreenchange', setFullScreen, false);
+    return () => {
+      window.document.removeEventListener(
+        'fullscreenchange',
+        setFullScreen,
+        false
+      );
+    };
+  }, []);
   const [iiifImageLocation] =
     work && work.type !== 'Error'
       ? work.items
@@ -346,7 +366,14 @@ const IIIFViewerComponent = ({
   }, [isFullscreen]);
 
   return (
-    <div ref={viewerRef}>
+    <div
+      ref={viewerRef}
+      style={{
+        border: '2px solid red',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
       <ViewerTopBar
         canvases={canvases}
         enhanced={enhanced}
@@ -367,7 +394,6 @@ const IIIFViewerComponent = ({
         parentManifest={parentManifest}
         lang={lang}
         viewerRef={viewerRef}
-        setIsFullscreen={setIsFullscreen}
       />
       <IIIFViewerBackground isFullscreen={isFullscreen}>
         {isLoading && <LoadingComponent />}

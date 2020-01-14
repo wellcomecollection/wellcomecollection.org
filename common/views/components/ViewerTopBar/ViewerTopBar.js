@@ -99,7 +99,6 @@ type Props = {|
   parentManifest: ?IIIFManifest,
   lang: string,
   viewerRef: { current: HTMLElement | null },
-  setIsFullscreen: boolean => void,
 |};
 
 const ViewerTopBar = ({
@@ -122,7 +121,6 @@ const ViewerTopBar = ({
   parentManifest,
   lang,
   viewerRef,
-  setIsFullscreen,
 }: Props) => {
   return (
     <TopBar className="flex">
@@ -189,31 +187,20 @@ const ViewerTopBar = ({
                           !document.webkitFullscreenElement
                         ) {
                           if (viewerRef.current.requestFullscreen) {
-                            viewerRef.current.requestFullscreen().then(() => {
-                              setIsFullscreen(true);
-                            });
+                            viewerRef.current.requestFullscreen();
                           } else if (
                             // $FlowFixMe
                             viewerRef.current.webkitRequestFullscreen
                           ) {
-                            // $FlowFixMe
-                            viewerRef.current
-                              .webkitRequestFullscreen()
-                              .then(() => {
-                                setIsFullscreen(true);
-                              });
+                            viewerRef.current.webkitRequestFullscreen();
                           }
                         } else {
                           if (document.exitFullscreen) {
-                            document.exitFullscreen().then(() => {
-                              setIsFullscreen(false);
-                            });
+                            document.exitFullscreen();
                             // $FlowFixMe
                           } else if (document.webkitExitFullscreen) {
                             // $FlowFixMe
-                            document.webkitExitFullscreen().then(() => {
-                              setIsFullscreen(false);
-                            });
+                            document.webkitExitFullscreen();
                           }
                         }
                       }
