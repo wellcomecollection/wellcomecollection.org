@@ -46,10 +46,12 @@ module.exports = function withQueryType(ctx, next) {
     allowableValues[Math.floor(Math.random() * allowableValues.length)];
 
   if (!validQueryTypeFromCookie) {
-    ctx.cookies.set('_queryType', queryType);
+    // This tells the browser to set the cookie
+    // and acts as thought the cookie was already
+    // set for the initial read of the value
+    ctx.cookies.set('_queryType', queryType, { httpOnly: false });
+    ctx.headers.cookie = `${ctx.headers.cookie}; _queryType=${queryType}`;
   }
-
-  ctx.query._queryType = queryType;
 
   return next();
 };
