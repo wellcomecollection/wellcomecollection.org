@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import {
+  type SearchParams,
+  defaultWorkTypes,
+} from '@weco/common/services/catalogue/search-params';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
-import { allWorkTypes } from '@weco/common/services/data/workTypeAggregations';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 import theme from '@weco/common/views/themes/default';
@@ -31,33 +33,17 @@ const SearchFilters = ({
   workTypeAggregations,
   changeHandler,
 }: Props) => {
-  const [isMobile, setIsMobile] = useState(false);
   const workTypeInUrlArray = searchParams.workType || [];
   const { productionDatesFrom, productionDatesTo } = searchParams;
+
+  const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
-  // We want to display all currently applied worktypes to the user within the filter drop down
-  // This may include worktypes that have no aggregations for the given search
-  // We therefore go through all possible worktypes,
-  // if they have a matching aggregation from the API response we use that
-  // If they aren't included in the API response, but are one of the applied filters,// then we still include it with a count of 0.
-  const workTypeFilters = allWorkTypes
-    .map(workType => {
-      const matchingWorkTypeAggregation = workTypeAggregations.find(
-        ({ data }) => workType.data.id === data.id
-      );
-      const matchingAppliedWorkType = workTypeInUrlArray.find(
-        id => workType.data.id === id
-      );
-      if (matchingWorkTypeAggregation) {
-        return matchingWorkTypeAggregation;
-      } else if (matchingAppliedWorkType) {
-        return workType;
-      } else {
-        return null;
-      }
-    })
-    .filter(Boolean);
+
+  const allowedWorkTypeAggregations = defaultWorkTypes;
+  const workTypeFilters = workTypeAggregations.filter(agg =>
+    allowedWorkTypeAggregations.includes(agg.data.id)
+  );
 
   useEffect(() => {
     function updateIsMobile() {
