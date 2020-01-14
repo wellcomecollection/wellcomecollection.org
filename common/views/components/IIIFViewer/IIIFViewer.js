@@ -229,8 +229,10 @@ const IIIFViewerComponent = ({
 
   function setFullScreen() {
     if (
-      window.document.fullscreenElement &&
-      window.document.fullscreenElement !== null
+      (window.document.fullscreenElement &&
+        window.document.fullscreenElement !== null) ||
+      (window.document.webkitFullscreenElement &&
+        window.document.webkitFullscreenElement !== null)
     ) {
       setIsFullscreen(true);
     } else {
@@ -239,9 +241,19 @@ const IIIFViewerComponent = ({
   }
   useEffect(() => {
     window.document.addEventListener('fullscreenchange', setFullScreen, false);
+    window.document.addEventListener(
+      'webkitfullscreenchange',
+      setFullScreen,
+      false
+    );
     return () => {
       window.document.removeEventListener(
         'fullscreenchange',
+        setFullScreen,
+        false
+      );
+      window.document.removeEventListener(
+        'webkitfullscreenchange',
         setFullScreen,
         false
       );
@@ -366,14 +378,7 @@ const IIIFViewerComponent = ({
   }, [isFullscreen]);
 
   return (
-    <div
-      ref={viewerRef}
-      style={{
-        border: '2px solid red',
-        overflow: 'hidden',
-        position: 'relative',
-      }}
-    >
+    <div ref={viewerRef}>
       <ViewerTopBar
         canvases={canvases}
         enhanced={enhanced}
