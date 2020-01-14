@@ -16,9 +16,8 @@ import {
   getVideo,
   getAudio,
 } from '@weco/common/utils/works';
-import { getWork } from '../services/catalogue/works';
+import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import Raven from 'raven-js';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
@@ -39,39 +38,6 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   margin-top: 98px;
 `;
 
-async function getCanvasOcr(canvas) {
-  const textContent =
-    canvas.otherContent &&
-    canvas.otherContent.find(
-      content =>
-        content['@type'] === 'sc:AnnotationList' &&
-        content.label === 'Text of this page'
-    );
-
-  const textService = textContent && textContent['@id'];
-
-  if (textService) {
-    try {
-      const textJson = await fetch(textService);
-      const text = await textJson.json();
-      const textString = text.resources
-        .filter(resource => {
-          return resource.resource['@type'] === 'cnt:ContentAsText';
-        })
-        .map(resource => resource.resource.chars)
-        .join(' ');
-      return textString.length > 0 ? textString : 'text unavailable';
-    } catch (e) {
-      Raven.captureException(new Error(`IIIF text service error: ${e}`), {
-        tags: {
-          service: 'dlcs',
-        },
-      });
-
-      return 'text unavailable';
-    }
-  }
-}
 type Props = {|
   workId: string,
   sierraId: string,
@@ -82,7 +48,7 @@ type Props = {|
   pageIndex: number,
   canvasIndex: number,
   canvasOcr: ?string,
-  canvases: ?[],
+  canvases: [],
   currentCanvas: ?any,
   video: ?{
     '@id': string,
@@ -286,8 +252,10 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   // so we need to get the work object to get the necessary data to display
   const work = !sierraId ? await getWork({ id: workId }) : null;
   const canvases =
-    manifest && manifest.sequences && manifest.sequences[0].canvases;
-  const currentCanvas = canvases && canvases[canvasIndex];
+    manifest && manifest.sequences && manifest.sequences[0].canvases
+      ? manifest.sequences[0].canvases
+      : [];
+  const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
   return {
     workId,

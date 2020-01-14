@@ -65,7 +65,7 @@ In addition, although reliance on client side scripts are permitted in the guide
 |Safari (latest 2 versions) | Full |
 |Firefox (latest 2 versions) | Full |
 |Edge (latest 2 versions) | Full |
-|Internet Explorer (latest 2 versions) | Full |
+|Internet Explorer (10 & 11) | Basic |
 |Opera Mini (extreme mode) | Basic |
 |iOS 9+ with Safari and Chrome | Full |
 |Android 4.4+ with latest version of Chrome | Full |
