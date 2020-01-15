@@ -144,6 +144,14 @@ const SearchForm = ({
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const search = inputValue(form['search']);
+
+    const itemsLocationsLocationType =
+      form['items.locations.locationType'] instanceof window.HTMLInputElement
+        ? form['items.locations.locationType'].checked
+          ? form['items.locations.locationType'].value.split(',')
+          : null
+        : null;
+
     const link = url({
       ...searchParams,
       query: inputQuery,
@@ -154,6 +162,7 @@ const SearchForm = ({
       sortOrder,
       sort,
       search,
+      itemsLocationsLocationType,
     });
     return Router.push(link.href, link.as);
   }
