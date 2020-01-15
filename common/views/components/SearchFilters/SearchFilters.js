@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   type SearchParams,
   defaultWorkTypes,
@@ -7,6 +7,7 @@ import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 import theme from '@weco/common/views/themes/default';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
@@ -39,11 +40,13 @@ const SearchFilters = ({
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
+  const { unfilteredSearchResults } = useContext(TogglesContext);
 
-  const allowedWorkTypeAggregations = defaultWorkTypes;
-  const workTypeFilters = workTypeAggregations.filter(agg =>
-    allowedWorkTypeAggregations.includes(agg.data.id)
-  );
+  const workTypeFilters = unfilteredSearchResults
+    ? workTypeAggregations
+    : workTypeAggregations.filter(agg =>
+        defaultWorkTypes.includes(agg.data.id)
+      );
 
   useEffect(() => {
     function updateIsMobile() {
