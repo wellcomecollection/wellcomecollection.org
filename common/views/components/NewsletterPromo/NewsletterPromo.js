@@ -1,27 +1,49 @@
 // @flow
 import { useState } from 'react';
-import { grid, font, classNames } from '../../../utils/classnames';
+import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import Layout from '../Layout/Layout';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
+import Layout10 from '../Layout10/Layout10';
+import TextInput from '../TextInput/TextInput';
 
-const NewsletterInput = styled(Space).attrs({
-  as: 'input',
+const ErrorMessage = styled(Space).attrs({
+  'aria-live': 'polite',
+  as: 'p',
+  h: { size: 'l', negative: true, properties: ['bottom'] },
+  className: classNames({
+    absolute: true,
+    [font('hnm', 5)]: true,
+  }),
+})`
+  top: 100%;
+`;
+
+const NewsletterInput = styled(TextInput).attrs({
   required: true,
   id: 'newsletter-input',
   type: 'email',
   name: 'email',
-  h: { size: 's', properties: ['margin-right'] },
+})`
+  margin-bottom: 10px;
+
+  ${props => props.theme.media.medium`
+    margin-bottom: 0;
+  `}
+`;
+
+const NewsletterButton = styled.button.attrs({
   className: classNames({
-    'rounded-corners': true,
+    'btn btn--primary': true,
+    [font('hnm', 5)]: true,
   }),
 })`
-  min-width: 280px;
-  padding: 10px;
-  appearance: none;
-  border: 1px solid grey;
+  width: 100%;
+
+  ${props => props.theme.media.medium`
+    width: auto;
+  `}
 `;
 
 const NewsletterForm = styled(Space).attrs({
@@ -30,25 +52,32 @@ const NewsletterForm = styled(Space).attrs({
   id: 'newsletter-signup',
   action: 'https://r1-t.trackedlink.net/signup.ashx',
   method: 'post',
-  className: classNames({
-    'flex flex--v-center flex--wrap': true,
-  }),
 })`
-  width: 100%;
-  height: 100%;
-  min-height: 120px;
+  ${props => props.theme.media.medium`
+    display: flex;
+    position: relative;
+
+    label {
+      flex: 1;
+      margin-right: 10px;
+    }
+  `}
 `;
 
-const ErrorMessage = styled(Space).attrs({
-  'aria-live': 'polite',
-  as: 'p',
-  h: { size: 'l', negative: true, properties: ['top'] },
-  className: classNames({
-    'absolute font-white': true,
-    [font('hnm', 5)]: true,
-  }),
+const YellowBox = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({}),
 })`
-  bottom: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  grid-gap: 0 20px;
+  border: 12px solid ${props => props.theme.colors.yellow};
+
+  ${props => props.theme.media.xlarge`
+    grid-template-columns: 1fr auto;
+  `}
 `;
 
 const NewsletterPromo = () => {
@@ -94,132 +123,69 @@ const NewsletterPromo = () => {
   }
 
   return (
-    <div className="row bg-teal">
-      <Layout gridSizes={{ s: 12, m: 12, l: 12, xl: 12 }}>
-        <div
-          className={classNames({
-            grid: true,
-          })}
-        >
-          <>
-            <div
-              className={classNames({
-                [grid({ s: 12, m: 12, l: 6, xl: 6 })]: true,
-              })}
-            >
-              <Space
-                v={{
-                  size: 'xl',
-                  properties: ['padding-top', 'padding-bottom'],
-                }}
-                h={{
-                  size: 'm',
-                  properties: ['padding-left', 'padding-right'],
-                }}
-              >
-                <Space
-                  as="h2"
-                  v={{ size: 's', properties: ['margin-bottom'] }}
+    <div className="row">
+      <Layout10>
+        <YellowBox>
+          <div>
+            <h2 className="h2">
+              {isSuccess
+                ? 'Thanks for signing up'
+                : `Sign up for our What's On newsletter`}
+            </h2>
+            {isSuccess ? (
+              <p className="no-margin">
+                If this is the first time you’ve subscribed to updates from us,
+                you will receive an email asking you to confirm. Please check
+                your email and click the button. Thank you!
+              </p>
+            ) : (
+              <></>
+            )}
+          </div>
+          {!isSuccess && (
+            <>
+              <NewsletterForm onSubmit={handleSubmit}>
+                {isError && (
+                  <ErrorMessage>
+                    There was a problem. Please try again.
+                  </ErrorMessage>
+                )}
+                <input type="hidden" name="userid" value="225683" />
+                <input
+                  type="hidden"
+                  name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
+                  value=""
+                />
+                <input type="hidden" name="ReturnURL" value="" />
+                <input type="hidden" name="addressbookid" value="40131" />
+
+                <label htmlFor="newsletter-signup" className="visually-hidden">
+                  email
+                </label>
+
+                <NewsletterInput placeholder="you@example.com" />
+                <NewsletterButton disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending…' : 'Subscribe'}
+                </NewsletterButton>
+              </NewsletterForm>
+
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <p
                   className={classNames({
-                    'h1 font-white': true,
+                    'no-margin': true,
+                    [font('hnl', 6)]: true,
                   })}
                 >
-                  {isSuccess ? 'Thanks for signing up' : 'Want to know more?'}
-                </Space>
-                {isSuccess ? (
-                  <p
-                    className={classNames({
-                      [font('hnl', 4)]: true,
-                      'font-white no-margin': true,
-                    })}
-                  >
-                    If this is the first time you’ve subscribed to updates from
-                    us, you will receive an email asking you to confirm. Please
-                    check your email and click the button. Thank you!
-                  </p>
-                ) : (
-                  <p
-                    className={classNames({
-                      [font('hnl', 4)]: true,
-                      'font-white no-margin': true,
-                    })}
-                  >
-                    Sign up to our newsletter to be the first to know about our
-                    latest exhibitions, events, stories and opportunities to get
-                    involved. For information about how we handle your data,
-                    read our{' '}
-                    <a href="https://wellcome.ac.uk/about-us/terms-of-use">
-                      privacy page
-                    </a>
-                    .
-                  </p>
-                )}
+                  <a href="/newsletter">All newsletters</a> |{' '}
+                  <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
+                    Privacy notice
+                  </a>
+                </p>
               </Space>
-            </div>
-            {!isSuccess && (
-              <div
-                className={classNames({
-                  [grid({ s: 12, m: 12, l: 6, xl: 6 })]: true,
-                })}
-              >
-                <NewsletterForm
-                  onSubmit={handleSubmit}
-                  v={{
-                    size: 'm',
-                    properties: ['padding-top', 'padding-bottom'],
-                  }}
-                  h={{
-                    size: 'm',
-                    properties: ['padding-left', 'padding-right'],
-                  }}
-                >
-                  <input type="hidden" name="userid" value="225683" />
-                  <input
-                    type="hidden"
-                    name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
-                    value=""
-                  />
-                  <input type="hidden" name="ReturnURL" value="" />
-                  <input type="hidden" name="addressbookid" value="40131" />
-                  <div>
-                    <div className="flex relative">
-                      {isError && (
-                        <ErrorMessage>
-                          There was a problem. Please try again.
-                        </ErrorMessage>
-                      )}
-                      <label
-                        htmlFor="newsletter-signup"
-                        className="visually-hidden"
-                      >
-                        email
-                      </label>
-                      <NewsletterInput placeholder="you@example.com" />
-                      <button
-                        className="btn btn--secondary font-size-4 font-family-hnm"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? 'Sending…' : 'Subscribe'}
-                      </button>
-                    </div>
-                    <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                      <p
-                        className={classNames({
-                          'font-white no-margin': true,
-                          [font('hnl', 5)]: true,
-                        })}
-                      >
-                        Or find out more about{' '}
-                        <a href="/newsletter">all our newsletters</a>.
-                      </p>
-                    </Space>
-                  </div>
-                </NewsletterForm>
-              </div>
-            )}
-          </>
-        </div>
-      </Layout>
+            </>
+          )}
+        </YellowBox>
+      </Layout10>
     </div>
   );
 };
