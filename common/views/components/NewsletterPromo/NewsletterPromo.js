@@ -1,5 +1,5 @@
 // @flow
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import Layout10 from '../Layout10/Layout10';
 import TextInput from '../TextInput/TextInput';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 const ErrorMessage = styled(Space).attrs({
   'aria-live': 'polite',
@@ -81,9 +82,18 @@ const YellowBox = styled(Space).attrs({
 `;
 
 const NewsletterPromo = () => {
+  const { altNewsletterSignupCopy } = useContext(TogglesContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  const headingText = altNewsletterSignupCopy
+    ? 'Keep up to date'
+    : `Sign up for our What's On newsletter`;
+
+  const bodyText =
+    altNewsletterSignupCopy &&
+    'Be the first to know about our latest exhibitions, events, stories and opportunities to get involved.';
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -128,12 +138,15 @@ const NewsletterPromo = () => {
         <YellowBox>
           <div>
             <h2 className="h2">
-              {isSuccess
-                ? 'Thank you for signing up!'
-                : `Sign up for our What's On newsletter`}
+              {isSuccess ? 'Thank you for signing up!' : headingText}
             </h2>
+            {bodyText && <p className={font('hnl', 5)}>{bodyText}</p>}
             {isSuccess ? (
-              <div className="spaced-text">
+              <div
+                className={classNames({
+                  [font('hnl', 5)]: true,
+                })}
+              >
                 <p>
                   If this is the first time you have subscribed to a newsletter
                   from Wellcome, you will receive an email asking you to confirm
