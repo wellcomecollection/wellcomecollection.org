@@ -1,7 +1,8 @@
 // @flow
 import { useState, useEffect } from 'react';
+import { type SearchParams } from '../../../services/catalogue/search-params';
 import { trackRelevanceRating } from '../Tracker/Tracker';
-import Rating from '@weco/common/views/components/Rating/Rating';
+import Rating from '../Rating/Rating';
 
 type Props = {|
   position: number,
@@ -9,7 +10,7 @@ type Props = {|
   query: string,
   page: ?number,
   workType: ?(string[]),
-  _queryType: ?string,
+  apiParams: SearchParams,
 |};
 
 function storeRating(key, value) {
@@ -28,7 +29,7 @@ const RelevanceRater = ({
   query,
   page,
   workType,
-  _queryType,
+  apiParams,
 }: Props) => {
   const [isEnhanced, setIsEnhanced] = useState(false);
   const [currentlyRatedValue, setCurrentlyRatedValue] = useState(0);
@@ -38,7 +39,6 @@ const RelevanceRater = ({
     query,
     page: page || 1,
     workType,
-    _queryType,
   };
   useEffect(() => {
     setIsEnhanced(true);
@@ -51,7 +51,7 @@ const RelevanceRater = ({
       <Rating
         currentlyRatedValue={currentlyRatedValue}
         clickHandler={value => {
-          trackRelevanceRating({ ...trackingObject, rating: value });
+          trackRelevanceRating(apiParams, { ...trackingObject, rating: value });
           storeRating(JSON.stringify(trackingObject), value);
         }}
       />

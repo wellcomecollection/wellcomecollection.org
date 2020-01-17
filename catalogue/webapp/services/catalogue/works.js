@@ -6,6 +6,7 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
+import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
 import { removeEmptyProps } from '@weco/common/utils/json';
@@ -25,7 +26,7 @@ type GetWorkProps = {|
 |};
 
 type GetWorksProps = {|
-  filters: Object,
+  params: SearchParams,
   pageSize?: number,
   ...Environment,
 |};
@@ -43,12 +44,12 @@ const workIncludes = [
 ];
 
 export async function getWorks({
-  filters,
+  params,
   env = 'prod',
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const filterQueryString = Object.keys(removeEmptyProps(filters)).map(key => {
-    const val = filters[key];
+  const filterQueryString = Object.keys(removeEmptyProps(params)).map(key => {
+    const val = params[key];
     return `${key}=${val}`;
   });
   const url =

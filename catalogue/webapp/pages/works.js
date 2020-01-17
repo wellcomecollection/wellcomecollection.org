@@ -33,13 +33,14 @@ import {
   trackSearch,
 } from '@weco/common/views/components/Tracker/Tracker';
 import OptIn from '@weco/common/views/components/OptIn/OptIn';
+import cookies from 'next-cookies';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
   searchParams: SearchParams,
-  toggledFilters: SearchParams,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
+  apiParams: SearchParams,
 |};
 
 const useFragmentInitialState = () => {
@@ -55,9 +56,9 @@ const useFragmentInitialState = () => {
 const Works = ({
   works,
   searchParams,
-  toggledFilters,
   unfilteredSearchResults,
   shouldGetWorks,
+  apiParams,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const {
@@ -66,12 +67,11 @@ const Works = ({
     page,
     productionDatesFrom,
     productionDatesTo,
-    _queryType,
   } = searchParams;
   const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
 
   useEffect(() => {
-    trackSearch({
+    trackSearch(apiParams, {
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
   }, [searchParams]);
@@ -269,7 +269,7 @@ const Works = ({
                     >
                       <div
                         onClick={() => {
-                          trackSearchResultSelected({
+                          trackSearchResultSelected(apiParams, {
                             id: result.id,
                             position: i,
                             resultWorkType: result.workType.label,
@@ -328,7 +328,7 @@ const Works = ({
                               query={query}
                               page={page}
                               workType={workType}
-                              _queryType={_queryType}
+                              apiParams={apiParams}
                             />
                           )
                         }
@@ -420,38 +420,37 @@ const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const params = searchParamsDeserialiser(ctx.query);
-  const { searchFixedFields, unfilteredSearchResults } = ctx.query.toggles;
+  const { unfilteredSearchResults } = ctx.query.toggles;
+  const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
   const serializeParams = unfilteredSearchResults
     ? unfilteredApiSearchParamsSerialiser
     : apiSearchParamsSerialiser;
-  const filters = serializeParams({
+
+  const apiParams = serializeParams({
     ...params,
+    _queryType,
     itemsLocationsLocationType: isImageSearch
       ? [IMAGES_LOCATION_TYPE]
       : params.itemsLocationsLocationType,
+    aggregations: ['workType'],
   });
 
-  const toggledFilters = {
-    ...filters,
-    aggregations: 'workType',
-    _queryType: searchFixedFields ? 'FixedFields' : undefined,
-  };
-
-  const shouldGetWorks = filters.query && filters.query !== '';
+  const shouldGetWorks = apiParams.query && apiParams.query !== '';
   const worksOrError = shouldGetWorks
     ? await getWorks({
-        filters: toggledFilters,
+        params: apiParams,
         pageSize: isImageSearch ? 24 : undefined,
       })
     : null;
+
   return {
     works: worksOrError,
     searchParams: params,
     unfilteredSearchResults,
-    toggledFilters,
     shouldGetWorks,
+    apiParams,
   };
 };
 
