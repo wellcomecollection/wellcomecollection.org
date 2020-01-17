@@ -5,7 +5,6 @@ import Space from '../styled/Space';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
-import Layout10 from '../Layout10/Layout10';
 import TextInput from '../TextInput/TextInput';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
@@ -26,13 +25,7 @@ const NewsletterInput = styled(TextInput).attrs({
   id: 'newsletter-input',
   type: 'email',
   name: 'email',
-})`
-  margin-bottom: 10px;
-
-  ${props => props.theme.media.medium`
-    margin-bottom: 0;
-  `}
-`;
+})``;
 
 const NewsletterButton = styled.button.attrs({
   className: classNames({
@@ -41,9 +34,12 @@ const NewsletterButton = styled.button.attrs({
   }),
 })`
   width: 100%;
+  margin-top: 10px;
 
   ${props => props.theme.media.medium`
     width: auto;
+    margin-left: 10px;
+    margin-top: 0;
   `}
 `;
 
@@ -54,30 +50,32 @@ const NewsletterForm = styled(Space).attrs({
   action: 'https://r1-t.trackedlink.net/signup.ashx',
   method: 'post',
 })`
-  ${props => props.theme.media.medium`
-    display: flex;
-    position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  align-items: flex-start;
 
-    label {
-      flex: 1;
-      margin-right: 10px;
-    }
+  label {
+    flex: 1;
+    min-width: 320px;
+  }
+
+  ${props => props.theme.media.medium`
+    flex-wrap: nowrap;
   `}
 `;
 
 const YellowBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({}),
 })`
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: start;
-  grid-gap: 0 20px;
   border: 12px solid ${props => props.theme.colors.yellow};
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
   ${props => props.theme.media.xlarge`
-    grid-template-columns: 1fr auto;
+    flex-wrap: nowrap;
   `}
 `;
 
@@ -134,78 +132,84 @@ const NewsletterPromo = () => {
 
   return (
     <div className="row">
-      <Layout10>
-        <YellowBox>
-          <div>
-            <h2 className="h2">
-              {isSuccess ? 'Thank you for signing up!' : headingText}
-            </h2>
-            {bodyText && <p className={font('hnl', 5)}>{bodyText}</p>}
-            {isSuccess ? (
-              <div
-                className={classNames({
-                  [font('hnl', 5)]: true,
-                })}
-              >
-                <p>
-                  If this is the first time you have subscribed to one of our
-                  newsletters, you will receive an email asking you to confirm
-                  your subscription.
-                </p>
-                <p>
-                  To find out more about our Access events, and activities for
-                  Young People and Schools, see our{' '}
-                  <a href="/newsletters">full list of newsletters</a>.
-                </p>
-              </div>
-            ) : (
-              <></>
-            )}
-          </div>
-          {!isSuccess && (
-            <>
-              <NewsletterForm onSubmit={handleSubmit}>
-                {isError && (
-                  <ErrorMessage>
-                    There was a problem. Please try again.
-                  </ErrorMessage>
-                )}
-                <input type="hidden" name="userid" value="225683" />
-                <input
-                  type="hidden"
-                  name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
-                  value=""
-                />
-                <input type="hidden" name="ReturnURL" value="" />
-                <input type="hidden" name="addressbookid" value="40131" />
-
-                <label htmlFor="newsletter-signup" className="visually-hidden">
-                  email
-                </label>
-
-                <NewsletterInput placeholder="you@example.com" />
-                <NewsletterButton disabled={isSubmitting}>
-                  {isSubmitting ? 'Sending…' : 'Subscribe'}
-                </NewsletterButton>
-              </NewsletterForm>
-
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                <p
+      <div className="container">
+        <div className="flex flex--h-center">
+          <YellowBox>
+            <Space
+              h={{ size: 'm', properties: ['padding-right'] }}
+              v={{ size: 'm', properties: ['margin-bottom'] }}
+            >
+              <h2 className="h2">
+                {isSuccess ? 'Thank you for signing up!' : headingText}
+              </h2>
+              {bodyText && <p className={font('hnl', 5)}>{bodyText}</p>}
+              {isSuccess && (
+                <div
                   className={classNames({
-                    'no-margin': true,
-                    [font('hnl', 6)]: true,
+                    [font('hnl', 5)]: true,
                   })}
                 >
-                  <a href="/newsletter">All newsletters</a> |{' '}
-                  <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
-                    Privacy notice
-                  </a>
-                </p>
-              </Space>
-            </>
-          )}
-        </YellowBox>
-      </Layout10>
+                  <p>
+                    If this is the first time you have subscribed to one of our
+                    newsletters, you will receive an email asking you to confirm
+                    your subscription.
+                  </p>
+                  <p>
+                    To find out more about our Access events, and activities for
+                    Young People and Schools, see our{' '}
+                    <a href="/newsletters">full list of newsletters</a>.
+                  </p>
+                </div>
+              )}
+            </Space>
+            {!isSuccess && (
+              <>
+                <NewsletterForm onSubmit={handleSubmit}>
+                  {isError && (
+                    <ErrorMessage>
+                      There was a problem. Please try again.
+                    </ErrorMessage>
+                  )}
+                  <input type="hidden" name="userid" value="225683" />
+                  <input
+                    type="hidden"
+                    name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
+                    value=""
+                  />
+                  <input type="hidden" name="ReturnURL" value="" />
+                  <input type="hidden" name="addressbookid" value="40131" />
+
+                  <label
+                    htmlFor="newsletter-signup"
+                    className="visually-hidden"
+                  >
+                    email
+                  </label>
+
+                  <NewsletterInput placeholder="you@example.com" />
+                  <NewsletterButton disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending…' : 'Subscribe'}
+                  </NewsletterButton>
+                </NewsletterForm>
+
+                {/* <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                  <p
+                    className={classNames({
+                      'no-margin': true,
+                      [font('hnl', 6)]: true,
+                    })}
+                  >
+                    <a href="/newsletter">All newsletters</a> |{' '}
+                    <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
+                      Privacy notice
+                    </a>
+                  </p>
+                </Space> */}
+              </>
+            )}
+          </YellowBox>
+        </div>
+      </div>
     </div>
   );
 };
