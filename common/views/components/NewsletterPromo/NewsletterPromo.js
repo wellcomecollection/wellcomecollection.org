@@ -129,15 +129,23 @@ const NewsletterPromo = () => {
           <div>
             <h2 className="h2">
               {isSuccess
-                ? 'Thanks for signing up'
+                ? 'Thank you for signing up!'
                 : `Sign up for our What's On newsletter`}
             </h2>
             {isSuccess ? (
-              <p className="no-margin">
-                If this is the first time you’ve subscribed to updates from us,
-                you will receive an email asking you to confirm. Please check
-                your email and click the button. Thank you!
-              </p>
+              <div className="spaced-text">
+                <p>
+                  If this is the first time you have subscribed to a newsletter
+                  from Wellcome, you will receive an email asking you to confirm
+                  your subscription.
+                </p>
+                <p>
+                  Want to know more about our Access events and activities for
+                  Young People and Schools? Visit our{' '}
+                  <a href="/newsletters">full list of newsletters</a> to
+                  subscribe.
+                </p>
+              </div>
             ) : (
               <></>
             )}
