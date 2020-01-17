@@ -35,7 +35,15 @@ function setCookie(name, value) {
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [
+type AbTest = {|
+  id: string,
+  title: string,
+  range: [number, number],
+  defaultValue: boolean,
+  description: string,
+|};
+
+const abTests: AbTest[] = [
   {
     id: 'searchFixedFields',
     title: 'Search the API with fixed fields',
