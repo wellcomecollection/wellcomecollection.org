@@ -27,7 +27,7 @@ let tests = [
     title: 'Alternative NewsletterPromo copy',
     range: [0, 100],
     when: request => {
-      return !request.uri.match(/\/works\/.+/); // promo not on 'works/{id}' or 'works/{id}/{items}'
+      return !request.uri.match(/\/works\/.+/); // promo not on 'works/{id}' or 'works/{id}/items...'
     },
   },
 ];

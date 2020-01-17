@@ -88,12 +88,12 @@ const NewsletterPromo = () => {
   const [isError, setIsError] = useState(false);
 
   const headingText = altNewsletterSignupCopy
-    ? 'Keep up to date'
-    : `Sign up for our What's On newsletter`;
+    ? 'Stay in the know'
+    : `Sign up to our newsletter`;
 
   const bodyText =
     altNewsletterSignupCopy &&
-    'Be the first to know about our latest exhibitions, events, stories and opportunities to get involved.';
+    'Find out what’s on, read our latest stories and get involved.';
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -148,15 +148,14 @@ const NewsletterPromo = () => {
                 })}
               >
                 <p>
-                  If this is the first time you have subscribed to a newsletter
-                  from Wellcome, you will receive an email asking you to confirm
+                  If this is the first time you have subscribed to one of our
+                  newsletters, you will receive an email asking you to confirm
                   your subscription.
                 </p>
                 <p>
-                  Want to know more about our Access events and activities for
-                  Young People and Schools? Visit our{' '}
-                  <a href="/newsletters">full list of newsletters</a> to
-                  subscribe.
+                  To find out more about our Access events, and activities for
+                  Young People and Schools, see our{' '}
+                  <a href="/newsletters">full list of newsletters</a>.
                 </p>
               </div>
             ) : (
