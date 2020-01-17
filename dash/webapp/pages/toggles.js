@@ -44,6 +44,14 @@ const abTests = [
     description:
       'Fix a glitch in the scoring tiers, and see if it makes things better for people',
   },
+  {
+    id: 'altNewsletterSignupCopy',
+    title: 'Alternative NewsletterPromo copy',
+    range: [0, 100],
+    defaultValue: false,
+    description:
+      'Uses different (longer/more descriptive) copy in the NewsletterPromo component',
+  },
 ];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
