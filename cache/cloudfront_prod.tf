@@ -18,7 +18,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
       origin_protocol_policy = "https-only"
       http_port              = "80"
       https_port             = "443"
-      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
@@ -173,7 +173,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   viewer_certificate {
     acm_certificate_arn      = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1"
+    minimum_protocol_version = "TLSv1.2"
   }
 
   restrictions {
