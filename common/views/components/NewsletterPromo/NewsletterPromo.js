@@ -20,11 +20,20 @@ const ErrorMessage = styled(Space).attrs({
   top: 100%;
 `;
 
+const FormElementWrapper = styled.div`
+  width: 100%;
+  ${props => props.theme.media.medium`
+    display: flex;
+    flex: 1;
+  `}
+`;
+
 const NewsletterInput = styled(TextInput).attrs({
   required: true,
   id: 'newsletter-input',
   type: 'email',
   name: 'email',
+  label: 'email',
 })``;
 
 const NewsletterButton = styled.button.attrs({
@@ -57,7 +66,7 @@ const NewsletterForm = styled(Space).attrs({
 
   label {
     flex: 1;
-    min-width: 320px;
+    min-width: 300px;
   }
 
   ${props => props.theme.media.medium`
@@ -70,6 +79,9 @@ const YellowBox = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   border: 12px solid ${props => props.theme.colors.yellow};
+`;
+
+const BoxInner = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -135,77 +147,75 @@ const NewsletterPromo = () => {
       <div className="container">
         <div className="flex flex--h-center">
           <YellowBox>
-            <Space
-              h={{ size: 'm', properties: ['padding-right'] }}
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-            >
-              <h2 className="h2">
-                {isSuccess ? 'Thank you for signing up!' : headingText}
-              </h2>
-              {bodyText && <p className={font('hnl', 5)}>{bodyText}</p>}
-              {isSuccess && (
-                <div
-                  className={classNames({
-                    [font('hnl', 5)]: true,
-                  })}
-                >
-                  <p>
-                    If this is the first time you have subscribed to one of our
-                    newsletters, you will receive an email asking you to confirm
-                    your subscription.
-                  </p>
-                  <p>
-                    To find out more about our Access events, and activities for
-                    Young People and Schools, see our{' '}
-                    <a href="/newsletters">full list of newsletters</a>.
-                  </p>
-                </div>
-              )}
-            </Space>
-            {!isSuccess && (
-              <>
-                <NewsletterForm onSubmit={handleSubmit}>
-                  {isError && (
-                    <ErrorMessage>
-                      There was a problem. Please try again.
-                    </ErrorMessage>
-                  )}
-                  <input type="hidden" name="userid" value="225683" />
-                  <input
-                    type="hidden"
-                    name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
-                    value=""
-                  />
-                  <input type="hidden" name="ReturnURL" value="" />
-                  <input type="hidden" name="addressbookid" value="40131" />
-
-                  <label
-                    htmlFor="newsletter-signup"
-                    className="visually-hidden"
-                  >
-                    email
-                  </label>
-
-                  <NewsletterInput placeholder="you@example.com" />
-                  <NewsletterButton disabled={isSubmitting}>
-                    {isSubmitting ? 'Sending…' : 'Subscribe'}
-                  </NewsletterButton>
-                </NewsletterForm>
-
-                {/* <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                  <p
+            <BoxInner>
+              <Space
+                h={{ size: 'm', properties: ['padding-right'] }}
+                v={{ size: 'm', properties: ['margin-bottom'] }}
+              >
+                <h2 className="h2">
+                  {isSuccess ? 'Thank you for signing up!' : headingText}
+                </h2>
+                {bodyText && <p className={font('hnl', 5)}>{bodyText}</p>}
+                {isSuccess && (
+                  <div
                     className={classNames({
-                      'no-margin': true,
-                      [font('hnl', 6)]: true,
+                      [font('hnl', 5)]: true,
+                      'spaced-text': true,
                     })}
                   >
-                    <a href="/newsletter">All newsletters</a> |{' '}
-                    <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
-                      Privacy notice
-                    </a>
-                  </p>
-                </Space> */}
-              </>
+                    <p>
+                      If this is the first time you have subscribed to one of
+                      our newsletters, you will receive an email asking you to
+                      confirm your subscription.
+                    </p>
+                    <p>
+                      To find out more about our Access events, and activities
+                      for Young People and Schools, see our{' '}
+                      <a href="/newsletters">full list of newsletters</a>.
+                    </p>
+                  </div>
+                )}
+              </Space>
+              {!isSuccess && (
+                <>
+                  <NewsletterForm onSubmit={handleSubmit}>
+                    {isError && (
+                      <ErrorMessage>
+                        There was a problem. Please try again.
+                      </ErrorMessage>
+                    )}
+                    <input type="hidden" name="userid" value="225683" />
+                    <input
+                      type="hidden"
+                      name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
+                      value=""
+                    />
+                    <input type="hidden" name="ReturnURL" value="" />
+                    <input type="hidden" name="addressbookid" value="40131" />
+                    <FormElementWrapper>
+                      <NewsletterInput placeholder="you@example.com" />
+                      <NewsletterButton disabled={isSubmitting}>
+                        {isSubmitting ? 'Sending…' : 'Subscribe'}
+                      </NewsletterButton>
+                    </FormElementWrapper>
+                  </NewsletterForm>
+                </>
+              )}
+            </BoxInner>
+            {!isSuccess && (
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <p
+                  className={classNames({
+                    'no-margin': true,
+                    [font('hnl', 6)]: true,
+                  })}
+                >
+                  <a href="/newsletter">All newsletters</a> |{' '}
+                  <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
+                    Privacy notice
+                  </a>
+                </p>
+              </Space>
             )}
           </YellowBox>
         </div>
