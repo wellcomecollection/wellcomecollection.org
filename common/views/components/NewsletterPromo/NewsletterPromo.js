@@ -63,6 +63,7 @@ const NewsletterForm = styled(Space).attrs({
   flex-wrap: wrap;
   flex: 1;
   align-items: flex-start;
+  position: relative;
 
   label {
     flex: 1;
@@ -179,7 +180,7 @@ const NewsletterPromo = () => {
               {!isSuccess && (
                 <>
                   <NewsletterForm onSubmit={handleSubmit}>
-                    {isError && (
+                    {!isError && (
                       <ErrorMessage>
                         There was a problem. Please try again.
                       </ErrorMessage>
