@@ -1,8 +1,8 @@
 // @flow
-import { font } from '../../../utils/classnames';
+import { useState, useEffect } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
-import { Fragment, useState, useEffect } from 'react';
+import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
 type Props = {|
@@ -70,10 +70,16 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
   }, []);
 
   return (
-    <Fragment>
+    <>
       {isConfirmed && (
         <div className="body-text">
-          <h1>Thank you for confirming your email address</h1>
+          <p
+            className={classNames({
+              [font('hnm', 3)]: true,
+            })}
+          >
+            Thank you for confirming your email address
+          </p>
           <p>
             We’re looking forward to keeping you up-to-date on the topics you’re
             interested in. You are seeing this page because you clicked on a
@@ -92,7 +98,13 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
 
       {isSuccess && (
         <div className="body-text">
-          <h1>You’re signed up</h1>
+          <p
+            className={classNames({
+              [font('hnm', 3)]: true,
+            })}
+          >
+            You’re signed up
+          </p>
           <p>
             If this is the first time you’ve subscribed to updates from us, you
             will receive an email asking you to confirm. Please check your email
@@ -103,14 +115,26 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
 
       {isError && (
         <div className="body-text">
-          <h1>Sorry, there’s been a problem</h1>
+          <p
+            className={classNames({
+              [font('hnm', 3)]: true,
+            })}
+          >
+            Sorry, there’s been a problem
+          </p>
           <p>Please try again.</p>
         </div>
       )}
 
       {!isConfirmed && !isSuccess && !isError && (
         <div className="body-text">
-          <h1>Stay connected with email updates from Wellcome Collection</h1>
+          <p
+            className={classNames({
+              [font('hnm', 3)]: true,
+            })}
+          >
+            Want to hear more from Wellcome Collection?
+          </p>
         </div>
       )}
 
@@ -136,20 +160,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             value=""
           />
 
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            {isEmailError && isSubmitAttempted && (
-              <Space
-                as="p"
-                v={{
-                  size: 's',
-                  properties: ['padding-top', 'padding-bottom', 'margin-top'],
-                }}
-                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-                className={`border-width-1 border-color-red font-red`}
-              >
-                Please enter a valid email address.
-              </Space>
-            )}
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <TextInput
               label="Your email address"
               placeholder="Your email address"
@@ -159,20 +170,8 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
               required
             />
           </Space>
-          {isCheckboxError && isSubmitAttempted && (
-            <Space
-              as="p"
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom', 'margin-top'],
-              }}
-              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-              className={`border-width-1 border-color-red font-red`}
-            >
-              Please select at least one option.
-            </Space>
-          )}
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+
+          <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <Checkbox
               id="whats_on"
               text="I'd like to receive regular updates from the Wellcome Collection"
@@ -183,10 +182,16 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             />
           </Space>
 
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="fieldset">
-            <legend className="h3">
-              You might also be interested in receiving special updates on:
-            </legend>
+          <Space v={{ size: 's', properties: ['margin-bottom'] }} as="fieldset">
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <legend
+                className={classNames({
+                  [font('hnm', 4)]: true,
+                })}
+              >
+                You might also be interested in receiving special updates on:
+              </legend>
+            </Space>
             <ul className="plain-list no-padding">
               {addressBooks.map(addressBook => (
                 <Space
@@ -207,9 +212,47 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             </ul>
           </Space>
 
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <button className="btn btn--primary">Subscribe</button>
           </Space>
+
+          {isEmailError && isSubmitAttempted && (
+            <Space
+              as="p"
+              v={{
+                size: 's',
+                properties: [
+                  'padding-top',
+                  'padding-bottom',
+                  'margin-top',
+                  'margin-bottom',
+                ],
+              }}
+              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+              className={`border-width-1 border-color-red font-red`}
+            >
+              Please enter a valid email address.
+            </Space>
+          )}
+
+          {isCheckboxError && isSubmitAttempted && (
+            <Space
+              as="p"
+              v={{
+                size: 's',
+                properties: [
+                  'padding-top',
+                  'padding-bottom',
+                  'margin-top',
+                  'margin-bottom',
+                ],
+              }}
+              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+              className={`border-width-1 border-color-red font-red`}
+            >
+              Please select at least one option.
+            </Space>
+          )}
 
           <p className={`${font('hnl', 6)}`}>
             We use a third-party provider,{' '}
@@ -226,7 +269,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           </p>
         </form>
       )}
-    </Fragment>
+    </>
   );
 };
 
