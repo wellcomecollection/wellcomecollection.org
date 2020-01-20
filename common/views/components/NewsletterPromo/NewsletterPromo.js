@@ -14,7 +14,7 @@ const ErrorMessage = styled(Space).attrs({
   as: 'p',
   h: { size: 'l', negative: true, properties: ['bottom'] },
   className: classNames({
-    absolute: true,
+    'absolute font-red': true,
     [font('hnm', 5)]: true,
   }),
 })`
@@ -235,6 +235,7 @@ const NewsletterPromo = () => {
                     [font('hnl', 6)]: true,
                     'no-margin': true,
                   })}
+                  style={{ marginTop: isError ? '16px' : undefined }}
                 >
                   <a href="/newsletter">All newsletters</a>
                 </p>
