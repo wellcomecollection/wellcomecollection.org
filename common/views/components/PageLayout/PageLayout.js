@@ -14,7 +14,7 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
-import SpacingSection from '../SpacingSection/SpacingSection';
+import Space from '../styled/Space';
 
 type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
@@ -117,9 +117,11 @@ const PageLayout = ({
           {children}
         </div>
         {!hideNewsletterPromo && (
-          <SpacingSection>
+          <Space
+            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
             <NewsletterPromo />
-          </SpacingSection>
+          </Space>
         )}
         <OpeningTimesContext.Consumer>
           {openingTimes => (

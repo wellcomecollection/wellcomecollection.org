@@ -80,6 +80,7 @@ const NewsletterForm = styled(Space).attrs({
 const YellowBox = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  'aria-live': 'polite',
 })`
   border: 12px solid ${props => props.theme.colors.yellow};
 
