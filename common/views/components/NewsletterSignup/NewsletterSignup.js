@@ -1,6 +1,7 @@
 // @flow
 import { font } from '../../../utils/classnames';
-import HTMLInput from '../HTMLInput/HTMLInput';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 import { Fragment, useState, useEffect } from 'react';
 import Space from '../styled/Space';
 
@@ -13,41 +14,29 @@ type Props = {|
 const addressBooks = [
   {
     id: 'accessibility',
-    label: `<span class="${font('hnl', 5)}"><span class="${font(
-      'hnm',
-      6
-    )}">Access events, tours and activities</span>`,
+    label: `Access events, tours and activities`,
     name: 'addressbook_40129',
   },
   {
     id: 'young_people_14-19',
-    label: `<span class="${font(
-      'hnl',
-      5
-    )}">Events and activities for 14-to-19-year-olds</span>`,
+    label: `Events and activities for 14-to-19-year-olds`,
     name: 'addressbook_40132',
   },
   {
     id: 'teachers',
-    label: `<span class="${font(
-      'hnl',
-      5
-    )}">Events and activities for teachers and schools</span>`,
+    label: `Events and activities for teachers and schools`,
     name: 'addressbook_40130',
     description: `Study days and other events for secondary school teachers and school groups`,
   },
   {
     id: 'youth_and_community_workers',
-    label: `<span class="${font(
-      'hnl',
-      5
-    )}">Updates for youth and community workers</span>`,
+    label: `Updates for youth and community workers`,
     name: 'addressbook_40133',
   },
 ];
 
 const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
-  const [checkedInputs, setCheckInputs] = useState([]);
+  const [checkedInputs, setCheckedInputs] = useState([]);
   const [isEmailError, setIsEmailError] = useState(true);
   const [isCheckboxError, setIsCheckboxError] = useState(true);
   const [noValidate, setNoValidate] = useState(false);
@@ -60,8 +49,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
     const newInputs = isChecked
       ? checkedInputs.concat(id)
       : checkedInputs.filter(c => c !== id);
-
-    setCheckInputs(newInputs);
+    setCheckedInputs(newInputs);
     setIsCheckboxError(newInputs.length === 0);
   }
 
@@ -149,23 +137,48 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           />
 
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <HTMLInput
-              required={true}
-              id="email"
-              type="email"
-              name="Email"
+            {isEmailError && isSubmitAttempted && (
+              <Space
+                as="p"
+                v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom', 'margin-top'],
+                }}
+                h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+                className={`border-width-1 border-color-red font-red`}
+              >
+                Please enter a valid email address.
+              </Space>
+            )}
+            <TextInput
               label="Your email address"
               placeholder="Your email address"
-              isLabelHidden={true}
+              name="Email"
+              type="email"
               onChange={handleEmailInput}
+              required
             />
           </Space>
+          {isCheckboxError && isSubmitAttempted && (
+            <Space
+              as="p"
+              v={{
+                size: 's',
+                properties: ['padding-top', 'padding-bottom', 'margin-top'],
+              }}
+              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+              className={`border-width-1 border-color-red font-red`}
+            >
+              Please select at least one option.
+            </Space>
+          )}
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <HTMLInput
+            <Checkbox
               id="whats_on"
-              type="checkbox"
+              text="I'd like to receive regular updates from the Wellcome Collection"
+              value="addressbook_40131"
               name="addressbook_40131"
-              label="I'd like to receive regular updates from the Wellcome Collection"
+              checked={checkedInputs.includes('whats_on')}
               onChange={updateCheckedInputs}
             />
           </Space>
@@ -181,11 +194,12 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
                   v={{ size: 'm', properties: ['margin-bottom'] }}
                   key={addressBook.id}
                 >
-                  <HTMLInput
+                  <Checkbox
                     id={addressBook.id}
-                    type="checkbox"
+                    text={addressBook.label}
+                    value={addressBook.name}
                     name={addressBook.name}
-                    label={addressBook.label}
+                    checked={checkedInputs.includes(addressBook.id)}
                     onChange={updateCheckedInputs}
                   />
                 </Space>
@@ -210,34 +224,6 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             . You can unsubscribe at any time using links in the emails you
             receive.
           </p>
-
-          {isCheckboxError && isSubmitAttempted && (
-            <Space
-              as="p"
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
-              }}
-              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-              className={`border-width-1 border-color-red font-red`}
-            >
-              Please select at least one option.
-            </Space>
-          )}
-
-          {isEmailError && isSubmitAttempted && (
-            <Space
-              as="p"
-              v={{
-                size: 's',
-                properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
-              }}
-              h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-              className={`border-width-1 border-color-red font-red`}
-            >
-              Please enter a valid email address.
-            </Space>
-          )}
         </form>
       )}
     </Fragment>
