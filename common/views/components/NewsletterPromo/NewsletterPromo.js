@@ -7,6 +7,7 @@ import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import { trackEvent } from '../../../utils/ga';
 
 const ErrorMessage = styled(Space).attrs({
   'aria-live': 'polite',
@@ -133,6 +134,10 @@ const NewsletterPromo = () => {
       case 'PendingOptIn':
       case 'Subscribed':
         setIsSuccess(true);
+        trackEvent({
+          category: 'NewsletterPromo',
+          action: 'submit email',
+        });
         break;
       default:
         setIsError(true);
