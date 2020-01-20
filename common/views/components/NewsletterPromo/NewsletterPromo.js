@@ -59,6 +59,7 @@ const NewsletterForm = styled(Space).attrs({
   id: 'newsletter-signup',
   action: 'https://r1-t.trackedlink.net/signup.ashx',
   method: 'post',
+  v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -77,16 +78,21 @@ const NewsletterForm = styled(Space).attrs({
 `;
 
 const YellowBox = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   border: 12px solid ${props => props.theme.colors.yellow};
+
+  p {
+    max-width: 600px;
+  }
 `;
 
 const BoxInner = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 
   ${props => props.theme.media.xlarge`
     flex-wrap: nowrap;
@@ -152,78 +158,104 @@ const NewsletterPromo = () => {
     <div className="row">
       <div className="container">
         <div className="flex flex--h-center">
-          <YellowBox>
-            <BoxInner>
-              <Space
-                h={{ size: 'm', properties: ['padding-right'] }}
-                v={{ size: 'm', properties: ['margin-bottom'] }}
-              >
-                <h2 className="h2">
-                  {isSuccess ? 'Thank you for signing up!' : headingText}
-                </h2>
-                {bodyText && <p className={font('hnl', 5)}>{bodyText}</p>}
-                {isSuccess && (
-                  <div
+          <div>
+            <YellowBox>
+              <BoxInner>
+                <Space
+                  h={{ size: 'm', properties: ['padding-right'] }}
+                  v={{ size: 'm', properties: ['margin-bottom'] }}
+                >
+                  <h2
                     className={classNames({
-                      [font('hnl', 5)]: true,
-                      'spaced-text': true,
+                      h2: true,
+                      'no-margin': !isSuccess,
                     })}
                   >
-                    <p>
-                      If this is the first time you have subscribed to one of
-                      our newsletters, you will receive an email asking you to
-                      confirm your subscription.
+                    {isSuccess ? 'Thank you for signing up!' : headingText}
+                  </h2>
+                  {bodyText && (
+                    <p
+                      className={classNames({
+                        [font('hnl', 5)]: true,
+                        'no-margin': true,
+                      })}
+                    >
+                      {bodyText}
                     </p>
-                    <p>
-                      To find out more about our Access events, and activities
-                      for Young People and Schools, see our{' '}
-                      <a href="/newsletters">full list of newsletters</a>.
-                    </p>
-                  </div>
+                  )}
+                  {isSuccess && (
+                    <div
+                      className={classNames({
+                        [font('hnl', 5)]: true,
+                        'spaced-text': true,
+                      })}
+                    >
+                      <p>
+                        If this is the first time you have subscribed to one of
+                        our newsletters, you will receive an email asking you to
+                        confirm your subscription.
+                      </p>
+                      <p>
+                        To find out more about our Access events, and activities
+                        for Young People and Schools, see our{' '}
+                        <a href="/newsletter">full list of newsletters</a>.
+                      </p>
+                    </div>
+                  )}
+                </Space>
+                {!isSuccess && (
+                  <>
+                    <NewsletterForm onSubmit={handleSubmit}>
+                      {isError && (
+                        <ErrorMessage>
+                          There was a problem. Please try again.
+                        </ErrorMessage>
+                      )}
+                      <input type="hidden" name="userid" value="225683" />
+                      <input
+                        type="hidden"
+                        name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
+                        value=""
+                      />
+                      <input type="hidden" name="ReturnURL" value="" />
+                      <input type="hidden" name="addressbookid" value="40131" />
+                      <FormElementWrapper>
+                        <NewsletterInput placeholder="you@example.com" />
+                        <NewsletterButton disabled={isSubmitting}>
+                          {isSubmitting ? 'Sending…' : 'Subscribe'}
+                        </NewsletterButton>
+                      </FormElementWrapper>
+                    </NewsletterForm>
+                  </>
                 )}
-              </Space>
+              </BoxInner>
               {!isSuccess && (
-                <>
-                  <NewsletterForm onSubmit={handleSubmit}>
-                    {isError && (
-                      <ErrorMessage>
-                        There was a problem. Please try again.
-                      </ErrorMessage>
-                    )}
-                    <input type="hidden" name="userid" value="225683" />
-                    <input
-                      type="hidden"
-                      name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
-                      value=""
-                    />
-                    <input type="hidden" name="ReturnURL" value="" />
-                    <input type="hidden" name="addressbookid" value="40131" />
-                    <FormElementWrapper>
-                      <NewsletterInput placeholder="you@example.com" />
-                      <NewsletterButton disabled={isSubmitting}>
-                        {isSubmitting ? 'Sending…' : 'Subscribe'}
-                      </NewsletterButton>
-                    </FormElementWrapper>
-                  </NewsletterForm>
-                </>
-              )}
-            </BoxInner>
-            {!isSuccess && (
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 <p
                   className={classNames({
-                    'no-margin': true,
                     [font('hnl', 6)]: true,
+                    'no-margin': true,
                   })}
                 >
-                  <a href="/newsletter">All newsletters</a> |{' '}
-                  <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
-                    Privacy notice
-                  </a>
+                  <a href="/newsletter">All newsletters</a>
                 </p>
-              </Space>
-            )}
-          </YellowBox>
+              )}
+            </YellowBox>
+            <Space
+              v={{ size: 'l', properties: ['margin-top'] }}
+              style={{ flexBasis: '100%' }}
+            >
+              <p className={font('hnl', 6)} style={{ maxWidth: '800px' }}>
+                We use a third party provider, Dotdigital, to deliver our
+                newsletters. For information about how we handle your data,
+                please read our{' '}
+                <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
+                  privacy notice
+                </a>
+                . You can unsubscribe at any time using links in the emails you
+                receive.
+              </p>
+            </Space>
+          </div>
         </div>
       </div>
     </div>
