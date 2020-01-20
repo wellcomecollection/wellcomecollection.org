@@ -70,7 +70,7 @@ type CheckboxProps = {|
   text: string,
   checked: boolean,
   name: string,
-  onChange: () => void,
+  onChange: (SyntheticEvent<HTMLInputElement>) => void,
   value: string,
 |};
 
