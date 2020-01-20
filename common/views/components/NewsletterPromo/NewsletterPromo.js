@@ -180,7 +180,7 @@ const NewsletterPromo = () => {
               {!isSuccess && (
                 <>
                   <NewsletterForm onSubmit={handleSubmit}>
-                    {!isError && (
+                    {isError && (
                       <ErrorMessage>
                         There was a problem. Please try again.
                       </ErrorMessage>
