@@ -256,8 +256,8 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
 
           <p className={`${font('hnl', 6)}`}>
             We use a third-party provider,{' '}
-            <a href="https://www.dotmailer.com/terms/privacy-policy/">
-              Dotmailer
+            <a href="https://dotdigital.com/terms/privacy-policy/">
+              dotdigital
             </a>
             , to deliver our newsletters. For information about how we handle
             your data, please read our{' '}
