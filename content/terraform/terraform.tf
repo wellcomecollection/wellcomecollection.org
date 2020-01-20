@@ -99,6 +99,12 @@ module "content" {
   env_vars_length                    = 0
   desired_count                      = 2
 
+  secret_env_vars_length = 1
+  secret_app_env_vars = {
+    dotmailer_creds = "prod/ContentApp/dotmailer_creds"
+  }
+
+
   # CPU: (1024/2) - 128
   # Mem: (2000/2) - 128
   cpu = "384"

@@ -6,7 +6,8 @@ const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const bodyParser = require('koa-bodyparser');
 const fetch = require('isomorphic-unfetch');
 require('dotenv').config();
-const { newsletterApiUsername, newsletterApiPassword } = process.env;
+const dotmailerCreds = JSON.parse(process.env.dotmailer_creds);
+const { newsletterApiUsername, newsletterApiPassword } = dotmailerCreds;
 
 const {
   middleware,
