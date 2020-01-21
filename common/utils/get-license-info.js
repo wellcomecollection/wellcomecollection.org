@@ -1,7 +1,7 @@
 // @flow
 export type LicenseData = {|
   text: string,
-  humanReadableText: string[],
+  humanReadableText?: string[],
   icons?: string[],
   description?: string,
   url?: string,

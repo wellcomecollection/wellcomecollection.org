@@ -55,7 +55,7 @@ const IIIFViewerBackground = styled.div`
   position: relative;
   background: ${props => props.theme.colors.viewerBlack};
   height: ${props =>
-    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`}
+    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
   color: ${props => props.theme.colors.white};
 `;
 
