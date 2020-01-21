@@ -3,6 +3,8 @@ const Router = require('koa-router');
 const next = require('next');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
+const bodyParser = require('koa-bodyparser');
+const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup');
 
 const {
   middleware,
@@ -39,6 +41,7 @@ module.exports = app
     const router = new Router();
 
     server.use(middleware);
+    server.use(bodyParser());
 
     route('/', '/homepage', router, app);
     route('/whats-on', '/whats-on', router, app);
@@ -74,6 +77,8 @@ module.exports = app
     pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
     pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC', '/visit-us');
+
+    router.post('/newsletter-signup', handleNewsletterSignup);
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.

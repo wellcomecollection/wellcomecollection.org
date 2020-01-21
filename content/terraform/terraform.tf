@@ -99,6 +99,13 @@ module "content" {
   env_vars_length                    = 0
   desired_count                      = 2
 
+  secret_env_vars_length = 2
+  secret_app_env_vars = {
+    dotdigital_username = "content/dotdigital/username",
+    dotdigital_password = "content/dotdigital/password"
+  }
+
+
   # CPU: (1024/2) - 128
   # Mem: (2000/2) - 128
   cpu = "384"

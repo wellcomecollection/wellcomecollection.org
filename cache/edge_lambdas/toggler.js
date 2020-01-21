@@ -12,7 +12,16 @@
 // }
 
 // This is mutable for testing
-let tests = [];
+let tests = [
+  {
+    id: 'altNewsletterSignupCopy',
+    title: 'Alternative NewsletterPromo copy',
+    range: [0, 100],
+    when: request => {
+      return !request.uri.match(/\/works\/.+/); // promo not on 'works/{id}' or 'works/{id}/items...'
+    },
+  },
+];
 exports.tests = tests;
 exports.setTests = function(newTests) {
   tests = newTests;
