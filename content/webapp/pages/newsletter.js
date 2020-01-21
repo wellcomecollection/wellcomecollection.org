@@ -40,7 +40,7 @@ export class NewsletterPage extends Component<Props> {
         <PageHeader
           breadcrumbs={{ items: [] }}
           labels={null}
-          title={'Newsletter'}
+          title={'Newsletters'}
           ContentTypeInfo={null}
           Background={null}
           backgroundTexture={

@@ -18,7 +18,7 @@ const CheckboxBox = styled.span.attrs({
 })`
   width: 1.2em;
   height: 1.2em;
-  border: 2px solid ${props => props.theme.colors.silver};
+  border: 2px solid ${props => props.theme.colors.pumice};
   border-radius: 3px;
   transition: all 400ms ease;
 
@@ -56,7 +56,7 @@ const CheckboxInput = styled.input.attrs({
   }
 
   ~ span {
-    color: ${props => props.theme.colors.silver};
+    color: ${props => props.theme.colors.pewter};
   }
 
   &:focus ~ span,

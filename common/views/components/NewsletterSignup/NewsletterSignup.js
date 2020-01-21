@@ -19,7 +19,7 @@ const addressBooks = [
   },
   {
     id: 'young_people_14-19',
-    label: `Events and activities for 14-to-19-year-olds`,
+    label: `Events and activities for 14 to 19 year-olds`,
     name: 'addressbook_40132',
   },
   {
@@ -133,7 +133,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
               [font('hnm', 3)]: true,
             })}
           >
-            Want to hear more from Wellcome Collection?
+            Want to hear more from us?
           </p>
         </div>
       )}
@@ -174,7 +174,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
           <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <Checkbox
               id="whats_on"
-              text="I'd like to receive regular updates from the Wellcome Collection"
+              text="I'd like to receive regular updates from Wellcome Collection"
               value="addressbook_40131"
               name="addressbook_40131"
               checked={checkedInputs.includes('whats_on')}
@@ -189,7 +189,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
                   [font('hnm', 4)]: true,
                 })}
               >
-                You might also be interested in receiving special updates on:
+                You might also be interested in receiving updates on:
               </legend>
             </Space>
             <ul className="plain-list no-padding">
