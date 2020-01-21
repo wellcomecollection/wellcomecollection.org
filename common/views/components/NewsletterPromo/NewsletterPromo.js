@@ -247,9 +247,12 @@ const NewsletterPromo = () => {
               style={{ flexBasis: '100%' }}
             >
               <p className={font('hnl', 6)} style={{ maxWidth: '800px' }}>
-                We use a third party provider, Dotdigital, to deliver our
-                newsletters. For information about how we handle your data,
-                please read our{' '}
+                We use a third party provider,{' '}
+                <a href="https://dotdigital.com/terms/privacy-policy/">
+                  Dotdigital
+                </a>
+                , to deliver our newsletters. For information about how we
+                handle your data, please read our{' '}
                 <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
                   privacy notice
                 </a>

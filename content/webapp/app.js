@@ -4,10 +4,7 @@ const next = require('next');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const bodyParser = require('koa-bodyparser');
-const fetch = require('isomorphic-unfetch');
-require('dotenv').config();
-const dotmailerCreds = JSON.parse(process.env.dotmailer_creds);
-const { newsletterApiUsername, newsletterApiPassword } = dotmailerCreds;
+const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup');
 
 const {
   middleware,
@@ -81,55 +78,7 @@ module.exports = app
     pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
     pageVanityUrl(router, app, '/visit-us', 'WwLIBiAAAPMiB_zC', '/visit-us');
 
-    router.post('/newsletter-signup', async (ctx, next) => {
-      const { addressbookid, email } = ctx.request.body;
-      const newsletterApiUrl = 'https://r1-api.dotmailer.com/v2';
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${Buffer.from(
-          `${newsletterApiUsername}:${newsletterApiPassword}`
-        ).toString('base64')}`,
-      };
-      const newBody = JSON.stringify({
-        Email: email,
-        OptInType: 'VerifiedDouble',
-      });
-      const resubscribeBody = JSON.stringify({
-        UnsubscribedContact: {
-          Email: email,
-        },
-      });
-      const newResponse = await fetch(
-        `${newsletterApiUrl}/address-books/${addressbookid}/contacts`,
-        {
-          method: 'POST',
-          headers: headers,
-          body: newBody,
-        }
-      );
-      const newJson = await newResponse.json();
-      const { message } = newJson;
-      const isSuppressed = message && message.match(/ERROR_CONTACT_SUPPRESSED/);
-
-      if (isSuppressed) {
-        const resubscribeResponse = await fetch(
-          `${newsletterApiUrl}/contacts/resubscribe`,
-          {
-            method: 'POST',
-            headers: headers,
-            body: resubscribeBody,
-          }
-        );
-
-        const resubscribeJson = await resubscribeResponse.json();
-
-        ctx.body = resubscribeJson;
-      } else {
-        ctx.body = newJson;
-      }
-
-      next();
-    });
+    router.post('/newsletter-signup', handleNewsletterSignup);
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
