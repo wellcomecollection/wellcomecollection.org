@@ -67,6 +67,8 @@ jobs:
   content:
     docker:
       - image: circleci/node:10.15.1
+        environment:
+          dotmailer_creds: ${dotmailer_creds}
     working_directory: ~/wellcomecollection.org/content/webapp
     steps:
       - restore_cache:
