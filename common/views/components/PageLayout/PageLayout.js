@@ -11,10 +11,12 @@ import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
+import NewsletterPromoDeprecated from '../NewsletterPromo/NewsletterPromoDeprecated';
 import Footer from '../Footer/Footer';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
+import TogglesContext from '../TogglesContext/TogglesContext';
 
 type SiteSection = 'works' | 'what-we-do' | 'visit-us' | 'stories' | 'whats-on';
 
@@ -117,11 +119,22 @@ const PageLayout = ({
           {children}
         </div>
         {!hideNewsletterPromo && (
-          <Space
-            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <NewsletterPromo />
-          </Space>
+          <TogglesContext.Consumer>
+            {({ newNewsletterPromo }) =>
+              !newNewsletterPromo ? (
+                <Space
+                  v={{
+                    size: 'xl',
+                    properties: ['padding-top', 'padding-bottom'],
+                  }}
+                >
+                  <NewsletterPromo />
+                </Space>
+              ) : (
+                <NewsletterPromoDeprecated />
+              )
+            }
+          </TogglesContext.Consumer>
         )}
         <OpeningTimesContext.Consumer>
           {openingTimes => (

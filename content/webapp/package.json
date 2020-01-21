@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --watch server.js server.js app.js",
+    "dev": "nodemon --watch app.js --watch server.js --require dotenv/config server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "test": "NODE_ENV=test jest --no-cache"

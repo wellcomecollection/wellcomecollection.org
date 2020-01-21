@@ -1,9 +1,6 @@
 const fetch = require('isomorphic-unfetch');
-require('dotenv').config();
 const dotdigitalUsername = process.env.dotdigital_username;
 const dotdigitalPassword = process.env.dotdigital_password;
-
-console.log(dotdigitalPassword);
 
 async function handleNewsletterSignup(ctx, next) {
   const { addressbookid, email } = ctx.request.body;
