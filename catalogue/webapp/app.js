@@ -6,6 +6,7 @@ const {
   route,
   handleAllRoute,
 } = require('@weco/common/koa-middleware/withCachedValues');
+const withQueryType = require('./middleware/withQueryType');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -17,7 +18,7 @@ module.exports = app
     const server = new Koa();
     const router = new Router();
 
-    // server cached values
+    server.use(withQueryType);
     server.use(middleware);
 
     // Used for redirecting from cognito to actual works pages

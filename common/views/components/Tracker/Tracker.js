@@ -1,10 +1,7 @@
 // @flow
 import { useEffect } from 'react';
 import Router from 'next/router';
-import {
-  searchParamsDeserialiser,
-  apiSearchParamsSerialiser,
-} from '../../../services/catalogue/search-params';
+import { type SearchParams } from '../../../services/catalogue/search-params';
 
 type RelevanceRatingData = {|
   position: number,
@@ -13,13 +10,15 @@ type RelevanceRatingData = {|
   query: string,
   page: number,
   workType: ?(string[]),
-  _queryType: ?string,
 |};
 
 type ServiceName = 'search_relevance_implicit' | 'search_relevance_explicit';
 
-const trackRelevanceRating = (data: RelevanceRatingData) => {
-  track('Relevance rating', 'search_relevance_explicit', data);
+const trackRelevanceRating = (
+  params: SearchParams,
+  data: RelevanceRatingData
+) => {
+  track(params, 'Relevance rating', 'search_relevance_explicit', data);
 };
 
 type SearchResultSelectedData = {|
@@ -30,17 +29,20 @@ type SearchResultSelectedData = {|
   resultIdentifiers: ?string,
   resultSubjects: ?string,
 |};
-const trackSearchResultSelected = (data: SearchResultSelectedData) => {
-  track('Search result selected', 'search_relevance_implicit', data);
+const trackSearchResultSelected = (
+  params: SearchParams,
+  data: SearchResultSelectedData
+) => {
+  track(params, 'Search result selected', 'search_relevance_implicit', data);
 };
 
 type SearchData = {| totalResults: ?number |};
-const trackSearch = (data: SearchData) => {
-  const query = Router.query.query;
+const trackSearch = (params: SearchParams, data: SearchData) => {
+  const query = params.query;
   if (query && query !== '') {
-    track('Search', 'search_relevance_implicit', data);
+    track(params, 'Search', 'search_relevance_implicit', data);
   } else {
-    track('Search landing', 'search_relevance_implicit', data);
+    track(params, 'Search landing', 'search_relevance_implicit', data);
   }
 };
 
@@ -49,19 +51,11 @@ type TrackingEventData =
   | RelevanceRatingData
   | SearchData;
 const track = (
+  params: SearchParams,
   eventName: string,
   serviceName: ServiceName,
   data: ?TrackingEventData
 ) => {
-  const query = apiSearchParamsSerialiser(
-    searchParamsDeserialiser(Router.query)
-  );
-  // These are from the global contex, we should probably not be storing them on the query
-  delete query.toggles;
-  delete query.globalAlert;
-  delete query.openingTimes;
-  delete query.isPreview;
-
   // returns `["withNotes:true", "testb:false"]`
   let debug = false;
   const toggles = document.cookie
@@ -85,7 +79,7 @@ const track = (
     service: serviceName,
     path: Router.pathname,
     eventName,
-    query,
+    query: params,
     toggles,
     data,
   };

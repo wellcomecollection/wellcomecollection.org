@@ -14,15 +14,6 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchFixedFields',
-    title:
-      'Fix a glitch in the scoring tiers, and see if it makes things better for people',
-    range: [0, 100],
-    when: (request, range) => {
-      return request.uri.match(/^\/works\/*/);
-    },
-  },
-  {
     id: 'altNewsletterSignupCopy',
     title: 'Alternative NewsletterPromo copy',
     range: [0, 100],

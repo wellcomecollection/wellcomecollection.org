@@ -32,11 +32,12 @@ async function route(path, page, router, app, extraParams = {}) {
 }
 
 function handleAllRoute(handle) {
-  return async function(ctx) {
+  return async function(ctx, extraCtxParams = {}) {
     const parsedUrl = parse(ctx.request.url, true);
     const { toggles, globalAlert, openingTimes, isPreview } = ctx;
     const query = {
       ...parsedUrl.query,
+      ...extraCtxParams,
       toggles,
       globalAlert,
       openingTimes,

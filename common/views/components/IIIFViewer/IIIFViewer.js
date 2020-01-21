@@ -49,11 +49,13 @@ const ZoomedImage = dynamic(
 );
 
 export const headerHeight = 149;
+export const topBarHeight = 64;
 
 const IIIFViewerBackground = styled.div`
   position: relative;
   background: ${props => props.theme.colors.viewerBlack};
-  height: calc(100vh - ${`${headerHeight}px`});
+  height: ${props =>
+    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
   color: ${props => props.theme.colors.white};
 `;
 
@@ -114,7 +116,8 @@ export const IIIFViewerMain: ComponentType<SpaceComponentProps> = styled(
 const ViewerLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  height: calc(100vh - ${`${headerHeight}px`});
+  height: ${props =>
+    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
   position: relative;
 
   @media (min-width: 600px) {
@@ -208,6 +211,7 @@ const IIIFViewerComponent = ({
   const [rotatedImages, setRotatedImages] = useState([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const viewToggleRef = useRef(null);
   const gridViewerRef = useRef(null);
   const mainViewerRef = useRef(null);
@@ -223,6 +227,38 @@ const IIIFViewerComponent = ({
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
 
+  function setFullScreen() {
+    if (
+      (window.document.fullscreenElement &&
+        window.document.fullscreenElement !== null) ||
+      (window.document.webkitFullscreenElement &&
+        window.document.webkitFullscreenElement !== null)
+    ) {
+      setIsFullscreen(true);
+    } else {
+      setIsFullscreen(false);
+    }
+  }
+  useEffect(() => {
+    window.document.addEventListener('fullscreenchange', setFullScreen, false);
+    window.document.addEventListener(
+      'webkitfullscreenchange',
+      setFullScreen,
+      false
+    );
+    return () => {
+      window.document.removeEventListener(
+        'fullscreenchange',
+        setFullScreen,
+        false
+      );
+      window.document.removeEventListener(
+        'webkitfullscreenchange',
+        setFullScreen,
+        false
+      );
+    };
+  }, []);
   const [iiifImageLocation] =
     work && work.type !== 'Error'
       ? work.items
@@ -326,7 +362,7 @@ const IIIFViewerComponent = ({
 
   useEffect(() => {
     function handleResize() {
-      if (document.fullscreenElement) {
+      if (isFullscreen) {
         setPageHeight(window.innerHeight);
       } else {
         setPageHeight(window.innerHeight - headerHeight);
@@ -339,7 +375,7 @@ const IIIFViewerComponent = ({
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isFullscreen]);
 
   return (
     <div ref={viewerRef}>
@@ -364,13 +400,14 @@ const IIIFViewerComponent = ({
         lang={lang}
         viewerRef={viewerRef}
       />
-      <IIIFViewerBackground>
+      <IIIFViewerBackground isFullscreen={isFullscreen}>
         {isLoading && <LoadingComponent />}
         {showZoomed && (
           <ZoomedImage
             id={`zoomedImage`}
             infoUrl={zoomInfoUrl}
             setShowViewer={setShowZoomed}
+            isFullscreen={isFullscreen}
           />
         )}
         {!enhanced && (
@@ -464,7 +501,7 @@ const IIIFViewerComponent = ({
               </IIIFViewerImageWrapper>
             )}
             {mainImageService['@id'] && currentCanvas && (
-              <ViewerLayout>
+              <ViewerLayout isFullscreen={isFullscreen}>
                 <GridViewer
                   gridHeight={pageHeight}
                   gridWidth={pageWidth}
@@ -475,6 +512,7 @@ const IIIFViewerComponent = ({
                   setActiveIndex={setActiveIndex}
                   canvases={canvases}
                   gridViewerRef={gridViewerRef}
+                  isFullscreen={isFullscreen}
                 />
                 {pageWidth >= 600 && (
                   <ThumbsViewer

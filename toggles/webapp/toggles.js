@@ -2,9 +2,9 @@ module.exports = {
   toggles: [
     {
       id: 'unfilteredSearchResults',
-      title: 'Search the entire catalogue',
+      title: 'Complete catalogue search',
       defaultValue: false,
-      description: 'Search the entire catalogue without any filters',
+      description: 'Search the complete catalogue without any filters',
     },
     {
       id: 'stacksRequestService',

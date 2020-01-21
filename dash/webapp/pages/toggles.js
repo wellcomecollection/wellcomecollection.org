@@ -45,14 +45,6 @@ type AbTest = {|
 
 const abTests: AbTest[] = [
   {
-    id: 'searchFixedFields',
-    title: 'Search the API with fixed fields',
-    range: [0, 100],
-    defaultValue: false,
-    description:
-      'Fix a glitch in the scoring tiers, and see if it makes things better for people',
-  },
-  {
     id: 'altNewsletterSignupCopy',
     title: 'Alternative NewsletterPromo copy',
     range: [0, 100],
