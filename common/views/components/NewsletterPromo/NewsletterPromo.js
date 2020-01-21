@@ -238,7 +238,7 @@ const NewsletterPromo = () => {
                   })}
                   style={{ marginTop: isError ? '16px' : undefined }}
                 >
-                  <a href="/newsletter">All newsletters</a>
+                  <a href="/newsletter">All our newsletters</a>
                 </p>
               )}
             </YellowBox>
