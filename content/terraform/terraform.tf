@@ -99,9 +99,10 @@ module "content" {
   env_vars_length                    = 0
   desired_count                      = 2
 
-  secret_env_vars_length = 1
+  secret_env_vars_length = 2
   secret_app_env_vars = {
-    dotmailer_creds = "prod/ContentApp/dotmailer_creds"
+    dotdigital_username = "content/dotdigital/username",
+    dotdigital_password = "content/dotdigital/password"
   }
 
 

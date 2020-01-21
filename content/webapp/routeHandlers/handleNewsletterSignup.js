@@ -1,7 +1,9 @@
 const fetch = require('isomorphic-unfetch');
 require('dotenv').config();
-const dotmailerCreds = JSON.parse(process.env.dotmailer_creds);
-const { newsletterApiUsername, newsletterApiPassword } = dotmailerCreds;
+const dotdigitalUsername = process.env.dotdigital_username;
+const dotdigitalPassword = process.env.dotdigital_password;
+
+console.log(dotdigitalPassword);
 
 async function handleNewsletterSignup(ctx, next) {
   const { addressbookid, email } = ctx.request.body;
@@ -9,7 +11,7 @@ async function handleNewsletterSignup(ctx, next) {
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Basic ${Buffer.from(
-      `${newsletterApiUsername}:${newsletterApiPassword}`
+      `${dotdigitalUsername}:${dotdigitalPassword}`
     ).toString('base64')}`,
   };
   // We first assume the email address is new…

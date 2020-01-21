@@ -1,7 +1,6 @@
 FROM node:10.15.1-alpine
 
 ENV NODE_ENV=production
-ENV dotmailer_creds=$dotmailer_creds
 
 WORKDIR /usr/src/app/webapp
 ADD ./package.json ./package.json
