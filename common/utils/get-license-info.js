@@ -1,8 +1,8 @@
 // @flow
 export type LicenseData = {|
   text: string,
-  humanReadableText?: string[],
-  icons?: string[],
+  humanReadableText: string[],
+  icons: string[],
   description?: string,
   url?: string,
 |};
@@ -12,6 +12,7 @@ export const licenseMap = {
   // has been merged and API has been deployed
   'copyright-not-cleared': {
     text: 'Copyright not cleared',
+    icons: [],
     humanReadableText: [
       'Copyright for this work has not been cleared. You are responsible for identifying the rights owner to seek permission to use this work.',
     ],
@@ -72,29 +73,38 @@ export const licenseMap = {
     text: 'CC BY-ND',
     icons: ['cc', 'ccBy', 'ccNd'],
     description: 'Free to use with attribution. No modifications permitted.',
+    humanReadableText: [],
   },
   'cc-by-sa': {
     url: 'https://creativecommons.org/licenses/by-sa/4.0/',
     text: 'CC BY-SA',
     icons: ['cc', 'ccBy'],
+    humanReadableText: [],
   },
   'cc-by-nc-sa': {
     url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
     text: 'CC BY-NC-SA',
     icons: ['cc', 'ccBy', 'ccNc'],
+    humanReadableText: [],
   },
   ogl: {
     url:
       'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
     text: 'Open Government License',
+    icons: [],
+    humanReadableText: [],
   },
   opl: {
     url: 'http://opencontent.org/openpub/',
     text: 'Open Publication License',
+    icons: [],
+    humanReadableText: [],
   },
   inc: {
     url: 'http://rightsstatements.org/vocab/InC/1.0/',
     text: 'In copyright',
+    icons: [],
+    humanReadableText: [],
   },
 };
 
