@@ -253,7 +253,7 @@ const NewsletterPromo = () => {
               <p className={font('hnl', 6)} style={{ maxWidth: '800px' }}>
                 We use a third party provider,{' '}
                 <a href="https://dotdigital.com/terms/privacy-policy/">
-                  Dotdigital
+                  dotdigital
                 </a>
                 , to deliver our newsletters. For information about how we
                 handle your data, please read our{' '}
