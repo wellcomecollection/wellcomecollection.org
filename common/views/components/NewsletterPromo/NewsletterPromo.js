@@ -218,7 +218,11 @@ const NewsletterPromo = () => {
                         name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
                         value=""
                       />
-                      <input type="hidden" name="ReturnURL" value="" />
+                      <input
+                        type="hidden"
+                        name="ReturnURL"
+                        value="https://wellcomecollection.org/newsletter"
+                      />
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
                         <NewsletterInput placeholder="you@example.com" />
