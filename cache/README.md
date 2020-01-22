@@ -14,8 +14,8 @@ We have lambda@edge running on these ditributions to allow us to:
 
 We have 2 ditributions:
 * Dev: This has devcache.wellcomecollection.org pointing to it. We can then
-  deploy changes to the lambdas and distro before applying those to prod as we
-  have no "local" CloudFormation to do this.
+  deploy changes to the lambdas and distro before applying those to prod as
+  we have no "local" CloudFormation to do this.
 * Prod: This has wellcomecollection.org, and others, pointing to it. The
   lambda@edge version is fixed is fixed on this distro.
 
