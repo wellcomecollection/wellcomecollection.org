@@ -149,7 +149,17 @@ const NewsletterPromo = () => {
       default:
         setIsError(true);
 
-        Raven.captureException(new Error(`Newsletter signup error: ${status}`));
+        try {
+          const errorJson = JSON.stringify(json);
+
+          Raven.captureException(
+            new Error(`Newsletter signup error: ${errorJson}`)
+          );
+        } catch (error) {
+          Raven.captureException(
+            new Error(`Newsletter signup error: ${error}`)
+          );
+        }
     }
 
     setIsSubmitting(false);
