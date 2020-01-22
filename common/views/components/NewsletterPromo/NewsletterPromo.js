@@ -69,11 +69,12 @@ const NewsletterForm = styled(Space).attrs({
 
   label {
     flex: 1;
-    min-width: 300px;
+    min-width: 220px;
   }
 
   ${props => props.theme.media.medium`
     flex-wrap: nowrap;
+    min-width: 300px;
   `}
 `;
 
