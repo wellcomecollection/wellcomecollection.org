@@ -110,13 +110,12 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
           {licenseInfo && (
             <SpacingComponent>
               <div id="licenseInformation">
-                {licenseInfo.humanReadableText &&
-                  licenseInfo.humanReadableText.length > 0 && (
-                    <WorkDetailsText
-                      title="License information"
-                      text={licenseInfo.humanReadableText}
-                    />
-                  )}
+                {licenseInfo.humanReadableText.length > 0 && (
+                  <WorkDetailsText
+                    title="License information"
+                    text={licenseInfo.humanReadableText}
+                  />
+                )}
                 <WorkDetailsText
                   title="Credit"
                   text={[
