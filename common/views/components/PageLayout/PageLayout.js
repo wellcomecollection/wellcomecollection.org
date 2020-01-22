@@ -121,7 +121,7 @@ const PageLayout = ({
         {!hideNewsletterPromo && (
           <TogglesContext.Consumer>
             {({ newNewsletterPromo }) =>
-              !newNewsletterPromo ? (
+              newNewsletterPromo ? (
                 <Space
                   v={{
                     size: 'xl',
