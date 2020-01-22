@@ -149,7 +149,17 @@ const NewsletterPromo = () => {
       default:
         setIsError(true);
 
-        Raven.captureException(new Error(`Newsletter signup error: ${status}`));
+        try {
+          const errorJson = JSON.stringify(json);
+
+          Raven.captureException(
+            new Error(`Newsletter signup error: ${errorJson}`)
+          );
+        } catch (error) {
+          Raven.captureException(
+            new Error(`Newsletter signup error: ${error}`)
+          );
+        }
     }
 
     setIsSubmitting(false);
@@ -218,7 +228,11 @@ const NewsletterPromo = () => {
                         name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
                         value=""
                       />
-                      <input type="hidden" name="ReturnURL" value="" />
+                      <input
+                        type="hidden"
+                        name="ReturnURL"
+                        value="https://wellcomecollection.org/newsletter"
+                      />
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
                         <NewsletterInput placeholder="you@example.com" />
@@ -249,7 +263,7 @@ const NewsletterPromo = () => {
               <p className={font('hnl', 6)} style={{ maxWidth: '800px' }}>
                 We use a third party provider,{' '}
                 <a href="https://dotdigital.com/terms/privacy-policy/">
-                  Dotdigital
+                  dotdigital
                 </a>
                 , to deliver our newsletters. For information about how we
                 handle your data, please read our{' '}
