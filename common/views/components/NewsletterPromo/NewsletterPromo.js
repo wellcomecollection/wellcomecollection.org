@@ -69,7 +69,6 @@ const NewsletterForm = styled(Space).attrs({
 
   label {
     flex: 1;
-    min-width: 220px;
   }
 
   ${props => props.theme.media.medium`
@@ -98,6 +97,17 @@ const BoxInner = styled.div`
 
   ${props => props.theme.media.xlarge`
     flex-wrap: nowrap;
+  `}
+`;
+
+const CopyWrap = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-right'] },
+  v: { size: 'm', properties: ['margin-bottom'] },
+})`
+  flex-basis: 100%;
+
+  ${props => props.theme.media.medium`
+    flex-basis: auto;
   `}
 `;
 
@@ -173,10 +183,7 @@ const NewsletterPromo = () => {
           <div>
             <YellowBox>
               <BoxInner>
-                <Space
-                  h={{ size: 'm', properties: ['padding-right'] }}
-                  v={{ size: 'm', properties: ['margin-bottom'] }}
-                >
+                <CopyWrap>
                   <h2
                     className={classNames({
                       h2: true,
@@ -214,7 +221,7 @@ const NewsletterPromo = () => {
                       </p>
                     </div>
                   )}
-                </Space>
+                </CopyWrap>
                 {!isSuccess && (
                   <>
                     <NewsletterForm onSubmit={handleSubmit}>
