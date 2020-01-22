@@ -7,7 +7,7 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
       http_port              = 80
       https_port             = 443
       origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
@@ -46,7 +46,7 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
   viewer_certificate {
     acm_certificate_arn      = "${var.acm_certificate_arn}"
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1"
+    minimum_protocol_version = "TLSv1.2"
   }
 
   restrictions {
