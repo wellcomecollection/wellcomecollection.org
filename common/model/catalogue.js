@@ -12,6 +12,20 @@ export type CatalogueApiError = {|
   type: 'Error',
 |};
 
+export type CatalogueAggregationBucket = {|
+  count: number,
+  data: {|
+    id: string,
+    label: string,
+    type: string,
+  |},
+  type: 'AggregationBucket',
+|};
+
+export type CatalogueAggregation = {|
+  buckets: CatalogueAggregationBucket[],
+|};
+
 export type CatalogueResultsList = {
   type: 'ResultList',
   totalResults: number,
@@ -19,17 +33,10 @@ export type CatalogueResultsList = {
   pageSize: number,
   prevPage: ?string,
   nextPage: ?string,
+  aggregations: ?{|
+    workType: CatalogueAggregation,
+  |},
 };
-
-export type CatalogueAggregationBucket = {|
-  count: number,
-  data: {
-    id: string,
-    label: string,
-    type: string,
-  },
-  type: 'AggregationBucket',
-|};
 
 export type CatalogueApiRedirect = {
   type: 'Redirect',

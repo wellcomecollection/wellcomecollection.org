@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --watch server.js server.js",
+    "dev": "nodemon --watch app.js --watch server.js --require dotenv/config server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "test": "NODE_ENV=test jest --no-cache"
@@ -14,9 +14,11 @@
     "cookies": "^0.7.1",
     "css-loader": "^2.1.1",
     "cssnano": "^4.1.10",
+    "dotenv": "^8.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "jest": "^24.5.0",
     "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "next": "^9.1.6",
     "node-mocks-http": "^1.7.0",

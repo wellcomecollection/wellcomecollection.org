@@ -11,6 +11,7 @@ export function getIIIFPresentationLicenceInfo(
         text: 'License',
         url: manifest.license,
         humanReadableText: [],
+        icons: [],
       }
     : null;
   return licenseData;

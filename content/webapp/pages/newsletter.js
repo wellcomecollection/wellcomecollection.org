@@ -3,6 +3,7 @@ import type { Context } from 'next';
 import { Component } from 'react';
 import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -36,7 +37,21 @@ export class NewsletterPage extends Component<Props> {
         }
         imageAltText={''}
       >
-        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <PageHeader
+          breadcrumbs={{ items: [] }}
+          labels={null}
+          title={'Newsletters'}
+          ContentTypeInfo={null}
+          Background={null}
+          backgroundTexture={
+            'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'
+          }
+          FeaturedMedia={null}
+          HeroPicture={null}
+          highlightHeading={true}
+        />
+
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Space
             v={{
               size: 'xl',

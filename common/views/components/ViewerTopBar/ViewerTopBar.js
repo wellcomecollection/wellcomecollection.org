@@ -192,7 +192,6 @@ const ViewerTopBar = ({
                             // $FlowFixMe
                             viewerRef.current.webkitRequestFullscreen
                           ) {
-                            // $FlowFixMe
                             viewerRef.current.webkitRequestFullscreen();
                           }
                         } else {

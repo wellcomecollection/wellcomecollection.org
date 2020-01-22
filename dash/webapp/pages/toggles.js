@@ -35,14 +35,22 @@ function setCookie(name, value) {
     ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-const abTests = [
+type AbTest = {|
+  id: string,
+  title: string,
+  range: [number, number],
+  defaultValue: boolean,
+  description: string,
+|};
+
+const abTests: AbTest[] = [
   {
-    id: 'searchFixedFields',
-    title: 'Search the API with fixed fields',
+    id: 'altNewsletterSignupCopy',
+    title: 'Alternative NewsletterPromo copy',
     range: [0, 100],
     defaultValue: false,
     description:
-      'Fix a glitch in the scoring tiers, and see if it makes things better for people',
+      'Uses different (longer/more descriptive) copy in the NewsletterPromo component',
   },
 ];
 const IndexPage = () => {

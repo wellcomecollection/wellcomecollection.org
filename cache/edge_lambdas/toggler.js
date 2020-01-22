@@ -14,12 +14,11 @@
 // This is mutable for testing
 let tests = [
   {
-    id: 'searchFixedFields',
-    title:
-      'Fix a glitch in the scoring tiers, and see if it makes things better for people',
+    id: 'altNewsletterSignupCopy',
+    title: 'Alternative NewsletterPromo copy',
     range: [0, 100],
-    when: (request, range) => {
-      return request.uri.match(/^\/works\/*/);
+    when: request => {
+      return !request.uri.match(/\/works\/.+/); // promo not on 'works/{id}' or 'works/{id}/items...'
     },
   },
 ];

@@ -68,6 +68,10 @@ locals {
   cluster_name               = "${data.terraform_remote_state.router.cluster_name}"
 }
 
+variable "dotdigital_password" {}
+variable "dotdigital_username" {}
+
+
 module "alb_server_error_alarm" {
   source = "git::https://github.com/wellcometrust/terraform.git//sns?ref=v7.0.1"
   name   = "alb_server_error_alarm"
@@ -96,8 +100,14 @@ module "content" {
   loadbalancer_cloudwatch_id         = "${local.loadbalancer_cloudwatch_id}"
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "200"
-  env_vars_length                    = 0
   desired_count                      = 2
+
+  env_vars_length = 2
+  env_vars = {
+    dotdigital_username = "${var.dotdigital_username}",
+    dotdigital_password = "${var.dotdigital_password}"
+  }
+
 
   # CPU: (1024/2) - 128
   # Mem: (2000/2) - 128

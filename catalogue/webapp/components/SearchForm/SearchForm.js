@@ -24,10 +24,14 @@ function inputValue(input: ?HTMLElement): ?string {
     input &&
     (input instanceof window.HTMLInputElement ||
       input instanceof window.HTMLSelectElement ||
-      (window.RadioNodeList && input instanceof window.RadioNodeList) ||
-      (!window.RadioNodeList && input instanceof window.HTMLCollection))
+      (window.RadioNodeList && input instanceof window.RadioNodeList))
   ) {
     return input.value;
+  }
+
+  if (!window.RadioNodeList && input instanceof window.HTMLCollection) {
+    // IE11 treats radios as an HTMLCollection
+    return Array.from(input).find(i => i.checked).value;
   }
 }
 
@@ -140,6 +144,14 @@ const SearchForm = ({
     const sort =
       sortOrder === 'asc' || sortOrder === 'desc' ? 'production.dates' : null;
     const search = inputValue(form['search']);
+
+    const itemsLocationsLocationType =
+      form['items.locations.locationType'] instanceof window.HTMLInputElement
+        ? form['items.locations.locationType'].checked
+          ? form['items.locations.locationType'].value.split(',')
+          : null
+        : null;
+
     const link = url({
       ...searchParams,
       query: inputQuery,
@@ -150,6 +162,7 @@ const SearchForm = ({
       sortOrder,
       sort,
       search,
+      itemsLocationsLocationType,
     });
     return Router.push(link.href, link.as);
   }

@@ -58,7 +58,6 @@ const deserialisers: SearchParamsDeserialisers = {
   aggregations: nullableCsvDeserialiser,
   productionDatesFrom: nullableStringDeserialiser,
   productionDatesTo: nullableStringDeserialiser,
-  _queryType: nullableStringDeserialiser,
   search: nullableStringDeserialiser,
 };
 
@@ -72,7 +71,6 @@ const serialisers: SearchParamsDeserialisers = {
   aggregations: nullableCsvSerialiser,
   productionDatesFrom: nullableStringSerialiser,
   productionDatesTo: nullableStringSerialiser,
-  _queryType: nullableStringSerialiser,
   search: nullableStringSerialiser,
 };
 

@@ -7,7 +7,10 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import { headerHeight } from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import {
+  headerHeight,
+  topBarHeight,
+} from '@weco/common/views/components/IIIFViewer/IIIFViewer';
 
 const ZoomedImageContainer = styled.div`
   position: fixed;
@@ -18,8 +21,12 @@ const ZoomedImageContainer = styled.div`
   z-index: 3;
   background: ${props => props.theme.colors.black};
   @media (min-width: ${props => props.theme.sizes.large}px) {
-    height: calc(100vh - ${`${headerHeight}px`};);
-    top: ${`${headerHeight}px`};
+    height: ${props =>
+      props.isFullscreen
+        ? `calc(100vh - ${topBarHeight}px)`
+        : `calc(100vh - ${headerHeight}px)`};
+    top: ${props =>
+      props.isFullscreen ? `${topBarHeight}px` : `${headerHeight}px`};
   }
 `;
 
@@ -45,16 +52,16 @@ type Props = {|
   id: string,
   infoUrl: string,
   setShowViewer: boolean => void,
+  isFullscreen: boolean,
 |};
 
-const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
+const ZoomedImage = ({ id, infoUrl, setShowViewer, isFullscreen }: Props) => {
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
   const zoomStep = 0.5;
   const firstControl = useRef(null);
   const lastControl = useRef(null);
   const zoomedImage = useRef(null);
-
   function setupViewer(imageInfoSrc, viewerId) {
     fetch(imageInfoSrc)
       .then(response => response.json())
@@ -181,7 +188,11 @@ const ZoomedImage = ({ id, infoUrl, setShowViewer }: Props) => {
   }
 
   return (
-    <ZoomedImageContainer ref={zoomedImage} onKeyDown={handleKeyDown}>
+    <ZoomedImageContainer
+      ref={zoomedImage}
+      isFullscreen={isFullscreen}
+      onKeyDown={handleKeyDown}
+    >
       <Controls>
         <Space
           v={{
