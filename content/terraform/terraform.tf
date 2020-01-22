@@ -100,7 +100,6 @@ module "content" {
   loadbalancer_cloudwatch_id         = "${local.loadbalancer_cloudwatch_id}"
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "200"
-  env_vars_length                    = 0
   desired_count                      = 2
 
   env_vars_length = 2
