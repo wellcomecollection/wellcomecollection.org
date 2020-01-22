@@ -91,7 +91,6 @@ const Paginator = ({
         {prevLink && prev && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Control
-              prefetch={true}
               link={prevLink}
               clickHandler={event => {
                 onPageChange(event, prev);
@@ -114,7 +113,6 @@ const Paginator = ({
           <Space as="span" h={{ size: 'm', properties: ['margin-left'] }}>
             <Control
               link={nextLink}
-              prefetch={true}
               clickHandler={event => {
                 onPageChange(event, next);
               }}

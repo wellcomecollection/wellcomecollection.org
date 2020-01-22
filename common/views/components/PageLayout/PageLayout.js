@@ -5,8 +5,6 @@ import type { JsonLdObj } from '../JsonLd/JsonLd';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import OpenGraphMetadata from '../OpenGraphMetadata/OpenGraphMetadata';
-import TwitterMetadata from '../TwitterMetadata/TwitterMetadata';
 import JsonLd from '../JsonLd/JsonLd';
 import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
@@ -72,25 +70,44 @@ const PageLayout = ({
             title={title}
           />
         )}
-
-        <OpenGraphMetadata
-          type={openGraphType}
-          title={title}
-          description={description}
-          url={absoluteUrl}
-          imageUrl={imageUrl || ''}
+        {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
+        <meta property="og:site_name" content="Wellcome Collection" />
+        <meta property="og:type" content={openGraphType} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={absoluteUrl} />
+        {/* we add itemprop="image" as it's required for WhatsApp */}
+        {imageUrl && (
+          <meta
+            key="og:image"
+            property="og:image"
+            content={imageUrl}
+            itemProp="image"
+          />
+        )}
+        {imageUrl && (
+          <meta key="og:image:width" property="og:image:width" content="1200" />
+        )}
+        <meta
+          key="twitter:card"
+          name="twitter:card"
+          content="summary_large_image"
         />
-
-        <TwitterMetadata
-          title={title}
-          description={description}
-          url={absoluteUrl}
-          imageUrl={imageUrl || ''}
-          imageAltText={imageAltText || ''}
+        <meta
+          key="twitter:site"
+          name="twitter:site"
+          content="@ExploreWellcome"
         />
-
+        <meta key="twitter:url" name="twitter:url" content={absoluteUrl} />
+        <meta key="twitter:title" name="twitter:title" content={title} />
+        <meta
+          key="twitter:description"
+          name="twitter:description"
+          content={description}
+        />
+        <meta key="twitter:image" name="twitter:image" content={imageUrl} />
+        <meta name="twitter:image:alt" content={imageAltText} />
         <JsonLd data={jsonLd} />
-
         {rssUrl && (
           <link
             rel="alternate"
