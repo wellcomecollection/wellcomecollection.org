@@ -72,6 +72,7 @@ const PageLayout = ({
             title={title}
           />
         )}
+        {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
         <meta property="og:site_name" content="Wellcome Collection" />
         <meta property="og:type" content={openGraphType} />
         <meta property="og:title" content={title} />
