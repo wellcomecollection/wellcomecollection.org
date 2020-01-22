@@ -68,6 +68,10 @@ locals {
   cluster_name               = "${data.terraform_remote_state.router.cluster_name}"
 }
 
+variable "dotdigital_password" {}
+variable "dotdigital_username" {}
+
+
 module "alb_server_error_alarm" {
   source = "git::https://github.com/wellcometrust/terraform.git//sns?ref=v7.0.1"
   name   = "alb_server_error_alarm"
@@ -99,10 +103,10 @@ module "content" {
   env_vars_length                    = 0
   desired_count                      = 2
 
-  secret_env_vars_length = 2
-  secret_app_env_vars = {
-    dotdigital_username = "content/dotdigital/username",
-    dotdigital_password = "content/dotdigital/password"
+  env_vars_length = 2
+  env_vars = {
+    dotdigital_username = "${var.dotdigital_username}",
+    dotdigital_password = "${var.dotdigital_password}"
   }
 
 
