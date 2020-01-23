@@ -147,7 +147,6 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
       canvas: 1,
       langCode: detailedWork.language && detailedWork.language.id,
       sierraId: null,
-      isOverview: true,
       page: 1,
     });
 

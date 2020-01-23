@@ -15,7 +15,6 @@ export type ItemUrlProps = {|
   canvas: number,
   sierraId: ?string,
   page: ?number,
-  isOverview?: boolean,
   ...SearchParams,
 |};
 
@@ -75,7 +74,6 @@ export function itemUrl({
   sierraId,
   langCode,
   canvas,
-  isOverview,
   ...searchParams
 }: ItemUrlProps): NextLinkType {
   return {
@@ -88,7 +86,6 @@ export function itemUrl({
           canvas: canvas && canvas > 1 ? canvas : undefined,
           sierraId: sierraId,
           langCode: langCode,
-          isOverview: isOverview,
           ...{ ...searchParamsSerialiser(searchParams), page: 1 },
         }),
       },

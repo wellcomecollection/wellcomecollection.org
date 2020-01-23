@@ -183,7 +183,6 @@ export const WorkPage = ({ work }: Props) => {
                   )[1] || sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
                 canvas: 1,
-                isOverview: true,
                 page: 1,
               })}
             />
@@ -201,7 +200,6 @@ export const WorkPage = ({ work }: Props) => {
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
                 canvas: 1,
-                isOverview: true,
                 page: 1,
               })}
             />
@@ -217,7 +215,6 @@ export const WorkPage = ({ work }: Props) => {
               sierraId: null,
               langCode: work.language && work.language.id,
               canvas: 1,
-              isOverview: true,
               page: 1,
             })}
           />
