@@ -168,7 +168,10 @@ const NoScriptViewer = ({
   params,
 }: NoScriptViewerProps) => {
   const mainImageService = {
-    '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
+    '@id':
+      currentCanvas && !Array.isArray(currentCanvas.images[0].resource.service)
+        ? currentCanvas.images[0].resource.service['@id']
+        : '',
   };
 
   const navigationCanvases = [...Array(pageSize)]
