@@ -34,7 +34,8 @@ const NewsletterInput = styled(TextInput).attrs({
   id: 'newsletter-input',
   type: 'email',
   name: 'email',
-  label: 'email',
+  label: 'Your email address',
+  placeholder: 'Your email address',
 })``;
 
 const NewsletterButton = styled.button.attrs({
@@ -243,7 +244,7 @@ const NewsletterPromo = () => {
                       />
                       <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
-                        <NewsletterInput placeholder="you@example.com" />
+                        <NewsletterInput />
                         <NewsletterButton disabled={isSubmitting}>
                           {isSubmitting ? 'Sending…' : 'Subscribe'}
                         </NewsletterButton>
