@@ -301,7 +301,6 @@ const IIIFViewerComponent = ({
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   useEffect(() => {
     if ('IntersectionObserver' in window) {
-      setGridVisible(Router.query.isOverview);
       setEnhanced(true);
     }
   }, []);
