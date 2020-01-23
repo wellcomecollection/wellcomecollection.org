@@ -67,7 +67,7 @@ const PresentationPreview = styled.div`
 type IIIFThumbnails = {|
   label: string,
   images: {
-    id: string,
+    id: ?string,
     canvasId: string,
     width: number,
     height: number,
@@ -78,9 +78,18 @@ type IIIFThumbnails = {|
 // However, we can only use the thumbnail service, with its associated performance benefits, if the image is not landscape.
 // When the image is landscape, the image from the thumbnail service has a width of 400px
 function appropriateServiceId(canvas) {
-  return canvas.width > canvas.height
-    ? canvas.images[0].resource.service['@id']
-    : canvas.thumbnail.service['@id'];
+  const mainImageServiceId = Array.isArray(canvas.images[0].resource.service)
+    ? null
+    : canvas.images[0].resource.service['@id'];
+  const thumbnailImageServiceId =
+    canvas.thumbnail && canvas.thumbnail.service['@id'];
+  if (canvas.width > canvas.height && mainImageServiceId) {
+    return mainImageServiceId;
+  } else if (thumbnailImageServiceId) {
+    return thumbnailImageServiceId;
+  } else {
+    return null;
+  }
 }
 
 // Ideal preview thumbnails order: Title page, Front Cover, first page of Table of Contents, 2 random.
@@ -345,28 +354,9 @@ const IIIFPresentationPreview = ({
                 imageThumbnails.map((pageType, i) => {
                   return pageType.images.map(image => {
                     return (
-                      <IIIFResponsiveImage
-                        key={image.id}
-                        lang={null}
-                        width={image.width * (400 / image.height)}
-                        height={400}
-                        src={iiifImageTemplate(image.id)({
-                          size: ',400',
-                        })}
-                        srcSet={''}
-                        alt=""
-                        sizes={null}
-                        isLazy={true}
-                      />
-                    );
-                  });
-                })}
-              {childManifestsCount > 0 &&
-                imageThumbnails.slice(0, 1).map((pageType, i) => {
-                  return pageType.images.map(image => {
-                    return (
-                      <MultiVolumePreview key={image.id}>
+                      image.id && (
                         <IIIFResponsiveImage
+                          key={image.id}
                           lang={null}
                           width={image.width * (400 / image.height)}
                           height={400}
@@ -378,7 +368,30 @@ const IIIFPresentationPreview = ({
                           sizes={null}
                           isLazy={true}
                         />
-                      </MultiVolumePreview>
+                      )
+                    );
+                  });
+                })}
+              {childManifestsCount > 0 &&
+                imageThumbnails.slice(0, 1).map((pageType, i) => {
+                  return pageType.images.map(image => {
+                    return (
+                      image.id && (
+                        <MultiVolumePreview key={image.id}>
+                          <IIIFResponsiveImage
+                            lang={null}
+                            width={image.width * (400 / image.height)}
+                            height={400}
+                            src={iiifImageTemplate(image.id)({
+                              size: ',400',
+                            })}
+                            srcSet={''}
+                            alt=""
+                            sizes={null}
+                            isLazy={true}
+                          />
+                        </MultiVolumePreview>
+                      )
                     );
                   });
                 })}
