@@ -387,7 +387,7 @@ const IIIFPresentationPreview = ({
                 text={
                   childManifestsCount > 0
                     ? `${childManifestsCount} volumes`
-                    : `${imageTotal} images`
+                    : `${imageTotal} ${imageTotal === 1 ? 'image' : 'images'}`
                 }
                 extraClasses={`btn--primary`}
               />
