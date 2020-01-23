@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
+import useIsKeyboard from '../../../hooks/useIsKeyboard';
 
 const CheckboxLabel = styled.label.attrs({
   className: classNames({
@@ -52,16 +53,7 @@ const CheckboxInput = styled.input.attrs({
   }
 
   &:focus ~ ${CheckboxBox} {
-    border-color: ${props => props.theme.colors.black};
-  }
-
-  ~ span {
-    color: ${props => props.theme.colors.pewter};
-  }
-
-  &:focus ~ span,
-  &:checked ~ span {
-    color: ${props => props.theme.colors.black};
+    border-color: ${props => !props.hideFocus && props.theme.colors.black};
   }
 `;
 
@@ -75,9 +67,11 @@ type CheckboxProps = {|
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
+  const isKeyboard = useIsKeyboard();
+
   return (
     <CheckboxLabel htmlFor={id}>
-      <CheckboxInput id={id} {...inputProps} />
+      <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
       <CheckboxBox />
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
         {text}
