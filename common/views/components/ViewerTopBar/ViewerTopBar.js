@@ -18,7 +18,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const TopBar = styled.div`
   position: relative;
-  z-index: 3;
+  z-index: 4;
   background: ${props => lighten(0.14, props.theme.colors.viewerBlack)};
   color: ${props => props.theme.colors.white};
   .title {
