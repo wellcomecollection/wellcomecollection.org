@@ -2,10 +2,6 @@
 import urlTemplate from 'url-template';
 
 const imageMap = {
-  wordpress: {
-    root: 'https://wellcomecollection.files.wordpress.com/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/wordpress:',
-  },
   prismicImgix: {
     root: 'https://images.prismic.io/wellcomecollection/',
   },
@@ -25,9 +21,7 @@ const imageMap = {
 };
 
 function determineSrc(url: string): string {
-  if (url.startsWith(imageMap.wordpress.root)) {
-    return 'wordpress';
-  } else if (url.startsWith(imageMap.prismic.root)) {
+  if (url.startsWith(imageMap.prismic.root)) {
     return 'prismic';
   } else if (url.startsWith(imageMap.prismicImgix.root)) {
     return 'prismicImgix';
@@ -65,20 +59,6 @@ function prismicImageTemplate(baseUrl: string) {
   return (opts: PrismicUriOpts) => {
     return template.expand(opts);
   };
-}
-
-type WordpressUriOpts = {|
-  width?: number | 'full',
-|};
-
-function wordPressImageTemplate(baseUrl: string) {
-  const templateString = `${baseUrl}?w={width}`;
-  const defaultOpts = {
-    width: 'full',
-  };
-  const template = urlTemplate.parse(templateString);
-  return (opts: WordpressUriOpts) =>
-    template.expand(Object.assign({}, defaultOpts, opts));
 }
 
 export type IIIFUriProps = {|
@@ -167,11 +147,7 @@ export function convertImageUri(
       };
       return iiifImageTemplate(`${iiifRoot}${imagePath}`)(params);
     } else {
-      if (imageSrc === 'wordpress') {
-        return wordPressImageTemplate(originalUri)({ width: requiredSize });
-      } else {
-        return originalUri;
-      }
+      return originalUri;
     }
   }
 }
