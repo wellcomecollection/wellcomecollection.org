@@ -173,7 +173,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   viewer_certificate {
     acm_certificate_arn      = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2"
+    minimum_protocol_version = "TLSv1.2_2018"
   }
 
   restrictions {
