@@ -189,14 +189,20 @@ function previewThumbnails(
   idealNumber: number = 5
 ): IIIFThumbnails[] {
   return structuredImages.length < idealNumber
-    ? structuredImages.concat(
-        randomImages(
-          iiifManifest,
-          structuredImages,
-          idealNumber - structuredImages.length
+    ? structuredImages
+        .concat(
+          randomImages(
+            iiifManifest,
+            structuredImages,
+            idealNumber - structuredImages.length
+          )
         )
-      )
-    : structuredImages.slice(0, idealNumber);
+        .filter(x => {
+          return x.images.filter(image => image.id).length > 0;
+        })
+    : structuredImages.slice(0, idealNumber).filter(x => {
+        return x.images.filter(image => image.id).length > 0;
+      });
 }
 
 type Props = {|
