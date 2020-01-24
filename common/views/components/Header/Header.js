@@ -3,6 +3,8 @@ import { withToggler } from '../../hocs/withToggler';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 
+export const navHeight = 85;
+
 const links = [
   {
     href: '/visit-us',
@@ -44,7 +46,7 @@ const Header = withToggler(({ siteSection, toggle, isActive }: Props) => (
       'header--is-burger-open': isActive,
     })}
     style={{
-      height: '85px',
+      height: `${navHeight}px`,
     }}
   >
     <span className="visually-hidden">reset focus</span>
