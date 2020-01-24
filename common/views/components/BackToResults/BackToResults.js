@@ -3,14 +3,15 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
-import { clientSideSearchParams } from '../../../services/catalogue/search-params';
+import { type WorksParams } from '../../../services/catalogue/url-params';
 
-const BackToResults = () => {
-  const params = clientSideSearchParams();
-  const { query } = params;
+type Props = {| worksParams: WorksParams |};
+const BackToResults = ({ worksParams }: Props) => {
+  const { query } = worksParams;
 
   const link = worksUrl({
-    ...params,
+    ...worksParams,
+    source: 'back_to_results',
   });
   return (
     <NextLink {...link}>

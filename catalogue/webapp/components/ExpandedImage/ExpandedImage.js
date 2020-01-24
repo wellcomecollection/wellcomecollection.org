@@ -1,5 +1,5 @@
 // @flow
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
+import type { WorksParams } from '@weco/common/services/catalogue/url-params';
 import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
@@ -16,7 +16,7 @@ import RelatedImages from '../RelatedImages/RelatedImages';
 type Props = {|
   title: string,
   id: string,
-  searchParams: SearchParams,
+  worksParams: WorksParams,
   index: number,
 |};
 
@@ -121,7 +121,7 @@ const Indicator = styled.div`
   border-bottom: 15px solid ${({ theme }) => theme.colors.pumice};
 `;
 
-const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
+const ExpandedImage = ({ title, index, id, worksParams }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   useEffect(() => {
     const fetchDetailedWork = async () => {
@@ -138,11 +138,11 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
 
-  const workLink = workUrl({ ...searchParams, id });
+  const workLink = workUrl({ ...worksParams, id });
   const itemLink =
     detailedWork &&
     itemUrl({
-      ...searchParams,
+      ...worksParams,
       workId: id,
       canvas: 1,
       langCode: detailedWork.language && detailedWork.language.id,

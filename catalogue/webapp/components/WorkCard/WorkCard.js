@@ -8,10 +8,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import {
-  workUrl,
-  type WorkUrlProps,
-} from '@weco/common/services/catalogue/urls';
+import { workUrl } from '@weco/common/services/catalogue/urls';
+import { type WorkParams } from '@weco/common/services/catalogue/url-params';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -21,7 +19,7 @@ import Space, {
 
 type Props = {|
   work: Work,
-  params: WorkUrlProps,
+  params: WorkParams,
 |};
 
 const Container = styled.div`

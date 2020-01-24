@@ -1,8 +1,8 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
+import { type WorksParams } from '@weco/common/services/catalogue/url-params';
+import { type LicenseData } from '@weco/common/utils/get-license-info';
+import { type LicenseType } from '@weco/common/model/license';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workUrl } from '@weco/common/services/catalogue/urls';
@@ -87,7 +87,7 @@ type Props = {|
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
   currentManifestLabel: ?string,
-  params: SearchParams,
+  worksParams: WorksParams,
   canvasIndex: number,
   title: string,
   licenseInfo: ?LicenseData,
@@ -109,7 +109,7 @@ const ViewerTopBar = ({
   workId,
   viewToggleRef,
   currentManifestLabel,
-  params,
+  worksParams,
   canvasIndex,
   title,
   licenseInfo,
@@ -148,7 +148,7 @@ const ViewerTopBar = ({
       <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
         <div className="title">
           <span className="part">{currentManifestLabel}</span>
-          <NextLink {...workUrl({ ...params, id: workId })}>
+          <NextLink {...workUrl({ ...worksParams, id: workId })}>
             <a
               className={classNames({
                 [font('hnm', 5)]: true,
@@ -224,7 +224,7 @@ const ViewerTopBar = ({
               <MultipleManifestList
                 buttonText={currentManifestLabel || 'Choose'}
                 manifests={parentManifest.manifests}
-                params={params}
+                worksParams={worksParams}
                 workId={workId}
                 lang={lang}
               />

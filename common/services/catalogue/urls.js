@@ -1,36 +1,24 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
-import { type SearchParams, searchParamsSerialiser } from './search-params';
+import {
+  type WorksParams,
+  type WorkParams,
+  type ItemParams,
+} from './url-params';
 import { removeEmptyProps } from '../../utils/json';
-
-export type WorksUrlProps = SearchParams;
-export type WorkUrlProps = {|
-  ...SearchParams,
-  id: string,
-|};
-
-export type ItemUrlProps = {|
-  workId: string,
-  langCode: string,
-  canvas: number,
-  sierraId: ?string,
-  page: ?number,
-  isOverview?: boolean,
-  ...SearchParams,
-|};
 
 export type DownloadUrlProps = {|
   workId: string,
   sierraId: ?string,
 |};
 
-export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
+export function workUrl({ id, ...searchParams }: WorkParams): NextLinkType {
   return {
     href: {
       pathname: `/work`,
       query: removeEmptyProps({
         id,
-        ...searchParamsSerialiser(searchParams),
+        searchParams,
       }),
     },
     as: {
@@ -39,31 +27,31 @@ export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
   };
 }
 
-export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
+export function worksUrl(searchParams: WorksParams): NextLinkType {
   return {
     href: {
       pathname: `/works`,
-      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
+      query: searchParams,
     },
     as: {
       pathname: `/works`,
-      query: removeEmptyProps(searchParamsSerialiser(searchParams)),
+      query: searchParams,
     },
   };
 }
 
-export function imagesUrl(searchParams: WorksUrlProps): NextLinkType {
+export function imagesUrl(searchParams: WorksParams): NextLinkType {
   return {
     href: {
       pathname: `/images`,
       query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
+        searchParams,
       }),
     },
     as: {
       pathname: `/images`,
       query: removeEmptyProps({
-        ...searchParamsSerialiser(searchParams),
+        searchParams,
       }),
     },
   };
@@ -77,7 +65,7 @@ export function itemUrl({
   canvas,
   isOverview,
   ...searchParams
-}: ItemUrlProps): NextLinkType {
+}: ItemParams): NextLinkType {
   return {
     href: {
       pathname: `/item`,
@@ -89,7 +77,7 @@ export function itemUrl({
           sierraId: sierraId,
           langCode: langCode,
           isOverview: isOverview,
-          ...{ ...searchParamsSerialiser(searchParams), page: 1 },
+          ...{ ...searchParams, page: 1 },
         }),
       },
     },

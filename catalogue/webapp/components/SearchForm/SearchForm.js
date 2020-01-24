@@ -8,11 +8,8 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import {
-  worksUrl,
-  type WorksUrlProps,
-} from '@weco/common/services/catalogue/urls';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
+import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
@@ -54,10 +51,10 @@ type Props = {|
   ariaDescribedBy: string,
   compact: boolean,
   shouldShowFilters: boolean,
-  searchParams: SearchParams,
+  worksParams: WorksParams,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
   placeholder?: string,
-  url?: (searchParams: WorksUrlProps) => NextLinkType,
+  url?: (searchParams: WorksParams) => NextLinkType,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -97,12 +94,12 @@ const SearchForm = ({
   ariaDescribedBy,
   compact,
   shouldShowFilters,
-  searchParams,
+  worksParams,
   workTypeAggregations,
   placeholder,
   url = worksUrl,
 }: Props) => {
-  const { query } = searchParams;
+  const { query } = worksParams;
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -153,7 +150,7 @@ const SearchForm = ({
         : null;
 
     const link = url({
-      ...searchParams,
+      ...worksParams,
       query: inputQuery,
       workType,
       page: 1,
@@ -163,6 +160,7 @@ const SearchForm = ({
       sort,
       search,
       itemsLocationsLocationType,
+      source: 'searchform',
     });
     return Router.push(link.href, link.as);
   }
@@ -227,7 +225,7 @@ const SearchForm = ({
         <>
           <SearchTypeRadioGroup
             name="search"
-            selected={searchParams.search ? 'images' : ''}
+            selected={worksParams.search ? 'images' : ''}
             onChange={() => {
               searchForm.current && updateUrl(searchForm.current);
             }}
@@ -246,7 +244,7 @@ const SearchForm = ({
           />
           <SearchFilters
             searchForm={searchForm}
-            searchParams={searchParams}
+            worksParams={worksParams}
             workTypeAggregations={workTypeAggregations}
             changeHandler={submit}
           />
@@ -254,7 +252,7 @@ const SearchForm = ({
             <Select
               name="sortOrder"
               label="Sort by"
-              value={searchParams.sortOrder || ''}
+              value={worksParams.sortOrder || ''}
               options={[
                 {
                   value: '',
@@ -279,7 +277,7 @@ const SearchForm = ({
               <SelectUncontrolled
                 name="sort"
                 label="Sort by"
-                defaultValue={searchParams.sort || ''}
+                defaultValue={worksParams.sort || ''}
                 options={[
                   {
                     value: '',
@@ -295,7 +293,7 @@ const SearchForm = ({
             <SelectUncontrolled
               name="sortOrder"
               label="Sort order"
-              defaultValue={searchParams.sortOrder || ''}
+              defaultValue={worksParams.sortOrder || ''}
               options={[
                 {
                   value: 'asc',

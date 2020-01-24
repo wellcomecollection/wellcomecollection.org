@@ -13,12 +13,6 @@ import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayo
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
 import { worksUrl } from '@weco/common/services/catalogue/urls';
-import {
-  apiSearchParamsSerialiser,
-  unfilteredApiSearchParamsSerialiser,
-  searchParamsDeserialiser,
-  type SearchParams,
-} from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
@@ -34,13 +28,20 @@ import {
 } from '@weco/common/views/components/Tracker/Tracker';
 import OptIn from '@weco/common/views/components/OptIn/OptIn';
 import cookies from 'next-cookies';
+import {
+  type TrackWorksParams,
+  type WorksParams,
+  worksParamsFromQuery,
+  apiWorksParams,
+  unfilteredApiWorksParams,
+} from '@weco/common/services/catalogue/url-params';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
-  searchParams: SearchParams,
+  worksParams: WorksParams,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
-  apiParams: SearchParams,
+  trackParams: TrackWorksParams,
 |};
 
 const useFragmentInitialState = () => {
@@ -55,10 +56,10 @@ const useFragmentInitialState = () => {
 
 const Works = ({
   works,
-  searchParams,
+  worksParams,
   unfilteredSearchResults,
   shouldGetWorks,
-  apiParams,
+  trackParams,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const {
@@ -67,14 +68,14 @@ const Works = ({
     page,
     productionDatesFrom,
     productionDatesTo,
-  } = searchParams;
+  } = worksParams;
   const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
 
   useEffect(() => {
-    trackSearch(apiParams, {
+    trackSearch(trackParams, {
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
-  }, [searchParams]);
+  }, [worksParams]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -92,7 +93,7 @@ const Works = ({
     };
   }, []);
 
-  const isImageSearch = searchParams.search === 'images';
+  const isImageSearch = worksParams.search === 'images';
   const resultsGrid = isImageSearch
     ? { s: 6, m: 4, l: 3, xl: 2 }
     : { s: 12, m: 12, l: 12, xl: 12 };
@@ -117,7 +118,12 @@ const Works = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksUrl({ ...searchParams, query, page: (page || 1) - 1 }).as
+              worksUrl({
+                ...worksParams,
+                query,
+                page: (page || 1) - 1,
+                source: 'linkmeta_tag',
+              }).as
             )}
           />
         )}
@@ -125,7 +131,12 @@ const Works = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksUrl({ ...searchParams, query, page: page + 1 }).as
+              worksUrl({
+                ...worksParams,
+                query,
+                page: page + 1,
+                source: 'linkmeta_tag',
+              }).as
             )}
           />
         )}
@@ -134,7 +145,7 @@ const Works = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
-        url={worksUrl({ ...searchParams, query, page }).as}
+        url={worksUrl({ ...worksParams, query, page, source: 'PageUrl' }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -191,7 +202,7 @@ const Works = ({
                   ariaDescribedBy="search-form-description"
                   compact={false}
                   shouldShowFilters={query !== ''}
-                  searchParams={searchParams}
+                  worksParams={worksParams}
                   workTypeAggregations={
                     works && works.aggregations
                       ? works.aggregations.workType.buckets
@@ -203,7 +214,7 @@ const Works = ({
           </div>
         </Space>
 
-        {!works && <StaticWorksContent />}
+        {!works && <StaticWorksContent worksParams={worksParams} />}
 
         {works && works.results.length > 0 && (
           <Fragment>
@@ -222,13 +233,15 @@ const Works = ({
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
                           link={worksUrl({
-                            ...searchParams,
+                            ...worksParams,
+                            source: 'paginator',
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const link = worksUrl({
-                              ...searchParams,
+                              ...worksParams,
                               page: newPage,
+                              source: 'paginator',
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -269,7 +282,7 @@ const Works = ({
                     >
                       <div
                         onClick={() => {
-                          trackSearchResultSelected(apiParams, {
+                          trackSearchResultSelected(trackParams, {
                             id: result.id,
                             position: i,
                             resultWorkType: result.workType.label,
@@ -304,7 +317,7 @@ const Works = ({
                                 index={i}
                                 title={result.title}
                                 id={result.id}
-                                searchParams={searchParams}
+                                worksParams={worksParams}
                               />
                             )}
                           </>
@@ -312,7 +325,7 @@ const Works = ({
                           <WorkCard
                             work={result}
                             params={{
-                              ...searchParams,
+                              ...worksParams,
                               id: result.id,
                             }}
                           />
@@ -325,10 +338,10 @@ const Works = ({
                             <RelevanceRater
                               id={result.id}
                               position={i}
-                              query={query}
+                              query={query || ''}
                               page={page}
                               workType={workType}
-                              apiParams={apiParams}
+                              trackParams={trackParams}
                             />
                           )
                         }
@@ -358,13 +371,15 @@ const Works = ({
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
                             link={worksUrl({
-                              ...searchParams,
+                              ...worksParams,
+                              source: 'paginator',
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const link = worksUrl({
-                                ...searchParams,
+                                ...worksParams,
                                 page: newPage,
+                                source: 'paginator',
                               });
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -419,25 +434,24 @@ const Works = ({
 const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const params = searchParamsDeserialiser(ctx.query);
+  const params = worksParamsFromQuery(ctx.query);
   const { unfilteredSearchResults } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
-  const serializeParams = unfilteredSearchResults
-    ? unfilteredApiSearchParamsSerialiser
-    : apiSearchParamsSerialiser;
+  const apiWorksParamsFn = unfilteredSearchResults
+    ? unfilteredApiWorksParams
+    : apiWorksParams;
 
-  const apiParams = serializeParams({
-    ...params,
-    _queryType,
-    itemsLocationsLocationType: isImageSearch
+  const apiParams = apiWorksParamsFn(params, {
+    'items.locations.locationType': isImageSearch
       ? [IMAGES_LOCATION_TYPE]
       : params.itemsLocationsLocationType,
     aggregations: ['workType'],
+    _queryType,
   });
 
-  const shouldGetWorks = apiParams.query && apiParams.query !== '';
+  const shouldGetWorks = Boolean(apiParams.query && apiParams.query !== '');
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiParams,
@@ -447,10 +461,13 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
 
   return {
     works: worksOrError,
-    searchParams: params,
+    worksParams: params,
     unfilteredSearchResults,
     shouldGetWorks,
-    apiParams,
+    trackParams: {
+      ...apiParams,
+      source: params.source,
+    },
   };
 };
 

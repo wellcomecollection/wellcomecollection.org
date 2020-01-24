@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import { classNames } from '@weco/common/utils/classnames';
 import Router from 'next/router';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -179,6 +179,7 @@ type IIIFViewerProps = {|
   imageUrl: ?string,
   work: ?(Work | CatalogueApiError),
   manifest: ?IIIFManifest,
+  worksParams: WorksParams,
 |};
 
 const IIIFViewerComponent = ({
@@ -198,6 +199,7 @@ const IIIFViewerComponent = ({
   imageUrl,
   work,
   manifest,
+  worksParams,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
@@ -293,7 +295,6 @@ const IIIFViewerComponent = ({
   const iiifPresentationLicenseInfo =
     manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   const parentManifestUrl = manifest && manifest.within;
-  const params = clientSideSearchParams();
 
   const firstRotatedImage = rotatedImages.find(
     image => image.canvasIndex === 0
@@ -387,7 +388,7 @@ const IIIFViewerComponent = ({
         workId={workId}
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
-        params={params}
+        worksParams={worksParams}
         canvasIndex={activeIndex}
         title={title}
         licenseInfo={licenseInfo}
@@ -427,7 +428,7 @@ const IIIFViewerComponent = ({
             pageIndex={pageIndex}
             sierraId={sierraId}
             pageSize={pageSize}
-            params={params}
+            worksParams={worksParams}
           />
         )}
         {enhanced && (

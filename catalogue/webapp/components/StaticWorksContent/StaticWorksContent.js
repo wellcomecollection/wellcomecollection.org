@@ -3,22 +3,19 @@ import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
-import {
-  worksUrl,
-  type WorksUrlProps,
-} from '@weco/common/services/catalogue/urls';
+import { worksUrl } from '@weco/common/services/catalogue/urls';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
+  worksParams: WorksParams,
   showSuggestions?: boolean,
-  itemsUrl?: (searchParams: WorksUrlProps) => NextLinkType,
+  itemsUrl?: (searchParams: WorksParams) => NextLinkType,
 |};
 
-const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
-  const params = clientSideSearchParams();
+const StaticWorksContent = ({ itemsUrl = worksUrl, worksParams }: Props) => {
   return (
     <Fragment>
       <Space v={{ size: 'l', properties: ['padding-top'] }} className={`row`}>
@@ -39,65 +36,73 @@ const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
                     {
                       textParts: ['Quacks'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'quacks',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['James Gillray'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'james+gillray',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['Botany'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'botany',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['Optics'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'optics',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['Sun'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'sun',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['Health'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'health',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['Paintings'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'paintings',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                     {
                       textParts: ['Science'],
                       linkAttributes: itemsUrl({
-                        ...params,
+                        ...worksParams,
                         query: 'science',
                         page: 1,
+                        source: 'landingpage_tag',
                       }),
                     },
                   ]}

@@ -4,7 +4,7 @@ import ReactGA from 'react-ga';
 export type GaEvent = {|
   category: string,
   action: string,
-  label?: string,
+  label?: ?string,
   value?: number,
   nonInteraction?: boolean,
   transport?: 'beacon',

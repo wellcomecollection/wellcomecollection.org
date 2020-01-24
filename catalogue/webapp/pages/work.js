@@ -12,8 +12,11 @@ import {
   getIIIFPresentationLocation,
   getLocationOfType,
 } from '@weco/common/utils/works';
+import {
+  type WorksParams,
+  worksParamsFromQuery,
+} from '@weco/common/services/catalogue/url-params';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -33,6 +36,7 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Props = {|
   work: Work | CatalogueApiError,
+  worksParams: WorksParams,
 |};
 
 const getFirstChildManifest = async function(manifests) {
@@ -41,7 +45,7 @@ const getFirstChildManifest = async function(manifests) {
   return data;
 };
 
-export const WorkPage = ({ work }: Props) => {
+export const WorkPage = ({ work, worksParams }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -65,8 +69,6 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
-
-  const searchParams = clientSideSearchParams();
 
   useEffect(() => {
     window.dataLayer &&
@@ -134,7 +136,7 @@ export const WorkPage = ({ work }: Props) => {
               ariaDescribedBy="search-form-description"
               compact={true}
               shouldShowFilters={false}
-              searchParams={searchParams}
+              worksParams={worksParams}
               workTypeAggregations={null}
             />
           </div>
@@ -150,7 +152,7 @@ export const WorkPage = ({ work }: Props) => {
               [grid({ s: 12 })]: true,
             })}
           >
-            <BackToResults />
+            <BackToResults worksParams={worksParams} />
           </Space>
         </div>
       </div>
@@ -175,7 +177,7 @@ export const WorkPage = ({ work }: Props) => {
             <IIIFPresentationPreview
               childManifestsCount={childManifestsCount}
               itemUrl={itemUrl({
-                ...searchParams,
+                ...worksParams,
                 workId: work.id,
                 sierraId:
                   firstChildManifest['@id'].match(
@@ -196,7 +198,7 @@ export const WorkPage = ({ work }: Props) => {
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
               itemUrl={itemUrl({
-                ...searchParams,
+                ...worksParams,
                 workId: work.id,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
@@ -212,7 +214,7 @@ export const WorkPage = ({ work }: Props) => {
           <IIIFImagePreview
             iiifUrl={iiifImageLocationUrl}
             itemUrl={itemUrl({
-              ...searchParams,
+              ...worksParams,
               workId: work.id,
               sierraId: null,
               langCode: work.language && work.language.id,
@@ -225,6 +227,7 @@ export const WorkPage = ({ work }: Props) => {
       )}
       <WorkDetails
         work={work}
+        worksParams={worksParams}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
       />
@@ -236,6 +239,7 @@ WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
   const { id } = ctx.query;
+  const worksParams = worksParamsFromQuery(ctx.query);
 
   const workOrError = await getWork({
     id,
@@ -255,6 +259,7 @@ WorkPage.getInitialProps = async (
   } else {
     return {
       work: workOrError,
+      worksParams,
     };
   }
 };

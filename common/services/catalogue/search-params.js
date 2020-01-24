@@ -29,8 +29,9 @@ export type SearchParams = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   aggregations: ?(string[]),
-  _queryType: ?string,
   search: ?string,
+  _queryType: ?string,
+  source: ?string,
 |};
 
 type ApiSearchParamsSerialisers = Serialisers<SearchParams>;
@@ -59,6 +60,7 @@ const deserialisers: SearchParamsDeserialisers = {
   productionDatesFrom: nullableStringDeserialiser,
   productionDatesTo: nullableStringDeserialiser,
   search: nullableStringDeserialiser,
+  source: nullableStringDeserialiser,
 };
 
 const serialisers: SearchParamsDeserialisers = {
@@ -72,6 +74,7 @@ const serialisers: SearchParamsDeserialisers = {
   productionDatesFrom: nullableStringSerialiser,
   productionDatesTo: nullableStringSerialiser,
   search: nullableStringSerialiser,
+  source: nullableStringSerialiser,
 };
 
 const apiSerialisers: ApiSearchParamsSerialisers = {

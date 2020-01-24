@@ -6,7 +6,7 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import { type ApiWorksParams } from '@weco/common/services/catalogue/url-params';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
 import { removeEmptyProps } from '@weco/common/utils/json';
@@ -26,7 +26,7 @@ type GetWorkProps = {|
 |};
 
 type GetWorksProps = {|
-  params: SearchParams,
+  params: ApiWorksParams,
   pageSize?: number,
   ...Environment,
 |};

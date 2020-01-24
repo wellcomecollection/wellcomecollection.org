@@ -24,7 +24,7 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
+import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -37,20 +37,25 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Work = Object;
 
+function source(s: string) {
+  return `workdetails_${s}`;
+}
+
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
   childManifestsCount?: number,
+  worksParams: WorksParams,
 |};
 
 const WorkDetails = ({
   work,
   iiifPresentationManifest,
   childManifestsCount,
+  worksParams,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
-  const params = clientSideSearchParams();
 
   const iiifImageLocation = getLocationOfType(work, 'iiif-image');
 
@@ -212,9 +217,10 @@ const WorkDetails = ({
               tags={work.contributors.map(contributor => ({
                 textParts: [contributor.agent.label],
                 linkAttributes: worksUrl({
-                  ...params,
+                  ...worksParams,
                   query: `"${contributor.agent.label}"`,
                   page: 1,
+                  source: source('contributors'),
                 }),
               }))}
             />
@@ -263,9 +269,10 @@ const WorkDetails = ({
                 return {
                   textParts: g.concepts.map(c => c.label),
                   linkAttributes: worksUrl({
-                    ...params,
+                    ...worksParams,
                     query: `"${g.label}"`,
                     page: 1,
+                    source: source('genres'),
                   }),
                 };
               })}
@@ -288,9 +295,10 @@ const WorkDetails = ({
                 return {
                   textParts: s.concepts.map(c => c.label),
                   linkAttributes: worksUrl({
-                    ...params,
+                    ...worksParams,
                     query: `"${s.label}"`,
                     page: 1,
+                    source: source('subjects'),
                   }),
                 };
               })}

@@ -9,8 +9,10 @@ import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
-
+import {
+  type WorksParams,
+  worksParamsFromQuery,
+} from '@weco/common/services/catalogue/url-params';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -57,6 +59,7 @@ type Props = {|
   audio: ?{
     '@id': string,
   },
+  worksParams: WorksParams,
 |};
 
 const ItemPage = ({
@@ -73,6 +76,7 @@ const ItemPage = ({
   currentCanvas,
   video,
   audio,
+  worksParams,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const [iiifImageLocation] =
@@ -102,12 +106,10 @@ const ItemPage = ({
       downloadOptions.find(option => option.label === 'Download PDF')) ||
     null;
 
-  const searchParams = clientSideSearchParams();
-
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
     link: itemUrl({
-      ...searchParams,
+      ...worksParams,
       workId,
       page: pageIndex + 1,
       canvas: canvasIndex + 1,
@@ -224,6 +226,7 @@ const ItemPage = ({
           imageUrl={imageUrl}
           work={work}
           manifest={manifest}
+          worksParams={worksParams}
         />
       )}
     </CataloguePageLayout>
@@ -257,6 +260,8 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
       : [];
   const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
+  const worksParams = worksParamsFromQuery(ctx.query);
+
   return {
     workId,
     sierraId,
@@ -271,6 +276,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     currentCanvas,
     video,
     audio,
+    worksParams,
   };
 };
 

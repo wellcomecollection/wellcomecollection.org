@@ -9,7 +9,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
 import Space from '../../styled/Space';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   type PaginatorRenderFunctionProps,
@@ -146,7 +146,7 @@ type NoScriptViewerProps = {|
   iiifImageLocation: ?{ url: string },
   canvases: [],
   canvasIndex: number,
-  params: SearchParams,
+  worksParams: WorksParams,
 |};
 
 const NoScriptViewer = ({
@@ -165,7 +165,7 @@ const NoScriptViewer = ({
   pageIndex,
   sierraId,
   pageSize,
-  params,
+  worksParams,
 }: NoScriptViewerProps) => {
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
@@ -250,7 +250,7 @@ const NoScriptViewer = ({
                   render={({ rangeStart }) => (
                     <NextLink
                       {...itemUrl({
-                        ...params,
+                        ...worksParams,
                         workId,
                         page: pageIndex + 1,
                         sierraId,
