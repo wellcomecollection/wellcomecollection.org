@@ -2,12 +2,8 @@
 import urlTemplate from 'url-template';
 
 const imageMap = {
-  prismicImgix: {
-    root: 'https://images.prismic.io/wellcomecollection/',
-  },
   prismic: {
-    root: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
+    root: 'https://images.prismic.io/wellcomecollection/',
   },
   miro: {
     root: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/',
@@ -23,8 +19,6 @@ const imageMap = {
 function determineSrc(url: string): string {
   if (url.startsWith(imageMap.prismic.root)) {
     return 'prismic';
-  } else if (url.startsWith(imageMap.prismicImgix.root)) {
-    return 'prismicImgix';
   } else if (url.startsWith(imageMap.miro.root)) {
     return 'miro';
   } else if (url.startsWith(imageMap.iiif.root)) {
@@ -126,7 +120,7 @@ export function convertImageUri(
   const isGif = determineIfGif(originalUri);
   if (imageSrc === 'unknown') {
     return originalUri;
-  } else if (imageSrc === 'prismicImgix') {
+  } else if (imageSrc === 'prismic') {
     const parts = prismicTemplateParts(originalUri, requiredSize);
     return prismicImageTemplate(parts.base)({
       ...parts.params,
