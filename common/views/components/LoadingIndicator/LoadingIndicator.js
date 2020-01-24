@@ -34,7 +34,11 @@ const LoadingIndicatorWrapper = styled.div.attrs({
 `;
 
 const LoadingIndicator = () => {
-  function handleRouteChangeStart() {
+  function handleRouteChangeStart(pathName) {
+    const isViewer = pathName.match(/canvas=/);
+
+    if (isViewer) return;
+
     NProgress.start();
   }
 
