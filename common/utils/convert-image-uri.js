@@ -5,10 +5,6 @@ const imageMap = {
   prismic: {
     root: 'https://images.prismic.io/wellcomecollection/',
   },
-  miro: {
-    root: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-  },
   iiif: {
     // sometimes we already have the iiif url, but we may want to convert it to use the origin
     root: 'https://iiif.wellcomecollection.org/image/',
@@ -19,8 +15,6 @@ const imageMap = {
 function determineSrc(url: string): string {
   if (url.startsWith(imageMap.prismic.root)) {
     return 'prismic';
-  } else if (url.startsWith(imageMap.miro.root)) {
-    return 'miro';
   } else if (url.startsWith(imageMap.iiif.root)) {
     return 'iiif';
   } else {
@@ -128,9 +122,7 @@ export function convertImageUri(
   } else {
     if (!isGif) {
       const imagePath =
-        imageSrc === 'miro'
-          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1]
-          : imageSrc === 'iiif'
+        imageSrc === 'iiif'
           ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0]
           : originalUri.split(imageMap[imageSrc].root)[1];
       const iiifRoot = imageMap[imageSrc].iiifRoot;
