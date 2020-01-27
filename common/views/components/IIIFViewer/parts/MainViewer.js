@@ -43,14 +43,11 @@ const ItemRenderer = memo(({ style, index, data }) => {
     mainViewerRef,
     setActiveIndex,
     setIsLoading,
+    ocrText,
   } = data;
-  const [ocrText, setOcrText] = useState('');
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  getCanvasOcr(currentCanvas).then(text => {
-    text && setOcrText(text);
-  });
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
   };
@@ -159,6 +156,7 @@ const MainViewer = ({
   const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
+  const [ocrText, setOcrText] = useState('');
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -201,6 +199,8 @@ const MainViewer = ({
     }
   }
 
+  getCanvasOcr(canvases[canvasIndex]).then(t => setOcrText(t || ''));
+
   return (
     <FixedSizeList
       style={{ width: `${itemHeight}px`, margin: '0 auto' }}
@@ -215,6 +215,7 @@ const MainViewer = ({
         rotatedImages,
         setActiveIndex,
         setIsLoading,
+        ocrText,
       }}
       itemSize={itemHeight}
       onItemsRendered={debounceHandleOnItemsRendered.current}
