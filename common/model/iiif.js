@@ -20,9 +20,13 @@ export type IIIFThumbnail = {|
 
 export type IIIFResource = {|
   '@id': string,
-  service: {
-    '@id': string,
-  },
+  service:
+    | {
+        '@id': string,
+      }
+    | {
+        '@id': string,
+      }[],
 |};
 
 export type IIIFImage = {|
