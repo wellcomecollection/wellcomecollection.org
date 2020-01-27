@@ -1,39 +1,13 @@
 // @flow
 import urlTemplate from 'url-template';
 
-const imageMap = {
-  wordpress: {
-    root: 'https://wellcomecollection.files.wordpress.com/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/wordpress:',
-  },
-  prismicImgix: {
-    root: 'https://images.prismic.io/wellcomecollection/',
-  },
-  prismic: {
-    root: 'https://wellcomecollection.cdn.prismic.io/wellcomecollection/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/prismic:',
-  },
-  miro: {
-    root: 'https://s3-eu-west-1.amazonaws.com/miro-images-public/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-  },
-  iiif: {
-    // sometimes we already have the iiif url, but we may want to convert it to use the origin
-    root: 'https://iiif.wellcomecollection.org/image/',
-    iiifRoot: 'https://iiif.wellcomecollection.org/image/',
-  },
-};
+const prismicBaseUri = 'https://images.prismic.io/wellcomecollection/';
+const iiifBaseUri = 'https://iiif.wellcomecollection.org/image/';
 
 function determineSrc(url: string): string {
-  if (url.startsWith(imageMap.wordpress.root)) {
-    return 'wordpress';
-  } else if (url.startsWith(imageMap.prismic.root)) {
+  if (url.startsWith(prismicBaseUri)) {
     return 'prismic';
-  } else if (url.startsWith(imageMap.prismicImgix.root)) {
-    return 'prismicImgix';
-  } else if (url.startsWith(imageMap.miro.root)) {
-    return 'miro';
-  } else if (url.startsWith(imageMap.iiif.root)) {
+  } else if (url.startsWith(iiifBaseUri)) {
     return 'iiif';
   } else {
     return 'unknown';
@@ -67,20 +41,6 @@ function prismicImageTemplate(baseUrl: string) {
   };
 }
 
-type WordpressUriOpts = {|
-  width?: number | 'full',
-|};
-
-function wordPressImageTemplate(baseUrl: string) {
-  const templateString = `${baseUrl}?w={width}`;
-  const defaultOpts = {
-    width: 'full',
-  };
-  const template = urlTemplate.parse(templateString);
-  return (opts: WordpressUriOpts) =>
-    template.expand(Object.assign({}, defaultOpts, opts));
-}
-
 export type IIIFUriProps = {|
   region?: string,
   size?: string,
@@ -100,8 +60,7 @@ export function iiifImageTemplate(infoJsonLocation: string) {
     format: 'jpg',
   };
   const template = urlTemplate.parse(templateString);
-  return (opts: IIIFUriProps) =>
-    template.expand(Object.assign({}, defaultOpts, opts));
+  return (opts: IIIFUriProps) => template.expand({ ...defaultOpts, ...opts });
 }
 
 function paramsToObject(entries) {
@@ -112,7 +71,7 @@ function paramsToObject(entries) {
   }, {});
 }
 
-function prismicTemplateParts(
+function prismicTemplateParts( // gets the params from the original Prismic image url so they can be manipulated
   originalUri: string,
   requiredSize: number | 'full'
 ) {
@@ -143,36 +102,25 @@ export function convertImageUri(
   requiredSize: number | 'full'
 ): string {
   const imageSrc = determineSrc(originalUri);
-  const isGif = determineIfGif(originalUri);
-  if (imageSrc === 'unknown') {
-    return originalUri;
-  } else if (imageSrc === 'prismicImgix') {
+  if (imageSrc === 'prismic') {
     const parts = prismicTemplateParts(originalUri, requiredSize);
     return prismicImageTemplate(parts.base)({
       ...parts.params,
     });
-  } else {
-    if (!isGif) {
-      const imagePath =
-        imageSrc === 'miro'
-          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[1]
-          : imageSrc === 'iiif'
-          ? originalUri.split(imageMap[imageSrc].root)[1].split('/', 2)[0]
-          : originalUri.split(imageMap[imageSrc].root)[1];
-      const iiifRoot = imageMap[imageSrc].iiifRoot;
+  } else if (imageSrc === 'iiif') {
+    if (determineIfGif(originalUri)) {
+      return originalUri;
+    } else {
+      const imagePath = originalUri.split(iiifBaseUri)[1].split('/', 2)[0];
 
       const params = {
         size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
         format: determineFinalFormat(originalUri),
       };
-      return iiifImageTemplate(`${iiifRoot}${imagePath}`)(params);
-    } else {
-      if (imageSrc === 'wordpress') {
-        return wordPressImageTemplate(originalUri)({ width: requiredSize });
-      } else {
-        return originalUri;
-      }
+      return iiifImageTemplate(`${iiifBaseUri}${imagePath}`)(params);
     }
+  } else {
+    return originalUri;
   }
 }
 
