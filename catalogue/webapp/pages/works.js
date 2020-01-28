@@ -12,7 +12,6 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
@@ -20,7 +19,7 @@ import ExpandedImage from '../components/ExpandedImage/ExpandedImage';
 import ImageCard from '../components/ImageCard/ImageCard';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
-import { getWorks } from '../services/catalogue/works';
+import { getWorks, getImages } from '../services/catalogue/works';
 import WorkCard from '../components/WorkCard/WorkCard';
 import {
   trackSearchResultSelected,
@@ -31,10 +30,10 @@ import cookies from 'next-cookies';
 import {
   type TrackWorksParams,
   type WorksParams,
-  worksParamsFromQuery,
-  apiWorksParams,
-  unfilteredApiWorksParams,
-} from '@weco/common/services/catalogue/url-params';
+  WorksCodec,
+  ApiWorksCodec,
+  worksLink,
+} from '@weco/common/services/catalogue/codecs';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -118,7 +117,7 @@ const Works = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksUrl({
+              worksLink({
                 ...worksParams,
                 query,
                 page: (page || 1) - 1,
@@ -131,7 +130,7 @@ const Works = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksUrl({
+              worksLink({
                 ...worksParams,
                 query,
                 page: page + 1,
@@ -145,7 +144,7 @@ const Works = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search through the Wellcome Collection image catalogue"
-        url={worksUrl({ ...worksParams, query, page, source: 'PageUrl' }).as}
+        url={worksLink({ ...worksParams, query, page, source: 'PageUrl' }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -214,7 +213,7 @@ const Works = ({
           </div>
         </Space>
 
-        {!works && <StaticWorksContent worksParams={worksParams} />}
+        {!works && <StaticWorksContent />}
 
         {works && works.results.length > 0 && (
           <Fragment>
@@ -232,16 +231,14 @@ const Works = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksUrl({
+                          link={worksLink({
                             ...worksParams,
-                            source: 'paginator',
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
-                            const link = worksUrl({
+                            const link = worksLink({
                               ...worksParams,
                               page: newPage,
-                              source: 'paginator',
                             });
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -322,13 +319,7 @@ const Works = ({
                             )}
                           </>
                         ) : (
-                          <WorkCard
-                            work={result}
-                            params={{
-                              ...worksParams,
-                              id: result.id,
-                            }}
-                          />
+                          <WorkCard work={result} />
                         )}
                       </div>
                       <TogglesContext.Consumer>
@@ -370,16 +361,14 @@ const Works = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksUrl({
+                            link={worksLink({
                               ...worksParams,
-                              source: 'paginator',
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
-                              const link = worksUrl({
+                              const link = worksLink({
                                 ...worksParams,
                                 page: newPage,
-                                source: 'paginator',
                               });
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -431,32 +420,30 @@ const Works = ({
   );
 };
 
-const IMAGES_LOCATION_TYPE = 'iiif-image';
-
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const params = worksParamsFromQuery(ctx.query);
+  const params = WorksCodec.fromQuery(ctx.query);
   const { unfilteredSearchResults } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
-  const apiWorksParamsFn = unfilteredSearchResults
-    ? unfilteredApiWorksParams
-    : apiWorksParams;
-
-  const apiParams = apiWorksParamsFn(params, {
-    'items.locations.locationType': isImageSearch
-      ? [IMAGES_LOCATION_TYPE]
-      : params.itemsLocationsLocationType,
+  const apiOverrideParams = {
     aggregations: ['workType'],
     _queryType,
-  });
+  };
+  const apiParams = unfilteredSearchResults
+    ? ApiWorksCodec.fromWorksParams(params, apiOverrideParams)
+    : ApiWorksCodec.fromWorksParamsWithDefaultFilters(
+        params,
+        apiOverrideParams
+      );
 
   const shouldGetWorks = Boolean(apiParams.query && apiParams.query !== '');
   const worksOrError = shouldGetWorks
-    ? await getWorks({
-        params: apiParams,
-        pageSize: isImageSearch ? 24 : undefined,
-      })
+    ? isImageSearch
+      ? await getImages({ params: apiParams })
+      : await getWorks({
+          params: apiParams,
+        })
     : null;
 
   return {

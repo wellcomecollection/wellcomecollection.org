@@ -2,7 +2,8 @@
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
+import { worksLink } from '@weco/common/services/catalogue/codecs';
+import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
@@ -24,7 +25,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -45,14 +45,12 @@ type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
   childManifestsCount?: number,
-  worksParams: WorksParams,
 |};
 
 const WorkDetails = ({
   work,
   iiifPresentationManifest,
   childManifestsCount,
-  worksParams,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
@@ -216,10 +214,8 @@ const WorkDetails = ({
               title="Contributors"
               tags={work.contributors.map(contributor => ({
                 textParts: [contributor.agent.label],
-                linkAttributes: worksUrl({
-                  ...worksParams,
+                linkAttributes: worksLink({
                   query: `"${contributor.agent.label}"`,
-                  page: 1,
                   source: source('contributors'),
                 }),
               }))}
@@ -268,10 +264,8 @@ const WorkDetails = ({
               tags={work.genres.map(g => {
                 return {
                   textParts: g.concepts.map(c => c.label),
-                  linkAttributes: worksUrl({
-                    ...worksParams,
+                  linkAttributes: worksLink({
                     query: `"${g.label}"`,
-                    page: 1,
                     source: source('genres'),
                   }),
                 };
@@ -294,10 +288,8 @@ const WorkDetails = ({
               tags={work.subjects.map(s => {
                 return {
                   textParts: s.concepts.map(c => c.label),
-                  linkAttributes: worksUrl({
-                    ...worksParams,
+                  linkAttributes: worksLink({
                     query: `"${s.label}"`,
-                    page: 1,
                     source: source('subjects'),
                   }),
                 };

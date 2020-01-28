@@ -13,10 +13,10 @@ import {
   getLocationOfType,
 } from '@weco/common/utils/works';
 import {
-  type WorksParams,
-  worksParamsFromQuery,
-} from '@weco/common/services/catalogue/url-params';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+  WorkCodec,
+  itemLink,
+  WorksCodec,
+} from '@weco/common/services/catalogue/codecs';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -36,7 +36,6 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 
 type Props = {|
   work: Work | CatalogueApiError,
-  worksParams: WorksParams,
 |};
 
 const getFirstChildManifest = async function(manifests) {
@@ -45,7 +44,7 @@ const getFirstChildManifest = async function(manifests) {
   return data;
 };
 
-export const WorkPage = ({ work, worksParams }: Props) => {
+export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -136,7 +135,7 @@ export const WorkPage = ({ work, worksParams }: Props) => {
               ariaDescribedBy="search-form-description"
               compact={true}
               shouldShowFilters={false}
-              worksParams={worksParams}
+              worksParams={WorksCodec.fromQuery({})}
               workTypeAggregations={null}
             />
           </div>
@@ -152,7 +151,7 @@ export const WorkPage = ({ work, worksParams }: Props) => {
               [grid({ s: 12 })]: true,
             })}
           >
-            <BackToResults worksParams={worksParams} />
+            <BackToResults />
           </Space>
         </div>
       </div>
@@ -176,8 +175,7 @@ export const WorkPage = ({ work, worksParams }: Props) => {
           <SpacingComponent>
             <IIIFPresentationPreview
               childManifestsCount={childManifestsCount}
-              itemUrl={itemUrl({
-                ...worksParams,
+              itemLink={itemLink({
                 workId: work.id,
                 sierraId:
                   firstChildManifest['@id'].match(
@@ -186,7 +184,6 @@ export const WorkPage = ({ work, worksParams }: Props) => {
                 langCode: work.language && work.language.id,
                 canvas: 1,
                 isOverview: true,
-                page: 1,
               })}
             />
           </SpacingComponent>
@@ -197,14 +194,12 @@ export const WorkPage = ({ work, worksParams }: Props) => {
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
-              itemUrl={itemUrl({
-                ...worksParams,
+              itemLink={itemLink({
                 workId: work.id,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
                 canvas: 1,
                 isOverview: true,
-                page: 1,
               })}
             />
           )}
@@ -213,21 +208,18 @@ export const WorkPage = ({ work, worksParams }: Props) => {
         <WobblyRow>
           <IIIFImagePreview
             iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemUrl({
-              ...worksParams,
+            itemLink={itemLink({
               workId: work.id,
               sierraId: null,
               langCode: work.language && work.language.id,
               canvas: 1,
               isOverview: true,
-              page: 1,
             })}
           />
         </WobblyRow>
       )}
       <WorkDetails
         work={work}
-        worksParams={worksParams}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
       />
@@ -238,8 +230,7 @@ export const WorkPage = ({ work, worksParams }: Props) => {
 WorkPage.getInitialProps = async (
   ctx
 ): Promise<Props | CatalogueApiRedirect> => {
-  const { id } = ctx.query;
-  const worksParams = worksParamsFromQuery(ctx.query);
+  const { id } = WorkCodec.fromQuery(ctx.query);
 
   const workOrError = await getWork({
     id,
@@ -259,7 +250,6 @@ WorkPage.getInitialProps = async (
   } else {
     return {
       work: workOrError,
-      worksParams,
     };
   }
 };

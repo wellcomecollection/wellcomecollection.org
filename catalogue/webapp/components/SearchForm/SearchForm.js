@@ -1,5 +1,4 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
@@ -8,8 +7,10 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
-import { type WorksParams } from '@weco/common/services/catalogue/url-params';
+import {
+  type WorksParams,
+  worksLink,
+} from '@weco/common/services/catalogue/codecs';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
@@ -54,7 +55,6 @@ type Props = {|
   worksParams: WorksParams,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
   placeholder?: string,
-  url?: (searchParams: WorksParams) => NextLinkType,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -97,7 +97,6 @@ const SearchForm = ({
   worksParams,
   workTypeAggregations,
   placeholder,
-  url = worksUrl,
 }: Props) => {
   const { query } = worksParams;
   const searchForm = useRef();
@@ -149,11 +148,10 @@ const SearchForm = ({
           : null
         : null;
 
-    const link = url({
+    const link = worksLink({
       ...worksParams,
       query: inputQuery,
       workType,
-      page: 1,
       productionDatesFrom: inputValue(form['production.dates.from']),
       productionDatesTo: inputValue(form['production.dates.to']),
       sortOrder,

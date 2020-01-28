@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import {
   type WorksParams,
   defaultWorkTypes,
-} from '@weco/common/services/catalogue/url-params';
+} from '@weco/common/services/catalogue/codecs';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';

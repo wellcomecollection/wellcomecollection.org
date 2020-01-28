@@ -5,7 +5,7 @@ import useFocusTrap from '../../../hooks/useFocusTrap';
 import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import NextLink from 'next/link';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksLink } from '../../../services/catalogue/codecs';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -129,7 +129,7 @@ const FiltersFooter = styled(Space).attrs({
 
 const SearchFiltersMobile = ({
   searchForm,
-  searchParams,
+  worksParams,
   workTypeAggregations,
   changeHandler,
   inputDateFrom,
@@ -295,8 +295,8 @@ const SearchFiltersMobile = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksUrl({
-                ...searchParams,
+              {...worksLink({
+                ...worksParams,
                 workType: null,
                 page: 1,
                 productionDatesFrom: null,

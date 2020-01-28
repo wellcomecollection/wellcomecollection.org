@@ -1,9 +1,8 @@
 // @flow
 import { useState, useRef, useEffect } from 'react';
 import NextLink from 'next/link';
-import { type WorksParams } from '@weco/common/services/catalogue/url-params';
+import { itemLink } from '@weco/common/services/catalogue/codecs';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -50,7 +49,6 @@ const HiddenContent = styled.div.attrs(props => ({
 type Props = {|
   buttonText: string,
   manifests: IIIFManifest[],
-  worksParams: WorksParams,
   workId: string,
   lang: string,
 |};
@@ -58,7 +56,6 @@ type Props = {|
 const MultipleManifestList = ({
   buttonText,
   manifests,
-  worksParams,
   workId,
   lang,
 }: Props) => {
@@ -117,10 +114,8 @@ const MultipleManifestList = ({
             {manifests.map((manifest, i) => (
               <li key={manifest['@id']}>
                 <NextLink
-                  {...itemUrl({
-                    ...worksParams,
+                  {...itemLink({
                     workId,
-                    page: 1,
                     sierraId: (manifest['@id'].match(/iiif\/(.*)\/manifest/) ||
                       [])[1],
                     langCode: lang,

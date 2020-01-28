@@ -3,13 +3,12 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
 import Space from '../../styled/Space';
-import { type WorksParams } from '@weco/common/services/catalogue/url-params';
+import { itemLink } from '@weco/common/services/catalogue/codecs';
 import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   type PaginatorRenderFunctionProps,
@@ -146,7 +145,6 @@ type NoScriptViewerProps = {|
   iiifImageLocation: ?{ url: string },
   canvases: [],
   canvasIndex: number,
-  worksParams: WorksParams,
 |};
 
 const NoScriptViewer = ({
@@ -165,7 +163,6 @@ const NoScriptViewer = ({
   pageIndex,
   sierraId,
   pageSize,
-  worksParams,
 }: NoScriptViewerProps) => {
   const mainImageService = {
     '@id': currentCanvas ? currentCanvas.images[0].resource.service['@id'] : '',
@@ -249,8 +246,7 @@ const NoScriptViewer = ({
                   {...thumbsPaginatorProps}
                   render={({ rangeStart }) => (
                     <NextLink
-                      {...itemUrl({
-                        ...worksParams,
+                      {...itemLink({
                         workId,
                         page: pageIndex + 1,
                         sierraId,

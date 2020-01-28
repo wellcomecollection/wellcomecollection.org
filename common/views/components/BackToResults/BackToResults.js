@@ -2,17 +2,13 @@
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { worksUrl } from '../../../services/catalogue/urls';
-import { type WorksParams } from '../../../services/catalogue/url-params';
+import { WorksCodec } from '../../../services/catalogue/codecs';
 
-type Props = {| worksParams: WorksParams |};
-const BackToResults = ({ worksParams }: Props) => {
-  const { query } = worksParams;
-
-  const link = worksUrl({
-    ...worksParams,
+const BackToResults = () => {
+  const link = WorksCodec.link({
     source: 'back_to_results',
   });
+  const query = '';
   return (
     <NextLink {...link}>
       <a

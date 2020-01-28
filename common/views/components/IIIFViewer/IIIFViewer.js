@@ -12,7 +12,6 @@ import {
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import getLicenseInfo from '@weco/common/utils/get-license-info';
-import { type WorksParams } from '@weco/common/services/catalogue/url-params';
 import { classNames } from '@weco/common/utils/classnames';
 import Router from 'next/router';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -55,7 +54,7 @@ const IIIFViewerBackground = styled.div`
   position: relative;
   background: ${props => props.theme.colors.viewerBlack};
   height: ${props =>
-    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`}
+    props.isFullscreen ? '100vh' : `calc(100vh - ${`${headerHeight}px`})`};
   color: ${props => props.theme.colors.white};
 `;
 
@@ -179,7 +178,6 @@ type IIIFViewerProps = {|
   imageUrl: ?string,
   work: ?(Work | CatalogueApiError),
   manifest: ?IIIFManifest,
-  worksParams: WorksParams,
 |};
 
 const IIIFViewerComponent = ({
@@ -199,7 +197,6 @@ const IIIFViewerComponent = ({
   imageUrl,
   work,
   manifest,
-  worksParams,
 }: IIIFViewerProps) => {
   const [gridVisible, setGridVisible] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
@@ -388,7 +385,6 @@ const IIIFViewerComponent = ({
         workId={workId}
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
-        worksParams={worksParams}
         canvasIndex={activeIndex}
         title={title}
         licenseInfo={licenseInfo}
@@ -428,7 +424,6 @@ const IIIFViewerComponent = ({
             pageIndex={pageIndex}
             sierraId={sierraId}
             pageSize={pageSize}
-            worksParams={worksParams}
           />
         )}
         {enhanced && (

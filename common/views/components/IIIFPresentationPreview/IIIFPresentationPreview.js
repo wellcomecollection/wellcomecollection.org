@@ -1,5 +1,6 @@
 // @flow
 import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type NextLinkType } from '@weco/common/model/next-link-type';
 import {
   getCanvases,
   getManifestViewType,
@@ -191,7 +192,7 @@ function previewThumbnails(
 }
 
 type Props = {|
-  itemUrl: any,
+  itemLink: NextLinkType,
   childManifestsCount?: number,
 |};
 
@@ -223,7 +224,7 @@ const MultiVolumePreview = ({ children }: MultiVolumePreviewProps) => {
 };
 
 const IIIFPresentationPreview = ({
-  itemUrl,
+  itemLink,
   childManifestsCount = 0,
 }: Props) => {
   const [viewType, setViewType] = useState<ViewType>('unknown');
@@ -310,14 +311,14 @@ const IIIFPresentationPreview = ({
             >
               <Button
                 type="primary"
-                url={`/works/${itemUrl.href.query.workId}/items`}
+                url={`/works/${itemLink.href.query.workId}/items`}
                 trackingEvent={{
                   category: 'ViewBookNonJSButton',
                   action: 'follow link',
-                  label: itemUrl.href.query.workId,
+                  label: itemLink.href.query.workId,
                 }}
                 text="View the item"
-                link={itemUrl}
+                link={itemLink}
               />
             </Space>{' '}
           </div>{' '}
@@ -330,14 +331,14 @@ const IIIFPresentationPreview = ({
     return (
       <WobblyRow>
         <PresentationPreview>
-          <NextLink {...itemUrl}>
+          <NextLink {...itemLink}>
             <a
               className="plain-link"
               onClick={() => {
                 trackEvent({
                   category: 'IIIFPresentationPreview',
                   action: 'follow link',
-                  label: itemUrl.href.query.workId,
+                  label: itemLink.href.query.workId,
                 });
               }}
             >

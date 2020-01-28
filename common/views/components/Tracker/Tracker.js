@@ -1,7 +1,7 @@
 // @flow
 import { useEffect } from 'react';
 import Router from 'next/router';
-import { type TrackWorksParams } from '../../../services/catalogue/url-params';
+import { type TrackWorksParams } from '../../../services/catalogue/codecs';
 
 type RelevanceRatingData = {|
   position: number,

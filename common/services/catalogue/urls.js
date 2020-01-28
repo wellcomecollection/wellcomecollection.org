@@ -1,97 +1,11 @@
 // @flow
 import { type NextLinkType } from '@weco/common/model/next-link-type';
-import {
-  type WorksParams,
-  type WorkParams,
-  type ItemParams,
-} from './url-params';
 import { removeEmptyProps } from '../../utils/json';
 
 export type DownloadUrlProps = {|
   workId: string,
   sierraId: ?string,
 |};
-
-export function workUrl({ id, ...searchParams }: WorkParams): NextLinkType {
-  return {
-    href: {
-      pathname: `/work`,
-      query: removeEmptyProps({
-        id,
-        searchParams,
-      }),
-    },
-    as: {
-      pathname: `/works/${id}`,
-    },
-  };
-}
-
-export function worksUrl(searchParams: WorksParams): NextLinkType {
-  return {
-    href: {
-      pathname: `/works`,
-      query: searchParams,
-    },
-    as: {
-      pathname: `/works`,
-      query: searchParams,
-    },
-  };
-}
-
-export function imagesUrl(searchParams: WorksParams): NextLinkType {
-  return {
-    href: {
-      pathname: `/images`,
-      query: removeEmptyProps({
-        searchParams,
-      }),
-    },
-    as: {
-      pathname: `/images`,
-      query: removeEmptyProps({
-        searchParams,
-      }),
-    },
-  };
-}
-
-export function itemUrl({
-  workId,
-  page,
-  sierraId,
-  langCode,
-  canvas,
-  isOverview,
-  ...searchParams
-}: ItemParams): NextLinkType {
-  return {
-    href: {
-      pathname: `/item`,
-      query: {
-        workId,
-        ...removeEmptyProps({
-          page: page && page > 1 ? page : undefined,
-          canvas: canvas && canvas > 1 ? canvas : undefined,
-          sierraId: sierraId,
-          langCode: langCode,
-          isOverview: isOverview,
-          ...{ ...searchParams, page: 1 },
-        }),
-      },
-    },
-    as: {
-      pathname: `/works/${workId}/items`,
-      query: removeEmptyProps({
-        page: page && page > 1 ? page : undefined,
-        canvas: canvas && canvas > 1 ? canvas : undefined,
-        sierraId: sierraId,
-        langCode: langCode,
-      }),
-    },
-  };
-}
 
 export function downloadUrl({
   workId,
@@ -114,4 +28,41 @@ export function downloadUrl({
       }),
     },
   };
+}
+
+type Params = { [key: string]: any };
+type UrlParams = { [key: string]: string };
+export function serialiseUrl(params: Params): UrlParams {
+  return Object.keys(params).reduce((acc, key) => {
+    const val = params[key];
+
+    // We use this function as next represents arrays in JS
+    // as arrays in the URLs, unsurprisingly, and the csv
+    // is our own bespoke syntax.
+
+    // worksType = ['a', 'b', 'c']
+    // next: workType=a&workType=b&workType=c
+    // weco: workType=a,b,c
+    if (Array.isArray(val)) {
+      return {
+        ...acc,
+        [key]: val.join(','),
+      };
+    }
+
+    // any empty values, we don't add
+    if (val === null || val === undefined || val === '') {
+      return acc;
+    }
+
+    // As all our services default to `page: null` to `page: 1` so we remove it
+    if (key === 'page' && val === 1) {
+      return acc;
+    }
+
+    return {
+      ...acc,
+      [key]: val.toString(),
+    };
+  }, {});
 }

@@ -6,10 +6,10 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { type ApiWorksParams } from '@weco/common/services/catalogue/url-params';
+import { type ApiWorksParams } from '@weco/common/services/catalogue/codecs';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
-import { removeEmptyProps } from '@weco/common/utils/json';
+import { serialiseUrl } from '@weco/common/services/catalogue/urls';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -27,7 +27,6 @@ type GetWorkProps = {|
 
 type GetWorksProps = {|
   params: ApiWorksParams,
-  pageSize?: number,
   ...Environment,
 |};
 
@@ -46,16 +45,51 @@ const workIncludes = [
 export async function getWorks({
   params,
   env = 'prod',
-  pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const filterQueryString = Object.keys(removeEmptyProps(params)).map(key => {
-    const val = params[key];
+  const serialisedParams = serialiseUrl(params);
+  const filterQueryString = Object.keys(serialisedParams).map(key => {
+    const val = serialisedParams[key];
     return `${key}=${val}`;
   });
   const url =
     `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
-    `&pageSize=${pageSize}` +
+    `&pageSize=${25}` +
     (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    return (json: CatalogueResultsList | CatalogueApiError);
+  } catch (error) {
+    return {
+      description: '',
+      errorType: 'http',
+      httpStatus: 500,
+      label: 'Internal Server Error',
+      type: 'Error',
+    };
+  }
+}
+
+export async function getImages({
+  params,
+  env = 'prod',
+}: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
+  const serialisedParams = {
+    ...serialiseUrl(params),
+    // We manually override here as we know we're just looking for images
+    'items.location.locationType': ['iiif-image'],
+  };
+  const filterQueryString = Object.keys(serialisedParams).map(key => {
+    const val = serialisedParams[key];
+    return `${key}=${val}`;
+  });
+  const url =
+    `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +
+    `&pageSize=${24}` +
+    (filterQueryString.length > 0 ? `&${filterQueryString.join('&')}` : '');
+
   try {
     const res = await fetch(url);
     const json = await res.json();

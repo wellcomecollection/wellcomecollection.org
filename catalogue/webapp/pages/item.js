@@ -8,11 +8,7 @@ import {
 import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
-import {
-  type WorksParams,
-  worksParamsFromQuery,
-} from '@weco/common/services/catalogue/url-params';
+import { ItemCodec, itemLink } from '@weco/common/services/catalogue/codecs';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -42,7 +38,7 @@ const IframePdfViewer: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 
 type Props = {|
   workId: string,
-  sierraId: string,
+  sierraId: ?string,
   langCode: string,
   manifest: ?IIIFManifest,
   work: ?(Work | CatalogueApiError),
@@ -59,7 +55,6 @@ type Props = {|
   audio: ?{
     '@id': string,
   },
-  worksParams: WorksParams,
 |};
 
 const ItemPage = ({
@@ -76,7 +71,6 @@ const ItemPage = ({
   currentCanvas,
   video,
   audio,
-  worksParams,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const [iiifImageLocation] =
@@ -108,13 +102,12 @@ const ItemPage = ({
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
-    link: itemUrl({
-      ...worksParams,
+    link: itemLink({
       workId,
-      page: pageIndex + 1,
       canvas: canvasIndex + 1,
       langCode,
       sierraId,
+      page: pageIndex + 1,
     }),
   };
 
@@ -207,28 +200,28 @@ const ItemPage = ({
         />
       )}
 
-      {((mainImageService && currentCanvas) ||
-        (imageUrl && iiifImageLocationUrl)) && (
-        <IIIFViewer
-          title={title}
-          mainPaginatorProps={mainPaginatorProps}
-          thumbsPaginatorProps={thumbsPaginatorProps}
-          currentCanvas={currentCanvas}
-          lang={langCode}
-          canvasOcr={canvasOcr}
-          canvases={canvases}
-          workId={workId}
-          pageIndex={pageIndex}
-          sierraId={sierraId}
-          pageSize={pageSize}
-          canvasIndex={canvasIndex}
-          iiifImageLocationUrl={iiifImageLocationUrl}
-          imageUrl={imageUrl}
-          work={work}
-          manifest={manifest}
-          worksParams={worksParams}
-        />
-      )}
+      {sierraId &&
+        ((mainImageService && currentCanvas) ||
+          (imageUrl && iiifImageLocationUrl)) && (
+          <IIIFViewer
+            title={title}
+            mainPaginatorProps={mainPaginatorProps}
+            thumbsPaginatorProps={thumbsPaginatorProps}
+            currentCanvas={currentCanvas}
+            lang={langCode}
+            canvasOcr={canvasOcr}
+            canvases={canvases}
+            workId={workId}
+            pageIndex={pageIndex}
+            sierraId={sierraId}
+            pageSize={pageSize}
+            canvasIndex={canvasIndex}
+            iiifImageLocationUrl={iiifImageLocationUrl}
+            imageUrl={imageUrl}
+            work={work}
+            manifest={manifest}
+          />
+        )}
     </CataloguePageLayout>
   );
 };
@@ -239,9 +232,9 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     sierraId,
     langCode,
     page = 1,
-    pageSize = 4,
     canvas = 1,
-  } = ctx.query;
+    pageSize,
+  } = ItemCodec.fromQuery(ctx.query);
   const pageIndex = page - 1;
   const canvasIndex = canvas - 1;
   const manifestUrl = sierraId
@@ -260,7 +253,6 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
       : [];
   const currentCanvas = canvases[canvasIndex] ? canvases[canvasIndex] : null;
   const canvasOcr = currentCanvas ? await getCanvasOcr(currentCanvas) : null;
-  const worksParams = worksParamsFromQuery(ctx.query);
 
   return {
     workId,
@@ -276,7 +268,6 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     currentCanvas,
     video,
     audio,
-    worksParams,
   };
 };
 

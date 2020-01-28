@@ -1,6 +1,6 @@
 // @flow
 import { useState, useEffect } from 'react';
-import { type TrackWorksParams } from '../../../services/catalogue/url-params';
+import { type TrackWorksParams } from '../../../services/catalogue/codecs';
 import { trackRelevanceRating } from '../Tracker/Tracker';
 import Rating from '../Rating/Rating';
 

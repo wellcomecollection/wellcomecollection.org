@@ -11,7 +11,7 @@ import Space from '../styled/Space';
 type Props = {|
   iiifUrl: string,
   width?: number,
-  itemUrl: NextLinkType,
+  itemLink: NextLinkType,
 |};
 
 const ImagePreview = styled.div`
@@ -41,12 +41,12 @@ const ImagePreview = styled.div`
   }
 `;
 
-const IIIFImagePreview = ({ iiifUrl, width = 1010, itemUrl }: Props) => {
+const IIIFImagePreview = ({ iiifUrl, width = 1010, itemLink }: Props) => {
   const imageContentUrl = iiifImageTemplate(iiifUrl)({ size: `${width},` });
 
   return (
     <ImagePreview>
-      <NextLink {...itemUrl} passHref>
+      <NextLink {...itemLink} passHref>
         <Space
           v={{
             size: 'xl',
@@ -58,7 +58,7 @@ const IIIFImagePreview = ({ iiifUrl, width = 1010, itemUrl }: Props) => {
             trackEvent({
               category: 'IIIFImagePreview',
               action: 'follow link',
-              label: itemUrl.href.query.workId,
+              label: itemLink.href.query.workId,
             });
           }}
         >

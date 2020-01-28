@@ -1,7 +1,6 @@
 // @flow
-
 import { font, classNames } from '../../../utils/classnames';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksLink } from '../../../services/catalogue/codecs';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
@@ -40,7 +39,7 @@ const CancelFilter = ({ text }: { text: string }) => {
 
 const SearchFiltersDesktop = ({
   searchForm,
-  searchParams,
+  worksParams,
   workTypeAggregations,
   changeHandler,
   inputDateFrom,
@@ -155,7 +154,7 @@ const SearchFiltersDesktop = ({
                     value={'iiif-image,iiif-presentation'}
                     name={`items.locations.locationType`}
                     checked={
-                      (searchParams.itemsLocationsLocationType || []).join(
+                      (worksParams.itemsLocationsLocationType || []).join(
                         ','
                       ) === 'iiif-image,iiif-presentation'
                     }
@@ -207,9 +206,8 @@ const SearchFiltersDesktop = ({
               {productionDatesFrom && (
                 <NextLink
                   passHref
-                  {...worksUrl({
-                    ...searchParams,
-                    page: 1,
+                  {...worksLink({
+                    ...worksParams,
                     productionDatesFrom: null,
                   })}
                 >
@@ -221,9 +219,8 @@ const SearchFiltersDesktop = ({
               {productionDatesTo && (
                 <NextLink
                   passHref
-                  {...worksUrl({
-                    ...searchParams,
-                    page: 1,
+                  {...worksLink({
+                    ...worksParams,
                     productionDatesTo: null,
                   })}
                 >
@@ -240,9 +237,9 @@ const SearchFiltersDesktop = ({
                 return (
                   <NextLink
                     key={id}
-                    {...worksUrl({
-                      ...searchParams,
-                      workType: searchParams.workType.filter(
+                    {...worksLink({
+                      ...worksParams,
+                      workType: worksParams.workType.filter(
                         w => w !== workTypeObject.data.id
                       ),
                       page: 1,
@@ -256,8 +253,8 @@ const SearchFiltersDesktop = ({
               })}
               <NextLink
                 passHref
-                {...worksUrl({
-                  ...searchParams,
+                {...worksLink({
+                  ...worksParams,
                   workType: null,
                   page: 1,
                   productionDatesFrom: null,

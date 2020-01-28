@@ -1,6 +1,6 @@
 // @flow
-import type { WorksParams } from '@weco/common/services/catalogue/url-params';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import type { WorksParams } from '@weco/common/services/catalogue/codecs';
+import { itemLink, workLink } from '@weco/common/services/catalogue/codecs';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getLocationOfType } from '@weco/common/utils/works';
@@ -138,17 +138,14 @@ const ExpandedImage = ({ title, index, id, worksParams }: Props) => {
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
 
-  const workLink = workUrl({ ...worksParams, id });
-  const itemLink =
+  const maybeItemLink =
     detailedWork &&
-    itemUrl({
-      ...worksParams,
+    itemLink({
       workId: id,
       canvas: 1,
       langCode: detailedWork.language && detailedWork.language.id,
       sierraId: null,
       isOverview: true,
-      page: 1,
     });
 
   return (
@@ -174,12 +171,16 @@ const ExpandedImage = ({ title, index, id, worksParams }: Props) => {
           )}
           <p>{detailedWork && detailedWork.description}</p>
           <div>
-            <SpacedButton type="primary" text="View image" link={itemLink} />
-            {itemLink && (
+            <SpacedButton
+              type="primary"
+              text="View image"
+              link={maybeItemLink}
+            />
+            {maybeItemLink && (
               <SpacedButtonBorderBox
                 type="secondary"
                 text="About this work"
-                link={workLink}
+                link={workLink({ id })}
               />
             )}
           </div>

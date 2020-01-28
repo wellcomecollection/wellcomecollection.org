@@ -8,8 +8,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import { workUrl } from '@weco/common/services/catalogue/urls';
-import { type WorkParams } from '@weco/common/services/catalogue/url-params';
+import { workLink } from '@weco/common/services/catalogue/codecs';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -19,7 +18,6 @@ import Space, {
 
 type Props = {|
   work: Work,
-  params: WorkParams,
 |};
 
 const Container = styled.div`
@@ -62,7 +60,7 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkCard = ({ work, params }: Props) => {
+const WorkCard = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -72,7 +70,7 @@ const WorkCard = ({ work, params }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <NextLink {...workUrl({ ...params, id: work.id })} passHref>
+      <NextLink {...workLink({ id: work.id })} passHref>
         <Space
           as="a"
           v={{
