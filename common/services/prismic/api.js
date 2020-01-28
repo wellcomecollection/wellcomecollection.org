@@ -1,5 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
+import Raven from 'raven-js';
 import type {
   PrismicDocument,
   PrismicQueryOpts,
@@ -16,7 +17,12 @@ let memoizedPrismic;
 
 function periodicallyUpdatePrismic() {
   setInterval(async () => {
-    memoizedPrismic = await Prismic.getApi(apiUri);
+    try {
+      memoizedPrismic = await Prismic.getApi(apiUri);
+    } catch (error) {
+      // TODO: maybe remove once we've established the error(s)
+      Raven.captureException(new Error(`Prismic error: ${error}`));
+    }
   }, oneMinute);
 }
 periodicallyUpdatePrismic();
@@ -31,11 +37,21 @@ export function isPreview(req: ?Request): boolean {
 
 export async function getPrismicApi(req: ?Request) {
   if (req && isPreview(req)) {
-    const api = await Prismic.getApi(apiUri, { req });
-    return api;
+    try {
+      const api = await Prismic.getApi(apiUri, { req });
+      return api;
+    } catch (error) {
+      // TODO: maybe remove once we've established the error(s)
+      Raven.captureException(new Error(`Prismic error: ${error}`));
+    }
   } else {
     if (!memoizedPrismic) {
-      memoizedPrismic = await Prismic.getApi(apiUri);
+      try {
+        memoizedPrismic = await Prismic.getApi(apiUri);
+      } catch (error) {
+        // TODO: maybe remove once we've established the error(s)
+        Raven.captureException(new Error(`Prismic error: ${error}`));
+      }
     }
     return memoizedPrismic;
   }
