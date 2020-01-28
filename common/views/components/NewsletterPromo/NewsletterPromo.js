@@ -150,6 +150,7 @@ const NewsletterPromo = () => {
 
     switch (status) {
       case 'ContactChallenged':
+      case 'ContactAdded':
       case 'PendingOptIn':
       case 'Subscribed':
         setIsSuccess(true);
@@ -161,16 +162,23 @@ const NewsletterPromo = () => {
       default:
         setIsError(true);
 
-        try {
-          const errorJson = JSON.stringify(json);
+        if (status) {
+          Raven.captureException(
+            new Error(`Newsletter signup error: ${status}`)
+          );
+        } else {
+          try {
+            const { contact, ...anonymousData } = json;
+            const errorData = JSON.stringify(anonymousData);
 
-          Raven.captureException(
-            new Error(`Newsletter signup error: ${errorJson}`)
-          );
-        } catch (error) {
-          Raven.captureException(
-            new Error(`Newsletter signup error: ${error}`)
-          );
+            Raven.captureException(
+              new Error(`Newsletter signup error: ${errorData}`)
+            );
+          } catch (error) {
+            Raven.captureException(
+              new Error(`Newsletter signup error: ${error}`)
+            );
+          }
         }
     }
 
