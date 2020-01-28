@@ -20,7 +20,6 @@ function periodicallyUpdatePrismic() {
     try {
       memoizedPrismic = await Prismic.getApi(apiUri);
     } catch (error) {
-      // TODO: maybe remove once we've established the error(s)
       Raven.captureException(new Error(`Prismic error: ${error}`));
     }
   }, oneMinute);
@@ -37,21 +36,11 @@ export function isPreview(req: ?Request): boolean {
 
 export async function getPrismicApi(req: ?Request) {
   if (req && isPreview(req)) {
-    try {
-      const api = await Prismic.getApi(apiUri, { req });
-      return api;
-    } catch (error) {
-      // TODO: maybe remove once we've established the error(s)
-      Raven.captureException(new Error(`Prismic error: ${error}`));
-    }
+    const api = await Prismic.getApi(apiUri, { req });
+    return api;
   } else {
     if (!memoizedPrismic) {
-      try {
-        memoizedPrismic = await Prismic.getApi(apiUri);
-      } catch (error) {
-        // TODO: maybe remove once we've established the error(s)
-        Raven.captureException(new Error(`Prismic error: ${error}`));
-      }
+      memoizedPrismic = await Prismic.getApi(apiUri);
     }
     return memoizedPrismic;
   }
