@@ -30,6 +30,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
 import type { DigitalLocation } from '@weco/common/utils/works';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -169,6 +170,11 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
+      <TogglesContext.Consumer>
+        {({ simplifiedPreview }) =>
+          simplifiedPreview && <p>simplified preview goes here</p>
+        }
+      </TogglesContext.Consumer>
       {firstChildManifest && (
         <ManifestContext.Provider value={firstChildManifest}>
           <SpacingComponent>
