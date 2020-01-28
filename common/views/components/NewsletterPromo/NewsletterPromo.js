@@ -168,8 +168,8 @@ const NewsletterPromo = () => {
           );
         } else {
           try {
-            const { contact, ...anonymisedData } = json;
-            const errorData = JSON.stringify(anonymisedData);
+            const { contact, ...anonymousData } = json;
+            const errorData = JSON.stringify(anonymousData);
 
             Raven.captureException(
               new Error(`Newsletter signup error: ${errorData}`)
