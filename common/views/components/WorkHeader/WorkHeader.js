@@ -7,26 +7,33 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
-import NextLink from 'next/link';
-import { trackEvent } from '@weco/common/utils/ga';
 import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 import styled from 'styled-components';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
     flex: true,
-    'flex--h-space-between': true,
   }),
-}))``;
+}))`
+  width: 100%;
+  align-content: flex-start;
+`;
 
 type Props = {|
   work: Work,
   childManifestsCount?: number,
   itemUrl: any, // TODO
+  showItemLink: boolean,
 |};
 
-const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
+const WorkHeader = ({
+  work,
+  childManifestsCount = 0,
+  itemUrl,
+  showItemLink,
+}: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -120,6 +127,7 @@ const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
       <TogglesContext.Consumer>
         {({ simplifiedPreview }) =>
           simplifiedPreview &&
+          showItemLink &&
           work.thumbnail && (
             <Space
               h={{
@@ -127,21 +135,17 @@ const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
                 properties: ['margin-left'],
               }}
             >
-              <NextLink {...itemUrl}>
-                <a
-                  className="plain-link"
-                  onClick={() => {
-                    trackEvent({
-                      category: 'WorkPreview',
-                      action: 'follow link',
-                      label: itemUrl.href.query.workId,
-                    });
-                  }}
-                >
-                  test link
-                  <WorkPreview imagePath={work.thumbnail.url} />
-                </a>
-              </NextLink>
+              <WorkPreview imagePath={work.thumbnail.url} />
+              <Button
+                type="primary"
+                trackingEvent={{
+                  category: 'WorkPreview',
+                  action: 'follow link',
+                  label: itemUrl.href.query.workId,
+                }}
+                text="View the item"
+                link={{ ...itemUrl }}
+              />
             </Space>
           )
         }
