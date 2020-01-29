@@ -134,18 +134,24 @@ const WorkHeader = ({
                 size: 'l',
                 properties: ['margin-left'],
               }}
+              className={classNames({
+                flex: true,
+                'flex--column': true,
+              })}
             >
               <WorkPreview imagePath={work.thumbnail.url} />
-              <Button
-                type="primary"
-                trackingEvent={{
-                  category: 'WorkPreview',
-                  action: 'follow link',
-                  label: itemUrl.href.query.workId,
-                }}
-                text="View the item"
-                link={{ ...itemUrl }}
-              />
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  type="primary"
+                  trackingEvent={{
+                    category: 'WorkPreview',
+                    action: 'follow link',
+                    label: itemUrl.href.query.workId,
+                  }}
+                  text="View the item"
+                  link={{ ...itemUrl }}
+                />
+              </div>
             </Space>
           )
         }
