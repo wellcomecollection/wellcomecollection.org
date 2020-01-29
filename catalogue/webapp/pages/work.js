@@ -1,7 +1,5 @@
 // @flow
 import Router from 'next/router';
-import NextLink from 'next/link';
-import { trackEvent } from '@weco/common/utils/ga';
 import {
   type Work,
   type CatalogueApiError,
@@ -31,15 +29,12 @@ import ManifestContext from '@weco/common/views/components/ManifestContext/Manif
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
-import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
-
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-
 type Props = {|
   work: Work | CatalogueApiError,
 |};
@@ -191,26 +186,15 @@ export const WorkPage = ({ work }: Props) => {
       >
         <div className="container">
           <div className="grid">
-            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
+            <WorkHeader
+              work={work}
+              childManifestsCount={childManifestsCount}
+              itemUrl={itemUrlObject}
+            />
           </div>
         </div>
       </Space>
-      <NextLink {...itemUrlObject}>
-        <a
-          className="plain-link"
-          onClick={() => {
-            trackEvent({
-              category: 'WorkPreview',
-              action: 'follow link',
-              label: itemUrlObject.href.query.workId,
-            });
-          }}
-        >
-          test link
-        </a>
-      </NextLink>
 
-      {/* TODO take audio and video players out of IIIFPresentationPreview and put here - how deal with no js link? */}
       {video && (
         <WobblyRow>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -229,61 +213,32 @@ export const WorkPage = ({ work }: Props) => {
 
       <TogglesContext.Consumer>
         {({ simplifiedPreview }) =>
-          simplifiedPreview &&
-          work.thumbnail && <WorkPreview imagePath={work.thumbnail.url} />
+          !simplifiedPreview && (
+            <>
+              {!iiifImageLocationUrl && (
+                <ManifestContext.Provider
+                  value={firstChildManifest || iiifPresentationManifest}
+                >
+                  <SpacingComponent>
+                    <IIIFPresentationPreview
+                      childManifestsCount={childManifestsCount}
+                      itemUrl={itemUrlObject}
+                    />
+                  </SpacingComponent>
+                </ManifestContext.Provider>
+              )}
+              {iiifImageLocationUrl && (
+                <WobblyRow>
+                  <IIIFImagePreview
+                    iiifUrl={iiifImageLocationUrl}
+                    itemUrl={itemUrlObject}
+                  />
+                </WobblyRow>
+              )}
+            </>
+          )
         }
       </TogglesContext.Consumer>
-      {firstChildManifest && (
-        <ManifestContext.Provider value={firstChildManifest}>
-          <SpacingComponent>
-            <IIIFPresentationPreview
-              childManifestsCount={childManifestsCount}
-              itemUrl={itemUrl({
-                ...searchParams,
-                workId: work.id,
-                sierraId:
-                  firstChildManifest['@id'].match(
-                    /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                  )[1] || sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-                canvas: 1,
-                page: 1,
-              })}
-            />
-          </SpacingComponent>
-        </ManifestContext.Provider>
-      )}
-      <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!firstChildManifest &&
-          sierraIdFromPresentationManifestUrl &&
-          !iiifImageLocationUrl && (
-            <IIIFPresentationPreview
-              itemUrl={itemUrl({
-                ...searchParams,
-                workId: work.id,
-                sierraId: sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-                canvas: 1,
-                page: 1,
-              })}
-            />
-          )}
-      </ManifestContext.Provider>
-      {iiifImageLocationUrl && (
-        <WobblyRow>
-          <IIIFImagePreview
-            iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemUrl({
-              ...searchParams,
-              workId: work.id,
-              sierraId: null,
-              langCode: work.language && work.language.id,
-              canvas: 1,
-              page: 1,
-            })}
-          />
-        </WobblyRow>
-      )}
 
       <WorkDetails
         work={work}

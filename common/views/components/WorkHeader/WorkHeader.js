@@ -7,13 +7,18 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
+import NextLink from 'next/link';
+import { trackEvent } from '@weco/common/utils/ga';
+import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
   work: Work,
   childManifestsCount?: number,
+  itemUrl: any, // TODO
 |};
 
-const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
+const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -102,6 +107,28 @@ const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
           </Space>
         )}
       </SpacingComponent>
+      <TogglesContext.Consumer>
+        {({ simplifiedPreview }) =>
+          simplifiedPreview &&
+          work.thumbnail && (
+            <NextLink {...itemUrl}>
+              <a
+                className="plain-link"
+                onClick={() => {
+                  trackEvent({
+                    category: 'WorkPreview',
+                    action: 'follow link',
+                    label: itemUrl.href.query.workId,
+                  });
+                }}
+              >
+                test link
+                <WorkPreview imagePath={work.thumbnail.url} />
+              </a>
+            </NextLink>
+          )
+        }
+      </TogglesContext.Consumer>
     </Space>
   );
 };
