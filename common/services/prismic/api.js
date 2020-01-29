@@ -1,5 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
+import Raven from 'raven-js';
 import type {
   PrismicDocument,
   PrismicQueryOpts,
@@ -16,7 +17,11 @@ let memoizedPrismic;
 
 function periodicallyUpdatePrismic() {
   setInterval(async () => {
-    memoizedPrismic = await Prismic.getApi(apiUri);
+    try {
+      memoizedPrismic = await Prismic.getApi(apiUri);
+    } catch (error) {
+      Raven.captureException(new Error(`Prismic error: ${error}`));
+    }
   }, oneMinute);
 }
 periodicallyUpdatePrismic();

@@ -12,7 +12,7 @@ async function getAndSetOpeningTimes() {
   } catch (e) {}
 }
 
-setInterval(getAndSetOpeningTimes, 6000);
+setInterval(getAndSetOpeningTimes, 60000);
 module.exports = function withGlobalAlert(ctx, next) {
   ctx.openingTimes = openingTimes;
   return next();
