@@ -36,7 +36,7 @@ export type SearchParams = {|
 type ApiSearchParamsSerialisers = Serialisers<SearchParams>;
 type SearchParamsDeserialisers = Deserialisers<SearchParams>;
 
-export const defaultWorkTypes = ['a', 'k', 'q', 'i', 'g'];
+export const defaultWorkTypes = ['a', 'g', 'i', 'k', 'l', 'q'];
 export const defaultItemsLocationsLocationType = [
   'iiif-image',
   'iiif-presentation',
