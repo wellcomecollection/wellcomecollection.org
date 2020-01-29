@@ -284,9 +284,9 @@ const IIIFPresentationPreview = ({
                 text="View the item"
                 link={itemUrl}
               />
-            </Space>{' '}
-          </div>{' '}
-        </div>{' '}
+            </Space>
+          </div>
+        </div>
       </div>
     );
   }

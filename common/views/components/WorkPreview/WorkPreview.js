@@ -5,8 +5,6 @@ const WorkPreviewContainer = styled.div`
   img {
     width: auto;
     height: auto;
-    min-width: 160px;
-    min-height: 300px;
   }
 `;
 type Props = {|
