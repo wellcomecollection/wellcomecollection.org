@@ -1,5 +1,7 @@
 // @flow
 import Router from 'next/router';
+import NextLink from 'next/link';
+import { trackEvent } from '@weco/common/utils/ga';
 import {
   type Work,
   type CatalogueApiError,
@@ -11,6 +13,9 @@ import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getIIIFPresentationLocation,
   getLocationOfType,
+  type DigitalLocation,
+  getAudio,
+  getVideo,
 } from '@weco/common/utils/works';
 import { itemUrl } from '@weco/common/services/catalogue/urls';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
@@ -26,10 +31,13 @@ import ManifestContext from '@weco/common/views/components/ManifestContext/Manif
 import { getWork } from '../services/catalogue/works';
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
+import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
-import type { DigitalLocation } from '@weco/common/utils/works';
+import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type Props = {|
@@ -68,6 +76,9 @@ export const WorkPage = ({ work }: Props) => {
   };
 
   const searchParams = clientSideSearchParams();
+
+  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
+  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
 
   useEffect(() => {
     window.dataLayer &&
@@ -111,6 +122,21 @@ export const WorkPage = ({ work }: Props) => {
       ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
       : null;
 
+  const itemUrlObject = itemUrl({
+    ...searchParams,
+    workId: work.id,
+    sierraId:
+      (firstChildManifest &&
+        firstChildManifest['@id'].match(
+          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+        )[1]) ||
+      sierraIdFromPresentationManifestUrl ||
+      null,
+    langCode: work.language && work.language.id,
+    canvas: 1,
+    page: 1,
+  });
+
   return (
     <CataloguePageLayout
       title={work.title}
@@ -140,7 +166,6 @@ export const WorkPage = ({ work }: Props) => {
             />
           </div>
         </div>
-
         <div className="grid">
           <Space
             v={{
@@ -170,9 +195,42 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
+      <NextLink {...itemUrlObject}>
+        <a
+          className="plain-link"
+          onClick={() => {
+            trackEvent({
+              category: 'WorkPreview',
+              action: 'follow link',
+              label: itemUrlObject.href.query.workId,
+            });
+          }}
+        >
+          test link
+        </a>
+      </NextLink>
+
+      {/* TODO take audio and video players out of IIIFPresentationPreview and put here - how deal with no js link? */}
+      {video && (
+        <WobblyRow>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <VideoPlayer video={video} />
+          </Space>
+        </WobblyRow>
+      )}
+
+      {audio && (
+        <WobblyRow>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <AudioPlayer audio={audio} />
+          </Space>
+        </WobblyRow>
+      )}
+
       <TogglesContext.Consumer>
         {({ simplifiedPreview }) =>
-          simplifiedPreview && <p>simplified preview goes here</p>
+          simplifiedPreview &&
+          work.thumbnail && <WorkPreview imagePath={work.thumbnail.url} />
         }
       </TogglesContext.Consumer>
       {firstChildManifest && (
@@ -226,6 +284,7 @@ export const WorkPage = ({ work }: Props) => {
           />
         </WobblyRow>
       )}
+
       <WorkDetails
         work={work}
         iiifPresentationManifest={iiifPresentationManifest}
