@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import allWorkTypes from '@weco/common/services/data/work-type-aggregations';
 import {
   type SearchParams,
   defaultWorkTypes,
@@ -42,11 +43,33 @@ const SearchFilters = ({
   const [inputDateTo, setInputDateTo] = useState(productionDatesTo);
   const { unfilteredSearchResults } = useContext(TogglesContext);
 
-  const workTypeFilters = unfilteredSearchResults
-    ? workTypeAggregations
-    : workTypeAggregations.filter(agg =>
-        defaultWorkTypes.includes(agg.data.id)
+  // We want to display all currently applied worktypes to the user within the filter drop down
+  // This may include worktypes that have no aggregations for the given search
+  // We therefore go through all possible worktypes,
+  // if they have a matching aggregation from the API response we use that
+  // If they aren't included in the API response, but are one of the applied filters,
+  // then we still include it with a count of 0.
+  const allAppliedFilters = allWorkTypes
+    .map(workType => {
+      const matchingWorkTypeAggregation = workTypeAggregations.find(
+        ({ data }) => workType.data.id === data.id
       );
+      const matchingAppliedWorkType = workTypeInUrlArray.find(
+        id => workType.data.id === id
+      );
+      if (matchingWorkTypeAggregation) {
+        return matchingWorkTypeAggregation;
+      } else if (matchingAppliedWorkType) {
+        return workType;
+      } else {
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  const workTypeFilters = unfilteredSearchResults
+    ? allAppliedFilters
+    : allAppliedFilters.filter(agg => defaultWorkTypes.includes(agg.data.id));
 
   useEffect(() => {
     function updateIsMobile() {

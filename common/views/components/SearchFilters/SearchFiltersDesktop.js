@@ -185,100 +185,97 @@ const SearchFiltersDesktop = ({
       <Space v={{ size: 'l', properties: ['margin-top'] }} className="tokens">
         {(productionDatesFrom ||
           productionDatesTo ||
-          workTypeInUrlArray.length > 0) &&
-          workTypeFilters.length > 0 && (
-            <div className={classNames({ [font('hnl', 5)]: true })}>
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top', 'margin-bottom'],
-                }}
-              >
-                <h2 className="inline">
-                  <Space
-                    as="span"
-                    h={{
-                      size: 'm',
-                      properties: ['margin-right'],
-                    }}
-                  >
-                    Active filters:
-                  </Space>
-                </h2>
-                {productionDatesFrom && (
+          workTypeInUrlArray.length > 0) && (
+          <div className={classNames({ [font('hnl', 5)]: true })}>
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top', 'margin-bottom'],
+              }}
+            >
+              <h2 className="inline">
+                <Space
+                  as="span"
+                  h={{
+                    size: 'm',
+                    properties: ['margin-right'],
+                  }}
+                >
+                  Active filters:
+                </Space>
+              </h2>
+              {productionDatesFrom && (
+                <NextLink
+                  passHref
+                  {...worksUrl({
+                    ...searchParams,
+                    page: 1,
+                    productionDatesFrom: null,
+                  })}
+                >
+                  <a>
+                    <CancelFilter text={`From ${productionDatesFrom}`} />
+                  </a>
+                </NextLink>
+              )}
+              {productionDatesTo && (
+                <NextLink
+                  passHref
+                  {...worksUrl({
+                    ...searchParams,
+                    page: 1,
+                    productionDatesTo: null,
+                  })}
+                >
+                  <a>
+                    <CancelFilter text={`To ${productionDatesTo}`} />
+                  </a>
+                </NextLink>
+              )}
+
+              {workTypeInUrlArray.map(id => {
+                const workTypeObject = workTypeFilters.find(({ data }) => {
+                  return data.id === id;
+                });
+
+                return (
                   <NextLink
-                    passHref
+                    key={id}
                     {...worksUrl({
                       ...searchParams,
+                      workType: searchParams.workType.filter(
+                        w => w !== workTypeObject.data.id
+                      ),
                       page: 1,
-                      productionDatesFrom: null,
                     })}
                   >
                     <a>
-                      <CancelFilter text={`From ${productionDatesFrom}`} />
+                      <CancelFilter text={workTypeObject.data.label} />
                     </a>
                   </NextLink>
-                )}
-                {productionDatesTo && (
-                  <NextLink
-                    passHref
-                    {...worksUrl({
-                      ...searchParams,
-                      page: 1,
-                      productionDatesTo: null,
-                    })}
-                  >
-                    <a>
-                      <CancelFilter text={`To ${productionDatesTo}`} />
-                    </a>
-                  </NextLink>
-                )}
+                );
+              })}
 
-                {workTypeInUrlArray.map(id => {
-                  const workTypeObject = workTypeFilters.find(({ data }) => {
-                    return data.id === id;
-                  });
-
-                  return (
-                    workTypeObject && (
-                      <NextLink
-                        key={id}
-                        {...worksUrl({
-                          ...searchParams,
-                          workType: searchParams.workType.filter(
-                            w => w !== workTypeObject.data.id
-                          ),
-                          page: 1,
-                        })}
-                      >
-                        <a>
-                          <CancelFilter text={workTypeObject.data.label} />
-                        </a>
-                      </NextLink>
-                    )
-                  );
-                })}
-
-                {workTypeFilters.length > 0 && (
-                  <NextLink
-                    passHref
-                    {...worksUrl({
-                      ...searchParams,
-                      workType: null,
-                      page: 1,
-                      productionDatesFrom: null,
-                      productionDatesTo: null,
-                      itemsLocationsLocationType: null,
-                    })}
-                  >
-                    <a>
-                      <CancelFilter text={'Clear all'} />
-                    </a>
-                  </NextLink>
-                )}
-              </Space>
-            </div>
-          )}
+              {workTypeFilters.length > 0 && (
+                <NextLink
+                  passHref
+                  {...worksUrl({
+                    ...searchParams,
+                    workType: null,
+                    page: 1,
+                    productionDatesFrom: null,
+                    productionDatesTo: null,
+                    itemsLocationsLocationType: null,
+                  })}
+                >
+                  <a>
+                    <CancelFilter text={'Clear all'} />
+                  </a>
+                </NextLink>
+              )}
+            </Space>
+          </div>
+        )}
       </Space>
     </>
   );
