@@ -1,5 +1,9 @@
 // @flow
-import { serialiseUrl, WorksRoute } from '../../../services/catalogue/codecs';
+import {
+  serialiseUrl,
+  WorksRoute,
+  WorkRoute,
+} from '../../../services/catalogue/routes';
 
 test('it serialises URLs in a weco fashion', () => {
   const query = {
@@ -27,7 +31,7 @@ test('it serialises URLs in a weco fashion', () => {
   });
 });
 
-test('worksRouteState: with no values', () => {
+test('/works: with no values', () => {
   const query = {};
   const worksRouteState = WorksRoute.fromQuery(query);
 
@@ -45,13 +49,14 @@ test('worksRouteState: with no values', () => {
   });
 });
 
-test('worksRouteState: with values', () => {
+test('/works: with values', () => {
   const query = {
     query: 'gargoyles',
     page: '3',
     workType: 'a,b,c',
     'production.dates.from': '1500',
     'production.dates.to': '1900',
+    notValid: '( ͡° ͜ʖ ͡°)',
   };
   const worksRouteState = WorksRoute.fromQuery(query);
 
@@ -66,5 +71,25 @@ test('worksRouteState: with values', () => {
     productionDatesTo: '1900',
     search: null,
     source: null,
+  });
+});
+
+// route: /works/{id}
+test('/works/{id}: with no values', () => {
+  const query = {};
+  const worksRouteState = WorkRoute.fromQuery(query);
+
+  expect(worksRouteState).toEqual({ id: '' });
+});
+
+test('/works/{id}: with values', () => {
+  const query = {
+    id: 'm4b34tup',
+    notValid: '( ͡° ͜ʖ ͡°)',
+  };
+  const workRoute = WorkRoute.fromQuery(query);
+
+  expect(workRoute).toEqual({
+    id: 'm4b34tup',
   });
 });

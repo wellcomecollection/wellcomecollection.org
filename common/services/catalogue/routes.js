@@ -56,13 +56,17 @@ function defaultTo1(v: ?(string | number)): number {
   return v ? parseInt(v, 10) : 1;
 }
 
+function defaultToEmptyString(s: ?string): string {
+  return s || '';
+}
+
 type NextRoute<T> = {|
   fromQuery: (q: UrlParams) => T,
   toLink: (t: $Shape<T>) => NextLinkType,
   toQuery: (t: $Shape<T>) => UrlParams,
 |};
 
-// /works
+// route: /works
 export type WorksRouteProps = {|
   query: string,
   page: number,
@@ -76,11 +80,10 @@ export type WorksRouteProps = {|
   source: ?string,
 |};
 
-// /works
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
     return {
-      query: q.query || '',
+      query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),
       workType: stringTocsv(q.workType),
       itemsLocationsLocationType: stringTocsv(
@@ -123,5 +126,36 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       search: params.search,
       source: params.source,
     });
+  },
+};
+
+// route: /works/{id}
+export type WorkRouteProps = {|
+  id: string,
+|};
+
+export const WorkRoute: NextRoute<WorkRouteProps> = {
+  fromQuery(q) {
+    return {
+      id: defaultToEmptyString(q.id),
+    };
+  },
+
+  toLink(params) {
+    const { id } = params;
+    return {
+      href: {
+        pathname: '/work',
+        query: { id },
+      },
+      as: {
+        pathname: `/works/${id}`,
+        query: {},
+      },
+    };
+  },
+
+  toQuery(params) {
+    return serialiseUrl({ id: params.id });
   },
 };
