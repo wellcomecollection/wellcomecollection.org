@@ -39,6 +39,17 @@ data "terraform_remote_state" "router" {
   }
 }
 
+data "terraform_remote_state" "assets" {
+  backend = "s3"
+
+  config {
+    bucket   = "wellcomecollection-infra"
+    key      = "build-state/router.tfstate"
+    region   = "eu-west-1"
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
+}
+
 # Lookup certificate to use ARN later on
 data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
   domain = "wellcomecollection.org"
