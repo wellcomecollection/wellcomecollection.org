@@ -44,7 +44,7 @@ export function serialiseUrl(params: Params): UrlParams {
   }, {});
 }
 
-function stringTocsv(s: ?string): string[] {
+function stringToCsv(s: ?string): string[] {
   return s ? s.split(',') : [];
 }
 
@@ -85,8 +85,8 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
     return {
       query: defaultToEmptyString(q.query),
       page: defaultTo1(q.page),
-      workType: stringTocsv(q.workType),
-      itemsLocationsLocationType: stringTocsv(
+      workType: stringToCsv(q.workType),
+      itemsLocationsLocationType: stringToCsv(
         q['items.locations.locationType']
       ),
       sort: maybeString(q.sort),
