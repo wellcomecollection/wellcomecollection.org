@@ -11,6 +11,7 @@ import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import styled from 'styled-components';
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -24,7 +25,7 @@ const WorkHeaderContainer = styled.div.attrs(props => ({
 type Props = {|
   work: Work,
   childManifestsCount?: number,
-  itemUrl: any, // TODO
+  itemUrl: NextLinkType,
   showItemLink: boolean,
 |};
 
