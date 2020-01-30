@@ -3,6 +3,7 @@ import {
   serialiseUrl,
   WorksRoute,
   WorkRoute,
+  ItemRoute,
 } from '../../../services/catalogue/routes';
 
 test('it serialises URLs in a weco fashion', () => {
@@ -31,6 +32,7 @@ test('it serialises URLs in a weco fashion', () => {
   });
 });
 
+// route: /works
 test('/works: with no values', () => {
   const query = {};
   const worksRouteState = WorksRoute.fromQuery(query);
@@ -91,5 +93,45 @@ test('/works/{id}: with values', () => {
 
   expect(workRoute).toEqual({
     id: 'm4b34tup',
+  });
+});
+
+// route: /works/{id}/items
+test('/works/{id}/items: with no values', () => {
+  const query = {};
+  const worksRouteState = ItemRoute.fromQuery(query);
+
+  expect(worksRouteState).toEqual({
+    workId: '',
+    langCode: 'eng',
+    sierraId: null,
+    pageSize: 4,
+    canvas: 1,
+    isOverview: false,
+    page: 1,
+  });
+});
+
+test('/works/{id}/items: with values', () => {
+  const query = {
+    workId: 'm4b34tup',
+    langCode: 'mul',
+    sierraId: 'b1234567',
+    pageSize: '9',
+    canvas: '4',
+    isOverview: 'true',
+    page: '6',
+    notValid: '( ͡° ͜ʖ ͡°)',
+  };
+  const worksRouteState = ItemRoute.fromQuery(query);
+
+  expect(worksRouteState).toEqual({
+    workId: 'm4b34tup',
+    langCode: 'mul',
+    sierraId: 'b1234567',
+    pageSize: 9,
+    canvas: 4,
+    isOverview: true,
+    page: 6,
   });
 });

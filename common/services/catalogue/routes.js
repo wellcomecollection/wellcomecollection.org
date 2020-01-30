@@ -159,3 +159,54 @@ export const WorkRoute: NextRoute<WorkRouteProps> = {
     return serialiseUrl({ id: params.id });
   },
 };
+
+// route: /works/{id}/items
+// /works/{id}/items
+export type ItemRouteProps = {|
+  workId: string,
+  langCode: string,
+  canvas: number,
+  sierraId: ?string,
+  isOverview?: boolean,
+  page: number,
+  pageSize: number,
+|};
+
+export const ItemRoute: NextRoute<ItemRouteProps> = {
+  fromQuery(q) {
+    const {
+      workId,
+      langCode = 'eng',
+      canvas,
+      sierraId,
+      isOverview,
+      page,
+      pageSize,
+    } = q;
+    return {
+      workId: defaultToEmptyString(workId),
+      langCode,
+      sierraId: maybeString(sierraId),
+      pageSize: pageSize ? parseInt(pageSize, 10) : 4,
+      canvas: defaultTo1(canvas),
+      isOverview: Boolean(isOverview),
+      page: defaultTo1(page),
+    };
+  },
+  toLink(params) {
+    const { workId, ...as } = params;
+    return {
+      href: {
+        pathname: `/item`,
+        query: ItemRoute.toQuery(params),
+      },
+      as: {
+        pathname: `/works/${workId}/items`,
+        query: ItemRoute.toQuery(as),
+      },
+    };
+  },
+  toQuery(params) {
+    return serialiseUrl(params);
+  },
+};
