@@ -126,36 +126,36 @@ const WorkHeader = ({
         </SpacingComponent>
       </Space>
       <TogglesContext.Consumer>
-        {({ simplifiedPreview }) =>
-          simplifiedPreview &&
-          showItemLink &&
-          work.thumbnail && (
-            <Space
-              h={{
-                size: 'l',
-                properties: ['margin-left'],
-              }}
-              className={classNames({
-                flex: true,
-                'flex--column': true,
-              })}
-            >
-              <WorkPreview imagePath={work.thumbnail.url} />
-              <div style={{ textAlign: 'center' }}>
-                <Button
-                  type="primary"
-                  trackingEvent={{
-                    category: 'WorkPreview',
-                    action: 'follow link',
-                    label: itemUrl.href.query.workId,
-                  }}
-                  text="View the item"
-                  link={{ ...itemUrl }}
-                />
-              </div>
-            </Space>
-          )
-        }
+        {({ simplifiedPreview }) => (
+          <div>
+            {simplifiedPreview && work.thumbnail && (
+              <Space
+                h={{
+                  size: 'l',
+                  properties: ['margin-left'],
+                }}
+                className={classNames({
+                  flex: true,
+                  'flex--column': true,
+                })}
+              >
+                <WorkPreview imagePath={work.thumbnail.url} />
+              </Space>
+            )}
+            {simplifiedPreview && showItemLink && (
+              <Button
+                type="primary"
+                trackingEvent={{
+                  category: 'WorkPreview',
+                  action: 'follow link',
+                  label: itemUrl.href.query.workId,
+                }}
+                text="View the item"
+                link={{ ...itemUrl }}
+              />
+            )}
+          </div>
+        )}
       </TogglesContext.Consumer>
     </WorkHeaderContainer>
   );
