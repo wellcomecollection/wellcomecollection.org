@@ -190,7 +190,11 @@ export const WorkPage = ({ work }: Props) => {
               work={work}
               childManifestsCount={childManifestsCount}
               itemUrl={itemUrlObject}
-              showItemLink={!video && !audio}
+              showItemLink={
+                !video &&
+                !audio &&
+                Boolean(iiifImageLocationUrl || iiifPresentationManifest)
+              }
             />
           </div>
         </div>
