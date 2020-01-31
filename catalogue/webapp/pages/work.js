@@ -12,7 +12,7 @@ import {
   getIIIFPresentationLocation,
   getLocationOfType,
 } from '@weco/common/utils/works';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -174,16 +174,13 @@ export const WorkPage = ({ work }: Props) => {
           <SpacingComponent>
             <IIIFPresentationPreview
               childManifestsCount={childManifestsCount}
-              itemUrl={itemUrl({
-                ...searchParams,
+              itemUrl={itemLink({
                 workId: work.id,
                 sierraId:
                   firstChildManifest['@id'].match(
                     /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
                   )[1] || sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
-                canvas: 1,
-                page: 1,
               })}
             />
           </SpacingComponent>
@@ -194,8 +191,7 @@ export const WorkPage = ({ work }: Props) => {
           sierraIdFromPresentationManifestUrl &&
           !iiifImageLocationUrl && (
             <IIIFPresentationPreview
-              itemUrl={itemUrl({
-                ...searchParams,
+              itemUrl={itemLink({
                 workId: work.id,
                 sierraId: sierraIdFromPresentationManifestUrl,
                 langCode: work.language && work.language.id,
@@ -209,8 +205,7 @@ export const WorkPage = ({ work }: Props) => {
         <WobblyRow>
           <IIIFImagePreview
             iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemUrl({
-              ...searchParams,
+            itemUrl={itemLink({
               workId: work.id,
               sierraId: null,
               langCode: work.language && work.language.id,

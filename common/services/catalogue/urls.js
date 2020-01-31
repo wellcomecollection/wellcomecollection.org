@@ -68,40 +68,6 @@ export function imagesUrl(searchParams: WorksUrlProps): NextLinkType {
   };
 }
 
-export function itemUrl({
-  workId,
-  page,
-  sierraId,
-  langCode,
-  canvas,
-  ...searchParams
-}: ItemUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/item`,
-      query: {
-        workId,
-        ...removeEmptyProps({
-          page: page && page > 1 ? page : undefined,
-          canvas: canvas && canvas > 1 ? canvas : undefined,
-          sierraId: sierraId,
-          langCode: langCode,
-          ...{ ...searchParamsSerialiser(searchParams), page: 1 },
-        }),
-      },
-    },
-    as: {
-      pathname: `/works/${workId}/items`,
-      query: removeEmptyProps({
-        page: page && page > 1 ? page : undefined,
-        canvas: canvas && canvas > 1 ? canvas : undefined,
-        sierraId: sierraId,
-        langCode: langCode,
-      }),
-    },
-  };
-}
-
 export function downloadUrl({
   workId,
   sierraId,
