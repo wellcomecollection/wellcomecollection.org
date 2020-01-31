@@ -133,7 +133,7 @@ const Works = ({
 
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
-        description="Search through the Wellcome Collection image catalogue"
+        description="Search the Wellcome Collection catalogue"
         url={worksUrl({ ...searchParams, query, page }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
