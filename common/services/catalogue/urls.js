@@ -23,21 +23,6 @@ export type DownloadUrlProps = {|
   sierraId: ?string,
 |};
 
-export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/work`,
-      query: removeEmptyProps({
-        id,
-        ...searchParamsSerialiser(searchParams),
-      }),
-    },
-    as: {
-      pathname: `/works/${id}`,
-    },
-  };
-}
-
 export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
   return {
     href: {

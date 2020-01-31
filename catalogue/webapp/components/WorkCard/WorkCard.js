@@ -8,10 +8,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import {
-  workUrl,
-  type WorkUrlProps,
-} from '@weco/common/services/catalogue/urls';
+import { type WorkUrlProps } from '@weco/common/services/catalogue/urls';
+import { workLink } from '@weco/common/services/catalogue/routes';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -74,7 +72,7 @@ const WorkCard = ({ work, params }: Props) => {
         'border-top-width-1': true,
       })}
     >
-      <NextLink {...workUrl({ ...params, id: work.id })} passHref>
+      <NextLink {...workLink({ id: work.id })} passHref>
         <Space
           as="a"
           v={{
