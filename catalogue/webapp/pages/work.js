@@ -9,11 +9,11 @@ import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
+  type DigitalLocation,
   getIIIFPresentationLocation,
   getLocationOfType,
 } from '@weco/common/utils/works';
 import { itemLink } from '@weco/common/services/catalogue/routes';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -29,7 +29,7 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
-import type { DigitalLocation } from '@weco/common/utils/works';
+import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 
 type Props = {|
   work: Work | CatalogueApiError,
@@ -42,6 +42,20 @@ const getFirstChildManifest = async function(manifests) {
 };
 
 export const WorkPage = ({ work }: Props) => {
+  const [savedSearchFormState] = useSavedSearchState({
+    query: '',
+    page: 1,
+    workType: null,
+    itemsLocationsLocationType: null,
+    sort: null,
+    sortOrder: null,
+    productionDatesFrom: null,
+    productionDatesTo: null,
+    aggregations: null,
+    _queryType: null,
+    search: null,
+  });
+
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -65,9 +79,6 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
-
-  const searchParams = clientSideSearchParams();
-
   useEffect(() => {
     window.dataLayer &&
       window.dataLayer.push({
@@ -132,9 +143,8 @@ export const WorkPage = ({ work }: Props) => {
           >
             <SearchForm
               ariaDescribedBy="search-form-description"
-              compact={true}
               shouldShowFilters={false}
-              searchParams={searchParams}
+              searchParams={savedSearchFormState}
               workTypeAggregations={null}
             />
           </div>

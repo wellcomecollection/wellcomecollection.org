@@ -34,6 +34,7 @@ import {
 } from '@weco/common/views/components/Tracker/Tracker';
 import OptIn from '@weco/common/views/components/OptIn/OptIn';
 import cookies from 'next-cookies';
+import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -61,6 +62,8 @@ const Works = ({
   apiParams,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+  const [, setSavedSearchState] = useSavedSearchState(searchParams);
+
   const {
     query,
     workType,
@@ -189,7 +192,6 @@ const Works = ({
 
                 <SearchForm
                   ariaDescribedBy="search-form-description"
-                  compact={false}
                   shouldShowFilters={query !== ''}
                   searchParams={searchParams}
                   workTypeAggregations={
@@ -226,10 +228,12 @@ const Works = ({
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
-                            const link = worksUrl({
+                            const state = {
                               ...searchParams,
                               page: newPage,
-                            });
+                            };
+                            const link = worksUrl(state);
+                            setSavedSearchState(state);
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
                             );
@@ -362,10 +366,12 @@ const Works = ({
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
-                              const link = worksUrl({
+                              const state = {
                                 ...searchParams,
                                 page: newPage,
-                              });
+                              };
+                              const link = worksUrl(state);
+                              setSavedSearchState(state);
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
                               );

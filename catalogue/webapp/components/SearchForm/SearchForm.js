@@ -1,5 +1,4 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
 import RadioGroup from '@weco/common/views/components/RadioGroup/RadioGroup';
 import { useRef, useState, useEffect } from 'react';
 import Router from 'next/router';
@@ -8,9 +7,10 @@ import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
+import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
 import {
-  worksUrl,
   type WorksUrlProps,
+  worksUrl,
 } from '@weco/common/services/catalogue/urls';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
@@ -18,46 +18,15 @@ import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
-
-function inputValue(input: ?HTMLElement): ?string {
-  if (
-    input &&
-    (input instanceof window.HTMLInputElement ||
-      input instanceof window.HTMLSelectElement ||
-      (window.RadioNodeList && input instanceof window.RadioNodeList))
-  ) {
-    return input.value;
-  }
-
-  if (!window.RadioNodeList && input instanceof window.HTMLCollection) {
-    // IE11 treats radios as an HTMLCollection
-    return Array.from(input).find(i => i.checked).value;
-  }
-}
-
-function nodeListValueToArray(input: ?HTMLElement): ?(HTMLInputElement[]) {
-  if (!input) return;
-
-  if (input instanceof window.HTMLInputElement) {
-    return [input];
-  }
-
-  if (
-    input instanceof window.NodeList ||
-    input instanceof window.HTMLCollection // IE11 reports checkboxes as HTMLCollections
-  ) {
-    return Array.from(input);
-  }
-}
+import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 
 type Props = {|
   ariaDescribedBy: string,
-  compact: boolean,
   shouldShowFilters: boolean,
   searchParams: SearchParams,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
   placeholder?: string,
-  url?: (searchParams: WorksUrlProps) => NextLinkType,
+  searchParams: WorksUrlProps,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -95,14 +64,14 @@ const SearchTypeRadioGroup = styled(RadioGroup)`
 
 const SearchForm = ({
   ariaDescribedBy,
-  compact,
   shouldShowFilters,
   searchParams,
   workTypeAggregations,
   placeholder,
-  url = worksUrl,
 }: Props) => {
+  const [, setSearchParamsState] = useSavedSearchState(searchParams);
   const { query } = searchParams;
+
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
   // Router
@@ -152,7 +121,7 @@ const SearchForm = ({
           : null
         : null;
 
-    const link = url({
+    const state = {
       ...searchParams,
       query: inputQuery,
       workType,
@@ -163,7 +132,10 @@ const SearchForm = ({
       sort,
       search,
       itemsLocationsLocationType,
-    });
+    };
+    const link = worksUrl(state);
+    setSearchParamsState(state);
+
     return Router.push(link.href, link.as);
   }
 
@@ -197,7 +169,7 @@ const SearchForm = ({
           ref={searchInput}
           required
           className={classNames({
-            [font('hnm', compact ? 4 : 3)]: true,
+            [font('hnm', 3)]: true,
             'search-query': true,
           })}
         />
