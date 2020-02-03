@@ -15,7 +15,11 @@ I need/want/expect _(what? to do this thing)_
 
 
 **Considerations**
-- Success measures
+- Success measures:
+What does success look like?
+Will you need to set up additional tracking?
+Have you talked to Tacey?
+What is the expected life span for tracking?
 - URL design
 - Event tracking
 - Cardigan documentation
