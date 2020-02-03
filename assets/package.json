@@ -1,7 +1,7 @@
 {
   "name": "@weco/static",
   "version": "1.0.0",
-  "description": "Static assets for wellcomecollection.org",
+  "description": "Assets for wellcomecollection.org",
   "author": "Wellcome Collection <digital@wellcomecollection.org>",
   "license": "MIT"
 }
