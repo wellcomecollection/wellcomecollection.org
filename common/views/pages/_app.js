@@ -148,7 +148,14 @@ export default class WecoApp extends App {
     if (Component.getInitialProps) {
       ctx.query.toggles = toggles;
       ctx.query.isPreview = isPreview;
-      pageProps = await Component.getInitialProps(ctx);
+
+      // If the getInitialProps fails, we should propegate this failure through to the repsonse.
+      try {
+        pageProps = await Component.getInitialProps(ctx);
+      } catch (error) {
+        pageProps.statusCode = 500;
+        pageProps.error = error;
+      }
 
       // If we override the statusCode from getInitialProps, make sure we
       // set that on the server response too
