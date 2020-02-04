@@ -218,10 +218,9 @@ const Download = ({
                 'inline-block': true,
               })}
             >
-              {licenseInfo.length > 0 &&
-                licenseInfo.map(license => (
-                  <License key={license.url} subject={''} license={license} />
-                ))}
+              {licenseInfo.map(license => (
+                <License key={license.url} subject={''} license={license} />
+              ))}
             </Space>
           )}
           {credit && (
