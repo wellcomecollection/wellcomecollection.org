@@ -86,7 +86,7 @@ function getFormatString(format) {
 type Work = Object;
 type Props = {|
   work: Work,
-  licenseInfo: ?LicenseData,
+  licenseInfo: LicenseData[],
   credit: ?string,
   downloadOptions: IIIFRendering[],
   licenseInfoLink: boolean,
@@ -210,7 +210,7 @@ const Download = ({
         </DownloadOptions>
 
         <div className="flex-inline flex--v-center">
-          {licenseInfo && (
+          {licenseInfo.length > 0 && (
             <Space
               as="span"
               h={{ size: 'm', properties: ['margin-right'] }}
@@ -218,9 +218,10 @@ const Download = ({
                 'inline-block': true,
               })}
             >
-              {licenseInfo && (
-                <License subject={''} licenseInfo={licenseInfo} />
-              )}
+              {licenseInfo.length > 0 &&
+                licenseInfo.map(license => (
+                  <License key={license.url} subject={''} license={license} />
+                ))}
             </Space>
           )}
           {credit && (
