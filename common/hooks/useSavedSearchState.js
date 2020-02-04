@@ -1,10 +1,14 @@
 // @flow
 import { useState, useEffect } from 'react';
-import { type WorksUrlProps } from '../services/catalogue/params';
+import { type WorksRouteProps } from '../services/catalogue/routes';
 
-let savedState: ?WorksUrlProps;
-export default function useSavedSearchState(initialState: WorksUrlProps) {
-  const [state, setState] = useState<WorksUrlProps>(savedState || initialState);
+let savedState: ?WorksRouteProps;
+export default function useSavedSearchState(
+  initialState: $Shape<WorksRouteProps>
+) {
+  const [state, setState] = useState<WorksRouteProps>(
+    savedState || initialState
+  );
   useEffect(() => {
     savedState = state;
   }, [state]);

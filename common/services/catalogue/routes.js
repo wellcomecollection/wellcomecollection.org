@@ -2,7 +2,7 @@
 import { type NextLinkType } from '@weco/common/model/next-link-type';
 
 type Params = { [key: string]: any };
-type UrlParams = { [key: string]: string };
+export type UrlParams = { [key: string]: string };
 export function serialiseUrl(params: Params): UrlParams {
   return Object.keys(params).reduce((acc, key) => {
     const val = params[key];
@@ -77,7 +77,6 @@ export type WorksRouteProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   search: ?string,
-  source: ?string,
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -94,7 +93,6 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       productionDatesFrom: maybeString(q['production.dates.from']),
       productionDatesTo: maybeString(q['production.dates.to']),
       search: maybeString(q.search),
-      source: maybeString(q.source),
     };
   },
 
@@ -108,7 +106,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       },
       as: {
         pathname,
-        query: WorksRoute.toQuery({ ...params, source: null }),
+        query: WorksRoute.toQuery(params),
       },
     };
   },
@@ -124,7 +122,6 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       'production.dates.from': params.productionDatesFrom,
       'production.dates.to': params.productionDatesTo,
       search: params.search,
-      source: params.source,
     });
   },
 };

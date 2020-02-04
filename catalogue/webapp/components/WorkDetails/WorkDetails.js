@@ -2,7 +2,8 @@
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
+import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
@@ -24,7 +25,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -50,7 +50,6 @@ const WorkDetails = ({
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
-  const params = clientSideSearchParams();
 
   const iiifImageLocation = getLocationOfType(work, 'iiif-image');
 
@@ -211,10 +210,8 @@ const WorkDetails = ({
               title="Contributors"
               tags={work.contributors.map(contributor => ({
                 textParts: [contributor.agent.label],
-                linkAttributes: worksUrl({
-                  ...params,
+                linkAttributes: worksLink({
                   query: `"${contributor.agent.label}"`,
-                  page: 1,
                 }),
               }))}
             />
@@ -262,10 +259,8 @@ const WorkDetails = ({
               tags={work.genres.map(g => {
                 return {
                   textParts: g.concepts.map(c => c.label),
-                  linkAttributes: worksUrl({
-                    ...params,
+                  linkAttributes: worksLink({
                     query: `"${g.label}"`,
-                    page: 1,
                   }),
                 };
               })}
@@ -287,10 +282,8 @@ const WorkDetails = ({
               tags={work.subjects.map(s => {
                 return {
                   textParts: s.concepts.map(c => c.label),
-                  linkAttributes: worksUrl({
-                    ...params,
+                  linkAttributes: worksLink({
                     query: `"${s.label}"`,
-                    page: 1,
                   }),
                 };
               })}

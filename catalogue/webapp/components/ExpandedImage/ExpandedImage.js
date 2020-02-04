@@ -1,5 +1,4 @@
 // @flow
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
@@ -16,7 +15,6 @@ import RelatedImages from '../RelatedImages/RelatedImages';
 type Props = {|
   title: string,
   id: string,
-  searchParams: SearchParams,
   index: number,
 |};
 
@@ -121,7 +119,7 @@ const Indicator = styled.div`
   border-bottom: 15px solid ${({ theme }) => theme.colors.pumice};
 `;
 
-const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
+const ExpandedImage = ({ title, index, id }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   useEffect(() => {
     const fetchDetailedWork = async () => {

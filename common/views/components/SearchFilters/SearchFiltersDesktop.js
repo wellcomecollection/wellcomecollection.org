@@ -1,7 +1,7 @@
 // @flow
 
 import { font, classNames } from '../../../utils/classnames';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksLink } from '../../../services/catalogue/routes';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
@@ -40,7 +40,7 @@ const CancelFilter = ({ text }: { text: string }) => {
 
 const SearchFiltersDesktop = ({
   searchForm,
-  searchParams,
+  worksRouteProps,
   workTypeAggregations,
   changeHandler,
   inputDateFrom,
@@ -155,7 +155,7 @@ const SearchFiltersDesktop = ({
                     value={'iiif-image,iiif-presentation'}
                     name={`items.locations.locationType`}
                     checked={
-                      (searchParams.itemsLocationsLocationType || []).join(
+                      (worksRouteProps.itemsLocationsLocationType || []).join(
                         ','
                       ) === 'iiif-image,iiif-presentation'
                     }
@@ -208,8 +208,8 @@ const SearchFiltersDesktop = ({
                 {productionDatesFrom && (
                   <NextLink
                     passHref
-                    {...worksUrl({
-                      ...searchParams,
+                    {...worksLink({
+                      ...worksRouteProps,
                       page: 1,
                       productionDatesFrom: null,
                     })}
@@ -222,9 +222,9 @@ const SearchFiltersDesktop = ({
                 {productionDatesTo && (
                   <NextLink
                     passHref
-                    {...worksUrl({
-                      ...searchParams,
-                      page: 1,
+                    {...worksLink({
+                      ...worksRouteProps,
+                      page: null,
                       productionDatesTo: null,
                     })}
                   >
@@ -243,9 +243,9 @@ const SearchFiltersDesktop = ({
                     workTypeObject && (
                       <NextLink
                         key={id}
-                        {...worksUrl({
-                          ...searchParams,
-                          workType: searchParams.workType.filter(
+                        {...worksLink({
+                          ...worksRouteProps,
+                          workType: worksRouteProps.workType.filter(
                             w => w !== workTypeObject.data.id
                           ),
                           page: 1,
@@ -262,13 +262,13 @@ const SearchFiltersDesktop = ({
                 {workTypeFilters.length > 0 && (
                   <NextLink
                     passHref
-                    {...worksUrl({
-                      ...searchParams,
-                      workType: null,
+                    {...worksLink({
+                      ...worksRouteProps,
+                      itemsLocationsLocationType: [],
+                      workType: [],
                       page: 1,
                       productionDatesFrom: null,
                       productionDatesTo: null,
-                      itemsLocationsLocationType: null,
                     })}
                   >
                     <a>

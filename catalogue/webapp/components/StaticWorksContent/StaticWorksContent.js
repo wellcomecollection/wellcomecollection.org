@@ -1,24 +1,13 @@
 // @flow
-import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { Fragment } from 'react';
 import { font, grid } from '@weco/common/utils/classnames';
 import { createPrismicParagraph } from '@weco/common/utils/prismic';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import Tags from '@weco/common/views/components/Tags/Tags';
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
-import {
-  worksUrl,
-  type WorksUrlProps,
-} from '@weco/common/services/catalogue/urls';
+import { worksLink } from '@weco/common/services/catalogue/routes';
 import Space from '@weco/common/views/components/styled/Space';
 
-type Props = {|
-  showSuggestions?: boolean,
-  itemsUrl?: (searchParams: WorksUrlProps) => NextLinkType,
-|};
-
-const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
-  const params = clientSideSearchParams();
+const StaticWorksContent = () => {
   return (
     <Fragment>
       <Space v={{ size: 'l', properties: ['padding-top'] }} className={`row`}>
@@ -38,66 +27,50 @@ const StaticWorksContent = ({ itemsUrl = worksUrl }: Props) => {
                   tags={[
                     {
                       textParts: ['Quacks'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'quacks',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['James Gillray'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'james+gillray',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['Botany'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'botany',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['Optics'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'optics',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['Sun'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'sun',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['Health'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'health',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['Paintings'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'paintings',
-                        page: 1,
                       }),
                     },
                     {
                       textParts: ['Science'],
-                      linkAttributes: itemsUrl({
-                        ...params,
+                      linkAttributes: worksLink({
                         query: 'science',
-                        page: 1,
                       }),
                     },
                   ]}
