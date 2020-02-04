@@ -297,16 +297,19 @@ const Works = ({
                                 alt: result.title,
                                 tasl: null,
                               }}
-                              onClick={() => setExpandedImageId(result.id)}
+                              onClick={event => {
+                                event.preventDefault();
+
+                                setExpandedImageId(result.id);
+                              }}
                             />
-                            {expandedImageId === result.id && (
-                              <ExpandedImage
-                                index={i}
-                                title={result.title}
-                                id={result.id}
-                                searchParams={searchParams}
-                              />
-                            )}
+                            <ExpandedImage
+                              title={result.title}
+                              id={result.id}
+                              searchParams={searchParams}
+                              isOpen={expandedImageId === result.id}
+                              setExpandedImageId={setExpandedImageId}
+                            />
                           </>
                         ) : (
                           <WorkCard
