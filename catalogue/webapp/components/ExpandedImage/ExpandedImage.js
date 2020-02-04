@@ -2,8 +2,10 @@
 import type { SearchParams } from '@weco/common/services/catalogue/search-params';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font } from '@weco/common/utils/classnames';
-import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
-import { getLocationOfType } from '@weco/common/utils/works';
+import {
+  getItemsLicenseInfo,
+  getLocationOfType,
+} from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
@@ -135,8 +137,7 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
 
   const iiifImageLocation =
     detailedWork && getLocationOfType(detailedWork, 'iiif-image');
-  const iiifImageLicenseInfo =
-    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+  const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
 
   const maybeWorkLink = workLink({ id });
   const maybeItemLink =
@@ -162,11 +163,12 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
         </ImageWrapper>
         <Content>
           <h2 className={font('hnm', 3)}>{title}</h2>
-          {iiifImageLicenseInfo && (
-            <LicenseWrapper>
-              <License subject="" licenseInfo={iiifImageLicenseInfo} />
-            </LicenseWrapper>
-          )}
+          {licenseInfo.length > 0 &&
+            licenseInfo.map(license => (
+              <LicenseWrapper key={license.url}>
+                <License subject="" license={license} />
+              </LicenseWrapper>
+            ))}
           <p>{detailedWork && detailedWork.description}</p>
           <div>
             <SpacedButton

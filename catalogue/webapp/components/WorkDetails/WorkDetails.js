@@ -1,9 +1,11 @@
 // @flow
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type Work } from '@weco/common/model/work';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
 import {
+  getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
@@ -12,8 +14,6 @@ import {
   getEncoreLink,
 } from '@weco/common/utils/works';
 import {
-  getIIIFPresentationLicenceInfo,
-  getIIIFImageLicenceInfo,
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
@@ -34,8 +34,6 @@ import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 import type { DigitalLocation } from '@weco/common/utils/works';
-
-type Work = Object;
 
 type Props = {|
   work: Work,
@@ -80,18 +78,11 @@ const WorkDetails = ({
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationLicenseInfo =
-    iiifPresentationManifest &&
-    getIIIFPresentationLicenceInfo(iiifPresentationManifest);
-
-  const iiifImageLicenseInfo =
-    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
-
   const iiifPresentationCredit =
     iiifPresentationManifest &&
     getIIIFPresentationCredit(iiifPresentationManifest);
 
-  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
   const iiifPresentationLocation = getIIIFPresentationLocation(work);
@@ -345,34 +336,38 @@ const WorkDetails = ({
           )}
         </WorkDetailsSection>
 
-        {licenseInfo && (
-          <WorkDetailsSection headingText="License information">
-            <div id="licenseInformation">
-              {licenseInfo.humanReadableText.length > 0 && (
+        {licenseInfo.length > 0 &&
+          licenseInfo.map(license => (
+            <WorkDetailsSection
+              key={license.url}
+              headingText="License information"
+            >
+              <div id="licenseInformation">
+                {license.humanReadableText.length > 0 && (
+                  <WorkDetailsText
+                    title="License information"
+                    text={license.humanReadableText}
+                  />
+                )}
                 <WorkDetailsText
-                  title="License information"
-                  text={licenseInfo.humanReadableText}
-                />
-              )}
-              <WorkDetailsText
-                title="Credit"
-                text={[
-                  `${work.title.replace(/\.$/g, '')}.${' '}
+                  title="Credit"
+                  text={[
+                    `${work.title.replace(/\.$/g, '')}.${' '}
               ${
                 credit
                   ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
                   : ` `
               }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
+                license.url
+                  ? `<a href="${license.url}">${license.text}</a>`
+                  : license.text
               }`,
-                ]}
-              />
-            </div>
-          </WorkDetailsSection>
-        )}
+                  ]}
+                />
+              </div>
+            </WorkDetailsSection>
+          ))}
 
         <WorkDetailsSection>
           <div className="flex flex--v-center">

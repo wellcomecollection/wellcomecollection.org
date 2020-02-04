@@ -6,13 +6,12 @@ import {
 } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import {
+  getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
 } from '@weco/common/utils/works';
 import {
-  getIIIFPresentationLicenceInfo,
-  getIIIFImageLicenceInfo,
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
@@ -58,16 +57,10 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationLicenseInfo =
-    manifest && getIIIFPresentationLicenceInfo(manifest);
-
-  const iiifImageLicenseInfo =
-    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
-
   const iiifPresentationCredit =
     manifest && getIIIFPresentationCredit(manifest);
 
-  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
   return (
     <PageLayout
@@ -107,34 +100,35 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
               licenseInfoLink={false}
             />
           </SpacingComponent>
-          {licenseInfo && (
-            <SpacingComponent>
-              <div id="licenseInformation">
-                {licenseInfo.humanReadableText.length > 0 && (
+          {licenseInfo.length > 0 &&
+            licenseInfo.map(license => (
+              <SpacingComponent key={license.url}>
+                <div id="licenseInformation">
+                  {license.humanReadableText.length > 0 && (
+                    <WorkDetailsText
+                      title="License information"
+                      text={license.humanReadableText}
+                    />
+                  )}
                   <WorkDetailsText
-                    title="License information"
-                    text={licenseInfo.humanReadableText}
-                  />
-                )}
-                <WorkDetailsText
-                  title="Credit"
-                  text={[
-                    `${title.replace(/\.$/g, '')}.${' '}
+                    title="Credit"
+                    text={[
+                      `${title.replace(/\.$/g, '')}.${' '}
               ${
                 credit
                   ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${credit}</a>. `
                   : ` `
               }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
+                license.url
+                  ? `<a href="${license.url}">${license.text}</a>`
+                  : license.text
               }`,
-                  ]}
-                />
-              </div>
-            </SpacingComponent>
-          )}
+                    ]}
+                  />
+                </div>
+              </SpacingComponent>
+            ))}
         </SpacingSection>
       </Layout8>
     </PageLayout>

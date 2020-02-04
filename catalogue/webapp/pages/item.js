@@ -242,10 +242,7 @@ ItemPage.getInitialProps = async (ctx: Context): Promise<Props> => {
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
   const video = manifest && getVideo(manifest);
   const audio = manifest && getAudio(manifest);
-  // The sierraId originates from the iiif presentation manifest url
-  // If we don't have one, we must be trying to display a work with an iiif image location,
-  // so we need to get the work object to get the necessary data to display
-  const work = !sierraId ? await getWork({ id: workId }) : null;
+  const work = await getWork({ id: workId });
   const canvases =
     manifest && manifest.sequences && manifest.sequences[0].canvases
       ? manifest.sequences[0].canvases

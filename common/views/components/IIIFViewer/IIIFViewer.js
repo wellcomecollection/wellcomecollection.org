@@ -6,12 +6,12 @@ import {
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import {
+  getItemsLicenseInfo,
   getDownloadOptionsFromImageUrl,
   getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
-import getLicenseInfo from '@weco/common/utils/get-license-info';
 import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames } from '@weco/common/utils/classnames';
 import Router from 'next/router';
@@ -279,22 +279,14 @@ const IIIFViewerComponent = ({
     navigationCanvases && navigationCanvases.length > 1;
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
-  const iiifImageLocationLicenseId =
-    iiifImageLocation &&
-    iiifImageLocation.license &&
-    iiifImageLocation.license.id;
-  const licenseInfo =
-    iiifImageLocationLicenseId && getLicenseInfo(iiifImageLocationLicenseId);
-
   const downloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : null;
 
+  const licenseInfo = work ? getItemsLicenseInfo(work) : [];
   // Download info from manifest
   const iiifPresentationDownloadOptions =
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
-  const iiifPresentationLicenseInfo =
-    manifest && manifest.license ? getLicenseInfo(manifest.license) : null;
   const parentManifestUrl = manifest && manifest.within;
   const params = clientSideSearchParams();
 
@@ -393,9 +385,7 @@ const IIIFViewerComponent = ({
         canvasIndex={activeIndex}
         title={title}
         licenseInfo={licenseInfo}
-        iiifPresentationLicenseInfo={iiifPresentationLicenseInfo}
         iiifImageLocationCredit={iiifImageLocationCredit}
-        iiifImageLocationLicenseId={iiifImageLocationLicenseId}
         downloadOptions={downloadOptions}
         iiifPresentationDownloadOptions={iiifPresentationDownloadOptions}
         parentManifest={parentManifest}
