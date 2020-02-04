@@ -210,3 +210,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
     return serialiseUrl(params);
   },
 };
+
+export const worksLink = WorksRoute.toLink;
+export const workLink = WorkRoute.toLink;
+export const itemLink = ItemRoute.toLink;

@@ -1,6 +1,6 @@
 // @flow
 import type { SearchParams } from '@weco/common/services/catalogue/search-params';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font } from '@weco/common/utils/classnames';
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getLocationOfType } from '@weco/common/utils/works';
@@ -138,16 +138,12 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
 
-  const workLink = workUrl({ ...searchParams, id });
-  const itemLink =
+  const maybeWorkLink = workLink({ id });
+  const maybeItemLink =
     detailedWork &&
-    itemUrl({
-      ...searchParams,
+    itemLink({
       workId: id,
-      canvas: 1,
       langCode: detailedWork.language && detailedWork.language.id,
-      sierraId: null,
-      page: 1,
     });
 
   return (
@@ -174,11 +170,11 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
           <p>{detailedWork && detailedWork.description}</p>
           <div>
             <SpacedButton type="primary" text="View image" link={itemLink} />
-            {itemLink && (
+            {maybeItemLink && (
               <SpacedButtonBorderBox
                 type="secondary"
                 text="About this work"
-                link={workLink}
+                link={maybeWorkLink}
               />
             )}
           </div>
