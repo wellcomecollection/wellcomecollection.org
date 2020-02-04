@@ -2,6 +2,7 @@
 import { Fragment } from 'react';
 import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
+import { getLocationOfType } from '@weco/common/utils/works';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -14,9 +15,7 @@ type Props = {|
 |};
 
 const WorkEmbed = ({ work }: Props) => {
-  const [iiifImageLocation] = work.items.map(item =>
-    item.locations.find(location => location.locationType === 'iiif-image')
-  );
+  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage = iiifImageTemplate(iiifInfoUrl);
   const imageUrl = iiifImage({ size: '800,' });
