@@ -159,16 +159,6 @@ export function getAudio(iiifManifest: IIIFManifest) {
   );
 }
 
-export type IIIFPresentationLocation = {|
-  locationType: {
-    id: 'iiif-presentation',
-    label: 'IIIF Presentation API',
-    type: 'LocationType',
-  },
-  url: string,
-  type: 'DigitalLocation',
-|};
-
 export function getEncoreLink(sierraId: string): string {
   return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
     0,
@@ -223,6 +213,7 @@ type LocationType = {|
   label: string,
   type: 'LocationType',
 |};
+
 export type DigitalLocation = {|
   credit: string,
   license: {|
@@ -243,13 +234,19 @@ export type PhysicalLocation = {|
 type Location = PhysicalLocation | DigitalLocation;
 type Item = Object;
 
-export function getLocationOfType(work: Work, locationType: string): ?Location {
-  const [item] = work.items
-    .map(item =>
-      item.locations.find(location => location.locationType.id === locationType)
-    )
-    .filter(Boolean);
-  return item;
+export function getLocationsOfType(
+  work: Work,
+  locationType: string
+): Location[] {
+  return work.items
+    ? work.items
+        .map(item =>
+          item.locations.filter(
+            location => location.locationType.id === locationType
+          )
+        )
+        .filter(Boolean)
+    : [];
 }
 
 function itemIdentifierWithId(item: Item, id: string): boolean {
