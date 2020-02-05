@@ -169,18 +169,6 @@ export type IIIFPresentationLocation = {|
   type: 'DigitalLocation',
 |};
 
-export function getIIIFPresentationLocation(
-  work: Work
-): IIIFPresentationLocation {
-  return work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean)[0];
-}
-
 export function getEncoreLink(sierraId: string): string {
   return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
     0,

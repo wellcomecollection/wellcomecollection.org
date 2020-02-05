@@ -10,7 +10,6 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   type DigitalLocation,
-  getIIIFPresentationLocation,
   getLocationOfType,
 } from '@weco/common/utils/works';
 import { itemLink } from '@weco/common/services/catalogue/routes';
@@ -63,7 +62,10 @@ export const WorkPage = ({ work }: Props) => {
   const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
-      const iiifPresentationLocation = getIIIFPresentationLocation(work);
+      const iiifPresentationLocation = getLocationOfType(
+        work,
+        'iiif-presentation'
+      );
       const iiifManifest = await fetch(iiifPresentationLocation.url);
       const manifestData = await iiifManifest.json();
 
@@ -101,7 +103,7 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+  const iiifPresentationLocation = getLocationOfType(work, 'iiif-presentation');
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&

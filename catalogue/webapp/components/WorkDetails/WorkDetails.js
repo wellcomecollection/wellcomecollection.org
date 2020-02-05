@@ -9,7 +9,6 @@ import {
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
-  getIIIFPresentationLocation,
   getWorkIdentifiersWith,
   getEncoreLink,
 } from '@weco/common/utils/works';
@@ -85,7 +84,7 @@ const WorkDetails = ({
   const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
-  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+  const iiifPresentationLocation = getLocationOfType(work, 'iiif-presentation');
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
