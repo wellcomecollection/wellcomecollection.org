@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import useIsKeyboard from '../../../hooks/useIsKeyboard';
+import UtilsContext from '../UtilsContext/UtilsContext';
 
 const CheckboxLabel = styled.label.attrs({
   className: classNames({
@@ -67,16 +67,18 @@ type CheckboxProps = {|
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
-  const isKeyboard = useIsKeyboard();
-
   return (
-    <CheckboxLabel htmlFor={id}>
-      <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
-      <CheckboxBox />
-      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
-        {text}
-      </Space>
-    </CheckboxLabel>
+    <UtilsContext.Consumer>
+      {({ isKeyboard }) => (
+        <CheckboxLabel htmlFor={id}>
+          <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
+          <CheckboxBox />
+          <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+            {text}
+          </Space>
+        </CheckboxLabel>
+      )}
+    </UtilsContext.Consumer>
   );
 }
 
