@@ -4,22 +4,20 @@ import { useEffect, useState } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import type { Props as ImageProps } from '@weco/common/views/components/Image/Image';
 import Image from '@weco/common/views/components/Image/Image';
-import { workUrl } from '@weco/common/services/catalogue/urls';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
+import { workLink } from '@weco/common/services/catalogue/routes';
 
 type Props = {|
   id: string,
   image: ImageProps,
-  searchParams: SearchParams,
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void,
 |};
 
-const ImageCard = ({ id, image, onClick, searchParams }: Props) => {
+const ImageCard = ({ id, image, onClick }: Props) => {
   const [isEnhanced, setIsEnhanced] = useState(false);
   useEffect(() => setIsEnhanced(true), []);
 
   return (
-    <NextLink {...workUrl({ id, ...searchParams })}>
+    <NextLink {...workLink({ id })}>
       <a
         onClick={event => {
           trackEvent({

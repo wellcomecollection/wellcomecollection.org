@@ -5,7 +5,7 @@ import type { LicenseData } from '@weco/common/utils/get-license-info';
 import type { LicenseType } from '@weco/common/model/license';
 import { lighten } from 'polished';
 import styled from 'styled-components';
-import { workUrl } from '@weco/common/services/catalogue/urls';
+import { workLink } from '@weco/common/services/catalogue/routes';
 import { classNames, font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -148,7 +148,7 @@ const ViewerTopBar = ({
       <TitleContainer isEnhanced={enhanced && canvases && canvases.length > 1}>
         <div className="title">
           <span className="part">{currentManifestLabel}</span>
-          <NextLink {...workUrl({ ...params, id: workId })}>
+          <NextLink {...workLink({ id: workId })}>
             <a
               className={classNames({
                 [font('hnm', 5)]: true,

@@ -50,7 +50,7 @@ export async function getWorks({
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const filterQueryString = Object.keys(removeEmptyProps(params)).map(key => {
     const val = params[key];
-    return `${key}=${val}`;
+    return `${key}=${encodeURIComponent(val)}`;
   });
   const url =
     `${rootUris[env]}/v2/works?include=${worksIncludes.join(',')}` +

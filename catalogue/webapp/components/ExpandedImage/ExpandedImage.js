@@ -1,8 +1,13 @@
 // @flow
 import type { SearchParams } from '@weco/common/services/catalogue/search-params';
+// <<<<<<< HEAD
+// import { classNames, font } from '@weco/common/utils/classnames';
+// import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+// =======
 import NextLink from 'next/link';
-import { classNames, font } from '@weco/common/utils/classnames';
-import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
+import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
+import { font, classNames } from '@weco/common/utils/classnames';
+// >>>>>>> master
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getLocationOfType } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -211,16 +216,11 @@ const ExpandedImage = ({
   const iiifImageLicenseInfo =
     iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
 
-  const workLink = workUrl({ ...searchParams, id });
-  const itemLink =
+  const maybeItemLink =
     detailedWork &&
-    itemUrl({
-      ...searchParams,
+    itemLink({
       workId: id,
-      canvas: 1,
       langCode: detailedWork.language && detailedWork.language.id,
-      sierraId: null,
-      page: 1,
     });
 
   return (
@@ -273,21 +273,19 @@ const ExpandedImage = ({
                   type="primary"
                   text="View image"
                   icon="eye"
-                  link={itemLink}
+                  link={maybeItemLink}
                 />
               </Space>
-              {itemLink && (
-                <NextLink {...workLink} passHref>
-                  <a
-                    className={classNames({
-                      'inline-block': true,
-                      [font('hnl', 5)]: true,
-                    })}
-                  >
-                    Read about this work
-                  </a>
-                </NextLink>
-              )}
+              <NextLink {...workLink({ id })} passHref>
+                <a
+                  className={classNames({
+                    'inline-block': true,
+                    [font('hnl', 5)]: true,
+                  })}
+                >
+                  Read about this work
+                </a>
+              </NextLink>
             </Space>
             <RelatedImages originalId={id} />
           </InfoWrapper>

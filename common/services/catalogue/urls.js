@@ -23,21 +23,6 @@ export type DownloadUrlProps = {|
   sierraId: ?string,
 |};
 
-export function workUrl({ id, ...searchParams }: WorkUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/work`,
-      query: removeEmptyProps({
-        id,
-        ...searchParamsSerialiser(searchParams),
-      }),
-    },
-    as: {
-      pathname: `/works/${id}`,
-    },
-  };
-}
-
 export function worksUrl(searchParams: WorksUrlProps): NextLinkType {
   return {
     href: {
@@ -63,40 +48,6 @@ export function imagesUrl(searchParams: WorksUrlProps): NextLinkType {
       pathname: `/images`,
       query: removeEmptyProps({
         ...searchParamsSerialiser(searchParams),
-      }),
-    },
-  };
-}
-
-export function itemUrl({
-  workId,
-  page,
-  sierraId,
-  langCode,
-  canvas,
-  ...searchParams
-}: ItemUrlProps): NextLinkType {
-  return {
-    href: {
-      pathname: `/item`,
-      query: {
-        workId,
-        ...removeEmptyProps({
-          page: page && page > 1 ? page : undefined,
-          canvas: canvas && canvas > 1 ? canvas : undefined,
-          sierraId: sierraId,
-          langCode: langCode,
-          ...{ ...searchParamsSerialiser(searchParams), page: 1 },
-        }),
-      },
-    },
-    as: {
-      pathname: `/works/${workId}/items`,
-      query: removeEmptyProps({
-        page: page && page > 1 ? page : undefined,
-        canvas: canvas && canvas > 1 ? canvas : undefined,
-        sierraId: sierraId,
-        langCode: langCode,
       }),
     },
   };

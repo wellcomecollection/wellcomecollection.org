@@ -1,4 +1,4 @@
-wellcomecollection.org has been made by… 
+wellcomecollection.org has been made by:
 _______________________________________________________________________________
 
 
@@ -63,7 +63,7 @@ Digital Preservation and Data:
 	Helen Sherwood-Taylor
 
 Access:
-	Selene Burn & Orla O’Donnell
+	Selene Burn & Orla O'Donnell
 
 
 /* ALUMNI - WE MISS YOU ALL ! */
@@ -92,7 +92,7 @@ Internet Archive, Townsweb Archiving and R3store Studios and past partners and v
 
 Thanks to all the librarians, archivists and metadata specialists who have tended our collections information.
 
-And everyone else who has contributed but isn’t mentioned above. Thank you.
+And everyone else who has contributed but isn't mentioned above. Thank you.
 
 
 /* SITES */

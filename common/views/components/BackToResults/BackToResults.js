@@ -3,14 +3,14 @@ import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import { worksUrl } from '../../../services/catalogue/urls';
-import { clientSideSearchParams } from '../../../services/catalogue/search-params';
+import useSavedSearchState from '../../../hooks/useSavedSearchState';
 
 const BackToResults = () => {
-  const params = clientSideSearchParams();
-  const { query } = params;
+  const [savedSearchState] = useSavedSearchState({});
+  const { query } = savedSearchState;
 
   const link = worksUrl({
-    ...params,
+    ...savedSearchState,
   });
   return (
     <NextLink {...link}>

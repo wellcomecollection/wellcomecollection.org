@@ -3,7 +3,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
@@ -252,8 +252,7 @@ const NoScriptViewer = ({
                   {...thumbsPaginatorProps}
                   render={({ rangeStart }) => (
                     <NextLink
-                      {...itemUrl({
-                        ...params,
+                      {...itemLink({
                         workId,
                         page: pageIndex + 1,
                         sierraId,

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import NextLink from 'next/link';
 import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { itemUrl } from '@weco/common/services/catalogue/urls';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -117,14 +117,11 @@ const MultipleManifestList = ({
             {manifests.map((manifest, i) => (
               <li key={manifest['@id']}>
                 <NextLink
-                  {...itemUrl({
-                    ...params,
+                  {...itemLink({
                     workId,
-                    page: 1,
                     sierraId: (manifest['@id'].match(/iiif\/(.*)\/manifest/) ||
                       [])[1],
                     langCode: lang,
-                    canvas: 0,
                   })}
                 >
                   <a>{manifest.label}</a>
