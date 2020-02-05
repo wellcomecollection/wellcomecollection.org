@@ -62,7 +62,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   const iiifPresentationCredit =
     manifest && getIIIFPresentationCredit(manifest);
 
-  const licenseInfo = getItemsLicenseInfo(work);
+  const licenseInfo = work ? getItemsLicenseInfo(work) : [];
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
   return (
     <PageLayout
