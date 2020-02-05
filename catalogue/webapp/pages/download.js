@@ -9,7 +9,7 @@ import {
   getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
-  getLocationOfType,
+  getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import {
   getIIIFPresentationCredit,
@@ -38,7 +38,9 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   const iiifPresentationDownloadOptions =
     (manifest && getDownloadOptionsFromManifest(manifest)) || []; // TODO abstract this for use here and in work(details)?
 
-  const iiifImageLocation = work ? getLocationOfType(work, 'iiif-image') : null;
+  const iiifImageLocation = work
+    ? getDigitalLocationOfType(work, 'iiif-image')
+    : null;
 
   const iiifImageLocationUrl =
     iiifImageLocation &&

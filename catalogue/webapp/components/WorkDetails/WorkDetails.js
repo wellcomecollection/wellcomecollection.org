@@ -8,7 +8,7 @@ import {
   getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
-  getLocationOfType,
+  getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
 } from '@weco/common/utils/works';
@@ -49,7 +49,7 @@ const WorkDetails = ({
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
   const params = clientSideSearchParams();
 
-  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const digitalLocation: ?DigitalLocation =
     iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
@@ -84,7 +84,10 @@ const WorkDetails = ({
   const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
-  const iiifPresentationLocation = getLocationOfType(work, 'iiif-presentation');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&

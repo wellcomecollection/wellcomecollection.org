@@ -231,23 +231,20 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
-type Location = PhysicalLocation | DigitalLocation;
-type Item = Object;
 
-export function getLocationsOfType(
+export function getDigitalLocationOfType( // TODO could there be more than one, so should this return an array
   work: Work,
   locationType: string
-): Location[] {
-  return work.items
-    ? work.items
-        .map(item =>
-          item.locations.filter(
-            location => location.locationType.id === locationType
-          )
-        )
-        .filter(Boolean)
-    : [];
+): ?DigitalLocation {
+  const [item] = work.items
+    .map(item =>
+      item.locations.find(location => location.locationType.id === locationType)
+    )
+    .filter(Boolean);
+  return item;
 }
+
+type Item = Object;
 
 function itemIdentifierWithId(item: Item, id: string): boolean {
   const matchedIdentifiers = item.identifiers.filter(

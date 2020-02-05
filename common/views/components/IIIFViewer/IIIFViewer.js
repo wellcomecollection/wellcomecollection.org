@@ -6,7 +6,7 @@ import {
   type CatalogueApiError,
 } from '@weco/common/model/catalogue';
 import {
-  getLocationOfType,
+  getDigitalLocationOfType,
   getItemsLicenseInfo,
   getDownloadOptionsFromImageUrl,
   getDownloadOptionsFromManifest,
@@ -263,8 +263,10 @@ const IIIFViewerComponent = ({
       );
     };
   }, []);
-  const iiifImageLocation = // TODO use get locationOfType
-    work && work.type !== 'Error' ? getLocationOfType(work, 'iiif-image') : [];
+  const iiifImageLocation =
+    work && work.type !== 'Error'
+      ? getDigitalLocationOfType(work, 'iiif-image')
+      : null;
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
 

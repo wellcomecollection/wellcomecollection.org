@@ -4,7 +4,7 @@ import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font } from '@weco/common/utils/classnames';
 import {
   getItemsLicenseInfo,
-  getLocationOfType,
+  getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
@@ -136,7 +136,7 @@ const ExpandedImage = ({ title, index, id, searchParams }: Props) => {
   }, []);
 
   const iiifImageLocation =
-    detailedWork && getLocationOfType(detailedWork, 'iiif-image');
+    detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
 
   const maybeWorkLink = workLink({ id });
