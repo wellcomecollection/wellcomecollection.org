@@ -122,36 +122,32 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {allDownloadOptions.length > 0 && (
-          <>
-            <SpacingSection>
-              <div
-                className={classNames({
-                  grid: true,
-                })}
-              >
-                <div
-                  className={classNames({
-                    [grid({
-                      s: 12,
-                      m: 12,
-                      l: 10,
-                      xl: 10,
-                    })]: true,
-                  })}
-                >
-                  <Download
-                    work={work}
-                    licenseInfo={licenseInfo}
-                    credit={credit}
-                    downloadOptions={allDownloadOptions}
-                    licenseInfoLink={true}
-                  />
-                </div>
-              </div>
-            </SpacingSection>
-          </>
-        )}
+        <SpacingSection>
+          <div
+            className={classNames({
+              grid: true,
+            })}
+          >
+            <div
+              className={classNames({
+                [grid({
+                  s: 12,
+                  m: 12,
+                  l: 10,
+                  xl: 10,
+                })]: true,
+              })}
+            >
+              <Download
+                work={work}
+                licenseInfo={licenseInfo}
+                credit={credit}
+                downloadOptions={allDownloadOptions}
+                licenseInfoLink={true}
+              />
+            </div>
+          </div>
+        </SpacingSection>
 
         {!(allDownloadOptions.length > 0) &&
           sierraIdFromPresentationManifestUrl &&
@@ -338,23 +334,22 @@ const WorkDetails = ({
           )}
         </WorkDetailsSection>
 
-        {licenseInfo.length > 0 &&
-          licenseInfo.map(license => (
-            <WorkDetailsSection
-              key={license.url}
-              headingText="License information"
-            >
-              <div id="licenseInformation">
-                {license.humanReadableText.length > 0 && (
-                  <WorkDetailsText
-                    title="License information"
-                    text={license.humanReadableText}
-                  />
-                )}
+        {licenseInfo.map(license => (
+          <WorkDetailsSection
+            key={license.url}
+            headingText="License information"
+          >
+            <div id="licenseInformation">
+              {license.humanReadableText.length > 0 && (
                 <WorkDetailsText
-                  title="Credit"
-                  text={[
-                    `${work.title.replace(/\.$/g, '')}.${' '}
+                  title="License information"
+                  text={license.humanReadableText}
+                />
+              )}
+              <WorkDetailsText
+                title="Credit"
+                text={[
+                  `${work.title.replace(/\.$/g, '')}.${' '}
               ${
                 credit
                   ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
@@ -365,11 +360,11 @@ const WorkDetails = ({
                   ? `<a href="${license.url}">${license.text}</a>`
                   : license.text
               }`,
-                  ]}
-                />
-              </div>
-            </WorkDetailsSection>
-          ))}
+                ]}
+              />
+            </div>
+          </WorkDetailsSection>
+        ))}
 
         <WorkDetailsSection>
           <div className="flex flex--v-center">
