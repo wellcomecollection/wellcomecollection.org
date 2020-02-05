@@ -9,17 +9,18 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
 import { getWork } from '../../services/catalogue/works';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
 import RelatedImages from '../RelatedImages/RelatedImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 
 type Props = {|
   title: string,
   id: string,
   searchParams: SearchParams,
-  isOpen: boolean,
   setExpandedImageId: (id: string) => void,
 |};
 
@@ -43,13 +44,36 @@ const ImageWrapper = styled(Space).attrs({
 `;
 
 const InfoWrapper = styled.div`
+  padding-bottom: 40px;
+
   ${props => props.theme.media.medium`
     padding-right: 20px;
-    flex-basis: 60%;
     max-height: 100%;
     overflow: auto;
     order: 1;
   `}
+`;
+
+const FadeInfo = styled.div`
+  position: relative;
+
+  ${props => props.theme.media.medium`
+    flex-basis: 60%;
+  `}
+
+  &:after {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    content: '';
+  }
 `;
 
 const Overlay = styled.div.attrs({})`
@@ -126,10 +150,27 @@ const ExpandedImage = ({
   title,
   id,
   searchParams,
-  isOpen,
   setExpandedImageId,
 }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const endRef = useRef(null);
+
+  useEffect(() => {
+    const focusables = modalRef &&
+      modalRef.current && [...getFocusableElements(modalRef.current)];
+    endRef.current = focusables && focusables[focusables.length - 1];
+  }, [modalRef.current]);
+
+  useEffect(
+    () =>
+      closeButtonRef &&
+      closeButtonRef.current &&
+      closeButtonRef.current.focus(),
+    []
+  );
+
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key !== 'Escape') return;
@@ -154,10 +195,16 @@ const ExpandedImage = ({
   useEffect(() => {
     document &&
       document.documentElement &&
-      document.documentElement.classList[isOpen ? 'add' : 'remove'](
-        'is-scroll-locked'
-      );
-  }, [isOpen]);
+      document.documentElement.classList.add('is-scroll-locked');
+
+    return () => {
+      document &&
+        document.documentElement &&
+        document.documentElement.classList.remove('is-scroll-locked');
+    };
+  }, []);
+
+  useFocusTrap(closeButtonRef, endRef);
 
   const iiifImageLocation =
     detailedWork && getLocationOfType(detailedWork, 'iiif-image');
@@ -177,24 +224,27 @@ const ExpandedImage = ({
     });
 
   return (
-    isOpen && (
-      <>
-        <Overlay onClick={() => setExpandedImageId('')} />
-        <Modal>
-          <CloseButton onClick={() => setExpandedImageId('')}>
-            <span className="visually-hidden">Close</span>
-            <Icon name="cross" extraClasses={`icon--currentColor`} />
-          </CloseButton>
-          {iiifImageLocation && (
-            <ImageWrapper>
-              <Image
-                defaultSize={400}
-                alt={title}
-                contentUrl={iiifImageLocation.url}
-                tasl={null}
-              />
-            </ImageWrapper>
-          )}
+    <>
+      <Overlay onClick={() => setExpandedImageId('')} />
+      <Modal ref={modalRef}>
+        <CloseButton
+          ref={closeButtonRef}
+          onClick={() => setExpandedImageId('')}
+        >
+          <span className="visually-hidden">Close modal window</span>
+          <Icon name="cross" extraClasses={`icon--currentColor`} />
+        </CloseButton>
+        {iiifImageLocation && (
+          <ImageWrapper>
+            <Image
+              defaultSize={400}
+              alt={title}
+              contentUrl={iiifImageLocation.url}
+              tasl={null}
+            />
+          </ImageWrapper>
+        )}
+        <FadeInfo>
           <InfoWrapper>
             <Space
               as="h2"
@@ -241,9 +291,9 @@ const ExpandedImage = ({
             </Space>
             <RelatedImages originalId={id} />
           </InfoWrapper>
-        </Modal>
-      </>
-    )
+        </FadeInfo>
+      </Modal>
+    </>
   );
 };
 

@@ -1,8 +1,7 @@
 // @flow
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import Image from '@weco/common/views/components/Image/Image';
-import Space from '@weco/common/views/components/styled/Space';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getSimilarImages } from '../../services/image-similarity';

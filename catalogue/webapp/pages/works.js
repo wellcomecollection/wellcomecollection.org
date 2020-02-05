@@ -43,16 +43,6 @@ type Props = {|
   apiParams: SearchParams,
 |};
 
-const useFragmentInitialState = () => {
-  const [state, setState] = useState('');
-  useEffect(() => {
-    if (window.location.hash) {
-      setState(window.location.hash.slice(1));
-    }
-  }, []);
-  return [state, setState];
-};
-
 const Works = ({
   works,
   searchParams,
@@ -68,7 +58,7 @@ const Works = ({
     productionDatesFrom,
     productionDatesTo,
   } = searchParams;
-  const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
+  const [expandedImageId, setExpandedImageId] = useState('');
 
   useEffect(() => {
     trackSearch(apiParams, {
@@ -288,6 +278,7 @@ const Works = ({
                           <>
                             <ImageCard
                               id={result.id}
+                              searchParams={searchParams}
                               image={{
                                 contentUrl: result.thumbnail
                                   ? result.thumbnail.url
@@ -299,17 +290,17 @@ const Works = ({
                               }}
                               onClick={event => {
                                 event.preventDefault();
-
                                 setExpandedImageId(result.id);
                               }}
                             />
-                            <ExpandedImage
-                              title={result.title}
-                              id={result.id}
-                              searchParams={searchParams}
-                              isOpen={expandedImageId === result.id}
-                              setExpandedImageId={setExpandedImageId}
-                            />
+                            {expandedImageId === result.id && (
+                              <ExpandedImage
+                                title={result.title}
+                                id={result.id}
+                                searchParams={searchParams}
+                                setExpandedImageId={setExpandedImageId}
+                              />
+                            )}
                           </>
                         ) : (
                           <WorkCard
