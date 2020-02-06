@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -67,18 +67,16 @@ type CheckboxProps = {|
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
+  const { isKeyboard } = useContext(UtilsContext);
+
   return (
-    <UtilsContext.Consumer>
-      {({ isKeyboard }) => (
-        <CheckboxLabel htmlFor={id}>
-          <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
-          <CheckboxBox />
-          <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
-            {text}
-          </Space>
-        </CheckboxLabel>
-      )}
-    </UtilsContext.Consumer>
+    <CheckboxLabel htmlFor={id}>
+      <CheckboxInput id={id} {...inputProps} hideFocus={!isKeyboard} />
+      <CheckboxBox />
+      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+        {text}
+      </Space>
+    </CheckboxLabel>
   );
 }
 
