@@ -1,13 +1,8 @@
 // @flow
 import type { SearchParams } from '@weco/common/services/catalogue/search-params';
-// <<<<<<< HEAD
-// import { classNames, font } from '@weco/common/utils/classnames';
-// import { itemUrl, workUrl } from '@weco/common/services/catalogue/urls';
-// =======
 import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
-// >>>>>>> master
 import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
 import { getLocationOfType } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
