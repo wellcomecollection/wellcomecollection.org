@@ -1,8 +1,6 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workLink } from '@weco/common/services/catalogue/routes';
@@ -87,13 +85,10 @@ type Props = {|
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
   currentManifestLabel: ?string,
-  params: SearchParams,
   canvasIndex: number,
   title: string,
-  licenseInfo: ?LicenseData,
-  iiifPresentationLicenseInfo: ?LicenseData,
+  licenseInfo: LicenseData[],
   iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
   downloadOptions: ?(IIIFRendering[]),
   iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
@@ -109,13 +104,10 @@ const ViewerTopBar = ({
   workId,
   viewToggleRef,
   currentManifestLabel,
-  params,
   canvasIndex,
   title,
   licenseInfo,
-  iiifPresentationLicenseInfo,
   iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
   downloadOptions,
   iiifPresentationDownloadOptions,
   parentManifest,
@@ -212,8 +204,7 @@ const ViewerTopBar = ({
               <Download
                 title={title}
                 workId={workId}
-                licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
-                iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+                licenseInfo={licenseInfo}
                 iiifImageLocationCredit={iiifImageLocationCredit}
                 downloadOptions={
                   downloadOptions || iiifPresentationDownloadOptions
@@ -224,7 +215,6 @@ const ViewerTopBar = ({
               <MultipleManifestList
                 buttonText={currentManifestLabel || 'Choose'}
                 manifests={parentManifest.manifests}
-                params={params}
                 workId={workId}
                 lang={lang}
               />

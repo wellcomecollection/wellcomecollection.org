@@ -1,10 +1,11 @@
 // @flow
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
 import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { getIIIFImageLicenceInfo } from '@weco/common/utils/iiif';
-import { getLocationOfType } from '@weco/common/utils/works';
+import {
+  getLocationOfType,
+  getItemsLicenseInfo,
+} from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
@@ -20,7 +21,6 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 type Props = {|
   title: string,
   id: string,
-  searchParams: SearchParams,
   setExpandedImageId: (id: string) => void,
 |};
 
@@ -146,12 +146,7 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
-const ExpandedImage = ({
-  title,
-  id,
-  searchParams,
-  setExpandedImageId,
-}: Props) => {
+const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
@@ -208,8 +203,7 @@ const ExpandedImage = ({
 
   const iiifImageLocation =
     detailedWork && getLocationOfType(detailedWork, 'iiif-image');
-  const iiifImageLicenseInfo =
-    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
+  const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
 
   const maybeItemLink =
     detailedWork &&
@@ -251,14 +245,17 @@ const ExpandedImage = ({
             >
               {title}
             </Space>
-            {iiifImageLicenseInfo && (
-              <Space
-                className={font('hnl', 5)}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <License subject="" licenseInfo={iiifImageLicenseInfo} />
-              </Space>
-            )}
+            {licenseInfo.length > 0 &&
+              licenseInfo.map(license => (
+                <Space
+                  key={license.url}
+                  className={font('hnl', 5)}
+                  v={{ size: 'l', properties: ['margin-bottom'] }}
+                >
+                  <License subject="" license={license} />
+                </Space>
+              ))}
+
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <Space
                 h={{ size: 'm', properties: ['margin-right'] }}

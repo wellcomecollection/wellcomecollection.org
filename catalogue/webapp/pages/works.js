@@ -12,13 +12,16 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { worksUrl } from '@weco/common/services/catalogue/urls';
 import {
-  apiSearchParamsSerialiser,
-  unfilteredApiSearchParamsSerialiser,
-  searchParamsDeserialiser,
-  type SearchParams,
-} from '@weco/common/services/catalogue/search-params';
+  type WorksRouteProps,
+  worksLink,
+  WorksRoute,
+} from '@weco/common/services/catalogue/routes';
+import {
+  type CatalogueApiProps,
+  worksRouteToApiUrl,
+  worksRouteToApiUrlWithDefaults,
+} from '@weco/common/services/catalogue/api';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
@@ -38,21 +41,21 @@ import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
-  searchParams: SearchParams,
+  worksRouteProps: WorksRouteProps,
   unfilteredSearchResults: boolean,
   shouldGetWorks: boolean,
-  apiParams: SearchParams,
+  apiProps: CatalogueApiProps,
 |};
 
 const Works = ({
   works,
-  searchParams,
+  worksRouteProps,
   unfilteredSearchResults,
   shouldGetWorks,
-  apiParams,
+  apiProps,
 }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [, setSavedSearchState] = useSavedSearchState(searchParams);
+  const [, setSavedSearchState] = useSavedSearchState(worksRouteProps);
 
   const {
     query,
@@ -60,14 +63,14 @@ const Works = ({
     page,
     productionDatesFrom,
     productionDatesTo,
-  } = searchParams;
+  } = worksRouteProps;
   const [expandedImageId, setExpandedImageId] = useState('');
 
   useEffect(() => {
-    trackSearch(apiParams, {
+    trackSearch(apiProps, {
       totalResults: works && works.totalResults ? works.totalResults : null,
     });
-  }, [searchParams]);
+  }, [worksRouteProps]);
 
   useEffect(() => {
     function routeChangeStart(url: string) {
@@ -85,7 +88,7 @@ const Works = ({
     };
   }, []);
 
-  const isImageSearch = searchParams.search === 'images';
+  const isImageSearch = worksRouteProps.search === 'images';
   const resultsGrid = isImageSearch
     ? { s: 6, m: 4, l: 3, xl: 2 }
     : { s: 12, m: 12, l: 12, xl: 12 };
@@ -110,7 +113,7 @@ const Works = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksUrl({ ...searchParams, query, page: (page || 1) - 1 }).as
+              worksLink({ ...worksRouteProps, page: (page || 1) - 1 }).as
             )}
           />
         )}
@@ -118,7 +121,7 @@ const Works = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksUrl({ ...searchParams, query, page: page + 1 }).as
+              worksLink({ ...worksRouteProps, page: page + 1 }).as
             )}
           />
         )}
@@ -127,7 +130,7 @@ const Works = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={worksUrl({ ...searchParams, query, page }).as}
+        url={worksLink({ ...worksRouteProps }).as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -183,7 +186,7 @@ const Works = ({
                 <SearchForm
                   ariaDescribedBy="search-form-description"
                   shouldShowFilters={query !== ''}
-                  searchParams={searchParams}
+                  worksRouteProps={worksRouteProps}
                   workTypeAggregations={
                     works && works.aggregations
                       ? works.aggregations.workType.buckets
@@ -213,16 +216,16 @@ const Works = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksUrl({
-                            ...searchParams,
+                          link={worksLink({
+                            ...worksRouteProps,
                           })}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const state = {
-                              ...searchParams,
+                              ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = worksUrl(state);
+                            const link = worksLink(state);
                             setSavedSearchState(state);
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -263,7 +266,7 @@ const Works = ({
                     >
                       <div
                         onClick={() => {
-                          trackSearchResultSelected(apiParams, {
+                          trackSearchResultSelected(apiProps, {
                             id: result.id,
                             position: i,
                             resultWorkType: result.workType.label,
@@ -300,19 +303,12 @@ const Works = ({
                               <ExpandedImage
                                 title={result.title}
                                 id={result.id}
-                                searchParams={searchParams}
                                 setExpandedImageId={setExpandedImageId}
                               />
                             )}
                           </>
                         ) : (
-                          <WorkCard
-                            work={result}
-                            params={{
-                              ...searchParams,
-                              id: result.id,
-                            }}
-                          />
+                          <WorkCard work={result} />
                         )}
                       </div>
                       <TogglesContext.Consumer>
@@ -325,7 +321,7 @@ const Works = ({
                               query={query}
                               page={page}
                               workType={workType}
-                              apiParams={apiParams}
+                              apiProps={apiProps}
                             />
                           )
                         }
@@ -354,16 +350,16 @@ const Works = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksUrl({
-                              ...searchParams,
+                            link={worksLink({
+                              ...worksRouteProps,
                             })}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const state = {
-                                ...searchParams,
+                                ...worksRouteProps,
                                 page: newPage,
                               };
-                              const link = worksUrl(state);
+                              const link = worksLink(state);
                               setSavedSearchState(state);
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
@@ -418,38 +414,42 @@ const Works = ({
 const IMAGES_LOCATION_TYPE = 'iiif-image';
 
 Works.getInitialProps = async (ctx: Context): Promise<Props> => {
-  const params = searchParamsDeserialiser(ctx.query);
+  const params = WorksRoute.fromQuery(ctx.query);
   const { unfilteredSearchResults } = ctx.query.toggles;
   const _queryType = cookies(ctx)._queryType;
   const isImageSearch = params.search === 'images';
 
-  const serializeParams = unfilteredSearchResults
-    ? unfilteredApiSearchParamsSerialiser
-    : apiSearchParamsSerialiser;
+  const apiPropsFn = unfilteredSearchResults
+    ? worksRouteToApiUrl
+    : worksRouteToApiUrlWithDefaults;
 
-  const apiParams = serializeParams({
-    ...params,
-    _queryType,
-    itemsLocationsLocationType: isImageSearch
-      ? [IMAGES_LOCATION_TYPE]
-      : params.itemsLocationsLocationType,
-    aggregations: ['workType'],
-  });
+  const apiProps = apiPropsFn(
+    {
+      ...params,
+      itemsLocationsLocationType: isImageSearch
+        ? [IMAGES_LOCATION_TYPE]
+        : params.itemsLocationsLocationType,
+    },
+    {
+      _queryType,
+      aggregations: ['workType'],
+    }
+  );
 
-  const shouldGetWorks = apiParams.query && apiParams.query !== '';
+  const shouldGetWorks = !!(params.query && params.query !== '');
   const worksOrError = shouldGetWorks
     ? await getWorks({
-        params: apiParams,
+        params: apiProps,
         pageSize: isImageSearch ? 24 : undefined,
       })
     : null;
 
   return {
     works: worksOrError,
-    searchParams: params,
+    worksRouteProps: params,
     unfilteredSearchResults,
     shouldGetWorks,
-    apiParams,
+    apiProps,
   };
 };
 

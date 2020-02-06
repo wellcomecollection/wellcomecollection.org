@@ -1,9 +1,12 @@
 // @flow
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type Work } from '@weco/common/model/work';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { worksUrl, downloadUrl } from '@weco/common/services/catalogue/urls';
+import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
+  getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
@@ -12,8 +15,6 @@ import {
   getEncoreLink,
 } from '@weco/common/utils/works';
 import {
-  getIIIFPresentationLicenceInfo,
-  getIIIFImageLicenceInfo,
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
@@ -24,7 +25,6 @@ import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -34,8 +34,6 @@ import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 import type { DigitalLocation } from '@weco/common/utils/works';
-
-type Work = Object;
 
 type Props = {|
   work: Work,
@@ -50,7 +48,6 @@ const WorkDetails = ({
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
-  const params = clientSideSearchParams();
 
   const iiifImageLocation = getLocationOfType(work, 'iiif-image');
 
@@ -80,18 +77,11 @@ const WorkDetails = ({
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationLicenseInfo =
-    iiifPresentationManifest &&
-    getIIIFPresentationLicenceInfo(iiifPresentationManifest);
-
-  const iiifImageLicenseInfo =
-    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
-
   const iiifPresentationCredit =
     iiifPresentationManifest &&
     getIIIFPresentationCredit(iiifPresentationManifest);
 
-  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
   const iiifPresentationLocation = getIIIFPresentationLocation(work);
@@ -211,10 +201,8 @@ const WorkDetails = ({
               title="Contributors"
               tags={work.contributors.map(contributor => ({
                 textParts: [contributor.agent.label],
-                linkAttributes: worksUrl({
-                  ...params,
+                linkAttributes: worksLink({
                   query: `"${contributor.agent.label}"`,
-                  page: 1,
                 }),
               }))}
             />
@@ -262,10 +250,8 @@ const WorkDetails = ({
               tags={work.genres.map(g => {
                 return {
                   textParts: g.concepts.map(c => c.label),
-                  linkAttributes: worksUrl({
-                    ...params,
+                  linkAttributes: worksLink({
                     query: `"${g.label}"`,
-                    page: 1,
                   }),
                 };
               })}
@@ -287,10 +273,8 @@ const WorkDetails = ({
               tags={work.subjects.map(s => {
                 return {
                   textParts: s.concepts.map(c => c.label),
-                  linkAttributes: worksUrl({
-                    ...params,
+                  linkAttributes: worksLink({
                     query: `"${s.label}"`,
-                    page: 1,
                   }),
                 };
               })}
@@ -345,13 +329,16 @@ const WorkDetails = ({
           )}
         </WorkDetailsSection>
 
-        {licenseInfo && (
-          <WorkDetailsSection headingText="License information">
+        {licenseInfo.map(license => (
+          <WorkDetailsSection
+            key={license.url}
+            headingText="License information"
+          >
             <div id="licenseInformation">
-              {licenseInfo.humanReadableText.length > 0 && (
+              {license.humanReadableText.length > 0 && (
                 <WorkDetailsText
                   title="License information"
-                  text={licenseInfo.humanReadableText}
+                  text={license.humanReadableText}
                 />
               )}
               <WorkDetailsText
@@ -364,15 +351,15 @@ const WorkDetails = ({
                   : ` `
               }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
+                license.url
+                  ? `<a href="${license.url}">${license.text}</a>`
+                  : license.text
               }`,
                 ]}
               />
             </div>
           </WorkDetailsSection>
-        )}
+        ))}
 
         <WorkDetailsSection>
           <div className="flex flex--v-center">
