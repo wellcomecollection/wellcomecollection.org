@@ -1,7 +1,6 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
-import type { LicenseType } from '@weco/common/model/license';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workLink } from '@weco/common/services/catalogue/routes';
@@ -88,10 +87,8 @@ type Props = {|
   currentManifestLabel: ?string,
   canvasIndex: number,
   title: string,
-  licenseInfo: ?LicenseData,
-  iiifPresentationLicenseInfo: ?LicenseData,
+  licenseInfo: LicenseData[],
   iiifImageLocationCredit: ?string,
-  iiifImageLocationLicenseId: ?LicenseType,
   downloadOptions: ?(IIIFRendering[]),
   iiifPresentationDownloadOptions: IIIFRendering[],
   parentManifest: ?IIIFManifest,
@@ -110,9 +107,7 @@ const ViewerTopBar = ({
   canvasIndex,
   title,
   licenseInfo,
-  iiifPresentationLicenseInfo,
   iiifImageLocationCredit,
-  iiifImageLocationLicenseId,
   downloadOptions,
   iiifPresentationDownloadOptions,
   parentManifest,
@@ -209,8 +204,7 @@ const ViewerTopBar = ({
               <Download
                 title={title}
                 workId={workId}
-                licenseInfo={licenseInfo || iiifPresentationLicenseInfo}
-                iiifImageLocationLicenseId={iiifImageLocationLicenseId}
+                licenseInfo={licenseInfo}
                 iiifImageLocationCredit={iiifImageLocationCredit}
                 downloadOptions={
                   downloadOptions || iiifPresentationDownloadOptions

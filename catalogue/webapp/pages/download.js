@@ -6,13 +6,12 @@ import {
 } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import {
+  getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getLocationOfType,
 } from '@weco/common/utils/works';
 import {
-  getIIIFPresentationLicenceInfo,
-  getIIIFImageLicenceInfo,
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
@@ -58,16 +57,10 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationLicenseInfo =
-    manifest && getIIIFPresentationLicenceInfo(manifest);
-
-  const iiifImageLicenseInfo =
-    iiifImageLocation && getIIIFImageLicenceInfo(iiifImageLocation);
-
   const iiifPresentationCredit =
     manifest && getIIIFPresentationCredit(manifest);
 
-  const licenseInfo = iiifImageLicenseInfo || iiifPresentationLicenseInfo;
+  const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
   return (
     <PageLayout
@@ -107,13 +100,13 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
               licenseInfoLink={false}
             />
           </SpacingComponent>
-          {licenseInfo && (
-            <SpacingComponent>
+          {licenseInfo.map(license => (
+            <SpacingComponent key={license.url}>
               <div id="licenseInformation">
-                {licenseInfo.humanReadableText.length > 0 && (
+                {license.humanReadableText.length > 0 && (
                   <WorkDetailsText
                     title="License information"
-                    text={licenseInfo.humanReadableText}
+                    text={license.humanReadableText}
                   />
                 )}
                 <WorkDetailsText
@@ -126,15 +119,15 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
                   : ` `
               }
               ${
-                licenseInfo.url
-                  ? `<a href="${licenseInfo.url}">${licenseInfo.text}</a>`
-                  : licenseInfo.text
+                license.url
+                  ? `<a href="${license.url}">${license.text}</a>`
+                  : license.text
               }`,
                   ]}
                 />
               </div>
             </SpacingComponent>
-          )}
+          ))}
         </SpacingSection>
       </Layout8>
     </PageLayout>
