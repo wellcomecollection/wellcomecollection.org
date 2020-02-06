@@ -34,12 +34,13 @@ provider "template" {
 }
 
 data "aws_acm_certificate" "wellcomecollection_ssl_cert" {
-  provider = "aws.us-east-1"
+  provider = aws.us-east-1
   domain   = "wellcomecollection.org"
 }
 
 module "dash" {
   source              = "../../terraform-modules/https_s3_website"
   website_uri         = "dash.wellcomecollection.org"
-  acm_certificate_arn = "${data.aws_acm_certificate.wellcomecollection_ssl_cert.arn}"
+  acm_certificate_arn = data.aws_acm_certificate.wellcomecollection_ssl_cert.arn
 }
+
