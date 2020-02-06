@@ -47,16 +47,6 @@ type Props = {|
   apiProps: CatalogueApiProps,
 |};
 
-const useFragmentInitialState = () => {
-  const [state, setState] = useState('');
-  useEffect(() => {
-    if (window.location.hash) {
-      setState(window.location.hash.slice(1));
-    }
-  }, []);
-  return [state, setState];
-};
-
 const Works = ({
   works,
   worksRouteProps,
@@ -74,7 +64,7 @@ const Works = ({
     productionDatesFrom,
     productionDatesTo,
   } = worksRouteProps;
-  const [expandedImageId, setExpandedImageId] = useFragmentInitialState();
+  const [expandedImageId, setExpandedImageId] = useState('');
 
   useEffect(() => {
     trackSearch(apiProps, {
@@ -304,13 +294,16 @@ const Works = ({
                                 alt: result.title,
                                 tasl: null,
                               }}
-                              onClick={() => setExpandedImageId(result.id)}
+                              onClick={event => {
+                                event.preventDefault();
+                                setExpandedImageId(result.id);
+                              }}
                             />
                             {expandedImageId === result.id && (
                               <ExpandedImage
-                                index={i}
                                 title={result.title}
                                 id={result.id}
+                                setExpandedImageId={setExpandedImageId}
                               />
                             )}
                           </>
