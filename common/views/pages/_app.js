@@ -21,7 +21,7 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
-import UtilsContext from '../components/UtilsContext/UtilsContext';
+import AppContext from '../components/AppContext/AppContext';
 
 type State = {|
   isKeyboard: boolean,
@@ -468,7 +468,7 @@ export default class WecoApp extends App {
           <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
-        <UtilsContext.Provider value={{ isKeyboard, isEnhanced }}>
+        <AppContext.Provider value={{ isKeyboard, isEnhanced }}>
           <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
               <GlobalAlertContext.Provider value={globalAlert}>
@@ -519,7 +519,7 @@ export default class WecoApp extends App {
               </GlobalAlertContext.Provider>
             </OpeningTimesContext.Provider>
           </TogglesContext.Provider>
-        </UtilsContext.Provider>
+        </AppContext.Provider>
       </>
     );
   }

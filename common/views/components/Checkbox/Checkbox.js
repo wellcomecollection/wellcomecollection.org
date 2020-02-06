@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import UtilsContext from '../UtilsContext/UtilsContext';
+import AppContext from '../AppContext/AppContext';
 
 const CheckboxLabel = styled.label.attrs({
   className: classNames({
@@ -67,7 +67,7 @@ type CheckboxProps = {|
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
-  const { isKeyboard } = useContext(UtilsContext);
+  const { isKeyboard } = useContext(AppContext);
 
   return (
     <CheckboxLabel htmlFor={id}>
