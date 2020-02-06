@@ -1,6 +1,5 @@
 // @flow
 import type { LicenseData } from '../../../utils/get-license-info';
-import Icon from '@weco/common/views/components/Icon/Icon';
 type Props = {|
   subject: string,
   license: LicenseData,
@@ -17,9 +16,6 @@ const License = ({ subject, license }: Props) => {
           </a>
         )}
         {!license.url && license.text}
-        {license.icons.map(icon => (
-          <Icon key={icon} name={icon} />
-        ))}
       </span>
     </>
   );
