@@ -1,9 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
-import {
-  type SearchParams,
-  defaultWorkTypes,
-} from '@weco/common/services/catalogue/search-params';
+import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
+import { defaultWorkTypes } from '@weco/common/services/catalogue/api';
 import SearchFiltersDesktop from '@weco/common/views/components/SearchFilters/SearchFiltersDesktop';
 import SearchFiltersMobile from '@weco/common/views/components/SearchFilters/SearchFiltersMobile';
 import theme from '@weco/common/views/themes/default';
@@ -11,7 +9,7 @@ import TogglesContext from '../TogglesContext/TogglesContext';
 
 type Props = {|
   searchForm: React.Ref<typeof HTMLFormElement>,
-  searchParams: SearchParams,
+  worksRouteProps: WorksRouteProps,
   workTypeAggregations: CatalogueAggregationBucket[],
   changeHandler: () => void,
 |};
@@ -30,12 +28,12 @@ export type SearchFiltersSharedProps = {|
 
 const SearchFilters = ({
   searchForm,
-  searchParams,
+  worksRouteProps,
   workTypeAggregations,
   changeHandler,
 }: Props) => {
-  const workTypeInUrlArray = searchParams.workType || [];
-  const { productionDatesFrom, productionDatesTo } = searchParams;
+  const workTypeInUrlArray = worksRouteProps.workType || [];
+  const { productionDatesFrom, productionDatesTo } = worksRouteProps;
 
   const [isMobile, setIsMobile] = useState(false);
   const [inputDateFrom, setInputDateFrom] = useState(productionDatesFrom);
@@ -90,7 +88,7 @@ const SearchFilters = ({
 
   const sharedProps = {
     searchForm,
-    searchParams,
+    worksRouteProps,
     workTypeAggregations,
     changeHandler,
     inputDateFrom,
