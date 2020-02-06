@@ -13,7 +13,6 @@ import {
 } from '@weco/common/utils/works';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
-import { clientSideSearchParams } from '@weco/common/services/catalogue/search-params';
 import { classNames } from '@weco/common/utils/classnames';
 import Router from 'next/router';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -283,7 +282,6 @@ const IIIFViewerComponent = ({
   const iiifPresentationDownloadOptions =
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
   const parentManifestUrl = manifest && manifest.within;
-  const params = clientSideSearchParams();
 
   const firstRotatedImage = rotatedImages.find(
     image => image.canvasIndex === 0
@@ -376,7 +374,6 @@ const IIIFViewerComponent = ({
         workId={workId}
         viewToggleRef={viewToggleRef}
         currentManifestLabel={currentManifestLabel}
-        params={params}
         canvasIndex={activeIndex}
         title={title}
         licenseInfo={licenseInfo}
@@ -414,7 +411,6 @@ const IIIFViewerComponent = ({
             pageIndex={pageIndex}
             sierraId={sierraId}
             pageSize={pageSize}
-            params={params}
           />
         )}
         {enhanced && (

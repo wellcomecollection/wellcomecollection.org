@@ -187,24 +187,22 @@ export function getWorkTypeIcon(work: Work): ?string {
 }
 
 export function getItemsLicenseInfo(work: Work): LicenseData[] {
-  const licenseData =
-    work.items &&
-    work.items
-      .map(item => {
-        return (
-          item.locations &&
-          item.locations
-            .map(location => {
-              if (location.license) {
-                return getLicenseInfo(location.license.id);
-              } else {
-                return null;
-              }
-            })
-            .filter(Boolean)
-        );
-      })
-      .reduce((a, b) => a.concat(b), []);
+  const licenseData = work.items
+    .map(item => {
+      return (
+        item.locations &&
+        item.locations
+          .map(location => {
+            if (location.license) {
+              return getLicenseInfo(location.license.id);
+            } else {
+              return null;
+            }
+          })
+          .filter(Boolean)
+      );
+    })
+    .reduce((a, b) => a.concat(b), []);
   return licenseData || [];
 }
 

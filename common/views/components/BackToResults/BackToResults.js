@@ -2,14 +2,14 @@
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-import { worksUrl } from '../../../services/catalogue/urls';
+import { worksLink } from '../../../services/catalogue/routes';
 import useSavedSearchState from '../../../hooks/useSavedSearchState';
 
 const BackToResults = () => {
   const [savedSearchState] = useSavedSearchState({});
   const { query } = savedSearchState;
 
-  const link = worksUrl({
+  const link = worksLink({
     ...savedSearchState,
   });
   return (

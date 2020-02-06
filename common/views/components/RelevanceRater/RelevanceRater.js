@@ -1,6 +1,6 @@
 // @flow
 import { useState, useEffect } from 'react';
-import { type SearchParams } from '../../../services/catalogue/search-params';
+import { type CatalogueApiProps } from '../../../services/catalogue/api';
 import { trackRelevanceRating } from '../Tracker/Tracker';
 import Rating from '../Rating/Rating';
 
@@ -10,7 +10,7 @@ type Props = {|
   query: string,
   page: ?number,
   workType: ?(string[]),
-  apiParams: SearchParams,
+  apiProps: CatalogueApiProps,
 |};
 
 function storeRating(key, value) {
@@ -29,7 +29,7 @@ const RelevanceRater = ({
   query,
   page,
   workType,
-  apiParams,
+  apiProps,
 }: Props) => {
   const [isEnhanced, setIsEnhanced] = useState(false);
   const [currentlyRatedValue, setCurrentlyRatedValue] = useState(0);
@@ -51,7 +51,7 @@ const RelevanceRater = ({
       <Rating
         currentlyRatedValue={currentlyRatedValue}
         clickHandler={value => {
-          trackRelevanceRating(apiParams, { ...trackingObject, rating: value });
+          trackRelevanceRating(apiProps, { ...trackingObject, rating: value });
           storeRating(JSON.stringify(trackingObject), value);
         }}
       />

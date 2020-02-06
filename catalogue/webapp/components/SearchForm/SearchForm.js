@@ -8,25 +8,23 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { inputValue, nodeListValueToArray } from '@weco/common/utils/forms';
-import {
-  type WorksUrlProps,
-  worksUrl,
-} from '@weco/common/services/catalogue/urls';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import SearchFilters from '@weco/common/views/components/SearchFilters/SearchFilters';
 import Select from '@weco/common/views/components/Select/Select';
 import Space from '@weco/common/views/components/styled/Space';
 import { type CatalogueAggregationBucket } from '@weco/common/model/catalogue';
 import SelectUncontrolled from '@weco/common/views/components/SelectUncontrolled/SelectUncontrolled';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import {
+  type WorksRouteProps,
+  worksLink,
+} from '@weco/common/services/catalogue/routes';
 
 type Props = {|
   ariaDescribedBy: string,
   shouldShowFilters: boolean,
-  searchParams: SearchParams,
+  worksRouteProps: WorksRouteProps,
   workTypeAggregations: ?(CatalogueAggregationBucket[]),
   placeholder?: string,
-  searchParams: WorksUrlProps,
 |};
 
 const SearchInputWrapper = styled.div`
@@ -65,12 +63,12 @@ const SearchTypeRadioGroup = styled(RadioGroup)`
 const SearchForm = ({
   ariaDescribedBy,
   shouldShowFilters,
-  searchParams,
+  worksRouteProps,
   workTypeAggregations,
   placeholder,
 }: Props) => {
-  const [, setSearchParamsState] = useSavedSearchState(searchParams);
-  const { query } = searchParams;
+  const [, setSearchParamsState] = useSavedSearchState(worksRouteProps);
+  const { query } = worksRouteProps;
 
   const searchForm = useRef();
   // This is the query used by the input, that is then eventually passed to the
@@ -107,7 +105,7 @@ const SearchForm = ({
     const workType =
       selectedWorkTypesArray.length > 0
         ? selectedWorkTypesArray.map(workType => workType.value)
-        : null;
+        : [];
 
     const sortOrder = inputValue(form['sortOrder']);
     const sort =
@@ -118,11 +116,10 @@ const SearchForm = ({
       form['items.locations.locationType'] instanceof window.HTMLInputElement
         ? form['items.locations.locationType'].checked
           ? form['items.locations.locationType'].value.split(',')
-          : null
-        : null;
+          : []
+        : [];
 
     const state = {
-      ...searchParams,
       query: inputQuery,
       workType,
       page: 1,
@@ -133,7 +130,7 @@ const SearchForm = ({
       search,
       itemsLocationsLocationType,
     };
-    const link = worksUrl(state);
+    const link = worksLink(state);
     setSearchParamsState(state);
 
     return Router.push(link.href, link.as);
@@ -199,7 +196,7 @@ const SearchForm = ({
         <>
           <SearchTypeRadioGroup
             name="search"
-            selected={searchParams.search ? 'images' : ''}
+            selected={worksRouteProps.search ? 'images' : ''}
             onChange={() => {
               searchForm.current && updateUrl(searchForm.current);
             }}
@@ -218,7 +215,7 @@ const SearchForm = ({
           />
           <SearchFilters
             searchForm={searchForm}
-            searchParams={searchParams}
+            worksRouteProps={worksRouteProps}
             workTypeAggregations={workTypeAggregations}
             changeHandler={submit}
           />
@@ -226,7 +223,7 @@ const SearchForm = ({
             <Select
               name="sortOrder"
               label="Sort by"
-              value={searchParams.sortOrder || ''}
+              value={worksRouteProps.sortOrder || ''}
               options={[
                 {
                   value: '',
@@ -251,7 +248,7 @@ const SearchForm = ({
               <SelectUncontrolled
                 name="sort"
                 label="Sort by"
-                defaultValue={searchParams.sort || ''}
+                defaultValue={worksRouteProps.sort || ''}
                 options={[
                   {
                     value: '',
@@ -267,7 +264,7 @@ const SearchForm = ({
             <SelectUncontrolled
               name="sortOrder"
               label="Sort order"
-              defaultValue={searchParams.sortOrder || ''}
+              defaultValue={worksRouteProps.sortOrder || ''}
               options={[
                 {
                   value: 'asc',

@@ -102,20 +102,19 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
               licenseInfoLink={false}
             />
           </SpacingComponent>
-          {licenseInfo.length > 0 &&
-            licenseInfo.map(license => (
-              <SpacingComponent key={license.url}>
-                <div id="licenseInformation">
-                  {license.humanReadableText.length > 0 && (
-                    <WorkDetailsText
-                      title="License information"
-                      text={license.humanReadableText}
-                    />
-                  )}
+          {licenseInfo.map(license => (
+            <SpacingComponent key={license.url}>
+              <div id="licenseInformation">
+                {license.humanReadableText.length > 0 && (
                   <WorkDetailsText
-                    title="Credit"
-                    text={[
-                      `${title.replace(/\.$/g, '')}.${' '}
+                    title="License information"
+                    text={license.humanReadableText}
+                  />
+                )}
+                <WorkDetailsText
+                  title="Credit"
+                  text={[
+                    `${title.replace(/\.$/g, '')}.${' '}
               ${
                 credit
                   ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${credit}</a>. `
@@ -126,11 +125,11 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
                   ? `<a href="${license.url}">${license.text}</a>`
                   : license.text
               }`,
-                    ]}
-                  />
-                </div>
-              </SpacingComponent>
-            ))}
+                  ]}
+                />
+              </div>
+            </SpacingComponent>
+          ))}
         </SpacingSection>
       </Layout8>
     </PageLayout>

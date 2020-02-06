@@ -1,7 +1,6 @@
 // @flow
 import { useState, useRef, useEffect } from 'react';
 import NextLink from 'next/link';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import styled from 'styled-components';
@@ -50,7 +49,6 @@ const HiddenContent = styled.div.attrs(props => ({
 type Props = {|
   buttonText: string,
   manifests: IIIFManifest[],
-  params: SearchParams,
   workId: string,
   lang: string,
 |};
@@ -58,7 +56,6 @@ type Props = {|
 const MultipleManifestList = ({
   buttonText,
   manifests,
-  params,
   workId,
   lang,
 }: Props) => {

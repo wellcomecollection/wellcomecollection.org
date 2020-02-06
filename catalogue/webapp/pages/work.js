@@ -44,14 +44,12 @@ export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
     page: 1,
-    workType: null,
-    itemsLocationsLocationType: null,
+    workType: [],
+    itemsLocationsLocationType: [],
     sort: null,
     sortOrder: null,
     productionDatesFrom: null,
     productionDatesTo: null,
-    aggregations: null,
-    _queryType: null,
     search: null,
   });
 
@@ -150,7 +148,7 @@ export const WorkPage = ({ work }: Props) => {
             <SearchForm
               ariaDescribedBy="search-form-description"
               shouldShowFilters={false}
-              searchParams={savedSearchFormState}
+              worksRouteProps={savedSearchFormState}
               workTypeAggregations={null}
             />
           </div>

@@ -8,7 +8,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import { type WorkUrlProps } from '@weco/common/services/catalogue/urls';
 import { workLink } from '@weco/common/services/catalogue/routes';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -19,7 +18,6 @@ import Space, {
 
 type Props = {|
   work: Work,
-  params: WorkUrlProps,
 |};
 
 const Container = styled.div`
@@ -62,7 +60,7 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkCard = ({ work, params }: Props) => {
+const WorkCard = ({ work }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (

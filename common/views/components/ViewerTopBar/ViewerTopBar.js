@@ -1,6 +1,5 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { SearchParams } from '@weco/common/services/catalogue/search-params';
 import type { LicenseData } from '@weco/common/utils/get-license-info';
 import { lighten } from 'polished';
 import styled from 'styled-components';
@@ -86,7 +85,6 @@ type Props = {|
   workId: string,
   viewToggleRef: { current: HTMLElement | null },
   currentManifestLabel: ?string,
-  params: SearchParams,
   canvasIndex: number,
   title: string,
   licenseInfo: LicenseData[],
@@ -106,7 +104,6 @@ const ViewerTopBar = ({
   workId,
   viewToggleRef,
   currentManifestLabel,
-  params,
   canvasIndex,
   title,
   licenseInfo,
@@ -218,7 +215,6 @@ const ViewerTopBar = ({
               <MultipleManifestList
                 buttonText={currentManifestLabel || 'Choose'}
                 manifests={parentManifest.manifests}
-                params={params}
                 workId={workId}
                 lang={lang}
               />

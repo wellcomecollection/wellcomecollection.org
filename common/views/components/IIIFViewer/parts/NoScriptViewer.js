@@ -9,7 +9,6 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '../../../../utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
 import Space from '../../styled/Space';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import Paginator, {
   type PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   type PaginatorRenderFunctionProps,
@@ -146,7 +145,6 @@ type NoScriptViewerProps = {|
   iiifImageLocation: ?{ url: string },
   canvases: [],
   canvasIndex: number,
-  params: SearchParams,
 |};
 
 const NoScriptViewer = ({
@@ -165,7 +163,6 @@ const NoScriptViewer = ({
   pageIndex,
   sierraId,
   pageSize,
-  params,
 }: NoScriptViewerProps) => {
   const mainImageService = {
     '@id':
