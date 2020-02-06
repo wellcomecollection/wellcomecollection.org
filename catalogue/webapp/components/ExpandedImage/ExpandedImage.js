@@ -44,8 +44,6 @@ const ImageWrapper = styled(Space).attrs({
 `;
 
 const InfoWrapper = styled.div`
-  padding-bottom: 40px;
-
   ${props => props.theme.media.medium`
     padding-right: 20px;
     max-height: 100%;
@@ -63,7 +61,7 @@ const FadeInfo = styled.div`
 
   &:after {
     position: absolute;
-    bottom: 0;
+    bottom: -1px; // browser rounding bugfix
     left: 0;
     right: 0;
     height: 40px;
