@@ -6,10 +6,10 @@ import {
   type Work,
   type CatalogueApiRedirect,
 } from '@weco/common/model/catalogue';
-import { type SearchParams } from '@weco/common/services/catalogue/search-params';
 import { type IIIFCanvas } from '@weco/common/model/iiif';
 import Raven from 'raven-js';
-import { removeEmptyProps } from '@weco/common/utils/json';
+import { serialiseUrl } from '@weco/common/services/catalogue/routes';
+import { type CatalogueApiProps } from '@weco/common/services/catalogue/api';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -26,7 +26,7 @@ type GetWorkProps = {|
 |};
 
 type GetWorksProps = {|
-  params: SearchParams,
+  params: CatalogueApiProps,
   pageSize?: number,
   ...Environment,
 |};
@@ -48,7 +48,7 @@ export async function getWorks({
   env = 'prod',
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const filterQueryString = Object.keys(removeEmptyProps(params)).map(key => {
+  const filterQueryString = Object.keys(serialiseUrl(params)).map(key => {
     const val = params[key];
     return `${key}=${encodeURIComponent(val)}`;
   });
