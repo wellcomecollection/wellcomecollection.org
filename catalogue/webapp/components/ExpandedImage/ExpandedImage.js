@@ -63,7 +63,7 @@ const FadeInfo = styled.div`
 
   &:after {
     position: absolute;
-    bottom: -1px;
+    bottom: 0;
     left: 0;
     right: 0;
     height: 40px;
