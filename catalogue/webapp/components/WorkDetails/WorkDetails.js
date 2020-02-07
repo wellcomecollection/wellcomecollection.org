@@ -352,8 +352,8 @@ const WorkDetails = ({
               }
               ${
                 license.url
-                  ? `<a href="${license.url}">${license.text}</a>`
-                  : license.text
+                  ? `<a href="${license.url}">${license.label}</a>`
+                  : license.label
               }`,
                 ]}
               />

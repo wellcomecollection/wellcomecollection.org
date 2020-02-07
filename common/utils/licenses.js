@@ -1,34 +1,38 @@
 // @flow
-export type LicenseData = {|
-  text: string,
-  humanReadableText: string[],
-  icons: string[],
-  description?: string,
-  url?: string,
+import merge from 'lodash.merge';
+// We have to deal with licenses in both the Catalogue App (using the catalogue API) and the Content App (using the Prismic API)
+// The catalogue API provides licenses as follows:
+type LicenseAPIData = {|
+  id: string,
+  label: string,
+  url: string,
+  type: string,
 |};
+// For the UI, we want to add to this data, with an icons array, description and human readable text.
+type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
+export type LicenseUIData = {|
+  ...LicenseAPIData,
+  icons: CcIcons[],
+  description: string,
+  humanReadableText: string[],
+|};
+// This is achieved with the getAugmentedLicenseInfo function and the data contained in the UILicenseMap object.
 
-export const licenseMap = {
-  // TODO delete copyright-not-cleared when https://github.com/wellcometrust/catalogue/pull/328
-  // has been merged and API has been deployed
-  'copyright-not-cleared': {
-    text: 'Copyright not cleared',
-    icons: [],
-    humanReadableText: [
-      'Copyright for this work has not been cleared. You are responsible for identifying the rights owner to seek permission to use this work.',
-    ],
-  },
+// However, the only license information we receive from Prismic is a license id.
+// We therefore duplicate the data that the catalogue API provides (defaultLicenseMap),
+// combine it with the UILicenseMap and use the getLicenseInfo function,
+// for the sole purpose of displaying license information on the Content App.
+
+export const UILicenseMap = {
   pdm: {
-    url: 'https://creativecommons.org/publicdomain/mark/1.0/',
-    text: 'Public Domain',
     icons: ['ccPdm'],
+    description: '',
     humanReadableText: [
       'You can use this work for any purpose without restriction under copyright law.',
       'Public Domain Mark (PDM) terms and conditions <a href="https://creativecommons.org/publicdomain/mark/1.0">https://creativecommons.org/publicdomain/mark/1.0</a>',
     ],
   },
   'cc-0': {
-    url: 'https://creativecommons.org/publicdomain/zero/1.0/',
-    text: 'CC0',
     icons: ['ccZero'],
     description: 'Free to use for any purpose',
     humanReadableText: [
@@ -37,8 +41,6 @@ export const licenseMap = {
     ],
   },
   'cc-by': {
-    url: 'https://creativecommons.org/licenses/by/4.0/',
-    text: 'CC BY',
     icons: ['cc', 'ccBy'],
     description: 'Free to use with attribution',
     humanReadableText: [
@@ -47,8 +49,6 @@ export const licenseMap = {
     ],
   },
   'cc-by-nc': {
-    url: 'https://creativecommons.org/licenses/by-nc/4.0/',
-    text: 'CC BY-NC',
     icons: ['cc', 'ccBy', 'ccNc'],
     description: 'Free to use with attribution for non-commercial purposes',
     humanReadableText: [
@@ -57,8 +57,6 @@ export const licenseMap = {
     ],
   },
   'cc-by-nc-nd': {
-    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
-    text: 'CC BY-NC-ND',
     icons: ['cc', 'ccBy', 'ccNc', 'ccNd'],
     description:
       'Free to use with attribution for non-commercial purposes. No modifications permitted.',
@@ -69,47 +67,82 @@ export const licenseMap = {
     ],
   },
   'cc-by-nd': {
-    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
-    text: 'CC BY-ND',
     icons: ['cc', 'ccBy', 'ccNd'],
     description: 'Free to use with attribution. No modifications permitted.',
     humanReadableText: [],
   },
   'cc-by-sa': {
-    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
-    text: 'CC BY-SA',
     icons: ['cc', 'ccBy'],
+    description: '',
     humanReadableText: [],
   },
   'cc-by-nc-sa': {
-    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
-    text: 'CC BY-NC-SA',
     icons: ['cc', 'ccBy', 'ccNc'],
+    description: '',
     humanReadableText: [],
   },
   ogl: {
-    url:
-      'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
-    text: 'Open Government License',
     icons: [],
+    description: '',
     humanReadableText: [],
   },
   opl: {
-    url: 'http://opencontent.org/openpub/',
-    text: 'Open Publication License',
     icons: [],
+    description: '',
     humanReadableText: [],
   },
   inc: {
-    url: 'http://rightsstatements.org/vocab/InC/1.0/',
-    text: 'In copyright',
     icons: [],
+    description: '',
     humanReadableText: [],
   },
 };
 
-export default function getLicenseInfo(
-  licenseIdentifier: string
-): ?LicenseData {
-  return licenseMap[licenseIdentifier.toLowerCase()];
+export default function getAugmentedLicenseInfo(
+  license: LicenseAPIData
+): LicenseUIData {
+  const additionalLicenseData = UILicenseMap[license.id.toLowerCase()];
+  return {
+    ...license,
+    ...additionalLicenseData,
+  };
+}
+
+const defaultLicenseMap = {
+  pdm: {
+    id: 'pdm',
+    label: 'Public Domain',
+    url: 'https://creativecommons.org/publicdomain/mark/1.0/',
+    type: 'License',
+  },
+  'cc-0': {
+    id: 'cc-0',
+    label: 'CC0',
+    url: 'https://creativecommons.org/publicdomain/zero/1.0/',
+    type: 'License',
+  },
+  'cc-by': {
+    id: 'cc-by',
+    label: 'CC BY',
+    url: 'https://creativecommons.org/licenses/by/4.0/',
+    type: 'License',
+  },
+  'cc-by-nc': {
+    id: 'cc-by-nc',
+    label: 'CC BY-NC',
+    url: 'https://creativecommons.org/licenses/by-nc/4.0/',
+    type: 'License',
+  },
+  'cc-by-nc-nd': {
+    id: 'cc-by-nc',
+    label: 'CC BY-NC-ND',
+    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+    type: 'License',
+  },
+};
+
+export const mergedLicenseMap = merge(UILicenseMap, defaultLicenseMap);
+
+export function getLicenseInfo(licenseId: string): LicenseUIData {
+  return mergedLicenseMap[licenseId.toLowerCase()];
 }

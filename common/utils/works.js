@@ -7,9 +7,9 @@ import {
   type IIIFCanvas,
 } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import getLicenseInfo, {
-  type LicenseData,
-} from '@weco/common/utils/get-license-info';
+import getAugmentedLicenseInfo, {
+  type LicenseUIData,
+} from '@weco/common/utils/licenses';
 
 export function getIIIFMetadata(
   iiifManifest: IIIFManifest,
@@ -208,7 +208,7 @@ export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-export function getItemsLicenseInfo(work: Work): LicenseData[] {
+export function getItemsLicenseInfo(work: Work): LicenseUIData[] {
   const licenseData = work.items
     .map(item => {
       return (
@@ -216,7 +216,7 @@ export function getItemsLicenseInfo(work: Work): LicenseData[] {
         item.locations
           .map(location => {
             if (location.license) {
-              return getLicenseInfo(location.license.id);
+              return getAugmentedLicenseInfo(location.license);
             } else {
               return null;
             }

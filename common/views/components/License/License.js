@@ -1,9 +1,9 @@
 // @flow
-import type { LicenseData } from '../../../utils/get-license-info';
+import type { LicenseUIData } from '../../../utils/licenses';
 
 type Props = {|
   subject: string,
-  license: LicenseData,
+  license: LicenseUIData,
 |};
 
 const License = ({ subject, license }: Props) => {
@@ -13,10 +13,10 @@ const License = ({ subject, license }: Props) => {
       <span about={subject}>
         {license.url && (
           <a rel="license" href={license.url}>
-            {license.text}
+            {license.label}
           </a>
         )}
-        {!license.url && license.text}
+        {!license.url && license.label}
       </span>
     </>
   );

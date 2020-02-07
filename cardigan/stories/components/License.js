@@ -1,14 +1,14 @@
 import { storiesOf } from '@storybook/react';
 import License from '../../../common/views/components/License/License';
-import getLicenseInfo from '../../../common/utils/get-license-info';
+import getAugmentedLicenseInfo from '../../../common/utils/licenses';
 import Readme from '../../../common/views/components/License/README.md';
 import { select } from '@storybook/addon-knobs';
 
 const LicenseExample = () => {
-  const licenseType = select(
+  const license = select(
     'License types',
     [
-      'CC-0',
+      'CC-0', // TODO update with license objects
       'CC-BY',
       'CC-BY-NC',
       'CC-BY-NC-ND',
@@ -24,10 +24,7 @@ const LicenseExample = () => {
     'CC-0'
   );
   return (
-    <License
-      subject={'test'}
-      licenseInfo={getLicenseInfo(licenseType.toLowerCase())}
-    />
+    <License subject={'test'} licenseInfo={getAugmentedLicenseInfo(license)} />
   );
 };
 
