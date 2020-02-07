@@ -13,7 +13,7 @@ type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
 export type LicenseUIData = {|
   ...LicenseAPIData,
   icons: CcIcons[],
-  description: string,
+  description: ?string,
   humanReadableText: string[],
 |};
 // This is achieved with the getAugmentedLicenseInfo function and the data contained in the UILicenseMap object.
@@ -26,7 +26,7 @@ export type LicenseUIData = {|
 export const UILicenseMap = {
   pdm: {
     icons: ['ccPdm'],
-    description: '',
+    description: null,
     humanReadableText: [
       'You can use this work for any purpose without restriction under copyright law.',
       'Public Domain Mark (PDM) terms and conditions <a href="https://creativecommons.org/publicdomain/mark/1.0">https://creativecommons.org/publicdomain/mark/1.0</a>',
@@ -73,27 +73,27 @@ export const UILicenseMap = {
   },
   'cc-by-sa': {
     icons: ['cc', 'ccBy'],
-    description: '',
+    description: null,
     humanReadableText: [],
   },
   'cc-by-nc-sa': {
     icons: ['cc', 'ccBy', 'ccNc'],
-    description: '',
+    description: null,
     humanReadableText: [],
   },
   ogl: {
     icons: [],
-    description: '',
+    description: null,
     humanReadableText: [],
   },
   opl: {
     icons: [],
-    description: '',
+    description: null,
     humanReadableText: [],
   },
   inc: {
     icons: [],
-    description: '',
+    description: null,
     humanReadableText: [],
   },
 };
@@ -108,6 +108,8 @@ export default function getAugmentedLicenseInfo(
   };
 }
 
+// Content editors are restricted to the following licenses
+// https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html
 const defaultLicenseMap = {
   pdm: {
     id: 'pdm',
