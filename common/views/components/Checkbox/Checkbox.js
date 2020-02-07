@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import AppContext from '../AppContext/AppContext';
+import { AppContext } from '../AppContext/AppContext';
 
 const CheckboxLabel = styled.label.attrs({
   className: classNames({

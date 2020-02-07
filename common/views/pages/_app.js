@@ -21,11 +21,9 @@ import GlobalAlertContext from '../../views/components/GlobalAlertContext/Global
 import JsonLd from '../../views/components/JsonLd/JsonLd';
 import { TrackerScript } from '../../views/components/Tracker/Tracker';
 import { trackEvent } from '../../utils/ga';
-import AppContext from '../components/AppContext/AppContext';
+import { AppContextProvider } from '../components/AppContext/AppContext';
 
 type State = {|
-  isKeyboard: boolean,
-  isEnhanced: boolean,
   togglesContext: {},
 |};
 
@@ -195,8 +193,6 @@ export default class WecoApp extends App {
   }
 
   state: State = {
-    isKeyboard: true,
-    isEnhanced: false,
     togglesContext: toggles,
   };
 
@@ -204,18 +200,7 @@ export default class WecoApp extends App {
     this.setState({ togglesContext: { ...toggles, ...newToggles } });
   };
 
-  setIsKeyboardFalse = () => {
-    this.setState({ isKeyboard: false });
-  };
-
-  setIsKeyboardTrue = () => {
-    this.setState({ isKeyboard: true });
-  };
-
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.setIsKeyboardFalse);
-    document.removeEventListener('keydown', this.setIsKeyboardTrue);
-
     Router.events.off('routeChangeStart', trackRouteChangeStart);
     Router.events.off('routeChangeComplete', trackRouteChangeComplete);
     try {
@@ -232,11 +217,7 @@ export default class WecoApp extends App {
   componentDidMount() {
     this.setState({
       togglesContext: toggles,
-      isEnhanced: true,
-      isKeyboard: false,
     });
-    document.addEventListener('mousedown', this.setIsKeyboardFalse);
-    document.addEventListener('keydown', this.setIsKeyboardTrue);
 
     makeSurePageIsTallEnough();
 
@@ -389,7 +370,7 @@ export default class WecoApp extends App {
   }
 
   render() {
-    const { togglesContext, isKeyboard, isEnhanced } = this.state;
+    const { togglesContext } = this.state;
     const updateToggles = this.updateToggles;
     const { Component, pageProps, openingTimes, globalAlert } = this.props;
     const polyfillFeatures = [
@@ -468,7 +449,7 @@ export default class WecoApp extends App {
           <JsonLd data={museumLd(wellcomeCollectionGalleryWithHours)} />
           <JsonLd data={libraryLd(wellcomeLibraryWithHours)} />
         </Head>
-        <AppContext.Provider value={{ isKeyboard, isEnhanced }}>
+        <AppContextProvider>
           <TogglesContext.Provider value={{ ...togglesContext, updateToggles }}>
             <OpeningTimesContext.Provider value={parsedOpeningTimes}>
               <GlobalAlertContext.Provider value={globalAlert}>
@@ -519,7 +500,7 @@ export default class WecoApp extends App {
               </GlobalAlertContext.Provider>
             </OpeningTimesContext.Provider>
           </TogglesContext.Provider>
-        </AppContext.Provider>
+        </AppContextProvider>
       </>
     );
   }
