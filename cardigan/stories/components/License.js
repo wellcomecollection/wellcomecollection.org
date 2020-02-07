@@ -10,7 +10,6 @@ const LicenseExample = () => {
     ['CC-0', 'CC-BY', 'CC-BY-NC', 'CC-BY-NC-ND', 'PDM'],
     'CC-0'
   );
-  console.log(getLicenseInfo(license));
   return <License subject={'test'} license={getLicenseInfo(license)} />;
 };
 
