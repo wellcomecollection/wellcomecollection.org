@@ -95,8 +95,9 @@ export const licenseMap = {
     humanReadableText: [],
   },
   opl: {
-    url: 'http://opencontent.org/openpub/',
-    text: 'Open Publication License',
+    url:
+      'https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/',
+    text: 'Open Parliament License',
     icons: [],
     humanReadableText: [],
   },
