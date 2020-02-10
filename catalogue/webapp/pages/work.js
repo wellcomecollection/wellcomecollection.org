@@ -14,7 +14,7 @@ import {
   getAudio,
   getVideo,
 } from '@weco/common/utils/works';
-import { itemLink } from '@weco/common/services/catalogue/routes';
+// import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -23,11 +23,7 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
-import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
-import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
-import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
@@ -37,11 +33,11 @@ type Props = {|
   work: Work | CatalogueApiError,
 |};
 
-const getFirstChildManifest = async function(manifests) {
-  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
-  const data = await (await fetch(firstManifestUrl)).json();
-  return data;
-};
+// const getFirstChildManifest = async function(manifests) {
+//   const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
+//   const data = await (await fetch(firstManifestUrl)).json();
+//   return data;
+// };
 
 export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
@@ -60,7 +56,7 @@ export const WorkPage = ({ work }: Props) => {
     null
   );
   const [childManifestsCount, setChildManifestsCount] = useState(0);
-  const [firstChildManifest, setFirstChildManifest] = useState(null);
+  // const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getDigitalLocationOfType(
@@ -73,9 +69,9 @@ export const WorkPage = ({ work }: Props) => {
 
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
-        setFirstChildManifest(
-          await getFirstChildManifest(manifestData.manifests)
-        );
+        // setFirstChildManifest(
+        //   await getFirstChildManifest(manifestData.manifests)
+        // );
       }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
@@ -109,14 +105,14 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
+  // const iiifPresentationLocation = getDigitalLocationOfType(
+  //   work,
+  //   'iiif-presentation'
+  // );
 
-  const sierraIdFromPresentationManifestUrl =
-    iiifPresentationLocation &&
-    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+  // const sierraIdFromPresentationManifestUrl =
+  //   iiifPresentationLocation &&
+  //   (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
@@ -125,26 +121,26 @@ export const WorkPage = ({ work }: Props) => {
       ? iiifImageLocation
       : null;
 
-  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
+  // const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
 
   const imageContentUrl =
     digitalLocation && digitalLocation.url
       ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
       : null;
 
-  const itemUrlObject = itemLink({
-    workId: work.id,
-    sierraId:
-      (firstChildManifest &&
-        firstChildManifest['@id'].match(
-          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-        )[1]) ||
-      sierraIdFromPresentationManifestUrl ||
-      null,
-    langCode: work.language && work.language.id,
-    canvas: 1,
-    page: 1,
-  });
+  // const itemUrlObject = itemLink({
+  //   workId: work.id,
+  //   sierraId:
+  //     (firstChildManifest &&
+  //       firstChildManifest['@id'].match(
+  //         /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+  //       )[1]) ||
+  //     sierraIdFromPresentationManifestUrl ||
+  //     null,
+  //   langCode: work.language && work.language.id,
+  //   canvas: 1,
+  //   page: 1,
+  // });
 
   return (
     <CataloguePageLayout
@@ -204,6 +200,7 @@ export const WorkPage = ({ work }: Props) => {
         </div>
       </Space>
 
+      {/* // TODO where do these fit in relation to available online */}
       {video && (
         <WobblyRow>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -219,29 +216,6 @@ export const WorkPage = ({ work }: Props) => {
           </Space>
         </WobblyRow>
       )}
-
-      <>
-        {!iiifImageLocationUrl && (
-          <ManifestContext.Provider
-            value={firstChildManifest || iiifPresentationManifest}
-          >
-            <SpacingComponent>
-              <IIIFPresentationPreview
-                childManifestsCount={childManifestsCount}
-                itemUrl={itemUrlObject}
-              />
-            </SpacingComponent>
-          </ManifestContext.Provider>
-        )}
-        {iiifImageLocationUrl && (
-          <WobblyRow>
-            <IIIFImagePreview
-              iiifUrl={iiifImageLocationUrl}
-              itemUrl={itemUrlObject}
-            />
-          </WobblyRow>
-        )}
-      </>
 
       <WorkDetails
         work={work}
