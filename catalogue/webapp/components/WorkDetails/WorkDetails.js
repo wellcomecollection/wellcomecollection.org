@@ -177,6 +177,12 @@ const WorkDetails = ({
           </div>
         </SpacingSection>
 
+        {digitalLocation && (
+          <WorkDetailsSection headingText="Available online">
+            <p>new component</p>
+          </WorkDetailsSection>
+        )}
+
         {!(allDownloadOptions.length > 0) &&
           sierraIdFromPresentationManifestUrl &&
           childManifestsCount === 0 && (
