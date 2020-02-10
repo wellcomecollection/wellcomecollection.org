@@ -33,7 +33,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 type Props = {|
   work: Work | CatalogueApiError,
 |};
@@ -221,34 +220,28 @@ export const WorkPage = ({ work }: Props) => {
         </WobblyRow>
       )}
 
-      <TogglesContext.Consumer>
-        {({ simplifiedPreview }) =>
-          !simplifiedPreview && (
-            <>
-              {!iiifImageLocationUrl && (
-                <ManifestContext.Provider
-                  value={firstChildManifest || iiifPresentationManifest}
-                >
-                  <SpacingComponent>
-                    <IIIFPresentationPreview
-                      childManifestsCount={childManifestsCount}
-                      itemUrl={itemUrlObject}
-                    />
-                  </SpacingComponent>
-                </ManifestContext.Provider>
-              )}
-              {iiifImageLocationUrl && (
-                <WobblyRow>
-                  <IIIFImagePreview
-                    iiifUrl={iiifImageLocationUrl}
-                    itemUrl={itemUrlObject}
-                  />
-                </WobblyRow>
-              )}
-            </>
-          )
-        }
-      </TogglesContext.Consumer>
+      <>
+        {!iiifImageLocationUrl && (
+          <ManifestContext.Provider
+            value={firstChildManifest || iiifPresentationManifest}
+          >
+            <SpacingComponent>
+              <IIIFPresentationPreview
+                childManifestsCount={childManifestsCount}
+                itemUrl={itemUrlObject}
+              />
+            </SpacingComponent>
+          </ManifestContext.Provider>
+        )}
+        {iiifImageLocationUrl && (
+          <WobblyRow>
+            <IIIFImagePreview
+              iiifUrl={iiifImageLocationUrl}
+              itemUrl={itemUrlObject}
+            />
+          </WobblyRow>
+        )}
+      </>
 
       <WorkDetails
         work={work}
