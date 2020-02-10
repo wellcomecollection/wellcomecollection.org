@@ -16,14 +16,14 @@ export type LicenseData = {|
   description: ?string,
   humanReadableText: string[],
 |};
-// This is achieved with the getAugmentedLicenseInfo function and the data contained in the UILicenseMap object.
+// This is achieved with the getAugmentedLicenseInfo function and the data contained in the additionalData object.
 
 // However, the only license information we receive from Prismic is a license id.
 // We therefore duplicate the data that the catalogue API provides (defaultLicenseMap),
-// combine it with the UILicenseMap and use the getLicenseInfo function,
+// combine it with the additionalData and use the getLicenseInfo function,
 // for the sole purpose of displaying license information on the Content App.
 
-export const UILicenseMap = {
+export const additionalData = {
   pdm: {
     icons: ['ccPdm'],
     description: null,
@@ -101,7 +101,7 @@ export const UILicenseMap = {
 export default function getAugmentedLicenseInfo(
   license: LicenseAPIData
 ): LicenseData {
-  const additionalLicenseData = UILicenseMap[license.id.toLowerCase()];
+  const additionalLicenseData = additionalData[license.id.toLowerCase()];
   return {
     ...license,
     ...additionalLicenseData,
@@ -181,7 +181,7 @@ const defaultLicenseMap = {
   },
 };
 
-export const mergedLicenseMap = merge(UILicenseMap, defaultLicenseMap);
+export const mergedLicenseMap = merge(additionalData, defaultLicenseMap);
 
 export function getLicenseInfo(licenseId: string): LicenseData {
   return mergedLicenseMap[licenseId.toLowerCase()];
