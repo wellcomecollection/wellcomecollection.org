@@ -14,7 +14,7 @@ import {
   getAudio,
   getVideo,
 } from '@weco/common/utils/works';
-// import { itemLink } from '@weco/common/services/catalogue/routes';
+import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -33,11 +33,11 @@ type Props = {|
   work: Work | CatalogueApiError,
 |};
 
-// const getFirstChildManifest = async function(manifests) {
-//   const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
-//   const data = await (await fetch(firstManifestUrl)).json();
-//   return data;
-// };
+const getFirstChildManifest = async function(manifests) {
+  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
+  const data = await (await fetch(firstManifestUrl)).json();
+  return data;
+};
 
 export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
@@ -56,7 +56,7 @@ export const WorkPage = ({ work }: Props) => {
     null
   );
   const [childManifestsCount, setChildManifestsCount] = useState(0);
-  // const [firstChildManifest, setFirstChildManifest] = useState(null);
+  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getDigitalLocationOfType(
@@ -69,9 +69,9 @@ export const WorkPage = ({ work }: Props) => {
 
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
-        // setFirstChildManifest(
-        //   await getFirstChildManifest(manifestData.manifests)
-        // );
+        setFirstChildManifest(
+          await getFirstChildManifest(manifestData.manifests)
+        );
       }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
@@ -105,14 +105,14 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  // const iiifPresentationLocation = getDigitalLocationOfType(
-  //   work,
-  //   'iiif-presentation'
-  // );
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
-  // const sierraIdFromPresentationManifestUrl =
-  //   iiifPresentationLocation &&
-  //   (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+  const sierraIdFromPresentationManifestUrl =
+    iiifPresentationLocation &&
+    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
@@ -128,19 +128,19 @@ export const WorkPage = ({ work }: Props) => {
       ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
       : null;
 
-  // const itemUrlObject = itemLink({
-  //   workId: work.id,
-  //   sierraId:
-  //     (firstChildManifest &&
-  //       firstChildManifest['@id'].match(
-  //         /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-  //       )[1]) ||
-  //     sierraIdFromPresentationManifestUrl ||
-  //     null,
-  //   langCode: work.language && work.language.id,
-  //   canvas: 1,
-  //   page: 1,
-  // });
+  const itemUrlObject = itemLink({
+    workId: work.id,
+    sierraId:
+      (firstChildManifest &&
+        firstChildManifest['@id'].match(
+          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+        )[1]) ||
+      sierraIdFromPresentationManifestUrl ||
+      null,
+    langCode: work.language && work.language.id,
+    canvas: 1,
+    page: 1,
+  });
 
   return (
     <CataloguePageLayout
@@ -195,7 +195,11 @@ export const WorkPage = ({ work }: Props) => {
       >
         <div className="container">
           <div className="grid">
-            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
+            <WorkHeader
+              work={work}
+              childManifestsCount={childManifestsCount}
+              itemUrl={itemUrlObject}
+            />
           </div>
         </div>
       </Space>
