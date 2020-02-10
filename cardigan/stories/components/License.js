@@ -7,7 +7,19 @@ import { select } from '@storybook/addon-knobs';
 const LicenseExample = () => {
   const license = select(
     'License types',
-    ['CC-0', 'CC-BY', 'CC-BY-NC', 'CC-BY-NC-ND', 'PDM'],
+    [
+      'CC-0',
+      'CC-BY',
+      'CC-BY-NC',
+      'CC-BY-NC-ND',
+      'PDM',
+      'CC-BY-ND',
+      'CC-BY-SA',
+      'CC-BY-NC-SA',
+      'OGL',
+      'OPL',
+      'INC',
+    ],
     'CC-0'
   );
   return <License subject={'test'} license={getLicenseInfo(license)} />;
