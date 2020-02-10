@@ -8,10 +8,7 @@ import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import Button from '@weco/common/views/components/Buttons/Button/Button';
 import styled from 'styled-components';
-import type { NextLinkType } from '@weco/common/model/next-link-type';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -25,16 +22,9 @@ const WorkHeaderContainer = styled.div.attrs(props => ({
 type Props = {|
   work: Work,
   childManifestsCount?: number,
-  itemUrl: NextLinkType,
-  showItemLink: boolean,
 |};
 
-const WorkHeader = ({
-  work,
-  childManifestsCount = 0,
-  itemUrl,
-  showItemLink,
-}: Props) => {
+const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -125,38 +115,22 @@ const WorkHeader = ({
           )}
         </SpacingComponent>
       </Space>
-      <TogglesContext.Consumer>
-        {({ simplifiedPreview }) => (
-          <div>
-            {simplifiedPreview && work.thumbnail && (
-              <Space
-                h={{
-                  size: 'l',
-                  properties: ['margin-left'],
-                }}
-                className={classNames({
-                  flex: true,
-                  'flex--column': true,
-                })}
-              >
-                <WorkPreview imagePath={work.thumbnail.url} />
-              </Space>
-            )}
-            {simplifiedPreview && showItemLink && (
-              <Button
-                type="primary"
-                trackingEvent={{
-                  category: 'WorkPreview',
-                  action: 'follow link',
-                  label: itemUrl.href.query.workId,
-                }}
-                text="View the item"
-                link={{ ...itemUrl }}
-              />
-            )}
-          </div>
+      <div>
+        {work.thumbnail && (
+          <Space
+            h={{
+              size: 'l',
+              properties: ['margin-left'],
+            }}
+            className={classNames({
+              flex: true,
+              'flex--column': true,
+            })}
+          >
+            <WorkPreview imagePath={work.thumbnail.url} />
+          </Space>
         )}
-      </TogglesContext.Consumer>
+      </div>
     </WorkHeaderContainer>
   );
 };
