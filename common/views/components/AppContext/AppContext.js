@@ -1,15 +1,24 @@
 // @flow
 import { createContext, useState, useEffect, type Node } from 'react';
-// $FlowFixMe
-export const AppContext = createContext();
+type AppContextProps = {|
+  isEnhanced: boolean,
+  isKeyboard: boolean,
+|};
 
-type Props = {|
+const appContextDefaults = {
+  isEnhanced: false,
+  isKeyboard: true,
+};
+
+export const AppContext = createContext<AppContextProps>(appContextDefaults);
+
+type AppContextProviderProps = {|
   children: Node,
 |};
 
-export const AppContextProvider = ({ children }: Props) => {
-  const [isEnhanced, setIsEnhanced] = useState(false);
-  const [isKeyboard, setIsKeyboard] = useState(true);
+export const AppContextProvider = ({ children }: AppContextProviderProps) => {
+  const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
+  const [isKeyboard, setIsKeyboard] = useState(appContextDefaults.isKeyboard);
 
   useEffect(() => {
     setIsEnhanced(true);
