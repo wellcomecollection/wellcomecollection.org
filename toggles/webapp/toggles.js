@@ -1,13 +1,6 @@
 module.exports = {
   toggles: [
     {
-      id: 'simplifiedPreview',
-      title: 'Shows simplified preview on works',
-      defaultValue: false,
-      description:
-        'Shows a simplified preview that is consistent for all work types',
-    },
-    {
       id: 'unfilteredSearchResults',
       title: 'Complete catalogue search',
       defaultValue: false,
