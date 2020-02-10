@@ -9,9 +9,8 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import { getProductionDates, getWorkTypeIcon } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import { workLink } from '@weco/common/services/catalogue/routes';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { imageSizes } from '@weco/common/utils/image-sizes';
 import Space, {
   type SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
@@ -155,24 +154,13 @@ const WorkCard = ({ work }: Props) => {
             !isPdfThumbnail(work.thumbnail) &&
             ['k', 'q'].includes(work.workType.id) && ( // Only show thumbnails for 'Pictures' and 'Digital Images' for now
                 <Preview h={{ size: 'm', properties: ['margin-left'] }}>
-                  <IIIFResponsiveImage
-                    width={178}
-                    src={convertImageUri(work.thumbnail.url, 178)}
-                    srcSet={imageSizes(2048)
-                      .map(width => {
-                        return `${convertImageUri(
-                          work.thumbnail.url,
-                          width
-                        )} ${width}w`;
-                      })
-                      .join(',')}
-                    sizes={`178px`}
+                  <Image
+                    defaultSize={178}
                     alt={''}
-                    lang={null}
-                    extraClasses={classNames({
-                      'h-center': true,
-                    })}
-                    isLazy={true}
+                    contentUrl={convertImageUri(work.thumbnail.url, 178)}
+                    tasl={null}
+                    srcsetRequired={false}
+                    style={{ margin: 'auto' }}
                   />
                 </Preview>
               )}
