@@ -25,7 +25,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import Download from '../Download/Download';
+// import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
@@ -37,13 +37,15 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
-  childManifestsCount?: number,
+  childManifestsCount: number,
+  imageCount: number,
 |};
 
 const WorkDetails = ({
   work,
   iiifPresentationManifest,
   childManifestsCount,
+  imageCount,
 }: Props) => {
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
@@ -80,7 +82,7 @@ const WorkDetails = ({
     iiifPresentationManifest &&
     getIIIFPresentationCredit(iiifPresentationManifest);
 
-  const licenseInfo = getItemsLicenseInfo(work);
+  const licenseInfo = getItemsLicenseInfo(work); // TODO tie this more directly to the digitalLocation
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -150,36 +152,69 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        <SpacingSection>
-          <div
-            className={classNames({
-              grid: true,
-            })}
-          >
-            <div
-              className={classNames({
-                [grid({
-                  s: 12,
-                  m: 12,
-                  l: 10,
-                  xl: 10,
-                })]: true,
-              })}
-            >
-              <Download
-                work={work}
-                licenseInfo={licenseInfo}
-                credit={credit}
-                downloadOptions={allDownloadOptions}
-                licenseInfoLink={true}
-              />
-            </div>
-          </div>
-        </SpacingSection>
-
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
-            {licenseInfo.map(license => (
+            <pre
+              style={{
+                maxWidth: '600px',
+                margin: '0 auto 24px',
+                fontSize: '14px',
+              }}
+            >
+              <code
+                style={{
+                  display: 'block',
+                  padding: '24px',
+                  backgroundColor: '#EFE1AA',
+                  color: '#000',
+                  border: '4px solid #000',
+                  borderRadius: '6px',
+                }}
+              >
+                {JSON.stringify(iiifImageLocation, null, 1)}
+              </code>
+            </pre>
+            <pre
+              style={{
+                maxWidth: '600px',
+                margin: '0 auto 24px',
+                fontSize: '14px',
+              }}
+            >
+              <code
+                style={{
+                  display: 'block',
+                  padding: '24px',
+                  backgroundColor: '#EFE1AA',
+                  color: '#000',
+                  border: '4px solid #000',
+                  borderRadius: '6px',
+                }}
+              >
+                {JSON.stringify(iiifPresentationLocation, null, 1)}
+              </code>
+            </pre>
+            {childManifestsCount > 0
+              ? `${childManifestsCount} volumes`
+              : imageCount > 0
+              ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
+              : ''}
+            {/* view buttons
+            number of items
+            audio/video player in situ
+            download
+            license text */}
+            {/* get rid of getLicenseInfo? - just use items? */}
+            {/* <Download
+              work={work}
+              licenseInfo={licenseInfo}
+              credit={credit}
+              downloadOptions={allDownloadOptions}
+              licenseInfoLink={true}
+            /> */}
+            {licenseInfo.map((
+              license // use iiifImageLocation and iiifPresentationLocation?
+            ) => (
               <div key={license.url}>
                 {license.humanReadableText.length > 0 && (
                   <WorkDetailsText

@@ -13,6 +13,7 @@ import {
   type DigitalLocation,
   getAudio,
   getVideo,
+  getCanvases,
 } from '@weco/common/utils/works';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -55,6 +56,7 @@ export const WorkPage = ({ work }: Props) => {
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
+  const [imageTotal, setImageTotal] = useState(0);
   const [childManifestsCount, setChildManifestsCount] = useState(0);
   const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
@@ -66,7 +68,9 @@ export const WorkPage = ({ work }: Props) => {
       const iiifManifest =
         iiifPresentationLocation && (await fetch(iiifPresentationLocation.url));
       const manifestData = iiifManifest && (await iiifManifest.json());
-
+      if (manifestData) {
+        setImageTotal(getCanvases(manifestData).length);
+      }
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
         setFirstChildManifest(
@@ -203,7 +207,6 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-
       {/* // TODO where do these fit in relation to available online */}
       {video && (
         <WobblyRow>
@@ -212,7 +215,6 @@ export const WorkPage = ({ work }: Props) => {
           </Space>
         </WobblyRow>
       )}
-
       {audio && (
         <WobblyRow>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -220,11 +222,11 @@ export const WorkPage = ({ work }: Props) => {
           </Space>
         </WobblyRow>
       )}
-
       <WorkDetails
         work={work}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
+        imageCount={imageTotal}
       />
     </CataloguePageLayout>
   );
