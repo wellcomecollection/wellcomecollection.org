@@ -179,7 +179,32 @@ const WorkDetails = ({
 
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
-            <p>new component</p>
+            {licenseInfo.map(license => (
+              <div key={license.url}>
+                {license.humanReadableText.length > 0 && (
+                  <WorkDetailsText
+                    title="License information"
+                    text={license.humanReadableText}
+                  />
+                )}
+                <WorkDetailsText
+                  title="Credit"
+                  text={[
+                    `${work.title.replace(/\.$/g, '')}.${' '}
+              ${
+                credit
+                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                  : ` `
+              }
+              ${
+                license.url
+                  ? `<a href="${license.url}">${license.label}</a>`
+                  : license.label
+              }`,
+                  ]}
+                />
+              </div>
+            ))}
           </WorkDetailsSection>
         )}
 
@@ -340,38 +365,6 @@ const WorkDetails = ({
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>
-
-        {licenseInfo.map(license => (
-          <WorkDetailsSection
-            key={license.url}
-            headingText="License information"
-          >
-            <div id="licenseInformation">
-              {license.humanReadableText.length > 0 && (
-                <WorkDetailsText
-                  title="License information"
-                  text={license.humanReadableText}
-                />
-              )}
-              <WorkDetailsText
-                title="Credit"
-                text={[
-                  `${work.title.replace(/\.$/g, '')}.${' '}
-              ${
-                credit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                  : ` `
-              }
-              ${
-                license.url
-                  ? `<a href="${license.url}">${license.label}</a>`
-                  : license.label
-              }`,
-                ]}
-              />
-            </div>
-          </WorkDetailsSection>
-        ))}
 
         <WorkDetailsSection>
           <div className="flex flex--v-center">
