@@ -9,8 +9,10 @@ import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
-  type DigitalLocation,
   getDigitalLocationOfType,
+  type DigitalLocation,
+  getAudio,
+  getVideo,
 } from '@weco/common/utils/works';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -28,8 +30,10 @@ import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/III
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
+import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 type Props = {|
   work: Work | CatalogueApiError,
 |};
@@ -80,6 +84,10 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
+
+  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
+  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
+
   useEffect(() => {
     window.dataLayer &&
       window.dataLayer.push({
@@ -125,6 +133,20 @@ export const WorkPage = ({ work }: Props) => {
       ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
       : null;
 
+  const itemUrlObject = itemLink({
+    workId: work.id,
+    sierraId:
+      (firstChildManifest &&
+        firstChildManifest['@id'].match(
+          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
+        )[1]) ||
+      sierraIdFromPresentationManifestUrl ||
+      null,
+    langCode: work.language && work.language.id,
+    canvas: 1,
+    page: 1,
+  });
+
   return (
     <CataloguePageLayout
       title={work.title}
@@ -153,7 +175,6 @@ export const WorkPage = ({ work }: Props) => {
             />
           </div>
         </div>
-
         <div className="grid">
           <Space
             v={{
@@ -183,52 +204,52 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-      {firstChildManifest && (
-        <ManifestContext.Provider value={firstChildManifest}>
-          <SpacingComponent>
-            <IIIFPresentationPreview
-              childManifestsCount={childManifestsCount}
-              itemUrl={itemLink({
-                workId: work.id,
-                sierraId:
-                  firstChildManifest['@id'].match(
-                    /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                  )[1] || sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-              })}
-            />
-          </SpacingComponent>
-        </ManifestContext.Provider>
-      )}
-      <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!firstChildManifest &&
-          sierraIdFromPresentationManifestUrl &&
-          !iiifImageLocationUrl && (
-            <IIIFPresentationPreview
-              itemUrl={itemLink({
-                workId: work.id,
-                sierraId: sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-                canvas: 1,
-                page: 1,
-              })}
-            />
-          )}
-      </ManifestContext.Provider>
-      {iiifImageLocationUrl && (
+
+      {video && (
         <WobblyRow>
-          <IIIFImagePreview
-            iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemLink({
-              workId: work.id,
-              sierraId: null,
-              langCode: work.language && work.language.id,
-              canvas: 1,
-              page: 1,
-            })}
-          />
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <VideoPlayer video={video} />
+          </Space>
         </WobblyRow>
       )}
+
+      {audio && (
+        <WobblyRow>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <AudioPlayer audio={audio} />
+          </Space>
+        </WobblyRow>
+      )}
+
+      <TogglesContext.Consumer>
+        {({ simplifiedPreview }) =>
+          !simplifiedPreview && (
+            <>
+              {!iiifImageLocationUrl && (
+                <ManifestContext.Provider
+                  value={firstChildManifest || iiifPresentationManifest}
+                >
+                  <SpacingComponent>
+                    <IIIFPresentationPreview
+                      childManifestsCount={childManifestsCount}
+                      itemUrl={itemUrlObject}
+                    />
+                  </SpacingComponent>
+                </ManifestContext.Provider>
+              )}
+              {iiifImageLocationUrl && (
+                <WobblyRow>
+                  <IIIFImagePreview
+                    iiifUrl={iiifImageLocationUrl}
+                    itemUrl={itemUrlObject}
+                  />
+                </WobblyRow>
+              )}
+            </>
+          )
+        }
+      </TogglesContext.Consumer>
+
       <WorkDetails
         work={work}
         iiifPresentationManifest={iiifPresentationManifest}
