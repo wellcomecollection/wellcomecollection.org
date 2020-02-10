@@ -112,6 +112,33 @@ const WorkDetails = ({
 
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
 
+  const WhereToFindIt = () => (
+    <WorkDetailsSection headingText="Where to find it">
+      {locationOfWork && (
+        <WorkDetailsText
+          title={locationOfWork.noteType.label}
+          text={locationOfWork.contents}
+        />
+      )}
+
+      {encoreLink && (
+        <WorkDetailsText
+          text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+        />
+      )}
+
+      <TogglesContext.Consumer>
+        {({ stacksRequestService }) =>
+          stacksRequestService && (
+            <div className={`${font('hnl', 5)}`}>
+              <WorkItemsStatus work={work} />
+            </div>
+          )
+        }
+      </TogglesContext.Consumer>
+    </WorkDetailsSection>
+  );
+
   return (
     <Space
       v={{
@@ -184,32 +211,8 @@ const WorkDetails = ({
             </>
           )}
 
-        {/* if there is no digital location then we put 'where to find it' at the top */}
         {!digitalLocation && (locationOfWork || encoreLink) && (
-          <WorkDetailsSection headingText="Where to find it">
-            {locationOfWork && (
-              <WorkDetailsText
-                title={locationOfWork.noteType.label}
-                text={locationOfWork.contents}
-              />
-            )}
-
-            {encoreLink && (
-              <WorkDetailsText
-                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
-              />
-            )}
-
-            <TogglesContext.Consumer>
-              {({ stacksRequestService }) =>
-                stacksRequestService && (
-                  <div className={`${font('hnl', 5)}`}>
-                    <WorkItemsStatus work={work} />
-                  </div>
-                )
-              }
-            </TogglesContext.Consumer>
-          </WorkDetailsSection>
+          <WhereToFindIt />
         )}
 
         <WorkDetailsSection headingText="About this work">
@@ -310,33 +313,7 @@ const WorkDetails = ({
           </WorkDetailsSection>
         )}
 
-        {/* if there is a digital location then we put 'where to find it' further down the page */}
-        {digitalLocation && (locationOfWork || encoreLink) && (
-          <WorkDetailsSection headingText="Where to find it">
-            {locationOfWork && (
-              <WorkDetailsText
-                title={locationOfWork.noteType.label}
-                text={locationOfWork.contents}
-              />
-            )}
-
-            {encoreLink && (
-              <WorkDetailsText
-                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
-              />
-            )}
-
-            <TogglesContext.Consumer>
-              {({ stacksRequestService }) =>
-                stacksRequestService && (
-                  <div className={`${font('hnl', 5)}`}>
-                    <WorkItemsStatus work={work} />
-                  </div>
-                )
-              }
-            </TogglesContext.Consumer>
-          </WorkDetailsSection>
-        )}
+        {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
 
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
