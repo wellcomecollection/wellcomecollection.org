@@ -1,7 +1,7 @@
 // @flow
 
 import { font } from '../../../utils/classnames';
-import getLicenseInfo from '../../../utils/get-license-info';
+import { getLicenseInfo } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
 import { Fragment } from 'react';
 import { withToggler } from '../../hocs/withToggler';
@@ -40,7 +40,7 @@ function getMarkup(
       {licenseInfo && (
         <Fragment>
           <a rel="license" href={licenseInfo.url}>
-            {licenseInfo.text}
+            {licenseInfo.label}
           </a>
           .
         </Fragment>

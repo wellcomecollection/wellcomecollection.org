@@ -1,5 +1,5 @@
 // @flow
-import type { LicenseData } from '@weco/common/utils/get-license-info';
+import type { LicenseData } from '@weco/common/utils/licenses';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
@@ -196,8 +196,8 @@ const Download = ({
                     }
                   ${
                     license.url
-                      ? `<a href="${license.url}">${license.text}</a>`
-                      : license.text
+                      ? `<a href="${license.url}">${license.label}</a>`
+                      : license.label
                   }`,
                   ]}
                 />
