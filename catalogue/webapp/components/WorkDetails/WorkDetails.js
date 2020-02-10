@@ -50,12 +50,12 @@ const WorkDetails = ({
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-  const digitalLocation: ?DigitalLocation =
+  const digitalImageLocation: ?DigitalLocation =
     iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
       ? iiifImageLocation
       : null;
 
-  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
+  const iiifImageLocationUrl = digitalImageLocation && digitalImageLocation.url;
   const iiifImageLocationCredit =
     iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
@@ -109,6 +109,8 @@ const WorkDetails = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
+
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
 
   return (
     <Space
@@ -181,6 +183,34 @@ const WorkDetails = ({
               </SpacingSection>
             </>
           )}
+
+        {/* if there is no digital location then we put 'where to find it' at the top */}
+        {!digitalLocation && (locationOfWork || encoreLink) && (
+          <WorkDetailsSection headingText="Where to find it">
+            {locationOfWork && (
+              <WorkDetailsText
+                title={locationOfWork.noteType.label}
+                text={locationOfWork.contents}
+              />
+            )}
+
+            {encoreLink && (
+              <WorkDetailsText
+                text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+              />
+            )}
+
+            <TogglesContext.Consumer>
+              {({ stacksRequestService }) =>
+                stacksRequestService && (
+                  <div className={`${font('hnl', 5)}`}>
+                    <WorkItemsStatus work={work} />
+                  </div>
+                )
+              }
+            </TogglesContext.Consumer>
+          </WorkDetailsSection>
+        )}
 
         <WorkDetailsSection headingText="About this work">
           {work.alternativeTitles.length > 0 && (
@@ -280,7 +310,8 @@ const WorkDetails = ({
           </WorkDetailsSection>
         )}
 
-        {(locationOfWork || encoreLink) && (
+        {/* if there is a digital location then we put 'where to find it' further down the page */}
+        {digitalLocation && (locationOfWork || encoreLink) && (
           <WorkDetailsSection headingText="Where to find it">
             {locationOfWork && (
               <WorkDetailsText
