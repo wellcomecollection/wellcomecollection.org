@@ -3,7 +3,6 @@ import type { Tasl } from '../../../model/tasl';
 import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes, supportedSizes } from '../../../utils/image-sizes';
-import { Fragment } from 'react';
 import type { ImageType } from '../../../model/image';
 
 export type Props = {|
@@ -12,7 +11,6 @@ export type Props = {|
   alt: string,
   tasl: ?Tasl,
   height?: number,
-  clipPathClass?: ?string,
   caption?: string,
   lazyload?: boolean,
   sizesQueries?: string,
@@ -23,6 +21,7 @@ export type Props = {|
   extraClasses?: string,
   crops?: {| [string]: ImageType |},
   style?: { [string]: any }, // TODO: find flowtype for this
+  srcsetRequired?: boolean,
 |};
 
 const Image = (props: Props) => {
@@ -31,7 +30,7 @@ const Image = (props: Props) => {
     [`${props.extraClasses || ''}`]: Boolean(props.extraClasses),
   });
   return (
-    <Fragment>
+    <>
       <noscript
         dangerouslySetInnerHTML={{
           __html: `
@@ -42,16 +41,8 @@ const Image = (props: Props) => {
         alt='${props.alt || ''}' />`,
         }}
       />
-
-      {props.clipPathClass ? (
-        <Fragment>
-          <Img {...props} clipPathClass={null} />
-          <Img {...props} />
-        </Fragment>
-      ) : (
-        <Img {...props} />
-      )}
-    </Fragment>
+      <Img {...props} />
+    </>
   );
 };
 
@@ -59,8 +50,6 @@ const Img = ({
   width,
   height,
   contentUrl,
-  clipPathClass,
-  caption,
   copyright,
   lazyload = true,
   sizesQueries = '100vw',
@@ -70,6 +59,7 @@ const Img = ({
   zoomable,
   extraClasses,
   style,
+  srcsetRequired = true,
 }: Props) => {
   const sizes = width !== undefined ? imageSizes(width) : supportedSizes;
   return (
@@ -81,14 +71,17 @@ const Img = ({
         'bg-charcoal font-white': true,
         'lazy-image lazyload': lazyload,
         'cursor-zoom-in': Boolean(zoomable),
-        [`promo__image-mask ${clipPathClass || ''}`]: clipPathClass,
         [`${extraClasses || ''}`]: Boolean(extraClasses),
       })}
       src={convertImageUri(contentUrl, defaultSize)}
-      data-srcset={sizes.map(size => {
-        return `${convertImageUri(contentUrl, size)} ${size}w`;
-      })}
-      sizes={sizesQueries}
+      data-srcset={
+        srcsetRequired
+          ? sizes.map(size => {
+              return `${convertImageUri(contentUrl, size)} ${size}w`;
+            })
+          : null
+      }
+      sizes={srcsetRequired ? sizesQueries : null}
       data-copyright={copyright}
       onClick={clickHandler}
       alt={alt || ''}
