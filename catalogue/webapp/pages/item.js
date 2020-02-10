@@ -10,6 +10,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import {
+  getDigitalLocationOfType,
   getDownloadOptionsFromManifest,
   getVideo,
   getAudio,
@@ -73,17 +74,8 @@ const ItemPage = ({
   audio,
 }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
-  const [iiifImageLocation] =
-    work && work.items
-      ? work.items
-          .map(item =>
-            item.locations.find(
-              location => location.locationType.id === 'iiif-image'
-            )
-          )
-          .filter(Boolean)
-      : [null];
-
+  const iiifImageLocation =
+    work && getDigitalLocationOfType(work, 'iiif-image');
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
   const iiifImage =
     iiifImageLocationUrl && iiifImageTemplate(iiifImageLocationUrl);

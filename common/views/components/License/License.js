@@ -1,6 +1,5 @@
 // @flow
 import type { LicenseData } from '../../../utils/licenses';
-
 type Props = {|
   subject: string,
   license: LicenseData,

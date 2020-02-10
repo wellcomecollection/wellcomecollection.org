@@ -10,8 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   type DigitalLocation,
-  getIIIFPresentationLocation,
-  getLocationOfType,
+  getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -61,11 +60,15 @@ export const WorkPage = ({ work }: Props) => {
   const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
-      const iiifPresentationLocation = getIIIFPresentationLocation(work);
-      const iiifManifest = await fetch(iiifPresentationLocation.url);
-      const manifestData = await iiifManifest.json();
+      const iiifPresentationLocation = getDigitalLocationOfType(
+        work,
+        'iiif-presentation'
+      );
+      const iiifManifest =
+        iiifPresentationLocation && (await fetch(iiifPresentationLocation.url));
+      const manifestData = iiifManifest && (await iiifManifest.json());
 
-      if (manifestData.manifests) {
+      if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
         setFirstChildManifest(
           await getFirstChildManifest(manifestData.manifests)
@@ -99,13 +102,16 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
-  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const digitalLocation: ?DigitalLocation =
     iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
