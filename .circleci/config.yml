@@ -21,7 +21,7 @@ jobs:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
           name: Install root modules
-          command: yarn install --production
+          command: yarn install
       - run:
           name: Flow
           command: yarn flow
