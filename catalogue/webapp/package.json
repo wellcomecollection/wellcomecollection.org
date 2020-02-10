@@ -41,14 +41,14 @@
     "react-transition-group": "^2.4.0",
     "react-window": "^1.8.5",
     "sass-loader": "^7.0.1",
-    "supertest": "^4.0.2",
     "uuid": "^3.3.3",
     "webpack": "^4.25.1"
   },
   "devDependencies": {
     "babel-jest": "^24.5.0",
     "jest": "^24.5.0",
-    "react-test-renderer": "^16.4.1"
+    "react-test-renderer": "^16.4.1",
+    "supertest": "^4.0.2"
   },
   "browserslist": [
     "last 2 versions",
