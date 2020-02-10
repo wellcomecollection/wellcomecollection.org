@@ -104,7 +104,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
           </SpacingComponent>
           {licenseInfo.map(license => (
             <SpacingComponent key={license.url}>
-              <div id="licenseInformation">
+              <div>
                 {license.humanReadableText.length > 0 && (
                   <WorkDetailsText
                     title="License information"

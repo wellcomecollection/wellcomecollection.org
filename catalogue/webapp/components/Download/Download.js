@@ -238,19 +238,6 @@ const Download = ({
               Credit: {credit}{' '}
             </Space>
           )}
-          {licenseInfo.length > 0 && licenseInfoLink && (
-            <a
-              href="#licenseInformation"
-              className={classNames({
-                [font('hnm', 5)]: true,
-              })}
-            >
-              <span className="flex-inline flex--v-center nowrap">
-                <Icon name="arrowSmall" extraClasses="icon--90" />
-                Can I use this?
-              </span>
-            </a>
-          )}
         </div>
       </div>
     </div>
