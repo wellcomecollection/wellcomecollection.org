@@ -8,7 +8,7 @@ import {
 } from '../model/iiif';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import getAugmentedLicenseInfo, {
-  type LicenseUIData,
+  type LicenseData,
 } from '@weco/common/utils/licenses';
 
 export function getIIIFMetadata(
@@ -208,7 +208,7 @@ export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-export function getItemsLicenseInfo(work: Work): LicenseUIData[] {
+export function getItemsLicenseInfo(work: Work): LicenseData[] {
   const licenseData = work.items
     .map(item => {
       return (

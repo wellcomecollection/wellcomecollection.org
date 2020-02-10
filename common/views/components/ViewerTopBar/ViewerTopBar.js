@@ -1,6 +1,6 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { LicenseUIData } from '@weco/common/utils/licenses';
+import type { LicenseData } from '@weco/common/utils/licenses';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workLink } from '@weco/common/services/catalogue/routes';
@@ -87,7 +87,7 @@ type Props = {|
   currentManifestLabel: ?string,
   canvasIndex: number,
   title: string,
-  licenseInfo: LicenseUIData[],
+  licenseInfo: LicenseData[],
   iiifImageLocationCredit: ?string,
   downloadOptions: ?(IIIFRendering[]),
   iiifPresentationDownloadOptions: IIIFRendering[],

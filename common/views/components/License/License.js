@@ -1,9 +1,9 @@
 // @flow
-import type { LicenseUIData } from '../../../utils/licenses';
+import type { LicenseData } from '../../../utils/licenses';
 
 type Props = {|
   subject: string,
-  license: LicenseUIData,
+  license: LicenseData,
 |};
 
 const License = ({ subject, license }: Props) => {

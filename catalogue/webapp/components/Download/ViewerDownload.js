@@ -1,5 +1,5 @@
 // @flow
-import type { LicenseUIData } from '@weco/common/utils/licenses';
+import type { LicenseData } from '@weco/common/utils/licenses';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
@@ -59,7 +59,7 @@ function getFormatString(format) {
 type Props = {|
   title: string,
   workId: string,
-  licenseInfo: LicenseUIData[],
+  licenseInfo: LicenseData[],
   iiifImageLocationCredit: ?string,
   downloadOptions: IIIFRendering[],
 |};

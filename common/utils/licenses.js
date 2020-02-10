@@ -10,7 +10,7 @@ type LicenseAPIData = {|
 |};
 // For the UI, we want to add to this data, with an icons array, description and human readable text.
 type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
-export type LicenseUIData = {|
+export type LicenseData = {|
   ...LicenseAPIData,
   icons: CcIcons[],
   description: ?string,
@@ -100,7 +100,7 @@ export const UILicenseMap = {
 
 export default function getAugmentedLicenseInfo(
   license: LicenseAPIData
-): LicenseUIData {
+): LicenseData {
   const additionalLicenseData = UILicenseMap[license.id.toLowerCase()];
   return {
     ...license,
@@ -183,6 +183,6 @@ const defaultLicenseMap = {
 
 export const mergedLicenseMap = merge(UILicenseMap, defaultLicenseMap);
 
-export function getLicenseInfo(licenseId: string): LicenseUIData {
+export function getLicenseInfo(licenseId: string): LicenseData {
   return mergedLicenseMap[licenseId.toLowerCase()];
 }
