@@ -108,37 +108,75 @@ export default function getAugmentedLicenseInfo(
   };
 }
 
-// Content editors are restricted to the following licenses
-// https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html
 const defaultLicenseMap = {
   pdm: {
     id: 'pdm',
-    label: 'Public Domain',
-    url: 'https://creativecommons.org/publicdomain/mark/1.0/',
+    label: 'Public Domain Mark',
+    url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
     type: 'License',
   },
   'cc-0': {
     id: 'cc-0',
-    label: 'CC0',
-    url: 'https://creativecommons.org/publicdomain/zero/1.0/',
+    label: 'CC0 1.0 Universal',
+    url: 'https://creativecommons.org/publicdomain/zero/1.0/legalcode',
     type: 'License',
   },
   'cc-by': {
     id: 'cc-by',
-    label: 'CC BY',
+    label: 'Attribution 4.0 International (CC BY 4.0)',
     url: 'https://creativecommons.org/licenses/by/4.0/',
     type: 'License',
   },
   'cc-by-nc': {
     id: 'cc-by-nc',
-    label: 'CC BY-NC',
+    label: 'Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)',
     url: 'https://creativecommons.org/licenses/by-nc/4.0/',
     type: 'License',
   },
   'cc-by-nc-nd': {
     id: 'cc-by-nc',
-    label: 'CC BY-NC-ND',
+    label:
+      'Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)',
     url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+    type: 'License',
+  },
+  'cc-by-nd': {
+    id: 'cc-by-nd',
+    label: 'Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)',
+    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
+    type: 'License',
+  },
+  'cc-by-sa': {
+    id: 'cc-by-sa',
+    label: 'Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)',
+    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    type: 'License',
+  },
+  'cc-by-nc-sa': {
+    id: 'cc-by-nc-sa',
+    label:
+      'Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)',
+    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+    type: 'License',
+  },
+  ogl: {
+    id: 'ogl',
+    label: 'Open Government License',
+    url:
+      'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
+    type: 'License',
+  },
+  opl: {
+    id: 'opl',
+    label: 'Open Parliament License',
+    url:
+      'https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence',
+    type: 'License',
+  },
+  inc: {
+    id: 'inc',
+    label: 'In copyright',
+    url: 'http://rightsstatements.org/vocab/InC/1.0/',
     type: 'License',
   },
 };
