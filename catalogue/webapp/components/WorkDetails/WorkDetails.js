@@ -2,8 +2,8 @@
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
-import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import { font, /* grid, */ classNames } from '@weco/common/utils/classnames';
+// import { downloadUrl } from '@weco/common/services/catalogue/urls'; // TODO need this?
 import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
   getDownloadOptionsFromImageUrl,
@@ -14,19 +14,18 @@ import {
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
-  // getIIIFPresentationCredit,
-  // getIIIFImageCredit,
+  getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 
-import NextLink from 'next/link';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// import NextLink from 'next/link';
+// import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-// import Download from '../Download/Download';
+import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
@@ -48,49 +47,48 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
 }: Props) => {
-  const duration =
-    work.duration && moment.utc(work.duration).format('HH:mm:ss');
-
+  // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  const digitalImageLocation: ?DigitalLocation =
-    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
-      ? iiifImageLocation
-      : null;
-
-  const iiifImageLocationUrl = digitalImageLocation && digitalImageLocation.url;
-  // const iiifImageLocationCredit =
-  //   iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
-
-  const isbnIdentifiers = work.identifiers.filter(id => {
-    return id.identifierType.id === 'isbn';
-  });
-
-  const iiifPresentationDownloadOptions = iiifPresentationManifest
-    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
-    : [];
-
-  const downloadOptions = iiifImageLocationUrl
-    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
-    : [];
-
-  const allDownloadOptions = [
-    ...downloadOptions,
-    ...iiifPresentationDownloadOptions,
-  ];
-
-  // const iiifPresentationCredit =
-  //   iiifPresentationManifest &&
-  //   getIIIFPresentationCredit(iiifPresentationManifest);
-
-  // const credit = iiifPresentationCredit || iiifImageLocationCredit;
-
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
     'iiif-presentation'
   );
+  const digitalLocation: ?DigitalLocation =
+    iiifPresentationLocation || iiifImageLocation;
 
-  const sierraIdFromPresentationManifestUrl =
+  // 'Available online' data
+  const license =
+    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+
+  // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
+  const credit =
+    (digitalLocation && digitalLocation.credit) ||
+    (iiifPresentationManifest &&
+      getIIIFPresentationCredit(iiifPresentationManifest));
+
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImagedownloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
+  const iiifPresentationDownloadOptions = iiifPresentationManifest
+    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
+  const downloadOptions = [
+    ...iiifImagedownloadOptions,
+    ...iiifPresentationDownloadOptions,
+  ];
+
+  // 'About this work' data
+  const duration =
+    work.duration && moment.utc(work.duration).format('HH:mm:ss');
+
+  // 'Indentifiers' data
+  const isbnIdentifiers = work.identifiers.filter(id => {
+    return id.identifierType.id === 'isbn';
+  });
+
+  const sierraIdFromPresentationManifestUrl = // TODO replace with function created elsewhere
     iiifPresentationLocation &&
     (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
 
@@ -111,10 +109,6 @@ const WorkDetails = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
-
-  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
-  const license =
-    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
 
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
@@ -184,19 +178,14 @@ const WorkDetails = ({
                 ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
                 : ''}
             </p>
-            {/* view buttons
-            number of items
-            audio/video player in situ?
-            download
-            license text */}
-            {/* get rid of getLicenseInfo? - just use items? */}
-            {/* <Download
+
+            <Download
               work={work}
-              licenseInfo={licenseInfo}
+              license={license}
               credit={credit}
-              downloadOptions={allDownloadOptions}
+              downloadOptions={downloadOptions}
               licenseInfoLink={true}
-            /> */}
+            />
 
             {license && (
               <div key={license.url}>
@@ -210,7 +199,11 @@ const WorkDetails = ({
                   title="Credit"
                   text={[
                     `${work.title.replace(/\.$/g, '')}.${' '}
-
+                ${
+                  credit
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                    : ` `
+                }
               ${
                 license.url
                   ? `<a href="${license.url}">${license.label}</a>`
@@ -222,13 +215,8 @@ const WorkDetails = ({
             )}
           </WorkDetailsSection>
         )}
-        {/* ${
-               credit
-                 ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                 : ` `
-             } */}
 
-        {!(allDownloadOptions.length > 0) &&
+        {/* {!(allDownloadOptions.length > 0) &&
           sierraIdFromPresentationManifestUrl &&
           childManifestsCount === 0 && (
             <>
@@ -260,12 +248,10 @@ const WorkDetails = ({
                 </div>
               </SpacingSection>
             </>
-          )}
-
+          )} */}
         {!digitalLocation && (locationOfWork || encoreLink) && (
           <WhereToFindIt />
         )}
-
         <WorkDetailsSection headingText="About this work">
           {work.alternativeTitles.length > 0 && (
             <WorkDetailsText
@@ -347,7 +333,6 @@ const WorkDetails = ({
             />
           )}
         </WorkDetailsSection>
-
         {work.subjects.length > 0 && (
           <WorkDetailsSection headingText="Subjects">
             <WorkDetailsTags
@@ -363,9 +348,7 @@ const WorkDetails = ({
             />
           </WorkDetailsSection>
         )}
-
         {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
-
         <WorkDetailsSection headingText="Identifiers">
           {isbnIdentifiers.length > 0 && (
             <WorkDetailsList
@@ -385,7 +368,6 @@ const WorkDetails = ({
             <WorkDetailsText title="Reference number" text={[work.citeAs]} />
           )}
         </WorkDetailsSection>
-
         <WorkDetailsSection>
           <div className="flex flex--v-center">
             <Icon name="underConstruction" extraClasses="margin-right-s2" />
