@@ -10,12 +10,14 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
-  getFirstChildManifestLocation,
   type DigitalLocation,
+} from '@weco/common/utils/works';
+import {
+  getFirstChildManifestLocation,
   getAudio,
   getVideo,
   getCanvases,
-} from '@weco/common/utils/works';
+} from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';

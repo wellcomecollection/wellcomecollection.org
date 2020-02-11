@@ -9,8 +9,8 @@ import {
   getDigitalLocationOfType,
   getItemsLicenseInfo,
   getDownloadOptionsFromImageUrl,
-  getDownloadOptionsFromManifest,
 } from '@weco/common/utils/works';
+import { getDownloadOptionsFromManifest } from '@weco/common/utils/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { classNames } from '@weco/common/utils/classnames';

@@ -7,16 +7,17 @@ import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
   getItemsLicenseInfo,
-  getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
 } from '@weco/common/utils/works';
 import {
+  getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
+
 import NextLink from 'next/link';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';

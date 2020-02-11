@@ -7,11 +7,11 @@ import {
 import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getItemsLicenseInfo,
-  getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import {
+  getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
   getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
