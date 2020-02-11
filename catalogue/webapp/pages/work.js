@@ -110,18 +110,25 @@ export const WorkPage = ({ work }: Props) => {
       ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
       : null;
 
-  const itemUrlObject = itemLink({
-    workId: work.id,
-    sierraId:
-      (firstChildManifestLocation &&
-        sierraIdFromPresentationManifestUrl(firstChildManifestLocation)) ||
-      (iiifPresentationLocation &&
-        sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
-      null,
-    langCode: work.language && work.language.id,
-    canvas: 1,
-    page: 1,
-  });
+  const itemUrlObject =
+    work && work.type !== 'Error'
+      ? itemLink({
+          workId: work.id,
+          sierraId:
+            (firstChildManifestLocation &&
+              sierraIdFromPresentationManifestUrl(
+                firstChildManifestLocation
+              )) ||
+            (iiifPresentationLocation &&
+              sierraIdFromPresentationManifestUrl(
+                iiifPresentationLocation.url
+              )) ||
+            null,
+          langCode: work.language && work.language.id,
+          canvas: 1,
+          page: 1,
+        })
+      : null;
 
   if (work.type === 'Error') {
     return (

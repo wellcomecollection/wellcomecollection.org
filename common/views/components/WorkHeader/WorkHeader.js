@@ -25,7 +25,7 @@ const WorkHeaderContainer = styled.div.attrs(props => ({
 type Props = {|
   work: Work,
   childManifestsCount?: number,
-  itemUrl: NextLinkType,
+  itemUrl: ?NextLinkType,
 |};
 
 const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
@@ -131,17 +131,21 @@ const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
             'flex--column': true,
           })}
         >
-          <NextLink {...itemUrl}>
-            <a
-              onClick={trackEvent({
-                category: 'WorkHeader',
-                action: 'follow link',
-                label: itemUrl.href.query.workId,
-              })}
-            >
-              <WorkPreview imagePath={work.thumbnail.url} />
-            </a>
-          </NextLink>
+          {itemUrl ? (
+            <NextLink {...itemUrl}>
+              <a
+                onClick={trackEvent({
+                  category: 'WorkHeader',
+                  action: 'follow link',
+                  label: itemUrl.href.query.workId,
+                })}
+              >
+                <WorkPreview imagePath={work.thumbnail.url} />
+              </a>
+            </NextLink>
+          ) : (
+            <WorkPreview imagePath={work.thumbnail.url} />
+          )}
         </Space>
       )}
     </WorkHeaderContainer>

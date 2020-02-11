@@ -198,26 +198,28 @@ const WorkDetails = ({
               licenseInfoLink={true}
             /> */}
 
-            <div key={license.url}>
-              {license.humanReadableText.length > 0 && (
+            {license && (
+              <div key={license.url}>
+                {license.humanReadableText.length > 0 && (
+                  <WorkDetailsText
+                    title="License information"
+                    text={license.humanReadableText}
+                  />
+                )}
                 <WorkDetailsText
-                  title="License information"
-                  text={license.humanReadableText}
-                />
-              )}
-              <WorkDetailsText
-                title="Credit"
-                text={[
-                  `${work.title.replace(/\.$/g, '')}.${' '}
+                  title="Credit"
+                  text={[
+                    `${work.title.replace(/\.$/g, '')}.${' '}
 
               ${
                 license.url
                   ? `<a href="${license.url}">${license.label}</a>`
                   : license.label
               }`,
-                ]}
-              />
-            </div>
+                  ]}
+                />
+              </div>
+            )}
           </WorkDetailsSection>
         )}
         {/* ${
