@@ -134,7 +134,7 @@ const Download = ({
                       as="span"
                       h={{ size: 's', properties: ['margin-right'] }}
                     >
-                      Download
+                      Downloads
                     </Space>
                     <Icon name="chevron" />
                   </span>
