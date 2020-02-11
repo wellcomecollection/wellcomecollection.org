@@ -1,11 +1,9 @@
 // @flow
-import type { LicenseData } from '@weco/common/utils/licenses';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import License from '@weco/common/views/components/License/License';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -86,19 +84,10 @@ function getFormatString(format) {
 type Work = Object;
 type Props = {|
   work: Work,
-  license: ?LicenseData,
-  credit: ?string,
   downloadOptions: IIIFRendering[],
-  licenseInfoLink: boolean,
 |};
 
-const Download = ({
-  work,
-  license,
-  credit,
-  downloadOptions,
-  licenseInfoLink,
-}: Props) => {
+const Download = ({ work, downloadOptions }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [useJavascriptControl, setUseJavascriptControl] = useState(false);
   useEffect(() => {
@@ -114,7 +103,7 @@ const Download = ({
       >
         {downloadOptions.length > 0 && (
           <>
-            {useJavascriptControl ? (
+            {useJavascriptControl ? ( // TODO is enhanced stuff...
               <h2 className="inline">
                 <DownloadButton
                   className={classNames({
@@ -212,31 +201,6 @@ const Download = ({
             </DownloadOptions>
           </>
         )}
-
-        <div className="flex-inline flex--v-center">
-          {license && (
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
-            >
-              <License key={license.url} subject={''} license={license} />
-            </Space>
-          )}
-          {credit && (
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
-            >
-              Credit: {credit}{' '}
-            </Space>
-          )}
-        </div>
       </div>
     </div>
   );

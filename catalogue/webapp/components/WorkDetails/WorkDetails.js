@@ -179,13 +179,7 @@ const WorkDetails = ({
                 : ''}
             </p>
 
-            <Download
-              work={work}
-              license={license}
-              credit={credit}
-              downloadOptions={downloadOptions}
-              licenseInfoLink={true}
-            />
+            <Download work={work} downloadOptions={downloadOptions} />
 
             {license && (
               <div key={license.url}>
