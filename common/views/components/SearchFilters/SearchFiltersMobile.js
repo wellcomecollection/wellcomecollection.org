@@ -267,9 +267,10 @@ const SearchFiltersMobile = ({
                     })}
                   >
                     {workTypeFilters.map(workType => {
-                      const isChecked =
-                        workTypeInUrlArray &&
-                        workTypeInUrlArray.includes(workType.data.id);
+                      const isChecked = workTypeInUrlArray.includes(
+                        workType.data.id
+                      );
+
                       return (
                         (workType.count > 0 || isChecked) && (
                           <Space
