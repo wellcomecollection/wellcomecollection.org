@@ -41,6 +41,11 @@ const RelatedImages = ({ originalId }: Props) => {
   return relatedImages.length === 0 ? null : (
     <>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
+      <p className={font('hnl', 6)}>
+        These images have similar shapes and structural features. We use machine
+        learning to detect visual similarity across all images in our
+        collection.
+      </p>
       <Wrapper>
         {relatedImages.map(related => (
           <NextLink href={`/works/${related.id}`} key={related.id}>
