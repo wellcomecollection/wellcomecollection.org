@@ -222,7 +222,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
         </CloseButton>
-        {iiifImageLocation && (
+        {iiifImageLocation && maybeItemLink && (
           <NextLink {...maybeItemLink} passHref>
             <ImageWrapper>
               <Image
