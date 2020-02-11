@@ -10,6 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
+  getFirstChildManifestLocation,
   type DigitalLocation,
   getAudio,
   getVideo,
@@ -103,10 +104,15 @@ export const WorkPage = ({ work }: Props) => {
     work,
     'iiif-presentation'
   );
+  const firstChildManifestLocation =
+    iiifPresentationManifest &&
+    getFirstChildManifestLocation(iiifPresentationManifest);
 
-  const sierraIdFromPresentationManifestUrl =
-    iiifPresentationLocation &&
-    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+  function sierraIdFromPresentationManifestUrl(
+    iiifPresentationLocation: string
+  ): string {
+    return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
+  }
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
@@ -125,11 +131,10 @@ export const WorkPage = ({ work }: Props) => {
   const itemUrlObject = itemLink({
     workId: work.id,
     sierraId:
-      (firstChildManifest &&
-        firstChildManifest['@id'].match(
-          /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-        )[1]) ||
-      sierraIdFromPresentationManifestUrl ||
+      (firstChildManifestLocation &&
+        sierraIdFromPresentationManifestUrl(firstChildManifestLocation)) ||
+      (iiifPresentationLocation &&
+        sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url)) ||
       null,
     langCode: work.language && work.language.id,
     canvas: 1,
