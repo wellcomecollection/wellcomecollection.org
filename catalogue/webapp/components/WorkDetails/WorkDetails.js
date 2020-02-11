@@ -6,16 +6,16 @@ import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
-  getItemsLicenseInfo,
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
 } from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
-  getIIIFPresentationCredit,
-  getIIIFImageCredit,
+  // getIIIFPresentationCredit,
+  // getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
 
 import NextLink from 'next/link';
@@ -59,8 +59,8 @@ const WorkDetails = ({
       : null;
 
   const iiifImageLocationUrl = digitalImageLocation && digitalImageLocation.url;
-  const iiifImageLocationCredit =
-    iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
+  // const iiifImageLocationCredit =
+  //   iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
 
   const isbnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'isbn';
@@ -79,12 +79,11 @@ const WorkDetails = ({
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationCredit =
-    iiifPresentationManifest &&
-    getIIIFPresentationCredit(iiifPresentationManifest);
+  // const iiifPresentationCredit =
+  //   iiifPresentationManifest &&
+  //   getIIIFPresentationCredit(iiifPresentationManifest);
 
-  const licenseInfo = getItemsLicenseInfo(work); // TODO tie this more directly to the digitalLocation
-  const credit = iiifPresentationCredit || iiifImageLocationCredit;
+  // const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -114,6 +113,8 @@ const WorkDetails = ({
   );
 
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const license =
+    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
 
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
@@ -172,37 +173,20 @@ const WorkDetails = ({
                   borderRadius: '6px',
                 }}
               >
-                {JSON.stringify(iiifImageLocation, null, 1)}
+                {JSON.stringify(digitalLocation, null, 1)}
               </code>
             </pre>
-            <pre
-              style={{
-                maxWidth: '600px',
-                margin: '0 auto 24px',
-                fontSize: '14px',
-              }}
-            >
-              <code
-                style={{
-                  display: 'block',
-                  padding: '24px',
-                  backgroundColor: '#EFE1AA',
-                  color: '#000',
-                  border: '4px solid #000',
-                  borderRadius: '6px',
-                }}
-              >
-                {JSON.stringify(iiifPresentationLocation, null, 1)}
-              </code>
-            </pre>
-            {childManifestsCount > 0
-              ? `${childManifestsCount} volumes`
-              : imageCount > 0
-              ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
-              : ''}
+            <p>
+              Contains:{' '}
+              {childManifestsCount > 0
+                ? `${childManifestsCount} volumes`
+                : imageCount > 0
+                ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
+                : ''}
+            </p>
             {/* view buttons
             number of items
-            audio/video player in situ
+            audio/video player in situ?
             download
             license text */}
             {/* get rid of getLicenseInfo? - just use items? */}
@@ -213,36 +197,34 @@ const WorkDetails = ({
               downloadOptions={allDownloadOptions}
               licenseInfoLink={true}
             /> */}
-            {licenseInfo.map((
-              license // use iiifImageLocation and iiifPresentationLocation?
-            ) => (
-              <div key={license.url}>
-                {license.humanReadableText.length > 0 && (
-                  <WorkDetailsText
-                    title="License information"
-                    text={license.humanReadableText}
-                  />
-                )}
+
+            <div key={license.url}>
+              {license.humanReadableText.length > 0 && (
                 <WorkDetailsText
-                  title="Credit"
-                  text={[
-                    `${work.title.replace(/\.$/g, '')}.${' '}
-              ${
-                credit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
-                  : ` `
-              }
+                  title="License information"
+                  text={license.humanReadableText}
+                />
+              )}
+              <WorkDetailsText
+                title="Credit"
+                text={[
+                  `${work.title.replace(/\.$/g, '')}.${' '}
+
               ${
                 license.url
                   ? `<a href="${license.url}">${license.label}</a>`
                   : license.label
               }`,
-                  ]}
-                />
-              </div>
-            ))}
+                ]}
+              />
+            </div>
           </WorkDetailsSection>
         )}
+        {/* ${
+               credit
+                 ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                 : ` `
+             } */}
 
         {!(allDownloadOptions.length > 0) &&
           sierraIdFromPresentationManifestUrl &&

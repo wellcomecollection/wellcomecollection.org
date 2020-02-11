@@ -1,10 +1,11 @@
 // @flow
 import { type Work } from '../model/work';
 import { type IIIFRendering } from '../model/iiif';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import getAugmentedLicenseInfo, {
+  type LicenseAPIData,
   type LicenseData,
 } from '@weco/common/utils/licenses';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getDigitalLocations(work: Work) {
   return work.items
@@ -65,6 +66,7 @@ export function getWorkTypeIcon(work: Work): ?string {
 }
 
 export function getItemsLicenseInfo(work: Work): LicenseData[] {
+  // TODO can we get rid of this
   const licenseData = work.items
     .map(item => {
       return (
@@ -92,12 +94,7 @@ type LocationType = {|
 
 export type DigitalLocation = {|
   credit: string,
-  license: {|
-    id: string,
-    label: string,
-    url: string,
-    type: 'License',
-  |},
+  license: LicenseAPIData,
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,
