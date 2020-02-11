@@ -230,7 +230,7 @@ export type PhysicalLocation = {|
   type: 'PhysicalLocation',
 |};
 
-export function getDigitalLocationOfType( // TODO could there be more than one, so should this return an array
+export function getDigitalLocationOfType(
   work: Work,
   locationType: string
 ): ?DigitalLocation {
@@ -240,6 +240,14 @@ export function getDigitalLocationOfType( // TODO could there be more than one, 
     )
     .filter(Boolean);
   return item;
+}
+
+export function getFirstChildManifestLocation(iiifManifest: IIIFManifest) {
+  if (iiifManifest.manifests) {
+    return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
+  } else {
+    return null;
+  }
 }
 
 type Item = Object;
