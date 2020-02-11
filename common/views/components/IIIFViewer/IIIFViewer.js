@@ -7,9 +7,9 @@ import {
 } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
-  getItemsLicenseInfo,
   getDownloadOptionsFromImageUrl,
 } from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import { getDownloadOptionsFromManifest } from '@weco/common/utils/iiif';
 import styled from 'styled-components';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
@@ -268,6 +268,13 @@ const IIIFViewerComponent = ({
       : null;
   const urlTemplate =
     iiifImageLocation && iiifImageTemplate(iiifImageLocation.url);
+  const iiifPresentationLocation =
+    work && work.type !== 'Error'
+      ? getDigitalLocationOfType(work, 'iiif-presentation')
+      : null;
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const licenseInfo =
+    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
 
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
@@ -277,16 +284,18 @@ const IIIFViewerComponent = ({
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : null;
 
-  const licenseInfo = work ? getItemsLicenseInfo(work) : [];
   // Download info from manifest
   const iiifPresentationDownloadOptions =
     (manifest && getDownloadOptionsFromManifest(manifest)) || [];
+
   const parentManifestUrl = manifest && manifest.within;
 
   const firstRotatedImage = rotatedImages.find(
     image => image.canvasIndex === 0
   );
+
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
+
   useEffect(() => {
     if ('IntersectionObserver' in window) {
       setEnhanced(true);

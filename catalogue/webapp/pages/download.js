@@ -6,10 +6,10 @@ import {
 } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import {
-  getItemsLicenseInfo,
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
 } from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
@@ -36,11 +36,19 @@ type Props = {|
 const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifPresentationDownloadOptions =
-    (manifest && getDownloadOptionsFromManifest(manifest)) || []; // TODO abstract this for use here and in work(details)?
+    (manifest && getDownloadOptionsFromManifest(manifest)) || [];
 
-  const iiifImageLocation = work
-    ? getDigitalLocationOfType(work, 'iiif-image')
-    : null;
+  const iiifImageLocation =
+    work && work.type !== 'Error'
+      ? getDigitalLocationOfType(work, 'iiif-image')
+      : null;
+  const iiifPresentationLocation =
+    work && work.type !== 'Error'
+      ? getDigitalLocationOfType(work, 'iiif-presentation')
+      : null;
+  const digitalLocation = iiifImageLocation || iiifPresentationLocation;
+  const license =
+    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
 
   const iiifImageLocationUrl =
     iiifImageLocation &&
@@ -62,7 +70,6 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   const iiifPresentationCredit =
     manifest && getIIIFPresentationCredit(manifest);
 
-  const licenseInfo = work ? getItemsLicenseInfo(work) : [];
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
   return (
     <PageLayout
@@ -96,13 +103,13 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
           <SpacingComponent>
             <Download
               work={work}
-              licenseInfo={licenseInfo}
+              license={license}
               credit={credit}
               downloadOptions={allDownloadOptions}
               licenseInfoLink={false}
             />
           </SpacingComponent>
-          {licenseInfo.map(license => (
+          {license && (
             <SpacingComponent key={license.url}>
               <div>
                 {license.humanReadableText.length > 0 && (
@@ -129,7 +136,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
                 />
               </div>
             </SpacingComponent>
-          ))}
+          )}
         </SpacingSection>
       </Layout8>
     </PageLayout>
@@ -142,12 +149,7 @@ DownloadPage.getInitialProps = async (ctx: Context): Promise<Props> => {
     ? `https://wellcomelibrary.org/iiif/${sierraId}/manifest`
     : null;
   const manifest = manifestUrl ? await (await fetch(manifestUrl)).json() : null;
-
-  // The sierraId originates from the iiif presentation manifest url
-  // If we don't have one, we must be trying to display a work with an iiif image location,
-  // so we need to get the work object to get the necessary data to display
-  const work = !sierraId ? await getWork({ id: workId }) : null;
-
+  const work = await getWork({ id: workId });
   return {
     workId,
     sierraId,

@@ -87,7 +87,7 @@ type Props = {|
   currentManifestLabel: ?string,
   canvasIndex: number,
   title: string,
-  licenseInfo: LicenseData[],
+  licenseInfo: ?LicenseData,
   iiifImageLocationCredit: ?string,
   downloadOptions: ?(IIIFRendering[]),
   iiifPresentationDownloadOptions: IIIFRendering[],
@@ -204,7 +204,7 @@ const ViewerTopBar = ({
               <Download
                 title={title}
                 workId={workId}
-                licenseInfo={licenseInfo}
+                license={licenseInfo}
                 iiifImageLocationCredit={iiifImageLocationCredit}
                 downloadOptions={
                   downloadOptions || iiifPresentationDownloadOptions

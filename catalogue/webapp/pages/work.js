@@ -76,7 +76,6 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
-
   const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
   const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
 
@@ -88,19 +87,6 @@ export const WorkPage = ({ work }: Props) => {
       });
     fetchIIIFPresentationManifest();
   }, []);
-
-  if (work.type === 'Error') {
-    return (
-      <ErrorPage
-        title={
-          work.httpStatus === 410
-            ? 'This catalogue item has been removed.'
-            : null
-        }
-        statusCode={work.httpStatus}
-      />
-    );
-  }
 
   const firstChildManifestLocation =
     iiifPresentationManifest &&
@@ -114,12 +100,10 @@ export const WorkPage = ({ work }: Props) => {
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-  const digitalLocation: ?DigitalLocation =
+  const digitalLocation: ?DigitalLocation = // TODO needed?
     iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
       ? iiifImageLocation
       : null;
-
-  // const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
 
   const imageContentUrl =
     digitalLocation && digitalLocation.url
@@ -138,6 +122,19 @@ export const WorkPage = ({ work }: Props) => {
     canvas: 1,
     page: 1,
   });
+
+  if (work.type === 'Error') {
+    return (
+      <ErrorPage
+        title={
+          work.httpStatus === 410
+            ? 'This catalogue item has been removed.'
+            : null
+        }
+        statusCode={work.httpStatus}
+      />
+    );
+  }
 
   return (
     <CataloguePageLayout

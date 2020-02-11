@@ -1,10 +1,7 @@
 // @flow
 import { type Work } from '../model/work';
 import { type IIIFRendering } from '../model/iiif';
-import getAugmentedLicenseInfo, {
-  type LicenseAPIData,
-  type LicenseData,
-} from '@weco/common/utils/licenses';
+import { type LicenseAPIData } from '@weco/common/utils/licenses';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export function getDigitalLocations(work: Work) {
@@ -63,27 +60,6 @@ const workTypeIcons = {
 };
 export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
-}
-
-export function getItemsLicenseInfo(work: Work): LicenseData[] {
-  // TODO can we get rid of this
-  const licenseData = work.items
-    .map(item => {
-      return (
-        item.locations &&
-        item.locations
-          .map(location => {
-            if (location.license) {
-              return getAugmentedLicenseInfo(location.license);
-            } else {
-              return null;
-            }
-          })
-          .filter(Boolean)
-      );
-    })
-    .reduce((a, b) => a.concat(b), []);
-  return licenseData || [];
 }
 
 type LocationType = {|

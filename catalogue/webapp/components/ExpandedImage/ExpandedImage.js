@@ -2,10 +2,8 @@
 import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
-import {
-  getItemsLicenseInfo,
-  getDigitalLocationOfType,
-} from '@weco/common/utils/works';
+import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
@@ -201,7 +199,8 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
 
   const iiifImageLocation =
     detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
-  const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
+  const license =
+    iiifImageLocation && getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const maybeItemLink =
     detailedWork &&
@@ -243,16 +242,14 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
             >
               {title}
             </Space>
-            {licenseInfo.length > 0 &&
-              licenseInfo.map(license => (
-                <Space
-                  key={license.url}
-                  className={font('hnl', 5)}
-                  v={{ size: 'l', properties: ['margin-bottom'] }}
-                >
-                  <License subject="" license={license} />
-                </Space>
-              ))}
+            {license && (
+              <Space
+                className={font('hnl', 5)}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <License subject="" license={license} />
+              </Space>
+            )}
 
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <Space

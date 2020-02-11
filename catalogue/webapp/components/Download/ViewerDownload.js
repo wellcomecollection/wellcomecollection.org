@@ -59,7 +59,7 @@ function getFormatString(format) {
 type Props = {|
   title: string,
   workId: string,
-  licenseInfo: LicenseData[],
+  license: ?LicenseData,
   iiifImageLocationCredit: ?string,
   downloadOptions: IIIFRendering[],
 |};
@@ -67,7 +67,7 @@ type Props = {|
 const Download = ({
   title,
   workId,
-  licenseInfo,
+  license,
   iiifImageLocationCredit,
   downloadOptions,
 }: Props) => {
@@ -176,34 +176,33 @@ const Download = ({
         <SpacingComponent>
           <Divider extraClasses="divider--pumice divider--keyline" />
         </SpacingComponent>
-        {licenseInfo.length > 0 &&
-          licenseInfo.map(license => (
-            <SpacingComponent key={license.url}>
-              <div ref={downloadText}>
-                {license.humanReadableText.length > 0 && (
-                  <WorkDetailsText
-                    title="License information"
-                    text={license.humanReadableText}
-                  />
-                )}
+        {license && (
+          <SpacingComponent>
+            <div ref={downloadText}>
+              {license.humanReadableText.length > 0 && (
                 <WorkDetailsText
-                  title="Credit"
-                  text={[
-                    `${title}. ${
-                      iiifImageLocationCredit
-                        ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
-                        : ` `
-                    }
+                  title="License information"
+                  text={license.humanReadableText}
+                />
+              )}
+              <WorkDetailsText
+                title="Credit"
+                text={[
+                  `${title}. ${
+                    iiifImageLocationCredit
+                      ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
+                      : ` `
+                  }
                   ${
                     license.url
                       ? `<a href="${license.url}">${license.label}</a>`
                       : license.label
                   }`,
-                  ]}
-                />
-              </div>
-            </SpacingComponent>
-          ))}
+                ]}
+              />
+            </div>
+          </SpacingComponent>
+        )}
       </DownloadOptions>
     </div>
   );
