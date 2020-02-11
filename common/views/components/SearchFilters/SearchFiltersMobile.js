@@ -199,6 +199,9 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
+  const showWorkTypeFilters =
+    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <OpenFiltersButton
@@ -255,7 +258,7 @@ const SearchFiltersMobile = ({
                   }}
                 />
               </FilterSection>
-              {workTypeFilters.length > 0 && (
+              {showWorkTypeFilters && (
                 <FilterSection>
                   <h3 className="h3">Formats</h3>
                   <ul
@@ -264,26 +267,27 @@ const SearchFiltersMobile = ({
                     })}
                   >
                     {workTypeFilters.map(workType => {
+                      const isChecked = workTypeInUrlArray.includes(
+                        workType.data.id
+                      );
+
                       return (
-                        <Space
-                          as="li"
-                          v={{ size: 'l', properties: ['margin-bottom'] }}
-                          key={`mobile-${workType.data.id}`}
-                        >
-                          <Checkbox
-                            id={`mobile-${workType.data.id}`}
-                            text={`${workType.data.label} (${workType.count})`}
-                            value={workType.data.id}
-                            name={`workType`}
-                            checked={
-                              workTypeInUrlArray &&
-                              workTypeInUrlArray.includes(workType.data.id)
-                            }
-                            onChange={event => {
-                              changeHandler();
-                            }}
-                          />
-                        </Space>
+                        (workType.count > 0 || isChecked) && (
+                          <Space
+                            as="li"
+                            v={{ size: 'l', properties: ['margin-bottom'] }}
+                            key={`mobile-${workType.data.id}`}
+                          >
+                            <Checkbox
+                              id={`mobile-${workType.data.id}`}
+                              text={`${workType.data.label} (${workType.count})`}
+                              value={workType.data.id}
+                              name={`workType`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </Space>
+                        )
                       );
                     })}
                   </ul>

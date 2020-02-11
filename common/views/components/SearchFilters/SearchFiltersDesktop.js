@@ -52,6 +52,9 @@ const SearchFiltersDesktop = ({
   productionDatesTo,
   workTypeInUrlArray,
 }: SearchFiltersSharedProps) => {
+  const showWorkTypeFilters =
+    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+
   return (
     <>
       <Space
@@ -111,7 +114,7 @@ const SearchFiltersDesktop = ({
           </DropdownButton>
         </Space>
 
-        {workTypeFilters.length > 0 && (
+        {showWorkTypeFilters && (
           <DropdownButton label={'Formats'}>
             <ul
               className={classNames({
@@ -119,22 +122,21 @@ const SearchFiltersDesktop = ({
               })}
             >
               {workTypeFilters.map(workType => {
+                const isChecked = workTypeInUrlArray.includes(workType.data.id);
+
                 return (
-                  <li key={workType.data.id}>
-                    <Checkbox
-                      id={workType.data.id}
-                      text={`${workType.data.label} (${workType.count})`}
-                      value={workType.data.id}
-                      name={`workType`}
-                      checked={
-                        workTypeInUrlArray &&
-                        workTypeInUrlArray.includes(workType.data.id)
-                      }
-                      onChange={event => {
-                        changeHandler();
-                      }}
-                    />
-                  </li>
+                  (workType.count > 0 || isChecked) && (
+                    <li key={workType.data.id}>
+                      <Checkbox
+                        id={workType.data.id}
+                        text={`${workType.data.label} (${workType.count})`}
+                        value={workType.data.id}
+                        name={`workType`}
+                        checked={isChecked}
+                        onChange={changeHandler}
+                      />
+                    </li>
+                  )
                 );
               })}
             </ul>
