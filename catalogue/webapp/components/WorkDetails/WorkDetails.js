@@ -2,8 +2,8 @@
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
-import { font, /* grid, */ classNames } from '@weco/common/utils/classnames';
-// import { downloadUrl } from '@weco/common/services/catalogue/urls'; // TODO need this?
+import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
 import {
   getDownloadOptionsFromImageUrl,
@@ -16,9 +16,8 @@ import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
-
-// import NextLink from 'next/link';
-// import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import NextLink from 'next/link';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -150,26 +149,6 @@ const WorkDetails = ({
       <Layout12>
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
-            <pre
-              style={{
-                maxWidth: '600px',
-                margin: '0 auto 24px',
-                fontSize: '14px',
-              }}
-            >
-              <code
-                style={{
-                  display: 'block',
-                  padding: '24px',
-                  backgroundColor: '#EFE1AA',
-                  color: '#000',
-                  border: '4px solid #000',
-                  borderRadius: '6px',
-                }}
-              >
-                {JSON.stringify(digitalLocation, null, 1)}
-              </code>
-            </pre>
             <p>
               Contains:{' '}
               {childManifestsCount > 0
@@ -180,6 +159,37 @@ const WorkDetails = ({
             </p>
 
             <Download work={work} downloadOptions={downloadOptions} />
+            {!(downloadOptions.length > 0) &&
+              sierraIdFromPresentationManifestUrl &&
+              childManifestsCount === 0 && (
+                <SpacingSection>
+                  <div
+                    className={classNames({
+                      grid: true,
+                    })}
+                  >
+                    <div
+                      className={classNames({
+                        [grid({
+                          s: 12,
+                          m: 12,
+                          l: 10,
+                          xl: 10,
+                        })]: true,
+                      })}
+                    >
+                      <NextLink
+                        {...downloadUrl({
+                          workId: work.id,
+                          sierraId: sierraIdFromPresentationManifestUrl,
+                        })}
+                      >
+                        <a>Download options</a>
+                      </NextLink>
+                    </div>
+                  </div>
+                </SpacingSection>
+              )}
 
             {license && (
               <div key={license.url}>
@@ -209,40 +219,6 @@ const WorkDetails = ({
             )}
           </WorkDetailsSection>
         )}
-
-        {/* {!(allDownloadOptions.length > 0) &&
-          sierraIdFromPresentationManifestUrl &&
-          childManifestsCount === 0 && (
-            <>
-              <SpacingSection>
-                <div
-                  className={classNames({
-                    grid: true,
-                  })}
-                >
-                  <div
-                    className={classNames({
-                      [grid({
-                        s: 12,
-                        m: 12,
-                        l: 10,
-                        xl: 10,
-                      })]: true,
-                    })}
-                  >
-                    <NextLink
-                      {...downloadUrl({
-                        workId: work.id,
-                        sierraId: sierraIdFromPresentationManifestUrl,
-                      })}
-                    >
-                      <a>Download options</a>
-                    </NextLink>
-                  </div>
-                </div>
-              </SpacingSection>
-            </>
-          )} */}
         {!digitalLocation && (locationOfWork || encoreLink) && (
           <WhereToFindIt />
         )}
