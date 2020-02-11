@@ -159,28 +159,6 @@ export function getAudio(iiifManifest: IIIFManifest) {
   );
 }
 
-export type IIIFPresentationLocation = {|
-  locationType: {
-    id: 'iiif-presentation',
-    label: 'IIIF Presentation API',
-    type: 'LocationType',
-  },
-  url: string,
-  type: 'DigitalLocation',
-|};
-
-export function getIIIFPresentationLocation(
-  work: Work
-): IIIFPresentationLocation {
-  return work.items
-    .map(item =>
-      item.locations.find(
-        location => location.locationType.id === 'iiif-presentation'
-      )
-    )
-    .filter(Boolean)[0];
-}
-
 export function getEncoreLink(sierraId: string): string {
   return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
     0,
@@ -233,6 +211,7 @@ type LocationType = {|
   label: string,
   type: 'LocationType',
 |};
+
 export type DigitalLocation = {|
   credit: string,
   license: {|
@@ -250,10 +229,11 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
-type Location = PhysicalLocation | DigitalLocation;
-type Item = Object;
 
-export function getLocationOfType(work: Work, locationType: string): ?Location {
+export function getDigitalLocationOfType( // TODO could there be more than one, so should this return an array
+  work: Work,
+  locationType: string
+): ?DigitalLocation {
   const [item] = work.items
     .map(item =>
       item.locations.find(location => location.locationType.id === locationType)
@@ -261,6 +241,8 @@ export function getLocationOfType(work: Work, locationType: string): ?Location {
     .filter(Boolean);
   return item;
 }
+
+type Item = Object;
 
 function itemIdentifierWithId(item: Item, id: string): boolean {
   const matchedIdentifiers = item.identifiers.filter(

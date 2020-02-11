@@ -1,7 +1,7 @@
 // @flow
-import { Fragment } from 'react';
 import WorkCredit from '../WorkCredit/WorkCredit';
 import ImageViewer from '../ImageViewer/ImageViewer';
+import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -14,18 +14,15 @@ type Props = {|
 |};
 
 const WorkEmbed = ({ work }: Props) => {
-  const [iiifImageLocation] = work.items.map(item =>
-    item.locations.find(location => location.locationType === 'iiif-image')
-  );
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifInfoUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImage = iiifImageTemplate(iiifInfoUrl);
-  const imageUrl = iiifImage({ size: '800,' });
-  const imageInfoUrl = convertIiifUriToInfoUri(
-    convertImageUri(imageUrl, 'full')
-  );
+  const iiifImage = iiifInfoUrl && iiifImageTemplate(iiifInfoUrl);
+  const imageUrl = iiifImage && iiifImage({ size: '800,' });
+  const imageInfoUrl =
+    imageUrl && convertIiifUriToInfoUri(convertImageUri(imageUrl, 'full'));
 
-  return (
-    <Fragment>
+  if (imageInfoUrl && iiifImage) {
+    return (
       <div
         className="enhanced"
         style={{
@@ -53,18 +50,16 @@ const WorkEmbed = ({ work }: Props) => {
               textAlign: 'center',
             }}
           >
-            <Fragment>
-              <ImageViewer
-                infoUrl={imageInfoUrl}
-                id={work.id}
-                lang={null}
-                width={800}
-                urlTemplate={iiifImage}
-                alt=""
-                setShowZoomed={() => {}}
-                rotation={0}
-              />
-            </Fragment>
+            <ImageViewer
+              infoUrl={imageInfoUrl}
+              id={work.id}
+              lang={null}
+              width={800}
+              urlTemplate={iiifImage}
+              alt=""
+              setShowZoomed={() => {}}
+              rotation={0}
+            />
           </div>
         </div>
         <div
@@ -78,8 +73,10 @@ const WorkEmbed = ({ work }: Props) => {
           <WorkCredit work={work} />
         </div>
       </div>
-    </Fragment>
-  );
+    );
+  } else {
+    return null;
+  }
 };
 
 export default WorkEmbed;

@@ -3,8 +3,8 @@ import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
-  getLocationOfType,
   getItemsLicenseInfo,
+  getDigitalLocationOfType,
 } from '@weco/common/utils/works';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
@@ -200,7 +200,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
   useFocusTrap(closeButtonRef, endRef);
 
   const iiifImageLocation =
-    detailedWork && getLocationOfType(detailedWork, 'iiif-image');
+    detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
 
   const maybeItemLink =

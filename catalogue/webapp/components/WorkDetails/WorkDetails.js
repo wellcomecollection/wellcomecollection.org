@@ -9,8 +9,7 @@ import {
   getItemsLicenseInfo,
   getDownloadOptionsFromManifest,
   getDownloadOptionsFromImageUrl,
-  getLocationOfType,
-  getIIIFPresentationLocation,
+  getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
 } from '@weco/common/utils/works';
@@ -49,7 +48,7 @@ const WorkDetails = ({
   const duration =
     work.duration && moment.utc(work.duration).format('HH:mm:ss');
 
-  const iiifImageLocation = getLocationOfType(work, 'iiif-image');
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
   const digitalLocation: ?DigitalLocation =
     iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
@@ -84,7 +83,10 @@ const WorkDetails = ({
   const licenseInfo = getItemsLicenseInfo(work);
   const credit = iiifPresentationCredit || iiifImageLocationCredit;
 
-  const iiifPresentationLocation = getIIIFPresentationLocation(work);
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
   const sierraIdFromPresentationManifestUrl =
     iiifPresentationLocation &&
@@ -119,36 +121,32 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {allDownloadOptions.length > 0 && (
-          <>
-            <SpacingSection>
-              <div
-                className={classNames({
-                  grid: true,
-                })}
-              >
-                <div
-                  className={classNames({
-                    [grid({
-                      s: 12,
-                      m: 12,
-                      l: 10,
-                      xl: 10,
-                    })]: true,
-                  })}
-                >
-                  <Download
-                    work={work}
-                    licenseInfo={licenseInfo}
-                    credit={credit}
-                    downloadOptions={allDownloadOptions}
-                    licenseInfoLink={true}
-                  />
-                </div>
-              </div>
-            </SpacingSection>
-          </>
-        )}
+        <SpacingSection>
+          <div
+            className={classNames({
+              grid: true,
+            })}
+          >
+            <div
+              className={classNames({
+                [grid({
+                  s: 12,
+                  m: 12,
+                  l: 10,
+                  xl: 10,
+                })]: true,
+              })}
+            >
+              <Download
+                work={work}
+                licenseInfo={licenseInfo}
+                credit={credit}
+                downloadOptions={allDownloadOptions}
+                licenseInfoLink={true}
+              />
+            </div>
+          </div>
+        </SpacingSection>
 
         {!(allDownloadOptions.length > 0) &&
           sierraIdFromPresentationManifestUrl &&
