@@ -48,6 +48,10 @@ export const WorkPage = ({ work }: Props) => {
     search: null,
   });
 
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
@@ -55,10 +59,6 @@ export const WorkPage = ({ work }: Props) => {
   const [childManifestsCount, setChildManifestsCount] = useState(0);
   const fetchIIIFPresentationManifest = async () => {
     try {
-      const iiifPresentationLocation = getDigitalLocationOfType(
-        work,
-        'iiif-presentation'
-      );
       const iiifManifest =
         iiifPresentationLocation && (await fetch(iiifPresentationLocation.url));
       const manifestData = iiifManifest && (await iiifManifest.json());
@@ -100,10 +100,6 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
   const firstChildManifestLocation =
     iiifPresentationManifest &&
     getFirstChildManifestLocation(iiifPresentationManifest);
