@@ -34,12 +34,6 @@ type Props = {|
   work: Work | CatalogueApiError,
 |};
 
-const getFirstChildManifest = async function(manifests) {
-  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
-  const data = await (await fetch(firstManifestUrl)).json();
-  return data;
-};
-
 export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
     query: '',
@@ -58,7 +52,6 @@ export const WorkPage = ({ work }: Props) => {
   );
   const [imageTotal, setImageTotal] = useState(0);
   const [childManifestsCount, setChildManifestsCount] = useState(0);
-  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifPresentationLocation = getDigitalLocationOfType(
@@ -73,9 +66,6 @@ export const WorkPage = ({ work }: Props) => {
       }
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
-        setFirstChildManifest(
-          await getFirstChildManifest(manifestData.manifests)
-        );
       }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
