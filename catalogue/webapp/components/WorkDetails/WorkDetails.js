@@ -66,7 +66,7 @@ const WorkDetails = ({
       getIIIFPresentationCredit(iiifPresentationManifest));
 
   const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
-  const iiifImagedownloadOptions = iiifImageLocationUrl
+  const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : [];
   const iiifPresentationDownloadOptions = iiifPresentationManifest
@@ -74,7 +74,7 @@ const WorkDetails = ({
     : [];
 
   const downloadOptions = [
-    ...iiifImagedownloadOptions,
+    ...iiifImageDownloadOptions,
     ...iiifPresentationDownloadOptions,
   ];
 

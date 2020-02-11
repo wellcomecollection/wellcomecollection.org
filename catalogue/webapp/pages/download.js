@@ -13,7 +13,6 @@ import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
-  getIIIFImageCredit,
 } from '@weco/common/utils/iiif';
 import fetch from 'isomorphic-unfetch';
 import { type IIIFManifest } from '@weco/common/model/iiif';
@@ -35,9 +34,6 @@ type Props = {|
 
 const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
-  const iiifPresentationDownloadOptions =
-    (manifest && getDownloadOptionsFromManifest(manifest)) || [];
-
   const iiifImageLocation =
     work && work.type !== 'Error'
       ? getDigitalLocationOfType(work, 'iiif-image')
@@ -55,22 +51,21 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
     iiifImageLocation.type === 'DigitalLocation' &&
     iiifImageLocation.url;
 
-  const iiifImageLocationCredit =
-    iiifImageLocation && getIIIFImageCredit(iiifImageLocation);
-
-  const downloadOptions = iiifImageLocationUrl
+  const iiifImageDownloadOptions = iiifImageLocationUrl
     ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
     : [];
+  const iiifPresentationDownloadOptions = manifest
+    ? getDownloadOptionsFromManifest(manifest)
+    : [];
 
-  const allDownloadOptions = [
-    ...downloadOptions,
+  const downloadOptions = [
+    ...iiifImageDownloadOptions,
     ...iiifPresentationDownloadOptions,
   ];
 
-  const iiifPresentationCredit =
-    manifest && getIIIFPresentationCredit(manifest);
-
-  const credit = iiifPresentationCredit || iiifImageLocationCredit;
+  const credit =
+    (iiifImageLocation && iiifImageLocation.credit) ||
+    (manifest && getIIIFPresentationCredit(manifest));
   return (
     <PageLayout
       title={title}
@@ -101,13 +96,7 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
             </Space>
           </SpacingComponent>
           <SpacingComponent>
-            <Download
-              work={work}
-              license={license}
-              credit={credit}
-              downloadOptions={allDownloadOptions}
-              licenseInfoLink={false}
-            />
+            <Download work={work} downloadOptions={downloadOptions} />
           </SpacingComponent>
           {license && (
             <SpacingComponent key={license.url}>
