@@ -1,6 +1,6 @@
 // @flow
 import { type IIIFManifest, type IIIFRendering } from '@weco/common/model/iiif';
-import type { LicenseData } from '@weco/common/utils/get-license-info';
+import type { LicenseData } from '@weco/common/utils/licenses';
 import { lighten } from 'polished';
 import styled from 'styled-components';
 import { workLink } from '@weco/common/services/catalogue/routes';

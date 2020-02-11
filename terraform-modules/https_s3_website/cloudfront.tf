@@ -1,7 +1,11 @@
+locals {
+  s3_origin_id = "S3-${var.website_uri}"
+}
+
 resource "aws_cloudfront_distribution" "https_s3_website" {
   origin {
-    domain_name = "${aws_s3_bucket.website_bucket.website_endpoint}"
-    origin_id   = "S3-${var.website_uri}"
+    domain_name = aws_s3_bucket.website_bucket.website_endpoint
+    origin_id   = local.s3_origin_id
 
     custom_origin_config {
       http_port              = 80
@@ -14,17 +18,17 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
   enabled             = true
   default_root_object = "index.html"
   is_ipv6_enabled     = true
-  aliases             = ["${var.website_uri}"]
+  aliases             = [var.website_uri]
 
   default_cache_behavior {
     allowed_methods        = ["HEAD", "GET", "OPTIONS"]
     cached_methods         = ["HEAD", "GET", "OPTIONS"]
     viewer_protocol_policy = "redirect-to-https"
-    target_origin_id       = "S3-${var.website_uri}"
+    target_origin_id       = local.s3_origin_id
     compress               = true
-    min_ttl                = "${var.min_ttl}"
-    default_ttl            = "${var.default_ttl}"
-    max_ttl                = "${var.max_ttl}"
+    min_ttl                = var.min_ttl
+    default_ttl            = var.default_ttl
+    max_ttl                = var.max_ttl
 
     forwarded_values {
       query_string = false
@@ -44,7 +48,7 @@ resource "aws_cloudfront_distribution" "https_s3_website" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${var.acm_certificate_arn}"
+    acm_certificate_arn      = var.acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2018"
   }

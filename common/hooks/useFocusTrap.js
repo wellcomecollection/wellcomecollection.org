@@ -32,7 +32,7 @@ const useFocusTrap = (startRef: TrapElRef, endRef: TrapElRef) => {
       startEl && startEl.removeEventListener('keydown', handleTrapStartKeyDown);
       endEl && endEl.addEventListener('keydown', handleTrapEndKeyDown);
     };
-  }, [startRef, endRef]);
+  }, [startRef.current, endRef.current]);
 };
 
 export default useFocusTrap;

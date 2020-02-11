@@ -1,6 +1,7 @@
 // @flow
+import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
-import { font } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import {
   getItemsLicenseInfo,
   getDigitalLocationOfType,
@@ -8,121 +9,172 @@ import {
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
-import Space from '@weco/common/views/components/styled/Space';
 import { getWork } from '../../services/catalogue/works';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
 import RelatedImages from '../RelatedImages/RelatedImages';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 
 type Props = {|
   title: string,
   id: string,
-  index: number,
+  setExpandedImageId: (id: string) => void,
 |};
 
-const getNegativeMargin = (index, rowWidth, gutter) => {
-  const colIndex = index % rowWidth;
-  return `calc(-${100 * colIndex}% - ${gutter * colIndex}px)`;
-};
-
-const Wrapper = styled.div`
-  position: relative;
-`;
-
-const Box = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: {
-    size: 'l',
-    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
-  },
+const ImageWrapper = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
 })`
-  background-color: ${({ theme }) => theme.colors.pumice};
-  display: flex;
-  flex-direction: column;
+  ${props => props.theme.media.medium`
+    flex-basis: 40%;
+    order: 2;
+  `}
 
-  ${({ index, theme }) => theme.media.small`
-    width: calc(200% + ${theme.gutter.small}px);
-    margin-left: ${getNegativeMargin(index, 2, theme.gutter.small)}
-  `}
-  ${({ index, theme }) => theme.media.medium`
-    width: calc(300% + ${2 * theme.gutter.medium}px);
-    margin-left: ${getNegativeMargin(index, 3, theme.gutter.medium)}
-  `}
-  ${({ index, theme }) => theme.media.large`
-    flex-direction: row;
-    width: calc(400% + ${3 * theme.gutter.large}px);
-    margin-left: ${getNegativeMargin(index, 4, theme.gutter.large)}
-  `}
-  ${({ index, theme }) => theme.media.xlarge`
-    width: calc(600% + ${5 * theme.gutter.xlarge}px);
-    margin-left: ${getNegativeMargin(index, 6, theme.gutter.xlarge)}
-  `};
+  img {
+    transform: translateX(-50%);
+    left: 50%;
+    position: relative;
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+  }
 `;
 
-const ImageWrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.charcoal};
-  max-width: 100%;
-  min-height: 400px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  ${({ theme }) => theme.media.large`
-    min-width: 400px;
-    max-width: 50%;
+const InfoWrapper = styled.div`
+  ${props => props.theme.media.medium`
+    padding-right: 20px;
+    max-height: 100%;
+    overflow: auto;
+    order: 1;
   `}
 `;
 
-const LicenseWrapper = styled.div`
-  margin-bottom: 20px;
+const FadeInfo = styled.div`
+  position: relative;
+
+  ${props => props.theme.media.medium`
+    flex-basis: 60%;
+  `}
+
+  &:after {
+    position: absolute;
+    bottom: -1px; // browser rounding bugfix
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    content: '';
+  }
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 10px 0 0 0;
-  ${({ theme }) => theme.media.large`
-    padding: 0 0 0 30px;
-    max-width: 50%;
+const Overlay = styled.div.attrs({})`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+`;
+
+const Modal = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  className: classNames({
+    'shadow bg-white': true,
+  }),
+})`
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  overflow: auto;
+
+  ${props => props.theme.media.medium`
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translateX(-50%) translateY(-50%);
+    height: auto;
+    max-height: 90vh;
+    width: 80vw;
+    max-width: ${props.theme.sizes.large}px
+    border-radius: ${props.theme.borderRadiusUnit}px;
+    display: flex;
+    overflow: hidden;
   `}
 `;
 
-const SpacedButton = styled(Button)`
-  margin: 10px 10px 0 0;
+const CloseButton = styled(Space).attrs({
+  as: 'button',
+  v: { size: 'm', properties: ['top'] },
+  h: { size: 'm', properties: ['left'] },
+})`
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.7);
+  color: ${props => props.theme.colors.white};
+  border: 0;
+  z-index: 1;
+
+  .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  ${props => props.theme.media.medium`
+    background: none;
+    color: ${props => props.theme.colors.pewter};
+    position: absolute;
+  `}
 `;
 
-// The padding combined with the 2px border on a `secondary` button means
-// that it appears larger than the `primary` button despite border-box being set.
-// This styling - reducing the padding by the border width - makes the buttons the same size
-const SpacedButtonBorderBox = styled(SpacedButton)`
-  padding: ${({ theme: { spacingUnit } }) =>
-    `${spacingUnit - 2}px ${4 * spacingUnit - 2}px`};
-`;
-
-const RelatedImagesWrapper = styled.div`
-  display: flex;
-  flex-grow: 10;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-
-const Indicator = styled.div`
-  opacity: 1;
-  display: block;
-  height: 0;
-  width: 0;
-  position: absolute;
-  top: -14px;
-  left: calc(50% - 15px);
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid ${({ theme }) => theme.colors.pumice};
-`;
-
-const ExpandedImage = ({ title, index, id }: Props) => {
+const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const endRef = useRef(null);
+
+  useEffect(() => {
+    const focusables = modalRef &&
+      modalRef.current && [...getFocusableElements(modalRef.current)];
+    endRef.current = focusables && focusables[focusables.length - 1];
+  }, [modalRef.current]);
+
+  useEffect(
+    () =>
+      closeButtonRef &&
+      closeButtonRef.current &&
+      closeButtonRef.current.focus(),
+    []
+  );
+
+  useEffect(() => {
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return;
+
+      setExpandedImageId('');
+    }
+
+    document.addEventListener('keydown', closeOnEscape);
+
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, []);
   useEffect(() => {
     const fetchDetailedWork = async () => {
       const res = await getWork({ id });
@@ -133,11 +185,24 @@ const ExpandedImage = ({ title, index, id }: Props) => {
     fetchDetailedWork();
   }, []);
 
+  useEffect(() => {
+    document &&
+      document.documentElement &&
+      document.documentElement.classList.add('is-scroll-locked');
+
+    return () => {
+      document &&
+        document.documentElement &&
+        document.documentElement.classList.remove('is-scroll-locked');
+    };
+  }, []);
+
+  useFocusTrap(closeButtonRef, endRef);
+
   const iiifImageLocation =
     detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
   const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
 
-  const maybeWorkLink = workLink({ id });
   const maybeItemLink =
     detailedWork &&
     itemLink({
@@ -146,48 +211,77 @@ const ExpandedImage = ({ title, index, id }: Props) => {
     });
 
   return (
-    <Wrapper>
-      <Indicator />
-      <Box index={index}>
-        <ImageWrapper>
-          {iiifImageLocation && (
+    <>
+      <Overlay onClick={() => setExpandedImageId('')} />
+      <Modal ref={modalRef}>
+        <CloseButton
+          ref={closeButtonRef}
+          onClick={() => setExpandedImageId('')}
+        >
+          <span className="visually-hidden">Close modal window</span>
+          <Icon name="cross" extraClasses={`icon--currentColor`} />
+        </CloseButton>
+        {iiifImageLocation && (
+          <ImageWrapper>
             <Image
               defaultSize={400}
               alt={title}
               contentUrl={iiifImageLocation.url}
               tasl={null}
             />
-          )}
-        </ImageWrapper>
-        <Content>
-          <h2 className={font('hnm', 3)}>{title}</h2>
-          {licenseInfo.length > 0 &&
-            licenseInfo.map(license => (
-              <LicenseWrapper key={license.url}>
-                <License subject="" license={license} />
-              </LicenseWrapper>
-            ))}
-          <p>{detailedWork && detailedWork.description}</p>
-          <div>
-            <SpacedButton
-              type="primary"
-              text="View image"
-              link={maybeItemLink}
-            />
-            {maybeItemLink && (
-              <SpacedButtonBorderBox
-                type="secondary"
-                text="About this work"
-                link={maybeWorkLink}
-              />
-            )}
-          </div>
-          <RelatedImagesWrapper>
+          </ImageWrapper>
+        )}
+        <FadeInfo>
+          <InfoWrapper>
+            <Space
+              as="h2"
+              v={{ size: 'l', properties: ['margin-bottom'] }}
+              className={classNames({
+                [font('hnm', 3)]: true,
+                'no-margin': true,
+              })}
+            >
+              {title}
+            </Space>
+            {licenseInfo.length > 0 &&
+              licenseInfo.map(license => (
+                <Space
+                  key={license.url}
+                  className={font('hnl', 5)}
+                  v={{ size: 'l', properties: ['margin-bottom'] }}
+                >
+                  <License subject="" license={license} />
+                </Space>
+              ))}
+
+            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <Space
+                h={{ size: 'm', properties: ['margin-right'] }}
+                className="inline-block"
+              >
+                <Button
+                  type="primary"
+                  text="View image"
+                  icon="eye"
+                  link={maybeItemLink}
+                />
+              </Space>
+              <NextLink {...workLink({ id })} passHref>
+                <a
+                  className={classNames({
+                    'inline-block': true,
+                    [font('hnl', 5)]: true,
+                  })}
+                >
+                  Read about this work
+                </a>
+              </NextLink>
+            </Space>
             <RelatedImages originalId={id} />
-          </RelatedImagesWrapper>
-        </Content>
-      </Box>
-    </Wrapper>
+          </InfoWrapper>
+        </FadeInfo>
+      </Modal>
+    </>
   );
 };
 

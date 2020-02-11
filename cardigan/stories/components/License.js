@@ -1,34 +1,28 @@
 import { storiesOf } from '@storybook/react';
 import License from '../../../common/views/components/License/License';
-import getLicenseInfo from '../../../common/utils/get-license-info';
+import { getLicenseInfo } from '../../../common/utils/licenses';
 import Readme from '../../../common/views/components/License/README.md';
 import { select } from '@storybook/addon-knobs';
 
 const LicenseExample = () => {
-  const licenseType = select(
+  const license = select(
     'License types',
     [
       'CC-0',
       'CC-BY',
       'CC-BY-NC',
       'CC-BY-NC-ND',
+      'PDM',
       'CC-BY-ND',
       'CC-BY-SA',
       'CC-BY-NC-SA',
-      'PDM',
       'OGL',
       'OPL',
-      'in-copyright',
-      'inc',
+      'INC',
     ],
     'CC-0'
   );
-  return (
-    <License
-      subject={'test'}
-      licenseInfo={getLicenseInfo(licenseType.toLowerCase())}
-    />
-  );
+  return <License subject={'test'} license={getLicenseInfo(license)} />;
 };
 
 const stories = storiesOf('Components', module);

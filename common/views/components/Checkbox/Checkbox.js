@@ -1,10 +1,10 @@
 // @flow
 
-import React from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import useIsKeyboard from '../../../hooks/useIsKeyboard';
+import { AppContext } from '../AppContext/AppContext';
 
 const CheckboxLabel = styled.label.attrs({
   className: classNames({
@@ -67,7 +67,7 @@ type CheckboxProps = {|
 |};
 
 function Checkbox({ id, text, ...inputProps }: CheckboxProps) {
-  const isKeyboard = useIsKeyboard();
+  const { isKeyboard } = useContext(AppContext);
 
   return (
     <CheckboxLabel htmlFor={id}>

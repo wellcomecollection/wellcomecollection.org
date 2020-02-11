@@ -1,7 +1,7 @@
 // @flow
 import { Fragment } from 'react';
 import type { Work } from '../../../model/work';
-import { licenseMap } from '@weco/common/utils/get-license-info';
+import { mergedLicenseMap } from '@weco/common/utils/licenses';
 
 type Props = {|
   work: Work,
@@ -19,7 +19,7 @@ const WorkCredit = ({ work }: Props) => {
           {work.credit}
         </a>
       )}{' '}
-      {license && <a href={licenseMap[license].url}>{license}</a>}
+      {license && <a href={mergedLicenseMap[license].url}>{license}</a>}
     </Fragment>
   );
 };
