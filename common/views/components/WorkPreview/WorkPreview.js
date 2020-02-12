@@ -8,12 +8,13 @@ const WorkPreviewContainer = styled.div`
   }
 `;
 type Props = {|
+  alt: string,
   imagePath: string,
 |};
 
-const WorkPreview = ({ imagePath }: Props) => (
+const WorkPreview = ({ imagePath, alt }: Props) => (
   <WorkPreviewContainer>
-    <img alt="" src={imagePath} />
+    <img alt={`view ${alt}`} src={imagePath} />
   </WorkPreviewContainer>
 );
 
