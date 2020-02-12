@@ -23,6 +23,9 @@ const Control = styled.button.attrs(props => ({
 }))`
   cursor: pointer;
   padding: 0;
+  &:focus {
+    outline: ${props => (!props.hideFocus ? 'intial' : 'none')};
+  }
 `;
 
 const ControlText = styled.span`
@@ -40,7 +43,7 @@ type Props = {|
 |};
 
 const ExplanatoryText = ({ id, headingText, children }: Props) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced, isKeyboard } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {
     setShowContent(false);
@@ -54,6 +57,7 @@ const ExplanatoryText = ({ id, headingText, children }: Props) => {
           onClick={() => {
             setShowContent(!showContent);
           }}
+          hideFocus={!isKeyboard}
         >
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
             <IconContainer open={showContent}>
