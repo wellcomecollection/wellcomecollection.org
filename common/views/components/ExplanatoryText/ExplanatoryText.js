@@ -73,7 +73,14 @@ const ExplanatoryText = ({ id, controlText, children }: Props) => {
         </Control>
       )}
       <Content id={id} aria-hidden={!showContent} hidden={!showContent} aria>
-        {children}
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-top'],
+          }}
+        >
+          {children}
+        </Space>
       </Content>
     </>
   );

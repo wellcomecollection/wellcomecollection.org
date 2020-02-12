@@ -313,12 +313,7 @@ const WorkDetails = ({
                     id="licenseDetail"
                     controlText="Can I use this?"
                   >
-                    <Space
-                      v={{
-                        size: 'l',
-                        properties: ['margin-top'],
-                      }}
-                    >
+                    <>
                       {license.humanReadableText.length > 0 && (
                         <WorkDetailsText text={license.humanReadableText} />
                       )}
@@ -338,7 +333,7 @@ const WorkDetails = ({
               }`,
                         ]}
                       />
-                    </Space>
+                    </>
                   </ExplanatoryText>
                 </Space>
               </>
