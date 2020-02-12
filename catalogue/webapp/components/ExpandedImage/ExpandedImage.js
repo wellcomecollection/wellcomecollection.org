@@ -23,6 +23,7 @@ type Props = {|
 |};
 
 const ImageWrapper = styled(Space).attrs({
+  as: 'a',
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
   ${props => props.theme.media.medium`
@@ -220,15 +221,17 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
         </CloseButton>
-        {iiifImageLocation && (
-          <ImageWrapper>
-            <Image
-              defaultSize={400}
-              alt={title}
-              contentUrl={iiifImageLocation.url}
-              tasl={null}
-            />
-          </ImageWrapper>
+        {iiifImageLocation && maybeItemLink && (
+          <NextLink {...maybeItemLink} passHref>
+            <ImageWrapper>
+              <Image
+                defaultSize={400}
+                alt={title}
+                contentUrl={iiifImageLocation.url}
+                tasl={null}
+              />
+            </ImageWrapper>
+          </NextLink>
         )}
         <FadeInfo>
           <InfoWrapper>
@@ -270,7 +273,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
                     [font('hnl', 5)]: true,
                   })}
                 >
-                  Read about this work
+                  More about this work
                 </a>
               </NextLink>
             </Space>
