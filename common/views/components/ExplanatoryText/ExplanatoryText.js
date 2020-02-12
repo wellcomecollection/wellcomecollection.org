@@ -38,11 +38,11 @@ const Content = styled.div`
 
 type Props = {|
   id: string,
-  headingText: string,
+  controlText: string,
   children: Element<any>,
 |};
 
-const ExplanatoryText = ({ id, headingText, children }: Props) => {
+const ExplanatoryText = ({ id, controlText, children }: Props) => {
   const { isEnhanced, isKeyboard } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {
@@ -69,7 +69,7 @@ const ExplanatoryText = ({ id, headingText, children }: Props) => {
               />
             </IconContainer>
           </Space>
-          <ControlText>{headingText}</ControlText>
+          <ControlText>{controlText}</ControlText>
         </Control>
       )}
       <Content id={id} aria-hidden={!showContent} hidden={!showContent} aria>

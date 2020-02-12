@@ -311,7 +311,7 @@ const WorkDetails = ({
                 >
                   <ExplanatoryText
                     id="licenseDetail"
-                    headingText="Can I use this?"
+                    controlText="Can I use this?"
                   >
                     <Space
                       v={{
