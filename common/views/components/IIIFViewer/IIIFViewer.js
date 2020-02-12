@@ -242,6 +242,11 @@ const IIIFViewerComponent = ({
       setIsFullscreen(false);
     }
   }
+
+  useEffect(() => {
+    setGridVisible(Router.query.isOverview);
+  }, []);
+
   useEffect(() => {
     window.document.addEventListener('fullscreenchange', setFullScreen, false);
     window.document.addEventListener(

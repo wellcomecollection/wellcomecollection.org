@@ -3,6 +3,7 @@ import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
+import merge from 'lodash.merge';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
@@ -165,18 +166,60 @@ const WorkDetails = ({
                   <NextLink {...itemUrl}>
                     <a
                       onClick={trackEvent({
-                        category: 'WorkHeader',
-                        action: 'follow link',
+                        category: 'WorkDetails',
+                        action: 'follow image link',
                         label: itemUrl.href.query.workId,
                       })}
                     >
-                      <WorkPreview imagePath={work.thumbnail.url} />
+                      <WorkPreview
+                        alt={work.title}
+                        imagePath={work.thumbnail.url}
+                      />
                     </a>
                   </NextLink>
                 ) : (
-                  <WorkPreview imagePath={work.thumbnail.url} />
+                  <WorkPreview alt="" imagePath={work.thumbnail.url} />
                 )}
               </Space>
+            )}
+            {itemUrl && (
+              <>
+                <NextLink {...itemUrl}>
+                  <a
+                    onClick={trackEvent({
+                      category: 'WorkDetails',
+                      action: 'follow view link',
+                      label: itemUrl.href.query.workId,
+                    })}
+                  >
+                    View
+                  </a>
+                </NextLink>
+                <NextLink
+                  {...merge({}, itemUrl, {
+                    href: {
+                      query: {
+                        isOverview: true,
+                      },
+                    },
+                    as: {
+                      query: {
+                        isOverview: true,
+                      },
+                    },
+                  })}
+                >
+                  <a
+                    onClick={trackEvent({
+                      category: 'WorkDetails',
+                      action: 'follow overview link',
+                      label: itemUrl.href.query.workId,
+                    })}
+                  >
+                    Overview
+                  </a>
+                </NextLink>
+              </>
             )}
             <p>
               Contains:{' '}
