@@ -15,8 +15,6 @@ import {
 } from '@weco/common/utils/works';
 import {
   getFirstChildManifestLocation,
-  getAudio,
-  getVideo,
   getCanvases,
 } from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
@@ -29,10 +27,7 @@ import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
-import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
-import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
-import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
 type Props = {|
   work: Work | CatalogueApiError,
@@ -77,8 +72,6 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
-  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
-  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
 
   useEffect(() => {
     window.dataLayer &&
@@ -193,25 +186,9 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-      {/* // TODO where do these fit in relation to available online */}
-      {video && (
-        <WobblyRow>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <VideoPlayer video={video} />
-          </Space>
-        </WobblyRow>
-      )}
-      {audio && (
-        <WobblyRow>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <AudioPlayer audio={audio} />
-          </Space>
-        </WobblyRow>
-      )}
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
-        showItemLinks={!(audio || video)}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}

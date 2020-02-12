@@ -16,6 +16,8 @@ import {
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
+  getAudio,
+  getVideo,
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
@@ -35,6 +37,8 @@ import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
+import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 
@@ -44,7 +48,6 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
-  showItemLinks: boolean,
 |};
 
 const WorkDetails = ({
@@ -53,7 +56,6 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
-  showItemLinks,
 }: Props) => {
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -65,6 +67,8 @@ const WorkDetails = ({
     iiifPresentationLocation || iiifImageLocation;
 
   // 'Available online' data
+  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
+  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
   const license =
     digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
 
@@ -156,6 +160,16 @@ const WorkDetails = ({
       <Layout12>
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
+            {video && (
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <VideoPlayer video={video} />
+              </Space>
+            )}
+            {audio && (
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <AudioPlayer audio={audio} />
+              </Space>
+            )}
             {work.thumbnail && (
               <Space
                 v={{
@@ -183,7 +197,7 @@ const WorkDetails = ({
                 )}
               </Space>
             )}
-            {itemUrl && showItemLinks && (
+            {itemUrl && !audio && !video && (
               <>
                 <NextLink {...itemUrl}>
                   <a
@@ -222,14 +236,16 @@ const WorkDetails = ({
                 </NextLink>
               </>
             )}
-            <p>
-              Contains:{' '}
-              {childManifestsCount > 0
-                ? `${childManifestsCount} volumes`
-                : imageCount > 0
-                ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
-                : ''}
-            </p>
+            {(childManifestsCount > 0 || imageCount > 0) && (
+              <p>
+                Contains:{' '}
+                {childManifestsCount > 0
+                  ? `${childManifestsCount} volumes`
+                  : imageCount > 0
+                  ? `${imageCount} ${imageCount === 1 ? 'image' : 'images'}`
+                  : ''}
+              </p>
+            )}
 
             <Download work={work} downloadOptions={downloadOptions} />
             {!(downloadOptions.length > 0) &&
