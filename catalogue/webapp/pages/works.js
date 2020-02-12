@@ -89,9 +89,6 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
-  const resultsGrid = isImageSearch
-    ? { s: 6, m: 4, l: 3, xl: 2 }
-    : { s: 12, m: 12, l: 12, xl: 12 };
 
   if (works && works.type === 'Error') {
     return (
@@ -247,7 +244,7 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                <div className="grid">
+                <div className={isImageSearch ? 'flex flex--wrap' : 'grid'}>
                   {isImageSearch ? null : (
                     <div
                       className={classNames({
@@ -260,9 +257,13 @@ const Works = ({
                   {works.results.map((result, i) => (
                     <div
                       key={result.id}
-                      className={classNames({
-                        [grid(resultsGrid)]: true,
-                      })}
+                      className={
+                        isImageSearch
+                          ? null
+                          : classNames({
+                              [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                            })
+                      }
                     >
                       <div
                         onClick={() => {
@@ -440,7 +441,7 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
-        pageSize: isImageSearch ? 24 : undefined,
+        pageSize: isImageSearch ? 100 : undefined,
       })
     : null;
 
