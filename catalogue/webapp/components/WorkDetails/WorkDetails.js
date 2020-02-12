@@ -44,6 +44,7 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
+  showItemLinks: boolean,
 |};
 
 const WorkDetails = ({
@@ -52,6 +53,7 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
+  showItemLinks,
 }: Props) => {
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -181,7 +183,7 @@ const WorkDetails = ({
                 )}
               </Space>
             )}
-            {itemUrl && (
+            {itemUrl && showItemLinks && (
               <>
                 <NextLink {...itemUrl}>
                   <a
