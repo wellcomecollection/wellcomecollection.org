@@ -49,14 +49,24 @@ export type IIIFRendering = {|
   label: string,
 |};
 
+export type IIIFMediaElement = {|
+  '@id': string,
+  '@type': 'dctypes:Sound',
+  format: string,
+  label: string,
+  metadata: [],
+  thumbnail: string,
+  rendering: {
+    '@id': string,
+    format: string,
+  },
+  height?: number,
+  width?: number,
+|};
 type IIIFMediaSequence = {|
   '@id': string,
   '@type': string,
-  elements: {
-    '@type': string,
-    '@id': string,
-    format: string,
-  }[],
+  elements: IIIFMediaElement[],
 |};
 
 export type IIIFSequence = {|

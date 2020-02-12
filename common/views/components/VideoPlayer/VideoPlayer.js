@@ -3,22 +3,9 @@ import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
-
+import { type IIIFMediaElement } from '@weco/common/model/iiif';
 type Props = {|
-  video: {
-    '@id': string,
-    '@type': 'dctypes:MovingImage',
-    format: string,
-    label: string,
-    metadata: [],
-    thumbnail: string,
-    rendering: {
-      '@id': string,
-      format: string,
-    }[],
-    height: number,
-    width: number,
-  },
+  video: IIIFMediaElement,
 |};
 
 const VideoPlayer = ({ video }: Props) => {
