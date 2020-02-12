@@ -39,6 +39,7 @@ import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
 import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 
@@ -199,41 +200,41 @@ const WorkDetails = ({
             )}
             {itemUrl && !audio && !video && (
               <>
-                <NextLink {...itemUrl}>
-                  <a
-                    onClick={trackEvent({
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl.href.query.workId,
-                    })}
-                  >
-                    View
-                  </a>
-                </NextLink>
-                <NextLink
-                  {...merge({}, itemUrl, {
-                    href: {
-                      query: {
-                        isOverview: true,
+                <Button
+                  type="primary"
+                  icon="eye"
+                  text="View"
+                  trackingEvent={{
+                    category: 'WorkDetails',
+                    action: 'follow view link',
+                    label: itemUrl.href.query.workId,
+                  }}
+                  link={{ ...itemUrl }}
+                />
+                <Button
+                  type="primary"
+                  icon="gridView"
+                  text="Overview"
+                  trackingEvent={{
+                    category: 'WorkDetails',
+                    action: 'follow overview link',
+                    label: itemUrl.href.query.workId,
+                  }}
+                  link={{
+                    ...merge({}, itemUrl, {
+                      href: {
+                        query: {
+                          isOverview: true,
+                        },
                       },
-                    },
-                    as: {
-                      query: {
-                        isOverview: true,
+                      as: {
+                        query: {
+                          isOverview: true,
+                        },
                       },
-                    },
-                  })}
-                >
-                  <a
-                    onClick={trackEvent({
-                      category: 'WorkDetails',
-                      action: 'follow overview link',
-                      label: itemUrl.href.query.workId,
-                    })}
-                  >
-                    Overview
-                  </a>
-                </NextLink>
+                    }),
+                  }}
+                />
               </>
             )}
             {(childManifestsCount > 0 || imageCount > 0) && (
