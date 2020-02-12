@@ -211,30 +211,32 @@ const WorkDetails = ({
                   }}
                   link={{ ...itemUrl }}
                 />
-                <Button
-                  type="primary"
-                  icon="gridView"
-                  text="Overview"
-                  trackingEvent={{
-                    category: 'WorkDetails',
-                    action: 'follow overview link',
-                    label: itemUrl.href.query.workId,
-                  }}
-                  link={{
-                    ...merge({}, itemUrl, {
-                      href: {
-                        query: {
-                          isOverview: true,
+                {(imageCount > 4 || childManifestsCount > 1) && (
+                  <Button
+                    type="primary"
+                    icon="gridView"
+                    text="Overview"
+                    trackingEvent={{
+                      category: 'WorkDetails',
+                      action: 'follow overview link',
+                      label: itemUrl.href.query.workId,
+                    }}
+                    link={{
+                      ...merge({}, itemUrl, {
+                        href: {
+                          query: {
+                            isOverview: true,
+                          },
                         },
-                      },
-                      as: {
-                        query: {
-                          isOverview: true,
+                        as: {
+                          query: {
+                            isOverview: true,
+                          },
                         },
-                      },
-                    }),
-                  }}
-                />
+                      }),
+                    }}
+                  />
+                )}
               </>
             )}
             {(childManifestsCount > 0 || imageCount > 0) && (
