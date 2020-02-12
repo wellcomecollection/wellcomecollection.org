@@ -19,8 +19,6 @@ const DownloadButton = styled.button`
       props.theme.spacingUnit
     }px ${props.theme.spacingUnit * 2}px`};
   display: inline-block;
-  margin: ${props =>
-    `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};
   cursor: pointer;
   :focus {
     outline: none;
