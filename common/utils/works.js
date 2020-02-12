@@ -42,6 +42,12 @@ export function getEncoreLink(sierraId: string): string {
   )}`;
 }
 
+export function sierraIdFromPresentationManifestUrl(
+  iiifPresentationLocation: string
+): string {
+  return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
+}
+
 const workTypeIcons = {
   '3dobjects': 'threeD',
   ebooks: 'book',

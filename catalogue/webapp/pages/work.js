@@ -10,6 +10,7 @@ import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
+  sierraIdFromPresentationManifestUrl,
   type DigitalLocation,
 } from '@weco/common/utils/works';
 import {
@@ -91,12 +92,6 @@ export const WorkPage = ({ work }: Props) => {
   const firstChildManifestLocation =
     iiifPresentationManifest &&
     getFirstChildManifestLocation(iiifPresentationManifest);
-
-  function sierraIdFromPresentationManifestUrl(
-    iiifPresentationLocation: string
-  ): string {
-    return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
-  }
 
   const iiifImageLocation: ?DigitalLocation = getDigitalLocationOfType(
     work,

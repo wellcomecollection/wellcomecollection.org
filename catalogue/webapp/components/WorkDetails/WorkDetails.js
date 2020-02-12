@@ -12,6 +12,7 @@ import {
   getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
+  sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -93,9 +94,9 @@ const WorkDetails = ({
     return id.identifierType.id === 'isbn';
   });
 
-  const sierraIdFromPresentationManifestUrl = // TODO replace with function created elsewhere
+  const sierraIdFromManifestUrl =
     iiifPresentationLocation &&
-    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
+    sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
 
   const sierraWorkIds = getWorkIdentifiersWith(work, {
     identifierId: 'sierra-system-number',
@@ -105,9 +106,7 @@ const WorkDetails = ({
 
   // We do not wish to display a link to the old library site if the new site
   // provides a digital representation of that work
-  const shouldDisplayEncoreLink = !(
-    sierraIdFromPresentationManifestUrl === sierraWorkId
-  );
+  const shouldDisplayEncoreLink = !(sierraIdFromManifestUrl === sierraWorkId);
   const encoreLink =
     shouldDisplayEncoreLink && sierraWorkId && getEncoreLink(sierraWorkId);
 
@@ -232,7 +231,7 @@ const WorkDetails = ({
 
             <Download work={work} downloadOptions={downloadOptions} />
             {!(downloadOptions.length > 0) &&
-              sierraIdFromPresentationManifestUrl &&
+              sierraIdFromManifestUrl &&
               childManifestsCount === 0 && (
                 <SpacingSection>
                   <div
@@ -253,7 +252,7 @@ const WorkDetails = ({
                       <NextLink
                         {...downloadUrl({
                           workId: work.id,
-                          sierraId: sierraIdFromPresentationManifestUrl,
+                          sierraId: sierraIdFromManifestUrl,
                         })}
                       >
                         <a>Download options</a>
