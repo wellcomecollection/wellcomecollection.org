@@ -274,7 +274,7 @@ const WorkDetails = ({
             {(childManifestsCount > 0 || imageCount > 0) && (
               <Space
                 v={{
-                  size: 's',
+                  size: 'm',
                   properties: ['margin-top'],
                 }}
               >
