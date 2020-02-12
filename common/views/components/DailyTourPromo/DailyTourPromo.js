@@ -80,7 +80,7 @@ const DailyTourPromo = () => (
   <EventPromo
     event={data}
     dateString={'Tuesday–Sunday'}
-    timeString={'11.45, 14.45 and 15.45'}
+    timeString={'11:45, 14:45 and 15:45'}
   />
 );
 export default DailyTourPromo;

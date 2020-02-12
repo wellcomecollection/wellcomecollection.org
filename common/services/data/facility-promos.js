@@ -105,7 +105,7 @@ export const dailyTourPromo: EventPromo = {
   series: [],
   schedule: [],
   dateString: 'Tuesday–Sunday',
-  timeString: '11.45, 14.45 and 15.45',
+  timeString: '11:45, 14:45 and 15:45',
   format: {
     id: 'WmYRpCQAACUAn-Ap',
     title: 'Gallery tour',
