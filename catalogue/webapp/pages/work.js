@@ -98,16 +98,14 @@ export const WorkPage = ({ work }: Props) => {
     return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
   }
 
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifImageLocation: ?DigitalLocation = getDigitalLocationOfType(
+    work,
+    'iiif-image'
+  );
 
-  const digitalLocation: ?DigitalLocation = // TODO needed?
-    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
-      ? iiifImageLocation
-      : null;
-
-  const imageContentUrl =
-    digitalLocation && digitalLocation.url
-      ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
+  const imageUrl =
+    iiifImageLocation && iiifImageLocation.url
+      ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
       : null;
 
   const itemUrlObject =
@@ -152,7 +150,7 @@ export const WorkPage = ({ work }: Props) => {
       jsonLd={workLd(work)}
       siteSection={'works'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
-      imageUrl={imageContentUrl}
+      imageUrl={imageUrl}
       imageAltText={work.title}
       hideNewsletterPromo={true}
     >
