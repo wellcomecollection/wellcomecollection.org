@@ -5,7 +5,20 @@ import { useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 
 type Props = {|
-  video: any, // TODO
+  video: {
+    '@id': string,
+    '@type': 'dctypes:MovingImage',
+    format: string,
+    label: string,
+    metadata: [],
+    thumbnail: string,
+    rendering: {
+      '@id': string,
+      format: string,
+    }[],
+    height: number,
+    width: number,
+  },
 |};
 
 const VideoPlayer = ({ video }: Props) => {
@@ -64,11 +77,12 @@ const VideoPlayer = ({ video }: Props) => {
         setIsPlaying(false);
       }}
       controls
+      preload="none"
+      poster={video.thumbnail}
       style={{
         maxWidth: '100%',
-        maxHeight: '70vh',
+        maxHeight: '260px',
         display: 'block',
-        margin: 'auto',
       }}
     >
       <source src={video['@id']} type={video.format} />

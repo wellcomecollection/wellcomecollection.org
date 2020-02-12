@@ -5,10 +5,21 @@ import { useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 
 type Props = {|
-  audio: any, // TODO
+  audio: {
+    '@id': string,
+    '@type': 'dctypes:Sound',
+    format: string,
+    label: string,
+    metadata: [],
+    thumbnail: string,
+    rendering: {
+      '@id': string,
+      format: string,
+    },
+  },
 |};
 
-const VideoPlayer = ({ audio }: Props) => {
+const AudioPlayer = ({ audio }: Props) => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -65,11 +76,6 @@ const VideoPlayer = ({ audio }: Props) => {
         setIsPlaying(false);
       }}
       controls
-      style={{
-        maxWidth: '100%',
-        display: 'block',
-        margin: 'auto',
-      }}
       src={audio['@id']}
     >
       {`Sorry, your browser doesn't support embedded audio.`}
@@ -77,4 +83,4 @@ const VideoPlayer = ({ audio }: Props) => {
   );
 };
 
-export default VideoPlayer;
+export default AudioPlayer;
