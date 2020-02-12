@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
+import type { NextLinkType } from '@weco/common/model/next-link-type';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
@@ -31,13 +32,16 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
+import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import type { DigitalLocation } from '@weco/common/utils/works';
+import { trackEvent } from '@weco/common/utils/ga';
 
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
   childManifestsCount: number,
   imageCount: number,
+  itemUrl: ?NextLinkType,
 |};
 
 const WorkDetails = ({
@@ -45,6 +49,7 @@ const WorkDetails = ({
   iiifPresentationManifest,
   childManifestsCount,
   imageCount,
+  itemUrl,
 }: Props) => {
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -149,6 +154,30 @@ const WorkDetails = ({
       <Layout12>
         {digitalLocation && (
           <WorkDetailsSection headingText="Available online">
+            {work.thumbnail && (
+              <Space
+                v={{
+                  size: 's',
+                  properties: ['margin-bottom'],
+                }}
+              >
+                {itemUrl ? (
+                  <NextLink {...itemUrl}>
+                    <a
+                      onClick={trackEvent({
+                        category: 'WorkHeader',
+                        action: 'follow link',
+                        label: itemUrl.href.query.workId,
+                      })}
+                    >
+                      <WorkPreview imagePath={work.thumbnail.url} />
+                    </a>
+                  </NextLink>
+                ) : (
+                  <WorkPreview imagePath={work.thumbnail.url} />
+                )}
+              </Space>
+            )}
             <p>
               Contains:{' '}
               {childManifestsCount > 0

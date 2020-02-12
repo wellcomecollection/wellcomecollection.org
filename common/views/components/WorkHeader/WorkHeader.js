@@ -7,11 +7,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import LinkLabels from '../LinkLabels/LinkLabels';
 import Space from '../styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
-import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
-import NextLink from 'next/link';
-import { trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
-import type { NextLinkType } from '@weco/common/model/next-link-type';
 
 const WorkHeaderContainer = styled.div.attrs(props => ({
   className: classNames({
@@ -25,10 +21,9 @@ const WorkHeaderContainer = styled.div.attrs(props => ({
 type Props = {|
   work: Work,
   childManifestsCount?: number,
-  itemUrl: ?NextLinkType,
 |};
 
-const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
+const WorkHeader = ({ work, childManifestsCount = 0 }: Props) => {
   const productionDates = getProductionDates(work);
   const workTypeIcon = getWorkTypeIcon(work);
   return (
@@ -119,35 +114,6 @@ const WorkHeader = ({ work, childManifestsCount = 0, itemUrl }: Props) => {
           )}
         </SpacingComponent>
       </Space>
-
-      {work.thumbnail && (
-        <Space
-          h={{
-            size: 'l',
-            properties: ['margin-left'],
-          }}
-          className={classNames({
-            flex: true,
-            'flex--column': true,
-          })}
-        >
-          {itemUrl ? (
-            <NextLink {...itemUrl}>
-              <a
-                onClick={trackEvent({
-                  category: 'WorkHeader',
-                  action: 'follow link',
-                  label: itemUrl.href.query.workId,
-                })}
-              >
-                <WorkPreview imagePath={work.thumbnail.url} />
-              </a>
-            </NextLink>
-          ) : (
-            <WorkPreview imagePath={work.thumbnail.url} />
-          )}
-        </Space>
-      )}
     </WorkHeaderContainer>
   );
 };

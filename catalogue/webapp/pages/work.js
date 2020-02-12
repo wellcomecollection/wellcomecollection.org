@@ -196,11 +196,7 @@ export const WorkPage = ({ work }: Props) => {
       >
         <div className="container">
           <div className="grid">
-            <WorkHeader
-              work={work}
-              childManifestsCount={childManifestsCount}
-              itemUrl={itemUrlObject}
-            />
+            <WorkHeader work={work} childManifestsCount={childManifestsCount} />
           </div>
         </div>
       </Space>
@@ -221,6 +217,7 @@ export const WorkPage = ({ work }: Props) => {
       )}
       <WorkDetails
         work={work}
+        itemUrl={itemUrlObject}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
         imageCount={imageTotal}
