@@ -91,11 +91,15 @@ export function getDigitalLocationOfType(
   work: Work,
   locationType: string
 ): ?DigitalLocation {
-  const [item] = work.items
-    .map(item =>
-      item.locations.find(location => location.locationType.id === locationType)
-    )
-    .filter(Boolean);
+  const [item] =
+    work.items &&
+    work.items
+      .map(item =>
+        item.locations.find(
+          location => location.locationType.id === locationType
+        )
+      )
+      .filter(Boolean);
   return item;
 }
 
