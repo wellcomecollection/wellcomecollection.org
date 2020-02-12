@@ -98,7 +98,7 @@ const Download = ({ work, downloadOptions }: Props) => {
     <div
       className={classNames({
         [font('hnl', 5)]: true,
-        'inline-block': true,
+        'inline-block': isEnhanced,
       })}
     >
       {downloadOptions.length > 0 && (
@@ -130,14 +130,21 @@ const Download = ({ work, downloadOptions }: Props) => {
               </DownloadButton>
             </h2>
           ) : (
-            <h2
-              className={classNames({
-                [font('wb', 3)]: true,
-                'work-details-heading': true,
-              })}
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
             >
-              Download
-            </h2>
+              <h2
+                className={classNames({
+                  [font('hnm', 5)]: true,
+                  'work-details-heading': true,
+                })}
+              >
+                Download
+              </h2>
+            </Space>
           )}
           <DownloadOptions
             id="downloadOptions"
