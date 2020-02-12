@@ -39,6 +39,7 @@ import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
+import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 
@@ -292,23 +293,39 @@ const WorkDetails = ({
                 </p>
               </Space>
             )}
-
             {license && (
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <WorkDetailsText title="License" text={[license.label]} />
+              <>
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top'],
+                  }}
+                >
+                  <WorkDetailsText title="License" text={[license.label]} />
+                </Space>
+                <Space
+                  v={{
+                    size: 'l',
+                    properties: ['margin-top'],
+                  }}
+                >
+                  <ExplanatoryText
+                    id="licenseDetail"
+                    headingText="Can I use this?"
+                  >
+                    <Space
+                      v={{
+                        size: 'l',
+                        properties: ['margin-top'],
+                      }}
+                    >
+                      {license.humanReadableText.length > 0 && (
+                        <WorkDetailsText text={license.humanReadableText} />
+                      )}
 
-                {license.humanReadableText.length > 0 && (
-                  <WorkDetailsText text={license.humanReadableText} />
-                )}
-
-                <WorkDetailsText
-                  text={[
-                    `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
+                      <WorkDetailsText
+                        text={[
+                          `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
                 ${
                   credit
                     ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
@@ -319,9 +336,12 @@ const WorkDetails = ({
                   ? `<a href="${license.url}">${license.label}</a>`
                   : license.label
               }`,
-                  ]}
-                />
-              </Space>
+                        ]}
+                      />
+                    </Space>
+                  </ExplanatoryText>
+                </Space>
+              </>
             )}
           </WorkDetailsSection>
         )}

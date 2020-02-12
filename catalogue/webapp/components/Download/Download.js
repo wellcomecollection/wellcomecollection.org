@@ -1,7 +1,8 @@
 // @flow
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -89,9 +90,8 @@ type Props = {|
 
 const Download = ({ work, downloadOptions }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
-  const [useJavascriptControl, setUseJavascriptControl] = useState(false);
+  const { isEnhanced } = useContext(AppContext);
   useEffect(() => {
-    setUseJavascriptControl(true);
     setShowDownloads(false);
   }, []);
   return (
@@ -103,7 +103,7 @@ const Download = ({ work, downloadOptions }: Props) => {
     >
       {downloadOptions.length > 0 && (
         <>
-          {useJavascriptControl ? ( // TODO is enhanced stuff...
+          {isEnhanced ? (
             <h2 className="inline">
               <DownloadButton
                 className={classNames({
@@ -143,7 +143,7 @@ const Download = ({ work, downloadOptions }: Props) => {
             id="downloadOptions"
             className={classNames({
               [font('hnm', 5)]: true,
-              'enhanced-styles': useJavascriptControl,
+              'enhanced-styles': isEnhanced,
               show: showDownloads,
             })}
           >
