@@ -1,12 +1,12 @@
 // @flow
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
-import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 
 const DownloadButton = styled.button`
   text-align: center;
@@ -52,21 +52,6 @@ const DownloadOptions = styled.div`
   }
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
-  }
-`;
-
-export const DownloadLink = styled.a.attrs({
-  className: classNames({
-    [font('hnm', 5)]: true,
-  }),
-})`
-  color: ${props => props.theme.colors.green};
-  text-decoration: none;
-  .icon__shape {
-    fill: currentColor;
-  }
-  .icon__canvas {
-    height: 1.3em;
   }
 `;
 
@@ -173,37 +158,16 @@ const Download = ({ work, downloadOptions }: Props) => {
                   return (
                     <li key={option.label}>
                       <DownloadLink
-                        tabIndex={showDownloads ? null : -1}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        isTabbable={showDownloads}
                         href={option['@id']}
-                        onClick={() => {
-                          trackEvent({
-                            category: 'Button',
-                            action: action,
-                            label: work.id,
-                          });
+                        linkText={option.label}
+                        format={format}
+                        trackingEvent={{
+                          category: 'Button',
+                          action: action,
+                          label: work.id,
                         }}
-                      >
-                        <span className="flex-inline flex--v-center">
-                          <Icon name="download" />
-                          <span className="underline-on-hover">
-                            {option.label}
-                          </span>
-                          {format && (
-                            <Space
-                              as="span"
-                              h={{ size: 'm', properties: ['margin-left'] }}
-                              className={classNames({
-                                [font('hnm', 5)]: true,
-                                'font-pewter': true,
-                              })}
-                            >
-                              {format}
-                            </Space>
-                          )}
-                        </span>
-                      </DownloadLink>
+                      />
                     </li>
                   );
                 })}

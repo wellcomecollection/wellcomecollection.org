@@ -5,10 +5,8 @@ import { useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { type IIIFMediaElement } from '@weco/common/model/iiif';
 import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { font, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { DownloadLink } from '@weco/catalogue/components/Download/Download';
+import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 
 type Props = {|
   video: IIIFMediaElement,
@@ -87,34 +85,15 @@ const VideoPlayer = ({ video }: Props) => {
         annotation.resource.format === 'application/pdf' && (
           <Space v={{ size: 's', properties: ['margin-top'] }}>
             <DownloadLink
-              target="_blank"
-              rel="noopener noreferrer"
               href={annotation.resource['@id']}
-              onClick={() => {
-                trackEvent({
-                  category: 'Download link',
-                  action: 'follow video annotation link',
-                  label: video['@id'],
-                });
+              linkText={`Transcript of ${annotation.resource.label} video`}
+              format={'PDF'}
+              trackingEvent={{
+                category: 'Download link',
+                action: 'follow video annotation link',
+                label: video['@id'],
               }}
-            >
-              <span className="flex-inline flex--v-center">
-                <Icon name="download" />
-                <span className="underline-on-hover">
-                  {`Transcript of ${annotation.resource.label} video`}
-                </span>
-                <Space
-                  as="span"
-                  h={{ size: 'm', properties: ['margin-left'] }}
-                  className={classNames({
-                    [font('hnm', 5)]: true,
-                    'font-pewter': true,
-                  })}
-                >
-                  PDF
-                </Space>
-              </span>
-            </DownloadLink>
+            />
           </Space>
         )}
     </>
