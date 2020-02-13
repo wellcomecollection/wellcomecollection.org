@@ -58,41 +58,6 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
-function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
-  return iiifManifest.manifests || null;
-}
-
-export function getManifestViewType(iiifManifest: IIIFManifest) {
-  const manifests = getManifests(iiifManifest);
-  const video =
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  const audio =
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  const canvases = getCanvases(iiifManifest);
-  const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
-  const pdfRendering =
-    downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return manifests
-    ? 'multi'
-    : audio
-    ? 'audio'
-    : video
-    ? 'video'
-    : canvases.length > 0
-    ? 'iiif'
-    : pdfRendering
-    ? 'pdf'
-    : 'none';
-}
-
 export function getVideo(iiifManifest: IIIFManifest) {
   const videoSequence =
     iiifManifest &&
