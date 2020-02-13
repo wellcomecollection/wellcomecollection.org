@@ -352,10 +352,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   );
 
   const shouldGetWorks = !!(params.query && params.query !== '');
+  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
-        pageSize: isImageSearch ? 100 : undefined,
       })
     : null;
 
