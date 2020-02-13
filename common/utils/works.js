@@ -160,7 +160,7 @@ export function getAudio(iiifManifest: IIIFManifest) {
 }
 
 export function getEncoreLink(sierraId: string): string {
-  return `http://search.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+  return `http://encore.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
     0,
     sierraId.length - 1
   )}`;
