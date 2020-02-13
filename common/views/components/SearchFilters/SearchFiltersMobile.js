@@ -202,6 +202,11 @@ const SearchFiltersMobile = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 
+  const activeFiltersCount =
+    workTypeInUrlArray.length +
+    (productionDatesFrom ? 1 : 0) +
+    (productionDatesTo ? 1 : 0);
+
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <OpenFiltersButton
@@ -210,7 +215,7 @@ const SearchFiltersMobile = ({
       >
         <Icon name="filter" />
         <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-          Filter
+          Filter {activeFiltersCount > 0 && ` (${activeFiltersCount})`}
         </Space>
       </OpenFiltersButton>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
