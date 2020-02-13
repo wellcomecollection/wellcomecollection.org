@@ -7,6 +7,13 @@ module.exports = {
       description: 'Search the complete catalogue without any filters',
     },
     {
+      id: 'relevanceRating',
+      title: 'Rate search result relevance',
+      defaultValue: false,
+      description:
+        'Give your search results a rating of 1 to 4 stars to help us improve search relevance',
+    },
+    {
       id: 'stacksRequestService',
       title: 'Items status and requesting',
       defaultValue: false,
