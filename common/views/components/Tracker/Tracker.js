@@ -46,10 +46,22 @@ const trackSearch = (params: CatalogueApiProps, data: SearchData) => {
   }
 };
 
+type SearchImageExpandedData = {|
+  id: string,
+|};
+const trackSearchImageExpanded = (
+  params: CatalogueApiProps,
+  data: SearchImageExpandedData
+) => {
+  track(params, 'Search image expanded', 'search_relevance_implicit', data);
+};
+
 type TrackingEventData =
   | SearchResultSelectedData
   | RelevanceRatingData
-  | SearchData;
+  | SearchData
+  | SearchImageExpandedData;
+
 const track = (
   params: CatalogueApiProps,
   eventName: string,
@@ -155,5 +167,6 @@ export {
   trackRelevanceRating,
   trackSearch,
   trackSearchResultSelected,
+  trackSearchImageExpanded,
   TrackerScript,
 };
