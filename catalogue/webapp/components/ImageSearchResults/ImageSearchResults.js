@@ -6,6 +6,7 @@ import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import { type CatalogueResultsList } from '@weco/common/model/catalogue';
 import { type CatalogueApiProps } from '@weco/common/services/catalogue/api';
+import { transparentGif } from '@weco/common/utils/backgrounds';
 
 type Props = {|
   works: CatalogueResultsList,
@@ -38,7 +39,7 @@ const ImageSearchResults = ({ works, apiProps }: Props) => {
               image={{
                 contentUrl: result.thumbnail
                   ? result.thumbnail.url
-                  : 'https://via.placeholder.com/1600x900?text=%20',
+                  : transparentGif,
                 width: 300,
                 height: 300,
                 alt: result.title,
