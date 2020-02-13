@@ -53,15 +53,20 @@ const DownloadOptions = styled.div`
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
-  a {
-    color: ${props => props.theme.colors.green};
-    text-decoration: none;
+`;
+
+export const DownloadLink = styled.a.attrs({
+  className: classNames({
+    [font('hnm', 5)]: true,
+  }),
+})`
+  color: ${props => props.theme.colors.green};
+  text-decoration: none;
+  .icon__shape {
+    fill: currentColor;
   }
   .icon__canvas {
     height: 1.3em;
-  }
-  .icon__shape {
-    fill: currentColor;
   }
 `;
 
@@ -167,7 +172,7 @@ const Download = ({ work, downloadOptions }: Props) => {
 
                   return (
                     <li key={option.label}>
-                      <a
+                      <DownloadLink
                         tabIndex={showDownloads ? null : -1}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -198,7 +203,7 @@ const Download = ({ work, downloadOptions }: Props) => {
                             </Space>
                           )}
                         </span>
-                      </a>
+                      </DownloadLink>
                     </li>
                   );
                 })}
