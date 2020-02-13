@@ -62,6 +62,7 @@ export type IIIFMediaElement = {|
   },
   height?: number,
   width?: number,
+  resources?: [],
 |};
 type IIIFMediaSequence = {|
   '@id': string,
