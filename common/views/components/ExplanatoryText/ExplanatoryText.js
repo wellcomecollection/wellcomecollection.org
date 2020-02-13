@@ -12,6 +12,9 @@ const IconContainer = styled.div`
   border-radius: 50%;
   background: ${props =>
     props.open ? props.theme.colors.black : props.theme.colors.green};
+  .icon {
+    transition: transform 300ms ease;
+  }
 `;
 const Control = styled.button.attrs(props => ({
   className: classNames({
