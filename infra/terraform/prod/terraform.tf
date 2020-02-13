@@ -1,27 +1,28 @@
 terraform {
-  required_version = ">= 0.10"
 
   backend "s3" {
-    key            = "terraform.tfstate"
-    dynamodb_table = "terraform-locktable"
-    bucket         = "wellcomecollection-infra"
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
 
-    profile        = "experience-dev"
-    region         = "eu-west-1"
+    key = "terraform.tfstate"
+    dynamodb_table = "terraform-locktable"
+    bucket = "wellcomecollection-infra"
+    region = "eu-west-1"
   }
 }
 
 provider "aws" {
-  version = "~> 1.0"
+  region = "eu-west-1"
+  version = "~> 2.7"
 
-  profile = "experience-dev"
-  region  = "eu-west-1"
+  assume_role {
+    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+  }
 }
 
 # This bucket holds all of our terraform build-state
 resource "aws_s3_bucket" "terraform_build_state_bucket" {
   bucket = "wellcomecollection-infra"
-  acl    = "private"
+  acl = "private"
 
   lifecycle {
     prevent_destroy = true
@@ -33,9 +34,9 @@ module "wellcomecollection" {
 }
 
 output "vpc_id" {
-  value = "${module.wellcomecollection.vpc_id}"
+  value = module.wellcomecollection.vpc_id
 }
 
 output "vpc_subnets" {
-  value = "${module.wellcomecollection.vpc_subnets}"
+  value = module.wellcomecollection.vpc_subnets
 }
