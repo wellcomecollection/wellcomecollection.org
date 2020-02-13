@@ -62,7 +62,16 @@ export type IIIFMediaElement = {|
   },
   height?: number,
   width?: number,
-  resources?: [],
+  resources?: [
+    {
+      '@type': 'oa:Annotation',
+      resource: {
+        '@id': string,
+        format: string,
+        label: string,
+      },
+    }
+  ],
 |};
 type IIIFMediaSequence = {|
   '@id': string,
