@@ -3,15 +3,15 @@ terraform {
   backend "s3" {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
 
-    key = "terraform.tfstate"
+    key            = "terraform.tfstate"
     dynamodb_table = "terraform-locktable"
-    bucket = "wellcomecollection-infra"
-    region = "eu-west-1"
+    bucket         = "wellcomecollection-infra"
+    region         = "eu-west-1"
   }
 }
 
 provider "aws" {
-  region = "eu-west-1"
+  region  = "eu-west-1"
   version = "~> 2.7"
 
   assume_role {
@@ -22,7 +22,7 @@ provider "aws" {
 # This bucket holds all of our terraform build-state
 resource "aws_s3_bucket" "terraform_build_state_bucket" {
   bucket = "wellcomecollection-infra"
-  acl = "private"
+  acl    = "private"
 
   lifecycle {
     prevent_destroy = true
