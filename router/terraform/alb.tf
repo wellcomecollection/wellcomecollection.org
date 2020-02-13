@@ -1,6 +1,6 @@
 module "router_alb" {
-  source = "./alb"
-  name = "router"
+  source  = "./alb"
+  name    = "router"
   subnets = local.vpc_subnets
 
   loadbalancer_security_groups = [
@@ -9,7 +9,7 @@ module "router_alb" {
   ]
 
   certificate_domain = "wellcomecollection.org"
-  vpc_id = local.vpc_id
+  vpc_id             = local.vpc_id
 
   alb_access_log_bucket = aws_s3_bucket.alb-logs.id
 }

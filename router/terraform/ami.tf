@@ -4,22 +4,22 @@ data "aws_ami" "stable_coreos" {
   filter {
     name = "description"
     values = [
-      "CoreOS stable *"]
+    "CoreOS stable *"]
   }
 
   filter {
     name = "architecture"
     values = [
-      "x86_64"]
+    "x86_64"]
   }
 
   filter {
     name = "virtualization-type"
     values = [
-      "hvm"]
+    "hvm"]
   }
 
   owners = [
-    "595879546273"]
+  "595879546273"]
   # CoreOS
 }
