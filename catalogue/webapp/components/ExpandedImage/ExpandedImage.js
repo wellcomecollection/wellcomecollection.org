@@ -250,7 +250,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
                 className={font('hnl', 5)}
                 v={{ size: 'l', properties: ['margin-bottom'] }}
               >
-                <License subject="" license={license} />
+                <License license={license} />
               </Space>
             )}
 
