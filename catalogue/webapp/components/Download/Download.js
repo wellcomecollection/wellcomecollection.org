@@ -11,7 +11,7 @@ import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-// temporary
+// TODO temporary
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const DownloadButton = styled.button`
@@ -57,7 +57,7 @@ export const DownloadOptions = styled.div.attrs(props => ({
   top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
   left: ${props => (props.alignment === 'left' ? 0 : 'auto')};
   right: ${props => (props.alignment === 'left' ? 'auto' : 0)};
-  display: ${props => (props.hidden ? 'none' : 'show')};
+  display: ${props => (props.hidden ? 'none' : 'block')};
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
@@ -82,14 +82,16 @@ export function getFormatString(format: string) {
 }
 
 type Props = {|
+  ariaControlsId: string,
   workId: string,
   downloadOptions: IIIFRendering[],
   title?: string,
-  license?: LicenseData,
+  license?: ?LicenseData,
   iiifImageLocationCredit?: ?string,
 |};
 
 const Download = ({
+  ariaControlsId,
   title = '',
   workId,
   downloadOptions,
@@ -133,7 +135,7 @@ const Download = ({
                   'flex-inline': true,
                   'flex--v-center': true,
                 })}
-                aria-controls="downloadOptions"
+                aria-controls={ariaControlsId}
                 aria-expanded={showDownloads}
                 rotateIcon={showDownloads}
                 onClick={() => {
@@ -179,7 +181,7 @@ const Download = ({
               iconPosition="end"
               fontFamily="hnl"
               text="Downloads"
-              ariaControls="downloadOptions"
+              ariaControls={ariaControlsId}
               ariaExpanded={showDownloads}
               clickHandler={() => {
                 setShowDownloads(!showDownloads);
@@ -189,13 +191,14 @@ const Download = ({
           </div>
           <DownloadOptions
             ref={downloadOptionsContainer}
-            id="downloadOptions"
+            id={ariaControlsId}
             className={classNames({
               [font('hnm', 5)]: true,
               'enhanced-styles': isEnhanced,
-              hidden: !showDownloads,
             })}
             alignment={alignment}
+            aria-hidden={!showDownloads}
+            hidden={!showDownloads}
           >
             <SpacingComponent>
               <ul className="plain-list no-margin no-padding">

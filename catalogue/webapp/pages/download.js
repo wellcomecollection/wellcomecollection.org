@@ -95,9 +95,15 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
               {title}
             </Space>
           </SpacingComponent>
-          <SpacingComponent>
-            <Download workId={work.id} downloadOptions={downloadOptions} />
-          </SpacingComponent>
+          {work && work.id && (
+            <SpacingComponent>
+              <Download
+                ariaControlsId="itemDownloads"
+                workId={work.id}
+                downloadOptions={downloadOptions}
+              />
+            </SpacingComponent>
+          )}
           {license && (
             <SpacingComponent key={license.url}>
               <div>

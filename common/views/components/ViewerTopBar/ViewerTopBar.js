@@ -202,6 +202,7 @@ const ViewerTopBar = ({
               )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
+                ariaControlsId="itemDownloads"
                 title={title}
                 workId={workId}
                 license={licenseInfo}
