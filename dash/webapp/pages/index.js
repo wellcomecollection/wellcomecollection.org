@@ -25,14 +25,14 @@ const IndexPage = () => {
           </li>
           <li>
             <a
-              href="https://github.com/wellcometrust/wellcomecollection.org"
+              href="https://github.com/wellcomecollection/wellcomecollection.org"
               rel="repo"
             >
               Experience Github repo
             </a>
           </li>
           <li>
-            <a href="https://github.com/wellcometrust/platform" rel="repo">
+            <a href="https://github.com/wellcomecollection/platform" rel="repo">
               Platform GitHub repo
             </a>
           </li>

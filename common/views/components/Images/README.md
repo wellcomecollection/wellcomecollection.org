@@ -15,4 +15,4 @@ In order to ensure that images retain their aspect ratio while not growing large
 
 This shouldn't be a problem in terms of content creation (we upload larger-than-necessary and resize multiple responsive widths on the server) but it does mean careful attention should be paid to the `sizes` attribute that determines which responsive image is most appropriate for the browser to serve at various breakpoints.
 
-[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/common/views/components/Images/README.md)
+[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/common/views/components/Images/README.md)

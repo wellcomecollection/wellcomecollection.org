@@ -11,4 +11,4 @@ There are several different types of content that can be described by a IIIF pre
 - PDF
 - none: something that isn't one of the above and we don't cater for
 
-[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/common/views/components/IIIFPresentationPreview/README.md)
+[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/common/views/components/IIIFPresentationPreview/README.md)
