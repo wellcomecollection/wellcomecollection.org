@@ -46,33 +46,11 @@ const ImageWrapper = styled(Space).attrs({
 
 const InfoWrapper = styled.div`
   ${props => props.theme.media.medium`
-    padding-right: 20px;
-    max-height: 100%;
-    overflow: auto;
-    order: 1;
-  `}
-`;
-
-const FadeInfo = styled.div`
-  position: relative;
-
-  ${props => props.theme.media.medium`
     flex-basis: 60%;
+    padding-right: 20px;
+    order: 1;
+    height: 100%;
   `}
-
-  &:after {
-    position: absolute;
-    bottom: -1px; // browser rounding bugfix
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    content: '';
-  }
 `;
 
 const Overlay = styled.div.attrs({})`
@@ -113,6 +91,28 @@ const Modal = styled(Space).attrs({
     border-radius: ${props.theme.borderRadiusUnit}px;
     display: flex;
     overflow: hidden;
+
+    &:after {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      width: 60%;
+      height: 40px;
+      background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+  `}
+`;
+
+const ModalInner = styled.div`
+  ${props => props.theme.media.medium`
+    overflow: auto;
+    display: flex;
   `}
 `;
 
@@ -222,19 +222,19 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
         </CloseButton>
-        {iiifImageLocation && maybeItemLink && (
-          <NextLink {...maybeItemLink} passHref>
-            <ImageWrapper>
-              <Image
-                defaultSize={400}
-                alt={title}
-                contentUrl={iiifImageLocation.url}
-                tasl={null}
-              />
-            </ImageWrapper>
-          </NextLink>
-        )}
-        <FadeInfo>
+        <ModalInner>
+          {iiifImageLocation && maybeItemLink && (
+            <NextLink {...maybeItemLink} passHref>
+              <ImageWrapper>
+                <Image
+                  defaultSize={400}
+                  alt={title}
+                  contentUrl={iiifImageLocation.url}
+                  tasl={null}
+                />
+              </ImageWrapper>
+            </NextLink>
+          )}
           <InfoWrapper>
             <Space
               as="h2"
@@ -282,7 +282,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
             </Space>
             <RelatedImages originalId={id} />
           </InfoWrapper>
-        </FadeInfo>
+        </ModalInner>
       </Modal>
     </>
   );

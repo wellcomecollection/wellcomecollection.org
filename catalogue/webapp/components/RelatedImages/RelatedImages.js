@@ -14,7 +14,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  margin-bottom: 40px;
 
   img {
     margin-right: 10px;
