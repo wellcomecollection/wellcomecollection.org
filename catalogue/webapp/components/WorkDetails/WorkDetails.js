@@ -256,7 +256,7 @@ const WorkDetails = ({
               </>
             )}
 
-            <Download work={work} downloadOptions={downloadOptions} />
+            <Download workId={work.id} downloadOptions={downloadOptions} />
 
             {!(downloadOptions.length > 0) &&
               sierraIdFromManifestUrl &&

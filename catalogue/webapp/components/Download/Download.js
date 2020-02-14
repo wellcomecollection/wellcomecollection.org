@@ -1,12 +1,16 @@
 // @flow
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
+import type { LicenseData } from '@weco/common/utils/licenses';
 import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 // temporary
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 
@@ -77,13 +81,21 @@ export function getFormatString(format: string) {
   }
 }
 
-type Work = Object;
 type Props = {|
-  work: Work,
+  workId: string,
   downloadOptions: IIIFRendering[],
+  title?: string,
+  license?: LicenseData,
+  iiifImageLocationCredit?: ?string,
 |};
 
-const Download = ({ work, downloadOptions }: Props) => {
+const Download = ({
+  title = '',
+  workId,
+  downloadOptions,
+  license,
+  iiifImageLocationCredit,
+}: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [alignment, setAlignment] = useState('left');
   const downloadOptionsContainer = useRef(null);
@@ -171,6 +183,7 @@ const Download = ({ work, downloadOptions }: Props) => {
               ariaExpanded={showDownloads}
               clickHandler={() => {
                 setShowDownloads(!showDownloads);
+                setAlignmentOfDownloadOptions();
               }}
             />
           </div>
@@ -184,35 +197,68 @@ const Download = ({ work, downloadOptions }: Props) => {
             })}
             alignment={alignment}
           >
-            <ul className="plain-list no-margin no-padding">
-              {downloadOptions
-                .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
-                .map(option => {
-                  const action =
-                    option.label === 'Download full size'
-                      ? 'download large work image'
-                      : option.label === 'Download small (760px)'
-                      ? 'download small work image'
-                      : option.label;
-                  const format = getFormatString(option.format);
+            <SpacingComponent>
+              <ul className="plain-list no-margin no-padding">
+                {downloadOptions
+                  .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
+                  .map(option => {
+                    const action =
+                      option.label === 'Download full size'
+                        ? 'download large work image'
+                        : option.label === 'Download small (760px)'
+                        ? 'download small work image'
+                        : option.label;
+                    const format = getFormatString(option.format);
 
-                  return (
-                    <li key={option.label}>
-                      <DownloadLink
-                        isTabbable={showDownloads}
-                        href={option['@id']}
-                        linkText={option.label}
-                        format={format}
-                        trackingEvent={{
-                          category: 'Button',
-                          action: action,
-                          label: work.id,
-                        }}
+                    return (
+                      <li key={option.label}>
+                        <DownloadLink
+                          href={option['@id']}
+                          linkText={option.label}
+                          format={format}
+                          trackingEvent={{
+                            category: 'Button',
+                            action: action,
+                            label: workId,
+                          }}
+                        />
+                      </li>
+                    );
+                  })}
+              </ul>
+            </SpacingComponent>
+            {license && (
+              <>
+                <SpacingComponent>
+                  <Divider extraClasses="divider--pumice divider--keyline" />
+                </SpacingComponent>
+                <SpacingComponent>
+                  <div>
+                    {license.humanReadableText.length > 0 && (
+                      <WorkDetailsText
+                        title="License information"
+                        text={license.humanReadableText}
                       />
-                    </li>
-                  );
-                })}
-            </ul>
+                    )}
+                    <WorkDetailsText
+                      title="Credit"
+                      text={[
+                        `${title}. ${
+                          iiifImageLocationCredit
+                            ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
+                            : ` `
+                        }
+                  ${
+                    license.url
+                      ? `<a href="${license.url}">${license.label}</a>`
+                      : license.label
+                  }`,
+                      ]}
+                    />
+                  </div>
+                </SpacingComponent>
+              </>
+            )}
           </DownloadOptions>
         </>
       )}
