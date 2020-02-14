@@ -1,12 +1,14 @@
 // @flow
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+// temporary
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 
 const DownloadButton = styled.button`
   text-align: center;
@@ -33,29 +35,32 @@ const DownloadButton = styled.button`
     fill: currentColor;
   }
 `;
-const DownloadOptions = styled.div`
-  &.enhanced-styles {
-    border: ${props => `1px solid ${props.theme.colors.marble}`};
-    background: white;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-    z-index: -1;
-    margin-top: ${props => `-${props.theme.spacingUnit}px`};
-    padding: ${props => `${props.theme.spacingUnit * 3}px`};
-    height: none;
-    opacity: 0;
-    transition: opacity 400ms;
-    position: absolute;
-  }
-  &.show {
-    z-index: 1;
-    opacity: 1;
-  }
+
+export const DownloadOptions = styled.div.attrs(props => ({
+  className: classNames({
+    [font('hnm', 4)]: true,
+  }),
+}))`
+  min-width: 300px;
+  border: ${props => `1px solid ${props.theme.colors.marble}`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+  background: ${props => `${props.theme.colors.white}`};
+  color: ${props => `${props.theme.colors.black}`};
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+  padding: ${props => `${props.theme.spacingUnit * 3}px`};
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
+  left: ${props => (props.alignment === 'left' ? 0 : 'auto')};
+  right: ${props => (props.alignment === 'left' ? 'auto' : 0)};
+  display: ${props => (props.hidden ? 'none' : 'show')};
+
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
   }
 `;
 
-function getFormatString(format) {
+export function getFormatString(format: string) {
   switch (format) {
     case 'application/pdf':
       return 'PDF';
@@ -67,6 +72,8 @@ function getFormatString(format) {
       return 'MP4';
     case 'audio/mp3':
       return 'MP3';
+    default:
+      return null;
   }
 }
 
@@ -78,7 +85,21 @@ type Props = {|
 
 const Download = ({ work, downloadOptions }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
+  const [alignment, setAlignment] = useState('left');
+  const downloadOptionsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
+  function setAlignmentOfDownloadOptions() {
+    if (downloadOptionsContainer && downloadOptionsContainer.current) {
+      if (
+        downloadOptionsContainer.current.getBoundingClientRect().x <
+        window.innerWidth / 2
+      ) {
+        setAlignment('left');
+      } else {
+        setAlignment('right');
+      }
+    }
+  }
   useEffect(() => {
     setShowDownloads(false);
   }, []);
@@ -87,6 +108,7 @@ const Download = ({ work, downloadOptions }: Props) => {
       className={classNames({
         [font('hnl', 5)]: true,
         'inline-block': isEnhanced,
+        relative: true,
       })}
     >
       {downloadOptions.length > 0 && (
@@ -104,6 +126,7 @@ const Download = ({ work, downloadOptions }: Props) => {
                 rotateIcon={showDownloads}
                 onClick={() => {
                   setShowDownloads(!showDownloads);
+                  setAlignmentOfDownloadOptions();
                 }}
               >
                 <span className="flex-inline flex--v-center">
@@ -134,19 +157,37 @@ const Download = ({ work, downloadOptions }: Props) => {
               </h2>
             </Space>
           )}
+          <div style={{ background: 'black' }}>
+            <Button
+              extraClasses={classNames({
+                relative: true,
+                'btn--primary-black': true,
+              })}
+              icon="download"
+              iconPosition="end"
+              fontFamily="hnl"
+              text="Downloads"
+              ariaControls="downloadOptions"
+              ariaExpanded={showDownloads}
+              clickHandler={() => {
+                setShowDownloads(!showDownloads);
+              }}
+            />
+          </div>
           <DownloadOptions
+            ref={downloadOptionsContainer}
             id="downloadOptions"
             className={classNames({
               [font('hnm', 5)]: true,
               'enhanced-styles': isEnhanced,
-              show: showDownloads,
+              hidden: !showDownloads,
             })}
+            alignment={alignment}
           >
             <ul className="plain-list no-margin no-padding">
               {downloadOptions
                 .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
                 .map(option => {
-                  // Doing this for the action so analytics is constant, speak to Hayley about removing this
                   const action =
                     option.label === 'Download full size'
                       ? 'download large work image'
