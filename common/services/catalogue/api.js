@@ -49,7 +49,7 @@ export function worksRouteToApiUrl(
   };
 }
 
-export const defaultWorkTypes = ['a', 'g', 'i', 'k', 'l', 'q', 'b'];
+export const defaultWorkTypes = ['a', 'b', 'g', 'i', 'k', 'l', 'q'];
 export const defaultItemsLocationsLocationType = [
   'iiif-image',
   'iiif-presentation',
