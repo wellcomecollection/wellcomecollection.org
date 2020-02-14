@@ -1,10 +1,11 @@
 // @flow
-import { font } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import Image from '@weco/common/views/components/Image/Image';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getSimilarImages } from '../../services/image-similarity';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {|
   originalId: string,
@@ -14,7 +15,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  margin-bottom: 40px;
 
   img {
     margin-right: 10px;
@@ -39,13 +39,8 @@ const RelatedImages = ({ originalId }: Props) => {
     fetchRelatedImages();
   }, []);
   return relatedImages.length === 0 ? null : (
-    <>
+    <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
       <h3 className={font('wb', 5)}>Visually similar images</h3>
-      <p className={font('hnl', 6)}>
-        These images have similar shapes and structural features. We use machine
-        learning to detect visual similarity across all images in our
-        collection.
-      </p>
       <Wrapper>
         {relatedImages.map(related => (
           <NextLink href={`/works/${related.id}`} key={related.id}>
@@ -61,7 +56,17 @@ const RelatedImages = ({ originalId }: Props) => {
           </NextLink>
         ))}
       </Wrapper>
-    </>
+      <p
+        className={classNames({
+          [font('hnl', 6)]: true,
+          'no-margin': true,
+        })}
+      >
+        These images have similar shapes and structural features. We use machine
+        learning to detect visual similarity across all images in our
+        collection.
+      </p>
+    </Space>
   );
 };
 export default RelatedImages;
