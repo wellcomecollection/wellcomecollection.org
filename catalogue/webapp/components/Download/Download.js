@@ -45,19 +45,22 @@ export const DownloadOptions = styled.div.attrs(props => ({
     [font('hnm', 4)]: true,
   }),
 }))`
-  min-width: 300px;
-  border: ${props => `1px solid ${props.theme.colors.marble}`};
-  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  background: ${props => `${props.theme.colors.white}`};
-  color: ${props => `${props.theme.colors.black}`};
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-  padding: ${props => `${props.theme.spacingUnit * 3}px`};
-  position: absolute;
-  z-index: 1;
-  top: calc(100% + ${props => `${props.theme.spacingUnit * 2}px`});
-  left: ${props => (props.alignment === 'left' ? 0 : 'auto')};
-  right: ${props => (props.alignment === 'left' ? 'auto' : 0)};
-  display: ${props => (props.hidden ? 'none' : 'block')};
+  ${props =>
+    props.enhancedStyles &&
+    `min-width: 300px;
+    border: 1px solid ${props.theme.colors.marble};
+    border-radius: ${props.theme.borderRadiusUnit}px;
+    background: ${props.theme.colors.white};
+    color: ${props.theme.colors.black};
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+    padding: ${props.theme.spacingUnit * 3}px;
+    position: absolute;
+    z-index: 1;
+    top: calc(100% + ${props.theme.spacingUnit * 2}px);
+    left: ${props.alignment === 'left' ? 0 : 'auto'};
+    right: ${props.alignment === 'left' ? 'auto' : 0};
+    display: ${props.hidden ? 'none' : 'block'};
+    `}
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};
@@ -100,12 +103,12 @@ const Download = ({
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [alignment, setAlignment] = useState('left');
-  const downloadOptionsContainer = useRef(null);
+  const downloadsContainer = useRef(null);
   const { isEnhanced } = useContext(AppContext);
   function setAlignmentOfDownloadOptions() {
-    if (downloadOptionsContainer && downloadOptionsContainer.current) {
+    if (downloadsContainer && downloadsContainer.current) {
       if (
-        downloadOptionsContainer.current.getBoundingClientRect().x <
+        downloadsContainer.current.getBoundingClientRect().left <
         window.innerWidth / 2
       ) {
         setAlignment('left');
@@ -124,36 +127,55 @@ const Download = ({
         'inline-block': isEnhanced,
         relative: true,
       })}
+      ref={downloadsContainer}
     >
       {downloadOptions.length > 0 && (
         <>
           {isEnhanced ? (
-            <h2 className="inline">
-              <DownloadButton
-                className={classNames({
-                  [font('hnm', 5)]: true,
-                  'flex-inline': true,
-                  'flex--v-center': true,
+            <>
+              <h2 className="inline">
+                <DownloadButton
+                  className={classNames({
+                    [font('hnm', 5)]: true,
+                    'flex-inline': true,
+                    'flex--v-center': true,
+                  })}
+                  aria-controls={ariaControlsId}
+                  aria-expanded={showDownloads}
+                  rotateIcon={showDownloads}
+                  onClick={() => {
+                    setShowDownloads(!showDownloads);
+                    setAlignmentOfDownloadOptions();
+                  }}
+                >
+                  <span className="flex-inline flex--v-center">
+                    <Space
+                      as="span"
+                      h={{ size: 's', properties: ['margin-right'] }}
+                    >
+                      Downloads
+                    </Space>
+                    <Icon name="chevron" />
+                  </span>
+                </DownloadButton>
+              </h2>
+              <Button
+                extraClasses={classNames({
+                  relative: true,
+                  'btn--primary-black': true,
                 })}
-                aria-controls={ariaControlsId}
-                aria-expanded={showDownloads}
-                rotateIcon={showDownloads}
-                onClick={() => {
+                icon="download"
+                iconPosition="end"
+                fontFamily="hnl"
+                text="Downloads"
+                ariaControls={ariaControlsId}
+                ariaExpanded={showDownloads}
+                clickHandler={() => {
                   setShowDownloads(!showDownloads);
                   setAlignmentOfDownloadOptions();
                 }}
-              >
-                <span className="flex-inline flex--v-center">
-                  <Space
-                    as="span"
-                    h={{ size: 's', properties: ['margin-right'] }}
-                  >
-                    Downloads
-                  </Space>
-                  <Icon name="chevron" />
-                </span>
-              </DownloadButton>
-            </h2>
+              />
+            </>
           ) : (
             <Space
               v={{
@@ -171,34 +193,15 @@ const Download = ({
               </h2>
             </Space>
           )}
-          <div style={{ background: 'black' }}>
-            <Button
-              extraClasses={classNames({
-                relative: true,
-                'btn--primary-black': true,
-              })}
-              icon="download"
-              iconPosition="end"
-              fontFamily="hnl"
-              text="Downloads"
-              ariaControls={ariaControlsId}
-              ariaExpanded={showDownloads}
-              clickHandler={() => {
-                setShowDownloads(!showDownloads);
-                setAlignmentOfDownloadOptions();
-              }}
-            />
-          </div>
           <DownloadOptions
-            ref={downloadOptionsContainer}
             id={ariaControlsId}
             className={classNames({
               [font('hnm', 5)]: true,
-              'enhanced-styles': isEnhanced,
             })}
             alignment={alignment}
             aria-hidden={!showDownloads}
             hidden={!showDownloads}
+            enhancedStyles={isEnhanced}
           >
             <SpacingComponent>
               <ul className="plain-list no-margin no-padding">
