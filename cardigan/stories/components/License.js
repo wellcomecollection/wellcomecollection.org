@@ -22,7 +22,7 @@ const LicenseExample = () => {
     ],
     'CC-0'
   );
-  return <License subject={'test'} license={getLicenseInfo(license)} />;
+  return <License license={getLicenseInfo(license)} />;
 };
 
 const stories = storiesOf('Components', module);

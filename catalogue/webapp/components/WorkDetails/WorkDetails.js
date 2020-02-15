@@ -35,7 +35,6 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
-import WorkPreview from '@weco/common/views/components/WorkPreview/WorkPreview';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -187,14 +186,25 @@ const WorkDetails = ({
                         label: itemUrl.href.query.workId,
                       })}
                     >
-                      <WorkPreview
-                        alt={work.title}
-                        imagePath={work.thumbnail.url}
+                      <img
+                        style={{
+                          width: 'auto',
+                          height: 'auto',
+                        }}
+                        alt={`view ${work.title}`}
+                        src={work.thumbnail.url}
                       />
                     </a>
                   </NextLink>
                 ) : (
-                  <WorkPreview alt="" imagePath={work.thumbnail.url} />
+                  <img
+                    style={{
+                      width: 'auto',
+                      height: 'auto',
+                    }}
+                    alt={`view ${work.title}`}
+                    src={work.thumbnail.url}
+                  />
                 )}
               </Space>
             )}
