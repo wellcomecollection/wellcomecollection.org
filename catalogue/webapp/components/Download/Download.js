@@ -111,7 +111,7 @@ const Download = ({
                 <Button
                   extraClasses={classNames({
                     relative: true,
-                    'btn--secondary': !useDarkControl,
+                    'btn--tertiary': !useDarkControl,
                     'btn--primary-black': useDarkControl,
                   })}
                   icon={useDarkControl ? 'download' : 'chevron'}
