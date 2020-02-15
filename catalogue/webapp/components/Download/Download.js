@@ -5,40 +5,12 @@ import type { LicenseData } from '@weco/common/utils/licenses';
 import { useState, useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
-// TODO temporary
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-
-const DownloadButton = styled.button`
-  text-align: center;
-  border: ${props => `1px solid ${props.theme.colors.green}`};
-  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  background: ${props => props.theme.colors.white};
-  color: ${props => props.theme.colors.green};
-  padding: ${props =>
-    `${props.theme.spacingUnit}px ${props.theme.spacingUnit}px ${
-      props.theme.spacingUnit
-    }px ${props.theme.spacingUnit * 2}px`};
-  display: inline-block;
-  cursor: pointer;
-  :focus {
-    outline: none;
-    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
-  }
-  .icon {
-    transition: transform 700ms;
-    transform: ${props =>
-      props.rotateIcon ? 'rotate(180deg)' : 'rotate(0deg)'};
-  }
-  .icon__shape {
-    fill: currentColor;
-  }
-`;
 
 export const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
@@ -91,6 +63,7 @@ type Props = {|
   title?: string,
   license?: ?LicenseData,
   iiifImageLocationCredit?: ?string,
+  useDarkControl?: boolean,
 |};
 
 const Download = ({
@@ -100,6 +73,7 @@ const Download = ({
   downloadOptions,
   license,
   iiifImageLocationCredit,
+  useDarkControl = false,
 }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
   const [alignment, setAlignment] = useState('left');
@@ -134,47 +108,24 @@ const Download = ({
           {isEnhanced ? (
             <>
               <h2 className="inline">
-                <DownloadButton
-                  className={classNames({
-                    [font('hnm', 5)]: true,
-                    'flex-inline': true,
-                    'flex--v-center': true,
+                <Button
+                  extraClasses={classNames({
+                    relative: true,
+                    'btn--secondary': !useDarkControl,
+                    'btn--primary-black': useDarkControl,
                   })}
-                  aria-controls={ariaControlsId}
-                  aria-expanded={showDownloads}
-                  rotateIcon={showDownloads}
-                  onClick={() => {
+                  icon={useDarkControl ? 'download' : 'chevron'}
+                  iconPosition="end"
+                  fontFamily={useDarkControl ? 'hnl' : 'hnm'}
+                  text="Downloads"
+                  ariaControls={ariaControlsId}
+                  ariaExpanded={showDownloads}
+                  clickHandler={() => {
                     setShowDownloads(!showDownloads);
                     setAlignmentOfDownloadOptions();
                   }}
-                >
-                  <span className="flex-inline flex--v-center">
-                    <Space
-                      as="span"
-                      h={{ size: 's', properties: ['margin-right'] }}
-                    >
-                      Downloads
-                    </Space>
-                    <Icon name="chevron" />
-                  </span>
-                </DownloadButton>
+                />
               </h2>
-              <Button
-                extraClasses={classNames({
-                  relative: true,
-                  'btn--primary-black': true,
-                })}
-                icon="download"
-                iconPosition="end"
-                fontFamily="hnl"
-                text="Downloads"
-                ariaControls={ariaControlsId}
-                ariaExpanded={showDownloads}
-                clickHandler={() => {
-                  setShowDownloads(!showDownloads);
-                  setAlignmentOfDownloadOptions();
-                }}
-              />
             </>
           ) : (
             <Space

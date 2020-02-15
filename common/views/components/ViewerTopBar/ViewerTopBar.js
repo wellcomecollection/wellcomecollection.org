@@ -210,6 +210,7 @@ const ViewerTopBar = ({
                 downloadOptions={
                   downloadOptions || iiifPresentationDownloadOptions
                 }
+                useDarkControl={true}
               />
             </Space>
             {parentManifest && parentManifest.manifests && (
