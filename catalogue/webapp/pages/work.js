@@ -9,9 +9,14 @@ import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import {
-  type DigitalLocation,
   getDigitalLocationOfType,
+  sierraIdFromPresentationManifestUrl,
+  type DigitalLocation,
 } from '@weco/common/utils/works';
+import {
+  getFirstChildManifestLocation,
+  getCanvases,
+} from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -21,24 +26,12 @@ import BackToResults from '@weco/common/views/components/BackToResults/BackToRes
 import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
 import WorkDetails from '../components/WorkDetails/WorkDetails';
 import SearchForm from '../components/SearchForm/SearchForm';
-import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
 import { getWork } from '../services/catalogue/works';
-import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
-import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
-
 type Props = {|
   work: Work | CatalogueApiError,
 |};
-
-const getFirstChildManifest = async function(manifests) {
-  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
-  const data = await (await fetch(firstManifestUrl)).json();
-  return data;
-};
 
 export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
@@ -53,26 +46,25 @@ export const WorkPage = ({ work }: Props) => {
     search: null,
   });
 
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
   const [iiifPresentationManifest, setIIIFPresentationManifest] = useState(
     null
   );
+  const [imageTotal, setImageTotal] = useState(0);
   const [childManifestsCount, setChildManifestsCount] = useState(0);
-  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
-      const iiifPresentationLocation = getDigitalLocationOfType(
-        work,
-        'iiif-presentation'
-      );
       const iiifManifest =
         iiifPresentationLocation && (await fetch(iiifPresentationLocation.url));
       const manifestData = iiifManifest && (await iiifManifest.json());
-
+      if (manifestData) {
+        setImageTotal(getCanvases(manifestData).length);
+      }
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
-        setFirstChildManifest(
-          await getFirstChildManifest(manifestData.manifests)
-        );
       }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
@@ -80,6 +72,7 @@ export const WorkPage = ({ work }: Props) => {
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
   };
+
   useEffect(() => {
     window.dataLayer &&
       window.dataLayer.push({
@@ -88,6 +81,40 @@ export const WorkPage = ({ work }: Props) => {
       });
     fetchIIIFPresentationManifest();
   }, []);
+
+  const firstChildManifestLocation =
+    iiifPresentationManifest &&
+    getFirstChildManifestLocation(iiifPresentationManifest);
+
+  const iiifImageLocation: ?DigitalLocation = getDigitalLocationOfType(
+    work,
+    'iiif-image'
+  );
+
+  const imageUrl =
+    iiifImageLocation && iiifImageLocation.url
+      ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
+      : null;
+
+  const itemUrlObject =
+    work && work.type !== 'Error'
+      ? itemLink({
+          workId: work.id,
+          sierraId:
+            (firstChildManifestLocation &&
+              sierraIdFromPresentationManifestUrl(
+                firstChildManifestLocation
+              )) ||
+            (iiifPresentationLocation &&
+              sierraIdFromPresentationManifestUrl(
+                iiifPresentationLocation.url
+              )) ||
+            null,
+          langCode: work.language && work.language.id,
+          canvas: 1,
+          page: 1,
+        })
+      : null;
 
   if (work.type === 'Error') {
     return (
@@ -102,29 +129,6 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
-
-  const sierraIdFromPresentationManifestUrl =
-    iiifPresentationLocation &&
-    (iiifPresentationLocation.url.match(/iiif\/(.*)\/manifest/) || [])[1];
-
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  const digitalLocation: ?DigitalLocation =
-    iiifImageLocation && iiifImageLocation.type === 'DigitalLocation'
-      ? iiifImageLocation
-      : null;
-
-  const iiifImageLocationUrl = digitalLocation && digitalLocation.url;
-
-  const imageContentUrl =
-    digitalLocation && digitalLocation.url
-      ? iiifImageTemplate(digitalLocation.url)({ size: `800,` })
-      : null;
-
   return (
     <CataloguePageLayout
       title={work.title}
@@ -134,7 +138,7 @@ export const WorkPage = ({ work }: Props) => {
       jsonLd={workLd(work)}
       siteSection={'works'}
       oEmbedUrl={`https://wellcomecollection.org/oembed/works/${work.id}`}
-      imageUrl={imageContentUrl}
+      imageUrl={imageUrl}
       imageAltText={work.title}
       hideNewsletterPromo={true}
     >
@@ -153,7 +157,6 @@ export const WorkPage = ({ work }: Props) => {
             />
           </div>
         </div>
-
         <div className="grid">
           <Space
             v={{
@@ -183,56 +186,12 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-      {firstChildManifest && (
-        <ManifestContext.Provider value={firstChildManifest}>
-          <SpacingComponent>
-            <IIIFPresentationPreview
-              childManifestsCount={childManifestsCount}
-              itemUrl={itemLink({
-                workId: work.id,
-                sierraId:
-                  firstChildManifest['@id'].match(
-                    /^https:\/\/wellcomelibrary\.org\/iiif\/(.*)\/manifest$/
-                  )[1] || sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-              })}
-            />
-          </SpacingComponent>
-        </ManifestContext.Provider>
-      )}
-      <ManifestContext.Provider value={iiifPresentationManifest}>
-        {!firstChildManifest &&
-          sierraIdFromPresentationManifestUrl &&
-          !iiifImageLocationUrl && (
-            <IIIFPresentationPreview
-              itemUrl={itemLink({
-                workId: work.id,
-                sierraId: sierraIdFromPresentationManifestUrl,
-                langCode: work.language && work.language.id,
-                canvas: 1,
-                page: 1,
-              })}
-            />
-          )}
-      </ManifestContext.Provider>
-      {iiifImageLocationUrl && (
-        <WobblyRow>
-          <IIIFImagePreview
-            iiifUrl={iiifImageLocationUrl}
-            itemUrl={itemLink({
-              workId: work.id,
-              sierraId: null,
-              langCode: work.language && work.language.id,
-              canvas: 1,
-              page: 1,
-            })}
-          />
-        </WobblyRow>
-      )}
       <WorkDetails
         work={work}
+        itemUrl={itemUrlObject}
         iiifPresentationManifest={iiifPresentationManifest}
         childManifestsCount={childManifestsCount}
+        imageCount={imageTotal}
       />
     </CataloguePageLayout>
   );

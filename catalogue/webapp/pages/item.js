@@ -9,12 +9,12 @@ import fetch from 'isomorphic-unfetch';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
+import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
-  getDigitalLocationOfType,
   getDownloadOptionsFromManifest,
   getVideo,
   getAudio,
-} from '@weco/common/utils/works';
+} from '@weco/common/utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';

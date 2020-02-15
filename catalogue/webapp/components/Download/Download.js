@@ -1,11 +1,10 @@
 // @flow
-import type { LicenseData } from '@weco/common/utils/licenses';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { type IIIFRendering } from '@weco/common/model/iiif';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import License from '@weco/common/views/components/License/License';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -20,8 +19,6 @@ const DownloadButton = styled.button`
       props.theme.spacingUnit
     }px ${props.theme.spacingUnit * 2}px`};
   display: inline-block;
-  margin: ${props =>
-    `0 ${props.theme.spacingUnit * 2}px ${props.theme.spacingUnit}px 0`};
   cursor: pointer;
   :focus {
     outline: none;
@@ -86,173 +83,129 @@ function getFormatString(format) {
 type Work = Object;
 type Props = {|
   work: Work,
-  licenseInfo: LicenseData[],
-  credit: ?string,
   downloadOptions: IIIFRendering[],
-  licenseInfoLink: boolean,
 |};
 
-const Download = ({
-  work,
-  licenseInfo,
-  credit,
-  downloadOptions,
-  licenseInfoLink,
-}: Props) => {
+const Download = ({ work, downloadOptions }: Props) => {
   const [showDownloads, setShowDownloads] = useState(true);
-  const [useJavascriptControl, setUseJavascriptControl] = useState(false);
+  const { isEnhanced } = useContext(AppContext);
   useEffect(() => {
-    setUseJavascriptControl(true);
     setShowDownloads(false);
   }, []);
   return (
-    <div>
-      <div
-        className={classNames({
-          [font('hnl', 5)]: true,
-        })}
-      >
-        {downloadOptions.length > 0 && (
-          <>
-            {useJavascriptControl ? (
-              <h2 className="inline">
-                <DownloadButton
-                  className={classNames({
-                    [font('hnm', 5)]: true,
-                    'flex-inline': true,
-                    'flex--v-center': true,
-                  })}
-                  aria-controls="downloadOptions"
-                  aria-expanded={showDownloads}
-                  rotateIcon={showDownloads}
-                  onClick={() => {
-                    setShowDownloads(!showDownloads);
-                  }}
-                >
-                  <span className="flex-inline flex--v-center">
-                    <Space
-                      as="span"
-                      h={{ size: 's', properties: ['margin-right'] }}
-                    >
-                      Download
-                    </Space>
-                    <Icon name="chevron" />
-                  </span>
-                </DownloadButton>
-              </h2>
-            ) : (
+    <div
+      className={classNames({
+        [font('hnl', 5)]: true,
+        'inline-block': isEnhanced,
+      })}
+    >
+      {downloadOptions.length > 0 && (
+        <>
+          {isEnhanced ? (
+            <h2 className="inline">
+              <DownloadButton
+                className={classNames({
+                  [font('hnm', 5)]: true,
+                  'flex-inline': true,
+                  'flex--v-center': true,
+                })}
+                aria-controls="downloadOptions"
+                aria-expanded={showDownloads}
+                rotateIcon={showDownloads}
+                onClick={() => {
+                  setShowDownloads(!showDownloads);
+                }}
+              >
+                <span className="flex-inline flex--v-center">
+                  <Space
+                    as="span"
+                    h={{ size: 's', properties: ['margin-right'] }}
+                  >
+                    Downloads
+                  </Space>
+                  <Icon name="chevron" />
+                </span>
+              </DownloadButton>
+            </h2>
+          ) : (
+            <Space
+              v={{
+                size: 'l',
+                properties: ['margin-top'],
+              }}
+            >
               <h2
                 className={classNames({
-                  [font('wb', 3)]: true,
+                  [font('hnm', 5)]: true,
                   'work-details-heading': true,
                 })}
               >
                 Download
               </h2>
-            )}
-            <DownloadOptions
-              id="downloadOptions"
-              className={classNames({
-                [font('hnm', 5)]: true,
-                'enhanced-styles': useJavascriptControl,
-                show: showDownloads,
-              })}
-            >
-              <ul className="plain-list no-margin no-padding">
-                {downloadOptions
-                  .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
-                  .map(option => {
-                    // Doing this for the action so analytics is constant, speak to Hayley about removing this
-                    const action =
-                      option.label === 'Download full size'
-                        ? 'download large work image'
-                        : option.label === 'Download small (760px)'
-                        ? 'download small work image'
-                        : option.label;
-                    const format = getFormatString(option.format);
+            </Space>
+          )}
+          <DownloadOptions
+            id="downloadOptions"
+            className={classNames({
+              [font('hnm', 5)]: true,
+              'enhanced-styles': isEnhanced,
+              show: showDownloads,
+            })}
+          >
+            <ul className="plain-list no-margin no-padding">
+              {downloadOptions
+                .filter(option => option.format !== 'text/plain') // We're taking out raw text for now
+                .map(option => {
+                  // Doing this for the action so analytics is constant, speak to Hayley about removing this
+                  const action =
+                    option.label === 'Download full size'
+                      ? 'download large work image'
+                      : option.label === 'Download small (760px)'
+                      ? 'download small work image'
+                      : option.label;
+                  const format = getFormatString(option.format);
 
-                    return (
-                      <li key={option.label}>
-                        <a
-                          tabIndex={showDownloads ? null : -1}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={option['@id']}
-                          onClick={() => {
-                            trackEvent({
-                              category: 'Button',
-                              action: action,
-                              label: work.id,
-                            });
-                          }}
-                        >
-                          <span className="flex-inline flex--v-center">
-                            <Icon name="download" />
-                            <span className="underline-on-hover">
-                              {option.label}
-                            </span>
-                            {format && (
-                              <Space
-                                as="span"
-                                h={{ size: 'm', properties: ['margin-left'] }}
-                                className={classNames({
-                                  [font('hnm', 5)]: true,
-                                  'font-pewter': true,
-                                })}
-                              >
-                                {format}
-                              </Space>
-                            )}
+                  return (
+                    <li key={option.label}>
+                      <a
+                        tabIndex={showDownloads ? null : -1}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={option['@id']}
+                        onClick={() => {
+                          trackEvent({
+                            category: 'Button',
+                            action: action,
+                            label: work.id,
+                          });
+                        }}
+                      >
+                        <span className="flex-inline flex--v-center">
+                          <Icon name="download" />
+                          <span className="underline-on-hover">
+                            {option.label}
                           </span>
-                        </a>
-                      </li>
-                    );
-                  })}
-              </ul>
-            </DownloadOptions>
-          </>
-        )}
-
-        <div className="flex-inline flex--v-center">
-          {licenseInfo.length > 0 && (
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
-            >
-              {licenseInfo.map(license => (
-                <License key={license.url} subject={''} license={license} />
-              ))}
-            </Space>
-          )}
-          {credit && (
-            <Space
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
-            >
-              Credit: {credit}{' '}
-            </Space>
-          )}
-          {licenseInfo.length > 0 && licenseInfoLink && (
-            <a
-              href="#licenseInformation"
-              className={classNames({
-                [font('hnm', 5)]: true,
-              })}
-            >
-              <span className="flex-inline flex--v-center nowrap">
-                <Icon name="arrowSmall" extraClasses="icon--90" />
-                Can I use this?
-              </span>
-            </a>
-          )}
-        </div>
-      </div>
+                          {format && (
+                            <Space
+                              as="span"
+                              h={{ size: 'm', properties: ['margin-left'] }}
+                              className={classNames({
+                                [font('hnm', 5)]: true,
+                                'font-pewter': true,
+                              })}
+                            >
+                              {format}
+                            </Space>
+                          )}
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+            </ul>
+          </DownloadOptions>
+        </>
+      )}
     </div>
   );
 };
