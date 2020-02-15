@@ -4,6 +4,7 @@ import {
   type IIIFRendering,
   type IIIFMetadata,
   type IIIFCanvas,
+  type IIIFMediaElement,
 } from '../model/iiif';
 
 export function getIIIFMetadata(
@@ -58,7 +59,8 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
-export function getVideo(iiifManifest: IIIFManifest) {
+
+export function getVideo(iiifManifest: IIIFManifest): ?IIIFMediaElement {
   const videoSequence =
     iiifManifest &&
     iiifManifest.mediaSequences &&
@@ -75,7 +77,7 @@ export function getVideo(iiifManifest: IIIFManifest) {
   );
 }
 
-export function getAudio(iiifManifest: IIIFManifest) {
+export function getAudio(iiifManifest: IIIFManifest): ?IIIFMediaElement {
   const videoSequence =
     iiifManifest &&
     iiifManifest.mediaSequences &&
@@ -85,6 +87,17 @@ export function getAudio(iiifManifest: IIIFManifest) {
   return (
     videoSequence &&
     videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+  );
+}
+
+export function getAnnotationFromMediaElement(
+  mediaElement: IIIFMediaElement
+): ?Object {
+  return (
+    mediaElement.resources &&
+    mediaElement.resources.find(
+      resource => resource['@type'] === 'oa:Annotation'
+    )
   );
 }
 

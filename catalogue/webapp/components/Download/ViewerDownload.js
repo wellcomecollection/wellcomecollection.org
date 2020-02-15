@@ -1,16 +1,14 @@
 // @flow
 import type { LicenseData } from '@weco/common/utils/licenses';
 import { type IIIFRendering } from '@weco/common/model/iiif';
-import { trackEvent } from '@weco/common/utils/ga';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
+import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 
 const DownloadOptions = styled.div.attrs(props => ({
   className: classNames({
@@ -136,38 +134,17 @@ const Download = ({
 
                 return (
                   <li key={option.label}>
-                    <a
-                      tabIndex={showDownloads ? null : -1}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <DownloadLink
+                      isTabbable={showDownloads}
                       href={option['@id']}
-                      onClick={() => {
-                        trackEvent({
-                          category: 'Button',
-                          action: action,
-                          label: workId,
-                        });
+                      linkText={option.label}
+                      format={format}
+                      trackingEvent={{
+                        category: 'Button',
+                        action: action,
+                        label: workId,
                       }}
-                    >
-                      <span className="flex-inline flex--v-center">
-                        <Icon name="download" />
-                        <span className="underline-on-hover">
-                          {option.label}
-                        </span>
-                        {format && (
-                          <Space
-                            as="span"
-                            h={{ size: 'm', properties: ['margin-left'] }}
-                            className={classNames({
-                              'font-pewter': true,
-                              [font('hnm', 5)]: true,
-                            })}
-                          >
-                            {format}
-                          </Space>
-                        )}
-                      </span>
-                    </a>
+                    />
                   </li>
                 );
               })}

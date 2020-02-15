@@ -4,6 +4,10 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { useEffect, useState } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { type IIIFMediaElement } from '@weco/common/model/iiif';
+import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
+import Space from '@weco/common/views/components/styled/Space';
+import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
+
 type Props = {|
   video: IIIFMediaElement,
 |};
@@ -11,7 +15,7 @@ type Props = {|
 const VideoPlayer = ({ video }: Props) => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-
+  const annotation = getAnnotationFromMediaElement(video);
   function trackViewingTime() {
     trackEvent({
       category: 'Engagement',
@@ -51,30 +55,48 @@ const VideoPlayer = ({ video }: Props) => {
     isPlaying ? 1000 : null
   );
   return (
-    <video
-      onPlay={() => {
-        setIsPlaying(true);
-        trackEvent({
-          category: 'Video',
-          action: 'play video',
-          label: video['@id'],
-        });
-      }}
-      onPause={() => {
-        setIsPlaying(false);
-      }}
-      controls
-      preload="none"
-      poster={video.thumbnail}
-      style={{
-        maxWidth: '100%',
-        maxHeight: '260px',
-        display: 'block',
-      }}
-    >
-      <source src={video['@id']} type={video.format} />
-      {`Sorry, your browser doesn't support embedded video.`}
-    </video>
+    <>
+      <video
+        onPlay={() => {
+          setIsPlaying(true);
+          trackEvent({
+            category: 'Video',
+            action: 'play video',
+            label: video['@id'],
+          });
+        }}
+        onPause={() => {
+          setIsPlaying(false);
+        }}
+        controls
+        preload="none"
+        poster={video.thumbnail}
+        style={{
+          maxWidth: '100%',
+          maxHeight: '260px',
+          display: 'block',
+        }}
+      >
+        <source src={video['@id']} type={video.format} />
+        {`Sorry, your browser doesn't support embedded video.`}
+      </video>
+      {annotation &&
+        annotation.resource &&
+        annotation.resource.format === 'application/pdf' && (
+          <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <DownloadLink
+              href={annotation.resource['@id']}
+              linkText={`Transcript of ${annotation.resource.label} video`}
+              format={'PDF'}
+              trackingEvent={{
+                category: 'Download link',
+                action: 'follow video annotation link',
+                label: video['@id'],
+              }}
+            />
+          </Space>
+        )}
+    </>
   );
 };
 
