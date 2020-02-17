@@ -36,7 +36,7 @@ const ControlText = styled.span`
 `;
 
 const Content = styled.div`
-  hidden: ${props => props.hidden};
+  display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
 type Props = {|
@@ -75,7 +75,7 @@ const ExplanatoryText = ({ id, controlText, children }: Props) => {
           <ControlText>{controlText}</ControlText>
         </Control>
       )}
-      <Content id={id} aria-hidden={!showContent} hidden={!showContent} aria>
+      <Content id={id} aria-hidden={!showContent} hidden={!showContent}>
         <Space
           v={{
             size: 'l',

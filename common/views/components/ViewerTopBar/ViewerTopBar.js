@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import TruncatedText from '@weco/common/views/components/TruncatedText/TruncatedText';
 import { trackEvent } from '@weco/common/utils/ga';
-import Download from '@weco/catalogue/components/Download/ViewerDownload';
+import Download from '@weco/catalogue/components/Download/Download';
 import MultipleManifestList from '@weco/catalogue/components/MultipleManifestList/MultipleManifestList';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -202,6 +202,7 @@ const ViewerTopBar = ({
               )}
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <Download
+                ariaControlsId="itemDownloads"
                 title={title}
                 workId={workId}
                 license={licenseInfo}
@@ -209,6 +210,7 @@ const ViewerTopBar = ({
                 downloadOptions={
                   downloadOptions || iiifPresentationDownloadOptions
                 }
+                useDarkControl={true}
               />
             </Space>
             {parentManifest && parentManifest.manifests && (
