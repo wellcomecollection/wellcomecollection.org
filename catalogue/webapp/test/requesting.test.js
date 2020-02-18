@@ -1,3 +1,5 @@
+const cognitoUrl = 'https://id.wellcomecollection.org/oauth2';
+
 describe('logged out', () => {
   beforeAll(async () => {
     await page.setCookie({
@@ -7,22 +9,13 @@ describe('logged out', () => {
       path: '/',
     });
     await page.goto('http://localhost:3000/works/h6tcdtrt');
+    await page.waitFor(`a[href^="${cognitoUrl}"]`);
   });
 
   it('contains a login link', async () => {
-    const cognitoUrl = 'https://id.wellcomecollection.org/oauth2';
+    const loginLink = await page.$(`a[href^="${cognitoUrl}"]`);
+    const linkText = await page.evaluate(link => link.innerHTML, loginLink);
 
-    const anchors = await page.$$('a');
-    const jsHandles = await Promise.all(
-      anchors.map(anchor => anchor.getProperty('href'))
-    );
-
-    const hrefs = await Promise.all(
-      jsHandles.map(handle => handle.jsonValue())
-    );
-
-    const loginUrls = hrefs.filter(href => href.match(cognitoUrl));
-
-    await expect(loginUrls.length).toEqual(1);
+    await expect(linkText).toBe('Login to request and view in the library');
   });
 });
