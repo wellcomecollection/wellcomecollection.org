@@ -2,13 +2,14 @@ const authUrl = 'https://id.wellcomecollection.org/oauth2';
 
 xdescribe('logged out', () => {
   beforeAll(async () => {
+    jest.setTimeout(30000);
     await page.setCookie({
       name: 'toggle_stacksRequestService',
       value: 'true',
       domain: 'localhost',
       path: '/',
     });
-    await page.goto('http://localhost:3000/works/h6tcdtrt');
+    await page.goto('http://localhost:3001/works/h6tcdtrt');
     await page.waitFor(`a[href^="${authUrl}"]`);
   });
 
