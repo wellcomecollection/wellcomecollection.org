@@ -114,10 +114,12 @@ export function getIIIFPresentationCredit(manifest: IIIFManifest): ?string {
 }
 
 function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
-  return iiifManifest.manifests || null;
+  return iiifManifest.manifests || [];
 }
 
-export function getManifestViewType(iiifManifest: IIIFManifest) {
+export function getManifestViewType(
+  iiifManifest: IIIFManifest
+): 'multi' | 'audio' | 'video' | 'iiif' | 'pdf' | 'none' {
   const manifests = getManifests(iiifManifest);
   const video =
     iiifManifest.mediaSequences &&

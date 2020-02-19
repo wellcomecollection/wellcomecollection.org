@@ -48,7 +48,7 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
-  showAvailableOnline: Boolean,
+  showAvailableOnline: boolean,
 |};
 
 const WorkDetails = ({

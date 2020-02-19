@@ -1,5 +1,5 @@
 // @flow
-import { type IIIFManifest } from '@weco/common/model/iiif';
+import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
 import { getCanvases, getManifestViewType } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
 import styled from 'styled-components';
@@ -59,18 +59,18 @@ const PresentationPreview = styled.div`
 
 type IIIFThumbnails = {|
   label: string,
-  images: {
+  images: {|
     id: ?string,
     canvasId: string,
     width: number,
     height: number,
-  }[],
+  |}[],
 |};
 
 // We want to display the images at 400px high (400px is a size available from the thumbnail service)
 // However, we can only use the thumbnail service, with its associated performance benefits, if the image is not landscape.
 // When the image is landscape, the image from the thumbnail service has a width of 400px
-function appropriateServiceId(canvas) {
+function appropriateServiceId(canvas: IIIFCanvas): ?string {
   const mainImageServiceId = Array.isArray(canvas.images[0].resource.service)
     ? null
     : canvas.images[0].resource.service['@id'];
@@ -91,7 +91,10 @@ function randomImages(
   iiifManifest: IIIFManifest,
   structuredImages: IIIFThumbnails[],
   n = 1
-): IIIFThumbnails {
+): {|
+  label: string,
+  images: {| id: ?string, canvasId: string, width: number, height: number |}[],
+|} {
   const images = [];
   const canvases = getCanvases(iiifManifest).filter(canvas => {
     // Don't include the structured pages we're using when getting random ones
