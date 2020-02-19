@@ -20,8 +20,8 @@ jobs:
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
-        name: Workaround for GoogleChrome/puppeteer#290
-        command: 'sh .circleci/setup_puppeteer.sh'
+          name: Workaround for GoogleChrome/puppeteer#290
+          command: 'sh .circleci/setup_puppeteer.sh'
       - run:
           name: Install root modules
           command: yarn install --production
