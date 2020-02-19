@@ -11,6 +11,8 @@ const DownloadLinkStyle = styled.a.attrs({
     [font('hnm', 5)]: true,
   }),
 })`
+  display: inline-block;
+  background: ${props => props.theme.colors.white};
   color: ${props => props.theme.colors.green};
   text-decoration: none;
   .icon__shape {
