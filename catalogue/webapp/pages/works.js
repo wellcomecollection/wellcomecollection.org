@@ -288,10 +288,9 @@ const Works = ({
                             onClick={event => {
                               event.preventDefault();
                               setExpandedImageId(result.id);
-                              console.info('trackSearchImageExpanded');
                               trackSearchImageExpanded(apiProps, {
                                 id: result.id,
-                                source: 'search/image_expanded',
+                                source: 'image_expanded',
                               });
                             }}
                           />
@@ -300,6 +299,38 @@ const Works = ({
                               title={result.title}
                               id={result.id}
                               setExpandedImageId={setExpandedImageId}
+                              onWorkLinkClick={() => {
+                                trackSearchResultSelected(apiProps, {
+                                  id: result.id,
+                                  position: i,
+                                  resultWorkType: result.workType.label,
+                                  resultLanguage:
+                                    result.language && result.language.label,
+                                  resultIdentifiers: result.identifiers.map(
+                                    identifier => identifier.value
+                                  ),
+                                  resultSubjects: result.subjects.map(
+                                    subject => subject.label
+                                  ),
+                                  source: 'image_result/image',
+                                });
+                              }}
+                              onImageLinkClick={() => {
+                                trackSearchResultSelected(apiProps, {
+                                  id: result.id,
+                                  position: i,
+                                  resultWorkType: result.workType.label,
+                                  resultLanguage:
+                                    result.language && result.language.label,
+                                  resultIdentifiers: result.identifiers.map(
+                                    identifier => identifier.value
+                                  ),
+                                  resultSubjects: result.subjects.map(
+                                    subject => subject.label
+                                  ),
+                                  source: 'image_result/work',
+                                });
+                              }}
                             />
                           )}
                         </>
@@ -318,7 +349,7 @@ const Works = ({
                               resultSubjects: result.subjects.map(
                                 subject => subject.label
                               ),
-                              source: 'search/work_result',
+                              source: 'work_result',
                             });
                           }}
                         >

@@ -125,6 +125,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       'production.dates.from': params.productionDatesFrom,
       'production.dates.to': params.productionDatesTo,
       search: params.search,
+      source: params.source,
     });
   },
 };

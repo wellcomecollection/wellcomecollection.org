@@ -22,6 +22,8 @@ type Props = {|
   title: string,
   id: string,
   setExpandedImageId: (id: string) => void,
+  onWorkLinkClick: () => void,
+  onImageLinkClick: (id: string) => void,
 |};
 
 const ImageWrapper = styled(Space).attrs({
@@ -145,7 +147,13 @@ const CloseButton = styled(Space).attrs({
   `}
 `;
 
-const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
+const ExpandedImage = ({
+  title,
+  id,
+  setExpandedImageId,
+  onWorkLinkClick,
+  onImageLinkClick,
+}: Props) => {
   const [detailedWork, setDetailedWork] = useState(null);
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
@@ -267,6 +275,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
                   text="View image"
                   icon="eye"
                   link={maybeItemLink}
+                  clickHandler={onImageLinkClick}
                 />
               </Space>
               <NextLink {...workLink({ id })} passHref>
@@ -275,6 +284,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
                     'inline-block': true,
                     [font('hnl', 5)]: true,
                   })}
+                  onClick={onWorkLinkClick}
                 >
                   More about this work
                 </a>
