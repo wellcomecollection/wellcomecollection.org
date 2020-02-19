@@ -74,7 +74,7 @@ const VideoPlayer = ({ video }: Props) => {
         style={{
           maxWidth: '100%',
           maxHeight: '260px',
-          display: 'block',
+          display: 'inline-block',
         }}
       >
         <source src={video['@id']} type={video.format} />

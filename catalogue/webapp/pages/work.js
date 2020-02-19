@@ -16,6 +16,8 @@ import {
 import {
   getFirstChildManifestLocation,
   getCanvases,
+  getAudio,
+  getVideo,
 } from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -34,6 +36,8 @@ import ManifestContext from '@weco/common/views/components/ManifestContext/Manif
 import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
 import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 type Props = {|
   work: Work | CatalogueApiError,
@@ -145,6 +149,9 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
+  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
+  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
+
   return (
     <CataloguePageLayout
       title={work.title}
@@ -218,6 +225,24 @@ export const WorkPage = ({ work }: Props) => {
         {imageUrl && itemUrlObject && (
           <WobblyRow>
             <IIIFImagePreview iiifUrl={imageUrl} itemUrl={itemUrlObject} />
+          </WobblyRow>
+        )}
+        {video && (
+          <WobblyRow>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <div style={{ textAlign: 'center' }}>
+                <VideoPlayer video={video} />
+              </div>
+            </Space>
+          </WobblyRow>
+        )}
+        {audio && (
+          <WobblyRow>
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <div style={{ textAlign: 'center' }}>
+                <AudioPlayer audio={audio} />
+              </div>
+            </Space>
           </WobblyRow>
         )}
       </>
