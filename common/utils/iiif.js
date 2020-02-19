@@ -137,7 +137,7 @@ export function getManifestViewType(
   const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
   const pdfRendering =
     downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return manifests
+  return manifests.length > 0
     ? 'multi'
     : audio
     ? 'audio'
