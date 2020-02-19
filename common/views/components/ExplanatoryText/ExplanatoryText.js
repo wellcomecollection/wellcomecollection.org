@@ -52,7 +52,7 @@ const ExplanatoryText = ({ id, controlText, children }: Props) => {
     setShowContent(false);
   }, []);
   return (
-    <>
+    <div>
       {isEnhanced && (
         <Control
           aria-controls={id}
@@ -85,7 +85,7 @@ const ExplanatoryText = ({ id, controlText, children }: Props) => {
           {children}
         </Space>
       </Content>
-    </>
+    </div>
   );
 };
 

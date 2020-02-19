@@ -12,10 +12,15 @@ import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
   type DigitalLocation,
+  getDownloadOptionsFromImageUrl,
 } from '@weco/common/utils/works';
 import {
   getFirstChildManifestLocation,
   getCanvases,
+  getAudio,
+  getVideo,
+  getDownloadOptionsFromManifest,
+  getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -29,9 +34,31 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import Download from '@weco/catalogue/components/Download/Download';
+import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import NextLink from 'next/link';
+import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
+import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 type Props = {|
   work: Work | CatalogueApiError,
 |};
+
+const getFirstChildManifest = async function(manifests) {
+  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
+  const data = await (await fetch(firstManifestUrl)).json();
+  return data;
+};
 
 export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
@@ -55,6 +82,7 @@ export const WorkPage = ({ work }: Props) => {
   );
   const [imageTotal, setImageTotal] = useState(0);
   const [childManifestsCount, setChildManifestsCount] = useState(0);
+  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifManifest =
@@ -65,6 +93,9 @@ export const WorkPage = ({ work }: Props) => {
       }
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
+        setFirstChildManifest(
+          await getFirstChildManifest(manifestData.manifests)
+        );
       }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
@@ -129,6 +160,36 @@ export const WorkPage = ({ work }: Props) => {
     );
   }
 
+  const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
+  const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageDownloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
+  const iiifPresentationDownloadOptions = iiifPresentationManifest
+    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
+  const downloadOptions = [
+    ...iiifImageDownloadOptions,
+    ...iiifPresentationDownloadOptions,
+  ];
+
+  const sierraIdFromManifestUrl =
+    iiifPresentationLocation &&
+    sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
+
+  const digitalLocation: ?DigitalLocation =
+    iiifPresentationLocation || iiifImageLocation;
+
+  const license =
+    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+
+  const credit =
+    (digitalLocation && digitalLocation.credit) ||
+    (iiifPresentationManifest &&
+      getIIIFPresentationCredit(iiifPresentationManifest));
+
   return (
     <CataloguePageLayout
       title={work.title}
@@ -186,13 +247,147 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-      <WorkDetails
-        work={work}
-        itemUrl={itemUrlObject}
-        iiifPresentationManifest={iiifPresentationManifest}
-        childManifestsCount={childManifestsCount}
-        imageCount={imageTotal}
-      />
+      <TogglesContext.Consumer>
+        {({ availableOnline }) => (
+          <>
+            {!availableOnline && (
+              <>
+                {!imageUrl && (
+                  <ManifestContext.Provider
+                    value={firstChildManifest || iiifPresentationManifest}
+                  >
+                    <SpacingComponent>
+                      <IIIFPresentationPreview
+                        childManifestsCount={childManifestsCount}
+                        itemUrl={itemUrlObject}
+                      />
+                    </SpacingComponent>
+                  </ManifestContext.Provider>
+                )}
+                {imageUrl && itemUrlObject && (
+                  <WobblyRow>
+                    <IIIFImagePreview
+                      iiifUrl={imageUrl}
+                      itemUrl={itemUrlObject}
+                    />
+                  </WobblyRow>
+                )}
+                {video && (
+                  <WobblyRow>
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <VideoPlayer video={video} />
+                      </div>
+                    </Space>
+                  </WobblyRow>
+                )}
+                {audio && (
+                  <WobblyRow>
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <AudioPlayer audio={audio} />
+                      </div>
+                    </Space>
+                  </WobblyRow>
+                )}
+                <Layout12>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['padding-top'],
+                    }}
+                    className={classNames({
+                      [grid({ s: 12 })]: true,
+                    })}
+                  >
+                    <div className="flex">
+                      <Space
+                        h={{
+                          size: 'm',
+                          properties: ['margin-right'],
+                        }}
+                      >
+                        <Download
+                          ariaControlsId="itemDownloads"
+                          workId={work.id}
+                          downloadOptions={downloadOptions}
+                        />
+
+                        {!(downloadOptions.length > 0) &&
+                          sierraIdFromManifestUrl &&
+                          childManifestsCount === 0 && (
+                            <NextLink
+                              {...downloadUrl({
+                                workId: work.id,
+                                sierraId: sierraIdFromManifestUrl,
+                              })}
+                            >
+                              <a>Download options</a>
+                            </NextLink>
+                          )}
+                      </Space>
+                      {license && (
+                        <WorkDetailsText
+                          title="License"
+                          text={[license.label]}
+                        />
+                      )}
+                    </div>
+                    {license && (
+                      <Space
+                        v={{
+                          size: 'l',
+                          properties: ['margin-top'],
+                        }}
+                      >
+                        <ExplanatoryText
+                          id="licenseDetail"
+                          controlText="Can I use this?"
+                        >
+                          <>
+                            {license.humanReadableText.length > 0 && (
+                              <WorkDetailsText
+                                text={license.humanReadableText}
+                              />
+                            )}
+
+                            <WorkDetailsText
+                              text={[
+                                `Credit: ${work.title.replace(
+                                  /\.$/g,
+                                  ''
+                                )}.${' '}
+                ${
+                  credit
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                    : ` `
+                }
+              ${
+                license.url
+                  ? `<a href="${license.url}">${license.label}</a>`
+                  : license.label
+              }`,
+                              ]}
+                            />
+                          </>
+                        </ExplanatoryText>
+                      </Space>
+                    )}
+                  </Space>
+                </Layout12>
+              </>
+            )}
+            <WorkDetails
+              work={work}
+              itemUrl={itemUrlObject}
+              iiifPresentationManifest={iiifPresentationManifest}
+              childManifestsCount={childManifestsCount}
+              imageCount={imageTotal}
+              showAvailableOnline={availableOnline}
+            />
+          </>
+        )}
+      </TogglesContext.Consumer>
     </CataloguePageLayout>
   );
 };
