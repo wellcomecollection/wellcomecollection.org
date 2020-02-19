@@ -59,7 +59,6 @@ export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
   return sequence ? sequence.canvases : [];
 }
 
-
 export function getVideo(iiifManifest: IIIFManifest): ?IIIFMediaElement {
   const videoSequence =
     iiifManifest &&
