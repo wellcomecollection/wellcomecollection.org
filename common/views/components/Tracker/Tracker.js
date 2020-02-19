@@ -22,6 +22,7 @@ const trackRelevanceRating = (
 };
 
 type SearchResultSelectedData = {|
+  source: string,
   id: string,
   position: number,
   resultWorkType: string,
@@ -36,7 +37,7 @@ const trackSearchResultSelected = (
   track(params, 'Search result selected', 'search_relevance_implicit', data);
 };
 
-type SearchData = {| totalResults: ?number |};
+type SearchData = {| source: string, totalResults: ?number |};
 const trackSearch = (params: CatalogueApiProps, data: SearchData) => {
   const query = params.query;
   if (query && query !== '') {
@@ -47,6 +48,7 @@ const trackSearch = (params: CatalogueApiProps, data: SearchData) => {
 };
 
 type SearchImageExpandedData = {|
+  source: string,
   id: string,
 |};
 const trackSearchImageExpanded = (

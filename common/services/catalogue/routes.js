@@ -77,6 +77,7 @@ export type WorksRouteProps = {|
   productionDatesFrom: ?string,
   productionDatesTo: ?string,
   search: ?string,
+  source: ?string,
 |};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
@@ -93,11 +94,13 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       productionDatesFrom: maybeString(q['production.dates.from']),
       productionDatesTo: maybeString(q['production.dates.to']),
       search: maybeString(q.search),
+      source: maybeString(q.source),
     };
   },
 
   toLink(params) {
     const pathname = '/works';
+    const { source, ...paramsWithoutSource } = params;
 
     return {
       href: {
@@ -106,7 +109,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
       },
       as: {
         pathname,
-        query: WorksRoute.toQuery(params),
+        query: WorksRoute.toQuery(paramsWithoutSource),
       },
     };
   },
@@ -208,6 +211,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
   },
 };
 
-export const worksLink = WorksRoute.toLink;
+export const worksLink = (params: $Shape<WorksRouteProps>, source: string) =>
+  WorksRoute.toLink({ ...params, source });
 export const workLink = WorkRoute.toLink;
 export const itemLink = ItemRoute.toLink;

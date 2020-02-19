@@ -34,6 +34,7 @@ import WorkCard from '../components/WorkCard/WorkCard';
 import {
   trackSearchResultSelected,
   trackSearch,
+  trackSearchImageExpanded,
 } from '@weco/common/views/components/Tracker/Tracker';
 import OptIn from '@weco/common/views/components/OptIn/OptIn';
 import cookies from 'next-cookies';
@@ -69,6 +70,7 @@ const Works = ({
   useEffect(() => {
     trackSearch(apiProps, {
       totalResults: works && works.totalResults ? works.totalResults : null,
+      source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
 
@@ -113,7 +115,10 @@ const Works = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: (page || 1) - 1 }).as
+              worksLink(
+                { ...worksRouteProps, page: (page || 1) - 1 },
+                'meta_link'
+              ).as
             )}
           />
         )}
@@ -121,7 +126,7 @@ const Works = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: page + 1 }).as
+              worksLink({ ...worksRouteProps, page: page + 1 }, 'meta_link').as
             )}
           />
         )}
@@ -130,7 +135,7 @@ const Works = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={worksLink({ ...worksRouteProps }).as}
+        url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -216,16 +221,19 @@ const Works = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksLink({
-                            ...worksRouteProps,
-                          })}
+                          link={worksLink(
+                            {
+                              ...worksRouteProps,
+                            },
+                            'search/paginator'
+                          )}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const state = {
                               ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = worksLink(state);
+                            const link = worksLink(state, 'search/paginator');
                             setSavedSearchState(state);
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -264,53 +272,60 @@ const Works = ({
                         [grid(resultsGrid)]: true,
                       })}
                     >
-                      <div
-                        onClick={() => {
-                          trackSearchResultSelected(apiProps, {
-                            id: result.id,
-                            position: i,
-                            resultWorkType: result.workType.label,
-                            resultLanguage:
-                              result.language && result.language.label,
-                            resultIdentifiers: result.identifiers.map(
-                              identifier => identifier.value
-                            ),
-                            resultSubjects: result.subjects.map(
-                              subject => subject.label
-                            ),
-                          });
-                        }}
-                      >
-                        {isImageSearch ? (
-                          <>
-                            <ImageCard
+                      {isImageSearch ? (
+                        <>
+                          <ImageCard
+                            id={result.id}
+                            image={{
+                              contentUrl: result.thumbnail
+                                ? result.thumbnail.url
+                                : 'https://via.placeholder.com/1600x900?text=%20',
+                              width: 300,
+                              height: 300,
+                              alt: result.title,
+                              tasl: null,
+                            }}
+                            onClick={event => {
+                              event.preventDefault();
+                              setExpandedImageId(result.id);
+                              console.info('trackSearchImageExpanded');
+                              trackSearchImageExpanded(apiProps, {
+                                id: result.id,
+                                source: 'search/image_expanded',
+                              });
+                            }}
+                          />
+                          {expandedImageId === result.id && (
+                            <ExpandedImage
+                              title={result.title}
                               id={result.id}
-                              image={{
-                                contentUrl: result.thumbnail
-                                  ? result.thumbnail.url
-                                  : 'https://via.placeholder.com/1600x900?text=%20',
-                                width: 300,
-                                height: 300,
-                                alt: result.title,
-                                tasl: null,
-                              }}
-                              onClick={event => {
-                                event.preventDefault();
-                                setExpandedImageId(result.id);
-                              }}
+                              setExpandedImageId={setExpandedImageId}
                             />
-                            {expandedImageId === result.id && (
-                              <ExpandedImage
-                                title={result.title}
-                                id={result.id}
-                                setExpandedImageId={setExpandedImageId}
-                              />
-                            )}
-                          </>
-                        ) : (
+                          )}
+                        </>
+                      ) : (
+                        <div
+                          onClick={() => {
+                            trackSearchResultSelected(apiProps, {
+                              id: result.id,
+                              position: i,
+                              resultWorkType: result.workType.label,
+                              resultLanguage:
+                                result.language && result.language.label,
+                              resultIdentifiers: result.identifiers.map(
+                                identifier => identifier.value
+                              ),
+                              resultSubjects: result.subjects.map(
+                                subject => subject.label
+                              ),
+                              source: 'search/work_result',
+                            });
+                          }}
+                        >
                           <WorkCard work={result} />
-                        )}
-                      </div>
+                        </div>
+                      )}
+
                       <TogglesContext.Consumer>
                         {({ relevanceRating }) =>
                           relevanceRating &&
@@ -350,16 +365,19 @@ const Works = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksLink({
-                              ...worksRouteProps,
-                            })}
+                            link={worksLink(
+                              {
+                                ...worksRouteProps,
+                              },
+                              'search/paginator'
+                            )}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const state = {
                                 ...worksRouteProps,
                                 page: newPage,
                               };
-                              const link = worksLink(state);
+                              const link = worksLink(state, 'search/paginator');
                               setSavedSearchState(state);
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)
