@@ -304,19 +304,20 @@ export const WorkPage = ({ work }: Props) => {
                   workId={work.id}
                   downloadOptions={downloadOptions}
                 />
+
+                {!(downloadOptions.length > 0) &&
+                  sierraIdFromManifestUrl &&
+                  childManifestsCount === 0 && (
+                    <NextLink
+                      {...downloadUrl({
+                        workId: work.id,
+                        sierraId: sierraIdFromManifestUrl,
+                      })}
+                    >
+                      <a>Download options</a>
+                    </NextLink>
+                  )}
               </Space>
-              {!(downloadOptions.length > 0) &&
-                sierraIdFromManifestUrl &&
-                childManifestsCount === 0 && (
-                  <NextLink
-                    {...downloadUrl({
-                      workId: work.id,
-                      sierraId: sierraIdFromManifestUrl,
-                    })}
-                  >
-                    <a>Download options</a>
-                  </NextLink>
-                )}
               {license && (
                 <WorkDetailsText title="License" text={[license.label]} />
               )}
