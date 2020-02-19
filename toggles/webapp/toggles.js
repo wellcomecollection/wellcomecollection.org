@@ -1,6 +1,13 @@
 module.exports = {
   toggles: [
     {
+      id: 'availableOnline',
+      title: 'Show the "Available online" section on a work page',
+      defaultValue: false,
+      description:
+        'Removes the previews from the top of the page and shows the "Available online" section instead.',
+    },
+    {
       id: 'unfilteredSearchResults',
       title: 'Complete catalogue search',
       defaultValue: false,
