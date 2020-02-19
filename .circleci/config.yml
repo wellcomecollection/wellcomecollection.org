@@ -20,9 +20,6 @@ jobs:
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
-          name: Workaround for GoogleChrome/puppeteer#290
-          command: 'sh .circleci/setup_puppeteer.sh'
-      - run:
           name: Install root modules
           command: yarn install --production
       - run:
@@ -41,6 +38,9 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
       - add_ssh_keys
       - setup_remote_docker
+      - run:
+          name: Workaround for GoogleChrome/puppeteer#290
+          command: 'sh .circleci/setup_puppeteer.sh'
       - run:
           name: Docker build
           command: CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
