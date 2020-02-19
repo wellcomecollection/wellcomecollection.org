@@ -1,0 +1,23 @@
+[{
+    "resourceSizes": [{
+            "resourceType": "script",
+            "budget": 1000
+        },
+        {
+            "resourceType": "font",
+            "budget": 1000
+        },
+        {
+            "resourceType": "document",
+            "budget": 1000
+        },
+        {
+            "resourceType": "total",
+            "budget": 1000
+        },
+        {
+            "resourceType": "third-party",
+            "budget": 1000
+        }
+    ]
+}]
