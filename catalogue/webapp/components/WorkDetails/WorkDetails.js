@@ -48,6 +48,7 @@ type Props = {|
   childManifestsCount: number,
   imageCount: number,
   itemUrl: ?NextLinkType,
+  showAvailableOnline: Boolean,
 |};
 
 const WorkDetails = ({
@@ -56,6 +57,7 @@ const WorkDetails = ({
   childManifestsCount,
   imageCount,
   itemUrl,
+  showAvailableOnline,
 }: Props) => {
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -158,7 +160,7 @@ const WorkDetails = ({
       })}
     >
       <Layout12>
-        {digitalLocation && (
+        {digitalLocation && showAvailableOnline && (
           <WorkDetailsSection headingText="Available online">
             {video && (
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

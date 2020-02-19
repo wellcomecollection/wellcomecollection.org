@@ -49,6 +49,7 @@ import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDeta
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 type Props = {|
   work: Work | CatalogueApiError,
 |};
@@ -246,101 +247,116 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
-      <>
-        {!imageUrl && (
-          <ManifestContext.Provider
-            value={firstChildManifest || iiifPresentationManifest}
-          >
-            <SpacingComponent>
-              <IIIFPresentationPreview
-                childManifestsCount={childManifestsCount}
-                itemUrl={itemUrlObject}
-              />
-            </SpacingComponent>
-          </ManifestContext.Provider>
-        )}
-        {imageUrl && itemUrlObject && (
-          <WobblyRow>
-            <IIIFImagePreview iiifUrl={imageUrl} itemUrl={itemUrlObject} />
-          </WobblyRow>
-        )}
-        {video && (
-          <WobblyRow>
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <div style={{ textAlign: 'center' }}>
-                <VideoPlayer video={video} />
-              </div>
-            </Space>
-          </WobblyRow>
-        )}
-        {audio && (
-          <WobblyRow>
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <div style={{ textAlign: 'center' }}>
-                <AudioPlayer audio={audio} />
-              </div>
-            </Space>
-          </WobblyRow>
-        )}
-        <Layout12>
-          <Space
-            v={{
-              size: 'm',
-              properties: ['padding-top'],
-            }}
-            className={classNames({
-              [grid({ s: 12 })]: true,
-            })}
-          >
-            <div className="flex">
-              <Space
-                h={{
-                  size: 'm',
-                  properties: ['margin-right'],
-                }}
-              >
-                <Download
-                  ariaControlsId="itemDownloads"
-                  workId={work.id}
-                  downloadOptions={downloadOptions}
-                />
+      <TogglesContext.Consumer>
+        {({ availableOnline }) => (
+          <>
+            {!availableOnline && (
+              <>
+                {!imageUrl && (
+                  <ManifestContext.Provider
+                    value={firstChildManifest || iiifPresentationManifest}
+                  >
+                    <SpacingComponent>
+                      <IIIFPresentationPreview
+                        childManifestsCount={childManifestsCount}
+                        itemUrl={itemUrlObject}
+                      />
+                    </SpacingComponent>
+                  </ManifestContext.Provider>
+                )}
+                {imageUrl && itemUrlObject && (
+                  <WobblyRow>
+                    <IIIFImagePreview
+                      iiifUrl={imageUrl}
+                      itemUrl={itemUrlObject}
+                    />
+                  </WobblyRow>
+                )}
+                {video && (
+                  <WobblyRow>
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <VideoPlayer video={video} />
+                      </div>
+                    </Space>
+                  </WobblyRow>
+                )}
+                {audio && (
+                  <WobblyRow>
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <AudioPlayer audio={audio} />
+                      </div>
+                    </Space>
+                  </WobblyRow>
+                )}
+                <Layout12>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['padding-top'],
+                    }}
+                    className={classNames({
+                      [grid({ s: 12 })]: true,
+                    })}
+                  >
+                    <div className="flex">
+                      <Space
+                        h={{
+                          size: 'm',
+                          properties: ['margin-right'],
+                        }}
+                      >
+                        <Download
+                          ariaControlsId="itemDownloads"
+                          workId={work.id}
+                          downloadOptions={downloadOptions}
+                        />
 
-                {!(downloadOptions.length > 0) &&
-                  sierraIdFromManifestUrl &&
-                  childManifestsCount === 0 && (
-                    <NextLink
-                      {...downloadUrl({
-                        workId: work.id,
-                        sierraId: sierraIdFromManifestUrl,
-                      })}
-                    >
-                      <a>Download options</a>
-                    </NextLink>
-                  )}
-              </Space>
-              {license && (
-                <WorkDetailsText title="License" text={[license.label]} />
-              )}
-            </div>
-            {license && (
-              <Space
-                v={{
-                  size: 'l',
-                  properties: ['margin-top'],
-                }}
-              >
-                <ExplanatoryText
-                  id="licenseDetail"
-                  controlText="Can I use this?"
-                >
-                  <>
-                    {license.humanReadableText.length > 0 && (
-                      <WorkDetailsText text={license.humanReadableText} />
-                    )}
+                        {!(downloadOptions.length > 0) &&
+                          sierraIdFromManifestUrl &&
+                          childManifestsCount === 0 && (
+                            <NextLink
+                              {...downloadUrl({
+                                workId: work.id,
+                                sierraId: sierraIdFromManifestUrl,
+                              })}
+                            >
+                              <a>Download options</a>
+                            </NextLink>
+                          )}
+                      </Space>
+                      {license && (
+                        <WorkDetailsText
+                          title="License"
+                          text={[license.label]}
+                        />
+                      )}
+                    </div>
+                    {license && (
+                      <Space
+                        v={{
+                          size: 'l',
+                          properties: ['margin-top'],
+                        }}
+                      >
+                        <ExplanatoryText
+                          id="licenseDetail"
+                          controlText="Can I use this?"
+                        >
+                          <>
+                            {license.humanReadableText.length > 0 && (
+                              <WorkDetailsText
+                                text={license.humanReadableText}
+                              />
+                            )}
 
-                    <WorkDetailsText
-                      text={[
-                        `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
+                            <WorkDetailsText
+                              text={[
+                                `Credit: ${work.title.replace(
+                                  /\.$/g,
+                                  ''
+                                )}.${' '}
                 ${
                   credit
                     ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
@@ -351,23 +367,27 @@ export const WorkPage = ({ work }: Props) => {
                   ? `<a href="${license.url}">${license.label}</a>`
                   : license.label
               }`,
-                      ]}
-                    />
-                  </>
-                </ExplanatoryText>
-              </Space>
+                              ]}
+                            />
+                          </>
+                        </ExplanatoryText>
+                      </Space>
+                    )}
+                  </Space>
+                </Layout12>
+              </>
             )}
-          </Space>
-        </Layout12>
-      </>
-
-      <WorkDetails
-        work={work}
-        itemUrl={itemUrlObject}
-        iiifPresentationManifest={iiifPresentationManifest}
-        childManifestsCount={childManifestsCount}
-        imageCount={imageTotal}
-      />
+            <WorkDetails
+              work={work}
+              itemUrl={itemUrlObject}
+              iiifPresentationManifest={iiifPresentationManifest}
+              childManifestsCount={childManifestsCount}
+              imageCount={imageTotal}
+              showAvailableOnline={availableOnline}
+            />
+          </>
+        )}
+      </TogglesContext.Consumer>
     </CataloguePageLayout>
   );
 };
