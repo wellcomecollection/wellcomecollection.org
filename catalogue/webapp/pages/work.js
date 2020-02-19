@@ -12,12 +12,15 @@ import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
   type DigitalLocation,
+  getDownloadOptionsFromImageUrl,
 } from '@weco/common/utils/works';
 import {
   getFirstChildManifestLocation,
   getCanvases,
   getAudio,
   getVideo,
+  getDownloadOptionsFromManifest,
+  getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
 import { itemLink } from '@weco/common/services/catalogue/routes';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -39,6 +42,13 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
+import Download from '@weco/catalogue/components/Download/Download';
+import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import NextLink from 'next/link';
+import WorkDetailsText from '@weco/catalogue/components/WorkDetailsText/WorkDetailsText';
+import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 type Props = {|
   work: Work | CatalogueApiError,
 |};
@@ -151,6 +161,33 @@ export const WorkPage = ({ work }: Props) => {
 
   const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
   const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
+  const iiifImageLocationUrl = iiifImageLocation && iiifImageLocation.url;
+  const iiifImageDownloadOptions = iiifImageLocationUrl
+    ? getDownloadOptionsFromImageUrl(iiifImageLocationUrl)
+    : [];
+  const iiifPresentationDownloadOptions = iiifPresentationManifest
+    ? getDownloadOptionsFromManifest(iiifPresentationManifest)
+    : [];
+
+  const downloadOptions = [
+    ...iiifImageDownloadOptions,
+    ...iiifPresentationDownloadOptions,
+  ];
+
+  const sierraIdFromManifestUrl =
+    iiifPresentationLocation &&
+    sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
+
+  const digitalLocation: ?DigitalLocation =
+    iiifPresentationLocation || iiifImageLocation;
+
+  const license =
+    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+
+  const credit =
+    (digitalLocation && digitalLocation.credit) ||
+    (iiifPresentationManifest &&
+      getIIIFPresentationCredit(iiifPresentationManifest));
 
   return (
     <CataloguePageLayout
@@ -245,6 +282,82 @@ export const WorkPage = ({ work }: Props) => {
             </Space>
           </WobblyRow>
         )}
+        <Layout12>
+          <Space
+            v={{
+              size: 'm',
+              properties: ['padding-top'],
+            }}
+            className={classNames({
+              [grid({ s: 12 })]: true,
+            })}
+          >
+            <div className="flex">
+              <Space
+                h={{
+                  size: 'm',
+                  properties: ['margin-right'],
+                }}
+              >
+                <Download
+                  ariaControlsId="itemDownloads"
+                  workId={work.id}
+                  downloadOptions={downloadOptions}
+                />
+              </Space>
+              {!(downloadOptions.length > 0) &&
+                sierraIdFromManifestUrl &&
+                childManifestsCount === 0 && (
+                  <NextLink
+                    {...downloadUrl({
+                      workId: work.id,
+                      sierraId: sierraIdFromManifestUrl,
+                    })}
+                  >
+                    <a>Download options</a>
+                  </NextLink>
+                )}
+              {license && (
+                <WorkDetailsText title="License" text={[license.label]} />
+              )}
+            </div>
+            {license && (
+              <Space
+                v={{
+                  size: 'l',
+                  properties: ['margin-top'],
+                }}
+              >
+                <ExplanatoryText
+                  id="licenseDetail"
+                  controlText="Can I use this?"
+                >
+                  <>
+                    {license.humanReadableText.length > 0 && (
+                      <WorkDetailsText text={license.humanReadableText} />
+                    )}
+
+                    <WorkDetailsText
+                      text={[
+                        `Credit: ${work.title.replace(/\.$/g, '')}.${' '}
+                ${
+                  credit
+                    ? `Credit: <a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>. `
+                    : ` `
+                }
+              ${
+                license.url
+                  ? `<a href="${license.url}">${license.label}</a>`
+                  : license.label
+              }`,
+                      ]}
+                    />
+                  </>
+                </ExplanatoryText>
+              </Space>
+            )}
+          </Space>
+        </Layout12>
       </>
 
       <WorkDetails
