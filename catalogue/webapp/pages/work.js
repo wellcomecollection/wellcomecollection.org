@@ -29,9 +29,21 @@ import SearchForm from '../components/SearchForm/SearchForm';
 import { getWork } from '../services/catalogue/works';
 import Space from '@weco/common/views/components/styled/Space';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+
+import ManifestContext from '@weco/common/views/components/ManifestContext/ManifestContext';
+import IIIFPresentationPreview from '@weco/common/views/components/IIIFPresentationPreview/IIIFPresentationPreview';
+import IIIFImagePreview from '@weco/common/views/components/IIIFImagePreview/IIIFImagePreview';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 type Props = {|
   work: Work | CatalogueApiError,
 |};
+
+const getFirstChildManifest = async function(manifests) {
+  const firstManifestUrl = manifests.find(manifest => manifest['@id'])['@id'];
+  const data = await (await fetch(firstManifestUrl)).json();
+  return data;
+};
 
 export const WorkPage = ({ work }: Props) => {
   const [savedSearchFormState] = useSavedSearchState({
@@ -55,6 +67,7 @@ export const WorkPage = ({ work }: Props) => {
   );
   const [imageTotal, setImageTotal] = useState(0);
   const [childManifestsCount, setChildManifestsCount] = useState(0);
+  const [firstChildManifest, setFirstChildManifest] = useState(null);
   const fetchIIIFPresentationManifest = async () => {
     try {
       const iiifManifest =
@@ -65,6 +78,9 @@ export const WorkPage = ({ work }: Props) => {
       }
       if (manifestData && manifestData.manifests) {
         setChildManifestsCount(manifestData.manifests.length);
+        setFirstChildManifest(
+          await getFirstChildManifest(manifestData.manifests)
+        );
       }
       setIIIFPresentationManifest(manifestData);
     } catch (e) {}
@@ -186,6 +202,26 @@ export const WorkPage = ({ work }: Props) => {
           </div>
         </div>
       </Space>
+      <>
+        {!imageUrl && (
+          <ManifestContext.Provider
+            value={firstChildManifest || iiifPresentationManifest}
+          >
+            <SpacingComponent>
+              <IIIFPresentationPreview
+                childManifestsCount={childManifestsCount}
+                itemUrl={itemUrlObject}
+              />
+            </SpacingComponent>
+          </ManifestContext.Provider>
+        )}
+        {imageUrl && itemUrlObject && (
+          <WobblyRow>
+            <IIIFImagePreview iiifUrl={imageUrl} itemUrl={itemUrlObject} />
+          </WobblyRow>
+        )}
+      </>
+
       <WorkDetails
         work={work}
         itemUrl={itemUrlObject}
