@@ -1,6 +1,5 @@
 // @flow
 import Prismic from 'prismic-javascript';
-import Raven from 'raven-js';
 import type {
   PrismicDocument,
   PrismicQueryOpts,
@@ -20,7 +19,8 @@ function periodicallyUpdatePrismic() {
     try {
       memoizedPrismic = await Prismic.getApi(apiUri);
     } catch (error) {
-      Raven.captureException(new Error(`Prismic error: ${error}`));
+      // FIXME: this is tipping us over our Sentry quota.
+      // Raven.captureException(new Error(`Prismic error: ${error}`));
     }
   }, oneMinute);
 }
