@@ -1,23 +1,8 @@
 // @flow
 import { type Work } from '../model/work';
-import {
-  type IIIFManifest,
-  type IIIFRendering,
-  type IIIFMetadata,
-  type IIIFCanvas,
-} from '../model/iiif';
+import { type IIIFRendering } from '../model/iiif';
+import { type LicenseAPIData } from '@weco/common/utils/licenses';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import getAugmentedLicenseInfo, {
-  type LicenseData,
-} from '@weco/common/utils/licenses';
-
-export function getIIIFMetadata(
-  iiifManifest: IIIFManifest,
-  label: string
-): ?IIIFMetadata {
-  const repository = iiifManifest.metadata.find(data => data.label === label);
-  return repository;
-}
 
 export function getDigitalLocations(work: Work) {
   return work.items
@@ -31,39 +16,6 @@ export function getProductionDates(work: Work) {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
-}
-
-export function getDownloadOptionsFromManifest(
-  iiifManifest: IIIFManifest
-): IIIFRendering[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence => sequence['@type'] === 'sc:Sequence'
-    );
-  const sequenceRendering = sequence && sequence.rendering;
-  const sequenceRenderingArray = Array.isArray(sequenceRendering)
-    ? sequenceRendering
-    : [sequenceRendering];
-
-  const pdfRenderingArray = iiifManifest.mediaSequences
-    ? iiifManifest.mediaSequences.reduce((acc, sequence) => {
-        return acc.concat(
-          sequence.elements
-            .map(element => {
-              return {
-                '@id': element['@id'],
-                format: element.format,
-                label: `Download ${
-                  element.format === 'application/pdf' ? 'PDF' : 'file'
-                }`,
-              };
-            })
-            .filter(Boolean)
-        );
-      }, [])
-    : [];
-  return [...sequenceRenderingArray, ...pdfRenderingArray].filter(Boolean);
 }
 
 export function getDownloadOptionsFromImageUrl(
@@ -83,87 +35,17 @@ export function getDownloadOptionsFromImageUrl(
   ];
 }
 
-export function getCanvases(iiifManifest: IIIFManifest): IIIFCanvas[] {
-  const sequence =
-    iiifManifest.sequences &&
-    iiifManifest.sequences.find(
-      sequence =>
-        sequence['@type'] === 'sc:Sequence' &&
-        sequence.compatibilityHint !== 'displayIfContentUnsupported'
-    );
-  return sequence ? sequence.canvases : [];
-}
-
-function getManifests(iiifManifest: IIIFManifest): IIIFManifest[] {
-  return iiifManifest.manifests || null;
-}
-
-export function getManifestViewType(iiifManifest: IIIFManifest) {
-  const manifests = getManifests(iiifManifest);
-  const video =
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  const audio =
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  const canvases = getCanvases(iiifManifest);
-  const downloadOptions = getDownloadOptionsFromManifest(iiifManifest);
-  const pdfRendering =
-    downloadOptions.find(option => option.label === 'Download PDF') || false;
-  return manifests
-    ? 'multi'
-    : audio
-    ? 'audio'
-    : video
-    ? 'video'
-    : canvases.length > 0
-    ? 'iiif'
-    : pdfRendering
-    ? 'pdf'
-    : 'none';
-}
-
-export function getVideo(iiifManifest: IIIFManifest) {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(
-        element => element['@type'] === 'dctypes:MovingImage'
-      )
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(
-      element => element['@type'] === 'dctypes:MovingImage'
-    )
-  );
-}
-
-export function getAudio(iiifManifest: IIIFManifest) {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-  );
-}
-
 export function getEncoreLink(sierraId: string): string {
   return `http://encore.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
     0,
     sierraId.length - 1
   )}`;
+}
+
+export function sierraIdFromPresentationManifestUrl(
+  iiifPresentationLocation: string
+): string {
+  return (iiifPresentationLocation.match(/iiif\/(.*)\/manifest/) || [])[1];
 }
 
 const workTypeIcons = {
@@ -186,26 +68,6 @@ export function getWorkTypeIcon(work: Work): ?string {
   return workTypeIcons[work.workType.label.toLowerCase()];
 }
 
-export function getItemsLicenseInfo(work: Work): LicenseData[] {
-  const licenseData = work.items
-    .map(item => {
-      return (
-        item.locations &&
-        item.locations
-          .map(location => {
-            if (location.license) {
-              return getAugmentedLicenseInfo(location.license);
-            } else {
-              return null;
-            }
-          })
-          .filter(Boolean)
-      );
-    })
-    .reduce((a, b) => a.concat(b), []);
-  return licenseData || [];
-}
-
 type LocationType = {|
   id: string,
   label: string,
@@ -214,12 +76,7 @@ type LocationType = {|
 
 export type DigitalLocation = {|
   credit: string,
-  license: {|
-    id: string,
-    label: string,
-    url: string,
-    type: 'License',
-  |},
+  license: LicenseAPIData,
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,
@@ -230,15 +87,19 @@ export type PhysicalLocation = {|
   type: 'PhysicalLocation',
 |};
 
-export function getDigitalLocationOfType( // TODO could there be more than one, so should this return an array
+export function getDigitalLocationOfType(
   work: Work,
   locationType: string
 ): ?DigitalLocation {
-  const [item] = work.items
-    .map(item =>
-      item.locations.find(location => location.locationType.id === locationType)
-    )
-    .filter(Boolean);
+  const [item] =
+    work.items &&
+    work.items
+      .map(item =>
+        item.locations.find(
+          location => location.locationType.id === locationType
+        )
+      )
+      .filter(Boolean);
   return item;
 }
 

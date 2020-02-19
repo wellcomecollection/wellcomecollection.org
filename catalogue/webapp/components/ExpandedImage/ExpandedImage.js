@@ -2,10 +2,8 @@
 import NextLink from 'next/link';
 import { workLink, itemLink } from '@weco/common/services/catalogue/routes';
 import { font, classNames } from '@weco/common/utils/classnames';
-import {
-  getItemsLicenseInfo,
-  getDigitalLocationOfType,
-} from '@weco/common/utils/works';
+import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
@@ -46,33 +44,11 @@ const ImageWrapper = styled(Space).attrs({
 
 const InfoWrapper = styled.div`
   ${props => props.theme.media.medium`
-    padding-right: 20px;
-    max-height: 100%;
-    overflow: auto;
-    order: 1;
-  `}
-`;
-
-const FadeInfo = styled.div`
-  position: relative;
-
-  ${props => props.theme.media.medium`
     flex-basis: 60%;
+    padding-right: 20px;
+    order: 1;
+    height: 100%;
   `}
-
-  &:after {
-    position: absolute;
-    bottom: -1px; // browser rounding bugfix
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    content: '';
-  }
 `;
 
 const Overlay = styled.div.attrs({})`
@@ -113,6 +89,28 @@ const Modal = styled(Space).attrs({
     border-radius: ${props.theme.borderRadiusUnit}px;
     display: flex;
     overflow: hidden;
+
+    &:after {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      width: 60%;
+      height: 40px;
+      background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+  `}
+`;
+
+const ModalInner = styled.div`
+  ${props => props.theme.media.medium`
+    overflow: auto;
+    display: flex;
   `}
 `;
 
@@ -202,7 +200,8 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
 
   const iiifImageLocation =
     detailedWork && getDigitalLocationOfType(detailedWork, 'iiif-image');
-  const licenseInfo = detailedWork ? getItemsLicenseInfo(detailedWork) : [];
+  const license =
+    iiifImageLocation && getAugmentedLicenseInfo(iiifImageLocation.license);
 
   const maybeItemLink =
     detailedWork &&
@@ -222,19 +221,19 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
           <span className="visually-hidden">Close modal window</span>
           <Icon name="cross" extraClasses={`icon--currentColor`} />
         </CloseButton>
-        {iiifImageLocation && maybeItemLink && (
-          <NextLink {...maybeItemLink} passHref>
-            <ImageWrapper>
-              <Image
-                defaultSize={400}
-                alt={title}
-                contentUrl={iiifImageLocation.url}
-                tasl={null}
-              />
-            </ImageWrapper>
-          </NextLink>
-        )}
-        <FadeInfo>
+        <ModalInner>
+          {iiifImageLocation && maybeItemLink && (
+            <NextLink {...maybeItemLink} passHref>
+              <ImageWrapper>
+                <Image
+                  defaultSize={400}
+                  alt={title}
+                  contentUrl={iiifImageLocation.url}
+                  tasl={null}
+                />
+              </ImageWrapper>
+            </NextLink>
+          )}
           <InfoWrapper>
             <Space
               as="h2"
@@ -246,16 +245,14 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
             >
               {title}
             </Space>
-            {licenseInfo.length > 0 &&
-              licenseInfo.map(license => (
-                <Space
-                  key={license.url}
-                  className={font('hnl', 5)}
-                  v={{ size: 'l', properties: ['margin-bottom'] }}
-                >
-                  <License subject="" license={license} />
-                </Space>
-              ))}
+            {license && (
+              <Space
+                className={font('hnl', 5)}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <License license={license} />
+              </Space>
+            )}
 
             <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <Space
@@ -282,7 +279,7 @@ const ExpandedImage = ({ title, id, setExpandedImageId }: Props) => {
             </Space>
             <RelatedImages originalId={id} />
           </InfoWrapper>
-        </FadeInfo>
+        </ModalInner>
       </Modal>
     </>
   );

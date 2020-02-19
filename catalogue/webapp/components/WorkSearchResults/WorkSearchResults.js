@@ -1,11 +1,11 @@
 // @flow
 
+import { useContext } from 'react';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import WorkCard from '../WorkCard/WorkCard';
-import OptIn from '@weco/common/views/components/OptIn/OptIn';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import { type CatalogueResultsList } from '@weco/common/model/catalogue';
 import { type CatalogueApiProps } from '@weco/common/services/catalogue/api';
 import { type WorksRouteProps } from '@weco/common/services/catalogue/routes';
@@ -18,16 +18,10 @@ type Props = {|
 
 const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
   const { query, workType, page } = worksRouteProps;
+  const { relevanceRating } = useContext(TogglesContext);
 
   return (
     <div className={'grid'}>
-      <div
-        className={classNames({
-          [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
-        })}
-      >
-        <OptIn />
-      </div>
       {works.results.map((result, i) => (
         <div key={result.id} className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
           <div
@@ -46,20 +40,17 @@ const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
           >
             <WorkCard work={result} />
           </div>
-          <TogglesContext.Consumer>
-            {({ relevanceRating }) =>
-              relevanceRating && (
-                <RelevanceRater
-                  id={result.id}
-                  position={i}
-                  query={query}
-                  page={page}
-                  workType={workType}
-                  apiProps={apiProps}
-                />
-              )
-            }
-          </TogglesContext.Consumer>
+
+          {relevanceRating && (
+            <RelevanceRater
+              id={result.id}
+              position={i}
+              query={query}
+              page={page}
+              workType={workType}
+              apiProps={apiProps}
+            />
+          )}
         </div>
       ))}
     </div>
