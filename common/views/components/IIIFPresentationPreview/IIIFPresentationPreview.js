@@ -1,6 +1,6 @@
 // @flow
 import { type IIIFManifest } from '@weco/common/model/iiif';
-import { getCanvases, getManifestViewType } from '@weco/common/utils/works';
+import { getCanvases, getManifestViewType } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
