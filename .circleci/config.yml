@@ -42,7 +42,7 @@ jobs:
           name: Workaround for GoogleChrome/puppeteer#290
           command: ./setup_puppeteer.sh
       - run:
-          name: Workaround for GoogleChrome/puppeteer#290
+          name: Yarn test
           command: yarn && yarn test
       - run:
           name: Docker build
