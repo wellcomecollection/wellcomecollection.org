@@ -40,7 +40,10 @@ jobs:
       - setup_remote_docker
       - run:
           name: Workaround for GoogleChrome/puppeteer#290
-          command: 'sh setup_puppeteer.sh'
+          command: ./setup_puppeteer.sh
+      - run:
+          name: Workaround for GoogleChrome/puppeteer#290
+          command: yarn && yarn test
       - run:
           name: Docker build
           command: CONTAINER_TAG=${CIRCLE_SHA1} docker-compose build
