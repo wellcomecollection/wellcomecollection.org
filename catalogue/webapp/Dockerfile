@@ -17,6 +17,6 @@ RUN apk add --no-cache --virtual .gyp \
 
 WORKDIR /usr/src/app/webapp/catalogue/webapp
 RUN yarn build
-RUN yarn test
+
 EXPOSE 3000
 CMD ["yarn", "start"]
