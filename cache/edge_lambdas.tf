@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "lambda" {
 
 resource "aws_iam_role" "edge_lambda_role" {
   name_prefix        = "edge_lambda"
-  assume_role_policy = "${data.aws_iam_policy_document.lambda.json}"
+  assume_role_policy = data.aws_iam_policy_document.lambda.json
 }
 
 data "aws_s3_bucket_object" "edge_lambda_origin" {
@@ -25,22 +25,23 @@ data "aws_s3_bucket_object" "edge_lambda_origin" {
 
 resource "aws_lambda_function" "edge_lambda_request" {
   function_name     = "cf_edge_lambda_request"
-  role              = "${aws_iam_role.edge_lambda_role.arn}"
+  role              = aws_iam_role.edge_lambda_role.arn
   runtime           = "nodejs8.10"
   handler           = "origin.request"
   s3_bucket         = "weco-lambdas"
   s3_key            = "edge_lambda_origin.zip"
-  s3_object_version = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
+  s3_object_version = data.aws_s3_bucket_object.edge_lambda_origin.version_id
   publish           = true
 }
 
 resource "aws_lambda_function" "edge_lambda_response" {
   function_name     = "cf_edge_lambda_response"
-  role              = "${aws_iam_role.edge_lambda_role.arn}"
+  role              = aws_iam_role.edge_lambda_role.arn
   runtime           = "nodejs8.10"
   handler           = "origin.response"
   s3_bucket         = "weco-lambdas"
   s3_key            = "edge_lambda_origin.zip"
-  s3_object_version = "${data.aws_s3_bucket_object.edge_lambda_origin.version_id}"
+  s3_object_version = data.aws_s3_bucket_object.edge_lambda_origin.version_id
   publish           = true
 }
+
