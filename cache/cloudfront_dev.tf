@@ -46,8 +46,8 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
         forward = "whitelist"
 
         whitelisted_names = [
-          "toggles",          # feature toggles
-          "toggle_*",         # feature toggles
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
           "WC_auth_redirect",
         ]
       }
@@ -95,6 +95,7 @@ resource "aws_cloudfront_distribution" "devcache_wellcomecollection_org" {
         whitelisted_names = [
           "toggles",  # feature toggles
           "toggle_*", # feature toggles
+          "_queryType"
         ]
       }
     }

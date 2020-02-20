@@ -124,9 +124,10 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
         forward = "whitelist"
 
         whitelisted_names = [
-          "toggles",          # feature toggles
-          "toggle_*",         # feature toggles
+          "toggles",  # feature toggles
+          "toggle_*", # feature toggles
           "WC_auth_redirect",
+          "_queryType"
         ]
       }
     }
