@@ -1,7 +1,6 @@
 // @flow
 import SearchRelevanceBar from '../../views/components/SearchRelevanceBar/SearchRelevanceBar';
-import { mountWithTheme } from '../fixtures/enzyme-helpers';
-import { act } from 'react-dom/test-utils';
+import { mountWithTheme, updateWrapperAsync } from '../fixtures/enzyme-helpers';
 import mockData from '../../__mocks__/catalogue-works-swagger.json';
 
 jest.mock('../../services/catalogue/swagger', () => {
@@ -11,15 +10,10 @@ jest.mock('../../services/catalogue/swagger', () => {
     });
 });
 
-it('Renders the search relevance bar with options', async done => {
+it('Renders the search relevance bar with options', async () => {
   const component = mountWithTheme(<SearchRelevanceBar />);
+  expect(component.find("input[type='radio']").exists()).toBe(false);
 
-  await act(async () => {
-    await new Promise(resolve => setTimeout(resolve, 0));
-    expect(component.find("input[type='radio']").exists()).toBe(false);
-    component.update();
-  }).then(r => {
-    expect(component.find("input[type='radio']").exists()).toBe(true);
-    done();
-  });
+  await updateWrapperAsync(component);
+  expect(component.find("input[type='radio']").exists()).toBe(true);
 });
