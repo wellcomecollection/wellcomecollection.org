@@ -183,7 +183,9 @@ export const WorkPage = ({ work }: Props) => {
     iiifPresentationLocation || iiifImageLocation;
 
   const license =
-    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
 
   const credit =
     (digitalLocation && digitalLocation.credit) ||

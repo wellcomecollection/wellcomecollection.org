@@ -72,7 +72,9 @@ const WorkDetails = ({
   const video = iiifPresentationManifest && getVideo(iiifPresentationManifest);
   const audio = iiifPresentationManifest && getAudio(iiifPresentationManifest);
   const license =
-    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
   const credit =
