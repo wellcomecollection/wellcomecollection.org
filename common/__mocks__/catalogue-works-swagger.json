@@ -1,0 +1,2036 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Catalogue",
+    "description": "Search our collections",
+    "version": "v2"
+  },
+  "servers": [
+    {
+      "url": "https://api.wellcomecollection.org/catalogue/v2/"
+    }
+  ],
+  "paths": {
+    "/works": {
+      "get": {
+        "tags": ["Works"],
+        "summary": "/works",
+        "description": "Returns a paginated list of works",
+        "operationId": "getWorks",
+        "parameters": [
+          {
+            "name": "include",
+            "in": "query",
+            "description": "A comma-separated list of extra fields to include",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "identifiers",
+                "items",
+                "subjects",
+                "genres",
+                "contributors",
+                "production",
+                "notes"
+              ]
+            }
+          },
+          {
+            "name": "items.locations.locationType",
+            "in": "query",
+            "description": "Filter by the LocationType of items on the retrieved works",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workType",
+            "in": "query",
+            "description": "Filter by the workType of the searched works",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "aggreations",
+            "in": "query",
+            "description": "What aggregated data in correlation to the results should we return.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "workType",
+                "genres",
+                "production.dates",
+                "subjects",
+                "language"
+              ]
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Filter the work by language.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "genres.label",
+            "in": "query",
+            "description": "Filter the work by genre.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subjects.label",
+            "in": "query",
+            "description": "Filter the work by subject.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "license",
+            "in": "query",
+            "description": "Filter the work by license.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cc-by",
+                "cc-by-nc",
+                "cc-by-nc-nd",
+                "cc-0",
+                "pdm",
+                "copyright-not-cleared"
+              ]
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Which field to sort the results on",
+            "schema": {
+              "type": "string",
+              "enum": ["production.dates"]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "The order that the results should be returned in.",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          },
+          {
+            "name": "production.dates.to",
+            "in": "query",
+            "description": "Return all works with a production date before and including this date.\n\nCan be used in conjunction with `production.dates.from` to create a range.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "production.dates.from",
+            "in": "query",
+            "description": "Return all works with a production date after and including this date.\n\nCan be used in conjunction with `production.dates.to` to create a range.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Full-text search query, which will OR supplied terms by default.\\n\\nThe following special characters can be used to change the search behaviour:\\n\\n- \\\" wraps a number of tokens to signify a phrase for searching\\n\\nTo search for any of these special characters, they should be escaped with \\.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page to return from the result list",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The number of works to return per page (default: 10)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_queryType",
+            "in": "query",
+            "description": "Which query should we use search the works? Used predominantly for internal testing of relevancy. Considered Unstable.",
+            "schema": {
+              "type": "string",
+              "enum": ["ConstScore", "BoolBoosted"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The works",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/works/{id}": {
+      "get": {
+        "tags": ["Works"],
+        "summary": "/works/{id}",
+        "description": "Returns a single work",
+        "operationId": "getWork",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The work to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "A comma-separated list of extra fields to include",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "identifiers",
+                "items",
+                "subjects",
+                "genres",
+                "contributors",
+                "production",
+                "notes"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The work",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Work"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Gone Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessCondition": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/AccessStatus"
+          },
+          "terms": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "Information about any access restrictions placed on the work"
+      },
+      "AccessStatus": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Agent": {
+        "type": "object"
+      },
+      "Aggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/License"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "AggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/License"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "Aggregations": {
+        "type": "object",
+        "properties": {
+          "workType": {
+            "$ref": "#/components/schemas/WorkTypeAggregation"
+          },
+          "productionDates": {
+            "$ref": "#/components/schemas/PeriodAggregation"
+          },
+          "genres": {
+            "$ref": "#/components/schemas/GenreAggregation"
+          },
+          "subjects": {
+            "$ref": "#/components/schemas/SubjectAggregation"
+          },
+          "language": {
+            "$ref": "#/components/schemas/LanguageAggregation"
+          },
+          "license": {
+            "$ref": "#/components/schemas/LicenseAggregation"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A map containing the requested aggregations."
+      },
+      "Concept": {
+        "type": "object"
+      },
+      "ContributionRole": {
+        "type": "object",
+        "properties": {
+          "The name of the agent": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A contribution role"
+      },
+      "Contributor": {
+        "type": "object",
+        "properties": {
+          "agent": {
+            "$ref": "#/components/schemas/Agent"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "The name of the agent": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A contribution role"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A contributor"
+      },
+      "DigitalLocation": {
+        "type": "object",
+        "properties": {
+          "locationType": {
+            "$ref": "#/components/schemas/LocationType"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL of the digital asset."
+          },
+          "credit": {
+            "type": "string",
+            "description": "Who to credit the image to"
+          },
+          "license": {
+            "$ref": "#/components/schemas/License"
+          },
+          "accessConditions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "$ref": "#/components/schemas/AccessStatus"
+                },
+                "terms": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "Information about any access restrictions placed on the work"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A digital location that provides access to an item"
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "A label given to a thing."
+          },
+          "concepts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Relates a genre to a list of concepts."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A genre"
+      },
+      "GenreAggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/Genre"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "GenreAggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Genre"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "Identifier": {
+        "type": "object",
+        "properties": {
+          "identifierType": {
+            "$ref": "#/components/schemas/IdentifierType"
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the thing. e.g. an identifier"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+      },
+      "IdentifierType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "Relates a Identifier to a particular authoritative source identifier scheme: for example, if the identifier is MS.49 this property might indicate that this identifier has its origins in the Wellcome Library's CALM archive management system."
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The canonical identifier given to a thing.",
+            "readOnly": true
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "$ref": "#/components/schemas/IdentifierType"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The value of the thing. e.g. an identifier"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+            }
+          },
+          "title": {
+            "type": "string",
+            "description": "A human readable title.",
+            "readOnly": true
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "A location that provides access to an item",
+              "discriminator": {
+                "propertyName": "type"
+              },
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/DigitalLocation"
+                },
+                {
+                  "$ref": "#/components/schemas/PhysicalLocation"
+                }
+              ]
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An item is a manifestation of a Work."
+      },
+      "Language": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "An ISO 639-2 language code."
+          },
+          "label": {
+            "type": "string",
+            "description": "The name of a language"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A language recognised as one of those in the ISO 639-2 language codes."
+      },
+      "LanguageAggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/Language"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "LanguageAggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "License": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "A type of license under which the work in question is released to the public.",
+            "enum": ["cc-by", "cc-by-nc", "cc-by-nc-nd", "cc-0, pdm"]
+          },
+          "label": {
+            "type": "string",
+            "description": "The title or other short name of a license"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL to the full text of a license"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "The specific license under which the work in question is released to the public - for example, one of the forms of Creative Commons - if it is a precise license to which a link can be made."
+      },
+      "LicenseAggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/License"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "LicenseAggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/License"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "Location": {
+        "type": "object",
+        "description": "A location that provides access to an item",
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DigitalLocation"
+          },
+          {
+            "$ref": "#/components/schemas/PhysicalLocation"
+          }
+        ]
+      },
+      "LocationType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "The type of location that an item is accessible from."
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "contents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The note contents."
+            }
+          },
+          "noteType": {
+            "$ref": "#/components/schemas/NoteType"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A note associated with the work."
+      },
+      "NoteType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "Indicates the type of note associated with the work."
+      },
+      "Period": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The canonical identifier given to a thing"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "$ref": "#/components/schemas/IdentifierType"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The value of the thing. e.g. an identifier"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+            }
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A period of time"
+      },
+      "PeriodAggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/Period"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "PeriodAggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "PhysicalLocation": {
+        "type": "object",
+        "properties": {
+          "locationType": {
+            "$ref": "#/components/schemas/LocationType"
+          },
+          "label": {
+            "type": "string",
+            "description": "The title or other short name of the location."
+          },
+          "accessConditions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "$ref": "#/components/schemas/AccessStatus"
+                },
+                "terms": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "Information about any access restrictions placed on the work"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A physical location that provides access to an item"
+      },
+      "Place": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The canonical identifier given to a thing"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "$ref": "#/components/schemas/IdentifierType"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The value of the thing. e.g. an identifier"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+            }
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A place"
+      },
+      "ProductionEvent": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "places": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The canonical identifier given to a thing"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "identifierType": {
+                        "$ref": "#/components/schemas/IdentifierType"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the thing. e.g. an identifier"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                  }
+                },
+                "label": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A place"
+            }
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "dates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The canonical identifier given to a thing"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "identifierType": {
+                        "$ref": "#/components/schemas/IdentifierType"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the thing. e.g. an identifier"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                  }
+                },
+                "label": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A period of time"
+            }
+          },
+          "function": {
+            "$ref": "#/components/schemas/Concept"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An event contributing to the production, publishing or distribution of a work."
+      },
+      "ResultList": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalResults": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The canonical identifier given to a thing.",
+                  "readOnly": true
+                },
+                "title": {
+                  "type": "string",
+                  "description": "The title or other short label of a work, including labels not present in the actual work or item but applied by the cataloguer for the purposes of search or description."
+                },
+                "alternativeTitles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Alternative titles of  the work."
+                  }
+                },
+                "description": {
+                  "type": "string",
+                  "description": "A description given to a thing."
+                },
+                "physicalDescription": {
+                  "type": "string",
+                  "description": "A description of specific physical characteristics of the work."
+                },
+                "workType": {
+                  "$ref": "#/components/schemas/WorkType"
+                },
+                "lettering": {
+                  "type": "string",
+                  "description": "Recording written text on a (usually visual) work."
+                },
+                "createdDate": {
+                  "$ref": "#/components/schemas/Period"
+                },
+                "contributors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "agent": {
+                        "$ref": "#/components/schemas/Agent"
+                      },
+                      "roles": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "The name of the agent": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A contribution role"
+                        }
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A contributor"
+                  }
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "identifierType": {
+                        "$ref": "#/components/schemas/IdentifierType"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the thing. e.g. an identifier"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                  }
+                },
+                "subjects": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "identifiers": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "identifierType": {
+                              "$ref": "#/components/schemas/IdentifierType"
+                            },
+                            "value": {
+                              "type": "string",
+                              "description": "The value of the thing. e.g. an identifier"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                        }
+                      },
+                      "label": {
+                        "type": "string",
+                        "description": "A label given to a thing."
+                      },
+                      "concepts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "description": "Relates a subject to a list of concepts."
+                        }
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A subject"
+                  }
+                },
+                "genres": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "description": "A label given to a thing."
+                      },
+                      "concepts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "description": "Relates a genre to a list of concepts."
+                        }
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A genre"
+                  }
+                },
+                "thumbnail": {
+                  "$ref": "#/components/schemas/Location"
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The canonical identifier given to a thing.",
+                        "readOnly": true
+                      },
+                      "identifiers": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "identifierType": {
+                              "$ref": "#/components/schemas/IdentifierType"
+                            },
+                            "value": {
+                              "type": "string",
+                              "description": "The value of the thing. e.g. an identifier"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                        }
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "A human readable title.",
+                        "readOnly": true
+                      },
+                      "locations": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "description": "A location that provides access to an item",
+                          "discriminator": {
+                            "propertyName": "type"
+                          },
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/DigitalLocation"
+                            },
+                            {
+                              "$ref": "#/components/schemas/PhysicalLocation"
+                            }
+                          ]
+                        }
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "An item is a manifestation of a Work."
+                  }
+                },
+                "production": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "places": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "The canonical identifier given to a thing"
+                            },
+                            "identifiers": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "identifierType": {
+                                    "$ref": "#/components/schemas/IdentifierType"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "The value of the thing. e.g. an identifier"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  }
+                                },
+                                "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                              }
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A place"
+                        }
+                      },
+                      "agents": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "dates": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "The canonical identifier given to a thing"
+                            },
+                            "identifiers": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "identifierType": {
+                                    "$ref": "#/components/schemas/IdentifierType"
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "The value of the thing. e.g. an identifier"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  }
+                                },
+                                "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                              }
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A period of time"
+                        }
+                      },
+                      "function": {
+                        "$ref": "#/components/schemas/Concept"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "An event contributing to the production, publishing or distribution of a work."
+                  }
+                },
+                "language": {
+                  "$ref": "#/components/schemas/Language"
+                },
+                "edition": {
+                  "type": "string",
+                  "description": "Information relating to the edition of a work."
+                },
+                "notes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "contents": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "description": "The note contents."
+                        }
+                      },
+                      "noteType": {
+                        "$ref": "#/components/schemas/NoteType"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A note associated with the work."
+                  }
+                },
+                "duration": {
+                  "type": "object",
+                  "description": "The playing time for audiovisual works, in seconds."
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual work such as a text, archive item or picture; or a grouping of individual works (so, for instance, an archive collection counts as a work, as do all the series and individual files within it).  Each work may exist in multiple instances (e.g. copies of the same book).  N.B. this is not synonymous with \\\"work\\\" as that is understood in the International Federation of Library Associations and Institutions' Functional Requirements for Bibliographic Records model (FRBR) but represents something lower down the FRBR hierarchy, namely manifestation. Groups of related items are also included as works because they have similar properties to the individual ones."
+            }
+          },
+          "prevPage": {
+            "type": "string"
+          },
+          "nextPage": {
+            "type": "string"
+          },
+          "aggregations": {
+            "$ref": "#/components/schemas/Aggregations"
+          }
+        },
+        "description": "A paginated list of works."
+      },
+      "Subject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "$ref": "#/components/schemas/IdentifierType"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The value of the thing. e.g. an identifier"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+            }
+          },
+          "label": {
+            "type": "string",
+            "description": "A label given to a thing."
+          },
+          "concepts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Relates a subject to a list of concepts."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A subject"
+      },
+      "SubjectAggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/Subject"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "SubjectAggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Subject"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "Work": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The canonical identifier given to a thing.",
+            "readOnly": true
+          },
+          "title": {
+            "type": "string",
+            "description": "The title or other short label of a work, including labels not present in the actual work or item but applied by the cataloguer for the purposes of search or description."
+          },
+          "alternativeTitles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Alternative titles of  the work."
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "A description given to a thing."
+          },
+          "physicalDescription": {
+            "type": "string",
+            "description": "A description of specific physical characteristics of the work."
+          },
+          "workType": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "lettering": {
+            "type": "string",
+            "description": "Recording written text on a (usually visual) work."
+          },
+          "createdDate": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "contributors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "agent": {
+                  "$ref": "#/components/schemas/Agent"
+                },
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "The name of the agent": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A contribution role"
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A contributor"
+            }
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "$ref": "#/components/schemas/IdentifierType"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The value of the thing. e.g. an identifier"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+            }
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "identifierType": {
+                        "$ref": "#/components/schemas/IdentifierType"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the thing. e.g. an identifier"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                  }
+                },
+                "label": {
+                  "type": "string",
+                  "description": "A label given to a thing."
+                },
+                "concepts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "Relates a subject to a list of concepts."
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A subject"
+            }
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "A label given to a thing."
+                },
+                "concepts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "Relates a genre to a list of concepts."
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A genre"
+            }
+          },
+          "thumbnail": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The canonical identifier given to a thing.",
+                  "readOnly": true
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "identifierType": {
+                        "$ref": "#/components/schemas/IdentifierType"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the thing. e.g. an identifier"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                  }
+                },
+                "title": {
+                  "type": "string",
+                  "description": "A human readable title.",
+                  "readOnly": true
+                },
+                "locations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "A location that provides access to an item",
+                    "discriminator": {
+                      "propertyName": "type"
+                    },
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/DigitalLocation"
+                      },
+                      {
+                        "$ref": "#/components/schemas/PhysicalLocation"
+                      }
+                    ]
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An item is a manifestation of a Work."
+            }
+          },
+          "production": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "places": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The canonical identifier given to a thing"
+                      },
+                      "identifiers": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "identifierType": {
+                              "$ref": "#/components/schemas/IdentifierType"
+                            },
+                            "value": {
+                              "type": "string",
+                              "description": "The value of the thing. e.g. an identifier"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                        }
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A place"
+                  }
+                },
+                "agents": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "dates": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The canonical identifier given to a thing"
+                      },
+                      "identifiers": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "identifierType": {
+                              "$ref": "#/components/schemas/IdentifierType"
+                            },
+                            "value": {
+                              "type": "string",
+                              "description": "The value of the thing. e.g. an identifier"
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "description": "A unique system-generated identifier that governs interaction between systems and is regarded as canonical within the Wellcome data ecosystem."
+                        }
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "A period of time"
+                  }
+                },
+                "function": {
+                  "$ref": "#/components/schemas/Concept"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An event contributing to the production, publishing or distribution of a work."
+            }
+          },
+          "language": {
+            "$ref": "#/components/schemas/Language"
+          },
+          "edition": {
+            "type": "string",
+            "description": "Information relating to the edition of a work."
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "contents": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "The note contents."
+                  }
+                },
+                "noteType": {
+                  "$ref": "#/components/schemas/NoteType"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "A note associated with the work."
+            }
+          },
+          "duration": {
+            "type": "object",
+            "description": "The playing time for audiovisual works, in seconds."
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual work such as a text, archive item or picture; or a grouping of individual works (so, for instance, an archive collection counts as a work, as do all the series and individual files within it).  Each work may exist in multiple instances (e.g. copies of the same book).  N.B. this is not synonymous with \\\"work\\\" as that is understood in the International Federation of Library Associations and Institutions' Functional Requirements for Bibliographic Records model (FRBR) but represents something lower down the FRBR hierarchy, namely manifestation. Groups of related items are also included as works because they have similar properties to the individual ones."
+      },
+      "WorkType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "A broad, top-level description of the form of a work: namely, whether it is a printed book, archive, painting, photograph, moving image, etc."
+      },
+      "WorkTypeAggregation": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/WorkType"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The count of how often this data occurs in this set of results.",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "description": "An individual bucket within an aggregation."
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An aggregation over the results."
+      },
+      "WorkTypeAggregationBucket": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "count": {
+            "type": "integer",
+            "description": "The count of how often this data occurs in this set of results.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "description": "An individual bucket within an aggregation."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "errorType": {
+            "type": "string",
+            "description": "The type of error",
+            "enum": ["http"]
+          },
+          "httpStatus": {
+            "type": "object",
+            "description": "The HTTP response status code"
+          },
+          "label": {
+            "type": "string",
+            "description": "The title or other short name of the error"
+          },
+          "description": {
+            "type": "string",
+            "description": "The specific error"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
