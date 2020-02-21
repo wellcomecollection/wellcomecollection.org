@@ -279,7 +279,9 @@ const IIIFViewerComponent = ({
       : null;
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const licenseInfo =
-    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
 
   const thumbnailsRequired =
     navigationCanvases && navigationCanvases.length > 1;
