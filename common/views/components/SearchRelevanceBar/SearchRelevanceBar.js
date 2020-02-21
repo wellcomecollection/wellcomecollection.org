@@ -78,7 +78,7 @@ const SearchRelevanceBar = () => {
             alignItems: 'center',
           }}
         >
-          <Heading>Search</Heading>
+          <Heading>🔍 Search</Heading>
           <div>Query type:</div>
 
           {queryTypes.map(queryType => (
@@ -101,6 +101,7 @@ const SearchRelevanceBar = () => {
                     const val = event.currentTarget.value;
                     setSelectedQueryType(val);
                     document.cookie = `_queryType=${val}; path=/; max-age=31536000`;
+                    window.location.reload();
                   }}
                 />
                 {queryType}
