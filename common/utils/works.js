@@ -76,7 +76,7 @@ type LocationType = {|
 
 export type DigitalLocation = {|
   credit: string,
-  license: LicenseAPIData,
+  license?: LicenseAPIData,
   locationType: LocationType,
   type: 'DigitalLocation',
   url: string,

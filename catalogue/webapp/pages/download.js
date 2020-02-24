@@ -44,7 +44,9 @@ const DownloadPage = ({ workId, sierraId, manifest, work }: Props) => {
       : null;
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const license =
-    digitalLocation && getAugmentedLicenseInfo(digitalLocation.license);
+    digitalLocation &&
+    digitalLocation.license &&
+    getAugmentedLicenseInfo(digitalLocation.license);
 
   const iiifImageLocationUrl =
     iiifImageLocation &&
