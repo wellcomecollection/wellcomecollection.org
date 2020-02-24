@@ -1,3 +1,5 @@
 'use-strict';
 
-module.exports = {};
+module.exports = {
+  setupFilesAfterEnv: ['<rootDir>test/setupTests.js'],
+};
