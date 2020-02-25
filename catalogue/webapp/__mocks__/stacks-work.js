@@ -255,39 +255,5 @@ const work = {
   ],
   type: 'Work',
 };
-// this is the current shape
-// TODO switch to real shape - get real possible values
-// const mockItems = {
-//   available: {
-//     id: 'h6tcdtrt',
-//     items: [
-//       {
-//         id: 'sbumwwzs',
-//         location: { id: 'sgpbi', label: 'Closed stores Biog. pam' },
-//         status: { id: 'available', label: 'Available' },
-//       },
-//     ],
-//   },
-//   unavailable: {
-//     id: 'h6tcdtrt',
-//     items: [
-//       {
-//         id: 'sbumwwzs',
-//         location: { id: 'sgpbi', label: 'Closed stores Biog. pam' },
-//         status: { id: 'unavailable', label: 'Unavailable' },
-//       },
-//     ],
-//   },
-//   unrequestable: {
-//     id: 'h6tcdtrt',
-//     items: [
-//       {
-//         id: 'sbumwwzs',
-//         location: { id: 'sgpbi', label: 'Open shelves' },
-//         status: { id: 'unrequestable', label: 'Unrequestable' },
-//       },
-//     ],
-//   },
-// };
 
 export default work;
