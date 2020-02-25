@@ -74,17 +74,14 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
 
               return (
                 <a
-                  data-test-id="libraryLogin"
+                  data-test-id="libraryLoginCTA"
                   href={loginUrl}
                   onClick={event => {
                     setRedirectCookie(workId, item.id);
                   }}
                 >
-                  <p>{JSON.stringify(authState)}</p>
                   {authState.type === 'unauthorized'
                     ? 'Login to request and view in the library'
-                    : authState.type === 'authorized'
-                    ? 'test'
                     : '#'}
                 </a>
               );
@@ -95,6 +92,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
             case 'available':
               return (
                 <a
+                  data-test-id="libraryRequestCTA"
                   href={'#'}
                   onClick={event => {
                     event.preventDefault();
