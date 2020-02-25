@@ -22,4 +22,4 @@ We use the [OAuth authorisation code grant](https://aws.amazon.com/blogs/mobile/
 
 The `Auth` component exposes a render prop, that receives the `authState`, the `loginUrl`, and the `token` in an object argument, then the consuming component can determine what to display to the user based on the values of these properties.
 
-[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/catalogue/webapp/components/Auth/README.md)
+[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/catalogue/webapp/components/Auth/README.md)

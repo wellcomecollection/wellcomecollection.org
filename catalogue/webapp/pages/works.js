@@ -22,23 +22,15 @@ import {
   worksRouteToApiUrl,
   worksRouteToApiUrlWithDefaults,
 } from '@weco/common/services/catalogue/api';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import RelevanceRater from '@weco/common/views/components/RelevanceRater/RelevanceRater';
 import Space from '@weco/common/views/components/styled/Space';
-import ExpandedImage from '../components/ExpandedImage/ExpandedImage';
-import ImageCard from '../components/ImageCard/ImageCard';
 import StaticWorksContent from '../components/StaticWorksContent/StaticWorksContent';
 import SearchForm from '../components/SearchForm/SearchForm';
 import { getWorks } from '../services/catalogue/works';
-import WorkCard from '../components/WorkCard/WorkCard';
-import {
-  trackSearchResultSelected,
-  trackSearch,
-  trackSearchImageExpanded,
-} from '@weco/common/views/components/Tracker/Tracker';
-import OptIn from '@weco/common/views/components/OptIn/OptIn';
+import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import useSavedSearchState from '@weco/common/hooks/useSavedSearchState';
+import WorkSearchResults from '../components/WorkSearchResults/WorkSearchResults';
+import ImageSearchResults from '../components/ImageSearchResults/ImageSearchResults';
 
 type Props = {|
   works: ?CatalogueResultsList | CatalogueApiError,
@@ -60,12 +52,10 @@ const Works = ({
 
   const {
     query,
-    workType,
     page,
     productionDatesFrom,
     productionDatesTo,
   } = worksRouteProps;
-  const [expandedImageId, setExpandedImageId] = useState('');
 
   useEffect(() => {
     trackSearch(apiProps, {
@@ -91,9 +81,6 @@ const Works = ({
   }, []);
 
   const isImageSearch = worksRouteProps.search === 'images';
-  const resultsGrid = isImageSearch
-    ? { s: 6, m: 4, l: 3, xl: 2 }
-    : { s: 12, m: 12, l: 12, xl: 12 };
 
   if (works && works.type === 'Error') {
     return (
@@ -255,126 +242,15 @@ const Works = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                <div className="grid">
-                  {isImageSearch ? null : (
-                    <div
-                      className={classNames({
-                        [grid({ s: 12, m: 8, l: 6, xl: 6 })]: true,
-                      })}
-                    >
-                      <OptIn />
-                    </div>
-                  )}
-                  {works.results.map((result, i) => (
-                    <div
-                      key={result.id}
-                      className={classNames({
-                        [grid(resultsGrid)]: true,
-                      })}
-                    >
-                      {isImageSearch ? (
-                        <>
-                          <ImageCard
-                            id={result.id}
-                            image={{
-                              contentUrl: result.thumbnail
-                                ? result.thumbnail.url
-                                : 'https://via.placeholder.com/1600x900?text=%20',
-                              width: 300,
-                              height: 300,
-                              alt: result.title,
-                              tasl: null,
-                            }}
-                            onClick={event => {
-                              event.preventDefault();
-                              setExpandedImageId(result.id);
-                              trackSearchImageExpanded(apiProps, {
-                                id: result.id,
-                                source: 'image_expanded',
-                              });
-                            }}
-                          />
-                          {expandedImageId === result.id && (
-                            <ExpandedImage
-                              title={result.title}
-                              id={result.id}
-                              setExpandedImageId={setExpandedImageId}
-                              onWorkLinkClick={() => {
-                                trackSearchResultSelected(apiProps, {
-                                  id: result.id,
-                                  position: i,
-                                  resultWorkType: result.workType.label,
-                                  resultLanguage:
-                                    result.language && result.language.label,
-                                  resultIdentifiers: result.identifiers.map(
-                                    identifier => identifier.value
-                                  ),
-                                  resultSubjects: result.subjects.map(
-                                    subject => subject.label
-                                  ),
-                                  source: 'image_result/image',
-                                });
-                              }}
-                              onImageLinkClick={() => {
-                                trackSearchResultSelected(apiProps, {
-                                  id: result.id,
-                                  position: i,
-                                  resultWorkType: result.workType.label,
-                                  resultLanguage:
-                                    result.language && result.language.label,
-                                  resultIdentifiers: result.identifiers.map(
-                                    identifier => identifier.value
-                                  ),
-                                  resultSubjects: result.subjects.map(
-                                    subject => subject.label
-                                  ),
-                                  source: 'image_result/work',
-                                });
-                              }}
-                            />
-                          )}
-                        </>
-                      ) : (
-                        <div
-                          onClick={() => {
-                            trackSearchResultSelected(apiProps, {
-                              id: result.id,
-                              position: i,
-                              resultWorkType: result.workType.label,
-                              resultLanguage:
-                                result.language && result.language.label,
-                              resultIdentifiers: result.identifiers.map(
-                                identifier => identifier.value
-                              ),
-                              resultSubjects: result.subjects.map(
-                                subject => subject.label
-                              ),
-                              source: 'work_result',
-                            });
-                          }}
-                        >
-                          <WorkCard work={result} />
-                        </div>
-                      )}
-
-                      <TogglesContext.Consumer>
-                        {({ relevanceRating }) =>
-                          relevanceRating &&
-                          !isImageSearch && (
-                            <RelevanceRater
-                              id={result.id}
-                              position={i}
-                              query={query}
-                              page={page}
-                              workType={workType}
-                              apiProps={apiProps}
-                            />
-                          )
-                        }
-                      </TogglesContext.Consumer>
-                    </div>
-                  ))}
-                </div>
+                {isImageSearch ? (
+                  <ImageSearchResults works={works} apiProps={apiProps} />
+                ) : (
+                  <WorkSearchResults
+                    works={works}
+                    worksRouteProps={worksRouteProps}
+                    apiProps={apiProps}
+                  />
+                )}
               </div>
 
               <Space
@@ -486,10 +362,10 @@ Works.getInitialProps = async (ctx: Context): Promise<Props> => {
   );
 
   const shouldGetWorks = !!(params.query && params.query !== '');
+  // TODO: increase pageSize to 100 when `isImageSearch` (but only if `isEnhanced`)
   const worksOrError = shouldGetWorks
     ? await getWorks({
         params: apiProps,
-        pageSize: isImageSearch ? 24 : undefined,
       })
     : null;
 

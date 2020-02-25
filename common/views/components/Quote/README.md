@@ -29,4 +29,4 @@ she had a thirst for knowledge"
 - Use one at a time
 
 
-[Edit this on GitHub](https://github.com/wellcometrust/wellcomecollection.org/edit/master/common/views/components/Quote/README.md)
+[Edit this on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/master/common/views/components/Quote/README.md)

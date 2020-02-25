@@ -1,10 +1,12 @@
 .btn {
+  line-height: 1.5;
   border-radius: $border-radius-unit;
   text-decoration: none;
   text-align: center;
   transition: all $transition-properties;
   border: 0;
   white-space: nowrap;
+  padding: $spacing-unit 2 * $spacing-unit;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
@@ -38,18 +40,14 @@
   }
 }
 
-.btn--primary,
-.btn--secondary {
-  padding: $spacing-unit 4 * $spacing-unit;
-}
-
 .btn--primary {
+  border: 2px solid color('green');
   background: color('green');
   color: color('white');
-  padding: $spacing-unit 4 * $spacing-unit;
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
+    border-color: color('black');
     background: color('black');
   }
 }
@@ -71,12 +69,11 @@
 }
 
 .btn--tertiary {
-  padding: $spacing-unit 2 * $spacing-unit;
+  padding: $spacing-unit+1 (2 * ($spacing-unit+1));
   border: 1px solid color('green');
 }
 
 .btn--primary-black {
-  padding: $spacing-unit 2 * $spacing-unit;
   border: none;
   color: color('white');
   background: transparent;

@@ -92,6 +92,19 @@ const FiltersModal = styled.div.attrs({
   }
 `;
 
+const ActiveFilters = styled(Space).attrs({
+  h: {
+    size: 'xs',
+    properties: ['margin-left', 'padding-left', 'padding-right'],
+  },
+  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    'bg-yellow font-black inline-block rounded-corners text-align-center': true,
+  }),
+})`
+  min-width: 24px;
+`;
+
 const FiltersBody = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
 })``;
@@ -202,6 +215,11 @@ const SearchFiltersMobile = ({
   const showWorkTypeFilters =
     workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
 
+  const activeFiltersCount =
+    workTypeInUrlArray.length +
+    (productionDatesFrom ? 1 : 0) +
+    (productionDatesTo ? 1 : 0);
+
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <OpenFiltersButton
@@ -210,7 +228,10 @@ const SearchFiltersMobile = ({
       >
         <Icon name="filter" />
         <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-          Filter
+          Filters{' '}
+          {activeFiltersCount > 0 && (
+            <ActiveFilters>{activeFiltersCount}</ActiveFilters>
+          )}
         </Space>
       </OpenFiltersButton>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>

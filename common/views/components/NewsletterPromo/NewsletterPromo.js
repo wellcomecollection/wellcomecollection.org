@@ -1,12 +1,11 @@
 // @flow
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { trackEvent } from '../../../utils/ga';
 
 const ErrorMessage = styled(Space).attrs({
@@ -113,17 +112,12 @@ const CopyWrap = styled(Space).attrs({
 `;
 
 const NewsletterPromo = () => {
-  const { altNewsletterSignupCopy } = useContext(TogglesContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const headingText = altNewsletterSignupCopy
-    ? 'Stay in the know'
-    : `Sign up to our newsletter`;
-
+  const headingText = 'Stay in the know';
   const bodyText =
-    altNewsletterSignupCopy &&
     'Find out what’s on, read our latest stories and get involved.';
 
   async function handleSubmit(event) {
@@ -201,16 +195,14 @@ const NewsletterPromo = () => {
                   >
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
-                  {bodyText && (
-                    <p
-                      className={classNames({
-                        [font('hnl', 5)]: true,
-                        'no-margin': true,
-                      })}
-                    >
-                      {bodyText}
-                    </p>
-                  )}
+                  <p
+                    className={classNames({
+                      [font('hnl', 5)]: true,
+                      'no-margin': true,
+                    })}
+                  >
+                    {bodyText}
+                  </p>
                   {isSuccess && (
                     <div
                       className={classNames({
