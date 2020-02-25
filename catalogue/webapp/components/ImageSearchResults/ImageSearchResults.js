@@ -20,44 +20,55 @@ const ImageSearchResults = ({ works, apiProps }: Props) => {
     <div className={'flex flex--wrap'}>
       {works.results.map((result, i) => (
         <div key={result.id}>
-          <div
-            onClick={() => {
-              trackSearchResultSelected(apiProps, {
-                id: result.id,
-                position: i,
-                resultWorkType: result.workType.label,
-                resultLanguage: result.language && result.language.label,
-                resultIdentifiers: result.identifiers.map(
-                  identifier => identifier.value
-                ),
-                resultSubjects: result.subjects.map(subject => subject.label),
-              });
+          <ImageCard
+            id={result.id}
+            image={{
+              contentUrl: result.thumbnail
+                ? result.thumbnail.url
+                : transparentGif,
+              width: 300,
+              height: 300,
+              alt: result.title,
+              tasl: null,
             }}
-          >
-            <ImageCard
+            onClick={event => {
+              event.preventDefault();
+              setExpandedImageId(result.id);
+            }}
+          />
+          {expandedImageId === result.id && (
+            <ExpandedImage
+              title={result.title}
               id={result.id}
-              image={{
-                contentUrl: result.thumbnail
-                  ? result.thumbnail.url
-                  : transparentGif,
-                width: 300,
-                height: 300,
-                alt: result.title,
-                tasl: null,
+              setExpandedImageId={setExpandedImageId}
+              onWorkLinkClick={() => {
+                trackSearchResultSelected(apiProps, {
+                  id: result.id,
+                  position: i,
+                  resultWorkType: result.workType.label,
+                  resultLanguage: result.language && result.language.label,
+                  resultIdentifiers: result.identifiers.map(
+                    identifier => identifier.value
+                  ),
+                  resultSubjects: result.subjects.map(subject => subject.label),
+                  source: 'image_result/work_link',
+                });
               }}
-              onClick={event => {
-                event.preventDefault();
-                setExpandedImageId(result.id);
+              onImageLinkClick={() => {
+                trackSearchResultSelected(apiProps, {
+                  id: result.id,
+                  position: i,
+                  resultWorkType: result.workType.label,
+                  resultLanguage: result.language && result.language.label,
+                  resultIdentifiers: result.identifiers.map(
+                    identifier => identifier.value
+                  ),
+                  resultSubjects: result.subjects.map(subject => subject.label),
+                  source: 'image_result/image_link',
+                });
               }}
             />
-            {expandedImageId === result.id && (
-              <ExpandedImage
-                title={result.title}
-                id={result.id}
-                setExpandedImageId={setExpandedImageId}
-              />
-            )}
-          </div>
+          )}
         </div>
       ))}
     </div>

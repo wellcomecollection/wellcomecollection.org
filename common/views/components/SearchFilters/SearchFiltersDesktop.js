@@ -210,11 +210,14 @@ const SearchFiltersDesktop = ({
                 {productionDatesFrom && (
                   <NextLink
                     passHref
-                    {...worksLink({
-                      ...worksRouteProps,
-                      page: 1,
-                      productionDatesFrom: null,
-                    })}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        page: 1,
+                        productionDatesFrom: null,
+                      },
+                      'cancel_filter/production_dates_from'
+                    )}
                   >
                     <a>
                       <CancelFilter text={`From ${productionDatesFrom}`} />
@@ -224,11 +227,14 @@ const SearchFiltersDesktop = ({
                 {productionDatesTo && (
                   <NextLink
                     passHref
-                    {...worksLink({
-                      ...worksRouteProps,
-                      page: null,
-                      productionDatesTo: null,
-                    })}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        page: null,
+                        productionDatesTo: null,
+                      },
+                      'cancel_filter/production_dates_to'
+                    )}
                   >
                     <a>
                       <CancelFilter text={`To ${productionDatesTo}`} />
@@ -245,13 +251,16 @@ const SearchFiltersDesktop = ({
                     workTypeObject && (
                       <NextLink
                         key={id}
-                        {...worksLink({
-                          ...worksRouteProps,
-                          workType: worksRouteProps.workType.filter(
-                            w => w !== workTypeObject.data.id
-                          ),
-                          page: 1,
-                        })}
+                        {...worksLink(
+                          {
+                            ...worksRouteProps,
+                            workType: worksRouteProps.workType.filter(
+                              w => w !== workTypeObject.data.id
+                            ),
+                            page: 1,
+                          },
+                          'cancel_filter/work_types'
+                        )}
                       >
                         <a>
                           <CancelFilter text={workTypeObject.data.label} />
@@ -264,14 +273,17 @@ const SearchFiltersDesktop = ({
                 {workTypeFilters.length > 0 && (
                   <NextLink
                     passHref
-                    {...worksLink({
-                      ...worksRouteProps,
-                      itemsLocationsLocationType: [],
-                      workType: [],
-                      page: 1,
-                      productionDatesFrom: null,
-                      productionDatesTo: null,
-                    })}
+                    {...worksLink(
+                      {
+                        ...worksRouteProps,
+                        itemsLocationsLocationType: [],
+                        workType: [],
+                        page: 1,
+                        productionDatesFrom: null,
+                        productionDatesTo: null,
+                      },
+                      'cancel_filter/all'
+                    )}
                   >
                     <a>
                       <CancelFilter text={'Clear all'} />
