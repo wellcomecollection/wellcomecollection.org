@@ -1,6 +1,4 @@
 terraform {
-  required_version = ">= 0.11"
-
   backend "s3" {
     key            = "build-state/cardigan.tfstate"
     dynamodb_table = "terraform-locktable"
