@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { type StacksItem } from './WorkItemsStatus';
+import { type StacksItem } from '../WorkItemsStatus/WorkItemsStatus';
 
 import { requestItem, getUserHolds } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
@@ -74,12 +74,18 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
 
               return (
                 <a
+                  data-test-id="libraryLogin"
                   href={loginUrl}
                   onClick={event => {
                     setRedirectCookie(workId, item.id);
                   }}
                 >
-                  Login to request and view in the library
+                  <p>{JSON.stringify(authState)}</p>
+                  {authState.type === 'unauthorized'
+                    ? 'Login to request and view in the library'
+                    : authState.type === 'authorized'
+                    ? 'test'
+                    : '#'}
                 </a>
               );
 

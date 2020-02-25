@@ -2,9 +2,8 @@
 import { useEffect, useState, Fragment } from 'react';
 import { type Work } from '@weco/common/model/work';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemRequestButton from './ItemRequestButton';
-
-import { getStacksWork } from '../../services/stacks/items';
+import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
+import getStacksWork from '@weco/catalogue/services/stacks/items';
 
 type Props = {| work: Work |};
 
@@ -53,7 +52,8 @@ const WorkItemsStatus = ({ work }: Props) => {
               }}
             >
               <p className="no-margin">
-                {item.location.label}: {item.status.label}
+                {item.location.label}:{' '}
+                <span data-test-id="itemStatus">{item.status.label}</span>
               </p>
               <Space
                 v={{
