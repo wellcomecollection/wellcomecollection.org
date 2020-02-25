@@ -15,11 +15,10 @@ type GetStacksWorkProps = {|
 |};
 
 type StacksWork = Object;
-
-export async function getStacksWork({
+const getStacksWork = async ({
   workId,
   env = 'prod',
-}: GetStacksWorkProps): Promise<StacksWork> {
+}: GetStacksWorkProps): Promise<StacksWork> => {
   const url = `${rootUris[env]}/works/${workId}`;
 
   const response = await fetch(url, {
@@ -30,4 +29,6 @@ export async function getStacksWork({
   });
 
   return response.json();
-}
+};
+
+export default getStacksWork;
