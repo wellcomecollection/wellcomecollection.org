@@ -1,6 +1,0 @@
-{
-  "unauthorized": { "type": "unauthorized", "token": "123" },
-  "authorizing": { "type": "authorizing",  "token": "123"  },
-  "authorized": { "type": "authorized", "token": "123"  },
-  "expired":  { "type": "expired",  "token": "123"  }
-  }
