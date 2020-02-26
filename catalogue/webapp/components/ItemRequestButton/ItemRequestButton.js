@@ -32,12 +32,12 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
           if (itemsOnHold.includes(item.id)) {
             setRequestedState('requested');
           } else {
-            setRequestedState('available');
+            setRequestedState('available'); // do we need this
           }
         })
         .catch(console.error);
     } else {
-      setRequestedState('unknown');
+      setRequestedState('unknown'); // do we need this - just set unknown // assume available (because stacks work says so) as default
     }
   }
 
