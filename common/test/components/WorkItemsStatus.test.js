@@ -3,57 +3,55 @@ import WorkItemsStatus from '@weco/catalogue/components/WorkItemsStatus/WorkItem
 import { mountWithTheme, updateWrapperAsync } from '../fixtures/enzyme-helpers';
 import mockWorkData from '@weco/catalogue/__mocks__/catalogue-work';
 import mockStacksWorkData from '@weco/catalogue/__mocks__/stacks-work';
-import React from 'react';
+import 'next/router';
+import getStacksWork from '@weco/catalogue/services/stacks/items';
 
-// TODO use shallow mount instead, so don't need to worry about useAuth in ItemRequestButton
-import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
-jest.mock('@weco/catalogue/components/ItemRequestButton/ItemRequestButton');
-ItemRequestButton.prototype = React.Component.prototype;
-ItemRequestButton.mockImplementation(() => {
-  return {
-    render: () => null,
-  };
-});
-
-jest.mock('@weco/catalogue/services/stacks/items', () => ({
-  __esModule: true,
-  default: async () =>
-    new Promise((resolve, reject) => {
-      resolve(mockStacksWorkData.availableWork);
-    }),
+jest.mock('next/router', () => ({
+  query: {
+    code: '',
+  },
 }));
 
-// beforeEach(() => {
-//   jest.resetModules();
-// });
+function getMockStatus(statusKey) {
+  return () =>
+    new Promise((resolve, reject) => {
+      resolve(mockStacksWorkData[statusKey]);
+    });
+}
 
-// beforeEach(() => {
-//   jest.spyOn(React, 'useEffect').mockImplementation(f => f());
-// });
-// TODO Probably only need to check it renders the status
-it('Renders the item status of an available work', async () => {
-  const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
-  await updateWrapperAsync(component);
-  // expect(component.find("[data-test-id='itemStatus']").exists()).toBe(true);
-  expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
-    'Available'
-  );
-});
+jest.mock('@weco/catalogue/services/stacks/items', () => jest.fn());
 
-it('Renders the item status of an unavailable work', async () => {
-  const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
-  await updateWrapperAsync(component);
-  // expect(component.find("[data-test-id='itemStatus']").exists()).toBe(true);
-  expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
-    'Unavailable'
-  );
-});
+describe('It renders the status of an item', () => {
+  test('it is available', async () => {
+    (getStacksWork: any).mockImplementation(getMockStatus('availableWork'));
 
-it('Renders the item status of an unrequestable work', async () => {
-  const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
-  await updateWrapperAsync(component);
-  // expect(component.find("[data-test-id='itemStatus']").exists()).toBe(true);
-  expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
-    'Unrequestable'
-  );
+    const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
+    await updateWrapperAsync(component);
+
+    expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
+      'Available'
+    );
+  });
+
+  test('it is unavailable', async () => {
+    (getStacksWork: any).mockImplementation(getMockStatus('unavailableWork'));
+
+    const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
+    await updateWrapperAsync(component);
+
+    expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
+      'Unavailable'
+    );
+  });
+
+  test('it is unrequestable', async () => {
+    (getStacksWork: any).mockImplementation(getMockStatus('unrequestableWork'));
+
+    const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
+    await updateWrapperAsync(component);
+
+    expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
+      'Unrequestable'
+    );
+  });
 });
