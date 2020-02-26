@@ -41,7 +41,6 @@ const WorkItemsStatus = ({ work }: Props) => {
 
   return (
     <>
-      <span>{physicalLocations && physicalLocations.id}</span>
       {physicalLocations &&
         physicalLocations.items.map(item => (
           <Fragment key={item.id}>
