@@ -1,4 +1,3 @@
-// this is the shape we're moving to
 const work = {
   id: '{workId}',
   items: [
