@@ -5,10 +5,10 @@ import {
 } from '@weco/common/test/fixtures/enzyme-helpers';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
 import useAuth from '@weco/common/hooks/useAuth';
-// import { getUserHolds } from '@weco/catalogue/services/stacks/requests';
+import { getUserHolds } from '@weco/catalogue/services/stacks/requests';
 import mockAuthStates from '@weco/catalogue/__mocks__/auth-states';
 import mockWork from '@weco/catalogue/__mocks__/stacks-work';
-// import mockRequests from '@weco/catalogue/__mocks__/stacks-requests';
+import mockRequests from '@weco/catalogue/__mocks__/stacks-requests';
 
 const availableItem = mockWork.items.find(
   item => item.status.label === 'Available'
@@ -20,7 +20,9 @@ const unrequestableItem = mockWork.items.find(
   item => item.status.label === 'Missing'
 );
 
-jest.mock('@weco/catalogue/services/stacks/requests');
+jest.mock('@weco/catalogue/services/stacks/requests', () => ({
+  getUserHolds: jest.fn(),
+}));
 jest.mock('@weco/common/hooks/useAuth');
 
 // Feature: 2. As a library member I want to request an item
@@ -83,29 +85,28 @@ describe('A logged out user, viewing a work with an unrequestable item, is not p
 // And it’s available to request
 // Then I can see a primary CTA to request it
 
-// TODO - need to get this working with mocking getUserHolds
-// describe('A logged in  user, viewing a work with an available item, is presented with a request CTA.', () => {
-//   (useAuth: any).mockReturnValue(mockAuthStates.authorized);
-//   (getUserHolds: any).mockReturnValue(Promise.resolve(mockRequests));
-//   it('renders the request button', async () => {
-//     const component = mountWithTheme(
-//       <ItemRequestButton item={availableItem} workId={'123'} />
-//     );
-//     await updateWrapperAsync(component);
-//     expect(component.find("[data-test-id='libraryRequestCTA']").exists()).toBe(
-//       true
-//     );
-//     expect(component.find("[data-test-id='libraryRequestCTA']").text()).toEqual(
-//       'Request to view in the library'
-//     );
-//   });
-//   it("doesn't render the login button", async () => {
-//     const component = mountWithTheme(
-//       <ItemRequestButton item={availableItem} workId={'123'} />
-//     );
-//     await updateWrapperAsync(component);
-//     expect(component.find("[data-test-id='libraryLoginCTA']").exists()).toBe(
-//       false
-//     );
-//   });
-// });
+describe('A logged in  user, viewing a work with an available item, is presented with a request CTA.', () => {
+  (useAuth: any).mockReturnValue(mockAuthStates.authorized);
+  (getUserHolds: any).mockResolvedValue(mockRequests);
+  it('renders the request button', async () => {
+    const component = mountWithTheme(
+      <ItemRequestButton item={availableItem} workId={'123'} />
+    );
+    await updateWrapperAsync(component);
+    expect(component.find("[data-test-id='libraryRequestCTA']").exists()).toBe(
+      true
+    );
+    expect(component.find("[data-test-id='libraryRequestCTA']").text()).toEqual(
+      'Request to view in the library'
+    );
+  });
+  it("doesn't render the login button", async () => {
+    const component = mountWithTheme(
+      <ItemRequestButton item={availableItem} workId={'123'} />
+    );
+    await updateWrapperAsync(component);
+    expect(component.find("[data-test-id='libraryLoginCTA']").exists()).toBe(
+      false
+    );
+  });
+});
