@@ -14,10 +14,7 @@ const availableItem = mockWork.items.find(
   item => item.status.label === 'Available'
 );
 const unavailableItem = mockWork.items.find(
-  item => item.status.label === 'On display'
-);
-const unrequestableItem = mockWork.items.find(
-  item => item.status.label === 'Missing'
+  item => item.status.label !== 'Available'
 );
 
 jest.mock('@weco/catalogue/services/stacks/requests', () => ({
@@ -32,8 +29,10 @@ jest.mock('@weco/common/hooks/useAuth');
 // And it’s available to request
 // Then I can see a primary CTA to log in
 describe('A logged out user, viewing a work with an available item, is presented with a log in CTA.', () => {
-  (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
   it('renders the login button', async () => {
+    (useAuth: any).mockImplementation(() => {
+      return mockAuthStates.unauthorized;
+    });
     const component = mountWithTheme(
       <ItemRequestButton item={availableItem} workId={'123'} />
     );
@@ -52,8 +51,8 @@ describe('A logged out user, viewing a work with an available item, is presented
 // And it’s unavailable to request
 // Then I can't see a primary CTA to log in
 describe('A logged out user, viewing a work with an unavailable item, is not presented with a log in CTA.', () => {
-  (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
   it("doesn't render the login button", async () => {
+    (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
     const component = mountWithTheme(
       <ItemRequestButton item={unavailableItem} workId={'123'} />
     );
@@ -65,20 +64,20 @@ describe('A logged out user, viewing a work with an unavailable item, is not pre
 });
 
 // Scenario: I'm logged out, viewing a work page
-// Given the work has no requestable items
+// Given the work has no requestable items // we currently make no distinction between unrequestable and unavailable
 // Then I can't see a primary CTA to log in
-describe('A logged out user, viewing a work with an unrequestable item, is not presented with a log in CTA.', () => {
-  (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
-  it("doesn't render the login button", async () => {
-    const component = mountWithTheme(
-      <ItemRequestButton item={unrequestableItem} workId={'123'} />
-    );
-    await updateWrapperAsync(component);
-    expect(component.find("[data-test-id='libraryLoginCTA']").exists()).toBe(
-      false
-    );
-  });
-});
+// describe('A logged out user, viewing a work with an unrequestable item, is not presented with a log in CTA.', () => {
+//   (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
+//   it("doesn't render the login button", async () => {
+//     const component = mountWithTheme(
+//       <ItemRequestButton item={unrequestableItem} workId={'123'} />
+//     );
+//     await updateWrapperAsync(component);
+//     expect(component.find("[data-test-id='libraryLoginCTA']").exists()).toBe(
+//       false
+//     );
+//   });
+// });
 
 // Scenario: I'm logged in, viewing a work page
 // Given the work has a requestable item
@@ -86,9 +85,11 @@ describe('A logged out user, viewing a work with an unrequestable item, is not p
 // Then I can see a primary CTA to request it
 
 describe('A logged in  user, viewing a work with an available item, is presented with a request CTA.', () => {
-  (useAuth: any).mockReturnValue(mockAuthStates.authorized);
   (getUserHolds: any).mockResolvedValue(mockRequests);
   it('renders the request button', async () => {
+    (useAuth: any).mockImplementation(() => {
+      return mockAuthStates.authorized;
+    });
     const component = mountWithTheme(
       <ItemRequestButton item={availableItem} workId={'123'} />
     );
