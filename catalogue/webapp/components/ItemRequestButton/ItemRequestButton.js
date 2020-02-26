@@ -25,8 +25,8 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     if (authState.type === 'authorized') {
       getUserHolds({ token: authState.token.id_token })
         .then(userHolds => {
-          const itemsOnHold = userHolds.holds.map(hold => {
-            return hold.itemId.catalogueId.value;
+          const itemsOnHold = userHolds.results.map(hold => {
+            return hold.item.id;
           });
 
           if (itemsOnHold.includes(item.id)) {
