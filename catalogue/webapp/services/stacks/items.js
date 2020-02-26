@@ -2,7 +2,7 @@
 import fetch from 'isomorphic-unfetch';
 
 const rootUris = {
-  prod: 'https://api.wellcomecollection.org/stacks/v1/items',
+  prod: 'https://api.wellcomecollection.org/stacks/v1/works',
 };
 
 type Environment = {|
@@ -19,7 +19,7 @@ const getStacksWork = async ({
   workId,
   env = 'prod',
 }: GetStacksWorkProps): Promise<StacksWork> => {
-  const url = `${rootUris[env]}/works/${workId}`;
+  const url = `${rootUris[env]}/${workId}`;
 
   const response = await fetch(url, {
     headers: {
