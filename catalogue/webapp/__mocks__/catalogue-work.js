@@ -79,6 +79,11 @@ const works = {
       type: 'Work',
     },
   ],
+  aggregations: {
+    workType: {
+      buckets: [],
+    },
+  },
   nextPage:
     'https://api.wellcomecollection.org/catalogue/v2/works?include=identifiers,production,contributors,subjects&query=test&page=2',
 };
