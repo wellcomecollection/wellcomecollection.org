@@ -60,6 +60,7 @@ const Works = ({
   useEffect(() => {
     trackSearch(apiProps, {
       totalResults: works && works.totalResults ? works.totalResults : null,
+      source: Router.query.source || 'unspecified',
     });
   }, [worksRouteProps]);
 
@@ -101,7 +102,10 @@ const Works = ({
           <link
             rel="prev"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: (page || 1) - 1 }).as
+              worksLink(
+                { ...worksRouteProps, page: (page || 1) - 1 },
+                'meta_link'
+              ).as
             )}
           />
         )}
@@ -109,7 +113,7 @@ const Works = ({
           <link
             rel="next"
             href={convertUrlToString(
-              worksLink({ ...worksRouteProps, page: page + 1 }).as
+              worksLink({ ...worksRouteProps, page: page + 1 }, 'meta_link').as
             )}
           />
         )}
@@ -118,7 +122,7 @@ const Works = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={worksLink({ ...worksRouteProps }).as}
+        url={worksLink({ ...worksRouteProps }, 'canonical_link').as}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'works'}
@@ -204,16 +208,19 @@ const Works = ({
                           currentPage={page || 1}
                           pageSize={works.pageSize}
                           totalResults={works.totalResults}
-                          link={worksLink({
-                            ...worksRouteProps,
-                          })}
+                          link={worksLink(
+                            {
+                              ...worksRouteProps,
+                            },
+                            'search/paginator'
+                          )}
                           onPageChange={async (event, newPage) => {
                             event.preventDefault();
                             const state = {
                               ...worksRouteProps,
                               page: newPage,
                             };
-                            const link = worksLink(state);
+                            const link = worksLink(state, 'search/paginator');
                             setSavedSearchState(state);
                             Router.push(link.href, link.as).then(() =>
                               window.scrollTo(0, 0)
@@ -265,16 +272,19 @@ const Works = ({
                             currentPage={page || 1}
                             pageSize={works.pageSize}
                             totalResults={works.totalResults}
-                            link={worksLink({
-                              ...worksRouteProps,
-                            })}
+                            link={worksLink(
+                              {
+                                ...worksRouteProps,
+                              },
+                              'search/paginator'
+                            )}
                             onPageChange={async (event, newPage) => {
                               event.preventDefault();
                               const state = {
                                 ...worksRouteProps,
                                 page: newPage,
                               };
-                              const link = worksLink(state);
+                              const link = worksLink(state, 'search/paginator');
                               setSavedSearchState(state);
                               Router.push(link.href, link.as).then(() =>
                                 window.scrollTo(0, 0)

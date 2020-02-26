@@ -55,28 +55,23 @@ Feature: 3. As a library member I need to know how many items I can request
     Then I can see a number indicating how many items I can request (20)
     And how many active requests I have
     And how many requests I can still make
+    
+Feature: 4. As a library member, I want to view a list of requests I’ve placed
 
-##Still to refine
-
-Feature: As a library member, I want to view the requests I’ve made when I’ve placed them
-
-  Scenario: I can see the request(s) I’ve made as soon as I’ve placed them
-
-    Given that I have just placed a number of requests,
-    When I select to view my account
-    Then I can click to see a list of the requests I’ve made
-    And see how many requests I have left within my limit
-
-
-Feature: As a library member, I want to view a list of requests I’ve placed and the status of each item
+  Scenario: I view a list of my active requests under my account
+    Given that I have placed a number of requests previously
+    When I login I can view my account
+    Then I can select to see a list of the requests I’ve made
+    
+Feature: 5. As a library member, I want to see the status of each item I've requested
 
   Scenario: I view a list of my active requests under my account to see when they’re ready to pick up
-
     Given that I have placed a number of requests previously
     When I login I can view my account
     Then I can select to see a list of the requests I’ve made
     And see when my active requests are ready to pick up
     And where I need to pick them up from
+
 
 ## For later
 

@@ -35,6 +35,7 @@ const WorkSearchResults = ({ works, worksRouteProps, apiProps }: Props) => {
                   identifier => identifier.value
                 ),
                 resultSubjects: result.subjects.map(subject => subject.label),
+                source: 'work_result',
               });
             }}
           >

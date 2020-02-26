@@ -320,9 +320,12 @@ const SearchFiltersMobile = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksLink({
-                query: worksRouteProps.query,
-              })}
+              {...worksLink(
+                {
+                  query: worksRouteProps.query,
+                },
+                'cancel_filter/all'
+              )}
             >
               <a>Reset filters</a>
             </NextLink>

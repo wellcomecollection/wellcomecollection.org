@@ -378,9 +378,12 @@ const WorkDetails = ({
               title="Contributors"
               tags={work.contributors.map(contributor => ({
                 textParts: [contributor.agent.label],
-                linkAttributes: worksLink({
-                  query: `"${contributor.agent.label}"`,
-                }),
+                linkAttributes: worksLink(
+                  {
+                    query: `"${contributor.agent.label}"`,
+                  },
+                  'work_details/contributors'
+                ),
               }))}
             />
           )}
@@ -427,9 +430,12 @@ const WorkDetails = ({
               tags={work.genres.map(g => {
                 return {
                   textParts: g.concepts.map(c => c.label),
-                  linkAttributes: worksLink({
-                    query: `"${g.label}"`,
-                  }),
+                  linkAttributes: worksLink(
+                    {
+                      query: `"${g.label}"`,
+                    },
+                    'work_details/genres'
+                  ),
                 };
               })}
             />
@@ -449,9 +455,12 @@ const WorkDetails = ({
               tags={work.subjects.map(s => {
                 return {
                   textParts: s.concepts.map(c => c.label),
-                  linkAttributes: worksLink({
-                    query: `"${s.label}"`,
-                  }),
+                  linkAttributes: worksLink(
+                    {
+                      query: `"${s.label}"`,
+                    },
+                    'work_details/subjects'
+                  ),
                 };
               })}
             />
