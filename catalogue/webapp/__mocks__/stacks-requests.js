@@ -1,7 +1,12 @@
 // TODO - mock possible responses
 const requests = {
-  results: [
+  holds: [
     {
+      itemId: {
+        catalogueId: {
+          value: 'hghgfjhdk',
+        },
+      },
       item: {
         id: '{itemId}',
         type: 'Item',
