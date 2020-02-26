@@ -88,25 +88,25 @@ const authStates = {
   expired: 'expired',
 };
 
-type Uninitialized = {|
+export type Uninitialized = {|
   type: 'uninitialized',
 |};
 
-type Unauthorized = {|
+export type Unauthorized = {|
   type: 'unauthorized',
   loginUrl: string,
 |};
 
-type Authorizing = {|
+export type Authorizing = {|
   type: 'authorizing',
 |};
 
-type Authorized = {|
+export type Authorized = {|
   type: 'authorized',
   token: Token,
 |};
 
-type Expired = {|
+export type Expired = {|
   type: 'expired',
 |};
 
