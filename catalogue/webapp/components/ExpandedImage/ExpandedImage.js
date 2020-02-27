@@ -8,13 +8,14 @@ import Button from '@weco/common/views/components/Buttons/Button/Button';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
 import { getWork } from '../../services/catalogue/works';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
 import RelatedImages from '../RelatedImages/RelatedImages';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 type Props = {|
   title: string,
@@ -129,7 +130,13 @@ const CloseButton = styled(Space).attrs({
   background: rgba(0, 0, 0, 0.7);
   color: ${props => props.theme.colors.white};
   border: 0;
+  outline: 0;
   z-index: 1;
+
+  &:focus {
+    ${props =>
+      !props.hideFocus && `border: 2px solid ${props.theme.colors.black}`}
+  }
 
   .icon {
     position: absolute;
@@ -152,6 +159,7 @@ const ExpandedImage = ({
   onWorkLinkClick,
   onImageLinkClick,
 }: Props) => {
+  const { isKeyboard } = useContext(AppContext);
   const [detailedWork, setDetailedWork] = useState(null);
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
@@ -223,6 +231,7 @@ const ExpandedImage = ({
       <Overlay onClick={() => setExpandedImageId('')} />
       <Modal ref={modalRef}>
         <CloseButton
+          hideFocus={!isKeyboard}
           ref={closeButtonRef}
           onClick={() => setExpandedImageId('')}
         >
