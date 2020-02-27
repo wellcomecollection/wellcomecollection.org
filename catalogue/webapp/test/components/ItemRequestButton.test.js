@@ -16,20 +16,21 @@ const availableItem = mockWork.items.find(
 const unavailableItem = mockWork.items.find(
   item => item.status.label !== 'Available'
 );
+const unrequestableItem = mockWork.items.find(
+  item => item.status.label === 'Missing'
+);
 
 jest.mock('@weco/catalogue/services/stacks/requests', () => ({
   getUserHolds: jest.fn(),
 }));
 jest.mock('@weco/common/hooks/useAuth');
 
-// Feature: 2. As a library member I want to request an item
-
-// Scenario: I'm logged out, viewing a work page
-// Given the work has a requestable item
-// And it’s available to request
-// Then I can see a primary CTA to log in
-describe('A logged out user, viewing a work with an available item, is presented with a log in CTA.', () => {
-  it('renders the login button', async () => {
+describe('Feature: 2. As a library member I want to request an item', () => {
+  (getUserHolds: any).mockResolvedValue(mockRequests);
+  test(`Scenario: I'm logged out, viewing a work page
+  Given the work has a requestable item
+  And it’s available to request
+  Then I can see a primary CTA to log in`, async () => {
     (useAuth: any).mockImplementation(() => {
       return mockAuthStates.unauthorized;
     });
@@ -44,14 +45,11 @@ describe('A logged out user, viewing a work with an available item, is presented
       'Login to request and view in the library'
     );
   });
-});
 
-// Scenario: I'm logged out, viewing a work page
-// Given the work has a requestable item
-// And it’s unavailable to request
-// Then I can't see a primary CTA to log in
-xdescribe('A logged out user, viewing a work with an unavailable item, is not presented with a log in CTA.', () => {
-  it("doesn't render the login button", async () => {
+  test(`Scenario: I'm logged out, viewing a work page
+      Given the work has a requestable item
+      And it’s unavailable to request
+      Then I can't see a primary CTA to log in`, async () => {
     (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
     const component = mountWithTheme(
       <ItemRequestButton item={unavailableItem} workId={'123'} />
@@ -61,32 +59,25 @@ xdescribe('A logged out user, viewing a work with an unavailable item, is not pr
       false
     );
   });
-});
 
-// Scenario: I'm logged out, viewing a work page
-// Given the work has no requestable items // we currently make no distinction between unrequestable and unavailable
-// Then I can't see a primary CTA to log in
-// describe('A logged out user, viewing a work with an unrequestable item, is not presented with a log in CTA.', () => {
-//   (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
-//   it("doesn't render the login button", async () => {
-//     const component = mountWithTheme(
-//       <ItemRequestButton item={unrequestableItem} workId={'123'} />
-//     );
-//     await updateWrapperAsync(component);
-//     expect(component.find("[data-test-id='libraryLoginCTA']").exists()).toBe(
-//       false
-//     );
-//   });
-// });
+  // we currently make no distinction between unrequestable and unavailable
+  test.skip(`Scenario: I'm logged out, viewing a work page
+    Given the work has no requestable items
+    Then I can't see a primary CTA to log in`, async () => {
+    (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
+    const component = mountWithTheme(
+      <ItemRequestButton item={unrequestableItem} workId={'123'} />
+    );
+    await updateWrapperAsync(component);
+    expect(component.find("[data-test-id='libraryLoginCTA']").exists()).toBe(
+      false
+    );
+  });
 
-// Scenario: I'm logged in, viewing a work page
-// Given the work has a requestable item
-// And it’s available to request
-// Then I can see a primary CTA to request it
-
-describe('A logged in  user, viewing a work with an available item, is presented with a request CTA.', () => {
-  (getUserHolds: any).mockResolvedValue(mockRequests);
-  xit('renders the request button', async () => {
+  test.skip(`Scenario: I'm logged in, viewing a work page
+  Given the work has a requestable item
+  And it’s available to request
+  Then I can see a primary CTA to request it`, async () => {
     (useAuth: any).mockImplementation(() => {
       return mockAuthStates.authorized;
     });
@@ -101,7 +92,8 @@ describe('A logged in  user, viewing a work with an available item, is presented
       'Request to view in the library'
     );
   });
-  xit("doesn't render the login button", async () => {
+
+  test.skip("doesn't render the login button", async () => {
     const component = mountWithTheme(
       <ItemRequestButton item={availableItem} workId={'123'} />
     );
