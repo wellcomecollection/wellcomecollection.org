@@ -1,15 +1,14 @@
 // @flow
 import { useEffect, useState, Fragment } from 'react';
-import { type Work } from '@weco/common/model/work';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
 import getStacksWork from '@weco/catalogue/services/stacks/items';
 
-type Props = {| work: Work |};
+type Props = {| workId: string |};
 
 type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
 export type StacksItem = {|
-  id?: string, // TODO check with Robert, think he said id was not always there
+  id: string,
   dueDate: string,
   status: StacksItemStatus,
   type: 'item',
@@ -19,12 +18,12 @@ type StacksWork = {|
   items: StacksItem[],
 |};
 
-const WorkItemsStatus = ({ work }: Props) => {
+const WorkItemsStatus = ({ workId }: Props) => {
   const [stacksWork, setStacksWork] = useState<?StacksWork>();
 
   useEffect(() => {
     let updateLocations = true;
-    getStacksWork({ workId: work.id })
+    getStacksWork({ workId: workId })
       .then(work => {
         if (updateLocations) {
           setStacksWork(work);
@@ -38,6 +37,10 @@ const WorkItemsStatus = ({ work }: Props) => {
 
   return (
     <>
+      <h2>
+        <b>Items from Stacks works API</b>
+      </h2>
+      {stacksWork && JSON.stringify(stacksWork.items)}
       {stacksWork &&
         stacksWork.items.map(item => (
           <Fragment key={item.id}>
@@ -56,7 +59,7 @@ const WorkItemsStatus = ({ work }: Props) => {
                   properties: ['margin-top'],
                 }}
               >
-                <ItemRequestButton item={item} workId={work.id} />
+                <ItemRequestButton item={item} workId={workId} />
               </Space>
             </Space>
           </Fragment>

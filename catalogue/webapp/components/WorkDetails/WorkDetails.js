@@ -143,7 +143,7 @@ const WorkDetails = ({
         {({ stacksRequestService }) =>
           stacksRequestService && (
             <div className={`${font('hnl', 5)}`}>
-              <WorkItemsStatus work={work} />
+              <WorkItemsStatus workId={work.id} />
             </div>
           )
         }
