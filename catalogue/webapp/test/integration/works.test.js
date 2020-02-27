@@ -1,6 +1,6 @@
 import works from '@weco/catalogue/__mocks__/catalogue-work';
 
-describe('/works', () => {
+xdescribe('/works', () => {
   beforeAll(async () => {
     jest.setTimeout(30000);
     await page.setRequestInterception(true);
