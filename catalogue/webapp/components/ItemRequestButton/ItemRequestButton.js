@@ -9,7 +9,7 @@ import useAuth from '@weco/common/hooks/useAuth';
 
 type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
 const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
-  const [requestedState, setRequestedState] = useState<?string>();
+  const [requestedState, setRequestedState] = useState<string>('unknown');
 
   function setRedirectCookie(workId: string, itemId: string) {
     const searchParams = new URLSearchParams(window.location.search);
@@ -31,13 +31,9 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
 
           if (itemsOnHold.includes(item.id)) {
             setRequestedState('requested');
-          } else {
-            setRequestedState('available'); // do we need this
           }
         })
         .catch(console.error);
-    } else {
-      setRequestedState('unknown'); // do we need this - just set unknown // assume available (because stacks work says so) as default
     }
   }
 
