@@ -68,17 +68,17 @@ class InfoBanner extends React.Component<Props, State> {
                     <span className="flex">
                       <Space
                         h={{ size: 'm', properties: ['margin-right'] }}
-                        v={{ size: 's', properties: ['margin-top'] }}
+                        v={{ size: 'xs', properties: ['margin-top'] }}
                         className={`flex`}
                       >
                         <Icon name="information" />
                       </Space>
-                      <div className="first-para-no-margin body-text spaced-text">
+                      <div className="body-text spaced-text">
                         <PrismicHtmlBlock html={this.props.text} />
                       </div>
                     </span>
                   </div>
-                  <Space v={{ size: 's', properties: ['margin-top'] }}>
+                  <Space v={{ size: 'xs', properties: ['margin-top'] }}>
                     <button
                       className="no-margin no-padding plain-button pointer"
                       onClick={this.hideInfoBanner}
