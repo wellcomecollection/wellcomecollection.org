@@ -7,30 +7,27 @@ import getStacksWork from '@weco/catalogue/services/stacks/items';
 
 type Props = {| work: Work |};
 
-type StacksLocation = {| id: string, label: string |};
-type StacksItemStatus = {| id: string, label: string |};
+type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
 export type StacksItem = {|
-  id: string,
-  location: StacksLocation,
+  id?: string, // TODO check with Robert, think he said id was not always there
+  dueDate: string,
   status: StacksItemStatus,
+  type: 'item',
 |};
-type PhysicalLocations = {|
+type StacksWork = {|
   id: string,
   items: StacksItem[],
 |};
 
 const WorkItemsStatus = ({ work }: Props) => {
-  const [
-    physicalLocations,
-    setPhysicalLocations,
-  ] = useState<?PhysicalLocations>();
+  const [stacksWork, setStacksWork] = useState<?StacksWork>();
 
   useEffect(() => {
     let updateLocations = true;
     getStacksWork({ workId: work.id })
-      .then(locations => {
+      .then(work => {
         if (updateLocations) {
-          setPhysicalLocations(locations);
+          setStacksWork(work);
         }
       })
       .catch(console.error);
@@ -41,8 +38,8 @@ const WorkItemsStatus = ({ work }: Props) => {
 
   return (
     <>
-      {physicalLocations &&
-        physicalLocations.items.map(item => (
+      {stacksWork &&
+        stacksWork.items.map(item => (
           <Fragment key={item.id}>
             <Space
               v={{
