@@ -1,8 +1,11 @@
 // @flow
-import WorkItemsStatus from '@weco/catalogue/components/WorkItemsStatus/WorkItemsStatus';
-import { mountWithTheme, updateWrapperAsync } from '../fixtures/enzyme-helpers';
-import mockWorkData from '@weco/catalogue/__mocks__/catalogue-work';
-import mockStacksWorkData from '@weco/catalogue/__mocks__/stacks-work';
+// import WorkItemsStatus from '@weco/catalogue/components/WorkItemsStatus/WorkItemsStatus';
+// import {
+//   mountWithTheme,
+//   updateWrapperAsync,
+// } from '@weco/common/test/fixtures/enzyme-helpers';
+// import mockCatalogueWork from '@weco/catalogue/__mocks__/catalogue-work';
+import mockStacksWork from '@weco/catalogue/__mocks__/stacks-work';
 import 'next/router';
 import getStacksWork from '@weco/catalogue/services/stacks/items';
 
@@ -12,46 +15,42 @@ jest.mock('next/router', () => ({
   },
 }));
 
-function getMockStatus(statusKey) {
-  return () =>
-    new Promise((resolve, reject) => {
-      resolve(mockStacksWorkData[statusKey]);
-    });
+function getMockStatus(mockStacksWork, status) {
+  return mockStacksWork.items.find(item => item.status.label === status);
 }
 
 jest.mock('@weco/catalogue/services/stacks/items', () => jest.fn());
 
-describe('It renders the status of an item', () => {
-  test('it is available', async () => {
-    (getStacksWork: any).mockImplementation(getMockStatus('availableWork'));
-
-    const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
-    await updateWrapperAsync(component);
-
-    expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
-      'Available'
+describe('Feature: 1. As a library member I want to know if an item is available for requesting', () => {
+  test(`
+    Scenario: I'm viewing a work page
+      Given the work has a requestable item
+      And it's available to request
+      Then I can see that it's requestable
+  `, async () => {
+    (getStacksWork: any).mockReturnValue(
+      getMockStatus(mockStacksWork, 'availableWork')
     );
   });
 
-  test('it is unavailable', async () => {
-    (getStacksWork: any).mockImplementation(getMockStatus('unavailableWork'));
-
-    const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
-    await updateWrapperAsync(component);
-
-    expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
-      'Unavailable'
+  test(`
+    Scenario: I'm viewing a work page
+      Given the work has a requestable item
+      And it’s unavailable to request
+      Then I can see a that it's temporarily unavailable
+  `, async () => {
+    (getStacksWork: any).mockReturnValue(
+      getMockStatus(mockStacksWork, 'unavailableWork')
     );
   });
 
-  test('it is unrequestable', async () => {
-    (getStacksWork: any).mockImplementation(getMockStatus('unrequestableWork'));
-
-    const component = mountWithTheme(<WorkItemsStatus work={mockWorkData} />);
-    await updateWrapperAsync(component);
-
-    expect(component.find("[data-test-id='itemStatus']").text()).toEqual(
-      'Unrequestable'
+  xtest(`
+    Scenario: I'm viewing a work page
+      Given the work has no requestable items
+      Then I can see a that it's not requestable and why (closed or open shelves or unknown)
+  `, async () => {
+    (getStacksWork: any).mockReturnValue(
+      getMockStatus(mockStacksWork, 'unrequestableWork')
     );
   });
 });
