@@ -48,7 +48,6 @@ const WorkItemsStatus = ({ work }: Props) => {
               }}
             >
               <p className="no-margin">
-                {/* {item.location.label}:{' '} TODO this is no longer in the stacks API - get from catalogueAPI */}
                 <span data-test-id="itemStatus">{item.status.label}</span>
               </p>
               <Space
@@ -67,4 +66,3 @@ const WorkItemsStatus = ({ work }: Props) => {
 };
 
 export default WorkItemsStatus;
-// TODO rename component ?
