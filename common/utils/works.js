@@ -79,6 +79,17 @@ export type PhysicalLocation = {|
   type: 'PhysicalLocation',
 |};
 
+export function getPhysicalLocations(work: Work): ?(PhysicalLocation[]) {
+  return (
+    work.items &&
+    work.items
+      .map(item =>
+        item.locations.find(location => location.type === 'PhysicalLocation')
+      )
+      .filter(Boolean)
+  );
+}
+
 export function getDigitalLocationOfType(
   work: Work,
   locationType: string
