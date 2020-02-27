@@ -8,17 +8,48 @@ import { font, classNames } from '../../../../utils/classnames';
 import Icon from '../../Icon/Icon';
 import Space from '../../styled/Space';
 
-type Props = {|
+type ButtonInnerProps = {|
+  icon?: string,
+  iconPosition?: 'start' | 'end',
+  text: string,
+  textHidden?: boolean,
+|};
+const ButtonInner = ({
+  icon,
+  iconPosition,
+  textHidden = false,
+  text,
+}: ButtonInnerProps) => (
+  <span className="flex flex--v-center flex--h-center">
+    {icon && (!iconPosition || iconPosition === 'start') && (
+      <Space as="span" h={{ size: 'xs', properties: ['margin-right'] }}>
+        <Icon name={icon} />
+      </Space>
+    )}
+    <span
+      className={classNames({
+        'visually-hidden': textHidden,
+        btn__text: true,
+      })}
+    >
+      {text}
+    </span>
+    {icon && iconPosition === 'end' && (
+      <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>
+        <Icon name={icon} />
+      </Space>
+    )}
+  </span>
+);
+
+type ButtonProps = {|
+  ...ButtonInnerProps,
   tabIndex?: string,
   url?: string,
   type: 'primary' | 'secondary' | 'tertiary',
   extraClasses?: string,
   className?: string,
-  icon?: string,
-  iconPosition?: 'start' | 'end',
   fontFamily?: 'hnl' | 'hnm',
-  text: string,
-  textHidden?: boolean,
   trackingEvent?: GaEvent,
   id?: string,
   disabled?: boolean,
@@ -54,7 +85,7 @@ const Button = forwardRef(
       ariaExpanded,
       link,
       url, // url is deprecated, we should be using link
-    }: Props,
+    }: ButtonProps,
     ref
   ) => {
     const fontSize = type === 'tertiary' ? 6 : 5;
@@ -84,26 +115,12 @@ const Button = forwardRef(
           onClick={handleClick}
           disabled={disabled}
         >
-          <span className="flex flex--v-center flex--h-center">
-            {icon && (!iconPosition || iconPosition === 'start') && (
-              <Space h={{ size: 'xs', properties: ['margin-right'] }}>
-                <Icon name={icon} />
-              </Space>
-            )}
-            <span
-              className={classNames({
-                'visually-hidden': textHidden,
-                btn__text: true,
-              })}
-            >
-              {text}
-            </span>
-            {icon && iconPosition === 'end' && (
-              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
-                <Icon name={icon} />
-              </Space>
-            )}
-          </span>
+          <ButtonInner
+            icon={icon}
+            iconPosition={iconPosition}
+            text={text}
+            textHidden={textHidden}
+          />
         </a>
       </NextLink>
     ) : (
@@ -123,26 +140,12 @@ const Button = forwardRef(
         disabled={disabled}
         type={url ? null : 'button'}
       >
-        <span className="flex flex--v-center flex--h-center">
-          {icon && (!iconPosition || iconPosition === 'start') && (
-            <Space h={{ size: 'xs', properties: ['margin-right'] }}>
-              <Icon name={icon} />
-            </Space>
-          )}
-          <span
-            className={classNames({
-              'visually-hidden': textHidden,
-              btn__text: true,
-            })}
-          >
-            {text}
-          </span>
-          {icon && iconPosition === 'end' && (
-            <Space h={{ size: 'xs', properties: ['margin-left'] }}>
-              <Icon name={icon} />
-            </Space>
-          )}
-        </span>
+        <ButtonInner
+          icon={icon}
+          iconPosition={iconPosition}
+          text={text}
+          textHidden={textHidden}
+        />
       </HtmlTag>
     );
   }

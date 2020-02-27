@@ -1,13 +1,7 @@
 // @flow
-import { type IIIFManifest } from '@weco/common/model/iiif';
-import {
-  getCanvases,
-  getManifestViewType,
-  getAudio,
-  getVideo,
-} from '@weco/common/utils/works';
+import { type IIIFManifest, type IIIFCanvas } from '@weco/common/model/iiif';
+import { getCanvases, getManifestViewType } from '@weco/common/utils/iiif';
 import NextLink from 'next/link';
-import Router from 'next/router';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { grid } from '@weco/common/utils/classnames';
@@ -20,7 +14,6 @@ import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveIma
 import WobblyRow from '@weco/common/views/components/WobblyRow/WobblyRow';
 import Space from '../styled/Space';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
-import useInterval from '@weco/common/hooks/useInterval';
 
 const MultiVolumeContainer = styled.div`
   box-shadow: ${props =>
@@ -66,18 +59,18 @@ const PresentationPreview = styled.div`
 
 type IIIFThumbnails = {|
   label: string,
-  images: {
+  images: {|
     id: ?string,
     canvasId: string,
     width: number,
     height: number,
-  }[],
+  |}[],
 |};
 
 // We want to display the images at 400px high (400px is a size available from the thumbnail service)
 // However, we can only use the thumbnail service, with its associated performance benefits, if the image is not landscape.
 // When the image is landscape, the image from the thumbnail service has a width of 400px
-function appropriateServiceId(canvas) {
+function appropriateServiceId(canvas: IIIFCanvas): ?string {
   const mainImageServiceId = Array.isArray(canvas.images[0].resource.service)
     ? null
     : canvas.images[0].resource.service['@id'];
@@ -98,7 +91,10 @@ function randomImages(
   iiifManifest: IIIFManifest,
   structuredImages: IIIFThumbnails[],
   n = 1
-): IIIFThumbnails {
+): {|
+  label: string,
+  images: {| id: ?string, canvasId: string, width: number, height: number |}[],
+|} {
   const images = [];
   const canvases = getCanvases(iiifManifest).filter(canvas => {
     // Don't include the structured pages we're using when getting random ones
@@ -245,11 +241,7 @@ const IIIFPresentationPreview = ({
   const [imageThumbnails, setImageThumbnails] = useState([]);
   const [hasThumbnails, setHasThumbnails] = useState(false);
   const [imageTotal, setImageTotal] = useState(0);
-  const [secondsPlayed, setSecondsPlayed] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const iiifPresentationManifest = useContext(ManifestContext);
-  const video = getVideo(iiifPresentationManifest);
-  const audio = getAudio(iiifPresentationManifest);
 
   useEffect(() => {
     const allImages = imageThumbnails.reduce(
@@ -258,45 +250,6 @@ const IIIFPresentationPreview = ({
     );
     setHasThumbnails(allImages.length > 0);
   }, [imageThumbnails]);
-
-  function trackViewingTime() {
-    trackEvent({
-      category: 'Engagement',
-      action: `Amount of media played`,
-      value: secondsPlayed,
-      nonInteraction: true,
-      transport: 'beacon',
-      label: video ? 'Video' : 'Audio',
-    });
-  }
-
-  useEffect(() => {
-    Router.events.on('routeChangeStart', trackViewingTime);
-
-    try {
-      window.addEventListener('beforeunload', trackViewingTime);
-    } catch (error) {
-      trackEvent({
-        category: 'Engagement',
-        action: 'unable to track media playing time',
-        nonInteraction: true,
-      });
-    }
-
-    return () => {
-      try {
-        window.removeEventListener('beforeunload', trackViewingTime);
-        Router.events.off('routeChangeStart', trackViewingTime);
-      } catch (error) {}
-    };
-  }, []);
-
-  useInterval(
-    () => {
-      setSecondsPlayed(secondsPlayed + 1);
-    },
-    isPlaying ? 1000 : null
-  );
 
   useEffect(() => {
     if (iiifPresentationManifest) {
@@ -334,9 +287,9 @@ const IIIFPresentationPreview = ({
                 text="View the item"
                 link={itemUrl}
               />
-            </Space>{' '}
-          </div>{' '}
-        </div>{' '}
+            </Space>
+          </div>
+        </div>
       </div>
     );
   }
@@ -417,70 +370,6 @@ const IIIFPresentationPreview = ({
     );
   }
 
-  if (viewType === 'video' && video) {
-    return (
-      <WobblyRow>
-        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <video
-            onPlay={() => {
-              setIsPlaying(true);
-
-              trackEvent({
-                category: 'Video',
-                action: 'play video',
-                label: video['@id'],
-              });
-            }}
-            onPause={() => {
-              setIsPlaying(false);
-            }}
-            controls
-            style={{
-              maxWidth: '100%',
-              maxHeight: '70vh',
-              display: 'block',
-              margin: 'auto',
-            }}
-          >
-            <source src={video['@id']} type={video.format} />
-            {`Sorry, your browser doesn't support embedded video.`}
-          </video>
-        </Space>
-      </WobblyRow>
-    );
-  }
-
-  if (viewType === 'audio' && audio) {
-    return (
-      <WobblyRow>
-        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-          <audio
-            onPlay={() => {
-              setIsPlaying(true);
-
-              trackEvent({
-                category: 'Audio',
-                action: 'play audio',
-                label: audio['@id'],
-              });
-            }}
-            onPause={() => {
-              setIsPlaying(false);
-            }}
-            controls
-            style={{
-              maxWidth: '100%',
-              display: 'block',
-              margin: 'auto',
-            }}
-            src={audio['@id']}
-          >
-            {`Sorry, your browser doesn't support embedded audio.`}
-          </audio>
-        </Space>{' '}
-      </WobblyRow>
-    );
-  }
   if (viewType === 'none') {
     return (
       <div className="container">

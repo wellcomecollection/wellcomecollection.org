@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wellcometrust/wellcomecollection.org.git"
+    "url": "git+https://github.com/wellcomecollection/wellcomecollection.org.git"
   },
   "author": "digital@wellcomecollection.org",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wellcometrust/wellcomecollection.org/issues"
+    "url": "https://github.com/wellcomecollection/wellcomecollection.org/issues"
   },
-  "homepage": "https://github.com/wellcometrust/wellcomecollection.org#readme",
+  "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
@@ -42,7 +42,9 @@
     "prettier": "^1.16.4"
   },
   "dependencies": {
-    "flow-bin": "^0.108.0"
+    "flow-bin": "^0.108.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^2.1.1"
   },
   "private": true,
   "workspaces": [

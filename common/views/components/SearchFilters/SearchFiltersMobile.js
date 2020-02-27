@@ -92,6 +92,19 @@ const FiltersModal = styled.div.attrs({
   }
 `;
 
+const ActiveFilters = styled(Space).attrs({
+  h: {
+    size: 'xs',
+    properties: ['margin-left', 'padding-left', 'padding-right'],
+  },
+  v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    'bg-yellow font-black inline-block rounded-corners text-align-center': true,
+  }),
+})`
+  min-width: 24px;
+`;
+
 const FiltersBody = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
 })``;
@@ -199,6 +212,14 @@ const SearchFiltersMobile = ({
       closeFiltersButtonRef.current.focus();
   }
 
+  const showWorkTypeFilters =
+    workTypeFilters.some(f => f.count > 0) || workTypeInUrlArray.length > 0;
+
+  const activeFiltersCount =
+    workTypeInUrlArray.length +
+    (productionDatesFrom ? 1 : 0) +
+    (productionDatesTo ? 1 : 0);
+
   return (
     <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
       <OpenFiltersButton
@@ -207,7 +228,10 @@ const SearchFiltersMobile = ({
       >
         <Icon name="filter" />
         <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-          Filter
+          Filters{' '}
+          {activeFiltersCount > 0 && (
+            <ActiveFilters>{activeFiltersCount}</ActiveFilters>
+          )}
         </Space>
       </OpenFiltersButton>
       <CSSTransition in={isActive} classNames="fade" timeout={350}>
@@ -255,7 +279,7 @@ const SearchFiltersMobile = ({
                   }}
                 />
               </FilterSection>
-              {workTypeFilters.length > 0 && (
+              {showWorkTypeFilters && (
                 <FilterSection>
                   <h3 className="h3">Formats</h3>
                   <ul
@@ -264,26 +288,27 @@ const SearchFiltersMobile = ({
                     })}
                   >
                     {workTypeFilters.map(workType => {
+                      const isChecked = workTypeInUrlArray.includes(
+                        workType.data.id
+                      );
+
                       return (
-                        <Space
-                          as="li"
-                          v={{ size: 'l', properties: ['margin-bottom'] }}
-                          key={`mobile-${workType.data.id}`}
-                        >
-                          <Checkbox
-                            id={`mobile-${workType.data.id}`}
-                            text={`${workType.data.label} (${workType.count})`}
-                            value={workType.data.id}
-                            name={`workType`}
-                            checked={
-                              workTypeInUrlArray &&
-                              workTypeInUrlArray.includes(workType.data.id)
-                            }
-                            onChange={event => {
-                              changeHandler();
-                            }}
-                          />
-                        </Space>
+                        (workType.count > 0 || isChecked) && (
+                          <Space
+                            as="li"
+                            v={{ size: 'l', properties: ['margin-bottom'] }}
+                            key={`mobile-${workType.data.id}`}
+                          >
+                            <Checkbox
+                              id={`mobile-${workType.data.id}`}
+                              text={`${workType.data.label} (${workType.count})`}
+                              value={workType.data.id}
+                              name={`workType`}
+                              checked={isChecked}
+                              onChange={changeHandler}
+                            />
+                          </Space>
+                        )
                       );
                     })}
                   </ul>
@@ -295,9 +320,12 @@ const SearchFiltersMobile = ({
           <FiltersFooter>
             <NextLink
               passHref
-              {...worksLink({
-                query: worksRouteProps.query,
-              })}
+              {...worksLink(
+                {
+                  query: worksRouteProps.query,
+                },
+                'cancel_filter/all'
+              )}
             >
               <a>Reset filters</a>
             </NextLink>

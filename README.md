@@ -2,7 +2,7 @@
 
 Wellcome Collection web applications.
 
-[![Join the chat at https://gitter.im/wellcometrust/wellcomecollection.org](https://badges.gitter.im/wellcometrust/wellcomecollection.org.svg)](https://gitter.im/wellcometrust/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![CircleCI](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master.svg?style=shield)](https://circleci.com/gh/wellcometrust/wellcomecollection.org/tree/master)
+[![Join the chat at https://gitter.im/wellcomecollection/wellcomecollection.org](https://badges.gitter.im/wellcomecollection/wellcomecollection.org.svg)](https://gitter.im/wellcomecollection/wellcomecollection.org?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![CircleCI](https://circleci.com/gh/wellcomecollection/wellcomecollection.org/tree/master.svg?style=shield)](https://circleci.com/gh/wellcomecollection/wellcomecollection.org/tree/master)
 
 We all work in the **open** and **open source** where we can and where it makes sense
 
@@ -45,7 +45,7 @@ To get a login, ask a friendly experience team member near you.
 
 We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 
-We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcometrust/wellcomecollection.org/tree/master/common).
+We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcomecollection/wellcomecollection.org/tree/master/common).
 
 To run a project, from the root directory:
 ```bash
@@ -72,7 +72,7 @@ in the root directory of this repo. These will confirm what will be deployed and
 
 ## Other pieces of the Wellcome Collection puzzle
 
-[Wellcome Collection Digital Platform](https://github.com/wellcometrust/platform).
+[Wellcome Collection Digital Platform](https://github.com/wellcomecollection/platform).
 
 [Stacks](https://stacks.wellcomecollection.org/), Wellcome Collection's musings on digital developments.
 

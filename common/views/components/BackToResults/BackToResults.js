@@ -9,9 +9,12 @@ const BackToResults = () => {
   const [savedSearchState] = useSavedSearchState({});
   const { query } = savedSearchState;
 
-  const link = worksLink({
-    ...savedSearchState,
-  });
+  const link = worksLink(
+    {
+      ...savedSearchState,
+    },
+    'back_to_results'
+  );
   return (
     <NextLink {...link}>
       <a

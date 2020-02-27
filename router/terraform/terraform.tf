@@ -13,16 +13,16 @@ terraform {
 data "terraform_remote_state" "wellcomecollection" {
   backend = "s3"
 
-  config {
+  config = {
     bucket   = "wellcomecollection-infra"
     key      = "terraform.tfstate"
     region   = "eu-west-1"
-    role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
   }
 }
 
 provider "aws" {
-  version = "~> 2.6.0"
+  version = "~> 2.7"
   region  = "eu-west-1"
 
   assume_role {
@@ -31,7 +31,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  version = "~> 2.6.0"
+  version = "~> 2.7"
   region  = "us-east-1"
   alias   = "us-east-1"
 
@@ -41,21 +41,21 @@ provider "aws" {
 }
 
 output "cluster_name" {
-  value = "${aws_ecs_cluster.router.name}"
+  value = aws_ecs_cluster.router.name
 }
 
 output "alb_listener_https_arn" {
-  value = "${module.router_alb.listener_https_arn}"
+  value = module.router_alb.listener_https_arn
 }
 
 output "alb_listener_http_arn" {
-  value = "${module.router_alb.listener_http_arn}"
+  value = module.router_alb.listener_http_arn
 }
 
 output "alb_id" {
-  value = "${module.router_alb.id}"
+  value = module.router_alb.id
 }
 
 output "alb_dns_name" {
-  value = "${module.router_alb.dns_name}"
+  value = module.router_alb.dns_name
 }

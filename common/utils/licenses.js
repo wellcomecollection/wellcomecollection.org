@@ -2,11 +2,11 @@
 import merge from 'lodash.merge';
 // We have to deal with licenses in both the Catalogue App (using the catalogue API) and the Content App (using the Prismic API)
 // The catalogue API provides licenses as follows:
-type LicenseAPIData = {|
+export type LicenseAPIData = {|
   id: string,
   label: string,
   url: string,
-  type: string,
+  type: 'License',
 |};
 // For the UI, we want to add to this data, with an icons array, description and human readable text.
 type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
