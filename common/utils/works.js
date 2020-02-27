@@ -142,7 +142,7 @@ type WorkProps = {|
   identifierId: string,
 |};
 
-export function getWorkIdentifiersWith(
+export function getWorkIdentifiersWith( // TODO get rid?
   work: Work,
   { identifierId }: WorkProps
 ) {
@@ -153,7 +153,7 @@ export function getWorkIdentifiersWith(
   }, []);
 }
 
-export function getItemIdentifiersWith(
+export function getItemIdentifiersWith( // TODO get rid?
   work: Work,
   { identifierId, locationType }: ItemProps,
   identifierType: string
