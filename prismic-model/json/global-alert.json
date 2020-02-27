@@ -3,7 +3,7 @@
     "text" : {
       "type" : "StructuredText",
       "config" : {
-        "multi" : "paragraph, strong, em, hyperlink",
+        "multi" : "heading2, paragraph, strong, em, hyperlink",
         "label" : "text",
         "placeholder" : "text"
       }

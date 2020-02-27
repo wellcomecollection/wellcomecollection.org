@@ -63,26 +63,22 @@ class InfoBanner extends React.Component<Props, State> {
           <div className="container">
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-                <div
-                  className={`flex flex--v-center flex--h-space-between ${font(
-                    'hnl',
-                    5
-                  )}`}
-                >
+                <div className={`flex flex--h-space-between ${font('hnl', 5)}`}>
                   <div>
-                    <span className="flex flex--v-center">
+                    <span className="flex">
                       <Space
                         h={{ size: 'm', properties: ['margin-right'] }}
-                        className={`flex flex--v-center`}
+                        v={{ size: 'xs', properties: ['margin-top'] }}
+                        className={`flex`}
                       >
                         <Icon name="information" />
                       </Space>
-                      <div className="first-para-no-margin">
+                      <div className="body-text spaced-text">
                         <PrismicHtmlBlock html={this.props.text} />
                       </div>
                     </span>
                   </div>
-                  <div>
+                  <Space v={{ size: 'xs', properties: ['margin-top'] }}>
                     <button
                       className="no-margin no-padding plain-button pointer"
                       onClick={this.hideInfoBanner}
@@ -92,7 +88,7 @@ class InfoBanner extends React.Component<Props, State> {
                         close notification
                       </span>
                     </button>
-                  </div>
+                  </Space>
                 </div>
               </div>
             </div>
