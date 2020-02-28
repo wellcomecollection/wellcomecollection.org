@@ -4,14 +4,6 @@ import { type IIIFRendering } from '../model/iiif';
 import { type LicenseAPIData } from '@weco/common/utils/licenses';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
-export function getDigitalLocations(work: Work) {
-  return work.items
-    .map(item =>
-      item.locations.filter(location => location.type === 'DigitalLocation')
-    )
-    .reduce((acc, locations) => acc.concat(locations), []);
-}
-
 export function getProductionDates(work: Work) {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
@@ -86,6 +78,30 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
+
+type WorkCatalogueItem = {|
+  id: string,
+  identifiers: [],
+  locations: (DigitalLocation | PhysicalLocation)[],
+  type: string,
+|};
+
+export function getItemsWithPhysicalLocation(
+  work: Work
+): { ...WorkCatalogueItem, locations: PhysicalLocation[] }[] {
+  return (
+    work.items &&
+    work.items
+      .map(item => {
+        if (
+          item.locations.find(location => location.type === 'PhysicalLocation')
+        ) {
+          return item;
+        }
+      })
+      .filter(Boolean)
+  );
+}
 
 export function getDigitalLocationOfType(
   work: Work,

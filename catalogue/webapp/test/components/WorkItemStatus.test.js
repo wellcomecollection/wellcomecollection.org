@@ -1,5 +1,5 @@
 // @flow
-// import WorkItemsStatus from '@weco/catalogue/components/WorkItemsStatus/WorkItemsStatus';
+// import WorkItemStatus from '@weco/catalogue/components/WorkItemStatus/WorkItemStatus';
 // import {
 //   mountWithTheme,
 //   updateWrapperAsync,

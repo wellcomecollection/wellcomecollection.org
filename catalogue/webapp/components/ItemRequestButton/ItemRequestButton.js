@@ -2,13 +2,13 @@
 import { useEffect, useState } from 'react';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { type StacksItem } from '../WorkItemsStatus/WorkItemsStatus';
+import { type StacksItem } from '@weco/catalogue/components/WorkDetails/WorkDetails';
 
 import { requestItem, getUserHolds } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
-type ItemRequestButtonProps = {| item: StacksItem, workId: string |};
-const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
+type Props = {| item: StacksItem, workId: string |};
+const ItemRequestButton = ({ item, workId }: Props) => {
   const [requestedState, setRequestedState] = useState<string>('unknown');
 
   function setRedirectCookie(workId: string, itemId: string) {
@@ -52,7 +52,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
     updateRequestedState();
   }, [authState]);
 
-  return (
+  return item.status && item.status.label === 'Available' ? (
     <Tag
       className={classNames({
         'line-height-1': true,
@@ -102,7 +102,7 @@ const ItemRequestButton = ({ item, workId }: ItemRequestButtonProps) => {
         })()}
       </div>
     </Tag>
-  );
+  ) : null;
 };
 
 export default ItemRequestButton;
