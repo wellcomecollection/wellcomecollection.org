@@ -63,7 +63,24 @@ const ItemRequestButton = ({ item, workId }: Props) => {
     >
       <div className={`${font('hnm', 5)}`}>
         {(function() {
-          if (authState.type === 'unauthorized') {
+          if (authState.type === 'authorized') {
+            if (requestedState === 'requested') {
+              return 'You have requested this item';
+            } else {
+              return (
+                <a
+                  data-test-id="libraryRequestCTA"
+                  href={'#'}
+                  onClick={event => {
+                    event.preventDefault();
+                    makeRequest(item.id);
+                  }}
+                >
+                  Request to view in the library
+                </a>
+              );
+            }
+          } else if (authState.type === 'unauthorized') {
             return (
               <a
                 data-test-id="libraryLoginCTA"
@@ -73,24 +90,6 @@ const ItemRequestButton = ({ item, workId }: Props) => {
                 }}
               >
                 Login to request and view in the library
-              </a>
-            );
-          } else if (
-            authState.type === 'authorized' &&
-            requestedState === 'requested'
-          ) {
-            return 'You have requested this item';
-          } else {
-            return (
-              <a
-                data-test-id="libraryRequestCTA"
-                href={'#'}
-                onClick={event => {
-                  event.preventDefault();
-                  makeRequest(item.id);
-                }}
-              >
-                Request to view in the library
               </a>
             );
           }

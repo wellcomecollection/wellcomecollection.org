@@ -2,7 +2,7 @@ const requests = {
   results: [
     {
       item: {
-        id: '{itemId}',
+        id: 'xyz',
         type: 'Item',
       },
       pickupDate: '{date}',
