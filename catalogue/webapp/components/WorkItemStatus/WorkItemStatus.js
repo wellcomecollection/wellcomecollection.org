@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 type Props = {| item: any |}; // TODO
 
 const WorkItemStatus = ({ item }: Props) => {
-  return (
+  return item.status ? (
     <Space
       v={{
         size: 'l',
@@ -15,7 +15,7 @@ const WorkItemStatus = ({ item }: Props) => {
         <span data-test-id="itemStatus">{item.status.label}</span>
       </p>
     </Space>
-  );
+  ) : null;
 };
 
 export default WorkItemStatus;
