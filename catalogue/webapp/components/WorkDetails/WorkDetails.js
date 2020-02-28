@@ -54,7 +54,7 @@ export type StacksItem = {|
   type: 'item',
 |};
 
-// type StacksWork = {|
+// type StacksWork = {| / TODO
 //   id: string,
 //   items: StacksItem[],
 // |};
@@ -186,6 +186,12 @@ const WorkDetails = ({
           stacksRequestService &&
           physicalItems.map(item => (
             <Fragment key={item.id}>
+              {(function() {
+                const physicalLocation = item.locations.find(
+                  location => location.type === 'PhysicalLocation'
+                );
+                return physicalLocation ? physicalLocation.label : null;
+              })()}
               <WorkItemStatus item={item} />
               <ItemRequestButton item={item} workId={work.id} />
             </Fragment>
