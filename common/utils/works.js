@@ -79,16 +79,25 @@ export type PhysicalLocation = {|
   type: 'PhysicalLocation',
 |};
 
-type WorkCatalogueItem = {|
+export type WorkCatalogueItem = {|
   id: string,
   identifiers: [],
   locations: (DigitalLocation | PhysicalLocation)[],
   type: string,
 |};
 
+type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
+
+export type PhysicalItemWithStatus = {|
+  ...WorkCatalogueItem,
+  locations: PhysicalLocation[],
+  dueDate?: string,
+  status?: StacksItemStatus,
+|};
+
 export function getItemsWithPhysicalLocation(
   work: Work
-): { ...WorkCatalogueItem, locations: PhysicalLocation[] }[] {
+): PhysicalItemWithStatus[] {
   return (
     work.items &&
     work.items
