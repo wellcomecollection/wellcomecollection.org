@@ -52,7 +52,7 @@ const ItemRequestButton = ({ item, workId }: Props) => {
     updateRequestedState();
   }, [authState]);
 
-  return (
+  return item.status.label === 'Available' ? (
     <Tag
       className={classNames({
         'line-height-1': true,
@@ -102,7 +102,7 @@ const ItemRequestButton = ({ item, workId }: Props) => {
         })()}
       </div>
     </Tag>
-  );
+  ) : null;
 };
 
 export default ItemRequestButton;
