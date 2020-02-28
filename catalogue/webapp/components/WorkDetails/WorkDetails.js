@@ -38,12 +38,25 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
+// import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
+
+type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
+export type StacksItem = {|
+  id: string,
+  dueDate: string,
+  status: StacksItemStatus,
+  type: 'item',
+|};
+// type StacksWork = {|
+//   id: string,
+//   items: StacksItem[],
+// |};
 
 type Props = {|
   work: Work,
@@ -63,6 +76,7 @@ const WorkDetails = ({
   showAvailableOnline,
 }: Props) => {
   const [physicalItems, setPhysicalItems] = useState(
+    // TODO change name
     getItemsWithPhysicalLocation(work)
   );
 
@@ -165,34 +179,13 @@ const WorkDetails = ({
           text={[`<a href="${encoreLink}">Wellcome library</a>`]}
         />
       )}
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
-      >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          {JSON.stringify(physicalItems, null, 1)}
-        </code>
-      </pre>
 
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
-          stacksRequestService && (
-            <div className={`${font('hnl', 5)}`}>
-              <WorkItemsStatus workId={work.id} />
-            </div>
-          )
+          stacksRequestService &&
+          physicalItems.map(item => (
+            <WorkItemsStatus key={item.id} item={item} />
+          ))
         }
       </TogglesContext.Consumer>
     </WorkDetailsSection>
