@@ -63,41 +63,36 @@ const ItemRequestButton = ({ item, workId }: Props) => {
     >
       <div className={`${font('hnm', 5)}`}>
         {(function() {
-          switch (requestedState) {
-            case 'unknown':
-              const loginUrl =
-                authState.type === 'unauthorized' ? authState.loginUrl : '#';
-
-              return (
-                <a
-                  data-test-id="libraryLoginCTA"
-                  href={loginUrl}
-                  onClick={event => {
-                    setRedirectCookie(workId, item.id);
-                  }}
-                >
-                  {authState.type === 'unauthorized'
-                    ? 'Login to request and view in the library'
-                    : '#'}
-                </a>
-              );
-
-            case 'requested':
-              return <a href={'#'}>You have requested this item</a>;
-
-            case 'available':
-              return (
-                <a
-                  data-test-id="libraryRequestCTA"
-                  href={'#'}
-                  onClick={event => {
-                    event.preventDefault();
-                    makeRequest(item.id);
-                  }}
-                >
-                  Request to view in the library
-                </a>
-              );
+          if (authState.type === 'unauthorized') {
+            return (
+              <a
+                data-test-id="libraryLoginCTA"
+                href={authState.loginUrl}
+                onClick={event => {
+                  setRedirectCookie(workId, item.id);
+                }}
+              >
+                Login to request and view in the library
+              </a>
+            );
+          } else if (
+            authState.type === 'authorized' &&
+            requestedState === 'requested'
+          ) {
+            return 'You have requested this item';
+          } else {
+            return (
+              <a
+                data-test-id="libraryRequestCTA"
+                href={'#'}
+                onClick={event => {
+                  event.preventDefault();
+                  makeRequest(item.id);
+                }}
+              >
+                Request to view in the library
+              </a>
+            );
           }
         })()}
       </div>
