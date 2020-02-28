@@ -1,7 +1,8 @@
 // @flow
 import Space from '@weco/common/views/components/styled/Space';
+import { type PhysicalItemWithStatus } from '@weco/common/utils/works';
 
-type Props = {| item: any |}; // TODO
+type Props = {| item: PhysicalItemWithStatus |};
 
 const WorkItemStatus = ({ item }: Props) => {
   return item.status ? (
