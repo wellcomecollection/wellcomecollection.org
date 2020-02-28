@@ -1,5 +1,6 @@
 // @flow
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -7,12 +8,14 @@ import merge from 'lodash.merge';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
+import getStacksWork from '@weco/catalogue/services/stacks/items';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
+  getItemsWithPhysicalLocation,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -59,6 +62,30 @@ const WorkDetails = ({
   itemUrl,
   showAvailableOnline,
 }: Props) => {
+  const [physicalItems, setPhysicalItems] = useState(
+    getItemsWithPhysicalLocation(work)
+  );
+
+  useEffect(() => {
+    let updateLocations = true;
+    getStacksWork({ workId: work.id })
+      .then(work => {
+        if (updateLocations) {
+          var merged = physicalItems.map(physicalItem =>
+            merge(
+              physicalItem,
+              work.items.find(item => item.id === physicalItem.id)
+            )
+          );
+          setPhysicalItems(merged);
+        }
+      })
+      .catch(console.error);
+    return () => {
+      updateLocations = false;
+    };
+  }, []);
+
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -138,6 +165,26 @@ const WorkDetails = ({
           text={[`<a href="${encoreLink}">Wellcome library</a>`]}
         />
       )}
+      <pre
+        style={{
+          maxWidth: '600px',
+          margin: '0 auto 24px',
+          fontSize: '14px',
+        }}
+      >
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          {JSON.stringify(physicalItems, null, 1)}
+        </code>
+      </pre>
 
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>

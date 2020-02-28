@@ -78,14 +78,19 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
+type WorkItem = any; // TODO
 
-export function getPhysicalLocations(work: Work): ?(PhysicalLocation[]) {
+export function getItemsWithPhysicalLocation(work: Work): WorkItem[] {
   return (
     work.items &&
     work.items
-      .map(item =>
-        item.locations.find(location => location.type === 'PhysicalLocation')
-      )
+      .map(item => {
+        if (
+          item.locations.find(location => location.type === 'PhysicalLocation')
+        ) {
+          return item;
+        }
+      })
       .filter(Boolean)
   );
 }
