@@ -76,8 +76,7 @@ const WorkDetails = ({
   itemUrl,
   showAvailableOnline,
 }: Props) => {
-  const [physicalItems, setPhysicalItems] = useState(
-    // TODO change name
+  const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState(
     getItemsWithPhysicalLocation(work)
   );
 
@@ -86,13 +85,13 @@ const WorkDetails = ({
     getStacksWork({ workId: work.id })
       .then(work => {
         if (updateLocations) {
-          var merged = physicalItems.map(physicalItem =>
+          var merged = itemsWithPhysicalLocations.map(physicalItem =>
             merge(
               physicalItem,
               work.items.find(item => item.id === physicalItem.id)
             )
           );
-          setPhysicalItems(merged);
+          setItemsWithPhysicalLocations(merged);
         }
       })
       .catch(console.error);
@@ -184,7 +183,7 @@ const WorkDetails = ({
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
           stacksRequestService &&
-          physicalItems.map(item => (
+          itemsWithPhysicalLocations.map(item => (
             <Fragment key={item.id}>
               {(function() {
                 const physicalLocation = item.locations.find(
