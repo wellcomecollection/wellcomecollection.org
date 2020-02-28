@@ -12,7 +12,16 @@
 // }
 
 // This is mutable for testing
-let tests = [];
+let tests = [
+  {
+    range: [0, 50],
+    id: 'availableOnline',
+    title: 'Show the "Available online" section on a work page',
+    defaultValue: false,
+    description:
+      'Removes the previews from the top of the page and shows the "Available online" section instead.',
+  },
+];
 exports.tests = tests;
 exports.setTests = function(newTests) {
   tests = newTests;
