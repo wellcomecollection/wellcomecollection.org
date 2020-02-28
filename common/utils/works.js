@@ -78,9 +78,17 @@ export type PhysicalLocation = {|
   label: string,
   type: 'PhysicalLocation',
 |};
-type WorkItem = any; // TODO
 
-export function getItemsWithPhysicalLocation(work: Work): WorkItem[] {
+type WorkCatalogueItem = {|
+  id: string,
+  identifiers: [],
+  locations: (DigitalLocation | PhysicalLocation)[],
+  type: string,
+|};
+
+export function getItemsWithPhysicalLocation(
+  work: Work
+): { ...WorkCatalogueItem, locations: PhysicalLocation[] }[] {
   return (
     work.items &&
     work.items
@@ -147,7 +155,7 @@ type WorkProps = {|
   identifierId: string,
 |};
 
-export function getWorkIdentifiersWith( // TODO get rid?
+export function getWorkIdentifiersWith(
   work: Work,
   { identifierId }: WorkProps
 ) {
@@ -158,7 +166,7 @@ export function getWorkIdentifiersWith( // TODO get rid?
   }, []);
 }
 
-export function getItemIdentifiersWith( // TODO get rid?
+export function getItemIdentifiersWith(
   work: Work,
   { identifierId, locationType }: ItemProps,
   identifierType: string
