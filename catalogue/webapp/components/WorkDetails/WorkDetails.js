@@ -16,6 +16,7 @@ import {
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
   getItemsWithPhysicalLocation,
+  type PhysicalItemWithStatus,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -46,19 +47,6 @@ import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/Expla
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 
-type StacksItemStatus = {| id: string, label: string, type: 'ItemStatus' |};
-export type StacksItem = {|
-  id: string,
-  dueDate: string,
-  status: StacksItemStatus,
-  type: 'item',
-|};
-
-// type StacksWork = {| / TODO
-//   id: string,
-//   items: StacksItem[],
-// |};
-
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -76,9 +64,9 @@ const WorkDetails = ({
   itemUrl,
   showAvailableOnline,
 }: Props) => {
-  const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState(
-    getItemsWithPhysicalLocation(work)
-  );
+  const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
+    PhysicalItemWithStatus[]
+  >(getItemsWithPhysicalLocation(work));
 
   useEffect(() => {
     let updateLocations = true;
@@ -179,7 +167,6 @@ const WorkDetails = ({
           text={[`<a href="${encoreLink}">Wellcome library</a>`]}
         />
       )}
-
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
           stacksRequestService &&
