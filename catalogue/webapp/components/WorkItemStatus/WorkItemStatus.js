@@ -3,7 +3,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {| item: any |}; // TODO
 
-const WorkItemsStatus = ({ item }: Props) => {
+const WorkItemStatus = ({ item }: Props) => {
   return (
     <Space
       v={{
@@ -18,4 +18,4 @@ const WorkItemsStatus = ({ item }: Props) => {
   );
 };
 
-export default WorkItemsStatus;
+export default WorkItemStatus;

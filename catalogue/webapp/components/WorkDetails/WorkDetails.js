@@ -37,8 +37,8 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
-// import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
+import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
+import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -184,7 +184,10 @@ const WorkDetails = ({
         {({ stacksRequestService }) =>
           stacksRequestService &&
           physicalItems.map(item => (
-            <WorkItemsStatus key={item.id} item={item} />
+            <>
+              <WorkItemStatus key={item.id} item={item} />
+              <ItemRequestButton item={item} workId={work.id} />
+            </>
           ))
         }
       </TogglesContext.Consumer>
