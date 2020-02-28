@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -53,6 +53,7 @@ export type StacksItem = {|
   status: StacksItemStatus,
   type: 'item',
 |};
+
 // type StacksWork = {|
 //   id: string,
 //   items: StacksItem[],
@@ -184,10 +185,10 @@ const WorkDetails = ({
         {({ stacksRequestService }) =>
           stacksRequestService &&
           physicalItems.map(item => (
-            <>
-              <WorkItemStatus key={item.id} item={item} />
+            <Fragment key={item.id}>
+              <WorkItemStatus item={item} />
               <ItemRequestButton item={item} workId={work.id} />
-            </>
+            </Fragment>
           ))
         }
       </TogglesContext.Consumer>
