@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { type StacksItem } from '@weco/catalogue/components/WorkItemsStatus/WorkItemsStatus';
+import { type StacksItem } from '@weco/catalogue/components/WorkDetails/WorkDetails';
 
 import { requestItem, getUserHolds } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
