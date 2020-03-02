@@ -1,5 +1,6 @@
 // @flow
 import moment from 'moment';
+import { useEffect, useState, Fragment } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -7,12 +8,15 @@ import merge from 'lodash.merge';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { worksLink } from '@weco/common/services/catalogue/routes';
+import getStacksWork from '@weco/catalogue/services/stacks/items';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
   getWorkIdentifiersWith,
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
+  getItemsWithPhysicalLocation,
+  type PhysicalItemWithStatus,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -34,7 +38,8 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import WorkItemsStatus from '../WorkItemsStatus/WorkItemsStatus';
+import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
+import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
@@ -59,6 +64,30 @@ const WorkDetails = ({
   itemUrl,
   showAvailableOnline,
 }: Props) => {
+  const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
+    PhysicalItemWithStatus[]
+  >(getItemsWithPhysicalLocation(work));
+
+  useEffect(() => {
+    let updateLocations = true;
+    getStacksWork({ workId: work.id })
+      .then(work => {
+        if (updateLocations) {
+          var merged = itemsWithPhysicalLocations.map(physicalItem =>
+            merge(
+              physicalItem,
+              work.items.find(item => item.id === physicalItem.id)
+            )
+          );
+          setItemsWithPhysicalLocations(merged);
+        }
+      })
+      .catch(console.error);
+    return () => {
+      updateLocations = false;
+    };
+  }, []);
+
   // Determin digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -138,14 +167,21 @@ const WorkDetails = ({
           text={[`<a href="${encoreLink}">Wellcome library</a>`]}
         />
       )}
-
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
-          stacksRequestService && (
-            <div className={`${font('hnl', 5)}`}>
-              <WorkItemsStatus work={work} />
-            </div>
-          )
+          stacksRequestService &&
+          itemsWithPhysicalLocations.map(item => (
+            <Fragment key={item.id}>
+              {(function() {
+                const physicalLocation = item.locations.find(
+                  location => location.type === 'PhysicalLocation'
+                );
+                return physicalLocation ? physicalLocation.label : null;
+              })()}
+              <WorkItemStatus item={item} />
+              <ItemRequestButton item={item} workId={work.id} />
+            </Fragment>
+          ))
         }
       </TogglesContext.Consumer>
     </WorkDetailsSection>
