@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState } from 'react';
 import { type IIIFManifest } from '@weco/common/model/iiif';
 import { type Work } from '@weco/common/model/work';
 import type { NextLinkType } from '@weco/common/model/next-link-type';
@@ -39,13 +39,14 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
-import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
+// import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
+import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
 
 type Props = {|
   work: Work,
@@ -163,25 +164,66 @@ const WorkDetails = ({
       )}
 
       {encoreLink && (
-        <WorkDetailsText
-          text={[`<a href="${encoreLink}">Wellcome library</a>`]}
-        />
+        <Space
+          v={{
+            size: 'l',
+            properties: ['margin-bottom'],
+          }}
+        >
+          <WorkDetailsText
+            text={[`<a href="${encoreLink}">Wellcome library</a>`]}
+          />
+        </Space>
       )}
+
       <TogglesContext.Consumer>
         {({ stacksRequestService }) =>
-          stacksRequestService &&
-          itemsWithPhysicalLocations.map(item => (
-            <Fragment key={item.id}>
-              {(function() {
-                const physicalLocation = item.locations.find(
-                  location => location.type === 'PhysicalLocation'
-                );
-                return physicalLocation ? physicalLocation.label : null;
-              })()}
-              <WorkItemStatus item={item} />
-              <ItemRequestButton item={item} workId={work.id} />
-            </Fragment>
-          ))
+          stacksRequestService && (
+            <>
+              <ResponsiveTable headings={['Location/Shelfmark', 'Status']}>
+                <thead>
+                  <tr className={classNames({ [font('hnm', 5)]: true })}>
+                    <th>Location/Shelfmark</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {itemsWithPhysicalLocations.map(item => (
+                    <tr
+                      key={item.id}
+                      className={classNames({ [font('hnm', 5)]: true })}
+                    >
+                      <td>
+                        <span
+                          className={classNames({ [font('hnl', 5)]: true })}
+                        >
+                          {(function() {
+                            const physicalLocation = item.locations.find(
+                              location => location.type === 'PhysicalLocation'
+                            );
+                            return physicalLocation
+                              ? physicalLocation.label
+                              : null;
+                          })()}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={classNames({
+                            [font('hnl', 5)]: true,
+                          })}
+                        >
+                          <WorkItemStatus item={item} />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </ResponsiveTable>
+              {/* Login button - separate from ItemRequest Button - item request button function does promiseAll for each item */}
+              {/* <ItemRequestButton item={item} workId={work.id} /> */}
+            </>
+          )
         }
       </TogglesContext.Consumer>
     </WorkDetailsSection>
