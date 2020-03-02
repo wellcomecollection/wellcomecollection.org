@@ -43,7 +43,16 @@ type AbTest = {|
   description: string,
 |};
 
-const abTests: AbTest[] = [];
+const abTests: AbTest[] = [
+  {
+    range: [0, 50],
+    id: 'availableOnline',
+    title: 'Show the "Available online" section on a work page',
+    defaultValue: false,
+    description:
+      'Removes the previews from the top of the page and shows the "Available online" section instead.',
+  },
+];
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState({});
   const [toggles, setToggles] = useState([]);
