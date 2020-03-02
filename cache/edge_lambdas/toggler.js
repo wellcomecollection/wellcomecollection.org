@@ -20,8 +20,8 @@ let tests = [
     defaultValue: false,
     description:
       'Removes the previews from the top of the page and shows the "Available online" section instead.',
-    when(request, range) {
-      return this.request.uri.match(/\/works\/.*/);
+    when(request) {
+      return request.uri.match(/\/works\/.*/);
     },
   },
 ];
