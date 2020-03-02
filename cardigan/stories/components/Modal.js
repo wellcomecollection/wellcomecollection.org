@@ -11,7 +11,7 @@ const ModalExample = () => {
         show modal
       </button>
       <Modal isActive={isActive} setIsActive={setIsActive}>
-        yoyoyo
+        <p>This is a modal window.</p>
       </Modal>
     </div>
   );
