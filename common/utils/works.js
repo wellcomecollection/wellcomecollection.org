@@ -93,6 +93,7 @@ export type PhysicalItemWithStatus = {|
   locations: PhysicalLocation[],
   dueDate?: string,
   status?: StacksItemStatus,
+  checked: boolean,
 |};
 
 export function getItemsWithPhysicalLocation(

@@ -11,7 +11,7 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 
 type Props = {|
   children: Node,
-  isActive: Boolean,
+  isActive: boolean,
   setIsActive: (value: boolean) => void,
 |};
 

@@ -49,6 +49,7 @@ import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
 import useAuth from '@weco/common/hooks/useAuth';
+import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -68,7 +69,9 @@ const WorkDetails = ({
 }: Props) => {
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemWithStatus[]
-  >(getItemsWithPhysicalLocation(work));
+  >([
+    ...getItemsWithPhysicalLocation(work).map(i => ({ ...i, checked: false })),
+  ]);
 
   useEffect(() => {
     let updateLocations = true;
@@ -186,6 +189,7 @@ const WorkDetails = ({
               <ResponsiveTable headings={['Location/Shelfmark', 'Status']}>
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
+                    <th></th>
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
                   </tr>
@@ -196,6 +200,35 @@ const WorkDetails = ({
                       key={item.id}
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
+                      <td>
+                        {item.status && item.status.label === 'Available' && (
+                          <>
+                            <label className="visually-hidden">
+                              Request {item.id}
+                            </label>
+                            <Checkbox
+                              id={item.id}
+                              text=""
+                              checked={item.checked}
+                              name={item.id}
+                              value={item.id}
+                              onChange={() => {
+                                const newArray = itemsWithPhysicalLocations.map(
+                                  i => {
+                                    if (item.id === i.id) {
+                                      return { ...i, checked: !i.checked };
+                                    } else {
+                                      return i;
+                                    }
+                                  }
+                                );
+
+                                setItemsWithPhysicalLocations(newArray);
+                              }}
+                            />
+                          </>
+                        )}
+                      </td>
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
@@ -233,7 +266,12 @@ const WorkDetails = ({
                       loginUrl={authState.loginUrl}
                     />
                   ) : (
-                    <RequestModal />
+                    <RequestModal
+                      itemsWithPhysicalLocations={itemsWithPhysicalLocations}
+                      setItemsWithPhysicalLocations={
+                        setItemsWithPhysicalLocations
+                      }
+                    />
                   )}
                 </>
               )}

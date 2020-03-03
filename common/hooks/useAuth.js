@@ -9,7 +9,8 @@ import base64url from 'base64url';
 const authDomain = 'https://id.wellcomecollection.org';
 const authParams = {
   response_type: 'code',
-  client_id: '4sl9v9v3i72fs66i0kpgqent8b',
+  client_id: '5n4vt54rjsg6t691c5b5kiacdv',
+  // client_id: '4sl9v9v3i72fs66i0kpgqent8b',
   scope: ['openid'].join(' '),
 };
 
