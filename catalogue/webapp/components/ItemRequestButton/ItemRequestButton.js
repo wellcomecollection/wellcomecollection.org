@@ -11,14 +11,6 @@ type Props = {| item: PhysicalItemWithStatus, workId: string |};
 const ItemRequestButton = ({ item, workId }: Props) => {
   const [requestedState, setRequestedState] = useState<string>('unknown');
 
-  function setRedirectCookie(workId: string, itemId: string) {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('action', `requestItem:/works/${workId}/items/${item.id}`);
-
-    const url = `${window.location.pathname}?${searchParams.toString()}`;
-    document.cookie = `WC_auth_redirect=${url}; path=/`;
-  }
-
   const authState = useAuth();
 
   function updateRequestedState() {
@@ -80,18 +72,6 @@ const ItemRequestButton = ({ item, workId }: Props) => {
                 </a>
               );
             }
-          } else if (authState.type === 'unauthorized') {
-            return (
-              <a
-                data-test-id="libraryLoginCTA"
-                href={authState.loginUrl}
-                onClick={event => {
-                  setRedirectCookie(workId, item.id);
-                }}
-              >
-                Login to request and view in the library
-              </a>
-            );
           }
         })()}
       </div>
