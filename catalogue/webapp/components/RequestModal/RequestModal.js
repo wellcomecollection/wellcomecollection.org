@@ -7,6 +7,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import { type PhysicalItemWithStatus } from '@weco/common/utils/works';
 import { classNames, font } from '@weco/common/utils/classnames';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
+import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
 
 type Props = {|
   itemsWithPhysicalLocations: PhysicalItemWithStatus[],
@@ -85,6 +86,7 @@ const RequestModal = ({
             ))}
           </tbody>
         </ResponsiveTable>
+        <ItemRequestButton items={itemsWithPhysicalLocations} />
       </Modal>
     </>
   );

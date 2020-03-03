@@ -1,50 +1,55 @@
 // @flow
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { type PhysicalItemWithStatus } from '@weco/common/utils/works';
 
-import { requestItem, getUserHolds } from '../../services/stacks/requests';
+import { requestItem /* getUserHolds */ } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
-type Props = {| item: PhysicalItemWithStatus, workId: string |};
-const ItemRequestButton = ({ item, workId }: Props) => {
-  const [requestedState, setRequestedState] = useState<string>('unknown');
+type Props = {| items: PhysicalItemWithStatus[] |};
+const ItemRequestButton = ({ items }: Props) => {
+  // const [requestedState, setRequestedState] = useState<string>('unknown');
 
   const authState = useAuth();
 
-  function updateRequestedState() {
-    if (authState.type === 'authorized') {
-      getUserHolds({ token: authState.token.id_token })
-        .then(userHolds => {
-          const itemsOnHold = userHolds.results.map(hold => {
-            return hold.item.id;
-          });
+  // function updateRequestedState() {
+  //   if (authState.type === 'authorized') {
+  //     getUserHolds({ token: authState.token.id_token })
+  //       .then(userHolds => {
+  //         const itemsOnHold = userHolds.results.map(hold => {
+  //           return hold.item.id;
+  //         });
 
-          if (itemsOnHold.includes(item.id)) {
-            setRequestedState('requested');
-          }
-        })
-        .catch(console.error);
+  //         if (itemsOnHold.includes(item.id)) {
+  //           setRequestedState('requested');
+  //         }
+  //       })
+  //       .catch(console.error);
+  //   }
+  // }
+
+  async function makeRequest(items) {
+    if (authState.type === 'authorized') {
+      items.map(i => console.log(i.checked, i.id));
+      const requestPromises = items
+        .filter(item => item.checked)
+        .map(item => {
+          return (
+            requestItem({
+              itemId: item.id,
+              token: authState.token.id_token,
+            })
+              // .then(_ => setRequestedState('requested'))
+              .catch(console.error)
+          );
+        });
+      const allResolvedRequests = await Promise.all(requestPromises);
+      console.log(allResolvedRequests);
     }
   }
 
-  function makeRequest(itemId: string) {
-    if (authState.type === 'authorized') {
-      requestItem({
-        itemId: itemId,
-        token: authState.token.id_token,
-      })
-        .then(_ => setRequestedState('requested'))
-        .catch(console.error);
-    }
-  }
-
-  useEffect(() => {
-    updateRequestedState();
-  }, [authState]);
-
-  return item.status && item.status.label === 'Available' ? (
+  return (
     <Tag
       className={classNames({
         'line-height-1': true,
@@ -54,29 +59,21 @@ const ItemRequestButton = ({ item, workId }: Props) => {
       })}
     >
       <div className={`${font('hnm', 5)}`}>
-        {(function() {
-          if (authState.type === 'authorized') {
-            if (requestedState === 'requested') {
-              return 'You have requested this item';
-            } else {
-              return (
-                <a
-                  data-test-id="libraryRequestCTA"
-                  href={'#'}
-                  onClick={event => {
-                    event.preventDefault();
-                    makeRequest(item.id);
-                  }}
-                >
-                  Request to view in the library
-                </a>
-              );
-            }
-          }
-        })()}
+        {authState.type === 'authorized' && (
+          <a
+            data-test-id="libraryRequestCTA"
+            href={'#'}
+            onClick={event => {
+              event.preventDefault();
+              makeRequest(items);
+            }}
+          >
+            Request to view in the library
+          </a>
+        )}
       </div>
     </Tag>
-  ) : null;
+  );
 };
 
 export default ItemRequestButton;
