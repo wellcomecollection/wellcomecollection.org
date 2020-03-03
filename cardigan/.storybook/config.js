@@ -7,40 +7,39 @@ import styleguideSass from '../../common/styles/styleguide.scss';
 import { ThemeProvider } from 'styled-components';
 import theme from '../../common/views/themes/default';
 import { addReadme } from 'storybook-readme';
+import { AppContextProvider } from '../../common/views/components/AppContext/AppContext';
 
 function loadStories() {
   const components = require.context('../stories/components', true, /\.js$/);
   const global = require.context('../stories/global', true, /\.js$/);
   const docs = require.context('../stories/docs', true, /\.js$/);
 
-  components.keys().forEach((filename) => components(filename));
-  global.keys().forEach((filename) => global(filename));
-  docs.keys().forEach((filename) => docs(filename));
+  components.keys().forEach(filename => components(filename));
+  global.keys().forEach(filename => global(filename));
+  docs.keys().forEach(filename => docs(filename));
 }
 
 addDecorator(addReadme);
 addDecorator(withKnobs);
 addDecorator(checkA11y);
 
-const CenterDecorator = (storyFn) => {
+const CenterDecorator = storyFn => {
   const story = storyFn();
 
   const styles = {
     padding: '0px 30px',
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      <>
-        <style id='styleguide-sass'>
-          {styleguideSass}
-        </style>
-        <div style={styles} className='enhanced'>
-          { story }
+      <AppContextProvider>
+        <style id="styleguide-sass">{styleguideSass}</style>
+        <div style={styles} className="enhanced">
+          {story}
         </div>
-      </>
+      </AppContextProvider>
     </ThemeProvider>
-  )
+  );
 };
 addDecorator(CenterDecorator);
 
@@ -49,7 +48,7 @@ setOptions({
   url: 'https://cardigan.wellcomecollection.org',
   addonPanelInRight: false,
   hierarchySeparator: /\//,
-  sortStoriesByKind: true
+  sortStoriesByKind: true,
 });
 
 configure(loadStories, module);
