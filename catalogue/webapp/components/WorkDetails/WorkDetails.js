@@ -39,15 +39,16 @@ import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
-// import ItemRequestButton from '../ItemRequestButton/ItemRequestButton';
+import LogInButton from '../LogInButton/LogInButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import RequestModal from '@weco/catalogue/components/RequestModal/RequestModal';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
-
+import useAuth from '@weco/common/hooks/useAuth';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -154,6 +155,8 @@ const WorkDetails = ({
     note => note.noteType.id === 'location-of-original'
   );
 
+  const authState = useAuth();
+
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
       {locationOfWork && (
@@ -220,7 +223,21 @@ const WorkDetails = ({
                   ))}
                 </tbody>
               </ResponsiveTable>
-              {/* Login button - separate from ItemRequest Button - item request button function does promiseAll for each item */}
+              {itemsWithPhysicalLocations.find(
+                item => item.status && item.status.label === 'Available'
+              ) && (
+                <>
+                  {authState.type === 'unauthorized' ? (
+                    <LogInButton
+                      workId={work.id}
+                      loginUrl={authState.loginUrl}
+                    />
+                  ) : (
+                    <RequestModal />
+                  )}
+                </>
+              )}
+              {/* pass all the items to ItemRequestButton? */}
               {/* <ItemRequestButton item={item} workId={work.id} /> */}
             </>
           )
