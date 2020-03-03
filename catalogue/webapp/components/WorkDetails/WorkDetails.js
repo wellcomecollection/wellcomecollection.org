@@ -44,12 +44,14 @@ import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Button from '@weco/common/views/components/Buttons/Button/Button';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
-import RequestModal from '@weco/catalogue/components/RequestModal/RequestModal';
 import type { DigitalLocation } from '@weco/common/utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
 import useAuth from '@weco/common/hooks/useAuth';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
+
+import Modal from '@weco/common/views/components/Modal/Modal';
+import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -159,7 +161,7 @@ const WorkDetails = ({
   );
 
   const authState = useAuth();
-
+  const [isActive, setIsActive] = useState(false);
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
       {locationOfWork && (
@@ -266,17 +268,104 @@ const WorkDetails = ({
                       loginUrl={authState.loginUrl}
                     />
                   ) : (
-                    <RequestModal
-                      itemsWithPhysicalLocations={itemsWithPhysicalLocations}
-                      setItemsWithPhysicalLocations={
-                        setItemsWithPhysicalLocations
-                      }
-                    />
+                    <>
+                      <div data-test-id="requestModalCTA">
+                        <Button
+                          type="primary"
+                          text="Request"
+                          clickHandler={() => {
+                            setIsActive(!isActive);
+                          }}
+                        />
+
+                        <Modal isActive={isActive} setIsActive={setIsActive}>
+                          <ResponsiveTable
+                            headings={['Location/Shelfmark', 'Status']}
+                          >
+                            <thead>
+                              <tr
+                                className={classNames({
+                                  [font('hnm', 5)]: true,
+                                })}
+                              >
+                                <th></th>
+                                <th>Location/Shelfmark</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {itemsWithPhysicalLocations.map(item => (
+                                <tr
+                                  key={item.id}
+                                  className={classNames({
+                                    [font('hnm', 5)]: true,
+                                  })}
+                                >
+                                  <td>
+                                    {item.status &&
+                                      item.status.label === 'Available' && (
+                                        <>
+                                          <label className="visually-hidden">
+                                            Request {item.id}
+                                          </label>
+                                          <Checkbox
+                                            id={item.id}
+                                            text=""
+                                            checked={item.checked}
+                                            name={item.id}
+                                            value={item.id}
+                                            onChange={() => {
+                                              const newArray = itemsWithPhysicalLocations.map(
+                                                i => {
+                                                  if (item.id === i.id) {
+                                                    return {
+                                                      ...i,
+                                                      checked: !i.checked,
+                                                    };
+                                                  } else {
+                                                    return i;
+                                                  }
+                                                }
+                                              );
+
+                                              setItemsWithPhysicalLocations(
+                                                newArray
+                                              );
+                                            }}
+                                          />
+                                        </>
+                                      )}
+                                  </td>
+                                  <td>
+                                    <span
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                    >
+                                      {(function() {
+                                        const physicalLocation = item.locations.find(
+                                          location =>
+                                            location.type === 'PhysicalLocation'
+                                        );
+                                        return physicalLocation
+                                          ? physicalLocation.label
+                                          : null;
+                                      })()}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </ResponsiveTable>
+                          <ItemRequestButton
+                            items={itemsWithPhysicalLocations}
+                          />
+                        </Modal>
+                      </div>
+                    </>
                   )}
                 </>
               )}
-              {/* pass all the items to ItemRequestButton? */}
-              {/* <ItemRequestButton item={item} workId={work.id} /> */}
             </>
           )
         }

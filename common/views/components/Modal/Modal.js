@@ -2,7 +2,7 @@
 import { type Node, useEffect, useRef, useContext } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
-import { CSSTransition } from 'react-transition-group';
+// import { CSSTransition } from 'react-transition-group';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
@@ -16,6 +16,7 @@ type Props = {|
 |};
 
 const Overlay = styled.div`
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
@@ -66,7 +67,7 @@ const ModalWindow = styled(Space).attrs({
     'shadow bg-white': true,
   }),
 })`
-  z-index: 1;
+  z-index: 1001;
   top: 0;
   bottom: 0;
   left: 0;
@@ -75,7 +76,7 @@ const ModalWindow = styled(Space).attrs({
   overflow: auto;
   transition: opacity 350ms ease;
 
-  &,
+  /* &,
   &.fade-exit-done {
     z-index: -1;
     pointer-events: none;
@@ -98,7 +99,7 @@ const ModalWindow = styled(Space).attrs({
   &.fade-enter-active,
   &.fade-enter-done {
     opacity: 1;
-  }
+  } */
 
   ${props => props.theme.media.medium`
     top: 50%;
@@ -159,7 +160,8 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
   return (
     <>
       {isActive && <Overlay onClick={() => setIsActive(false)} />}
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
+      {/* <CSSTransition in={isActive} classNames="fade" timeout={350}> */}
+      {isActive && (
         <ModalWindow ref={modalRef}>
           <CloseButton
             ref={closeButtonRef}
@@ -171,7 +173,8 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
           </CloseButton>
           {children}
         </ModalWindow>
-      </CSSTransition>
+      )}
+      {/* </CSSTransition> */}
     </>
   );
 };
