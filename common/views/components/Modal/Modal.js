@@ -145,11 +145,13 @@ const Modal = ({ children, isActive, setIsActive }: Props) => {
   }, []);
 
   useEffect(() => {
-    document &&
-      document.documentElement &&
-      document.documentElement.classList[isActive ? 'add' : 'remove'](
-        'is-scroll-locked'
-      );
+    if (document && document.documentElement) {
+      if (isActive) {
+        document.documentElement.classList.add('is-scroll-locked');
+      } else {
+        document.documentElement.classList.remove('is-scroll-locked');
+      }
+    }
   }, [isActive]);
 
   useFocusTrap(closeButtonRef, endRef);
