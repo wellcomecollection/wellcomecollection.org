@@ -2,12 +2,12 @@
 // import { useEffect, useState } from 'react';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { type PhysicalItemWithStatus } from '@weco/common/utils/works';
+import { type PhysicalItemAugmented } from '@weco/common/utils/works';
 
 import { requestItem /* getUserHolds */ } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
-type Props = {| items: PhysicalItemWithStatus[] |};
+type Props = {| items: PhysicalItemAugmented[] |};
 const ItemRequestButton = ({ items }: Props) => {
   // const [requestedState, setRequestedState] = useState<string>('unknown');
 

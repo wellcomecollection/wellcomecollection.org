@@ -1,7 +1,7 @@
 // @flow
-import { type PhysicalItemWithStatus } from '@weco/common/utils/works';
+import { type PhysicalItemAugmented } from '@weco/common/utils/works';
 
-type Props = {| item: PhysicalItemWithStatus |};
+type Props = {| item: PhysicalItemAugmented |};
 
 const WorkItemStatus = ({ item }: Props) => {
   return item.status ? (

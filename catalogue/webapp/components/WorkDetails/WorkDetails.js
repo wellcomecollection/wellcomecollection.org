@@ -16,7 +16,7 @@ import {
   getEncoreLink,
   sierraIdFromPresentationManifestUrl,
   getItemsWithPhysicalLocation,
-  type PhysicalItemWithStatus,
+  type PhysicalItemAugmented,
 } from '@weco/common/utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
@@ -70,29 +70,43 @@ const WorkDetails = ({
   showAvailableOnline,
 }: Props) => {
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
-    PhysicalItemWithStatus[]
+    PhysicalItemAugmented[]
   >([
-    ...getItemsWithPhysicalLocation(work).map(i => ({ ...i, checked: false })),
+    ...getItemsWithPhysicalLocation(work).map(i => ({
+      ...i,
+      checked: false,
+      userHasRequested: false,
+      requestable: false,
+    })),
   ]);
 
   useEffect(() => {
     let updateLocations = true;
-    getStacksWork({ workId: work.id })
-      .then(work => {
-        if (updateLocations) {
-          var merged = itemsWithPhysicalLocations.map(physicalItem =>
-            merge(
-              physicalItem,
-              work.items.find(item => item.id === physicalItem.id)
-            )
+    getStacksWork({ workId: work.id }).then(work => {
+      if (updateLocations) {
+        var merged = itemsWithPhysicalLocations.map(physicalItem => {
+          const matchingItem = work.items.find(
+            item => item.id === physicalItem.id
           );
-          setItemsWithPhysicalLocations(merged);
-        }
-      })
-      .catch(console.error);
-    return () => {
-      updateLocations = false;
-    };
+          const physicalItemLocation = physicalItem.locations[0];
+          const physicalItemLocationType =
+            physicalItemLocation && physicalItemLocation.locationType;
+          const physicalItemLocationLabel = physicalItemLocationType.label;
+          const inClosedStores =
+            physicalItemLocationLabel &&
+            physicalItemLocationLabel.match(/[Cc]losed stores/);
+          return {
+            ...merge(physicalItem, matchingItem),
+            requestable: Boolean(
+              inClosedStores &&
+                physicalItem.status &&
+                physicalItem.status.label === 'Available'
+            ),
+          };
+        });
+        setItemsWithPhysicalLocations(merged);
+      }
+    });
   }, []);
 
   // Determin digital location
