@@ -202,7 +202,13 @@ const WorkDetails = ({
         {({ stacksRequestService }) =>
           stacksRequestService && (
             <>
-              <ResponsiveTable headings={['Location/Shelfmark', 'Status']}>
+              <ResponsiveTable
+                headings={
+                  itemsWithPhysicalLocations.find(item => item.requestable)
+                    ? ['', 'Location/Shelfmark', 'Status', 'Access']
+                    : ['Location/Shelfmark', 'Status', 'Access']
+                }
+              >
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
                     {itemsWithPhysicalLocations.find(
@@ -210,6 +216,7 @@ const WorkDetails = ({
                     ) && <th></th>}
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
+                    <th>Access</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -268,6 +275,13 @@ const WorkDetails = ({
                           })}
                         >
                           <WorkItemStatus item={item} />
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={classNames({ [font('hnl', 5)]: true })}
+                        >
+                          {item.requestable ? 'Online request' : 'In library'}
                         </span>
                       </td>
                     </tr>
