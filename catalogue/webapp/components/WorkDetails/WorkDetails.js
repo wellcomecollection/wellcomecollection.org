@@ -205,7 +205,9 @@ const WorkDetails = ({
               <ResponsiveTable headings={['Location/Shelfmark', 'Status']}>
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
-                    <th></th>
+                    {itemsWithPhysicalLocations.find(
+                      item => item.requestable
+                    ) && <th></th>}
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
                   </tr>
@@ -216,8 +218,8 @@ const WorkDetails = ({
                       key={item.id}
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
-                      <td>
-                        {item.status && item.status.label === 'Available' && (
+                      {item.requestable && (
+                        <td>
                           <>
                             <label className="visually-hidden">
                               Request {item.id}
@@ -243,8 +245,8 @@ const WorkDetails = ({
                               }}
                             />
                           </>
-                        )}
-                      </td>
+                        </td>
+                      )}
                       <td>
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
@@ -272,9 +274,7 @@ const WorkDetails = ({
                   ))}
                 </tbody>
               </ResponsiveTable>
-              {itemsWithPhysicalLocations.find(
-                item => item.status && item.status.label === 'Available'
-              ) && (
+              {itemsWithPhysicalLocations.find(item => item.requestable) && (
                 <>
                   {authState.type === 'unauthorized' ? (
                     <LogInButton
