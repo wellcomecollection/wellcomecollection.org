@@ -1,50 +1,50 @@
 // @flow
-// import { useEffect, useState } from 'react';
+import merge from 'lodash.merge';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { type PhysicalItemAugmented } from '@weco/common/utils/works';
 
-import { requestItem } from '../../services/stacks/requests';
+// import { requestItem } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
-type Props = {| items: PhysicalItemAugmented[] |};
-const ItemRequestButton = ({ items }: Props) => {
+type Props = {|
+  items: PhysicalItemAugmented[],
+  setItemsWithPhysicalLocations: (PhysicalItemAugmented[]) => void,
+|};
+const ItemRequestButton = ({ items, setItemsWithPhysicalLocations }: Props) => {
   const authState = useAuth();
-
-  // function updateRequestedState() {
-  //   if (authState.type === 'authorized') {
-  //     getUserHolds({ token: authState.token.id_token })
-  //       .then(userHolds => {
-  //         const itemsOnHold = userHolds.results.map(hold => {
-  //           return hold.item.id;
-  //         });
-
-  //         if (itemsOnHold.includes(item.id)) {
-  //           setRequestedState('requested');
-  //         }
-  //       })
-  //       .catch(console.error);
-  //   }
-  // }
 
   async function makeRequest(items) {
     if (authState.type === 'authorized') {
-      items.map(i => console.log(i.checked, i.id));
       const requestPromises = items
         .filter(item => item.checked)
         .map(item => {
-          return requestItem({
-            itemId: item.id,
-            token: authState.token.id_token,
-          })
-            .then(_ => {
-              console.log(_);
-              // setRequestedState('requested')
-            })
-            .catch(err => console.log('error', err));
+          return (
+            // TODO faking responses for development
+            new Promise(
+              resolve =>
+                resolve({
+                  status: 202,
+                })
+              // TODO handle reject
+            )
+              // return requestItem({ // TODO put back
+              //   itemId: item.id,
+              //   token: authState.token.id_token,
+              // })
+              .then(response => {
+                // setRequestedState('requested')
+                console.log(response.status);
+                return {
+                  id: item.id,
+                  userHasRequested: response.status === 202,
+                };
+              })
+              .catch(err => console.log('error', err))
+          );
         });
       const allResolvedRequests = await Promise.all(requestPromises);
-      console.log(allResolvedRequests);
+      setItemsWithPhysicalLocations(merge(items, allResolvedRequests));
     }
   }
 

@@ -357,39 +357,38 @@ const WorkDetails = ({
                                   })}
                                 >
                                   <td>
-                                    {item.status &&
-                                      item.status.label === 'Available' && (
-                                        <>
-                                          <label className="visually-hidden">
-                                            Request {item.id}
-                                          </label>
-                                          <Checkbox
-                                            id={item.id}
-                                            text=""
-                                            checked={item.checked}
-                                            name={item.id}
-                                            value={item.id}
-                                            onChange={() => {
-                                              const newArray = itemsWithPhysicalLocations.map(
-                                                i => {
-                                                  if (item.id === i.id) {
-                                                    return {
-                                                      ...i,
-                                                      checked: !i.checked,
-                                                    };
-                                                  } else {
-                                                    return i;
-                                                  }
+                                    {item.requestable && (
+                                      <>
+                                        <label className="visually-hidden">
+                                          Request {item.id}
+                                        </label>
+                                        <Checkbox
+                                          id={item.id}
+                                          text=""
+                                          checked={item.checked}
+                                          name={item.id}
+                                          value={item.id}
+                                          onChange={() => {
+                                            const newArray = itemsWithPhysicalLocations.map(
+                                              i => {
+                                                if (item.id === i.id) {
+                                                  return {
+                                                    ...i,
+                                                    checked: !i.checked,
+                                                  };
+                                                } else {
+                                                  return i;
                                                 }
-                                              );
+                                              }
+                                            );
 
-                                              setItemsWithPhysicalLocations(
-                                                newArray
-                                              );
-                                            }}
-                                          />
-                                        </>
-                                      )}
+                                            setItemsWithPhysicalLocations(
+                                              newArray
+                                            );
+                                          }}
+                                        />
+                                      </>
+                                    )}
                                   </td>
                                   <td>
                                     <span
@@ -414,6 +413,9 @@ const WorkDetails = ({
                           </ResponsiveTable>
                           <ItemRequestButton
                             items={itemsWithPhysicalLocations}
+                            setItemsWithPhysicalLocations={
+                              setItemsWithPhysicalLocations
+                            }
                           />
                         </Modal>
                       </div>
