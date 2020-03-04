@@ -1,258 +1,297 @@
 const work = {
-  id: '{workId}',
-  items: [
+  id: 'h6tcdtrt',
+  title: 'Sir Joseph Banks : Royal Botanical Garden St. Vincent 1764-1820.',
+  alternativeTitles: [],
+  physicalDescription: '46 pages : illustrations ; 21 cm',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'WorkType',
+  },
+  contributors: [
     {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: '!',
-        label: 'On holdshelf',
-        type: 'ItemStatus',
+      agent: {
+        label:
+          'K.W. Spence-Lewis Memorial Archives for the History of Medicine and Botany.',
+        type: 'Organisation',
       },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: '$',
-        label: 'Lost and paid',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: '%',
-        label: 'ILL returned',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: '-',
-        label: 'Available',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: '6',
-        label: 'DUE TEMP6',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: '9',
-        label: 'DUE 25-09-15',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'b',
-        label: 'As above',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'c',
-        label: 'As above',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'd',
-        label: 'On display',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'e',
-        label: 'On exhibition',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'f',
-        label: 'Returned to vendor',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'h',
-        label: 'Closed',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'm',
-        label: 'Missing',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'n',
-        label: 'Billed',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'o',
-        label: 'Library use only',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'p',
-        label: 'In cataloguing',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'q',
-        label: 'Test record',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'r',
-        label: 'Restricted',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 's',
-        label: 'On search',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 't',
-        label: 'In transit',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'v',
-        label: 'With Conservation',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'w',
-        label: 'Dept material',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'x',
-        label: 'Withdrawn',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'y',
-        label: 'Permission required',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
-    },
-    {
-      id: '{itemId}',
-      dueDate: '{dueDate}',
-      status: {
-        id: 'z',
-        label: 'Claims returned',
-        type: 'ItemStatus',
-      },
-      type: 'Item',
+      roles: [],
+      type: 'Contributor',
     },
   ],
+  identifiers: [
+    {
+      identifierType: {
+        id: 'sierra-system-number',
+        label: 'Sierra system number',
+        type: 'IdentifierType',
+      },
+      value: 'b10160784',
+      type: 'Identifier',
+    },
+    {
+      identifierType: {
+        id: 'sierra-identifier',
+        label: 'Sierra identifier',
+        type: 'IdentifierType',
+      },
+      value: '1016078',
+      type: 'Identifier',
+    },
+  ],
+  subjects: [
+    {
+      id: 'acy8wr2e',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-subjects',
+            label: 'Library of Congress Subject Headings (LCSH)',
+            type: 'IdentifierType',
+          },
+          value: 'sh85015963',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Botanical gardens - History.',
+      concepts: [
+        {
+          label: 'Botanical gardens',
+          type: 'Concept',
+        },
+        {
+          label: 'History.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'u5gcxrzt',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'nlm-mesh',
+            label: 'Medical Subject Headings (MESH) identifier',
+            type: 'IdentifierType',
+          },
+          value: 'D001901Q000266',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Botany - history.',
+      concepts: [
+        {
+          label: 'Botany',
+          type: 'Concept',
+        },
+        {
+          label: 'history.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'wj2whrks',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'nlm-mesh',
+            label: 'Medical Subject Headings (MESH) identifier',
+            type: 'IdentifierType',
+          },
+          value: 'D010944',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Plants.',
+      concepts: [
+        {
+          label: 'Plants.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      label: '18th-19th centuries.',
+      concepts: [
+        {
+          label: '18th-19th centuries',
+          type: 'Period',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'cbtxpqku',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-subjects',
+            label: 'Library of Congress Subject Headings (LCSH)',
+            type: 'IdentifierType',
+          },
+          value: 'n79041793',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Saint Vincent.',
+      concepts: [
+        {
+          label: 'Saint Vincent.',
+          type: 'Place',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'sn8p94jh',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-subjects',
+            label: 'Library of Congress Subject Headings (LCSH)',
+            type: 'IdentifierType',
+          },
+          value: 'sh85020279',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Caribbean Area.',
+      concepts: [
+        {
+          label: 'Caribbean Area.',
+          type: 'Place',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'qcwz4vvk',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-names',
+            label: 'Library of Congress Name authority records',
+            type: 'IdentifierType',
+          },
+          value: 'n50036748',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Banks, Joseph, 1743-1820.',
+      concepts: [
+        {
+          label: 'Banks, Joseph, 1743-1820.',
+          type: 'Person',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      label: 'Royal Botanical Garden (Saint Vincent)',
+      concepts: [
+        {
+          label: 'Royal Botanical Garden (Saint Vincent)',
+          type: 'Organisation',
+        },
+      ],
+      type: 'Subject',
+    },
+  ],
+  genres: [
+    {
+      label: 'Pamphlets.',
+      concepts: [
+        {
+          label: 'Pamphlets.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Genre',
+    },
+  ],
+  items: [
+    {
+      id: 'sbumwwzs',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'sierra-system-number',
+            label: 'Sierra system number',
+            type: 'IdentifierType',
+          },
+          value: 'i10187431',
+          type: 'Identifier',
+        },
+        {
+          identifierType: {
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
+            type: 'IdentifierType',
+          },
+          value: '1018743',
+          type: 'Identifier',
+        },
+      ],
+      locations: [
+        {
+          locationType: {
+            id: 'sgpbi',
+            label: 'Closed stores Biog. pam',
+            type: 'LocationType',
+          },
+          label: 'Closed stores Biog. pam',
+          accessConditions: [],
+          type: 'PhysicalLocation',
+        },
+      ],
+      type: 'Item',
+      status: {
+        label: 'Available',
+      },
+      requestable: true,
+    },
+  ],
+  production: [
+    {
+      label:
+        'Seattle ; London : K.W. Spence-Lewis Memorial Archives for the History of Medicine and Botany, 1994.',
+      places: [
+        {
+          label: 'Seattle ;',
+          type: 'Place',
+        },
+        {
+          label: 'London',
+          type: 'Place',
+        },
+      ],
+      agents: [
+        {
+          label:
+            'K.W. Spence-Lewis Memorial Archives for the History of Medicine and Botany',
+          type: 'Agent',
+        },
+      ],
+      dates: [
+        {
+          label: '1994',
+          type: 'Period',
+        },
+      ],
+      type: 'ProductionEvent',
+    },
+  ],
+  language: {
+    id: 'eng',
+    label: 'English',
+    type: 'Language',
+  },
+  notes: [],
   type: 'Work',
+  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };
-
 export default work;

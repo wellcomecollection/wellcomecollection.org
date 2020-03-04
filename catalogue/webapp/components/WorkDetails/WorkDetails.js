@@ -37,7 +37,7 @@ import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
-import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
+// import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
 import LogInButton from '../LogInButton/LogInButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
@@ -272,9 +272,7 @@ const WorkDetails = ({
                   ))}
                 </tbody>
               </ResponsiveTable>
-              {itemsWithPhysicalLocations.find(
-                item => item.status && item.status.label === 'Available'
-              ) && (
+              {true && (
                 <>
                   {authState.type === 'unauthorized' ? (
                     <LogInButton
@@ -609,7 +607,7 @@ const WorkDetails = ({
             <WorkDetailsText title="Description" text={[work.description]} />
           )}
 
-          {work.contributors.length > 0 && (
+          {/* {work.contributors.length > 0 && (
             <WorkDetailsTags
               title="Contributors"
               tags={work.contributors.map(contributor => ({
@@ -622,7 +620,7 @@ const WorkDetails = ({
                 ),
               }))}
             />
-          )}
+          )} */}
 
           {work.lettering && (
             <WorkDetailsText title="Lettering" text={[work.lettering]} />
@@ -660,7 +658,7 @@ const WorkDetails = ({
               />
             ))}
 
-          {work.genres.length > 0 && (
+          {/* {work.genres.length > 0 && (
             <WorkDetailsTags
               title="Type/Technique"
               tags={work.genres.map(g => {
@@ -675,7 +673,7 @@ const WorkDetails = ({
                 };
               })}
             />
-          )}
+          )} */}
 
           {work.language && (
             <WorkDetailsLinks
@@ -686,7 +684,7 @@ const WorkDetails = ({
         </WorkDetailsSection>
         {work.subjects.length > 0 && (
           <WorkDetailsSection headingText="Subjects">
-            <WorkDetailsTags
+            {/* <WorkDetailsTags
               title={null}
               tags={work.subjects.map(s => {
                 return {
@@ -699,7 +697,7 @@ const WorkDetails = ({
                   ),
                 };
               })}
-            />
+            /> */}
           </WorkDetailsSection>
         )}
         {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
