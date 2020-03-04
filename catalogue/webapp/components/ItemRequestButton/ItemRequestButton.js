@@ -4,13 +4,11 @@ import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { type PhysicalItemAugmented } from '@weco/common/utils/works';
 
-import { requestItem /* getUserHolds */ } from '../../services/stacks/requests';
+import { requestItem } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
 type Props = {| items: PhysicalItemAugmented[] |};
 const ItemRequestButton = ({ items }: Props) => {
-  // const [requestedState, setRequestedState] = useState<string>('unknown');
-
   const authState = useAuth();
 
   // function updateRequestedState() {
@@ -35,14 +33,15 @@ const ItemRequestButton = ({ items }: Props) => {
       const requestPromises = items
         .filter(item => item.checked)
         .map(item => {
-          return (
-            requestItem({
-              itemId: item.id,
-              token: authState.token.id_token,
+          return requestItem({
+            itemId: item.id,
+            token: authState.token.id_token,
+          })
+            .then(_ => {
+              console.log(_);
+              // setRequestedState('requested')
             })
-              // .then(_ => setRequestedState('requested'))
-              .catch(console.error)
-          );
+            .catch(err => console.log('error', err));
         });
       const allResolvedRequests = await Promise.all(requestPromises);
       console.log(allResolvedRequests);

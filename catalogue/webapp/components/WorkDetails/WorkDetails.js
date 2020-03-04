@@ -25,6 +25,7 @@ import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
 } from '@weco/common/utils/iiif';
+import { getUserHolds } from '../../services/stacks/requests';
 import NextLink from 'next/link';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
@@ -49,9 +50,9 @@ import { trackEvent } from '@weco/common/utils/ga';
 import ResponsiveTable from '@weco/common/views/components/styled/ResponsiveTable';
 import useAuth from '@weco/common/hooks/useAuth';
 import Checkbox from '@weco/common/views/components/Checkbox/Checkbox';
-
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ItemRequestButton from '@weco/catalogue/components/ItemRequestButton/ItemRequestButton';
+
 type Props = {|
   work: Work,
   iiifPresentationManifest: ?IIIFManifest,
@@ -176,6 +177,31 @@ const WorkDetails = ({
 
   const authState = useAuth();
   const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (authState.type === 'authorized') {
+      getUserHolds({ token: authState.token.id_token })
+        .then(userHolds => {
+          const itemsOnHold = userHolds.results.map(hold => {
+            return hold.item.id;
+          });
+          const newArray = itemsWithPhysicalLocations.map(item => {
+            if (itemsOnHold.includes(item.id)) {
+              return {
+                ...item,
+                userHasRequested: true,
+              };
+            } else {
+              return item;
+            }
+          });
+
+          setItemsWithPhysicalLocations(newArray);
+        })
+        .catch(console.error);
+    }
+  }, [authState]);
+
   const WhereToFindIt = () => (
     <WorkDetailsSection headingText="Where to find it">
       {locationOfWork && (
@@ -281,7 +307,8 @@ const WorkDetails = ({
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
                         >
-                          {item.requestable ? 'Online request' : 'In library'}
+                          {item.requestable ? 'Online request' : 'In library'}{' '}
+                          {/* TODO in library not accurate if requested but status hasn't changed yet */}
                         </span>
                       </td>
                     </tr>
