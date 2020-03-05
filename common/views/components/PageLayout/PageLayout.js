@@ -125,7 +125,9 @@ const PageLayout = ({
         <Header siteSection={siteSection} />
         <GlobalAlertContext.Consumer>
           {globalAlert =>
-            globalAlert.isShown === 'show' && (
+            globalAlert.isShown === 'show' &&
+            (!globalAlert.routeRegex ||
+              urlString.match(new RegExp(globalAlert.routeRegex))) && (
               <InfoBanner text={globalAlert.text} cookieName="WC_globalAlert" />
             )
           }
