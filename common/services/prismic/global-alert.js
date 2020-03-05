@@ -9,5 +9,6 @@ export async function fetchGlobalAlert(): GlobalAlert {
   return {
     text: globalAlert.data.text && asHtml(globalAlert.data.text),
     isShown: globalAlert.data.isShown && globalAlert.data.isShown === 'show',
+    routeRegex: globalAlert.data.routeRegex,
   };
 }
