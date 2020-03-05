@@ -1,5 +1,4 @@
 // @flow
-import merge from 'lodash.merge';
 import { Tag } from '@weco/common/views/components/Tags/Tags';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { type PhysicalItemAugmented } from '@weco/common/utils/works';
@@ -8,10 +7,13 @@ import { type PhysicalItemAugmented } from '@weco/common/utils/works';
 import useAuth from '@weco/common/hooks/useAuth';
 
 type Props = {|
-  items: PhysicalItemAugmented[],
+  itemsWithPhysicalLocations: PhysicalItemAugmented[],
   setItemsWithPhysicalLocations: (PhysicalItemAugmented[]) => void,
 |};
-const ItemRequestButton = ({ items, setItemsWithPhysicalLocations }: Props) => {
+const ItemRequestButton = ({
+  itemsWithPhysicalLocations,
+  setItemsWithPhysicalLocations,
+}: Props) => {
   const authState = useAuth();
 
   async function makeRequest(items) {
@@ -33,18 +35,32 @@ const ItemRequestButton = ({ items, setItemsWithPhysicalLocations }: Props) => {
               //   token: authState.token.id_token,
               // })
               .then(response => {
-                // setRequestedState('requested')
-                console.log(response.status);
                 return {
                   id: item.id,
                   userHasRequested: response.status === 202,
+                  requestable: !(response.status === 202),
                 };
               })
               .catch(err => console.log('error', err))
           );
         });
-      const allResolvedRequests = await Promise.all(requestPromises);
-      setItemsWithPhysicalLocations(merge(items, allResolvedRequests));
+      Promise.all(requestPromises).then(requests => {
+        setItemsWithPhysicalLocations(
+          itemsWithPhysicalLocations.map(item => {
+            const matchingRequest = requests.find(
+              request => request && request.id === item.id
+            );
+            if (matchingRequest) {
+              return {
+                ...item,
+                ...matchingRequest,
+              };
+            } else {
+              return item;
+            }
+          })
+        );
+      });
     }
   }
 
@@ -64,7 +80,7 @@ const ItemRequestButton = ({ items, setItemsWithPhysicalLocations }: Props) => {
             href={'#'}
             onClick={event => {
               event.preventDefault();
-              makeRequest(items);
+              makeRequest(itemsWithPhysicalLocations);
             }}
           >
             Request to view in the library

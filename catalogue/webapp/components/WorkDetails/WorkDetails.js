@@ -89,10 +89,13 @@ const WorkDetails = ({
           const matchingItem = work.items.find(
             item => item.id === physicalItem.id
           );
-          const physicalItemLocation = physicalItem.locations[0];
+          const physicalItemLocation = physicalItem.locations.find(
+            location => location.type === 'PhysicalLocation'
+          );
           const physicalItemLocationType =
             physicalItemLocation && physicalItemLocation.locationType;
-          const physicalItemLocationLabel = physicalItemLocationType.label;
+          const physicalItemLocationLabel =
+            physicalItemLocationType && physicalItemLocationType.label;
           const inClosedStores =
             physicalItemLocationLabel &&
             physicalItemLocationLabel.match(/[Cc]losed stores/);
@@ -179,6 +182,10 @@ const WorkDetails = ({
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
+    console.log('it changed');
+  }, [itemsWithPhysicalLocations]);
+
+  useEffect(() => {
     if (authState.type === 'authorized') {
       getUserHolds({ token: authState.token.id_token })
         .then(userHolds => {
@@ -190,6 +197,7 @@ const WorkDetails = ({
               return {
                 ...item,
                 userHasRequested: true,
+                requestable: false,
               };
             } else {
               return item;
@@ -300,7 +308,11 @@ const WorkDetails = ({
                             [font('hnl', 5)]: true,
                           })}
                         >
-                          <WorkItemStatus item={item} />
+                          {item.userHasRequested ? (
+                            'You have requested this item'
+                          ) : (
+                            <WorkItemStatus item={item} />
+                          )}
                         </span>
                       </td>
                       <td>
@@ -335,7 +347,13 @@ const WorkDetails = ({
 
                         <Modal isActive={isActive} setIsActive={setIsActive}>
                           <ResponsiveTable
-                            headings={['Location/Shelfmark', 'Status']}
+                            headings={
+                              itemsWithPhysicalLocations.find(
+                                item => item.requestable
+                              )
+                                ? ['', 'Location/Shelfmark', 'Status', 'Access']
+                                : ['Location/Shelfmark', 'Status', 'Access']
+                            }
                           >
                             <thead>
                               <tr
@@ -343,9 +361,12 @@ const WorkDetails = ({
                                   [font('hnm', 5)]: true,
                                 })}
                               >
-                                <th></th>
+                                {itemsWithPhysicalLocations.find(
+                                  item => item.requestable
+                                ) && <th></th>}
                                 <th>Location/Shelfmark</th>
                                 <th>Status</th>
+                                <th>Access</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -356,8 +377,8 @@ const WorkDetails = ({
                                     [font('hnm', 5)]: true,
                                   })}
                                 >
-                                  <td>
-                                    {item.requestable && (
+                                  {item.requestable && (
+                                    <td>
                                       <>
                                         <label className="visually-hidden">
                                           Request {item.id}
@@ -388,8 +409,8 @@ const WorkDetails = ({
                                           }}
                                         />
                                       </>
-                                    )}
-                                  </td>
+                                    </td>
+                                  )}
                                   <td>
                                     <span
                                       className={classNames({
@@ -407,12 +428,39 @@ const WorkDetails = ({
                                       })()}
                                     </span>
                                   </td>
+                                  <td>
+                                    <span
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                    >
+                                      {item.userHasRequested ? (
+                                        'You have requested this item'
+                                      ) : (
+                                        <WorkItemStatus item={item} />
+                                      )}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      className={classNames({
+                                        [font('hnl', 5)]: true,
+                                      })}
+                                    >
+                                      {item.requestable
+                                        ? 'Online request'
+                                        : 'In library'}{' '}
+                                      {/* TODO in library not accurate if requested but status hasn't changed yet */}
+                                    </span>
+                                  </td>
                                 </tr>
                               ))}
                             </tbody>
                           </ResponsiveTable>
                           <ItemRequestButton
-                            items={itemsWithPhysicalLocations}
+                            itemsWithPhysicalLocations={
+                              itemsWithPhysicalLocations
+                            }
                             setItemsWithPhysicalLocations={
                               setItemsWithPhysicalLocations
                             }
