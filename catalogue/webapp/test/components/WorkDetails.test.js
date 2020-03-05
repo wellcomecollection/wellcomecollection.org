@@ -5,42 +5,31 @@ import {
 } from '@weco/common/test/fixtures/enzyme-helpers';
 import WorkDetails from '@weco/catalogue/components/WorkDetails/WorkDetails';
 import useAuth from '@weco/common/hooks/useAuth';
-import { getUserHolds } from '@weco/catalogue/services/stacks/requests';
 import mockAuthStates from '@weco/catalogue/__mocks__/auth-states';
 import mockWork from '@weco/catalogue/__mocks__/stacks-work';
-import mockRequests from '@weco/catalogue/__mocks__/stacks-requests';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import 'next/router';
+
+jest.mock('@weco/catalogue/services/stacks/items', () => ({
+  __esModule: true,
+  default: () => new Promise(resolve => resolve(mockWork)),
+}));
 
 jest.mock('next/router', () => ({
   query: {
     code: '',
   },
 }));
-// const availableItem = mockWork.items.find(
-//   item => item.status.label === 'Available'
-// );
-// const unavailableItem = mockWork.items.find(
-//   item => item.status.label !== 'Available'
-// );
-// const unrequestableItem = mockWork.items.find(
-//   item => item.status.label === 'Missing'
-// );
 
-// jest.mock('@weco/catalogue/services/stacks/requests', () => ({
-//   getUserHolds: jest.fn(),
-// }));
 jest.mock('@weco/common/hooks/useAuth');
 
 describe('Feature: 2. As a library member I want to request an item', () => {
-  // (getUserHolds: any).mockResolvedValue(mockRequests);
   test.only(`
     Scenario: I'm logged out, viewing a work page
       Given the work has a requestable item
       And it’s available to request
       Then I can see a primary CTA to log in
     `, async () => {
-    (useAuth: any).mockImplementation(() => mockAuthStates.unauthorized);
+    (useAuth: any).mockReturnValue(mockAuthStates.unauthorized);
     const component = mountWithTheme(
       <TogglesContext.Provider value={{ stacksRequestService: true }}>
         <WorkDetails

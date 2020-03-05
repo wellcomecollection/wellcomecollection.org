@@ -249,9 +249,8 @@ const work = {
         },
       ],
       type: 'Item',
-      status: {
-        label: 'Available',
-      },
+      checked: false,
+      userHasRequested: false,
       requestable: true,
     },
   ],

@@ -71,14 +71,7 @@ const WorkDetails = ({
 }: Props) => {
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemAugmented[]
-  >([
-    ...getItemsWithPhysicalLocation(work).map(i => ({
-      ...i,
-      checked: false,
-      userHasRequested: false,
-      requestable: false,
-    })),
-  ]);
+  >(getItemsWithPhysicalLocation(work));
 
   useEffect(() => {
     let updateLocations = true;
@@ -272,7 +265,7 @@ const WorkDetails = ({
                   ))}
                 </tbody>
               </ResponsiveTable>
-              {true && (
+              {itemsWithPhysicalLocations.find(item => item.requestable) && (
                 <>
                   {authState.type === 'unauthorized' ? (
                     <LogInButton

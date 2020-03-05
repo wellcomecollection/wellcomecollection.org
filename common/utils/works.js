@@ -95,9 +95,9 @@ export type PhysicalItemAugmented = {|
   locations: PhysicalLocation[],
   dueDate?: string,
   status?: StacksItemStatus,
-  checked: boolean,
-  userHasRequested: boolean,
-  requestable: boolean,
+  checked?: boolean,
+  userHasRequested?: boolean,
+  requestable?: boolean,
 |};
 
 export function getItemsWithPhysicalLocation(
