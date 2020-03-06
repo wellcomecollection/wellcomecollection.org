@@ -111,7 +111,6 @@ const ModalWindow = styled(Space).attrs({
     max-height: 90vh;
     max-width: ${props.theme.sizes.large}px
     border-radius: ${props.theme.borderRadiusUnit}px;
-    display: flex;
   `}
 `;
 
