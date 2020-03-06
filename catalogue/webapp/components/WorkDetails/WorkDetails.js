@@ -72,45 +72,39 @@ const WorkDetails = ({
 }: Props) => {
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemAugmented[]
-  >([
-    ...getItemsWithPhysicalLocation(work).map(i => ({
-      ...i,
-      checked: false,
-      userHasRequested: false,
-      requestable: false,
-    })),
-  ]);
+  >(getItemsWithPhysicalLocation(work));
 
   useEffect(() => {
-    let updateLocations = true;
-    getStacksWork({ workId: work.id }).then(work => {
-      if (updateLocations) {
-        var merged = itemsWithPhysicalLocations.map(physicalItem => {
-          const matchingItem = work.items.find(
-            item => item.id === physicalItem.id
-          );
-          const physicalItemLocation = physicalItem.locations.find(
-            location => location.type === 'PhysicalLocation'
-          );
-          const physicalItemLocationType =
-            physicalItemLocation && physicalItemLocation.locationType;
-          const physicalItemLocationLabel =
-            physicalItemLocationType && physicalItemLocationType.label;
-          const inClosedStores =
-            physicalItemLocationLabel &&
-            physicalItemLocationLabel.match(/[Cc]losed stores/);
-          return {
-            ...merge(physicalItem, matchingItem),
-            requestable: Boolean(
-              inClosedStores &&
-                physicalItem.status &&
-                physicalItem.status.label === 'Available'
-            ),
-          };
-        });
-        setItemsWithPhysicalLocations(merged);
-      }
-    });
+    const fetchWork = async () => {
+      const stacksWork = await getStacksWork({ workId: work.id });
+      var merged = itemsWithPhysicalLocations.map(physicalItem => {
+        const matchingItem = stacksWork.items.find(
+          item => item.id === physicalItem.id
+        );
+        const physicalItemLocation = physicalItem.locations.find(
+          location => location.type === 'PhysicalLocation'
+        );
+        const physicalItemLocationType =
+          physicalItemLocation && physicalItemLocation.locationType;
+        const physicalItemLocationLabel =
+          physicalItemLocationType && physicalItemLocationType.label;
+        const inClosedStores =
+          physicalItemLocationLabel &&
+          physicalItemLocationLabel.match(/[Cc]losed stores/);
+        return {
+          ...physicalItem,
+          ...matchingItem,
+          requestable: Boolean(
+            inClosedStores &&
+              matchingItem.status &&
+              matchingItem.status.label === 'Available'
+          ),
+        };
+      });
+      setItemsWithPhysicalLocations(merged);
+    };
+
+    fetchWork();
   }, []);
 
   // Determin digital location
@@ -180,10 +174,6 @@ const WorkDetails = ({
 
   const authState = useAuth();
   const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    console.log('it changed');
-  }, [itemsWithPhysicalLocations]);
 
   useEffect(() => {
     if (authState.type === 'authorized') {
