@@ -96,7 +96,7 @@ export type PhysicalItemAugmented = {|
   dueDate?: string,
   status?: StacksItemStatus,
   checked: boolean,
-  userHasRequested: boolean,
+  successFullyRequested: boolean,
   requestable: boolean,
 |};
 

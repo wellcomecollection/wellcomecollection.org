@@ -7,10 +7,14 @@ import useAuth from '@weco/common/hooks/useAuth';
 type Props = {|
   itemsWithPhysicalLocations: PhysicalItemAugmented[],
   setItemsWithPhysicalLocations: (PhysicalItemAugmented[]) => void,
+  setShowRequestModal: boolean => void,
+  setShowResultsModal: boolean => void,
 |};
 const ItemRequestButton = ({
   itemsWithPhysicalLocations,
   setItemsWithPhysicalLocations,
+  setShowRequestModal,
+  setShowResultsModal,
 }: Props) => {
   const authState = useAuth();
 
@@ -36,7 +40,7 @@ const ItemRequestButton = ({
                 .then(response => {
                   return {
                     id: item.id,
-                    userHasRequested: response.status === 202,
+                    successFullyRequested: response.status === 202,
                     requestable: !(response.status === 202),
                   };
                 })
@@ -59,6 +63,8 @@ const ItemRequestButton = ({
               }
             })
           );
+          setShowRequestModal(false);
+          setShowResultsModal(true);
         });
       }
     } else {

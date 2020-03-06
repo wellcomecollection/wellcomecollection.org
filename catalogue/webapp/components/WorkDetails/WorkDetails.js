@@ -173,7 +173,8 @@ const WorkDetails = ({
   );
 
   const authState = useAuth();
-  const [isActive, setIsActive] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [showResultsModal, setShowResultsModal] = useState(false);
 
   useEffect(() => {
     if (authState.type === 'authorized') {
@@ -186,7 +187,7 @@ const WorkDetails = ({
             if (itemsOnHold.includes(item.id)) {
               return {
                 ...item,
-                userHasRequested: true,
+                successFullyRequested: true,
                 requestable: false,
               };
             } else {
@@ -298,7 +299,7 @@ const WorkDetails = ({
                             [font('hnl', 5)]: true,
                           })}
                         >
-                          {item.userHasRequested ? (
+                          {item.successFullyRequested ? (
                             'You have requested this item'
                           ) : (
                             <WorkItemStatus item={item} />
@@ -336,14 +337,18 @@ const WorkDetails = ({
                                 item => item.checked
                               )
                             ) {
-                              setIsActive(!isActive);
+                              setShowRequestModal(!showRequestModal);
                             } else {
                               window.alert('please make a selection');
                             }
                           }}
                         />
 
-                        <Modal isActive={isActive} setIsActive={setIsActive}>
+                        <Modal
+                          isActive={showRequestModal}
+                          setIsActive={setShowRequestModal}
+                        >
+                          {/* TODO move back into own component? */}
                           <ResponsiveTable
                             headings={
                               itemsWithPhysicalLocations.find(
@@ -432,7 +437,7 @@ const WorkDetails = ({
                                         [font('hnl', 5)]: true,
                                       })}
                                     >
-                                      {item.userHasRequested ? (
+                                      {item.successFullyRequested ? (
                                         'You have requested this item'
                                       ) : (
                                         <WorkItemStatus item={item} />
@@ -463,8 +468,19 @@ const WorkDetails = ({
                               setItemsWithPhysicalLocations={
                                 setItemsWithPhysicalLocations
                               }
+                              setShowRequestModal={setShowRequestModal}
+                              setShowResultsModal={setShowResultsModal}
                             />
                           </div>
+                        </Modal>
+                      </div>
+
+                      <div data-test-id="resultsModalCTA">
+                        <Modal
+                          isActive={showResultsModal}
+                          setIsActive={setShowResultsModal}
+                        >
+                          Stuff happened
                         </Modal>
                       </div>
                     </>
