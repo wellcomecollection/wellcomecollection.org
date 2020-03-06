@@ -254,7 +254,6 @@ const catalogueWork = {
         label: 'Available',
         type: 'ItemStatus',
       },
-      requestable: true,
     },
   ],
   production: [

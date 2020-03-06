@@ -26,3 +26,48 @@ exports[`Feature: 2. As a library member I want to request an item
   </a>
 </div>
 `;
+
+exports[`Feature: 2. As a library member I want to request an item Scenario: I'm logged in, viewing a work page
+  Given the work has a requestable item
+  And it’s available to request
+  Then I can see a primary CTA to request it 1`] = `
+<div
+  data-test-id="requestModalCTA"
+>
+  <Button
+    clickHandler={[Function]}
+    text="Request"
+    type="primary"
+  >
+    <button
+      className="btn btn--primary  font-hnm font-size-5  flex-inline flex--v-center"
+      onClick={[Function]}
+      type="button"
+    >
+      <ButtonInner
+        text="Request"
+        textHidden={false}
+      >
+        <span
+          className="flex flex--v-center flex--h-center"
+        >
+          <span
+            className="btn__text"
+          >
+            Request
+          </span>
+        </span>
+      </ButtonInner>
+    </button>
+  </Button>
+  <Modal
+    isActive={false}
+    setIsActive={[Function]}
+  />
+</div>
+`;
+
+exports[`Feature: 2. As a library member I want to request an item Scenario: I'm logged out, viewing a work page
+      Given the work has a requestable item
+      And it’s unavailable to request
+      Then I can't see a primary CTA to log in 1`] = `null`;
