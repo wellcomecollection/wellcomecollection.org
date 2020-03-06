@@ -1,8 +1,6 @@
 // @flow
-import { Tag } from '@weco/common/views/components/Tags/Tags';
-import { classNames, font } from '@weco/common/utils/classnames';
 import { type PhysicalItemAugmented } from '@weco/common/utils/works';
-
+import Button from '@weco/common/views/components/Buttons/Button/Button';
 // import { requestItem } from '../../services/stacks/requests';
 import useAuth from '@weco/common/hooks/useAuth';
 
@@ -68,31 +66,16 @@ const ItemRequestButton = ({
     }
   }
 
-  return (
-    <Tag
-      className={classNames({
-        'line-height-1': true,
-        'inline-block bg-green font-white': true,
-        'bg-hover-black': true,
-        'border-color-green border-width-1': true,
-      })}
-    >
-      <div className={`${font('hnm', 5)}`}>
-        {authState.type === 'authorized' && (
-          <a
-            data-test-id="libraryRequestCTA"
-            href={'#'}
-            onClick={event => {
-              event.preventDefault();
-              makeRequest(itemsWithPhysicalLocations);
-            }}
-          >
-            Request to view in the library
-          </a>
-        )}
-      </div>
-    </Tag>
-  );
+  return authState.type === 'authorized' ? (
+    <Button
+      type="primary"
+      text="Request to view in library"
+      clickHandler={event => {
+        event.preventDefault();
+        makeRequest(itemsWithPhysicalLocations);
+      }}
+    />
+  ) : null;
 };
 
 export default ItemRequestButton;
