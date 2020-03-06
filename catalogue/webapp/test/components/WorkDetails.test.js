@@ -1,4 +1,5 @@
 // @flow
+
 import {
   mountWithTheme,
   updateWrapperAsync,
@@ -6,19 +7,24 @@ import {
 import WorkDetails from '@weco/catalogue/components/WorkDetails/WorkDetails';
 import useAuth from '@weco/common/hooks/useAuth';
 import mockAuthStates from '@weco/catalogue/__mocks__/auth-states';
-import mockWork from '@weco/catalogue/__mocks__/stacks-work';
+import catalogueWork from '@weco/catalogue/__mocks__/catalogue-work';
+import mockStacksWork from '@weco/catalogue/__mocks__/stacks-work';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
-jest.mock('@weco/catalogue/services/stacks/items', () => ({
-  __esModule: true,
-  default: () => new Promise(resolve => resolve(mockWork)),
-}));
+jest.mock('@weco/catalogue/services/stacks/items', () => {
+  return {
+    __esModule: true,
+    default: () => new Promise(resolve => resolve(mockStacksWork)),
+  };
+});
 
 jest.mock('next/router', () => ({
   query: {
     code: '',
   },
 }));
+
+jest.mock('next/link', () => ({ children }) => children);
 
 jest.mock('@weco/common/hooks/useAuth');
 
@@ -33,7 +39,7 @@ describe('Feature: 2. As a library member I want to request an item', () => {
     const component = mountWithTheme(
       <TogglesContext.Provider value={{ stacksRequestService: true }}>
         <WorkDetails
-          work={mockWork}
+          work={catalogueWork}
           iiifPresentationManifest={null}
           itemUrl={null}
           childManifestsCount={1}

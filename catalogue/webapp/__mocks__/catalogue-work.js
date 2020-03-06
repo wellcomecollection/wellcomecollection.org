@@ -1,91 +1,300 @@
-const works = {
-  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
-  type: 'ResultList',
-  pageSize: 10,
-  totalPages: 644,
-  totalResults: 6432,
-  results: [
+const catalogueWork = {
+  id: '{workId}',
+  title: 'Sir Joseph Banks : Royal Botanical Garden St. Vincent 1764-1820.',
+  alternativeTitles: [],
+  physicalDescription: '46 pages : illustrations ; 21 cm',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'WorkType',
+  },
+  contributors: [
     {
-      id: 'b57yux3e',
-      title: 'Test type apparatus for the detection of malingerers, France',
-      alternativeTitles: [],
-      description:
-        'It is uncertain how this apparatus was used. It was made by a Mr Bouchart in France and consists of a black box with an eyepiece and lens at one end. It is described as a ‘test type apparatus’ for detecting malingerers and the French used it during the First World War. A ‘malingerer’ describes an individual who is work-shy or exaggerates medical symptoms for personal gain. This apparatus was probably intended to detect army recruits avoiding military duties through feigning blindness or lesser sight problems (‘ocular malingering’). \n\nDetecting malingering was vigorously pursued by the authorities on all sides of the conflict. Men we would now diagnose with post-traumatic stress disorder (PTSD) were often accused of it. They were sometimes harshly punished.\n\nmaker: Unknown maker\n\nPlace made: France',
-      workType: {
-        id: 'q',
-        label: 'Digital Images',
-        type: 'WorkType',
+      agent: {
+        label:
+          'K.W. Spence-Lewis Memorial Archives for the History of Medicine and Botany.',
+        type: 'Organisation',
       },
-      contributors: [
-        {
-          agent: {
-            label: 'Science Museum, London',
-            type: 'Agent',
-          },
-          roles: [],
-          type: 'Contributor',
-        },
-      ],
+      roles: [],
+      type: 'Contributor',
+    },
+  ],
+  identifiers: [
+    {
+      identifierType: {
+        id: 'sierra-system-number',
+        label: 'Sierra system number',
+        type: 'IdentifierType',
+      },
+      value: 'b10160784',
+      type: 'Identifier',
+    },
+    {
+      identifierType: {
+        id: 'sierra-identifier',
+        label: 'Sierra identifier',
+        type: 'IdentifierType',
+      },
+      value: '1016078',
+      type: 'Identifier',
+    },
+  ],
+  subjects: [
+    {
+      id: 'acy8wr2e',
       identifiers: [
         {
           identifierType: {
-            id: 'miro-image-number',
-            label: 'Miro image number',
+            id: 'lc-subjects',
+            label: 'Library of Congress Subject Headings (LCSH)',
             type: 'IdentifierType',
           },
-          value: 'L0065279',
+          value: 'sh85015963',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Botanical gardens - History.',
+      concepts: [
+        {
+          label: 'Botanical gardens',
+          type: 'Concept',
+        },
+        {
+          label: 'History.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'u5gcxrzt',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'nlm-mesh',
+            label: 'Medical Subject Headings (MESH) identifier',
+            type: 'IdentifierType',
+          },
+          value: 'D001901Q000266',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Botany - history.',
+      concepts: [
+        {
+          label: 'Botany',
+          type: 'Concept',
+        },
+        {
+          label: 'history.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'wj2whrks',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'nlm-mesh',
+            label: 'Medical Subject Headings (MESH) identifier',
+            type: 'IdentifierType',
+          },
+          value: 'D010944',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Plants.',
+      concepts: [
+        {
+          label: 'Plants.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      label: '18th-19th centuries.',
+      concepts: [
+        {
+          label: '18th-19th centuries',
+          type: 'Period',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'cbtxpqku',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-subjects',
+            label: 'Library of Congress Subject Headings (LCSH)',
+            type: 'IdentifierType',
+          },
+          value: 'n79041793',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Saint Vincent.',
+      concepts: [
+        {
+          label: 'Saint Vincent.',
+          type: 'Place',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'sn8p94jh',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-subjects',
+            label: 'Library of Congress Subject Headings (LCSH)',
+            type: 'IdentifierType',
+          },
+          value: 'sh85020279',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Caribbean Area.',
+      concepts: [
+        {
+          label: 'Caribbean Area.',
+          type: 'Place',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      id: 'qcwz4vvk',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'lc-names',
+            label: 'Library of Congress Name authority records',
+            type: 'IdentifierType',
+          },
+          value: 'n50036748',
+          type: 'Identifier',
+        },
+      ],
+      label: 'Banks, Joseph, 1743-1820.',
+      concepts: [
+        {
+          label: 'Banks, Joseph, 1743-1820.',
+          type: 'Person',
+        },
+      ],
+      type: 'Subject',
+    },
+    {
+      label: 'Royal Botanical Garden (Saint Vincent)',
+      concepts: [
+        {
+          label: 'Royal Botanical Garden (Saint Vincent)',
+          type: 'Organisation',
+        },
+      ],
+      type: 'Subject',
+    },
+  ],
+  genres: [
+    {
+      label: 'Pamphlets.',
+      concepts: [
+        {
+          label: 'Pamphlets.',
+          type: 'Concept',
+        },
+      ],
+      type: 'Genre',
+    },
+  ],
+  items: [
+    {
+      id: '{itemIdAvailable}',
+      identifiers: [
+        {
+          identifierType: {
+            id: 'sierra-system-number',
+            label: 'Sierra system number',
+            type: 'IdentifierType',
+          },
+          value: 'i10187431',
           type: 'Identifier',
         },
         {
           identifierType: {
-            id: 'miro-library-reference',
-            label: 'Miro library reference',
+            id: 'sierra-identifier',
+            label: 'Sierra identifier',
             type: 'IdentifierType',
           },
-          value: 'Science Museum A606431',
+          value: '1018743',
           type: 'Identifier',
         },
       ],
-      subjects: [
+      locations: [
         {
-          label: 'Psychological test',
-          concepts: [
-            {
-              label: 'Psychological test',
-              type: 'Concept',
-            },
-          ],
-          type: 'Subject',
+          locationType: {
+            id: 'sgpbi',
+            label: 'Closed stores Biog. pam',
+            type: 'LocationType',
+          },
+          label: 'Closed stores Biog. pam',
+          accessConditions: [],
+          type: 'PhysicalLocation',
         },
       ],
-      thumbnail: {
-        locationType: {
-          id: 'thumbnail-image',
-          label: 'Thumbnail Image',
-          type: 'LocationType',
-        },
-        url:
-          'https://iiif.wellcomecollection.org/image/L0065279.jpg/full/300,/0/default.jpg',
-        license: {
-          id: 'cc-by',
-          label: 'Attribution 4.0 International (CC BY 4.0)',
-          url: 'http://creativecommons.org/licenses/by/4.0/',
-          type: 'License',
-        },
-        accessConditions: [],
-        type: 'DigitalLocation',
+      type: 'Item',
+      status: {
+        id: 'available',
+        label: 'Available',
+        type: 'ItemStatus',
       },
-      production: [],
-      type: 'Work',
+      requestable: true,
     },
   ],
-  aggregations: {
-    workType: {
-      buckets: [],
+  production: [
+    {
+      label:
+        'Seattle ; London : K.W. Spence-Lewis Memorial Archives for the History of Medicine and Botany, 1994.',
+      places: [
+        {
+          label: 'Seattle ;',
+          type: 'Place',
+        },
+        {
+          label: 'London',
+          type: 'Place',
+        },
+      ],
+      agents: [
+        {
+          label:
+            'K.W. Spence-Lewis Memorial Archives for the History of Medicine and Botany',
+          type: 'Agent',
+        },
+      ],
+      dates: [
+        {
+          label: '1994',
+          type: 'Period',
+        },
+      ],
+      type: 'ProductionEvent',
     },
+  ],
+  language: {
+    id: 'eng',
+    label: 'English',
+    type: 'Language',
   },
-  nextPage:
-    'https://api.wellcomecollection.org/catalogue/v2/works?include=identifiers,production,contributors,subjects&query=test&page=2',
+  notes: [],
+  type: 'Work',
+  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };
 
-export default works;
+export default catalogueWork;

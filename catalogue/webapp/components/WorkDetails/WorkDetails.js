@@ -37,7 +37,7 @@ import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
-// import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
+import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
 import LogInButton from '../LogInButton/LogInButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
@@ -77,32 +77,44 @@ const WorkDetails = ({
     let updateLocations = true;
     getStacksWork({ workId: work.id }).then(work => {
       if (updateLocations) {
-        var merged = itemsWithPhysicalLocations.map(physicalItem => {
-          const matchingItem = work.items.find(
-            item => item.id === physicalItem.id
-          );
-          const physicalItemLocation = physicalItem.locations[0];
-          const physicalItemLocationType =
-            physicalItemLocation && physicalItemLocation.locationType;
-          const physicalItemLocationLabel = physicalItemLocationType.label;
-          const inClosedStores =
-            physicalItemLocationLabel &&
-            physicalItemLocationLabel.match(/[Cc]losed stores/);
-          return {
-            ...merge(physicalItem, matchingItem),
-            requestable: Boolean(
-              inClosedStores &&
-                physicalItem.status &&
-                physicalItem.status.label === 'Available'
-            ),
-          };
-        });
-        setItemsWithPhysicalLocations(merged);
+        const updatedPhysicalItems = itemsWithPhysicalLocations.map(
+          physicalItem => {
+            const matchingItem = work.items.find(
+              item => item.id === physicalItem.id
+            );
+            const physicalItemLocation = physicalItem.locations.find(
+              l => l.type === 'PhysicalLocation'
+            );
+            const physicalItemLocationType =
+              physicalItemLocation && physicalItemLocation.locationType;
+            const physicalItemLocationLabel =
+              physicalItemLocationType && physicalItemLocationType.label;
+            const inClosedStores =
+              physicalItemLocationLabel &&
+              physicalItemLocationLabel.match(/[Cc]losed stores/);
+
+            return {
+              ...physicalItem,
+              ...matchingItem,
+              requestable: Boolean(
+                inClosedStores &&
+                  matchingItem.status &&
+                  matchingItem.status.label === 'Available'
+              ),
+            };
+          }
+        );
+
+        setItemsWithPhysicalLocations(updatedPhysicalItems);
       }
     });
+
+    return () => {
+      updateLocations = false;
+    };
   }, []);
 
-  // Determin digital location
+  // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -600,7 +612,7 @@ const WorkDetails = ({
             <WorkDetailsText title="Description" text={[work.description]} />
           )}
 
-          {/* {work.contributors.length > 0 && (
+          {work.contributors.length > 0 && (
             <WorkDetailsTags
               title="Contributors"
               tags={work.contributors.map(contributor => ({
@@ -613,7 +625,7 @@ const WorkDetails = ({
                 ),
               }))}
             />
-          )} */}
+          )}
 
           {work.lettering && (
             <WorkDetailsText title="Lettering" text={[work.lettering]} />
@@ -651,7 +663,7 @@ const WorkDetails = ({
               />
             ))}
 
-          {/* {work.genres.length > 0 && (
+          {work.genres.length > 0 && (
             <WorkDetailsTags
               title="Type/Technique"
               tags={work.genres.map(g => {
@@ -666,7 +678,7 @@ const WorkDetails = ({
                 };
               })}
             />
-          )} */}
+          )}
 
           {work.language && (
             <WorkDetailsLinks
@@ -677,7 +689,7 @@ const WorkDetails = ({
         </WorkDetailsSection>
         {work.subjects.length > 0 && (
           <WorkDetailsSection headingText="Subjects">
-            {/* <WorkDetailsTags
+            <WorkDetailsTags
               title={null}
               tags={work.subjects.map(s => {
                 return {
@@ -690,7 +702,7 @@ const WorkDetails = ({
                   ),
                 };
               })}
-            /> */}
+            />
           </WorkDetailsSection>
         )}
         {digitalLocation && (locationOfWork || encoreLink) && <WhereToFindIt />}
