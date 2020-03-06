@@ -17,50 +17,54 @@ const ItemRequestButton = ({
   const authState = useAuth();
 
   async function makeRequest(items) {
-    if (authState.type === 'authorized') {
-      const requestPromises = items
-        .filter(item => item.checked)
-        .map(item => {
-          return (
-            // TODO faking responses for development
-            new Promise(
-              resolve =>
-                resolve({
-                  status: 202,
+    if (items.find(item => item.checked)) {
+      if (authState.type === 'authorized') {
+        const requestPromises = items
+          .filter(item => item.checked)
+          .map(item => {
+            return (
+              // TODO faking responses for development
+              new Promise(
+                resolve =>
+                  resolve({
+                    status: 202,
+                  })
+                // TODO handle reject
+              )
+                // return requestItem({ // TODO put back
+                //   itemId: item.id,
+                //   token: authState.token.id_token,
+                // })
+                .then(response => {
+                  return {
+                    id: item.id,
+                    userHasRequested: response.status === 202,
+                    requestable: !(response.status === 202),
+                  };
                 })
-              // TODO handle reject
-            )
-              // return requestItem({ // TODO put back
-              //   itemId: item.id,
-              //   token: authState.token.id_token,
-              // })
-              .then(response => {
+                .catch(err => console.log('error', err))
+            );
+          });
+        Promise.all(requestPromises).then(requests => {
+          setItemsWithPhysicalLocations(
+            itemsWithPhysicalLocations.map(item => {
+              const matchingRequest = requests.find(
+                request => request && request.id === item.id
+              );
+              if (matchingRequest) {
                 return {
-                  id: item.id,
-                  userHasRequested: response.status === 202,
-                  requestable: !(response.status === 202),
+                  ...item,
+                  ...matchingRequest,
                 };
-              })
-              .catch(err => console.log('error', err))
+              } else {
+                return item;
+              }
+            })
           );
         });
-      Promise.all(requestPromises).then(requests => {
-        setItemsWithPhysicalLocations(
-          itemsWithPhysicalLocations.map(item => {
-            const matchingRequest = requests.find(
-              request => request && request.id === item.id
-            );
-            if (matchingRequest) {
-              return {
-                ...item,
-                ...matchingRequest,
-              };
-            } else {
-              return item;
-            }
-          })
-        );
-      });
+      }
+    } else {
+      window.alert('please make a selection');
     }
   }
 

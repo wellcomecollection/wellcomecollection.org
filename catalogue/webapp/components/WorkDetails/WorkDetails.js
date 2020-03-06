@@ -341,7 +341,15 @@ const WorkDetails = ({
                           type="primary"
                           text="Request"
                           clickHandler={() => {
-                            setIsActive(!isActive);
+                            if (
+                              itemsWithPhysicalLocations.find(
+                                item => item.checked
+                              )
+                            ) {
+                              setIsActive(!isActive);
+                            } else {
+                              window.alert('please make a selection');
+                            }
                           }}
                         />
 
@@ -457,14 +465,16 @@ const WorkDetails = ({
                               ))}
                             </tbody>
                           </ResponsiveTable>
-                          <ItemRequestButton
-                            itemsWithPhysicalLocations={
-                              itemsWithPhysicalLocations
-                            }
-                            setItemsWithPhysicalLocations={
-                              setItemsWithPhysicalLocations
-                            }
-                          />
+                          <div>
+                            <ItemRequestButton
+                              itemsWithPhysicalLocations={
+                                itemsWithPhysicalLocations
+                              }
+                              setItemsWithPhysicalLocations={
+                                setItemsWithPhysicalLocations
+                              }
+                            />
+                          </div>
                         </Modal>
                       </div>
                     </>
