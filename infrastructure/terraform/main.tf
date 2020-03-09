@@ -1,3 +1,8 @@
+data "aws_ssm_parameter" "nginx_image_uri" {
+  name = "/platform/images/latest/nginx_experience"
+  provider = "aws.platform"
+}
+
 module "prod" {
   source = "./stack"
 
@@ -15,12 +20,12 @@ module "content-prod" {
   namespace_id = module.prod.namespace_id
   cluster_arn  = module.prod.cluster_arn
 
-  healthcheck_path = "/content/management/healthcheck"
+  healthcheck_path = "/management/healthcheck"
 
   container_image = "wellcome/content_webapp:b991392217c35a675779e2e4838ed3d700bc76d1"
   container_port  = 3000
 
-  nginx_container_image = "wellcome/nginx_webapp:latest"
+  nginx_container_image = data.aws_ssm_parameter.nginx_image_uri.value
   nginx_container_port  = 80
 
   env_vars = {

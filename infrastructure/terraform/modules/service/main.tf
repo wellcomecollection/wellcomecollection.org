@@ -66,7 +66,7 @@ module "task" {
 
   sidecar_env_vars = {
     APP_HOST = "localhost"
-    APP_PORT = var.container_port
+    APP_PORT = "3000"
   }
 
   aws_region = var.aws_region
