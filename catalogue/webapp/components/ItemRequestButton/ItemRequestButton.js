@@ -40,8 +40,8 @@ const ItemRequestButton = ({
                 .then(response => {
                   return {
                     id: item.id,
-                    successFullyRequested: response.status === 202,
-                    requestable: !(response.status === 202),
+                    requested: true,
+                    requestSucceeded: response.status === 202,
                   };
                 })
                 .catch(err => console.log('error', err))
