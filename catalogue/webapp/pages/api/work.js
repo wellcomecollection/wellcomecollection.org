@@ -8,16 +8,12 @@ import {
 } from '@weco/common/utils/iiif';
 
 export default async (req: any, res: any) => {
-  const bNumber = req.query;
+  const { id } = req.query;
   const works = await fetch(
-    `https://api.wellcomecollection.org/catalogue/v2/works?query=${bNumber}`
+    `https://api.wellcomecollection.org/catalogue/v2/works?query=${id}&include=items`
   ).then(resp => resp.json());
 
-  if (works.results.length > 0);
-  const { id } = req.query;
-  const work = await fetch(
-    `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=items`
-  ).then(resp => resp.json());
+  const work = works.results[0];
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
