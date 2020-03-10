@@ -7,6 +7,4 @@ variable "values" {
   type = list(string)
 }
 
-variable "field" {
-  default = "host-header"
-}
+variable "field" {}

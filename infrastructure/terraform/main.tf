@@ -8,8 +8,9 @@ module "prod" {
 
   namespace = "prod"
 
-  vpc_id  = local.vpc_id
-  subnets = local.public_subnets
+  vpc_id   = local.vpc_id
+  subnets  = local.public_subnets
+  cert_arn = "arn:aws:acm:eu-west-1:130871440101:certificate/6876e191-3f7a-47b7-9c67-40f45bb51b72"
 }
 
 module "content-prod" {

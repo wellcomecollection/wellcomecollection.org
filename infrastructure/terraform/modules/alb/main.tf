@@ -13,7 +13,7 @@ resource "aws_alb_listener" "https" {
   port = "443"
   protocol = "HTTPS"
   ssl_policy = "ELBSecurityPolicy-2015-05"
-  certificate_arn = data.aws_acm_certificate.certificate.arn
+  certificate_arn = var.cert_arn
 
   default_action {
     target_group_arn = aws_alb_target_group.ecs_service_default.arn
@@ -41,12 +41,4 @@ resource "aws_alb_target_group" "ecs_service_default" {
   health_check {
     path = var.health_check_path
   }
-}
-
-data "aws_acm_certificate" "certificate" {
-  domain = var.certificate_domain
-
-  statuses = [
-    "ISSUED"
-  ]
 }

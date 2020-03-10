@@ -16,7 +16,7 @@ module "alb" {
 
   name = var.namespace
 
-  certificate_domain = "wellcomecollection.org"
+  cert_arn = var.cert_arn
 
   security_groups = [
     aws_security_group.lb_security_group.id,

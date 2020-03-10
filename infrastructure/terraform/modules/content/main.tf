@@ -23,6 +23,17 @@ module "content-service" {
   subnets = local.private_subnets
 }
 
+module "path_listener" {
+  source                 = "../alb_listener_rule"
+  alb_listener_https_arn = var.listener_https_arn
+  alb_listener_http_arn  = var.listener_http_arn
+  target_group_arn       = module.content-service.target_group_arn
+
+  field                  = "path-pattern"
+  values                 = ["/*"]
+  priority               = "49998"
+}
+
 # This is used for the static assets served from _next with multiple next apps
 # See: https://github.com/zeit/next.js#multi-zones
 module "subdomain_listener" {
@@ -30,6 +41,8 @@ module "subdomain_listener" {
   alb_listener_https_arn = var.listener_https_arn
   alb_listener_http_arn  = var.listener_http_arn
   target_group_arn       = module.content-service.target_group_arn
-  priority               = "49999"
+
+  field                  = "host-header"
   values                 = [var.content_subdomain]
+  priority               = "49999"
 }
