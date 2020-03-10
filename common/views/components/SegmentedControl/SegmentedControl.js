@@ -35,7 +35,9 @@ class SegmentedControl extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.setActiveId(this.props.activeId || this.props.items[0].id);
+    this.setActiveId(
+      this.props.activeId || (this.props.items[0] && this.props.items[0].id)
+    );
   }
 
   render() {
