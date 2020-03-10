@@ -36,5 +36,5 @@ module "content-prod" {
     dotdigital_password = "content/dotdigital/password"
   }
 
-  content_subdomain = "content.wellcomecollection.org"
+  content_subdomain = "content.www.wellcomecollection.org"
 }
