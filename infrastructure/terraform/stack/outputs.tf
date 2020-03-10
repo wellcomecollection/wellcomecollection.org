@@ -21,3 +21,7 @@ output "listener_https_arn" {
 output "listener_http_arn" {
   value = module.alb.listener_http_arn
 }
+
+output "alb_dns_name" {
+  value = module.alb.dns_name
+}
