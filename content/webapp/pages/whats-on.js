@@ -424,12 +424,18 @@ export class WhatsOnPage extends Component<Props> {
                           <SectionHeader title={'Events'} />
                         </SpacingComponent>
                         <SpacingComponent>
-                          <EventsByMonth
-                            events={events}
-                            links={[
-                              { text: 'View all events', url: '/events' },
-                            ]}
-                          />
+                          {events.length > 0 ? (
+                            <EventsByMonth
+                              events={events}
+                              links={[
+                                { text: 'View all events', url: '/events' },
+                              ]}
+                            />
+                          ) : (
+                            <Layout12>
+                              <p>There are no upcoming events</p>
+                            </Layout12>
+                          )}
                         </SpacingComponent>
                       </SpacingSection>
                     </Space>
