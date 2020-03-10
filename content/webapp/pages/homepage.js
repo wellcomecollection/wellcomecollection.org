@@ -23,6 +23,9 @@ import { type Article } from '@weco/common/model/articles';
 import { type PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 
+// import Button from '@weco/common/views/components/Buttons/Button/Button';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+
 type Props = {|
   exhibitions: PaginatedResults<UiExhibition>,
   events: PaginatedResults<UiEvent>,
@@ -105,6 +108,67 @@ export class HomePage extends Component<Props> {
                   })}
                 >
                   The free museum and library for the incurably curious
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['margin-top'],
+                    }}
+                    as="div"
+                    className={classNames({
+                      'no-margin': true,
+                      [font('hnl', 4)]: true,
+                    })}
+                  >
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Consequuntur, eum doloremque. Blanditiis deleniti nesciunt
+                      sint voluptatem molestias, nostrum odit quas laborum
+                      debitis, autem voluptas, modi ipsum cupiditate explicabo
+                      officia atque.
+                    </p>
+                    <ul className="plain-list no-padding">
+                      <li>
+                        <Space
+                          v={{
+                            size: 'm',
+                            properties: ['margin-bottom'],
+                          }}
+                          as="div"
+                        >
+                          {/* <Button
+                            type="primary"
+                            text="Read our latest stories"
+                            url={`/stories`}
+                          /> */}
+                          <MoreLink
+                            url={`/stories`}
+                            name="Read our latest stories"
+                          />
+                          {/* <a href="/stories">Read our latest stories</a> */}
+                        </Space>
+                      </li>
+                      <li>
+                        <Space
+                          v={{
+                            size: 'm',
+                            properties: ['margin-bottom'],
+                          }}
+                          as="div"
+                        >
+                          {/* <Button
+                            type="primary"
+                            text="Search out digital collections"
+                            url={`/works`}
+                          /> */}
+                          <MoreLink
+                            url={`/works`}
+                            name="Search out digital collections"
+                          />
+                        </Space>
+                      </li>
+                      {/* <a href="/works">Search out digital collections</a> */}
+                    </ul>
+                  </Space>
                 </Space>
               </div>
             </div>
