@@ -73,7 +73,7 @@ const WorkDetails = ({
   const [itemsWithPhysicalLocations, setItemsWithPhysicalLocations] = useState<
     PhysicalItemAugmented[]
   >(getItemsWithPhysicalLocation(work));
-
+  const singleItem = itemsWithPhysicalLocations.length === 1;
   useEffect(() => {
     const fetchWork = async () => {
       const stacksWork = await getStacksWork({ workId: work.id });
@@ -91,14 +91,16 @@ const WorkDetails = ({
         const inClosedStores =
           physicalItemLocationLabel &&
           physicalItemLocationLabel.match(/[Cc]losed stores/);
+        const requestable = Boolean(
+          inClosedStores &&
+            matchingItem.status &&
+            matchingItem.status.label === 'Available'
+        );
         return {
           ...physicalItem,
           ...matchingItem,
-          requestable: Boolean(
-            inClosedStores &&
-              matchingItem.status &&
-              matchingItem.status.label === 'Available'
-          ),
+          requestable: requestable,
+          checked: !!(requestable && singleItem),
         };
       });
       setItemsWithPhysicalLocations(merged);
@@ -253,19 +255,14 @@ const WorkDetails = ({
                     >
                       {(item.requestable || !item.requestSucceeded) && (
                         <td>
-                          <span
-                            hidden={itemsWithPhysicalLocations.length === 1}
-                          >
+                          <span hidden={singleItem}>
                             <label className="visually-hidden">
                               Request {item.id}
                             </label>
                             <Checkbox
                               id={item.id}
                               text=""
-                              checked={
-                                item.checked ||
-                                itemsWithPhysicalLocations.length === 1
-                              }
+                              checked={item.checked}
                               name={item.id}
                               value={item.id}
                               onChange={() => {
