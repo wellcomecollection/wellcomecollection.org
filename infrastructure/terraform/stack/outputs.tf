@@ -10,10 +10,6 @@ output "service_egress_security_group_id" {
   value = aws_security_group.service_egress_security_group.id
 }
 
-output "service_lb_ingress_security_group_id" {
-  value = aws_security_group.service_lb_ingress_security_group.id
-}
-
 output "interservice_security_group_id" {
   value = aws_security_group.interservice_security_group.id
 }

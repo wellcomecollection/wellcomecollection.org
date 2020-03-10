@@ -19,7 +19,8 @@ module "alb" {
   certificate_domain = "wellcomecollection.org"
 
   security_groups = [
-    aws_security_group.service_lb_ingress_security_group.id
+    aws_security_group.lb_security_group.id,
+    aws_security_group.interservice_security_group.id
   ]
 
   vpc_id  = var.vpc_id
