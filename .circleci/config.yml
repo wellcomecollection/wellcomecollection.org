@@ -289,13 +289,15 @@ workflows:
             - install_modules
       - common_tests:
           requires:
-            - type_check
+            - install_modules
       - catalogue:
           requires:
             - common_tests
+            - type_check
       - content:
           requires:
             - common_tests
+            - type_check
       - deploy_pa11y:
           requires:
             - checkout_code
