@@ -491,60 +491,34 @@ const WorkDetails = ({
                           isActive={showResultsModal}
                           setIsActive={setShowResultsModal}
                         >
-                          <ResponsiveTable
-                            headings={[
-                              'Location/Shelfmark',
-                              'Status',
-                              'Access',
-                            ]}
-                          >
-                            <thead>
-                              <tr
-                                className={classNames({
-                                  [font('hnm', 5)]: true,
-                                })}
-                              >
-                                <th>Location/Shelfmark</th>
-                                <th>Status</th>
-                                <th>Access</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {itemsWithPhysicalLocations
-                                .filter(item => item.requested)
-                                .map(item => (
-                                  <tr key={item.id}>
-                                    <td>
-                                      <span
-                                        className={classNames({
-                                          [font('hnl', 5)]: true,
-                                        })}
-                                      >
-                                        two
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span
-                                        className={classNames({
-                                          [font('hnl', 5)]: true,
-                                        })}
-                                      >
-                                        three
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span
-                                        className={classNames({
-                                          [font('hnl', 5)]: true,
-                                        })}
-                                      >
-                                        four
-                                      </span>
-                                    </td>
-                                  </tr>
-                                ))}
-                            </tbody>
-                          </ResponsiveTable>
+                          <ul>
+                            {itemsWithPhysicalLocations
+                              .filter(item => item.requested)
+                              .map(item => (
+                                <li key={item.id}>
+                                  <span
+                                    className={classNames({
+                                      [font('hnl', 5)]: true,
+                                    })}
+                                  >
+                                    {(function() {
+                                      const physicalLocation = item.locations.find(
+                                        location =>
+                                          location.type === 'PhysicalLocation'
+                                      );
+                                      return physicalLocation
+                                        ? physicalLocation.label
+                                        : null;
+                                    })()}
+                                    {`: ${
+                                      item.requestSucceeded
+                                        ? 'item has been requested'
+                                        : 'item request failed'
+                                    }`}
+                                  </span>
+                                </li>
+                              ))}
+                          </ul>
                         </Modal>
                       </div>
                     </>
