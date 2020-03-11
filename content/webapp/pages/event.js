@@ -43,15 +43,6 @@ type State = {|
   scheduledIn: ?UiEvent,
 |};
 
-function haveIcon(iconName) {
-  return [
-    'britishSignLanguage',
-    'speechToText',
-    'hearingLoop',
-    'audioDescribed',
-  ].includes(iconName);
-}
-
 // TODO: Probably use the StatusIndicator?
 function EventStatus(text, color) {
   return (
@@ -495,10 +486,16 @@ class EventPage extends Component<Props, State> {
                     event.interpretations.map(
                       ({ interpretationType, isPrimary }) => {
                         const iconName = camelize(interpretationType.title);
-                        const useIcon = haveIcon(iconName);
                         return {
                           id: null,
-                          icon: useIcon ? iconName : null,
+                          icon: [
+                            'britishSignLanguage',
+                            'speechToText',
+                            'hearingLoop',
+                            'audioDescribed',
+                          ].includes(iconName)
+                            ? iconName
+                            : null,
                           title: interpretationType.title,
                           description: isPrimary
                             ? interpretationType.primaryDescription
