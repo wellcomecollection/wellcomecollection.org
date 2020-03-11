@@ -43,6 +43,15 @@ type State = {|
   scheduledIn: ?UiEvent,
 |};
 
+function haveIcon(iconName) {
+  return [
+    'britishSignLanguage',
+    'speechToText',
+    'hearingLoop',
+    'audioDescribed',
+  ].includes(iconName);
+}
+
 // TODO: Probably use the StatusIndicator?
 function EventStatus(text, color) {
   return (
@@ -484,14 +493,18 @@ class EventPage extends Component<Props, State> {
                   .concat(event.policies.map(policy => ({ ...policy })))
                   .concat(
                     event.interpretations.map(
-                      ({ interpretationType, isPrimary }) => ({
-                        id: null,
-                        icon: camelize(interpretationType.title),
-                        title: interpretationType.title,
-                        description: isPrimary
-                          ? interpretationType.primaryDescription
-                          : interpretationType.description,
-                      })
+                      ({ interpretationType, isPrimary }) => {
+                        const iconName = camelize(interpretationType.title);
+                        const useIcon = haveIcon(iconName);
+                        return {
+                          id: null,
+                          icon: useIcon ? iconName : null,
+                          title: interpretationType.title,
+                          description: isPrimary
+                            ? interpretationType.primaryDescription
+                            : interpretationType.description,
+                        };
+                      }
                     )
                   )
                   .filter(Boolean)}
