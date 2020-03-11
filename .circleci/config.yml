@@ -36,7 +36,7 @@ jobs:
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
-          name: Flow
+          name: Flow typecheck
           command: yarn flow
   common_tests:
     docker:
@@ -48,7 +48,10 @@ jobs:
       - restore_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
       - run:
-          name: Flow
+          name: Yarn install
+          command: yarn install
+      - run:
+          name: Test
           command: yarn test
   catalogue:
     docker:
