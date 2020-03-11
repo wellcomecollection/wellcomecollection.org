@@ -10,7 +10,7 @@ jobs:
           key: repo_{{ .Environment.CIRCLE_SHA1 }}
           paths:
             -  ~/wellcomecollection.org
-  root_tests:
+  install_modules:
     docker:
       - image: circleci/node:10.15.1
     working_directory: ~/wellcomecollection.org
@@ -22,13 +22,37 @@ jobs:
       - run:
           name: Install root modules
           command: yarn install --production
-      - run:
-          name: Flow
-          command: yarn flow
       - save_cache:
           key: root_modules_circleci_node_10_{{ checksum "package.json" }}
           paths:
             -  node_modules
+  type_check:
+    docker:
+      - image: circleci/node:10.15.1
+    working_directory: ~/wellcomecollection.org
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: root_modules_circleci_node_10_{{ checksum "package.json" }}
+      - run:
+          name: Flow typecheck
+          command: yarn flow
+  common_tests:
+    docker:
+      - image: circleci/node:10.15.1
+    working_directory: ~/wellcomecollection.org/common
+    steps:
+      - restore_cache:
+          key: repo_{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: root_modules_circleci_node_10_{{ checksum "package.json" }}
+      - run:
+          name: Yarn install
+          command: yarn install
+      - run:
+          name: Test
+          command: yarn test
   catalogue:
     docker:
       - image: circleci/node:10.15.1
@@ -257,15 +281,23 @@ workflows:
   build_and_deploy:
     jobs:
       - checkout_code
-      - root_tests:
+      - install_modules:
           requires:
             - checkout_code
+      - type_check:
+          requires:
+            - install_modules
+      - common_tests:
+          requires:
+            - install_modules
       - catalogue:
           requires:
-            - root_tests
+            - common_tests
+            - type_check
       - content:
           requires:
-            - root_tests
+            - common_tests
+            - type_check
       - deploy_pa11y:
           requires:
             - checkout_code
