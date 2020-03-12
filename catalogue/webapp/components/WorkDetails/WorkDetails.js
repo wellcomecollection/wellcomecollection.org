@@ -39,7 +39,6 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsLinks from '../WorkDetailsLinks/WorkDetailsLinks';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import WorkItemStatus from '../WorkItemStatus/WorkItemStatus';
 import LogInButton from '../LogInButton/LogInButton';
 import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
@@ -230,9 +229,7 @@ const WorkDetails = ({
             <>
               <ResponsiveTable
                 headings={
-                  itemsWithPhysicalLocations.find(
-                    item => item.requestable || !item.requestSucceeded
-                  )
+                  itemsWithPhysicalLocations.find(item => item.requestable)
                     ? ['', 'Location/Shelfmark', 'Status', 'Access']
                     : ['Location/Shelfmark', 'Status', 'Access']
                 }
@@ -240,7 +237,7 @@ const WorkDetails = ({
                 <thead>
                   <tr className={classNames({ [font('hnm', 5)]: true })}>
                     {itemsWithPhysicalLocations.find(
-                      item => item.requestable || !item.requestSucceeded
+                      item => item.requestable
                     ) && <th></th>}
                     <th>Location/Shelfmark</th>
                     <th>Status</th>
@@ -253,7 +250,7 @@ const WorkDetails = ({
                       key={item.id}
                       className={classNames({ [font('hnm', 5)]: true })}
                     >
-                      {(item.requestable || !item.requestSucceeded) && (
+                      {item.requestable && (
                         <td>
                           <span hidden={singleItem}>
                             <label className="visually-hidden">
@@ -315,19 +312,15 @@ const WorkDetails = ({
                         <span
                           className={classNames({ [font('hnl', 5)]: true })}
                         >
-                          {item.requestable || !item.requestSucceeded
-                            ? 'Online request'
-                            : 'In library'}
-                          {/* TODO in library not accurate if requested but status hasn't changed yet */}
+                          {item.requestable ? 'Online request' : 'In library'}
+                          {/* TODO check logic and wording is correct */}
                         </span>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </ResponsiveTable>
-              {itemsWithPhysicalLocations.find(
-                item => item.requestable || !item.requestSucceeded
-              ) && (
+              {itemsWithPhysicalLocations.find(item => item.requestable) && (
                 <>
                   {authState.type === 'unauthorized' ? (
                     <LogInButton
@@ -361,8 +354,7 @@ const WorkDetails = ({
                           <ResponsiveTable
                             headings={
                               itemsWithPhysicalLocations.find(
-                                item =>
-                                  item.requestable || !item.requestSucceeded
+                                item => item.requestable
                               )
                                 ? ['', 'Location/Shelfmark', 'Status', 'Access']
                                 : ['Location/Shelfmark', 'Status', 'Access']
@@ -375,8 +367,7 @@ const WorkDetails = ({
                                 })}
                               >
                                 {itemsWithPhysicalLocations.find(
-                                  item =>
-                                    item.requestable || !item.requestSucceeded
+                                  item => item.requestable
                                 ) && <th></th>}
                                 <th>Location/Shelfmark</th>
                                 <th>Status</th>
@@ -391,8 +382,7 @@ const WorkDetails = ({
                                     [font('hnm', 5)]: true,
                                   })}
                                 >
-                                  {(item.requestable ||
-                                    !item.requestSucceeded) && (
+                                  {item.requestable && (
                                     <td>
                                       <>
                                         <label className="visually-hidden">
@@ -452,7 +442,9 @@ const WorkDetails = ({
                                       {item.requestSucceeded ? (
                                         'You have requested this item'
                                       ) : (
-                                        <WorkItemStatus item={item} />
+                                        <span data-test-id="itemStatus">
+                                          {item.status && item.status.label}
+                                        </span>
                                       )}
                                     </span>
                                   </td>
@@ -462,8 +454,7 @@ const WorkDetails = ({
                                         [font('hnl', 5)]: true,
                                       })}
                                     >
-                                      {item.requestable ||
-                                      !item.requestSucceeded
+                                      {item.requestable
                                         ? 'Online request'
                                         : 'In library'}{' '}
                                       {/* TODO in library not accurate if requested but status hasn't changed yet */}
