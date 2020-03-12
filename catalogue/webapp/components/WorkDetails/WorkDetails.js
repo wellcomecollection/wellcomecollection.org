@@ -305,7 +305,9 @@ const WorkDetails = ({
                           {item.requestSucceeded ? (
                             'You have requested this item'
                           ) : (
-                            <WorkItemStatus item={item} />
+                            <span data-test-id="itemStatus">
+                              {item.status && item.status.label}
+                            </span>
                           )}
                         </span>
                       </td>
